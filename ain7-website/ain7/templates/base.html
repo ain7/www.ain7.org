@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta name="author" content="Luka Cvrk (www.solucija.com)" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="/site_media/skins/default/images/style.css" type="text/css" />
+	<title>AIn7 : association des ingénieurs IET - ENSEEIHT</title>
+</head>
+<body>
+	<div class="content">
+		<div class="header">
+			<div class="top_info">
+				<div class="top_info_right">
+					<p><b>You are not Logged in!</b> <a href="#">Log in</a> to check your messages.<br />
+					Do you want to <a href="#">Log in</a> or <a href="#">register</a>?</p>
+				</div>		
+				<div class="top_info_left">
+					<p><b>28. March, 2006</b> - Tuesday<br />
+					Check todays <a href="#">hot topics</a> or <a href="#">new products</a></p>
+				</div>
+			</div>
+			<div class="logo">
+				<h1><a href="/" title="Portail web AIn7"><span class="dark">AIn7</span>.com</a></h1>
+			</div>
+		</div>
+		
+		<div class="bar">
+			<ul>
+				<li class="active">Accueil</li>
+				<li><a href="/annuaire" accesskey="a">Annuaire</a></li>
+				<li><a href="#" accesskey="m">Manifestations</a></li>
+				<li><a href="#" accesskey="g">Groupes de travail</a></li>
+				<li><a href="#" accesskey="i">L'international</a></li>
+				<li><a href="#" accesskey="f">Forums</a></li>
+				<li><a href="#" accesskey="p">Planet</a></li>
+			</ul>
+		</div>
+		<div class="search_field">
+		<!-- Desactive pour la maquette
+			<form method="post" action="?">
+				<div class="search_form">
+				<p><input type="text" name="search" class="search" /> <input type="submit" value="Rechercher" class="submit" /> <a class="grey" href="#">Advanced</a></p>
+				</div>
+			</form>
+			
+			<p>Please <a href="#">Sign in</a> or <a href="#">Register</a></p>
+		-->
+		</div>
+
+        {% block content %}{{ content }}{% endblock %}
+		
+		<div class="footer">
+			<p><a href="#">RSS Feed</a> | <a href="/contact/">Contact</a> | <a href="/apropos/">A propos</a> | <a href="#">Products</a> | <a href="#">Disclaimer</a> | <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> and <a href="http://validator.w3.org/check?uri=referer">XHTML</a><br />
+			&copy; Copyright 2007 AIn7, Design: Luka Cvrk - <a href="http://www.solucija.com/" title="What's your solution?">Solucija</a></p>
+		</div>
+	</div>
+</body>
+</html>

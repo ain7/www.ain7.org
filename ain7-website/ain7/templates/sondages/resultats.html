@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block stylesheet %}{% endblock %}
+{% block content %}
+
+<div id="content-main">
+
+<h1>{{ sondage.question }}</h1>
+
+<ul>
+{% for choix in sondage.choix_set.all %}
+    <li>{{ choix.choice }} : {{ choix.votes }} vote{{ choix.votes|pluralize }}</li>
+{% endfor %}
+</ul>
+
+{% endblock %}
+

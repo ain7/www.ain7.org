@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block stylesheet %}{% endblock %}
+{% block content %}
+
+<div id="content-main">
+<h3>Fiche personnelle de {{ personne.prenom }} {{ personne.nom }}</h3>
+<ul>
+   <li>Nom: {{ personne.nom }}</li>
+   <li>Prénom: {{ personne.prenom }}</li>
+   <li>Filière: {{ personne.get_filiere_display }}</li>
+   <li>Promo: {{ personne.promo }}</li>
+
+{% for addr in personne.addresse_set.all %}
+    <li>Adresse : {{ addr.rue }} {{ addr.ville }} {{addr.pays }}</li>
+{% endfor %}
+
+{% for mail in personne.couriel_set.all %}
+    <li>Mail : {{ mail.adresse }}
+{% endfor %}
+
+{% for im in personne.messagerie_set.all %}
+    <li><img src="/site_media/images/{{ im.get_type_im_display|lower }}.png" alt="Contact {{im.get_type_im_display|lower }}"/> {{ im.valeur }}
+{% endfor %}
+
+{% for irc in personne.irc_set.all %}
+    <li>IRC : {{ irc.nick }} sur {{ irc.reseau }}
+{% endfor %}
+
+</ul>
+
+{% endblock %}

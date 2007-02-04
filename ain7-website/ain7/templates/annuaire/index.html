@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block stylesheet %}{% endblock %}
+{% block content %}
+
+<div id="content-main">
+<h2>Liste de votre recherche</h2>
+{% if liste_personnes %}
+    <ul>
+    {% for personne in liste_personnes %}
+        <li><a href="/annuaire/{{ personne.id }}/">{{ personne.nom }}</a> {{ personne.prenom }} {{ personne.promo }} {{ personne.get_filiere_display }}</li>
+    {% endfor %}
+     </ul>
+{% else %}
+    <p>Aucune personne dans l'application.</p>
+{% endif %}
+
+{% endblock %}

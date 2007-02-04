@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block stylesheet %}{% endblock %}
+{% block content %}
+
+<div id="content-main">
+<h3>Détail de la personne</h3>
+<ul>
+   <li>Nom: {{ personne.nom }}</li>
+   <li>Prénom: {{ personne.prenom }}</li>
+   <li>Filière: {{ personne.filiere }}</li>
+   <li>Promo: {{ personne.promo }}</li>
+
+{% for addr in personne.addresse_set.all %}
+    <li>Adresse : {{ addr.rue }} {{ addr.ville }} {{addr.pays }}</li>
+{% endfor %}
+
+</ul>
+
+{% endblock %}

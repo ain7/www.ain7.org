@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+	
+		<div class="left">
+			<h3>Présentation</h3>
+			<div class="left_box">
+				<img src="/site_media/images/logo_ain7.png" class="image" alt="Big Image" />
+				<p>Depuis plusieurs décennies, l'AIN7 (Association des Ingénieurs de l'ENSEEIHT) entretient
+                                un lien important entre les ingénieurs diplômés de l'ENSEEIHT. Près de 2 500 ingénieurs 
+                                appartiennent à ce réseau. C'est pour eux l'occasion de mieux connaître des secteurs d'activités,
+                                des sociétés ou, tout simplement, de reprendre contact avec des anciens camarades perdus de vue. 
+                                Ces <b>utilisations du Réseau</b> sont rendues possibles en particulier par l'ANNUAIRE des Ingénieurs 
+                                ENSEEIHT dans lequel nous sommes tous répertoriés, en France ou à l'étranger, et cela depuis la 
+                                création de l'école (à ce jour plus de 12 000 diplômés).</p>
+
+                                <p>Outre ce lien, professionnel ou convivial, l'AIN7 a pour objectif de valoriser de manière 
+                                globale l'<b>image de l'Ingénieur ENSEEIHT</b>. Cela bénéficie à chacun d'entre nous, augmentant notre 
+                                "employabilité" et notre valeur ajoutée dans le cadre professionnel. Dans cette optique, 
+                                l'Association recueille les besoins des entreprises en termes de recrutement et les restitue à 
+                                ses adhérents.</p>
+
+                                <p>Enfin, être membre de l'AIN7 permet de <b>rester en contact</b> avec l'école et de marquer votre 
+                                attachement à une communauté à laquelle vous appartenez.</p>
+
+                                <p>Pour toutes ces raisons, l'AIN7 a besoin de vous et vous y serez toujours les bienvenus.</p>
+
+			        <p><b>Michel CANON<br/>
+                                Président de l'Association des Ingénieurs de l'ENSEEIHT</b></p>
+			</div>
+
+			<h3>L'ENSEEIHT</h3>
+			<div class="left_box">
+			<img src="/site_media/images/n7_small.png" class="image" alt="ENSEEIHT" />
+			<p>L'ENSEEIHT (prononcer « N7 ») est l'École nationale supérieure d'électrotechnique, d'électronique, 
+                        d'informatique, d'hydraulique et des télécommunications. Elle appartient à l'Institut national polytechnique
+                        de Toulouse.</p>
+			<p>École d'ingénieurs en convention avec l'École polytechnique, l'ENSEEIHT est actuellement structurée en cinq
+                        filières, comprenant chacune un département de formation et un laboratoire de recherche étroitement lié.</p>
+			<p>Les cinq filières d'enseignement sont les suivantes :
+			<ul STYLE="list-style-type: square; margin: 1ex; margin-left: 4ex">
+				<li>Génie électrique et automatique</li>
+				<li>Électronique et Traitement du signal</li>
+				<li>Informatique et Mathématiques appliquées</li>
+				<li>Hydraulique et Mécanique des fluides</li>
+				<li>Télécommunications et Réseaux</li>
+			</ul>
+			<p>L'ENSEEIHT fait partie du groupe des ENSI et est la plus importante ENSI en termes d'élèves diplomés chaque 
+                        année (près de 400).</p>
+			</div>
+	
+			<h3>Contenu du site</h3>
+				<div class="left_side">
+					<p><b><img src="images/arrow.gif" alt=">" /><a class="title" href="#">Arts</a></b><br />
+					<a href="#">Music</a>, <a href="#">Television</a>, <a href="#">Movies</a>...</p>
+					<p><b><img src="images/arrow.gif" alt=">" /><a class="title" href="#">Computers</a></b><br />
+					<a href="#">Internet</a>, <a href="#">Software</a>, <a href="#">Hardware</a>...</p>
+					<p><b><img src="images/arrow.gif" alt=">" /><a class="title" href="#">Shopping</a></b><br />
+					<a href="#">Autos</a>, <a href="#">Clothing</a>, <a href="#">Gifts</a>...</p>
+				</div>
+				<div class="right_side">
+					<p><b><img src="images/arrow.gif" alt=">" /><a class="title" href="#">Business</a></b><br />
+					<a href="#">Jobs</a>, <a href="#">Real Estate</a>, <a href="#">Investing</a>...</p>
+					<p><b><img src="images/arrow.gif" alt=">" /><a class="title" href="#">Health</a></b><br />
+					<a href="#">Fitness</a>, <a href="#">Medicine</a>, <a href="#">Alternative</a>...</p>
+					<p><b><img src="images/arrow.gif" alt=">" /><a class="title" href="#">Sports</a></b><br />
+					<a href="#">Baseball</a>, <a href="#">Basketball</a>, <a href="#">Soccer</a>...</p>
+				</div>
+				
+		</div>	
+		<div class="right">
+			<h3>Actualités</h3>
+    {% for actu in liste_actualites %}
+			<div class="right_articles">
+				<p><img src="/site_media/images/gnome-news.png" alt="Image" title="Image" class="image" /><b>{{ actu.titre }}</b><br />{{ actu.description }}.</p>
+			</div>
+    {% endfor %}
+
+
+                        <h3>Sondage</h3>
+    {% for sondage in liste_sondages %}
+                        <div class="right_articles">
+                             <form action="/sondages/{{ sondage.id }}/vote/" method="post">
+                             <p> {{ sondage.question }} </p>
+                             {% for choice in sondage.choix_set.all %}
+                                 <input type="radio" name="choix" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+                                 <value for "choice{{ forloop.counter }}">{{ choice.choice }}</label><br />
+                             {% endfor %}
+                             <input type="submit" value="Vote" />
+                             </form>
+                        </div>
+    {% endfor %}
+			<h3>Liens</h3>
+			<div class="right_articles">
+				<p><a href="http://www.enseeiht.fr">ENSEEIHT</a></p>
+				<p><a href="http://www.bde.enseeiht.fr">Bureau des élèves</a></p>
+				<p><a href="http://www.inp-toulouse.fr">INP Toulouse</a></p>
+				<p><a href="http://www.ensat.fr">ENSAT</a></p>
+				<p><a href="http://www.ensiacet.fr">ENSIACET</a></p>
+			</div>
+		</div>	
+{% endblock %}
+
