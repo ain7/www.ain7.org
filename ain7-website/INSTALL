@@ -1,0 +1,21 @@
+  Portail AIn7.com
+=====================
+
+Pour installer le portail AIn7 en version de développement, il faut :
+- installer django (le récupérer depuis http://packages.ubuntu.com si vous
+  n'utilisez pas Edgy)
+- installer les packages python python-pysqlite2, python-imaging
+- récupérer les sources du portail (a priori si vous lisez ce fichier, c'est
+  déjà fait. Sinon: bzr co http://code.ain7.porcheron.info ain7)
+- éditer le fichier ain7-website/ain7/setting.py pour adapter la configuration
+  (templates et resources statiques)
+- éditer le fichier urls.py pour modifier le chemin d'accès aux resources
+  statiques
+- créer la base de donnée initiale (elle n'est pas comprise dans l'archive bzr):
+  aller dans le répertoire ain7-website/ain7 et puis taper :
+  python manage.py syncdb
+  Répondre aux questions (surtout les logins/password qui vous permettront
+  d'accéder à l'interface d'administration)
+- lancer le serveur : python manage.py runserver
+- vous pouvez accéder à l'application à l'URL : http://localhost:8000
+- l'interface d'administration est accessible à http://localhost:8000/admin
