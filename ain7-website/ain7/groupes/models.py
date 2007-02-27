@@ -20,27 +20,23 @@
 #
 #
 
-
 from django.db import models
-from ain7.annuaire import models
+from ain7.annuaire.models import Personne
 
 class Groupe(models.Model):
 
-    nom = models.CharField(maxlength=100,core=True)
-    contact = models.CharField(maxlength=100,core=True)
-    description = models.CharField(maxlength=200,core=True)
+    nom = models.CharField(maxlength=100, core=True)
+    contact = models.CharField(maxlength=100, core=True)
+    description = models.CharField(maxlength=200, core=True)
     responsable = models.ForeignKey(Personne)
     page_web = models.TextField()
 
     class Admin:
-        pass
+       pass
 
 class Membre(models.Model):
 
-    group = models.ForeignKey(Groupe, edit_inline=models.STACKED, num_in_admin=1)
+    group = models.ForeignKey(Groupe, edit_inline=models.STACKED, num_in_admin=1, core=True)
     membre = models.ForeignKey(Personne)
     administrateur = models.BooleanField()
-
-    class Admin:
-        pass
 

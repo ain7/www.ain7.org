@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block stylesheet %}{% endblock %}
+{% block content %}
+
+<div id="content-main">
+<h2>Liste de votre recherche</h2>
+{% if liste_groupes %}
+    <ul>
+    {% for groupe in liste_groupes %}
+        <li><a href="/groupes/{{ groupe.id }}/">{{ groupe.nom }}</a></li>
+    {% endfor %}
+     </ul>
+{% else %}
+    <p>Aucun groupe dans l'application.</p>
+{% endif %}
+
+{% endblock %}

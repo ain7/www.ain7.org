@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block stylesheet %}{% endblock %}
+{% block content %}
+
+<div id="content-main">
+<h3>{{ groupe.nom }}</h3>
+{{ groupe.description }}</br>
+<ul>
+   <li>Nom : {{ groupe.nom }}</li>
+   <li>Contact : {{ groupe.contact }}</li>
+   <li>Responsable : {{ groupe.responsable.prenom }} {{ groupe.responsable.nom }}</li>
+{% for membre in groupe.membre_set.all %}
+    <li>{{ membre.prenom }} {{ membre.nom }}</li>
+{% endfor %}
+
+{{ groupe.page_web }}
+
+{% endblock %}

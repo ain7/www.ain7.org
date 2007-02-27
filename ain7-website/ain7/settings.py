@@ -96,6 +96,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.admin',
     'ain7.annuaire',
+    'ain7.groupes',
     'ain7.news',
     'ain7.pages',
     'ain7.sondages',
