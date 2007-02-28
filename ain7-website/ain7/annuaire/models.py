@@ -274,6 +274,18 @@ class Addresse(models.Model):
     pays = models.CharField(maxlength=50)
     type_couriel = models.IntegerField(choices=TYPE_ADRESSE)
 
+class Position(models.Model):
+    personne = models.ForeignKey(Personne, edit_inline=models.STACKED, num_in_admin=1)
+    titre = models.CharField(maxlength=100,core=True)
+    societe = models.CharField(maxlength=100,core=True)
+    debut = models.DateField()
+    fin = models.DateField(blank=True,null=True)
+    position_actuelle = models.BooleanField()
+    organisation_activite = models.IntegerField(choices=CHOIX_ACTIVITE_ORGA)
+    organisation_type = models.IntegerField(choices=CHOIX_TYPE_ORGA)
+    organisation_taille = models.IntegerField(choices=CHOIX_TAILLE_ORGA)
+    description = models.TextField()
+
 class Couriel(models.Model):
     personne = models.ForeignKey(Personne, edit_inline=models.STACKED, num_in_admin=1)
     adresse = models.EmailField(core=True)
