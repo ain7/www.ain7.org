@@ -275,6 +275,37 @@ class Addresse(models.Model):
     type_couriel = models.IntegerField(choices=TYPE_ADRESSE)
 
 class Position(models.Model):
+
+    CHOIX_ACTIVITE_ORGA = (
+        (1,'Aviation'),
+        (2,'Medical'),
+	(3,'Automobile'),
+	(4,'Banque'),
+	(5,'Biotechnologies'),
+	(6,'Informatique'),
+	)
+
+    CHOIX_TYPE_ORGA = (
+       (1,'Organisme publique'),
+       (2,'Organisme privé'),
+       (3,'Organisme à but non lucratif'),
+       (4,'Agence gouvernementale'),
+       (5,'Indépendant'),
+       (6,'Éducation'),
+       )
+
+    CHOIX_TAILLE_ORGA = (
+       (1,'Unipersonnelle'),
+       (2,'1-10 employés'),
+       (3,'11-50 employés'),
+       (4,'51-200 employés'),
+       (5,'201-500 employés'),
+       (6,'501-1000 employés'),
+       (7,'1001-5000 employés'),
+       (8,'5001-10000 employés'),
+       (9,'plus de 10000 employés'),
+       )
+
     personne = models.ForeignKey(Personne, edit_inline=models.STACKED, num_in_admin=1)
     titre = models.CharField(maxlength=100,core=True)
     societe = models.CharField(maxlength=100,core=True)
