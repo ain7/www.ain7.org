@@ -20,6 +20,10 @@
 #
 #
 
+def detect_path():
+    import os.path
+    return os.path.abspath(os.path.dirname(__file__))
+
 # Django settings for ain7 project.
 
 DEBUG = True
@@ -33,7 +37,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASE_ENGINE = 'sqlite3'           # 'postgresql', 'mysql', 'sqlite3' or 'ado_mssql'.
-DATABASE_NAME = './data/ain7'             # Or path to database file if using sqlite3.
+DATABASE_NAME = './data/ain7.db'      # Or path to database file if using sqlite3.
 DATABASE_USER = ''             # Not used with sqlite3.
 DATABASE_PASSWORD = ''         # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
@@ -52,7 +56,7 @@ SITE_ID = 1
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = '/home/lionel/dev/ain7/ain7-website/ain7/media'
+MEDIA_ROOT = detect_path()+'/media'
 
 # URL that handles the media served from MEDIA_ROOT.
 # Example: "http://media.lawrence.com"
@@ -86,7 +90,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates".
     # Always use forward slashes, even on Windows.
     '/usr/share/python-support/python-django/django/contrib/admin/templates',
-    '/home/lionel/dev/ain7/ain7-website/ain7/templates',
+    detect_path()+'/templates',
 )
 
 INSTALLED_APPS = (
