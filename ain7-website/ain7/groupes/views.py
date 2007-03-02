@@ -30,28 +30,18 @@ from ain7.groupes.models import Groupe
 
 def index(request):
     liste_groupes = Groupe.objects.all().order_by('nom')[:5]
-    return render_to_response('groupes/index.html', {'liste_groupes': liste_groupes})
+    return render_to_response('groupes/index.html', {'liste_groupes': liste_groupes, 'user': request.user})
 
 def detail(request, groupe_id):
     g = get_object_or_404(Groupe, pk=groupe_id)
-    return render_to_response('groupes/detail.html', {'groupe': g})
+    return render_to_response('groupes/detail.html', {'groupe': g, 'user': request.user})
 
 def edit(request, groupe_id=None):
     groupe = Groupe.objects.get(id=groupe_id)
     GroupeForm = forms.models.form_for_instance(groupe)
-#    GroupeForm.fields['page_web'].widget = TinyMCE()
-    if request.method == 'POST':
-        form = GroupForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect("/")
-        else:
-            form = GroupeForm()
+    # rajouter TinyMCE pour avoir un éditeur potable
+    #GroupeForm.base_fields['page_web'].widget = TinyMCE()
+    form = GroupeForm()
 
-        t = loader.get_template('groupes/edit.html')
-
-        c = Context({
-              'form': form,
-          })
-        return HttpResponse(t.render(c))
+    return render_to_response('groupes/edit.html', {'form': form, 'user': request.user})
 

@@ -23,8 +23,9 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
-    # Example:
-    # (r'^ain7/', include('ain7.apps.foo.urls.foo')),
+
+     (r'^login/', 'ain7.utils.login'),
+     (r'^logout/', 'ain7.utils.logout'),
 
     # servir le contenu statique pendant le dev
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/lionel/dev/ain7/ain7-website/ain7/media'}),

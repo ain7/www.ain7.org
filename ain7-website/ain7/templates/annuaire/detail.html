@@ -5,7 +5,9 @@
 {% block content %}
 
 <div id="content-main">
-<h3>Fiche personnelle de {{ personne.prenom }} {{ personne.nom }}</h3>
+<h1>Fiche personnelle de {{ personne.prenom }} {{ personne.nom }}</h1>
+<p><a href="/annuaire/edit/{{ personne.id }}/">Editer ces informations</a></p>
+<h2>Données personnelles</h2>
 <table border="0">
 <tr><td>
 <ul>
@@ -39,4 +41,14 @@
 
 </table>
 
+<h2>Expériences</h2>
+
+<ul>
+{% for position in personne.position_set.all %}
+<li>{{ position.debut }} - {{ position.fin }} : {{ position.titre }} à {{ position.societe }}</br>
+    {{ position.description }}</li>
+{% endfor %}
+</ul>
+
 {% endblock %}
+

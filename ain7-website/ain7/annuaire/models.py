@@ -20,8 +20,11 @@
 #
 #
 
+import datetime
 
 from django.db import models
+from django.contrib.auth.models import User
+
 
 TYPE_ADRESSE = (
     (1,'Personnelle'),
@@ -244,11 +247,10 @@ class Personne(models.Model):
        (2008,'2008'),
       )
 
-    nom = models.CharField(maxlength=100,core=True)
-    prenom = models.CharField(maxlength=100)
+    user = models.ForeignKey(User)
+    nom = models.CharField(maxlength=50)
+    prenom = models.CharField(maxlength=50)
     nom_jeune_fille = models.CharField(maxlength=100,blank=True,null=True)
-    uid = models.CharField(maxlength=10)
-    password = models.CharField(maxlength=10)
     filiere = models.IntegerField(choices=FILIERES)
     promo = models.IntegerField(choices=CHOIX_PROMO)
     date_naissance = models.DateField()
@@ -256,9 +258,23 @@ class Personne(models.Model):
     nationalite = models.IntegerField(choices=CHOIX_NATIONALITES)
     nombre_enfants = models.IntegerField()
     avatar = models.ImageField(upload_to='data',blank=True,null=True)
+    surnom = models.CharField(maxlength=50,blank=True,null=True)
+    blog = models.URLField(maxlength=80,verify_exists=True,blank=True,core=True)
+    blog_agrege_sur_le_planet = models.BooleanField(core=True,default=False)
 
-    date_modification = models.DateTimeField()
-    modifie_par = models.IntegerField()
+    date_creation =  models.DateTimeField(editable=False)
+    date_modification = models.DateTimeField(editable=False)
+    modifie_par = models.IntegerField(editable=False)
+
+    def __str__(self):
+        return self.prenom+" "+self.nom
+
+    def save(self):
+        if not self.id:
+            self.date_creation = datetime.date.today()
+        self.date_modification = datetime.datetime.today()
+	self.modifie_par = 1
+        return super(Personne, self).save()
 
     class Admin:
          list_display = ('nom', 'prenom','promo','filiere')
@@ -315,7 +331,7 @@ class Position(models.Model):
     organisation_activite = models.IntegerField(choices=CHOIX_ACTIVITE_ORGA)
     organisation_type = models.IntegerField(choices=CHOIX_TYPE_ORGA)
     organisation_taille = models.IntegerField(choices=CHOIX_TAILLE_ORGA)
-    description = models.TextField()
+    description = models.TextField(blank=True,null=True)
 
 class Couriel(models.Model):
     personne = models.ForeignKey(Personne, edit_inline=models.STACKED, num_in_admin=1)
@@ -342,4 +358,8 @@ class IRC(models.Model):
     personne = models.ForeignKey(Personne, edit_inline=models.STACKED, num_in_admin=1)
     reseau = models.CharField(maxlength=50,core=True)
     nick = models.CharField(maxlength=20,core=True)
+
+class SiteWeb(models.Model):
+    personne = models.ForeignKey(Personne, edit_inline=models.STACKED, num_in_admin=1)
+    url = models.CharField(maxlength=100,core=True)
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #
-# urls.py
+# utils.py
 #
 #   Copyright (C) 2007 AIn7
 #
@@ -20,15 +20,25 @@
 #
 #
 
-from django.conf.urls.defaults import *
+import datetime
 
-urlpatterns = patterns('',
+from django.contrib.auth.models import User
+from django.contrib import auth
+from django.http import HttpResponseRedirect
 
-    # Annuaire
-    (r'^$', 'ain7.annuaire.views.search'),
-    (r'^search/$', 'ain7.annuaire.views.search'),
-    (r'^edit/$', 'ain7.annuaire.views.edit'),
-    (r'^edit/(?P<personne_id>\d+)/$', 'ain7.annuaire.views.edit'),
-    (r'^(?P<personne_id>\d+)/$', 'ain7.annuaire.views.detail'),
+def login(request):
+    username = request.POST['username']
+    password = request.POST['password']
 
-)
+    user = auth.authenticate(username=username, password=password)
+    auth.login(request, user)
+    request.session['user_id'] = user.id
+    user.last_login = datetime.datetime.now()
+    user.save()
+
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+def logout(request):
+    auth.logout(request)
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+

@@ -20,6 +20,8 @@
 #
 #
 
+import datetime
+
 from django.db import models
 from ain7.annuaire.models import Personne
 
@@ -31,8 +33,24 @@ class Groupe(models.Model):
     responsable = models.ForeignKey(Personne)
     page_web = models.TextField()
 
+    date_creation =  models.DateTimeField(editable=False)
+    date_modification = models.DateTimeField(editable=False)
+    modifie_par = models.IntegerField(editable=False)
+
+    def __str__(self):
+        return self.nom
+
+    def save(self):
+        if not self.id:
+            self.date_creation = datetime.date.today()
+        self.date_modification = datetime.datetime.today()
+	self.modifie_par = 1
+        return super(Groupe, self).save()
+
     class Admin:
-       pass
+         list_display = ('nom','description')
+	 list_filter = ['nom']
+	 search_fields = ['nom']
 
 class Membre(models.Model):
 
