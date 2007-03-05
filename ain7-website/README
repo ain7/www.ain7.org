@@ -12,5 +12,5 @@ media/
 planet/
  - Configuration du planet
 ain7/
- - Several homegrown django applications, GNU GPL v2
+ - Application maison Django du portail AIn7, GNU GPL v2
  
