@@ -356,7 +356,7 @@ class Messagerie(models.Model):
 
     personne = models.ForeignKey(Personne, edit_inline=models.STACKED, num_in_admin=1)
     type_im = models.IntegerField(choices=TYPE_IM,core=True)
-    valeur = models.CharField(maxlength=20,core=True)
+    valeur = models.CharField(maxlength=40,core=True)
 
 class IRC(models.Model):
     personne = models.ForeignKey(Personne, edit_inline=models.STACKED, num_in_admin=1)
