@@ -4,13 +4,13 @@ The AIn7 portal code
 Overview of contents and licensing:
 
 apache/
- - The apache configurations used by ain7.com - public domain
+ - Configuration apache utilisée pour le domaine ain7.com
 forum/
  - coming soon !
 media/
- - Static content (css, images)
+ - Contenu statique (css, images)
 planet/
- - Planet configuration and templates = public domain
+ - Configuration du planet
 ain7/
  - Several homegrown django applications, GNU GPL v2
  
