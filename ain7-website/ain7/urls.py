@@ -20,6 +20,8 @@
 #
 #
 
+import os.path
+
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
@@ -28,7 +30,7 @@ urlpatterns = patterns('',
      (r'^logout/', 'ain7.utils.logout'),
 
     # servir le contenu statique pendant le dev
-    (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/lionel/dev/ain7/ain7-website/ain7/media'}),
+    (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.abspath(os.path.dirname(__file__))+'/media'}),
 
     # Uncomment this for admin:
      (r'^admin/', include('django.contrib.admin.urls')),

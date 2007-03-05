@@ -25,12 +25,6 @@ import datetime
 from django.db import models
 from django.contrib.auth.models import User
 
-
-TYPE_ADRESSE = (
-    (1,'Personnelle'),
-    (2,'Professionnelle'),
-    )
-
 class Personne(models.Model):
 
     CHOIX_NATIONALITES = (
@@ -282,6 +276,11 @@ class Personne(models.Model):
 	 search_fields = ['nom','prenom','promo']
 
 class Addresse(models.Model):
+    TYPE_ADRESSE = (
+        (1,'Personnelle'),
+        (2,'Professionnelle'),
+        (3,'Parentale'),
+        )
     personne = models.ForeignKey(Personne, edit_inline=models.STACKED, num_in_admin=2)
     rue = models.CharField(maxlength=100,core=True)
     rue_2e_ligne = models.CharField(maxlength=100,null=True,blank=True)
@@ -334,9 +333,14 @@ class Position(models.Model):
     description = models.TextField(blank=True,null=True)
 
 class Couriel(models.Model):
+    TYPE_MAIL = (
+        (1,'Personnelle'),
+        (2,'Professionnelle'),
+        )
+
     personne = models.ForeignKey(Personne, edit_inline=models.STACKED, num_in_admin=1)
     adresse = models.EmailField(core=True)
-    type_couriel = models.IntegerField(choices=TYPE_ADRESSE,core=True)
+    type_couriel = models.IntegerField(choices=TYPE_MAIL,core=True)
 
 class Messagerie(models.Model):
 
