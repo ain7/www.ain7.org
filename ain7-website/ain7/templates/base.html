@@ -12,7 +12,7 @@
 			<div class="top_info">
 				<div class="top_info_right">
 {% if user.is_authenticated %}
-Connecte en tant que {{ user.first_name }} {{ user.last_name }} 
+Connecté en tant que {{ user.first_name }} {{ user.last_name }} 
 <form method="post" action="/logout/">
 <input type="submit" value="Déconnexion" />
 </form>
