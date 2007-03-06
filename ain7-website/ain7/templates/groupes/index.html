@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 {% load i18n %}
 
+{% block barre %}
+	<li><a href="/" accesskey="r">Accueil</a></li>
+	<li><a href="/annuaire/" accesskey="a">Annuaire</a></li>
+	<li><a href="#" accesskey="m">Manifestations</a></li>
+	<li class="active">Groupes de travail</li>
+	<li><a href="#" accesskey="i">L'international</a></li>
+	<li><a href="#" accesskey="f">Forums</a></li>
+	<li><a href="#" accesskey="p">Planet</a></li>
+{% endblock %}
+
 {% block stylesheet %}{% endblock %}
 {% block content %}
 

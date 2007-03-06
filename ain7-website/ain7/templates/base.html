@@ -34,13 +34,8 @@ Connecte en tant que {{ user.first_name }} {{ user.last_name }}
 		
 		<div class="bar">
 			<ul>
-				<li class="active">Accueil</li>
-				<li><a href="/annuaire/" accesskey="a">Annuaire</a></li>
-				<li><a href="#" accesskey="m">Manifestations</a></li>
-				<li><a href="/groupes/" accesskey="g">Groupes de travail</a></li>
-				<li><a href="#" accesskey="i">L'international</a></li>
-				<li><a href="#" accesskey="f">Forums</a></li>
-				<li><a href="#" accesskey="p">Planet</a></li>
+			  {% block barre %}
+        {% endblock %}
 			</ul>
 		</div>
 		<div class="search_field">
