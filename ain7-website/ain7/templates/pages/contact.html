@@ -1,5 +1,15 @@
 {% extends "base.html" %}
 
+{% block barre %}
+	<li class="active">Accueil</li>
+	<li><a href="/annuaire/" accesskey="a">Annuaire</a></li>
+	<li><a href="#" accesskey="m">Manifestations</a></li>
+	<li><a href="/groupes/" accesskey="g">Groupes de travail</a></li>
+	<li><a href="#" accesskey="i">L'international</a></li>
+	<li><a href="#" accesskey="f">Forums</a></li>
+	<li><a href="#" accesskey="p">Planet</a></li>
+{% endblock %}
+
 {% block content %}
 	
 		<div class="left">
@@ -23,7 +33,7 @@
 	
 			<h3>A propos du site</h3>
 			<p>Pour remonter un problème au sujet du site contactez le <a href="mailto:webmaster@ain7.com">webmaster</a></p>
-			<p>Pour de plus amples renseignements au sujet de ce site, n'hésitez pas à consulter la page <a href="/apropos/">a propos</a>
+			<p>Pour de plus amples renseignements au sujet de ce site, n'hésitez pas à consulter la page <a href="/apropos/">a propos</a>.
 
 		</div>	
 {% endblock %}

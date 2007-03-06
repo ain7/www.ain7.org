@@ -1,5 +1,15 @@
 {% extends "base.html" %}
 
+{% block barre %}
+	<li class="active">Accueil</li>
+	<li><a href="/annuaire/" accesskey="a">Annuaire</a></li>
+	<li><a href="#" accesskey="m">Manifestations</a></li>
+	<li><a href="/groupes/" accesskey="g">Groupes de travail</a></li>
+	<li><a href="#" accesskey="i">L'international</a></li>
+	<li><a href="#" accesskey="f">Forums</a></li>
+	<li><a href="#" accesskey="p">Planet</a></li>
+{% endblock %}
+
 {% block content %}
 	
 		<div class="left">
@@ -37,8 +47,8 @@
                         de Toulouse.</p>
 			<p>École d'ingénieurs en convention avec l'École polytechnique, l'ENSEEIHT est actuellement structurée en cinq
                         filières, comprenant chacune un département de formation et un laboratoire de recherche étroitement lié.</p>
-			<p>Les cinq filières d'enseignement sont les suivantes :
-			<ul STYLE="list-style-type: square; margin: 1ex; margin-left: 4ex">
+			<p>Les cinq filières d'enseignement sont les suivantes :</p>
+			<ul style="list-style-type: square; margin: 1ex; margin-left: 4ex">
 				<li>Génie électrique et automatique</li>
 				<li>Électronique et Traitement du signal</li>
 				<li>Informatique et Mathématiques appliquées</li>
