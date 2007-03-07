@@ -14,7 +14,7 @@
 {% if user.is_authenticated %}
 Connecté en tant que {{ user.first_name }} {{ user.last_name }} 
 <form method="post" action="/logout/">
-<input type="submit" value="Déconnexion" />
+<p><input type="submit" value="Déconnexion" /></p>
 </form>
 {% else %}
 <form method="post" action="/login/">
