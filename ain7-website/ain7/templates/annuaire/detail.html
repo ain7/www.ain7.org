@@ -27,7 +27,8 @@
    <li>Filière: {{ personne.get_filiere_display }}</li>
    <li>Promo: {{ personne.promo }}</li>
    <li>Date de naissance: {{ personne.date_naissance }}</li>
-</td><td><img src="/site_media/data/{{ personne.uid }}.png" /></td></tr>
+</ul>
+</td><td><img src="/site_media/data/{{ personne.uid }}.png" alt="{{ personne.prenom }} {{ personne.nom }}"/></td></tr>
 
 {% for addr in personne.addresse_set.all %}
     <tr><td>Adresse : {{ addr.rue }} - {{addr.code_postal }} {{ addr.ville }} - {{addr.pays }}</td></tr>
@@ -53,12 +54,14 @@
 
 <h2>Expériences</h2>
 
+{% if personne.position_set.all %}
 <ul>
 {% for position in personne.position_set.all %}
 <li>{{ position.debut }} - {{ position.fin }} : {{ position.titre }} à {{ position.societe }}</br>
     {{ position.description }}</li>
 {% endfor %}
 </ul>
-
+{% endif %}
+</div>
 {% endblock %}
 
