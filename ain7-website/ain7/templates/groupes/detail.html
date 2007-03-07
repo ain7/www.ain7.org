@@ -16,7 +16,7 @@
 
 <div id="content-main">
 <h3>{{ groupe.nom }}</h3>
-{{ groupe.description }}</br>
+{{ groupe.description }}<br/>
 <p><a href="/groupes/edit/{{ groupe.id }}/">Editer ces informations</a></p>
 <ul>
    <li>Nom : {{ groupe.nom }}</li>
@@ -25,7 +25,7 @@
 {% for membre in groupe.membre_set.all %}
     <li>{{ membre.prenom }} {{ membre.nom }}</li>
 {% endfor %}
-
-{{ groupe.page_web }}
-
+   <li>{{ groupe.page_web }}</li>
+</ul>
+</div>
 {% endblock %}
