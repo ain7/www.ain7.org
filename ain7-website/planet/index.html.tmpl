@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title><TMPL_VAR name></title>
+	<link rel="stylesheet" href="http://planet.ain7.porcheron.info/generic.css" type="text/css">
+	<link rel="stylesheet" href="http://planet.ain7.porcheron.info/layout.css" type="text/css">
+	<link rel="stylesheet" href="http://planet.ain7.porcheron.info/planet.css" type="text/css">
+	<link rel="stylesheet" href="http://planet.ain7.porcheron.info/ain7.css" type="text/css">
+
+	<link rel="shortcut icon" href="favicon.ico" />
+
+	<link rel="alternate" type="application/atom+xml" title="Planet GNOME Atom 1.0" href="http://planet.ain7.porcheron.info/atom.xml">
+	<link rel="alternate" type="application/rss+xml" title="Planet GNOME RSS 2.0" href="http://planet.ain7.porcheron.info/rss20.xml">
+</head>
+
+
+<body>
+
+
+<div id="hdr">
+	<div id="banner"><img src="http://planet.ain7.porcheron.info/img/spacer" alt=""></div>
+	<div id="logo"><a
+		href="./"><img
+		src="http://planet.ain7.porcheron.info/img/spacer" alt=""></a></div>
+
+</div>
+
+
+<div id="body">
+
+<TMPL_LOOP Items>
+	<TMPL_IF new_date>
+		<h2 class="date"><TMPL_VAR new_date></h2>
+	</TMPL_IF>
+
+	<div class="entry<TMPL_IF channel_nick> <TMPL_VAR channel_nick></TMPL_IF>">
+	
+	<div class="person-info">
+		<a href="<TMPL_VAR channel_link ESCAPE="HTML">" title="<TMPL_VAR channel_title ESCAPE="HTML">">
+			<TMPL_IF channel_face>
+				<img class="face" src="/img/heads/<TMPL_VAR channel_face ESCAPE="HTML">" alt=""><br />
+			<TMPL_ELSE>
+				<img class="face" src="http://planet.ain7.porcheron.info/img/heads/nobody.png" alt=""><br />
+			</TMPL_IF>
+			<TMPL_VAR channel_name><TMPL_IF channel_nick><br />(<TMPL_VAR channel_nick>)</TMPL_IF>
+		</a>
+	</div>
+	
+		<div class="post">
+		<div class="post2">
+			<div class="post-header">
+				<TMPL_IF title>
+				<h4 class="post-title"><a href="<TMPL_VAR link ESCAPE="HTML">"><TMPL_VAR title></a></h4>
+				<TMPL_ELSE>
+				<div class="post-title"><span>&nbsp;</span></div>
+				</TMPL_IF>
+			</div>
+			<div class="post-contents">
+			<TMPL_VAR content>
+			</div>
+			<div class="post-footer">
+				<p><a href="<TMPL_VAR link ESCAPE="HTML">"><TMPL_VAR date></a></p>
+			</div>
+		</div>
+		</div>
+
+	</div>
+</TMPL_LOOP>
+</div>
+
+
+<div id="sidebar">
+	<div class="section">
+	<h3>Planet AIn7</h3>
+	<p>Planet AIn7 est une fenêtre sur le monde de l'ENSEEIHT et des anciens de l'ENSEEIHT.</p>
+	<p>Updated on <TMPL_VAR date> UTC. Entries are normalised to UTC time.</p>
+	</div>
+
+	<div class="section">
+	<h3>Subscribe</h3>
+	<ul>
+		<li><a href="atom.xml">Atom 1.0</a></li>
+		<li><a href="rss20.xml">RSS 2.0</a></li>
+		<li><a href="rss10.xml">RSS 1.0</a></li>
+		<li><a href="foafroll.xml">FOAF</a></li>
+		<li><a href="opml.xml">OPML</a></li>
+	</ul>
+	</div>
+
+	<div class="section">
+	<h3>Feeds</h3>
+	<ul>
+	<TMPL_LOOP Channels>
+	<li><a href="<TMPL_VAR url ESCAPE="HTML">" title="subscribe"><img src="http://planet.ain7.porcheron.info/img/feed-icon-10x10.png" alt="(feed)"></a> <a <TMPL_IF link>href="<TMPL_VAR link ESCAPE="HTML">" </TMPL_IF><TMPL_IF message>class="message" title="<TMPL_VAR message ESCAPE="HTML">"</TMPL_IF><TMPL_UNLESS message>title="<TMPL_VAR title_plain ESCAPE="HTML">"</TMPL_UNLESS>><TMPL_VAR name></a></li>
+	</TMPL_LOOP>
+	</ul>
+	</div>
+
+	<div class="section">
+	<h3>Colophon</h3>
+	<p>Brought to you by the <a href="http://www.planetplanet.org/">Planet</a> aggregator, cron, <a href="http://www.python.org/">Python</a>, <a href="http://www.redhat.com/">Red Hat</a> (who kindly host the GNOME servers). Beautiful template design by <a href="http://www.actsofvolition.com/">Steven Garrity</a>, concept by <a href="http://www.gnome.org/~seth/">Seth Nickell</a> and <a href="http://www.isity.net/">Diana Fong</a>.</p>
+	</div>
+</div>
+
+
+<div id="copyright">
+Copyright &copy; 2007, <a href="http://www.ain7.com/">AIn7</a><br />
+Blog entries aggregated on this page are owned by, and represent the opinion of the author.<br />
+<a href="http://validator.w3.org/check/referer">Optimised</a> for <a href="http://www.w3.org/">standards</a>.<br />
+</div>
+
+
+</body>
+
+</html>
