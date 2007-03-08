@@ -44,6 +44,9 @@ urlpatterns = patterns('',
     # sondage
     (r'^sondages/', include('ain7.sondages.urls')),
 
+    # planet
+    (r'^planet/', 'ain7.utils.planet'),
+
     # Pages particulieres au contenu pseudo statique
     (r'^contact/','ain7.pages.views.contact'),
     (r'^apropos/','ain7.pages.views.apropos'),

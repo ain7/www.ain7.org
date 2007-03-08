@@ -108,4 +108,4 @@ INSTALLED_APPS = (
 
 # attributs non standards 
 SKIN = 'default'
-
+PLANET_URL = 'http://planet.ain7.porcheron.info/'

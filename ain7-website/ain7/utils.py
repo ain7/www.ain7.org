@@ -25,6 +25,7 @@ import datetime
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.http import HttpResponseRedirect
+from ain7 import settings
 
 def login(request):
     username = request.POST['username']
@@ -42,3 +43,5 @@ def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
+def planet(request):
+    return HttpResponseRedirect(settings.PLANET_URL)
