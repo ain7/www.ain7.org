@@ -123,7 +123,16 @@ input.login {
 		background: #E0691A url(../images/bar.gif) no-repeat center top; 
 		color: #fff;
 		font-weight: bold; 
-		padding: 7px 10px 6px 10px;
+		padding: 7px 12px 5px 12px;
+	}
+
+	.bar li.active a { 
+		background: #E0691A;
+	} 
+
+	.bar li.active a:hover { 
+		background: #E0691A;
+		color: #FF9148;
 	}
 	
 	.bar li a { 
