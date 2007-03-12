@@ -35,7 +35,7 @@
 {% endfor %}
 
 {% for mail in personne.couriel_set.all %}
-    <tr><td><img src="/site_media/images/mail.png" alt="IRC"/> {{ mail.adresse }}</td></tr>
+    <tr><td><img src="/site_media/images/mail.png" alt="Couriel"/><a href="mailto:{{ mail.adresse }}">{{ mail.adresse }}</a></td></tr>
 {% endfor %}
 
 {% for im in personne.messagerie_set.all %}
@@ -47,7 +47,7 @@
 {% endfor %}
 
 {% for site in personne.siteweb_set.all %}
-    <tr valign="middle"><td><img src="/site_media/images/web.png" alt="Site web"/> {{ site.url }}</td></tr>
+    <tr valign="middle"><td><img src="/site_media/images/web.png" alt="Site web"/><a href="{{ site.url }}">{{ site.url }}</a></td></tr>
 {% endfor %}
 
 </table>
