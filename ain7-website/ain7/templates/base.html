@@ -6,6 +6,8 @@
 	<link rel="stylesheet" href="/site_media/skins/default/css/style.css" type="text/css" />
   <link rel="shortcut icon" type="image/x-icon" href="/site_media/images/favicon.png" />
 	<title>AIn7 : association des ingénieurs IET - ENSEEIHT</title>
+{% block javascript %}{{ javascript }}{% endblock %}
+{% block stylesheet %}{{ stylesheet }}{% endblock %}
 </head>
 <body>
 	<div class="content">
@@ -41,17 +43,6 @@ Connecté en tant que {{ user.first_name }} {{ user.last_name }}
                           {% endblock %}
 			</ul>
 		</div>
-		<!-- Desactive pour la maquette
-		<div class="search_field">
-			<form method="post" action="?">
-				<div class="search_form">
-				<p><input type="text" name="search" class="search" /> <input type="submit" value="Rechercher" class="submit" /> <a class="grey" href="#">Advanced</a></p>
-				</div>
-			</form>
-			
-			<p>Please <a href="#">Sign in</a> or <a href="#">Register</a></p>
-		</div>
-		-->
                  <p>&nbsp;</p>
 
         {% block content %}{{ content }}{% endblock %}

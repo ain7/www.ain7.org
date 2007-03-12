@@ -37,11 +37,22 @@ def detail(request, groupe_id):
     return render_to_response('groupes/detail.html', {'groupe': g, 'user': request.user})
 
 def edit(request, groupe_id=None):
-    groupe = Groupe.objects.get(id=groupe_id)
-    GroupeForm = forms.models.form_for_instance(groupe)
-    # rajouter TinyMCE pour avoir un éditeur potable
-    #GroupeForm.base_fields['page_web'].widget = TinyMCE()
-    form = GroupeForm()
+
+    if groupe_id is None:
+        GroupeForm = forms.models.form_for_model(Groupe)
+        GroupeForm.base_fields['page_web'].widget = forms.widgets.Textarea(attrs={'rows':10, 'cols':90})
+        form = GroupeForm()
+
+    else:
+        groupe = Groupe.objects.get(id=groupe_id)
+        GroupeForm = forms.models.form_for_instance(groupe)
+        GroupeForm.base_fields['page_web'].widget = forms.widgets.Textarea(attrs={'rows':10, 'cols':90})
+        form = GroupeForm()
+
+        if request.method == 'POST':
+             form = GroupeForm(request.POST)
+             if form.is_valid():
+                 form.save()
 
     return render_to_response('groupes/edit.html', {'form': form, 'user': request.user})
 
