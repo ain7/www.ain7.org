@@ -47,6 +47,9 @@ urlpatterns = patterns('',
     # planet
     (r'^planet/', 'ain7.utils.planet'),
 
+    # forums
+    (r'^forums/', 'ain7.utils.forums'),
+
     # Pages particulieres au contenu pseudo statique
     (r'^contact/','ain7.pages.views.contact'),
     (r'^apropos/','ain7.pages.views.apropos'),

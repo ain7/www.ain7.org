@@ -45,3 +45,7 @@ def logout(request):
 
 def planet(request):
     return HttpResponseRedirect(settings.PLANET_URL)
+
+def forums(request):
+    return HttpResponseRedirect(settings.FORUMS_URL)
+
