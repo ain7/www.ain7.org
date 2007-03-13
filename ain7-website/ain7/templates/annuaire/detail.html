@@ -28,8 +28,7 @@
    <li>Promo: {{ personne.promo }}</li>
    <li>Date de naissance: {{ personne.date_naissance }}</li>
 </ul>
-</td><td><img src="/site_media/data/{{ personne.id }}.png" alt="{{ personne.prenom }} {{ personne.nom }}"/></td></tr>
-
+</td><td><img src="/site_media/{{ personne.avatar }}.jpeg" alt="{{ personne.prenom }} {{ personne.nom }}"/></td></tr>
 {% for addr in personne.addresse_set.all %}
     <tr><td>Adresse : {{ addr.rue }} - {{addr.code_postal }} {{ addr.ville }} - {{addr.pays }}</td></tr>
 {% endfor %}
