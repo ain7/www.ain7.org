@@ -32,7 +32,7 @@ def vote(request, sondage_id):
         # Redisplay the poll voting form.
         return render_to_response('sondages/detail.html', {
             'sondage': sondage,
-            'error_message': "You didn't select a choice.",
+            'error_message': "Vous n'avez rien sélectionné.",
         })
     else:
         selected_choice.votes += 1
@@ -40,9 +40,13 @@ def vote(request, sondage_id):
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
-        return HttpResponseRedirect('/sondages/%s/resultats/' % sondage.id)
+        return HttpResponseRedirect('/sondages/%s/detail/' % sondage.id)
 
 def resultats(request, sondage_id):
     sondage = get_object_or_404(Sondage, pk=sondage_id)
     return render_to_response('sondages/resultats.html', {'sondage': sondage})
+
+def detail(request, sondage_id):
+    sondage = get_object_or_404(Sondage, pk=sondage_id)
+    return render_to_response('sondages/detail.html', {'sondage': sondage})
 
