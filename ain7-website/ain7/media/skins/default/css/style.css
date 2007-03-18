@@ -66,19 +66,17 @@ input.login {
 }
 
 .header { 
-	height: 55px;
+	height: 95px;
 	background: #eee;
 	color: #808080;
-	margin: 3px 0;
+	margin: 3px 0 10px 0;
 	padding: 10px 0 0 0;
-	border-bottom: 1px solid #ccc;
 }
 
 .top_info {
 	float: right;
 	width: 555px;
 	padding: 5px 0 4px 0;
-	border-bottom: 1px solid #eee;
 	background: #eee;
 	color: #808080;
 }
@@ -179,6 +177,7 @@ input.login {
 	float: left;
 	width: 65%;
 	margin: 0 0 10px 0;
+  padding: 10px 0 0 0;
 }
 
 .left h3 {
@@ -217,6 +216,7 @@ input.login {
 	float: right;
 	width: 34.6%;
 	margin: 0 0 10px 0;
+  padding: 10px 0 0 0;
 }
 
 .right h3 {
