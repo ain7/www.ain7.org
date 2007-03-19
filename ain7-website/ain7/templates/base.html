@@ -35,10 +35,7 @@ Connecté en tant que {{ user.first_name }} {{ user.last_name }}
 			</div>
 		</div>
 		<div class="bar">
-			<ul>
-			  {% block barre %}
-                          {% endblock %}
-			</ul>
+			  {% block barre %}{% endblock %}
 		</div>
 
         {% block content %}{{ content }}{% endblock %}
