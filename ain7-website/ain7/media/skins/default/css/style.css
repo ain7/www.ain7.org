@@ -101,38 +101,19 @@ input.login {
 }
 
 .bar { 
-	clear: both;
-	font-size: 1em;
-	color: #FFF;
-	margin: 0 auto; 
-	width: 780px;
-  white-space:nowrap;
-  text-decoration: none;
-  text-align: center; // for IE
-  display:inline-block;
-  background: #FF9148;
- 	width: 780px;
+    clear: both;
+    width: 780px;
+    font-size: 11px;
+    background: #FF9148;
+    list-style: none;
+    text-align: center;
+    line-height: 18px;
 }
 
-  .bar dev {
-	clear: both;
-    display: inline-block; // for IE
-    text-decoration:none;  // for IE
-  }
-
-	.bar ul { 
-    display: table;
-    padding: 0;
-    margin: 0 auto;
-    list-style-type: none;
-  }
-
 	.bar li { 
-		margin: 0 0px 1px 0; 
-		padding: 4px 12px 3px 12px;
-		color: #FFEADC;
-		background: #FF9148;
-		float: left; 
+	 padding: 4px 12px 4px 12px;
+	 color: #FFEADC;
+         display:inline;
 	}
 	
 	.bar li.active { 
