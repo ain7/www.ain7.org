@@ -38,11 +38,23 @@ urlpatterns = patterns('',
     # annuaire
     (r'^annuaire/', include('ain7.annuaire.urls')),
 
+    # emploi
+    (r'^emploi/', include('ain7.emploi.urls')),
+
+    # evenements
+    (r'^evenements/', include('ain7.evenements.urls')),
+
     # groupes
     (r'^groupes/', include('ain7.groupes.urls')),
 
+    # groupes regionaux
+    (r'^groupes_regionaux/', include('ain7.groupes_regionaux.urls')),
+
     # sondage
     (r'^sondages/', include('ain7.sondages.urls')),
+
+    # voyages
+    (r'^voyages/', include('ain7.voyages.urls')),
 
     # planet
     (r'^planet/', 'ain7.utils.planet'),
@@ -51,8 +63,14 @@ urlpatterns = patterns('',
     (r'^forums/', 'ain7.utils.forums'),
 
     # Pages particulieres au contenu pseudo statique
-    (r'^contact/','ain7.pages.views.contact'),
     (r'^apropos/','ain7.pages.views.apropos'),
+    (r'^association/','ain7.pages.views.association'),
+    (r'^canal_n7/','ain7.pages.views.canal_n7'),
+    (r'^contact/','ain7.pages.views.contact'),
+    (r'^international/','ain7.pages.views.international'),
+    (r'^mentions_legales/','ain7.pages.views.mentions_legales'),
+    (r'^publications/','ain7.pages.views.publications'),
+    (r'^sitemap/','ain7.pages.views.sitemap'),
     (r'^$','ain7.pages.views.homepage'),
 
 )

@@ -100,10 +100,14 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.admin',
     'ain7.annuaire',
+    'ain7.emploi',
+    'ain7.evenements',
     'ain7.groupes',
+    'ain7.groupes_regionaux',
     'ain7.news',
     'ain7.pages',
     'ain7.sondages',
+    'ain7.voyages',
 )
 
 # attributs non standards 

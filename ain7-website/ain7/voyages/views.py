@@ -24,6 +24,9 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django import newforms as forms
 from django.newforms import widgets
 
+from ain7.voyages.models import Voyage
+
 def index(request):
-    return render_to_response('emploi/index.html', {'user': request.user})
+    liste_voyages = Voyage.objects.all().order_by('date')[:5]
+    return render_to_response('voyages/index.html', {'liste_voyages': liste_voyages, 'user': request.user})
 

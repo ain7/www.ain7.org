@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #
-# views.py
+# models.py
 #
 #   Copyright (C) 2007 AIn7
 #
@@ -20,10 +20,23 @@
 #
 #
 
-from django.shortcuts import get_object_or_404, render_to_response
-from django import newforms as forms
-from django.newforms import widgets
+from django.db import models
+from ain7.annuaire.models import Personne
 
-def index(request):
-    return render_to_response('emploi/index.html', {'user': request.user})
+class Voyage(models.Model):
+
+#    label = models.CharField(maxlength=20)
+    date_debut = models.DateField()
+    date_fin = models.DateField()
+    date = models.CharField(maxlength=30)
+    description = models.TextField()
+    vignette = models.ImageField(upload_to='data',blank=True,null=True)
+    compte_rendu = models.TextField()
+
+class Inscription(models.Model):
+
+    personne = models.ForeignKey(Personne)
+    voyage = models.ForeignKey(Voyage)
+    nombre_de_personnes = models.IntegerField()
+    commentaire = models.TextField()
 

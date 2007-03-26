@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #
-# views.py
+# urls.py
 #
 #   Copyright (C) 2007 AIn7
 #
@@ -20,10 +20,15 @@
 #
 #
 
-from django.shortcuts import get_object_or_404, render_to_response
-from django import newforms as forms
-from django.newforms import widgets
+from django.conf.urls.defaults import *
 
-def index(request):
-    return render_to_response('emploi/index.html', {'user': request.user})
+urlpatterns = patterns('',
 
+    # Emploi
+    (r'^$', 'ain7.emploi.views.index'),
+    (r'^search/$', 'ain7.emploi.views.search'),
+    (r'^edit/$', 'ain7.emploi.views.edit'),
+    (r'^edit/(?P<emploi_id>\d+)/$', 'ain7.emploi.views.edit'),
+    (r'^(?P<emploi_id>\d+)/$', 'ain7.emploi.views.detail'),
+
+)

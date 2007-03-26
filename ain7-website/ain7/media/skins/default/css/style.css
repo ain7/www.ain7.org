@@ -14,21 +14,41 @@ body {
 	color: #454545; 
 }
 
-a {	color: #E0691A;	background: inherit;}
-a:hover { color: #6C757A; background: inherit; }
+a {
+    color: #E0691A;
+    background: inherit;
+}
 
-h1 { font: normal 2.1em Arial, Sans-Serif; letter-spacing: -1px; padding: 7px 0 0 8px; margin: 0; }
+a:hover {
+    color: #6C757A;
+    background: inherit;
+}
+
+h1 { 
+    font: normal 2.1em Arial, Sans-Serif;
+    letter-spacing: -1px;
+    padding: 7px 0 0 8px;
+    margin: 0;
+}
+
 .dark  { color: #737373; background: inherit; font-weight: bold; }
 h1 a, h2 a { text-decoration: none; }
 h1 a:hover, h2 a:hover { color: #FF6600; background: inherit; }
 h2 { margin: 0; padding: 0; font: bold 1.7em Arial, Sans-Serif; letter-spacing: -1px; }
 h2 { font-size: 1.5em; margin-bottom: 5px; color: #000; background: inherit; }
 
-p {	margin: 0 0 5px 0; text-align: justify; }
+p {
+    margin: 0 0 5px 0;
+    text-align: justify;
+}
 
-ul { margin: 0; padding : 0; list-style : none; }
+ul {
+   list-style : square;
+}
 
-form { 	margin: 0; }
+form {
+   margin: 0;
+}
 
 input.search { 
 	width: 292px; 
@@ -93,13 +113,6 @@ input.login {
 		border-left: 1px solid #eee;
 	}
 
-.browse_category  {
-	font-size: 0.9em;
-	width: 190px;
-	color: #FFF;
-	background: inherit;
-}
-
 .bar { 
     clear: both;
     width: 780px;
@@ -107,7 +120,12 @@ input.login {
     background: #FF9148;
     list-style: none;
     text-align: center;
-    line-height: 18px;
+    line-height: 22px;
+}
+
+.bar ul {
+    margin: 0;
+    padding : 0;
 }
 
 	.bar li { 
@@ -174,10 +192,10 @@ input.login {
    --------- */
 
 .left {
-	float: left;
-	width: 65%;
-	margin: 0 0 10px 0;
-  padding: 10px 0 0 0;
+    float: left;
+    width: 65%;
+    margin: 0 0 10px 0;
+    padding: 10px 0 0 0;
 }
 
 .left h3 {

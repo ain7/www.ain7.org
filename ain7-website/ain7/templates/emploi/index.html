@@ -1,0 +1,17 @@
+{% extends "emploi/base.html" %}
+
+{% block content %}
+
+<div id="content-main">
+<h2>Liste des emplois</h2>
+{% if liste_emplois %}
+    <ul>
+    {% for emploi in liste_emploiss %}
+           <li>{{ emploi.description }}</li>
+    {% endfor %}
+     </ul>
+{% else %}
+    <p>Aucun voyage de prévu.</p>
+{% endif %}
+
+{% endblock %}

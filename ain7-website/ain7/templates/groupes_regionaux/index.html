@@ -1,0 +1,17 @@
+{% extends "groupes_regionaux/base.html" %}
+
+{% block content %}
+
+<div id="content-main">
+<h2>Les groupes régionaux</h2>
+{% if liste_groupes_regionaux %}
+    <ul>
+    {% for groupe_regional in liste_groupes_regionaux %}
+           <li>{{ groupe_regional.description }}</li>
+    {% endfor %}
+     </ul>
+{% else %}
+    <p>Aucun groupe régional.</p>
+{% endif %}
+
+{% endblock %}

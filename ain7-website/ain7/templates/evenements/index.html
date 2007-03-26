@@ -1,0 +1,17 @@
+{% extends "evenements/base.html" %}
+
+{% block content %}
+
+<div id="content-main">
+<h2>Liste des événements et manifestations à venir</h2>
+{% if liste_evenements %}
+    <ul>
+    {% for evenement in liste_evenements %}
+           <li>{{ evenement.description }}</li>
+    {% endfor %}
+     </ul>
+{% else %}
+    <p>Aucun événement de prévu.</p>
+{% endif %}
+
+{% endblock %}

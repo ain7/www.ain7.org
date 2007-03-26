@@ -7,7 +7,7 @@
     # Redirect all to www.ain7.com
     RewriteEngine On
     RewriteCond %{HTTP_HOST} !=www.ain7.com
-    RewriteRule ^(.*)$ http://www.ain7.comorg$1 [L]
+    RewriteRule ^(.*)$ http://www.ain7.com$1 [L]
 
     <Location />
         SetHandler python-program

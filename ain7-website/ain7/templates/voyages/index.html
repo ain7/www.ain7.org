@@ -1,0 +1,17 @@
+{% extends "voyages/base.html" %}
+
+{% block content %}
+
+<div id="content-main">
+<h2>Liste des voyages</h2>
+{% if liste_voyages %}
+    <ul>
+    {% for voyage in liste_voyages %}
+           <li>{{ voyage.date }} {{ voyage.description }}</li>
+    {% endfor %}
+     </ul>
+{% else %}
+    <p>Aucun voyage de prévu.</p>
+{% endif %}
+
+{% endblock %}

@@ -25,5 +25,5 @@ from django import newforms as forms
 from django.newforms import widgets
 
 def index(request):
-    return render_to_response('emploi/index.html', {'user': request.user})
+    return render_to_response('groupes_regionaux/index.html', {'user': request.user})
 

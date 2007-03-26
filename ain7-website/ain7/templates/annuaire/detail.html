@@ -11,16 +11,16 @@
 <table border="0">
 <tr><td>
 <ul>
-   <li>Nom: {{ personne.nom }}</li>
-   <li>Prénom: {{ personne.prenom }}</li>
-   <li>Surnom: {{ personne.surnom }}</li>
-   <li>Filière: {{ personne.get_filiere_display }}</li>
-   <li>Promo: {{ personne.promo }}</li>
-   <li>Date de naissance: {{ personne.date_naissance }}</li>
+   <li><b>Nom :</b> {{ personne.nom }}</li>
+   <li><b>Prénom :</b> {{ personne.prenom }}</li>
+   <li><b>Surnom :</b> {{ personne.surnom }}</li>
+   <li><b>Filière :</b> {{ personne.get_filiere_display }}</li>
+   <li><b>Promo :</b> {{ personne.promo }}</li>
+   <li><b>Date de naissance :</b> {{ personne.date_naissance }}</li>
 </ul>
 </td><td><img src="/site_media/{{ personne.avatar }}.jpeg" alt="{{ personne.prenom }} {{ personne.nom }}"/></td></tr>
 {% for addr in personne.addresse_set.all %}
-    <tr><td>Adresse : {{ addr.rue }} - {{addr.code_postal }} {{ addr.ville }} - {{addr.pays }}</td></tr>
+    <tr><td><b>Adresse :</b> {{ addr.rue }} - {{addr.code_postal }} {{ addr.ville }} - {{addr.pays }}</td></tr>
 {% endfor %}
 
 {% for mail in personne.couriel_set.all %}

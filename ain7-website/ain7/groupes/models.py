@@ -54,7 +54,7 @@ class Groupe(models.Model):
 
 class Membre(models.Model):
 
-    group = models.ForeignKey(Groupe, edit_inline=models.STACKED, num_in_admin=1, core=True)
-    membre = models.ForeignKey(Personne)
+    group = models.ForeignKey(Groupe, edit_inline=models.STACKED, num_in_admin=1)
+    membre = models.ForeignKey(Personne, core=True)
     administrateur = models.BooleanField()
 

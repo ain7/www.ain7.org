@@ -28,13 +28,37 @@ def homepage(request):
     liste_actualites = Actualite.objects.all().order_by('titre')[:5]
     liste_sondages = Sondage.objects.all()[:2]
     user = request.user
-    return render_to_response('pages/index.html', {'liste_actualites': liste_actualites , 'liste_sondages': liste_sondages, 'user': user })
+    return render_to_response('pages/homepage.html', {'liste_actualites': liste_actualites , 'liste_sondages': liste_sondages, 'user': user })
 
 def apropos(request):
     user = request.user
     return render_to_response('pages/apropos.html', {'user': user })
 
+def association(request):
+    user = request.user
+    return render_to_response('pages/association.html', {'user': user })
+
+def canal_n7(request):
+    user = request.user
+    return render_to_response('pages/canal_n7.html', {'user': user })
+
 def contact(request):
     user = request.user
     return render_to_response('pages/contact.html', {'user': user })
+
+def international(request):
+    user = request.user
+    return render_to_response('pages/international.html', {'user': user })
+
+def mentions_legales(request):
+    user = request.user
+    return render_to_response('pages/mentions_legales.html', {'user': user })
+
+def publications(request):
+    user = request.user
+    return render_to_response('pages/publications.html', {'user': user })
+
+def sitemap(request):
+    user = request.user
+    return render_to_response('pages/sitemap.html', {'user': user })
 
