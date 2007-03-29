@@ -64,13 +64,17 @@
                         <div class="right_articles">
                              <form action="/sondages/{{ sondage.id }}/vote/" method="post">
                              <p> {{ sondage.question }} </p>
+														 <p>
                              {% for choice in sondage.choix_set.all %}
                                  <input type="radio" name="choix" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
-                                 <value for "choice{{ forloop.counter }}">{{ choice.choice }}</label><br />
+                                 <label for="choice{{ forloop.counter }}">{{ choice.choice }}</label>
+																 <br />
                              {% endfor %}
                              <input type="submit" value="Vote" class="submit"/>
-                             </form>
 														 <a href="/sondages/{{ sondage.id }}/resultats/">Résultats</a>
+														 </p>
+                             </form>
+														 
                         </div>
     {% endfor %}
 			<h3>Liens</h3>
