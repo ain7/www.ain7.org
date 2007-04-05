@@ -1,15 +1,23 @@
 {% extends "annuaire/base.html" %}
+
 {% load i18n %}
 
 {% block stylesheet %}{% endblock %}
+
 {% block content %}
 
+<div id="content-main">
+
+<div align="center">
 <form action="." method="post">
     <table class="form">
        {{ form }}
     </table>
-<p><input type="submit" value="Rechercher" /></p>
+<input class="button" type="submit" value="Rechercher" />
 </form>
+</div>
+
+</div>
 
 {% endblock %}
 

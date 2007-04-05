@@ -28,10 +28,11 @@ from ain7.annuaire.models import Personne
 class Groupe(models.Model):
 
     nom = models.CharField(maxlength=100, core=True)
-    contact = models.CharField(maxlength=100, core=True)
-    description = models.CharField(maxlength=200, core=True)
-    responsable = models.ForeignKey(Personne)
+    contact = models.CharField(maxlength=100, blank=True, null=True)
+    description = models.CharField(maxlength=200, blank=True, null=True)
     page_web = models.TextField()
+    responsable = models.ForeignKey(Personne)
+    parent = models.ForeignKey('Groupe', blank=True, null=True)
 
     date_creation =  models.DateTimeField(editable=False)
     date_modification = models.DateTimeField(editable=False)
@@ -54,7 +55,7 @@ class Groupe(models.Model):
 
 class Membre(models.Model):
 
-    group = models.ForeignKey(Groupe, edit_inline=models.STACKED, num_in_admin=1)
+    groupe = models.ForeignKey(Groupe, edit_inline=models.STACKED, num_in_admin=1)
     membre = models.ForeignKey(Personne, core=True)
     administrateur = models.BooleanField()
 

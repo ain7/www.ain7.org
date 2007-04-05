@@ -27,10 +27,12 @@
 <h4>Liste des membres</h4>
 <ul>
 {% for membre in groupe.membre_set.all %}
-    <li><a href="/annuaire/{{ membre.membre.id }}/">{{ membre.membre.prenom }} {{ membre.membre.nom }}</a></li>
+    <li><a href="/annuaire/{{ membre.membre.user.id }}/">{{ membre.membre.prenom }} {{ membre.membre.nom }}</a></li>
 {% endfor %}
 </ul>
 <h4>Présentation du groupe</h4>
 {{ groupe.page_web }}
+
 </div>
+
 {% endblock %}

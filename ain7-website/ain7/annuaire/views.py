@@ -34,15 +34,18 @@ class SearchPersonForm(forms.Form):
     promo = forms.IntegerField(required=False)
     filiere = forms.IntegerField(required=False)
 
-def index(request):
-    liste_personnes = Personne.objects.all().order_by('nom')[:5]
-    return render_to_response('annuaire/index.html', {'liste_personnes': liste_personnes, 'user': request.user})
-
 def detail(request, personne_id):
+
+    if not request.user.is_authenticated():
+         return render_to_response('annuaire/authentification_needed.html', {'user': request.user})
+
     p = get_object_or_404(Personne, pk=personne_id)
-    return render_to_response('annuaire/detail.html', {'personne': p, 'user': request.user})
+    return render_to_response('annuaire/details.html', {'personne': p, 'user': request.user})
 
 def search(request):
+
+    if not request.user.is_authenticated():
+         return render_to_response('annuaire/authentification_needed.html', {'user': request.user})
 
     if request.method == 'POST':
         form = SearchPersonForm(request.POST)
@@ -56,12 +59,15 @@ def search(request):
 
 def edit(request, personne_id=None):
 
+    if not request.user.is_authenticated():
+         return render_to_response('annuaire/authentification_needed.html', {'user': request.user})
+
     if personne_id is None:
 	PersonneForm = forms.models.form_for_model(Personne)
         form = PersonneForm()
 
     else:
-        personne = Personne.objects.get(id=personne_id)
+        personne = Personne.objects.get(pk=personne_id)
         PersonneForm = forms.models.form_for_instance(personne)
         PersonneForm.base_fields['user'].label="Utilisateur"
         PersonneForm.base_fields['prenom'].label="Prenom"

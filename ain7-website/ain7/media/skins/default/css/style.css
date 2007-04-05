@@ -73,6 +73,7 @@ form {
     margin: 0;
 }
 
+/*
 input.search { 
     width: 292px; 
     border: 0;
@@ -97,6 +98,21 @@ input.login {
     border: none; 
     padding: 4px; 
 }
+*/
+
+.button {
+    padding: 2px;
+    background-color: #FF9148;
+    color: #FFFFFF;
+    border: 1px solid #737373;
+    font: bold 1em Arial, Sans-Serif;
+}
+
+.warning {
+    padding: 40px; 
+    color: #FF9148;
+    font: bold 1.5em Arial, Sans-Serif;
+}
 
 /* layout
    ------ */
@@ -107,8 +123,12 @@ input.login {
     padding: 10px; 
 }
 
+#content-main {
+    padding: 10px;
+}
+
 .header { 
-    height: 95px;
+    height: 65px;
     background: #eee;
     color: #808080;
     margin: 3px 0 10px 0;
@@ -260,7 +280,7 @@ input.login {
 		
 .right {
     float: right;
-    width: 34.6%;
+    width: 32.6%;
     margin: 0 0 10px 0;
     padding: 10px 0 0 0;
 }

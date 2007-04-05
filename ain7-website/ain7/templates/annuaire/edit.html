@@ -2,7 +2,10 @@
 {% load i18n %}
 
 {% block stylesheet %}{% endblock %}
+
 {% block content %}
+
+<div id="content-main">
 
 <form action="." method="post">
     <table class="form">
@@ -10,5 +13,7 @@
     </table>
 <p><input type="submit" value="Sauvegarder les modifications" /></p>
 </form>
+
+</div>
 
 {% endblock %}

@@ -29,12 +29,12 @@ from django.newforms import widgets
 from ain7.groupes.models import Groupe
 
 def index(request):
-    liste_groupes = Groupe.objects.all().order_by('nom')[:5]
+    liste_groupes = Groupe.objects.all().order_by('nom')
     return render_to_response('groupes/index.html', {'liste_groupes': liste_groupes, 'user': request.user})
 
 def detail(request, groupe_id):
     g = get_object_or_404(Groupe, pk=groupe_id)
-    return render_to_response('groupes/detail.html', {'groupe': g, 'user': request.user})
+    return render_to_response('groupes/details.html', {'groupe': g, 'user': request.user})
 
 def edit(request, groupe_id=None):
 

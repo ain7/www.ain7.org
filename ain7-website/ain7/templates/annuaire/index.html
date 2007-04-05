@@ -5,15 +5,18 @@
 {% block content %}
 
 <div id="content-main">
+
 <h2>Liste de votre recherche</h2>
 {% if liste_personnes %}
     <ul>
     {% for personne in liste_personnes %}
-        <li><a href="/annuaire/{{ personne.id }}/">{{ personne.nom }}</a> {{ personne.prenom }} {{ personne.promo }} {{ personne.get_filiere_display }}</li>
+        <li><a href="/annuaire/{{ personne.user.id }}/">{{ personne.nom }}</a> {{ personne.prenom }} {{ personne.promo }} {{ personne.get_filiere_display }}</li>
     {% endfor %}
      </ul>
 {% else %}
     <p>Aucune personne dans l'application.</p>
 {% endif %}
+
+</div>
 
 {% endblock %}

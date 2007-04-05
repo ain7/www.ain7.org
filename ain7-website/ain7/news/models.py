@@ -20,6 +20,8 @@
 #
 #
 
+import datetime
+
 from django.db import models
 
 class Actualite(models.Model):
@@ -31,8 +33,16 @@ class Actualite(models.Model):
     date_creation = models.DateTimeField()
     date_modification = models.DateTimeField()
 
+    def __str__(self):
+        return self.titre
+
+    def save(self):
+        if not self.date_creation:
+             self.date_creation = datetime.date.today()
+        self.date_modification = datetime.datetime.today()
+	self.modifie_par = 1
+        return super(Actualite, self).save()
 
     class Admin:
         list_display = ('titre','description')
-
 

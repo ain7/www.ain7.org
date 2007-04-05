@@ -1,6 +1,8 @@
 {% extends "pages/base_homepage.html" %}
 
 {% block content %}
+
+<div id="content-main">
 	
 		<div class="left">
 			<h3>Présentation</h3>
@@ -64,15 +66,16 @@
                         <div class="right_articles">
                              <form action="/sondages/{{ sondage.id }}/vote/" method="post">
                              <p> {{ sondage.question }} </p>
-														 <p>
-                             {% for choice in sondage.choix_set.all %}
-                                 <input type="radio" name="choix" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
-                                 <label for="choice{{ forloop.counter }}">{{ choice.choice }}</label>
-																 <br />
+                             {% for choix in sondage.choix_set.all %}
+                                 <input type="radio" name="choix" id="choice{{ forloop.counter }}" value="{{ choix.id }}" />
+                                 <label for="choice{{ forloop.counter }}">{{ choix.choix }}</label>
+				 <br />
                              {% endfor %}
-                             <input type="submit" value="Vote" class="submit"/>
-														 <a href="/sondages/{{ sondage.id }}/resultats/">Résultats</a>
-														 </p>
+                             <div align="center">
+                             <input type="submit" value="Voter" class="button"/><br/>
+    			     <a href="/sondages/{{ sondage.id }}/resultats/">Les résultats</a> -
+    			     <a href="/sondages/">Historique des sondages</a>
+                             </div>
                              </form>
 														 
                         </div>
@@ -87,5 +90,8 @@
 				<p><a href="http://www.cnsif.org">CNSIF</a></p>
 			</div>
 		</div>	
+
+</div>
+
 {% endblock %}
 

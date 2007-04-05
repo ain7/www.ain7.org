@@ -20,18 +20,46 @@
 #
 #
 
+import datetime
+
 from django.db import models
+
 from ain7.annuaire.models import Personne
 
 class Voyage(models.Model):
 
-#    label = models.CharField(maxlength=20)
-    date_debut = models.DateField()
-    date_fin = models.DateField()
+    TYPE_VOYAGE = (
+         (0,'Circuit'),
+         (1,'Croisière'),
+         (2,'Circuit & Croisière'),
+    )
+
+    libelle = models.CharField(maxlength=20)
+    date_debut = models.DateField(blank=True, null=True)
+    date_fin = models.DateField(blank=True, null=True)
     date = models.CharField(maxlength=30)
+    duree = models.IntegerField(blank=True, null=True)
+    type_voyage = models.IntegerField(choices=TYPE_VOYAGE)
+    lieux_visites = models.CharField(maxlength=100)
     description = models.TextField()
+    prix = models.IntegerField(blank=True, null=True)
     vignette = models.ImageField(upload_to='data',blank=True,null=True)
     compte_rendu = models.TextField()
+
+    date_creation =  models.DateTimeField(editable=False)
+    date_modification = models.DateTimeField(editable=False)
+
+    def __str__(self):
+        return self.libelle
+
+    def save(self):
+        if not self.date_creation:
+             self.date_creation = datetime.date.today()
+        self.date_modification = datetime.datetime.today()
+        return super(Voyage, self).save()
+
+    class Admin:
+        pass
 
 class Inscription(models.Model):
 

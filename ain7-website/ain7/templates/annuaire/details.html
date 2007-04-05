@@ -2,11 +2,13 @@
 {% load i18n %}
 
 {% block stylesheet %}{% endblock %}
+
 {% block content %}
 
 <div id="content-main">
+
 <h1>Fiche personnelle de {{ personne.prenom }} {{ personne.nom }}</h1>
-<p><a href="/annuaire/edit/{{ personne.id }}/">Editer ces informations</a></p>
+<p><a href="/annuaire/edit/{{ personne.user.id }}/">Editer ces informations</a></p>
 <h2>Données personnelles</h2>
 <table border="0">
 <tr><td>
@@ -18,8 +20,8 @@
    <li><b>Promo :</b> {{ personne.promo }}</li>
    <li><b>Date de naissance :</b> {{ personne.date_naissance }}</li>
 </ul>
-</td><td><img src="/site_media/{{ personne.avatar }}.jpeg" alt="{{ personne.prenom }} {{ personne.nom }}"/></td></tr>
-{% for addr in personne.addresse_set.all %}
+</td><td><img src="/site_media/{{ personne.avatar }}.jpeg"/></td></tr>
+{% for addr in personne.adresse_set.all %}
     <tr><td><b>Adresse :</b> {{ addr.rue }} - {{addr.code_postal }} {{ addr.ville }} - {{addr.pays }}</td></tr>
 {% endfor %}
 
@@ -32,7 +34,7 @@
 {% endfor %}
 
 {% for irc in personne.irc_set.all %}
-    <tr valign="middle"><td><img src="/site_media/images/irc.png" alt="IRC"/> {{ irc.nick }} sur {{ irc.reseau }}</td></tr>
+    <tr valign="middle"><td><img src="/site_media/images/irc.png" alt="IRC"/> {{ irc.nick }} @ {{ irc.reseau }} sur {{ irc.canaux }}</td></tr>
 {% endfor %}
 
 {% for site in personne.siteweb_set.all %}
@@ -41,16 +43,39 @@
 
 </table>
 
-<h2>Expériences</h2>
+<h2>Activité AIn7</h2>
 
-{% if personne.position_set.all %}
+{% if personne.membre_set.all %}
 <ul>
-{% for position in personne.position_set.all %}
-<li>{{ position.debut }} - {{ position.fin }} : {{ position.titre }} à {{ position.societe }}</br>
-    {{ position.description }}</li>
+{% for membre in personne.membre_set.all %}
+        <li><a href="/groupes/{{ membre.groupe.id }}/">{{ membre.groupe.nom }}</a></li>
 {% endfor %}
 </ul>
 {% endif %}
-</div>
-{% endblock %}
 
+<h2>Expériences</h2>
+
+{% if personne.position_set.all %}
+<table>
+{% for position in personne.position_set.all %}
+<tr><td><b>{{ position.debut }} - {{ position.fin }} :</b></td><td> {{ position.titre }} au sein de {{ position.societe }}</td></tr>
+<tr><td></td><td>{{ position.description }}</td></tr>
+{% endfor %}
+</table>
+{% endif %}
+
+<h2>Vie associate à l'N7</h2>
+
+{% if personne.membreclub_set.all %}
+{% for membre in personne.membreclub_set.all %}
+    {% if membre.club.url %}
+        <a href="{{ membre.club.url }}">{{ membre.club.nom }}</a>
+    {% else %}
+        {{ membre.club.nom }}
+    {% endif %}
+{% endfor %}
+{% endif %}
+
+</div>
+
+{% endblock %}

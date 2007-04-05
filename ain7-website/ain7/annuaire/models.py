@@ -241,16 +241,16 @@ class Personne(models.Model):
        (2008,'2008'),
       )
 
-    user = models.ForeignKey(User)
+    user = models.OneToOneField(User)
     nom = models.CharField(maxlength=50)
     prenom = models.CharField(maxlength=50)
     nom_jeune_fille = models.CharField(maxlength=100,blank=True,null=True)
     filiere = models.IntegerField(choices=FILIERES)
     promo = models.IntegerField(choices=CHOIX_PROMO)
-    date_naissance = models.DateField()
+    date_naissance = models.DateField(blank=True,null=True)
     date_deces = models.DateField(blank=True,null=True)
     nationalite = models.IntegerField(choices=CHOIX_NATIONALITES)
-    nombre_enfants = models.IntegerField()
+    nombre_enfants = models.IntegerField(blank=True,null=True)
     avatar = models.ImageField(upload_to='data',blank=True,null=True)
     surnom = models.CharField(maxlength=50,blank=True,null=True)
     blog = models.URLField(maxlength=80,verify_exists=True,blank=True,core=True)
@@ -264,8 +264,8 @@ class Personne(models.Model):
         return self.prenom+" "+self.nom
 
     def save(self):
-        if not self.id:
-            self.date_creation = datetime.date.today()
+        if not self.date_creation:
+             self.date_creation = datetime.date.today()
         self.date_modification = datetime.datetime.today()
 	self.modifie_par = 1
         return super(Personne, self).save()
@@ -275,7 +275,7 @@ class Personne(models.Model):
 	 list_filter = ['promo']
 	 search_fields = ['nom','prenom','promo']
 
-class Addresse(models.Model):
+class Adresse(models.Model):
     TYPE_ADRESSE = (
         (1,'Personnelle'),
         (2,'Professionnelle'),
@@ -287,7 +287,7 @@ class Addresse(models.Model):
     code_postal = models.CharField(maxlength=20)
     ville = models.CharField(maxlength=50)
     pays = models.CharField(maxlength=50)
-    type_couriel = models.IntegerField(choices=TYPE_ADRESSE)
+    type = models.IntegerField(choices=TYPE_ADRESSE)
 
 class Position(models.Model):
 
@@ -324,13 +324,13 @@ class Position(models.Model):
     personne = models.ForeignKey(Personne, edit_inline=models.STACKED, num_in_admin=1)
     titre = models.CharField(maxlength=100,core=True)
     societe = models.CharField(maxlength=100,core=True)
-    debut = models.DateField()
-    fin = models.DateField(blank=True,null=True)
+    debut = models.DateField(blank=True, null=True)
+    fin = models.DateField(blank=True, null=True)
     position_actuelle = models.BooleanField()
-    organisation_activite = models.IntegerField(choices=CHOIX_ACTIVITE_ORGA)
-    organisation_type = models.IntegerField(choices=CHOIX_TYPE_ORGA)
-    organisation_taille = models.IntegerField(choices=CHOIX_TAILLE_ORGA)
-    description = models.TextField(blank=True,null=True)
+    organisation_activite = models.IntegerField(choices=CHOIX_ACTIVITE_ORGA, blank=True, null=True)
+    organisation_type = models.IntegerField(choices=CHOIX_TYPE_ORGA, blank=True, null=True)
+    organisation_taille = models.IntegerField(choices=CHOIX_TAILLE_ORGA, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
 
 class Couriel(models.Model):
     TYPE_MAIL = (
@@ -340,7 +340,7 @@ class Couriel(models.Model):
 
     personne = models.ForeignKey(Personne, edit_inline=models.STACKED, num_in_admin=1)
     adresse = models.EmailField(core=True)
-    type_couriel = models.IntegerField(choices=TYPE_MAIL,core=True)
+    type = models.IntegerField(choices=TYPE_MAIL,core=True)
 
 class Messagerie(models.Model):
 
@@ -362,8 +362,35 @@ class IRC(models.Model):
     personne = models.ForeignKey(Personne, edit_inline=models.STACKED, num_in_admin=1)
     reseau = models.CharField(maxlength=50,core=True)
     nick = models.CharField(maxlength=20,core=True)
+    canaux = models.CharField(maxlength=100)
 
 class SiteWeb(models.Model):
     personne = models.ForeignKey(Personne, edit_inline=models.STACKED, num_in_admin=1)
     url = models.CharField(maxlength=100,core=True)
+
+class Club(models.Model):
+
+    ETABLISSEMENT = (
+         (0,'ENSEEIHT'),
+         (1,'INP'),
+    )
+
+    nom = models.CharField(maxlength=20)
+    description = models.CharField(maxlength=100)
+    url = models.URLField(maxlength=50, blank=True, null=True)
+    mail = models.EmailField(maxlength=50, blank=True, null=True)
+    date_creation = models.DateField(blank=True, null=True)
+    date_fin = models.DateField(blank=True, null=True)
+    etablissement = models.IntegerField(choices=ETABLISSEMENT)
+
+    def __str__(self):
+        return self.nom
+
+    class Admin:
+        pass
+
+class MembreClub(models.Model):
+    club = models.ForeignKey(Club, edit_inline=models.STACKED, num_in_admin=1, core=True)
+    personne = models.ForeignKey(Personne, edit_inline=models.STACKED, num_in_admin=1, core=True)
+    position = models.CharField(maxlength=50, blank=True, null=True)
 

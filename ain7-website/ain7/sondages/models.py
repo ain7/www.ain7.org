@@ -24,14 +24,17 @@ from django.db import models
 
 class Sondage(models.Model):
     question = models.CharField(maxlength=200)
-    pub_date = models.DateTimeField('date publication')
-#    en_ligne = models.BooleanField()
+    date_publication = models.DateTimeField('date publication')
+    en_ligne = models.BooleanField()
+
+    def __str__():
+	return question
 
     class Admin:
-	list_display = ('question', 'pub_date')
+	list_display = ('question', 'date_publication')
 
 class Choix(models.Model):
     sondage = models.ForeignKey(Sondage, edit_inline=models.STACKED, num_in_admin=3)
-    choice = models.CharField(maxlength=200, core=True)
-    votes = models.IntegerField()
+    choix = models.CharField(maxlength=200, core=True)
+    votes = models.IntegerField(default=0, editable=False)
 
