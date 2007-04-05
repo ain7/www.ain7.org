@@ -63,7 +63,17 @@ def edit(request, personne_id=None):
     else:
         personne = Personne.objects.get(id=personne_id)
         PersonneForm = forms.models.form_for_instance(personne)
-        form = PersonneForm()
+        PersonneForm.base_fields['user'].label="Utilisateur"
+        PersonneForm.base_fields['prenom'].label="Prenom"
+        PersonneForm.base_fields['nom_jeune_fille'].label="Nom de jeune fille"
+        PersonneForm.base_fields['filiere'].label="Filiere"
+        PersonneForm.base_fields['promo'].label="Promotion"
+        PersonneForm.base_fields['date_naissance'].label="Date de naissance"
+        PersonneForm.base_fields['date_deces'].label="Date de deces"
+        PersonneForm.base_fields['nationalite'].label="Nationalite"
+        PersonneForm.base_fields['nombre_enfants'].label="Nombre d'enfants"
+        PersonneForm.base_fields['blog_agrege_sur_le_planet'].label="Blog agrege sur le Planet"
+        form = PersonneForm(auto_id=False)
 
         if request.method == 'POST':
              form = PersonneForm(request.POST)
