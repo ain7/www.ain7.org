@@ -210,7 +210,7 @@ def filldb():
     alex.nom = "Garnier"
     alex.filiere = 1
     alex.promo = 2006
-    alex.date_naissance = date(1984,03,20)
+    alex.date_naissance = date(1984,03,14)
     alex.nationalite = 62
     alex.surnom = "Alex"
     alex.save()

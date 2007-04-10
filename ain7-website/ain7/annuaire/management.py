@@ -25,7 +25,7 @@ from django.db.models import signals
 from ain7.annuaire import models as annuaire_app
 
 def filldb(app, created_models, verbosity, **kwargs):
-    from ain7.annuaire import filldb
+    from ain7 import filldb
     if annuaire_app.Personne in created_models:
         msg = "\nYou just installed AIn7 portal, which means you don't have " \
                 "any data defined.\nWould you like to fill your db now? (yes/no): "

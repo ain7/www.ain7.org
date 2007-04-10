@@ -26,15 +26,31 @@ USER = 'admin'
 PASSWORD = 'admin'    # replace this with something good
 EMAIL = 'admin@admin.com'
 
+import os
 import pexpect
 import sys
 
+import settings
+
+if os.path.exists(settings.DATABASE_NAME):
+    msg = "La base de donnee existe deja, voulez vous la supprimer ? "
+    confirm = raw_input(msg)
+    while 1:
+        if confirm not in ('oui', 'non'):
+            confirm = raw_input('Merci de saisir "oui" ou "non" : ')
+            continue
+        if confirm == 'oui':
+            os.remove(settings.DATABASE_NAME)
+        break
 
 # spawn the child process
 child = pexpect.spawn('python2.4 manage.py syncdb')
 
 # log on stdout
 child.logfile = sys.stdout
+
+if confirm == 'non':
+    sys.exit(0)
 
 # Wait for the application to give us this text (a regular expression)
 child.expect('Would you like to create one now.*')
