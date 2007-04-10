@@ -69,16 +69,17 @@ def edit(request, personne_id=None):
     else:
         personne = Personne.objects.get(pk=personne_id)
         PersonneForm = forms.models.form_for_instance(personne)
-        PersonneForm.base_fields['user'].label="Utilisateur"
-        PersonneForm.base_fields['prenom'].label="Prenom"
-        PersonneForm.base_fields['nom_jeune_fille'].label="Nom de jeune fille"
-        PersonneForm.base_fields['filiere'].label="Filiere"
-        PersonneForm.base_fields['promo'].label="Promotion"
-        PersonneForm.base_fields['date_naissance'].label="Date de naissance"
-        PersonneForm.base_fields['date_deces'].label="Date de deces"
-        PersonneForm.base_fields['nationalite'].label="Nationalite"
-        PersonneForm.base_fields['nombre_enfants'].label="Nombre d'enfants"
-        PersonneForm.base_fields['blog_agrege_sur_le_planet'].label="Blog agrege sur le Planet"
+        PersonneForm.base_fields['user'].label=u'Utilisateur'
+        PersonneForm.base_fields['prenom'].label=u'Prénom'
+        PersonneForm.base_fields['nom_jeune_fille'].label=u'Nom de jeune fille'
+        PersonneForm.base_fields['filiere'].label=u'Filière'
+        # PersonneForm.base_fields['filiere'].widget=forms.CharField(maxlength=2, choices=Personne.FILIERES)
+        PersonneForm.base_fields['promo'].label=u'Promotion'
+        PersonneForm.base_fields['date_naissance'].label=u'Date de naissance'
+        PersonneForm.base_fields['date_deces'].label=u'Date de décès'
+        PersonneForm.base_fields['nationalite'].label=u'Nationalité'
+        PersonneForm.base_fields['nombre_enfants'].label=u'Nombre d\'enfants'
+        PersonneForm.base_fields['blog_agrege_sur_le_planet'].label=u'Blog agrégé sur le Planet'
         form = PersonneForm(auto_id=False)
 
         if request.method == 'POST':
