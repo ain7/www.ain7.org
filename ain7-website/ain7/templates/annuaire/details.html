@@ -20,7 +20,7 @@
    <li><b>Promo :</b> {{ personne.promo }}</li>
    <li><b>Date de naissance :</b> {{ personne.date_naissance }}</li>
 </ul>
-</td><td><img src="/site_media/{{ personne.avatar }}.jpeg"/></td></tr>
+</td><td><img src="/site_media/{{ personne.avatar }}"/></td></tr>
 {% for addr in personne.adresse_set.all %}
     <tr><td><b>Adresse :</b> {{ addr.rue }} - {{addr.code_postal }} {{ addr.ville }} - {{addr.pays }}</td></tr>
 {% endfor %}

@@ -25,6 +25,7 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django import newforms as forms
+from django.db import models
 
 from ain7.annuaire.models import Personne
 
@@ -47,6 +48,13 @@ def search(request):
     if not request.user.is_authenticated():
          return render_to_response('annuaire/authentification_needed.html', {'user': request.user})
 
+    SearchPersonForm.base_fields['prenom'].label=u'Prénom'
+    SearchPersonForm.base_fields['filiere'].label=u'Filière'
+    SearchPersonForm.base_fields['filiere'].widget=\
+        forms.Select(choices=Personne.FILIERES)
+    SearchPersonForm.base_fields['promo'].label=u'Promotion'
+    SearchPersonForm.base_fields['promo'].widget=\
+        forms.Select(choices=Personne.CHOIX_PROMO)
     if request.method == 'POST':
         form = SearchPersonForm(request.POST)
         if form.is_valid():
@@ -73,12 +81,19 @@ def edit(request, personne_id=None):
         PersonneForm.base_fields['prenom'].label=u'Prénom'
         PersonneForm.base_fields['nom_jeune_fille'].label=u'Nom de jeune fille'
         PersonneForm.base_fields['filiere'].label=u'Filière'
-        # PersonneForm.base_fields['filiere'].widget=forms.CharField(maxlength=2, choices=Personne.FILIERES)
+        PersonneForm.base_fields['filiere'].widget=\
+            forms.Select(choices=Personne.FILIERES)
         PersonneForm.base_fields['promo'].label=u'Promotion'
+        PersonneForm.base_fields['promo'].widget=\
+            forms.Select(choices=Personne.CHOIX_PROMO)
         PersonneForm.base_fields['date_naissance'].label=u'Date de naissance'
         PersonneForm.base_fields['date_deces'].label=u'Date de décès'
         PersonneForm.base_fields['nationalite'].label=u'Nationalité'
+        PersonneForm.base_fields['nationalite'].widget=\
+            forms.Select(choices=Personne.CHOIX_NATIONALITES)        
         PersonneForm.base_fields['nombre_enfants'].label=u'Nombre d\'enfants'
+        PersonneForm.base_fields['avatar'].widget=\
+            forms.FileInput()        
         PersonneForm.base_fields['blog_agrege_sur_le_planet'].label=u'Blog agrégé sur le Planet'
         form = PersonneForm(auto_id=False)
 
