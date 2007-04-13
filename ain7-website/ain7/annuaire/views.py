@@ -49,17 +49,30 @@ def search(request):
          return render_to_response('annuaire/authentification_needed.html', {'user': request.user})
 
     SearchPersonForm.base_fields['prenom'].label=u'Prénom'
+
+    JokerFilieres=(0,'Toutes')
+    ListeFilieres=[JokerFilieres]+list(Personne.FILIERES)
     SearchPersonForm.base_fields['filiere'].label=u'Filière'
     SearchPersonForm.base_fields['filiere'].widget=\
-        forms.Select(choices=Personne.FILIERES)
+        forms.Select(choices=ListeFilieres)
+    
+    JokerPromos=(0,'Toutes')
+    ListePromos=[JokerPromos]+list(Personne.CHOIX_PROMO)
     SearchPersonForm.base_fields['promo'].label=u'Promotion'
     SearchPersonForm.base_fields['promo'].widget=\
-        forms.Select(choices=Personne.CHOIX_PROMO)
+        forms.Select(choices=tuple(ListePromos))
+
     if request.method == 'POST':
         form = SearchPersonForm(request.POST)
         if form.is_valid():
-		    liste_personnes = Personne.objects.filter(nom__startswith=form.clean_data['nom'])
-		    return render_to_response('annuaire/index.html', {'liste_personnes': liste_personnes, 'user': request.user})
+            criteres={'nom__contains':form.clean_data['nom'],\
+                      'prenom__contains':form.clean_data['prenom']}
+            if form.clean_data['promo']!=0:
+                criteres['promo']=form.clean_data['promo']
+            if form.clean_data['filiere']!=0:               
+                criteres['filiere']=form.clean_data['filiere']
+            liste_personnes = Personne.objects.filter(**criteres)
+            return render_to_response('annuaire/index.html', {'liste_personnes': liste_personnes, 'user': request.user})
 
     else:
         f = SearchPersonForm()
