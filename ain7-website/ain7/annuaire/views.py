@@ -108,11 +108,14 @@ def edit(request, personne_id=None):
         PersonneForm.base_fields['avatar'].widget=\
             forms.FileInput()        
         PersonneForm.base_fields['blog_agrege_sur_le_planet'].label=u'Blog agrégé sur le Planet'
+        avatarFile = personne.get_avatar_url()
         form = PersonneForm(auto_id=False)
 
         if request.method == 'POST':
              form = PersonneForm(request.POST)
              if form.is_valid():
+                 if form.clean_data['avatar']=='':
+                     form.clean_data['avatar']=avatarFile
                  form.save()
 
     return render_to_response('annuaire/edit.html', {'form': form, 'user': request.user,  })
