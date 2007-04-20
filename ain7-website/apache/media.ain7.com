@@ -1,3 +1,7 @@
+#
+# media.ain7.com
+#
+
 <VirtualHost *:80>
     ServerAdmin webmaster@ain7.com
     ServerName media.ain7.com
@@ -31,3 +35,5 @@
     ErrorDocument 404 /index.cgi
     ErrorDocument 403 /index.cgi
 </VirtualHost>
+
+# vim:ft=apache:ts=4:sw=4:et

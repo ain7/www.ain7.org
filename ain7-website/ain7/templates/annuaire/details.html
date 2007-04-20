@@ -13,12 +13,12 @@
 <table border="0">
 <tr><td>
 <ul>
-   <li><b>Nom :</b> {{ personne.nom }}</li>
-   <li><b>Prénom :</b> {{ personne.prenom }}</li>
-   <li><b>Surnom :</b> {{ personne.surnom }}</li>
-   <li><b>Filière :</b> {{ personne.get_filiere_display }}</li>
-   <li><b>Promo :</b> {{ personne.promo }}</li>
-   <li><b>Date de naissance :</b> {{ personne.date_naissance }}</li>
+   <li><b>Nom&nbsp;:</b> {{ personne.nom }}</li>
+   <li><b>Prénom&nbsp;:</b> {{ personne.prenom }}</li>
+   <li><b>Surnom&nbsp;:</b> {{ personne.surnom }}</li>
+   <li><b>Filière&nbsp;:</b> {{ personne.get_filiere_display }}</li>
+   <li><b>Promo&nbsp;:</b> {{ personne.promo }}</li>
+   <li><b>Date de naissance&nbsp;:</b> {{ personne.date_naissance }}</li>
 </ul>
 </td><td><img src="/site_media/{{ personne.avatar }}"/></td></tr>
 {% for addr in personne.adresse_set.all %}
@@ -58,7 +58,7 @@
 {% if personne.position_set.all %}
 <table>
 {% for position in personne.position_set.all %}
-<tr><td><b>{{ position.debut }} - {{ position.fin }} :</b></td><td> {{ position.titre }} au sein de {{ position.societe }}</td></tr>
+<tr><td><b>{{ position.debut }} - {{ position.fin }}&nbsp;:</b></td><td> {{ position.titre }} au sein de {{ position.societe }}</td></tr>
 <tr><td></td><td>{{ position.description }}</td></tr>
 {% endfor %}
 </table>

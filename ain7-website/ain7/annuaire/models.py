@@ -321,6 +321,11 @@ class Position(models.Model):
        (9,'plus de 10000 employés'),
        )
 
+    TYPE = (
+       (0,'Professionelle'),
+       (1,'Associative'),
+    )
+
     personne = models.ForeignKey(Personne, edit_inline=models.STACKED, num_in_admin=1)
     titre = models.CharField(maxlength=100,core=True)
     societe = models.CharField(maxlength=100,core=True)
@@ -331,6 +336,7 @@ class Position(models.Model):
     organisation_type = models.IntegerField(choices=CHOIX_TYPE_ORGA, blank=True, null=True)
     organisation_taille = models.IntegerField(choices=CHOIX_TAILLE_ORGA, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    type = models.IntegerField()
 
 class Couriel(models.Model):
     TYPE_MAIL = (

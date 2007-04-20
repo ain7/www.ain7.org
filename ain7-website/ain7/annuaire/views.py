@@ -25,7 +25,6 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django import newforms as forms
-from django.db import models
 
 from ain7.annuaire.models import Personne
 

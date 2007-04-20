@@ -32,10 +32,13 @@ def login(request):
     password = request.POST['password']
 
     user = auth.authenticate(username=username, password=password)
-    auth.login(request, user)
-    request.session['user_id'] = user.id
-    user.last_login = datetime.datetime.now()
-    user.save()
+    if user is not None:
+        auth.login(request, user)
+        request.session['user_id'] = user.id
+        user.last_login = datetime.datetime.now()
+        user.save()
+    else:
+        error_login = True
 
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 

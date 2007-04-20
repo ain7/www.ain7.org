@@ -3,6 +3,8 @@ The AIn7 portal code
 
 Overview of contents and licensing:
 
+ain7/
+ - Application maison Django du portail AIn7, GNU GPL v2
 apache/
  - Configuration apache utilisée pour le domaine ain7.com
 forum/
@@ -11,6 +13,8 @@ media/
  - Contenu statique (css, images)
 planet/
  - Configuration du planet
-ain7/
- - Application maison Django du portail AIn7, GNU GPL v2
+scripts/
+ - Scripts utilises par les differents applications
+wiki/
+ - Theme Wiki moinmoin pour l'AIn7
  

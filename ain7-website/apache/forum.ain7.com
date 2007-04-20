@@ -1,3 +1,7 @@
+#
+# forum.ain7.com
+#
+
 <VirtualHost *:80>
 	ServerAdmin webmaster@ain7.com
 	ServerName forum.ain7.com
@@ -148,3 +152,5 @@
     ServerSignature Off
 
 </VirtualHost>
+
+# vim:ft=apache:ts=4:sw=4:et

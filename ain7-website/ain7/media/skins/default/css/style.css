@@ -73,33 +73,6 @@ form {
     margin: 0;
 }
 
-/*
-input.search { 
-    width: 292px; 
-    border: 0;
-    background: #FFF url(input.gif) no-repeat;
-    padding: 4px; 
-    color: #E0691A;
-    font-weight: bold;
-}
-
-input.submit {
-    background: #E0691A url(submit.gif) no-repeat;
-    border: 0;
-    padding: 4px 0;
-    width: 65px;
-    margin: 0 15px 1px 0;
-    color: #FFF;
-    font: bold 1em Arial, Sans-Serif;
-}
-
-input.login { 
-    width: 150px;
-    border: none; 
-    padding: 4px; 
-}
-*/
-
 .button {
     padding: 2px;
     background-color: #FF9148;
