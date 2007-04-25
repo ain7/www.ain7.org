@@ -336,7 +336,7 @@ class Position(models.Model):
     organisation_type = models.IntegerField(choices=CHOIX_TYPE_ORGA, blank=True, null=True)
     organisation_taille = models.IntegerField(choices=CHOIX_TAILLE_ORGA, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    type = models.IntegerField()
+    type = models.IntegerField(choices=TYPE)
 
 class Couriel(models.Model):
     TYPE_MAIL = (

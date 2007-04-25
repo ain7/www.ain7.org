@@ -101,6 +101,7 @@ def filldb():
     lionel_position1.personne = lionel
     lionel_position1.titre = "Titre 1 !"
     lionel_position1.societe = "Societe"
+    lionel_position1.type = 0
     lionel_position1.debut = date(2003,06,01)
     lionel_position1.fin = date(2004,06,01)
     lionel_position1.organisation_activite = 6
@@ -113,6 +114,7 @@ def filldb():
     lionel_position2.personne = lionel
     lionel_position2.titre = "Titre 2 !"
     lionel_position2.societe = "Societe 2"
+    lionel_position2.type = 0
     lionel_position2.debut = date(2004,06,01)
     lionel_position2.organisation_activite = 6
     lionel_position2.organisation_type = 2
@@ -182,6 +184,7 @@ def filldb():
     olivier_position1.personne = olivier
     olivier_position1.titre = "Titre 1 !"
     olivier_position1.societe = "Societe"
+    olivier_position1.type = 0
     olivier_position1.debut = date(2003,06,01)
     olivier_position1.fin = date(2005,06,01)
     olivier_position1.organisation_activite = 6
@@ -194,6 +197,7 @@ def filldb():
     olivier_position2.personne = olivier
     olivier_position2.titre = "Titre 2 !"
     olivier_position2.societe = "Societe 2"
+    olivier_position2.type = 0
     olivier_position2.debut = date(2005,06,01)
     olivier_position2.organisation_activite = 6
     olivier_position2.organisation_type = 2
@@ -228,6 +232,7 @@ def filldb():
     alex_position1.personne = alex
     alex_position1.titre = "Titre !"
     alex_position1.societe = "Societe"
+    alex_position1.type = 0
     alex_position1.debut = date(2005,06,01)
     alex_position1.organisation_activite = 6
     alex_position1.organisation_type = 2
