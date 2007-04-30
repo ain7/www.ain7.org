@@ -25,11 +25,11 @@ Connecté en tant que <a href="/annuaire/{{ user.id }}/">{{ user.person.first_na
 <form method="post" action="/login/">
 <table border="0">
 <tr>
-    <td>Identifiant&nbsp;:</td><td><input type="text" id="id_username" name="username" maxlength="50" /></td>
-    <td rowspan="2"><input class="button" type="submit" value="Ok" /></td>
+    <td>Identifiant&nbsp;:</td><td><input type="text" id="id_username" name="username" maxlength="50" tabindex="1" /></td>
+    <td rowspan="2"><input class="button" type="submit" value="Ok" tabindex="3" /></td>
 </tr>
 <tr>
-    <td>Mot de passe&nbsp;:</td><td><input type="password" id="id_password" name="password" maxlength="50" /></td>
+    <td>Mot de passe&nbsp;:</td><td><input type="password" id="id_password" name="password" maxlength="50" tabindex="2" /></td>
 </tr>
 </table>
 </form>
