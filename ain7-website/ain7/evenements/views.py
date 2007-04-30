@@ -24,9 +24,9 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django import newforms as forms
 from django.newforms import widgets
 
-from ain7.evenements.models import Evenement
+from ain7.evenements.models import Event
 
 def index(request):
-    liste_evenements = Evenement.objects.all()[:5]
+    liste_evenements = Event.objects.all()[:5]
     return render_to_response('evenements/index.html', {'liste_evenements': liste_evenements, 'user': request.user})
 

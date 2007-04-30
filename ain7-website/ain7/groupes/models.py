@@ -23,39 +23,45 @@
 import datetime
 
 from django.db import models
-from ain7.annuaire.models import Personne
+from django.utils.translation import gettext_lazy as _
 
-class Groupe(models.Model):
+from ain7.annuaire.models import Person
 
-    nom = models.CharField(maxlength=100, core=True)
-    contact = models.CharField(maxlength=100, blank=True, null=True)
-    description = models.CharField(maxlength=200, blank=True, null=True)
-    page_web = models.TextField()
-    responsable = models.ForeignKey(Personne)
-    parent = models.ForeignKey('Groupe', blank=True, null=True)
+class Group(models.Model):
 
-    date_creation =  models.DateTimeField(editable=False)
-    date_modification = models.DateTimeField(editable=False)
-    modifie_par = models.IntegerField(editable=False)
+    name = models.CharField(verbose_name=_('name'), maxlength=100)
+    contact = models.CharField(verbose_name=_('contact'), maxlength=100, blank=True, null=True)
+    description = models.CharField(verbose_name=_('description'), maxlength=200, blank=True, null=True)
+    web_page = models.TextField(verbose_name=_('web page'), blank=True, null=True)
+    parent = models.ForeignKey('Group', verbose_name=_('parent'), related_name='children', blank=True, null=True)
+
+    # Internal
+    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
+    modification_date = models.DateTimeField(editable=False)
+    modifier = models.IntegerField(editable=False)
 
     def __str__(self):
-        return self.nom
+        return self.name
 
     def save(self):
-        if not self.id:
-            self.date_creation = datetime.date.today()
-        self.date_modification = datetime.datetime.today()
-	self.modifie_par = 1
-        return super(Groupe, self).save()
+        self.modification_date = datetime.datetime.today()
+        self.modifier = 1
+        return super(Group, self).save()
 
     class Admin:
-         list_display = ('nom','description')
-	 list_filter = ['nom']
-	 search_fields = ['nom']
+        list_display = ('name', 'description')
+        list_filter = ['name']
+        search_fields = ['name']
 
-class Membre(models.Model):
+    class Meta:
+        verbose_name=_('group')
 
-    groupe = models.ForeignKey(Groupe, edit_inline=models.STACKED, num_in_admin=1)
-    membre = models.ForeignKey(Personne, core=True)
-    administrateur = models.BooleanField()
+class Membership(models.Model):
 
+    is_administrator = models.BooleanField(verbose_name=_('administrator'), default=False)
+
+    group = models.ForeignKey(Group, verbose_name=_('group'), related_name='memberships', edit_inline=models.TABULAR, num_in_admin=1)
+    member = models.ForeignKey(Person, verbose_name=_('member'), related_name='group_memberships', core=True)
+
+    class Meta:
+        verbose_name = _('membership')

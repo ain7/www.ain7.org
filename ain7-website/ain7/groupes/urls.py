@@ -26,7 +26,7 @@ urlpatterns = patterns('',
 
     # Groupes
     (r'^$', 'ain7.groupes.views.index'),
-    (r'^(?P<groupe_id>\d+)/$', 'ain7.groupes.views.detail'),
-    (r'^edit/(?P<groupe_id>\d+)/$', 'ain7.groupes.views.edit'),
+    (r'^(?P<group_id>\d+)/$', 'ain7.groupes.views.detail'),
+    (r'^edit/(?P<group_id>\d+)/$', 'ain7.groupes.views.edit'),
 
 )

@@ -9,29 +9,29 @@
 <div class="right">
 <h3>Informations générales</h3>
 <ul>
-   <li><b>Nom :</b> {{ groupe.nom }}</li>
-   <li><b>Contact :</b> {{ groupe.contact }}</li>
-   <li><b>Responsable :</b> {{ groupe.responsable.prenom }} {{ groupe.responsable.nom }}</li>
+   <li><b>Nom :</b> {{ group.name }}</li>
+   <li><b>Contact :</b> {{ group.contact|default_if_none:"" }}</li>
+   <li><b>Responsable :</b> {% for membership in group.memberships.all %}{% if membership.is_administrator %} {{ membership.member }}{% endif %}{% endfor %}</li>
 </ul>
 
 <h3>Actions</h3>
 <ul>
-<li><a href="/groupes/edit/{{ groupe.id }}">Editer ces informations</a></li>
-<li><a href="/groupes/join/{{ groupe.id }}">Rejoindre le groupe</a></li>
+<li><a href="/groupes/edit/{{ group.id }}">Editer ces informations</a></li>
+<li><a href="/groupes/join/{{ group.id }}">Rejoindre le groupe</a></li>
 </ul>
 </div>
 
-<h3>{{ groupe.nom }}</h3>
-{{ groupe.description }}<br/>
+<h3>{{ group.name }}</h3>
+{{ group.description|default_if_none:"" }}<br/>
 
 <h4>Liste des membres</h4>
 <ul>
-{% for membre in groupe.membre_set.all %}
-    <li><a href="/annuaire/{{ membre.membre.user.id }}/">{{ membre.membre.prenom }} {{ membre.membre.nom }}</a></li>
+{% for membership in group.memberships.all %}
+    <li><a href="/annuaire/{{ membership.member.user.id }}/">{{ membership.member }}</a></li>
 {% endfor %}
 </ul>
 <h4>Présentation du groupe</h4>
-{{ groupe.page_web }}
+{{ group.web_page|default_if_none:"" }}
 
 </div>
 

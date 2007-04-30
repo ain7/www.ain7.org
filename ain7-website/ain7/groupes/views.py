@@ -26,31 +26,31 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django import newforms as forms
 from django.newforms import widgets
 
-from ain7.groupes.models import Groupe
+from ain7.groupes.models import Group
 
 def index(request):
-    liste_groupes = Groupe.objects.all().order_by('nom')
-    return render_to_response('groupes/index.html', {'liste_groupes': liste_groupes, 'user': request.user})
+    groups = Group.objects.all().order_by('name')
+    return render_to_response('groupes/index.html', {'groups': groups, 'user': request.user})
 
-def detail(request, groupe_id):
-    g = get_object_or_404(Groupe, pk=groupe_id)
-    return render_to_response('groupes/details.html', {'groupe': g, 'user': request.user})
+def detail(request, group_id):
+    g = get_object_or_404(Group, pk=group_id)
+    return render_to_response('groupes/details.html', {'group': g, 'user': request.user})
 
-def edit(request, groupe_id=None):
+def edit(request, group_id=None):
 
-    if groupe_id is None:
-        GroupeForm = forms.models.form_for_model(Groupe)
-        GroupeForm.base_fields['page_web'].widget = forms.widgets.Textarea(attrs={'rows':10, 'cols':90})
-        form = GroupeForm()
+    if group_id is None:
+        GroupForm = forms.models.form_for_model(Group)
+        GroupForm.base_fields['web_page'].widget = forms.widgets.Textarea(attrs={'rows':10, 'cols':90})
+        form = GroupForm()
 
     else:
-        groupe = Groupe.objects.get(id=groupe_id)
-        GroupeForm = forms.models.form_for_instance(groupe)
-        GroupeForm.base_fields['page_web'].widget = forms.widgets.Textarea(attrs={'rows':10, 'cols':90})
-        form = GroupeForm()
+        group = Group.objects.get(id=group_id)
+        GroupForm = forms.models.form_for_instance(group)
+        GroupForm.base_fields['web_page'].widget = forms.widgets.Textarea(attrs={'rows':10, 'cols':90})
+        form = GroupForm()
 
         if request.method == 'POST':
-             form = GroupeForm(request.POST)
+             form = GroupForm(request.POST)
              if form.is_valid():
                  form.save()
 

@@ -5,10 +5,10 @@
 <div id="content-main">
 
 <h2>Liste des voyages</h2>
-{% if liste_voyages %}
+{% if travels %}
     <ul>
-    {% for voyage in liste_voyages %}
-           <li><b>{{ voyage.libelle }} - {{ voyage.date }}</b> : {{ voyage.get_type_voyage_display }} de {{ voyage.duree }}. Lieux visites : {{ voyage.lieux_visites }}</li>
+    {% for travel in travels %}
+           <li><b>{{ travel.libelle }} - {{ travel.date }}</b> : {{ travel.get_travel_type_display }} de {{ travel.duree }}. Lieux visites : {{ travel.lieux_visites }}</li>
     {% endfor %}
      </ul>
 {% else %}

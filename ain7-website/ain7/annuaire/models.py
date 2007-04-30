@@ -24,379 +24,474 @@ import datetime
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
 
-class Personne(models.Model):
+class Country(models.Model):
 
-    CHOIX_NATIONALITES = (
-        (1,'Afghane'),
-        (2,'Albanaise'),
-        (3,'Algérienne'),
-        (4,'Allemande'),
-        (5,'Américaine'),
-        (6,'Andorrane'),
-        (7,'Angolaise'),
-        (8,'Antiguaise et Barbudienne'),
-        (9,'Argentine'),
-        (10,'Arménienne'),
-        (11,'Australienne'),
-        (12,'Autrichienne'),
-        (13,'Azerbaïdjanaise'),
-        (14,'Bahamienne'),
-        (15,'Bahreïnienne'),
-        (16,'Bangladaise'),
-        (17,'Barbadienne'),
-        (18,'Belge'),
-        (19,'Belizienne'),
-        (20,'Beninoise'),
-        (21,'Bhoutanaise'),
-        (22,'Biélorusse'),
-        (23,'Birmanne'),
-        (24,'Bolivienne'),
-        (25,'Bosniaque'),
-        (26,'Botswanaise'),
-        (27,'Brésilienne'),
-        (28,'Britannique'),
-        (29,'Bulgare'),
-        (30,'Burkinaise'),
-        (31,'Burundaise'),
-        (32,'Cambodgienne'),
-        (33,'Camerounaise'),
-        (34,'Canadienne'),
-        (35,'Cap-Verdienne'),
-        (36,'Centrafricaine'),
-        (37,'Chilienne'),
-        (38,'Chinoise'),
-        (39,'Chypriote'),
-        (40,'Colombienne'),
-        (41,'Comorienne'),
-        (42,'Congolaise'),
-        (43,'Nord-Coréenne'),
-        (44,'Sud-Coréenne'),
-        (45,'Costaricaine'),
-        (46,'Ivorienne'),
-        (47,'Croate'),
-        (48,'Cubaine'),
-        (49,'Danoise'),
-        (50,'Djiboutienne'),
-        (51,'Dominicaine'),
-        (52,'Dominiquaise'),
-        (53,'Egyptienne'),
-        (54,'Emirienne'),
-        (55,'Equatorienne'),
-        (56,'Erythréenne'),
-        (57,'Espagnole'),
-        (58,'Estonienne'),
-        (59,'Éthiopiene'),
-        (60,'Fidjienne'),
-        (61,'Finlandaise'),
-        (62,'Française'),
-        (63,'Gabonnaise'),
-        (64,'Gambienne'),
-        (65,'Georgienne'),
-        (66,'Ghanéenne'),
-        (67,'Grecque'),
-        (68,'Grenadienne'),
-        (69,'Guatémaltèque'),
-        (70,'Guinéenne'),
-        (71,'Bissau-Guinéenne'),
-        (72,'Equato-Guinéenne'),
-        (73,'Guyanienne'),
-        (74,'Haïtienne'),
-        (75,'Hondurienne'),
-        (76,'Hongroise'),
-        (77,'Indienne'),
-        (78,'Indonésienne'),
-        (79,'Iranienne'),
-        (80,'Irakienne'),
-        (81,'Irlandaise'),
-        (82,'Islandaise'),
-        (83,'Israélienne'),
-        (84,'Italienne'),
-        (85,'Jamaïcaine'),
-        (86,'Japonaise'),
-        (87,'Jordanienne'),
-        (88,'Kazakhe'),
-        (89,'Kenyane'),
-        (90,'Kirghize'),
-        (91,'Kiribatienne'),
-        (92,'Kittitienne'),
-        (93,'et'),
-        (94,'Névicienne'),
-        (95,'Koweïtienne'),
-        (96,'Laotienne'),
-        (97,'Lesothane'),
-        (98,'Lettonne'),
-        (99,'Libanaise'),
-        (100,'Libérienne'),
-        (101,'Libyenne'),
-        (102,'Liechtensteinoise'),
-        (103,'Lituanienne'),
-        (104,'Luxembourgeoise'),
-        (105,'Macédonienne'),
-        (106,'Malaisienne'),
-        (107,'Malawite'),
-        (108,'Maldivienne'),
-        (109,'Malgache'),
-        (110,'Malienne'),
-        (111,'Maltaise'),
-        (112,'Marocainne'),
-        (113,'Marshallaise'),
-        (114,'Mauricienne'),
-        (115,'Mauritanienne'),
-        (116,'Mexicainne'),
-        (117,'Micronésienne'),
-        (118,'Moldave'),
-        (119,'Monégasque'),
-        (120,'Mongole'),
-        (121,'Mozambicaine'),
-        (122,'Namibienne'),
-        (123,'Nauruane'),
-        (124,'Néerlandaise'),
-        (125,'Neo-Zélandaise'),
-        (126,'Népalaise'),
-        (127,'Nicaraguayenne'),
-        (128,'Nigérienne'),
-        (129,'Nigériane'),
-        (130,'Norvégienne'),
-        (131,'Omanaise'),
-        (132,'Ougandaise'),
-        (133,'Ouzbeke'),
-        (134,'Pakistanaise'),
-        (135,'Panaméenne'),
-        (136,'Papouane-Neo-Guinéenne'),
-        (137,'Paraguayenne'),
-        (138,'Péruvienne'),
-        (139,'Philippinne'),
-        (140,'Polonaise'),
-        (141,'Portugaise'),
-        (142,'Qatarienne'),
-        (143,'Tchèque'),
-        (144,'Roumaine'),
-        (145,'Russe'),
-        (146,'Rwandaise'),
-        (147,'Saint-Lucienne'),
-        (148,'Saint-Marinaise'),
-        (149,'Saint-Vincentaise'),
-        (150,'et'),
-        (151,'Grenadine'),
-        (152,'Salomonaise'),
-        (153,'Salvadorienne'),
-        (154,'Samoane'),
-        (155,'Santoméenne'),
-        (156,'Saoudienne'),
-        (157,'Sénégalaise'),
-        (158,'Serbe'),
-        (159,'Seychelloise'),
-        (160,'Sierra-Léonaise'),
-        (161,'Singapourienne'),
-        (162,'Slovaque'),
-        (163,'Slovène'),
-        (164,'Somalienne'),
-        (165,'Soudanaise'),
-        (166,'Sri'),
-        (167,'Lankaise'),
-        (168,'Sud-Africaine'),
-        (169,'Suèdoise'),
-        (170,'Suisse'),
-        (171,'Surinamienne'),
-        (172,'Swazie'),
-        (173,'Syrienne'),
-        (174,'Tadjike'),
-        (175,'Taïwanaise'),
-        (176,'Tanzanienne'),
-        (177,'Tchadienne'),
-        (178,'Thaïlandaise'),
-        (179,'Togolaise'),
-        (180,'Tonguienne'),
-        (181,'Trinidadienne'),
-        (182,'Tunisienne'),
-        (183,'Turkmène'),
-        (184,'Turque'),
-        (185,'Tuvaluane'),
-        (186,'Ukranienne'),
-        (187,'Uruguayenne'),
-        (188,'Vanatuane'),
-        (189,'Vaticane'),
-        (190,'Vénézuélienne'),
-        (191,'Viêtnamienne'),
-        (192,'Yémenite'),
-        (193,'Zambienne'),
-        (194,'Zimbabwéenne'),
-    )
-
-    FILIERES = (
-        (1,'Informatique et Mathématiques Appliquées'),
-        (2,'Hydraulique et Mécanique des Fluides'),
-        (3,'Électronique'),
-        (4,'Génie Électrique et Automatique'),
-        (5,'Télécommunications et Réseaux'),
-        )
-
-    CHOIX_PROMO = (
-       (2003,'2003'),
-       (2004,'2004'),
-       (2005,'2005'),
-       (2006,'2006'),
-       (2007,'2007'),
-       (2008,'2008'),
-      )
-
-    user = models.OneToOneField(User)
-    nom = models.CharField(maxlength=50)
-    prenom = models.CharField(maxlength=50)
-    nom_jeune_fille = models.CharField(maxlength=100,blank=True,null=True)
-    filiere = models.IntegerField(choices=FILIERES)
-    promo = models.IntegerField(choices=CHOIX_PROMO)
-    date_naissance = models.DateField(blank=True,null=True)
-    date_deces = models.DateField(blank=True,null=True)
-    nationalite = models.IntegerField(choices=CHOIX_NATIONALITES)
-    nombre_enfants = models.IntegerField(blank=True,null=True)
-    avatar = models.ImageField(upload_to='data',blank=True,null=True)
-    surnom = models.CharField(maxlength=50,blank=True,null=True)
-    blog = models.URLField(maxlength=80,verify_exists=True,blank=True,core=True)
-    blog_agrege_sur_le_planet = models.BooleanField(core=True,default=False)
-
-    date_creation =  models.DateTimeField(editable=False)
-    date_modification = models.DateTimeField(editable=False)
-    modifie_par = models.IntegerField(editable=False)
+    name = models.CharField(verbose_name=_('name'), maxlength=50)
+    nationality = models.CharField(verbose_name=_('nationality'), maxlength=50)
 
     def __str__(self):
-        return self.prenom+" "+self.nom
-
-    def save(self):
-        if not self.date_creation:
-             self.date_creation = datetime.date.today()
-        self.date_modification = datetime.datetime.today()
-	self.modifie_par = 1
-        return super(Personne, self).save()
-
-    class Admin:
-         list_display = ('nom', 'prenom','promo','filiere')
-	 list_filter = ['promo']
-	 search_fields = ['nom','prenom','promo']
-
-class Adresse(models.Model):
-    TYPE_ADRESSE = (
-        (1,'Personnelle'),
-        (2,'Professionnelle'),
-        (3,'Parentale'),
-        )
-    personne = models.ForeignKey(Personne, edit_inline=models.STACKED, num_in_admin=2)
-    rue = models.CharField(maxlength=100,core=True)
-    rue_2e_ligne = models.CharField(maxlength=100,null=True,blank=True)
-    code_postal = models.CharField(maxlength=20)
-    ville = models.CharField(maxlength=50)
-    pays = models.CharField(maxlength=50)
-    type = models.IntegerField(choices=TYPE_ADRESSE)
-
-class Position(models.Model):
-
-    CHOIX_ACTIVITE_ORGA = (
-        (1,'Aviation'),
-        (2,'Medical'),
-	(3,'Automobile'),
-	(4,'Banque'),
-	(5,'Biotechnologies'),
-	(6,'Informatique'),
-	)
-
-    CHOIX_TYPE_ORGA = (
-       (1,'Organisme publique'),
-       (2,'Organisme privé'),
-       (3,'Organisme à but non lucratif'),
-       (4,'Agence gouvernementale'),
-       (5,'Indépendant'),
-       (6,'Éducation'),
-       )
-
-    CHOIX_TAILLE_ORGA = (
-       (1,'Unipersonnelle'),
-       (2,'1-10 employés'),
-       (3,'11-50 employés'),
-       (4,'51-200 employés'),
-       (5,'201-500 employés'),
-       (6,'501-1000 employés'),
-       (7,'1001-5000 employés'),
-       (8,'5001-10000 employés'),
-       (9,'plus de 10000 employés'),
-       )
-
-    TYPE = (
-       (0,'Professionelle'),
-       (1,'Associative'),
-    )
-
-    personne = models.ForeignKey(Personne, edit_inline=models.STACKED, num_in_admin=1)
-    titre = models.CharField(maxlength=100,core=True)
-    societe = models.CharField(maxlength=100,core=True)
-    debut = models.DateField(blank=True, null=True)
-    fin = models.DateField(blank=True, null=True)
-    position_actuelle = models.BooleanField()
-    organisation_activite = models.IntegerField(choices=CHOIX_ACTIVITE_ORGA, blank=True, null=True)
-    organisation_type = models.IntegerField(choices=CHOIX_TYPE_ORGA, blank=True, null=True)
-    organisation_taille = models.IntegerField(choices=CHOIX_TAILLE_ORGA, blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    type = models.IntegerField(choices=TYPE)
-
-class Couriel(models.Model):
-    TYPE_MAIL = (
-        (1,'Personnelle'),
-        (2,'Professionnelle'),
-        )
-
-    personne = models.ForeignKey(Personne, edit_inline=models.STACKED, num_in_admin=1)
-    adresse = models.EmailField(core=True)
-    type = models.IntegerField(choices=TYPE_MAIL,core=True)
-
-class Messagerie(models.Model):
-
-    TYPE_IM = (
-	(1,'ICQ'),
-	(2,'MSN'),
-	(3,'AIM'),
-	(4,'Yahoo'),
-	(5,'Jabber'),
-	(6,'Gadu-Gadu'),
-	(7,'Skype'),
-	)
-
-    personne = models.ForeignKey(Personne, edit_inline=models.STACKED, num_in_admin=1)
-    type_im = models.IntegerField(choices=TYPE_IM,core=True)
-    valeur = models.CharField(maxlength=40,core=True)
-
-class IRC(models.Model):
-    personne = models.ForeignKey(Personne, edit_inline=models.STACKED, num_in_admin=1)
-    reseau = models.CharField(maxlength=50,core=True)
-    nick = models.CharField(maxlength=20,core=True)
-    canaux = models.CharField(maxlength=100)
-
-class SiteWeb(models.Model):
-    personne = models.ForeignKey(Personne, edit_inline=models.STACKED, num_in_admin=1)
-    url = models.CharField(maxlength=100,core=True)
-
-class Club(models.Model):
-
-    ETABLISSEMENT = (
-         (0,'ENSEEIHT'),
-         (1,'INP'),
-    )
-
-    nom = models.CharField(maxlength=20)
-    description = models.CharField(maxlength=100)
-    url = models.URLField(maxlength=50, blank=True, null=True)
-    mail = models.EmailField(maxlength=50, blank=True, null=True)
-    date_creation = models.DateField(blank=True, null=True)
-    date_fin = models.DateField(blank=True, null=True)
-    etablissement = models.IntegerField(choices=ETABLISSEMENT)
-
-    def __str__(self):
-        return self.nom
+        return self.nationality
 
     class Admin:
         pass
 
-class MembreClub(models.Model):
-    club = models.ForeignKey(Club, edit_inline=models.STACKED, num_in_admin=1, core=True)
-    personne = models.ForeignKey(Personne, edit_inline=models.STACKED, num_in_admin=1, core=True)
-    position = models.CharField(maxlength=50, blank=True, null=True)
+    class Meta:
+        verbose_name = _('country')
+        verbose_name_plural = _('country')
 
+class PersonType(models.Model):
+
+    type = models.CharField(verbose_name=_('type'), maxlength=50)
+
+    def __str__(self):
+        return self.type
+
+    class Admin:
+        pass
+
+    class Meta:
+        verbose_name = _('person type')
+        verbose_name_plural = _('person types')
+
+class MemberType(models.Model):
+
+    type = models.CharField(verbose_name=_('type'), maxlength=50)
+
+    def __str__(self):
+        return self.type
+
+    class Admin:
+        pass
+
+    class Meta:
+        verbose_name = _('member type')
+
+class Activity(models.Model):
+
+    activity = models.CharField(verbose_name=_('activity'), maxlength=50)
+
+    def __str__(self):
+        return self.activity
+
+    class Admin:
+        pass
+
+    class Meta:
+        verbose_name = _('activity')
+
+class Diploma(models.Model):
+
+    diploma = models.CharField(verbose_name=_('diploma'), maxlength=100, core=True)
+    initials = models.CharField(verbose_name=_('initials'), maxlength=10, core=True, blank=True, null=True)
+
+    def __str__(self):
+        return self.diploma
+
+    class Admin:
+        pass
+
+    class Meta:
+        verbose_name = _('diploma')
+
+class Decoration(models.Model):
+
+    decoration = models.CharField(verbose_name=_('decoration'), maxlength=200, core=True)
+
+    def __str__(self):
+        return self.decoration
+
+    class Admin:
+        pass
+
+    class Meta:
+        verbose_name = _('decoration')
+
+class CeremonialDuty(models.Model):
+
+    ceremonial_duty = models.CharField(verbose_name=_('ceremonial duty'), maxlength=200, core=True)
+
+    def __str__(self):
+        return self.ceremonial_duty
+
+    class Admin:
+        pass
+
+    class Meta:
+        verbose_name = _('ceremonial duty')
+        verbose_name_plural = _('ceremonial duties')
+
+class School(models.Model):
+
+    name = models.CharField(verbose_name=_('name'), maxlength=500)
+    initials = models.CharField(verbose_name=_('initials'), maxlength=10, blank=True, null=True)
+
+    number = models.CharField(verbose_name=_('number'), maxlength=50, blank=True, null=True)
+    street = models.CharField(verbose_name=_('street'), maxlength=100, blank=True, null=True)
+    zip_code = models.CharField(verbose_name=_('zip code'), maxlength=20, blank=True, null=True)
+    city = models.CharField(verbose_name=_('city'), maxlength=50, blank=True, null=True)
+    country = models.ForeignKey(Country, verbose_name=_('country'), blank=True, null=True)
+
+    phone_number = models.CharField(verbose_name=_('phone number'), maxlength=20, blank=True, null=True)
+    web_site = models.CharField(verbose_name=_('web site'), maxlength=100, blank=True, null=True)
+    email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
+
+    def __str__(self):
+        if self.initials:
+            return self.initials
+        else:
+            return self.name
+
+    class Admin:
+        pass
+
+    class Meta:
+        verbose_name = _('school')
+
+class Track(models.Model):
+
+    name = models.CharField(verbose_name=_('name'), maxlength=100)
+    initials = models.CharField(verbose_name=_('initials'), maxlength=10, blank=True, null=True)
+    email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
+
+    school = models.ForeignKey(School, verbose_name=_('school'), related_name='tracks')
+
+    def __str__(self):
+        if self.initials:
+            return self.initials
+        else:
+            return self.name
+
+    class Admin:
+        pass
+
+    class Meta:
+        verbose_name = _('track')
+
+class Promo(models.Model):
+
+    year = models.IntegerField(verbose_name=_('year'))
+
+    track = models.ForeignKey(Track, verbose_name=_('track'), related_name='promos')
+
+    def __str__(self):
+        return str(self.track) + " " + str(self.year)
+
+    class Admin:
+        pass
+
+    class Meta:
+        verbose_name = _('promo')
+        ordering = ['year']
+
+class Person(models.Model):
+
+    SEX = (
+           ('M', _('Male')),
+           ('F', _('Female')),
+           )
+
+    # User inheritance
+    user = models.OneToOneField(User, verbose_name=_('user'))
+
+    # Administration
+    person_type = models.ForeignKey(PersonType, verbose_name=_('type'))
+    member_type = models.ForeignKey(MemberType, verbose_name=_('member'))
+    activity = models.ForeignKey(Activity, verbose_name=_('activity'))
+
+    # Civility
+    sex = models.CharField(verbose_name=_('sex'), maxlength=1, choices=SEX, radio_admin=True)
+    last_name = models.CharField(verbose_name=_('last name'), maxlength=50)
+    first_name = models.CharField(verbose_name=_('first name'), maxlength=50)
+    maiden_name = models.CharField(verbose_name=_('maiden name'), maxlength=100, blank=True, null=True)
+    birth_date = models.DateField(verbose_name=_('birth date'), blank=True, null=True)
+    death_date = models.DateField(verbose_name=_('death date'), blank=True, null=True)
+    country = models.ForeignKey(Country, verbose_name=_('nationality'))
+
+    # Family situation
+    is_married = models.BooleanField(verbose_name=_('married'), core=True, default=False)
+    children_count = models.IntegerField(verbose_name=_('children number'), blank=True, null=True)
+
+    # Other
+    nick_name = models.CharField(verbose_name=_('nick name'), maxlength=50, blank=True, null=True)
+    avatar = models.ImageField(verbose_name=_('avatar'), upload_to='data', blank=True, null=True)
+    blog = models.URLField(verbose_name=_('blog'), maxlength=80, verify_exists=True, blank=True, core=True)
+    blog_agrege_sur_le_planet = models.BooleanField(core=True, default=False)
+
+    # School situation
+    promos = models.ManyToManyField(Promo, verbose_name=_('promos'), related_name='students', blank=True, null=True, filter_interface=models.HORIZONTAL)
+    diplomas = models.ManyToManyField(Diploma, verbose_name=_('diplomas'), related_name='graduates', blank=True, null=True, filter_interface=models.HORIZONTAL)
+
+    # Civil situation
+    decorations = models.ManyToManyField(Decoration, verbose_name=_('decorations'), blank=True, null=True, filter_interface=models.HORIZONTAL)
+    ceremonial_duties = models.ManyToManyField(CeremonialDuty, verbose_name=_('ceremonial duties'), blank=True, null=True, filter_interface=models.HORIZONTAL)
+
+    # Internal
+    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
+    modification_date = models.DateTimeField(editable=False)
+    modifier = models.IntegerField(editable=False)
+
+    def __str__(self):
+        return self.first_name + " " + self.last_name
+
+    def save(self):
+        self.modification_date = datetime.datetime.today()
+        self.modifier = 1
+        return super(Person, self).save()
+
+    class Admin:
+        list_display = ('last_name', 'first_name')
+        search_fields = ['last_name', 'first_name']
+
+    class Meta:
+        verbose_name = _('person')
+
+class PhoneNumber(models.Model):
+
+    PHONE_NUMBER_TYPE = (
+                         (1, _('Fix')),
+                         (2, _('Fax')),
+                         (3, _('Mobile')),
+                         )
+
+    number = models.CharField(verbose_name=_('number'), maxlength=20, core=True)
+    type = models.IntegerField(verbose_name=_('type'), choices=PHONE_NUMBER_TYPE, default=1)
+    is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
+
+    person = models.ForeignKey(Person, related_name='phone_numbers', edit_inline=models.TABULAR, num_in_admin=2)
+
+    # Internal
+    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
+    modification_date = models.DateTimeField(editable=False)
+
+    def save(self):
+        self.modification_date = datetime.datetime.today()
+        return super(PhoneNumber, self).save()
+
+    class Meta:
+        verbose_name = _('phone number')
+
+class AddressType(models.Model):
+
+    type = models.CharField(verbose_name=_('type'), maxlength=50)
+
+    def __str__(self):
+        return self.type
+
+    class Admin:
+        pass
+
+    class Meta:
+        verbose_name = _('address type')
+        verbose_name = _('address types')
+
+class Address(models.Model):
+
+    number = models.CharField(verbose_name=_('number'), maxlength=50, core=True)
+    street = models.CharField(verbose_name=_('street'), maxlength=100, core=True)
+    zip_code = models.CharField(verbose_name=_('zip code'), maxlength=20, core=True)
+    city = models.CharField(verbose_name=_('city'), maxlength=50, core=True)
+    country = models.ForeignKey(Country, verbose_name=_('country'))
+    type = models.ForeignKey(AddressType, verbose_name=_('type'))
+    is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
+
+    person = models.ForeignKey(Person, related_name='addresses', edit_inline=models.STACKED, num_in_admin=2)
+
+    # Internal
+    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
+    modification_date = models.DateTimeField(editable=False)
+
+    def save(self):
+        self.modification_date = datetime.datetime.today()
+        return super(Address, self).save()
+
+    class Meta:
+        verbose_name = _('address')
+
+class Email(models.Model):
+
+    email = models.EmailField(verbose_name=_('email'), core=True)
+    is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
+
+    person = models.ForeignKey(Person, related_name='emails', edit_inline=models.TABULAR, num_in_admin=1)
+
+    class Meta:
+        verbose_name = _('email')
+
+class InstantMessaging(models.Model):
+
+    INSTANT_MESSAGING_TYPE = (
+                              (1,'ICQ'),
+                              (2,'MSN'),
+                              (3,'AIM'),
+                              (4,'Yahoo'),
+                              (5,'Jabber'),
+                              (6,'Gadu-Gadu'),
+                              (7,'Skype'),
+                              )
+
+    type = models.IntegerField(verbose_name=_('type'), choices=INSTANT_MESSAGING_TYPE, core=True)
+    identifier = models.CharField(verbose_name=_('identifier'), maxlength=40, core=True)
+
+    person = models.ForeignKey(Person, related_name='instant_messagings', edit_inline=models.TABULAR, num_in_admin=1)
+
+    class Meta:
+        verbose_name = _('instant_messaging')
+
+class WebSite(models.Model):
+
+    url = models.CharField(verbose_name=_('web site'), maxlength=100, core=True)
+
+    person = models.ForeignKey(Person, related_name='web_sites', edit_inline=models.TABULAR, num_in_admin=1)
+
+    class Meta:
+        verbose_name = _('web site')
+
+class IRC(models.Model):
+
+    network = models.CharField(verbose_name=_('network'), maxlength=50, core=True)
+    pseudo = models.CharField(verbose_name=_('pseudo'), maxlength=20, core=True)
+    channels = models.CharField(verbose_name=_('channels'), maxlength=100)
+
+    person = models.ForeignKey(Person, related_name='ircs', edit_inline=models.TABULAR, num_in_admin=1)
+
+    class Meta:
+        verbose_name = _('irc')
+
+class CompanyField(models.Model):
+
+    field = models.CharField(verbose_name=_('field'), maxlength=100)
+
+    def __str__(self):
+        return self.field
+
+    class Admin:
+        pass
+
+    class Meta:
+        verbose_name = _('field')
+
+class Company(models.Model):
+
+    COMPANY_SIZE = (
+                    (0, _('Micro (0)')),
+                    (1, _('Small (1-9)')),
+                    (2, _('Medium (10-499)')),
+                    (3, _('Large (500+)')),
+                    )
+
+    name = models.CharField(verbose_name=_('name'), maxlength=50, core=True)
+    size = models.IntegerField(verbose_name=_('size'), choices=COMPANY_SIZE, blank=True, null=True)
+    field = models.ForeignKey(CompanyField, verbose_name=_('field'), related_name='companies')
+
+    # Internal
+    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
+    modification_date = models.DateTimeField(editable=False)
+
+    def __str__(self):
+        return self.name
+
+    def save(self):
+        self.modification_date = datetime.datetime.today()
+        return super(Company, self).save()
+
+    class Meta:
+        verbose_name = _('company')
+
+    class Admin:
+        pass
+
+class Office(models.Model):
+
+    name = models.CharField(verbose_name=_('name'), maxlength=50, core=True)
+
+    number = models.CharField(verbose_name=_('number'), maxlength=50, blank=True, null=True)
+    street = models.CharField(verbose_name=_('street'), maxlength=100, blank=True, null=True)
+    zip_code = models.CharField(verbose_name=_('zip code'), maxlength=20, blank=True, null=True)
+    city = models.CharField(verbose_name=_('city'), maxlength=50, blank=True, null=True)
+    country = models.ForeignKey(Country, verbose_name=_('country'), blank=True, null=True)
+
+    phone_number = models.CharField(verbose_name=_('phone number'), maxlength=20, blank=True, null=True)
+    web_site = models.CharField(verbose_name=_('web site'), maxlength=100, blank=True, null=True)
+
+    company = models.ForeignKey(Company, verbose_name=_('company'), related_name='offices', edit_inline=models.STACKED)
+
+    # Internal
+    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
+    modification_date = models.DateTimeField(editable=False)
+
+    def __str__(self):
+        return self.name
+
+    def save(self):
+        self.modification_date = datetime.datetime.today()
+        return super(Office, self).save()
+
+    class Admin:
+        pass
+
+    class Meta:
+        verbose_name = _('office')
+        verbose_name_plural = _('offices')
+
+class Position(models.Model):
+
+    fonction = models.CharField(verbose_name=_('fonction'), maxlength=50, core=True)
+    service = models.CharField(verbose_name=_('service'), maxlength=50, blank=True, null=True)
+    description = models.TextField(verbose_name=_('description'), blank=True, null=True)
+    phone_number = models.CharField(verbose_name=_('phone number'), maxlength=20, blank=True, null=True)
+    email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
+    start_date = models.DateField(verbose_name=_('start date'), core=True)
+    end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
+    is_regie = models.BooleanField(verbose_name=_('regie'), default=False)
+    is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
+
+    office = models.ForeignKey(Office, verbose_name=_('office'), related_name='positions')
+    person = models.ForeignKey(Person, related_name='positions', edit_inline=models.STACKED, num_in_admin=1)
+
+    # Internal
+    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
+    modification_date = models.DateTimeField(editable=False)
+
+    def save(self):
+        self.modification_date = datetime.datetime.today()
+        return super(Position, self).save()
+
+    class Meta:
+        verbose_name = _('position')
+        ordering = ['-start_date']
+
+class Club(models.Model):
+
+    name = models.CharField(verbose_name=('name'), maxlength=20)
+    description = models.CharField(verbose_name=_('description'), maxlength=100)
+    web_site = models.URLField(verbose_name=_('web site'), maxlength=50, blank=True, null=True)
+    email = models.EmailField(verbose_name=_('email'), maxlength=50, blank=True, null=True)
+    creation_date = models.DateField(verbose_name=_('creation date'), blank=True, null=True)
+    end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
+
+    school = models.ForeignKey(School, verbose_name=_('school'), related_name='clubs')
+
+    def __str__(self):
+        return self.name
+
+    class Admin:
+        pass
+
+    class Meta:
+        verbose_name = _('club')
+
+class ClubMembership(models.Model):
+
+    fonction = models.CharField(verbose_name=_('fonction'), maxlength=50, core=True)
+    start_date = models.DateField(verbose_name=_('start date'), blank=True, null=True)
+    end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
+
+    club = models.ForeignKey(Club, verbose_name=_('club'), related_name='memberships', edit_inline=models.TABULAR, num_in_admin=1)
+    member = models.ForeignKey(Person, verbose_name=_('member'), related_name='club_memberships', edit_inline=models.TABULAR, num_in_admin=1)
+
+    class Meta:
+        verbose_name = _('club membership')
+        verbose_name_plural = _('club memberships')
+        ordering = ['start_date']

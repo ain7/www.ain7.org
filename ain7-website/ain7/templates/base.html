@@ -15,9 +15,9 @@
 			<div class="top_info">
 				<div class="top_info_right">
 {% if user.is_authenticated %}
-<div align="center">
 <form method="post" action="/logout/">
-Connecté en tant que <a href="/annuaire/{{ user.id }}/">{{ user.personne.prenom }} {{ user.personne.nom }}</a>
+<div align="center">
+Connecté en tant que <a href="/annuaire/{{ user.id }}/">{{ user.person.first_name }} {{ user.person.last_name }}</a>
 <input class="button" type="submit" value="Déconnexion" />
 </div>
 </form>

@@ -7,71 +7,87 @@
 
 <div id="content-main">
 
-<h1>Fiche personnelle de {{ personne.prenom }} {{ personne.nom }}</h1>
-<p><a href="/annuaire/edit/{{ personne.user.id }}/">Editer ces informations</a></p>
+<h1>Fiche personnelle de {{ person.first_name }} {{ person.last_name }}</h1>
+<p><a href="/annuaire/edit/{{ person.user.id }}/">Editer ces informations</a></p>
 <h2>Données personnelles</h2>
 <table border="0">
 <tr><td>
 <ul>
-   <li><b>Nom&nbsp;:</b> {{ personne.nom }}</li>
-   <li><b>Prénom&nbsp;:</b> {{ personne.prenom }}</li>
-   <li><b>Surnom&nbsp;:</b> {{ personne.surnom }}</li>
-   <li><b>Filière&nbsp;:</b> {{ personne.get_filiere_display }}</li>
-   <li><b>Promo&nbsp;:</b> {{ personne.promo }}</li>
-   <li><b>Date de naissance&nbsp;:</b> {{ personne.date_naissance }}</li>
+   <li><b>Nom&nbsp;:</b> {{ person.last_name }}</li>
+   <li><b>Prénom&nbsp;:</b> {{ person.first_name }}</li>
+   <li><b>Surnom&nbsp;:</b> {{ person.nick_name }}</li>
+   <li><b>Promo&nbsp;:</b> {% for promo in person.promos.all %}{% if forloop.last %} {{ promo }}{% endif %}{% endfor %}</li>
+   <li><b>Date de naissance&nbsp;:</b> {{ person.birth_date|date:"d/m/Y" }}</li>
 </ul>
-</td><td><img src="/site_media/{{ personne.avatar }}"/></td></tr>
-{% for addr in personne.adresse_set.all %}
-    <tr><td><b>Adresse :</b> {{ addr.rue }} - {{addr.code_postal }} {{ addr.ville }} - {{addr.pays }}</td></tr>
+</td><td>
+{% if person.avatar %}
+	<img src="/site_media/{{ person.get_avatar_url }}" height="100" alt="Avatar"/></td></tr>
+{% endif %}
+{% for address in person.addresses.all %}
+	{% if not address.is_confidential %}
+	    <tr><td><b>Adresse {{ address.type|lower }} :</b> {{ address.number }} {{ address.street }} - {{address.zip_code }} {{ address.city }} - {{ address.country.name }}</td></tr>
+	{% endif %}
 {% endfor %}
 
-{% for mail in personne.couriel_set.all %}
-    <tr><td><img src="/site_media/images/mail.png" alt="Couriel"/><a href="mailto:{{ mail.adresse }}">{{ mail.adresse }}</a></td></tr>
+{% for phone_number in person.phone_numbers.all %}
+	{% if not phone_number.is_confidential %}
+    	<tr><td><b>{{ phone_number.get_type_display }} :</b> {{ phone_number.number }}</td></tr>
+    {% endif %}
 {% endfor %}
 
-{% for im in personne.messagerie_set.all %}
-    <tr><td><img src="/site_media/images/{{ im.get_type_im_display|lower }}.png" alt="Contact {{im.get_type_im_display|lower }}"/> {{ im.valeur }}</td></tr>
+{% for email in person.emails.all %}
+	{% if not email.is_confidential %}
+	    <tr><td><img src="/site_media/images/mail.png" alt="Couriel"/><a href="mailto:{{ email.email }}">{{ email.email }}</a></td></tr>
+	{% endif %}
 {% endfor %}
 
-{% for irc in personne.irc_set.all %}
-    <tr valign="middle"><td><img src="/site_media/images/irc.png" alt="IRC"/> {{ irc.nick }} @ {{ irc.reseau }} sur {{ irc.canaux }}</td></tr>
+{% for im in person.instant_messagings.all %}
+    <tr><td><img src="/site_media/images/{{ im.get_type_display|lower }}.png" alt="Contact {{im.get_im_display|lower }}"/> {{ im.identifier }}</td></tr>
 {% endfor %}
 
-{% for site in personne.siteweb_set.all %}
-    <tr valign="middle"><td><img src="/site_media/images/web.png" alt="Site web"/><a href="{{ site.url }}">{{ site.url }}</a></td></tr>
+{% for irc in person.ircs.all %}
+    <tr valign="middle"><td><img src="/site_media/images/irc.png" alt="IRC"/> {{ irc.pseudo }} @ {{ irc.network }} sur {{ irc.channels }}</td></tr>
+{% endfor %}
+
+{% for web_site in person.web_sites.all %}
+    <tr valign="middle"><td><img src="/site_media/images/web.png" alt="Site web"/><a href="{{ web_site.url }}">{{ web_site.url }}</a></td></tr>
 {% endfor %}
 
 </table>
 
 <h2>Activité AIn7</h2>
 
-{% if personne.membre_set.all %}
+{% if person.group_memberships.all %}
 <ul>
-{% for membre in personne.membre_set.all %}
-        <li><a href="/groupes/{{ membre.groupe.id }}/">{{ membre.groupe.nom }}</a></li>
+{% for membership in person.group_memberships.all %}
+        <li><a href="/groupes/{{ membership.group.id }}/">{{ membership.group.name }}</a></li>
 {% endfor %}
 </ul>
 {% endif %}
 
 <h2>Expériences</h2>
 
-{% if personne.position_set.all %}
+{% if person.positions.all %}
 <table>
-{% for position in personne.position_set.all %}
-<tr><td><b>{{ position.debut }} - {{ position.fin }}&nbsp;:</b></td><td> {{ position.titre }} au sein de {{ position.societe }}</td></tr>
-<tr><td></td><td>{{ position.description }}</td></tr>
+{% for position in person.positions.all %}
+	{% if not position.is_confidential %}
+		<tr><td><b>{{ position.start_date|date:"d/m/Y" }} - {{ position.end_date|date:"d/m/Y"|default:"..." }}&nbsp;:</b></td><td> {{ position.fonction }} au sein de {{ position.office }} ({{ position.office.company }})</td></tr>
+		{% if position.description %}
+			<tr><td></td><td>{{ position.description }}</td></tr>
+		{% endif %}
+	{% endif %}
 {% endfor %}
 </table>
 {% endif %}
 
 <h2>Vie associative à l'N7</h2>
 
-{% if personne.membreclub_set.all %}
-{% for membre in personne.membreclub_set.all %}
-    {% if membre.club.url %}
-        <a href="{{ membre.club.url }}">{{ membre.club.nom }}</a>
+{% if person.club_memberships.all %}
+{% for club_membership in person.club_memberships.all %}
+    {% if club_membership.club.web_site %}
+        <a href="{{ club_membership.club.web_site }}">{{ club_membership.club.name }}</a>
     {% else %}
-        {{ membre.club.nom }}
+        {{ club_membership.club.name }}
     {% endif %}
 {% endfor %}
 {% endif %}

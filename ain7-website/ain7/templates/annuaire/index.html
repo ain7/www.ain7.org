@@ -7,10 +7,10 @@
 <div id="content-main">
 
 <h2>Liste de votre recherche</h2>
-{% if liste_personnes %}
+{% if persons %}
     <ul>
-    {% for personne in liste_personnes %}
-        <li><a href="/annuaire/{{ personne.user.id }}/">{{ personne.nom }}</a> {{ personne.prenom }} {{ personne.promo }} {{ personne.get_filiere_display }}</li>
+    {% for person in persons %}
+        <li><a href="/annuaire/{{ person.user.id }}/">{{ person.last_name }}</a> {{ person.first_name }} {{ person.promo }} {{ person.get_filiere_display }}</li>
     {% endfor %}
      </ul>
 {% else %}

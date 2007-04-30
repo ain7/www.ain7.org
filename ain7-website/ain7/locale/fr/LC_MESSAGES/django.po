@@ -1,0 +1,419 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2007
+# This file is distributed under the same license as the ain7 website package.
+# Alexandre Garnier <zigouigoui.garnier@laposte.net>, 2007.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-04-30 23:26+0200\n"
+"PO-Revision-Date: 2007-04-30 23:26+0200\n"
+"Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: annuaire/models.py:31 annuaire/models.py:127 annuaire/models.py:154
+#: annuaire/models.py:384 annuaire/models.py:407 evenements/models.py:32
+#: groupes/models.py:32 groupes_regionaux/models.py:32
+msgid "name"
+msgstr "nom"
+
+#: annuaire/models.py:32 annuaire/models.py:210
+msgid "nationality"
+msgstr "nationalité"
+
+#: annuaire/models.py:41 annuaire/models.py:42 annuaire/models.py:134
+#: annuaire/models.py:295 annuaire/models.py:413
+msgid "country"
+msgstr "pays"
+
+#: annuaire/models.py:46 annuaire/models.py:60 annuaire/models.py:199
+#: annuaire/models.py:259 annuaire/models.py:277 annuaire/models.py:296
+#: annuaire/models.py:334 groupes_regionaux/models.py:54
+msgid "type"
+msgstr "type"
+
+#: annuaire/models.py:55
+msgid "person type"
+msgstr "type de personne"
+
+#: annuaire/models.py:56
+msgid "person types"
+msgstr "types de personne"
+
+#: annuaire/models.py:69
+msgid "member type"
+msgstr "type de membre"
+
+#: annuaire/models.py:73 annuaire/models.py:82 annuaire/models.py:201
+msgid "activity"
+msgstr "activité"
+
+#: annuaire/models.py:86 annuaire/models.py:96
+msgid "diploma"
+msgstr "diplôme"
+
+#: annuaire/models.py:87 annuaire/models.py:128 annuaire/models.py:155
+msgid "initials"
+msgstr "initiales"
+
+#: annuaire/models.py:100 annuaire/models.py:109
+msgid "decoration"
+msgstr "décoration"
+
+#: annuaire/models.py:113 annuaire/models.py:122
+msgid "ceremonial duty"
+msgstr "fonction honorifique"
+
+#: annuaire/models.py:123 annuaire/models.py:228
+msgid "ceremonial duties"
+msgstr "fonction honorifiques"
+
+#: annuaire/models.py:130 annuaire/models.py:258 annuaire/models.py:291
+#: annuaire/models.py:409
+msgid "number"
+msgstr "numéro"
+
+#: annuaire/models.py:131 annuaire/models.py:292 annuaire/models.py:410
+msgid "street"
+msgstr "rue"
+
+#: annuaire/models.py:132 annuaire/models.py:293 annuaire/models.py:411
+msgid "zip code"
+msgstr "code postal"
+
+#: annuaire/models.py:133 annuaire/models.py:294 annuaire/models.py:412
+msgid "city"
+msgstr "ville"
+
+#: annuaire/models.py:136 annuaire/models.py:273 annuaire/models.py:415
+#: annuaire/models.py:443
+msgid "phone number"
+msgstr "numéro de téléphone"
+
+#: annuaire/models.py:137 annuaire/models.py:344 annuaire/models.py:349
+#: annuaire/models.py:416 annuaire/models.py:469
+msgid "web site"
+msgstr "site internet"
+
+#: annuaire/models.py:138 annuaire/models.py:156 annuaire/models.py:314
+#: annuaire/models.py:320 annuaire/models.py:444 annuaire/models.py:470
+msgid "email"
+msgstr "couriel"
+
+#: annuaire/models.py:150 annuaire/models.py:158 annuaire/models.py:474
+msgid "school"
+msgstr "école"
+
+#: annuaire/models.py:170 annuaire/models.py:176 annuaire/views.py:35
+msgid "track"
+msgstr "filière"
+
+#: annuaire/models.py:174
+msgid "year"
+msgstr "année"
+
+#: annuaire/models.py:185 annuaire/views.py:34
+msgid "promo"
+msgstr "promotion"
+
+#: annuaire/models.py:191
+msgid "Male"
+msgstr "Masculin"
+
+#: annuaire/models.py:192
+msgid "Female"
+msgstr "Féminin"
+
+#: annuaire/models.py:196
+msgid "user"
+msgstr "utilisateur"
+
+#: annuaire/models.py:200 annuaire/models.py:492 groupes/models.py:64
+#: groupes_regionaux/models.py:59
+msgid "member"
+msgstr "membre"
+
+#: annuaire/models.py:204
+msgid "sex"
+msgstr "sexe"
+
+#: annuaire/models.py:205 annuaire/views.py:32
+msgid "last name"
+msgstr "nom"
+
+#: annuaire/models.py:206 annuaire/views.py:33
+msgid "first name"
+msgstr "prénom"
+
+#: annuaire/models.py:207
+msgid "maiden name"
+msgstr "nom de jeune fille"
+
+#: annuaire/models.py:208
+msgid "birth date"
+msgstr "date de naissance"
+
+#: annuaire/models.py:209
+msgid "death date"
+msgstr "date de décès"
+
+#: annuaire/models.py:213
+msgid "married"
+msgstr "marié"
+
+#: annuaire/models.py:214
+msgid "children number"
+msgstr "nombre d'enfants"
+
+#: annuaire/models.py:217
+msgid "nick name"
+msgstr "surnom"
+
+#: annuaire/models.py:218
+msgid "avatar"
+msgstr ""
+
+#: annuaire/models.py:219
+msgid "blog"
+msgstr ""
+
+#: annuaire/models.py:223
+msgid "promos"
+msgstr "promotions"
+
+#: annuaire/models.py:224
+msgid "diplomas"
+msgstr "diplômes"
+
+#: annuaire/models.py:227
+msgid "decorations"
+msgstr "décorations"
+
+#: annuaire/models.py:248
+msgid "person"
+msgstr "personne"
+
+#: annuaire/models.py:253
+msgid "Fix"
+msgstr "Fixe"
+
+#: annuaire/models.py:254
+msgid "Fax"
+msgstr ""
+
+#: annuaire/models.py:255
+msgid "Mobile"
+msgstr ""
+
+#: annuaire/models.py:260 annuaire/models.py:297 annuaire/models.py:315
+#: annuaire/models.py:448
+msgid "confidential"
+msgstr "confidentiel"
+
+#: annuaire/models.py:286
+msgid "address type"
+msgstr "type d'adresse"
+
+#: annuaire/models.py:287
+msgid "address types"
+msgstr "types d'adresse"
+
+#: annuaire/models.py:310
+msgid "address"
+msgstr "adresse"
+
+#: annuaire/models.py:335
+msgid "identifier"
+msgstr "identifiant"
+
+#: annuaire/models.py:340
+msgid "instant_messaging"
+msgstr "méssagerie instantanée"
+
+#: annuaire/models.py:353
+msgid "network"
+msgstr "réseau"
+
+#: annuaire/models.py:354
+msgid "pseudo"
+msgstr ""
+
+#: annuaire/models.py:355
+msgid "channels"
+msgstr "canaux"
+
+#: annuaire/models.py:360
+msgid "irc"
+msgstr ""
+
+#: annuaire/models.py:364 annuaire/models.py:373 annuaire/models.py:386
+msgid "field"
+msgstr "domaine"
+
+#: annuaire/models.py:378
+msgid "Micro (0)"
+msgstr "Unipersonelle (0)"
+
+#: annuaire/models.py:379
+msgid "Small (1-9)"
+msgstr "TPE (1-9)"
+
+#: annuaire/models.py:380
+msgid "Medium (10-499)"
+msgstr "PME (10-499)"
+
+#: annuaire/models.py:381
+msgid "Large (500+)"
+msgstr "GE (500+)"
+
+#: annuaire/models.py:385
+msgid "size"
+msgstr "taille"
+
+#: annuaire/models.py:400 annuaire/models.py:418
+msgid "company"
+msgstr "société"
+
+#: annuaire/models.py:435 annuaire/models.py:450
+msgid "office"
+msgstr "bureau"
+
+#: annuaire/models.py:436
+msgid "offices"
+msgstr "bureaux"
+
+#: annuaire/models.py:440 annuaire/models.py:487
+msgid "fonction"
+msgstr ""
+
+#: annuaire/models.py:441
+msgid "service"
+msgstr ""
+
+#: annuaire/models.py:442 annuaire/models.py:468 evenements/models.py:35
+#: groupes/models.py:34
+msgid "description"
+msgstr ""
+
+#: annuaire/models.py:445 annuaire/models.py:488 evenements/models.py:33
+#: groupes_regionaux/models.py:55
+msgid "start date"
+msgstr "date de début"
+
+#: annuaire/models.py:446 annuaire/models.py:472 annuaire/models.py:489
+#: evenements/models.py:34 groupes_regionaux/models.py:56
+msgid "end date"
+msgstr "date de fin"
+
+#: annuaire/models.py:447
+msgid "regie"
+msgstr "régie"
+
+#: annuaire/models.py:462
+msgid "position"
+msgstr ""
+
+#: annuaire/models.py:471
+msgid "creation date"
+msgstr "date de création"
+
+#: annuaire/models.py:483 annuaire/models.py:491
+msgid "club"
+msgstr ""
+
+#: annuaire/models.py:495
+msgid "club membership"
+msgstr "adhésion club"
+
+#: annuaire/models.py:496
+msgid "club memberships"
+msgstr "adhésions clubs"
+
+#: evenements/models.py:36
+msgid "author"
+msgstr "auteur"
+
+#: evenements/models.py:37
+msgid "contact email"
+msgstr "email de contact"
+
+#: evenements/models.py:38
+msgid "link"
+msgstr "lien"
+
+#: evenements/models.py:39
+msgid "place"
+msgstr "lieu"
+
+#: evenements/models.py:40
+msgid "publication start"
+msgstr "début de publication"
+
+#: evenements/models.py:41
+msgid "publication end"
+msgstr "fin de publication"
+
+#: evenements/models.py:62 evenements/models.py:71
+msgid "event"
+msgstr "événement"
+
+#: evenements/models.py:66
+msgid "subscriber number"
+msgstr "nombre de participants"
+
+#: evenements/models.py:70
+msgid "subscriber"
+msgstr "participant"
+
+#: evenements/models.py:74
+msgid "event subscription"
+msgstr "inscription"
+
+#: evenements/models.py:75
+msgid "event subscriptions"
+msgstr "inscriptions"
+
+#: groupes/models.py:33
+msgid "contact"
+msgstr "contact"
+
+#: groupes/models.py:35
+msgid "web page"
+msgstr "page web"
+
+#: groupes/models.py:36
+msgid "parent"
+msgstr ""
+
+#: groupes/models.py:57 groupes/models.py:63
+msgid "group"
+msgstr "groupe"
+
+#: groupes/models.py:61
+msgid "administrator"
+msgstr "administrateur"
+
+#: groupes/models.py:67
+msgid "membership"
+msgstr "adhésion group"
+
+#: groupes_regionaux/models.py:41 groupes_regionaux/models.py:58
+msgid "regional group"
+msgstr "groupe régional"
+
+#: groupes_regionaux/models.py:42
+msgid "regional groups"
+msgstr "groupes régionaux"
+
+#: groupes_regionaux/models.py:62
+msgid "regional group membership"
+msgstr "adhésion group régional"
+
+#: groupes_regionaux/models.py:63
+msgid "regional group memberships"
+msgstr "adhésions groupes régionaux"

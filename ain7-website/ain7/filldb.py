@@ -27,6 +27,7 @@ from django.contrib.auth.models import User
 
 import ain7.annuaire.models as annuaire
 import ain7.groupes.models as groupes
+import ain7.groupes_regionaux.models as groupes_regionaux
 import ain7.sondages.models as sondages
 import ain7.news.models as news
 import ain7.voyages.models as voyages
@@ -34,330 +35,428 @@ import ain7.voyages.models as voyages
 import sys
 
 def filldb():
-    lionel = annuaire.Personne()
+
+    # Country
+    france = annuaire.Country(name="France", nationality="Française")
+    france.save()
+
+    england = annuaire.Country(name="Angleterre", nationality="Anglaise")
+    england.save()
+
+    # Types
+    activityKnown = annuaire.Activity(activity="Connue")
+    activityKnown.save()
+
+    activityRetired = annuaire.Activity(activity="Retraité")
+    activityRetired.save()
+
+    memberTypeActif = annuaire.MemberType(type="Membre actif")
+    memberTypeActif.save()
+
+    personTypeIngeneer = annuaire.PersonType(type="Ingénieur")
+    personTypeIngeneer.save()
+
+    personTypeStudent = annuaire.PersonType(type="Etudiant")
+    personTypeStudent.save()
+
+    personnalAddressType = annuaire.AddressType(type="Personnelle")
+    personnalAddressType.save()
+
+    parentalAddressType = annuaire.AddressType(type="Parentale")
+    parentalAddressType.save()
+
+    # Diplomas
+    bac = annuaire.Diploma(diploma="Baccalauréat", initials="Bac")
+    bac.save()
+
+    # Decorations
+    warCross = annuaire.Decoration(decoration="Croix de Guerre")
+    warCross.save()
+
+    # Decorations
+    JCPrice = annuaire.CeremonialDuty(ceremonial_duty="Prix Joliot Curie")
+    JCPrice.save()
+
+    # School
+    n7 = annuaire.School()
+    n7.name = "Ecole national supérieure d'éléctronique, d'éléctrotechnique, d'informatique, d'hydraulique et des télécommunications"
+    n7.initials = "ENSEEIHT"
+    n7.save()
+
+    n7info = annuaire.Track()
+    n7info.name = "Informatique et Mathématiques Appliquées"
+    n7info.initials = "IN"
+    n7info.school = n7
+    n7info.save()
+
+    n7hydro = annuaire.Track()
+    n7hydro.name = "Hydraulique et Mécanique des Fluides"
+    n7hydro.initials = "HY"
+    n7hydro.school = n7
+    n7hydro.save()
+
+    n7hy2006 = annuaire.Promo(year=2006, track=n7hydro)
+    n7hy2006.save()
+
+    n7in2006 = annuaire.Promo(year=2006, track=n7info)
+    n7in2006.save()
+
+    n7in2003 = annuaire.Promo(year=2003, track=n7info)
+    n7in2003.save()
+    
+    n7in2008 = annuaire.Promo(year=2008, track=n7info)
+    n7in2008.save()
+
+    # Companies
+    infofield = annuaire.CompanyField(field = "Informatique")
+    infofield.save()
+
+    babelstore = annuaire.Company(name="BABELSTORE", field=infofield, size=2)
+    babelstore.save()
+
+    priceminister = annuaire.Office(name="PriceMinister", company=babelstore)
+    priceminister.save()
+
+    anyware = annuaire.Company(name="Anyware", field=infofield)
+    anyware.save()
+
+    anywareoffice = annuaire.Office(name="Bureau de Toulouse", company=anyware)
+    anywareoffice.save()
+
+    # Regional group
+    idfgroup = groupes_regionaux.Group(name="Ile de France")
+    idfgroup.save()
+
+    # Person
+    lionel = annuaire.Person()
     lionel.user = User.objects.create_user("lionel", "lionel@ain7.org","lionel")
     lionel.user.is_staff = True
     lionel.user.is_superuser = True
     lionel.user.save()
-    lionel.prenom = "Lionel"
-    lionel.nom = "Porcheron"
-    lionel.filiere = 1
-    lionel.promo = 2003
-    lionel.date_naissance = date(1978,11,18)
-    lionel.nationalite = 62
-    lionel.surnom = "Yoyo"
+    lionel.activity = activityRetired
+    lionel.member_type = memberTypeActif
+    lionel.person_type = personTypeIngeneer
+    lionel.sex = 'M'
+    lionel.first_name = "Lionel"
+    lionel.last_name = "Porcheron"
+    lionel.promos.add(n7in2003)
+    lionel.birth_date = date(1978,11,18)
+    lionel.country = france
+    lionel.nick_name = "Yoyo"
     lionel.blog = "http://www.porcheron.info"
     lionel.blog_agrege_sur_le_planet = True
     lionel.save()
 
-    lionel_adresse = annuaire.Adresse()
-    lionel_adresse.personne = lionel
-    lionel_adresse.rue = "2 rue Charles Camichel"
-    lionel_adresse.code_postal = "31000"
-    lionel_adresse.ville = "Toulouse"
-    lionel_adresse.pays = "France"
-    lionel_adresse.type = 0
+    lionel_adresse = annuaire.Address()
+    lionel_adresse.person = lionel
+    lionel_adresse.number = "2"
+    lionel_adresse.street = "rue Charles Camichel"
+    lionel_adresse.zip_code = "31000"
+    lionel_adresse.city = "Toulouse"
+    lionel_adresse.country = france
+    lionel_adresse.type = personnalAddressType
     lionel_adresse.save()
 
-    lionel_couriel = annuaire.Couriel()
-    lionel_couriel.personne = lionel
-    lionel_couriel.adresse = "lionel@ain7.org"
-    lionel_couriel.type = 0
-    lionel_couriel.save()
+    lionel_couriel1 = annuaire.Email()
+    lionel_couriel1.person = lionel
+    lionel_couriel1.email = "lionel@ain7.org"
+    lionel_couriel1.save()
 
-    lionel_messagerie1 = annuaire.Messagerie()
-    lionel_messagerie1.personne = lionel
-    lionel_messagerie1.type_im = 5
-    lionel_messagerie1.valeur = "lionel@ain7.org"
+    lionel_couriel2 = annuaire.Email()
+    lionel_couriel2.person = lionel
+    lionel_couriel2.email = "lionel@porcheron.info"
+    lionel_couriel2.is_confidential = True
+    lionel_couriel2.save()
+
+    lionel_messagerie1 = annuaire.InstantMessaging()
+    lionel_messagerie1.person = lionel
+    lionel_messagerie1.type = 5
+    lionel_messagerie1.identifier = "lionel@ain7.org"
     lionel_messagerie1.save()    
 
-    lionel_messagerie2 = annuaire.Messagerie()
-    lionel_messagerie2.personne = lionel
-    lionel_messagerie2.type_im = 1
-    lionel_messagerie2.valeur = "12345"
+    lionel_messagerie2 = annuaire.InstantMessaging()
+    lionel_messagerie2.person = lionel
+    lionel_messagerie2.type = 1
+    lionel_messagerie2.identifier = "12345"
     lionel_messagerie2.save()    
     
-    lionel_messagerie3 = annuaire.Messagerie()
-    lionel_messagerie3.personne = lionel
-    lionel_messagerie3.type_im = 2
-    lionel_messagerie3.valeur = "lionel@ain7.org"
+    lionel_messagerie3 = annuaire.InstantMessaging()
+    lionel_messagerie3.person = lionel
+    lionel_messagerie3.type = 2
+    lionel_messagerie3.identifier = "lionel@ain7.org"
     lionel_messagerie3.save()    
-    
+
+    lionel_site = annuaire.WebSite()
+    lionel_site.person = lionel
+    lionel_site.url = "http://www.porcheron.info"
+    lionel_site.save()
+
     lionel_irc1 = annuaire.IRC()
-    lionel_irc1.personne = lionel
-    lionel_irc1.reseau = "irc.rezosup.net"
-    lionel_irc1.nick = "lionel"
-    lionel_irc1.canaux = "#ain7, #inp-net, #net7, #n7"
+    lionel_irc1.person = lionel
+    lionel_irc1.network = "irc.rezosup.net"
+    lionel_irc1.pseudo = "lionel"
+    lionel_irc1.channels = "#ain7, #inp-net, #net7, #n7"
     lionel_irc1.save()    
 
     lionel_irc2 = annuaire.IRC()
-    lionel_irc2.personne = lionel
-    lionel_irc2.reseau = "irc.freenode.net"
-    lionel_irc2.nick = "lionel"
-    lionel_irc2.canaux = "#hive, #ubuntu-motu, #ubuntu-server"
-    lionel_irc2.save()    
+    lionel_irc2.person = lionel
+    lionel_irc2.network = "irc.freenode.net"
+    lionel_irc2.pseudo = "lionel"
+    lionel_irc2.channels = "#hive, #ubuntu-motu, #ubuntu-server"
+    lionel_irc2.save()
+
 
     lionel_position1 = annuaire.Position()
-    lionel_position1.personne = lionel
-    lionel_position1.titre = "Titre 1 !"
-    lionel_position1.societe = "Societe"
-    lionel_position1.type = 0
-    lionel_position1.debut = date(2003,06,01)
-    lionel_position1.fin = date(2004,06,01)
-    lionel_position1.organisation_activite = 6
-    lionel_position1.organisation_type = 2
-    lionel_position1.organisation_taille = 3
-    lionel_position1.description = "Très occupé"
+    lionel_position1.person = lionel
+    lionel_position1.office = anywareoffice
+    lionel_position1.fonction = "AdminSys"
+    lionel_position1.start_date = date(2005,01,01)
+    lionel_position1.end_date = date(2007,01,01)
     lionel_position1.save()
 
     lionel_position2 = annuaire.Position()
-    lionel_position2.personne = lionel
-    lionel_position2.titre = "Titre 2 !"
-    lionel_position2.societe = "Societe 2"
-    lionel_position2.type = 0
-    lionel_position2.debut = date(2004,06,01)
-    lionel_position2.organisation_activite = 6
-    lionel_position2.organisation_type = 2
-    lionel_position2.organisation_taille = 3
-    lionel_position2.description = "Très occupé aussi !"
+    lionel_position2.person = lionel
+    lionel_position2.office = anywareoffice
+    lionel_position2.fonction = "Big boss"
+    lionel_position2.start_date = date(2007,01,01)
     lionel_position2.save()
 
-    pierref = annuaire.Personne()
+    pierref = annuaire.Person()
     pierref.user = User.objects.create_user("pierref", "pierre.fersing@inp-net.eu.org","pierref")
     pierref.user.is_staff = True
     pierref.user.is_superuser = True
     pierref.user.save()
-    pierref.prenom = "Pierre"
-    pierref.nom = "Fersing"
-    pierref.filiere = 1
-    pierref.promo = 2008
-    pierref.date_naissance = date(1985,11,05)
-    pierref.nationalite = 62
-    pierref.surnom = "PierreF"
+    pierref.activity = activityKnown
+    pierref.member_type = memberTypeActif
+    pierref.person_type = personTypeStudent
+    pierref.sex = 'M'
+    pierref.first_name = "Pierre"
+    pierref.last_name = "Fersing"
+    pierref.promos.add(n7in2008)
+    pierref.birth_date = date(1985,11,05)
+    pierref.country = france
+    pierref.nick_name = "PierreF"
     pierref.save()
 
-    pierref_adresse = annuaire.Adresse()
-    pierref_adresse.personne = pierref
-    pierref_adresse.rue = "2 rue Charles Camichel"
-    pierref_adresse.code_postal = "31000"
-    pierref_adresse.ville = "Toulouse"
-    pierref_adresse.pays = "France"
-    pierref_adresse.type = 0
+    pierref_adresse = annuaire.Address()
+    pierref_adresse.person = pierref
+    pierref_adresse.number = "2"
+    pierref_adresse.street = "rue Charles Camichel"
+    pierref_adresse.zip_code = "31000"
+    pierref_adresse.city = "Toulouse"
+    pierref_adresse.country = france
+    pierref_adresse.type = personnalAddressType
     pierref_adresse.save()
 
     pierref_irc1 = annuaire.IRC()
-    pierref_irc1.personne = pierref
-    pierref_irc1.reseau = "irc.rezosup.net"
-    pierref_irc1.nick = "pierref"
-    pierref_irc1.canaux = "#ain7, #inp-net, #n7, #net7"
+    pierref_irc1.person = pierref
+    pierref_irc1.network = "irc.rezosup.net"
+    pierref_irc1.pseudo = "pierref"
+    pierref_irc1.channels = "#ain7, #inp-net, #n7, #net7"
     pierref_irc1.save()    
 
-    olivier = annuaire.Personne()
+    olivier = annuaire.Person()
     olivier.user = User.objects.create_user("gauwino", "olivier.gauwin@laposte.net","gauwino")
     olivier.user.is_staff = True
     olivier.user.is_superuser = True
     olivier.user.save()
-    olivier.prenom = "Olivier"
-    olivier.nom = "Gauwin"
-    olivier.filiere = 1
-    olivier.promo = 2003
-    olivier.nationalite = 62
+    olivier.activity = activityKnown
+    olivier.member_type = memberTypeActif
+    olivier.person_type = personTypeIngeneer
+    olivier.sex = 'M'
+    olivier.first_name = "Olivier"
+    olivier.last_name = "Gauwin"
+    olivier.promos.add(n7in2003)
+    olivier.country = france
     olivier.save()
 
-    olivier_adresse = annuaire.Adresse()
-    olivier_adresse.personne = olivier
-    olivier_adresse.rue = "2 rue Charles Camichel"
-    olivier_adresse.code_postal = "31000"
-    olivier_adresse.ville = "Toulouse"
-    olivier_adresse.pays = "France"
-    olivier_adresse.type = 0
+    olivier_adresse = annuaire.Address()
+    olivier_adresse.person = olivier
+    olivier_adresse.number = "2"
+    olivier_adresse.street = "rue Charles Camichel"
+    olivier_adresse.zip_code = "31000"
+    olivier_adresse.city = "Toulouse"
+    olivier_adresse.country = france
+    olivier_adresse.type = personnalAddressType
     olivier_adresse.save()
 
     olivier_irc1 = annuaire.IRC()
-    olivier_irc1.personne = olivier
-    olivier_irc1.reseau = "irc.rezosup.net"
-    olivier_irc1.nick = "gauwino"
-    olivier_irc1.canaux = "#ain7"
-    olivier_irc1.save()    
+    olivier_irc1.person = olivier
+    olivier_irc1.network = "irc.rezosup.net"
+    olivier_irc1.pseudo = "gauwino"
+    olivier_irc1.channels = "#ain7"
+    olivier_irc1.save()
 
-    olivier_position1 = annuaire.Position()
-    olivier_position1.personne = olivier
-    olivier_position1.titre = "Titre 1 !"
-    olivier_position1.societe = "Societe"
-    olivier_position1.type = 0
-    olivier_position1.debut = date(2003,06,01)
-    olivier_position1.fin = date(2005,06,01)
-    olivier_position1.organisation_activite = 6
-    olivier_position1.organisation_type = 2
-    olivier_position1.organisation_taille = 3
-    olivier_position1.description = "Très occupé"
-    olivier_position1.save()
-
-    olivier_position2 = annuaire.Position()
-    olivier_position2.personne = olivier
-    olivier_position2.titre = "Titre 2 !"
-    olivier_position2.societe = "Societe 2"
-    olivier_position2.type = 0
-    olivier_position2.debut = date(2005,06,01)
-    olivier_position2.organisation_activite = 6
-    olivier_position2.organisation_type = 2
-    olivier_position2.organisation_taille = 3
-    olivier_position2.description = "Très occupé aussi !"
-    olivier_position2.save()
-
-    alex = annuaire.Personne()
+    alex = annuaire.Person()
     alex.user = User.objects.create_user("alex", "zigouigoui.garnier@laposte.net","alex")
     alex.user.is_staff = True
     alex.user.is_superuser = True
     alex.user.save()
-    alex.prenom = "Alexandre"
-    alex.nom = "Garnier"
-    alex.filiere = 1
-    alex.promo = 2006
-    alex.date_naissance = date(1984,03,14)
-    alex.nationalite = 62
-    alex.surnom = "Alex"
+    alex.activity = activityKnown
+    alex.member_type = memberTypeActif
+    alex.person_type = personTypeIngeneer
+    alex.sex = 'M'
+    alex.first_name = "Alexandre"
+    alex.last_name = "Garnier"
+    alex.promos.add(n7in2006)
+    alex.birth_date = date(1984,03,14)
+    alex.country = france
+    alex.nick_name = "Alex"
     alex.save()
 
-    alex_adresse = annuaire.Adresse()
-    alex_adresse.personne = alex
-    alex_adresse.rue = "2 rue Charles Camichel"
-    alex_adresse.code_postal = "31000"
-    alex_adresse.ville = "Toulouse"
-    alex_adresse.pays = "France"
-    alex_adresse.type = 0
-    alex_adresse.save()
+    alex_portable = annuaire.PhoneNumber()
+    alex_portable.person = alex
+    alex_portable.number = "0681901082"
+    alex_portable.type = 3
+    alex_portable.isConfidential = False
+    alex_portable.save()
 
-    alex_position1 = annuaire.Position()
-    alex_position1.personne = alex
-    alex_position1.titre = "Titre !"
-    alex_position1.societe = "Societe"
-    alex_position1.type = 0
-    alex_position1.debut = date(2005,06,01)
-    alex_position1.organisation_activite = 6
-    alex_position1.organisation_type = 2
-    alex_position1.organisation_taille = 3
-    alex_position1.description = "Très occupé aussi !"
-    alex_position1.save()
+    alex_adresse1 = annuaire.Address()
+    alex_adresse1.person = alex
+    alex_adresse1.number = "79"
+    alex_adresse1.street = "rue Broca"
+    alex_adresse1.zip_code = "75013"
+    alex_adresse1.city = "Paris"
+    alex_adresse1.country = france
+    alex_adresse1.type = personnalAddressType
+    alex_adresse1.save()
+
+    alex_adresse2 = annuaire.Address()
+    alex_adresse2.person = alex
+    alex_adresse2.number = "70"
+    alex_adresse2.street = "rue de Paris"
+    alex_adresse2.zip_code = "95720"
+    alex_adresse2.city = "Le Mesnil-Aubry"
+    alex_adresse2.country = france
+    alex_adresse2.type = parentalAddressType
+    alex_adresse2.save()
+
+    alexpos = annuaire.Position()
+    alexpos.person = alex
+    alexpos.office = priceminister
+    alexpos.fonction = "dev"
+    alexpos.start_date = date(2006,8,17)
+    alexpos.save()
 
     tvn7 = annuaire.Club()
-    tvn7.nom = "TVn7"
+    tvn7.name = "TVn7"
     tvn7.description = "Le club vidéo de l'N7"
-    tvn7.url = "http://www.tvn7.tv"
-    tvn7.mail = "tvn7@lists.bde.enseeiht.fr"
-    tvn7.date_creation = date(1992,01,01)
-    tvn7.etablissement = 0
+    tvn7.web_site = "http://www.tvn7.fr.st"
+    tvn7.email = "tvn7@lists.bde.enseeiht.fr"
+    tvn7.creation_date = date(1992,01,01)
+    tvn7.school = n7
     tvn7.save()
 
-    tvn7_lionel = annuaire.MembreClub()
+    tvn7_lionel = annuaire.ClubMembership()
     tvn7_lionel.club = tvn7
-    tvn7_lionel.personne = lionel
+    tvn7_lionel.member = lionel
     tvn7_lionel.save()
 
-    tvn7_alex = annuaire.MembreClub()
+    tvn7_alex = annuaire.ClubMembership()
     tvn7_alex.club = tvn7
-    tvn7_alex.personne = alex
-    tvn7_alex.position = "Secrétaire 2004-2005"
+    tvn7_alex.member = alex
+    tvn7_alex.fonction = "Secrétaire 2004-2005"
     tvn7_alex.save()
 
     net7 = annuaire.Club()
-    net7.nom = "Net7"
+    net7.name = "Net7"
     net7.description = "Le club informatique et réseau de l'N7"
-    net7.url = "http://www.bde.enseeiht.fr"
-    net7.mail = "net7@bde.enseeiht.fr"
-    net7.date_creation = date(1992,01,01)
-    net7.etablissement = 0
+    net7.web_site = "http://www.bde.enseeiht.fr"
+    net7.email = "net7@bde.enseeiht.fr"
+    net7.creation_date = date(1992,01,01)
+    net7.school = n7
     net7.save()
 
-    net7_lionel = annuaire.MembreClub()
+    net7_lionel = annuaire.ClubMembership()
     net7_lionel.club = net7
-    net7_lionel.personne = lionel
+    net7_lionel.member = lionel
     net7_lionel.save()
 
-    net7_pierref = annuaire.MembreClub()
+    net7_pierref = annuaire.ClubMembership()
     net7_pierref.club = net7
-    net7_pierref.personne = pierref
+    net7_pierref.member = pierref
     net7_pierref.save()
 
     inpnet = annuaire.Club()
-    inpnet.nom = "INP-net"
+    inpnet.name = "INP-net"
     inpnet.description = "Le club informatique et réseau de l'INP"
-    inpnet.url = "http://www.inp-net.eu.org"
-    inpnet.mail = "inp-net@bde.inp-toulouse.fr"
-    inpnet.date_creation = date(2002,07,01)
-    inpnet.etablissement = 1
+    inpnet.web_site = "http://www.inp-net.eu.org"
+    inpnet.email = "inp-net@bde.inp-toulouse.fr"
+    inpnet.creation_date = date(2002,07,01)
+    inpnet.school = n7
     inpnet.save()
 
-    inpnet_lionel = annuaire.MembreClub()
+    inpnet_lionel = annuaire.ClubMembership()
     inpnet_lionel.club = inpnet
-    inpnet_lionel.personne = lionel
-    inpnet_lionel.position = "Président 2002-2003 - Cofondateur du club"
+    inpnet_lionel.member = lionel
+    inpnet_lionel.fonction = "Président 2002-2003 - Cofondateur du club"
     inpnet_lionel.save()
 
-    inpnet_pierref = annuaire.MembreClub()
+    inpnet_pierref = annuaire.ClubMembership()
     inpnet_pierref.club = inpnet
-    inpnet_pierref.personne = pierref
-    inpnet_pierref.position = "Président 2006-2007"
+    inpnet_pierref.member = pierref
+    inpnet_pierref.fonction = "Président 2006-2007"
     inpnet_pierref.save()
 
-    ain7etudiants = groupes.Groupe()
-    ain7etudiants.nom = "AIn7 Étudiants"
-    ain7etudiants.responsable = lionel
+    ain7etudiants = groupes.Group()
+    ain7etudiants.name = "AIn7 Étudiants"
+    ain7etudiants.administrator = lionel
     ain7etudiants.save()
     
-    ain7etudiants_lionel = groupes.Membre()
-    ain7etudiants_lionel.groupe = ain7etudiants
-    ain7etudiants_lionel.membre = lionel
+    ain7etudiants_lionel = groupes.Membership()
+    ain7etudiants_lionel.group = ain7etudiants
+    ain7etudiants_lionel.member = lionel
+    ain7etudiants_lionel.is_administrator = True
     ain7etudiants_lionel.save()
 
-    ain7ecole = groupes.Groupe()
-    ain7ecole.nom = "AIn7 École"
-    ain7ecole.responsable = lionel
+    ain7ecole = groupes.Group()
+    ain7ecole.name = "AIn7 École"
+    ain7ecole.administrator = lionel
     ain7ecole.save()
 
-    ain7entreprises = groupes.Groupe()
-    ain7entreprises.nom = "AIn7 Entreprises"
-    ain7entreprises.responsable = lionel
+    ain7entreprises = groupes.Group()
+    ain7entreprises.name = "AIn7 Entreprises"
+    ain7entreprises.administrator = lionel
     ain7entreprises.save()
 
-    ain7entreprisesemploi = groupes.Groupe()
-    ain7entreprisesemploi.nom = "AIn7 Entreprises - Emplois Carrières"
-    ain7entreprisesemploi.responsable = lionel
+    ain7entreprisesemploi = groupes.Group()
+    ain7entreprisesemploi.name = "AIn7 Entreprises - Emplois Carrières"
+    ain7entreprisesemploi.administrator = lionel
     ain7entreprisesemploi.save()
 
-    ain7evenementiel = groupes.Groupe()
-    ain7evenementiel.nom = "Événementiel"
-    ain7evenementiel.responsable = lionel
+    ain7evenementiel = groupes.Group()
+    ain7evenementiel.name = "Événementiel"
+    ain7evenementiel.administrator = lionel
     ain7evenementiel.save()
 
-    groupesregionauxinter = groupes.Groupe()
-    groupesregionauxinter.nom = "Groupes régionaux et international"
-    groupesregionauxinter.responsable = lionel
+    groupesregionauxinter = groupes.Group()
+    groupesregionauxinter.name = "Groupes régionaux et international"
+    groupesregionauxinter.administrator = lionel
     groupesregionauxinter.save()
 
-    mediacomcanal = groupes.Groupe()
-    mediacomcanal.nom = "Médias et Communications - Canal N7"
-    mediacomcanal.responsable = lionel
+    mediacomcanal = groupes.Group()
+    mediacomcanal.name = "Médias et Communications - Canal N7"
+    mediacomcanal.administrator = lionel
     mediacomcanal.save()
 
-    mediacomweb = groupes.Groupe()
-    mediacomweb.nom = "Médias et Communications - Serveur Web / Internet"
-    mediacomweb.responsable = lionel
+    mediacomweb = groupes.Group()
+    mediacomweb.name = "Médias et Communications - Serveur Web / Internet"
+    mediacomweb.administrator = lionel
     mediacomweb.save()
 
-    mediacomannuaire = groupes.Groupe()
-    mediacomannuaire.nom = "Médias et Communications - Annuaire"
-    mediacomannuaire.responsable = lionel
+    mediacomannuaire = groupes.Group()
+    mediacomannuaire.name = "Médias et Communications - Annuaire"
+    mediacomannuaire.administrator = lionel
     mediacomannuaire.save()
 
-    relationscnisf = groupes.Groupe()
-    relationscnisf.nom = "Relations avec le CNISF et les URIS"
-    relationscnisf.responsable = lionel
+    relationscnisf = groupes.Group()
+    relationscnisf.name = "Relations avec le CNISF et les URIS"
+    relationscnisf.administrator = lionel
     relationscnisf.save()
 
-    ain7voyages = groupes.Groupe()
-    ain7voyages.nom = "Relations avec le CNISF et les URIS"
-    ain7voyages.responsable = lionel
+    ain7voyages = groupes.Group()
+    ain7voyages.name = "Relations avec le CNISF et les URIS"
+    ain7voyages.administrator = lionel
     ain7voyages.save()
 
     sondage1 = sondages.Sondage()
@@ -393,46 +492,45 @@ def filldb():
     long de l'année 2007 célébrer à travers différentes manifestations cet anniversaire"""
     news2.save()
 
-    voyage1 = voyages.Voyage()
-    voyage1.libelle = "Varsovie & croisière sur la Vistule"
-    voyage1.date = "Juin 2007"
-    voyage1.duree = 14
-    voyage1.type_voyage = 2
-    voyage1.lieux_visites = "de Gdansk à Kaliningrad"
-    voyage1.prix = 2350
-    voyage1.save()
+    travel1 = voyages.Travel()
+    travel1.libelle = "Varsovie & croisière sur la Vistule"
+    travel1.date = "Juin 2007"
+    travel1.duree = 14
+    travel1.type_travel = 2
+    travel1.lieux_visites = "de Gdansk à Kaliningrad"
+    travel1.prix = 2350
+    travel1.save()
 
-    voyage2 = voyages.Voyage()
-    voyage2.libelle = "Japon"
-    voyage2.date = "Octobre 2007"
-    voyage2.duree = 13
-    voyage2.type_voyage = 0
-    voyage2.lieux_visites = "Tokyo, Atami, Kyoto, Hiroshima, Nara, Osazka"
-    voyage2.prix = 3890
-    voyage2.save()
+    travel2 = voyages.Travel()
+    travel2.libelle = "Japon"
+    travel2.date = "Octobre 2007"
+    travel2.duree = 13
+    travel2.type_travel = 0
+    travel2.lieux_visites = "Tokyo, Atami, Kyoto, Hiroshima, Nara, Osazka"
+    travel2.prix = 3890
+    travel2.save()
 
-    voyage3 = voyages.Voyage()
-    voyage3.libelle = "Birmanie"
-    voyage3.date = "Février 2008"
-    voyage3.type_voyage = 2
-    voyage3.lieux_visites = "Ragoon, Pagan, Sagain, Mandalay"
-    voyage3.prix = 3550
-    voyage3.save()
+    travel3 = voyages.Travel()
+    travel3.libelle = "Birmanie"
+    travel3.date = "Février 2008"
+    travel3.type_travel = 2
+    travel3.lieux_visites = "Ragoon, Pagan, Sagain, Mandalay"
+    travel3.prix = 3550
+    travel3.save()
 
-    voyage4 = voyages.Voyage()
-    voyage4.libelle = "Mongolie/ Pékin"
-    voyage4.date = "Juin 2008"
-    voyage4.duree = 15
-    voyage4.type_voyage = 1
-    voyage4.prix = 2760
-    voyage4.save()
+    travel4 = voyages.Travel()
+    travel4.libelle = "Mongolie/ Pékin"
+    travel4.date = "Juin 2008"
+    travel4.duree = 15
+    travel4.type_travel = 1
+    travel4.prix = 2760
+    travel4.save()
 
-    voyage5 = voyages.Voyage()
-    voyage5.libelle = "Inde - Penjab & Himachal Pradesh"
-    voyage5.date = "Octobre 2008"
-    voyage5.duree = 16
-    voyage5.type_voyage = 1
-    voyage5.lieux_visites = "Delhi, Amristar, Dharamsala, Manali, Simla"
-    voyage5.prix = 1900
-    voyage5.save()
-
+    travel5 = voyages.Travel()
+    travel5.libelle = "Inde - Penjab & Himachal Pradesh"
+    travel5.date = "Octobre 2008"
+    travel5.duree = 16
+    travel5.type_travel = 1
+    travel5.lieux_visites = "Delhi, Amristar, Dharamsala, Manali, Simla"
+    travel5.prix = 1900
+    travel5.save()

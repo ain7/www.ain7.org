@@ -30,16 +30,16 @@ class Actualite(models.Model):
     description = models.TextField()
     image = models.ImageField(upload_to='data',null=True,blank=True)
 
-    date_creation = models.DateTimeField()
-    date_modification = models.DateTimeField()
+    creation_date = models.DateTimeField()
+    modification_date = models.DateTimeField()
 
     def __str__(self):
         return self.titre
 
     def save(self):
-        if not self.date_creation:
-             self.date_creation = datetime.date.today()
-        self.date_modification = datetime.datetime.today()
+        if not self.creation_date:
+             self.creation_date = datetime.date.today()
+        self.modification_date = datetime.datetime.today()
 	self.modifie_par = 1
         return super(Actualite, self).save()
 

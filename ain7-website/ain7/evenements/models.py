@@ -20,32 +20,56 @@
 #
 #
 
+import datetime
+
 from django.db import models
 
-from ain7.annuaire.models import Personne
+from ain7.annuaire.models import Person
+from django.utils.translation import gettext_lazy as _
 
-class Evenement(models.Model):
+class Event(models.Model):
 
-    nom = models.CharField(maxlength=20)
-    date_debut = models.DateTimeField()
-    date_fin = models.DateTimeField()
-    description = models.TextField()
-    auteur = models.CharField(maxlength=20)
-    mail_de_contact = models.CharField(maxlength=50)
-    lien = models.CharField(maxlength=60)
-    lieu = models.CharField(maxlength=60)
-    date_debut_publication =  models.DateTimeField()
-    date_fin_publication = models.DateTimeField()
+    name = models.CharField(verbose_name=_('name'), maxlength=20)
+    start_date = models.DateField(verbose_name=_('start date'))
+    end_date = models.DateField(verbose_name=_('end date'))
+    description = models.TextField(verbose_name=_('description'), blank=True, null=True)
+    author = models.CharField(verbose_name=_('author'), maxlength=20)
+    contact_email = models.EmailField(verbose_name=_('contact email'), maxlength=50)
+    link = models.CharField(verbose_name=_('link'), maxlength=60, blank=True, null=True)
+    place = models.CharField(verbose_name=_('place'), maxlength=60)
+    publication_start =  models.DateTimeField(verbose_name=_('publication start'))
+    publication_end = models.DateTimeField(verbose_name=_('publication end'))
 
-    date_creation = models.DateTimeField()
-    date_modification = models.DateTimeField()
-    created_by = models.ForeignKey(Personne, related_name='creator')
-    modified_by = models.ForeignKey(Personne, related_name='modifier')
+    # Internal
+    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
+    modification_date = models.DateTimeField(editable=False)
+    #creator = models.ForeignKey(Person, related_name='created_events', editable=False)
+    #modifier = models.ForeignKey(Person, related_name='modified_events', editable=False)
 
-class InscriptionEvenement(models.Model):
+    def __str__(self):
+        return self.name
 
-    personne = models.ForeignKey(Personne)
-    evenement = models.ForeignKey(Evenement)
-    date_inscription = models.DateTimeField()
-    nombre_de_personnes = models.IntegerField()
+    def save(self):
+        #self.creator = 1
+        self.modification_date = datetime.datetime.today()
+        #self.modifier = 1
+        return super(Event, self).save()
 
+    class Admin:
+        pass
+
+    class Meta:
+        verbose_name = _('event')
+
+class EventSubscription(models.Model):
+
+    subscriber_number = models.IntegerField(verbose_name=_('subscriber number'), default=1, core=True)
+
+    subscription_date = models.DateTimeField(default=datetime.datetime.now, editable=False)
+
+    subscriber = models.ForeignKey(Person, verbose_name=_('subscriber'), related_name='event_subscriptions')
+    event = models.ForeignKey(Event, verbose_name=_('event'), related_name='subscriptions', edit_inline=models.TABULAR, num_in_admin=1)
+
+    class Meta:
+        verbose_name = _('event subscription')
+        verbose_name_plural = _('event subscriptions')
