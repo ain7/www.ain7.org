@@ -32,6 +32,8 @@ import sys
 
 import settings
 
+confirm = 'oui'
+
 if os.path.exists(settings.DATABASE_NAME):
     msg = "La base de donnee existe deja, voulez vous la supprimer ? "
     confirm = raw_input(msg)
