@@ -10,8 +10,8 @@
   <h1>{{ error_message }}</h1>
   <a href="/">Retour à la page d'accueil</a>
 {% else %}
-  <h1>Merci d'avoir voté.</h1>
-  <a href="/sondages/{{ sondage.id }}/resultats/">Page des résultats</a>
+  <h1>Merci d'avoir voté "{{ choice }}" à la question "{{ survey.question }}".</h1>
+  <a href="/sondages/{{ survey.id }}/resultats/">Page des résultats</a>
 {% endif %}
 
 </div>

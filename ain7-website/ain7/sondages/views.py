@@ -22,31 +22,32 @@
 
 from django.shortcuts import get_object_or_404, render_to_response
 from django.http import HttpResponseRedirect
-from ain7.sondages.models import Choix, Sondage
+from ain7.sondages.models import Choice, Survey
 
-def vote(request, sondage_id):
-    sondage = get_object_or_404(Sondage, pk=sondage_id)
+def vote(request, survey_id):
+    survey = get_object_or_404(Survey, pk=survey_id)
     try:
-        selected_choice = sondage.choix_set.get(pk=request.POST['choix'])
-    except (KeyError, Choix.DoesNotExist):
+        choice = survey.choices.get(pk=request.POST['choice'])
+    except (KeyError, Choice.DoesNotExist):
         # Redisplay the poll voting form.
         return render_to_response('sondages/detail.html', {
-            'sondage': sondage,
+            'survey': survey,
             'error_message': "Vous n'avez rien sélectionné.",
         })
     else:
-        selected_choice.votes += 1
-        selected_choice.save()
+        choice.votes += 1
+        choice.save()
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
-        return HttpResponseRedirect('/sondages/%s/detail/' % sondage.id)
+        return HttpResponseRedirect('/sondages/%s/detail/%s' % (survey.id, choice.id))
 
-def resultats(request, sondage_id):
-    sondage = get_object_or_404(Sondage, pk=sondage_id)
-    return render_to_response('sondages/resultats.html', {'sondage': sondage})
+def resultats(request, survey_id):
+    survey = get_object_or_404(Survey, pk=survey_id)
+    return render_to_response('sondages/resultats.html', {'survey': survey})
 
-def detail(request, sondage_id):
-    sondage = get_object_or_404(Sondage, pk=sondage_id)
-    return render_to_response('sondages/detail.html', {'sondage': sondage})
+def detail(request, survey_id, choice_id):
+    survey = get_object_or_404(Survey, pk=survey_id)
+    choice = get_object_or_404(Choice, pk=choice_id)
+    return render_to_response('sondages/detail.html', {'survey': survey, 'choice': choice})
 

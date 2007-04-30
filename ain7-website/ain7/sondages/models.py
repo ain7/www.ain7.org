@@ -21,20 +21,33 @@
 #
 
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
-class Sondage(models.Model):
-    question = models.CharField(maxlength=200)
-    date_publication = models.DateTimeField('date publication')
-    en_ligne = models.BooleanField()
+class Survey(models.Model):
+    question = models.CharField(verbose_name=_('question'), maxlength=200)
+    publication_date = models.DateTimeField(verbose_name=_('publication date'))
+    is_online = models.BooleanField(verbose_name=_('online'), default=False)
 
-    def __str__():
-	return question
+    def __str__(self):
+        return self.question
 
     class Admin:
-	list_display = ('question', 'date_publication')
+        list_display = ('question', 'publication_date')
+        ordering = ['-publication_date']
 
-class Choix(models.Model):
-    sondage = models.ForeignKey(Sondage, edit_inline=models.STACKED, num_in_admin=3)
-    choix = models.CharField(maxlength=200, core=True)
-    votes = models.IntegerField(default=0, editable=False)
+    class Meta:
+        verbose_name = _('survey')
 
+class Choice(models.Model):
+
+    choice = models.CharField(verbose_name=_('choice'), maxlength=200, core=True)
+    votes = models.IntegerField(verbose_name=_('votes'), default=0, editable=False)
+
+    survey = models.ForeignKey(Survey, verbose_name=_('survey'), related_name='choices', edit_inline=models.TABULAR, num_in_admin=3)
+
+    def __str__(self):
+        return self.choice
+
+    class Meta:
+        verbose_name = _('choice')
+        verbose_name_plural = _('choices')

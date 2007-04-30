@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-30 23:26+0200\n"
-"PO-Revision-Date: 2007-04-30 23:26+0200\n"
+"POT-Creation-Date: 2007-05-01 01:20+0200\n"
+"PO-Revision-Date: 2007-04-30 00:58+0200\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,8 @@ msgstr "pays"
 
 #: annuaire/models.py:46 annuaire/models.py:60 annuaire/models.py:199
 #: annuaire/models.py:259 annuaire/models.py:277 annuaire/models.py:296
-#: annuaire/models.py:334 groupes_regionaux/models.py:54
+#: annuaire/models.py:334 groupes_regionaux/models.py:54 voyages/models.py:32
+#: voyages/models.py:51
 msgid "type"
 msgstr "type"
 
@@ -296,17 +297,17 @@ msgid "service"
 msgstr ""
 
 #: annuaire/models.py:442 annuaire/models.py:468 evenements/models.py:35
-#: groupes/models.py:34
+#: groupes/models.py:34 news/models.py:31 voyages/models.py:53
 msgid "description"
 msgstr ""
 
 #: annuaire/models.py:445 annuaire/models.py:488 evenements/models.py:33
-#: groupes_regionaux/models.py:55
+#: groupes_regionaux/models.py:55 voyages/models.py:47
 msgid "start date"
 msgstr "date de début"
 
 #: annuaire/models.py:446 annuaire/models.py:472 annuaire/models.py:489
-#: evenements/models.py:34 groupes_regionaux/models.py:56
+#: evenements/models.py:34 groupes_regionaux/models.py:56 voyages/models.py:48
 msgid "end date"
 msgstr "date de fin"
 
@@ -358,15 +359,15 @@ msgstr "début de publication"
 msgid "publication end"
 msgstr "fin de publication"
 
-#: evenements/models.py:62 evenements/models.py:71
+#: evenements/models.py:62 evenements/models.py:71 voyages/models.py:83
 msgid "event"
 msgstr "événement"
 
-#: evenements/models.py:66
+#: evenements/models.py:66 voyages/models.py:77
 msgid "subscriber number"
 msgstr "nombre de participants"
 
-#: evenements/models.py:70
+#: evenements/models.py:70 voyages/models.py:82
 msgid "subscriber"
 msgstr "participant"
 
@@ -417,3 +418,95 @@ msgstr "adhésion group régional"
 #: groupes_regionaux/models.py:63
 msgid "regional group memberships"
 msgstr "adhésions groupes régionaux"
+
+#: news/models.py:30
+msgid "title"
+msgstr "titre"
+
+#: news/models.py:32
+msgid "image"
+msgstr ""
+
+#: news/models.py:51
+msgid "news item"
+msgstr "actualité"
+
+#: sondages/models.py:27
+msgid "question"
+msgstr ""
+
+#: sondages/models.py:28
+msgid "publication date"
+msgstr "date de publication"
+
+#: sondages/models.py:29
+msgid "online"
+msgstr "en ligne"
+
+#: sondages/models.py:39 sondages/models.py:46
+msgid "survey"
+msgstr "sondage"
+
+#: sondages/models.py:43 sondages/models.py:52
+msgid "choice"
+msgstr "choix"
+
+#: sondages/models.py:44
+msgid "votes"
+msgstr ""
+
+#: sondages/models.py:53
+msgid "choices"
+msgstr "choix"
+
+#: voyages/models.py:41
+msgid "travel type"
+msgstr "type de voyage"
+
+#: voyages/models.py:42
+msgid "travel types"
+msgstr "types de voyage"
+
+#: voyages/models.py:46
+msgid "label"
+msgstr "libellé"
+
+#: voyages/models.py:49
+msgid "date"
+msgstr "date"
+
+#: voyages/models.py:50
+msgid "term"
+msgstr "durée"
+
+#: voyages/models.py:52
+msgid "visited places"
+msgstr "lieux visités"
+
+#: voyages/models.py:54
+msgid "price"
+msgstr "prix"
+
+#: voyages/models.py:55
+msgid "thumbnail"
+msgstr "vignette"
+
+#: voyages/models.py:56
+msgid "report"
+msgstr "compte rendu"
+
+#: voyages/models.py:73
+msgid "travel"
+msgstr "voyage"
+
+#: voyages/models.py:78
+msgid "comment"
+msgstr "commentaire"
+
+#: voyages/models.py:86
+msgid "travel subscription"
+msgstr "inscription"
+
+#: voyages/models.py:87
+msgid "travel subscriptions"
+msgstr "inscriptions"

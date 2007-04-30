@@ -23,48 +23,68 @@
 import datetime
 
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from ain7.annuaire.models import Person
 
+class TravelType(models.Model):
+    
+    type = models.CharField(verbose_name=_('type'), maxlength=50)
+
+    def __str__(self):
+        return self.type
+
+    class Admin:
+        pass
+
+    class Meta:
+        verbose_name = _('travel type')
+        verbose_name_plural = _('travel types')
+
 class Travel(models.Model):
 
-    TRAVEL_TYPE = (
-         (0,'Circuit'),
-         (1,'Croisière'),
-         (2,'Circuit & Croisière'),
-    )
+    label = models.CharField(verbose_name=_('label'), maxlength=20)
+    start_date = models.DateField(verbose_name=_('start date'), blank=True, null=True)
+    end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
+    date = models.CharField(verbose_name=_('date'), maxlength=30)
+    term = models.IntegerField(verbose_name=_('term'), default=0, blank=True, null=True)
+    type = models.ForeignKey(TravelType, verbose_name=_('type'))
+    visited_places = models.CharField(verbose_name=_('visited places'), maxlength=100)
+    description = models.TextField(verbose_name=_('description'))
+    price = models.IntegerField(verbose_name=_('price'), blank=True, null=True)
+    thumbnail = models.ImageField(verbose_name=_('thumbnail'), upload_to='data',blank=True,null=True)
+    report = models.TextField(verbose_name=_('report'), blank=True, null=True)
 
-    libelle = models.CharField(maxlength=20)
-    start_date = models.DateField(blank=True, null=True)
-    end_date = models.DateField(blank=True, null=True)
-    date = models.CharField(maxlength=30)
-    duree = models.IntegerField(blank=True, null=True)
-    #travel_type = models.IntegerField(choices=TRAVEL_TYPE)
-    lieux_visites = models.CharField(maxlength=100)
-    description = models.TextField()
-    price = models.IntegerField(blank=True, null=True)
-    vignette = models.ImageField(upload_to='data',blank=True,null=True)
-    compte_rendu = models.TextField()
-
-    creation_date =  models.DateTimeField(editable=False)
+    # Internal
+    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
     modification_date = models.DateTimeField(editable=False)
 
     def __str__(self):
-        return self.libelle
+        return self.label
 
     def save(self):
-        if not self.creation_date:
-             self.creation_date = datetime.date.today()
         self.modification_date = datetime.datetime.today()
         return super(Travel, self).save()
 
     class Admin:
         pass
+    
+    class Meta:
+        verbose_name = _('travel')
+        ordering = ['-start_date', '-end_date', '-date']
 
-class Inscription(models.Model):
+class Subscription(models.Model):
 
-    person = models.ForeignKey(Person)
-    travel = models.ForeignKey(Travel)
-    person_number = models.IntegerField()
-    comment = models.TextField()
+    subscriber_number = models.IntegerField(verbose_name=_('subscriber number'), default=1, core=True)
+    comment = models.TextField(verbose_name=_('comment'), blank=True, null=True)
+
+    subscription_date = models.DateTimeField(default=datetime.datetime.now, editable=False)
+
+    subscriber = models.ForeignKey(Person, verbose_name=_('subscriber'), related_name='travel_subscriptions')
+    travel = models.ForeignKey(Travel, verbose_name=_('event'), related_name='subscriptions', edit_inline=models.TABULAR, num_in_admin=1)
+
+    class Meta:
+        verbose_name = _('travel subscription')
+        verbose_name_plural = _('travel subscriptions')
+
 

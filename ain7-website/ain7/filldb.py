@@ -20,7 +20,7 @@
 #
 #
 
-from datetime import date
+from datetime import date, datetime
 
 from django.core import validators
 from django.contrib.auth.models import User
@@ -459,78 +459,84 @@ def filldb():
     ain7voyages.administrator = lionel
     ain7voyages.save()
 
-    sondage1 = sondages.Sondage()
+    sondage1 = sondages.Survey()
     sondage1.question = "Quelle est votre couleur préférée ?"
-    sondage1.date_publication = date(2007,04,05)
-    sondage1.en_ligne = True
+    sondage1.publication_date = datetime.now()
+    sondage1.is_online = True
     sondage1.save()
 
-    sondage1_choix1 = sondages.Choix()
-    sondage1_choix1.sondage = sondage1
-    sondage1_choix1.choix = "Bleu"
+    sondage1_choix1 = sondages.Choice()
+    sondage1_choix1.survey = sondage1
+    sondage1_choix1.choice = "Bleu"
     sondage1_choix1.save()
 
-    sondage1_choix2 = sondages.Choix()
-    sondage1_choix2.sondage = sondage1
-    sondage1_choix2.choix = "Vert"
+    sondage1_choix2 = sondages.Choice()
+    sondage1_choix2.survey = sondage1
+    sondage1_choix2.choice = "Vert"
     sondage1_choix2.save()
 
-    sondage1_choix3 = sondages.Choix()
-    sondage1_choix3.sondage = sondage1
-    sondage1_choix3.choix = "Rouge"
+    sondage1_choix3 = sondages.Choice()
+    sondage1_choix3.survey = sondage1
+    sondage1_choix3.choice = "Rouge"
     sondage1_choix3.save()
 
-    news1 = news.Actualite()
-    news1.titre = "Nouveau portail Web"
+    news1 = news.NewsItem()
+    news1.title = "Nouveau portail Web"
     news1.description = """L'AIn7 travaille actuellement sur l'élaboration d'un 
     nouveau portail. N'hésitez pas à apporter vos idées et vos commentaires."""
     news1.save()
 
-    news2 = news.Actualite()
-    news2.titre = "100 ans !"
+    news2 = news.NewsItem()
+    news2.title = "100 ans !"
     news2.description = """L'n7 fête cette année ces 100 ans et va  tout au
     long de l'année 2007 célébrer à travers différentes manifestations cet anniversaire"""
     news2.save()
 
+    looptravel = voyages.TravelType(type="Circuit")
+    looptravel.save()
+
+    boattravel = voyages.TravelType(type="Croisière")
+    boattravel.save()
+
     travel1 = voyages.Travel()
-    travel1.libelle = "Varsovie & croisière sur la Vistule"
+    travel1.label = "Varsovie & croisière sur la Vistule"
     travel1.date = "Juin 2007"
-    travel1.duree = 14
-    travel1.type_travel = 2
-    travel1.lieux_visites = "de Gdansk à Kaliningrad"
+    travel1.term = 14
+    travel1.type = looptravel
+    travel1.visited_places = "de Gdansk à Kaliningrad"
     travel1.prix = 2350
     travel1.save()
 
     travel2 = voyages.Travel()
-    travel2.libelle = "Japon"
+    travel2.label = "Japon"
     travel2.date = "Octobre 2007"
-    travel2.duree = 13
-    travel2.type_travel = 0
-    travel2.lieux_visites = "Tokyo, Atami, Kyoto, Hiroshima, Nara, Osazka"
+    travel2.term = 13
+    travel2.type = looptravel
+    travel2.visited_places = "Tokyo, Atami, Kyoto, Hiroshima, Nara, Osazka"
     travel2.prix = 3890
     travel2.save()
 
     travel3 = voyages.Travel()
-    travel3.libelle = "Birmanie"
+    travel3.label = "Birmanie"
     travel3.date = "Février 2008"
-    travel3.type_travel = 2
-    travel3.lieux_visites = "Ragoon, Pagan, Sagain, Mandalay"
+    travel3.type = looptravel
+    travel3.visited_places = "Ragoon, Pagan, Sagain, Mandalay"
     travel3.prix = 3550
     travel3.save()
 
     travel4 = voyages.Travel()
-    travel4.libelle = "Mongolie/ Pékin"
+    travel4.label = "Mongolie/ Pékin"
     travel4.date = "Juin 2008"
-    travel4.duree = 15
-    travel4.type_travel = 1
+    travel4.term = 15
+    travel4.type = boattravel
     travel4.prix = 2760
     travel4.save()
 
     travel5 = voyages.Travel()
-    travel5.libelle = "Inde - Penjab & Himachal Pradesh"
+    travel5.label = "Inde - Penjab & Himachal Pradesh"
     travel5.date = "Octobre 2008"
-    travel5.duree = 16
-    travel5.type_travel = 1
-    travel5.lieux_visites = "Delhi, Amristar, Dharamsala, Manali, Simla"
+    travel5.term = 16
+    travel5.type = boattravel
+    travel5.visited_places = "Delhi, Amristar, Dharamsala, Manali, Simla"
     travel5.prix = 1900
     travel5.save()

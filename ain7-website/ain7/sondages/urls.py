@@ -26,8 +26,8 @@ urlpatterns = patterns('',
 
     # Sondage
     (r'^$', 'ain7.sondages.views.index'),
-    (r'^(?P<sondage_id>\d+)/vote/$', 'ain7.sondages.views.vote'),
-    (r'^(?P<sondage_id>\d+)/resultats/$', 'ain7.sondages.views.resultats'),
-    (r'^(?P<sondage_id>\d+)/detail/$', 'ain7.sondages.views.detail'),
+    (r'^(?P<survey_id>\d+)/vote/$', 'ain7.sondages.views.vote'),
+    (r'^(?P<survey_id>\d+)/resultats/$', 'ain7.sondages.views.resultats'),
+    (r'^(?P<survey_id>\d+)/detail/(?P<choice_id>\d+)/$', 'ain7.sondages.views.detail'),
 
 )

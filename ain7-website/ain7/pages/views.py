@@ -21,14 +21,14 @@
 #
 
 from django.shortcuts import render_to_response
-from ain7.news.models import Actualite
-from ain7.sondages.models import Sondage
+from ain7.news.models import NewsItem
+from ain7.sondages.models import Survey
 
 def homepage(request):
-    liste_actualites = Actualite.objects.all().order_by('titre')[:5]
-    liste_sondages = Sondage.objects.all()[:2]
+    news = NewsItem.objects.all().order_by('title')[:5]
+    liste_sondages = Survey.objects.all()[:2]
     user = request.user
-    return render_to_response('pages/homepage.html', {'liste_actualites': liste_actualites , 'liste_sondages': liste_sondages, 'user': user })
+    return render_to_response('pages/homepage.html', {'news': news , 'liste_sondages': liste_sondages, 'user': user })
 
 def apropos(request):
     user = request.user

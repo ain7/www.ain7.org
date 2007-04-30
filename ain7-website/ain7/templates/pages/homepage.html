@@ -54,26 +54,26 @@
 		</div>	
 		<div class="right">
 			<h3>Actualités</h3>
-    {% for actu in liste_actualites %}
+    {% for news_item in news %}
 			<div class="right_articles">
-				<p><img src="/site_media/images/gnome-news.png" alt="Image" title="Image" class="image" /><b>{{ actu.titre }}</b><br />{{ actu.description }}.</p>
+				<p><img src="/site_media/images/gnome-news.png" alt="Image" title="Image" class="image" /><b>{{ news_item.title }}</b><br />{{ news_item.description }}.</p>
 			</div>
     {% endfor %}
 
 
                         <h3>Sondage</h3>
-    {% for sondage in liste_sondages %}
+    {% for survey in liste_sondages %}
                         <div class="right_articles">
-                             <form action="/sondages/{{ sondage.id }}/vote/" method="post">
-                             <p> {{ sondage.question }} </p>
-                             {% for choix in sondage.choix_set.all %}
-                                 <input type="radio" name="choix" id="choice{{ forloop.counter }}" value="{{ choix.id }}" />
-                                 <label for="choice{{ forloop.counter }}">{{ choix.choix }}</label>
+                             <form action="/sondages/{{ survey.id }}/vote/" method="post">
+                             <p> {{ survey.question }} </p>
+                             {% for choice in survey.choices.all %}
+                                 <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+                                 <label for="choice{{ forloop.counter }}">{{ choice.choice }}</label>
 				 <br />
                              {% endfor %}
                              <div align="center">
                              <input type="submit" value="Voter" class="button"/><br/>
-    			     <a href="/sondages/{{ sondage.id }}/resultats/">Les résultats</a> -
+    			     <a href="/sondages/{{ survey.id }}/resultats/">Les résultats</a> -
     			     <a href="/sondages/">Historique des sondages</a>
                              </div>
                              </form>

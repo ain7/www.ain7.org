@@ -8,7 +8,7 @@
 {% if travels %}
     <ul>
     {% for travel in travels %}
-           <li><b>{{ travel.libelle }} - {{ travel.date }}</b> : {{ travel.get_travel_type_display }} de {{ travel.duree }}. Lieux visites : {{ travel.lieux_visites }}</li>
+           <li><b>{{ travel.label }} - {{ travel.date }}</b> : {{ travel.type }} de {{ travel.term }} jours. Lieux visites : {{ travel.visited_places }}</li>
     {% endfor %}
      </ul>
 {% else %}

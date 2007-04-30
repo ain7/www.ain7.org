@@ -27,6 +27,6 @@ from django.newforms import widgets
 from ain7.voyages.models import Travel
 
 def index(request):
-    travels = Travel.objects.all().order_by('date')[:5]
+    travels = Travel.objects.all()[:5]
     return render_to_response('voyages/index.html', {'travels': travels, 'user': request.user})
 

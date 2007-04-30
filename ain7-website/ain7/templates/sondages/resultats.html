@@ -6,11 +6,11 @@
 
 <div id="content-main">
 
-<h2>{{ sondage.question }}</h2>
+<h2>{{ survey.question }}</h2>
 
 <ul>
-{% for choix in sondage.choix_set.all %}
-    <li>{{ choix.choice }} : {{ choix.votes }} vote{{ choix.votes|pluralize }}</li>
+{% for choice in survey.choices.all %}
+    <li>{{ choice.choice }} : {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
 {% endfor %}
 </ul>
 
