@@ -1,20 +1,21 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block barre %}
   <ul class="ligne1">
-	<li><a href="/" accesskey="h">Accueil</a></li>
-	<li><a href="/association/" accesskey="o">L'association</a></li>
-	<li><a href="/annuaire/" accesskey="a">Annuaire</a></li>
-	<li><a href="/evenements/" accesskey="e">Évènements</a></li>
-	<li><a href="/emploi/" accesskey="s">Service emploi</a></li>
+	<li><a href="/" accesskey="h">{% trans "Home"%}</a></li>
+	<li><a href="/association/" accesskey="o">{% trans "The association"%}</a></li>
+	<li><a href="/annuaire/" accesskey="a">{% trans "Directory"%}</a></li>
+	<li><a href="/evenements/" accesskey="e">{% trans "Events"%}</a></li>
+	<li><a href="/emploi/" accesskey="s">{% trans "Job service"%}</a></li>
   </ul>
   <ul class="ligne2">
-	<li><a href="/groupes_regionaux/" accesskey="r">Groupes régionaux</a></li>
-	<li><a href="/groupes/" accesskey="g">Groupes de travail</a></li>
-	<li class="active"><a href="/publications/" accesskey="p">Publications</a></li>
-	<li><a href="/international/" accesskey="i">L'international</a></li>
-	<li><a href="/voyages/" accesskey="v">Voyages</a></li>
-	<li><a href="/forums/" accesskey="f">Forums</a></li>
-	<li><a href="/planet/" accesskey="l">Planet</a></li>
+	<li><a href="/groupes_regionaux/" accesskey="r">{% trans "regional groups"%}</a></li>
+	<li><a href="/groupes/" accesskey="g">{% trans "Working groups"%}</a></li>
+	<li class="active"><a href="/publications/" accesskey="p">{% trans "Publications"%}</a></li>
+	<li><a href="/international/" accesskey="i">{% trans "International"%}</a></li>
+	<li><a href="/voyages/" accesskey="v">{% trans "Travels"%}</a></li>
+	<li><a href="/forums/" accesskey="f">{% trans "Forums"%}</a></li>
+	<li><a href="/planet/" accesskey="l">{% trans "Planet"%}</a></li>
   </ul>
 {% endblock %}

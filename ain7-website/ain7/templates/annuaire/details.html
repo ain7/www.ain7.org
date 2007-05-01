@@ -7,25 +7,25 @@
 
 <div id="content-main">
 
-<h1>Fiche personnelle de {{ person.first_name }} {{ person.last_name }}</h1>
-<p><a href="/annuaire/edit/{{ person.user.id }}/">Editer ces informations</a></p>
-<h2>Données personnelles</h2>
+<h1>{% trans "personal file" %} {{ person.first_name }} {{ person.last_name }}</h1>
+<p><a href="/annuaire/edit/{{ person.user.id }}/">{% trans "Edit these data." %}</a></p>
+<h2>{% trans "personal data" %}</h2>
 <table border="0">
 <tr><td>
 <ul>
-   <li><b>Nom&nbsp;:</b> {{ person.last_name }}</li>
-   <li><b>Prénom&nbsp;:</b> {{ person.first_name }}</li>
-   <li><b>Surnom&nbsp;:</b> {{ person.nick_name }}</li>
-   <li><b>Promo&nbsp;:</b> {% for promo in person.promos.all %}{% if forloop.last %} {{ promo }}{% endif %}{% endfor %}</li>
-   <li><b>Date de naissance&nbsp;:</b> {{ person.birth_date|date:"d/m/Y" }}</li>
+   <li><b>{% trans "last name" %}&nbsp;:</b> {{ person.last_name }}</li>
+   <li><b>{% trans "first name" %}&nbsp;:</b> {{ person.first_name }}</li>
+   <li><b>{% trans "nick name" %}&nbsp;:</b> {{ person.nick_name }}</li>
+   <li><b>{% trans "promos" %}&nbsp;:</b> {% for promo in person.promos.all %}{% if forloop.last %} {{ promo }}{% endif %}{% endfor %}</li>
+   <li><b>{% trans "birth date" %}&nbsp;:</b> {{ person.birth_date|date:"d/m/Y" }}</li>
 </ul>
 </td><td>
 {% if person.avatar %}
-	<img src="/site_media/{{ person.get_avatar_url }}" height="100" alt="Avatar"/></td></tr>
+	<img src="/site_media/{{ person.get_avatar_url }}" height="100" alt="{% trans "avatar" %}"/></td></tr>
 {% endif %}
 {% for address in person.addresses.all %}
 	{% if not address.is_confidential %}
-	    <tr><td><b>Adresse {{ address.type|lower }} :</b> {{ address.number }} {{ address.street }} - {{address.zip_code }} {{ address.city }} - {{ address.country.name }}</td></tr>
+	    <tr><td><b>{% trans "adress" %} {{ address.type|lower }} :</b> {{ address.number }} {{ address.street }} - {{address.zip_code }} {{ address.city }} - {{ address.country.name }}</td></tr>
 	{% endif %}
 {% endfor %}
 
@@ -37,25 +37,25 @@
 
 {% for email in person.emails.all %}
 	{% if not email.is_confidential %}
-	    <tr><td><img src="/site_media/images/mail.png" alt="Couriel"/><a href="mailto:{{ email.email }}">{{ email.email }}</a></td></tr>
+	    <tr><td><img src="/site_media/images/mail.png" alt="{% trans "email" %}"/><a href="mailto:{{ email.email }}">{{ email.email }}</a></td></tr>
 	{% endif %}
 {% endfor %}
 
 {% for im in person.instant_messagings.all %}
-    <tr><td><img src="/site_media/images/{{ im.get_type_display|lower }}.png" alt="Contact {{im.get_im_display|lower }}"/> {{ im.identifier }}</td></tr>
+    <tr><td><img src="/site_media/images/{{ im.get_type_display|lower }}.png" alt="{% trans "contact" %} {{im.get_im_display|lower }}"/> {{ im.identifier }}</td></tr>
 {% endfor %}
 
 {% for irc in person.ircs.all %}
-    <tr valign="middle"><td><img src="/site_media/images/irc.png" alt="IRC"/> {{ irc.pseudo }} @ {{ irc.network }} sur {{ irc.channels }}</td></tr>
+    <tr valign="middle"><td><img src="/site_media/images/irc.png" alt="{% trans "irc" %}"/> {{ irc.pseudo }} @ {{ irc.network }} {% trans "on" %} {{ irc.channels }}</td></tr>
 {% endfor %}
 
 {% for web_site in person.web_sites.all %}
-    <tr valign="middle"><td><img src="/site_media/images/web.png" alt="Site web"/><a href="{{ web_site.url }}">{{ web_site.url }}</a></td></tr>
+    <tr valign="middle"><td><img src="/site_media/images/web.png" alt="{% trans "web site" %}"/><a href="{{ web_site.url }}">{{ web_site.url }}</a></td></tr>
 {% endfor %}
 
 </table>
 
-<h2>Activité AIn7</h2>
+<h2>{% trans "AIn7 activity" %}</h2>
 
 {% if person.group_memberships.all %}
 <ul>
@@ -65,13 +65,13 @@
 </ul>
 {% endif %}
 
-<h2>Expériences</h2>
+<h2>{% trans "Professional experiences" %}</h2>
 
 {% if person.positions.all %}
 <table>
 {% for position in person.positions.all %}
 	{% if not position.is_confidential %}
-		<tr><td><b>{{ position.start_date|date:"d/m/Y" }} - {{ position.end_date|date:"d/m/Y"|default:"..." }}&nbsp;:</b></td><td> {{ position.fonction }} au sein de {{ position.office }} ({{ position.office.company }})</td></tr>
+		<tr><td><b>{{ position.start_date|date:"d/m/Y" }} - {{ position.end_date|date:"d/m/Y"|default:"..." }}&nbsp;:</b></td><td> {{ position.fonction }} {% trans "for" %} {{ position.office }} ({{ position.office.company }})</td></tr>
 		{% if position.description %}
 			<tr><td></td><td>{{ position.description }}</td></tr>
 		{% endif %}
@@ -80,7 +80,7 @@
 </table>
 {% endif %}
 
-<h2>Vie associative à l'N7</h2>
+<h2>{% trans "N7 associative activities" %}</h2>
 
 {% if person.club_memberships.all %}
 {% for club_membership in person.club_memberships.all %}

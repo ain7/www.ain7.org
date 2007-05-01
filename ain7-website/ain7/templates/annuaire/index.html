@@ -6,7 +6,7 @@
 
 <div id="content-main">
 
-<h2>Liste de votre recherche</h2>
+<h2>{% trans "Results list"%}</h2>
 {% if persons %}
     <ul>
     {% for person in persons %}
@@ -19,7 +19,7 @@
     {% endfor %}
      </ul>
 {% else %}
-    <p>Aucune personne dans l'application.</p>
+    <p>{% trans "No person matched your criteria." %}</p>
 {% endif %}
 
 </div>
