@@ -27,12 +27,14 @@ from django.shortcuts import render_to_response
 from django import newforms as forms
 
 from ain7.annuaire.models import Person
+from ain7.annuaire.models import Track
+from ain7.annuaire.models import Promo
 
 class SearchPersonForm(forms.Form):
     last_name = forms.CharField(label=_('last name').capitalize(), max_length=50, required=False)
     first_name = forms.CharField(label=_('first name').capitalize(), max_length=50, required=False)
     promo = forms.IntegerField(label=_('promo').capitalize(), required=False)
-    filiere = forms.IntegerField(label=_('track').capitalize(), required=False)
+    track = forms.IntegerField(label=_('track').capitalize(), required=False)
 
 def detail(request, person_id):
 
@@ -47,27 +49,32 @@ def search(request):
     if not request.user.is_authenticated():
          return render_to_response('annuaire/authentification_needed.html', {'user': request.user})
 
-
-    JokerFilieres=(0,'Toutes')
-    ListeFilieres=[JokerFilieres]#+list(Track.all)
-    SearchPersonForm.base_fields['filiere'].widget=\
-        forms.Select(choices=ListeFilieres)
-    
-    JokerPromos=(0,'Toutes')
-    ListePromos=[JokerPromos]#+list(Promo.all)
-    SearchPersonForm.base_fields['promo'].widget=\
-        forms.Select(choices=tuple(ListePromos))
+    maxTrackId=Track.objects.order_by('-id')[0].id+1
+    trackList=[(maxTrackId,'Toutes')]
+    for track in Track.objects.all():
+        trackList.append((track.id,track.name))
+    SearchPersonForm.base_fields['track'].widget=\
+        forms.Select(choices=trackList)
 
     if request.method == 'POST':
         form = SearchPersonForm(request.POST)
         if form.is_valid():
-            criteres={'last_name__contains':form.clean_data['last_name'],\
+            criteria={'last_name__contains':form.clean_data['last_name'],\
                       'first_name__contains':form.clean_data['first_name']}
-            if form.clean_data['promo']!=0:
-                criteres['promo']=form.clean_data['promo']
-            if form.clean_data['filiere']!=0:               
-                criteres['filiere']=form.clean_data['filiere']
-            persons = Person.objects.filter(**criteres)
+            
+            # ici on commence par rechercher toutes les promos
+            # qui concordent avec l'année de promotion et la filière
+            # saisis par l'utilisateur.
+            promoCriteria={}
+            if form.clean_data['promo']!=None:
+                promoCriteria['year']=form.clean_data['promo']
+            if form.clean_data['track']!=maxTrackId:
+                promoCriteria['track']=\
+                    Track.objects.get(id=form.clean_data['track'])
+            if len(promoCriteria)!=0:
+                criteria['promos__in']=Promo.objects.filter(**promoCriteria)
+
+            persons = Person.objects.filter(**criteria)
             return render_to_response('annuaire/index.html', {'persons': persons, 'user': request.user})
 
     else:

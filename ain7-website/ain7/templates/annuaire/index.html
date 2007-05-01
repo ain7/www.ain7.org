@@ -10,7 +10,12 @@
 {% if persons %}
     <ul>
     {% for person in persons %}
-        <li><a href="/annuaire/{{ person.user.id }}/">{{ person.last_name }}</a> {{ person.first_name }} {{ person.promo }} {{ person.get_filiere_display }}</li>
+        <li><a href="/annuaire/{{ person.user.id }}/">
+            {{ person.last_name }} {{ person.first_name }}</a> 
+            {% for promo in person.promos.all %}
+               {% if forloop.last %} {{ promo }}{% endif %}
+            {% endfor %}
+				</li>
     {% endfor %}
      </ul>
 {% else %}
