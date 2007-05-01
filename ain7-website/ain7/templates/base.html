@@ -1,3 +1,4 @@
+{% load i18n %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -5,7 +6,7 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" href="/site_media/skins/default/css/style.css" type="text/css" />
   <link rel="shortcut icon" type="image/x-icon" href="/site_media/images/favicon.png" />
-	<title>AIn7 : association des ingénieurs IET - ENSEEIHT</title>
+	<title>{% trans "html_title" %}</title>
 {% block javascript %}{{ javascript }}{% endblock %}
 {% block stylesheet %}{{ stylesheet }}{% endblock %}
 </head>
@@ -17,19 +18,19 @@
 {% if user.is_authenticated %}
 <form method="post" action="/logout/">
 <div align="center">
-Connecté en tant que <a href="/annuaire/{{ user.id }}/">{{ user.person.first_name }} {{ user.person.last_name }}</a>
-<input class="button" type="submit" value="Déconnexion" />
+{% trans "Connected as" %} <a href="/annuaire/{{ user.id }}/">{{ user.person.first_name }} {{ user.person.last_name }}</a>
+<input class="button" type="submit" value="{% trans "Log out" %}" />
 </div>
 </form>
 {% else %}
 <form method="post" action="/login/">
 <table border="0">
 <tr>
-    <td>Identifiant&nbsp;:</td><td><input type="text" id="id_username" name="username" maxlength="50" tabindex="1" /></td>
+    <td>{% trans "Login" %}&nbsp;:</td><td><input type="text" id="id_username" name="username" maxlength="50" tabindex="1" /></td>
     <td rowspan="2"><input class="button" type="submit" value="Ok" tabindex="3" /></td>
 </tr>
 <tr>
-    <td>Mot de passe&nbsp;:</td><td><input type="password" id="id_password" name="password" maxlength="50" tabindex="2" /></td>
+    <td>{% trans "Password" %}&nbsp;:</td><td><input type="password" id="id_password" name="password" maxlength="50" tabindex="2" /></td>
 </tr>
 </table>
 </form>
@@ -37,7 +38,7 @@ Connecté en tant que <a href="/annuaire/{{ user.id }}/">{{ user.person.first_na
 				</div>		
 			</div>
 			<div class="logo">
-				<h1><a href="/" title="Portail web AIn7"><span class="dark">AIn7</span>.com</a></h1>
+				<h1><a href="/" title="{% trans "AIn7 web portal" %}"><span class="dark">AIn7</span>.com</a></h1>
 			</div>
 		</div>
 		<div class="bar">
@@ -47,8 +48,15 @@ Connecté en tant que <a href="/annuaire/{{ user.id }}/">{{ user.person.first_na
         {% block content %}{{ content }}{% endblock %}
 		
 		<div class="footer">
-			<p><a href="/rss/">Flux RSS</a> | <a href="/contact/">Contact</a> | <a href="/apropos/">A propos</a> | <a href="/sitemap/">Plan du site</a> | <a href="/mentions_legales/">Mentions légales</a> | <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> and <a href="http://validator.w3.org/check?uri=referer">XHTML</a><br />
-			&copy; Copyright 2007 AIn7</p>
+			<p><a href="/rss/">{% trans "RSS" %}</a> | 
+         <a href="/contact/">{% trans "contact" %}</a> | 
+         <a href="/apropos/">{% trans "About" %}</a> | 
+         <a href="/sitemap/">{% trans "Sitemap" %}</a> | 
+         <a href="/mentions_legales/">{% trans "Terms of use" %}</a> | 
+         <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>
+             {% trans "and"%}
+         <a href="http://validator.w3.org/check?uri=referer">XHTML</a><br />
+			   &copy; Copyright 2007 AIn7</p>
 		</div>
 	</div>
 </body>

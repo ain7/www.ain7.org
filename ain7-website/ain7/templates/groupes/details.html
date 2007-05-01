@@ -7,30 +7,30 @@
 <div id="content-main">
 
 <div class="right">
-<h3>Informations générales</h3>
+<h3>{% trans "General informations" %>Informations générales</h3>
 <ul>
-   <li><b>Nom :</b> {{ group.name }}</li>
-   <li><b>Contact :</b> {{ group.contact|default_if_none:"" }}</li>
-   <li><b>Responsable :</b> {% for membership in group.memberships.all %}{% if membership.is_administrator %} {{ membership.member }}{% endif %}{% endfor %}</li>
+   <li><b>{% trans "name" %} :</b> {{ group.name }}</li>
+   <li><b>{% trans "contact" %} :</b> {{ group.contact|default_if_none:"" }}</li>
+   <li><b>{% trans "Coordinator" %} :</b> {% for membership in group.memberships.all %}{% if membership.is_administrator %} {{ membership.member }}{% endif %}{% endfor %}</li>
 </ul>
 
-<h3>Actions</h3>
+<h3>{% trans "Actions" %}</h3>
 <ul>
-<li><a href="/groupes/edit/{{ group.id }}">Editer ces informations</a></li>
-<li><a href="/groupes/join/{{ group.id }}">Rejoindre le groupe</a></li>
+<li><a href="/groupes/edit/{{ group.id }}">{% trans "Edit these data." %}</a></li>
+<li><a href="/groupes/join/{{ group.id }}">{% trans "Join the group." %}</a></li>
 </ul>
 </div>
 
 <h3>{{ group.name }}</h3>
 {{ group.description|default_if_none:"" }}<br/>
 
-<h4>Liste des membres</h4>
+<h4>{% trans "Members list" %}</h4>
 <ul>
 {% for membership in group.memberships.all %}
     <li><a href="/annuaire/{{ membership.member.user.id }}/">{{ membership.member }}</a></li>
 {% endfor %}
 </ul>
-<h4>Présentation du groupe</h4>
+<h4>{% trans "Group presentation" %}</h4>
 {{ group.web_page|default_if_none:"" }}
 
 </div>

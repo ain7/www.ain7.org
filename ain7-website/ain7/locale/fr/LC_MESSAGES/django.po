@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-01 19:21+0200\n"
+"POT-Creation-Date: 2007-05-01 22:45+0200\n"
 "PO-Revision-Date: 2007-04-30 00:58+0200\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,8 @@ msgid "track"
 msgstr "filière"
 
 #: annuaire/models.py:31 annuaire/models.py:127 annuaire/models.py:154
-#: annuaire/models.py:384 annuaire/models.py:407 groupes/models.py:32
+#: annuaire/models.py:384 annuaire/models.py:407
+#: templates/groupes/details.html:12 groupes/models.py:32
 #: evenements/models.py:32 groupes_regionaux/models.py:32
 msgid "name"
 msgstr "nom"
@@ -350,7 +351,56 @@ msgstr ""
 msgid "news item"
 msgstr "actualité"
 
-#: templates/annuaire/index.html:9
+#: templates/base.html:9
+msgid "html_title"
+msgstr "AIn7 : association des ingénieurs IET - ENSEEIHT"
+
+#: templates/base.html:21
+msgid "Connected as"
+msgstr "Connecté en tant que "
+
+#: templates/base.html:22
+msgid "Log out"
+msgstr "Déconnexion"
+
+#: templates/base.html:29
+msgid "Login"
+msgstr "Identifiant"
+
+#: templates/base.html:33
+msgid "Password"
+msgstr "Mot de passe"
+
+#: templates/base.html:41
+msgid "AIn7 web portal"
+msgstr "Portail web AIn7"
+
+#: templates/base.html:51
+msgid "RSS"
+msgstr "Flux RSS"
+
+#: templates/base.html:52 templates/annuaire/details.html:45
+#: templates/groupes/details.html:13 groupes/models.py:33
+msgid "contact"
+msgstr "contact"
+
+#: templates/base.html:53
+msgid "About"
+msgstr "A propos"
+
+#: templates/base.html:54
+msgid "Sitemap"
+msgstr "Plan du site"
+
+#: templates/base.html:55
+msgid "Terms of use"
+msgstr "Mentions légales"
+
+#: templates/base.html:57
+msgid "and"
+msgstr "et"
+
+#: templates/annuaire/index.html:9 templates/groupes/index.html:9
 msgid "Results list"
 msgstr "Liste de votre recherche"
 
@@ -366,7 +416,7 @@ msgstr "Vous devez être authentifié pour accéder à cette partie du site."
 msgid "personal file"
 msgstr "Fiche personnelle de"
 
-#: templates/annuaire/details.html:11
+#: templates/annuaire/details.html:11 templates/groupes/details.html:19
 msgid "Edit these data."
 msgstr "Editer ces informations."
 
@@ -377,10 +427,6 @@ msgstr "Données personnelles"
 #: templates/annuaire/details.html:28
 msgid "adress"
 msgstr "adresse"
-
-#: templates/annuaire/details.html:45 groupes/models.py:33
-msgid "contact"
-msgstr "contact"
 
 #: templates/annuaire/details.html:49
 msgid "on"
@@ -410,7 +456,7 @@ msgstr "Vie associative à l'N7"
 #: templates/sondages/base.html:6 templates/voyages/base.html:6
 #: templates/groupes_regionaux/base.html:6
 msgid "Home"
-msgstr ""
+msgstr "Accueil"
 
 #: templates/annuaire/base.html:7 templates/pages/base_international.html:7
 #: templates/pages/base_publications.html:7
@@ -522,9 +568,89 @@ msgstr "Forums"
 msgid "Planet"
 msgstr "Planet"
 
-#: templates/annuaire/edit.html:14
+#: templates/annuaire/edit.html:14 templates/groupes/edit.html:17
 msgid "Save changes"
 msgstr "Sauvegarder les modifications"
+
+#: templates/groupes/index.html:17
+msgid "No group is defined."
+msgstr "Aucun groupe dans l'application."
+
+#: templates/groupes/details.html:14
+msgid "Coordinator"
+msgstr "Responsable"
+
+#: templates/groupes/details.html:17
+msgid "Actions"
+msgstr "Actions"
+
+#: templates/groupes/details.html:20
+msgid "Join the group."
+msgstr "Rejoindre le groupe."
+
+#: templates/groupes/details.html:27
+msgid "Members list"
+msgstr "Liste des membres"
+
+#: templates/groupes/details.html:33
+msgid "Group presentation"
+msgstr "Présentation du groupe"
+
+#: templates/evenements/index.html:8
+msgid "List of events and meetings to come."
+msgstr "Liste des événements et manifestations à venir"
+
+#: templates/evenements/index.html:16
+msgid "No planned event."
+msgstr "Aucun événement prévu."
+
+#: templates/emploi/index.html:8
+msgid "Jobs list"
+msgstr "Liste des emplois"
+
+#: templates/emploi/index.html:16
+msgid "No job."
+msgstr "Aucun emploi."
+
+#: templates/sondages/detail.html:11
+msgid "Back to homepage"
+msgstr "Retour à la page d'accueil"
+
+#: templates/sondages/detail.html:13
+msgid "Thank you for having chosen"
+msgstr "Merci d'avoir voté"
+
+#: templates/sondages/detail.html:13
+msgid "to the question"
+msgstr "à la question"
+
+#: templates/sondages/detail.html:14
+msgid "Results page"
+msgstr "Page des résultats"
+
+#: templates/voyages/index.html:8
+msgid "Travels list"
+msgstr "Liste des voyages"
+
+#: templates/voyages/index.html:13
+msgid "of"
+msgstr "de"
+
+#: templates/voyages/index.html:14
+msgid "days"
+msgstr "jours"
+
+#: templates/voyages/index.html:19
+msgid "No planned travels."
+msgstr "Aucun voyage prévu."
+
+#: templates/groupes_regionaux/index.html:8
+msgid "The regional groups"
+msgstr "Les groupes régionaux"
+
+#: templates/groupes_regionaux/index.html:16
+msgid "No regional group."
+msgstr "Aucun groupe régional."
 
 #: groupes/models.py:35
 msgid "web page"

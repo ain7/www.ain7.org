@@ -1,10 +1,11 @@
 {% extends "emploi/base.html" %}
+{% load i18n %}
 
 {% block content %}
 
 <div id="content-main">
 
-<h2>Liste des emplois</h2>
+<h2>{% trans "Jobs list" %}</h2>
 {% if liste_emplois %}
     <ul>
     {% for emploi in liste_emploiss %}
@@ -12,7 +13,7 @@
     {% endfor %}
      </ul>
 {% else %}
-    <p>Aucun emploi.</p>
+    <p>{% trans "No job." %}</p>
 {% endif %}
 
 </div>

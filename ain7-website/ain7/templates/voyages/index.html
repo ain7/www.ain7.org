@@ -1,18 +1,22 @@
 {% extends "voyages/base.html" %}
+{% load i18n %}
 
 {% block content %}
 
 <div id="content-main">
 
-<h2>Liste des voyages</h2>
+<h2>{% trans "Travels list" %}</h2>
 {% if travels %}
     <ul>
     {% for travel in travels %}
-           <li><b>{{ travel.label }} - {{ travel.date }}</b> : {{ travel.type }} de {{ travel.term }} jours. Lieux visites : {{ travel.visited_places }}</li>
+           <li><b>{{ travel.label }} - {{ travel.date }}</b> : 
+               {{ travel.type }} {% trans "of" %} {{ travel.term }} 
+               {% trans "days" %}. 
+               {% trans "visited places" %} : {{ travel.visited_places }}</li>
     {% endfor %}
      </ul>
 {% else %}
-    <p>Aucun voyage de prévu.</p>
+    <p>{% trans "No planned travels." %}</p>
 {% endif %}
 
 </div>

@@ -6,7 +6,7 @@
 
 <div id="content-main">
 
-<h2>Liste de votre recherche</h2>
+<h2>{% trans "Results list" %}</h2>
 {% if groups %}
     <ul>
     {% for group in groups %}
@@ -14,7 +14,7 @@
     {% endfor %}
      </ul>
 {% else %}
-    <p>Aucun groupe dans l'application.</p>
+    <p>{% trans "No group is defined." %}</p>
 {% endif %}
 
 </div>

@@ -8,10 +8,10 @@
 
 {% if error_message %}
   <h1>{{ error_message }}</h1>
-  <a href="/">Retour à la page d'accueil</a>
+  <a href="/">{% trans "Back to homepage" %}</a>
 {% else %}
-  <h1>Merci d'avoir voté "{{ choice }}" à la question "{{ survey.question }}".</h1>
-  <a href="/sondages/{{ survey.id }}/resultats/">Page des résultats</a>
+  <h1>{% trans "Thank you for having chosen" %} "{{ choice }}" {% trans "to the question" %} "{{ survey.question }}".</h1>
+  <a href="/sondages/{{ survey.id }}/resultats/">{% trans "Results page" %}</a>
 {% endif %}
 
 </div>
