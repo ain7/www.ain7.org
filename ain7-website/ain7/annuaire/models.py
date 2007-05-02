@@ -167,13 +167,13 @@ class Track(models.Model):
         pass
 
     class Meta:
-        verbose_name = _('track')
+        verbose_name = _('Track')
 
 class Promo(models.Model):
 
     year = models.IntegerField(verbose_name=_('year'))
 
-    track = models.ForeignKey(Track, verbose_name=_('track'), related_name='promos')
+    track = models.ForeignKey(Track, verbose_name=_('Track'), related_name='promos')
 
     def __str__(self):
         return str(self.track) + " " + str(self.year)
@@ -182,7 +182,7 @@ class Promo(models.Model):
         pass
 
     class Meta:
-        verbose_name = _('promo')
+        verbose_name = _('Promo')
         ordering = ['year']
 
 class Person(models.Model):
@@ -202,10 +202,10 @@ class Person(models.Model):
 
     # Civility
     sex = models.CharField(verbose_name=_('sex'), maxlength=1, choices=SEX, radio_admin=True)
-    last_name = models.CharField(verbose_name=_('last name'), maxlength=50)
-    first_name = models.CharField(verbose_name=_('first name'), maxlength=50)
+    last_name = models.CharField(verbose_name=_('Last name'), maxlength=50)
+    first_name = models.CharField(verbose_name=_('First name'), maxlength=50)
     maiden_name = models.CharField(verbose_name=_('maiden name'), maxlength=100, blank=True, null=True)
-    birth_date = models.DateField(verbose_name=_('birth date'), blank=True, null=True)
+    birth_date = models.DateField(verbose_name=_('Birth date'), blank=True, null=True)
     death_date = models.DateField(verbose_name=_('death date'), blank=True, null=True)
     country = models.ForeignKey(Country, verbose_name=_('nationality'))
 
@@ -214,13 +214,13 @@ class Person(models.Model):
     children_count = models.IntegerField(verbose_name=_('children number'), blank=True, null=True)
 
     # Other
-    nick_name = models.CharField(verbose_name=_('nick name'), maxlength=50, blank=True, null=True)
+    nick_name = models.CharField(verbose_name=_('Nick name'), maxlength=50, blank=True, null=True)
     avatar = models.ImageField(verbose_name=_('avatar'), upload_to='data', blank=True, null=True)
     blog = models.URLField(verbose_name=_('blog'), maxlength=80, verify_exists=True, blank=True, core=True)
     blog_agrege_sur_le_planet = models.BooleanField(verbose_name=_('blog on planet'), core=True, default=False)
 
     # School situation
-    promos = models.ManyToManyField(Promo, verbose_name=_('promos'), related_name='students', blank=True, null=True, filter_interface=models.HORIZONTAL)
+    promos = models.ManyToManyField(Promo, verbose_name=_('Promos'), related_name='students', blank=True, null=True, filter_interface=models.HORIZONTAL)
     diplomas = models.ManyToManyField(Diploma, verbose_name=_('diplomas'), related_name='graduates', blank=True, null=True, filter_interface=models.HORIZONTAL)
 
     # Civil situation
@@ -307,7 +307,7 @@ class Address(models.Model):
         return super(Address, self).save()
 
     class Meta:
-        verbose_name = _('address')
+        verbose_name = _('Address')
 
 class Email(models.Model):
 

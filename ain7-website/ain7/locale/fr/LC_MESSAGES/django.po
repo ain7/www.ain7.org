@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-02 23:01+0200\n"
+"POT-Creation-Date: 2007-05-02 23:29+0200\n"
 "PO-Revision-Date: 2007-04-30 00:58+0200\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,21 +17,21 @@ msgstr ""
 
 #: annuaire/views.py:34 annuaire/models.py:205
 #: templates/annuaire/details.html:16
-msgid "last name"
-msgstr "nom"
+msgid "Last name"
+msgstr "Nom"
 
 #: annuaire/views.py:35 annuaire/models.py:206
 #: templates/annuaire/details.html:17
-msgid "first name"
-msgstr "prénom"
+msgid "First name"
+msgstr "Prénom"
 
 #: annuaire/views.py:36 annuaire/models.py:185
-msgid "promo"
-msgstr "promotion"
+msgid "Promo"
+msgstr "Promotions"
 
 #: annuaire/views.py:37 annuaire/models.py:170 annuaire/models.py:176
-msgid "track"
-msgstr "filière"
+msgid "Track"
+msgstr "Filière"
 
 #: annuaire/models.py:31 annuaire/models.py:127 annuaire/models.py:154
 #: annuaire/models.py:384 annuaire/models.py:407
@@ -160,8 +160,8 @@ msgid "maiden name"
 msgstr "nom de jeune fille"
 
 #: annuaire/models.py:208 templates/annuaire/details.html:20
-msgid "birth date"
-msgstr "date de naissance"
+msgid "Birth date"
+msgstr "Date de naissance"
 
 #: annuaire/models.py:209
 msgid "death date"
@@ -176,8 +176,8 @@ msgid "children number"
 msgstr "nombre d'enfants"
 
 #: annuaire/models.py:217 templates/annuaire/details.html:18
-msgid "nick name"
-msgstr "surnom"
+msgid "Nick name"
+msgstr "Surnom"
 
 #: annuaire/models.py:218 templates/annuaire/details.html:24
 msgid "avatar"
@@ -192,8 +192,8 @@ msgid "blog on planet"
 msgstr "Blog agrégé sur le Planet"
 
 #: annuaire/models.py:223 templates/annuaire/details.html:19
-msgid "promos"
-msgstr "promotions"
+msgid "Promos"
+msgstr "Promotions"
 
 #: annuaire/models.py:224
 msgid "diplomas"
@@ -233,8 +233,8 @@ msgid "address types"
 msgstr "types d'adresse"
 
 #: annuaire/models.py:310 templates/annuaire/details.html:28
-msgid "address"
-msgstr "adresse"
+msgid "Address"
+msgstr "Adresse"
 
 #: annuaire/models.py:335
 msgid "identifier"
@@ -383,7 +383,8 @@ msgstr "Portail web AIn7"
 msgid "RSS"
 msgstr "Flux RSS"
 
-#: templates/base.html:52 templates/groupes/details.html:13
+#: templates/base.html:52 templates/annuaire/details.html:45
+#: templates/groupes/details.html:13 groupes/models.py:33
 msgid "Contact"
 msgstr "Contact"
 
@@ -426,11 +427,6 @@ msgstr "Editer ces informations."
 #: templates/annuaire/details.html:12
 msgid "Personal data"
 msgstr "Données personnelles"
-
-#: templates/annuaire/details.html:45 groupes/models.py:33
-#, fuzzy
-msgid "contact"
-msgstr "Contact"
 
 #: templates/annuaire/details.html:49
 msgid "on"
@@ -816,3 +812,18 @@ msgstr "adhésion group régional"
 #: groupes_regionaux/models.py:63
 msgid "regional group memberships"
 msgstr "adhésions groupes régionaux"
+
+#, fuzzy
+#~ msgid "address"
+#~ msgstr "Adresse"
+
+#~ msgid "promo"
+#~ msgstr "promotion"
+
+#, fuzzy
+#~ msgid "last name"
+#~ msgstr "Nom"
+
+#, fuzzy
+#~ msgid "first name"
+#~ msgstr "Prénom"

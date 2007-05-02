@@ -31,10 +31,10 @@ from ain7.annuaire.models import Track
 from ain7.annuaire.models import Promo
 
 class SearchPersonForm(forms.Form):
-    last_name = forms.CharField(label=_('last name').capitalize(), max_length=50, required=False)
-    first_name = forms.CharField(label=_('first name').capitalize(), max_length=50, required=False)
-    promo = forms.IntegerField(label=_('promo').capitalize(), required=False)
-    track = forms.IntegerField(label=_('track').capitalize(), required=False)
+    last_name = forms.CharField(label=_('Last name'), max_length=50, required=False)
+    first_name = forms.CharField(label=_('First name'), max_length=50, required=False)
+    promo = forms.IntegerField(label=_('Promo'), required=False)
+    track = forms.IntegerField(label=_('Track'), required=False)
 
 def detail(request, person_id):
 

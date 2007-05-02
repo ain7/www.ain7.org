@@ -13,11 +13,11 @@
 <table border="0">
 <tr><td>
 <ul>
-   <li><b>{% trans "last name" %}&nbsp;:</b> {{ person.last_name }}</li>
-   <li><b>{% trans "first name" %}&nbsp;:</b> {{ person.first_name }}</li>
-   <li><b>{% trans "nick name" %}&nbsp;:</b> {{ person.nick_name }}</li>
-   <li><b>{% trans "promos" %}&nbsp;:</b> {% for promo in person.promos.all %}{% if forloop.last %} {{ promo }}{% endif %}{% endfor %}</li>
-   <li><b>{% trans "birth date" %}&nbsp;:</b> {{ person.birth_date|date:"d/m/Y" }}</li>
+   <li><b>{% trans "Last name" %}&nbsp;:</b> {{ person.last_name }}</li>
+   <li><b>{% trans "First name" %}&nbsp;:</b> {{ person.first_name }}</li>
+   <li><b>{% trans "Nick name" %}&nbsp;:</b> {{ person.nick_name }}</li>
+   <li><b>{% trans "Promos" %}&nbsp;:</b> {% for promo in person.promos.all %}{% if forloop.last %} {{ promo }}{% endif %}{% endfor %}</li>
+   <li><b>{% trans "Birth date" %}&nbsp;:</b> {{ person.birth_date|date:"d/m/Y" }}</li>
 </ul>
 </td><td>
 {% if person.avatar %}
@@ -25,7 +25,7 @@
 {% endif %}
 {% for address in person.addresses.all %}
 	{% if not address.is_confidential %}
-	    <tr><td><b>{% trans "address" %} {{ address.type|lower }} :</b> {{ address.number }} {{ address.street }} - {{address.zip_code }} {{ address.city }} - {{ address.country.name }}</td></tr>
+	    <tr><td><b>{% trans "Address" %} {{ address.type|lower }} :</b> {{ address.number }} {{ address.street }} - {{address.zip_code }} {{ address.city }} - {{ address.country.name }}</td></tr>
 	{% endif %}
 {% endfor %}
 
@@ -42,7 +42,7 @@
 {% endfor %}
 
 {% for im in person.instant_messagings.all %}
-    <tr><td><img src="/site_media/images/{{ im.get_type_display|lower }}.png" alt="{% trans "contact" %} {{im.get_im_display|lower }}"/> {{ im.identifier }}</td></tr>
+    <tr><td><img src="/site_media/images/{{ im.get_type_display|lower }}.png" alt="{% trans "Contact" %} {{im.get_im_display|lower }}"/> {{ im.identifier }}</td></tr>
 {% endfor %}
 
 {% for irc in person.ircs.all %}

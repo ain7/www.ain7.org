@@ -30,7 +30,7 @@ from ain7.annuaire.models import Person
 class Group(models.Model):
 
     name = models.CharField(verbose_name=_('name'), maxlength=100)
-    contact = models.CharField(verbose_name=_('contact'), maxlength=100, blank=True, null=True)
+    contact = models.CharField(verbose_name=_('Contact'), maxlength=100, blank=True, null=True)
     description = models.CharField(verbose_name=_('description'), maxlength=200, blank=True, null=True)
     web_page = models.TextField(verbose_name=_('web page'), blank=True, null=True)
     parent = models.ForeignKey('Group', verbose_name=_('parent'), related_name='children', blank=True, null=True)
