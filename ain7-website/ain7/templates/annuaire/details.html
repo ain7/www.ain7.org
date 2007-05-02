@@ -7,9 +7,9 @@
 
 <div id="content-main">
 
-<h1>{% trans "personal file" %} {{ person.first_name }} {{ person.last_name }}</h1>
+<h1>{% trans "Personal file" %} {{ person.first_name }} {{ person.last_name }}</h1>
 <p><a href="/annuaire/edit/{{ person.user.id }}/">{% trans "Edit these data." %}</a></p>
-<h2>{% trans "personal data" %}</h2>
+<h2>{% trans "Personal data" %}</h2>
 <table border="0">
 <tr><td>
 <ul>
@@ -25,7 +25,7 @@
 {% endif %}
 {% for address in person.addresses.all %}
 	{% if not address.is_confidential %}
-	    <tr><td><b>{% trans "adress" %} {{ address.type|lower }} :</b> {{ address.number }} {{ address.street }} - {{address.zip_code }} {{ address.city }} - {{ address.country.name }}</td></tr>
+	    <tr><td><b>{% trans "address" %} {{ address.type|lower }} :</b> {{ address.number }} {{ address.street }} - {{address.zip_code }} {{ address.city }} - {{ address.country.name }}</td></tr>
 	{% endif %}
 {% endfor %}
 

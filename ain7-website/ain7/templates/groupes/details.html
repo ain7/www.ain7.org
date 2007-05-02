@@ -10,7 +10,7 @@
 <h3>{% trans "General informations" %>Informations générales</h3>
 <ul>
    <li><b>{% trans "name" %} :</b> {{ group.name }}</li>
-   <li><b>{% trans "contact" %} :</b> {{ group.contact|default_if_none:"" }}</li>
+   <li><b>{% trans "Contact" %} :</b> {{ group.contact|default_if_none:"" }}</li>
    <li><b>{% trans "Coordinator" %} :</b> {% for membership in group.memberships.all %}{% if membership.is_administrator %} {{ membership.member }}{% endif %}{% endfor %}</li>
 </ul>
 

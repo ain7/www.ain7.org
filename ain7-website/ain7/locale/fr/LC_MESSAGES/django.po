@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-01 22:45+0200\n"
+"POT-Creation-Date: 2007-05-02 23:01+0200\n"
 "PO-Revision-Date: 2007-04-30 00:58+0200\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -187,6 +187,10 @@ msgstr ""
 msgid "blog"
 msgstr ""
 
+#: annuaire/models.py:220
+msgid "blog on planet"
+msgstr "Blog agrégé sur le Planet"
+
 #: annuaire/models.py:223 templates/annuaire/details.html:19
 msgid "promos"
 msgstr "promotions"
@@ -228,7 +232,7 @@ msgstr "type d'adresse"
 msgid "address types"
 msgstr "types d'adresse"
 
-#: annuaire/models.py:310
+#: annuaire/models.py:310 templates/annuaire/details.html:28
 msgid "address"
 msgstr "adresse"
 
@@ -379,10 +383,9 @@ msgstr "Portail web AIn7"
 msgid "RSS"
 msgstr "Flux RSS"
 
-#: templates/base.html:52 templates/annuaire/details.html:45
-#: templates/groupes/details.html:13 groupes/models.py:33
-msgid "contact"
-msgstr "contact"
+#: templates/base.html:52 templates/groupes/details.html:13
+msgid "Contact"
+msgstr "Contact"
 
 #: templates/base.html:53
 msgid "About"
@@ -413,7 +416,7 @@ msgid "You need to be authentified to access to this part of the site."
 msgstr "Vous devez être authentifié pour accéder à cette partie du site."
 
 #: templates/annuaire/details.html:10
-msgid "personal file"
+msgid "Personal file"
 msgstr "Fiche personnelle de"
 
 #: templates/annuaire/details.html:11 templates/groupes/details.html:19
@@ -421,12 +424,13 @@ msgid "Edit these data."
 msgstr "Editer ces informations."
 
 #: templates/annuaire/details.html:12
-msgid "personal data"
+msgid "Personal data"
 msgstr "Données personnelles"
 
-#: templates/annuaire/details.html:28
-msgid "adress"
-msgstr "adresse"
+#: templates/annuaire/details.html:45 groupes/models.py:33
+#, fuzzy
+msgid "contact"
+msgstr "Contact"
 
 #: templates/annuaire/details.html:49
 msgid "on"
@@ -504,9 +508,9 @@ msgstr "Service emploi"
 #: templates/pages/base_association.html:13 templates/groupes/base.html:13
 #: templates/evenements/base.html:13 templates/emploi/base.html:13
 #: templates/sondages/base.html:13 templates/voyages/base.html:13
-#: templates/groupes_regionaux/base.html:13 groupes_regionaux/models.py:42
-msgid "regional groups"
-msgstr "groupes régionaux"
+#: templates/groupes_regionaux/base.html:13
+msgid "Regional groups"
+msgstr "Groupes régionaux"
 
 #: templates/annuaire/base.html:14 templates/pages/base_international.html:14
 #: templates/pages/base_publications.html:14
@@ -640,6 +644,10 @@ msgstr "de"
 msgid "days"
 msgstr "jours"
 
+#: templates/voyages/index.html:15 voyages/models.py:52
+msgid "visited places"
+msgstr "lieux visités"
+
 #: templates/voyages/index.html:19
 msgid "No planned travels."
 msgstr "Aucun voyage prévu."
@@ -764,10 +772,6 @@ msgstr "date"
 msgid "term"
 msgstr "durée"
 
-#: voyages/models.py:52
-msgid "visited places"
-msgstr "lieux visités"
-
 #: voyages/models.py:54
 msgid "price"
 msgstr "prix"
@@ -798,6 +802,11 @@ msgstr "inscriptions"
 
 #: groupes_regionaux/models.py:41 groupes_regionaux/models.py:58
 msgid "regional group"
+msgstr "groupe régional"
+
+#: groupes_regionaux/models.py:42
+#, fuzzy
+msgid "regional groups"
 msgstr "groupe régional"
 
 #: groupes_regionaux/models.py:62

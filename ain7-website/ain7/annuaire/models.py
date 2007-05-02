@@ -217,7 +217,7 @@ class Person(models.Model):
     nick_name = models.CharField(verbose_name=_('nick name'), maxlength=50, blank=True, null=True)
     avatar = models.ImageField(verbose_name=_('avatar'), upload_to='data', blank=True, null=True)
     blog = models.URLField(verbose_name=_('blog'), maxlength=80, verify_exists=True, blank=True, core=True)
-    blog_agrege_sur_le_planet = models.BooleanField(core=True, default=False)
+    blog_agrege_sur_le_planet = models.BooleanField(verbose_name=_('blog on planet'), core=True, default=False)
 
     # School situation
     promos = models.ManyToManyField(Promo, verbose_name=_('promos'), related_name='students', blank=True, null=True, filter_interface=models.HORIZONTAL)
