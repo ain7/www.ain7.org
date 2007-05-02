@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #
-# urls.py
+# groupes/urls.py
 #
 #   Copyright (C) 2007 AIn7
 #

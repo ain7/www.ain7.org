@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #
-# models.py
+# voyages/models.py
 #
 #   Copyright (C) 2007 AIn7
 #

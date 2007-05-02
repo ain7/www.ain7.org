@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #
-# models.py
+# groupes/models.py
 #
 #   Copyright (C) 2007 AIn7
 #

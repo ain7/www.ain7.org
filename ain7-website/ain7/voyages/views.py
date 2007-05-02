@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #
-# views.py
+# voyages/views.py
 #
 #   Copyright (C) 2007 AIn7
 #

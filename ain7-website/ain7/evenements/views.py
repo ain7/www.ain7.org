@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #
-# views.py
+# evenements/views.py
 #
 #   Copyright (C) 2007 AIn7
 #

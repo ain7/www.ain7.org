@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #
-# management.py
+# annuaire/management.py
 #
 #   Copyright (C) 2007 AIn7
 #

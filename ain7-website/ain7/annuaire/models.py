@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #
-# models.py
+# annuaire/models.py
 #
 #   Copyright (C) 2007 AIn7
 #
@@ -26,6 +26,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
+# Country (used for adresses)
 class Country(models.Model):
 
     name = models.CharField(verbose_name=_('name'), maxlength=50)
@@ -41,6 +42,7 @@ class Country(models.Model):
         verbose_name = _('country')
         verbose_name_plural = _('country')
 
+# Indicates the current status of a person: Student, Ingineer
 class PersonType(models.Model):
 
     type = models.CharField(verbose_name=_('type'), maxlength=50)
@@ -55,6 +57,7 @@ class PersonType(models.Model):
         verbose_name = _('person type')
         verbose_name_plural = _('person types')
 
+# Indicates the current relation with the association: actif member or ?
 class MemberType(models.Model):
 
     type = models.CharField(verbose_name=_('type'), maxlength=50)
@@ -68,6 +71,7 @@ class MemberType(models.Model):
     class Meta:
         verbose_name = _('member type')
 
+# Indicates the current main activity of the person: student, active retired, ... 
 class Activity(models.Model):
 
     activity = models.CharField(verbose_name=_('activity'), maxlength=50)
@@ -81,6 +85,7 @@ class Activity(models.Model):
     class Meta:
         verbose_name = _('activity')
 
+# Diploma received
 class Diploma(models.Model):
 
     diploma = models.CharField(verbose_name=_('diploma'), maxlength=100, core=True)
@@ -95,6 +100,7 @@ class Diploma(models.Model):
     class Meta:
         verbose_name = _('diploma')
 
+# Decoration received by people (war cross, etc.)
 class Decoration(models.Model):
 
     decoration = models.CharField(verbose_name=_('decoration'), maxlength=200, core=True)
@@ -108,6 +114,7 @@ class Decoration(models.Model):
     class Meta:
         verbose_name = _('decoration')
 
+# Honorific functions occupied by some persons
 class CeremonialDuty(models.Model):
 
     ceremonial_duty = models.CharField(verbose_name=_('ceremonial duty'), maxlength=200, core=True)
@@ -122,6 +129,7 @@ class CeremonialDuty(models.Model):
         verbose_name = _('ceremonial duty')
         verbose_name_plural = _('ceremonial duties')
 
+# School where users come from
 class School(models.Model):
 
     name = models.CharField(verbose_name=_('name'), maxlength=500)
@@ -149,6 +157,7 @@ class School(models.Model):
     class Meta:
         verbose_name = _('school')
 
+# Speciality the student has studied during his cursus
 class Track(models.Model):
 
     name = models.CharField(verbose_name=_('name'), maxlength=100)
@@ -169,6 +178,7 @@ class Track(models.Model):
     class Meta:
         verbose_name = _('Track')
 
+# Promo the student get out from school
 class Promo(models.Model):
 
     year = models.IntegerField(verbose_name=_('year'))
@@ -185,6 +195,7 @@ class Promo(models.Model):
         verbose_name = _('Promo')
         ordering = ['year']
 
+# The main class for a person
 class Person(models.Model):
 
     SEX = (
@@ -217,7 +228,7 @@ class Person(models.Model):
     nick_name = models.CharField(verbose_name=_('Nick name'), maxlength=50, blank=True, null=True)
     avatar = models.ImageField(verbose_name=_('avatar'), upload_to='data', blank=True, null=True)
     blog = models.URLField(verbose_name=_('blog'), maxlength=80, verify_exists=True, blank=True, core=True)
-    blog_agrege_sur_le_planet = models.BooleanField(verbose_name=_('blog on planet'), core=True, default=False)
+    blog_is_agregated_on_planet = models.BooleanField(verbose_name=_('blog on planet'), core=True, default=False)
 
     # School situation
     promos = models.ManyToManyField(Promo, verbose_name=_('Promos'), related_name='students', blank=True, null=True, filter_interface=models.HORIZONTAL)
@@ -247,6 +258,7 @@ class Person(models.Model):
     class Meta:
         verbose_name = _('person')
 
+# Phone number for a person
 class PhoneNumber(models.Model):
 
     PHONE_NUMBER_TYPE = (
@@ -272,6 +284,7 @@ class PhoneNumber(models.Model):
     class Meta:
         verbose_name = _('phone number')
 
+# Type of the address: can be parental, personal or business
 class AddressType(models.Model):
 
     type = models.CharField(verbose_name=_('type'), maxlength=50)
@@ -286,6 +299,7 @@ class AddressType(models.Model):
         verbose_name = _('address type')
         verbose_name = _('address types')
 
+# A person address
 class Address(models.Model):
 
     number = models.CharField(verbose_name=_('number'), maxlength=50, core=True)
@@ -309,6 +323,7 @@ class Address(models.Model):
     class Meta:
         verbose_name = _('Address')
 
+# e-mail address for a person
 class Email(models.Model):
 
     email = models.EmailField(verbose_name=_('email'), core=True)
@@ -319,6 +334,7 @@ class Email(models.Model):
     class Meta:
         verbose_name = _('email')
 
+# instant messanger contact for a person
 class InstantMessaging(models.Model):
 
     INSTANT_MESSAGING_TYPE = (
@@ -339,6 +355,7 @@ class InstantMessaging(models.Model):
     class Meta:
         verbose_name = _('instant_messaging')
 
+# Website for a person
 class WebSite(models.Model):
 
     url = models.CharField(verbose_name=_('web site'), maxlength=100, core=True)
@@ -348,6 +365,7 @@ class WebSite(models.Model):
     class Meta:
         verbose_name = _('web site')
 
+# IRC contact for a person
 class IRC(models.Model):
 
     network = models.CharField(verbose_name=_('network'), maxlength=50, core=True)
@@ -359,6 +377,7 @@ class IRC(models.Model):
     class Meta:
         verbose_name = _('irc')
 
+# ???
 class CompanyField(models.Model):
 
     field = models.CharField(verbose_name=_('field'), maxlength=100)
@@ -372,6 +391,7 @@ class CompanyField(models.Model):
     class Meta:
         verbose_name = _('field')
 
+# Company informations
 class Company(models.Model):
 
     COMPANY_SIZE = (
@@ -402,6 +422,7 @@ class Company(models.Model):
     class Admin:
         pass
 
+# A company office informations
 class Office(models.Model):
 
     name = models.CharField(verbose_name=_('name'), maxlength=50, core=True)
@@ -435,6 +456,7 @@ class Office(models.Model):
         verbose_name = _('office')
         verbose_name_plural = _('offices')
 
+# A position occupied by a person.
 class Position(models.Model):
 
     fonction = models.CharField(verbose_name=_('fonction'), maxlength=50, core=True)
@@ -462,6 +484,7 @@ class Position(models.Model):
         verbose_name = _('position')
         ordering = ['-start_date']
 
+# N7 club
 class Club(models.Model):
 
     name = models.CharField(verbose_name=('name'), maxlength=20)
@@ -482,6 +505,7 @@ class Club(models.Model):
     class Meta:
         verbose_name = _('club')
 
+# Club membership for a person
 class ClubMembership(models.Model):
 
     fonction = models.CharField(verbose_name=_('fonction'), maxlength=50, core=True)
@@ -495,3 +519,4 @@ class ClubMembership(models.Model):
         verbose_name = _('club membership')
         verbose_name_plural = _('club memberships')
         ordering = ['start_date']
+
