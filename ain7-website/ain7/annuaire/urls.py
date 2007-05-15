@@ -27,6 +27,6 @@ urlpatterns = patterns('',
     # Annuaire
     (r'^$', 'ain7.annuaire.views.search'),
     (r'^(?P<person_id>\d+)/$', 'ain7.annuaire.views.detail'),
-    (r'^(?P<person_id>\d+/edit/)/$', 'ain7.annuaire.views.edit'),
+    (r'^(?P<person_id>\d+)/edit/$', 'ain7.annuaire.views.edit'),
 
 )

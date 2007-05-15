@@ -145,6 +145,7 @@ def filldb():
     lionel.nick_name = "Yoyo"
     lionel.blog = "http://www.porcheron.info"
     lionel.blog_agrege_sur_le_planet = True
+    lionel.display_cv_in_directory = True
     lionel.save()
 
     lionel_adresse = annuaire.Address()
@@ -236,6 +237,7 @@ def filldb():
     pierref.birth_date = date(1985,11,05)
     pierref.country = france
     pierref.nick_name = "PierreF"
+    pierref.display_cv_in_directory = False
     pierref.save()
 
     pierref_adresse = annuaire.Address()
@@ -268,6 +270,7 @@ def filldb():
     olivier.last_name = "Gauwin"
     olivier.promos.add(n7in2003)
     olivier.country = france
+    olivier.display_cv_in_directory = True
     olivier.save()
 
     olivier_adresse = annuaire.Address()
@@ -302,6 +305,7 @@ def filldb():
     alex.birth_date = date(1984,03,14)
     alex.country = france
     alex.nick_name = "Alex"
+    alex.display_cv_in_directory = False
     alex.save()
 
     alex_portable = annuaire.PhoneNumber()
