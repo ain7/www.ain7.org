@@ -238,8 +238,9 @@ class Person(models.Model):
     decorations = models.ManyToManyField(Decoration, verbose_name=_('decorations'), blank=True, null=True, filter_interface=models.HORIZONTAL)
     ceremonial_duties = models.ManyToManyField(CeremonialDuty, verbose_name=_('ceremonial duties'), blank=True, null=True, filter_interface=models.HORIZONTAL)
 
-    # Curriculum Vitae
+    # Curriculum Vitae and Job Service
     display_cv_in_directory = models.BooleanField(verbose_name=_('Display my CV in the directory'), core=True, default=False)
+    receive_job_offers = models.BooleanField(verbose_name=_('Receive job offers by email'), core=True, default=False)
     
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
@@ -485,29 +486,6 @@ class Position(models.Model):
 
     class Meta:
         verbose_name = _('position')
-        ordering = ['-start_date']
-
-
-# An education item in the CV of a person.
-class EducationItem(models.Model):
-
-    school = models.CharField(verbose_name=_('school'), maxlength=150, core=True)
-    diploma = models.CharField(verbose_name=_('diploma'), maxlength=150, blank=True, null=True)
-    details = models.TextField(verbose_name=_('description'), blank=True, null=True)
-    start_date = models.DateField(verbose_name=_('start date'), core=True)
-    end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
-    person = models.ForeignKey(Person, related_name='education', edit_inline=models.STACKED, num_in_admin=1)
-
-    # Internal
-    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
-    modification_date = models.DateTimeField(editable=False)
-
-    def save(self):
-        self.modification_date = datetime.datetime.today()
-        return super(EducationItem, self).save()
-
-    class Meta:
-        verbose_name = _('education item')
         ordering = ['-start_date']
 
 # N7 club

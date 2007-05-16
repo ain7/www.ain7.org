@@ -146,6 +146,7 @@ def filldb():
     lionel.blog = "http://www.porcheron.info"
     lionel.blog_agrege_sur_le_planet = True
     lionel.display_cv_in_directory = True
+    lionel.receive_job_offers = False
     lionel.save()
 
     lionel_adresse = annuaire.Address()
@@ -238,6 +239,7 @@ def filldb():
     pierref.country = france
     pierref.nick_name = "PierreF"
     pierref.display_cv_in_directory = False
+    pierref.receive_job_offers = False
     pierref.save()
 
     pierref_adresse = annuaire.Address()
@@ -271,6 +273,7 @@ def filldb():
     olivier.promos.add(n7in2003)
     olivier.country = france
     olivier.display_cv_in_directory = True
+    olivier.receive_job_offers = True
     olivier.save()
 
     olivier_adresse = annuaire.Address()
@@ -306,6 +309,7 @@ def filldb():
     alex.country = france
     alex.nick_name = "Alex"
     alex.display_cv_in_directory = False
+    alex.receive_job_offers = False
     alex.save()
 
     alex_portable = annuaire.PhoneNumber()

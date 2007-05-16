@@ -28,7 +28,9 @@ urlpatterns = patterns('',
     (r'^$', 'ain7.emploi.views.index'),
     (r'^search/$', 'ain7.emploi.views.search'),
     (r'^edit/$', 'ain7.emploi.views.edit'),
-    (r'^edit/(?P<emploi_id>\d+)/$', 'ain7.emploi.views.edit'),
+    (r'^(?P<emploi_id>\d+)/edit/$', 'ain7.emploi.views.edit'),
     (r'^(?P<emploi_id>\d+)/$', 'ain7.emploi.views.detail'),
+    (r'^(?P<user_id>\d+)/cv_detail/$', 'ain7.emploi.views.cv_detail'),
+    (r'^(?P<user_id>\d+)/cv_edit/$', 'ain7.emploi.views.cv_edit'),
 
 )

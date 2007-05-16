@@ -5,6 +5,11 @@
 
 <div id="content-main">
 
+{# TODO : trouver un critere pour voir si le user correspond a #}
+{# une personne ou a une entreprise #}
+
+{# TODO : si le user est une personne #}
+
 <h2>{% trans "Jobs list" %}</h2>
 {% if liste_emplois %}
     <ul>
@@ -15,6 +20,13 @@
 {% else %}
     <p>{% trans "No job." %}</p>
 {% endif %}
+
+<h2>{% trans "CV" %}</h2>
+<a href="/emploi/{{ user.id }}/cv_detail/">{% trans "View your CV" %}</a>.<br />
+<a href="/emploi/{{ user.id }}/cv_edit/">{% trans "Modify your CV" %}</a>.<br />
+
+{# TODO : si le user est une entreprise #}
+{# ... pour lionel et PierreF   ;)      #}
 
 </div>
 

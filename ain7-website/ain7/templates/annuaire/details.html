@@ -65,6 +65,7 @@
 </ul>
 {% endif %}
 
+{% if person.display_cv_in_directory %}
 <h2>{% trans "Professional experiences" %}</h2>
 
 {% if person.positions.all %}
@@ -78,6 +79,7 @@
 	{% endif %}
 {% endfor %}
 </table>
+{% endif %}
 {% endif %}
 
 <h2>{% trans "N7 associative activities" %}</h2>
