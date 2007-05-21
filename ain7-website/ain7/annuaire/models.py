@@ -262,6 +262,15 @@ class Person(models.Model):
     class Meta:
         verbose_name = _('person')
 
+# AIn7 member
+class AIn7Member(Person):
+
+    class Admin:
+        pass
+
+    class Meta:
+        verbose_name = _('AIn7 member')
+
 # Phone number for a person
 class PhoneNumber(models.Model):
 
@@ -380,113 +389,6 @@ class IRC(models.Model):
 
     class Meta:
         verbose_name = _('irc')
-
-# ???
-class CompanyField(models.Model):
-
-    field = models.CharField(verbose_name=_('field'), maxlength=100)
-
-    def __str__(self):
-        return self.field
-
-    class Admin:
-        pass
-
-    class Meta:
-        verbose_name = _('field')
-
-# Company informations
-class Company(models.Model):
-
-    COMPANY_SIZE = (
-                    (0, _('Micro (0)')),
-                    (1, _('Small (1-9)')),
-                    (2, _('Medium (10-499)')),
-                    (3, _('Large (500+)')),
-                    )
-
-    name = models.CharField(verbose_name=_('name'), maxlength=50, core=True)
-    size = models.IntegerField(verbose_name=_('size'), choices=COMPANY_SIZE, blank=True, null=True)
-    field = models.ForeignKey(CompanyField, verbose_name=_('field'), related_name='companies')
-
-    # Internal
-    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
-    modification_date = models.DateTimeField(editable=False)
-
-    def __str__(self):
-        return self.name
-
-    def save(self):
-        self.modification_date = datetime.datetime.today()
-        return super(Company, self).save()
-
-    class Meta:
-        verbose_name = _('company')
-
-    class Admin:
-        pass
-
-# A company office informations
-class Office(models.Model):
-
-    name = models.CharField(verbose_name=_('name'), maxlength=50, core=True)
-
-    number = models.CharField(verbose_name=_('number'), maxlength=50, blank=True, null=True)
-    street = models.CharField(verbose_name=_('street'), maxlength=100, blank=True, null=True)
-    zip_code = models.CharField(verbose_name=_('zip code'), maxlength=20, blank=True, null=True)
-    city = models.CharField(verbose_name=_('city'), maxlength=50, blank=True, null=True)
-    country = models.ForeignKey(Country, verbose_name=_('country'), blank=True, null=True)
-
-    phone_number = models.CharField(verbose_name=_('phone number'), maxlength=20, blank=True, null=True)
-    web_site = models.CharField(verbose_name=_('web site'), maxlength=100, blank=True, null=True)
-
-    company = models.ForeignKey(Company, verbose_name=_('company'), related_name='offices', edit_inline=models.STACKED)
-
-    # Internal
-    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
-    modification_date = models.DateTimeField(editable=False)
-
-    def __str__(self):
-        return self.name
-
-    def save(self):
-        self.modification_date = datetime.datetime.today()
-        return super(Office, self).save()
-
-    class Admin:
-        pass
-
-    class Meta:
-        verbose_name = _('office')
-        verbose_name_plural = _('offices')
-
-# A position occupied by a person.
-class Position(models.Model):
-
-    fonction = models.CharField(verbose_name=_('fonction'), maxlength=50, core=True)
-    service = models.CharField(verbose_name=_('service'), maxlength=50, blank=True, null=True)
-    description = models.TextField(verbose_name=_('description'), blank=True, null=True)
-    phone_number = models.CharField(verbose_name=_('phone number'), maxlength=20, blank=True, null=True)
-    email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
-    start_date = models.DateField(verbose_name=_('start date'), core=True)
-    end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
-    is_regie = models.BooleanField(verbose_name=_('regie'), default=False)
-    is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
-
-    office = models.ForeignKey(Office, verbose_name=_('office'), related_name='positions')
-    person = models.ForeignKey(Person, related_name='positions', edit_inline=models.STACKED, num_in_admin=1)
-
-    # Internal
-    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
-    modification_date = models.DateTimeField(editable=False)
-
-    def save(self):
-        self.modification_date = datetime.datetime.today()
-        return super(Position, self).save()
-
-    class Meta:
-        verbose_name = _('position')
-        ordering = ['-start_date']
 
 # N7 club
 class Club(models.Model):

@@ -31,6 +31,7 @@ import ain7.groupes_regionaux.models as groupes_regionaux
 import ain7.sondages.models as sondages
 import ain7.news.models as news
 import ain7.voyages.models as voyages
+import ain7.emploi.models as emploi
 
 import sys
 
@@ -108,19 +109,19 @@ def filldb():
     n7in2008.save()
 
     # Companies
-    infofield = annuaire.CompanyField(field = "Informatique")
+    infofield = emploi.CompanyField(field = "Informatique")
     infofield.save()
 
-    babelstore = annuaire.Company(name="BABELSTORE", field=infofield, size=2)
+    babelstore = emploi.Company(name="BABELSTORE", field=infofield, size=2)
     babelstore.save()
 
-    priceminister = annuaire.Office(name="PriceMinister", company=babelstore)
+    priceminister = emploi.Office(name="PriceMinister", company=babelstore)
     priceminister.save()
 
-    anyware = annuaire.Company(name="Anyware", field=infofield)
+    anyware = emploi.Company(name="Anyware", field=infofield)
     anyware.save()
 
-    anywareoffice = annuaire.Office(name="Bureau de Toulouse", company=anyware)
+    anywareoffice = emploi.Office(name="Bureau de Toulouse", company=anyware)
     anywareoffice.save()
 
     # Regional group
@@ -208,7 +209,7 @@ def filldb():
     lionel_irc2.save()
 
 
-    lionel_position1 = annuaire.Position()
+    lionel_position1 = emploi.Position()
     lionel_position1.person = lionel
     lionel_position1.office = anywareoffice
     lionel_position1.fonction = "AdminSys"
@@ -216,7 +217,7 @@ def filldb():
     lionel_position1.end_date = date(2007,01,01)
     lionel_position1.save()
 
-    lionel_position2 = annuaire.Position()
+    lionel_position2 = emploi.Position()
     lionel_position2.person = lionel
     lionel_position2.office = anywareoffice
     lionel_position2.fonction = "Big boss"
@@ -339,7 +340,7 @@ def filldb():
     alex_adresse2.type = parentalAddressType
     alex_adresse2.save()
 
-    alexpos = annuaire.Position()
+    alexpos = emploi.Position()
     alexpos.person = alex
     alexpos.office = priceminister
     alexpos.fonction = "dev"
