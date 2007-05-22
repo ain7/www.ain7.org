@@ -22,11 +22,12 @@
 {% endif %}
 
 <h2>{% trans "CV" %}</h2>
-<a href="/emploi/{{ user.id }}/cv_detail/">{% trans "View your CV" %}</a>.<br />
-<a href="/emploi/{{ user.id }}/cv_edit/">{% trans "Modify your CV" %}</a>.<br />
+<a href="/emploi/{{ user.id }}/cv/">{% trans "View your CV" %}</a>.<br />
+<a href="/emploi/{{ user.id }}/cv/edit/">{% trans "Modify your CV" %}</a>.<br />
 
-{# TODO : si le user est une entreprise #}
-{# ... pour lionel et PierreF   ;)      #}
+<h2>{% trans "Manage Job Offers" %}</h2>
+<a href="/emploi/job/register/">{% trans "Register a job offer" %}</a>.<br />
+<a href="/emploi/job/search/">{% trans "Search a job offer" %}</a>.<br />
 
 </div>
 

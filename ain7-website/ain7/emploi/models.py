@@ -177,3 +177,31 @@ class LeisureItem(models.Model):
         verbose_name = _('Leisure item')
         ordering = ['title']
 
+class JobOffer(models.Model):
+
+    JOB_TYPES = (
+        (0,'CDI'),
+        (1,'CDD'),
+        (2,'Stage'),
+    )
+
+    reference = models.CharField(verbose_name=_('Reference'), maxlength=50, blank=True, null=True)
+    title = models.CharField(verbose_name=_('Title'), maxlength=50, core=True)
+    description = models.TextField(verbose_name=_('Description'), blank=True, null=True)
+    experience = models.CharField(verbose_name=_('Experience'), maxlength=50, blank=True, null=True)
+    contract_type = models.IntegerField(verbose_name=_('Contract type'), choices=JOB_TYPES, blank=True, null=True)
+    is_opened = models.BooleanField(verbose_name=_('Job offer is opened'), default=False)
+    office = models.ForeignKey(Office, blank=True, null=True)
+    contact = models.ForeignKey(Person, blank=True, null=True)
+
+    # Internal
+    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
+    modification_date = models.DateTimeField(editable=False)
+
+    def save(self):
+        self.modification_date = datetime.datetime.today()
+        return super(JobOffer, self).save()
+
+    class Admin:
+        pass
+

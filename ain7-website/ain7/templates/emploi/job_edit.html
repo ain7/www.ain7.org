@@ -1,0 +1,21 @@
+{% extends "emploi/base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div id="content-main">
+
+<h2>Edit Job Offer</h2>
+
+<form method="post">
+<table>
+{{ form }}
+</table>
+<div align="center">
+<input type="submit" class="button" value="Save">
+</div>
+</form>
+
+</div>
+
+{% endblock %}
