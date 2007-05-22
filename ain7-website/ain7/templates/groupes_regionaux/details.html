@@ -1,10 +1,14 @@
-{% extends "groupes/base.html" %}
+{% extends "groupes_regionaux/base.html" %}
 {% load i18n %}
 
 {% block stylesheet %}{% endblock %}
 {% block content %}
 
 <div id="content-main">
+
+{% for message in messages %}
+	<p class="message">{{ message }}</p>
+{% endfor %}
 
 <div class="left">
 	<h1>{{ group.name }}</h1>
@@ -27,6 +31,14 @@
 </div>
 
 <div class="right">
+
+	<h3>{% trans "Actions" %}</h3>
+	<div class="right_block">
+		<ul>
+			<li><a href="/groupes_regionaux/join/{{ group.id }}">{% trans "Join the group." %}</a></li>
+		</ul>
+	</div>
+
 	{% if group.active_events %}
 		<h3>{% trans "Events" %}</h3>
 		{% for event in group.active_events %}
