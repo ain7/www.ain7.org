@@ -294,6 +294,10 @@ def filldb():
     olivier_irc1.channels = "#ain7"
     olivier_irc1.save()
 
+    olivier_ain7member = annuaire.AIn7Member()
+    olivier_ain7member.person = olivier
+    olivier_ain7member.save()
+    
     alex = annuaire.Person()
     alex.user = User.objects.create_user("alex", "zigouigoui.garnier@laposte.net","alex")
     alex.user.is_staff = True

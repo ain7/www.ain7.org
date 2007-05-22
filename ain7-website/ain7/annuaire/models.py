@@ -263,7 +263,9 @@ class Person(models.Model):
         verbose_name = _('person')
 
 # AIn7 member
-class AIn7Member(Person):
+class AIn7Member(models.Model):
+
+    person = models.OneToOneField(Person, verbose_name=_('person'))
 
     class Admin:
         pass

@@ -5,10 +5,9 @@
 
 <div id="content-main">
 
-{# TODO : trouver un critere pour voir si le user correspond a #}
-{# une personne ou a une entreprise #}
+{% ifnotequal AIn7Member None %}
 
-{# TODO : si le user est une personne #}
+{# ### this user is a physical person ### #}
 
 <h2>{% trans "Jobs list" %}</h2>
 {% if liste_emplois %}
@@ -25,9 +24,15 @@
 <a href="/emploi/{{ user.id }}/cv/">{% trans "View your CV" %}</a>.<br />
 <a href="/emploi/{{ user.id }}/cv/edit/">{% trans "Modify your CV" %}</a>.<br />
 
+{% else %}
+
+{# ### this user is not a physical person ### #}
+
 <h2>{% trans "Manage Job Offers" %}</h2>
 <a href="/emploi/job/register/">{% trans "Register a job offer" %}</a>.<br />
 <a href="/emploi/job/search/">{% trans "Search a job offer" %}</a>.<br />
+
+{% endifnotequal %}
 
 </div>
 

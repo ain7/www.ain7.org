@@ -23,8 +23,10 @@
 from django.shortcuts import get_object_or_404, render_to_response
 from django import newforms as forms
 from django.newforms import widgets
+from django.core.exceptions import ObjectDoesNotExist
 
 from ain7.annuaire.models import Person
+from ain7.annuaire.models import AIn7Member
 from ain7.emploi.models import JobOffer
 
 class JobOfferForm(forms.Form):
@@ -45,7 +47,12 @@ def index(request):
                                   {'user': request.user})
     # TODO : renseigner liste_emploiss avec la liste des emplois
     # correspondant aux filières qui intéressent la personne
-    return render_to_response('emploi/index.html', {'user': request.user})
+    p = Person.objects.get(user=request.user.id)
+    try:
+        ain7member = AIn7Member.objects.get(person=p)
+    except ObjectDoesNotExist:
+        ain7member = None
+    return render_to_response('emploi/index.html', {'user': request.user, 'AIn7Member': ain7member})
 
 
 def cv_details(request, user_id):
