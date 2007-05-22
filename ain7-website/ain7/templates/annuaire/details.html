@@ -16,7 +16,7 @@
    <li><b>{% trans "Last name" %}&nbsp;:</b> {{ person.last_name }}</li>
    <li><b>{% trans "First name" %}&nbsp;:</b> {{ person.first_name }}</li>
    <li><b>{% trans "Nick name" %}&nbsp;:</b> {{ person.nick_name }}</li>
-   <li><b>{% trans "Promos" %}&nbsp;:</b> {% for promo in person.promos.all %}{% if forloop.last %} {{ promo }}{% endif %}{% endfor %}</li>
+   <li><b>{% trans "Promos" %}&nbsp;:</b> {% for promo in person.promos.all %}{{ promo }}{% if not forloop.last %} - {% endif %}{% endfor %}</li>
    <li><b>{% trans "Birth date" %}&nbsp;:</b> {{ person.birth_date|date:"d/m/Y" }}</li>
 </ul>
 </td><td>

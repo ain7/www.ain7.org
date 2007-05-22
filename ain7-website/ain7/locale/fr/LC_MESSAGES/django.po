@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-22 11:57+0200\n"
+"POT-Creation-Date: 2007-05-22 22:19+0200\n"
 "PO-Revision-Date: 2007-05-21 23:51+0200\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,9 +16,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: annuaire/models.py:32 annuaire/models.py:135 annuaire/models.py:163
-#: emploi/models.py:54 emploi/models.py:78 groupes/models.py:32
-#: templates/groupes/details.html:12 evenements/models.py:32
-#: groupes_regionaux/models.py:32
+#: emploi/models.py:54 emploi/models.py:78 evenements/models.py:33
+#: groupes/models.py:32 groupes_regionaux/models.py:33
+#: templates/groupes/details.html:12
 msgid "name"
 msgstr "nom"
 
@@ -33,8 +33,8 @@ msgstr "pays"
 
 #: annuaire/models.py:48 annuaire/models.py:63 annuaire/models.py:210
 #: annuaire/models.py:284 annuaire/models.py:303 annuaire/models.py:323
-#: annuaire/models.py:363 voyages/models.py:32 voyages/models.py:51
-#: groupes_regionaux/models.py:54
+#: annuaire/models.py:363 groupes_regionaux/models.py:67 voyages/models.py:32
+#: voyages/models.py:51
 msgid "type"
 msgstr "type"
 
@@ -138,7 +138,7 @@ msgid "user"
 msgstr "utilisateur"
 
 #: annuaire/models.py:211 annuaire/models.py:422 groupes/models.py:64
-#: groupes_regionaux/models.py:59
+#: groupes_regionaux/models.py:72
 msgid "member"
 msgstr "membre"
 
@@ -275,8 +275,8 @@ msgid "irc"
 msgstr "irc"
 
 #: annuaire/models.py:397 emploi/models.py:114 emploi/models.py:142
-#: groupes/models.py:34 news/models.py:31 evenements/models.py:35
-#: voyages/models.py:53
+#: evenements/models.py:36 groupes/models.py:34 groupes_regionaux/models.py:34
+#: news/models.py:31 voyages/models.py:53
 msgid "description"
 msgstr "description"
 
@@ -285,8 +285,8 @@ msgid "creation date"
 msgstr "date de création"
 
 #: annuaire/models.py:401 annuaire/models.py:419 emploi/models.py:118
-#: emploi/models.py:144 evenements/models.py:34 voyages/models.py:48
-#: groupes_regionaux/models.py:56
+#: emploi/models.py:144 evenements/models.py:35 groupes_regionaux/models.py:69
+#: voyages/models.py:48
 msgid "end date"
 msgstr "date de fin"
 
@@ -299,7 +299,7 @@ msgid "fonction"
 msgstr "fonction"
 
 #: annuaire/models.py:418 emploi/models.py:117 emploi/models.py:143
-#: evenements/models.py:33 voyages/models.py:47 groupes_regionaux/models.py:55
+#: evenements/models.py:34 groupes_regionaux/models.py:68 voyages/models.py:47
 msgid "start date"
 msgstr "date de début"
 
@@ -396,6 +396,54 @@ msgstr "Type de Contrat"
 msgid "Job offer is opened"
 msgstr "L'offre d'emploi est ouverte"
 
+#: evenements/models.py:37
+msgid "author"
+msgstr "auteur"
+
+#: evenements/models.py:38
+msgid "contact email"
+msgstr "email de contact"
+
+#: evenements/models.py:39
+msgid "link"
+msgstr "lien"
+
+#: evenements/models.py:40
+msgid "place"
+msgstr "lieu"
+
+#: evenements/models.py:41
+msgid "publication start"
+msgstr "début de publication"
+
+#: evenements/models.py:42
+msgid "publication end"
+msgstr "fin de publication"
+
+#: evenements/models.py:44 groupes_regionaux/models.py:52
+msgid "regional groups"
+msgstr "groupes régionaux"
+
+#: evenements/models.py:66 evenements/models.py:75 voyages/models.py:84
+msgid "event"
+msgstr "événement"
+
+#: evenements/models.py:70 voyages/models.py:78
+msgid "subscriber number"
+msgstr "nombre de participants"
+
+#: evenements/models.py:74 voyages/models.py:83
+msgid "subscriber"
+msgstr "participant"
+
+#: evenements/models.py:78
+msgid "event subscription"
+msgstr "inscription"
+
+#: evenements/models.py:79
+msgid "event subscriptions"
+msgstr "inscriptions"
+
 #: groupes/models.py:33 templates/base.html:52
 #: templates/annuaire/details.html:45 templates/groupes/details.html:13
 msgid "Contact"
@@ -420,6 +468,54 @@ msgstr "administrateur"
 #: groupes/models.py:67
 msgid "membership"
 msgstr "adhésion group"
+
+#: groupes_regionaux/models.py:32
+msgid "active"
+msgstr "actif"
+
+#: groupes_regionaux/models.py:51 groupes_regionaux/models.py:71
+msgid "regional group"
+msgstr "groupe régional"
+
+#: groupes_regionaux/models.py:57
+msgid "President"
+msgstr "Président"
+
+#: groupes_regionaux/models.py:58
+msgid "Vice president"
+msgstr "Vice président"
+
+#: groupes_regionaux/models.py:59
+msgid "Secretary"
+msgstr "Secrétaire"
+
+#: groupes_regionaux/models.py:60
+msgid "Treasurer"
+msgstr "Trésorier"
+
+#: groupes_regionaux/models.py:61
+msgid "Under treasurer"
+msgstr "Trésorier adjoint"
+
+#: groupes_regionaux/models.py:62
+msgid "Emploi manager"
+msgstr "Responsable emploi"
+
+#: groupes_regionaux/models.py:63
+msgid "Office member"
+msgstr "Membre du bureau"
+
+#: groupes_regionaux/models.py:64
+msgid "Member"
+msgstr "Membre"
+
+#: groupes_regionaux/models.py:76
+msgid "regional group membership"
+msgstr "adhésion group régional"
+
+#: groupes_regionaux/models.py:77
+msgid "regional group memberships"
+msgstr "adhésions groupes régionaux"
 
 #: news/models.py:30
 msgid "title"
@@ -509,131 +605,144 @@ msgstr "et"
 msgid "You need to be authentified to access to this part of the site."
 msgstr "Vous devez être authentifié pour accéder à cette partie du site."
 
-#: templates/annuaire/base.html:6 templates/groupes/base.html:6
+#: templates/annuaire/base.html:6 templates/emploi/base.html:6
+#: templates/evenements/base.html:6 templates/groupes/base.html:6
+#: templates/groupes_regionaux/base.html:6
 #: templates/pages/base_association.html:6
 #: templates/pages/base_homepage.html:6
 #: templates/pages/base_international.html:6 templates/pages/base_pages.html:6
 #: templates/pages/base_publications.html:6 templates/sondages/base.html:6
-#: templates/voyages/base.html:6 templates/evenements/base.html:6
-#: templates/groupes_regionaux/base.html:6 templates/emploi/base.html:6
+#: templates/voyages/base.html:6
 msgid "Home"
 msgstr "Accueil"
 
-#: templates/annuaire/base.html:7 templates/groupes/base.html:7
+#: templates/annuaire/base.html:7 templates/emploi/base.html:7
+#: templates/evenements/base.html:7 templates/groupes/base.html:7
+#: templates/groupes_regionaux/base.html:7
 #: templates/pages/base_association.html:7
 #: templates/pages/base_homepage.html:7
 #: templates/pages/base_international.html:7 templates/pages/base_pages.html:7
 #: templates/pages/base_publications.html:7 templates/sondages/base.html:7
-#: templates/voyages/base.html:7 templates/evenements/base.html:7
-#: templates/groupes_regionaux/base.html:7 templates/emploi/base.html:7
+#: templates/voyages/base.html:7
 msgid "The association"
 msgstr "L'association"
 
-#: templates/annuaire/base.html:8 templates/groupes/base.html:8
+#: templates/annuaire/base.html:8 templates/emploi/base.html:8
+#: templates/evenements/base.html:8 templates/groupes/base.html:8
+#: templates/groupes_regionaux/base.html:8
 #: templates/pages/base_association.html:8
 #: templates/pages/base_homepage.html:8
 #: templates/pages/base_international.html:8 templates/pages/base_pages.html:8
 #: templates/pages/base_publications.html:8 templates/sondages/base.html:8
-#: templates/voyages/base.html:8 templates/evenements/base.html:8
-#: templates/groupes_regionaux/base.html:8 templates/emploi/base.html:8
+#: templates/voyages/base.html:8
 msgid "Directory"
 msgstr "Annuaire"
 
-#: templates/annuaire/base.html:9 templates/groupes/base.html:9
+#: templates/annuaire/base.html:9 templates/emploi/base.html:9
+#: templates/evenements/base.html:9 templates/groupes/base.html:9
+#: templates/groupes_regionaux/base.html:9
+#: templates/groupes_regionaux/details.html:31
 #: templates/pages/base_association.html:9
 #: templates/pages/base_homepage.html:9
 #: templates/pages/base_international.html:9 templates/pages/base_pages.html:9
 #: templates/pages/base_publications.html:9 templates/sondages/base.html:9
-#: templates/voyages/base.html:9 templates/evenements/base.html:9
-#: templates/groupes_regionaux/base.html:9 templates/emploi/base.html:9
+#: templates/voyages/base.html:9
 msgid "Events"
 msgstr "Évènements"
 
-#: templates/annuaire/base.html:10 templates/groupes/base.html:10
+#: templates/annuaire/base.html:10 templates/emploi/base.html:10
+#: templates/evenements/base.html:10 templates/groupes/base.html:10
+#: templates/groupes_regionaux/base.html:10
 #: templates/pages/base_association.html:10
 #: templates/pages/base_homepage.html:10
 #: templates/pages/base_international.html:10
 #: templates/pages/base_pages.html:10
 #: templates/pages/base_publications.html:10 templates/sondages/base.html:10
-#: templates/voyages/base.html:10 templates/evenements/base.html:10
-#: templates/groupes_regionaux/base.html:10 templates/emploi/base.html:10
+#: templates/voyages/base.html:10
 msgid "Job service"
 msgstr "Service emploi"
 
-#: templates/annuaire/base.html:13 templates/groupes/base.html:13
+#: templates/annuaire/base.html:13 templates/emploi/base.html:13
+#: templates/evenements/base.html:13 templates/groupes/base.html:13
+#: templates/groupes_regionaux/base.html:13
 #: templates/pages/base_association.html:13
 #: templates/pages/base_homepage.html:13
 #: templates/pages/base_international.html:13
 #: templates/pages/base_pages.html:13
 #: templates/pages/base_publications.html:13 templates/sondages/base.html:13
-#: templates/voyages/base.html:13 templates/evenements/base.html:13
-#: templates/groupes_regionaux/base.html:13 templates/emploi/base.html:13
+#: templates/voyages/base.html:13
 msgid "Regional groups"
 msgstr "Groupes régionaux"
 
-#: templates/annuaire/base.html:14 templates/groupes/base.html:14
+#: templates/annuaire/base.html:14 templates/emploi/base.html:14
+#: templates/evenements/base.html:14 templates/groupes/base.html:14
+#: templates/groupes_regionaux/base.html:14
 #: templates/pages/base_association.html:14
 #: templates/pages/base_homepage.html:14
 #: templates/pages/base_international.html:14
 #: templates/pages/base_pages.html:14
 #: templates/pages/base_publications.html:14 templates/sondages/base.html:14
-#: templates/voyages/base.html:14 templates/evenements/base.html:14
-#: templates/groupes_regionaux/base.html:14 templates/emploi/base.html:14
+#: templates/voyages/base.html:14
 msgid "Working groups"
 msgstr "Groupes de travail"
 
-#: templates/annuaire/base.html:15 templates/groupes/base.html:15
+#: templates/annuaire/base.html:15 templates/emploi/base.html:15
+#: templates/evenements/base.html:15 templates/groupes/base.html:15
+#: templates/groupes_regionaux/base.html:15
 #: templates/pages/base_association.html:15
 #: templates/pages/base_homepage.html:15
 #: templates/pages/base_international.html:15
 #: templates/pages/base_pages.html:15
 #: templates/pages/base_publications.html:15 templates/sondages/base.html:15
-#: templates/voyages/base.html:15 templates/evenements/base.html:15
-#: templates/groupes_regionaux/base.html:15 templates/emploi/base.html:15
+#: templates/voyages/base.html:15
 msgid "Publications"
 msgstr "Publications"
 
-#: templates/annuaire/base.html:16 templates/groupes/base.html:16
+#: templates/annuaire/base.html:16 templates/emploi/base.html:16
+#: templates/evenements/base.html:16 templates/groupes/base.html:16
+#: templates/groupes_regionaux/base.html:16
 #: templates/pages/base_association.html:16
 #: templates/pages/base_homepage.html:16
 #: templates/pages/base_international.html:16
 #: templates/pages/base_pages.html:16
 #: templates/pages/base_publications.html:16 templates/sondages/base.html:16
-#: templates/voyages/base.html:16 templates/evenements/base.html:16
-#: templates/groupes_regionaux/base.html:16 templates/emploi/base.html:16
+#: templates/voyages/base.html:16
 msgid "International"
 msgstr "L'international"
 
-#: templates/annuaire/base.html:17 templates/groupes/base.html:17
+#: templates/annuaire/base.html:17 templates/emploi/base.html:17
+#: templates/evenements/base.html:17 templates/groupes/base.html:17
+#: templates/groupes_regionaux/base.html:17
 #: templates/pages/base_association.html:17
 #: templates/pages/base_homepage.html:17
 #: templates/pages/base_international.html:17
 #: templates/pages/base_pages.html:17
 #: templates/pages/base_publications.html:17 templates/sondages/base.html:17
-#: templates/voyages/base.html:17 templates/evenements/base.html:17
-#: templates/groupes_regionaux/base.html:17 templates/emploi/base.html:17
+#: templates/voyages/base.html:17
 msgid "Travels"
 msgstr "Voyages"
 
-#: templates/annuaire/base.html:18 templates/groupes/base.html:18
+#: templates/annuaire/base.html:18 templates/emploi/base.html:18
+#: templates/evenements/base.html:18 templates/groupes/base.html:18
+#: templates/groupes_regionaux/base.html:18
 #: templates/pages/base_association.html:18
 #: templates/pages/base_homepage.html:18
 #: templates/pages/base_international.html:18
 #: templates/pages/base_pages.html:18
 #: templates/pages/base_publications.html:18 templates/sondages/base.html:18
-#: templates/voyages/base.html:18 templates/evenements/base.html:18
-#: templates/groupes_regionaux/base.html:18 templates/emploi/base.html:18
+#: templates/voyages/base.html:18
 msgid "Forums"
 msgstr "Forums"
 
-#: templates/annuaire/base.html:19 templates/groupes/base.html:19
+#: templates/annuaire/base.html:19 templates/emploi/base.html:19
+#: templates/evenements/base.html:19 templates/groupes/base.html:19
+#: templates/groupes_regionaux/base.html:19
 #: templates/pages/base_association.html:19
 #: templates/pages/base_homepage.html:19
 #: templates/pages/base_international.html:19
 #: templates/pages/base_pages.html:19
 #: templates/pages/base_publications.html:19 templates/sondages/base.html:19
-#: templates/voyages/base.html:19 templates/evenements/base.html:19
-#: templates/groupes_regionaux/base.html:19 templates/emploi/base.html:19
+#: templates/voyages/base.html:19
 msgid "Planet"
 msgstr "Planet"
 
@@ -681,85 +790,9 @@ msgstr "Liste de votre recherche"
 msgid "No person matched your criteria."
 msgstr "Aucune personne dans l'application."
 
-#: templates/groupes/details.html:10
-msgid "General informations"
-msgstr "Informations générales"
-
-#: templates/groupes/details.html:14
-msgid "Coordinator"
-msgstr "Responsable"
-
-#: templates/groupes/details.html:17
-msgid "Actions"
-msgstr "Actions"
-
-#: templates/groupes/details.html:20
-msgid "Join the group."
-msgstr "Rejoindre le groupe."
-
-#: templates/groupes/details.html:27
-msgid "Members list"
-msgstr "Liste des membres"
-
-#: templates/groupes/details.html:33
-msgid "Group presentation"
-msgstr "Présentation du groupe"
-
-#: templates/groupes/index.html:17
-msgid "No group is defined."
-msgstr "Aucun groupe dans l'application."
-
-#: templates/sondages/detail.html:11
-msgid "Back to homepage"
-msgstr "Retour à la page d'accueil"
-
-#: templates/sondages/detail.html:13
-msgid "Thank you for having chosen"
-msgstr "Merci d'avoir voté"
-
-#: templates/sondages/detail.html:13
-msgid "to the question"
-msgstr "à la question"
-
-#: templates/sondages/detail.html:14
-msgid "Results page"
-msgstr "Page des résultats"
-
-#: templates/voyages/index.html:8
-msgid "Travels list"
-msgstr "Liste des voyages"
-
-#: templates/voyages/index.html:13
-msgid "of"
-msgstr "de"
-
-#: templates/voyages/index.html:14
-msgid "days"
-msgstr "jours"
-
-#: templates/voyages/index.html:15 voyages/models.py:52
-msgid "visited places"
-msgstr "lieux visités"
-
-#: templates/voyages/index.html:19
-msgid "No planned travels."
-msgstr "Aucun voyage prévu."
-
-#: templates/evenements/index.html:8
-msgid "List of events and meetings to come."
-msgstr "Liste des événements et manifestations à venir"
-
-#: templates/evenements/index.html:16
-msgid "No planned event."
-msgstr "Aucun événement prévu."
-
-#: templates/groupes_regionaux/index.html:8
-msgid "The regional groups"
-msgstr "Les groupes régionaux"
-
-#: templates/groupes_regionaux/index.html:16
-msgid "No regional group."
-msgstr "Aucun groupe régional."
+#: templates/emploi/cv_details.html:56
+msgid "Education"
+msgstr "Formation"
 
 #: templates/emploi/index.html:13
 msgid "Jobs list"
@@ -797,53 +830,91 @@ msgstr "Rechercher une offre d'emploi"
 msgid "Contract Type"
 msgstr "Type de contrat"
 
-#: templates/emploi/cv_details.html:56
-msgid "Education"
-msgstr "Formation"
+#: templates/evenements/index.html:8
+msgid "List of events and meetings to come."
+msgstr "Liste des événements et manifestations à venir"
 
-#: evenements/models.py:36
-msgid "author"
-msgstr "auteur"
+#: templates/evenements/index.html:16
+msgid "No planned event."
+msgstr "Aucun événement prévu."
 
-#: evenements/models.py:37
-msgid "contact email"
-msgstr "email de contact"
+#: templates/groupes/details.html:10
+msgid "General informations"
+msgstr "Informations générales"
 
-#: evenements/models.py:38
-msgid "link"
-msgstr "lien"
+#: templates/groupes/details.html:14
+msgid "Coordinator"
+msgstr "Responsable"
 
-#: evenements/models.py:39
-msgid "place"
-msgstr "lieu"
+#: templates/groupes/details.html:17
+msgid "Actions"
+msgstr "Actions"
 
-#: evenements/models.py:40
-msgid "publication start"
-msgstr "début de publication"
+#: templates/groupes/details.html:20
+msgid "Join the group."
+msgstr "Rejoindre le groupe."
 
-#: evenements/models.py:41
-msgid "publication end"
-msgstr "fin de publication"
+#: templates/groupes/details.html:27
+#: templates/groupes_regionaux/details.html:15
+msgid "Members list"
+msgstr "Liste des membres"
 
-#: evenements/models.py:62 evenements/models.py:71 voyages/models.py:84
-msgid "event"
-msgstr "événement"
+#: templates/groupes/details.html:33
+msgid "Group presentation"
+msgstr "Présentation du groupe"
 
-#: evenements/models.py:66 voyages/models.py:78
-msgid "subscriber number"
-msgstr "nombre de participants"
+#: templates/groupes/index.html:17
+msgid "No group is defined."
+msgstr "Aucun groupe dans l'application."
 
-#: evenements/models.py:70 voyages/models.py:83
-msgid "subscriber"
-msgstr "participant"
+#: templates/groupes_regionaux/index.html:8
+msgid "The regional groups"
+msgstr "Les groupes régionaux"
 
-#: evenements/models.py:74
-msgid "event subscription"
-msgstr "inscription"
+#: templates/groupes_regionaux/index.html:16
+msgid "No regional group."
+msgstr "Aucun groupe régional."
 
-#: evenements/models.py:75
-msgid "event subscriptions"
-msgstr "inscriptions"
+#: templates/groupes_regionaux/details.html:36
+#, python-format
+msgid "From %(start_date)s to %(end_date)s at %(place)s"
+msgstr "Du %(start_date)s au %(end_date)s à %(place)s"
+
+#: templates/sondages/detail.html:11
+msgid "Back to homepage"
+msgstr "Retour à la page d'accueil"
+
+#: templates/sondages/detail.html:13
+msgid "Thank you for having chosen"
+msgstr "Merci d'avoir voté"
+
+#: templates/sondages/detail.html:13
+msgid "to the question"
+msgstr "à la question"
+
+#: templates/sondages/detail.html:14
+msgid "Results page"
+msgstr "Page des résultats"
+
+#: templates/voyages/index.html:8
+msgid "Travels list"
+msgstr "Liste des voyages"
+
+#: templates/voyages/index.html:13
+msgid "of"
+msgstr "de"
+
+#: templates/voyages/index.html:14
+msgid "days"
+msgstr "jours"
+
+#: templates/voyages/index.html:15 voyages/models.py:52
+msgid "visited places"
+msgstr "lieux visités"
+
+#: templates/voyages/index.html:19
+msgid "No planned travels."
+msgstr "Aucun voyage prévu."
 
 #: voyages/models.py:41
 msgid "travel type"
@@ -892,19 +963,3 @@ msgstr "inscription"
 #: voyages/models.py:88
 msgid "travel subscriptions"
 msgstr "inscriptions"
-
-#: groupes_regionaux/models.py:41 groupes_regionaux/models.py:58
-msgid "regional group"
-msgstr "groupe régional"
-
-#: groupes_regionaux/models.py:42
-msgid "regional groups"
-msgstr "groupe régional"
-
-#: groupes_regionaux/models.py:62
-msgid "regional group membership"
-msgstr "adhésion group régional"
-
-#: groupes_regionaux/models.py:63
-msgid "regional group memberships"
-msgstr "adhésions groupes régionaux"

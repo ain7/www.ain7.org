@@ -29,10 +29,20 @@ from ain7.annuaire.models import Person
 
 class Group(models.Model):
 
+    is_active = models.BooleanField(verbose_name=_('active'), default=True)
     name = models.CharField(verbose_name=_('name'), maxlength=50)
+    description = models.TextField(verbose_name=_('description'), blank=True, null=True)
 
     def __str__(self):
         return self.name
+
+    def office_memberships(self):
+        return self.memberships.exclude(end_date__isnull=False, end_date__lte=datetime.datetime.now())\
+                                .filter(start_date__lte=datetime.datetime.now())\
+                                .exclude(type=7) # exclude normal members
+
+    def active_events(self):
+        return self.events.filter(publication_start__lte=datetime.datetime.now(), publication_end__gte=datetime.datetime.now())
 
     class Admin:
         pass
@@ -41,14 +51,17 @@ class Group(models.Model):
         verbose_name = _('regional group')
         verbose_name_plural = _('regional groups')
 
-
 class GroupMembership(models.Model):
 
     MEMBERSHIP_TYPE = (
-                       (0, 'Administrator'),
-                       (1, 'President'),
-                       (2, 'Office member'),
-                       (3, 'Member')
+                       (0, _('President')),
+                       (1, _('Vice president')),
+                       (2, _('Secretary')),
+                       (3, _('Treasurer')),
+                       (4, _('Under treasurer')),
+                       (5, _('Emploi manager')),
+                       (6, _('Office member')),
+                       (7, _('Member'))
                        )
 
     type = models.IntegerField(verbose_name=_('type'), choices=MEMBERSHIP_TYPE, core=True)
@@ -59,5 +72,6 @@ class GroupMembership(models.Model):
     member = models.ForeignKey(Person, verbose_name=_('member'), related_name='regional_group_memberships', core=True)
 
     class Meta:
+        ordering = ['type', 'start_date', 'end_date']
         verbose_name = _('regional group membership')
         verbose_name_plural = _('regional group memberships')

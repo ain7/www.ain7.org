@@ -1,0 +1,48 @@
+{% extends "groupes/base.html" %}
+{% load i18n %}
+
+{% block stylesheet %}{% endblock %}
+{% block content %}
+
+<div id="content-main">
+
+<div class="left">
+	<h1>{{ group.name }}</h1>
+	{% if group.description %}
+		<p>{{ group.description }}</p>
+	{% endif %}
+
+	<h3>{% trans "Members list" %}</h3>
+	{% regroup group.office_memberships by type as membership_groups %}
+	{% for membership_group in membership_groups %}
+		<h4>{{ membership_group.list.0.get_type_display }}</h4>
+		<ul>
+		{% for membership in membership_group.list %}
+			<li>
+				<a href="/annuaire/{{ membership.member.user.id }}/">{{ membership.member }}</a>
+			</li>
+		{% endfor %}
+		</ul>
+	{% endfor %}
+</div>
+
+<div class="right">
+	{% if group.active_events %}
+		<h3>{% trans "Events" %}</h3>
+		{% for event in group.active_events %}
+			<div class="right_articles">
+				<h4><a href="/evenements/{{ event.id }}/">{{ event.name|upper }}</a></h4>
+				<p>
+					{% blocktrans with event.start_date|date:"d/m/Y" as start_date and event.end_date|date:"d/m/Y" as end_date and event.place as place %}From {{ start_date }} to {{ end_date }} at {{ place }}{% endblocktrans %}
+				</p>
+				{% if event.description %}
+					<p>{{ event.description|truncatewords:10 }}</p>
+				{% endif %}
+			</div>
+		{% endfor %}
+	{% endif %}
+</div>
+
+</div>
+
+{% endblock %}

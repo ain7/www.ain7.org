@@ -6,10 +6,10 @@
 <div id="content-main">
 
 <h2>{% trans "The regional groups" %}</h2>
-{% if liste_groupes_regionaux %}
+{% if groups %}
     <ul>
-    {% for groupe_regional in liste_groupes_regionaux %}
-           <li>{{ groupe_regional.description }}</li>
+    {% for group in groups %}
+           <li><a href="/groupes_regionaux/{{ group.id }}/">{{ group.name }}</a></li>
     {% endfor %}
      </ul>
 {% else %}

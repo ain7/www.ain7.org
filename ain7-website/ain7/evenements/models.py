@@ -23,9 +23,10 @@
 import datetime
 
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from ain7.annuaire.models import Person
-from django.utils.translation import gettext_lazy as _
+from ain7.groupes_regionaux.models import Group
 
 class Event(models.Model):
 
@@ -39,6 +40,8 @@ class Event(models.Model):
     place = models.CharField(verbose_name=_('place'), maxlength=60)
     publication_start =  models.DateTimeField(verbose_name=_('publication start'))
     publication_end = models.DateTimeField(verbose_name=_('publication end'))
+
+    regional_groups = models.ManyToManyField(Group, verbose_name=_('regional groups'), related_name='events', blank=True, null=True, filter_interface=models.HORIZONTAL)
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
@@ -59,11 +62,12 @@ class Event(models.Model):
         pass
 
     class Meta:
+        ordering = ['start_date', 'end_date', 'publication_start', 'publication_end']
         verbose_name = _('event')
 
 class EventSubscription(models.Model):
 
-    subscriber_number = models.IntegerField(verbose_name=_('subscriber number'), default=1, core=True)
+    subscriber_number = models.IntegerField(verbose_name=_('subscriber number'), core=True)
 
     subscription_date = models.DateTimeField(default=datetime.datetime.now, editable=False)
 
