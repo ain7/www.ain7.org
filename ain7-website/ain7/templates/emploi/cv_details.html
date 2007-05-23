@@ -31,6 +31,7 @@
 	{% endif %}
 {% endfor %}
 </table>
+<br />
 
 
 <h2>{% trans "Professional experiences" %}</h2>
@@ -51,6 +52,7 @@
 {% endfor %}
 </table>
 {% endif %}
+<br />
 
 
 <h2>{% trans "Education" %}</h2>
@@ -66,8 +68,27 @@
         <tr><td></td><td>{{ educationItem.diploma }}</td></tr>
     {% endif %}
     {% if educationItem.details %}
-        <tr><td></td><td>{{ educationItem.diploma }}</td></tr>
+        <tr><td></td><td>{{ educationItem.details }}</td></tr>
     {% endif %}
+{% endfor %}
+</table>
+{% endif %}
+<br />
+
+
+<h2>{% trans "Leisure activities" %}</h2>
+
+
+{% if person.leisure.all %}
+<table>
+{% for leisureItem in person.leisure.all %}
+    <tr><td><b>{{ leisureItem.title }}</b></td>
+        <td>
+	    {% if leisureItem.detail %}
+                {{ leisureItem.detail }}
+            {% endif %}
+	</td>
+    </tr>
 {% endfor %}
 </table>
 {% endif %}

@@ -41,6 +41,17 @@ class JobOfferForm(forms.Form):
 class SearchJobForm(forms.Form):
     title = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
 
+class PositionForm(forms.Form):
+    fonction = forms.CharField(max_length=50, required=True, widget=forms.TextInput(attrs={'size':'50'}))
+    service = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
+    description = forms.CharField(max_length=500, required=False, widget=forms.TextInput(attrs={'size':'50'}))
+    phone_number = forms.CharField(max_length=20, required=False, widget=forms.TextInput(attrs={'size':'50'}))
+    email = forms.EmailField(required=False)
+    start_date = forms.DateField(required=True)
+    end_date = forms.DateField(required=False)
+    is_regie = forms.BooleanField(False)
+    is_confidential = forms.BooleanField(False)
+
 def index(request):
     if not request.user.is_authenticated():
         return render_to_response('annuaire/authentification_needed.html',
@@ -71,10 +82,10 @@ def cv_edit(request, user_id=None):
     if not request.user.is_authenticated():
         return render_to_response('annuaire/authentification_needed.html',
                                   {'user': request.user})
-    # TODO : un joli formulaire...
-    # return render_to_response('emploi/cv_edit.html',
-    #                           {'form': form, 'user': request.user,  })
-    return render_to_response('emploi/cv_edit.html', {'user': request.user,  })
+
+    p = get_object_or_404(Person, user=user_id)
+    return render_to_response('emploi/cv_edit.html',
+                              {'person': p, 'user': request.user})
 
 def job_details(request,emploi_id):
 

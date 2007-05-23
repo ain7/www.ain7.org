@@ -125,6 +125,12 @@ def filldb():
     anywareoffice = emploi.Office(name="Bureau de Toulouse", company=anyware)
     anywareoffice.save()
 
+    schtroumpfland = emploi.Company(name="Schtroumpfland", field=infofield)
+    schtroumpfland.save()
+
+    lepaysdesschtroumpfs = emploi.Office(name="Mon champignon", company=schtroumpfland)
+    lepaysdesschtroumpfs.save()
+
     # Regional group
     idfgroup = groupes_regionaux.Group(name="Ile de France")
     idfgroup.save()
@@ -299,6 +305,42 @@ def filldb():
     olivier_ain7member.person = olivier
     olivier_ain7member.save()
     
+    olivier_position1 = emploi.Position()
+    olivier_position1.person = olivier
+    olivier_position1.office = lepaysdesschtroumpfs
+    olivier_position1.fonction = "Schtroumpf paresseux"
+    olivier_position1.start_date = date(2003,01,01)
+    olivier_position1.end_date = date(2007,01,01)
+    olivier_position1.save()
+
+    olivier_position2 = emploi.Position()
+    olivier_position2.person = olivier
+    olivier_position2.office = lepaysdesschtroumpfs
+    olivier_position2.fonction = "Grand Schtroumpf"
+    olivier_position2.start_date = date(2007,01,01)
+    olivier_position2.save()
+
+    olivier_education1 = emploi.EducationItem()
+    olivier_education1.person = olivier
+    olivier_education1.school = "ENSEEIHT"
+    olivier_education1.diploma = "Ingenieur en informatique et mathématiques appliquées"
+    olivier_education1.details = "Troisième année à la Technische Universität Darmstadt, Allemagne."
+    olivier_education1.start_date = date(2001,1,11)
+    olivier_education1.end_date = date(2003,8,23)
+    olivier_education1.save()
+
+    olivier_leisure1 = emploi.LeisureItem()
+    olivier_leisure1.person = olivier
+    olivier_leisure1.title = "Culture"
+    olivier_leisure1.detail = "Guitare, cinéma"
+    olivier_leisure1.save()
+
+    olivier_leisure2 = emploi.LeisureItem()
+    olivier_leisure2.person = olivier
+    olivier_leisure2.title = "Informatique"
+    olivier_leisure2.detail = "Le site de l'AIn7 !!"
+    olivier_leisure2.save()
+
     alex = annuaire.Person()
     alex.user = User.objects.create_user("alex", "zigouigoui.garnier@laposte.net","alex")
     alex.user.is_staff = True
