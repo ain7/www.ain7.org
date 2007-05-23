@@ -44,6 +44,13 @@ class Group(models.Model):
     def active_events(self):
         return self.events.filter(publication_start__lte=datetime.datetime.now(), publication_end__gte=datetime.datetime.now())
 
+    def has_for_member(self, person):
+        if type:
+            return self.memberships.filter(member=person)\
+                                    .exclude(end_date__isnull=False, end_date__lte=datetime.datetime.now())\
+                                    .filter(start_date__lte=datetime.datetime.now())\
+                                    .count() != 0
+
     class Admin:
         pass
 

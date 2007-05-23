@@ -20,7 +20,7 @@
 #
 #
 
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 from django.core import validators
 from django.contrib.auth.models import User
@@ -32,6 +32,7 @@ import ain7.sondages.models as sondages
 import ain7.news.models as news
 import ain7.voyages.models as voyages
 import ain7.emploi.models as emploi
+import ain7.evenements.models as evenements
 
 import sys
 
@@ -553,3 +554,21 @@ def filldb():
     travel5.visited_places = "Delhi, Amristar, Dharamsala, Manali, Simla"
     travel5.prix = 1900
     travel5.save()
+
+    groupes_regionaux.GroupMembership(group=idfgroup, member=lionel, type=0).save()
+    groupes_regionaux.GroupMembership(group=idfgroup, member=alex, type=2).save()
+    groupes_regionaux.GroupMembership(group=idfgroup, member=pierref, type=7).save()
+    groupes_regionaux.GroupMembership(group=idfgroup, member=olivier, type=7).save()
+
+    evenement1 = evenements.Event()
+    evenement1.name="Réunion 100 ans"
+    evenement1.start_date=datetime.now()
+    evenement1.end_date=datetime.now() + timedelta(30)
+    evenement1.author="Moi"
+    evenement1.contact_email="a@b.fr"
+    evenement1.place="Ailleurs"
+    evenement1.publication_start=datetime.now()
+    evenement1.publication_end=datetime.now() + timedelta(30)
+    evenement1.save()
+    evenement1.regional_groups.add(idfgroup)
+    evenement1.save()

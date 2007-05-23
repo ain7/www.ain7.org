@@ -27,6 +27,10 @@ from django.newforms import widgets
 from ain7.evenements.models import Event
 
 def index(request):
-    liste_evenements = Event.objects.all()[:5]
-    return render_to_response('evenements/index.html', {'liste_evenements': liste_evenements, 'user': request.user})
+    events = Event.objects.all()[:5]
+    return render_to_response('evenements/index.html', {'events': events, 'user': request.user})
 
+
+def detail(request, event_id):
+    event = get_object_or_404(Event, pk=event_id)
+    return render_to_response('evenements/details.html', {'event': event, 'user': request.user})

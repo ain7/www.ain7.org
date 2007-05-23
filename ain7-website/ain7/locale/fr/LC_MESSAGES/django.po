@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-23 00:36+0200\n"
+"POT-Creation-Date: 2007-05-23 22:43+0200\n"
 "PO-Revision-Date: 2007-05-21 23:51+0200\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,7 +33,7 @@ msgstr "pays"
 
 #: annuaire/models.py:48 annuaire/models.py:63 annuaire/models.py:210
 #: annuaire/models.py:286 annuaire/models.py:305 annuaire/models.py:325
-#: annuaire/models.py:365 groupes_regionaux/models.py:67 voyages/models.py:32
+#: annuaire/models.py:365 groupes_regionaux/models.py:74 voyages/models.py:32
 #: voyages/models.py:51
 msgid "type"
 msgstr "type"
@@ -138,7 +138,7 @@ msgid "user"
 msgstr "utilisateur"
 
 #: annuaire/models.py:211 annuaire/models.py:424 groupes/models.py:64
-#: groupes_regionaux/models.py:72
+#: groupes_regionaux/models.py:79
 msgid "member"
 msgstr "membre"
 
@@ -285,8 +285,8 @@ msgid "creation date"
 msgstr "date de création"
 
 #: annuaire/models.py:403 annuaire/models.py:421 emploi/models.py:118
-#: emploi/models.py:144 evenements/models.py:35 groupes_regionaux/models.py:69
-#: voyages/models.py:48
+#: emploi/models.py:144 evenements/models.py:35 groupes_regionaux/models.py:76
+#: templates/evenements/details.html:21 voyages/models.py:48
 msgid "end date"
 msgstr "date de fin"
 
@@ -299,7 +299,8 @@ msgid "fonction"
 msgstr "fonction"
 
 #: annuaire/models.py:420 emploi/models.py:117 emploi/models.py:143
-#: evenements/models.py:34 groupes_regionaux/models.py:68 voyages/models.py:47
+#: evenements/models.py:34 groupes_regionaux/models.py:75
+#: templates/evenements/details.html:20 voyages/models.py:47
 msgid "start date"
 msgstr "date de début"
 
@@ -420,7 +421,7 @@ msgstr "début de publication"
 msgid "publication end"
 msgstr "fin de publication"
 
-#: evenements/models.py:44 groupes_regionaux/models.py:52
+#: evenements/models.py:44 groupes_regionaux/models.py:59
 msgid "regional groups"
 msgstr "groupes régionaux"
 
@@ -445,7 +446,8 @@ msgid "event subscriptions"
 msgstr "inscriptions"
 
 #: groupes/models.py:33 templates/base.html:52
-#: templates/annuaire/details.html:45 templates/groupes/details.html:13
+#: templates/annuaire/details.html:45 templates/evenements/details.html:22
+#: templates/groupes/details.html:13
 msgid "Contact"
 msgstr "Contact"
 
@@ -473,47 +475,47 @@ msgstr "adhésion group"
 msgid "active"
 msgstr "actif"
 
-#: groupes_regionaux/models.py:51 groupes_regionaux/models.py:71
+#: groupes_regionaux/models.py:58 groupes_regionaux/models.py:78
 msgid "regional group"
 msgstr "groupe régional"
 
-#: groupes_regionaux/models.py:57
+#: groupes_regionaux/models.py:64
 msgid "President"
 msgstr "Président"
 
-#: groupes_regionaux/models.py:58
+#: groupes_regionaux/models.py:65
 msgid "Vice president"
 msgstr "Vice président"
 
-#: groupes_regionaux/models.py:59
+#: groupes_regionaux/models.py:66
 msgid "Secretary"
 msgstr "Secrétaire"
 
-#: groupes_regionaux/models.py:60
+#: groupes_regionaux/models.py:67
 msgid "Treasurer"
 msgstr "Trésorier"
 
-#: groupes_regionaux/models.py:61
+#: groupes_regionaux/models.py:68
 msgid "Under treasurer"
 msgstr "Trésorier adjoint"
 
-#: groupes_regionaux/models.py:62
+#: groupes_regionaux/models.py:69
 msgid "Emploi manager"
 msgstr "Responsable emploi"
 
-#: groupes_regionaux/models.py:63
+#: groupes_regionaux/models.py:70
 msgid "Office member"
 msgstr "Membre du bureau"
 
-#: groupes_regionaux/models.py:64
+#: groupes_regionaux/models.py:71
 msgid "Member"
 msgstr "Membre"
 
-#: groupes_regionaux/models.py:76
+#: groupes_regionaux/models.py:83
 msgid "regional group membership"
 msgstr "adhésion group régional"
 
-#: groupes_regionaux/models.py:77
+#: groupes_regionaux/models.py:84
 msgid "regional group memberships"
 msgstr "adhésions groupes régionaux"
 
@@ -524,6 +526,14 @@ msgstr "Vous avez été ajouté à ce groupe avec succès."
 #: groupes_regionaux/views.py:57
 msgid "You are already a member of this group."
 msgstr "Vous êtes déjà membre de ce groupe."
+
+#: groupes_regionaux/views.py:75
+msgid "You have been successfully removed from this group."
+msgstr "Vous avez quitté ce groupe avec succès."
+
+#: groupes_regionaux/views.py:77
+msgid "You are not a member of this group."
+msgstr "Vous n'êtes pas membre de ce groupe."
 
 #: news/models.py:30
 msgid "title"
@@ -649,7 +659,7 @@ msgstr "Annuaire"
 #: templates/annuaire/base.html:9 templates/emploi/base.html:9
 #: templates/evenements/base.html:9 templates/groupes/base.html:9
 #: templates/groupes_regionaux/base.html:9
-#: templates/groupes_regionaux/details.html:44
+#: templates/groupes_regionaux/details.html:49
 #: templates/pages/base_association.html:9
 #: templates/pages/base_homepage.html:9
 #: templates/pages/base_international.html:9 templates/pages/base_pages.html:9
@@ -846,6 +856,15 @@ msgstr "Liste des événements et manifestations à venir"
 msgid "No planned event."
 msgstr "Aucun événement prévu."
 
+#: templates/evenements/details.html:28 templates/groupes/details.html:17
+#: templates/groupes_regionaux/details.html:35
+msgid "Actions"
+msgstr "Actions"
+
+#: templates/evenements/details.html:32
+msgid "Participate to this event."
+msgstr "Participer à cet événement"
+
 #: templates/groupes/details.html:10
 msgid "General informations"
 msgstr "Informations générales"
@@ -854,18 +873,13 @@ msgstr "Informations générales"
 msgid "Coordinator"
 msgstr "Responsable"
 
-#: templates/groupes/details.html:17
-#: templates/groupes_regionaux/details.html:36
-msgid "Actions"
-msgstr "Actions"
-
 #: templates/groupes/details.html:20
-#: templates/groupes_regionaux/details.html:39
+#: templates/groupes_regionaux/details.html:40
 msgid "Join the group."
 msgstr "Rejoindre le groupe."
 
 #: templates/groupes/details.html:27
-#: templates/groupes_regionaux/details.html:20
+#: templates/groupes_regionaux/details.html:19
 msgid "Members list"
 msgstr "Liste des membres"
 
@@ -885,7 +899,11 @@ msgstr "Les groupes régionaux"
 msgid "No regional group."
 msgstr "Aucun groupe régional."
 
-#: templates/groupes_regionaux/details.html:49
+#: templates/groupes_regionaux/details.html:42
+msgid "Quit the group."
+msgstr "Quitter le groupe."
+
+#: templates/groupes_regionaux/details.html:54
 #, python-format
 msgid "From %(start_date)s to %(end_date)s at %(place)s"
 msgstr "Du %(start_date)s au %(end_date)s à %(place)s"

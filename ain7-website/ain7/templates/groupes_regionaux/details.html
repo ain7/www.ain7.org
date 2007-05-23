@@ -35,7 +35,13 @@
 	<h3>{% trans "Actions" %}</h3>
 	<div class="right_block">
 		<ul>
-			<li><a href="/groupes_regionaux/join/{{ group.id }}">{% trans "Join the group." %}</a></li>
+			<li>
+			{% if not is_member %}
+				<a href="/groupes_regionaux/join/{{ group.id }}">{% trans "Join the group." %}</a>
+			{% else %}
+				<a href="/groupes_regionaux/quit/{{ group.id }}">{% trans "Quit the group." %}</a>
+			{% endif %}	
+			</li>
 		</ul>
 	</div>
 

@@ -37,7 +37,10 @@ def index(request):
 
 def detail(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
-    return render_to_response('groupes_regionaux/details.html', {'group': group, 'user': request.user}, context_instance=RequestContext(request))
+    is_member = request.user.is_authenticated()\
+                and group.has_for_member(request.user.person)
+
+    return render_to_response('groupes_regionaux/details.html', {'group': group, 'user': request.user, 'is_member': is_member}, context_instance=RequestContext(request))
 
 def join(request, group_id):
 
@@ -47,14 +50,30 @@ def join(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
     person = request.user.person
 
-    if group.memberships.filter(member=person)\
-                        .exclude(end_date__isnull=False, end_date__lte=datetime.datetime.now())\
-                        .filter(start_date__lte=datetime.datetime.now())\
-                        .count() == 0:
-        membership = GroupMembership(type=7, group=group, member=person).save()
+    if not group.has_for_member(person):
+        GroupMembership(type=7, group=group, member=person).save()
         request.user.message_set.create(message=_("You have been successfully added to this group."))
     else:
         request.user.message_set.create(message=_("You are already a member of this group."))
 
-    #return render_to_response('groupes_regionaux/details.html', {'group': group, 'user': request.user}, )
+    return HttpResponseRedirect('/groupes_regionaux/%s' % (group.id))
+
+def quit(request, group_id):
+
+    if not request.user.is_authenticated():
+        return render_to_response('annuaire/authentification_needed.html', {'user': request.user})
+
+    group = get_object_or_404(Group, pk=group_id)
+    person = request.user.person
+
+    if group.has_for_member(person):
+        membership = GroupMembership.objects.filter(group=group, member=person)\
+                                            .exclude(end_date__isnull=False, end_date__lte=datetime.datetime.now())\
+                                            .latest('end_date')
+        membership.end_date = datetime.datetime.now()
+        membership.save()
+        request.user.message_set.create(message=_("You have been successfully removed from this group."))
+    else:
+        request.user.message_set.create(message=_("You are not a member of this group."))
+
     return HttpResponseRedirect('/groupes_regionaux/%s' % (group.id))

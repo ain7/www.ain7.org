@@ -6,14 +6,16 @@
 <div id="content-main">
 
 <h2>{% trans "List of events and meetings to come." %}</h2>
-{% if liste_evenements %}
-    <ul>
-    {% for evenement in liste_evenements %}
-           <li>{{ evenement.description }}</li>
-    {% endfor %}
-     </ul>
+{% if events %}
+	<ul>
+	{% for event in events %}
+		<li>
+			<strong><a href="/evenements/{{ event.id }}/">{{ event.name }}</a></strong> {{ event.description|default_if_none:"" }}
+		</li>
+	{% endfor %}
+	</ul>
 {% else %}
-    <p>{% trans "No planned event." %}</p>
+	<p>{% trans "No planned event." %}</p>
 {% endif %}
 
 </div>
