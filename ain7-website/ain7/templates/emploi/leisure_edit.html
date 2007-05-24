@@ -1,0 +1,25 @@
+{% extends "emploi/base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div id="content-main">
+
+{% ifequal action "edit" %}
+    <h2>{% trans "Modification of a leisure item" %}</h2>
+{% else %}
+    <h2>{% trans "Creation of a leisure item" %}</h2>
+{% endifequal %}
+
+<form method="post">
+<table>
+{{ form }}
+</table>
+<div align="center">
+<input type="submit" class="button" value="{% trans "Save" %}">
+</div>
+</form>
+
+</div>
+
+{% endblock %}

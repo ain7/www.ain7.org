@@ -45,6 +45,9 @@
             {{ position.end_date|date:"d/m/Y"|default:"..." }}&nbsp;:</b></td>
             <td> {{ position.fonction }} {% trans "for" %} 
                 {{ position.office }} ({{ position.office.company }})</td></tr>
+        {% if position.service %}
+            <tr><td></td><td>{{ position.service }}</td></tr>
+        {% endif %}
         {% if position.description %}
             <tr><td></td><td>{{ position.description }}</td></tr>
         {% endif %}

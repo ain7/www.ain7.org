@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-23 23:56+0200\n"
-"PO-Revision-Date: 2007-05-23 23:57+0200\n"
+"POT-Creation-Date: 2007-05-25 00:07+0200\n"
+"PO-Revision-Date: 2007-05-25 00:16+0200\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -590,11 +590,26 @@ msgstr "Aucun événement prévu."
 msgid "Participate to this event."
 msgstr "Participer à cet événement"
 
-#: templates/emploi/cv_details.html:58 templates/emploi/cv_edit.html:67
+#: templates/emploi/education_edit.html:9
+msgid "Modification of an education item"
+msgstr "Modification d'une formation"
+
+#: templates/emploi/education_edit.html:11
+msgid "Creation of an education item"
+msgstr "Ajout d'une entrée dans la partie \"Formation\""
+
+#: templates/emploi/education_edit.html:19
+#: templates/emploi/position_edit.html:19
+#: templates/emploi/leisure_edit.html:19
+#: templates/emploi/office_create.html:19
+msgid "Save"
+msgstr "Valider"
+
+#: templates/emploi/cv_details.html:61 templates/emploi/cv_edit.html:67
 msgid "Education"
 msgstr "Formation"
 
-#: templates/emploi/cv_details.html:79 templates/emploi/cv_edit.html:94
+#: templates/emploi/cv_details.html:82 templates/emploi/cv_edit.html:94
 msgid "Leisure activities"
 msgstr "Loisirs"
 
@@ -652,6 +667,38 @@ msgstr "Supprimer"
 #: templates/emploi/cv_edit.html:114
 msgid "Add"
 msgstr "Ajouter"
+
+#: templates/emploi/position_edit.html:9
+msgid "Modification of a position"
+msgstr "Modification d'une expérience professionnelle"
+
+#: templates/emploi/position_edit.html:11
+msgid "Creation of a position"
+msgstr "Ajout d'une expérience professionnelle"
+
+#: templates/emploi/position_edit.html:24
+msgid "Create a new office"
+msgstr "Créer un nouveau bureau pour une société"
+
+#: templates/emploi/leisure_edit.html:9
+msgid "Modification of a leisure item"
+msgstr "Modification de loisirs"
+
+#: templates/emploi/leisure_edit.html:11
+msgid "Creation of a leisure item"
+msgstr "Ajout de loisirs"
+
+#: templates/emploi/office_create.html:9
+msgid "Creation of an office"
+msgstr "Ajouter un bureau pour une société"
+
+#: templates/emploi/office_create.html:11
+msgid "Creation of a company"
+msgstr "Ajouter une société"
+
+#: templates/emploi/office_create.html:25
+msgid "Create a new company"
+msgstr "Ajouter une société"
 
 #: templates/emploi/job_details.html:11 emploi/models.py:188
 msgid "Reference"

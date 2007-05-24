@@ -25,9 +25,9 @@ from django import newforms as forms
 from django.newforms import widgets
 from django.core.exceptions import ObjectDoesNotExist
 
-from ain7.annuaire.models import Person
-from ain7.annuaire.models import AIn7Member
-from ain7.emploi.models import JobOffer
+from ain7.annuaire.models import Person, AIn7Member
+from ain7.emploi.models import JobOffer, Position, EducationItem, LeisureItem
+from ain7.emploi.models import Office, Company
 
 class JobOfferForm(forms.Form):
     reference = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
@@ -40,17 +40,6 @@ class JobOfferForm(forms.Form):
 
 class SearchJobForm(forms.Form):
     title = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
-
-class PositionForm(forms.Form):
-    fonction = forms.CharField(max_length=50, required=True, widget=forms.TextInput(attrs={'size':'50'}))
-    service = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
-    description = forms.CharField(max_length=500, required=False, widget=forms.TextInput(attrs={'size':'50'}))
-    phone_number = forms.CharField(max_length=20, required=False, widget=forms.TextInput(attrs={'size':'50'}))
-    email = forms.EmailField(required=False)
-    start_date = forms.DateField(required=True)
-    end_date = forms.DateField(required=False)
-    is_regie = forms.BooleanField(False)
-    is_confidential = forms.BooleanField(False)
 
 def index(request):
     if not request.user.is_authenticated():
@@ -86,6 +75,230 @@ def cv_edit(request, user_id=None):
     p = get_object_or_404(Person, user=user_id)
     return render_to_response('emploi/cv_edit.html',
                               {'person': p, 'user': request.user})
+
+# une petite fonction pour exclure les champs person et user des formulaires
+# créés avec form_for_model et form_for_instance
+def form_callback(f, **args):
+  if f.name == "person" or f.name == "user":
+    return None
+  return f.formfield(**args)
+
+def position_edit(request, user_id=None, position_id=None):
+    if not request.user.is_authenticated():
+        return render_to_response('annuaire/authentification_needed.html',
+                                  {'user': request.user})
+    p = get_object_or_404(Person, user=user_id)
+    position = get_object_or_404(Position, pk=position_id)
+    # 1er passage : on propose un formulaire avec les données actuelles
+    if request.method == 'GET':
+        PosForm = forms.models.form_for_instance(position,
+            formfield_callback=form_callback)
+        f = PosForm()
+        return render_to_response('emploi/position_edit.html',
+            {'form': f, 'user': request.user, 'action': "edit"})
+    # 2e passage : sauvegarde et redirection
+    if request.method == 'POST':
+        PosForm = forms.models.form_for_instance(position,
+            formfield_callback=form_callback)
+        f = PosForm(request.POST.copy())
+        if f.is_valid():
+            f.clean_data['person'] = p
+            f.save()
+        return render_to_response('emploi/cv_edit.html',
+            {'person': p, 'user': request.user})
+
+def position_delete(request, user_id=None, position_id=None):
+    if not request.user.is_authenticated():
+        return render_to_response('annuaire/authentification_needed.html',
+                                  {'user': request.user})
+    p = get_object_or_404(Person, user=user_id)
+    if not position_id is None:
+        position = get_object_or_404(Position, pk=position_id)
+        position.delete()
+    return render_to_response('emploi/cv_edit.html',
+                              {'person': p, 'user': request.user})
+
+def position_add(request, user_id=None):
+    if not request.user.is_authenticated():
+        return render_to_response('annuaire/authentification_needed.html',
+                                  {'user': request.user})
+    p = get_object_or_404(Person, user=user_id)
+    # 1er passage : on propose un formulaire vide
+    if request.method == 'GET':
+        PosForm = forms.models.form_for_model(Position,
+            formfield_callback=form_callback)
+        f = PosForm()
+        return render_to_response('emploi/position_edit.html',
+            {'form': f, 'person': p, 'user': request.user, 'action': "create"})
+    # 2e passage : sauvegarde et redirection
+    if request.method == 'POST':
+        PosForm = forms.models.form_for_model(Position,
+            formfield_callback=form_callback)
+        f = PosForm(request.POST.copy())
+        if f.is_valid():
+            f.clean_data['person'] = p
+            f.save()
+        return render_to_response('emploi/cv_edit.html',
+            {'person': p, 'user': request.user})
+
+def education_edit(request, user_id=None, education_id=None):
+    if not request.user.is_authenticated():
+        return render_to_response('annuaire/authentification_needed.html',
+                                  {'user': request.user})
+    p = get_object_or_404(Person, user=user_id)
+    education = get_object_or_404(EducationItem, pk=education_id)
+    # 1er passage : on propose un formulaire avec les données actuelles
+    if request.method == 'GET':
+        EducForm = forms.models.form_for_instance(education,
+            formfield_callback=form_callback)
+        f = EducForm()
+        return render_to_response('emploi/education_edit.html',
+            {'form': f, 'user': request.user, 'action': "edit"})
+    # 2e passage : sauvegarde et redirection
+    if request.method == 'POST':
+        EducForm = forms.models.form_for_instance(education,
+            formfield_callback=form_callback)
+        f = EducForm(request.POST.copy())
+        if f.is_valid():
+            f.clean_data['person'] = p
+            f.save()
+        return render_to_response('emploi/cv_edit.html',
+            {'person': p, 'user': request.user})
+
+def education_delete(request, user_id=None, education_id=None):
+    if not request.user.is_authenticated():
+        return render_to_response('annuaire/authentification_needed.html',
+                                  {'user': request.user})
+    p = get_object_or_404(Person, user=user_id)
+    if not education_id is None:
+        education = get_object_or_404(EducationItem, pk=education_id)
+        education.delete()
+    return render_to_response('emploi/cv_edit.html',
+                              {'person': p, 'user': request.user})
+
+def education_add(request, user_id=None):
+    if not request.user.is_authenticated():
+        return render_to_response('annuaire/authentification_needed.html',
+                                  {'user': request.user})
+    p = get_object_or_404(Person, user=user_id)
+    # 1er passage : on propose un formulaire vide
+    if request.method == 'GET':
+        EducForm = forms.models.form_for_model(EducationItem,
+            formfield_callback=form_callback)
+        f = EducForm()
+        return render_to_response('emploi/education_edit.html',
+            {'form': f, 'person': p, 'user': request.user, 'action': "create"})
+    # 2e passage : sauvegarde et redirection
+    if request.method == 'POST':
+        EducForm = forms.models.form_for_model(EducationItem,
+            formfield_callback=form_callback)
+        f = EducForm(request.POST.copy())
+        if f.is_valid():
+            f.clean_data['person'] = p
+            f.save()
+        return render_to_response('emploi/cv_edit.html',
+            {'person': p, 'user': request.user})
+
+def leisure_edit(request, user_id=None, leisure_id=None):
+    if not request.user.is_authenticated():
+        return render_to_response('annuaire/authentification_needed.html',
+                                  {'user': request.user})
+    p = get_object_or_404(Person, user=user_id)
+    leisure = get_object_or_404(LeisureItem, pk=leisure_id)
+    # 1er passage : on propose un formulaire avec les données actuelles
+    if request.method == 'GET':
+        LeisureForm = forms.models.form_for_instance(leisure,
+            formfield_callback=form_callback)
+        f = LeisureForm()
+        return render_to_response('emploi/leisure_edit.html',
+            {'form': f, 'user': request.user, 'action': "edit"})
+    # 2e passage : sauvegarde et redirection
+    if request.method == 'POST':
+        LeisureForm = forms.models.form_for_instance(leisure,
+            formfield_callback=form_callback)
+        f = LeisureForm(request.POST.copy())
+        if f.is_valid():
+            f.clean_data['person'] = p
+            f.save()
+        return render_to_response('emploi/cv_edit.html',
+            {'person': p, 'user': request.user})
+
+def leisure_delete(request, user_id=None, leisure_id=None):
+    if not request.user.is_authenticated():
+        return render_to_response('annuaire/authentification_needed.html',
+                                  {'user': request.user})
+    p = get_object_or_404(Person, user=user_id)
+    if not leisure_id is None:
+        leisure = get_object_or_404(LeisureItem, pk=leisure_id)
+        leisure.delete()
+    return render_to_response('emploi/cv_edit.html',
+                              {'person': p, 'user': request.user})
+
+def leisure_add(request, user_id=None):
+    if not request.user.is_authenticated():
+        return render_to_response('annuaire/authentification_needed.html',
+                                  {'user': request.user})
+    p = get_object_or_404(Person, user=user_id)
+    # 1er passage : on propose un formulaire vide
+    if request.method == 'GET':
+        LeisureForm = forms.models.form_for_model(LeisureItem,
+            formfield_callback=form_callback)
+        f = LeisureForm()
+        return render_to_response('emploi/leisure_edit.html',
+            {'form': f, 'person': p, 'user': request.user, 'action': "create"})
+    # 2e passage : sauvegarde et redirection
+    if request.method == 'POST':
+        LeisureForm = forms.models.form_for_model(LeisureItem,
+            formfield_callback=form_callback)
+        f = LeisureForm(request.POST.copy())
+        if f.is_valid():
+            f.clean_data['person'] = p
+            f.save()
+        return render_to_response('emploi/cv_edit.html',
+            {'person': p, 'user': request.user})
+
+def office_create(request, user_id=None):
+    if not request.user.is_authenticated():
+        return render_to_response('annuaire/authentification_needed.html',
+                                  {'user': request.user})
+    p = get_object_or_404(Person, user=user_id)
+    # 1er passage : on propose un formulaire vide
+    if request.method == 'GET':
+        OfficeForm = forms.models.form_for_model(Office)
+        f = OfficeForm()
+        return render_to_response('emploi/office_create.html',
+            {'form': f, 'person': p, 'user': request.user, 'object': "office"})
+    # 2e passage : sauvegarde et redirection
+    if request.method == 'POST':
+        OfficeForm = forms.models.form_for_model(Office)
+        f = OfficeForm(request.POST.copy())
+        if f.is_valid():
+            f.save()
+        return render_to_response('emploi/cv_edit.html',
+            {'person': p, 'user': request.user})
+
+def company_create(request, user_id=None):
+    if not request.user.is_authenticated():
+        return render_to_response('annuaire/authentification_needed.html',
+                                  {'user': request.user})
+    p = get_object_or_404(Person, user=user_id)
+    # 1er passage : on propose un formulaire vide
+    if request.method == 'GET':
+        CompanyForm = forms.models.form_for_model(Company)
+        CompanyForm.base_fields['size'].widget =\
+            forms.Select(choices=Company.COMPANY_SIZE)
+        f = CompanyForm()
+        return render_to_response('emploi/office_create.html',
+            {'form': f, 'person': p, 'user': request.user,
+             'object': "company"})
+    # 2e passage : sauvegarde et redirection
+    if request.method == 'POST':
+        CompanyForm = forms.models.form_for_model(Company)
+        f = CompanyForm(request.POST.copy())
+        if f.is_valid():
+            f.save()
+        return render_to_response('emploi/cv_edit.html',
+            {'person': p, 'user': request.user})
 
 def job_details(request,emploi_id):
 
