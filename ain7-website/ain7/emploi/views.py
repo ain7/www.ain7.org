@@ -112,10 +112,21 @@ def position_delete(request, user_id=None, position_id=None):
         return render_to_response('annuaire/authentification_needed.html',
                                   {'user': request.user})
     p = get_object_or_404(Person, user=user_id)
-    if not position_id is None:
-        position = get_object_or_404(Position, pk=position_id)
-        position.delete()
-    return render_to_response('emploi/cv_edit.html',
+    position = get_object_or_404(Position, pk=position_id)
+    # 1er passage: on demande confirmation
+    if request.method != 'POST':
+        msg = _("Do you really want to delete this professional experience?")
+        description = position.fonction + " " + _("for")
+        description+= str(position.office) + " ("
+        description+= str(position.office.company) + ")"
+        return render_to_response('pages/confirm.html',
+                   {'message': msg, 'description': description,
+                    'section': "emploi/base.html"})
+    # 2eme passage: on supprime si c'est confirmé
+    else:
+        if request.POST['choice']=="1":
+            position.delete()
+        return render_to_response('emploi/cv_edit.html',
                               {'person': p, 'user': request.user})
 
 def position_add(request, user_id=None):

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-25 00:07+0200\n"
-"PO-Revision-Date: 2007-05-25 00:16+0200\n"
+"POT-Creation-Date: 2007-05-27 23:09+0200\n"
+"PO-Revision-Date: 2007-05-27 23:10+0200\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -547,6 +547,18 @@ msgstr "Planet"
 msgid "Save changes"
 msgstr "Sauvegarder les modifications"
 
+#: templates/pages/confirm.html:14
+msgid "Yes"
+msgstr "Oui"
+
+#: templates/pages/confirm.html:17
+msgid "No"
+msgstr "Non"
+
+#: templates/pages/confirm.html:22
+msgid "Ok"
+msgstr "Ok"
+
 #: templates/groupes/index.html:17
 msgid "No group is defined."
 msgstr "Aucun groupe dans l'application."
@@ -841,6 +853,10 @@ msgstr "inscription"
 #: evenements/models.py:79
 msgid "event subscriptions"
 msgstr "inscriptions"
+
+#: emploi/views.py:117
+msgid "Do you really want to delete this professional experience?"
+msgstr "Souhaitez-vous vraiment supprimer cette expérience professionnelle ?"
 
 #: emploi/models.py:33 emploi/models.py:42 emploi/models.py:56
 msgid "field"
