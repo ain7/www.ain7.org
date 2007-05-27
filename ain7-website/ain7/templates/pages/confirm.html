@@ -1,0 +1,32 @@
+{% load i18n %}
+{% extends section %}
+
+{% block content %}
+
+<div align="center">
+{{ description }}
+</div>
+
+<div class="warning">
+{{ message }}
+</div>
+
+<form method="POST">
+
+<div align="center">
+<input type="radio" name="choice" value="1">
+    {% trans "Yes" %}
+</input>
+<input type="radio" name="choice" value="0" checked="true">
+    {% trans "No" %}
+</input>
+</div>
+
+<div align="center">
+<input type="submit" class="button" value="{% trans "Ok" %}" />
+</div>
+
+</form>
+
+
+{% endblock %}
