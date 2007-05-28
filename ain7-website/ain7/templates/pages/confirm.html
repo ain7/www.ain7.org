@@ -11,19 +11,15 @@
 {{ message }}
 </div>
 
-<form method="POST">
+<form method="post" action="#">
 
 <div align="center">
-<input type="radio" name="choice" value="1">
-    {% trans "Yes" %}
-</input>
-<input type="radio" name="choice" value="0" checked="true">
-    {% trans "No" %}
-</input>
+	<input type="radio" name="choice" value="1" id="yes"/><label for="yes">{% trans "Yes" %}</label>
+	<input type="radio" name="choice" value="0" checked="checked" id="no" /><label for="no">{% trans "No" %}</label>
 </div>
 
 <div align="center">
-<input type="submit" class="button" value="{% trans "Ok" %}" />
+	<input type="submit" class="button" value="{% trans "Ok" %}" />
 </div>
 
 </form>
