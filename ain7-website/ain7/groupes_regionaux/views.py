@@ -45,7 +45,9 @@ def detail(request, group_id):
 def join(request, group_id):
 
     if not request.user.is_authenticated():
-        return render_to_response('annuaire/authentification_needed.html', {'user': request.user})
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': "groupes_regionaux/base.html"})
 
     group = get_object_or_404(Group, pk=group_id)
     person = request.user.person
@@ -61,7 +63,9 @@ def join(request, group_id):
 def quit(request, group_id):
 
     if not request.user.is_authenticated():
-        return render_to_response('annuaire/authentification_needed.html', {'user': request.user})
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': "groupes_regionaux/base.html"})
 
     group = get_object_or_404(Group, pk=group_id)
     person = request.user.person

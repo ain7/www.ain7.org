@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-27 23:09+0200\n"
-"PO-Revision-Date: 2007-05-27 23:10+0200\n"
+"POT-Creation-Date: 2007-05-28 22:21+0200\n"
+"PO-Revision-Date: 2007-05-28 22:22+0200\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -384,10 +384,6 @@ msgstr "Liste de votre recherche"
 msgid "No person matched your criteria."
 msgstr "Aucune personne dans l'application."
 
-#: templates/annuaire/authentification_needed.html:7
-msgid "You need to be authentified to access to this part of the site."
-msgstr "Vous devez être authentifié pour accéder à cette partie du site."
-
 #: templates/annuaire/details.html:10
 msgid "Personal file"
 msgstr "Fiche personnelle de"
@@ -414,7 +410,7 @@ msgid "Professional experiences"
 msgstr "Expériences professionnelles"
 
 #: templates/annuaire/details.html:75 templates/emploi/cv_details.html:46
-#: templates/emploi/cv_edit.html:49
+#: templates/emploi/cv_edit.html:49 emploi/views.py:124
 msgid "for"
 msgstr "au sein de"
 
@@ -547,17 +543,21 @@ msgstr "Planet"
 msgid "Save changes"
 msgstr "Sauvegarder les modifications"
 
-#: templates/pages/confirm.html:14
+#: templates/pages/confirm.html:18
 msgid "Yes"
 msgstr "Oui"
 
-#: templates/pages/confirm.html:17
+#: templates/pages/confirm.html:21
 msgid "No"
 msgstr "Non"
 
-#: templates/pages/confirm.html:22
+#: templates/pages/confirm.html:26
 msgid "Ok"
 msgstr "Ok"
+
+#: templates/pages/authentification_needed.html:7
+msgid "You need to be authentified to access to this part of the site."
+msgstr "Vous devez être authentifié pour accéder à cette partie du site."
 
 #: templates/groupes/index.html:17
 msgid "No group is defined."
@@ -854,9 +854,17 @@ msgstr "inscription"
 msgid "event subscriptions"
 msgstr "inscriptions"
 
-#: emploi/views.py:117
+#: emploi/views.py:123
 msgid "Do you really want to delete this professional experience?"
 msgstr "Souhaitez-vous vraiment supprimer cette expérience professionnelle ?"
+
+#: emploi/views.py:195
+msgid "Do you really want to delete this education item?"
+msgstr "Souhaitez-vous vraiment supprimer cette entrée de la partie \"Education\" ?"
+
+#: emploi/views.py:266
+msgid "Do you really want to delete this leisure item?"
+msgstr "Souhaitez-vous vraiment supprimer cette entrée de la partie \"Loisirs\" ?"
 
 #: emploi/models.py:33 emploi/models.py:42 emploi/models.py:56
 msgid "field"
@@ -1002,19 +1010,19 @@ msgstr "inscription"
 msgid "travel subscriptions"
 msgstr "inscriptions"
 
-#: groupes_regionaux/views.py:55
+#: groupes_regionaux/views.py:57
 msgid "You have been successfully added to this group."
 msgstr "Vous avez été ajouté à ce groupe avec succès."
 
-#: groupes_regionaux/views.py:57
+#: groupes_regionaux/views.py:59
 msgid "You are already a member of this group."
 msgstr "Vous êtes déjà membre de ce groupe."
 
-#: groupes_regionaux/views.py:75
+#: groupes_regionaux/views.py:79
 msgid "You have been successfully removed from this group."
 msgstr "Vous avez quitté ce groupe avec succès."
 
-#: groupes_regionaux/views.py:77
+#: groupes_regionaux/views.py:81
 msgid "You are not a member of this group."
 msgstr "Vous n'êtes pas membre de ce groupe."
 

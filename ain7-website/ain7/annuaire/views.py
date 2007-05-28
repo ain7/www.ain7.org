@@ -39,7 +39,9 @@ class SearchPersonForm(forms.Form):
 def detail(request, person_id):
 
     if not request.user.is_authenticated():
-         return render_to_response('annuaire/authentification_needed.html', {'user': request.user})
+         return render_to_response('pages/authentification_needed.html',
+                                   {'user': request.user,
+                                    'section': "annuaire/base.html"})
 
     p = get_object_or_404(Person, pk=person_id)
     return render_to_response('annuaire/details.html', {'person': p, 'user': request.user})
@@ -47,7 +49,9 @@ def detail(request, person_id):
 def search(request):
 
     if not request.user.is_authenticated():
-         return render_to_response('annuaire/authentification_needed.html', {'user': request.user})
+         return render_to_response('pages/authentification_needed.html',
+                                   {'user': request.user,
+                                    'section': "annuaire/base.html"})
 
     maxTrackId=Track.objects.order_by('-id')[0].id+1
     trackList=[(maxTrackId,'Toutes')]
@@ -84,7 +88,9 @@ def search(request):
 def edit(request, person_id=None):
 
     if not request.user.is_authenticated():
-         return render_to_response('annuaire/authentification_needed.html', {'user': request.user})
+         return render_to_response('pages/authentification_needed.html',
+                                   {'user': request.user,
+                                    'section': "annuaire/base.html"})
 
     if person_id is None:
         PersonForm = forms.models.form_for_model(Person)

@@ -614,3 +614,55 @@ def filldb():
     evenement1.save()
     evenement1.regional_groups.add(idfgroup)
     evenement1.save()
+
+    job1 = emploi.JobOffer()
+    job1.reference = "XYZ270"
+    job1.title = "Ingénieur Java/J2EE"
+    job1.description = """Pour l'un de nos clients Grand Compte, nous recherchons des Ingénieurs d'études Java/J2ee, sous la conduite d'un Chef de projet, vous aurez en charge la réalisation des études techniques et fonctionnelles, le développement des application."""
+    job1.experience = "1 à 2 ans"
+    job1.contract_type = 0
+    job1.is_opened = True
+    job1.office = anywareoffice
+    job1.save()
+
+    job2 = emploi.JobOffer()
+    job2.reference = "XYZ271"
+    job2.title = "Ingénieur d'études Oracle, UNIX Expérimenté"
+    job2.description = """Nous recherchons un ingénieur d'étude et de développement expérimenté pour un client grand compte. Mission :
+    - Maintenance et développement sur une application sensible.
+    -Développement de nouvelles fonctionnalités."""
+    job2.experience = "2 à 3 ans"
+    job2.contract_type = 0
+    job2.is_opened = True
+    job2.office = priceminister
+    job2.save()
+
+    job3 = emploi.JobOffer()
+    job3.reference = "XYZ272"
+    job3.title = "Ingénieur étude et développement décisionnel"
+    job3.description = """Dans le cadre de nos projets réalisés pour nos clients grands comptes, sous la conduite d'un Chef de projet, vous serez chargé de réaliser des études techniques et fonctionnelles, de développer des applications, d'élaborer les plans d'intégration."""
+    job3.experience = "1 à 2 ans"
+    job3.contract_type = 1
+    job3.is_opened = True
+    job3.office = anywareoffice
+    job3.save()
+
+    job4 = emploi.JobOffer()
+    job4.reference = "XYZ273"
+    job4.title = "Ingénieur SI support produit"
+    job4.description = """Intégré au sein de l'équipe « Formes de Vente » (15 personnes) et sous la direction d'un Responsable d'Equipe, vous garantissez le bon fonctionnement des produits à votre charge dans le système d'information."""
+    job4.experience = "1 à 2 ans"
+    job4.contract_type = 3
+    job4.is_opened = False
+    job4.office = anywareoffice
+    job4.save()
+    
+    job5 = emploi.JobOffer()
+    job5.reference = "XYZ274"
+    job5.title = "Ingénieurs développement JAVA/J2EE"
+    job5.description = """Nous souhaitons renforcer notre pôle de compétences NTIC Java J2EE : De formation informatique Bac+4/5, vous êtes aujourd'hui un Ingénieur débutant ou expérimenté et vous bénéficiez d'une réelle maîtrise des environnements de développement NTIC."""
+    job5.experience = "0 à 3 ans"
+    job5.contract_type = 3
+    job5.is_opened = True
+    job5.office = lepaysdesschtroumpfs
+    job5.save()

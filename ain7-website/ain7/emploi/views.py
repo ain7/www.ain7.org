@@ -43,23 +43,27 @@ class SearchJobForm(forms.Form):
 
 def index(request):
     if not request.user.is_authenticated():
-        return render_to_response('annuaire/authentification_needed.html',
-                                  {'user': request.user})
-    # TODO : renseigner liste_emploiss avec la liste des emplois
-    # correspondant aux filières qui intéressent la personne
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': "emploi/base.html"})
     p = Person.objects.get(user=request.user.id)
+    # TODO : quand le modèle sera ok il faudra filtrer par filière souhaitée
+    jobs = JobOffer.objects.all()
     try:
         ain7member = AIn7Member.objects.get(person=p)
     except ObjectDoesNotExist:
         ain7member = None
-    return render_to_response('emploi/index.html', {'user': request.user, 'AIn7Member': ain7member})
+    return render_to_response('emploi/index.html',
+                              {'user': request.user, 'AIn7Member': ain7member,
+                               'liste_emplois': jobs})
 
 
 def cv_details(request, user_id):
 
     if not request.user.is_authenticated():
-        return render_to_response('annuaire/authentification_needed.html',
-                                  {'user': request.user})
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': "emploi/base.html"})
     
     p = get_object_or_404(Person, user=user_id)
     return render_to_response('emploi/cv_details.html',
@@ -69,8 +73,9 @@ def cv_details(request, user_id):
 def cv_edit(request, user_id=None):
 
     if not request.user.is_authenticated():
-        return render_to_response('annuaire/authentification_needed.html',
-                                  {'user': request.user})
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': "emploi/base.html"})
 
     p = get_object_or_404(Person, user=user_id)
     return render_to_response('emploi/cv_edit.html',
@@ -85,8 +90,9 @@ def form_callback(f, **args):
 
 def position_edit(request, user_id=None, position_id=None):
     if not request.user.is_authenticated():
-        return render_to_response('annuaire/authentification_needed.html',
-                                  {'user': request.user})
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': "emploi/base.html"})
     p = get_object_or_404(Person, user=user_id)
     position = get_object_or_404(Position, pk=position_id)
     # 1er passage : on propose un formulaire avec les données actuelles
@@ -109,8 +115,9 @@ def position_edit(request, user_id=None, position_id=None):
 
 def position_delete(request, user_id=None, position_id=None):
     if not request.user.is_authenticated():
-        return render_to_response('annuaire/authentification_needed.html',
-                                  {'user': request.user})
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': "emploi/base.html"})
     p = get_object_or_404(Person, user=user_id)
     position = get_object_or_404(Position, pk=position_id)
     # 1er passage: on demande confirmation
@@ -131,8 +138,9 @@ def position_delete(request, user_id=None, position_id=None):
 
 def position_add(request, user_id=None):
     if not request.user.is_authenticated():
-        return render_to_response('annuaire/authentification_needed.html',
-                                  {'user': request.user})
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': "emploi/base.html"})
     p = get_object_or_404(Person, user=user_id)
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
@@ -154,8 +162,9 @@ def position_add(request, user_id=None):
 
 def education_edit(request, user_id=None, education_id=None):
     if not request.user.is_authenticated():
-        return render_to_response('annuaire/authentification_needed.html',
-                                  {'user': request.user})
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': "emploi/base.html"})
     p = get_object_or_404(Person, user=user_id)
     education = get_object_or_404(EducationItem, pk=education_id)
     # 1er passage : on propose un formulaire avec les données actuelles
@@ -178,19 +187,31 @@ def education_edit(request, user_id=None, education_id=None):
 
 def education_delete(request, user_id=None, education_id=None):
     if not request.user.is_authenticated():
-        return render_to_response('annuaire/authentification_needed.html',
-                                  {'user': request.user})
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': "emploi/base.html"})
     p = get_object_or_404(Person, user=user_id)
-    if not education_id is None:
-        education = get_object_or_404(EducationItem, pk=education_id)
-        education.delete()
-    return render_to_response('emploi/cv_edit.html',
+    education = get_object_or_404(EducationItem, pk=education_id)
+    # 1er passage: on demande confirmation
+    if request.method != 'POST':
+        msg = _("Do you really want to delete this education item?")
+        description = education.school + " : "
+        description+= education.diploma
+        return render_to_response('pages/confirm.html',
+                   {'message': msg, 'description': description,
+                    'section': "emploi/base.html"})
+    # 2eme passage: on supprime si c'est confirmé
+    else:
+        if request.POST['choice']=="1":
+            education.delete()
+        return render_to_response('emploi/cv_edit.html',
                               {'person': p, 'user': request.user})
 
 def education_add(request, user_id=None):
     if not request.user.is_authenticated():
-        return render_to_response('annuaire/authentification_needed.html',
-                                  {'user': request.user})
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': "emploi/base.html"})
     p = get_object_or_404(Person, user=user_id)
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
@@ -212,8 +233,9 @@ def education_add(request, user_id=None):
 
 def leisure_edit(request, user_id=None, leisure_id=None):
     if not request.user.is_authenticated():
-        return render_to_response('annuaire/authentification_needed.html',
-                                  {'user': request.user})
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': "emploi/base.html"})
     p = get_object_or_404(Person, user=user_id)
     leisure = get_object_or_404(LeisureItem, pk=leisure_id)
     # 1er passage : on propose un formulaire avec les données actuelles
@@ -236,19 +258,31 @@ def leisure_edit(request, user_id=None, leisure_id=None):
 
 def leisure_delete(request, user_id=None, leisure_id=None):
     if not request.user.is_authenticated():
-        return render_to_response('annuaire/authentification_needed.html',
-                                  {'user': request.user})
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': "emploi/base.html"})
     p = get_object_or_404(Person, user=user_id)
-    if not leisure_id is None:
-        leisure = get_object_or_404(LeisureItem, pk=leisure_id)
-        leisure.delete()
-    return render_to_response('emploi/cv_edit.html',
-                              {'person': p, 'user': request.user})
+    leisure = get_object_or_404(LeisureItem, pk=leisure_id)
+    # 1er passage: on demande confirmation
+    if request.method != 'POST':
+        msg = _("Do you really want to delete this leisure item?")
+        description = leisure.title + " - "
+        description+= leisure.detail
+        return render_to_response('pages/confirm.html',
+                   {'message': msg, 'description': description,
+                    'section': "emploi/base.html"})
+    # 2eme passage: on supprime si c'est confirmé
+    else:
+        if request.POST['choice']=="1":
+            leisure.delete()
+        return render_to_response('emploi/cv_edit.html',
+                                  {'person': p, 'user': request.user})
 
 def leisure_add(request, user_id=None):
     if not request.user.is_authenticated():
-        return render_to_response('annuaire/authentification_needed.html',
-                                  {'user': request.user})
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': "emploi/base.html"})
     p = get_object_or_404(Person, user=user_id)
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
@@ -270,8 +304,9 @@ def leisure_add(request, user_id=None):
 
 def office_create(request, user_id=None):
     if not request.user.is_authenticated():
-        return render_to_response('annuaire/authentification_needed.html',
-                                  {'user': request.user})
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': "emploi/base.html"})
     p = get_object_or_404(Person, user=user_id)
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
@@ -290,8 +325,9 @@ def office_create(request, user_id=None):
 
 def company_create(request, user_id=None):
     if not request.user.is_authenticated():
-        return render_to_response('annuaire/authentification_needed.html',
-                                  {'user': request.user})
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': "emploi/base.html"})
     p = get_object_or_404(Person, user=user_id)
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
@@ -314,8 +350,9 @@ def company_create(request, user_id=None):
 def job_details(request,emploi_id):
 
     if not request.user.is_authenticated():
-        return render_to_response('annuaire/authentification_needed.html',
-                                  {'user': request.user})
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': "emploi/base.html"})
 
     j = get_object_or_404(JobOffer, pk=emploi_id)
 
@@ -325,8 +362,9 @@ def job_details(request,emploi_id):
 def job_edit(request, emploi_id):
 
     if not request.user.is_authenticated():
-        return render_to_response('annuaire/authentification_needed.html',
-                                  {'user': request.user})
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': "emploi/base.html"})
 
     j = get_object_or_404(JobOffer, pk=emploi_id)
 
@@ -347,8 +385,9 @@ def job_edit(request, emploi_id):
 def job_register(request):
 
     if not request.user.is_authenticated():
-        return render_to_response('annuaire/authentification_needed.html',
-                                  {'user': request.user})
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': "emploi/base.html"})
 
     if request.method == 'POST':
         f = JobOfferForm(request.POST)
@@ -369,8 +408,9 @@ def job_register(request):
 def job_search(request):
 
     if not request.user.is_authenticated():
-        return render_to_response('annuaire/authentification_needed.html',
-                                  {'user': request.user})
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': "emploi/base.html"})
 
     if request.method == 'POST':
         form = SearchJobForm(request.POST)

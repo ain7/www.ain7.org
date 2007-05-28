@@ -12,13 +12,16 @@
 <h2>{% trans "Jobs list" %}</h2>
 {% if liste_emplois %}
     <ul>
-    {% for emploi in liste_emploiss %}
-           <li>{{ emploi.description }}</li>
+    {% for emploi in liste_emplois %}
+           <li>{{ emploi.office.company }} ({{ emploi.office }}) 
+               - <a href="/emploi/job/{{ emploi.id }}/">{{ emploi.title }}</a>
+	   </li>
     {% endfor %}
      </ul>
 {% else %}
     <p>{% trans "No job." %}</p>
 {% endif %}
+<a href="/emploi/job/search/">{% trans "Search a job offer" %}</a>.<br />
 
 <h2>{% trans "CV" %}</h2>
 <a href="/emploi/{{ user.id }}/cv/">{% trans "View your CV" %}</a>.<br />
