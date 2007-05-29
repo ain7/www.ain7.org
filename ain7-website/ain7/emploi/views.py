@@ -128,7 +128,7 @@ def position_edit(request, user_id=None, position_id=None):
             f.clean_data['person'] = p
             f.save()
 
-        request.user.message_set.create(message=_("Position informations updated sucessfully."))
+        request.user.message_set.create(message=_("Position informations updated successfully."))
 
         return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
@@ -191,7 +191,7 @@ def position_add(request, user_id=None):
             f.clean_data['person'] = p
             f.save()
 
-        request.user.message_set.create(message=_("Position sucessfully added."))
+        request.user.message_set.create(message=_("Position successfully added."))
 
         return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
@@ -225,7 +225,7 @@ def education_edit(request, user_id=None, education_id=None):
             f.clean_data['person'] = p
             f.save()
 
-            request.user.message_set.create(message=_("Education informations updated sucessfully."))
+            request.user.message_set.create(message=_("Education informations updated successfully."))
 
         return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
@@ -286,7 +286,7 @@ def education_add(request, user_id=None):
             f.clean_data['person'] = p
             f.save()
 
-            request.user.message_set.create(message=_("Education informations sucessfully added."))
+            request.user.message_set.create(message=_("Education informations successfully added."))
 
         return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
@@ -320,7 +320,7 @@ def leisure_edit(request, user_id=None, leisure_id=None):
             f.clean_data['person'] = p
             f.save()
 
-            request.user.message_set.create(message=_("Leisure informations updated sucessfully."))
+            request.user.message_set.create(message=_("Leisure informations updated successfully."))
 
             return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
@@ -354,7 +354,7 @@ def leisure_delete(request, user_id=None, leisure_id=None):
         if request.POST['choice']=="1":
             leisure.delete()
 
-            request.user.message_set.create(message=_("Leisure informations sucessfully deleted."))
+            request.user.message_set.create(message=_("Leisure informations successfully deleted."))
 
         return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
@@ -391,7 +391,7 @@ def leisure_add(request, user_id=None):
             f.clean_data['person'] = p
             f.save()
 
-            request.user.message_set.create(message=_("Leisure informations sucessfully added."))
+            request.user.message_set.create(message=_("Leisure informations successfully added."))
 
         return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
