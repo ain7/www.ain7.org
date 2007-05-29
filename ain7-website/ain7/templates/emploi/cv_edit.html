@@ -49,9 +49,9 @@
             <td> {{ position.fonction }} {% trans "for" %} 
                 {{ position.office }} ({{ position.office.company }})</td>
             <td><a href="/emploi/{{ person.user.id }}/cv/edit/position/{{ position.id }}/">
-                {% trans "Modify" %}</a></td>
+                <img src="/site_media/images/icon_changelink.gif" border="0"> {% trans "Modify" %}</a></td>
             <td><a href="/emploi/{{ person.user.id }}/cv/delete/position/{{ position.id }}/">
-                {% trans "Delete" %}</a></td>
+                <img src="/site_media/images/icon_deletelink.gif" border="0"> {% trans "Delete" %}</a></td>
         </tr>
         {% if position.description %}
             <tr><td></td><td>{{ position.description }}</td></tr>
@@ -60,7 +60,7 @@
 {% endfor %}
 </table>
 {% endif %}
-<a href="/emploi/{{ person.user.id }}/cv/add/position/">{% trans "Add" %}</a>
+<a href="/emploi/{{ person.user.id }}/cv/add/position/"><img src="/site_media/images/icon_addlink.gif" border="0"> {% trans "Add" %}</a>
 <br />
 
 
@@ -74,9 +74,9 @@
         {{ educationItem.end_date|date:"d/m/Y"|default:"..." }}&nbsp;:</b></td>
         <td> {{ educationItem.school }}</td>
         <td><a href="/emploi/{{ person.user.id }}/cv/edit/education/{{ educationItem.id }}/">
-            {% trans "Modify" %}</a></td>
+            <img src="/site_media/images/icon_changelink.gif" border="0"> {% trans "Modify" %}</a></td>
         <td><a href="/emploi/{{ person.user.id }}/cv/delete/education/{{ educationItem.id }}/">
-            {% trans "Delete" %}</a></td>
+            <img src="/site_media/images/icon_deletelink.gif" border="0"> {% trans "Delete" %}</a></td>
     </tr>
     {% if educationItem.diploma %}
         <tr><td></td><td>{{ educationItem.diploma }}</td></tr>
@@ -87,7 +87,7 @@
 {% endfor %}
 </table>
 {% endif %}
-<a href="/emploi/{{ person.user.id }}/cv/add/education/">{% trans "Add" %}</a>
+<a href="/emploi/{{ person.user.id }}/cv/add/education/"><img src="/site_media/images/icon_addlink.gif" border="0"> {% trans "Add" %}</a>
 <br />
 
 
@@ -104,14 +104,14 @@
             {% endif %}
 	</td>
         <td><a href="/emploi/{{ person.user.id }}/cv/edit/leisure/{{ leisureItem.id }}/">
-            {% trans "Modify" %}</a></td>
+            <img src="/site_media/images/icon_changelink.gif" border="0"> {% trans "Modify" %}</a></td>
         <td><a href="/emploi/{{ person.user.id }}/cv/delete/leisure/{{ leisureItem.id }}/">
-            {% trans "Delete" %}</a></td>
+            <img src="/site_media/images/icon_deletelink.gif" border="0"> {% trans "Delete" %}</a></td>
     </tr>
 {% endfor %}
 </table>
 {% endif %}
-<a href="/emploi/{{ person.user.id }}/cv/add/leisure/">{% trans "Add" %}</a>
+<a href="/emploi/{{ person.user.id }}/cv/add/leisure/"><img src="/site_media/images/icon_addlink.gif" border="0"> {% trans "Add" %}</a>
 
 
 </div>

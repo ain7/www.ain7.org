@@ -43,6 +43,12 @@ def detail(request, group_id):
 
 def edit(request, group_id=None):
 
+    if not request.user.is_authenticated():
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': "groupes/base.html"},
+                                  context_instance=RequestContext(request))
+
     if group_id is None:
         GroupForm = forms.models.form_for_model(Group)
         GroupForm.base_fields['web_page'].widget = forms.widgets.Textarea(attrs={'rows':10, 'cols':90})
@@ -61,7 +67,7 @@ def edit(request, group_id=None):
 
                  request.user.message_set.create(message=_("Modifications have been successfully saved."))
 
-                 return HttpResponseRedirect('/groupes/'+str(group.id)+'/')
+                 return HttpResponseRedirect('/groupes/%s/' % (group.id))
 
     return render_to_response('groupes/edit.html', 
                              {'form': form, 'user': request.user},

@@ -38,12 +38,13 @@ class JobOfferForm(forms.Form):
     contract_type = forms.IntegerField(required=False)
     contract_type.widget = forms.Select(choices=JobOffer.JOB_TYPES)
     is_opened = forms.BooleanField(required=False)
-    description = forms.CharField(max_length=500, required=False, widget=forms.widgets.Textarea(attrs={'rows':10, 'cols':90}))
+    description = forms.CharField(max_length=500, required=False, widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':125}))
 
 class SearchJobForm(forms.Form):
     title = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
 
 def index(request):
+
     if not request.user.is_authenticated():
         return render_to_response('pages/authentification_needed.html',
                                   {'user': request.user,
@@ -71,6 +72,7 @@ def cv_details(request, user_id):
                                    context_instance=RequestContext(request))
     
     p = get_object_or_404(Person, user=user_id)
+
     return render_to_response('emploi/cv_details.html',
                               {'person': p, 'user': request.user},
                               context_instance=RequestContext(request))
@@ -85,8 +87,10 @@ def cv_edit(request, user_id=None):
                                   context_instance=RequestContext(request))
 
     p = get_object_or_404(Person, user=user_id)
+
     return render_to_response('emploi/cv_edit.html',
-                              {'person': p, 'user': request.user})
+                              {'person': p, 'user': request.user},
+                              context_instance=RequestContext(request))
 
 # une petite fonction pour exclure les champs person et user des formulaires
 # créés avec form_for_model et form_for_instance
@@ -123,9 +127,10 @@ def position_edit(request, user_id=None, position_id=None):
         if f.is_valid():
             f.clean_data['person'] = p
             f.save()
-        return render_to_response('emploi/cv_edit.html',
-                                 {'person': p, 'user': request.user},
-                                  context_instance=RequestContext(request))
+
+        request.user.message_set.create(message=_("Position informations updated sucessfully."))
+
+        return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
 def position_delete(request, user_id=None, position_id=None):
     if not request.user.is_authenticated():
@@ -153,9 +158,9 @@ def position_delete(request, user_id=None, position_id=None):
     else:
         if request.POST['choice']=="1":
             position.delete()
-        return render_to_response('emploi/cv_edit.html',
-                                 {'person': p, 'user': request.user},
-                                  context_instance=RequestContext(request))
+            request.user.message_set.create(message=_("Position successfully deleted."))
+
+        return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
 def position_add(request, user_id=None):
 
@@ -185,9 +190,10 @@ def position_add(request, user_id=None):
         if f.is_valid():
             f.clean_data['person'] = p
             f.save()
-        return render_to_response('emploi/cv_edit.html',
-                                 {'person': p, 'user': request.user},
-                                  context_instance=RequestContext(request))
+
+        request.user.message_set.create(message=_("Position sucessfully added."))
+
+        return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
 def education_edit(request, user_id=None, education_id=None):
 
@@ -218,9 +224,10 @@ def education_edit(request, user_id=None, education_id=None):
         if f.is_valid():
             f.clean_data['person'] = p
             f.save()
-        return render_to_response('emploi/cv_edit.html',
-                                 {'person': p, 'user': request.user},
-                                  context_instance=RequestContext(request))
+
+            request.user.message_set.create(message=_("Education informations updated sucessfully."))
+
+        return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
 def education_delete(request, user_id=None, education_id=None):
 
@@ -278,9 +285,10 @@ def education_add(request, user_id=None):
         if f.is_valid():
             f.clean_data['person'] = p
             f.save()
-        return render_to_response('emploi/cv_edit.html',
-                                 {'person': p, 'user': request.user},
-                                  context_instance=RequestContext(request))
+
+            request.user.message_set.create(message=_("Education informations sucessfully added."))
+
+        return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
 def leisure_edit(request, user_id=None, leisure_id=None):
 
@@ -311,6 +319,11 @@ def leisure_edit(request, user_id=None, leisure_id=None):
         if f.is_valid():
             f.clean_data['person'] = p
             f.save()
+
+            request.user.message_set.create(message=_("Leisure informations updated sucessfully."))
+
+            return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
+
         return render_to_response('emploi/cv_edit.html',
                                  {'person': p, 'user': request.user},
                                   context_instance=RequestContext(request))
@@ -340,6 +353,11 @@ def leisure_delete(request, user_id=None, leisure_id=None):
     else:
         if request.POST['choice']=="1":
             leisure.delete()
+
+            request.user.message_set.create(message=_("Leisure informations sucessfully deleted."))
+
+        return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
+
         return render_to_response('emploi/cv_edit.html',
                                   {'person': p, 'user': request.user},
                                   context_instance=RequestContext(request))
@@ -372,6 +390,11 @@ def leisure_add(request, user_id=None):
         if f.is_valid():
             f.clean_data['person'] = p
             f.save()
+
+            request.user.message_set.create(message=_("Leisure informations sucessfully added."))
+
+        return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
+
         return render_to_response('emploi/cv_edit.html',
                                  {'person': p, 'user': request.user},
                                   context_instance=RequestContext(request))
@@ -470,7 +493,7 @@ def job_edit(request, emploi_id):
             j.contract_type = request.POST['contract_type']
             j.save()
 
-            return HttpResponseRedirect('/emploi/job/'+str(j.id)+'/')
+            return HttpResponseRedirect('/emploi/job/%s/' % (j.id) )
 
     f = JobOfferForm({'reference': j.reference, 'title': j.title, 'description': j.description, 
         'experience': j.experience, 'contract_type': j.contract_type})
@@ -498,7 +521,7 @@ def job_register(request):
             job_offer.contract_type = request.POST['contract_type']
             job_offer.save()
 
-            return HttpResponseRedirect('/emploi/job/'+str(job_offer.id)+'/')
+            return HttpResponseRedirect('/emploi/job/%s/' % (job_offer.id))
 
     f = JobOfferForm({})
     return render_to_response('emploi/job_register.html',

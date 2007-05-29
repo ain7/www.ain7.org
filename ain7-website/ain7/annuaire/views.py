@@ -123,7 +123,7 @@ def edit(request, person_id=None):
 
                  request.user.message_set.create(message=_("Modifications have been successfully saved."))
 
-                 return HttpResponseRedirect('/annuaire/'+str(person.user.id)+'/')
+                 return HttpResponseRedirect('/annuaire/%s/' % (person.user.id))
 
     return render_to_response('annuaire/edit.html', 
                              {'form': form, 'user': request.user},
