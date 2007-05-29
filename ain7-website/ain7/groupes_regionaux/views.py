@@ -33,21 +33,26 @@ from ain7.groupes_regionaux.models import GroupMembership
 
 def index(request):
     groups = Group.objects.all().filter(is_active=True).order_by('name')
-    return render_to_response('groupes_regionaux/index.html', {'groups': groups, 'user': request.user})
+    return render_to_response('groupes_regionaux/index.html', 
+                             {'groups': groups, 'user': request.user}, 
+                             context_instance=RequestContext(request))
 
 def detail(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
     is_member = request.user.is_authenticated()\
                 and group.has_for_member(request.user.person)
 
-    return render_to_response('groupes_regionaux/details.html', {'group': group, 'user': request.user, 'is_member': is_member}, context_instance=RequestContext(request))
+    return render_to_response('groupes_regionaux/details.html', {'group': group,
+                              'user': request.user, 'is_member': is_member}, 
+                              context_instance=RequestContext(request))
 
 def join(request, group_id):
 
     if not request.user.is_authenticated():
         return render_to_response('pages/authentification_needed.html',
                                   {'user': request.user,
-                                   'section': "groupes_regionaux/base.html"})
+                                   'section': "groupes_regionaux/base.html"},
+                                   context_instance=RequestContext(request))
 
     group = get_object_or_404(Group, pk=group_id)
     person = request.user.person
@@ -65,7 +70,8 @@ def quit(request, group_id):
     if not request.user.is_authenticated():
         return render_to_response('pages/authentification_needed.html',
                                   {'user': request.user,
-                                   'section': "groupes_regionaux/base.html"})
+                                   'section': "groupes_regionaux/base.html"},
+                                   context_instance=RequestContext(request))
 
     group = get_object_or_404(Group, pk=group_id)
     person = request.user.person
@@ -76,17 +82,18 @@ def quit(request, group_id):
                     'description': group,
                     'message': _("Do you really want to quit this group?"),
                     'section': "groupes_regionaux/base.html",
-                    })
+                    }, context_instance=RequestContext(request))
     else:
         if request.POST['choice'] == "1":
             if group.has_for_member(person):
                 membership = GroupMembership.objects.filter(group=group, member=person)\
-                                                    .exclude(end_date__isnull=False, end_date__lte=datetime.datetime.now())\
-                                                    .latest('end_date')
+                            .exclude(end_date__isnull=False, end_date__lte=datetime.datetime.now())\
+                            .latest('end_date')
                 membership.end_date = datetime.datetime.now()
                 membership.save()
                 request.user.message_set.create(message=_("You have been successfully removed from this group."))
             else:
                 request.user.message_set.create(message=_("You are not a member of this group."))
 
-        return HttpResponseRedirect('/groupes_regionaux/%s' % (group.id))
+        return HttpResponseRedirect('/groupes_regionaux/%s/' % (group.id))
+

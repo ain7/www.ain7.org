@@ -1,7 +1,6 @@
 {% extends "groupes/base.html" %}
 {% load i18n %}
 
-{% block stylesheet %}{% endblock %}
 {% block content %}
 
 <div id="content-main">
@@ -24,12 +23,15 @@
 <h3>{{ group.name }}</h3>
 {{ group.description|default_if_none:"" }}<br/>
 
+{% if memberships.all %}
 <h4>{% trans "Members list" %}</h4>
 <ul>
 {% for membership in group.memberships.all %}
     <li><a href="/annuaire/{{ membership.member.user.id }}/">{{ membership.member }}</a></li>
 {% endfor %}
 </ul>
+{% endif %}
+
 <h4>{% trans "Group presentation" %}</h4>
 {{ group.web_page|default_if_none:"" }}
 

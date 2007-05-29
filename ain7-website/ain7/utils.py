@@ -39,6 +39,7 @@ def login(request):
         user.save()
     else:
         error_login = True
+        request.session['login_err'] = 'Wrong login or wrong password'
 
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 

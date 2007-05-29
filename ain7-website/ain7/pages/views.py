@@ -21,44 +21,61 @@
 #
 
 from django.shortcuts import render_to_response
+from django.template import RequestContext
+
 from ain7.news.models import NewsItem
 from ain7.sondages.models import Survey
 
 def homepage(request):
     news = NewsItem.objects.all().order_by('title')[:5]
     liste_sondages = Survey.objects.all()[:2]
-    user = request.user
-    return render_to_response('pages/homepage.html', {'news': news , 'liste_sondages': liste_sondages, 'user': user })
+    return render_to_response('pages/homepage.html', 
+                             {'news': news , 'liste_sondages': liste_sondages, 
+                              'user': request.user }, 
+                              context_instance=RequestContext(request))
 
 def apropos(request):
-    user = request.user
-    return render_to_response('pages/apropos.html', {'user': user })
+    return render_to_response('pages/apropos.html', 
+                             {'user': request.user },
+                             context_instance=RequestContext(request))
 
 def association(request):
-    user = request.user
-    return render_to_response('pages/association.html', {'user': user })
+    return render_to_response('pages/association.html', 
+                             {'user': request.user },
+                             context_instance=RequestContext(request))
 
 def canal_n7(request):
-    user = request.user
-    return render_to_response('pages/canal_n7.html', {'user': user })
+    return render_to_response('pages/canal_n7.html', 
+                             {'user': request.user },
+                             context_instance=RequestContext(request))
 
 def contact(request):
-    user = request.user
-    return render_to_response('pages/contact.html', {'user': user })
+    return render_to_response('pages/contact.html',
+                             {'user': request.user },
+                             context_instance=RequestContext(request))
 
 def international(request):
-    user = request.user
-    return render_to_response('pages/international.html', {'user': user })
+    return render_to_response('pages/international.html', 
+                             {'user': request.user },
+                             context_instance=RequestContext(request))
 
 def mentions_legales(request):
-    user = request.user
-    return render_to_response('pages/mentions_legales.html', {'user': user })
+    return render_to_response('pages/mentions_legales.html', 
+                             {'user': request.user },
+                             context_instance=RequestContext(request))
 
 def publications(request):
-    user = request.user
-    return render_to_response('pages/publications.html', {'user': user })
+    return render_to_response('pages/publications.html', 
+                             {'user': request.user },
+                             context_instance=RequestContext(request))
+
+def rss(request):
+    return render_to_response('pages/rss.html', 
+                             {'user': request.user },
+                             context_instance=RequestContext(request))
 
 def sitemap(request):
-    user = request.user
-    return render_to_response('pages/sitemap.html', {'user': user })
+    return render_to_response('pages/sitemap.html', 
+                             {'user': request.user },
+                             context_instance=RequestContext(request))
 

@@ -21,11 +21,11 @@
 {% if list_jobs %}
     <ul>
     {% for job in list_jobs %}
-        <li><a href="/emploi/job/{{ job.id }}">{{ job.title }}</a></li>
+        <li><a href="/emploi/job/{{ job.id }}/">{{ job.title }}</a></li>
     {% endfor %}
      </ul>
 {% else %}
-    <p>No job offer correspond to your research</p>
+    <p>{% trans "No job offer correspond to your research" %}</p>
 {% endif %}
 {% endifequal %}
 

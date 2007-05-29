@@ -21,20 +21,25 @@
 #
 
 from django.http import HttpResponse
-from django.template import Context, loader
+from django.template import Context, loader, RequestContext
 from django.shortcuts import get_object_or_404, render_to_response
 from django import newforms as forms
 from django.newforms import widgets
+from django.http import HttpResponseRedirect
 
 from ain7.groupes.models import Group
 
 def index(request):
     groups = Group.objects.all().order_by('name')
-    return render_to_response('groupes/index.html', {'groups': groups, 'user': request.user})
+    return render_to_response('groupes/index.html', 
+                             {'groups': groups, 'user': request.user},
+                              context_instance=RequestContext(request))
 
 def detail(request, group_id):
     g = get_object_or_404(Group, pk=group_id)
-    return render_to_response('groupes/details.html', {'group': g, 'user': request.user})
+    return render_to_response('groupes/details.html', 
+                             {'group': g, 'user': request.user}, 
+                             context_instance=RequestContext(request))
 
 def edit(request, group_id=None):
 
@@ -54,5 +59,11 @@ def edit(request, group_id=None):
              if form.is_valid():
                  form.save()
 
-    return render_to_response('groupes/edit.html', {'form': form, 'user': request.user})
+                 request.user.message_set.create(message=_("Modifications have been successfully saved."))
+
+                 return HttpResponseRedirect('/groupes/'+str(group.id)+'/')
+
+    return render_to_response('groupes/edit.html', 
+                             {'form': form, 'user': request.user},
+                              context_instance=RequestContext(request))
 

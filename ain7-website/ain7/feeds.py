@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #
-# evenements/views.py
+# feeds.py
 #
 #   Copyright (C) 2007 AIn7
 #
@@ -20,23 +20,22 @@
 #
 #
 
-from django.shortcuts import get_object_or_404, render_to_response
-from django import newforms as forms
-from django.template import RequestContext
-from django.newforms import widgets
-
+from django.contrib.syndication.feeds import Feed
 from ain7.evenements.models import Event
 
-def index(request):
-    events = Event.objects.all()[:5]
-    return render_to_response('evenements/index.html', 
-                             {'events': events, 'user': request.user},
-                             context_instance=RequestContext(request))
+class LatestEntries(Feed):
+    title = "AIn7 RSS"
+    link = "/evenements/"
+    description = "Evenements organises par l'AIn7 ou autour de l'AIn7"
 
+    def items(self):
+        return Event.objects.order_by('-publication_start')[:5]
 
-def detail(request, event_id):
-    event = get_object_or_404(Event, pk=event_id)
-    return render_to_response('evenements/details.html', 
-                             {'event': event, 'user': request.user},
-                             context_instance=RequestContext(request))
+class LatestEntriesByCategory(Feed):
+    title = "AIn7 RSS"
+    link = "/evenements/"
+    description = "Evenements organises par l'AIn7 ou autour de l'AIn7"
+
+    def items(self):
+        return Event.objects.order_by('-publication_start')[:5]
 

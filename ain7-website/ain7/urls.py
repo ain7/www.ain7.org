@@ -24,6 +24,13 @@ import os.path
 
 from django.conf.urls.defaults import *
 
+from ain7.feeds import LatestEntries, LatestEntriesByCategory
+
+feeds = {
+    'latest': LatestEntries,
+    'categories': LatestEntriesByCategory,
+}
+
 urlpatterns = patterns('',
 
      (r'^login/', 'ain7.utils.login'),
@@ -72,5 +79,9 @@ urlpatterns = patterns('',
     (r'^publications/','ain7.pages.views.publications'),
     (r'^sitemap/','ain7.pages.views.sitemap'),
     (r'^$','ain7.pages.views.homepage'),
+
+    # flux RSS
+    (r'^rss/$', 'ain7.pages.views.rss'),
+    (r'^rss/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
 
 )

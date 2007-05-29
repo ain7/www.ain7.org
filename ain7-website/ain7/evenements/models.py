@@ -58,6 +58,9 @@ class Event(models.Model):
         #self.modifier = 1
         return super(Event, self).save()
 
+    def get_absolute_url(self):
+        return '/evenements/'+str(self.id)+'/'
+
     class Admin:
         pass
 

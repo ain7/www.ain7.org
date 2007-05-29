@@ -164,6 +164,8 @@ class Track(models.Model):
     initials = models.CharField(verbose_name=_('initials'), maxlength=10, blank=True, null=True)
     email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
 
+    active = models.BooleanField(verbose_name=_('active'))
+
     school = models.ForeignKey(School, verbose_name=_('school'), related_name='tracks')
 
     def __str__(self):

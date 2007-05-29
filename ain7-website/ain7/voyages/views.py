@@ -22,11 +22,14 @@
 
 from django.shortcuts import get_object_or_404, render_to_response
 from django import newforms as forms
+from django.template import RequestContext
 from django.newforms import widgets
 
 from ain7.voyages.models import Travel
 
 def index(request):
     travels = Travel.objects.all()[:5]
-    return render_to_response('voyages/index.html', {'travels': travels, 'user': request.user})
+    return render_to_response('voyages/index.html', 
+                             {'travels': travels, 'user': request.user},
+                             context_instance=RequestContext(request))
 

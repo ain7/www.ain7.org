@@ -6,21 +6,19 @@
 
 <div id="content-main">
 
-{% for message in messages %}
-	<p class="message">{{ message }}</p>
-{% endfor %}
-
 <div class="left">
 	<h3>{{ event.name }}</h3>
+
+	<ul>
+		<li>{% trans "start date" %}: {{ event.start_date|date:"d/m/Y" }}</li>
+		<li>{% trans "end date" %}: {{ event.end_date|date:"d/m/Y" }}</li>
+		<li>{% trans "Contact" %}: <a href="mailto:{{ event.contact_email }}">{{ event.author }}</a></li>
+	</ul>
+
 	{% if event.description %}
 		<p>{{ event.description }}</p>
 	{% endif %}
 
-	<dl>
-		<dt>{% trans "start date" %}</dt><dd>{{ event.start_date|date:"d/m/Y" }}</dd>
-		<dt>{% trans "end date" %}</dt><dd>{{ event.end_date|date:"d/m/Y" }}</dd>
-		<dt>{% trans "Contact" %}</dt><dd><a href="mailto:{{ event.contact_email }}">{{ event.author }}</a></dd>
-	</dl>
 </div>
 
 <div class="right">
@@ -29,7 +27,7 @@
 	<div class="right_block">
 		<ul>
 			<li>
-				<a href="#">{% trans "Participate to this event." %}</a>
+				<a href="/evenements/{{ event.id }}/join/">{% trans "Participate to this event." %}</a>
 			</li>
 		</ul>
 	</div>

@@ -23,7 +23,9 @@
 from django.shortcuts import get_object_or_404, render_to_response
 from django import newforms as forms
 from django.newforms import widgets
+from django.template import RequestContext
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponseRedirect
 
 from ain7.annuaire.models import Person, AIn7Member
 from ain7.emploi.models import JobOffer, Position, EducationItem, LeisureItem
@@ -36,7 +38,7 @@ class JobOfferForm(forms.Form):
     contract_type = forms.IntegerField(required=False)
     contract_type.widget = forms.Select(choices=JobOffer.JOB_TYPES)
     is_opened = forms.BooleanField(required=False)
-    description = forms.CharField(max_length=50, required=False, widget=forms.widgets.Textarea(attrs={'rows':10, 'cols':90}))
+    description = forms.CharField(max_length=500, required=False, widget=forms.widgets.Textarea(attrs={'rows':10, 'cols':90}))
 
 class SearchJobForm(forms.Form):
     title = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
@@ -45,7 +47,8 @@ def index(request):
     if not request.user.is_authenticated():
         return render_to_response('pages/authentification_needed.html',
                                   {'user': request.user,
-                                   'section': "emploi/base.html"})
+                                   'section': "emploi/base.html"},
+                                  context_instance=RequestContext(request))
     p = Person.objects.get(user=request.user.id)
     # TODO : quand le modèle sera ok il faudra filtrer par filière souhaitée
     jobs = JobOffer.objects.all()
@@ -55,7 +58,8 @@ def index(request):
         ain7member = None
     return render_to_response('emploi/index.html',
                               {'user': request.user, 'AIn7Member': ain7member,
-                               'liste_emplois': jobs})
+                               'liste_emplois': jobs},
+                               context_instance=RequestContext(request))
 
 
 def cv_details(request, user_id):
@@ -63,11 +67,13 @@ def cv_details(request, user_id):
     if not request.user.is_authenticated():
         return render_to_response('pages/authentification_needed.html',
                                   {'user': request.user,
-                                   'section': "emploi/base.html"})
+                                   'section': "emploi/base.html"},
+                                   context_instance=RequestContext(request))
     
     p = get_object_or_404(Person, user=user_id)
     return render_to_response('emploi/cv_details.html',
-                              {'person': p, 'user': request.user})
+                              {'person': p, 'user': request.user},
+                              context_instance=RequestContext(request))
 
 
 def cv_edit(request, user_id=None):
@@ -75,7 +81,8 @@ def cv_edit(request, user_id=None):
     if not request.user.is_authenticated():
         return render_to_response('pages/authentification_needed.html',
                                   {'user': request.user,
-                                   'section': "emploi/base.html"})
+                                   'section': "emploi/base.html"},
+                                  context_instance=RequestContext(request))
 
     p = get_object_or_404(Person, user=user_id)
     return render_to_response('emploi/cv_edit.html',
@@ -89,10 +96,13 @@ def form_callback(f, **args):
   return f.formfield(**args)
 
 def position_edit(request, user_id=None, position_id=None):
+
     if not request.user.is_authenticated():
         return render_to_response('pages/authentification_needed.html',
                                   {'user': request.user,
-                                   'section': "emploi/base.html"})
+                                   'section': "emploi/base.html"},
+                                   context_instance=RequestContext(request))
+
     p = get_object_or_404(Person, user=user_id)
     position = get_object_or_404(Position, pk=position_id)
     # 1er passage : on propose un formulaire avec les données actuelles
@@ -101,7 +111,10 @@ def position_edit(request, user_id=None, position_id=None):
             formfield_callback=form_callback)
         f = PosForm()
         return render_to_response('emploi/position_edit.html',
-            {'form': f, 'user': request.user, 'action': "edit"})
+                                 {'form': f, 'user': request.user, 
+                                  'action': "edit"},
+                                  context_instance=RequestContext(request))
+
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
         PosForm = forms.models.form_for_instance(position,
@@ -111,15 +124,19 @@ def position_edit(request, user_id=None, position_id=None):
             f.clean_data['person'] = p
             f.save()
         return render_to_response('emploi/cv_edit.html',
-            {'person': p, 'user': request.user})
+                                 {'person': p, 'user': request.user},
+                                  context_instance=RequestContext(request))
 
 def position_delete(request, user_id=None, position_id=None):
     if not request.user.is_authenticated():
         return render_to_response('pages/authentification_needed.html',
                                   {'user': request.user,
-                                   'section': "emploi/base.html"})
+                                   'section': "emploi/base.html"},
+                                   context_instance=RequestContext(request))
+
     p = get_object_or_404(Person, user=user_id)
     position = get_object_or_404(Position, pk=position_id)
+
     # 1er passage: on demande confirmation
     if request.method != 'POST':
         msg = _("Do you really want to delete this professional experience?")
@@ -127,28 +144,39 @@ def position_delete(request, user_id=None, position_id=None):
         description+= str(position.office) + " ("
         description+= str(position.office.company) + ")"
         return render_to_response('pages/confirm.html',
-                   {'message': msg, 'description': description,
-                    'section': "emploi/base.html"})
+                                 {'message': msg, 'description': description,
+                                  'section': "emploi/base.html", 
+                                  'user': request.user},
+                                  context_instance=RequestContext(request))
+
     # 2eme passage: on supprime si c'est confirmé
     else:
         if request.POST['choice']=="1":
             position.delete()
         return render_to_response('emploi/cv_edit.html',
-                              {'person': p, 'user': request.user})
+                                 {'person': p, 'user': request.user},
+                                  context_instance=RequestContext(request))
 
 def position_add(request, user_id=None):
+
     if not request.user.is_authenticated():
         return render_to_response('pages/authentification_needed.html',
                                   {'user': request.user,
-                                   'section': "emploi/base.html"})
+                                   'section': "emploi/base.html"},
+                                   context_instance=RequestContext(request))
+
     p = get_object_or_404(Person, user=user_id)
+
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
         PosForm = forms.models.form_for_model(Position,
             formfield_callback=form_callback)
         f = PosForm()
         return render_to_response('emploi/position_edit.html',
-            {'form': f, 'person': p, 'user': request.user, 'action': "create"})
+                                 {'form': f, 'person': p, 'user': request.user,
+                                  'action': "create"},
+                                  context_instance=RequestContext(request))
+
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
         PosForm = forms.models.form_for_model(Position,
@@ -158,22 +186,30 @@ def position_add(request, user_id=None):
             f.clean_data['person'] = p
             f.save()
         return render_to_response('emploi/cv_edit.html',
-            {'person': p, 'user': request.user})
+                                 {'person': p, 'user': request.user},
+                                  context_instance=RequestContext(request))
 
 def education_edit(request, user_id=None, education_id=None):
+
     if not request.user.is_authenticated():
         return render_to_response('pages/authentification_needed.html',
                                   {'user': request.user,
-                                   'section': "emploi/base.html"})
+                                   'section': "emploi/base.html"},
+                                   context_instance=RequestContext(request))
+
     p = get_object_or_404(Person, user=user_id)
     education = get_object_or_404(EducationItem, pk=education_id)
+
     # 1er passage : on propose un formulaire avec les données actuelles
     if request.method == 'GET':
         EducForm = forms.models.form_for_instance(education,
             formfield_callback=form_callback)
         f = EducForm()
         return render_to_response('emploi/education_edit.html',
-            {'form': f, 'user': request.user, 'action': "edit"})
+                                 {'form': f, 'user': request.user,
+                                  'action': "edit"},
+                                  context_instance=RequestContext(request))
+
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
         EducForm = forms.models.form_for_instance(education,
@@ -183,43 +219,57 @@ def education_edit(request, user_id=None, education_id=None):
             f.clean_data['person'] = p
             f.save()
         return render_to_response('emploi/cv_edit.html',
-            {'person': p, 'user': request.user})
+                                 {'person': p, 'user': request.user},
+                                  context_instance=RequestContext(request))
 
 def education_delete(request, user_id=None, education_id=None):
+
     if not request.user.is_authenticated():
         return render_to_response('pages/authentification_needed.html',
                                   {'user': request.user,
                                    'section': "emploi/base.html"})
+
     p = get_object_or_404(Person, user=user_id)
     education = get_object_or_404(EducationItem, pk=education_id)
+
     # 1er passage: on demande confirmation
     if request.method != 'POST':
         msg = _("Do you really want to delete this education item?")
         description = education.school + " : "
         description+= education.diploma
         return render_to_response('pages/confirm.html',
-                   {'message': msg, 'description': description,
-                    'section': "emploi/base.html"})
+                                 {'message': msg, 'description': description,
+                                  'section': "emploi/base.html"},
+                                  context_instance=RequestContext(request))
+
     # 2eme passage: on supprime si c'est confirmé
     else:
         if request.POST['choice']=="1":
             education.delete()
         return render_to_response('emploi/cv_edit.html',
-                              {'person': p, 'user': request.user})
+                                 {'person': p, 'user': request.user},
+                                 context_instance=RequestContext(request))
 
 def education_add(request, user_id=None):
+
     if not request.user.is_authenticated():
         return render_to_response('pages/authentification_needed.html',
                                   {'user': request.user,
-                                   'section': "emploi/base.html"})
+                                   'section': "emploi/base.html"},
+                                   context_instance=RequestContext(request))
+
     p = get_object_or_404(Person, user=user_id)
+
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
         EducForm = forms.models.form_for_model(EducationItem,
             formfield_callback=form_callback)
         f = EducForm()
         return render_to_response('emploi/education_edit.html',
-            {'form': f, 'person': p, 'user': request.user, 'action': "create"})
+                                 {'form': f, 'person': p, 'user': request.user,
+                                  'action': "create"},
+                                  context_instance=RequestContext(request))
+
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
         EducForm = forms.models.form_for_model(EducationItem,
@@ -229,22 +279,30 @@ def education_add(request, user_id=None):
             f.clean_data['person'] = p
             f.save()
         return render_to_response('emploi/cv_edit.html',
-            {'person': p, 'user': request.user})
+                                 {'person': p, 'user': request.user},
+                                  context_instance=RequestContext(request))
 
 def leisure_edit(request, user_id=None, leisure_id=None):
+
     if not request.user.is_authenticated():
         return render_to_response('pages/authentification_needed.html',
                                   {'user': request.user,
-                                   'section': "emploi/base.html"})
+                                   'section': "emploi/base.html"},
+                                   context_instance=RequestContext(request))
+
     p = get_object_or_404(Person, user=user_id)
     leisure = get_object_or_404(LeisureItem, pk=leisure_id)
+
     # 1er passage : on propose un formulaire avec les données actuelles
     if request.method == 'GET':
         LeisureForm = forms.models.form_for_instance(leisure,
             formfield_callback=form_callback)
         f = LeisureForm()
         return render_to_response('emploi/leisure_edit.html',
-            {'form': f, 'user': request.user, 'action': "edit"})
+                                 {'form': f, 'user': request.user, 
+                                  'action': "edit"},
+                                  context_instance=RequestContext(request))
+
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
         LeisureForm = forms.models.form_for_instance(leisure,
@@ -254,15 +312,20 @@ def leisure_edit(request, user_id=None, leisure_id=None):
             f.clean_data['person'] = p
             f.save()
         return render_to_response('emploi/cv_edit.html',
-            {'person': p, 'user': request.user})
+                                 {'person': p, 'user': request.user},
+                                  context_instance=RequestContext(request))
 
 def leisure_delete(request, user_id=None, leisure_id=None):
+
     if not request.user.is_authenticated():
         return render_to_response('pages/authentification_needed.html',
                                   {'user': request.user,
-                                   'section': "emploi/base.html"})
+                                   'section': "emploi/base.html"},
+                                   context_instance=RequestContext(request))
+
     p = get_object_or_404(Person, user=user_id)
     leisure = get_object_or_404(LeisureItem, pk=leisure_id)
+
     # 1er passage: on demande confirmation
     if request.method != 'POST':
         msg = _("Do you really want to delete this leisure item?")
@@ -270,27 +333,37 @@ def leisure_delete(request, user_id=None, leisure_id=None):
         description+= leisure.detail
         return render_to_response('pages/confirm.html',
                    {'message': msg, 'description': description,
-                    'section': "emploi/base.html"})
+                    'section': "emploi/base.html"},
+                    context_instance=RequestContext(request))
+
     # 2eme passage: on supprime si c'est confirmé
     else:
         if request.POST['choice']=="1":
             leisure.delete()
         return render_to_response('emploi/cv_edit.html',
-                                  {'person': p, 'user': request.user})
+                                  {'person': p, 'user': request.user},
+                                  context_instance=RequestContext(request))
 
 def leisure_add(request, user_id=None):
+
     if not request.user.is_authenticated():
         return render_to_response('pages/authentification_needed.html',
                                   {'user': request.user,
-                                   'section': "emploi/base.html"})
+                                   'section': "emploi/base.html"},
+                                   context_instance=RequestContext(request))
+
     p = get_object_or_404(Person, user=user_id)
+
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
         LeisureForm = forms.models.form_for_model(LeisureItem,
             formfield_callback=form_callback)
         f = LeisureForm()
         return render_to_response('emploi/leisure_edit.html',
-            {'form': f, 'person': p, 'user': request.user, 'action': "create"})
+                                 {'form': f, 'person': p, 'user': request.user,
+                                  'action': "create"},
+                                  context_instance=RequestContext(request))
+
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
         LeisureForm = forms.models.form_for_model(LeisureItem,
@@ -300,20 +373,28 @@ def leisure_add(request, user_id=None):
             f.clean_data['person'] = p
             f.save()
         return render_to_response('emploi/cv_edit.html',
-            {'person': p, 'user': request.user})
+                                 {'person': p, 'user': request.user},
+                                  context_instance=RequestContext(request))
 
 def office_create(request, user_id=None):
+
     if not request.user.is_authenticated():
         return render_to_response('pages/authentification_needed.html',
                                   {'user': request.user,
-                                   'section': "emploi/base.html"})
+                                   'section': "emploi/base.html"},
+                                   context_instance=RequestContext(request))
+
     p = get_object_or_404(Person, user=user_id)
+
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
         OfficeForm = forms.models.form_for_model(Office)
         f = OfficeForm()
         return render_to_response('emploi/office_create.html',
-            {'form': f, 'person': p, 'user': request.user, 'object': "office"})
+                                 {'form': f, 'person': p, 
+                                  'user': request.user, 'object': "office"},
+                                  context_instance=RequestContext(request))
+
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
         OfficeForm = forms.models.form_for_model(Office)
@@ -321,14 +402,19 @@ def office_create(request, user_id=None):
         if f.is_valid():
             f.save()
         return render_to_response('emploi/cv_edit.html',
-            {'person': p, 'user': request.user})
+                                 {'person': p, 'user': request.user},
+                                 context_instance=RequestContext(request))
 
 def company_create(request, user_id=None):
+
     if not request.user.is_authenticated():
         return render_to_response('pages/authentification_needed.html',
                                   {'user': request.user,
-                                   'section': "emploi/base.html"})
+                                   'section': "emploi/base.html"},
+                                   context_instance=RequestContext(request))
+
     p = get_object_or_404(Person, user=user_id)
+
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
         CompanyForm = forms.models.form_for_model(Company)
@@ -336,8 +422,10 @@ def company_create(request, user_id=None):
             forms.Select(choices=Company.COMPANY_SIZE)
         f = CompanyForm()
         return render_to_response('emploi/office_create.html',
-            {'form': f, 'person': p, 'user': request.user,
-             'object': "company"})
+                                 {'form': f, 'person': p, 'user': request.user,
+                                  'object': "company"},
+                                  context_instance=RequestContext(request))
+
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
         CompanyForm = forms.models.form_for_model(Company)
@@ -345,26 +433,30 @@ def company_create(request, user_id=None):
         if f.is_valid():
             f.save()
         return render_to_response('emploi/cv_edit.html',
-            {'person': p, 'user': request.user})
+                                 {'person': p, 'user': request.user},
+                                  context_instance=RequestContext(request))
 
 def job_details(request,emploi_id):
 
     if not request.user.is_authenticated():
         return render_to_response('pages/authentification_needed.html',
                                   {'user': request.user,
-                                   'section': "emploi/base.html"})
+                                   'section': "emploi/base.html"},
+                                   context_instance=RequestContext(request))
 
     j = get_object_or_404(JobOffer, pk=emploi_id)
 
-    return render_to_response('emploi/job_details.html',{'job': j, 'user': request.user})
-
+    return render_to_response('emploi/job_details.html',
+                             {'job': j, 'user': request.user}, 
+                             context_instance=RequestContext(request))
 
 def job_edit(request, emploi_id):
 
     if not request.user.is_authenticated():
         return render_to_response('pages/authentification_needed.html',
                                   {'user': request.user,
-                                   'section': "emploi/base.html"})
+                                   'section': "emploi/base.html"},
+                                  context_instance=RequestContext(request))
 
     j = get_object_or_404(JobOffer, pk=emploi_id)
 
@@ -378,16 +470,22 @@ def job_edit(request, emploi_id):
             j.contract_type = request.POST['contract_type']
             j.save()
 
+            return HttpResponseRedirect('/emploi/job/'+str(j.id)+'/')
+
     f = JobOfferForm({'reference': j.reference, 'title': j.title, 'description': j.description, 
         'experience': j.experience, 'contract_type': j.contract_type})
-    return render_to_response('emploi/job_edit.html',{'form': f, 'user': request.user})
+
+    return render_to_response('emploi/job_edit.html',
+                             {'form': f, 'user': request.user}, 
+                              context_instance=RequestContext(request))
 
 def job_register(request):
 
     if not request.user.is_authenticated():
         return render_to_response('pages/authentification_needed.html',
                                   {'user': request.user,
-                                   'section': "emploi/base.html"})
+                                   'section': "emploi/base.html"},
+                                   context_instance=RequestContext(request))
 
     if request.method == 'POST':
         f = JobOfferForm(request.POST)
@@ -400,25 +498,35 @@ def job_register(request):
             job_offer.contract_type = request.POST['contract_type']
             job_offer.save()
 
-            return render_to_response('emploi/job_register.html',{'user': request.user})
+            return HttpResponseRedirect('/emploi/job/'+str(job_offer.id)+'/')
 
     f = JobOfferForm({})
-    return render_to_response('emploi/job_register.html',{'form': f, 'user': request.user})
+    return render_to_response('emploi/job_register.html',
+                             {'form': f, 'user': request.user}, 
+                             context_instance=RequestContext(request))
 
 def job_search(request):
 
     if not request.user.is_authenticated():
         return render_to_response('pages/authentification_needed.html',
                                   {'user': request.user,
-                                   'section': "emploi/base.html"})
+                                   'section': "emploi/base.html"},
+                                  context_instance=RequestContext(request))
 
     if request.method == 'POST':
         form = SearchJobForm(request.POST)
         if form.is_valid():
                     list_jobs = JobOffer.objects.filter(title__icontains=form.clean_data['title'])
-                    return render_to_response('emploi/job_search.html', {'form': form, 'list_jobs': list_jobs, 'request': request, 'user': request.user})
+                    return render_to_response('emploi/job_search.html', 
+                                             {'form': form, 
+                                              'list_jobs': list_jobs, 
+                                              'request': request, 
+                                              'user': request.user},
+                                              context_instance=RequestContext(request))
 
     else:
         f = SearchJobForm()
-        return render_to_response('emploi/job_search.html', {'form': f , 'user': request.user})
+        return render_to_response('emploi/job_search.html', 
+                                 {'form': f , 'user': request.user}, 
+                                 context_instance=RequestContext(request))
 
