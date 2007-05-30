@@ -278,6 +278,7 @@ def filldb():
     olivier.sex = 'M'
     olivier.first_name = "Olivier"
     olivier.last_name = "Gauwin"
+    olivier.birth_date = date(1955,12,9)
     olivier.promos.add(n7in2003)
     olivier.country = france
     olivier.display_cv_in_directory = True
@@ -294,6 +295,27 @@ def filldb():
     olivier_adresse.type = personnalAddressType
     olivier_adresse.save()
 
+    olivier_adresse2 = annuaire.Address()
+    olivier_adresse2.person = olivier
+    olivier_adresse2.number = "8"
+    olivier_adresse2.street = "rue de nulle part"
+    olivier_adresse2.zip_code = "30001"
+    olivier_adresse2.city = "Lille"
+    olivier_adresse2.country = france
+    olivier_adresse2.type = parentalAddressType
+    olivier_adresse2.save()
+
+    olivier_couriel1 = annuaire.Email()
+    olivier_couriel1.person = olivier
+    olivier_couriel1.email = "olivier@somewhere.org"
+    olivier_couriel1.save()
+
+    olivier_messagerie1 = annuaire.InstantMessaging()
+    olivier_messagerie1.person = olivier
+    olivier_messagerie1.type = 5
+    olivier_messagerie1.identifier = "olivier@somewhere.jabber"
+    olivier_messagerie1.save()    
+
     olivier_irc1 = annuaire.IRC()
     olivier_irc1.person = olivier
     olivier_irc1.network = "irc.rezosup.net"
@@ -301,8 +323,28 @@ def filldb():
     olivier_irc1.channels = "#ain7"
     olivier_irc1.save()
 
+    olivier_site = annuaire.WebSite()
+    olivier_site.person = olivier
+    olivier_site.url = "http://www.ain7.com/"
+    olivier_site.save()
+
+    olivier_bigophone1 = annuaire.PhoneNumber()
+    olivier_bigophone1.person = olivier
+    olivier_bigophone1.number = "0345678900"
+    olivier_bigophone1.type = 1
+    olivier_bigophone1.isConfidential = False
+    olivier_bigophone1.save()
+
+    olivier_bigophone2 = annuaire.PhoneNumber()
+    olivier_bigophone2.person = olivier
+    olivier_bigophone2.number = "0606060606"
+    olivier_bigophone2.type = 3
+    olivier_bigophone2.isConfidential = False
+    olivier_bigophone2.save()
+
     olivier_ain7member = annuaire.AIn7Member()
     olivier_ain7member.person = olivier
+    olivier_ain7member.cvTitle = "Ingénieur ENSEEIHT et doctorant en Informatique"    
     olivier_ain7member.save()
     
     olivier_position1 = emploi.Position()

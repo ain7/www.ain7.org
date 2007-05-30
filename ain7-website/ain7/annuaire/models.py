@@ -268,6 +268,7 @@ class Person(models.Model):
 class AIn7Member(models.Model):
 
     person = models.OneToOneField(Person, verbose_name=_('person'))
+    cvTitle = models.CharField(verbose_name=_('CV title'), maxlength=100, blank=True, null=True)
 
     class Admin:
         pass

@@ -70,11 +70,11 @@ def cv_details(request, user_id):
                                   {'user': request.user,
                                    'section': "emploi/base.html"},
                                    context_instance=RequestContext(request))
-    
     p = get_object_or_404(Person, user=user_id)
-
+    ain7member = get_object_or_404(AIn7Member, person=p)
     return render_to_response('emploi/cv_details.html',
-                              {'person': p, 'user': request.user},
+                              {'person': p, 'user': request.user,
+                               'AIn7Member': ain7member},
                               context_instance=RequestContext(request))
 
 
@@ -85,11 +85,11 @@ def cv_edit(request, user_id=None):
                                   {'user': request.user,
                                    'section': "emploi/base.html"},
                                   context_instance=RequestContext(request))
-
     p = get_object_or_404(Person, user=user_id)
-
+    ain7member = get_object_or_404(AIn7Member, person=p)
     return render_to_response('emploi/cv_edit.html',
-                              {'person': p, 'user': request.user},
+                              {'person': p, 'user': request.user,
+                               'AIn7Member': ain7member},
                               context_instance=RequestContext(request))
 
 # une petite fonction pour exclure les champs person et user des formulaires
