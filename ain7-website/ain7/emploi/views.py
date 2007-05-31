@@ -553,3 +553,18 @@ def job_search(request):
                                  {'form': f , 'user': request.user}, 
                                  context_instance=RequestContext(request))
 
+def company_details(request, company_id):
+
+    if not request.user.is_authenticated():
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': "emploi/base.html"},
+                                   context_instance=RequestContext(request))
+
+    company = get_object_or_404(Company, pk=company_id)
+    offices = Office.objects.filter(company=company)
+
+    return render_to_response('emploi/company_details.html',
+                              {'company': company, 'user': request.user,
+                               'offices': offices},
+                              context_instance=RequestContext(request))

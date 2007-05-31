@@ -42,7 +42,52 @@
 			</div>
 		</div>
 		<div class="bar">
-			  {% block barre %}{% endblock %}
+
+<ul class="ligne1">
+
+{% block barre-home %}<li>{% endblock %}
+    <a href="/" accesskey="h">{% trans "Home"%}</a></li>
+
+{% block barre-association %}<li>{% endblock %}
+    <a href="/association/" accesskey="o">{% trans "The association"%}</a></li>
+
+{% block barre-annuaire %}<li>{% endblock %}
+    <a href="/annuaire/" accesskey="a">{% trans "Directory"%}</a></li>
+
+{% block barre-evenements %}<li>{% endblock %}
+    <a href="/evenements/" accesskey="e">{% trans "Events"%}</a></li>
+
+{% block barre-emploi %}<li>{% endblock %}
+    <a href="/emploi/" accesskey="s">{% trans "Job service"%}</a></li>
+
+{% block barre-forums %}<li>{% endblock %}
+    <a href="/forums/" accesskey="f">{% trans "Forums"%}</a></li>
+
+</ul>
+
+<ul class="ligne2">
+
+{% block barre-groupes_regionaux %}<li>{% endblock %}
+    <a href="/groupes_regionaux/" accesskey="r">
+        {% trans "Regional groups"%}</a></li>
+
+{% block barre-groupes %}<li>{% endblock %}
+    <a href="/groupes/" accesskey="g">{% trans "Working groups"%}</a></li>
+
+{% block barre-publications %}<li>{% endblock %}
+    <a href="/publications/" accesskey="p">{% trans "Publications"%}</a></li>
+
+{% block barre-international %}<li>{% endblock %}
+    <a href="/international/" accesskey="i">{% trans "International"%}</a></li>
+
+{% block barre-voyages %}<li>{% endblock %}
+    <a href="/voyages/" accesskey="v">{% trans "Travels"%}</a></li>
+
+{% block barre-planet %}<li>{% endblock %}
+    <a href="/planet/" accesskey="l">{% trans "Planet"%}</a></li>
+
+</ul>
+
 		</div>
 
                 <div class="messages">

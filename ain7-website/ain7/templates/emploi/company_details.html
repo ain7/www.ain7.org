@@ -1,0 +1,18 @@
+{% extends "emploi/base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div id="content-main">
+<h1>{{ company }}</h1>
+<ul>
+{% for office in offices %}
+    <li>{{ office }}</li>
+{% endfor %}
+</ul>
+
+<p>TODO !</p>
+
+</div>
+
+{% endblock %}

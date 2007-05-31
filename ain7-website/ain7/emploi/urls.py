@@ -57,5 +57,7 @@ urlpatterns = patterns('',
     (r'^job/search/$', 'ain7.emploi.views.job_search'),
     (r'^job/(?P<emploi_id>\d+)/$', 'ain7.emploi.views.job_details'),
     (r'^job/(?P<emploi_id>\d+)/edit/$', 'ain7.emploi.views.job_edit'),
+    # Company
+    (r'^societe/(?P<company_id>\d+)/$', 'ain7.emploi.views.company_details'),
 
 )

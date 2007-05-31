@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-30 23:41+0200\n"
-"PO-Revision-Date: 2007-05-30 23:41+0200\n"
+"POT-Creation-Date: 2007-05-31 23:58+0200\n"
+"PO-Revision-Date: 2007-05-31 23:58+0200\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -363,29 +363,77 @@ msgstr "Mot de passe"
 msgid "AIn7 web portal"
 msgstr "Portail web AIn7"
 
-#: templates/base.html:57
+#: templates/base.html:49
+msgid "Home"
+msgstr "Accueil"
+
+#: templates/base.html:52
+msgid "The association"
+msgstr "L'association"
+
+#: templates/base.html:55
+msgid "Directory"
+msgstr "Annuaire"
+
+#: templates/base.html:58 templates/groupes_regionaux/details.html:45
+msgid "Events"
+msgstr "Évènements"
+
+#: templates/base.html:61
+msgid "Job service"
+msgstr "Service emploi"
+
+#: templates/base.html:64
+msgid "Forums"
+msgstr "Forums"
+
+#: templates/base.html:72
+msgid "Regional groups"
+msgstr "Groupes régionaux"
+
+#: templates/base.html:75
+msgid "Working groups"
+msgstr "Groupes de travail"
+
+#: templates/base.html:78
+msgid "Publications"
+msgstr "Publications"
+
+#: templates/base.html:81
+msgid "International"
+msgstr "L'international"
+
+#: templates/base.html:84
+msgid "Travels"
+msgstr "Voyages"
+
+#: templates/base.html:87
+msgid "Planet"
+msgstr "Planet"
+
+#: templates/base.html:102
 msgid "RSS"
 msgstr "Flux RSS"
 
-#: templates/base.html:58 templates/annuaire/details.html:43
+#: templates/base.html:103 templates/annuaire/details.html:43
 #: templates/groupes/details.html:12 templates/evenements/details.html:15
 #: groupes/models.py:33
 msgid "Contact"
 msgstr "Contact"
 
-#: templates/base.html:59
+#: templates/base.html:104
 msgid "About"
 msgstr "A propos"
 
-#: templates/base.html:60
+#: templates/base.html:105
 msgid "Sitemap"
 msgstr "Plan du site"
 
-#: templates/base.html:61
+#: templates/base.html:106
 msgid "Terms of use"
 msgstr "Mentions légales"
 
-#: templates/base.html:63
+#: templates/base.html:108
 msgid "and"
 msgstr "et"
 
@@ -418,139 +466,18 @@ msgid "AIn7 activity"
 msgstr "Activité AIn7"
 
 #: templates/annuaire/details.html:67 templates/emploi/cv_details.html:54
-#: templates/emploi/cv_edit.html:60
+#: templates/emploi/cv_edit.html:59
 msgid "Professional experiences"
 msgstr "Expériences professionnelles"
 
 #: templates/annuaire/details.html:73 templates/emploi/cv_details.html:63
-#: templates/emploi/cv_edit.html:69 emploi/views.py:148
+#: templates/emploi/cv_edit.html:68 emploi/views.py:148
 msgid "for"
 msgstr "au sein de"
 
 #: templates/annuaire/details.html:83
 msgid "N7 associative activities"
 msgstr "Vie associative à l'N7"
-
-#: templates/annuaire/base.html:6 templates/pages/base_international.html:6
-#: templates/pages/base_publications.html:6
-#: templates/pages/base_homepage.html:6 templates/pages/base_pages.html:6
-#: templates/pages/base_association.html:6 templates/groupes/base.html:6
-#: templates/evenements/base.html:6 templates/emploi/base.html:6
-#: templates/sondages/base.html:6 templates/voyages/base.html:6
-#: templates/groupes_regionaux/base.html:6
-msgid "Home"
-msgstr "Accueil"
-
-#: templates/annuaire/base.html:7 templates/pages/base_international.html:7
-#: templates/pages/base_publications.html:7
-#: templates/pages/base_homepage.html:7 templates/pages/base_pages.html:7
-#: templates/pages/base_association.html:7 templates/groupes/base.html:7
-#: templates/evenements/base.html:7 templates/emploi/base.html:7
-#: templates/sondages/base.html:7 templates/voyages/base.html:7
-#: templates/groupes_regionaux/base.html:7
-msgid "The association"
-msgstr "L'association"
-
-#: templates/annuaire/base.html:8 templates/pages/base_international.html:8
-#: templates/pages/base_publications.html:8
-#: templates/pages/base_homepage.html:8 templates/pages/base_pages.html:8
-#: templates/pages/base_association.html:8 templates/groupes/base.html:8
-#: templates/evenements/base.html:8 templates/emploi/base.html:8
-#: templates/sondages/base.html:8 templates/voyages/base.html:8
-#: templates/groupes_regionaux/base.html:8
-msgid "Directory"
-msgstr "Annuaire"
-
-#: templates/annuaire/base.html:9 templates/pages/base_international.html:9
-#: templates/pages/base_publications.html:9
-#: templates/pages/base_homepage.html:9 templates/pages/base_pages.html:9
-#: templates/pages/base_association.html:9 templates/groupes/base.html:9
-#: templates/evenements/base.html:9 templates/emploi/base.html:9
-#: templates/sondages/base.html:9 templates/voyages/base.html:9
-#: templates/groupes_regionaux/details.html:45
-#: templates/groupes_regionaux/base.html:9
-msgid "Events"
-msgstr "Évènements"
-
-#: templates/annuaire/base.html:10 templates/pages/base_international.html:10
-#: templates/pages/base_publications.html:10
-#: templates/pages/base_homepage.html:10 templates/pages/base_pages.html:10
-#: templates/pages/base_association.html:10 templates/groupes/base.html:10
-#: templates/evenements/base.html:10 templates/emploi/base.html:10
-#: templates/sondages/base.html:10 templates/voyages/base.html:10
-#: templates/groupes_regionaux/base.html:10
-msgid "Job service"
-msgstr "Service emploi"
-
-#: templates/annuaire/base.html:13 templates/pages/base_international.html:13
-#: templates/pages/base_publications.html:13
-#: templates/pages/base_homepage.html:13 templates/pages/base_pages.html:13
-#: templates/pages/base_association.html:13 templates/groupes/base.html:13
-#: templates/evenements/base.html:13 templates/emploi/base.html:13
-#: templates/sondages/base.html:13 templates/voyages/base.html:13
-#: templates/groupes_regionaux/base.html:13
-msgid "Regional groups"
-msgstr "Groupes régionaux"
-
-#: templates/annuaire/base.html:14 templates/pages/base_international.html:14
-#: templates/pages/base_publications.html:14
-#: templates/pages/base_homepage.html:14 templates/pages/base_pages.html:14
-#: templates/pages/base_association.html:14 templates/groupes/base.html:14
-#: templates/evenements/base.html:14 templates/emploi/base.html:14
-#: templates/sondages/base.html:14 templates/voyages/base.html:14
-#: templates/groupes_regionaux/base.html:14
-msgid "Working groups"
-msgstr "Groupes de travail"
-
-#: templates/annuaire/base.html:15 templates/pages/base_international.html:15
-#: templates/pages/base_publications.html:15
-#: templates/pages/base_homepage.html:15 templates/pages/base_pages.html:15
-#: templates/pages/base_association.html:15 templates/groupes/base.html:15
-#: templates/evenements/base.html:15 templates/emploi/base.html:15
-#: templates/sondages/base.html:15 templates/voyages/base.html:15
-#: templates/groupes_regionaux/base.html:15
-msgid "Publications"
-msgstr "Publications"
-
-#: templates/annuaire/base.html:16 templates/pages/base_international.html:16
-#: templates/pages/base_publications.html:16
-#: templates/pages/base_homepage.html:16 templates/pages/base_pages.html:16
-#: templates/pages/base_association.html:16 templates/groupes/base.html:16
-#: templates/evenements/base.html:16 templates/emploi/base.html:16
-#: templates/sondages/base.html:16 templates/voyages/base.html:16
-#: templates/groupes_regionaux/base.html:16
-msgid "International"
-msgstr "L'international"
-
-#: templates/annuaire/base.html:17 templates/pages/base_international.html:17
-#: templates/pages/base_publications.html:17
-#: templates/pages/base_homepage.html:17 templates/pages/base_pages.html:17
-#: templates/pages/base_association.html:17 templates/groupes/base.html:17
-#: templates/evenements/base.html:17 templates/emploi/base.html:17
-#: templates/sondages/base.html:17 templates/voyages/base.html:17
-#: templates/groupes_regionaux/base.html:17
-msgid "Travels"
-msgstr "Voyages"
-
-#: templates/annuaire/base.html:18 templates/pages/base_international.html:18
-#: templates/pages/base_publications.html:18
-#: templates/pages/base_homepage.html:18 templates/pages/base_pages.html:18
-#: templates/pages/base_association.html:18 templates/groupes/base.html:18
-#: templates/evenements/base.html:18 templates/emploi/base.html:18
-#: templates/sondages/base.html:18 templates/voyages/base.html:18
-#: templates/groupes_regionaux/base.html:18
-msgid "Forums"
-msgstr "Forums"
-
-#: templates/annuaire/base.html:19 templates/pages/base_international.html:19
-#: templates/pages/base_publications.html:19
-#: templates/pages/base_homepage.html:19 templates/pages/base_pages.html:19
-#: templates/pages/base_association.html:19 templates/groupes/base.html:19
-#: templates/evenements/base.html:19 templates/emploi/base.html:19
-#: templates/sondages/base.html:19 templates/voyages/base.html:19
-#: templates/groupes_regionaux/base.html:19
-msgid "Planet"
-msgstr "Planet"
 
 #: templates/annuaire/edit.html:13 templates/groupes/edit.html:17
 msgid "Save changes"
@@ -625,11 +552,11 @@ msgstr "Ajout d'une entrée dans la partie \"Formation\""
 msgid "Save"
 msgstr "Valider"
 
-#: templates/emploi/cv_details.html:77 templates/emploi/cv_edit.html:88
+#: templates/emploi/cv_details.html:79 templates/emploi/cv_edit.html:87
 msgid "Education"
 msgstr "Formation"
 
-#: templates/emploi/cv_details.html:97 templates/emploi/cv_edit.html:115
+#: templates/emploi/cv_details.html:99 templates/emploi/cv_edit.html:114
 msgid "Leisure activities"
 msgstr "Loisirs"
 
@@ -673,26 +600,18 @@ msgstr "Gestion des offres d'emploi"
 msgid "Register a job offer"
 msgstr "Enregistrer une offre d'emploi"
 
-#: templates/emploi/cv_edit.html:57
-msgid "To modify these data, please click"
-msgstr "Pour modifier ces données, cliquer"
-
-#: templates/emploi/cv_edit.html:58
-msgid "here"
-msgstr "ici"
-
-#: templates/emploi/cv_edit.html:73 templates/emploi/cv_edit.html.py:98
-#: templates/emploi/cv_edit.html:128
+#: templates/emploi/cv_edit.html:57 templates/emploi/cv_edit.html.py:72
+#: templates/emploi/cv_edit.html:97 templates/emploi/cv_edit.html.py:127
 msgid "Modify"
 msgstr "Modifier"
 
-#: templates/emploi/cv_edit.html:75 templates/emploi/cv_edit.html.py:100
-#: templates/emploi/cv_edit.html:130
+#: templates/emploi/cv_edit.html:74 templates/emploi/cv_edit.html.py:99
+#: templates/emploi/cv_edit.html:129
 msgid "Delete"
 msgstr "Supprimer"
 
-#: templates/emploi/cv_edit.html:84 templates/emploi/cv_edit.html.py:111
-#: templates/emploi/cv_edit.html:135
+#: templates/emploi/cv_edit.html:83 templates/emploi/cv_edit.html.py:110
+#: templates/emploi/cv_edit.html:134
 msgid "Add"
 msgstr "Ajouter"
 

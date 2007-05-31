@@ -1,21 +1,3 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block barre %}
-  <ul class="ligne1">
-	<li><a href="/" accesskey="h">{% trans "Home"%}</a></li>
-	<li><a href="/association/" accesskey="o">{% trans "The association"%}</a></li>
-	<li><a href="/annuaire/" accesskey="a">{% trans "Directory"%}</a></li>
-	<li><a href="/evenements/" accesskey="e">{% trans "Events"%}</a></li>
-	<li><a href="/emploi/" accesskey="s">{% trans "Job service"%}</a></li>
-  </ul>
-  <ul class="ligne2">
-	<li><a href="/groupes_regionaux/" accesskey="r">{% trans "Regional groups"%}</a></li>
-	<li><a href="/groupes/" accesskey="g">{% trans "Working groups"%}</a></li>
-	<li><a href="/publications/" accesskey="p">{% trans "Publications"%}</a></li>
-	<li><a href="/international/" accesskey="i">{% trans "International"%}</a></li>
-	<li><a href="/voyages/" accesskey="v">{% trans "Travels"%}</a></li>
-	<li><a href="/forums/" accesskey="f">{% trans "Forums"%}</a></li>
-	<li><a href="/planet/" accesskey="l">{% trans "Planet"%}</a></li>
-  </ul>
-{% endblock %}
