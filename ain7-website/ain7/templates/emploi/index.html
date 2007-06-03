@@ -5,8 +5,6 @@
 
 <div id="content-main">
 
-{% ifnotequal AIn7Member None %}
-
 {# ### this user is a physical person ### #}
 
 <h2>{% trans "Jobs list" %}</h2>
@@ -21,7 +19,7 @@
 {% else %}
     <p>{% trans "No job." %}</p>
 {% endif %}
-<a href="/emploi/job/search/">{% trans "Search a job offer" %}</a>.<br />
+<a href="/emploi/job/search/">{% trans "Search a job offer" %}</a><br />
 <br />
 
 <h2>{% trans "CV" %}</h2>
@@ -29,20 +27,16 @@
 <a href="/emploi/{{ user.id }}/cv/">{% trans "View your CV" %}</a>.<br />
 <a href="/emploi/{{ user.id }}/cv/edit/">{% trans "Modify your CV" %}</a>.<br />
 {% trans "To display (or not) your CV in the directory, please fill" %}
-<a href="/annuaire/{{ user.id }}/edit/">{% trans "this page" %}</a>.
+<a href="/annuaire/{{ user.id }}/edit/">{% trans "this page" %}</a>
 </p>
-
-{% else %}
 
 {# ### this user is not a physical person ### #}
 
 <h2>{% trans "Manage Job Offers" %}</h2>
 <p>
-<a href="/emploi/job/register/">{% trans "Register a job offer" %}</a>.<br />
-<a href="/emploi/job/search/">{% trans "Search a job offer" %}</a>.<br />
+<a href="/emploi/job/register/">{% trans "Register a job offer" %}</a><br />
+<a href="/emploi/job/search/">{% trans "Search a job offer" %}</a><br />
 </p>
-
-{% endifnotequal %}
 
 </div>
 

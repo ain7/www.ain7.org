@@ -13,6 +13,7 @@
 		<li>{% trans "start date" %}: {{ event.start_date|date:"d/m/Y" }}</li>
 		<li>{% trans "end date" %}: {{ event.end_date|date:"d/m/Y" }}</li>
 		<li>{% trans "Contact" %}: <a href="mailto:{{ event.contact_email }}">{{ event.author }}</a></li>
+		<li>{% trans "Place" %}: {{ event.place }}</li>
 	</ul>
 
 	{% if event.description %}
@@ -26,11 +27,20 @@
 	<h3>{% trans "Actions" %}</h3>
 	<div class="right_block">
 		<ul>
-			<li>
-				<a href="/evenements/{{ event.id }}/join/">{% trans "Participate to this event." %}</a>
-			</li>
+			<li><a href="/evenements/{{ event.id }}/join/">{% trans "Participate to this event" %}</a></li>
+			<li><a href="/evenements/{{ event.id }}/edit/">{% trans "Edit this event" %}</a></li>
+			<li><a href="/evenements/{{ event.id }}/participants/">{% trans "List participants" %}</a></li>
+			<li><a href="/evenements/{{ event.id }}/subscribe/">{% trans "Subscribe someone" %}</a></li>
 		</ul>
 	</div>
+
+	<h3>{% trans "Statistics" %}</h3>
+	<div class="right_block">
+                <ul>
+                        <li>50 are subscribed to this event</li>
+                <ul>
+        </div>
+
 </div>
 
 </div>

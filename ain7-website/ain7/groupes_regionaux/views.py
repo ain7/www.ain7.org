@@ -37,13 +37,36 @@ def index(request):
                              {'groups': groups, 'user': request.user}, 
                              context_instance=RequestContext(request))
 
-def detail(request, group_id):
+def details(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
     is_member = request.user.is_authenticated()\
                 and group.has_for_member(request.user.person)
 
     return render_to_response('groupes_regionaux/details.html', {'group': group,
                               'user': request.user, 'is_member': is_member}, 
+                              context_instance=RequestContext(request))
+def edit(request, group_id):
+    group = get_object_or_404(Group, pk=group_id)
+    is_member = request.user.is_authenticated()\
+                and group.has_for_member(request.user.person)
+
+    if request.method == 'POST':
+
+        GroupForm = forms.models.form_for_instance(group)
+        f = GroupForm(request.POST.copy())
+        if f.is_valid():
+            f.clean_data['group'] = group
+            f.save()
+
+        request.user.message_set.create(message=_("Regional group informations updated successfully."))
+
+        return HttpResponseRedirect('/groupes_regionaux/%s/' % (group.id))
+
+    GroupForm = forms.models.form_for_instance(group)
+    f = GroupForm()
+
+    return render_to_response('groupes_regionaux/edit.html', {'form': f, 
+                              'group': group,'user': request.user, 'is_member': is_member}, 
                               context_instance=RequestContext(request))
 
 def join(request, group_id):
@@ -63,7 +86,7 @@ def join(request, group_id):
     else:
         request.user.message_set.create(message=_("You are already a member of this group."))
 
-    return HttpResponseRedirect('/groupes_regionaux/%s' % (group.id))
+    return HttpResponseRedirect('/groupes_regionaux/%s/' % (group.id))
 
 def quit(request, group_id):
 

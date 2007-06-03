@@ -5,7 +5,11 @@
 
 <div id="content-main">
 
-<h2>{% trans "List of events and meetings to come." %}</h2>
+<div class="left">
+
+<div class="left_box">
+
+<h3>{% trans "List of events and meetings to come" %}</h3>
 {% if events %}
 	<ul>
 	{% for event in events %}
@@ -17,6 +21,21 @@
 {% else %}
 	<p>{% trans "No planned event." %}</p>
 {% endif %}
+
+</div>
+
+</div>
+
+<div class="right">
+
+<h3>{% trans "Actions" %}</h3>
+<ul>
+<li><a href="/evenements/register/">{% trans "Register an event" %}</a></li>
+<li><a href="/evenements/search/">{% trans "Search an event" %}</a></li>
+</ul>
+
+</div>
+
 
 </div>
 

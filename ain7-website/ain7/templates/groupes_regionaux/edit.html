@@ -1,0 +1,25 @@
+{% extends "groupes_regionaux/base.html" %}
+{% load i18n %}
+
+{% block stylesheet %}{% endblock %}
+{% block content %}
+
+<div id="content-main">
+
+<div class="left">
+	<h1>{{ group.name }}</h1>
+
+<form method="post">
+<table>
+        {{ form }}
+</table>
+<div align="center">
+<input type="submit" class="button" value="{% trans "Save" %}">
+</div>
+</form>
+
+</div>
+
+</div>
+
+{% endblock %}

@@ -24,7 +24,7 @@ import datetime
 
 from django.db import models
 
-from ain7.annuaire.models import Person
+from ain7.annuaire.models import Person, Track
 from ain7.annuaire.models import Country
 
 # ???
@@ -193,6 +193,7 @@ class JobOffer(models.Model):
     is_opened = models.BooleanField(verbose_name=_('Job offer is opened'), default=False)
     office = models.ForeignKey(Office, blank=True, null=True)
     contact = models.ForeignKey(Person, blank=True, null=True)
+    track = models.ManyToManyField(Track, verbose_name=_('Track'), related_name='jobs', blank=True, null=True, filter_interface=models.HORIZONTAL)
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
@@ -204,4 +205,6 @@ class JobOffer(models.Model):
 
     class Admin:
         pass
+
+
 

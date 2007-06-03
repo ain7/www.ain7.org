@@ -60,7 +60,7 @@ MEDIA_ROOT = detect_path()+'/media'
 
 # URL that handles the media served from MEDIA_ROOT.
 # Example: "http://media.lawrence.com"
-MEDIA_URL = ''
+MEDIA_URL = '/site_media/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -115,3 +115,4 @@ INSTALLED_APPS = (
 SKIN = 'default'
 PLANET_URL = 'http://planet.ain7.porcheron.info/'
 FORUMS_URL = 'http://forums.ain7.porcheron.info/'
+

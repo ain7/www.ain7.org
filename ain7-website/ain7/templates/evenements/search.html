@@ -1,11 +1,11 @@
-{% extends "emploi/base.html" %}
+{% extends "evenements/base.html" %}
 {% load i18n %}
 
 {% block content %}
 
 <div id="content-main">
 
-<h2>{% trans "Job Search" %}</h2>
+<h2>{% trans "Event Search" %}</h2>
 
 <div align="center">
 <form action="." method="post">
@@ -18,14 +18,14 @@
 
 {% ifequal request.method 'POST' %}
 <h2>Research result</h2>
-{% if list_jobs %}
+{% if list_events %}
     <ul>
-    {% for job in list_jobs %}
-        <li><a href="/emploi/job/{{ job.id }}/">{{ job.title }}</a></li>
+    {% for event in list_events %}
+        <li><a href="/evenements/{{ event.id }}/">{{ event.name }}</a></li>
     {% endfor %}
      </ul>
 {% else %}
-    <p>{% trans "No job offer correspond to your research" %}</p>
+    <p>{% trans "No event correspond to your research" %}</p>
 {% endif %}
 {% endifequal %}
 

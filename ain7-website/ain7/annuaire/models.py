@@ -228,7 +228,7 @@ class Person(models.Model):
 
     # Other
     nick_name = models.CharField(verbose_name=_('Nick name'), maxlength=50, blank=True, null=True)
-    avatar = models.ImageField(verbose_name=_('avatar'), upload_to='data', blank=True, null=True)
+    avatar = models.ImageField(verbose_name=_('avatar'), upload_to='data/', blank=True, null=True)
     blog = models.URLField(verbose_name=_('blog'), maxlength=80, verify_exists=True, blank=True, core=True)
     blog_is_agregated_on_planet = models.BooleanField(verbose_name=_('blog on planet'), core=True, default=False)
 

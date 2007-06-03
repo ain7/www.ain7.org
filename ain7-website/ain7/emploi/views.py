@@ -32,13 +32,13 @@ from ain7.emploi.models import JobOffer, Position, EducationItem, LeisureItem
 from ain7.emploi.models import Office, Company
 
 class JobOfferForm(forms.Form):
-    reference = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
-    title = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
-    experience = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
-    contract_type = forms.IntegerField(required=False)
+    reference = forms.CharField(label=_('reference'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
+    title = forms.CharField(label=_('title'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
+    experience = forms.CharField(label=_('experience'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
+    contract_type = forms.IntegerField(label=_('contract type'),required=False)
     contract_type.widget = forms.Select(choices=JobOffer.JOB_TYPES)
-    is_opened = forms.BooleanField(required=False)
-    description = forms.CharField(max_length=500, required=False, widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':125}))
+    is_opened = forms.BooleanField(label=_('is opened'),required=False)
+    description = forms.CharField(label=_('description'),max_length=500, required=False, widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':125}))
 
 class SearchJobForm(forms.Form):
     title = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))

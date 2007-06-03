@@ -41,13 +41,19 @@ class Event(models.Model):
     publication_start =  models.DateTimeField(verbose_name=_('publication start'))
     publication_end = models.DateTimeField(verbose_name=_('publication end'))
 
+    organizer = models.ManyToManyField(Person, verbose_name=_('organizer'), related_name='events', blank=True, null=True, filter_interface=models.HORIZONTAL)
     regional_groups = models.ManyToManyField(Group, verbose_name=_('regional groups'), related_name='events', blank=True, null=True, filter_interface=models.HORIZONTAL)
+    pictures_gallery = models.CharField(verbose_name=_('Pictures gallery'), maxlength=100, blank=True, null=True)
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
     modification_date = models.DateTimeField(editable=False)
-    #creator = models.ForeignKey(Person, related_name='created_events', editable=False)
-    #modifier = models.ForeignKey(Person, related_name='modified_events', editable=False)
+    creator = models.ForeignKey(Person, related_name='created_events', editable=False, null=True)
+    modifier = models.ForeignKey(Person, related_name='modified_events', editable=False, null=True)
+
+    # Moderation
+    approved = models.BooleanField(default=False)
+    approved_by = models.ForeignKey(Person, related_name='events_approved', editable=False, null=True)
 
     def __str__(self):
         return self.name
@@ -71,12 +77,14 @@ class Event(models.Model):
 class EventSubscription(models.Model):
 
     subscriber_number = models.IntegerField(verbose_name=_('subscriber number'), core=True)
-
     subscription_date = models.DateTimeField(default=datetime.datetime.now, editable=False)
-
     subscriber = models.ForeignKey(Person, verbose_name=_('subscriber'), related_name='event_subscriptions')
     event = models.ForeignKey(Event, verbose_name=_('event'), related_name='subscriptions', edit_inline=models.TABULAR, num_in_admin=1)
+
+    class Admin:
+        pass
 
     class Meta:
         verbose_name = _('event subscription')
         verbose_name_plural = _('event subscriptions')
+

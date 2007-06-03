@@ -1,0 +1,38 @@
+{% extends "evenements/base.html" %}
+{% load i18n %}
+
+{% block stylesheet %}{% endblock %}
+{% block content %}
+
+<div id="content-main">
+
+<div class="left">
+	<h3>{{ event.name }}</h3>
+
+
+{% if event.subscriptions.all %}
+<ul>
+{% for subscription in event.subscriptions.all %}
+     <li><a href="/annuaire/{{ subscription.subscriber.id }}/">{{ subscription.subscriber }}</a>: {{ subscription.subscriber_number }} {% trans  "person" %}</li>
+{% endfor %}
+</ul>
+{% else %}
+<p>{% trans "No one is subscribed to this event" %}</p>
+{% endif %}
+
+</div>
+
+<div class="right">
+
+	<h3>{% trans "Statistics" %}</h3>
+	<div class="right_block">
+                <ul>
+                        <li>50 are subscribed to this event</li>
+                <ul>
+        </div>
+
+</div>
+
+</div>
+
+{% endblock %}

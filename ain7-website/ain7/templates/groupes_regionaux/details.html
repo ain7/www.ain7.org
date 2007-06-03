@@ -33,11 +33,12 @@
 		<ul>
 			<li>
 			{% if not is_member %}
-				<a href="/groupes_regionaux/join/{{ group.id }}">{% trans "Join the group." %}</a>
+				<a href="/groupes_regionaux/{{ group.id }}/join/">{% trans "Join the group" %}</a>
 			{% else %}
-				<a href="/groupes_regionaux/quit/{{ group.id }}">{% trans "Quit the group." %}</a>
+				<a href="/groupes_regionaux/{{ group.id }}/quit/">{% trans "Quit the group" %}</a>
 			{% endif %}	
 			</li>
+			<li><a href="/groupes_regionaux/{{ group.id }}/edit/">{% trans "Edit group informations" %}</a></li>
 		</ul>
 	</div>
 
