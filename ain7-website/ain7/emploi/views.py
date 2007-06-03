@@ -41,7 +41,7 @@ class JobOfferForm(forms.Form):
     description = forms.CharField(label=_('description'),max_length=500, required=False, widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':125}))
 
 class SearchJobForm(forms.Form):
-    title = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
+    title = forms.CharField(label=_('title'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
 
 def index(request):
 
@@ -468,6 +468,9 @@ def job_details(request,emploi_id):
                                    context_instance=RequestContext(request))
 
     j = get_object_or_404(JobOffer, pk=emploi_id)
+
+    j.nb_views = j.nb_views + 1
+    j.save()
 
     return render_to_response('emploi/job_details.html',
                              {'job': j, 'user': request.user}, 

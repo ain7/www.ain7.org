@@ -38,7 +38,7 @@ def vote(request, survey_id):
         choice = survey.choices.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
         # Redisplay the poll voting form.
-        return render_to_response('sondages/detail.html', 
+        return render_to_response('sondages/details.html', 
                                  {'survey': survey,
                                   'error_message': "Vous n'avez rien sélectionné."},
                                  context_instance=RequestContext(request))
@@ -48,7 +48,7 @@ def vote(request, survey_id):
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
-        return HttpResponseRedirect('/sondages/%s/detail/%s/' % (survey.id, choice.id))
+        return HttpResponseRedirect('/sondages/%s/details/%s/' % (survey.id, choice.id))
 
 def resultats(request, survey_id):
 
@@ -58,11 +58,11 @@ def resultats(request, survey_id):
                              {'survey': survey, 'user': request.user},
                              context_instance=RequestContext(request))
 
-def detail(request, survey_id, choice_id):
+def details(request, survey_id, choice_id):
     survey = get_object_or_404(Survey, pk=survey_id)
     choice = get_object_or_404(Choice, pk=choice_id)
 
-    return render_to_response('sondages/detail.html', 
+    return render_to_response('sondages/details.html', 
                              {'survey': survey, 'choice': choice, 
                               'user': request.user},
                               context_instance=RequestContext(request))

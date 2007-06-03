@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-03 13:57+0200\n"
+"POT-Creation-Date: 2007-06-03 16:35+0200\n"
 "PO-Revision-Date: 2007-05-31 23:58+0200\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -118,7 +118,7 @@ msgstr "école"
 msgid "active"
 msgstr "actif"
 
-#: annuaire/models.py:181 annuaire/models.py:188 annuaire/views.py:40
+#: annuaire/models.py:181 annuaire/models.py:188 annuaire/views.py:37
 #: emploi/models.py:196
 msgid "Track"
 msgstr "Filière"
@@ -127,7 +127,7 @@ msgstr "Filière"
 msgid "year"
 msgstr "année"
 
-#: annuaire/models.py:197 annuaire/views.py:39
+#: annuaire/models.py:197 annuaire/views.py:36
 msgid "Promo"
 msgstr "Promotions"
 
@@ -152,12 +152,12 @@ msgstr "membre"
 msgid "sex"
 msgstr "sexe"
 
-#: annuaire/models.py:218 annuaire/views.py:37
+#: annuaire/models.py:218 annuaire/views.py:34
 #: templates/annuaire/details.html:14
 msgid "Last name"
 msgstr "Nom"
 
-#: annuaire/models.py:219 annuaire/views.py:38
+#: annuaire/models.py:219 annuaire/views.py:35
 #: templates/annuaire/details.html:15
 msgid "First name"
 msgstr "Prénom"
@@ -324,7 +324,7 @@ msgstr "adhésion club"
 msgid "club memberships"
 msgstr "adhésions clubs"
 
-#: annuaire/views.py:127 groupes/views.py:68
+#: annuaire/views.py:124 groupes/views.py:68
 msgid "Modifications have been successfully saved."
 msgstr "Les modifications ont été correctement enregistrées."
 
@@ -381,7 +381,7 @@ msgid "Education item"
 msgstr "Entrée du CV partie \"Formation\""
 
 #: emploi/models.py:164 emploi/models.py:189
-#: templates/emploi/job_details.html:12
+#: templates/emploi/job_details.html:14
 msgid "Title"
 msgstr "Titre"
 
@@ -393,7 +393,7 @@ msgstr "Détail"
 msgid "Leisure item"
 msgstr "Loisirs"
 
-#: emploi/models.py:188 templates/emploi/job_details.html:11
+#: emploi/models.py:188 templates/emploi/job_details.html:13
 msgid "Reference"
 msgstr "Réference"
 
@@ -401,7 +401,7 @@ msgstr "Réference"
 msgid "Description"
 msgstr "Description"
 
-#: emploi/models.py:191 templates/emploi/job_details.html:13
+#: emploi/models.py:191 templates/emploi/job_details.html:15
 msgid "Experience"
 msgstr "Experience"
 
@@ -413,11 +413,15 @@ msgstr "Type de Contrat"
 msgid "Job offer is opened"
 msgstr "L'offre d'emploi est ouverte"
 
+#: emploi/models.py:197
+msgid "Number of views"
+msgstr "Nombre de visionnages"
+
 #: emploi/views.py:35
 msgid "reference"
 msgstr "Réference"
 
-#: emploi/views.py:36 news/models.py:30
+#: emploi/views.py:36 emploi/views.py:44 news/models.py:30
 msgid "title"
 msgstr "titre"
 
@@ -651,7 +655,7 @@ msgstr "et"
 msgid "Personal file"
 msgstr "Fiche personnelle de"
 
-#: templates/annuaire/details.html:9 templates/groupes/details.html:18
+#: templates/annuaire/details.html:9
 msgid "Edit these data"
 msgstr "Editer ces informations"
 
@@ -702,6 +706,10 @@ msgstr "Responsable"
 msgid "Actions"
 msgstr "Actions"
 
+#: templates/groupes/details.html:18
+msgid "Edit these data."
+msgstr "Editer ces informations"
+
 #: templates/groupes/details.html:26
 #: templates/groupes_regionaux/details.html:15
 msgid "Members list"
@@ -731,19 +739,19 @@ msgstr "Ok"
 msgid "You need to be authentified to access to this part of the site."
 msgstr "Vous devez être authentifié pour accéder à cette partie du site."
 
-#: templates/sondages/detail.html:11
+#: templates/sondages/details.html:11
 msgid "Back to homepage"
 msgstr "Retour à la page d'accueil"
 
-#: templates/sondages/detail.html:13
+#: templates/sondages/details.html:13
 msgid "Thank you for having chosen"
 msgstr "Merci d'avoir voté"
 
-#: templates/sondages/detail.html:13
+#: templates/sondages/details.html:13
 msgid "to the question"
 msgstr "à la question"
 
-#: templates/sondages/detail.html:14
+#: templates/sondages/details.html:14
 msgid "Results page"
 msgstr "Page des résultats"
 
@@ -892,7 +900,15 @@ msgstr "L'offre d'emploi est ouverte"
 msgid "Job Offer Details"
 msgstr "Détails de l'offre d'emploi"
 
-#: templates/emploi/job_details.html:14
+#: templates/emploi/job_details.html:10
+msgid "This announce has been viewed"
+msgstr "Cette annonce a été vue"
+
+#: templates/emploi/job_details.html:10
+msgid "times"
+msgstr "fois"
+
+#: templates/emploi/job_details.html:16
 msgid "Contract Type"
 msgstr "Type de contrat"
 
@@ -936,43 +952,43 @@ msgstr "Ajout d'une expérience professionnelle"
 msgid "Create a new office"
 msgstr "Créer un nouveau bureau pour une société"
 
-#: templates/emploi/index.html:12
+#: templates/emploi/index.html:10
 msgid "Jobs list"
 msgstr "Liste des emplois"
 
-#: templates/emploi/index.html:22
+#: templates/emploi/index.html:20
 msgid "No job."
 msgstr "Aucun emploi."
 
-#: templates/emploi/index.html:24 templates/emploi/index.html.py:42
+#: templates/emploi/index.html:22 templates/emploi/index.html.py:38
 msgid "Search a job offer"
 msgstr "Rechercher une offre d'emploi"
 
-#: templates/emploi/index.html:27
+#: templates/emploi/index.html:25
 msgid "CV"
 msgstr "CV"
 
-#: templates/emploi/index.html:29
+#: templates/emploi/index.html:27
 msgid "View your CV"
 msgstr "Voir votre CV"
 
-#: templates/emploi/index.html:30
+#: templates/emploi/index.html:28
 msgid "Modify your CV"
 msgstr "Modifier votre CV"
 
-#: templates/emploi/index.html:31
+#: templates/emploi/index.html:29
 msgid "To display (or not) your CV in the directory, please fill"
 msgstr "Pour afficher (ou non) votre CV dans l'annuaire, veuillez renseigner"
 
-#: templates/emploi/index.html:32
+#: templates/emploi/index.html:30
 msgid "this page"
 msgstr "cette page"
 
-#: templates/emploi/index.html:39
+#: templates/emploi/index.html:35
 msgid "Manage Job Offers"
 msgstr "Gestion des offres d'emploi"
 
-#: templates/emploi/index.html:41
+#: templates/emploi/index.html:37
 msgid "Register a job offer"
 msgstr "Enregistrer une offre d'emploi"
 

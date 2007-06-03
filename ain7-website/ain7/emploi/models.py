@@ -194,6 +194,7 @@ class JobOffer(models.Model):
     office = models.ForeignKey(Office, blank=True, null=True)
     contact = models.ForeignKey(Person, blank=True, null=True)
     track = models.ManyToManyField(Track, verbose_name=_('Track'), related_name='jobs', blank=True, null=True, filter_interface=models.HORIZONTAL)
+    nb_views = models.IntegerField(verbose_name=_('Number of views'), default=0, editable=False)
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)

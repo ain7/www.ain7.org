@@ -7,6 +7,8 @@
 
 <h2>{% trans "Job Offer Details" %}</h2>
 
+<p>{% trans "This announce has been viewed" %} {{ job.nb_views }} {% trans "times" %}.</p>
+
 <ul>
 <li><b>{% trans "Reference" %}&nbsp;:</b> {{ job.reference }}</li>
 <li><b>{% trans "Title" %}&nbsp;:</b> {{ job.title }}</li>
