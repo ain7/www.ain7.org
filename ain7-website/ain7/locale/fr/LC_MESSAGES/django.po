@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-03 16:35+0200\n"
+"POT-Creation-Date: 2007-06-04 19:53+0200\n"
 "PO-Revision-Date: 2007-05-31 23:58+0200\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -119,7 +119,7 @@ msgid "active"
 msgstr "actif"
 
 #: annuaire/models.py:181 annuaire/models.py:188 annuaire/views.py:37
-#: emploi/models.py:196
+#: emploi/models.py:218
 msgid "Track"
 msgstr "Filière"
 
@@ -380,12 +380,12 @@ msgstr "expérience professionnelle"
 msgid "Education item"
 msgstr "Entrée du CV partie \"Formation\""
 
-#: emploi/models.py:164 emploi/models.py:189
+#: emploi/models.py:164 emploi/models.py:183 emploi/models.py:211
 #: templates/emploi/job_details.html:14
 msgid "Title"
 msgstr "Titre"
 
-#: emploi/models.py:165
+#: emploi/models.py:165 emploi/models.py:184
 msgid "Detail"
 msgstr "Détail"
 
@@ -393,27 +393,31 @@ msgstr "Détail"
 msgid "Leisure item"
 msgstr "Loisirs"
 
-#: emploi/models.py:188 templates/emploi/job_details.html:13
+#: emploi/models.py:197
+msgid "Publication item"
+msgstr "Publication"
+
+#: emploi/models.py:210 templates/emploi/job_details.html:13
 msgid "Reference"
 msgstr "Réference"
 
-#: emploi/models.py:190
+#: emploi/models.py:212
 msgid "Description"
 msgstr "Description"
 
-#: emploi/models.py:191 templates/emploi/job_details.html:15
+#: emploi/models.py:213 templates/emploi/job_details.html:15
 msgid "Experience"
 msgstr "Experience"
 
-#: emploi/models.py:192
+#: emploi/models.py:214
 msgid "Contract type"
 msgstr "Type de Contrat"
 
-#: emploi/models.py:193
+#: emploi/models.py:215
 msgid "Job offer is opened"
 msgstr "L'offre d'emploi est ouverte"
 
-#: emploi/models.py:197
+#: emploi/models.py:219
 msgid "Number of views"
 msgstr "Nombre de visionnages"
 
@@ -437,65 +441,94 @@ msgstr "Type de Contrat"
 msgid "is opened"
 msgstr "L'offre d'emploi est ouverte"
 
-#: emploi/views.py:131
+#: emploi/views.py:127
 msgid "Position informations updated successfully."
 msgstr ""
 "Les informations concernant votre expérience professionnelle ont été "
 "correctement enregistrées."
 
-#: emploi/views.py:147
+#: emploi/views.py:143
 msgid "Do you really want to delete this professional experience?"
 msgstr "Souhaitez-vous vraiment supprimer cette expérience professionnelle ?"
 
-#: emploi/views.py:148 templates/annuaire/details.html:73
-#: templates/emploi/cv_details.html:63 templates/emploi/cv_edit.html:68
+#: emploi/views.py:144 templates/annuaire/details.html:73
+#: templates/emploi/cv_details.html:62 templates/emploi/cv_edit.html:68
 msgid "for"
 msgstr "au sein de"
 
-#: emploi/views.py:161
+#: emploi/views.py:157
 msgid "Position successfully deleted."
 msgstr "L'expérience professionnelle sélectionnée a été supprimée avec succès."
 
-#: emploi/views.py:194
+#: emploi/views.py:190
 msgid "Position successfully added."
 msgstr "L'expérience professionnelle a été créée avec succès."
 
-#: emploi/views.py:228
+#: emploi/views.py:224
 msgid "Education informations updated successfully."
 msgstr ""
 "Les informations concernant la partie \"Education\" de votre CV ont été "
 "mises à jour avec succès."
 
-#: emploi/views.py:244
+#: emploi/views.py:240
 msgid "Do you really want to delete this education item?"
 msgstr ""
 "Souhaitez-vous vraiment supprimer cette entrée de la partie \"Education\" ?"
 
-#: emploi/views.py:289
+#: emploi/views.py:252
+msgid "Education informations deleted successfully."
+msgstr ""
+"Les informations concernant la partie \"Education\" de votre CV ont été "
+"effacées aevc succès."
+
+#: emploi/views.py:284
 msgid "Education informations successfully added."
 msgstr ""
 "Les informations concernant la partie \"Education\" de votre CV ont été "
 "mises à jour avec succès."
 
-#: emploi/views.py:323
+#: emploi/views.py:318
 msgid "Leisure informations updated successfully."
 msgstr ""
 "Les informations concernant vos loisirs ont été correctement enregistrées."
 
-#: emploi/views.py:344
+#: emploi/views.py:339
 msgid "Do you really want to delete this leisure item?"
 msgstr ""
 "Souhaitez-vous vraiment supprimer cette entrée de la partie \"Loisirs\" ?"
 
-#: emploi/views.py:357
+#: emploi/views.py:352
 msgid "Leisure informations successfully deleted."
 msgstr "La partie \"Loisirs\" sélectionnée a été supprimée avec succès."
 
-#: emploi/views.py:394
+#: emploi/views.py:385
 msgid "Leisure informations successfully added."
 msgstr ""
 "Les informations sur la partie \"Loisirs\" de votre CV ont été ajoutées avec "
 "succès."
+
+#: emploi/views.py:419
+msgid "Publication informations updated successfully."
+msgstr ""
+"Les informations concernant la partie \"Publications\" de votre CV ont été "
+"mises à jour avec succès."
+
+#: emploi/views.py:435
+msgid "Do you really want to delete this publication item?"
+msgstr ""
+"Souhaitez-vous vraiment supprimer cette entrée de la partie \"Publications\" ?"
+
+#: emploi/views.py:446
+msgid "Publication informations deleted successfully."
+msgstr ""
+"Les informations concernant la partie \"Education\" de votre CV ont été "
+"mises à jour avec succès."
+
+#: emploi/views.py:479
+msgid "Publication informations successfully added."
+msgstr ""
+"Les informations concernant la partie \"Publication\" de votre CV ont été "
+"mises à jour avec succès."
 
 #: groupes/models.py:33 templates/base.html:103
 #: templates/annuaire/details.html:43 templates/groupes/details.html:12
@@ -615,7 +648,8 @@ msgstr "Groupes régionaux"
 msgid "Working groups"
 msgstr "Groupes de travail"
 
-#: templates/base.html:78
+#: templates/base.html:78 templates/emploi/cv_details.html:79
+#: templates/emploi/cv_edit.html:86
 msgid "Publications"
 msgstr "Publications"
 
@@ -671,7 +705,7 @@ msgstr "sur"
 msgid "AIn7 activity"
 msgstr "Activité AIn7"
 
-#: templates/annuaire/details.html:67 templates/emploi/cv_details.html:54
+#: templates/annuaire/details.html:67 templates/emploi/cv_details.html:55
 #: templates/emploi/cv_edit.html:59
 msgid "Professional experiences"
 msgstr "Expériences professionnelles"
@@ -869,6 +903,7 @@ msgstr "Aucun groupe régional."
 #: templates/emploi/leisure_edit.html:19
 #: templates/emploi/office_create.html:19
 #: templates/emploi/position_edit.html:19
+#: templates/emploi/publication_edit.html:19
 msgid "Save"
 msgstr "Valider"
 
@@ -880,11 +915,11 @@ msgstr "Recherche d'offre d'emploi"
 msgid "No job offer correspond to your research"
 msgstr "Aucune offre d'emploi ne correspond à vos critères."
 
-#: templates/emploi/cv_details.html:79 templates/emploi/cv_edit.html:87
+#: templates/emploi/cv_details.html:94 templates/emploi/cv_edit.html:110
 msgid "Education"
 msgstr "Formation"
 
-#: templates/emploi/cv_details.html:99 templates/emploi/cv_edit.html:114
+#: templates/emploi/cv_details.html:113 templates/emploi/cv_edit.html:137
 msgid "Leisure activities"
 msgstr "Loisirs"
 
@@ -993,19 +1028,28 @@ msgid "Register a job offer"
 msgstr "Enregistrer une offre d'emploi"
 
 #: templates/emploi/cv_edit.html:57 templates/emploi/cv_edit.html.py:72
-#: templates/emploi/cv_edit.html:97 templates/emploi/cv_edit.html.py:127
+#: templates/emploi/cv_edit.html:95 templates/emploi/cv_edit.html.py:120
+#: templates/emploi/cv_edit.html:150
 msgid "Modify"
 msgstr "Modifier"
 
-#: templates/emploi/cv_edit.html:74 templates/emploi/cv_edit.html.py:99
-#: templates/emploi/cv_edit.html:129
+#: templates/emploi/cv_edit.html:74 templates/emploi/cv_edit.html.py:97
+#: templates/emploi/cv_edit.html:122 templates/emploi/cv_edit.html.py:152
 msgid "Delete"
 msgstr "Supprimer"
 
-#: templates/emploi/cv_edit.html:83 templates/emploi/cv_edit.html.py:110
-#: templates/emploi/cv_edit.html:134
+#: templates/emploi/cv_edit.html:83 templates/emploi/cv_edit.html.py:105
+#: templates/emploi/cv_edit.html:133 templates/emploi/cv_edit.html.py:157
 msgid "Add"
 msgstr "Ajouter"
+
+#: templates/emploi/publication_edit.html:9
+msgid "Modification of a publication"
+msgstr "Modification d'une publication"
+
+#: templates/emploi/publication_edit.html:11
+msgid "Creation of a publication"
+msgstr "Ajout d'une publication"
 
 #: evenements/models.py:37
 msgid "author"

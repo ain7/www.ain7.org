@@ -231,6 +231,11 @@ def filldb():
     lionel_position2.start_date = date(2007,01,01)
     lionel_position2.save()
 
+    lionel_ain7member = annuaire.AIn7Member()
+    lionel_ain7member.person = lionel
+    lionel_ain7member.cvTitle = "Ingénieur ENSEEIHT Informatique"    
+    lionel_ain7member.save()
+
     pierref = annuaire.Person()
     pierref.user = User.objects.create_user("pierref", "pierre.fersing@inp-net.eu.org","pierref")
     pierref.user.is_staff = True
@@ -266,6 +271,11 @@ def filldb():
     pierref_irc1.pseudo = "pierref"
     pierref_irc1.channels = "#ain7, #inp-net, #n7, #net7"
     pierref_irc1.save()    
+
+    pierref_ain7member = annuaire.AIn7Member()
+    pierref_ain7member.person = pierref
+    pierref_ain7member.cvTitle = "Élève Ingénieur ENSEEIHT Informatique"
+    pierref_ain7member.save()
 
     olivier = annuaire.Person()
     olivier.user = User.objects.create_user("gauwino", "olivier.gauwin@laposte.net","gauwino")
@@ -435,6 +445,11 @@ def filldb():
     alexpos.fonction = "dev"
     alexpos.start_date = date(2006,8,17)
     alexpos.save()
+
+    alex_ain7member = annuaire.AIn7Member()
+    alex_ain7member.person = alex
+    alex_ain7member.cvTitle = "Ingénieur ENSEEIHT Informatique"
+    alex_ain7member.save()
 
     tvn7 = annuaire.Club()
     tvn7.name = "TVn7"

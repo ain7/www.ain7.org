@@ -177,6 +177,28 @@ class LeisureItem(models.Model):
         verbose_name = _('Leisure item')
         ordering = ['title']
 
+# An publication item in the CV of a person.
+class PublicationItem(models.Model):
+
+    title = models.CharField(verbose_name=_('Title'), maxlength=50, core=True)
+    details = models.TextField(verbose_name=_('Detail'), blank=True, null=True)
+    date = models.DateTimeField()
+    person = models.ForeignKey(Person, related_name='publication', edit_inline=models.STACKED, num_in_admin=1)
+
+    # Internal
+    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
+    modification_date = models.DateTimeField(editable=False)
+
+    def save(self):
+        self.modification_date = datetime.datetime.today()
+        return super(PublicationItem, self).save()
+
+    class Meta:
+        verbose_name = _('Publication item')
+
+    class Admin:
+        pass
+
 class JobOffer(models.Model):
 
     JOB_TYPES = (

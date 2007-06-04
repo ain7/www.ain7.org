@@ -28,7 +28,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 
 from ain7.annuaire.models import Person, AIn7Member
-from ain7.emploi.models import JobOffer, Position, EducationItem, LeisureItem
+from ain7.emploi.models import JobOffer, Position, EducationItem, LeisureItem, PublicationItem
 from ain7.emploi.models import Office, Company
 
 class JobOfferForm(forms.Form):
@@ -53,12 +53,8 @@ def index(request):
     p = Person.objects.get(user=request.user.id)
     # TODO : quand le modèle sera ok il faudra filtrer par filière souhaitée
     jobs = JobOffer.objects.all()
-    try:
-        ain7member = AIn7Member.objects.get(person=p)
-    except ObjectDoesNotExist:
-        ain7member = None
     return render_to_response('emploi/index.html',
-                              {'user': request.user, 'AIn7Member': ain7member,
+                              {'user': request.user,
                                'liste_emplois': jobs},
                                context_instance=RequestContext(request))
 
@@ -253,9 +249,8 @@ def education_delete(request, user_id=None, education_id=None):
     else:
         if request.POST['choice']=="1":
             education.delete()
-        return render_to_response('emploi/cv_edit.html',
-                                 {'person': p, 'user': request.user},
-                                 context_instance=RequestContext(request))
+            request.user.message_set.create(message=_("Education informations deleted successfully."))
+        return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
 def education_add(request, user_id=None):
 
@@ -358,10 +353,6 @@ def leisure_delete(request, user_id=None, leisure_id=None):
 
         return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
-        return render_to_response('emploi/cv_edit.html',
-                                  {'person': p, 'user': request.user},
-                                  context_instance=RequestContext(request))
-
 def leisure_add(request, user_id=None):
 
     if not request.user.is_authenticated():
@@ -395,9 +386,100 @@ def leisure_add(request, user_id=None):
 
         return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
-        return render_to_response('emploi/cv_edit.html',
-                                 {'person': p, 'user': request.user},
+def publication_edit(request, user_id=None, publication_id=None):
+
+    if not request.user.is_authenticated():
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': 'emploi/base.html'},
+                                   context_instance=RequestContext(request))
+
+    p = get_object_or_404(Person, user=user_id)
+    publication = get_object_or_404(PublicationItem, pk=publication_id)
+
+    # 1er passage : on propose un formulaire avec les données actuelles
+    if request.method == 'GET':
+        PubForm = forms.models.form_for_instance(publication,
+            formfield_callback=form_callback)
+        f = PubForm()
+        return render_to_response('emploi/publication_edit.html',
+                                 {'form': f, 'user': request.user,
+                                  'action': 'edit'},
                                   context_instance=RequestContext(request))
+
+    # 2e passage : sauvegarde et redirection
+    if request.method == 'POST':
+        PubForm = forms.models.form_for_instance(publication,
+            formfield_callback=form_callback)
+        f = PubForm(request.POST.copy())
+        if f.is_valid():
+            f.clean_data['person'] = p
+            f.save()
+
+            request.user.message_set.create(message=_("Publication informations updated successfully."))
+
+        return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
+
+def publication_delete(request, user_id=None, publication_id=None):
+
+    if not request.user.is_authenticated():
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': 'emploi/base.html'})
+
+    p = get_object_or_404(Person, user=user_id)
+    publication = get_object_or_404(PublicationItem, pk=publication_id)
+
+    # 1er passage: on demande confirmation
+    if request.method != 'POST':
+        msg = _('Do you really want to delete this publication item?')
+        description = ''
+        return render_to_response('pages/confirm.html',
+                                 {'message': msg, 'description': description,
+                                  'section': 'emploi/base.html'},
+                                  context_instance=RequestContext(request))
+
+    # 2eme passage: on supprime si c'est confirmé
+    else:
+        if request.POST['choice']=="1":
+            publication.delete()
+            request.user.message_set.create(message=_("Publication informations deleted successfully."))
+
+        return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
+
+def publication_add(request, user_id=None):
+
+    if not request.user.is_authenticated():
+        return render_to_response('pages/authentification_needed.html',
+                                  {'user': request.user,
+                                   'section': 'emploi/base.html'},
+                                   context_instance=RequestContext(request))
+
+    p = get_object_or_404(Person, user=user_id)
+
+    # 1er passage : on propose un formulaire vide
+    if request.method == 'GET':
+        PubForm = forms.models.form_for_model(PublicationItem,
+            formfield_callback=form_callback)
+        f = PubForm()
+        return render_to_response('emploi/education_edit.html',
+                                 {'form': f, 'person': p, 'user': request.user,
+                                  'action': 'create'},
+                                  context_instance=RequestContext(request))
+
+    # 2e passage : sauvegarde et redirection
+    if request.method == 'POST':
+        PubForm = forms.models.form_for_model(PublicationItem,
+            formfield_callback=form_callback)
+        f = PubForm(request.POST.copy())
+        if f.is_valid():
+            f.clean_data['person'] = p
+            f.save()
+
+            request.user.message_set.create(message=_("Publication informations successfully added."))
+
+        return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
+
 
 def office_create(request, user_id=None):
 
@@ -571,3 +653,4 @@ def company_details(request, company_id):
                               {'company': company, 'user': request.user,
                                'offices': offices},
                               context_instance=RequestContext(request))
+

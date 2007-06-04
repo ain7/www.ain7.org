@@ -51,10 +51,9 @@
 
 <div id="cvTitle">{{ AIn7Member.cvTitle }}</div>
 
+{% if person.positions.all %}
 <h2>{% trans "Professional experiences" %}</h2>
 
-
-{% if person.positions.all %}
 <table width="100%">
 {% for position in person.positions.all %}
     {% if not position.is_confidential %}
@@ -75,11 +74,25 @@
 </table>
 {% endif %}
 
+{% if person.publication.all %}
+
+<h2>{% trans "Publications" %}</h2>
+
+<table width="100%">
+{% for publicationItem in person.publication.all %}
+    <tr><td width="25%"><b>{{ publicationItem.date|date:"d/m/Y" }}</b></td>
+        <td> <em>{{ publicationItem.title }}</em></td></tr>
+    {% if publicationItem.details %}
+        <tr><td></td><td>{{ publicationItem.details }}</td></tr>
+    {% endif %}
+{% endfor %}
+</table>
+{% endif %}
+
+{% if person.education.all %}
 
 <h2>{% trans "Education" %}</h2>
 
-
-{% if person.education.all %}
 <table width="100%">
 {% for educationItem in person.education.all %}
     <tr><td width="25%"><b>{{ educationItem.start_date|date:"d/m/Y" }} - 
@@ -95,11 +108,10 @@
 </table>
 {% endif %}
 
+{% if person.leisure.all %}
 
 <h2>{% trans "Leisure activities" %}</h2>
 
-
-{% if person.leisure.all %}
 <table width="100%">
 {% for leisureItem in person.leisure.all %}
     <tr><td width="25%"><b>{{ leisureItem.title }}</b></td>
