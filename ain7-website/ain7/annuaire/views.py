@@ -58,10 +58,11 @@ def search(request):
         form = SearchPersonForm(request.POST)
         if form.is_valid():
 
+            # criteres sur le nom et prenom
             criteria={'person__last_name__contains':form.clean_data['last_name'],\
                       'person__first_name__contains':form.clean_data['first_name']}
             # ici on commence par rechercher toutes les promos
-            # qui concordent avec l'annï¿½e de promotion et la filiï¿½re
+            # qui concordent avec l'annee de promotion et la filiere
             # saisis par l'utilisateur.
             promoCriteria={}
             if form.clean_data['promo']!=None:
@@ -69,22 +70,13 @@ def search(request):
             if form.clean_data['track']!=maxTrackId:
                 promoCriteria['track']=\
                     Track.objects.get(id=form.clean_data['track'])
+                
+            # on ajoute ces promos aux critères de recherche
+            # si elle ne sont pas vides
             if len(promoCriteria)!=0:
                 criteria['promos__in']=Promo.objects.filter(**promoCriteria)
                 
             ain7members = AIn7Member.objects.filter(**criteria)
-
-            # on recherche les Person correspondant au nom+prénom
-#             criteria={'last_name__contains':form.clean_data['last_name'],\
-#                       'first_name__contains':form.clean_data['first_name']}
-#             persons = Person.objects.filter(**criteria)
-
-            # on recherche les AIn7 coreespondant à ces Person
-            # avec la bonne promo
-#             criteria = {'person__in': persons}
-            
-
-#            persons = Person.objects.filter(**criteria)
 
             return render_to_response('annuaire/index.html', 
                                      {'ain7members': ain7members,
@@ -116,7 +108,7 @@ def edit(request, person_id=None):
         if request.method == 'POST':
              form = PersonForm(request.POST)
              if form.is_valid():
-                 form.clean_data['user'] = request.user
+                 form.clean_data['user'] = person.user
                  form.save()
                  request.user.message_set.create(message=_("Modifications have been successfully saved."))
                  return HttpResponseRedirect('/annuaire/%s/' % (person.user.id))

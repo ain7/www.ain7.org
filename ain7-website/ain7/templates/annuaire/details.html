@@ -6,20 +6,58 @@
 <div id="content-main">
 
 <h1>{% trans "Personal file" %} {{ person.first_name }} {{ person.last_name }}</h1>
-<p><a href="/annuaire/{{ person.user.id }}/edit/">{% trans "Edit these data" %}</a></p>
+<p><a href="/annuaire/{{ person.user.id }}/edit/">
+{% trans "Modify these data" %}</a></p>
 <h2>{% trans "Personal data" %}</h2>
 <table border="0">
 <tr><td>
 <ul>
    <li><b>{% trans "Last name" %}&nbsp;:</b> {{ person.last_name }}</li>
    <li><b>{% trans "First name" %}&nbsp;:</b> {{ person.first_name }}</li>
+   {% if person.maiden_name %}
+   <li><b>{% filter capfirst %}{% trans "maiden name" %}{% endfilter %}
+       &nbsp;:</b> {{ person.maiden_name }}</li>
+   {% endif %}
+   {% if person.nick_name %}
    <li><b>{% trans "Nick name" %}&nbsp;:</b> {{ person.nick_name }}</li>
+   {% endif %}
    <li><b>{% trans "Promos" %}&nbsp;:</b> {% for promo in ain7member.promos.all %}{{ promo }}{% if not forloop.last %} - {% endif %}{% endfor %}</li>
+   {% if ain7member.diplomas.all %}
+   <li><b>{% filter capfirst %}{% trans "diplomas" %}{% endfilter %}&nbsp;:</b> 
+       {% for diploma in ain7member.diplomas.all %}{{ diploma }}
+           {% if not forloop.last %} - {% endif %}{% endfor %}</li>
+   {% endif %}
    <li><b>{% trans "Birth date" %}&nbsp;:</b> {{ person.birth_date|date:"d/m/Y" }}</li>
+   {% if person.death_date %}
+   <li><b>{% filter capfirst %}{% trans "death date" %}{% endfilter %}
+       &nbsp;:</b> {{ person.death_date|date:"d/m/Y" }}</li>
+   {% endif %}
+   {% if ain7member.is_married or ain7member.children_count %}
+   <li><b>{% trans "Family situation" %}&nbsp;:</b>
+       {% if ain7member.is_married %}
+           {% filter capfirst %}{% trans "married" %}{% endfilter %}&nbsp;
+       {% endif %}
+       {% if ain7member.children_count %}
+           {{ ain7member.children_count }}&nbsp;{% trans "children" %}
+       {% endif %}
+   </li>
+   {% endif %}
+   {% if ain7member.decorations.all %}
+   <li><b>{% filter capfirst %}{% trans "decorations" %}{% endfilter %}
+       &nbsp;:</b> 
+       {% for decoration in ain7member.decorations.all %}{{ decoration }}
+           {% if not forloop.last %} - {% endif %}{% endfor %}</li>
+   {% endif %}
+   {% if ain7member.ceremonial_duties.all %}
+   <li><b>{% filter capfirst %}{% trans "ceremonial duties" %}{% endfilter %}
+       &nbsp;:</b> 
+       {% for duty in ain7member.ceremonial_duties.all %}{{ duty }}
+           {% if not forloop.last %} - {% endif %}{% endfor %}</li>
+   {% endif %}
 </ul>
 </td><td>
-{% if person.avatar %}
-	<img src="/site_media/{{ person.get_avatar_url }}" height="100" alt="{% trans "avatar" %}"/></td></tr>
+{% if ain7member.avatar %}
+	<img src="/site_media/{{ ain7member.get_avatar_url }}" height="100" alt="{% trans "avatar" %}"/></td></tr>
 {% endif %}
 {% for address in person.addresses.all %}
 	{% if not address.is_confidential %}
@@ -51,19 +89,24 @@
     <tr valign="middle"><td><img src="/site_media/images/web.png" alt="{% trans "web site" %}"/><a href="{{ web_site.url }}">{{ web_site.url }}</a></td></tr>
 {% endfor %}
 
+{% if ain7member.blog %}
+    <tr valign="middle"><td><img src="/site_media/images/web.png" alt="{% trans "blog" %}"/><a href="{{ ain7member.blog }}">{{ ain7member.blog }}</a></td></tr>
+{% endif %}
 </table>
+
+{% if ain7member.group_memberships.all %}
 
 <h2>{% trans "AIn7 activity" %}</h2>
 
-{% if person.group_memberships.all %}
 <ul>
-{% for membership in person.group_memberships.all %}
+{% for membership in ain7member.group_memberships.all %}
         <li><a href="/groupes/{{ membership.group.id }}/">{{ membership.group.name }}</a></li>
 {% endfor %}
 </ul>
 {% endif %}
 
 {% if ain7member.display_cv_in_directory %}
+
 <h2>{% trans "Professional experiences" %}</h2>
 
 {% if ain7member.positions.all %}
@@ -80,9 +123,10 @@
 {% endif %}
 {% endif %}
 
+{% if ain7member.club_memberships.all %}
+
 <h2>{% trans "N7 associative activities" %}</h2>
 
-{% if ain7member.club_memberships.all %}
 {% for club_membership in ain7member.club_memberships.all %}
     {% if club_membership.club.web_site %}
         <a href="{{ club_membership.club.web_site }}">{{ club_membership.club.name }}</a>
