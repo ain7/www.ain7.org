@@ -54,24 +54,26 @@
 <div id="cvTitle">{{ AIn7Member.cvTitle }}</div>
 
 </div>
-<a href="/annuaire/{{ person.user.id }}/edit/">{% trans "Modify" %}</a>.
+<a href="/annuaire/{{ person.user.id }}/edit/">
+<img src="/site_media/images/icon_changelink.gif" border="0" />
+{% trans "Modify" %}</a>
 
 <h2>{% trans "Professional experiences" %}</h2>
 
 
-{% if person.positions.all %}
+{% if ain7member.positions.all %}
 <table width="100%">
-{% for position in person.positions.all %}
+{% for position in ain7member.positions.all %}
     {% if not position.is_confidential %}
         <tr><td width="25%"><b>{{ position.start_date|date:"d/m/Y" }} - 
             {{ position.end_date|date:"d/m/Y"|default:"..." }}</b></td>
             <td> <em>{{ position.fonction }}</em> {% trans "for" %} 
                 {{ position.office }} ({{ position.office.company }})</td>
             <td width="12%"><a href="/emploi/{{ person.user.id }}/cv/position/{{ position.id }}/edit/">
-                <img src="/site_media/images/icon_changelink.gif" border="0"> 
+                <img src="/site_media/images/icon_changelink.gif" border="0" /> 
                 {% trans "Modify" %}</a></td>
             <td width="12%"><a href="/emploi/{{ person.user.id }}/cv/position/{{ position.id }}/delete/">
-                <img src="/site_media/images/icon_deletelink.gif" border="0"> {% trans "Delete" %}</a></td>
+                <img src="/site_media/images/icon_deletelink.gif" border="0" /> {% trans "Delete" %}</a></td>
         </tr>
         {% if position.description %}
             <tr><td></td><td>{{ position.description }}</td></tr>
@@ -86,15 +88,15 @@
 <h2>{% trans "Publications" %}</h2>
 
 
-{% if person.publication.all %}
+{% if ain7member.publication.all %}
 <table width="100%">
-{% for publicationItem in person.publication.all %}
+{% for publicationItem in ain7member.publication.all %}
     <tr><td width="25%"><b>{{ publicationItem.date|date:"d/m/Y"|default:"" }}</b></td>
         <td> <em>{{ publicationItem.title }}</em></td>
         <td width="12%"><a href="/emploi/{{ person.user.id }}/cv/publication/{{ publicationItem.id }}/edit/">
-            <img src="/site_media/images/icon_changelink.gif" border="0"> {% trans "Modify" %}</a></td>
+            <img src="/site_media/images/icon_changelink.gif" border="0" /> {% trans "Modify" %}</a></td>
         <td width="12%"><a href="/emploi/{{ person.user.id }}/cv/publication/{{ publicationItem.id }}/delete/">
-            <img src="/site_media/images/icon_deletelink.gif" border="0"> {% trans "Delete" %}</a></td>
+            <img src="/site_media/images/icon_deletelink.gif" border="0" /> {% trans "Delete" %}</a></td>
     </tr>
     {% if publicationItem.details %}
         <tr><td></td><td>{{ publicationItem.details }}</td></tr>
@@ -102,7 +104,7 @@
 {% endfor %}
 </table>
 {% endif %}
-<a href="/emploi/{{ person.user.id }}/cv/publication/add/"><img src="/site_media/images/icon_addlink.gif" border="0"> {% trans "Add" %}</a>
+<a href="/emploi/{{ person.user.id }}/cv/publication/add/"><img src="/site_media/images/icon_addlink.gif" border="0" /> {% trans "Add" %}</a>
 <br />
 
 
@@ -110,16 +112,16 @@
 <h2>{% trans "Education" %}</h2>
 
 
-{% if person.education.all %}
+{% if ain7member.education.all %}
 <table width="100%">
-{% for educationItem in person.education.all %}
+{% for educationItem in ain7member.education.all %}
     <tr><td width="25%"><b>{{ educationItem.start_date|date:"d/m/Y" }} - 
         {{ educationItem.end_date|date:"d/m/Y"|default:"..." }}</b></td>
         <td> <em>{{ educationItem.school }}</em></td>
         <td width="12%"><a href="/emploi/{{ person.user.id }}/cv/education/{{ educationItem.id }}/edit/">
-            <img src="/site_media/images/icon_changelink.gif" border="0"> {% trans "Modify" %}</a></td>
+            <img src="/site_media/images/icon_changelink.gif" border="0" /> {% trans "Modify" %}</a></td>
         <td width="12%"><a href="/emploi/{{ person.user.id }}/cv/education/{{ educationItem.id }}/delete/">
-            <img src="/site_media/images/icon_deletelink.gif" border="0"> {% trans "Delete" %}</a></td>
+            <img src="/site_media/images/icon_deletelink.gif" border="0" /> {% trans "Delete" %}</a></td>
     </tr>
     {% if educationItem.diploma %}
         <tr><td></td><td>{{ educationItem.diploma }}</td></tr>
@@ -130,16 +132,16 @@
 {% endfor %}
 </table>
 {% endif %}
-<a href="/emploi/{{ person.user.id }}/cv/add/education/"><img src="/site_media/images/icon_addlink.gif" border="0"> {% trans "Add" %}</a>
+<a href="/emploi/{{ person.user.id }}/cv/add/education/"><img src="/site_media/images/icon_addlink.gif" border="0" /> {% trans "Add" %}</a>
 <br />
 
 
 <h2>{% trans "Leisure activities" %}</h2>
 
 
-{% if person.leisure.all %}
+{% if ain7member.leisure.all %}
 <table width="100%">
-{% for leisureItem in person.leisure.all %}
+{% for leisureItem in ain7member.leisure.all %}
     <tr><td width="25%"><b>{{ leisureItem.title }}</b></td>
         <td>
 	    {% if leisureItem.detail %}
@@ -147,14 +149,14 @@
             {% endif %}
 	</td>
         <td width="12%"><a href="/emploi/{{ person.user.id }}/cv/leisure/{{ leisureItem.id }}/edit/">
-            <img src="/site_media/images/icon_changelink.gif" border="0"> {% trans "Modify" %}</a></td>
+            <img src="/site_media/images/icon_changelink.gif" border="0" /> {% trans "Modify" %}</a></td>
         <td width="12%"><a href="/emploi/{{ person.user.id }}/cv/leisure/{{ leisureItem.id }}/delete/">
-            <img src="/site_media/images/icon_deletelink.gif" border="0"> {% trans "Delete" %}</a></td>
+            <img src="/site_media/images/icon_deletelink.gif" border="0" /> {% trans "Delete" %}</a></td>
     </tr>
 {% endfor %}
 </table>
 {% endif %}
-<a href="/emploi/{{ person.user.id }}/cv/leisure/add/"><img src="/site_media/images/icon_addlink.gif" border="0"> {% trans "Add" %}</a>
+<a href="/emploi/{{ person.user.id }}/cv/leisure/add/"><img src="/site_media/images/icon_addlink.gif" border="0" /> {% trans "Add" %}</a>
 
 </div>
 </div>

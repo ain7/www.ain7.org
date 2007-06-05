@@ -208,11 +208,6 @@ class Person(models.Model):
     # User inheritance
     user = models.OneToOneField(User, verbose_name=_('user'))
 
-    # Administration
-    person_type = models.ForeignKey(PersonType, verbose_name=_('type'))
-    member_type = models.ForeignKey(MemberType, verbose_name=_('member'))
-    activity = models.ForeignKey(Activity, verbose_name=_('activity'))
-
     # Civility
     sex = models.CharField(verbose_name=_('sex'), maxlength=1, choices=SEX, radio_admin=True)
     last_name = models.CharField(verbose_name=_('Last name'), maxlength=50)
@@ -221,28 +216,6 @@ class Person(models.Model):
     birth_date = models.DateField(verbose_name=_('Birth date'), blank=True, null=True)
     death_date = models.DateField(verbose_name=_('death date'), blank=True, null=True)
     country = models.ForeignKey(Country, verbose_name=_('nationality'))
-
-    # Family situation
-    is_married = models.BooleanField(verbose_name=_('married'), core=True, default=False)
-    children_count = models.IntegerField(verbose_name=_('children number'), blank=True, null=True)
-
-    # Other
-    nick_name = models.CharField(verbose_name=_('Nick name'), maxlength=50, blank=True, null=True)
-    avatar = models.ImageField(verbose_name=_('avatar'), upload_to='data/', blank=True, null=True)
-    blog = models.URLField(verbose_name=_('blog'), maxlength=80, verify_exists=True, blank=True, core=True)
-    blog_is_agregated_on_planet = models.BooleanField(verbose_name=_('blog on planet'), core=True, default=False)
-
-    # School situation
-    promos = models.ManyToManyField(Promo, verbose_name=_('Promos'), related_name='students', blank=True, null=True, filter_interface=models.HORIZONTAL)
-    diplomas = models.ManyToManyField(Diploma, verbose_name=_('diplomas'), related_name='graduates', blank=True, null=True, filter_interface=models.HORIZONTAL)
-
-    # Civil situation
-    decorations = models.ManyToManyField(Decoration, verbose_name=_('decorations'), blank=True, null=True, filter_interface=models.HORIZONTAL)
-    ceremonial_duties = models.ManyToManyField(CeremonialDuty, verbose_name=_('ceremonial duties'), blank=True, null=True, filter_interface=models.HORIZONTAL)
-
-    # Curriculum Vitae and Job Service
-    display_cv_in_directory = models.BooleanField(verbose_name=_('Display my CV in the directory'), core=True, default=False)
-    receive_job_offers = models.BooleanField(verbose_name=_('Receive job offers by email'), core=True, default=False)
     
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
@@ -268,6 +241,33 @@ class Person(models.Model):
 class AIn7Member(models.Model):
 
     person = models.OneToOneField(Person, verbose_name=_('person'))
+
+    # Administration
+    person_type = models.ForeignKey(PersonType, verbose_name=_('type'))
+    member_type = models.ForeignKey(MemberType, verbose_name=_('member'))
+    activity = models.ForeignKey(Activity, verbose_name=_('activity'))
+
+    # Family situation
+    is_married = models.BooleanField(verbose_name=_('married'), core=True, default=False)
+    children_count = models.IntegerField(verbose_name=_('children number'), blank=True, null=True)
+
+    # Other
+    nick_name = models.CharField(verbose_name=_('Nick name'), maxlength=50, blank=True, null=True)
+    avatar = models.ImageField(verbose_name=_('avatar'), upload_to='data/', blank=True, null=True)
+    blog = models.URLField(verbose_name=_('blog'), maxlength=80, verify_exists=True, blank=True, core=True)
+    blog_is_agregated_on_planet = models.BooleanField(verbose_name=_('blog on planet'), core=True, default=False)
+
+    # School situation
+    promos = models.ManyToManyField(Promo, verbose_name=_('Promos'), related_name='students', blank=True, null=True, filter_interface=models.HORIZONTAL)
+    diplomas = models.ManyToManyField(Diploma, verbose_name=_('diplomas'), related_name='graduates', blank=True, null=True, filter_interface=models.HORIZONTAL)
+
+    # Civil situation
+    decorations = models.ManyToManyField(Decoration, verbose_name=_('decorations'), blank=True, null=True, filter_interface=models.HORIZONTAL)
+    ceremonial_duties = models.ManyToManyField(CeremonialDuty, verbose_name=_('ceremonial duties'), blank=True, null=True, filter_interface=models.HORIZONTAL)
+
+    # Curriculum Vitae and Job Service
+    display_cv_in_directory = models.BooleanField(verbose_name=_('Display my CV in the directory'), core=True, default=False)
+    receive_job_offers = models.BooleanField(verbose_name=_('Receive job offers by email'), core=True, default=False)
     cvTitle = models.CharField(verbose_name=_('CV title'), maxlength=100, blank=True, null=True)
 
     class Admin:
@@ -424,7 +424,7 @@ class ClubMembership(models.Model):
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
 
     club = models.ForeignKey(Club, verbose_name=_('club'), related_name='memberships', edit_inline=models.TABULAR, num_in_admin=1)
-    member = models.ForeignKey(Person, verbose_name=_('member'), related_name='club_memberships', edit_inline=models.TABULAR, num_in_admin=1)
+    member = models.ForeignKey(AIn7Member, verbose_name=_('member'), related_name='club_memberships', edit_inline=models.TABULAR, num_in_admin=1)
 
     class Meta:
         verbose_name = _('club membership')

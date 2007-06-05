@@ -26,7 +26,7 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django import newforms as forms
 
-from ain7.annuaire.models import Person
+from ain7.annuaire.models import Person, AIn7Member
 from ain7.annuaire.models import Track
 from ain7.annuaire.models import Promo
 
@@ -39,8 +39,10 @@ class SearchPersonForm(forms.Form):
 @login_required
 def detail(request, person_id):
     p = get_object_or_404(Person, pk=person_id)
+    ain7member = get_object_or_404(AIn7Member, person=p)
     return render_to_response('annuaire/details.html', 
-                             {'person': p, 'user': request.user}, 
+                             {'person': p, 'user': request.user,
+                              'ain7member': ain7member}, 
                               context_instance=RequestContext(request))
 
 @login_required
@@ -55,9 +57,9 @@ def search(request):
     if request.method == 'POST':
         form = SearchPersonForm(request.POST)
         if form.is_valid():
-            criteria={'last_name__contains':form.clean_data['last_name'],\
-                      'first_name__contains':form.clean_data['first_name']}
-            
+
+            criteria={'person__last_name__contains':form.clean_data['last_name'],\
+                      'person__first_name__contains':form.clean_data['first_name']}
             # ici on commence par rechercher toutes les promos
             # qui concordent avec l'annï¿½e de promotion et la filiï¿½re
             # saisis par l'utilisateur.
@@ -69,10 +71,24 @@ def search(request):
                     Track.objects.get(id=form.clean_data['track'])
             if len(promoCriteria)!=0:
                 criteria['promos__in']=Promo.objects.filter(**promoCriteria)
+                
+            ain7members = AIn7Member.objects.filter(**criteria)
 
-            persons = Person.objects.filter(**criteria)
+            # on recherche les Person correspondant au nom+prénom
+#             criteria={'last_name__contains':form.clean_data['last_name'],\
+#                       'first_name__contains':form.clean_data['first_name']}
+#             persons = Person.objects.filter(**criteria)
+
+            # on recherche les AIn7 coreespondant à ces Person
+            # avec la bonne promo
+#             criteria = {'person__in': persons}
+            
+
+#            persons = Person.objects.filter(**criteria)
+
             return render_to_response('annuaire/index.html', 
-                                     {'persons': persons, 'user': request.user},
+                                     {'ain7members': ain7members,
+                                      'user': request.user},
                                       context_instance=RequestContext(request))
 
     else:
@@ -85,31 +101,35 @@ def search(request):
 def edit(request, person_id=None):
 
     if person_id is None:
-        PersonForm = forms.models.form_for_model(Person)
+        PersonForm = forms.models.form_for_model(Person,
+            formfield_callback=form_callback)
         form = PersonForm()
 
     else:
         person = Person.objects.get(pk=person_id)
-        PersonForm = forms.models.form_for_instance(person)
+        PersonForm = forms.models.form_for_instance(person,
+            formfield_callback=form_callback)
         PersonForm.base_fields['sex'].widget=\
             forms.Select(choices=Person.SEX)
-        PersonForm.base_fields['avatar'].widget=\
-            forms.FileInput()
-        avatarFile = person.get_avatar_url()
         form = PersonForm(auto_id=False)
 
         if request.method == 'POST':
              form = PersonForm(request.POST)
              if form.is_valid():
-                 if form.clean_data['avatar']=='':
-                     form.clean_data['avatar']=avatarFile
+                 form.clean_data['user'] = request.user
                  form.save()
-
                  request.user.message_set.create(message=_("Modifications have been successfully saved."))
-
                  return HttpResponseRedirect('/annuaire/%s/' % (person.user.id))
 
     return render_to_response('annuaire/edit.html', 
                              {'form': form, 'user': request.user},
                              context_instance=RequestContext(request))
 
+
+# une petite fonction pour exclure les champs
+# person user ain7member
+# des formulaires créés avec form_for_model et form_for_instance
+def form_callback(f, **args):
+  if f.name == "person" or f.name == "user" or f.name == "ain7member":
+    return None
+  return f.formfield(**args)

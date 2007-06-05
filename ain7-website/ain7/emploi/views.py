@@ -61,7 +61,7 @@ def cv_details(request, user_id):
     ain7member = get_object_or_404(AIn7Member, person=p)
     return render_to_response('emploi/cv_details.html',
                               {'person': p, 'user': request.user,
-                               'AIn7Member': ain7member},
+                               'ain7member': ain7member},
                               context_instance=RequestContext(request))
 
 @login_required
@@ -71,13 +71,14 @@ def cv_edit(request, user_id=None):
     ain7member = get_object_or_404(AIn7Member, person=p)
     return render_to_response('emploi/cv_edit.html',
                               {'person': p, 'user': request.user,
-                               'AIn7Member': ain7member},
+                               'ain7member': ain7member},
                               context_instance=RequestContext(request))
 
-# une petite fonction pour exclure les champs person et user des formulaires
-# créés avec form_for_model et form_for_instance
+# une petite fonction pour exclure les champs
+# person user ain7member
+# des formulaires créés avec form_for_model et form_for_instance
 def form_callback(f, **args):
-  if f.name == "person" or f.name == "user":
+  if f.name == "person" or f.name == "user" or f.name == "ain7member":
     return None
   return f.formfield(**args)
 
@@ -85,6 +86,7 @@ def form_callback(f, **args):
 def position_edit(request, user_id=None, position_id=None):
 
     p = get_object_or_404(Person, user=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=p)
     position = get_object_or_404(Position, pk=position_id)
     # 1er passage : on propose un formulaire avec les données actuelles
     if request.method == 'GET':
@@ -102,7 +104,7 @@ def position_edit(request, user_id=None, position_id=None):
             formfield_callback=form_callback)
         f = PosForm(request.POST.copy())
         if f.is_valid():
-            f.clean_data['person'] = p
+            f.clean_data['ain7member'] = ain7member
             f.save()
 
         request.user.message_set.create(message=_("Position informations updated successfully."))
@@ -112,7 +114,6 @@ def position_edit(request, user_id=None, position_id=None):
 @login_required
 def position_delete(request, user_id=None, position_id=None):
 
-    p = get_object_or_404(Person, user=user_id)
     position = get_object_or_404(Position, pk=position_id)
 
     # 1er passage: on demande confirmation
@@ -139,6 +140,7 @@ def position_delete(request, user_id=None, position_id=None):
 def position_add(request, user_id=None):
 
     p = get_object_or_404(Person, user=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=p)
 
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
@@ -147,7 +149,7 @@ def position_add(request, user_id=None):
         f = PosForm()
         return render_to_response('emploi/position_edit.html',
                                  {'form': f, 'person': p, 'user': request.user,
-                                  'action': "create"},
+                                  'action': "create", 'ain7member':ain7member},
                                   context_instance=RequestContext(request))
 
     # 2e passage : sauvegarde et redirection
@@ -156,7 +158,7 @@ def position_add(request, user_id=None):
             formfield_callback=form_callback)
         f = PosForm(request.POST.copy())
         if f.is_valid():
-            f.clean_data['person'] = p
+            f.clean_data['ain7member'] = ain7member
             f.save()
 
         request.user.message_set.create(message=_("Position successfully added."))
@@ -167,6 +169,7 @@ def position_add(request, user_id=None):
 def education_edit(request, user_id=None, education_id=None):
 
     p = get_object_or_404(Person, user=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=p)
     education = get_object_or_404(EducationItem, pk=education_id)
 
     # 1er passage : on propose un formulaire avec les données actuelles
@@ -176,7 +179,7 @@ def education_edit(request, user_id=None, education_id=None):
         f = EducForm()
         return render_to_response('emploi/education_edit.html',
                                  {'form': f, 'user': request.user,
-                                  'action': "edit"},
+                                  'action': "edit", 'ain7member': ain7member},
                                   context_instance=RequestContext(request))
 
     # 2e passage : sauvegarde et redirection
@@ -185,7 +188,7 @@ def education_edit(request, user_id=None, education_id=None):
             formfield_callback=form_callback)
         f = EducForm(request.POST.copy())
         if f.is_valid():
-            f.clean_data['person'] = p
+            f.clean_data['ain7member'] = ain7member
             f.save()
 
             request.user.message_set.create(message=_("Education informations updated successfully."))
@@ -219,6 +222,7 @@ def education_delete(request, user_id=None, education_id=None):
 def education_add(request, user_id=None):
 
     p = get_object_or_404(Person, user=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=p)
 
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
@@ -227,7 +231,7 @@ def education_add(request, user_id=None):
         f = EducForm()
         return render_to_response('emploi/education_edit.html',
                                  {'form': f, 'person': p, 'user': request.user,
-                                  'action': "create"},
+                                  'action': "create", 'ain7member':ain7member},
                                   context_instance=RequestContext(request))
 
     # 2e passage : sauvegarde et redirection
@@ -236,7 +240,7 @@ def education_add(request, user_id=None):
             formfield_callback=form_callback)
         f = EducForm(request.POST.copy())
         if f.is_valid():
-            f.clean_data['person'] = p
+            f.clean_data['ain7member'] = ain7member
             f.save()
 
             request.user.message_set.create(message=_("Education informations successfully added."))
@@ -247,6 +251,7 @@ def education_add(request, user_id=None):
 def leisure_edit(request, user_id=None, leisure_id=None):
 
     p = get_object_or_404(Person, user=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=p)
     leisure = get_object_or_404(LeisureItem, pk=leisure_id)
 
     # 1er passage : on propose un formulaire avec les données actuelles
@@ -256,7 +261,7 @@ def leisure_edit(request, user_id=None, leisure_id=None):
         f = LeisureForm()
         return render_to_response('emploi/leisure_edit.html',
                                  {'form': f, 'user': request.user, 
-                                  'action': "edit"},
+                                  'action': "edit", 'ain7member': ain7member},
                                   context_instance=RequestContext(request))
 
     # 2e passage : sauvegarde et redirection
@@ -265,7 +270,7 @@ def leisure_edit(request, user_id=None, leisure_id=None):
             formfield_callback=form_callback)
         f = LeisureForm(request.POST.copy())
         if f.is_valid():
-            f.clean_data['person'] = p
+            f.clean_data['ain7member'] = ain7member
             f.save()
 
             request.user.message_set.create(message=_("Leisure informations updated successfully."))
@@ -273,13 +278,15 @@ def leisure_edit(request, user_id=None, leisure_id=None):
             return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
         return render_to_response('emploi/cv_edit.html',
-                                 {'person': p, 'user': request.user},
+                                 {'person': p, 'user': request.user,
+                                  'ain7member': ain7member},
                                   context_instance=RequestContext(request))
 
 @login_required
 def leisure_delete(request, user_id=None, leisure_id=None):
 
     p = get_object_or_404(Person, user=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=p)
     leisure = get_object_or_404(LeisureItem, pk=leisure_id)
 
     # 1er passage: on demande confirmation
@@ -305,6 +312,7 @@ def leisure_delete(request, user_id=None, leisure_id=None):
 def leisure_add(request, user_id=None):
 
     p = get_object_or_404(Person, user=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=p)
 
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
@@ -313,7 +321,7 @@ def leisure_add(request, user_id=None):
         f = LeisureForm()
         return render_to_response('emploi/leisure_edit.html',
                                  {'form': f, 'person': p, 'user': request.user,
-                                  'action': "create"},
+                                  'action': "create", 'ain7member':ain7member},
                                   context_instance=RequestContext(request))
 
     # 2e passage : sauvegarde et redirection
@@ -322,7 +330,7 @@ def leisure_add(request, user_id=None):
             formfield_callback=form_callback)
         f = LeisureForm(request.POST.copy())
         if f.is_valid():
-            f.clean_data['person'] = p
+            f.clean_data['ain7member'] = ain7member
             f.save()
 
             request.user.message_set.create(message=_("Leisure informations successfully added."))

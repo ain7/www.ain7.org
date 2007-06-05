@@ -87,4 +87,14 @@ class Subscription(models.Model):
         verbose_name = _('travel subscription')
         verbose_name_plural = _('travel subscriptions')
 
+# indicates who is responsible for a travel
+class TravelResponsible(models.Model):
+    
+    travel = models.ForeignKey(Travel, verbose_name=_('travel'))
+    responsible = models.ForeignKey(Person, verbose_name=_('responsible'))
+
+    class Meta:
+        verbose_name = _('travel responsible')
+        verbose_name_plural = _('travel responsibles')
+
 

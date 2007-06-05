@@ -49,13 +49,13 @@
 </tr>
 </table>
 
-<div id="cvTitle">{{ AIn7Member.cvTitle }}</div>
+<div id="cvTitle">{{ ain7member.cvTitle }}</div>
 
-{% if person.positions.all %}
+{% if ain7member.positions.all %}
 <h2>{% trans "Professional experiences" %}</h2>
 
 <table width="100%">
-{% for position in person.positions.all %}
+{% for position in ain7member.positions.all %}
     {% if not position.is_confidential %}
         <tr><td width="25%"><b>{{ position.start_date|date:"d/m/Y" }} - 
             {{ position.end_date|date:"d/m/Y"|default:"..." }}</b></td>
@@ -74,12 +74,12 @@
 </table>
 {% endif %}
 
-{% if person.publication.all %}
+{% if ain7member.publication.all %}
 
 <h2>{% trans "Publications" %}</h2>
 
 <table width="100%">
-{% for publicationItem in person.publication.all %}
+{% for publicationItem in ain7member.publication.all %}
     <tr><td width="25%"><b>{{ publicationItem.date|date:"d/m/Y" }}</b></td>
         <td> <em>{{ publicationItem.title }}</em></td></tr>
     {% if publicationItem.details %}
@@ -89,12 +89,12 @@
 </table>
 {% endif %}
 
-{% if person.education.all %}
+{% if ain7member.education.all %}
 
 <h2>{% trans "Education" %}</h2>
 
 <table width="100%">
-{% for educationItem in person.education.all %}
+{% for educationItem in ain7member.education.all %}
     <tr><td width="25%"><b>{{ educationItem.start_date|date:"d/m/Y" }} - 
         {{ educationItem.end_date|date:"d/m/Y"|default:"..." }}</b></td>
         <td> <em>{{ educationItem.school }}</em></td></tr>
@@ -108,12 +108,12 @@
 </table>
 {% endif %}
 
-{% if person.leisure.all %}
+{% if ain7member.leisure.all %}
 
 <h2>{% trans "Leisure activities" %}</h2>
 
 <table width="100%">
-{% for leisureItem in person.leisure.all %}
+{% for leisureItem in ain7member.leisure.all %}
     <tr><td width="25%"><b>{{ leisureItem.title }}</b></td>
         <td>
 	    {% if leisureItem.detail %}

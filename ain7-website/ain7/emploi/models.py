@@ -24,7 +24,7 @@ import datetime
 
 from django.db import models
 
-from ain7.annuaire.models import Person, Track
+from ain7.annuaire.models import Person, AIn7Member, Track
 from ain7.annuaire.models import Country
 
 # ???
@@ -120,7 +120,7 @@ class Position(models.Model):
     is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
 
     office = models.ForeignKey(Office, verbose_name=_('office'), related_name='positions')
-    person = models.ForeignKey(Person, related_name='positions', edit_inline=models.STACKED, num_in_admin=1)
+    ain7member = models.ForeignKey(AIn7Member, related_name='positions', edit_inline=models.STACKED, num_in_admin=1)
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
@@ -142,7 +142,7 @@ class EducationItem(models.Model):
     details = models.TextField(verbose_name=_('description'), blank=True, null=True)
     start_date = models.DateField(verbose_name=_('start date'), core=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
-    person = models.ForeignKey(Person, related_name='education', edit_inline=models.STACKED, num_in_admin=1)
+    ain7member = models.ForeignKey(AIn7Member, related_name='education', edit_inline=models.STACKED, num_in_admin=1)
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
@@ -163,7 +163,7 @@ class LeisureItem(models.Model):
 
     title = models.CharField(verbose_name=_('Title'), maxlength=50, core=True)
     detail = models.TextField(verbose_name=_('Detail'), blank=True, null=True)
-    person = models.ForeignKey(Person, related_name='leisure', edit_inline=models.STACKED, num_in_admin=1)
+    ain7member = models.ForeignKey(AIn7Member, related_name='leisure', edit_inline=models.STACKED, num_in_admin=1)
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)

@@ -141,21 +141,27 @@ def filldb():
     lionel.user.is_staff = True
     lionel.user.is_superuser = True
     lionel.user.save()
-    lionel.activity = activityRetired
-    lionel.member_type = memberTypeActif
-    lionel.person_type = personTypeIngeneer
     lionel.sex = 'M'
     lionel.first_name = "Lionel"
     lionel.last_name = "Porcheron"
-    lionel.promos.add(n7in2003)
     lionel.birth_date = date(1978,11,18)
     lionel.country = france
-    lionel.nick_name = "Yoyo"
-    lionel.blog = "http://www.porcheron.info"
-    lionel.blog_agrege_sur_le_planet = True
-    lionel.display_cv_in_directory = True
-    lionel.receive_job_offers = False
     lionel.save()
+
+    # AIn7Member
+    lionel_ain7member = annuaire.AIn7Member()
+    lionel_ain7member.person = lionel
+    lionel_ain7member.activity = activityRetired
+    lionel_ain7member.member_type = memberTypeActif
+    lionel_ain7member.person_type = personTypeIngeneer
+    lionel_ain7member.promos.add(n7in2003)
+    lionel_ain7member.nick_name = "Yoyo"
+    lionel_ain7member.blog = "http://www.porcheron.info"
+    lionel_ain7member.blog_agrege_sur_le_planet = True
+    lionel_ain7member.display_cv_in_directory = True
+    lionel_ain7member.receive_job_offers = False
+    lionel_ain7member.cvTitle = "Ingénieur ENSEEIHT Informatique"    
+    lionel_ain7member.save()
 
     lionel_adresse = annuaire.Address()
     lionel_adresse.person = lionel
@@ -217,7 +223,7 @@ def filldb():
 
 
     lionel_position1 = emploi.Position()
-    lionel_position1.person = lionel
+    lionel_position1.ain7member = lionel_ain7member
     lionel_position1.office = anywareoffice
     lionel_position1.fonction = "AdminSys"
     lionel_position1.start_date = date(2005,01,01)
@@ -225,35 +231,35 @@ def filldb():
     lionel_position1.save()
 
     lionel_position2 = emploi.Position()
-    lionel_position2.person = lionel
+    lionel_position2.ain7member = lionel_ain7member
     lionel_position2.office = anywareoffice
     lionel_position2.fonction = "Big boss"
     lionel_position2.start_date = date(2007,01,01)
     lionel_position2.save()
-
-    lionel_ain7member = annuaire.AIn7Member()
-    lionel_ain7member.person = lionel
-    lionel_ain7member.cvTitle = "Ingénieur ENSEEIHT Informatique"    
-    lionel_ain7member.save()
 
     pierref = annuaire.Person()
     pierref.user = User.objects.create_user("pierref", "pierre.fersing@inp-net.eu.org","pierref")
     pierref.user.is_staff = True
     pierref.user.is_superuser = True
     pierref.user.save()
-    pierref.activity = activityKnown
-    pierref.member_type = memberTypeActif
-    pierref.person_type = personTypeStudent
     pierref.sex = 'M'
     pierref.first_name = "Pierre"
     pierref.last_name = "Fersing"
-    pierref.promos.add(n7in2008)
     pierref.birth_date = date(1985,11,05)
     pierref.country = france
-    pierref.nick_name = "PierreF"
-    pierref.display_cv_in_directory = False
-    pierref.receive_job_offers = False
     pierref.save()
+
+    pierref_ain7member = annuaire.AIn7Member()
+    pierref_ain7member.person = pierref
+    pierref_ain7member.activity = activityKnown
+    pierref_ain7member.member_type = memberTypeActif
+    pierref_ain7member.person_type = personTypeStudent
+    pierref_ain7member.promos.add(n7in2008)
+    pierref_ain7member.nick_name = "PierreF"
+    pierref_ain7member.display_cv_in_directory = False
+    pierref_ain7member.receive_job_offers = False
+    pierref_ain7member.cvTitle = "Élève Ingénieur ENSEEIHT Informatique"
+    pierref_ain7member.save()
 
     pierref_adresse = annuaire.Address()
     pierref_adresse.person = pierref
@@ -272,28 +278,28 @@ def filldb():
     pierref_irc1.channels = "#ain7, #inp-net, #n7, #net7"
     pierref_irc1.save()    
 
-    pierref_ain7member = annuaire.AIn7Member()
-    pierref_ain7member.person = pierref
-    pierref_ain7member.cvTitle = "Élève Ingénieur ENSEEIHT Informatique"
-    pierref_ain7member.save()
-
     olivier = annuaire.Person()
     olivier.user = User.objects.create_user("gauwino", "olivier.gauwin@laposte.net","gauwino")
     olivier.user.is_staff = True
     olivier.user.is_superuser = True
     olivier.user.save()
-    olivier.activity = activityKnown
-    olivier.member_type = memberTypeActif
-    olivier.person_type = personTypeIngeneer
     olivier.sex = 'M'
     olivier.first_name = "Olivier"
     olivier.last_name = "Gauwin"
     olivier.birth_date = date(1955,12,9)
-    olivier.promos.add(n7in2003)
     olivier.country = france
-    olivier.display_cv_in_directory = True
-    olivier.receive_job_offers = True
     olivier.save()
+
+    olivier_ain7member = annuaire.AIn7Member()
+    olivier_ain7member.person = olivier
+    olivier_ain7member.activity = activityKnown
+    olivier_ain7member.member_type = memberTypeActif
+    olivier_ain7member.person_type = personTypeIngeneer
+    olivier_ain7member.promos.add(n7in2003)
+    olivier_ain7member.display_cv_in_directory = True
+    olivier_ain7member.receive_job_offers = True
+    olivier_ain7member.cvTitle = "Ingénieur ENSEEIHT et doctorant en Informatique"    
+    olivier_ain7member.save()
 
     olivier_adresse = annuaire.Address()
     olivier_adresse.person = olivier
@@ -352,13 +358,8 @@ def filldb():
     olivier_bigophone2.isConfidential = False
     olivier_bigophone2.save()
 
-    olivier_ain7member = annuaire.AIn7Member()
-    olivier_ain7member.person = olivier
-    olivier_ain7member.cvTitle = "Ingénieur ENSEEIHT et doctorant en Informatique"    
-    olivier_ain7member.save()
-    
     olivier_position1 = emploi.Position()
-    olivier_position1.person = olivier
+    olivier_position1.ain7member = olivier_ain7member
     olivier_position1.office = lepaysdesschtroumpfs
     olivier_position1.fonction = "Schtroumpf paresseux"
     olivier_position1.start_date = date(2003,01,01)
@@ -366,14 +367,14 @@ def filldb():
     olivier_position1.save()
 
     olivier_position2 = emploi.Position()
-    olivier_position2.person = olivier
+    olivier_position2.ain7member = olivier_ain7member
     olivier_position2.office = lepaysdesschtroumpfs
     olivier_position2.fonction = "Grand Schtroumpf"
     olivier_position2.start_date = date(2007,01,01)
     olivier_position2.save()
 
     olivier_education1 = emploi.EducationItem()
-    olivier_education1.person = olivier
+    olivier_education1.ain7member = olivier_ain7member
     olivier_education1.school = "ENSEEIHT"
     olivier_education1.diploma = "Ingenieur en informatique et mathématiques appliquées"
     olivier_education1.details = "Troisième année à la Technische Universität Darmstadt, Allemagne."
@@ -382,13 +383,13 @@ def filldb():
     olivier_education1.save()
 
     olivier_leisure1 = emploi.LeisureItem()
-    olivier_leisure1.person = olivier
+    olivier_leisure1.ain7member = olivier_ain7member
     olivier_leisure1.title = "Culture"
     olivier_leisure1.detail = "Guitare, cinéma"
     olivier_leisure1.save()
 
     olivier_leisure2 = emploi.LeisureItem()
-    olivier_leisure2.person = olivier
+    olivier_leisure2.ain7member = olivier_ain7member
     olivier_leisure2.title = "Informatique"
     olivier_leisure2.detail = "Le site de l'AIn7 !!"
     olivier_leisure2.save()
@@ -398,19 +399,24 @@ def filldb():
     alex.user.is_staff = True
     alex.user.is_superuser = True
     alex.user.save()
-    alex.activity = activityKnown
-    alex.member_type = memberTypeActif
-    alex.person_type = personTypeIngeneer
     alex.sex = 'M'
     alex.first_name = "Alexandre"
     alex.last_name = "Garnier"
-    alex.promos.add(n7in2006)
     alex.birth_date = date(1984,03,14)
     alex.country = france
-    alex.nick_name = "Alex"
-    alex.display_cv_in_directory = False
-    alex.receive_job_offers = False
     alex.save()
+
+    alex_ain7member = annuaire.AIn7Member()
+    alex_ain7member.person = alex
+    alex_ain7member.activity = activityKnown
+    alex_ain7member.member_type = memberTypeActif
+    alex_ain7member.person_type = personTypeIngeneer
+    alex_ain7member.promos.add(n7in2006)
+    alex_ain7member.nick_name = "Alex"
+    alex_ain7member.display_cv_in_directory = False
+    alex_ain7member.receive_job_offers = False
+    alex_ain7member.cvTitle = "Ingénieur ENSEEIHT Informatique"
+    alex_ain7member.save()
 
     alex_portable = annuaire.PhoneNumber()
     alex_portable.person = alex
@@ -440,16 +446,11 @@ def filldb():
     alex_adresse2.save()
 
     alexpos = emploi.Position()
-    alexpos.person = alex
+    alexpos.ain7member = alex_ain7member
     alexpos.office = priceminister
     alexpos.fonction = "dev"
     alexpos.start_date = date(2006,8,17)
     alexpos.save()
-
-    alex_ain7member = annuaire.AIn7Member()
-    alex_ain7member.person = alex
-    alex_ain7member.cvTitle = "Ingénieur ENSEEIHT Informatique"
-    alex_ain7member.save()
 
     tvn7 = annuaire.Club()
     tvn7.name = "TVn7"
@@ -462,12 +463,12 @@ def filldb():
 
     tvn7_lionel = annuaire.ClubMembership()
     tvn7_lionel.club = tvn7
-    tvn7_lionel.member = lionel
+    tvn7_lionel.member = lionel_ain7member
     tvn7_lionel.save()
 
     tvn7_alex = annuaire.ClubMembership()
     tvn7_alex.club = tvn7
-    tvn7_alex.member = alex
+    tvn7_alex.member = alex_ain7member
     tvn7_alex.fonction = "Secrétaire 2004-2005"
     tvn7_alex.save()
 
@@ -482,12 +483,12 @@ def filldb():
 
     net7_lionel = annuaire.ClubMembership()
     net7_lionel.club = net7
-    net7_lionel.member = lionel
+    net7_lionel.member = lionel_ain7member
     net7_lionel.save()
 
     net7_pierref = annuaire.ClubMembership()
     net7_pierref.club = net7
-    net7_pierref.member = pierref
+    net7_pierref.member = pierref_ain7member
     net7_pierref.save()
 
     inpnet = annuaire.Club()
@@ -501,13 +502,13 @@ def filldb():
 
     inpnet_lionel = annuaire.ClubMembership()
     inpnet_lionel.club = inpnet
-    inpnet_lionel.member = lionel
+    inpnet_lionel.member = lionel_ain7member
     inpnet_lionel.fonction = "Président 2002-2003 - Cofondateur du club"
     inpnet_lionel.save()
 
     inpnet_pierref = annuaire.ClubMembership()
     inpnet_pierref.club = inpnet
-    inpnet_pierref.member = pierref
+    inpnet_pierref.member = pierref_ain7member
     inpnet_pierref.fonction = "Président 2006-2007"
     inpnet_pierref.save()
 
@@ -638,7 +639,7 @@ def filldb():
     travel3.save()
 
     travel4 = voyages.Travel()
-    travel4.label = "Mongolie/ Pékin"
+    travel4.label = "Mongolie / Pékin"
     travel4.date = "Juin 2008"
     travel4.term = 15
     travel4.type = boattravel
@@ -675,7 +676,7 @@ def filldb():
     job1 = emploi.JobOffer()
     job1.reference = "XYZ270"
     job1.title = "Ingénieur Java/J2EE"
-    job1.description = """Pour l'un de nos clients Grand Compte, nous recherchons des Ingénieurs d'études Java/J2ee, sous la conduite d'un Chef de projet, vous aurez en charge la réalisation des études techniques et fonctionnelles, le développement des application."""
+    job1.description = """Pour l'un de nos clients Grand Compte, nous recherchons des Ingénieurs d'études Java/J2ee, sous la conduite d'un Chef de projet, vous aurez en charge la réalisation des études techniques et fonctionnelles, le développement des applications."""
     job1.experience = "1 à 2 ans"
     job1.contract_type = 0
     job1.is_opened = True

@@ -7,14 +7,21 @@
 
 <h2>{% trans "Travels list" %}</h2>
 {% if travels %}
-    <ul>
+    <table>
     {% for travel in travels %}
-           <li><b>{{ travel.label }} - {{ travel.date }}</b> : 
-               {{ travel.type }} {% trans "of" %} {{ travel.term }} 
-               {% trans "days" %}. 
-               {% trans "visited places" %} : {{ travel.visited_places }}</li>
+        <tr>
+	    <td><b><a href="/voyages/{{ travel.id}}/">
+                {{ travel.label }}</a></b><br />
+                {{ travel.visited_places }}</td>
+	    <td><b>{{ travel.date }}</b><br />
+	        {{ travel.type }} {% trans "of" %} {{ travel.term }} 
+                {% trans "days" %}.</td>
+            <td>{% if travel.thumbnail %}
+                <img src="{{ travel.thumbnail }}" />
+                {% endif %}</td>
+	</tr>
     {% endfor %}
-     </ul>
+     </table>
 {% else %}
     <p>{% trans "No planned travels." %}</p>
 {% endif %}

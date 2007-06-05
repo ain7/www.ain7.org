@@ -6,12 +6,12 @@
 <div id="content-main">
 
 <h2>{% trans "Results list"%}</h2>
-{% if persons %}
+{% if ain7members %}
     <ul>
-    {% for person in persons %}
-        <li><a href="/annuaire/{{ person.user.id }}/">
-            {{ person.last_name }} {{ person.first_name }}</a> 
-            {% for promo in person.promos.all %}
+    {% for ain7member in ain7members %}
+        <li><a href="/annuaire/{{ ain7member.person.user.id }}/">
+            {{ ain7member.person.last_name }} {{ ain7member.person.first_name }}</a> 
+            {% for promo in ain7member.promos.all %}
                {% if forloop.last %} {{ promo }}{% endif %}
             {% endfor %}
 				</li>
