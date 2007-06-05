@@ -16,23 +16,11 @@
 			<div class="top_info">
 				<div class="top_info_right">
 {% if user.is_authenticated %}
-<form method="post" action="/logout/">
-<div align="center">
-{% trans "Connected as" %} <a href="/annuaire/{{ user.id }}/">{{ user.person.first_name }} {{ user.person.last_name }}</a>
-<input class="button" type="submit" value="{% trans "Log out" %}" />
-</div>
-</form>
-{% else %}
-<form method="post" action="/login/">
-<table border="0">
-<tr>
-    <td>{% trans "Login" %}&nbsp;:</td><td><input type="text" id="id_username" name="username" maxlength="50" tabindex="1" /></td>
-    <td rowspan="2"><input class="button" type="submit" value="Ok" tabindex="3" /></td>
-</tr>
-<tr>
-    <td>{% trans "Password" %}&nbsp;:</td><td><input type="password" id="id_password" name="password" maxlength="50" tabindex="2" /></td>
-</tr>
-</table>
+<form method="post" action="/accounts/logout/">
+	<div align="center">
+		{% trans "Connected as" %} <a href="/annuaire/{{ user.id }}/">{{ user.person.first_name }} {{ user.person.last_name }}</a><br />
+		<input class="button" type="submit" value="{% trans "Log out" %}" />
+	</div>
 </form>
 {% endif %}
 				</div>		

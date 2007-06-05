@@ -23,6 +23,7 @@
 from django.http import HttpResponse
 from django.template import Context, loader, RequestContext
 from django.shortcuts import get_object_or_404, render_to_response
+from django.contrib.auth.decorators import login_required
 from django import newforms as forms
 from django.newforms import widgets
 from django.http import HttpResponseRedirect
@@ -41,13 +42,8 @@ def detail(request, group_id):
                              {'group': g, 'user': request.user}, 
                              context_instance=RequestContext(request))
 
+@login_required
 def edit(request, group_id=None):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "groupes/base.html"},
-                                  context_instance=RequestContext(request))
 
     if group_id is None:
         GroupForm = forms.models.form_for_model(Group)

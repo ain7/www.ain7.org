@@ -27,22 +27,6 @@ from django.contrib import auth
 from django.http import HttpResponseRedirect
 from ain7 import settings
 
-def login(request):
-    username = request.POST['username']
-    password = request.POST['password']
-
-    user = auth.authenticate(username=username, password=password)
-    if user is not None:
-        auth.login(request, user)
-        request.session['user_id'] = user.id
-        user.last_login = datetime.datetime.now()
-        user.save()
-    else:
-        error_login = True
-        request.session['login_err'] = 'Wrong login or wrong password'
-
-    return HttpResponseRedirect(request.META['HTTP_REFERER'])
-
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])

@@ -21,9 +21,9 @@
 #
 
 from django.shortcuts import get_object_or_404, render_to_response
+from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
 from django import newforms as forms
 
 from ain7.annuaire.models import Person
@@ -36,26 +36,15 @@ class SearchPersonForm(forms.Form):
     promo = forms.IntegerField(label=_('Promo'), required=False)
     track = forms.IntegerField(label=_('Track'), required=False)
 
+@login_required
 def detail(request, person_id):
-
-    if not request.user.is_authenticated():
-         return render_to_response('pages/authentification_needed.html',
-                                   {'user': request.user,
-                                    'section': "annuaire/base.html"})
-
     p = get_object_or_404(Person, pk=person_id)
     return render_to_response('annuaire/details.html', 
                              {'person': p, 'user': request.user}, 
                               context_instance=RequestContext(request))
 
+@login_required
 def search(request):
-
-    if not request.user.is_authenticated():
-         return render_to_response('pages/authentification_needed.html',
-                                   {'user': request.user,
-                                    'section': "annuaire/base.html"},
-                                   context_instance=RequestContext(request))
-
     maxTrackId=Track.objects.order_by('-id')[0].id+1
     trackList=[(maxTrackId,'Toutes')]
     for track in Track.objects.all():
@@ -70,7 +59,7 @@ def search(request):
                       'first_name__contains':form.clean_data['first_name']}
             
             # ici on commence par rechercher toutes les promos
-            # qui concordent avec l'année de promotion et la filière
+            # qui concordent avec l'annï¿½e de promotion et la filiï¿½re
             # saisis par l'utilisateur.
             promoCriteria={}
             if form.clean_data['promo']!=None:
@@ -92,13 +81,8 @@ def search(request):
                                  {'form': f , 'user': request.user},
                                  context_instance=RequestContext(request))
 
+@login_required
 def edit(request, person_id=None):
-
-    if not request.user.is_authenticated():
-         return render_to_response('pages/authentification_needed.html',
-                                   {'user': request.user,
-                                    'section': "annuaire/base.html"},
-                                    context_instance=RequestContext(request))
 
     if person_id is None:
         PersonForm = forms.models.form_for_model(Person)

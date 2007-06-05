@@ -21,6 +21,7 @@
 #
 
 from django.shortcuts import get_object_or_404, render_to_response
+from django.contrib.auth.decorators import login_required
 from django import newforms as forms
 from django.newforms import widgets
 from django.template import RequestContext
@@ -43,13 +44,8 @@ class JobOfferForm(forms.Form):
 class SearchJobForm(forms.Form):
     title = forms.CharField(label=_('title'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
 
+@login_required
 def index(request):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "emploi/base.html"},
-                                  context_instance=RequestContext(request))
     p = Person.objects.get(user=request.user.id)
     # TODO : quand le modèle sera ok il faudra filtrer par filière souhaitée
     jobs = JobOffer.objects.all()
@@ -58,14 +54,9 @@ def index(request):
                                'liste_emplois': jobs},
                                context_instance=RequestContext(request))
 
-
+@login_required
 def cv_details(request, user_id):
 
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "emploi/base.html"},
-                                   context_instance=RequestContext(request))
     p = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
     return render_to_response('emploi/cv_details.html',
@@ -73,14 +64,9 @@ def cv_details(request, user_id):
                                'AIn7Member': ain7member},
                               context_instance=RequestContext(request))
 
-
+@login_required
 def cv_edit(request, user_id=None):
 
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "emploi/base.html"},
-                                  context_instance=RequestContext(request))
     p = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
     return render_to_response('emploi/cv_edit.html',
@@ -95,13 +81,8 @@ def form_callback(f, **args):
     return None
   return f.formfield(**args)
 
+@login_required
 def position_edit(request, user_id=None, position_id=None):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "emploi/base.html"},
-                                   context_instance=RequestContext(request))
 
     p = get_object_or_404(Person, user=user_id)
     position = get_object_or_404(Position, pk=position_id)
@@ -128,12 +109,8 @@ def position_edit(request, user_id=None, position_id=None):
 
         return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
+@login_required
 def position_delete(request, user_id=None, position_id=None):
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "emploi/base.html"},
-                                   context_instance=RequestContext(request))
 
     p = get_object_or_404(Person, user=user_id)
     position = get_object_or_404(Position, pk=position_id)
@@ -158,13 +135,8 @@ def position_delete(request, user_id=None, position_id=None):
 
         return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
+@login_required
 def position_add(request, user_id=None):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "emploi/base.html"},
-                                   context_instance=RequestContext(request))
 
     p = get_object_or_404(Person, user=user_id)
 
@@ -191,13 +163,8 @@ def position_add(request, user_id=None):
 
         return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
+@login_required
 def education_edit(request, user_id=None, education_id=None):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "emploi/base.html"},
-                                   context_instance=RequestContext(request))
 
     p = get_object_or_404(Person, user=user_id)
     education = get_object_or_404(EducationItem, pk=education_id)
@@ -225,12 +192,8 @@ def education_edit(request, user_id=None, education_id=None):
 
         return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
+@login_required
 def education_delete(request, user_id=None, education_id=None):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "emploi/base.html"})
 
     p = get_object_or_404(Person, user=user_id)
     education = get_object_or_404(EducationItem, pk=education_id)
@@ -252,13 +215,8 @@ def education_delete(request, user_id=None, education_id=None):
             request.user.message_set.create(message=_("Education informations deleted successfully."))
         return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
+@login_required
 def education_add(request, user_id=None):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "emploi/base.html"},
-                                   context_instance=RequestContext(request))
 
     p = get_object_or_404(Person, user=user_id)
 
@@ -285,13 +243,8 @@ def education_add(request, user_id=None):
 
         return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
+@login_required
 def leisure_edit(request, user_id=None, leisure_id=None):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "emploi/base.html"},
-                                   context_instance=RequestContext(request))
 
     p = get_object_or_404(Person, user=user_id)
     leisure = get_object_or_404(LeisureItem, pk=leisure_id)
@@ -323,13 +276,8 @@ def leisure_edit(request, user_id=None, leisure_id=None):
                                  {'person': p, 'user': request.user},
                                   context_instance=RequestContext(request))
 
+@login_required
 def leisure_delete(request, user_id=None, leisure_id=None):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "emploi/base.html"},
-                                   context_instance=RequestContext(request))
 
     p = get_object_or_404(Person, user=user_id)
     leisure = get_object_or_404(LeisureItem, pk=leisure_id)
@@ -353,13 +301,8 @@ def leisure_delete(request, user_id=None, leisure_id=None):
 
         return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
+@login_required
 def leisure_add(request, user_id=None):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "emploi/base.html"},
-                                   context_instance=RequestContext(request))
 
     p = get_object_or_404(Person, user=user_id)
 
@@ -386,13 +329,8 @@ def leisure_add(request, user_id=None):
 
         return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
+@login_required
 def publication_edit(request, user_id=None, publication_id=None):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': 'emploi/base.html'},
-                                   context_instance=RequestContext(request))
 
     p = get_object_or_404(Person, user=user_id)
     publication = get_object_or_404(PublicationItem, pk=publication_id)
@@ -420,12 +358,8 @@ def publication_edit(request, user_id=None, publication_id=None):
 
         return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
+@login_required
 def publication_delete(request, user_id=None, publication_id=None):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': 'emploi/base.html'})
 
     p = get_object_or_404(Person, user=user_id)
     publication = get_object_or_404(PublicationItem, pk=publication_id)
@@ -447,13 +381,8 @@ def publication_delete(request, user_id=None, publication_id=None):
 
         return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
+@login_required
 def publication_add(request, user_id=None):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': 'emploi/base.html'},
-                                   context_instance=RequestContext(request))
 
     p = get_object_or_404(Person, user=user_id)
 
@@ -480,14 +409,8 @@ def publication_add(request, user_id=None):
 
         return HttpResponseRedirect('/emploi/%s/cv/edit/' % (request.user.id))
 
-
+@login_required
 def office_create(request, user_id=None):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "emploi/base.html"},
-                                   context_instance=RequestContext(request))
 
     p = get_object_or_404(Person, user=user_id)
 
@@ -510,13 +433,8 @@ def office_create(request, user_id=None):
                                  {'person': p, 'user': request.user},
                                  context_instance=RequestContext(request))
 
+@login_required
 def company_create(request, user_id=None):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "emploi/base.html"},
-                                   context_instance=RequestContext(request))
 
     p = get_object_or_404(Person, user=user_id)
 
@@ -541,13 +459,8 @@ def company_create(request, user_id=None):
                                  {'person': p, 'user': request.user},
                                   context_instance=RequestContext(request))
 
+@login_required
 def job_details(request,emploi_id):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "emploi/base.html"},
-                                   context_instance=RequestContext(request))
 
     j = get_object_or_404(JobOffer, pk=emploi_id)
 
@@ -558,13 +471,8 @@ def job_details(request,emploi_id):
                              {'job': j, 'user': request.user}, 
                              context_instance=RequestContext(request))
 
+@login_required
 def job_edit(request, emploi_id):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "emploi/base.html"},
-                                  context_instance=RequestContext(request))
 
     j = get_object_or_404(JobOffer, pk=emploi_id)
 
@@ -587,13 +495,8 @@ def job_edit(request, emploi_id):
                              {'form': f, 'user': request.user}, 
                               context_instance=RequestContext(request))
 
+@login_required
 def job_register(request):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "emploi/base.html"},
-                                   context_instance=RequestContext(request))
 
     if request.method == 'POST':
         f = JobOfferForm(request.POST)
@@ -613,13 +516,8 @@ def job_register(request):
                              {'form': f, 'user': request.user}, 
                              context_instance=RequestContext(request))
 
+@login_required
 def job_search(request):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "emploi/base.html"},
-                                  context_instance=RequestContext(request))
 
     if request.method == 'POST':
         form = SearchJobForm(request.POST)
@@ -638,13 +536,8 @@ def job_search(request):
                                  {'form': f , 'user': request.user}, 
                                  context_instance=RequestContext(request))
 
+@login_required
 def company_details(request, company_id):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "emploi/base.html"},
-                                   context_instance=RequestContext(request))
 
     company = get_object_or_404(Company, pk=company_id)
     offices = Office.objects.filter(company=company)

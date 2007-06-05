@@ -21,6 +21,7 @@
 #
 
 from django.shortcuts import get_object_or_404, render_to_response
+from django.contrib.auth.decorators import login_required
 from django import newforms as forms
 from django.template import RequestContext
 from django.newforms import widgets
@@ -53,13 +54,8 @@ def details(request, event_id):
                              {'event': event, 'user': request.user},
                              context_instance=RequestContext(request))
 
+@login_required
 def edit(request, event_id):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "evenements/base.html"},
-                                   context_instance=RequestContext(request))
 
     event = get_object_or_404(Event, pk=event_id)
 
@@ -80,13 +76,8 @@ def edit(request, event_id):
                              {'form': f, 'user': request.user},
                              context_instance=RequestContext(request))
 
+@login_required
 def join(request, event_id):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "evenements/base.html"},
-                                   context_instance=RequestContext(request))
 
     event = get_object_or_404(Event, pk=event_id)
 
@@ -108,13 +99,8 @@ def join(request, event_id):
                              {'event': event, 'form': f, 'user': request.user},
                              context_instance=RequestContext(request))
 
+@login_required
 def participants(request, event_id):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': 'evenements/base.html'},
-                                   context_instance=RequestContext(request))
 
     event = get_object_or_404(Event, pk=event_id)
 
@@ -122,13 +108,8 @@ def participants(request, event_id):
                              {'event': event, 'user': request.user},
                              context_instance=RequestContext(request))
 
+@login_required
 def register(request):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': 'evenements/base.html'},
-                                   context_instance=RequestContext(request))
 
     EventForm = forms.models.form_for_model(Event)
 
@@ -169,13 +150,8 @@ def search(request):
                                  {'form': f , 'user': request.user}, 
                                  context_instance=RequestContext(request))
 
+@login_required
 def subscribe(request, event_id):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "evenements/base.html"},
-                                   context_instance=RequestContext(request))
 
     event = get_object_or_404(Event, pk=event_id)
 

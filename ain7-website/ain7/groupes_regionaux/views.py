@@ -23,6 +23,7 @@
 import datetime
 
 from django.shortcuts import get_object_or_404, render_to_response
+from django.contrib.auth.decorators import login_required
 from django import newforms as forms
 from django.newforms import widgets
 from django.template import RequestContext
@@ -69,14 +70,8 @@ def edit(request, group_id):
                               'group': group,'user': request.user, 'is_member': is_member}, 
                               context_instance=RequestContext(request))
 
+@login_required
 def join(request, group_id):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "groupes_regionaux/base.html"},
-                                   context_instance=RequestContext(request))
-
     group = get_object_or_404(Group, pk=group_id)
     person = request.user.person
 
@@ -88,14 +83,8 @@ def join(request, group_id):
 
     return HttpResponseRedirect('/groupes_regionaux/%s/' % (group.id))
 
+@login_required
 def quit(request, group_id):
-
-    if not request.user.is_authenticated():
-        return render_to_response('pages/authentification_needed.html',
-                                  {'user': request.user,
-                                   'section': "groupes_regionaux/base.html"},
-                                   context_instance=RequestContext(request))
-
     group = get_object_or_404(Group, pk=group_id)
     person = request.user.person
 
