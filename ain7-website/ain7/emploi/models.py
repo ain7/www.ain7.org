@@ -117,7 +117,6 @@ class Position(models.Model):
     start_date = models.DateField(verbose_name=_('start date'), core=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
     is_regie = models.BooleanField(verbose_name=_('regie'), default=False)
-    is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
 
     office = models.ForeignKey(Office, verbose_name=_('office'), related_name='positions')
     ain7member = models.ForeignKey(AIn7Member, related_name='positions', edit_inline=models.STACKED, num_in_admin=1)

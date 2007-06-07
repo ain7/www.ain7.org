@@ -92,30 +92,36 @@ def search(request):
 @login_required
 def edit(request, person_id=None):
 
-    if person_id is None:
-        PersonForm = forms.models.form_for_model(Person,
-            formfield_callback=form_callback)
-        form = PersonForm()
+    p = get_object_or_404(Person, pk=person_id)
+    ain7member = get_object_or_404(AIn7Member, person=p)
+    return render_to_response('annuaire/edit.html',
+                              {'person': p, 'user': request.user,
+                               'ain7member': ain7member},
+                              context_instance=RequestContext(request))
+#     if person_id is None:
+#         PersonForm = forms.models.form_for_model(Person,
+#             formfield_callback=form_callback)
+#         form = PersonForm()
 
-    else:
-        person = Person.objects.get(pk=person_id)
-        PersonForm = forms.models.form_for_instance(person,
-            formfield_callback=form_callback)
-        PersonForm.base_fields['sex'].widget=\
-            forms.Select(choices=Person.SEX)
-        form = PersonForm(auto_id=False)
+#     else:
+#         person = Person.objects.get(pk=person_id)
+#         PersonForm = forms.models.form_for_instance(person,
+#             formfield_callback=form_callback)
+#         PersonForm.base_fields['sex'].widget=\
+#             forms.Select(choices=Person.SEX)
+#         form = PersonForm(auto_id=False)
 
-        if request.method == 'POST':
-             form = PersonForm(request.POST)
-             if form.is_valid():
-                 form.clean_data['user'] = person.user
-                 form.save()
-                 request.user.message_set.create(message=_("Modifications have been successfully saved."))
-                 return HttpResponseRedirect('/annuaire/%s/' % (person.user.id))
+#         if request.method == 'POST':
+#              form = PersonForm(request.POST)
+#              if form.is_valid():
+#                  form.clean_data['user'] = person.user
+#                  form.save()
+#                  request.user.message_set.create(message=_("Modifications have been successfully saved."))
+#                  return HttpResponseRedirect('/annuaire/%s/' % (person.user.id))
 
-    return render_to_response('annuaire/edit.html', 
-                             {'form': form, 'user': request.user},
-                             context_instance=RequestContext(request))
+#     return render_to_response('annuaire/edit.html', 
+#                              {'form': form, 'user': request.user},
+#                              context_instance=RequestContext(request))
 
 
 # une petite fonction pour exclure les champs

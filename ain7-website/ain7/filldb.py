@@ -159,6 +159,7 @@ def filldb():
     lionel_ain7member.blog = "http://www.porcheron.info"
     lionel_ain7member.blog_agrege_sur_le_planet = True
     lionel_ain7member.display_cv_in_directory = True
+    lionel_ain7member.display_cv_in_job_section = True
     lionel_ain7member.receive_job_offers = False
     lionel_ain7member.cvTitle = "Ingénieur ENSEEIHT Informatique"    
     lionel_ain7member.save()
@@ -257,6 +258,7 @@ def filldb():
     pierref_ain7member.promos.add(n7in2008)
     pierref_ain7member.nick_name = "PierreF"
     pierref_ain7member.display_cv_in_directory = False
+    pierref_ain7member.display_cv_in_job_section = True
     pierref_ain7member.receive_job_offers = False
     pierref_ain7member.cvTitle = "Élève Ingénieur ENSEEIHT Informatique"
     pierref_ain7member.save()
@@ -297,6 +299,7 @@ def filldb():
     olivier_ain7member.person_type = personTypeIngeneer
     olivier_ain7member.promos.add(n7in2003)
     olivier_ain7member.display_cv_in_directory = True
+    olivier_ain7member.display_cv_in_job_section = True
     olivier_ain7member.receive_job_offers = True
     olivier_ain7member.cvTitle = "Ingénieur ENSEEIHT et doctorant en Informatique"    
     olivier_ain7member.save()
@@ -414,6 +417,7 @@ def filldb():
     alex_ain7member.promos.add(n7in2006)
     alex_ain7member.nick_name = "Alex"
     alex_ain7member.display_cv_in_directory = False
+    alex_ain7member.display_cv_in_job_section = False
     alex_ain7member.receive_job_offers = False
     alex_ain7member.cvTitle = "Ingénieur ENSEEIHT Informatique"
     alex_ain7member.save()

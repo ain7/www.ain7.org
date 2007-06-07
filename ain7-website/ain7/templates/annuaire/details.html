@@ -7,19 +7,18 @@
 
 <h1>{% trans "Personal file" %} {{ person.first_name }} {{ person.last_name }}</h1>
 <p><a href="/annuaire/{{ person.user.id }}/edit/">
+<img src="/site_media/images/icon_changelink.gif" border="0" />
 {% trans "Modify these data" %}</a></p>
 <h2>{% trans "Personal data" %}</h2>
 <table border="0">
 <tr><td>
 <ul>
-   <li><b>{% trans "Last name" %}&nbsp;:</b> {{ person.last_name }}</li>
-   <li><b>{% trans "First name" %}&nbsp;:</b> {{ person.first_name }}</li>
    {% if person.maiden_name %}
    <li><b>{% filter capfirst %}{% trans "maiden name" %}{% endfilter %}
        &nbsp;:</b> {{ person.maiden_name }}</li>
    {% endif %}
    {% if person.nick_name %}
-   <li><b>{% trans "Nick name" %}&nbsp;:</b> {{ person.nick_name }}</li>
+   <li><b>{% trans "Nick name" %}&nbsp;:</b> {{ ain7member.nick_name }}</li>
    {% endif %}
    <li><b>{% trans "Promos" %}&nbsp;:</b> {% for promo in ain7member.promos.all %}{{ promo }}{% if not forloop.last %} - {% endif %}{% endfor %}</li>
    {% if ain7member.diplomas.all %}
@@ -107,17 +106,21 @@
 
 {% if ain7member.display_cv_in_directory %}
 
-<h2>{% trans "Professional experiences" %}</h2>
+<h2>{% trans "Current professional experiences" %}</h2>
 
 {% if ain7member.positions.all %}
 <table>
 {% for position in ain7member.positions.all %}
-	{% if not position.is_confidential %}
-		<tr><td><b>{{ position.start_date|date:"d/m/Y" }} - {{ position.end_date|date:"d/m/Y"|default:"..." }}&nbsp;:</b></td><td> {{ position.fonction }} {% trans "for" %} {{ position.office }} ({{ position.office.company }})</td></tr>
-		{% if position.description %}
-			<tr><td></td><td>{{ position.description }}</td></tr>
-		{% endif %}
-	{% endif %}
+    {% if not position.end_date %}
+        <tr><td>{% trans "since" %}
+                <b>{{ position.start_date|date:"d/m/Y" }}</b>&nbsp;:</td>
+            <td><em>{{ position.fonction }}</em> {% trans "for" %} 
+                {{ position.office }} 
+                (<a href="/emploi/societe/{{ position.office.company.id }}/">{{ position.office.company }}</a>)</td></tr>
+        {% if position.description %}
+            <tr><td></td><td>{{ position.description }}</td></tr>
+        {% endif %}
+    {% endif %}
 {% endfor %}
 </table>
 {% endif %}
