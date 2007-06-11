@@ -91,6 +91,18 @@ img {
     font: bold 1.5em Arial, Sans-Serif;
 }
 
+.confirm {
+    padding: 30px;
+    text-align: center;
+    font: 1.5em Arial, Sans-Serif;
+}
+
+.description {
+    padding: 20px 0 0 0;
+    text-align: center;
+    font: 1.2em Arial, Sans-Serif;
+}
+
 /* layout
    ------ */
 

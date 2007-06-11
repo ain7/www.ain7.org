@@ -33,7 +33,7 @@ class Country(models.Model):
     nationality = models.CharField(verbose_name=_('nationality'), maxlength=50)
 
     def __str__(self):
-        return self.nationality
+        return self.name
 
     class Admin:
         pass
@@ -42,7 +42,7 @@ class Country(models.Model):
         verbose_name = _('country')
         verbose_name_plural = _('country')
 
-# Indicates the current status of a person: Student, Ingineer
+# Indicates the current status of a person: Student, Ingeneer
 class PersonType(models.Model):
 
     type = models.CharField(verbose_name=_('type'), maxlength=50)
@@ -271,6 +271,9 @@ class AIn7Member(models.Model):
     receive_job_offers = models.BooleanField(verbose_name=_('Receive job offers by email'), core=True, default=False)
     cvTitle = models.CharField(verbose_name=_('CV title'), maxlength=100, blank=True, null=True)
 
+    def __str__(self):
+        return str(self.person)
+
     class Admin:
         pass
 
@@ -335,6 +338,12 @@ class Address(models.Model):
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
     modification_date = models.DateTimeField(editable=False)
 
+    def __str__(self):
+        addr  = self.number + " " + self.street + " - "
+        addr += self.zip_code + " " + self.city + " - "
+        addr += self.country.name
+        return addr
+
     def save(self):
         self.modification_date = datetime.datetime.today()
         return super(Address, self).save()
@@ -349,6 +358,9 @@ class Email(models.Model):
     is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
 
     person = models.ForeignKey(Person, related_name='emails', edit_inline=models.TABULAR, num_in_admin=1)
+
+    def __str__(self):
+        return self.email
 
     class Meta:
         verbose_name = _('email')
@@ -371,6 +383,9 @@ class InstantMessaging(models.Model):
 
     person = models.ForeignKey(Person, related_name='instant_messagings', edit_inline=models.TABULAR, num_in_admin=1)
 
+    def __str__(self):
+        return self.identifier
+
     class Meta:
         verbose_name = _('instant_messaging')
 
@@ -380,6 +395,9 @@ class WebSite(models.Model):
     url = models.CharField(verbose_name=_('web site'), maxlength=100, core=True)
 
     person = models.ForeignKey(Person, related_name='web_sites', edit_inline=models.TABULAR, num_in_admin=1)
+
+    def __str__(self):
+        return self.url
 
     class Meta:
         verbose_name = _('web site')
@@ -392,6 +410,9 @@ class IRC(models.Model):
     channels = models.CharField(verbose_name=_('channels'), maxlength=100)
 
     person = models.ForeignKey(Person, related_name='ircs', edit_inline=models.TABULAR, num_in_admin=1)
+
+    def __str__(self):
+        return self.pseudo + "@" + self.channels
 
     class Meta:
         verbose_name = _('irc')
@@ -426,6 +447,9 @@ class ClubMembership(models.Model):
 
     club = models.ForeignKey(Club, verbose_name=_('club'), related_name='memberships', edit_inline=models.TABULAR, num_in_admin=1)
     member = models.ForeignKey(AIn7Member, verbose_name=_('member'), related_name='club_memberships', edit_inline=models.TABULAR, num_in_admin=1)
+
+    def __str__(self):
+        return str(self.club) + " " + self.fonction
 
     class Meta:
         verbose_name = _('club membership')

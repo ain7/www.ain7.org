@@ -27,6 +27,53 @@ urlpatterns = patterns('',
     # Annuaire
     (r'^$', 'ain7.annuaire.views.search'),
     (r'^(?P<person_id>\d+)/$', 'ain7.annuaire.views.detail'),
+    # Edition
     (r'^(?P<person_id>\d+)/edit/$', 'ain7.annuaire.views.edit'),
+    (r'^(?P<user_id>\d+)/person/edit/$', 'ain7.annuaire.views.person_edit'),
+    (r'^(?P<user_id>\d+)/ain7member/edit/$',
+     'ain7.annuaire.views.ain7member_edit'),
+    # Adresses
+    (r'^(?P<user_id>\d+)/address/(?P<address_id>\d+)/edit/$',
+     'ain7.annuaire.views.address_edit'),
+    (r'^(?P<user_id>\d+)/address/(?P<address_id>\d+)/delete/$',
+     'ain7.annuaire.views.address_delete'),
+    (r'^(?P<user_id>\d+)/address/add/$', 'ain7.annuaire.views.address_add'),
+    # Phone numbers
+    (r'^(?P<user_id>\d+)/phone/(?P<phone_id>\d+)/edit/$',
+     'ain7.annuaire.views.phone_edit'),
+    (r'^(?P<user_id>\d+)/phone/(?P<phone_id>\d+)/delete/$',
+     'ain7.annuaire.views.phone_delete'),
+    (r'^(?P<user_id>\d+)/phone/add/$', 'ain7.annuaire.views.phone_add'),
+    # Email
+    (r'^(?P<user_id>\d+)/email/(?P<email_id>\d+)/edit/$',
+     'ain7.annuaire.views.email_edit'),
+    (r'^(?P<user_id>\d+)/email/(?P<email_id>\d+)/delete/$',
+     'ain7.annuaire.views.email_delete'),
+    (r'^(?P<user_id>\d+)/email/add/$', 'ain7.annuaire.views.email_add'),
+    # Instant messaging
+    (r'^(?P<user_id>\d+)/im/(?P<im_id>\d+)/edit/$',
+     'ain7.annuaire.views.im_edit'),
+    (r'^(?P<user_id>\d+)/im/(?P<im_id>\d+)/delete/$',
+     'ain7.annuaire.views.im_delete'),
+    (r'^(?P<user_id>\d+)/im/add/$', 'ain7.annuaire.views.im_add'),
+    # Comptes IRC 
+    (r'^(?P<user_id>\d+)/irc/(?P<irc_id>\d+)/edit/$',
+     'ain7.annuaire.views.irc_edit'),
+    (r'^(?P<user_id>\d+)/irc/(?P<irc_id>\d+)/delete/$',
+     'ain7.annuaire.views.irc_delete'),
+    (r'^(?P<user_id>\d+)/irc/add/$', 'ain7.annuaire.views.irc_add'),
+    # Sites Web 
+    (r'^(?P<user_id>\d+)/website/(?P<website_id>\d+)/edit/$',
+     'ain7.annuaire.views.website_edit'),
+    (r'^(?P<user_id>\d+)/website/(?P<website_id>\d+)/delete/$',
+     'ain7.annuaire.views.website_delete'),
+    (r'^(?P<user_id>\d+)/website/add/$', 'ain7.annuaire.views.website_add'),
+    # Activités associatives n7
+    (r'^(?P<user_id>\d+)/club_membership/(?P<club_membership_id>\d+)/edit/$',
+     'ain7.annuaire.views.club_membership_edit'),
+    (r'^(?P<user_id>\d+)/club_membership/(?P<club_membership_id>\d+)/delete/$',
+     'ain7.annuaire.views.club_membership_delete'),
+    (r'^(?P<user_id>\d+)/club_membership/add/$',
+     'ain7.annuaire.views.club_membership_add'),
 
 )

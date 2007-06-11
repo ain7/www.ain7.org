@@ -37,7 +37,11 @@
 <div id="dataBlock">
 <ul>
    <li><b>{% trans "Nick name" %}&nbsp;:</b> 
-       {{ ain7member.nick_name|default:"" }}</li>
+       {% if ain7member.nick_name %}
+           {{ ain7member.nick_name|default:"" }}
+       {% else %}
+           {% trans "No nickname" %}
+       {% endif %}</li>
    <li><b>{% trans "Family situation" %}&nbsp;:</b>
        {% if ain7member.is_married %}
            {% filter capfirst %}{% trans "married" %}{% endfilter %},
@@ -66,10 +70,55 @@
            {% endif %}
        {% else %}
            {% trans "No blog" %}
-       {% endif %}
-    <li>TODO : person_type, member_type, activity</li>
-    <li>TODO : display_cv_in_directory, display_cv_in_job_section,
-        receive_job_offers, cvTitle</li>
+       {% endif %}</li>
+    <li><b>{% trans "Promos" %}&nbsp;:</b> 
+        {% if ain7member.promos.all %}
+            {% for promo in ain7member.promos.all %}{{ promo }}
+                {% if not forloop.last %} - {% endif %}
+            {% endfor %}
+        {% else %}
+            {% trans "No promotion" %}
+        {% endif %}</li>
+    <li><b>{% filter capfirst %}{% trans "diplomas"%}{% endfilter %}&nbsp;:</b> 
+        {% if ain7member.diplomas.all %}
+            {% for diploma in ain7member.diplomas.all %}{{ diploma }}
+                 {% if not forloop.last %} - {% endif %}{% endfor %}
+        {% else %}
+            {% trans "No diploma" %}
+        {% endif %}</li>
+    <li><b>{% filter capfirst %}{% trans "decorations" %}{% endfilter %}
+        &nbsp;:</b> 
+        {% if ain7member.decorations.all %}
+            {% for decoration in ain7member.decorations.all %}{{ decoration }}
+                {% if not forloop.last %} - {% endif %}{% endfor %}
+        {% else %}
+            {% trans "No decoration" %}
+        {% endif %}</li>
+    <li><b>{% filter capfirst %}{% trans "ceremonial duties"%}{% endfilter %}
+        &nbsp;:</b> 
+        {% if ain7member.ceremonial_duties.all %}
+            {% for duty in ain7member.ceremonial_duties.all %}{{ diploma }}
+                {% if not forloop.last %} - {% endif %}{% endfor %}
+        {% else %}
+            {% trans "No ceremonial duty" %}
+        {% endif %}</li>
+    <li><b>{% filter capfirst %}{% trans "type" %}{% endfilter %}</b>&nbsp;:
+        {{ ain7member.person_type }}</li>
+    <li><b>{% filter capfirst %}{% trans "member" %}{% endfilter %}</b>&nbsp;:
+        {{ ain7member.member_type }}</li>
+    <li><b>{% filter capfirst %}{% trans "activity" %}{% endfilter %}</b>&nbsp;:
+        {{ ain7member.activity }}</li>
+    <li><b>{% trans "Display my CV in the directory" %}</b>&nbsp;:
+        {% if ain7member.display_cv_in_directory %}
+            {% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</li>
+    <li><b>{% trans "Display my CV in the job service section" %}</b>&nbsp;:
+        {% if ain7member.display_cv_in_job_section %}
+            {% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</li>
+    <li><b>{% trans "Receive job offers by email" %}</b>&nbsp;:
+        {% if ain7member.receive_job_offers %}
+            {% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</li>
+    <li><b>{% trans "CV title" %}</b>&nbsp;:
+        {{ ain7member.cvTitle}}</li>
 </ul>
 </div>
 
@@ -77,19 +126,23 @@
    <img src="/site_media/images/icon_changelink.gif" border="0" />
    {% trans "Modify" %}</a></p>
 
+
 <h2>{% trans "Address" %}</h2>
-<table border="0">
+
+<table border="0" width="100%">
 {% for address in person.addresses.all %}
-    <tr><td><b>{% trans "Address" %} {{ address.type|lower }} :</b></td><td>
+    <tr><td><b>{% trans "Address" %} {{ address.type|lower }}&nbsp;:</b></td><td>
         {{ address.number }} {{ address.street }} - 
         {{address.zip_code }} {{ address.city }} - {{ address.country.name }}
         {% if address.is_confidential %} ({% trans "confidential" %})
         {% else %}                       ({% trans "not confidential" %})
         {% endif %}</td>
-    <td><a href="/annuaire/{{ person.user.id }}/address/{{ address.id }}/edit/">
+    <td width="12%">
+        <a href="/annuaire/{{ person.user.id }}/address/{{ address.id }}/edit/">
         <img src="/site_media/images/icon_changelink.gif" border="0" />
         {% trans "Modify" %}</a></td>
-    <td><a href="/annuaire/{{ person.user.id }}/address/{{ address.id }}/delete/">
+    <td width="12%">
+        <a href="/annuaire/{{ person.user.id }}/address/{{ address.id }}/delete/">
         <img src="/site_media/images/icon_deletelink.gif" border="0" />
         {% trans "Delete" %}</a></td>
     </tr>
@@ -102,16 +155,18 @@
 
 <h2>{% trans "Phone numbers" %}</h2>
 
-<table border="0">
+<table border="0" width="100%">
 {% for phone_number in person.phone_numbers.all %}
    <tr><td><b>{{ phone_number.get_type_display }} :</b></td>
    <td>{{ phone_number.number }}
        {% if not phone_number.is_confidential %} ({% trans "confidential" %})
         {% else %} ({% trans "not confidential" %}) {% endif %}</td>
-    <td><a href="/annuaire/{{ person.user.id }}/phone/{{ phone_number.id }}/edit/">
+    <td width="12%">
+        <a href="/annuaire/{{ person.user.id }}/phone/{{ phone_number.id }}/edit/">
         <img src="/site_media/images/icon_changelink.gif" border="0" />
         {% trans "Modify" %}</a></td>
-    <td><a href="/annuaire/{{ person.user.id }}/phone/{{ phone_number.id }}/delete/">
+    <td width="12%">
+        <a href="/annuaire/{{ person.user.id }}/phone/{{ phone_number.id }}/delete/">
         <img src="/site_media/images/icon_deletelink.gif" border="0" />
         {% trans "Delete" %}</a></td>
     </tr>
@@ -124,7 +179,7 @@
 
 <h2>{% filter capfirst %}{% trans "email" %}{% endfilter %}</h2>
 
-<table border="0">
+<table border="0" width="100%">
 {% for email in person.emails.all %}
 	    <tr><td><img src="/site_media/images/mail.png" alt="{% trans "email" %}"/><a href="mailto:{{ email.email }}">{{ email.email }}</a>
 	{% if email.is_confidential %} ({% trans "confidential" %})
@@ -132,10 +187,12 @@
 	{% endif %}
 
 </td>
-    <td><a href="/annuaire/{{ person.user.id }}/im/{{ im.id }}/edit/">
+    <td width="12%">
+        <a href="/annuaire/{{ person.user.id }}/email/{{ email.id }}/edit/">
         <img src="/site_media/images/icon_changelink.gif" border="0" />
         {% trans "Modify" %}</a></td>
-    <td><a href="/annuaire/{{ person.user.id }}/im/{{ im.id }}/delete/">
+    <td width="12%">
+        <a href="/annuaire/{{ person.user.id }}/email/{{ email.id }}/delete/">
         <img src="/site_media/images/icon_deletelink.gif" border="0" />
         {% trans "Delete" %}</a></td>
     </tr>
@@ -147,16 +204,18 @@
 
 <h2>{% trans "Instant messaging accounts" %}</h2>
 
-<table border="0">
+<table border="0" width="100%">
 {% for im in person.instant_messagings.all %}
     <tr valign="middle"><td>
        <img src="/site_media/images/{{ im.get_type_display|lower }}.png" 
        alt="{% trans "Contact" %} {{im.get_im_display|lower }}"/> 
        {{ im.identifier }}</td>
-    <td><a href="/annuaire/{{ person.user.id }}/im/{{ im.id }}/edit/">
+    <td width="12%">
+        <a href="/annuaire/{{ person.user.id }}/im/{{ im.id }}/edit/">
         <img src="/site_media/images/icon_changelink.gif" border="0" />
         {% trans "Modify" %}</a></td>
-    <td><a href="/annuaire/{{ person.user.id }}/im/{{ im.id }}/delete/">
+    <td width="12%">
+        <a href="/annuaire/{{ person.user.id }}/im/{{ im.id }}/delete/">
         <img src="/site_media/images/icon_deletelink.gif" border="0" />
         {% trans "Delete" %}</a></td>
     </tr>
@@ -168,16 +227,18 @@
 
 <h2>{% trans "IRC accounts" %}</h2>
 
-<table border="0">
+<table border="0" width="100%">
 {% for irc in person.ircs.all %}
     <tr valign="middle"><td>
        <img src="/site_media/images/irc.png" alt="{% trans "irc" %}"/> 
        {{ irc.pseudo }} @ {{ irc.network }} {% trans "on" %} {{ irc.channels }}
        </td>
-    <td><a href="/annuaire/{{ person.user.id }}/irc/{{ irc.id }}/edit/">
+    <td width="12%">
+        <a href="/annuaire/{{ person.user.id }}/irc/{{ irc.id }}/edit/">
         <img src="/site_media/images/icon_changelink.gif" border="0" />
         {% trans "Modify" %}</a></td>
-    <td><a href="/annuaire/{{ person.user.id }}/irc/{{ irc.id }}/delete/">
+    <td width="12%">
+        <a href="/annuaire/{{ person.user.id }}/irc/{{ irc.id }}/delete/">
         <img src="/site_media/images/icon_deletelink.gif" border="0" />
         {% trans "Delete" %}</a></td>
     </tr>
@@ -189,15 +250,17 @@
 
 <h2>{% trans "Web sites" %}</h2>
 
-<table border="0">
+<table border="0" width="100%">
 {% for website in person.web_sites.all %}
     <tr valign="middle"><td>
         <img src="/site_media/images/web.png" alt="{% trans "web site" %}"/>
         <a href="{{ website.url }}">{{ website.url }}</a></td>
-    <td><a href="/annuaire/{{ person.user.id }}/website/{{ website.id }}/edit/">
+    <td width="12%">
+        <a href="/annuaire/{{ person.user.id }}/website/{{ website.id }}/edit/">
         <img src="/site_media/images/icon_changelink.gif" border="0" />
         {% trans "Modify" %}</a></td>
-    <td><a href="/annuaire/{{ person.user.id }}/website/{{ website.id }}/delete/">
+    <td width="12%">
+        <a href="/annuaire/{{ person.user.id }}/website/{{ website.id }}/delete/">
         <img src="/site_media/images/icon_deletelink.gif" border="0" />
         {% trans "Delete" %}</a></td>
     </tr>
@@ -207,96 +270,38 @@
    <img src="/site_media/images/icon_addlink.gif" border="0" />
    {% trans "Add" %}</a></p>
 
-<h2>{% trans "Promos" %}</h2>
-
-<table border="0">
-{% for promo in ain7member.promos.all %}
-    <tr><td>{{ promo }}</a></td>
-    <td><a href="/annuaire/{{ person.user.id }}/promo/{{ promo.id }}/edit/">
-        <img src="/site_media/images/icon_changelink.gif" border="0" />
-        {% trans "Modify" %}</a></td>
-    <td><a href="/annuaire/{{ person.user.id }}/promo/{{ promo.id }}/delete/">
-        <img src="/site_media/images/icon_deletelink.gif" border="0" />
-        {% trans "Delete" %}</a></td>
-    </tr>
-{% endfor %}
-</table>
-<p><a href="/annuaire/{{ person.user.id }}/promo/add/">
-   <img src="/site_media/images/icon_addlink.gif" border="0" />
-   {% trans "Add" %}</a></p>
-
-
-<h2>{% filter capfirst %}{% trans "diplomas" %}{% endfilter %}</h2>
-
-<table border="0">
-{% for diploma in ain7member.diplomas.all %}
-    <tr><td>{{ diploma }}</a></td>
-    <td><a href="/annuaire/{{ person.user.id }}/diplome/{{ diploma.id }}/edit/">
-        <img src="/site_media/images/icon_changelink.gif" border="0" />
-        {% trans "Modify" %}</a></td>
-    <td><a href="/annuaire/{{ person.user.id }}/diplome/{{ diploma.id }}/delete/">
-        <img src="/site_media/images/icon_deletelink.gif" border="0" />
-        {% trans "Delete" %}</a></td>
-    </tr>
-{% endfor %}
-</table>
-<p><a href="/annuaire/{{ person.user.id }}/diplome/add/">
-   <img src="/site_media/images/icon_addlink.gif" border="0" />
-   {% trans "Add" %}</a></p>
-
-<h2>{% filter capfirst %}{% trans "decorations" %}{% endfilter %}</h2>
-
-<table border="0">
-{% for decoration in ain7member.decorations.all %}
-    <tr><td>{{ decoration }}</a></td>
-    <td><a href="/annuaire/{{ person.user.id }}/decoration/{{ decoration.id }}/edit/">
-        <img src="/site_media/images/icon_changelink.gif" border="0" />
-        {% trans "Modify" %}</a></td>
-    <td><a href="/annuaire/{{ person.user.id }}/decoration/{{ decoration.id }}/delete/">
-        <img src="/site_media/images/icon_deletelink.gif" border="0" />
-        {% trans "Delete" %}</a></td>
-    </tr>
-{% endfor %}
-</table>
-<p><a href="/annuaire/{{ person.user.id }}/decoration/add/">
-   <img src="/site_media/images/icon_addlink.gif" border="0" />
-   {% trans "Add" %}</a></p>
-
-
-<h2>{% filter capfirst %}{% trans "ceremonial duties" %}{% endfilter %}</h2>
-
-<table border="0">
-{% for duty in ain7member.ceremonial_duties.all %}{{ duty }}
-    <tr><td>{{ duty }}</a></td>
-    <td><a href="/annuaire/{{ person.user.id }}/duty/{{ duty.id }}/edit/">
-        <img src="/site_media/images/icon_changelink.gif" border="0" />
-        {% trans "Modify" %}</a></td>
-    <td><a href="/annuaire/{{ person.user.id }}/duty/{{ duty.id }}/delete/">
-        <img src="/site_media/images/icon_deletelink.gif" border="0" />
-        {% trans "Delete" %}</a></td>
-    </tr>
-{% endfor %}
-</table>
-<p><a href="/annuaire/{{ person.user.id }}/duty/add/">
-   <img src="/site_media/images/icon_addlink.gif" border="0" />
-   {% trans "Add" %}</a></p>
-
 
 <h2>{% trans "AIn7 activity" %}</h2>
 
-<table border="0">
+<table border="0" width="100%">
 {% for membership in ain7member.group_memberships.all %}
     <tr><td>{{ membership.group.name }}</a></td>
-    <td><a href="/annuaire/{{ person.user.id }}/membership/{{ membership.group.id }}/edit/">
+    </tr>
+{% endfor %}
+</table>
+<p><a href="/groupes/">
+   <img src="/site_media/images/icon_changelink.gif" border="0" />
+   {% trans "Modify" %}</a></p>
+
+
+<h2>{% trans "N7 associative activities" %}</h2>
+
+<table border="0" width="100%">
+{% for club_membership in ain7member.club_memberships.all %}
+    <tr><td>{{ club_membership.club.name }}</td>
+    <td>{{ club_membership.fonction }}</td>
+    <td width="12%">
+        <a href="/annuaire/{{ person.user.id }}/club_membership/{{ club_membership.id }}/edit/">
         <img src="/site_media/images/icon_changelink.gif" border="0" />
         {% trans "Modify" %}</a></td>
-    <td><a href="/annuaire/{{ person.user.id }}/membership/{{ membership.group.id }}/delete/">
+    <td width="12%">
+        <a href="/annuaire/{{ person.user.id }}/club_membership/{{ club_membership.id }}/delete/">
         <img src="/site_media/images/icon_deletelink.gif" border="0" />
         {% trans "Delete" %}</a></td>
     </tr>
 {% endfor %}
 </table>
-<p><a href="/annuaire/{{ person.user.id }}/membership/add/">
+<p><a href="/annuaire/{{ person.user.id }}/club_membership/add/">
    <img src="/site_media/images/icon_addlink.gif" border="0" />
    {% trans "Add" %}</a></p>
 
@@ -320,24 +325,6 @@
 <p><a href="/emploi/{{ person.user.id }}/cv/edit/">
 <img src="/site_media/images/icon_changelink.gif" border="0" />
 {% trans "Modify" %}</a></p>
-
-<h2>{% trans "N7 associative activities" %}</h2>
-
-<table border="0">
-{% for club_membership in ain7member.club_memberships.all %}
-    <tr><td>{{ club_membership.club.name }}</a></td>
-    <td><a href="/annuaire/{{ person.user.id }}/club_membership/{{ club_membership.club.id }}/edit/">
-        <img src="/site_media/images/icon_changelink.gif" border="0" />
-        {% trans "Modify" %}</a></td>
-    <td><a href="/annuaire/{{ person.user.id }}/club_membership/{{ club_membership.club.id }}/delete/">
-        <img src="/site_media/images/icon_deletelink.gif" border="0" />
-        {% trans "Delete" %}</a></td>
-    </tr>
-{% endfor %}
-</table>
-<p><a href="/annuaire/{{ person.user.id }}/club_membership/add/">
-   <img src="/site_media/images/icon_addlink.gif" border="0" />
-   {% trans "Add" %}</a></p>
 
 </div>
 
