@@ -125,6 +125,11 @@ class Position(models.Model):
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
     modification_date = models.DateTimeField(editable=False)
 
+    def __str__(self):
+        description  = self.fonction + " " + _("for") + " " + str(self.office)
+        description += " (" + str(self.office.company) +")"
+        return description
+
     def save(self):
         self.modification_date = datetime.datetime.today()
         return super(Position, self).save()
@@ -181,8 +186,8 @@ class PublicationItem(models.Model):
 
     title = models.CharField(verbose_name=_('Title'), maxlength=50, core=True)
     details = models.TextField(verbose_name=_('Detail'), blank=True, null=True)
-    date = models.DateTimeField()
-    person = models.ForeignKey(Person, related_name='publication', edit_inline=models.STACKED, num_in_admin=1)
+    date = models.DateField()
+    ain7member = models.ForeignKey(AIn7Member, related_name='publication', edit_inline=models.STACKED, num_in_admin=1)
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
@@ -220,6 +225,9 @@ class JobOffer(models.Model):
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
     modification_date = models.DateTimeField(editable=False)
+
+    def __str__(self):
+        return self.reference + " " + self.title + " ("+ str(self.office) + ")"
 
     def save(self):
         self.modification_date = datetime.datetime.today()

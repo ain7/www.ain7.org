@@ -116,7 +116,19 @@
             {% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</li>
     <li><b>{% trans "Receive job offers by email" %}</b>&nbsp;:
         {% if ain7member.receive_job_offers %}
-            {% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</li>
+            {% trans "Yes" %}</li>
+                <li><b>{% trans "Tracks for which you would like to receive job offers" %}</b>&nbsp;:
+                {% if ain7member.receive_job_offers_for_tracks.all %}
+                    {% for track in ain7member.receive_job_offers_for_tracks.all %}
+                         {{ track }}
+                         {% if not forloop.last %} - {% endif %}
+                    {% endfor %}
+                {% else %}
+                    {% trans "No track" %}
+                {% endif %}</li>
+	{% else %}
+            {% trans "No" %}</li>
+        {% endif %}
     <li><b>{% trans "CV title" %}</b>&nbsp;:
         {{ ain7member.cvTitle}}</li>
 </ul>

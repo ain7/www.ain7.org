@@ -7,13 +7,30 @@
 
 {# ### this user is a physical person ### #}
 
+{# if the user has preferred tracks for job offers, #}
+{# we only display job offers for these tracks      #}
+
+{% if ain7member.receive_job_offers_for_tracks.all %}
+
+<h2>{% trans "Jobs list for tracks" %}&nbsp:
+    {% for track in ain7member.receive_job_offers_for_tracks.all %}
+        {{ track }}
+        {% if not forloop.last %} - {% endif %}
+    {% endfor %}
+</h2>
+
+{% else %}
+
 <h2>{% trans "Jobs list" %}</h2>
+
+{% endif %}
+
 {% if liste_emplois %}
     <ul>
     {% for emploi in liste_emplois %}
-           <li>{{ emploi.office.company }} ({{ emploi.office }}) 
-               - <a href="/emploi/job/{{ emploi.id }}/">{{ emploi.title }}</a>
-	   </li>
+        <li>{{ emploi.office.company }} ({{ emploi.office }}) 
+           - <a href="/emploi/job/{{ emploi.id }}/">{{ emploi.title }}</a>
+        </li>
     {% endfor %}
      </ul>
 {% else %}

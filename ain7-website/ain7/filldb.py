@@ -301,6 +301,7 @@ def filldb():
     olivier_ain7member.display_cv_in_directory = True
     olivier_ain7member.display_cv_in_job_section = True
     olivier_ain7member.receive_job_offers = True
+    olivier_ain7member.receive_job_offers_for_tracks.add(n7info)
     olivier_ain7member.cvTitle = "Ingénieur ENSEEIHT et doctorant en Informatique"    
     olivier_ain7member.save()
 
@@ -686,6 +687,8 @@ def filldb():
     job1.is_opened = True
     job1.office = anywareoffice
     job1.save()
+    job1.track.add(n7info)
+    job1.save()
 
     job2 = emploi.JobOffer()
     job2.reference = "XYZ271"
@@ -698,6 +701,8 @@ def filldb():
     job2.is_opened = True
     job2.office = priceminister
     job2.save()
+    job2.track.add(n7info)
+    job2.save()
 
     job3 = emploi.JobOffer()
     job3.reference = "XYZ272"
@@ -708,6 +713,8 @@ def filldb():
     job3.is_opened = True
     job3.office = anywareoffice
     job3.save()
+    job3.track.add(n7info)
+    job3.save()
 
     job4 = emploi.JobOffer()
     job4.reference = "XYZ273"
@@ -717,6 +724,8 @@ def filldb():
     job4.contract_type = 3
     job4.is_opened = False
     job4.office = anywareoffice
+    job4.save()
+    job4.track.add(n7hydro)
     job4.save()
     
     job5 = emploi.JobOffer()

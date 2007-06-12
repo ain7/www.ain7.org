@@ -40,10 +40,8 @@ class SearchPersonForm(forms.Form):
 def detail(request, person_id):
     p = get_object_or_404(Person, pk=person_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
-    return render_to_response('annuaire/details.html', 
-                             {'person': p, 'user': request.user,
-                              'ain7member': ain7member}, 
-                              context_instance=RequestContext(request))
+    return render_response(request, 'annuaire/details.html', 
+                           {'person': p, 'ain7member': ain7member})
 
 @login_required
 def search(request):
@@ -78,26 +76,20 @@ def search(request):
                 
             ain7members = AIn7Member.objects.filter(**criteria)
 
-            return render_to_response('annuaire/index.html', 
-                                     {'ain7members': ain7members,
-                                      'user': request.user},
-                                      context_instance=RequestContext(request))
+            return render_response(request, 'annuaire/index.html', 
+                                   {'ain7members': ain7members})
 
     else:
         f = SearchPersonForm()
-        return render_to_response('annuaire/search.html', 
-                                 {'form': f , 'user': request.user},
-                                 context_instance=RequestContext(request))
+        return render_response(request, 'annuaire/search.html', {'form': f})
 
 @login_required
 def edit(request, person_id=None):
 
     p = get_object_or_404(Person, pk=person_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
-    return render_to_response('annuaire/edit.html',
-                              {'person': p, 'user': request.user,
-                               'ain7member': ain7member},
-                              context_instance=RequestContext(request))
+    return render_response(request, 'annuaire/edit.html',
+                              {'person': p, 'ain7member': ain7member})
 
 @login_required
 def person_edit(request, user_id=None):
@@ -121,11 +113,12 @@ def person_edit(request, user_id=None):
                  form.clean_data['user'] = person.user
                  form.save()
                  request.user.message_set.create(message=_("Modifications have been successfully saved."))
-                 return HttpResponseRedirect('/annuaire/%s/edit' % (person.user.id))
-    return render_to_response('annuaire/edit_form.html', 
-                             {'form': form, 'user': request.user,
-                              'action_title': _("Modification of personal data")},
-                             context_instance=RequestContext(request))
+             else:
+                 request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+             return HttpResponseRedirect('/annuaire/%s/edit' % (person.user.id))
+    return render_response(request, 'annuaire/edit_form.html', 
+                             {'form': form,
+                              'action_title': _("Modification of personal data")})
 
 @login_required
 def ain7member_edit(request, user_id=None):
@@ -148,13 +141,14 @@ def ain7member_edit(request, user_id=None):
                  form.clean_data['person'] = person
                  form.save()
                  request.user.message_set.create(message=_("Modifications have been successfully saved."))
-                 return HttpResponseRedirect('/annuaire/%s/edit' % (person.user.id))
-    return render_to_response('annuaire/edit_form.html', 
-                             {'form': form, 'user': request.user,
+             else:
+                 request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+             return HttpResponseRedirect('/annuaire/%s/edit' % (person.user.id))
+    return render_response(request, 'annuaire/edit_form.html', 
+                             {'form': form,
                               'action_title':
                               _("Modification of personal data for ") +
-                              str(person)},
-                             context_instance=RequestContext(request))
+                              str(person)})
 
 @login_required
 def generic_edit(request, user_id, object_id, object_type,
@@ -167,10 +161,8 @@ def generic_edit(request, user_id, object_id, object_type,
         PosForm = forms.models.form_for_instance(obj,
             formfield_callback=form_callback)
         f = PosForm()
-        return render_to_response('annuaire/edit_form.html',
-                                 {'form': f, 'user': request.user, 
-                                  'action_title': action_title},
-                                  context_instance=RequestContext(request))
+        return render_response(request, 'annuaire/edit_form.html',
+                                 {'form': f, 'action_title': action_title})
     
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
@@ -183,7 +175,9 @@ def generic_edit(request, user_id, object_id, object_type,
             if ain7member is not None:
                 f.clean_data['member'] = ain7member
             f.save()
-        request.user.message_set.create(message=msg_done)
+            request.user.message_set.create(message=msg_done)
+        else:
+            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
         return HttpResponseRedirect('/annuaire/%s/edit/' % user_id)
 
 
@@ -196,12 +190,10 @@ def generic_delete(request, user_id, object_id, object_type,
     # 1er passage: on demande confirmation
     if request.method != 'POST':
         msg = msg_confirm
-        return render_to_response('pages/confirm.html',
-                                  {'message': msg_confirm,
-                                  'description': str(obj),
-                                  'section': "annuaire/base.html", 
-                                  'user': request.user},
-                                  context_instance=RequestContext(request))
+        return render_response(request, 'pages/confirm.html',
+                               {'message': msg_confirm,
+                                'description': str(obj),
+                                'section': "annuaire/base.html"})
 
     # 2eme passage: on supprime si c'est confirmé
     else:
@@ -220,11 +212,9 @@ def generic_add(request, user_id, object_type, person, ain7member,
         PosForm = forms.models.form_for_model(object_type,
             formfield_callback=form_callback)
         f = PosForm()
-        return render_to_response('annuaire/edit_form.html',
-                                  {'person': person, 'ain7member': ain7member,
-                                   'user': request.user, 'form': f,
-                                   'action_title': action_title},
-                                  context_instance=RequestContext(request))
+        return render_response(request, 'annuaire/edit_form.html',
+                               {'person': person, 'ain7member': ain7member,
+                                'form': f, 'action_title': action_title})
 
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
@@ -237,7 +227,9 @@ def generic_add(request, user_id, object_type, person, ain7member,
             if ain7member is not None:            
                 f.clean_data['member'] = ain7member
             f.save()
-        request.user.message_set.create(message=msg_done)
+            request.user.message_set.create(message=msg_done)
+        else:
+            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
         return HttpResponseRedirect('/annuaire/%s/edit/' % user_id)
 
 # Adresses
@@ -405,3 +397,9 @@ def form_callback(f, **args):
   if f.name in exclude_fields:
     return None
   return f.formfield(**args)
+
+# pour alléger les appels à render_to_response
+# http://www.djangosnippets.org/snippets/3/
+def render_response(req, *args, **kwargs):
+    kwargs['context_instance'] = RequestContext(req)
+    return render_to_response(*args, **kwargs)

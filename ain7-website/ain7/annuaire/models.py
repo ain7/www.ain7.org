@@ -269,6 +269,10 @@ class AIn7Member(models.Model):
     display_cv_in_directory = models.BooleanField(verbose_name=_('Display my CV in the directory'), core=True, default=False)
     display_cv_in_job_section = models.BooleanField(verbose_name=_('Display my CV in the job service section'), core=True, default=True)
     receive_job_offers = models.BooleanField(verbose_name=_('Receive job offers by email'), core=True, default=False)
+    receive_job_offers_for_tracks = models.ManyToManyField(
+        Track,
+        verbose_name=_('Tracks for which you would like to receive job offers'),
+        blank=True, null=True, filter_interface=models.HORIZONTAL)
     cvTitle = models.CharField(verbose_name=_('CV title'), maxlength=100, blank=True, null=True)
 
     def __str__(self):

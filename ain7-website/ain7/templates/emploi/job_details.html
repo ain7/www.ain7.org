@@ -14,6 +14,12 @@
 <li><b>{% trans "Title" %}&nbsp;:</b> {{ job.title }}</li>
 <li><b>{% trans "Experience" %}&nbsp;:</b> {{ job.experience }}</li>
 <li><b>{% trans "Contract Type" %}&nbsp;:</b> {{ job.get_contract_type_display }}</li>
+<li><b>{% trans "Tracks" %}&nbsp;:</b> 
+    {% for track in job.track.all %}
+        {{ track }}
+        {% if not forloop.last %} - {% endif %}
+    {% endfor %}
+</li>
 </ul>
 
 {{ job.description }}
