@@ -227,7 +227,7 @@ class Person(models.Model):
 
     def save(self):
         self.modification_date = datetime.datetime.today()
-        self.modifier = 1
+        self.modifier = 1 # TODO
         return super(Person, self).save()
 
     class Admin:
@@ -323,7 +323,7 @@ class AddressType(models.Model):
 
     class Meta:
         verbose_name = _('address type')
-        verbose_name = _('address types')
+        verbose_name_plural = _('address types')
 
 # A person address
 class Address(models.Model):
@@ -460,3 +460,54 @@ class ClubMembership(models.Model):
         verbose_name_plural = _('club memberships')
         ordering = ['start_date']
 
+# A profile indicates which rights has a user
+class Profile(models.Model):
+
+    name = models.CharField(verbose_name=_('name'), maxlength=50)
+    description = models.TextField(verbose_name=_('description'), blank=True, null=True)
+    
+    # Internal
+    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
+    modification_date = models.DateTimeField(editable=False)
+
+    def __str__(self):
+        return self.name
+
+    def save(self):
+        self.modification_date = datetime.datetime.today()
+        return super(Profile, self).save()
+
+    class Admin:
+        pass
+
+    class Meta:
+        verbose_name = _('profile')
+        verbose_name_plural = _('profiles')
+
+# This class links Users with their Profiles
+class ProfileMembership(models.Model):
+
+    user = models.ForeignKey(User, verbose_name=_('user'),
+                             related_name='profiles')
+    profile = models.ForeignKey(Profile, verbose_name=_('profile'),
+                                related_name='memberships')
+    
+    # Internal
+    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
+    modification_date = models.DateTimeField(editable=False)
+    modifier = models.IntegerField(editable=False)
+
+    def __str__(self):
+        return str(self.user) + ": " + str(self.profile)
+
+    def save(self):
+        self.modification_date = datetime.datetime.today()
+        self.modifier = 1 # TODO
+        return super(ProfileMembership, self).save()
+
+    class Admin:
+        pass
+
+    class Meta:
+        verbose_name = _('profile membership')
+        verbose_name_plural = _('profiles memberships')

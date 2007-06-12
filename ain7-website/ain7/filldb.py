@@ -67,6 +67,32 @@ def filldb():
     parentalAddressType = annuaire.AddressType(type="Parentale")
     parentalAddressType.save()
 
+    # Profiles
+    profile_n7 = annuaire.Profile()
+    profile_n7.name = "n7"
+    profile_n7.description = "Elève actuel ou passé"
+    profile_n7.save()
+    
+    profile_demo = annuaire.Profile()
+    profile_demo.name = "demo"
+    profile_demo.description = "Compte utilisé pour les démonstrations"
+    profile_demo.save()
+    
+    profile_secretaire = annuaire.Profile()
+    profile_secretaire.name = "secretaire"
+    profile_secretaire.description = "Secrétaire AIn7"
+    profile_secretaire.save()
+    
+    profile_admin = annuaire.Profile()
+    profile_admin.name = "admin"
+    profile_admin.description = "Administrateur du site"
+    profile_admin.save()
+    
+    profile_recruteur = annuaire.Profile()
+    profile_recruteur.name = "recruteur"
+    profile_recruteur.description = "Recruteur (contact entreprise)"
+    profile_recruteur.save()
+    
     # Diplomas
     bac = annuaire.Diploma(diploma="Baccalauréat", initials="Bac")
     bac.save()
@@ -163,6 +189,11 @@ def filldb():
     lionel_ain7member.receive_job_offers = False
     lionel_ain7member.cvTitle = "Ingénieur ENSEEIHT Informatique"    
     lionel_ain7member.save()
+
+    lionel_recrutProfile = annuaire.ProfileMembership()
+    lionel_recrutProfile.user = lionel.user
+    lionel_recrutProfile.profile = profile_recruteur
+    lionel_recrutProfile.save()
 
     lionel_adresse = annuaire.Address()
     lionel_adresse.person = lionel
@@ -263,6 +294,11 @@ def filldb():
     pierref_ain7member.cvTitle = "Élève Ingénieur ENSEEIHT Informatique"
     pierref_ain7member.save()
 
+    pierref_recrutProfile = annuaire.ProfileMembership()
+    pierref_recrutProfile.user = pierref.user
+    pierref_recrutProfile.profile = profile_recruteur
+    pierref_recrutProfile.save()
+
     pierref_adresse = annuaire.Address()
     pierref_adresse.person = pierref
     pierref_adresse.number = "2"
@@ -304,6 +340,11 @@ def filldb():
     olivier_ain7member.receive_job_offers_for_tracks.add(n7info)
     olivier_ain7member.cvTitle = "Ingénieur ENSEEIHT et doctorant en Informatique"    
     olivier_ain7member.save()
+
+    olivier_n7profile = annuaire.ProfileMembership()
+    olivier_n7profile.user = olivier.user
+    olivier_n7profile.profile = profile_n7
+    olivier_n7profile.save()
 
     olivier_adresse = annuaire.Address()
     olivier_adresse.person = olivier
@@ -422,6 +463,11 @@ def filldb():
     alex_ain7member.receive_job_offers = False
     alex_ain7member.cvTitle = "Ingénieur ENSEEIHT Informatique"
     alex_ain7member.save()
+
+    alex_n7profile = annuaire.ProfileMembership()
+    alex_n7profile.user = alex.user
+    alex_n7profile.profile = profile_n7
+    alex_n7profile.save()
 
     alex_portable = annuaire.PhoneNumber()
     alex_portable.person = alex
