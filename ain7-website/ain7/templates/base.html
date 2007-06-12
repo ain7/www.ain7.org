@@ -22,6 +22,8 @@
 		<input class="button" type="submit" value="{% trans "Log out" %}" />
 	</div>
 </form>
+{% else %}
+<p>{% trans "You are not logged-in" %} - <a href="/accounts/login/?next=/">{% trans "Login in" %} </p>
 {% endif %}
 				</div>		
 			</div>
