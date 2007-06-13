@@ -665,44 +665,59 @@ def filldb():
 
     travel1 = voyages.Travel()
     travel1.label = "Varsovie & croisière sur la Vistule"
+    travel1.start_date = date(2007,6,1)
+    travel1.end_date = date(2007,6,15)
     travel1.date = "Juin 2007"
     travel1.term = 14
     travel1.type = looptravel
     travel1.visited_places = "de Gdansk à Kaliningrad"
+    travel1.thumbnail = "/site_media/data/vistule.jpg"
     travel1.prix = 2350
     travel1.save()
 
     travel2 = voyages.Travel()
     travel2.label = "Japon"
     travel2.date = "Octobre 2007"
+    travel2.start_date = date(2007,10,1)
+    travel2.end_date = date(2007,10,15)
     travel2.term = 13
     travel2.type = looptravel
     travel2.visited_places = "Tokyo, Atami, Kyoto, Hiroshima, Nara, Osazka"
+    travel2.thumbnail = "/site_media/data/japon.jpg"
     travel2.prix = 3890
     travel2.save()
 
     travel3 = voyages.Travel()
     travel3.label = "Birmanie"
     travel3.date = "Février 2008"
+    travel3.start_date = date(2008,2,1)
+    travel3.end_date = date(2008,2,15)
     travel3.type = looptravel
     travel3.visited_places = "Ragoon, Pagan, Sagain, Mandalay"
+    travel3.thumbnail = "/site_media/data/birmanie.jpg"
     travel3.prix = 3550
     travel3.save()
 
     travel4 = voyages.Travel()
     travel4.label = "Mongolie / Pékin"
     travel4.date = "Juin 2008"
+    travel4.start_date = date(2008,6,1)
+    travel4.end_date = date(2008,6,15)
     travel4.term = 15
     travel4.type = boattravel
+    travel4.thumbnail = "/site_media/data/mongolie.jpg"
     travel4.prix = 2760
     travel4.save()
 
     travel5 = voyages.Travel()
     travel5.label = "Inde - Penjab & Himachal Pradesh"
     travel5.date = "Octobre 2008"
+    travel5.start_date = date(2008,10,1)
+    travel5.end_date = date(2008,10,15)
     travel5.term = 16
     travel5.type = boattravel
     travel5.visited_places = "Delhi, Amristar, Dharamsala, Manali, Simla"
+    travel5.thumbnail = "/site_media/data/delhi.jpg"
     travel5.prix = 1900
     travel5.save()
 

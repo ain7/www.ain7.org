@@ -7,18 +7,19 @@
 
 <h2>{% trans "Travels list" %}</h2>
 {% if travels %}
-    <table>
+    <table width="100%">
     {% for travel in travels %}
         <tr>
+            <td align="center">{% if travel.thumbnail %}
+                <a href="/voyages/{{ travel.id}}/">
+                <img src="{{ travel.thumbnail }}" height="150"/></a>
+                {% endif %}</td>
 	    <td><b><a href="/voyages/{{ travel.id}}/">
                 {{ travel.label }}</a></b><br />
-                {{ travel.visited_places }}</td>
-	    <td><b>{{ travel.date }}</b><br />
+                {{ travel.visited_places }}<br />
+		<b>{{ travel.date }}</b><br />
 	        {{ travel.type }} {% trans "of" %} {{ travel.term }} 
                 {% trans "days" %}.</td>
-            <td>{% if travel.thumbnail %}
-                <img src="{{ travel.thumbnail }}" />
-                {% endif %}</td>
 	</tr>
     {% endfor %}
      </table>
