@@ -29,8 +29,7 @@
 </ul>
 </div>
 
-<p><a href="/annuaire/{{ person.user.id }}/person/edit/">
-<img src="/site_media/images/icon_changelink.gif" border="0" />
+<p><a href="/annuaire/{{ person.user.id }}/person/edit/" class="changelink">
 {% trans "Modify" %}</a></p>
 
 
@@ -134,8 +133,7 @@
 </ul>
 </div>
 
-<p><a href="/annuaire/{{ person.user.id }}/ain7member/edit/">
-   <img src="/site_media/images/icon_changelink.gif" border="0" />
+<p><a href="/annuaire/{{ person.user.id }}/ain7member/edit/" class="changelink">
    {% trans "Modify" %}</a></p>
 
 
@@ -150,18 +148,15 @@
         {% else %}                       ({% trans "not confidential" %})
         {% endif %}</td>
     <td width="12%">
-        <a href="/annuaire/{{ person.user.id }}/address/{{ address.id }}/edit/">
-        <img src="/site_media/images/icon_changelink.gif" border="0" />
+        <a href="/annuaire/{{ person.user.id }}/address/{{ address.id }}/edit/" class="changelink">
         {% trans "Modify" %}</a></td>
     <td width="12%">
-        <a href="/annuaire/{{ person.user.id }}/address/{{ address.id }}/delete/">
-        <img src="/site_media/images/icon_deletelink.gif" border="0" />
+        <a href="/annuaire/{{ person.user.id }}/address/{{ address.id }}/delete/" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
 {% endfor %}
 </table>
-<p><a href="/annuaire/{{ person.user.id }}/address/add/">
-   <img src="/site_media/images/icon_addlink.gif" border="0" />
+<p><a href="/annuaire/{{ person.user.id }}/address/add/" class="addlink">
    {% trans "Add" %}</a></p>
 
 
@@ -174,18 +169,15 @@
        {% if not phone_number.is_confidential %} ({% trans "confidential" %})
         {% else %} ({% trans "not confidential" %}) {% endif %}</td>
     <td width="12%">
-        <a href="/annuaire/{{ person.user.id }}/phone/{{ phone_number.id }}/edit/">
-        <img src="/site_media/images/icon_changelink.gif" border="0" />
+        <a href="/annuaire/{{ person.user.id }}/phone/{{ phone_number.id }}/edit/" class="changelink">
         {% trans "Modify" %}</a></td>
     <td width="12%">
-        <a href="/annuaire/{{ person.user.id }}/phone/{{ phone_number.id }}/delete/">
-        <img src="/site_media/images/icon_deletelink.gif" border="0" />
+        <a href="/annuaire/{{ person.user.id }}/phone/{{ phone_number.id }}/delete/" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
 {% endfor %}
 </table>
-<p><a href="/annuaire/{{ person.user.id }}/phone/add/">
-   <img src="/site_media/images/icon_addlink.gif" border="0" />
+<p><a href="/annuaire/{{ person.user.id }}/phone/add/" class="addlink">
    {% trans "Add" %}</a></p>
 
 
@@ -200,18 +192,15 @@
 
 </td>
     <td width="12%">
-        <a href="/annuaire/{{ person.user.id }}/email/{{ email.id }}/edit/">
-        <img src="/site_media/images/icon_changelink.gif" border="0" />
+        <a href="/annuaire/{{ person.user.id }}/email/{{ email.id }}/edit/" class="changelink">
         {% trans "Modify" %}</a></td>
     <td width="12%">
-        <a href="/annuaire/{{ person.user.id }}/email/{{ email.id }}/delete/">
-        <img src="/site_media/images/icon_deletelink.gif" border="0" />
+        <a href="/annuaire/{{ person.user.id }}/email/{{ email.id }}/delete/" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
 {% endfor %}
 </table>
-<p><a href="/annuaire/{{ person.user.id }}/email/add/">
-   <img src="/site_media/images/icon_addlink.gif" border="0" />
+<p><a href="/annuaire/{{ person.user.id }}/email/add/" class="addlink">
    {% trans "Add" %}</a></p>
 
 <h2>{% trans "Instant messaging accounts" %}</h2>
@@ -223,18 +212,15 @@
        alt="{% trans "Contact" %} {{im.get_im_display|lower }}"/> 
        {{ im.identifier }}</td>
     <td width="12%">
-        <a href="/annuaire/{{ person.user.id }}/im/{{ im.id }}/edit/">
-        <img src="/site_media/images/icon_changelink.gif" border="0" />
+        <a href="/annuaire/{{ person.user.id }}/im/{{ im.id }}/edit/" class="changelink">
         {% trans "Modify" %}</a></td>
     <td width="12%">
-        <a href="/annuaire/{{ person.user.id }}/im/{{ im.id }}/delete/">
-        <img src="/site_media/images/icon_deletelink.gif" border="0" />
+        <a href="/annuaire/{{ person.user.id }}/im/{{ im.id }}/delete/" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
 {% endfor %}
 </table>
-<p><a href="/annuaire/{{ person.user.id }}/im/add/">
-   <img src="/site_media/images/icon_addlink.gif" border="0" />
+<p><a href="/annuaire/{{ person.user.id }}/im/add/" class="addlink">
    {% trans "Add" %}</a></p>
 
 <h2>{% trans "IRC accounts" %}</h2>
@@ -246,18 +232,15 @@
        {{ irc.pseudo }} @ {{ irc.network }} {% trans "on" %} {{ irc.channels }}
        </td>
     <td width="12%">
-        <a href="/annuaire/{{ person.user.id }}/irc/{{ irc.id }}/edit/">
-        <img src="/site_media/images/icon_changelink.gif" border="0" />
+        <a href="/annuaire/{{ person.user.id }}/irc/{{ irc.id }}/edit/" class="changelink">
         {% trans "Modify" %}</a></td>
     <td width="12%">
-        <a href="/annuaire/{{ person.user.id }}/irc/{{ irc.id }}/delete/">
-        <img src="/site_media/images/icon_deletelink.gif" border="0" />
+        <a href="/annuaire/{{ person.user.id }}/irc/{{ irc.id }}/delete/" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
 {% endfor %}
 </table>
-<p><a href="/annuaire/{{ person.user.id }}/irc/add/">
-   <img src="/site_media/images/icon_addlink.gif" border="0" />
+<p><a href="/annuaire/{{ person.user.id }}/irc/add/" class="addlink">
    {% trans "Add" %}</a></p>
 
 <h2>{% trans "Web sites" %}</h2>
@@ -268,18 +251,15 @@
         <img src="/site_media/images/web.png" alt="{% trans "web site" %}"/>
         <a href="{{ website.url }}">{{ website.url }}</a></td>
     <td width="12%">
-        <a href="/annuaire/{{ person.user.id }}/website/{{ website.id }}/edit/">
-        <img src="/site_media/images/icon_changelink.gif" border="0" />
+        <a href="/annuaire/{{ person.user.id }}/website/{{ website.id }}/edit/" class="changelink">
         {% trans "Modify" %}</a></td>
     <td width="12%">
-        <a href="/annuaire/{{ person.user.id }}/website/{{ website.id }}/delete/">
-        <img src="/site_media/images/icon_deletelink.gif" border="0" />
+        <a href="/annuaire/{{ person.user.id }}/website/{{ website.id }}/delete/" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
 {% endfor %}
 </table>
-<p><a href="/annuaire/{{ person.user.id }}/website/add/">
-   <img src="/site_media/images/icon_addlink.gif" border="0" />
+<p><a href="/annuaire/{{ person.user.id }}/website/add/" class="addlink">
    {% trans "Add" %}</a></p>
 
 
@@ -290,18 +270,15 @@
     <tr><td>{{ club_membership.club.name }}</td>
     <td>{{ club_membership.fonction }}</td>
     <td width="12%">
-        <a href="/annuaire/{{ person.user.id }}/club_membership/{{ club_membership.id }}/edit/">
-        <img src="/site_media/images/icon_changelink.gif" border="0" />
+        <a href="/annuaire/{{ person.user.id }}/club_membership/{{ club_membership.id }}/edit/" class="changelink">
         {% trans "Modify" %}</a></td>
     <td width="12%">
-        <a href="/annuaire/{{ person.user.id }}/club_membership/{{ club_membership.id }}/delete/">
-        <img src="/site_media/images/icon_deletelink.gif" border="0" />
+        <a href="/annuaire/{{ person.user.id }}/club_membership/{{ club_membership.id }}/delete/" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
 {% endfor %}
 </table>
-<p><a href="/annuaire/{{ person.user.id }}/club_membership/add/">
-   <img src="/site_media/images/icon_addlink.gif" border="0" />
+<p><a href="/annuaire/{{ person.user.id }}/club_membership/add/" class="addlink">
    {% trans "Add" %}</a></p>
 
 
@@ -321,8 +298,7 @@
     {% endif %}
 {% endfor %}
 </table>
-<p><a href="/emploi/{{ person.user.id }}/cv/edit/">
-<img src="/site_media/images/icon_changelink.gif" border="0" />
+<p><a href="/emploi/{{ person.user.id }}/cv/edit/" class="changelink">
 {% trans "Modify" %}</a></p>
 
 </div>

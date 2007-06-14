@@ -330,6 +330,27 @@ img {
     font-weight: bold;
 }
 
+/* Edition buttons
+   ------ */
+
+.backlink:before, .backlink:hover:before {
+	content: "« "
+}
+
+.addlink, .addlink:hover {
+	background: transparent url(../images/icon_addlink.gif) left center no-repeat;
+	padding-left: 12px;
+}
+.changelink, .changelink:hover {
+	background: transparent url(../images/icon_changelink.gif) left center no-repeat;
+	padding-left: 12px;
+}
+
+.deletelink, .deletelink:hover {
+	background: transparent url(../images/icon_deletelink.gif) left center no-repeat;
+	padding-left: 12px;
+}
+
 /* CV
    ------ */
 
@@ -351,4 +372,30 @@ img {
 #dataBlock {
     border-style: dashed;
     border-width: .1em;
+}
+
+
+/* Edition
+   ------ */
+
+#edition h2 {
+    background: #EEEEEE;
+    padding-left: 0.1em;
+}
+
+#edition div.datas {
+	border: dashed 1px #000000;
+}
+
+#edition table.datas {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+#edition table.datas tr {
+	border-bottom: 1px solid #EEEEEE;
+}
+
+#edition table.datas td.action {
+	width: 12%;
 }
