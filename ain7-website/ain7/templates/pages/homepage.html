@@ -61,25 +61,22 @@
     {% endfor %}
 
 
-                        <h3>Sondage</h3>
-    {% for survey in liste_sondages %}
-                        <div class="right_articles">
-                             <form action="/sondages/{{ survey.id }}/vote/" method="post">
-                             <p> {{ survey.question }} </p>
-                             {% for choice in survey.choices.all %}
-                                 <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
-                                 <label for="choice{{ forloop.counter }}">{{ choice.choice }}</label>
-				 <br />
-                             {% endfor %}
-                             <div align="center">
-                             <input type="submit" value="Voter" class="button"/><br/>
-    			     <a href="/sondages/{{ survey.id }}/resultats/">Les résultats</a> -
-    			     <a href="/sondages/">Historique des sondages</a>
-                             </div>
-                             </form>
-														 
-                        </div>
+	<h3>Sondage</h3>
+	<div class="right_articles">
+		<div align="center">
+			<a href="/sondages/">Historique des sondages</a>
+		</div>
+	</div>
+	{% for survey in surveys %}
+		<div class="right_articles">
+			<p> {{ survey.question }} </p>
+			{% include "sondages/vote_include.html" %}
+			<div align="center">
+				<a href="/sondages/{{ survey.id }}/view/">Les résultats</a>
+			</div>
+		</div>
     {% endfor %}
+
 			<h3>Liens</h3>
 			<div class="right_articles">
 				<p><a href="http://www.enseeiht.fr">ENSEEIHT</a></p>

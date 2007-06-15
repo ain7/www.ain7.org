@@ -3,18 +3,46 @@
 
 {% block stylesheet %}{% endblock %}
 {% block content %}
-
 <div id="content-main">
 
-{% if error_message %}
-  <h1>{{ error_message }}</h1>
-  <a href="/">{% trans "Back to homepage" %}</a>
-{% else %}
-  <h1>{% trans "Thank you for having chosen" %} "{{ choice }}" {% trans "to the question" %} "{{ survey.question }}".</h1>
-  <a href="/sondages/{{ survey.id }}/resultats/">{% trans "Results page" %}</a>
-{% endif %}
+	<div id="edition">
+		<h1>{{ survey.question }}</h1>
 
+		<p><a href="/sondages/{{ survey.id }}/view" class="backlink">{% trans "Go back to results" %}</a></p>
+
+		<h2>{% trans "Survey" %}</h2>
+		<p><a href="/sondages/{{ survey.id }}/delete" class="deletelink">{% trans "Delete" %}</a></p>
+		<div class="datas">
+			<ul>
+				<li>
+					<strong>{% filter capfirst %}{% trans "question" %}{% endfilter %}&nbsp;:</strong>
+					{{ survey.question }}
+				</li>
+				<li>
+					<strong>{% filter capfirst %}{% trans "start date" %}{% endfilter %}&nbsp;:</strong>
+					{{ survey.start_date|date:"d/m/Y H:i" }}
+				</li>
+				<li>
+					<strong>{% filter capfirst %}{% trans "end date" %}{% endfilter %}&nbsp;:</strong>
+					{{ survey.end_date|date:"d/m/Y H:i" }}
+				</li>
+			</ul>
+		</div>
+		<p><a href="/sondages/{{ survey.id }}/edit" class="changelink">{% trans "Modify" %}</a></p>
+
+
+		<h2>{% trans "Choices" %}</h2>
+		<table class="datas">
+			{% for choice in survey.choices.all %}
+				<tr class="{% cycle row1,row2 %}">
+					<td>{{ choice.choice }}</td>
+					<td class="action"><a href="/sondages/{{ survey.id }}/choice/{{ choice.id }}/edit" class="changelink">{% trans "Modify" %}</a></td>
+					<td class="action"><a href="/sondages/{{ survey.id }}/choice/{{ choice.id }}/delete" class="deletelink">{% trans "Delete" %}</a></td>
+				</tr>
+			{% endfor %}
+		</table>
+		<p><a href="/sondages/{{ survey.id }}/choice/add" class="addlink">{% trans "Add" %}</a></p>
+
+	</div>
 </div>
-
 {% endblock %}
-

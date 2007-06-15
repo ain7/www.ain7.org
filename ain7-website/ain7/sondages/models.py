@@ -23,25 +23,28 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from ain7.annuaire.models import Person
+
 class Survey(models.Model):
     question = models.CharField(verbose_name=_('question'), maxlength=200)
-    publication_date = models.DateTimeField(verbose_name=_('publication date'))
-    is_online = models.BooleanField(verbose_name=_('online'), default=False)
+    start_date = models.DateTimeField(verbose_name=_('start date'))
+    end_date = models.DateTimeField(verbose_name=_('end date'))
 
     def __str__(self):
         return self.question
 
+    def has_been_voted_by(self, voter):
+        return Vote.objects.filter(survey=self, voter=voter).count() != 0
+
     class Admin:
-        list_display = ('question', 'publication_date')
-        ordering = ['-publication_date']
+        list_display = ('question', 'start_date', 'end_date')
+        ordering = ['-start_date', '-end_date']
 
     class Meta:
         verbose_name = _('survey')
 
 class Choice(models.Model):
-
     choice = models.CharField(verbose_name=_('choice'), maxlength=200, core=True)
-    votes = models.IntegerField(verbose_name=_('votes'), default=0, editable=False)
 
     survey = models.ForeignKey(Survey, verbose_name=_('survey'), related_name='choices', edit_inline=models.TABULAR, num_in_admin=3)
 
@@ -51,3 +54,11 @@ class Choice(models.Model):
     class Meta:
         verbose_name = _('choice')
         verbose_name_plural = _('choices')
+
+class Vote(models.Model):
+    voter = models.ForeignKey(Person, verbose_name=_('voter'), related_name='votes')
+    choice = models.ForeignKey(Choice, verbose_name=_('choice'), related_name='votes')
+    survey = models.ForeignKey(Survey, verbose_name=_('survey'), related_name='votes')
+
+    class Meta:
+        verbose_name = _('vote')

@@ -626,8 +626,8 @@ def filldb():
 
     sondage1 = sondages.Survey()
     sondage1.question = "Quelle est votre couleur préférée ?"
-    sondage1.publication_date = datetime.now()
-    sondage1.is_online = True
+    sondage1.start_date = datetime.now()
+    sondage1.end_date = datetime.now() + timedelta(30)
     sondage1.save()
 
     sondage1_choix1 = sondages.Choice()

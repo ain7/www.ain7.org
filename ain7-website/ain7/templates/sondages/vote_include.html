@@ -1,0 +1,10 @@
+<form action="/sondages/{{ survey.id }}/vote/" method="get">
+	{% for choice in survey.choices.all %}
+		<input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+		<label for="choice{{ forloop.counter }}">{{ choice.choice }}</label>
+		<br />
+	{% endfor %}
+	<div align="center">
+		<input type="submit" value="Voter" class="button" />
+	</div>
+</form>

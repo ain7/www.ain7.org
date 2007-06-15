@@ -396,6 +396,39 @@ img {
 	border-bottom: 1px solid #EEEEEE;
 }
 
+#edition table.datas tr.row2 {
+	background: #F5F5F5;
+}
+
+#edition table.datas tr:hover {
+	background: #FFFFCC;
+}
+
 #edition table.datas td.action {
 	width: 12%;
+}
+
+/* Forms
+   ------ */
+
+table.form th {
+	vertical-align: bottom;
+	text-align: left;
+}
+
+table.form tr {
+	border-bottom: 1px solid #EEEEEE;
+}
+
+ul.errorlist {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.errorlist li {
+	background: transparent url(../images/icon_alert.gif) 5px .3em no-repeat;
+	display: block;
+	padding: 4px 5px 4px 25px;
+	margin: 0 0 3px 0;
+	color: #FF0000;
 }

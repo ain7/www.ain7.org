@@ -5,11 +5,27 @@
 
 <div id="content-main">
 
-<ul>
-{% for survey in list_surveys %}
-   <li><a href="/sondages/{{ survey.id }}/resultats/">{{ survey.question }}</a></li>
-{% endfor %}
-</ul>
+<div class="left">
+
+	<h1>{% trans "List of surveys" %}</h1>
+	<ul>
+		{% for survey in surveys %}
+		   <li><a href="/sondages/{{ survey.id }}/view/">{{ survey.question }}</a></li>
+		{% endfor %}
+	</ul>
+
+</div>
+
+<div class="right">
+
+	<h3>{% trans "Actions" %}</h3>
+	<div class="right_block">
+		<ul>
+			<li><a href="/sondages/create">{% trans "Create a new survey" %}</a></li>
+		</ul>
+	</div>
+
+</div>
 
 </div>
 

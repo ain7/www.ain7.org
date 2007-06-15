@@ -20,6 +20,8 @@
 #
 #
 
+import datetime
+
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
@@ -28,9 +30,9 @@ from ain7.sondages.models import Survey
 
 def homepage(request):
     news = NewsItem.objects.all().order_by('title')[:5]
-    liste_sondages = Survey.objects.all()[:2]
+    surveys = Survey.objects.filter(start_date__lte=datetime.datetime.now(), end_date__gte=datetime.datetime.now())[:2]
     return render_to_response('pages/homepage.html', 
-                             {'news': news , 'liste_sondages': liste_sondages, 
+                             {'news': news , 'surveys': surveys, 
                               'user': request.user }, 
                               context_instance=RequestContext(request))
 
