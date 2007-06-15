@@ -1,0 +1,51 @@
+{% extends "sondages/base.html" %}
+{% load i18n %}
+
+{% block stylesheet %}{% endblock %}
+{% block content %}
+
+<div id="content-main">
+
+	<div class="left">
+	
+		<h1>{{ survey.question }}</h1>
+
+		{% block details %}
+			<p>
+				{% blocktrans with survey.end_date|date:"d/m/Y" as end_date %}Votes ends the {{ end_date }}{% endblocktrans %}
+			</p>
+			<ul>
+				{% for choice in survey.choices.all %}
+				    <li>
+					    {% blocktrans count choice.votes.count as counter %}
+							{{ choice }} : {{ counter }} vote
+						{% plural %}
+							{{ choice }} : {{ counter }} votes
+						{% endblocktrans %}
+					</li>
+				{% endfor %}
+			</ul>
+		{% endblock %}
+	
+	</div>
+
+	<div class="right">
+	
+		<h3>{% trans "Actions" %}</h3>
+		<div class="right_block">
+			<ul>
+				{% block action %}
+					{% if not already_vote %}
+						<li><a href="/sondages/{{ survey.id }}/vote/">{% trans "Vote" %}</a></li>
+					{% endif %}
+				{% endblock action %}
+				<li><a href="/sondages/{{ survey.id }}/details/">{% trans "Edit this survey" %}</a></li>
+				<li><a href="/sondages/">{% trans "See all surveys" %}</a></li>
+			</ul>
+		</div>
+	
+	</div>
+
+</div>
+{% endblock %}
+
