@@ -92,18 +92,6 @@ img {
     font: bold 1.5em Arial, Sans-Serif;
 }
 
-.confirm {
-    padding: 30px;
-    text-align: center;
-    font: 1.5em Arial, Sans-Serif;
-}
-
-.description {
-    padding: 20px 0 0 0;
-    text-align: center;
-    font: 1.2em Arial, Sans-Serif;
-}
-
 /* layout
    ------ */
 
@@ -431,4 +419,32 @@ ul.errorlist {
 	padding: 4px 5px 4px 25px;
 	margin: 0 0 3px 0;
 	color: #FF0000;
+}
+
+
+.confirm {
+	padding: 1.2em 0 1em 0;
+	text-align: center;
+}
+
+.confirm p {
+	padding: 0.5em 0;
+	text-align: center;
+}
+
+.confirm p em {
+	font: 1.2em Arial, Sans-Serif;
+}
+
+.confirm p strong {
+	font: bold 1.5em Arial, Sans-Serif;
+}
+
+.confirm ul {
+	list-style: none;
+	padding: 0;
+}
+
+.confirm ul li {
+	display: inline;
 }

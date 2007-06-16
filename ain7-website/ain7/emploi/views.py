@@ -31,6 +31,7 @@ from django.http import HttpResponseRedirect
 from ain7.annuaire.models import Person, AIn7Member, Track
 from ain7.emploi.models import JobOffer, Position, EducationItem, LeisureItem
 from ain7.emploi.models import Office, Company, PublicationItem
+from ain7.decorators import confirmation_required
 
 class JobOfferForm(forms.Form):
     reference = forms.CharField(label=_('reference'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
@@ -87,42 +88,42 @@ def index(request):
             jobs.extend(track.jobs.all())
     else:
         jobs = JobOffer.objects.all()
-    return render_response(request, 'emploi/index.html',
-                           {'ain7member': ain7member, 'liste_emplois': jobs})
+    return _render_response(request, 'emploi/index.html',
+                            {'ain7member': ain7member, 'liste_emplois': jobs})
 
 @login_required
 def cv_details(request, user_id):
 
     p = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
-    return render_response(request, 'emploi/cv_details.html',
-                           {'person': p, 'ain7member': ain7member})
+    return _render_response(request, 'emploi/cv_details.html',
+                            {'person': p, 'ain7member': ain7member})
 
 @login_required
 def cv_edit(request, user_id=None):
 
     p = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
-    return render_response(request, 'emploi/cv_edit.html',
-                           {'person': p, 'ain7member': ain7member})
+    return _render_response(request, 'emploi/cv_edit.html',
+                            {'person': p, 'ain7member': ain7member})
 
-def generic_edit(request, user_id, obj, redirectPage, msgDone):
+def _generic_edit(request, user_id, obj, redirectPage, msgDone):
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
     # 1er passage : on propose un formulaire avec les données actuelles
     if request.method == 'GET':
         PosForm = forms.models.form_for_instance(obj,
-            formfield_callback=form_callback)
+            formfield_callback=_form_callback)
         f = PosForm()
-        return render_response(request, redirectPage,
-                               {'form': f, 'action': "edit",
-                                'ain7member': ain7member})
+        return _render_response(request, redirectPage,
+                                {'form': f, 'action': "edit",
+                                 'ain7member': ain7member})
 
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
         PosForm = forms.models.form_for_instance(obj,
-            formfield_callback=form_callback)
+            formfield_callback=_form_callback)
         f = PosForm(request.POST.copy())
         if f.is_valid():
             f.clean_data['ain7member'] = ain7member
@@ -134,38 +135,31 @@ def generic_edit(request, user_id, obj, redirectPage, msgDone):
             # request.user.message_set.create(message=str(f.errors))
         return HttpResponseRedirect('/emploi/%s/cv/edit/' % user_id)
 
-def generic_delete(request, user_id, obj, confirmMsg, msgDone):
+def _generic_delete(request, user_id, obj, msgDone):
 
-    # 1er passage: on demande confirmation
-    if request.method != 'POST':
-        return render_response(request, 'pages/confirm.html',
-                               {'message': confirmMsg, 'description': str(obj),
-                                'section': "emploi/base.html"})
+    obj.delete()
 
-    # 2eme passage: on supprime si c'est confirmé
-    else:
-        if request.POST['choice']=="1":
-            obj.delete()
-            request.user.message_set.create(message=msgDone)
-        return HttpResponseRedirect('/emploi/%s/cv/edit/' % user_id)
+    request.user.message_set.create(message=msgDone)
 
-def generic_add(request, user_id, objectType, redirectPage, msgDone):
+    return HttpResponseRedirect('/emploi/%s/cv/edit/' % user_id)
+
+def _generic_add(request, user_id, objectType, redirectPage, msgDone):
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
         PosForm = forms.models.form_for_model(objectType,
-            formfield_callback=form_callback)
+            formfield_callback=_form_callback)
         f = PosForm()
-        return render_response(request, redirectPage,
-                                 {'form': f, 'action': "create",
-                                  'ain7member':ain7member, 'person': person})
+        return _render_response(request, redirectPage,
+                                {'form': f, 'action': "create",
+                                 'ain7member':ain7member, 'person': person})
 
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
         PosForm = forms.models.form_for_model(objectType,
-            formfield_callback=form_callback)
+            formfield_callback=_form_callback)
         f = PosForm(request.POST.copy())
         if f.is_valid():
             f.clean_data['ain7member'] = ain7member
@@ -180,93 +174,93 @@ def generic_add(request, user_id, objectType, redirectPage, msgDone):
 @login_required
 def position_edit(request, user_id=None, position_id=None):
 
-    return generic_edit(request, user_id,
-                        get_object_or_404(Position, pk=position_id),
-                        'emploi/position_edit.html',
-                        _("Position informations updated successfully."))
+    return _generic_edit(request, user_id,
+                         get_object_or_404(Position, pk=position_id),
+                         'emploi/position_edit.html',
+                         _("Position informations updated successfully."))
 
+@confirmation_required(lambda user_id=None, position_id=None: str(get_object_or_404(Position, pk=position_id)), "emploi/base.html", _("Do you really want to delete this professional experience?"))
 @login_required
 def position_delete(request, user_id=None, position_id=None):
 
-    return generic_delete(request, user_id,
-                          get_object_or_404(Position, pk=position_id),
-                          _("Do you really want to delete this professional experience?"),
-                          _("Position successfully deleted."))
+    return _generic_delete(request, user_id,
+                           get_object_or_404(Position, pk=position_id),
+                           _("Position successfully deleted."))
 
 @login_required
 def position_add(request, user_id=None):
 
-    return generic_add(request, user_id, Position, 'emploi/position_edit.html',
-                       _("Position successfully added."))
+    return _generic_add(request, user_id, Position, 'emploi/position_edit.html',
+                        _("Position successfully added."))
 
 @login_required
 def education_edit(request, user_id=None, education_id=None):
 
-    return generic_edit(request, user_id,
-                        get_object_or_404(EducationItem, pk=education_id),
-                        'emploi/education_edit.html',
-                        _("Education informations updated successfully."))
+    return _generic_edit(request, user_id,
+                         get_object_or_404(EducationItem, pk=education_id),
+                         'emploi/education_edit.html',
+                         _("Education informations updated successfully."))
 
+@confirmation_required(lambda user_id=None, education_id=None: str(get_object_or_404(EducationItem, pk=education_id)), "emploi/base.html", _("Do you really want to delete this education item?"))
 @login_required
 def education_delete(request, user_id=None, education_id=None):
 
-    return generic_delete(request, user_id,
-                          get_object_or_404(EducationItem, pk=education_id),
-                          _("Do you really want to delete this education item?"),
-                          _("Education informations deleted successfully."))
+    return _generic_delete(request, user_id,
+                           get_object_or_404(EducationItem, pk=education_id),
+                           _("Education informations deleted successfully."))
 
 @login_required
 def education_add(request, user_id=None):
 
-    return generic_add(request, user_id, EducationItem,
-                       'emploi/education_edit.html',
-                       _("Education informations successfully added."))
+    return _generic_add(request, user_id, EducationItem,
+                        'emploi/education_edit.html',
+                        _("Education informations successfully added."))
 
 @login_required
 def leisure_edit(request, user_id=None, leisure_id=None):
 
-    return generic_edit(request, user_id,
-                        get_object_or_404(LeisureItem, pk=leisure_id),
-                        'emploi/leisure_edit.html',
-                        _("Leisure informations updated successfully."))
+    return _generic_edit(request, user_id,
+                         get_object_or_404(LeisureItem, pk=leisure_id),
+                         'emploi/leisure_edit.html',
+                         _("Leisure informations updated successfully."))
 
+@confirmation_required(lambda user_id=None, leisure_id=None: str(get_object_or_404(LeisureItem, pk=leisure_id)), "emploi/base.html", _("Do you really want to delete this leisure item?"))
 @login_required
 def leisure_delete(request, user_id=None, leisure_id=None):
 
-    return generic_delete(request, user_id,
-                          get_object_or_404(LeisureItem, pk=leisure_id),
-                          _("Do you really want to delete this leisure item?"),
-                          _("Leisure informations successfully deleted."))
+    return _generic_delete(request, user_id,
+                           get_object_or_404(LeisureItem, pk=leisure_id),
+                           _("Leisure informations successfully deleted."))
 
 @login_required
 def leisure_add(request, user_id=None):
 
-    return generic_add(request, user_id, LeisureItem,
-                       'emploi/leisure_edit.html',
-                       _("Leisure informations successfully added."))
+    return _generic_add(request, user_id, LeisureItem,
+                        'emploi/leisure_edit.html',
+                        _("Leisure informations successfully added."))
 
 @login_required
 def publication_edit(request, user_id=None, publication_id=None):
 
-    return generic_edit(request, user_id,
-                        get_object_or_404(PublicationItem, pk=publication_id),
-                        'emploi/publication_edit.html',
-                        _("Publication informations updated successfully."))
+    return _generic_edit(request, user_id,
+                         get_object_or_404(PublicationItem, pk=publication_id),
+                         'emploi/publication_edit.html',
+                         _("Publication informations updated successfully."))
 
+@confirmation_required(lambda user_id=None, publication_id=None: str(get_object_or_404(PublicationItem,pk=publication_id)), "emploi/base.html", _('Do you really want to delete this publication item?'))
 @login_required
 def publication_delete(request, user_id=None, publication_id=None):
 
-    return generic_delete(request, user_id,
-                          get_object_or_404(PublicationItem,pk=publication_id),
-                          _('Do you really want to delete this publication item?'),
-                          _("Publication informations deleted successfully."))
+    return _generic_delete(request, user_id,
+                           get_object_or_404(PublicationItem,pk=publication_id),
+                           _("Publication informations deleted successfully."))
 
 @login_required
 def publication_add(request, user_id=None):
 
-    return generic_add(request, user_id, PublicationItem,
-                       'emploi/publication_edit.html',
-                       _("Publication informations successfully added."))
+    return _generic_add(request, user_id, PublicationItem,
+                        'emploi/publication_edit.html',
+                        _("Publication informations successfully added."))
 
 @login_required
 def office_create(request, user_id=None):
@@ -277,8 +271,8 @@ def office_create(request, user_id=None):
     if request.method == 'GET':
         OfficeForm = forms.models.form_for_model(Office)
         f = OfficeForm()
-        return render_response(request, 'emploi/office_create.html',
-                               {'form': f, 'person': p, 'object': "office"})
+        return _render_response(request, 'emploi/office_create.html',
+                                {'form': f, 'person': p, 'object': "office"})
 
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
@@ -286,7 +280,7 @@ def office_create(request, user_id=None):
         f = OfficeForm(request.POST.copy())
         if f.is_valid():
             f.save()
-        return render_response(request, 'emploi/cv_edit.html', {'person': p})
+        return _render_response(request, 'emploi/cv_edit.html', {'person': p})
 
 @login_required
 def company_create(request, user_id=None):
@@ -299,8 +293,8 @@ def company_create(request, user_id=None):
         CompanyForm.base_fields['size'].widget =\
             forms.Select(choices=Company.COMPANY_SIZE)
         f = CompanyForm()
-        return render_response(request, 'emploi/office_create.html',
-                               {'form': f, 'person': p, 'object': "company"})
+        return _render_response(request, 'emploi/office_create.html',
+                                {'form': f, 'person': p, 'object': "company"})
 
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
@@ -308,7 +302,7 @@ def company_create(request, user_id=None):
         f = CompanyForm(request.POST.copy())
         if f.is_valid():
             f.save()
-        return render_response(request, 'emploi/cv_edit.html', {'person': p})
+        return _render_response(request, 'emploi/cv_edit.html', {'person': p})
 
 @login_required
 def job_details(request,emploi_id):
@@ -318,7 +312,7 @@ def job_details(request,emploi_id):
     j.nb_views = j.nb_views + 1
     j.save()
 
-    return render_response(request, 'emploi/job_details.html', {'job': j})
+    return _render_response(request, 'emploi/job_details.html', {'job': j})
 
 @login_required
 def job_edit(request, emploi_id):
@@ -340,7 +334,7 @@ def job_edit(request, emploi_id):
     f = JobOfferForm({'reference': j.reference, 'title': j.title, 'description': j.description, 
         'experience': j.experience, 'contract_type': j.contract_type})
 
-    return render_response(request, 'emploi/job_edit.html', {'form': f})
+    return _render_response(request, 'emploi/job_edit.html', {'form': f})
 
 @login_required
 def job_register(request):
@@ -359,7 +353,7 @@ def job_register(request):
             return HttpResponseRedirect('/emploi/job/%s/' % (job_offer.id))
 
     f = JobOfferForm({})
-    return render_response(request, 'emploi/job_register.html', {'form': f})
+    return _render_response(request, 'emploi/job_register.html', {'form': f})
 
 @login_required
 def job_search(request):
@@ -368,14 +362,14 @@ def job_search(request):
         form = SearchJobForm(request.POST)
         if form.is_valid():
             list_jobs = form.search()
-            return render_response(request, 'emploi/job_search.html', 
-                                   {'form': form, 'list_jobs': list_jobs,
-                                    'request': request})
+            return _render_response(request, 'emploi/job_search.html', 
+                                    {'form': form, 'list_jobs': list_jobs,
+                                     'request': request})
         
     else:
         form = SearchJobForm()
-        return render_response(request, 'emploi/job_search.html',
-                               {'form': form})
+        return _render_response(request, 'emploi/job_search.html',
+                                {'form': form})
 
 @login_required
 def company_details(request, company_id):
@@ -383,13 +377,13 @@ def company_details(request, company_id):
     company = get_object_or_404(Company, pk=company_id)
     offices = Office.objects.filter(company=company)
 
-    return render_response(request, 'emploi/company_details.html',
-                              {'company': company, 'offices': offices})
+    return _render_response(request, 'emploi/company_details.html',
+                            {'company': company, 'offices': offices})
 
 # une petite fonction pour exclure les champs
 # person user ain7member
 # des formulaires créés avec form_for_model et form_for_instance
-def form_callback(f, **args):
+def _form_callback(f, **args):
     exclude_fields = ("person", "user", "ain7member")
     if f.name in exclude_fields:
         return None
@@ -397,6 +391,6 @@ def form_callback(f, **args):
 
 # pour alléger les appels à render_to_response
 # http://www.djangosnippets.org/snippets/3/
-def render_response(req, *args, **kwargs):
+def _render_response(req, *args, **kwargs):
     kwargs['context_instance'] = RequestContext(req)
     return render_to_response(*args, **kwargs)

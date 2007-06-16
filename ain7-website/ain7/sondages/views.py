@@ -27,11 +27,13 @@ from django.template import RequestContext
 from django import newforms as forms
 
 from ain7.sondages.models import Choice, Survey, Vote
+from ain7.decorators import confirmation_required
 
 def index(request):
     surveys = Survey.objects.all()
 
-    return render_to_response('sondages/index.html', {'surveys': surveys})
+    return render_to_response('sondages/index.html', {'surveys': surveys},
+                              context_instance=RequestContext(request))
 
 
 def view(request, survey_id):
@@ -70,7 +72,7 @@ def vote(request, survey_id):
 def create(request):
     Form = forms.models.form_for_model(Survey)
 
-    return generic_form(request, None, Form, _("Survey creation"), _("Survey succesfully created."))
+    return _form(request, None, Form, _("Survey creation"), _("Survey succesfully created."))
 
 @login_required
 def details(request, survey_id):
@@ -85,57 +87,42 @@ def edit(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
     Form = forms.models.form_for_instance(survey)
 
-    return generic_form(request, None, Form, _("Survey edition"), _("Survey succesfully updated."))
+    return _form(request, None, Form, _("Survey edition"), _("Survey succesfully updated."))
 
-
+@confirmation_required(lambda survey_id: str(get_object_or_404(Survey, pk=survey_id)), "sondages/base.html", _("Do you really want to delete this survey?"))
 @login_required
 def delete(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
-
-    if request.method != 'POST':
-        return render_to_response('pages/confirm.html',
-                                  {'message': _("Do you really want to delete this survey?"),
-                                   'description': str(survey), 'section': "sondages/base.html"},
-                                  context_instance=RequestContext(request))
-    else:
-        if request.POST['choice']=="1":
-            survey.delete()
-            request.user.message_set.create(message=_("Survey successfully deleted."))
-        return HttpResponseRedirect('/sondages/')
+    survey.delete()
+    request.user.message_set.create(message=_("Survey successfully deleted."))
+    return HttpResponseRedirect('/sondages/')
 
 @login_required
 def choice_add(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
-    Form = forms.models.form_for_model(Choice, formfield_callback=form_callback)
+    Form = forms.models.form_for_model(Choice, formfield_callback=_form_callback)
 
-    return generic_form(request, survey, Form, _("Choice creation"), _("Choice succesfully added."))
+    return _form(request, survey, Form, _("Choice creation"), _("Choice succesfully added."))
 
 @login_required
 def choice_edit(request, survey_id, choice_id):
     survey = get_object_or_404(Survey, pk=survey_id)
     choice = get_object_or_404(Choice, pk=choice_id)
-    Form = forms.models.form_for_instance(choice, formfield_callback=form_callback)
+    Form = forms.models.form_for_instance(choice, formfield_callback=_form_callback)
 
-    return generic_form(request, survey, Form, _("Choice edition"), _("Choice succesfully updated."))
+    return _form(request, survey, Form, _("Choice edition"), _("Choice succesfully updated."))
 
+@confirmation_required(lambda survey_id, choice_id: str(get_object_or_404(Choice, pk=choice_id)), "sondages/base.html", _("Do you really want to delete this choice?"))
 @login_required
 def choice_delete(request, survey_id, choice_id):
     survey = get_object_or_404(Survey, pk=survey_id)
     choice = get_object_or_404(Choice, pk=choice_id)
-
-    if request.method != 'POST':
-        return render_to_response('pages/confirm.html',
-                                  {'message': _("Do you really want to delete this choice?"),
-                                   'description': str(choice), 'section': "sondages/base.html"},
-                                  context_instance=RequestContext(request))
-    else:
-        if request.POST['choice']=="1":
-            choice.delete()
-            request.user.message_set.create(message=_("Choice successfully deleted."))
-        return HttpResponseRedirect('/sondages/%s/details/' % survey.id)
+    choice.delete()
+    request.user.message_set.create(message=_("Choice successfully deleted."))
+    return HttpResponseRedirect('/sondages/%s/details/' % survey.id)
 
 
-def generic_form(request, survey, Form, title, message):
+def _form(request, survey, Form, title, message):
     form = Form()
 
     if request.method == 'POST':
@@ -155,7 +142,7 @@ def generic_form(request, survey, Form, title, message):
                               {'form': form, 'title': title},
                               context_instance=RequestContext(request))
 
-def form_callback(field, **args):
+def _form_callback(field, **args):
   if field.name == "survey":
     return None
   return field.formfield(**args)

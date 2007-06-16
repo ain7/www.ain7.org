@@ -27,8 +27,9 @@ from django.http import HttpResponseRedirect
 from django import newforms as forms
 
 from ain7.annuaire.models import Person, AIn7Member, Address, PhoneNumber
-from ain7.annuaire.models import Track, Email, ClubMembership
+from ain7.annuaire.models import Track, Email, InstantMessaging, IRC, WebSite, ClubMembership
 from ain7.annuaire.models import Promo
+from ain7.decorators import confirmation_required
 
 class SearchPersonForm(forms.Form):
     last_name = forms.CharField(label=_('Last name'), max_length=50, required=False)
@@ -40,8 +41,8 @@ class SearchPersonForm(forms.Form):
 def detail(request, person_id):
     p = get_object_or_404(Person, pk=person_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
-    return render_response(request, 'annuaire/details.html', 
-                           {'person': p, 'ain7member': ain7member})
+    return _render_response(request, 'annuaire/details.html', 
+                            {'person': p, 'ain7member': ain7member})
 
 @login_required
 def search(request):
@@ -69,40 +70,40 @@ def search(request):
                 promoCriteria['track']=\
                     Track.objects.get(id=form.clean_data['track'])
                 
-            # on ajoute ces promos aux critères de recherche
+            # on ajoute ces promos aux critï¿½res de recherche
             # si elle ne sont pas vides
             if len(promoCriteria)!=0:
                 criteria['promos__in']=Promo.objects.filter(**promoCriteria)
                 
             ain7members = AIn7Member.objects.filter(**criteria)
 
-            return render_response(request, 'annuaire/index.html', 
-                                   {'ain7members': ain7members})
+            return _render_response(request, 'annuaire/index.html', 
+                                    {'ain7members': ain7members})
 
     else:
         f = SearchPersonForm()
-        return render_response(request, 'annuaire/search.html', {'form': f})
+        return _render_response(request, 'annuaire/search.html', {'form': f})
 
 @login_required
 def edit(request, person_id=None):
 
     p = get_object_or_404(Person, pk=person_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
-    return render_response(request, 'annuaire/edit.html',
-                              {'person': p, 'ain7member': ain7member})
+    return _render_response(request, 'annuaire/edit.html',
+                            {'person': p, 'ain7member': ain7member})
 
 @login_required
 def person_edit(request, user_id=None):
 
     if user_id is None:
         PersonForm = forms.models.form_for_model(Person,
-            formfield_callback=form_callback)
+            formfield_callback=_form_callback)
         form = PersonForm()
 
     else:
         person = Person.objects.get(user=user_id)
         PersonForm = forms.models.form_for_instance(person,
-            formfield_callback=form_callback)
+            formfield_callback=_form_callback)
         PersonForm.base_fields['sex'].widget=\
             forms.Select(choices=Person.SEX)
         form = PersonForm(auto_id=False)
@@ -116,23 +117,23 @@ def person_edit(request, user_id=None):
              else:
                  request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
              return HttpResponseRedirect('/annuaire/%s/edit' % (person.user.id))
-    return render_response(request, 'annuaire/edit_form.html', 
-                             {'form': form,
-                              'action_title': _("Modification of personal data")})
+    return _render_response(request, 'annuaire/edit_form.html', 
+                            {'form': form,
+                             'action_title': _("Modification of personal data")})
 
 @login_required
 def ain7member_edit(request, user_id=None):
 
     if user_id is None:
         PersonForm = forms.models.form_for_model(AIn7Member,
-            formfield_callback=form_callback)
+            formfield_callback=_form_callback)
         form = PersonForm()
 
     else:
         person = Person.objects.get(user=user_id)
         ain7member = get_object_or_404(AIn7Member, person=person)
         PersonForm = forms.models.form_for_instance(ain7member,
-            formfield_callback=form_callback)
+            formfield_callback=_form_callback)
         form = PersonForm(auto_id=False)
 
         if request.method == 'POST':
@@ -144,30 +145,29 @@ def ain7member_edit(request, user_id=None):
              else:
                  request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
              return HttpResponseRedirect('/annuaire/%s/edit' % (person.user.id))
-    return render_response(request, 'annuaire/edit_form.html', 
-                             {'form': form,
-                              'action_title':
-                              _("Modification of personal data for ") +
-                              str(person)})
+    return _render_response(request, 'annuaire/edit_form.html', 
+                            {'form': form,
+                             'action_title':
+                             _("Modification of personal data for ") +
+                             str(person)})
 
-@login_required
-def generic_edit(request, user_id, object_id, object_type,
+def _generic_edit(request, user_id, object_id, object_type,
                   person, ain7member, action_title, msg_done):
 
     obj = get_object_or_404(object_type, pk=object_id)
 
-    # 1er passage : on propose un formulaire avec les données actuelles
+    # 1er passage : on propose un formulaire avec les donnï¿½es actuelles
     if request.method == 'GET':
         PosForm = forms.models.form_for_instance(obj,
-            formfield_callback=form_callback)
+            formfield_callback=_form_callback)
         f = PosForm()
-        return render_response(request, 'annuaire/edit_form.html',
-                                 {'form': f, 'action_title': action_title})
+        return _render_response(request, 'annuaire/edit_form.html',
+                                {'form': f, 'action_title': action_title})
     
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
         PosForm = forms.models.form_for_instance(obj,
-            formfield_callback=form_callback)
+            formfield_callback=_form_callback)
         f = PosForm(request.POST.copy())
         if f.is_valid():
             if person is not None:
@@ -180,46 +180,30 @@ def generic_edit(request, user_id, object_id, object_type,
             request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
         return HttpResponseRedirect('/annuaire/%s/edit/' % user_id)
 
-
-@login_required
-def generic_delete(request, user_id, object_id, object_type,
-                   msg_confirm, msg_done):
+def _generic_delete(request, user_id, object_id, object_type, msg_done):
 
     obj = get_object_or_404(object_type, pk=object_id)
-    
-    # 1er passage: on demande confirmation
-    if request.method != 'POST':
-        msg = msg_confirm
-        return render_response(request, 'pages/confirm.html',
-                               {'message': msg_confirm,
-                                'description': str(obj),
-                                'section': "annuaire/base.html"})
+    obj.delete()
 
-    # 2eme passage: on supprime si c'est confirmé
-    else:
-        if request.POST['choice']=="1":
-            obj.delete()
-            request.user.message_set.create(message=msg_done)
-        return HttpResponseRedirect('/annuaire/%s/edit/' % user_id)
+    request.user.message_set.create(message=msg_done)
+    return HttpResponseRedirect('/annuaire/%s/edit/' % user_id)
 
-
-@login_required
-def generic_add(request, user_id, object_type, person, ain7member,
+def _generic_add(request, user_id, object_type, person, ain7member,
                 action_title, msg_done):
 
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
         PosForm = forms.models.form_for_model(object_type,
-            formfield_callback=form_callback)
+            formfield_callback=_form_callback)
         f = PosForm()
-        return render_response(request, 'annuaire/edit_form.html',
-                               {'person': person, 'ain7member': ain7member,
-                                'form': f, 'action_title': action_title})
+        return _render_response(request, 'annuaire/edit_form.html',
+                                {'person': person, 'ain7member': ain7member,
+                                 'form': f, 'action_title': action_title})
 
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
         PosForm = forms.models.form_for_model(object_type,
-            formfield_callback=form_callback)
+            formfield_callback=_form_callback)
         f = PosForm(request.POST.copy())
         if f.is_valid():
             if person is not None:
@@ -233,136 +217,148 @@ def generic_add(request, user_id, object_type, person, ain7member,
         return HttpResponseRedirect('/annuaire/%s/edit/' % user_id)
 
 # Adresses
-
+@login_required
 def address_edit(request, user_id=None, address_id=None):
 
-    return generic_edit(request, user_id, address_id, Address,
-                        get_object_or_404(Person, user=user_id), None,
-                        _("Modification of an address"),
-                        _("Address informations updated successfully."))
+    return _generic_edit(request, user_id, address_id, Address,
+                         get_object_or_404(Person, user=user_id), None,
+                         _("Modification of an address"),
+                         _("Address informations updated successfully."))
 
+@confirmation_required(lambda user_id=None, address_id=None : str(get_object_or_404(Address, pk=address_id)), "annuaire/base.html", _("Do you really want to delete this address?"))
+@login_required
 def address_delete(request, user_id=None, address_id=None):
 
-    return generic_delete(request, user_id, address_id, Address, 
-                          _("Do you really want to delete this address?"),
-                          _("Address successfully deleted."))
+    return _generic_delete(request, user_id, address_id, Address,
+                           _("Address successfully deleted."))
 
+@login_required
 def address_add(request, user_id=None):
 
-    return generic_add(request, user_id, Address,
+    return _generic_add(request, user_id, Address,
                         get_object_or_404(Person, user=user_id), None,
-                       _("Creation of an address"),
-                       _("Address successfully added."))
+                        _("Creation of an address"),
+                        _("Address successfully added."))
 
 # Numeros de telephone
-
+@login_required
 def phone_edit(request, user_id=None, phone_id=None):
 
-    return generic_edit(request, user_id, phone_id, PhoneNumber,
-                        get_object_or_404(Person, user=user_id), None,
-                        _("Modification of a phone number"),
-                        _("Phone number informations updated successfully."))
+    return _generic_edit(request, user_id, phone_id, PhoneNumber,
+                         get_object_or_404(Person, user=user_id), None,
+                         _("Modification of a phone number"),
+                         _("Phone number informations updated successfully."))
 
+@confirmation_required(lambda user_id=None, phone_id=None : str(get_object_or_404(PhoneNumber, pk=phone_id)), "annuaire/base.html", _("Do you really want to delete this phone number?"))
+@login_required
 def phone_delete(request, user_id=None, phone_id=None):
 
-    return generic_delete(request, user_id, phone_id, PhoneNumber, 
-                          _("Do you really want to delete this phone number?"),
-                          _("Phone number successfully deleted."))
+    return _generic_delete(request, user_id, phone_id, PhoneNumber,
+                           _("Phone number successfully deleted."))
 
+@login_required
 def phone_add(request, user_id=None):
 
-    return generic_add(request, user_id, PhoneNumber,
-                       get_object_or_404(Person, user=user_id), None,
-                       _("Creation of a phone number"),
-                       _("Phone number successfully added."))
+    return _generic_add(request, user_id, PhoneNumber,
+                        get_object_or_404(Person, user=user_id), None,
+                        _("Creation of a phone number"),
+                        _("Phone number successfully added."))
 
 # Adresses de courriel
-
+@login_required
 def email_edit(request, user_id=None, email_id=None):
 
-    return generic_edit(request, user_id, email_id, Email,
-                        get_object_or_404(Person, user=user_id), None,
-                        _("Modification of an email address"),
-                        _("Email informations updated successfully."))
+    return _generic_edit(request, user_id, email_id, Email,
+                         get_object_or_404(Person, user=user_id), None,
+                         _("Modification of an email address"),
+                         _("Email informations updated successfully."))
 
+@confirmation_required(lambda user_id=None, email_id=None : str(get_object_or_404(Email, pk=email_id)), "annuaire/base.html", _("Do you really want to delete this email address?"))
+@login_required
 def email_delete(request, user_id=None, email_id=None):
 
-    return generic_delete(request, user_id, email_id, Email, 
-                          _("Do you really want to delete this email address?"),
-                          _("Email address successfully deleted."))
+    return _generic_delete(request, user_id, email_id, Email,
+                           _("Email address successfully deleted."))
 
+@login_required
 def email_add(request, user_id=None):
 
-    return generic_add(request, user_id, Email,
-                       get_object_or_404(Person, user=user_id), None,
-                       _("Creation of an email address"),
-                       _("Email address successfully added."))
+    return _generic_add(request, user_id, Email,
+                        get_object_or_404(Person, user=user_id), None,
+                        _("Creation of an email address"),
+                        _("Email address successfully added."))
 
-# Comptes de messagerie instantanée
-
+# Comptes de messagerie instantanï¿½e
+@login_required
 def im_edit(request, user_id=None, im_id=None):
 
-    return generic_edit(request, user_id, im_id, InstantMessaging,
-                        get_object_or_404(Person, user=user_id), None,
-                        _("Modification of an instant messaging account"),
-                        _("Instant messaging informations updated successfully."))
+    return _generic_edit(request, user_id, im_id, InstantMessaging,
+                         get_object_or_404(Person, user=user_id), None,
+                         _("Modification of an instant messaging account"),
+                         _("Instant messaging informations updated successfully."))
 
+@confirmation_required(lambda user_id=None, im_id=None : str(get_object_or_404(InstantMessaging, pk=im_id)), "annuaire/base.html", _("Do you really want to delete this instant messaging account?"))
+@login_required
 def im_delete(request, user_id=None, im_id=None):
 
-    return generic_delete(request, user_id, im_id, InstantMessaging, 
-                          _("Do you really want to delete this instant messaging account?"),
-                          _("Instant messaging account successfully deleted."))
+    return _generic_delete(request, user_id, im_id, InstantMessaging,
+                           _("Instant messaging account successfully deleted."))
 
+@login_required
 def im_add(request, user_id=None):
 
-    return generic_add(request, user_id, Im,
-                       get_object_or_404(Person, user=user_id), None,
-                       _("Creation of an instant messaging account"),
-                       _("Instant messaging account successfully added."))
+    return _generic_add(request, user_id, InstantMessaging,
+                        get_object_or_404(Person, user=user_id), None,
+                        _("Creation of an instant messaging account"),
+                        _("Instant messaging account successfully added."))
 
 # Comptes IRC
-
+@login_required
 def irc_edit(request, user_id=None, irc_id=None):
 
-    return generic_edit(request, user_id, irc_id, IRC,
-                        get_object_or_404(Person, user=user_id), None,
-                        _("Modification of an IRC account"),
-                        _("IRC account informations updated successfully."))
+    return _generic_edit(request, user_id, irc_id, IRC,
+                         get_object_or_404(Person, user=user_id), None,
+                         _("Modification of an IRC account"),
+                         _("IRC account informations updated successfully."))
 
+@confirmation_required(lambda user_id=None, irc_id=None : str(get_object_or_404(IRC, pk=irc_id)), "annuaire/base.html", _("Do you really want to delete this IRC account?"))
+@login_required
 def irc_delete(request, user_id=None, irc_id=None):
 
-    return generic_delete(request, user_id, irc_id, IRC, 
-                          _("Do you really want to delete this IRC account?"),
-                          _("IRC account successfully deleted."))
+    return _generic_delete(request, user_id, irc_id, IRC,
+                           _("IRC account successfully deleted."))
 
+@login_required
 def irc_add(request, user_id=None):
 
-    return generic_add(request, user_id, IRC,
-                       get_object_or_404(Person, user=user_id), None,
-                       _("Creation of an IRC account"),
-                       _("IRC account successfully added."))
+    return _generic_add(request, user_id, IRC,
+                        get_object_or_404(Person, user=user_id), None,
+                        _("Creation of an IRC account"),
+                        _("IRC account successfully added."))
 
 # Sites Internet
-
+@login_required
 def website_edit(request, user_id=None, website_id=None):
 
-    return generic_edit(request, user_id, website_id, WebSite,
-                        get_object_or_404(Person, user=user_id), None,
-                        _("Modification of a website"),
-                        _("Website informations updated successfully."))
+    return _generic_edit(request, user_id, website_id, WebSite,
+                         get_object_or_404(Person, user=user_id), None,
+                         _("Modification of a website"),
+                         _("Website informations updated successfully."))
 
+@confirmation_required(lambda user_id=None, website_id=None : str(get_object_or_404(WebSite, pk=website_id)), "annuaire/base.html", _("Do you really want to delete this website?"))
+@login_required
 def website_delete(request, user_id=None, website_id=None):
 
-    return generic_delete(request, user_id, website_id, WebSite, 
-                          _("Do you really want to delete this website?"),
-                          _("Website successfully deleted."))
+    return _generic_delete(request, user_id, website_id, WebSite,
+                           _("Website successfully deleted."))
 
+@login_required
 def website_add(request, user_id=None):
 
-    return generic_add(request, user_id, WebSite,
-                       get_object_or_404(Person, user=user_id), None,
-                       _("Creation of a website"),
-                       _("Website successfully added."))
+    return _generic_add(request, user_id, WebSite,
+                        get_object_or_404(Person, user=user_id), None,
+                        _("Creation of a website"),
+                        _("Website successfully added."))
 
 # Vie associative a l'n7
 
@@ -370,36 +366,38 @@ def website_add(request, user_id=None):
 def club_membership_edit(request, user_id=None, club_membership_id=None):
 
     person = get_object_or_404(Person, user=user_id)
-    return generic_edit(request, user_id, club_membership_id, ClubMembership,
-                        person, get_object_or_404(AIn7Member, person=person),
-                        _("Modification of a club membership"),
-                        _("Club membership informations updated successfully."))
+    return _generic_edit(request, user_id, club_membership_id, ClubMembership,
+                         person, get_object_or_404(AIn7Member, person=person),
+                         _("Modification of a club membership"),
+                         _("Club membership informations updated successfully."))
 
+@confirmation_required(lambda user_id=None, club_membership_id=None : str(get_object_or_404(ClubMembership, pk=club_membership_id)), "annuaire/base.html", _("Do you really want to delete this club membership?"))
+@login_required
 def club_membership_delete(request, user_id=None, club_membership_id=None):
 
-    return generic_delete(request, user_id, club_membership_id,ClubMembership, 
-                          _("Do you really want to delete this club membership?"),
-                          _("Club membership successfully deleted."))
+    return _generic_delete(request, user_id, club_membership_id, ClubMembership,
+                           _("Club membership successfully deleted."))
 
+@login_required
 def club_membership_add(request, user_id=None):
 
     person = get_object_or_404(Person, user=user_id)
-    return generic_add(request, user_id, ClubMembership,
-                       person, get_object_or_404(AIn7Member, person=person),
-                       _("Creation of a club membership"),
-                       _("Club membership successfully added."))
+    return _generic_add(request, user_id, ClubMembership,
+                        person, get_object_or_404(AIn7Member, person=person),
+                        _("Creation of a club membership"),
+                        _("Club membership successfully added."))
 
 # une petite fonction pour exclure les champs
 # person user ain7member
-# des formulaires créés avec form_for_model et form_for_instance
-def form_callback(f, **args):
+# des formulaires crï¿½ï¿½s avec form_for_model et form_for_instance
+def _form_callback(f, **args):
   exclude_fields = ("person", "user", "member")
   if f.name in exclude_fields:
     return None
   return f.formfield(**args)
 
-# pour alléger les appels à render_to_response
+# pour allï¿½ger les appels ï¿½ render_to_response
 # http://www.djangosnippets.org/snippets/3/
-def render_response(req, *args, **kwargs):
+def _render_response(req, *args, **kwargs):
     kwargs['context_instance'] = RequestContext(req)
     return render_to_response(*args, **kwargs)

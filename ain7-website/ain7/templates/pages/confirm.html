@@ -3,28 +3,16 @@
 
 {% block content %}
 
-<div class="description">
-{{ description }}
-</div>
-
-<div class="confirm">
-{{ message }}
-</div>
-
-<form method="post" action="#">
-
-<div align="center">
-    <input type="radio" name="choice" value="1" id="yes"/>
-    <label for="yes">{% trans "Yes" %}</label>
-    <input type="radio" name="choice" value="0" checked="checked" id="no" />
-    <label for="no">{% trans "No" %}</label>
-</div>
-
-<div align="center" style="padding: 20px;">
-    <input type="submit" class="button" value="{% trans "Ok" %}" />
-</div>
-
+<form method="post" action=".">
+	<div class="confirm">
+		<p><em>{{ description }}</em></p>
+		<p><strong>{{ form.choice.label }}</strong></p>
+		<div>{{ form.choice}}</div>
+		<p>
+			{{ form.back }}
+			<input type="submit" class="button" value="{% trans "Ok" %}" />
+		</p>
+	</div>
 </form>
-
 
 {% endblock %}

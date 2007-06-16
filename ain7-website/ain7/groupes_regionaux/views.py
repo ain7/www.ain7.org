@@ -31,6 +31,7 @@ from django.http import HttpResponseRedirect
 
 from ain7.groupes_regionaux.models import Group
 from ain7.groupes_regionaux.models import GroupMembership
+from ain7.decorators import confirmation_required
 
 def index(request):
     groups = Group.objects.all().filter(is_active=True).order_by('name')
@@ -83,29 +84,20 @@ def join(request, group_id):
 
     return HttpResponseRedirect('/groupes_regionaux/%s/' % (group.id))
 
+@confirmation_required(lambda group_id: str(get_object_or_404(Group, pk=group_id)), "groupes_regionaux/base.html", _("Do you really want to quit this group?"))
 @login_required
 def quit(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
     person = request.user.person
 
-    if request.method != 'POST':
-        return render_to_response('pages/confirm.html',
-                   {'user': request.user,
-                    'description': group,
-                    'message': _("Do you really want to quit this group?"),
-                    'section': "groupes_regionaux/base.html",
-                    }, context_instance=RequestContext(request))
+    if group.has_for_member(person):
+        membership = GroupMembership.objects.filter(group=group, member=person)\
+                    .exclude(end_date__isnull=False, end_date__lte=datetime.datetime.now())\
+                    .latest('end_date')
+        membership.end_date = datetime.datetime.now()
+        membership.save()
+        request.user.message_set.create(message=_("You have been successfully removed from this group."))
     else:
-        if request.POST['choice'] == "1":
-            if group.has_for_member(person):
-                membership = GroupMembership.objects.filter(group=group, member=person)\
-                            .exclude(end_date__isnull=False, end_date__lte=datetime.datetime.now())\
-                            .latest('end_date')
-                membership.end_date = datetime.datetime.now()
-                membership.save()
-                request.user.message_set.create(message=_("You have been successfully removed from this group."))
-            else:
-                request.user.message_set.create(message=_("You are not a member of this group."))
+        request.user.message_set.create(message=_("You are not a member of this group."))
 
-        return HttpResponseRedirect('/groupes_regionaux/%s/' % (group.id))
-
+    return HttpResponseRedirect('/groupes_regionaux/%s/' % (group.id))
