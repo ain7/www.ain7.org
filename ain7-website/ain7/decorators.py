@@ -42,6 +42,7 @@ def confirmation_required(get_description, section="base.html", message=_("Are y
     def _dec(view_func):
         def _checkconfirm(request, *args, **kwargs):
             if request.method != 'POST':
+                # Show the confirmation form
                 form = ConfirmForm(initial={'back': request.META.get('HTTP_REFERER', '/')})
                 form.fields['choice'].label = message
 
@@ -50,12 +51,14 @@ def confirmation_required(get_description, section="base.html", message=_("Are y
                                           {'description': description, 'section': section, 'form': form},
                                           context_instance=RequestContext(request))
             else:
+                # Get the choice
                 form = ConfirmForm(request.POST.copy())
                 if form.is_valid() and form.clean_data['choice'] == ConfirmForm.YES:
+                    # Go to the decorated view
                     return view_func(request, *args, **kwargs)
                 else:
+                    # Go back to last view
                     return HttpResponseRedirect(request.POST['back'])
-            #return HttpResponseRedirect('%s?%s=%s' % (login_url, REDIRECT_FIELD_NAME, quote(request.get_full_path())))
         _checkconfirm.__doc__ = view_func.__doc__
         _checkconfirm.__dict__ = view_func.__dict__
 
