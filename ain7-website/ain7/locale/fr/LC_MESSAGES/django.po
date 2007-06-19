@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-17 00:05+0200\n"
+"POT-Creation-Date: 2007-06-19 20:17+0200\n"
 "PO-Revision-Date: 2007-06-17 00:06+0200\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -979,23 +979,23 @@ msgstr "actualité"
 msgid "question"
 msgstr "question"
 
-#: sondages/models.py:44 sondages/models.py:49 sondages/models.py:61
+#: sondages/models.py:47 sondages/models.py:52 sondages/models.py:67
 msgid "survey"
 msgstr "sondage"
 
-#: sondages/models.py:47 sondages/models.py:55 sondages/models.py:60
+#: sondages/models.py:50 sondages/models.py:61 sondages/models.py:66
 msgid "choice"
 msgstr "choix"
 
-#: sondages/models.py:56
+#: sondages/models.py:62
 msgid "choices"
 msgstr "choix"
 
-#: sondages/models.py:59
+#: sondages/models.py:65
 msgid "voter"
 msgstr "voteur"
 
-#: sondages/models.py:64
+#: sondages/models.py:70
 msgid "vote"
 msgstr "vote"
 
@@ -1459,7 +1459,7 @@ msgstr "Ajout d'une publication"
 #: templates/evenements/details.html:27 templates/evenements/index.html:31
 #: templates/groupes/details.html:16
 #: templates/groupes_regionaux/details.html:31
-#: templates/sondages/index.html:21 templates/sondages/view.html:34
+#: templates/sondages/index.html:21 templates/sondages/view.html:38
 msgid "Actions"
 msgstr "Actions"
 
@@ -1592,6 +1592,34 @@ msgstr "Liste des sondages"
 msgid "Create a new survey"
 msgstr "Créer un nouveau sondage"
 
+#: templates/sondages/view.html:15
+#, python-format
+msgid "Votes ends the %(end_date)s"
+msgstr "Clôture des votes le %(end_date)s"
+
+#: templates/sondages/view.html:18
+msgid "Number of votes"
+msgstr "Nombre de votes"
+
+#: templates/sondages/view.html:26
+#, python-format
+msgid "%(counter)s vote"
+msgid_plural "%(counter)s votes"
+msgstr[0] "%(counter)s vote"
+msgstr[1] "%(counter)s votes"
+
+#: templates/sondages/view.html:43
+msgid "Vote"
+msgstr "Voter"
+
+#: templates/sondages/view.html:46
+msgid "Edit this survey"
+msgstr "Editer ce sondage"
+
+#: templates/sondages/view.html:47
+msgid "See all surveys"
+msgstr "Voir tous les sondages"
+
 #: templates/sondages/vote.html:5
 msgid "Please select a choice"
 msgstr "Veuillez faire un choix"
@@ -1599,42 +1627,6 @@ msgstr "Veuillez faire un choix"
 #: templates/sondages/vote.html:10
 msgid "See results"
 msgstr "Voir les résultats"
-
-#: templates/sondages/view.html:15
-#, python-format
-msgid "Votes ends the %(end_date)s"
-msgstr "Clôture des votes le %(end_date)s"
-
-#: templates/sondages/view.html:20
-#, python-format
-msgid ""
-"\n"
-"\t\t\t\t\t\t\t%(choice)s : %(counter)s vote\n"
-"\t\t\t\t\t\t"
-msgid_plural ""
-"\n"
-"\t\t\t\t\t\t\t%(choice)s : %(counter)s votes\n"
-"\t\t\t\t\t\t"
-msgstr[0] ""
-"\n"
-"\t\t\t\t\t\t\t%(choice)s : %(counter)s vote\n"
-"\t\t\t\t\t\t"
-msgstr[1] ""
-"\n"
-"\t\t\t\t\t\t\t%(choice)s : %(counter)s votes\n"
-"\t\t\t\t\t\t"
-
-#: templates/sondages/view.html:39
-msgid "Vote"
-msgstr "Voter"
-
-#: templates/sondages/view.html:42
-msgid "Edit this survey"
-msgstr "Editer ce sondage"
-
-#: templates/sondages/view.html:43
-msgid "See all surveys"
-msgstr "Voir tous les sondages"
 
 #: templates/voyages/index.html:8
 msgid "Travels list"

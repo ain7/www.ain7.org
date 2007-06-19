@@ -36,6 +36,9 @@ class Survey(models.Model):
     def has_been_voted_by(self, voter):
         return Vote.objects.filter(survey=self, voter=voter).count() != 0
 
+    def nb_vote(self):
+        return Vote.objects.filter(survey=self).count()
+
     class Admin:
         list_display = ('question', 'start_date', 'end_date')
         ordering = ['-start_date', '-end_date']
@@ -50,6 +53,9 @@ class Choice(models.Model):
 
     def __str__(self):
         return self.choice
+
+    def rate(self):
+        return (self.votes.count() * 100.0) / self.survey.nb_vote()
 
     class Meta:
         verbose_name = _('choice')

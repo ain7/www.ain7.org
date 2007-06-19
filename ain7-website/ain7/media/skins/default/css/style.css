@@ -421,6 +421,8 @@ ul.errorlist {
 	color: #FF0000;
 }
 
+/* Confirmation form
+   ------ */
 
 .confirm {
 	padding: 1.2em 0 1em 0;
@@ -447,4 +449,30 @@ ul.errorlist {
 
 .confirm ul li {
 	display: inline;
+}
+
+/* Survey results
+   ------ */
+
+.result {
+	text-align: left;
+	border-collapse: collapse;
+}
+
+.result p {
+	font-weight: bold;
+}
+
+.rate {
+	background-color: #EEEEEE;
+	height: 10px;
+	width: 100px;
+	float: left;
+	margin-right: 1em;
+}
+
+.rate div {
+	background-color: #FF9148;
+	height: 10px;
+	clear: left;
 }
