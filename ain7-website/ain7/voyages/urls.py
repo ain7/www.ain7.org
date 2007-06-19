@@ -28,7 +28,7 @@ urlpatterns = patterns('',
     (r'^$', 'ain7.voyages.views.index'),
     (r'^search/$', 'ain7.voyages.views.search'),
     (r'^edit/$', 'ain7.voyages.views.edit'),
-    (r'^edit/(?P<travel_id>\d+)/$', 'ain7.voyages.views.edit'),
+    (r'^(?P<travel_id>\d+)/edit/$', 'ain7.voyages.views.edit'),
     (r'^(?P<travel_id>\d+)/$', 'ain7.voyages.views.detail'),
 
 )

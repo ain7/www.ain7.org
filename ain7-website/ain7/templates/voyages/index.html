@@ -18,8 +18,13 @@
                 {{ travel.label }}</a></b><br />
                 {{ travel.visited_places }}<br />
 		<b>{{ travel.date }}</b><br />
-	        {{ travel.type }} {% trans "of" %} {{ travel.term }} 
-                {% trans "days" %}.</td>
+                {% if travel.term %}
+                    {{ travel.type }}
+		    {% trans "of" %} {{ travel.term }} {% trans "days" %}.
+		{% else %}
+                    {{ travel.type }}.
+                {% endif %}
+                </td>
 	</tr>
     {% endfor %}
      </table>

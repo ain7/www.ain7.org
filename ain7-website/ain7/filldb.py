@@ -663,13 +663,16 @@ def filldb():
     boattravel = voyages.TravelType(type="Croisière")
     boattravel.save()
 
+    loopandboattravel = voyages.TravelType(type="Circuit et croisière")
+    loopandboattravel.save()
+
     travel1 = voyages.Travel()
     travel1.label = "Varsovie & croisière sur la Vistule"
     travel1.start_date = date(2007,6,1)
     travel1.end_date = date(2007,6,15)
     travel1.date = "Juin 2007"
     travel1.term = 14
-    travel1.type = looptravel
+    travel1.type = loopandboattravel
     travel1.visited_places = "de Gdansk à Kaliningrad"
     travel1.thumbnail = "/site_media/data/vistule.jpg"
     travel1.prix = 2350
@@ -692,7 +695,7 @@ def filldb():
     travel3.date = "Février 2008"
     travel3.start_date = date(2008,2,1)
     travel3.end_date = date(2008,2,15)
-    travel3.type = looptravel
+    travel3.type = loopandboattravel
     travel3.visited_places = "Ragoon, Pagan, Sagain, Mandalay"
     travel3.thumbnail = "/site_media/data/birmanie.jpg"
     travel3.prix = 3550
@@ -701,10 +704,8 @@ def filldb():
     travel4 = voyages.Travel()
     travel4.label = "Mongolie / Pékin"
     travel4.date = "Juin 2008"
-    travel4.start_date = date(2008,6,1)
-    travel4.end_date = date(2008,6,15)
     travel4.term = 15
-    travel4.type = boattravel
+    travel4.type = looptravel
     travel4.thumbnail = "/site_media/data/mongolie.jpg"
     travel4.prix = 2760
     travel4.save()
@@ -712,14 +713,26 @@ def filldb():
     travel5 = voyages.Travel()
     travel5.label = "Inde - Penjab & Himachal Pradesh"
     travel5.date = "Octobre 2008"
-    travel5.start_date = date(2008,10,1)
-    travel5.end_date = date(2008,10,15)
+    travel5.start_date = date(2008,10,27)
+    travel5.end_date = date(2008,11,12)
     travel5.term = 16
-    travel5.type = boattravel
+    travel5.type = looptravel
     travel5.visited_places = "Delhi, Amristar, Dharamsala, Manali, Simla"
     travel5.thumbnail = "/site_media/data/delhi.jpg"
     travel5.prix = 1900
     travel5.save()
+
+    travel6 = voyages.Travel()
+    travel6.label = "Mexique"
+    travel6.start_date = date(2007,2,1)
+    travel6.end_date = date(2007,2,15)
+    travel6.date = "Février 2007"
+    travel6.term = 15
+    travel6.type = looptravel
+    travel6.visited_places = "de Mexico à Cancun"
+    travel6.thumbnail = "/site_media/data/mexique.jpg"
+    travel6.prix = 2430
+    travel6.save()
 
     groupes_regionaux.GroupMembership(group=idfgroup, member=lionel, type=0).save()
     groupes_regionaux.GroupMembership(group=idfgroup, member=alex, type=2).save()

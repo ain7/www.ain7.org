@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-19 22:34+0200\n"
-"PO-Revision-Date: 2007-06-17 00:06+0200\n"
+"POT-Creation-Date: 2007-06-19 23:21+0200\n"
+"PO-Revision-Date: 2007-06-19 23:27+0200\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -31,10 +31,219 @@ msgstr "Oui"
 msgid "No"
 msgstr "Non"
 
+#: annuaire/views.py:35 annuaire/models.py:213 templates/annuaire/edit.html:20
+msgid "Last name"
+msgstr "Nom"
+
+#: annuaire/views.py:36 annuaire/models.py:214 templates/annuaire/edit.html:19
+msgid "First name"
+msgstr "Prénom"
+
+#: annuaire/views.py:37 annuaire/models.py:197
+msgid "Promo"
+msgstr "Promotions"
+
+#: annuaire/views.py:38 annuaire/models.py:181 annuaire/models.py:188
+#: emploi/models.py:222
+msgid "Track"
+msgstr "Filière"
+
+#: annuaire/views.py:116 annuaire/views.py:144 groupes/views.py:64
+#: voyages/views.py:54
+msgid "Modifications have been successfully saved."
+msgstr "Les modifications ont été correctement enregistrées."
+
+#: annuaire/views.py:118 annuaire/views.py:146 annuaire/views.py:180
+#: annuaire/views.py:216 emploi/views.py:133 emploi/views.py:169
+#: sondages/views.py:141
+msgid "Something was wrong in the form you filled. No modification done."
+msgstr ""
+"Certains champs ont été incorrectement remplis. Aucune modification "
+"effectuée."
+
+#: annuaire/views.py:122
+msgid "Modification of personal data"
+msgstr "Modification des données personnelles"
+
+#: annuaire/views.py:151
+msgid "Modification of personal data for "
+msgstr "Modification des données personnelles de"
+
+#: annuaire/views.py:225
+msgid "Modification of an addressr"
+msgstr "Modification d'une adresse"
+
+#: annuaire/views.py:226
+msgid "Address informations updated successfully."
+msgstr "Votre adresse a été correctement enregistrée."
+
+#: annuaire/views.py:228
+msgid "Do you really want to delete your address"
+msgstr "Souhaitez-vous vraiment supprimer l'adresse"
+
+#: annuaire/views.py:233
+msgid "Address successfully deleted."
+msgstr "L'adresse a été supprimée avec succès."
+
+#: annuaire/views.py:240
+msgid "Creation of an address"
+msgstr "Ajout d'une adresse"
+
+#: annuaire/views.py:241
+msgid "Address successfully added."
+msgstr "L'adresse a été ajoutée avec succès."
+
+#: annuaire/views.py:249
+msgid "Modification of a phone number"
+msgstr "Modification d'un numéro de téléphone"
+
+#: annuaire/views.py:250
+msgid "Phone number informations updated successfully."
+msgstr "Votre numéro de téléphone a été correctement enregistré."
+
+#: annuaire/views.py:252
+msgid "Do you really want to delete your phone number"
+msgstr "Souhaitez-vous vraiment supprimer le numéro de téléphone"
+
+#: annuaire/views.py:257
+msgid "Phone number successfully deleted."
+msgstr "Le numéro de téléphone a été supprimé avec succès."
+
+#: annuaire/views.py:264
+msgid "Creation of a phone number"
+msgstr "Ajout d'un numéro de téléphone"
+
+#: annuaire/views.py:265
+msgid "Phone number successfully added."
+msgstr "Le numéro de téléphone a été ajouté avec succès."
+
+#: annuaire/views.py:273
+msgid "Modification of an email address"
+msgstr "Modification d'une adresse de courriel"
+
+#: annuaire/views.py:274
+msgid "Email informations updated successfully."
+msgstr "Votre adresse de courriel a été mise à jour avec succès."
+
+#: annuaire/views.py:276
+msgid "Do you really want to delete your email address"
+msgstr "Souhaitez-vous vraiment supprimer l'adresse mail"
+
+#: annuaire/views.py:281
+msgid "Email address successfully deleted."
+msgstr "L'adresse de courriel a été supprimée avec succès."
+
+#: annuaire/views.py:288
+msgid "Creation of an email address"
+msgstr "Ajout d'une adresse de courriel"
+
+#: annuaire/views.py:289
+msgid "Email address successfully added."
+msgstr "L'adresse de courriel a été ajoutée avec succès."
+
+#: annuaire/views.py:297
+msgid "Modification of an instant messaging account"
+msgstr "Modification d'un compte de messagerie instantanée"
+
+#: annuaire/views.py:298
+msgid "Instant messaging informations updated successfully."
+msgstr "Votre compte de messagerie instantanée a été correctement enregistré."
+
+#: annuaire/views.py:300
+msgid "Do you really want to delete your instant messaging account"
+msgstr "Souhaitez-vous vraiment supprimer ce compte de messagerie instantanée"
+
+#: annuaire/views.py:305
+msgid "Instant messaging account successfully deleted."
+msgstr "Votre compte de messagerie instantanée a été correctement supprimé."
+
+#: annuaire/views.py:312
+msgid "Creation of an instant messaging account"
+msgstr "Ajout d'un compte de messagerie instantanée"
+
+#: annuaire/views.py:313
+msgid "Instant messaging account successfully added."
+msgstr "Le compte de messagerie instantanée a été ajouté avec succès."
+
+#: annuaire/views.py:321
+msgid "Modification of an IRC account"
+msgstr "Modification d'un compte IRC"
+
+#: annuaire/views.py:322
+msgid "IRC account informations updated successfully."
+msgstr "Votre compte IRC a été mis à jour avec succès."
+
+#: annuaire/views.py:324
+msgid "Do you really want to delete your IRC account"
+msgstr "Souhaitez-vous vraiment supprimer ce compte IRC"
+
+#: annuaire/views.py:329
+msgid "IRC account successfully deleted."
+msgstr "Le compte IRC a été supprimé avec succès."
+
+#: annuaire/views.py:336
+msgid "Creation of an IRC account"
+msgstr "Ajout d'un compte IRC"
+
+#: annuaire/views.py:337
+msgid "IRC account successfully added."
+msgstr "Le compte IRC a été ajouté avec succès."
+
+#: annuaire/views.py:345
+msgid "Modification of a website"
+msgstr "Modification du site web"
+
+#: annuaire/views.py:346
+msgid "Website informations updated successfully."
+msgstr ""
+"Les informations concernant le site web ont été correctement enregistrées."
+
+#: annuaire/views.py:348
+msgid "Do you really want to delete your website"
+msgstr "Souhaitez-vous vraiment supprimer ce site web"
+
+#: annuaire/views.py:353
+msgid "Website successfully deleted."
+msgstr "Le site web a été supprimé avec succès."
+
+#: annuaire/views.py:360
+msgid "Creation of a website"
+msgstr "Ajout d'un site web"
+
+#: annuaire/views.py:361
+msgid "Website successfully added."
+msgstr "Le site web a été ajouté avec succès."
+
+#: annuaire/views.py:371
+msgid "Modification of a club membership"
+msgstr "Modification de l'appartenance à un club"
+
+#: annuaire/views.py:372
+msgid "Club membership informations updated successfully."
+msgstr ""
+"Les informations concernant l'appartenance à un club ont été correctement "
+"enregistrées."
+
+#: annuaire/views.py:374
+msgid "Do you really want to delete your club membership"
+msgstr "Souhaitez-vous vraiment supprimer l'appartenance à ce club"
+
+#: annuaire/views.py:379
+msgid "Club membership successfully deleted."
+msgstr "L'appartenance au club a été supprimée avec succès."
+
+#: annuaire/views.py:387
+msgid "Creation of a club membership"
+msgstr "Ajout de l'appartenance à un club"
+
+#: annuaire/views.py:388
+msgid "Club membership successfully added."
+msgstr "L'appartenance au club a été ajoutée avec succès."
+
 #: annuaire/models.py:32 annuaire/models.py:135 annuaire/models.py:163
-#: annuaire/models.py:466 emploi/models.py:54 emploi/models.py:78
-#: groupes/models.py:32 templates/groupes/details.html:11
-#: evenements/models.py:33 groupes_regionaux/models.py:33
+#: annuaire/models.py:466 templates/groupes/details.html:11
+#: groupes/models.py:32 evenements/models.py:33 emploi/models.py:54
+#: emploi/models.py:78 groupes_regionaux/models.py:33
 msgid "name"
 msgstr "nom"
 
@@ -51,7 +260,8 @@ msgstr "pays"
 #: annuaire/models.py:48 annuaire/models.py:63 annuaire/models.py:246
 #: annuaire/models.py:297 annuaire/models.py:316 annuaire/models.py:336
 #: annuaire/models.py:385 templates/annuaire/edit.html:104
-#: voyages/models.py:32 voyages/models.py:51 groupes_regionaux/models.py:74
+#: templates/voyages/details.html:28 voyages/models.py:32 voyages/models.py:51
+#: groupes_regionaux/models.py:74
 msgid "type"
 msgstr "type"
 
@@ -116,16 +326,17 @@ msgid "phone number"
 msgstr "numéro de téléphone"
 
 #: annuaire/models.py:145 annuaire/models.py:399 annuaire/models.py:407
-#: annuaire/models.py:429 emploi/models.py:87
-#: templates/annuaire/details.html:87 templates/annuaire/edit.html:251
+#: annuaire/models.py:429 templates/annuaire/details.html:87
+#: templates/annuaire/edit.html:251 templates/voyages/details.html:52
+#: emploi/models.py:87
 msgid "web site"
 msgstr "site internet"
 
 #: annuaire/models.py:146 annuaire/models.py:165 annuaire/models.py:361
-#: annuaire/models.py:370 annuaire/models.py:430 emploi/models.py:116
+#: annuaire/models.py:370 annuaire/models.py:430
 #: templates/annuaire/details.html:74 templates/annuaire/edit.html:184
 #: templates/annuaire/edit.html.py:188 templates/emploi/cv_details.html:44
-#: templates/emploi/cv_edit.html:46
+#: templates/emploi/cv_edit.html:46 emploi/models.py:116
 msgid "email"
 msgstr "courriel"
 
@@ -138,18 +349,9 @@ msgstr "école"
 msgid "active"
 msgstr "actif"
 
-#: annuaire/models.py:181 annuaire/models.py:188 annuaire/views.py:38
-#: emploi/models.py:222
-msgid "Track"
-msgstr "Filière"
-
 #: annuaire/models.py:186
 msgid "year"
 msgstr "année"
-
-#: annuaire/models.py:197 annuaire/views.py:37
-msgid "Promo"
-msgstr "Promotions"
 
 #: annuaire/models.py:204
 msgid "Male"
@@ -166,14 +368,6 @@ msgstr "utilisateur"
 #: annuaire/models.py:212 templates/annuaire/edit.html:17
 msgid "sex"
 msgstr "sexe"
-
-#: annuaire/models.py:213 annuaire/views.py:35 templates/annuaire/edit.html:20
-msgid "Last name"
-msgstr "Nom"
-
-#: annuaire/models.py:214 annuaire/views.py:36 templates/annuaire/edit.html:19
-msgid "First name"
-msgstr "Prénom"
 
 #: annuaire/models.py:215 templates/annuaire/details.html:16
 #: templates/annuaire/edit.html:21
@@ -195,8 +389,9 @@ msgstr "date de décès"
 msgid "person"
 msgstr "personne"
 
-#: annuaire/models.py:247 annuaire/models.py:453 groupes/models.py:64
-#: templates/annuaire/edit.html:106 groupes_regionaux/models.py:79
+#: annuaire/models.py:247 annuaire/models.py:453
+#: templates/annuaire/edit.html:106 groupes/models.py:64
+#: groupes_regionaux/models.py:79
 msgid "member"
 msgstr "membre"
 
@@ -325,10 +520,10 @@ msgstr "canaux"
 msgid "irc"
 msgstr "irc"
 
-#: annuaire/models.py:428 annuaire/models.py:467 emploi/models.py:114
-#: emploi/models.py:146 emploi/views.py:43 groupes/models.py:34
-#: news/models.py:31 evenements/models.py:36 voyages/models.py:53
-#: groupes_regionaux/models.py:34
+#: annuaire/models.py:428 annuaire/models.py:467 news/models.py:31
+#: templates/voyages/details.html:39 groupes/models.py:34
+#: evenements/models.py:36 emploi/views.py:43 emploi/models.py:114
+#: emploi/models.py:146 voyages/models.py:53 groupes_regionaux/models.py:34
 msgid "description"
 msgstr "description"
 
@@ -336,10 +531,10 @@ msgstr "description"
 msgid "creation date"
 msgstr "date de création"
 
-#: annuaire/models.py:432 annuaire/models.py:450 emploi/models.py:118
-#: emploi/models.py:148 sondages/models.py:31
-#: templates/sondages/details.html:26 templates/evenements/details.html:14
-#: evenements/models.py:35 voyages/models.py:48 groupes_regionaux/models.py:76
+#: annuaire/models.py:432 annuaire/models.py:450
+#: templates/evenements/details.html:14 templates/sondages/details.html:26
+#: evenements/models.py:35 emploi/models.py:118 emploi/models.py:148
+#: sondages/models.py:31 voyages/models.py:48 groupes_regionaux/models.py:76
 msgid "end date"
 msgstr "date de fin"
 
@@ -351,9 +546,9 @@ msgstr "club"
 msgid "fonction"
 msgstr "fonction"
 
-#: annuaire/models.py:449 emploi/models.py:117 emploi/models.py:147
-#: sondages/models.py:30 templates/sondages/details.html:22
-#: templates/evenements/details.html:13 evenements/models.py:34
+#: annuaire/models.py:449 templates/evenements/details.html:13
+#: templates/sondages/details.html:22 evenements/models.py:34
+#: emploi/models.py:117 emploi/models.py:147 sondages/models.py:30
 #: voyages/models.py:47 groupes_regionaux/models.py:75
 msgid "start date"
 msgstr "date de début"
@@ -382,443 +577,9 @@ msgstr "appartenance au profil"
 msgid "profiles memberships"
 msgstr "appartenances aux profils"
 
-#: annuaire/views.py:116 annuaire/views.py:144 groupes/views.py:64
-msgid "Modifications have been successfully saved."
-msgstr "Les modifications ont été correctement enregistrées."
-
-#: annuaire/views.py:118 annuaire/views.py:146 annuaire/views.py:180
-#: annuaire/views.py:216 emploi/views.py:133 emploi/views.py:169
-#: sondages/views.py:141
-msgid "Something was wrong in the form you filled. No modification done."
-msgstr ""
-"Certains champs ont été incorrectement remplis. Aucune modification "
-"effectuée."
-
-#: annuaire/views.py:122
-msgid "Modification of personal data"
-msgstr "Modification des données personnelles"
-
-#: annuaire/views.py:151
-msgid "Modification of personal data for "
-msgstr "Modification des données personnelles de"
-
-#: annuaire/views.py:225
-msgid "Modification of an addressr"
-msgstr "Modification d'une adresse"
-
-#: annuaire/views.py:226
-msgid "Address informations updated successfully."
-msgstr "Votre adresse a été correctement enregistrée."
-
-#: annuaire/views.py:228
-msgid "Do you really want to delete your address"
-msgstr "Souhaitez-vous vraiment supprimer l'adresse"
-
-#: annuaire/views.py:233
-msgid "Address successfully deleted."
-msgstr "L'adresse a été supprimée avec succès."
-
-#: annuaire/views.py:240
-msgid "Creation of an address"
-msgstr "Ajout d'une adresse"
-
-#: annuaire/views.py:241
-msgid "Address successfully added."
-msgstr "L'adresse a été ajoutée avec succès."
-
-#: annuaire/views.py:249
-msgid "Modification of a phone number"
-msgstr "Modification d'un numéro de téléphone"
-
-#: annuaire/views.py:250
-msgid "Phone number informations updated successfully."
-msgstr "Votre numéro de téléphone a été correctement enregistré."
-
-#: annuaire/views.py:252
-msgid "Do you really want to delete your phone number"
-msgstr "Souhaitez-vous vraiment supprimer le numéro de téléphone"
-
-#: annuaire/views.py:257
-msgid "Phone number successfully deleted."
-msgstr "Le numéro de téléphone a été supprimé avec succès."
-
-#: annuaire/views.py:264
-msgid "Creation of a phone number"
-msgstr "Ajout d'un numéro de téléphone"
-
-#: annuaire/views.py:265
-msgid "Phone number successfully added."
-msgstr "Le numéro de téléphone a été ajouté avec succès."
-
-#: annuaire/views.py:273
-msgid "Modification of an email address"
-msgstr "Modification d'une adresse de courriel"
-
-#: annuaire/views.py:274
-msgid "Email informations updated successfully."
-msgstr "Votre adresse de courriel a été mise à jour avec succès."
-
-#: annuaire/views.py:276
-msgid "Do you really want to delete your email address"
-msgstr "Souhaitez-vous vraiment supprimer l'adresse mail"
-
-#: annuaire/views.py:281
-msgid "Email address successfully deleted."
-msgstr "L'adresse de courriel a été supprimée avec succès."
-
-#: annuaire/views.py:288
-msgid "Creation of an email address"
-msgstr "Ajout d'une adresse de courriel"
-
-#: annuaire/views.py:289
-msgid "Email address successfully added."
-msgstr "L'adresse de courriel a été ajoutée avec succès."
-
-#: annuaire/views.py:297
-msgid "Modification of an instant messaging account"
-msgstr "Modification d'un compte de messagerie instantanée"
-
-#: annuaire/views.py:298
-msgid "Instant messaging informations updated successfully."
-msgstr "Votre compte de messagerie instantanée a été correctement enregistré."
-
-#: annuaire/views.py:300
-#, fuzzy
-msgid "Do you really want to delete your instant messaging account"
-msgstr ""
-"Souhaitez-vous vraiment supprimer ce compte de messagerie instantanée ?"
-
-#: annuaire/views.py:305
-msgid "Instant messaging account successfully deleted."
-msgstr "Votre compte de messagerie instantanée a été correctement supprimé."
-
-#: annuaire/views.py:312
-msgid "Creation of an instant messaging account"
-msgstr "Ajout d'un compte de messagerie instantanée"
-
-#: annuaire/views.py:313
-msgid "Instant messaging account successfully added."
-msgstr "Le compte de messagerie instantanée a été ajouté avec succès."
-
-#: annuaire/views.py:321
-msgid "Modification of an IRC account"
-msgstr "Modification d'un compte IRC"
-
-#: annuaire/views.py:322
-msgid "IRC account informations updated successfully."
-msgstr "Votre compte IRC a été mis à jour avec succès."
-
-#: annuaire/views.py:324
-#, fuzzy
-msgid "Do you really want to delete your IRC account"
-msgstr "Souhaitez-vous vraiment supprimer ce compte IRC ?"
-
-#: annuaire/views.py:329
-msgid "IRC account successfully deleted."
-msgstr "Le compte IRC a été supprimé avec succès."
-
-#: annuaire/views.py:336
-msgid "Creation of an IRC account"
-msgstr "Ajout d'un compte IRC"
-
-#: annuaire/views.py:337
-msgid "IRC account successfully added."
-msgstr "Le compte IRC a été ajouté avec succès."
-
-#: annuaire/views.py:345
-msgid "Modification of a website"
-msgstr "Modification du site web"
-
-#: annuaire/views.py:346
-msgid "Website informations updated successfully."
-msgstr ""
-"Les informations concernant le site web ont été correctement enregistrées."
-
-#: annuaire/views.py:348
-#, fuzzy
-msgid "Do you really want to delete your website"
-msgstr "Souhaitez-vous vraiment supprimer ce site web ?"
-
-#: annuaire/views.py:353
-msgid "Website successfully deleted."
-msgstr "Le site web a été supprimé avec succès."
-
-#: annuaire/views.py:360
-msgid "Creation of a website"
-msgstr "Ajout d'un site web"
-
-#: annuaire/views.py:361
-msgid "Website successfully added."
-msgstr "Le site web a été ajouté avec succès."
-
-#: annuaire/views.py:371
-msgid "Modification of a club membership"
-msgstr "Modification de l'appartenance à un club"
-
-#: annuaire/views.py:372
-msgid "Club membership informations updated successfully."
-msgstr ""
-"Les informations concernant l'appartenance à un club ont été correctement "
-"enregistrées."
-
-#: annuaire/views.py:374
-#, fuzzy
-msgid "Do you really want to delete your club membership"
-msgstr "Souhaitez-vous vraiment supprimer l'appartenance à ce club ?"
-
-#: annuaire/views.py:379
-msgid "Club membership successfully deleted."
-msgstr "L'appartenance au club a été supprimée avec succès."
-
-#: annuaire/views.py:387
-msgid "Creation of a club membership"
-msgstr "Ajout de l'appartenance à un club"
-
-#: annuaire/views.py:388
-msgid "Club membership successfully added."
-msgstr "L'appartenance au club a été ajoutée avec succès."
-
-#: emploi/models.py:33 emploi/models.py:42 emploi/models.py:56
-msgid "field"
-msgstr "domaine"
-
-#: emploi/models.py:48
-msgid "Micro (0)"
-msgstr "Unipersonelle (0)"
-
-#: emploi/models.py:49
-msgid "Small (1-9)"
-msgstr "TPE (1-9)"
-
-#: emploi/models.py:50
-msgid "Medium (10-499)"
-msgstr "PME (10-499)"
-
-#: emploi/models.py:51
-msgid "Large (500+)"
-msgstr "GE (500+)"
-
-#: emploi/models.py:55
-msgid "size"
-msgstr "taille"
-
-#: emploi/models.py:70 emploi/models.py:89
-msgid "company"
-msgstr "société"
-
-#: emploi/models.py:106 emploi/models.py:121
-msgid "office"
-msgstr "bureau"
-
-#: emploi/models.py:107
-msgid "offices"
-msgstr "bureaux"
-
-#: emploi/models.py:113
-msgid "service"
-msgstr "service"
-
-#: emploi/models.py:119
-msgid "regie"
-msgstr "régie"
-
-#: emploi/models.py:129 templates/annuaire/details.html:116
-#: templates/annuaire/edit.html:292 templates/emploi/cv_details.html:62
-#: templates/emploi/cv_edit.html:69
-msgid "for"
-msgstr "au sein de"
-
-#: emploi/models.py:138
-msgid "position"
-msgstr "expérience professionnelle"
-
-#: emploi/models.py:160
-msgid "Education item"
-msgstr "Entrée du CV partie \"Formation\""
-
-#: emploi/models.py:168 emploi/models.py:187 emploi/models.py:215
-#: templates/emploi/job_details.html:14
-msgid "Title"
-msgstr "Titre"
-
-#: emploi/models.py:169 emploi/models.py:188
-msgid "Detail"
-msgstr "Détail"
-
-#: emploi/models.py:181
-msgid "Leisure item"
-msgstr "Loisirs"
-
-#: emploi/models.py:201
-msgid "Publication item"
-msgstr "Publication"
-
-#: emploi/models.py:214 templates/emploi/job_details.html:13
-msgid "Reference"
-msgstr "Réference"
-
-#: emploi/models.py:216
-msgid "Description"
-msgstr "Description"
-
-#: emploi/models.py:217 templates/emploi/job_details.html:15
-msgid "Experience"
-msgstr "Experience"
-
-#: emploi/models.py:218
-msgid "Contract type"
-msgstr "Type de Contrat"
-
-#: emploi/models.py:219
-msgid "Job offer is opened"
-msgstr "L'offre d'emploi est ouverte"
-
-#: emploi/models.py:223
-msgid "Number of views"
-msgstr "Nombre de visionnages"
-
-#: emploi/views.py:37
-msgid "reference"
-msgstr "Réference"
-
-#: emploi/views.py:38 emploi/views.py:46 news/models.py:30
+#: news/models.py:30 emploi/views.py:38 emploi/views.py:46
 msgid "title"
 msgstr "titre"
-
-#: emploi/views.py:39
-msgid "experience"
-msgstr "Experience"
-
-#: emploi/views.py:40
-msgid "contract type"
-msgstr "Type de Contrat"
-
-#: emploi/views.py:42
-msgid "is opened"
-msgstr "L'offre d'emploi est ouverte"
-
-#: emploi/views.py:47
-msgid "all tracks"
-msgstr "toutes les filières"
-
-#: emploi/views.py:49
-msgid "track"
-msgstr "filière"
-
-#: emploi/views.py:180
-msgid "Position informations updated successfully."
-msgstr ""
-"Les informations concernant votre expérience professionnelle ont été "
-"correctement enregistrées."
-
-#: emploi/views.py:182
-#, fuzzy
-msgid "Do you really want to delete your position"
-msgstr "Souhaitez-vous vraiment supprimer ce site web ?"
-
-#: emploi/views.py:188
-msgid "Position successfully deleted."
-msgstr "L'expérience professionnelle sélectionnée a été supprimée avec succès."
-
-#: emploi/views.py:194
-msgid "Position successfully added."
-msgstr "L'expérience professionnelle a été créée avec succès."
-
-#: emploi/views.py:202
-msgid "Education informations updated successfully."
-msgstr ""
-"Les informations concernant la partie \"Education\" de votre CV ont été "
-"mises à jour avec succès."
-
-#: emploi/views.py:204
-#, fuzzy
-msgid "Do you really want to delete your education item"
-msgstr ""
-"Souhaitez-vous vraiment supprimer cette entrée de la partie \"Education\" ?"
-
-#: emploi/views.py:210
-msgid "Education informations deleted successfully."
-msgstr ""
-"Les informations concernant la partie \"Education\" de votre CV ont été "
-"effacées aevc succès."
-
-#: emploi/views.py:217
-msgid "Education informations successfully added."
-msgstr ""
-"Les informations concernant la partie \"Education\" de votre CV ont été "
-"mises à jour avec succès."
-
-#: emploi/views.py:225
-msgid "Leisure informations updated successfully."
-msgstr ""
-"Les informations concernant vos loisirs ont été correctement enregistrées."
-
-#: emploi/views.py:227
-#, fuzzy
-msgid "Do you really want to delete your leisure item"
-msgstr ""
-"Souhaitez-vous vraiment supprimer cette entrée de la partie \"Loisirs\" ?"
-
-#: emploi/views.py:233
-msgid "Leisure informations successfully deleted."
-msgstr "La partie \"Loisirs\" sélectionnée a été supprimée avec succès."
-
-#: emploi/views.py:240
-msgid "Leisure informations successfully added."
-msgstr ""
-"Les informations sur la partie \"Loisirs\" de votre CV ont été ajoutées avec "
-"succès."
-
-#: emploi/views.py:248
-msgid "Publication informations updated successfully."
-msgstr ""
-"Les informations concernant la partie \"Publications\" de votre CV ont été "
-"mises à jour avec succès."
-
-#: emploi/views.py:250
-#, fuzzy
-msgid "Do you really want to delete your publication"
-msgstr ""
-"Souhaitez-vous vraiment supprimer cette entrée de la partie \"Publications"
-"\" ?"
-
-#: emploi/views.py:256
-msgid "Publication informations deleted successfully."
-msgstr ""
-"Les informations concernant la partie \"Education\" de votre CV ont été "
-"mises à jour avec succès."
-
-#: emploi/views.py:263
-msgid "Publication informations successfully added."
-msgstr ""
-"Les informations concernant la partie \"Publication\" de votre CV ont été "
-"mises à jour avec succès."
-
-#: groupes/models.py:33 templates/base.html:93
-#: templates/annuaire/details.html:79 templates/annuaire/edit.html:212
-#: templates/groupes/details.html:12 templates/evenements/details.html:15
-msgid "Contact"
-msgstr "Contact"
-
-#: groupes/models.py:35
-msgid "web page"
-msgstr "page web"
-
-#: groupes/models.py:36
-msgid "parent"
-msgstr "parent"
-
-#: groupes/models.py:57 groupes/models.py:63
-msgid "group"
-msgstr "groupe"
-
-#: groupes/models.py:61
-msgid "administrator"
-msgstr "administrateur"
-
-#: groupes/models.py:67
-msgid "membership"
-msgstr "adhésion group"
 
 #: news/models.py:32
 msgid "image"
@@ -827,88 +588,6 @@ msgstr "image"
 #: news/models.py:51
 msgid "news item"
 msgstr "actualité"
-
-#: sondages/models.py:29 templates/sondages/details.html:18
-msgid "question"
-msgstr "question"
-
-#: sondages/models.py:47 sondages/models.py:52 sondages/models.py:67
-msgid "survey"
-msgstr "sondage"
-
-#: sondages/models.py:50 sondages/models.py:61 sondages/models.py:66
-msgid "choice"
-msgstr "choix"
-
-#: sondages/models.py:62
-msgid "choices"
-msgstr "choix"
-
-#: sondages/models.py:65
-msgid "voter"
-msgstr "voteur"
-
-#: sondages/models.py:70
-msgid "vote"
-msgstr "vote"
-
-#: sondages/views.py:62
-msgid "Your vote has been registered."
-msgstr "Votre vote a été comptabilisé"
-
-#: sondages/views.py:67
-msgid "You have already vote for this survey."
-msgstr "Vous avez déjà voté pour ce sondage."
-
-#: sondages/views.py:75
-msgid "Survey creation"
-msgstr "Création de sondage"
-
-#: sondages/views.py:75
-msgid "Survey succesfully created."
-msgstr "Sondage créé avec succès"
-
-#: sondages/views.py:90
-msgid "Survey edition"
-msgstr "Edition de sondage"
-
-#: sondages/views.py:90
-msgid "Survey succesfully updated."
-msgstr "Sondage mis à jour avec succès"
-
-#: sondages/views.py:93
-msgid "Do you really want to delete this survey?"
-msgstr "Souhaitez-vous vraiment supprimer ce sondage ?"
-
-#: sondages/views.py:98
-msgid "Survey successfully deleted."
-msgstr "Le sondage a été supprimée avec succès."
-
-#: sondages/views.py:106
-msgid "Choice creation"
-msgstr "Création de choix"
-
-#: sondages/views.py:106
-#, fuzzy
-msgid "Choice succesfully added"
-msgstr "Le choix a été ajouté avec succès."
-
-#: sondages/views.py:114
-msgid "Choice edition"
-msgstr "Edition de choix"
-
-#: sondages/views.py:114
-msgid "Choice succesfully updated."
-msgstr "Choix mis à jour avec succès"
-
-#: sondages/views.py:117
-#, fuzzy
-msgid "Do you really want to delete the choice"
-msgstr "Souhaitez-vous vraiment supprimer ce choix ?"
-
-#: sondages/views.py:123
-msgid "Choice successfully deleted."
-msgstr "Le choix a été supprimé avec succès."
 
 #: templates/base.html:9
 msgid "html_title"
@@ -987,6 +666,12 @@ msgstr "Planet"
 msgid "RSS"
 msgstr "Flux RSS"
 
+#: templates/base.html:93 templates/annuaire/details.html:79
+#: templates/annuaire/edit.html:212 templates/groupes/details.html:12
+#: templates/evenements/details.html:15 groupes/models.py:33
+msgid "Contact"
+msgstr "Contact"
+
 #: templates/base.html:94
 msgid "About"
 msgstr "A propos"
@@ -1003,11 +688,19 @@ msgstr "Mentions légales"
 msgid "and"
 msgstr "et"
 
+#: templates/annuaire/index.html:8 templates/groupes/index.html:8
+msgid "Results list"
+msgstr "Liste de votre recherche"
+
+#: templates/annuaire/index.html:21
+msgid "No person matched your criteria."
+msgstr "Aucune personne dans l'application."
+
 #: templates/annuaire/details.html:8 templates/annuaire/edit.html:10
 msgid "Personal file"
 msgstr "Fiche personnelle de"
 
-#: templates/annuaire/details.html:10
+#: templates/annuaire/details.html:10 templates/voyages/details.html:61
 msgid "Modify these data"
 msgstr "Modifier ces informations"
 
@@ -1039,27 +732,35 @@ msgstr "Expériences professionnelles actuelles"
 msgid "since"
 msgstr "depuis le"
 
+#: templates/annuaire/details.html:116 templates/annuaire/edit.html:292
+#: templates/emploi/cv_details.html:62 templates/emploi/cv_edit.html:69
+#: emploi/models.py:129
+msgid "for"
+msgstr "au sein de"
+
 #: templates/annuaire/details.html:130 templates/annuaire/edit.html:266
 msgid "N7 associative activities"
 msgstr "Vie associative à l'N7"
 
-#: templates/annuaire/index.html:8 templates/groupes/index.html:8
-msgid "Results list"
-msgstr "Liste de votre recherche"
-
-#: templates/annuaire/index.html:21
-msgid "No person matched your criteria."
-msgstr "Aucune personne dans l'application."
+#: templates/annuaire/edit_form.html:15
+#: templates/emploi/education_edit.html:19
+#: templates/emploi/position_edit.html:19
+#: templates/emploi/publication_edit.html:19
+#: templates/emploi/leisure_edit.html:19
+#: templates/emploi/office_create.html:19 templates/emploi/job_edit.html:20
+#: templates/sondages/form.html:15 templates/groupes_regionaux/edit.html:17
+msgid "Save"
+msgstr "Valider"
 
 #: templates/annuaire/edit.html:33 templates/annuaire/edit.html.py:137
 #: templates/annuaire/edit.html:152 templates/annuaire/edit.html.py:173
 #: templates/annuaire/edit.html:196 templates/annuaire/edit.html.py:216
 #: templates/annuaire/edit.html:236 templates/annuaire/edit.html.py:255
 #: templates/annuaire/edit.html:274 templates/annuaire/edit.html.py:302
-#: templates/sondages/details.html:31 templates/sondages/details.html.py:39
 #: templates/emploi/cv_edit.html:58 templates/emploi/cv_edit.html.py:72
 #: templates/emploi/cv_edit.html:93 templates/emploi/cv_edit.html.py:116
-#: templates/emploi/cv_edit.html:144
+#: templates/emploi/cv_edit.html:144 templates/sondages/details.html:31
+#: templates/sondages/details.html.py:39
 msgid "Modify"
 msgstr "Modifier"
 
@@ -1115,19 +816,19 @@ msgstr "non confidentiel"
 #: templates/annuaire/edit.html:155 templates/annuaire/edit.html.py:176
 #: templates/annuaire/edit.html:199 templates/annuaire/edit.html.py:219
 #: templates/annuaire/edit.html:239 templates/annuaire/edit.html.py:258
-#: templates/annuaire/edit.html:277 templates/sondages/details.html:14
-#: templates/sondages/details.html.py:40 templates/emploi/cv_edit.html:73
+#: templates/annuaire/edit.html:277 templates/emploi/cv_edit.html:73
 #: templates/emploi/cv_edit.html.py:94 templates/emploi/cv_edit.html:117
-#: templates/emploi/cv_edit.html.py:145
+#: templates/emploi/cv_edit.html.py:145 templates/sondages/details.html:14
+#: templates/sondages/details.html.py:40
 msgid "Delete"
 msgstr "Supprimer"
 
 #: templates/annuaire/edit.html:160 templates/annuaire/edit.html.py:181
 #: templates/annuaire/edit.html:204 templates/annuaire/edit.html.py:224
 #: templates/annuaire/edit.html:244 templates/annuaire/edit.html.py:263
-#: templates/annuaire/edit.html:282 templates/sondages/details.html:44
-#: templates/emploi/cv_edit.html:82 templates/emploi/cv_edit.html.py:102
-#: templates/emploi/cv_edit.html:128 templates/emploi/cv_edit.html.py:150
+#: templates/annuaire/edit.html:282 templates/emploi/cv_edit.html:82
+#: templates/emploi/cv_edit.html.py:102 templates/emploi/cv_edit.html:128
+#: templates/emploi/cv_edit.html.py:150 templates/sondages/details.html:44
 msgid "Add"
 msgstr "Ajouter"
 
@@ -1147,15 +848,21 @@ msgstr "Comptes IRC"
 msgid "Web sites"
 msgstr "Sites internet"
 
-#: templates/annuaire/edit_form.html:15 templates/sondages/form.html:15
-#: templates/groupes_regionaux/edit.html:17 templates/emploi/job_edit.html:20
-#: templates/emploi/education_edit.html:19
-#: templates/emploi/leisure_edit.html:19
-#: templates/emploi/office_create.html:19
-#: templates/emploi/position_edit.html:19
-#: templates/emploi/publication_edit.html:19
-msgid "Save"
-msgstr "Valider"
+#: templates/registration/login.html:11
+msgid "You need to be authentified to access to this part of the site."
+msgstr "Vous devez être authentifié pour accéder à cette partie du site."
+
+#: templates/registration/login.html:17
+msgid "Login"
+msgstr "Identifiant"
+
+#: templates/registration/login.html:20
+msgid "Password"
+msgstr "Mot de passe"
+
+#: templates/groupes/index.html:16
+msgid "No group is defined."
+msgstr "Aucun groupe dans l'application."
 
 #: templates/groupes/details.html:9
 msgid "General informations"
@@ -1165,10 +872,9 @@ msgstr "Informations générales"
 msgid "Coordinator"
 msgstr "Responsable"
 
-#: templates/groupes/details.html:16 templates/sondages/index.html:21
-#: templates/sondages/view.html:38 templates/evenements/details.html:27
-#: templates/evenements/index.html:31
-#: templates/groupes_regionaux/details.html:31
+#: templates/groupes/details.html:16 templates/evenements/index.html:31
+#: templates/evenements/details.html:27 templates/sondages/index.html:21
+#: templates/sondages/view.html:38 templates/groupes_regionaux/details.html:31
 msgid "Actions"
 msgstr "Actions"
 
@@ -1185,85 +891,53 @@ msgstr "Liste des membres"
 msgid "Group presentation"
 msgstr "Présentation du groupe"
 
-#: templates/groupes/edit.html:17
+#: templates/groupes/edit.html:17 templates/voyages/edit.html:17
 msgid "Save changes"
 msgstr "Sauvegarder les modifications"
 
-#: templates/groupes/index.html:16
-msgid "No group is defined."
-msgstr "Aucun groupe dans l'application."
+#: templates/evenements/join.html:17 templates/evenements/subscribe.html:17
+#: templates/evenements/register.html:17 templates/evenements/edit.html:17
+#: templates/emploi/job_register.html:20
+msgid "Register"
+msgstr "Sauvegarder"
 
-#: templates/sondages/details.html:11
-msgid "Go back to results"
-msgstr "Retourner aux resultats"
+#: templates/evenements/join.html:25 templates/evenements/participants.html:27
+#: templates/evenements/subscribe.html:25 templates/evenements/details.html:37
+#: templates/evenements/register.html:25 templates/evenements/edit.html:25
+msgid "Statistics"
+msgstr "Statistiques"
 
-#: templates/sondages/details.html:13
-msgid "Survey"
-msgstr "Sondage"
+#: templates/evenements/participants.html:20
+msgid "No one is subscribed to this event"
+msgstr "Personne n'est inscrit à cet événement"
 
-#: templates/sondages/details.html:34
-msgid "Choices"
-msgstr "Choix"
+#: templates/evenements/search.html:8
+msgid "Event Search"
+msgstr "Rechercher"
 
-#: templates/sondages/index.html:10
-msgid "List of surveys"
-msgstr "Liste des sondages"
+#: templates/evenements/search.html:15 templates/emploi/job_search.html:15
+msgid "Search"
+msgstr "Rechercher"
 
-#: templates/sondages/index.html:24
-msgid "Create a new survey"
-msgstr "Créer un nouveau sondage"
+#: templates/evenements/search.html:28
+msgid "No event correspond to your research"
+msgstr "Aucun événement ne correspond à vos critères."
 
-#: templates/sondages/vote.html:5
-msgid "Please select a choice"
-msgstr "Veuillez faire un choix"
+#: templates/evenements/index.html:12
+msgid "List of events and meetings to come"
+msgstr "Liste des événements et manifestations à venir"
 
-#: templates/sondages/vote.html:10
-msgid "See results"
-msgstr "Voir les résultats"
+#: templates/evenements/index.html:22
+msgid "No planned event."
+msgstr "Aucun événement prévu."
 
-#: templates/sondages/view.html:15
-#, python-format
-msgid "Votes ends the %(end_date)s"
-msgstr "Clôture des votes le %(end_date)s"
+#: templates/evenements/index.html:33
+msgid "Register an event"
+msgstr "Enregistrer un événement"
 
-#: templates/sondages/view.html:18
-msgid "Number of votes"
-msgstr "Nombre de votes"
-
-#: templates/sondages/view.html:26
-#, python-format
-msgid "%(counter)s vote"
-msgid_plural "%(counter)s votes"
-msgstr[0] "%(counter)s vote"
-msgstr[1] "%(counter)s votes"
-
-#: templates/sondages/view.html:43
-msgid "Vote"
-msgstr "Voter"
-
-#: templates/sondages/view.html:46
-msgid "Edit this survey"
-msgstr "Editer ce sondage"
-
-#: templates/sondages/view.html:47
-msgid "See all surveys"
-msgstr "Voir tous les sondages"
-
-#: templates/voyages/index.html:8
-msgid "Travels list"
-msgstr "Liste des voyages"
-
-#: templates/voyages/index.html:21
-msgid "of"
-msgstr "de"
-
-#: templates/voyages/index.html:22
-msgid "days"
-msgstr "jours"
-
-#: templates/voyages/index.html:27
-msgid "No planned travels."
-msgstr "Aucun voyage prévu."
+#: templates/evenements/index.html:34
+msgid "Search an event"
+msgstr "Rechercher un événement"
 
 #: templates/evenements/details.html:16 evenements/views.py:42
 msgid "Place"
@@ -1285,74 +959,25 @@ msgstr "Lister les participants"
 msgid "Subscribe someone"
 msgstr "Inscrire une personne"
 
-#: templates/evenements/details.html:37 templates/evenements/register.html:25
-#: templates/evenements/participants.html:27 templates/evenements/edit.html:25
-#: templates/evenements/join.html:25 templates/evenements/subscribe.html:25
-msgid "Statistics"
-msgstr "Statistiques"
+#: templates/emploi/education_edit.html:9
+msgid "Modification of an education item"
+msgstr "Modification d'une formation"
 
-#: templates/evenements/index.html:12
-msgid "List of events and meetings to come"
-msgstr "Liste des événements et manifestations à venir"
+#: templates/emploi/education_edit.html:11
+msgid "Creation of an education item"
+msgstr "Ajout d'une entrée dans la partie \"Formation\""
 
-#: templates/evenements/index.html:22
-msgid "No planned event."
-msgstr "Aucun événement prévu."
+#: templates/emploi/cv_details.html:55 templates/emploi/cv_edit.html:60
+msgid "Professional experiences"
+msgstr "Expériences professionnelles"
 
-#: templates/evenements/index.html:33
-msgid "Register an event"
-msgstr "Enregistrer un événement"
+#: templates/emploi/cv_details.html:94 templates/emploi/cv_edit.html:107
+msgid "Education"
+msgstr "Formation"
 
-#: templates/evenements/index.html:34
-msgid "Search an event"
-msgstr "Rechercher un événement"
-
-#: templates/evenements/register.html:17 templates/evenements/edit.html:17
-#: templates/evenements/join.html:17 templates/evenements/subscribe.html:17
-#: templates/emploi/job_register.html:20
-msgid "Register"
-msgstr "Sauvegarder"
-
-#: templates/evenements/participants.html:20
-msgid "No one is subscribed to this event"
-msgstr "Personne n'est inscrit à cet événement"
-
-#: templates/evenements/search.html:8
-msgid "Event Search"
-msgstr "Rechercher"
-
-#: templates/evenements/search.html:15 templates/emploi/job_search.html:15
-msgid "Search"
-msgstr "Rechercher"
-
-#: templates/evenements/search.html:28
-msgid "No event correspond to your research"
-msgstr "Aucun événement ne correspond à vos critères."
-
-#: templates/groupes_regionaux/details.html:36
-msgid "Join the group"
-msgstr "Rejoindre le groupe."
-
-#: templates/groupes_regionaux/details.html:38
-msgid "Quit the group"
-msgstr "Quitter le groupe."
-
-#: templates/groupes_regionaux/details.html:41
-msgid "Edit group informations"
-msgstr "Éditer les informations de groupe"
-
-#: templates/groupes_regionaux/details.html:51
-#, python-format
-msgid "From %(start_date)s to %(end_date)s at %(place)s"
-msgstr "Du %(start_date)s au %(end_date)s à %(place)s"
-
-#: templates/groupes_regionaux/index.html:8
-msgid "The regional groups"
-msgstr "Les groupes régionaux"
-
-#: templates/groupes_regionaux/index.html:16
-msgid "No regional group."
-msgstr "Aucun groupe régional."
+#: templates/emploi/cv_details.html:113 templates/emploi/cv_edit.html:132
+msgid "Leisure activities"
+msgstr "Loisirs"
 
 #: templates/emploi/index.html:15
 msgid "Jobs list for tracks"
@@ -1398,73 +1023,17 @@ msgstr "Gestion des offres d'emploi"
 msgid "Register a job offer"
 msgstr "Enregistrer une offre d'emploi"
 
-#: templates/emploi/cv_details.html:55 templates/emploi/cv_edit.html:60
-msgid "Professional experiences"
-msgstr "Expériences professionnelles"
+#: templates/emploi/job_search.html:8
+msgid "Job Search"
+msgstr "Recherche d'offre d'emploi"
 
-#: templates/emploi/cv_details.html:94 templates/emploi/cv_edit.html:107
-msgid "Education"
-msgstr "Formation"
+#: templates/emploi/job_search.html:20
+msgid "Research result"
+msgstr "Résultats de la recherche"
 
-#: templates/emploi/cv_details.html:113 templates/emploi/cv_edit.html:132
-msgid "Leisure activities"
-msgstr "Loisirs"
-
-#: templates/emploi/job_edit.html:13
-msgid "Edit Job Offer"
-msgstr "Gestion des offres d'emploi"
-
-#: templates/emploi/job_register.html:13
-msgid "Job offer registration"
-msgstr "L'offre d'emploi est ouverte"
-
-#: templates/emploi/job_details.html:8
-msgid "Job Offer Details"
-msgstr "Détails de l'offre d'emploi"
-
-#: templates/emploi/job_details.html:10
-msgid "This announce has been viewed"
-msgstr "Cette annonce a été vue"
-
-#: templates/emploi/job_details.html:10
-msgid "times"
-msgstr "fois"
-
-#: templates/emploi/job_details.html:16
-msgid "Contract Type"
-msgstr "Type de contrat"
-
-#: templates/emploi/job_details.html:17
-msgid "Tracks"
-msgstr "Filières"
-
-#: templates/emploi/education_edit.html:9
-msgid "Modification of an education item"
-msgstr "Modification d'une formation"
-
-#: templates/emploi/education_edit.html:11
-msgid "Creation of an education item"
-msgstr "Ajout d'une entrée dans la partie \"Formation\""
-
-#: templates/emploi/leisure_edit.html:9
-msgid "Modification of a leisure item"
-msgstr "Modification de loisirs"
-
-#: templates/emploi/leisure_edit.html:11
-msgid "Creation of a leisure item"
-msgstr "Ajout de loisirs"
-
-#: templates/emploi/office_create.html:9
-msgid "Creation of an office"
-msgstr "Ajouter un bureau pour une société"
-
-#: templates/emploi/office_create.html:11
-msgid "Creation of a company"
-msgstr "Ajouter une société"
-
-#: templates/emploi/office_create.html:25
-msgid "Create a new company"
-msgstr "Ajouter une société"
+#: templates/emploi/job_search.html:28
+msgid "No job offer correspond to your research"
+msgstr "Aucune offre d'emploi ne correspond à vos critères."
 
 #: templates/emploi/position_edit.html:9
 msgid "Modification of a position"
@@ -1478,18 +1047,6 @@ msgstr "Ajout d'une expérience professionnelle"
 msgid "Create a new office"
 msgstr "Créer un nouveau bureau pour une société"
 
-#: templates/emploi/job_search.html:8
-msgid "Job Search"
-msgstr "Recherche d'offre d'emploi"
-
-#: templates/emploi/job_search.html:20
-msgid "Research result"
-msgstr "Résultats de la recherche"
-
-#: templates/emploi/job_search.html:28
-msgid "No job offer correspond to your research"
-msgstr "Aucune offre d'emploi ne correspond à vos critères."
-
 #: templates/emploi/publication_edit.html:9
 msgid "Modification of a publication"
 msgstr "Modification d'une publication"
@@ -1498,17 +1055,247 @@ msgstr "Modification d'une publication"
 msgid "Creation of a publication"
 msgstr "Ajout d'une publication"
 
-#: templates/registration/login.html:11
-msgid "You need to be authentified to access to this part of the site."
-msgstr "Vous devez être authentifié pour accéder à cette partie du site."
+#: templates/emploi/leisure_edit.html:9
+msgid "Modification of a leisure item"
+msgstr "Modification de loisirs"
 
-#: templates/registration/login.html:17
-msgid "Login"
-msgstr "Identifiant"
+#: templates/emploi/leisure_edit.html:11
+msgid "Creation of a leisure item"
+msgstr "Ajout de loisirs"
 
-#: templates/registration/login.html:20
-msgid "Password"
-msgstr "Mot de passe"
+#: templates/emploi/job_register.html:13
+msgid "Job offer registration"
+msgstr "L'offre d'emploi est ouverte"
+
+#: templates/emploi/office_create.html:9
+msgid "Creation of an office"
+msgstr "Ajouter un bureau pour une société"
+
+#: templates/emploi/office_create.html:11
+msgid "Creation of a company"
+msgstr "Ajouter une société"
+
+#: templates/emploi/office_create.html:25
+msgid "Create a new company"
+msgstr "Ajouter une société"
+
+#: templates/emploi/job_details.html:8
+msgid "Job Offer Details"
+msgstr "Détails de l'offre d'emploi"
+
+#: templates/emploi/job_details.html:10
+msgid "This announce has been viewed"
+msgstr "Cette annonce a été vue"
+
+#: templates/emploi/job_details.html:10
+msgid "times"
+msgstr "fois"
+
+#: templates/emploi/job_details.html:13 emploi/models.py:214
+msgid "Reference"
+msgstr "Réference"
+
+#: templates/emploi/job_details.html:14 emploi/models.py:168
+#: emploi/models.py:187 emploi/models.py:215
+msgid "Title"
+msgstr "Titre"
+
+#: templates/emploi/job_details.html:15 emploi/models.py:217
+msgid "Experience"
+msgstr "Experience"
+
+#: templates/emploi/job_details.html:16
+msgid "Contract Type"
+msgstr "Type de contrat"
+
+#: templates/emploi/job_details.html:17
+msgid "Tracks"
+msgstr "Filières"
+
+#: templates/emploi/job_edit.html:13
+msgid "Edit Job Offer"
+msgstr "Gestion des offres d'emploi"
+
+#: templates/sondages/vote.html:5
+msgid "Please select a choice"
+msgstr "Veuillez faire un choix"
+
+#: templates/sondages/vote.html:10
+msgid "See results"
+msgstr "Voir les résultats"
+
+#: templates/sondages/index.html:10
+msgid "List of surveys"
+msgstr "Liste des sondages"
+
+#: templates/sondages/index.html:24
+msgid "Create a new survey"
+msgstr "Créer un nouveau sondage"
+
+#: templates/sondages/details.html:11
+msgid "Go back to results"
+msgstr "Retourner aux resultats"
+
+#: templates/sondages/details.html:13
+msgid "Survey"
+msgstr "Sondage"
+
+#: templates/sondages/details.html:18 sondages/models.py:29
+msgid "question"
+msgstr "question"
+
+#: templates/sondages/details.html:34
+msgid "Choices"
+msgstr "Choix"
+
+#: templates/sondages/view.html:15
+#, python-format
+msgid "Votes ends the %(end_date)s"
+msgstr "Clôture des votes le %(end_date)s"
+
+#: templates/sondages/view.html:18
+msgid "Number of votes"
+msgstr "Nombre de votes"
+
+#: templates/sondages/view.html:26
+#, python-format
+msgid "%(counter)s vote"
+msgid_plural "%(counter)s votes"
+msgstr[0] "%(counter)s vote"
+msgstr[1] "%(counter)s votes"
+
+#: templates/sondages/view.html:43
+msgid "Vote"
+msgstr "Voter"
+
+#: templates/sondages/view.html:46
+msgid "Edit this survey"
+msgstr "Editer ce sondage"
+
+#: templates/sondages/view.html:47
+msgid "See all surveys"
+msgstr "Voir tous les sondages"
+
+#: templates/voyages/index.html:8
+msgid "Travels list"
+msgstr "Liste des voyages"
+
+#: templates/voyages/index.html:23 templates/voyages/details.html:32
+msgid "of"
+msgstr "de"
+
+#: templates/voyages/index.html:23 templates/voyages/details.html:32
+msgid "days"
+msgstr "jours"
+
+#: templates/voyages/index.html:32
+msgid "No planned travels."
+msgstr "Aucun voyage prévu."
+
+#: templates/voyages/details.html:17 voyages/models.py:52
+msgid "visited places"
+msgstr "lieux visités"
+
+#: templates/voyages/details.html:21 voyages/models.py:49
+msgid "date"
+msgstr "date"
+
+#: templates/voyages/details.html:23
+msgid "from"
+msgstr "du"
+
+#: templates/voyages/details.html:24
+msgid "to"
+msgstr "au"
+
+#: templates/voyages/details.html:43 voyages/models.py:54
+msgid "price"
+msgstr "prix"
+
+#: templates/voyages/details.html:45
+msgid "undefined"
+msgstr "non défini"
+
+#: templates/voyages/details.html:48 voyages/models.py:56
+msgid "report"
+msgstr "compte rendu"
+
+#: templates/voyages/details.html:59
+msgid "Back to travels list"
+msgstr "Retour à la liste des voyages"
+
+#: templates/groupes_regionaux/index.html:8
+msgid "The regional groups"
+msgstr "Les groupes régionaux"
+
+#: templates/groupes_regionaux/index.html:16
+msgid "No regional group."
+msgstr "Aucun groupe régional."
+
+#: templates/groupes_regionaux/details.html:36
+msgid "Join the group"
+msgstr "Rejoindre le groupe."
+
+#: templates/groupes_regionaux/details.html:38
+msgid "Quit the group"
+msgstr "Quitter le groupe."
+
+#: templates/groupes_regionaux/details.html:41
+msgid "Edit group informations"
+msgstr "Éditer les informations de groupe"
+
+#: templates/groupes_regionaux/details.html:51
+#, python-format
+msgid "From %(start_date)s to %(end_date)s at %(place)s"
+msgstr "Du %(start_date)s au %(end_date)s à %(place)s"
+
+#: groupes/models.py:35
+msgid "web page"
+msgstr "page web"
+
+#: groupes/models.py:36
+msgid "parent"
+msgstr "parent"
+
+#: groupes/models.py:57 groupes/models.py:63
+msgid "group"
+msgstr "groupe"
+
+#: groupes/models.py:61
+msgid "administrator"
+msgstr "administrateur"
+
+#: groupes/models.py:67
+msgid "membership"
+msgstr "adhésion group"
+
+#: evenements/views.py:34 evenements/views.py:38
+msgid "Number of persons"
+msgstr "Nombre de personnes"
+
+#: evenements/views.py:37
+msgid "Person to subscribe"
+msgstr "Personne à inscrire"
+
+#: evenements/views.py:41
+msgid "Event name"
+msgstr "Nom de l'événement"
+
+#: evenements/views.py:69
+msgid "Event successfully updated."
+msgstr "Événement mis à jour"
+
+#: evenements/views.py:93
+msgid "You have been successfully subscribed to this event."
+msgstr "Vous vous êtes inscrit à cet événement avec succès."
+
+#: evenements/views.py:121
+msgid "Event successfully added."
+msgstr "L'événement a été ajouté avec succès."
+
+#: evenements/views.py:169
+msgid "You have successfully subscribed "
+msgstr "Vous avez inscrit avec succès"
 
 #: evenements/models.py:37
 msgid "author"
@@ -1566,33 +1353,266 @@ msgstr "inscription"
 msgid "event subscriptions"
 msgstr "inscriptions"
 
-#: evenements/views.py:34 evenements/views.py:38
-msgid "Number of persons"
-msgstr "Nombre de personnes"
+#: emploi/views.py:37
+msgid "reference"
+msgstr "Réference"
 
-#: evenements/views.py:37
-msgid "Person to subscribe"
-msgstr "Personne à inscrire"
+#: emploi/views.py:39
+msgid "experience"
+msgstr "Experience"
 
-#: evenements/views.py:41
-msgid "Event name"
-msgstr "Nom de l'événement"
+#: emploi/views.py:40
+msgid "contract type"
+msgstr "Type de Contrat"
 
-#: evenements/views.py:69
-msgid "Event successfully updated."
-msgstr "Événement mis à jour"
+#: emploi/views.py:42
+msgid "is opened"
+msgstr "L'offre d'emploi est ouverte"
 
-#: evenements/views.py:93
-msgid "You have been successfully subscribed to this event."
-msgstr "Vous vous êtes inscrit à cet événement avec succès."
+#: emploi/views.py:47
+msgid "all tracks"
+msgstr "toutes les filières"
 
-#: evenements/views.py:121
-msgid "Event successfully added."
-msgstr "L'événement a été ajouté avec succès."
+#: emploi/views.py:49
+msgid "track"
+msgstr "filière"
 
-#: evenements/views.py:169
-msgid "You have successfully subscribed "
-msgstr "Vous avez inscrit avec succès"
+#: emploi/views.py:180
+msgid "Position informations updated successfully."
+msgstr ""
+"Les informations concernant votre expérience professionnelle ont été "
+"correctement enregistrées."
+
+#: emploi/views.py:182
+msgid "Do you really want to delete your position"
+msgstr "Souhaitez-vous vraiment supprimer ce site web"
+
+#: emploi/views.py:188
+msgid "Position successfully deleted."
+msgstr "L'expérience professionnelle sélectionnée a été supprimée avec succès."
+
+#: emploi/views.py:194
+msgid "Position successfully added."
+msgstr "L'expérience professionnelle a été créée avec succès."
+
+#: emploi/views.py:202
+msgid "Education informations updated successfully."
+msgstr ""
+"Les informations concernant la partie \"Education\" de votre CV ont été "
+"mises à jour avec succès."
+
+#: emploi/views.py:204
+msgid "Do you really want to delete your education item"
+msgstr "Souhaitez-vous vraiment supprimer cette entrée de la partie \"Education\""
+
+#: emploi/views.py:210
+msgid "Education informations deleted successfully."
+msgstr ""
+"Les informations concernant la partie \"Education\" de votre CV ont été "
+"effacées aevc succès."
+
+#: emploi/views.py:217
+msgid "Education informations successfully added."
+msgstr ""
+"Les informations concernant la partie \"Education\" de votre CV ont été "
+"mises à jour avec succès."
+
+#: emploi/views.py:225
+msgid "Leisure informations updated successfully."
+msgstr ""
+"Les informations concernant vos loisirs ont été correctement enregistrées."
+
+#: emploi/views.py:227
+msgid "Do you really want to delete your leisure item"
+msgstr "Souhaitez-vous vraiment supprimer cette entrée de la partie \"Loisirs\""
+
+#: emploi/views.py:233
+msgid "Leisure informations successfully deleted."
+msgstr "La partie \"Loisirs\" sélectionnée a été supprimée avec succès."
+
+#: emploi/views.py:240
+msgid "Leisure informations successfully added."
+msgstr ""
+"Les informations sur la partie \"Loisirs\" de votre CV ont été ajoutées avec "
+"succès."
+
+#: emploi/views.py:248
+msgid "Publication informations updated successfully."
+msgstr ""
+"Les informations concernant la partie \"Publications\" de votre CV ont été "
+"mises à jour avec succès."
+
+#: emploi/views.py:250
+msgid "Do you really want to delete your publication"
+msgstr "Souhaitez-vous vraiment supprimer cette entrée de la partie \"Publications\""
+
+#: emploi/views.py:256
+msgid "Publication informations deleted successfully."
+msgstr ""
+"Les informations concernant la partie \"Education\" de votre CV ont été "
+"mises à jour avec succès."
+
+#: emploi/views.py:263
+msgid "Publication informations successfully added."
+msgstr ""
+"Les informations concernant la partie \"Publication\" de votre CV ont été "
+"mises à jour avec succès."
+
+#: emploi/models.py:33 emploi/models.py:42 emploi/models.py:56
+msgid "field"
+msgstr "domaine"
+
+#: emploi/models.py:48
+msgid "Micro (0)"
+msgstr "Unipersonelle (0)"
+
+#: emploi/models.py:49
+msgid "Small (1-9)"
+msgstr "TPE (1-9)"
+
+#: emploi/models.py:50
+msgid "Medium (10-499)"
+msgstr "PME (10-499)"
+
+#: emploi/models.py:51
+msgid "Large (500+)"
+msgstr "GE (500+)"
+
+#: emploi/models.py:55
+msgid "size"
+msgstr "taille"
+
+#: emploi/models.py:70 emploi/models.py:89
+msgid "company"
+msgstr "société"
+
+#: emploi/models.py:106 emploi/models.py:121
+msgid "office"
+msgstr "bureau"
+
+#: emploi/models.py:107
+msgid "offices"
+msgstr "bureaux"
+
+#: emploi/models.py:113
+msgid "service"
+msgstr "service"
+
+#: emploi/models.py:119
+msgid "regie"
+msgstr "régie"
+
+#: emploi/models.py:138
+msgid "position"
+msgstr "expérience professionnelle"
+
+#: emploi/models.py:160
+msgid "Education item"
+msgstr "Entrée du CV partie \"Formation\""
+
+#: emploi/models.py:169 emploi/models.py:188
+msgid "Detail"
+msgstr "Détail"
+
+#: emploi/models.py:181
+msgid "Leisure item"
+msgstr "Loisirs"
+
+#: emploi/models.py:201
+msgid "Publication item"
+msgstr "Publication"
+
+#: emploi/models.py:216
+msgid "Description"
+msgstr "Description"
+
+#: emploi/models.py:218
+msgid "Contract type"
+msgstr "Type de Contrat"
+
+#: emploi/models.py:219
+msgid "Job offer is opened"
+msgstr "L'offre d'emploi est ouverte"
+
+#: emploi/models.py:223
+msgid "Number of views"
+msgstr "Nombre de visionnages"
+
+#: sondages/views.py:62
+msgid "Your vote has been registered."
+msgstr "Votre vote a été comptabilisé"
+
+#: sondages/views.py:67
+msgid "You have already vote for this survey."
+msgstr "Vous avez déjà voté pour ce sondage."
+
+#: sondages/views.py:75
+msgid "Survey creation"
+msgstr "Création de sondage"
+
+#: sondages/views.py:75
+msgid "Survey succesfully created."
+msgstr "Sondage créé avec succès"
+
+#: sondages/views.py:90
+msgid "Survey edition"
+msgstr "Edition de sondage"
+
+#: sondages/views.py:90
+msgid "Survey succesfully updated."
+msgstr "Sondage mis à jour avec succès"
+
+#: sondages/views.py:93
+msgid "Do you really want to delete this survey?"
+msgstr "Souhaitez-vous vraiment supprimer ce sondage ?"
+
+#: sondages/views.py:98
+msgid "Survey successfully deleted."
+msgstr "Le sondage a été supprimée avec succès."
+
+#: sondages/views.py:106
+msgid "Choice creation"
+msgstr "Création de choix"
+
+#: sondages/views.py:106
+msgid "Choice succesfully added"
+msgstr "Le choix a été ajouté avec succès."
+
+#: sondages/views.py:114
+msgid "Choice edition"
+msgstr "Edition de choix"
+
+#: sondages/views.py:114
+msgid "Choice succesfully updated."
+msgstr "Choix mis à jour avec succès"
+
+#: sondages/views.py:117
+msgid "Do you really want to delete the choice"
+msgstr "Souhaitez-vous vraiment supprimer ce choix"
+
+#: sondages/views.py:123
+msgid "Choice successfully deleted."
+msgstr "Le choix a été supprimé avec succès."
+
+#: sondages/models.py:47 sondages/models.py:52 sondages/models.py:67
+msgid "survey"
+msgstr "sondage"
+
+#: sondages/models.py:50 sondages/models.py:61 sondages/models.py:66
+msgid "choice"
+msgstr "choix"
+
+#: sondages/models.py:62
+msgid "choices"
+msgstr "choix"
+
+#: sondages/models.py:65
+msgid "voter"
+msgstr "voteur"
+
+#: sondages/models.py:70
+msgid "vote"
+msgstr "vote"
 
 #: voyages/models.py:41
 msgid "travel type"
@@ -1606,29 +1626,13 @@ msgstr "types de voyage"
 msgid "label"
 msgstr "libellé"
 
-#: voyages/models.py:49
-msgid "date"
-msgstr "date"
-
 #: voyages/models.py:50
 msgid "term"
 msgstr "durée"
 
-#: voyages/models.py:52
-msgid "visited places"
-msgstr "lieux visités"
-
-#: voyages/models.py:54
-msgid "price"
-msgstr "prix"
-
 #: voyages/models.py:55
 msgid "thumbnail"
 msgstr "vignette"
-
-#: voyages/models.py:56
-msgid "report"
-msgstr "compte rendu"
 
 #: voyages/models.py:73 voyages/models.py:93
 msgid "travel"
@@ -1657,6 +1661,31 @@ msgstr "Responsable du voyage"
 #: voyages/models.py:98
 msgid "travel responsibles"
 msgstr "Responsables du voyage"
+
+#: groupes_regionaux/views.py:63
+msgid "Regional group informations updated successfully."
+msgstr ""
+"Les informations concernant vos loisirs ont été correctement enregistrées."
+
+#: groupes_regionaux/views.py:81
+msgid "You have been successfully added to this group."
+msgstr "Vous avez été ajouté à ce groupe avec succès."
+
+#: groupes_regionaux/views.py:83
+msgid "You are already a member of this group."
+msgstr "Vous êtes déjà membre de ce groupe."
+
+#: groupes_regionaux/views.py:88
+msgid "Do you really want to quit the group"
+msgstr "Souhaitez-vous vraiment quitter ce groupe"
+
+#: groupes_regionaux/views.py:100
+msgid "You have been successfully removed from this group."
+msgstr "Vous avez quitté ce groupe avec succès."
+
+#: groupes_regionaux/views.py:102
+msgid "You are not a member of this group."
+msgstr "Vous n'êtes pas membre de ce groupe."
 
 #: groupes_regionaux/models.py:58 groupes_regionaux/models.py:78
 msgid "regional group"
@@ -1701,36 +1730,3 @@ msgstr "adhésion group régional"
 #: groupes_regionaux/models.py:84
 msgid "regional group memberships"
 msgstr "adhésions groupes régionaux"
-
-#: groupes_regionaux/views.py:63
-msgid "Regional group informations updated successfully."
-msgstr ""
-"Les informations concernant vos loisirs ont été correctement enregistrées."
-
-#: groupes_regionaux/views.py:81
-msgid "You have been successfully added to this group."
-msgstr "Vous avez été ajouté à ce groupe avec succès."
-
-#: groupes_regionaux/views.py:83
-msgid "You are already a member of this group."
-msgstr "Vous êtes déjà membre de ce groupe."
-
-#: groupes_regionaux/views.py:88
-#, fuzzy
-msgid "Do you really want to quit the group"
-msgstr "Souhaitez-vous vraiment quitter ce groupe ?"
-
-#: groupes_regionaux/views.py:100
-msgid "You have been successfully removed from this group."
-msgstr "Vous avez quitté ce groupe avec succès."
-
-#: groupes_regionaux/views.py:102
-msgid "You are not a member of this group."
-msgstr "Vous n'êtes pas membre de ce groupe."
-
-#~ msgid "Do you really want to delete this professional experience?"
-#~ msgstr ""
-#~ "Souhaitez-vous vraiment supprimer cette expérience professionnelle ?"
-
-#~ msgid "Ok"
-#~ msgstr "Ok"

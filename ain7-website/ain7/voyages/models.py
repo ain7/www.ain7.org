@@ -50,7 +50,7 @@ class Travel(models.Model):
     term = models.IntegerField(verbose_name=_('term'), default=0, blank=True, null=True)
     type = models.ForeignKey(TravelType, verbose_name=_('type'))
     visited_places = models.CharField(verbose_name=_('visited places'), maxlength=100)
-    description = models.TextField(verbose_name=_('description'))
+    description = models.TextField(verbose_name=_('description'), blank=True, null=True)
     price = models.IntegerField(verbose_name=_('price'), blank=True, null=True)
     thumbnail = models.ImageField(verbose_name=_('thumbnail'), upload_to='data',blank=True,null=True)
     report = models.TextField(verbose_name=_('report'), blank=True, null=True)
