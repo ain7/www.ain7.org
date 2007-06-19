@@ -1,0 +1,22 @@
+{% extends "voyages/base.html" %}
+{% load i18n %}
+
+{% block javascript %}
+<script src="/site_media/js/tiny_mce/tiny_mce.js" type="text/javascript" />
+<script src="/site_media/js/textareas.js" type="text/javascript" />
+{% endblock %}
+
+{% block content %}
+
+<div id="content-main">
+
+<form action="." method="post">
+    <table class="form">
+        {{ form }}
+    </table>
+<p><input type="submit" value="{% trans "Save changes" %}" /></p>
+</form>
+
+</div>
+
+{% endblock %}
