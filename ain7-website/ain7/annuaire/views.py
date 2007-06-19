@@ -213,7 +213,7 @@ def _generic_add(request, user_id, object_type, person, ain7member,
             f.save()
             request.user.message_set.create(message=msg_done)
         else:
-            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
         return HttpResponseRedirect('/annuaire/%s/edit/' % user_id)
 
 # Adresses
@@ -222,23 +222,23 @@ def address_edit(request, user_id=None, address_id=None):
 
     return _generic_edit(request, user_id, address_id, Address,
                          get_object_or_404(Person, user=user_id), None,
-                         _("Modification of an address"),
-                         _("Address informations updated successfully."))
+                         _('Modification of an addressr'),
+                         _('Address informations updated successfully.'))
 
-@confirmation_required(lambda user_id=None, address_id=None : str(get_object_or_404(Address, pk=address_id)), "annuaire/base.html", _("Do you really want to delete this address?"))
+@confirmation_required(lambda user_id=None, address_id=None : str(get_object_or_404(Address, pk=address_id)), 'annuaire/base.html', _('Do you really want to delete your address'))
 @login_required
 def address_delete(request, user_id=None, address_id=None):
 
     return _generic_delete(request, user_id, address_id, Address,
-                           _("Address successfully deleted."))
+                           _('Address successfully deleted.'))
 
 @login_required
 def address_add(request, user_id=None):
 
     return _generic_add(request, user_id, Address,
                         get_object_or_404(Person, user=user_id), None,
-                        _("Creation of an address"),
-                        _("Address successfully added."))
+                        _('Creation of an address'),
+                        _('Address successfully added.'))
 
 # Numeros de telephone
 @login_required
@@ -246,23 +246,23 @@ def phone_edit(request, user_id=None, phone_id=None):
 
     return _generic_edit(request, user_id, phone_id, PhoneNumber,
                          get_object_or_404(Person, user=user_id), None,
-                         _("Modification of a phone number"),
-                         _("Phone number informations updated successfully."))
+                         _('Modification of a phone number'),
+                         _('Phone number informations updated successfully.'))
 
-@confirmation_required(lambda user_id=None, phone_id=None : str(get_object_or_404(PhoneNumber, pk=phone_id)), "annuaire/base.html", _("Do you really want to delete this phone number?"))
+@confirmation_required(lambda user_id=None, phone_id=None : str(get_object_or_404(PhoneNumber, pk=phone_id)), 'annuaire/base.html', _('Do you really want to delete your phone number'))
 @login_required
 def phone_delete(request, user_id=None, phone_id=None):
 
     return _generic_delete(request, user_id, phone_id, PhoneNumber,
-                           _("Phone number successfully deleted."))
+                           _('Phone number successfully deleted.'))
 
 @login_required
 def phone_add(request, user_id=None):
 
     return _generic_add(request, user_id, PhoneNumber,
                         get_object_or_404(Person, user=user_id), None,
-                        _("Creation of a phone number"),
-                        _("Phone number successfully added."))
+                        _('Creation of a phone number'),
+                        _('Phone number successfully added.'))
 
 # Adresses de courriel
 @login_required
@@ -270,23 +270,23 @@ def email_edit(request, user_id=None, email_id=None):
 
     return _generic_edit(request, user_id, email_id, Email,
                          get_object_or_404(Person, user=user_id), None,
-                         _("Modification of an email address"),
-                         _("Email informations updated successfully."))
+                         _('Modification of an email address'),
+                         _('Email informations updated successfully.'))
 
-@confirmation_required(lambda user_id=None, email_id=None : str(get_object_or_404(Email, pk=email_id)), "annuaire/base.html", _("Do you really want to delete this email address?"))
+@confirmation_required(lambda user_id=None, email_id=None : str(get_object_or_404(Email, pk=email_id)), 'annuaire/base.html', _('Do you really want to delete your email address'))
 @login_required
 def email_delete(request, user_id=None, email_id=None):
 
     return _generic_delete(request, user_id, email_id, Email,
-                           _("Email address successfully deleted."))
+                           _('Email address successfully deleted.'))
 
 @login_required
 def email_add(request, user_id=None):
 
     return _generic_add(request, user_id, Email,
                         get_object_or_404(Person, user=user_id), None,
-                        _("Creation of an email address"),
-                        _("Email address successfully added."))
+                        _('Creation of an email address'),
+                        _('Email address successfully added.'))
 
 # Comptes de messagerie instantan�e
 @login_required
@@ -294,23 +294,23 @@ def im_edit(request, user_id=None, im_id=None):
 
     return _generic_edit(request, user_id, im_id, InstantMessaging,
                          get_object_or_404(Person, user=user_id), None,
-                         _("Modification of an instant messaging account"),
-                         _("Instant messaging informations updated successfully."))
+                         _('Modification of an instant messaging account'),
+                         _('Instant messaging informations updated successfully.'))
 
-@confirmation_required(lambda user_id=None, im_id=None : str(get_object_or_404(InstantMessaging, pk=im_id)), "annuaire/base.html", _("Do you really want to delete this instant messaging account?"))
+@confirmation_required(lambda user_id=None, im_id=None : str(get_object_or_404(InstantMessaging, pk=im_id)), 'annuaire/base.html', _('Do you really want to delete your instant messaging account'))
 @login_required
 def im_delete(request, user_id=None, im_id=None):
 
     return _generic_delete(request, user_id, im_id, InstantMessaging,
-                           _("Instant messaging account successfully deleted."))
+                           _('Instant messaging account successfully deleted.'))
 
 @login_required
 def im_add(request, user_id=None):
 
     return _generic_add(request, user_id, InstantMessaging,
                         get_object_or_404(Person, user=user_id), None,
-                        _("Creation of an instant messaging account"),
-                        _("Instant messaging account successfully added."))
+                        _('Creation of an instant messaging account'),
+                        _('Instant messaging account successfully added.'))
 
 # Comptes IRC
 @login_required
@@ -318,23 +318,23 @@ def irc_edit(request, user_id=None, irc_id=None):
 
     return _generic_edit(request, user_id, irc_id, IRC,
                          get_object_or_404(Person, user=user_id), None,
-                         _("Modification of an IRC account"),
-                         _("IRC account informations updated successfully."))
+                         _('Modification of an IRC account'),
+                         _('IRC account informations updated successfully.'))
 
-@confirmation_required(lambda user_id=None, irc_id=None : str(get_object_or_404(IRC, pk=irc_id)), "annuaire/base.html", _("Do you really want to delete this IRC account?"))
+@confirmation_required(lambda user_id=None, irc_id=None : str(get_object_or_404(IRC, pk=irc_id)), 'annuaire/base.html', _('Do you really want to delete your IRC account'))
 @login_required
 def irc_delete(request, user_id=None, irc_id=None):
 
     return _generic_delete(request, user_id, irc_id, IRC,
-                           _("IRC account successfully deleted."))
+                           _('IRC account successfully deleted.'))
 
 @login_required
 def irc_add(request, user_id=None):
 
     return _generic_add(request, user_id, IRC,
                         get_object_or_404(Person, user=user_id), None,
-                        _("Creation of an IRC account"),
-                        _("IRC account successfully added."))
+                        _('Creation of an IRC account'),
+                        _('IRC account successfully added.'))
 
 # Sites Internet
 @login_required
@@ -342,23 +342,23 @@ def website_edit(request, user_id=None, website_id=None):
 
     return _generic_edit(request, user_id, website_id, WebSite,
                          get_object_or_404(Person, user=user_id), None,
-                         _("Modification of a website"),
-                         _("Website informations updated successfully."))
+                         _('Modification of a website'),
+                         _('Website informations updated successfully.'))
 
-@confirmation_required(lambda user_id=None, website_id=None : str(get_object_or_404(WebSite, pk=website_id)), "annuaire/base.html", _("Do you really want to delete this website?"))
+@confirmation_required(lambda user_id=None, website_id=None : str(get_object_or_404(WebSite, pk=website_id)), 'annuaire/base.html', _('Do you really want to delete your website'))
 @login_required
 def website_delete(request, user_id=None, website_id=None):
 
     return _generic_delete(request, user_id, website_id, WebSite,
-                           _("Website successfully deleted."))
+                           _('Website successfully deleted.'))
 
 @login_required
 def website_add(request, user_id=None):
 
     return _generic_add(request, user_id, WebSite,
                         get_object_or_404(Person, user=user_id), None,
-                        _("Creation of a website"),
-                        _("Website successfully added."))
+                        _('Creation of a website'),
+                        _('Website successfully added.'))
 
 # Vie associative a l'n7
 
@@ -368,15 +368,15 @@ def club_membership_edit(request, user_id=None, club_membership_id=None):
     person = get_object_or_404(Person, user=user_id)
     return _generic_edit(request, user_id, club_membership_id, ClubMembership,
                          person, get_object_or_404(AIn7Member, person=person),
-                         _("Modification of a club membership"),
-                         _("Club membership informations updated successfully."))
+                         _('Modification of a club membership'),
+                         _('Club membership informations updated successfully.'))
 
-@confirmation_required(lambda user_id=None, club_membership_id=None : str(get_object_or_404(ClubMembership, pk=club_membership_id)), "annuaire/base.html", _("Do you really want to delete this club membership?"))
+@confirmation_required(lambda user_id=None, club_membership_id=None : str(get_object_or_404(ClubMembership, pk=club_membership_id)), 'annuaire/base.html', _('Do you really want to delete your club membership'))
 @login_required
 def club_membership_delete(request, user_id=None, club_membership_id=None):
 
     return _generic_delete(request, user_id, club_membership_id, ClubMembership,
-                           _("Club membership successfully deleted."))
+                           _('Club membership successfully deleted.'))
 
 @login_required
 def club_membership_add(request, user_id=None):
@@ -384,20 +384,21 @@ def club_membership_add(request, user_id=None):
     person = get_object_or_404(Person, user=user_id)
     return _generic_add(request, user_id, ClubMembership,
                         person, get_object_or_404(AIn7Member, person=person),
-                        _("Creation of a club membership"),
-                        _("Club membership successfully added."))
+                        _('Creation of a club membership'),
+                        _('Club membership successfully added.'))
 
 # une petite fonction pour exclure les champs
 # person user ain7member
-# des formulaires cr��s avec form_for_model et form_for_instance
+# des formulaires crees avec form_for_model et form_for_instance
 def _form_callback(f, **args):
-  exclude_fields = ("person", "user", "member")
+  exclude_fields = ('person', 'user', 'member')
   if f.name in exclude_fields:
     return None
   return f.formfield(**args)
 
-# pour all�ger les appels � render_to_response
+# pour alleger les appels a render_to_response
 # http://www.djangosnippets.org/snippets/3/
 def _render_response(req, *args, **kwargs):
     kwargs['context_instance'] = RequestContext(req)
     return render_to_response(*args, **kwargs)
+

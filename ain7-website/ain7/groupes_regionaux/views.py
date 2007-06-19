@@ -60,7 +60,7 @@ def edit(request, group_id):
             f.clean_data['group'] = group
             f.save()
 
-        request.user.message_set.create(message=_("Regional group informations updated successfully."))
+        request.user.message_set.create(message=_('Regional group informations updated successfully.'))
 
         return HttpResponseRedirect('/groupes_regionaux/%s/' % (group.id))
 
@@ -84,7 +84,8 @@ def join(request, group_id):
 
     return HttpResponseRedirect('/groupes_regionaux/%s/' % (group.id))
 
-@confirmation_required(lambda group_id: str(get_object_or_404(Group, pk=group_id)), "groupes_regionaux/base.html", _("Do you really want to quit this group?"))
+@confirmation_required(lambda group_id: str(get_object_or_404(Group, pk=group_id)), 
+                       'groupes_regionaux/base.html', _('Do you really want to quit the group'))
 @login_required
 def quit(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
@@ -96,8 +97,9 @@ def quit(request, group_id):
                     .latest('end_date')
         membership.end_date = datetime.datetime.now()
         membership.save()
-        request.user.message_set.create(message=_("You have been successfully removed from this group."))
+        request.user.message_set.create(message=_('You have been successfully removed from this group.'))
     else:
         request.user.message_set.create(message=_("You are not a member of this group."))
 
     return HttpResponseRedirect('/groupes_regionaux/%s/' % (group.id))
+

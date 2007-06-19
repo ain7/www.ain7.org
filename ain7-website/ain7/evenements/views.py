@@ -66,7 +66,7 @@ def edit(request, event_id):
         if f.is_valid():
             f.save()
 
-        request.user.message_set.create(message=_("Event successfully updated."))
+        request.user.message_set.create(message=_('Event successfully updated.'))
 
         return HttpResponseRedirect('/evenements/%s/' % (event.id))
 
@@ -90,7 +90,7 @@ def join(request, event_id):
             subscription.event = event
             subscription.save()
 
-        request.user.message_set.create(message=_("You have been successfully subscribed to this event."))
+        request.user.message_set.create(message=_('You have been successfully subscribed to this event.'))
         return HttpResponseRedirect('/evenements/%s/' % (event.id))
 
     f =  JoinEventForm()
@@ -118,7 +118,7 @@ def register(request):
         if f.is_valid():
             f.save()
 
-        request.user.message_set.create(message=_("Event successfully added."))
+        request.user.message_set.create(message=_('Event successfully added.'))
 
         #return HttpResponseRedirect('/evenements/%s/' % (f.id))
         return HttpResponseRedirect('/evenements/')
@@ -166,7 +166,7 @@ def subscribe(request, event_id):
 
         p = subscription.subscriber
 
-        request.user.message_set.create(message=_("You have successfully subscribed "+p.first_name+" "+p.last_name+" to this event."))
+        request.user.message_set.create(message=_('You have successfully subscribed '+p.first_name+' '+p.last_name+' to this event.'))
         return HttpResponseRedirect('/evenements/%s/' % (event.id))
 
     f =  SubscribeEventForm()

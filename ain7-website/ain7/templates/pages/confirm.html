@@ -5,12 +5,11 @@
 
 <form method="post" action=".">
 	<div class="confirm">
-		<p><em>{{ description }}</em></p>
-		<p><strong>{{ form.choice.label }}</strong></p>
-		<div>{{ form.choice}}</div>
+		<p><strong>{{ form.choice.label }} "{{ description }}" ?</strong></p>
 		<p>
 			{{ form.back }}
-			<input type="submit" class="button" value="{% trans "Ok" %}" />
+			<a class="button" value="{% trans "No" %}" href="/">{% trans "No" %}</a>
+			<input type="submit" class="button" value="{% trans "Yes" %}" />
 		</p>
 	</div>
 </form>

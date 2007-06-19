@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #
-# annuaire/views.py
+# deocrators.py
 #
 #   Copyright (C) 2007 AIn7
 #
@@ -25,7 +25,7 @@ from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django import newforms as forms
 
-def confirmation_required(get_description, section="base.html", message=_("Are you sure you want to do this action?")):
+def confirmation_required(get_description, section='base.html', message=_('Are you sure you want to do this action?')):
     """
     Decorator for views that need confirmation.
     """
@@ -33,8 +33,8 @@ def confirmation_required(get_description, section="base.html", message=_("Are y
     class ConfirmForm(forms.Form):
         YES = 1
         NO = 0
-        CHOICES = ((YES, _("Yes")),
-                   (NO, _("No")))
+        CHOICES = ((YES, _('Yes')),
+                   (NO, _('No')))
     
         choice = forms.IntegerField(required=True, initial=NO, widget=forms.RadioSelect(choices=CHOICES))
         back = forms.CharField(required=True, initial='/', widget=forms.HiddenInput())
@@ -64,3 +64,4 @@ def confirmation_required(get_description, section="base.html", message=_("Are y
 
         return _checkconfirm
     return _dec
+

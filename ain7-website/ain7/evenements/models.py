@@ -41,9 +41,10 @@ class Event(models.Model):
     publication_start =  models.DateTimeField(verbose_name=_('publication start'))
     publication_end = models.DateTimeField(verbose_name=_('publication end'))
 
-    organizer = models.ManyToManyField(Person, verbose_name=_('organizer'), related_name='events', blank=True, null=True, filter_interface=models.HORIZONTAL)
+    organizer = models.ManyToManyField(Person, verbose_name=_('organizer'),related_name='events', blank=True, null=True, filter_interface=models.HORIZONTAL)
     regional_groups = models.ManyToManyField(Group, verbose_name=_('regional groups'), related_name='events', blank=True, null=True, filter_interface=models.HORIZONTAL)
     pictures_gallery = models.CharField(verbose_name=_('Pictures gallery'), maxlength=100, blank=True, null=True)
+    question = models.TextField(null=True, blank=True)
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
@@ -76,10 +77,13 @@ class Event(models.Model):
 
 class EventSubscription(models.Model):
 
-    subscriber_number = models.IntegerField(verbose_name=_('subscriber number'), core=True)
-    subscription_date = models.DateTimeField(default=datetime.datetime.now, editable=False)
     subscriber = models.ForeignKey(Person, verbose_name=_('subscriber'), related_name='event_subscriptions')
     event = models.ForeignKey(Event, verbose_name=_('event'), related_name='subscriptions', edit_inline=models.TABULAR, num_in_admin=1)
+    subscriber_number = models.IntegerField(verbose_name=_('subscriber number'), core=True)
+    note = models.TextField(null=True, blank=True)
+
+    subscription_date = models.DateTimeField(default=datetime.datetime.now, editable=False)
+    subscribed_by = models.ForeignKey(Person, related_name='subscriptions_done', editable=False, null=True)
 
     class Admin:
         pass
