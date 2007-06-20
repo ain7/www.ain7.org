@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-19 23:21+0200\n"
-"PO-Revision-Date: 2007-06-19 23:27+0200\n"
+"POT-Creation-Date: 2007-06-20 23:28+0200\n"
+"PO-Revision-Date: 2007-06-20 23:28+0200\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +49,7 @@ msgid "Track"
 msgstr "Filière"
 
 #: annuaire/views.py:116 annuaire/views.py:144 groupes/views.py:64
-#: voyages/views.py:54
+#: voyages/views.py:59
 msgid "Modifications have been successfully saved."
 msgstr "Les modifications ont été correctement enregistrées."
 
@@ -1176,21 +1176,29 @@ msgstr "Editer ce sondage"
 msgid "See all surveys"
 msgstr "Voir tous les sondages"
 
-#: templates/voyages/index.html:8
-msgid "Travels list"
-msgstr "Liste des voyages"
+#: templates/voyages/index.html:82
+msgid "Planned travels"
+msgstr "Prochains voyages"
 
-#: templates/voyages/index.html:23 templates/voyages/details.html:32
+#: templates/voyages/index.html:100 templates/voyages/details.html:32
 msgid "of"
 msgstr "de"
 
-#: templates/voyages/index.html:23 templates/voyages/details.html:32
+#: templates/voyages/index.html:100 templates/voyages/details.html:32
 msgid "days"
 msgstr "jours"
 
-#: templates/voyages/index.html:32
+#: templates/voyages/index.html:109
 msgid "No planned travels."
 msgstr "Aucun voyage prévu."
+
+#: templates/voyages/index.html:113
+msgid "Previous travels"
+msgstr "Voyages précédents"
+
+#: templates/voyages/index.html:122
+msgid "No previous travels"
+msgstr "Aucun voyage précédent"
 
 #: templates/voyages/details.html:17 voyages/models.py:52
 msgid "visited places"
@@ -1403,7 +1411,8 @@ msgstr ""
 
 #: emploi/views.py:204
 msgid "Do you really want to delete your education item"
-msgstr "Souhaitez-vous vraiment supprimer cette entrée de la partie \"Education\""
+msgstr ""
+"Souhaitez-vous vraiment supprimer cette entrée de la partie \"Education\""
 
 #: emploi/views.py:210
 msgid "Education informations deleted successfully."
@@ -1424,7 +1433,8 @@ msgstr ""
 
 #: emploi/views.py:227
 msgid "Do you really want to delete your leisure item"
-msgstr "Souhaitez-vous vraiment supprimer cette entrée de la partie \"Loisirs\""
+msgstr ""
+"Souhaitez-vous vraiment supprimer cette entrée de la partie \"Loisirs\""
 
 #: emploi/views.py:233
 msgid "Leisure informations successfully deleted."
@@ -1444,7 +1454,8 @@ msgstr ""
 
 #: emploi/views.py:250
 msgid "Do you really want to delete your publication"
-msgstr "Souhaitez-vous vraiment supprimer cette entrée de la partie \"Publications\""
+msgstr ""
+"Souhaitez-vous vraiment supprimer cette entrée de la partie \"Publications\""
 
 #: emploi/views.py:256
 msgid "Publication informations deleted successfully."

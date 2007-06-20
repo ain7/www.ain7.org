@@ -4,34 +4,126 @@
 {% block content %}
 
 <div id="content-main">
+	
+  <div class="left">
+    <h3>Notre but</h3>
+    <div class="left_box">
+<p>Un des buts principaux de notre association, comme prévu aux statuts, est 
+"d'entretenir" et resserrer les liens d'amitié et de solidarité...</p>
 
-<h2>{% trans "Travels list" %}</h2>
-{% if travels %}
-    <table width="100%">
-    {% for travel in travels %}
-        <tr>
-            <td align="center">{% if travel.thumbnail %}
-                <a href="/voyages/{{ travel.id}}/">
-                <img src="{{ travel.thumbnail }}" height="150"/></a>
-                {% endif %}</td>
-	    <td><b><a href="/voyages/{{ travel.id}}/">
-                {{ travel.label }}</a></b><br />
-                {{ travel.visited_places }}<br />
-		<b>{{ travel.date }}</b><br />
-                {% if travel.term %}
-                    {{ travel.type }}
-		    {% trans "of" %} {{ travel.term }} {% trans "days" %}.
-		{% else %}
-                    {{ travel.type }}.
-                {% endif %}
-                </td>
-	</tr>
-    {% endfor %}
-     </table>
-{% else %}
-    <p>{% trans "No planned travels." %}</p>
-{% endif %}
+<p>C'est donc dans ce cadre que nous avons créé une activité voyage et je me 
+permets de le rappeler aux adhérents de notre association.</p>
 
-</div>
+<p>Non seulement je choisis, éventuellement avec le responsable des voyages 
+Midi-Pyrénées, des destinations qui sont intéressantes du point de vue 
+historique et culturelle, mais également je m'efforce au cours des voyages à 
+retrouver l'ambiance qui était celle de notre école.</p>
+
+<p>Bien que je recherche un confort maximum pour nos camarades, j'essaye que 
+cela ne soit pas au détriment de conditions financières difficilement 
+acceptables par la majorité de nos camarades.</p>
+
+<p>Les voyages sont non seulement des sources d'enrichissement personnel, mais 
+également permettent de constituer des relations durables par la suite entre 
+les camarades qui se retrouvent après. C'est aussi une opportunité pour des 
+relations d'affaire !</p>
+    </div>
+
+    <h3>Comment participer ?</h3>
+    <div class="left_box">
+<p>Si tu es intéressé par la destination, tu remplis la demande de réservation 
+que tu fais parvenir, soit au secrétariat, soit auprès du responsable du 
+voyage.</p>
+
+<p>Lorsque le nombre de participants atteint le quota minimum pour lequel le 
+prix de groupe a été défini, tu reçois, avec les conditions d'assurance, une 
+confirmation en même temps que la demande de régler le premier acompte, 
+libellé au nom de l'agence retenue.</p>
+
+<p>Six semaines avant le départ tu reçois un décompte personnel indiquant en 
+particulier le solde à régler et le montant de l'assurance qui couvre en 
+particulier l'annulation et les pertes de bagages. De plus lorsqu'il est 
+nécessaire d'avoir un visa on te demande ton passeport pour l'obtenir.</p>
+
+<p>Lorsque l'ensemble des règlements est parvenu, tu reçois la convocation à 
+l'aéroport, ainsi que tous les documents utiles pour le voyage. Les billets 
+d'avion et les passeports avec les visas sont remis à l'aéroport.</p>
+    </div>
+
+    <h3>Conditions habituelles</h3>
+    <div class="left_box">
+<p>Les prestations comprennent généralement :</p>
+
+<ul>
+  <li>L'hébergement en chambre double et en hôtel 1ère catégorie,</li>
+  <li>La pension complète comme indiquée dans le descriptif du voyage,</li>
+  <li>Les transports A/R à partir de France en compagnie régulière,</li>
+  <li>Les transports sur place,</li>
+  <li>Un accompagnateur local pendant le séjour ou le circuit,</li>
+  <li>Les visites mentionnées au programme</li>
+</ul>
+
+<p>Les prestations non comprises sont :</p>
+
+<ul>
+  <li>Les boissons et dépenses personnelles,</li>
+  <li>Les visas, pourboires et taxes d'aéroport et de sécurité,</li>
+  <li>L'assurance annulation/bagages (environ 2.5% du prix du voyage)</li>
+</ul>
+
+<p>Nota : avec chaque programme, les conditions des tours opérators retenus 
+sont développées</p>
+
+<p><b>Le délégué aux voyages</b><br />
+<i>Jean Marcus (55)</i></p>
+    </div>	
+  </div>	
+  <div class="right">
+    <h3>{% trans "Planned travels" %}</h3>
+    {% if next_travels %}
+      {% for travel in next_travels %}
+        <div class="right_articles">
+          <p>
+	    <a href="/voyages/{{ travel.id}}/">
+            {{ travel.label }}</a></b><br />
+          {% if travel.thumbnail %}
+            <a href="/voyages/{{ travel.id}}/">
+            <img src="{{ travel.thumbnail }}" height="100"/></a><br />
+          {% endif %}
+          ({{travel.date }})<br />
+          </p>
+<!--
+          {{ travel.visited_places }}<br />
+          <b>{{ travel.date }}</b><br />
+          {% if travel.term %}
+            {{ travel.type }}
+            {% trans "of" %} {{ travel.term }} {% trans "days" %}.
+          {% else %}
+            {{ travel.type }}.
+          {% endif %}
+-->
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="right_articles">
+        <p>{% trans "No planned travels." %}</p>
+      </div>
+    {% endif %}
+
+    <h3>{% trans "Previous travels" %}</h3>
+      <div class="right_articles">
+        {% if previous_travels %}
+          <ul>
+            {% for travel in past_travels %}
+              <li><a href="">{{ travel.label }}</a></li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          {% trans "No previous travels" %}
+        {% endif %}
+      </div>
+  </div>
+</div>	
 
 {% endblock %}
+

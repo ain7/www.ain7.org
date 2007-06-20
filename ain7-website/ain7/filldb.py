@@ -681,8 +681,8 @@ def filldb():
     travel2 = voyages.Travel()
     travel2.label = "Japon"
     travel2.date = "Octobre 2007"
-    travel2.start_date = date(2007,10,1)
-    travel2.end_date = date(2007,10,15)
+    travel2.start_date = date(2007,10,15)
+    travel2.end_date = date(2007,10,27)
     travel2.term = 13
     travel2.type = looptravel
     travel2.visited_places = "Tokyo, Atami, Kyoto, Hiroshima, Nara, Osazka"
@@ -693,8 +693,9 @@ def filldb():
     travel3 = voyages.Travel()
     travel3.label = "Birmanie"
     travel3.date = "Février 2008"
-    travel3.start_date = date(2008,2,1)
-    travel3.end_date = date(2008,2,15)
+    travel3.start_date = date(2008,2,7)
+    travel3.end_date = date(2008,2,20)
+    travel3.term = 14
     travel3.type = loopandboattravel
     travel3.visited_places = "Ragoon, Pagan, Sagain, Mandalay"
     travel3.thumbnail = "/site_media/data/birmanie.jpg"
@@ -704,6 +705,8 @@ def filldb():
     travel4 = voyages.Travel()
     travel4.label = "Mongolie / Pékin"
     travel4.date = "Juin 2008"
+    travel4.start_date = date(2008,6,8)
+    travel4.end_date = date(2008,6,23)
     travel4.term = 15
     travel4.type = looptravel
     travel4.thumbnail = "/site_media/data/mongolie.jpg"
@@ -715,7 +718,7 @@ def filldb():
     travel5.date = "Octobre 2008"
     travel5.start_date = date(2008,10,27)
     travel5.end_date = date(2008,11,12)
-    travel5.term = 16
+    travel5.term = 17
     travel5.type = looptravel
     travel5.visited_places = "Delhi, Amristar, Dharamsala, Manali, Simla"
     travel5.thumbnail = "/site_media/data/delhi.jpg"

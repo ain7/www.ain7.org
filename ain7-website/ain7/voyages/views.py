@@ -25,12 +25,16 @@ from django import newforms as forms
 from django.template import RequestContext
 from django.newforms import widgets
 from django.http import HttpResponseRedirect
+from datetime import date, datetime, timedelta
 
 from ain7.voyages.models import Travel
 
 def index(request):
-    travels = Travel.objects.all()[:5]
-    return _render_response(request, 'voyages/index.html',{'travels': travels})
+    # TODO (marche pas pour l'instant)
+    next_travels = Travel.objects.all()[:5]
+    # next_travels = Travel.objects.filter(start_date__gte=datetime.now)
+    return _render_response(request, 'voyages/index.html',
+                            {'next_travels': next_travels})
 
 def detail(request,travel_id):
     t = get_object_or_404(Travel, pk=travel_id)
