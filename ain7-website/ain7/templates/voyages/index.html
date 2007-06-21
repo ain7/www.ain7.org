@@ -114,8 +114,10 @@ sont développées</p>
       <div class="right_articles">
         {% if previous_travels %}
           <ul>
-            {% for travel in past_travels %}
-              <li><a href="">{{ travel.label }}</a></li>
+            {% for travel in previous_travels %}
+              <li><a href="/voyages/{{ travel.id }}/">{{ travel.label }}</a>
+                  ({{ travel.date }})
+              </li>
             {% endfor %}
           </ul>
         {% else %}

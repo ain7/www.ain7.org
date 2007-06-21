@@ -9,7 +9,7 @@
 
 <table width="100%">
   <tr>
-    <td rowspan="7">
+    <td rowspan="4">
       {% if travel.thumbnail %}
         <img src="{{ travel.thumbnail }}" height="250"/>
       {% endif %}
@@ -36,25 +36,21 @@
       </td>
   </tr>
   <tr>
-    <td>{% filter capfirst %}{% trans "description" %}{% endfilter %}&nbsp;:</td>
-    <td>{{ travel.description }}</td>
-  </tr>
-  <tr>
     <td>{% filter capfirst %}{% trans "price" %}{% endfilter %}&nbsp;:</td>
     <td>{% if travel.price %}{{ travel.price }} €
         {% else %}{% trans "undefined" %}{% endif %}</td>
   </tr>
-  <tr>
-    <td>{% filter capfirst %}{% trans "report" %}{% endfilter %}&nbsp;:</td>
-    <td>{% if travel.report %}{{ travel.report }}{% endif %}</td>
-  </tr>
-  <tr>
-    <td>{% filter capfirst %}{% trans "web site" %}{% endfilter %}&nbsp;:</td>
-    <td>{% if travel.url %}
-        <a href="{{ travel.url }}">{{ travel.url }}</a>
-        {% endif %}</td>
-  </tr>
 </table>
+
+{% if travel.description %}
+  <h2>{% filter capfirst %}{% trans "description" %}{% endfilter %}</h2>
+  {{ travel.description }}
+{% endif %}
+
+{% if past and travel.report %}
+  <h2>{% filter capfirst %}{% trans "report" %}{% endfilter %}</h2>
+  {{ travel.report }}
+{% endif %}
 
 <p><a href="/voyages/">{% trans "Back to travels list" %}</a>.</p>
 <p><a href="/voyages/{{ travel.id }}/edit/">

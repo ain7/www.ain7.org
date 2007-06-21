@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-20 23:28+0200\n"
+"POT-Creation-Date: 2007-06-21 23:17+0200\n"
 "PO-Revision-Date: 2007-06-20 23:28+0200\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,7 +49,7 @@ msgid "Track"
 msgstr "Filière"
 
 #: annuaire/views.py:116 annuaire/views.py:144 groupes/views.py:64
-#: voyages/views.py:59
+#: voyages/views.py:66
 msgid "Modifications have been successfully saved."
 msgstr "Les modifications ont été correctement enregistrées."
 
@@ -327,8 +327,7 @@ msgstr "numéro de téléphone"
 
 #: annuaire/models.py:145 annuaire/models.py:399 annuaire/models.py:407
 #: annuaire/models.py:429 templates/annuaire/details.html:87
-#: templates/annuaire/edit.html:251 templates/voyages/details.html:52
-#: emploi/models.py:87
+#: templates/annuaire/edit.html:251 emploi/models.py:87
 msgid "web site"
 msgstr "site internet"
 
@@ -521,7 +520,7 @@ msgid "irc"
 msgstr "irc"
 
 #: annuaire/models.py:428 annuaire/models.py:467 news/models.py:31
-#: templates/voyages/details.html:39 groupes/models.py:34
+#: templates/voyages/details.html:46 groupes/models.py:34
 #: evenements/models.py:36 emploi/views.py:43 emploi/models.py:114
 #: emploi/models.py:146 voyages/models.py:53 groupes_regionaux/models.py:34
 msgid "description"
@@ -700,7 +699,7 @@ msgstr "Aucune personne dans l'application."
 msgid "Personal file"
 msgstr "Fiche personnelle de"
 
-#: templates/annuaire/details.html:10 templates/voyages/details.html:61
+#: templates/annuaire/details.html:10 templates/voyages/details.html:57
 msgid "Modify these data"
 msgstr "Modifier ces informations"
 
@@ -1196,7 +1195,7 @@ msgstr "Aucun voyage prévu."
 msgid "Previous travels"
 msgstr "Voyages précédents"
 
-#: templates/voyages/index.html:122
+#: templates/voyages/index.html:124
 msgid "No previous travels"
 msgstr "Aucun voyage précédent"
 
@@ -1216,19 +1215,19 @@ msgstr "du"
 msgid "to"
 msgstr "au"
 
-#: templates/voyages/details.html:43 voyages/models.py:54
+#: templates/voyages/details.html:39 voyages/models.py:54
 msgid "price"
 msgstr "prix"
 
-#: templates/voyages/details.html:45
+#: templates/voyages/details.html:41
 msgid "undefined"
 msgstr "non défini"
 
-#: templates/voyages/details.html:48 voyages/models.py:56
+#: templates/voyages/details.html:51 voyages/models.py:56
 msgid "report"
 msgstr "compte rendu"
 
-#: templates/voyages/details.html:59
+#: templates/voyages/details.html:55
 msgid "Back to travels list"
 msgstr "Retour à la liste des voyages"
 
