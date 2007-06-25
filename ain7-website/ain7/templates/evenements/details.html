@@ -37,7 +37,7 @@
 	<h3>{% trans "Statistics" %}</h3>
 	<div class="right_block">
                 <ul>
-                        <li>50 are subscribed to this event</li>
+                        <li>{{ event.subscriptions.all|length }} {% trans "persons are subscribed to this event" %}</li>
                 <ul>
         </div>
 
