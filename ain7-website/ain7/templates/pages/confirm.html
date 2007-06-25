@@ -5,9 +5,8 @@
 
 <form method="post" action=".">
 	<div class="confirm">
-		<p><strong>{{ form.choice.label }} "{{ description }}" ?</strong></p>
+		<p><strong>{{ message }} "{{ description }}" ?</strong></p>
 		<p>
-			{{ form.back }}
 			<a class="button" value="{% trans "No" %}" href="/">{% trans "No" %}</a>
 			<input type="submit" class="button" value="{% trans "Yes" %}" />
 		</p>
