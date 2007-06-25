@@ -33,10 +33,11 @@ def confirmation_required(get_description, section='base.html', message=_('Are y
     def _dec(view_func):
         def _checkconfirm(request, *args, **kwargs):
             if request.method != 'POST':
-
                 description = get_description(*args, **kwargs)
+                back = request.META.get('HTTP_REFERER', '/');
                 return render_to_response('pages/confirm.html',
-                                          {'description': description, 'section': section, 'message': message},
+                                          {'description': description, 'section': section,
+                                           'message': message, 'back': back},
                                           context_instance=RequestContext(request))
             else:
                 # Go to the decorated view

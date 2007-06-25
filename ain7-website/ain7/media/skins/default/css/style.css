@@ -86,6 +86,14 @@ img {
     font: bold 1em Arial, Sans-Serif;
 }
 
+a.button, a.button:hover {
+    text-decoration: none;
+    background-color: #FF9148;
+    color: #FFFFFF;
+    cursor: default;
+    padding: 3px;
+}
+
 .warning {
     padding: 40px; 
     color: #FF9148;
