@@ -28,7 +28,10 @@ urlpatterns = patterns('',
     (r'^$', 'ain7.voyages.views.index'),
     (r'^search/$', 'ain7.voyages.views.search'),
     (r'^edit/$', 'ain7.voyages.views.edit'),
-    (r'^(?P<travel_id>\d+)/edit/$', 'ain7.voyages.views.edit'),
     (r'^(?P<travel_id>\d+)/$', 'ain7.voyages.views.detail'),
+    (r'^(?P<travel_id>\d+)/edit/$', 'ain7.voyages.views.edit'),
+    (r'^(?P<travel_id>\d+)/join/$', 'ain7.voyages.views.join'),
+    (r'^(?P<travel_id>\d+)/subscribe/$', 'ain7.voyages.views.subscribe'),
+    (r'^(?P<travel_id>\d+)/participants/$', 'ain7.voyages.views.participants'),
 
 )

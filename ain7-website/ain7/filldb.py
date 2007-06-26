@@ -688,6 +688,271 @@ def filldb():
     travel2.visited_places = "Tokyo, Atami, Kyoto, Hiroshima, Nara, Osazka"
     travel2.thumbnail = "/site_media/data/japon.jpg"
     travel2.prix = 3890
+    travel2.description = \
+"""
+<p><i>Temples et jardins, disséminés en
+oasis d'ordre et de perfection formelle, dans un ruban baroque d'immenses
+villes côtières conquises sur une nature omniprésente : le Japon cultive l'art
+poussé à l'extrême de passer sans transition du calme absolu aux trépidations
+continues de la modernité.</i></p>
+
+<p style='text-align:center'>
+<img width="287" height="190"
+src="http://ain7.enseeiht.fr/Voyages/Programme%20Japon2007_fichiers/image002.gif" /></p>
+
+<h2>15 OCTOBRE : PARIS - TOKYO</h2>
+
+<p>Envol à 13H15 pour TOKYO sur JAPAN AIRLINES</p>
+
+<h2>16 OCTOBRE : TOKYO</h2>
+
+<p>Arrivée vers 11h00 dans le centre ville, et premier
+aperçu de cette ville tentaculaire, en constante évolution, chaotique et
+surprenante, où tradition et modernité se côtoient sans se heurter.</p>
+
+<p>Vue sur le <b>Palais Impérial</b>. Résidence de la famille
+impériale, le palais est ouvert deux fois par an&nbsp;: le jour du nouvel
+et celui de l'anniversaire de l'empereur.</p>
+
+<p>Déjeuner "&nbsp;shabu shabu&nbsp;"&nbsp;: sorte de
+potée mongole à la japonaise.</p>
+
+<p>L'après-midi, promenade dans le jardin <b>Koshikawa Korakuen</b>.
+Puis, visite de la <b>Tour de Tokyo</b>, du haut de ses 333m, le
+panorama sur la ville est impressionnant.</p>
+
+<p style='text-align:center'><img width="154" height="195"
+src="http://ain7.enseeiht.fr/Voyages/Programme%20Japon2007_fichiers/image004.jpg"></p>
+
+<h2>17 OCTOBRE : TOKYO</h2>
+
+<p>Départ à 08h00 pour le tour de ville&nbsp;: Le matin
+visite du <b>sanctuaire impériale</b> où sont
+conservées les dépouilles de l'empereur Meiji et de sa femme&nbsp;; c'est sans
+doute le lieu sacré shintoiste le plus important de Tokyo. Déjeuner dans une
+école de Sumo (à confirmer) et visite du musée du Sumo.</p>
+
+<p>L'après-midi, visite d'<b>Asakusa</b>, la ville basse, où se forgea la
+première culture urbaine
+et populaire du Japon ; ce quartier de commerces et de plaisirs accueillit les
+premiers cabarets, maisons closes et cinémas ; au centre se trouve le temple
+<b>Sensoji</b>, dédié à Kwannon la déesse de
+la miséricorde, l'un des temples les plus fréquentés de la capitale. Puis,
+visite du musée <b>Edo-Tokyo </b>qui retrace l'histoire de la ville.</p>
+
+<p>Ou <b>croisière sur la Sumida.</b></p>
+
+<h2>18 OCTOBRE : TOKYO - KAMAKURA - ATAMI</h2>
+
+<p>Transfert des gros bagages à KYOTO. A 09h00, départ en bus pour KAMAKURA. 
+Située à une cinquantaine de kilomètres de Tokyo, cette station 
+balnéaire et populaire édifiée au milieu des collines verdoyantes, 
+capitale du Japon au XIIIème siècle abrite de nombreux temples bouddhistes
+et sanctuaires shintoïstes.</p>
+
+<p>Visite du temple <b>Kenkoji,</b> fondé au XIIIè siècle, 
+c'est le plus important des cinq grands temples de
+Kamakura. Puis, visite du <b>sanctuaire Tsurugaoka</b>, l'un des plus beaux 
+sanctuaires shintoistes de la ville,
+construit sur une colline au milieu de la ville et entouré d'autres édifices
+interessants.</p>
+
+<p>L'après-midi, visite du <b>Daibutsu,</b> grand
+bouddha de onze mètres érigé au XIIe siècle, et d'autres temples plus sereins
+comme le <b>Hokokuji</b> construit au milieu d'un bosquet de bambous.</p>
+
+<p>Et départ en bus pour ATAMI, station thermale située à 1h30 de route.</p>
+
+<h2>19 OCTOBRE : ATAMI - HAKONE - ATAMI</h2>
+
+<p>Départ le matin en bus  pour HAKONE ; la ville est appréciée aussi bien pour ses nombreuses onsen que pour sa vue imprenable sur le Mont Fuji. Visite du <b>Musée de sculptures</b> en plein air.</p>
+
+<p>Balade au milieu des fumerolles sulfureuses de la vallée de sources chaudes d'<b>Owakudani</b></p>
+
+<p>Puis petite croisière sur le <b>lac Aishi</b>, d'où la vue sur le Mont Fujii est la plus spectaculaire, par temps clair.</p>
+
+<p style='text-align:center'><img width="154" height="195"
+src="http://ain7.enseeiht.fr/Voyages/Programme%20Japon2007_fichiers/image006.jpg"></p>
+
+<p>Déjeuner japonais dans un restaurant au bord du lac.
+Dîner et bain japonais à l'hôtel.</p>
+
+<h2>20 OCTOBRE : ATAMI - KYOTO</h2>
+
+<p>Départ en train Shinkansen pour KYOTO. Déjeuner picnic à bord.</p>
+
+<p>L'ancienne capitale de la période Heian (VIIIe - XIIe) a légué à notre
+époque plus de 20 % des trésors du Japon : le plan en damier inspiré de celui
+de la capitale des Tang, Chang'an, en est l'exemple ; Gion, le quartier des
+plaisirs et ses très belles maisons de bois ; enfin, bien sûr les innombrables
+temples, pavillons de thé et jardins.</p>
+
+<p>L'après-midi, visites :</p>
+
+<ul>
+<li>Le temple du <b>Pavillon d'Or</b>, construit au XIVè siècle, dans un vaste
+jardin, par un shogun rentré dans les ordres, le temple fut incendié en 1950
+par, selon Mishima, un moine exalté par tant de beauté dans un monde si laid ;
+5 ans plus tard, il fut reconstruit à l'identique selon les règles de l'art.
+</li>
+<li>Enfin, visite du <b>Ryoanji</b>, sans doute le plus connu et le plus pur
+des jardins secs : 15 rochers entourés de sable fin.</p>
+</ul>
+
+<h2>21 OCTOBRE : KYOTO</h2>
+
+<p>Le matin, visite du <b>château Nijo</b>, ; fondé au XVIIè, il est connu pour
+la richesse de ses décors et ses parquets « rossignols », conçus pour avertir
+les habitants de l'arrivée d'un intrus.</p>
+
+<p>Puis, visite de la <b>villa Katsura</b> dont les bâtiments d'une sobriété
+et d'une pureté étonnante s'intègrent magnifiquement dans ce que l'on peut
+considérer parmi les plus beaux des jardins japonais.</p>
+
+<p>En fin d'après-midi, visite du musée national connu pour ses collections de
+peintures et sculptures de l'époque Heian.</p>
+
+<h2>22 OCTOBRE : KYOTO</h2>
+
+<p>Le matin, visite du <b>Pavillon d'Argent</b>, le Ginkakuji, construit au
+XVè siècle par un shogun esthète, au milieu d'un jardin qui évoque des
+paysages chinois. Puis, promenade sur le <b>chemin des philosophes</b> ;
+il suit un canal bordé de cerisiers et de petits temples et sanctuaires.</p>
+
+<p>Balade dans <b>Gion</b>, l'ancien quartier des plaisirs, où dans une
+atmosphère traditionnelle se sont installés antiquaires et artisans.</b>
+
+<p>En fin d'après-midi, montée au temple de <b>Kyomizu Dera</b>,
+à la puissante armature de bois, qui offre un généreux panorama sur la ville.
+</p>
+
+<h2>23 OCTOBRE : KYOTO - HIMEJI - HIROSHIMA - MIYAJIMA</h2>
+
+<p>Départ en train Shinkansen pour HIMEJI, visite du château avec guide
+francophone, le plus grand des châteaux féodaux du Japon, inscrit au
+patrimoine de l'UNESCO.</p>
+
+<p>A 12H29, continuation en Shinkansen pour HIROSHIMA. Lunch box à bord.</p>
+
+<p>Arrivée à 13h33 et continuation en train local pour l'embarcadère de
+l'île sanctuaire de MIYAJIMA, connue pour son superbe torii vermillon érigé
+dans la baie, à 150 mètres de la côte.</p>
+
+<p>Visite du <b>sanctuaire Itsukushima</b>, dont les piliers à marée haute
+semblent flotter sur l'eau ; promenade paysagère dans la vallée des Erables
+et visite du jardin de l'écomusée. Croisière pour admirer le temple illuminé.
+</p>
+
+<h2>24 OCTOBRE : MIYAJIMA - HIROSHIMA - NARA</h2>
+
+<p>Départ en train local pour HIROSHIMA.
+Visite du parc et du mémorial de la Paix.</p>
+
+<p style='text-align:center'><img width="154" height="195"
+src="http://ain7.enseeiht.fr/Voyages/Programme%20Japon2007_fichiers/image008.gif"></p>
+
+<p>Départ en train Shinkansen  pour OSAKA</p>
+
+<p>A l'arrivée à la gare de Shin Osaka, transfert en bus à Nara.</p>
+
+<p style='text-align:center'><img width="154" height="195"
+src="http://ain7.enseeiht.fr/Voyages/Programme%20Japon2007_fichiers/image010.jpg"></p>
+
+<h2>25 OCTOBRE : NARA</h2>
+
+<p>Visite de NARA. Première capitale du pays, creuset de la civilisation
+japonaise, à l'extrémité orientale de la route de la soie,
+ses trésors reflètent l'influence de la Chine des Tang.</p>
+
+<p>Promenade dans le sanctuaire shintoiste <b>Kasuga</b>, ensemble de 4
+petits sanctuaires dédiés à 4 divinités différentes, dans un paysage
+bucolique de collines boisées. Puis, visites du <b>Kokufuji</b>,
+"le Temple Suscitant le Bonheur", qui héberge quelques bouddhas
+sympathiques et bienveillants.</p>
+
+<p>Et du <b>Todaiji</b>, dont on dit qu'il est le plus grand édifice en bois
+du monde.</p>
+
+<h2>26 OCTOBRE : NARA - MONT KOYA</h2>
+
+<p>Départ en bus pour le MONT KOYA. Centre de pèlerinage, ce haut lieu du
+bouddhisme japonais abrite dans un site exceptionnel une cinquantaine de
+temples et monastères construits au IXè siècle, loin des fastes de la cour
+de Kyoto.</p>
+
+<p>Visite de la résidence du chef abbé, le temple <b>Konkobu ji</b>,
+et du petit musée.</p>
+
+<p>Et pèlerinage au <b>mausolée</b> du moine Kobo Daishi, fondateur du premier
+monastère du site et inventeur de l'écriture phonétique. Et promenade dans
+la grande nécropole du Koyasan, dans un bois d'arbres millénaires s'élèvent
+quelques milliers de monuments à la mémoire de familles désireuses de
+reposer auprès du maître.</p>
+
+<p>Dîner végétarien et nuit au MONASTERE FUKUCHIIN</p>
+
+<h2>27 OCTOBRE : MONT KOYA - OSAKA - PARIS</h2>
+
+<p>Office du matin et petit déjeuner au monastère.</p>
+
+<p>Transfert à l'aéroport ; construit il y a une dizaine d'années sur une
+île artificielle par l'architecte Renzo Piano, magnifique exemple
+d'architecture contemporaine.</p>
+
+<p style='text-align:center'><b>CONDITIONS (au 15/12/2005)</b></p>
+
+<h3>Prix par personne</h3>
+
+<p>Prix base 16/20 personnes&nbsp;: 3 890 €</p>
+<p>Supplément chambre seule&nbsp;: 350 €</p>
+
+<h3>Ce prix comprend&nbsp;:</h3>
+
+<ul>
+<li>Les transports aériens internationaux sur JAPAN AIRLINES ou AIR France</li>
+<li>Le logement en chambre double en bons hôtels de 3* et dans un monastère 
+(au Koyasan)</li>
+<li>Les transferts en bus privé</li>
+<li>Les transports en train en classe touriste comme indiqué au programme</li>
+<li>La pension complète du déjeuner le jour 2 au dîner du jour 12</li>
+<li>Les visites mentionnées avec guide parlant français</li>
+<li>Les droits d'entrée sur les sites</li>
+</ul>
+ 
+<h3>Ce prix ne comprend pas&nbsp;:</h3>
+
+<ul>
+<li>Les taxes d'aéroport&nbsp;: 127 € à ce jour</li>
+<li>Les boissons et dépenses personnelles &amp; 
+Les pourboires aux guides et aux chauffeurs</li>
+<li>Les assurances</li>
+</ul>
+
+<h3>LES HOTELS</h3>
+
+<p><b>TOKYO</b>&nbsp;: SUNSHINE CITY PRINCE HOTEL (3*) / 
+<a href="http://www.princehotelsjapan.com/sunshinecityprincehotel/">
+http://www.princehotelsjapan.com/sunshinecityprincehotel/</a></p>
+
+<p><b>ATAMI</b>: HOTEL IKEDA (3*) /
+<a href="http://www.hotelikeda.co.jp/">http://www.hotelikeda.co.jp/</a></p>
+
+<p><b>KYOTO</b>: KYOTO TOWER HOTEL (3*) /
+<a href="http://www.asiarooms.com/japan/kyoto/tower.html">
+http://www.asiarooms.com/japan/kyoto/tower.html</a></p>
+
+<p><b>MIYAJIMA:</b>AKI GRAND HOTEL / 
+<a href="http://www.akigh.co.jp/">http://www.akigh.co.jp</a></p>
+
+<p><b>NARA</b>: NARA HOTEL (3*) /
+<a href="http://japaneseguesthouses.com/db/nara/narahotel.htm">
+http://japaneseguesthouses.com/db/nara/narahotel.htm</a></p>
+
+<p><b>KOYASAN</b>&nbsp;: MONASTERE FUKUCHIIN
+<a href="http://www.nta-france.com/ryokanpass/fukuchiin.htm">
+http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
+
+"""
     travel2.save()
 
     travel3 = voyages.Travel()

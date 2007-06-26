@@ -85,23 +85,14 @@ sont développées</p>
         <div class="right_articles">
           <p>
 	    <a href="/voyages/{{ travel.id}}/">
-            {{ travel.label }}</a></b><br />
+            {{ travel.label }}</a></b></p>
           {% if travel.thumbnail %}
+          <p style="text-align:center">
             <a href="/voyages/{{ travel.id}}/">
-            <img src="{{ travel.thumbnail }}" height="100"/></a><br />
+            <img src="{{ travel.thumbnail }}" height="100"/></a></p>
           {% endif %}
-          ({{travel.date }})<br />
+          <p style="text-align:right">{{travel.date }}</p>
           </p>
-<!--
-          {{ travel.visited_places }}<br />
-          <b>{{ travel.date }}</b><br />
-          {% if travel.term %}
-            {{ travel.type }}
-            {% trans "of" %} {{ travel.term }} {% trans "days" %}.
-          {% else %}
-            {{ travel.type }}.
-          {% endif %}
--->
         </div>
       {% endfor %}
     {% else %}

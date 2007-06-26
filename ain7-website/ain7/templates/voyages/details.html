@@ -5,45 +5,49 @@
 
 <div id="content-main">
 
-<h2>{{ travel.label }}</h2>
+  <div class="left">
+    <h3>{{ travel.label }}, {{ travel.date }}</h3>
+    <div class="left_box">
 
 <table width="100%">
   <tr>
-    <td rowspan="4">
-      {% if travel.thumbnail %}
-        <img src="{{ travel.thumbnail }}" height="250"/>
-      {% endif %}
+    <td><i>{% filter capfirst %}{% trans "visited places" %}{% endfilter %}</i>
     </td>
-    <td>{% filter capfirst %}{% trans "visited places" %}{% endfilter %}&nbsp;:</td>
     <td>{{ travel.visited_places }}</td>
   </tr>
   <tr>
-    <td>{% filter capfirst %}{% trans "date" %}{% endfilter %}&nbsp;:</td>
-    <td><b>{{ travel.date }}</b><br />
-        {% trans "from" %} {{ travel.start_date|date:"d/m/Y" }}
+    <td><i>{% filter capfirst %}{% trans "date" %}{% endfilter %}</i></td>
+    <td>{% trans "from" %} {{ travel.start_date|date:"d/m/Y" }}
         {% trans "to" %} {{ travel.end_date|date:"d/m/Y" }}
-    </td>    
-  </tr>
-  <tr>  
-    <td>{% filter capfirst %}{% trans "type" %}{% endfilter %}&nbsp;:</td>
-    <td>
-      {% if travel.term %}
-        {{ travel.type }}
-        {% trans "of" %} {{ travel.term }} {% trans "days" %}.
-      {% else %}
-        {{ travel.type }}.
-      {% endif %}
-      </td>
+        {% if travel.term %}
+          ({{ travel.type }}
+           {% trans "of" %} {{ travel.term }} {% trans "days" %}).
+        {% else %}
+          ({{ travel.type }}).
+        {% endif %}
+    </td>
   </tr>
   <tr>
-    <td>{% filter capfirst %}{% trans "price" %}{% endfilter %}&nbsp;:</td>
+    <td><i>{% filter capfirst %}{% trans "price" %}{% endfilter %}</i></td>
     <td>{% if travel.price %}{{ travel.price }} €
+        {% else %}{% trans "undefined" %}{% endif %}</td>
+  </tr>
+  <tr>
+    <td><i>{% filter capfirst %}{% trans "responsible" %}{% endfilter %}</i>
+    </td>
+    <td>{% if travel.responsible %}{{ travel.responsible }}
         {% else %}{% trans "undefined" %}{% endif %}</td>
   </tr>
 </table>
 
+{% if travel.thumbnail %}
+  <p style="text-align: center">
+    <img src="{{ travel.thumbnail }}" height="250" />
+  </p>
+{% endif %}
+
+
 {% if travel.description %}
-  <h2>{% filter capfirst %}{% trans "description" %}{% endfilter %}</h2>
   {{ travel.description }}
 {% endif %}
 
@@ -52,11 +56,40 @@
   {{ travel.report }}
 {% endif %}
 
-<p><a href="/voyages/">{% trans "Back to travels list" %}</a>.</p>
-<p><a href="/voyages/{{ travel.id }}/edit/">
-   {% trans "Modify these data" %}</a>.
-</p>
+    </div>
+  </div>
 
+  <div class="right">
+    <h3>{% trans "Actions" %}</h3>
+      <div class="right_articles">
+        <ul>
+          <li><a href="/voyages/{{ travel.id }}/join/">
+              {% trans "Participate to this travel" %}</a></li>
+          <li><a href="/voyages/{{ travel.id }}/subscribe/">
+              {% trans "Subscribe someone to this travel" %}</a></li>
+          <li><a href="/voyages/{{ travel.id }}/participants/">
+              {% trans "List participants" %}</a></li>
+          <li><a href="/voyages/{{ travel.id }}/edit/">
+              {% trans "Modify these data" %}</a></li>
+        </ul>
+      </div>
+
+      <h3>{% trans "Statistics" %}</h3>
+      <div class="right_block">
+        <ul>
+          <li>{{ travel.subscriptions.all|length }} 
+              {% trans "persons are subscribed to this travel" %}</li>
+        <ul>
+      </div>
+
+      <div class="right_articles">
+        <ul>
+          <li><a href="/voyages/">{% trans "Back to travels list" %}</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 {% endblock %}

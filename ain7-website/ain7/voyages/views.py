@@ -26,8 +26,9 @@ from django.template import RequestContext
 from django.newforms import widgets
 from django.http import HttpResponseRedirect
 from datetime import datetime
+from django.contrib.auth.decorators import login_required
 
-from ain7.voyages.models import Travel
+from ain7.voyages.models import Travel, Subscription
 
 def index(request):
     next_travels = Travel.objects.filter(start_date__gte=datetime.now())
@@ -42,6 +43,7 @@ def detail(request,travel_id):
     return _render_response(request, 'voyages/details.html',
                             {'travel': t, 'past': past})
 
+@login_required
 def edit(request, travel_id=None):
     if travel_id is None:
         TravelForm = forms.models.form_for_model(Travel)
@@ -67,9 +69,55 @@ def edit(request, travel_id=None):
                  return HttpResponseRedirect('/voyages/%s/' % (travel.id))
     return _render_response(request, 'voyages/edit.html', {'form': form})
 
+@login_required
+def join(request, travel_id):
+    travel = get_object_or_404(Travel, pk=travel_id)
+
+    if request.method == 'GET':
+        JoinTravelForm = forms.models.form_for_model(Subscription,
+            formfield_callback=_form_callback)
+        f = JoinTravelForm()
+        return _render_response(request, "voyages/join.html",
+                                {'form': f, 'travel': travel})
+    
+    if request.method == 'POST':
+        JoinTravelForm = forms.models.form_for_model(Subscription,
+            formfield_callback=_form_callback)
+        f = JoinTravelForm(request.POST.copy())
+        if f.is_valid():
+            f.clean_data['subscriber'] = request.user.person
+            f.clean_data['travel'] = travel
+            f.save()
+            request.user.message_set.create(message=_('You have been successfully subscribed to this travel.'))
+        else:
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+        return HttpResponseRedirect('/voyages/%s/' % (travel.id))
+
+
+@login_required
+def subscribe(request, travel_id):
+    travel = get_object_or_404(Travel, pk=travel_id)
+    # TODO
+    return HttpResponseRedirect('/voyages/%s/' % (travel.id))
+
+@login_required
+def participants(request, travel_id):
+    travel = get_object_or_404(Travel, pk=travel_id)
+    # TODO
+    return HttpResponseRedirect('/voyages/%s/' % (travel.id))
+
 # pour alléger les appels à render_to_response
 # http://www.djangosnippets.org/snippets/3/
 def _render_response(req, *args, **kwargs):
     kwargs['context_instance'] = RequestContext(req)
     return render_to_response(*args, **kwargs)
+
+# une petite fonction pour exclure les champs
+# subscriber travel
+# des formulaires créés avec form_for_model et form_for_instance
+def _form_callback(f, **args):
+    exclude_fields = ('subscriber', 'travel')
+    if f.name in exclude_fields:
+        return None
+    return f.formfield(**args)
 
