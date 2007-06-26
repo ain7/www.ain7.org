@@ -55,7 +55,11 @@ class Choice(models.Model):
         return self.choice
 
     def rate(self):
-        return (self.votes.count() * 100.0) / self.survey.nb_vote()
+        total = self.survey.nb_vote()
+        if total == 0:
+            return 0
+        else:
+            return (self.votes.count() * 100.0) / total
 
     class Meta:
         verbose_name = _('choice')
