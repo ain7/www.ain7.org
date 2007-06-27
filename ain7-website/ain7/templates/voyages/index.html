@@ -79,19 +79,24 @@ sont développées</p>
     </div>	
   </div>	
   <div class="right">
+    <h3>{% trans "Actions" %}</h3>
+    <div class="right_articles">
+      <ul>
+        <li><a href="/voyages/add/">{% trans "Add a travel" %}</a></li>
+      </ul>
+    </div>  
     <h3>{% trans "Planned travels" %}</h3>
     {% if next_travels %}
       {% for travel in next_travels %}
         <div class="right_articles">
-          <p>
+          <p style="text-align:center">
 	    <a href="/voyages/{{ travel.id}}/">
-            {{ travel.label }}</a></b></p>
+            {{ travel.label }}</a> - {{travel.date }}</p>
           {% if travel.thumbnail %}
           <p style="text-align:center">
             <a href="/voyages/{{ travel.id}}/">
             <img src="{{ travel.thumbnail }}" height="100"/></a></p>
           {% endif %}
-          <p style="text-align:right">{{travel.date }}</p>
           </p>
         </div>
       {% endfor %}
@@ -114,6 +119,11 @@ sont développées</p>
         {% else %}
           {% trans "No previous travels" %}
         {% endif %}
+      </div>
+      <div class="right_articles">
+        <p style="text-align: center">
+          <a href="/voyages/list/">{% trans "List of travels" %}</a>
+        </p>
       </div>
   </div>
 </div>	

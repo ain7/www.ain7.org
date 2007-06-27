@@ -65,10 +65,12 @@
         <ul>
           <li><a href="/voyages/{{ travel.id }}/join/">
               {% trans "Participate to this travel" %}</a></li>
-          <li><a href="/voyages/{{ travel.id }}/subscribe/">
-              {% trans "Subscribe someone to this travel" %}</a></li>
           <li><a href="/voyages/{{ travel.id }}/participants/">
               {% trans "List participants" %}</a></li>
+          <li><a href="/voyages/{{ travel.id }}/responsibles/">
+              {% trans "Modify the responsibles" %}</a></li>
+          <li><a href="/voyages/{{ travel.id }}/delete/">
+              {% trans "Delete this travel" %}</a></li>
           <li><a href="/voyages/{{ travel.id }}/edit/">
               {% trans "Modify these data" %}</a></li>
         </ul>
@@ -80,12 +82,6 @@
           <li>{{ travel.subscriptions.all|length }} 
               {% trans "persons are subscribed to this travel" %}</li>
         <ul>
-      </div>
-
-      <div class="right_articles">
-        <ul>
-          <li><a href="/voyages/">{% trans "Back to travels list" %}</a></li>
-        </ul>
       </div>
 
     </div>
