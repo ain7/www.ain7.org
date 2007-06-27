@@ -1,0 +1,46 @@
+{% extends "voyages/base.html" %}
+{% load i18n %}
+
+{% block stylesheet %}
+{% endblock %}
+
+{% block content %}
+
+<div id="content-main">
+
+<div class="left">
+  <h3>{{ travel.label }} - {{ travel.date }} : {% trans "responsibles" %}</h3>
+
+{% if travel.responsible.all %}
+  <ul>
+    {% for responsible in travel.responsible.all %}
+      <li>
+        <a href="/annuaire/{{ responsible.user.id }}/">{{ responsible }}</a>
+        <a href="/voyages/{{ travel.id }}/responsibles/{{ responsible.user.id }}/delete/" class="deletelink">{% trans "Delete" %}</a>
+</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>{% trans "No one is subscribed to this travel" %}.</p>
+{% endif %}
+
+<a href="/voyages/{{ travel.id }}/responsibles/add/" class="addlink"> 
+  {% trans "Add" %}</a>
+
+</div>
+
+
+<div class="right">
+
+  <h3>{% trans "Statistics" %}</h3>
+  <div class="right_block">
+    <ul>
+      <li>{{ travel.subscriptions.all|length }} 
+          {% trans "persons are subscribed to this travel" %}</li>
+    <ul>
+  </div>
+</div>
+
+</div>
+
+{% endblock %}
