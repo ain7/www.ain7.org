@@ -1,0 +1,43 @@
+{% extends "news/base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div id="content-main">
+
+<div class="left">
+
+<div class="left_box">
+
+<h3>{% trans "Lastest news" %}</h3>
+{% if news %}
+	<ul>
+	{% for one_news in news %}
+			<div class="right_articles">
+				<p><img src="/site_media/images/gnome-news.png" alt="Image" title="Image" class="image" />
+     <strong><a href="/actualites/{{ one_news.id }}/">{{ one_news.title }}</a></strong><br />{{ one_news.short_description }}.</p>
+			</div>
+	{% endfor %}
+	</ul>
+{% else %}
+	<p>{% trans "No news !" %}</p>
+{% endif %}
+
+</div>
+
+</div>
+
+<div class="right">
+
+<h3>{% trans "Actions" %}</h3>
+<ul>
+<li><a href="/actualites/write/">{% trans "Write a news" %}</a></li>
+<li><a href="/actualites/search/">{% trans "Search a news" %}</a></li>
+</ul>
+
+</div>
+
+
+</div>
+
+{% endblock %}

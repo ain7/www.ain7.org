@@ -48,6 +48,9 @@ urlpatterns = patterns('',
     # emploi
     (r'^emploi/', include('ain7.emploi.urls')),
 
+    # news
+    (r'^actualites/', include('ain7.news.urls')),
+
     # evenements
     (r'^evenements/', include('ain7.evenements.urls')),
 

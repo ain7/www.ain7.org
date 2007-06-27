@@ -53,10 +53,10 @@
 	
 		</div>	
 		<div class="right">
-			<h3>Actualités</h3>
+			<h3><a href="/actualites/">Actualités</a></h3>
     {% for news_item in news %}
 			<div class="right_articles">
-				<p><img src="/site_media/images/gnome-news.png" alt="Image" title="Image" class="image" /><b>{{ news_item.title }}</b><br />{{ news_item.description }}.</p>
+				<p><a href="/actualites/{{ news_item.id }}/"><img src="/site_media/images/gnome-news.png" alt="Image" title="Image" class="image" /></a><b><a href="/actualites/{{ news_item.id }}/">{{ news_item.title }}</a></b><br />{{ news_item.short_description }}.</p>
 			</div>
     {% endfor %}
 

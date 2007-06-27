@@ -39,6 +39,12 @@ class NewsItem(models.Model):
     def __str__(self):
         return self.title
 
+    def short_description(self):
+        if len(self.description) > 100:
+            return self.description[:100] + " ..."
+        else:
+            return self.description
+
     def save(self):
         self.modification_date = datetime.datetime.today()
         self.modifier = 1

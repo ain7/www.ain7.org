@@ -1,0 +1,30 @@
+{% extends "news/base.html" %}
+{% load i18n %}
+
+{% block stylesheet %}{% endblock %}
+{% block content %}
+
+<div id="content-main">
+
+<div class="left">
+	<h3>{{ news_item.title }}</h3>
+
+<form method="post">
+<table>
+{{ form }}
+</table>
+<div align="center">
+<input type="submit" class="button" value="{% trans "Register" %}">
+</div>
+</form>
+
+</div>
+
+<div class="right">
+
+
+</div>
+
+</div>
+
+{% endblock %}

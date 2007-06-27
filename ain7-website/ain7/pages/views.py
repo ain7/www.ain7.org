@@ -29,7 +29,7 @@ from ain7.news.models import NewsItem
 from ain7.sondages.models import Survey
 
 def homepage(request):
-    news = NewsItem.objects.all().order_by('title')[:5]
+    news = NewsItem.objects.all().order_by('-creation_date')[:2]
     surveys = Survey.objects.filter(start_date__lte=datetime.datetime.now(), end_date__gte=datetime.datetime.now())[:2]
     return render_to_response('pages/homepage.html', 
                              {'news': news , 'surveys': surveys, 
