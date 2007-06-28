@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-27 23:11+0200\n"
-"PO-Revision-Date: 2007-06-27 23:13+0200\n"
+"POT-Creation-Date: 2007-06-28 23:46+0200\n"
+"PO-Revision-Date: 2007-06-28 23:31+0200\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -37,13 +37,14 @@ msgid "Track"
 msgstr "Filière"
 
 #: annuaire/views.py:116 annuaire/views.py:144 groupes/views.py:64
-#: voyages/views.py:86
+#: voyages/views.py:126
 msgid "Modifications have been successfully saved."
 msgstr "Les modifications ont été correctement enregistrées."
 
 #: annuaire/views.py:118 annuaire/views.py:146 annuaire/views.py:180
 #: annuaire/views.py:216 emploi/views.py:133 emploi/views.py:169
-#: sondages/views.py:141 voyages/views.py:120 voyages/views.py:155
+#: sondages/views.py:141 voyages/views.py:76 voyages/views.py:128
+#: voyages/views.py:162 voyages/views.py:198 voyages/views.py:261
 msgid "Something was wrong in the form you filled. No modification done."
 msgstr ""
 "Certains champs ont été incorrectement remplis. Aucune modification "
@@ -564,6 +565,29 @@ msgstr "appartenance au profil"
 msgid "profiles memberships"
 msgstr "appartenances aux profils"
 
+#: news/views.py:34
+#, fuzzy
+msgid "News title"
+msgstr "actualité"
+
+#: news/views.py:35
+#, fuzzy
+msgid "Date"
+msgstr "date"
+
+#: news/views.py:36
+msgid "News content"
+msgstr ""
+
+#: news/views.py:62
+#, fuzzy
+msgid "News successfully updated."
+msgstr "Événement mis à jour"
+
+#: news/views.py:82 evenements/views.py:121
+msgid "Event successfully added."
+msgstr "L'événement a été ajouté avec succès."
+
 #: news/models.py:30 emploi/views.py:38 emploi/views.py:46
 msgid "title"
 msgstr "titre"
@@ -572,7 +596,7 @@ msgstr "titre"
 msgid "image"
 msgstr "image"
 
-#: news/models.py:51
+#: news/models.py:57
 msgid "news item"
 msgstr "actualité"
 
@@ -859,6 +883,69 @@ msgstr "Identifiant"
 msgid "Password"
 msgstr "Mot de passe"
 
+#: templates/news/search.html:8
+#, fuzzy
+msgid "News Search"
+msgstr "Rechercher"
+
+#: templates/news/search.html:15 templates/evenements/search.html:15
+#: templates/emploi/job_search.html:15
+msgid "Search"
+msgstr "Rechercher"
+
+#: templates/news/search.html:28 templates/evenements/search.html:28
+msgid "No event correspond to your research"
+msgstr "Aucun événement ne correspond à vos critères."
+
+#: templates/news/index.html:12
+#, fuzzy
+msgid "Lastest news"
+msgstr "Nom"
+
+#: templates/news/index.html:23
+msgid "No news !"
+msgstr ""
+
+#: templates/news/index.html:32 templates/news/details.html:19
+#: templates/groupes/details.html:16 templates/evenements/index.html:31
+#: templates/evenements/details.html:27 templates/sondages/index.html:21
+#: templates/sondages/view.html:38 templates/voyages/index.html:82
+#: templates/voyages/details.html:63 templates/voyages/list.html:31
+#: templates/groupes_regionaux/details.html:31
+msgid "Actions"
+msgstr "Actions"
+
+#: templates/news/index.html:34
+#, fuzzy
+msgid "Write a news"
+msgstr "Créer un nouveau sondage"
+
+#: templates/news/index.html:35
+#, fuzzy
+msgid "Search a news"
+msgstr "Rechercher un événement"
+
+#: templates/news/details.html:13
+msgid "posted : "
+msgstr ""
+
+#: templates/news/details.html:22
+#, fuzzy
+msgid "Edit this news"
+msgstr "Editer cet événement"
+
+#: templates/news/write.html:17
+#, fuzzy
+msgid "Validate"
+msgstr "date"
+
+#: templates/news/edit.html:17 templates/evenements/join.html:17
+#: templates/evenements/subscribe.html:17
+#: templates/evenements/register.html:17 templates/evenements/edit.html:17
+#: templates/emploi/job_register.html:20 templates/voyages/join.html:20
+msgid "Register"
+msgstr "Sauvegarder"
+
 #: templates/groupes/index.html:16
 msgid "No group is defined."
 msgstr "Aucun groupe dans l'application."
@@ -870,14 +957,6 @@ msgstr "Informations générales"
 #: templates/groupes/details.html:13
 msgid "Coordinator"
 msgstr "Responsable"
-
-#: templates/groupes/details.html:16 templates/evenements/index.html:31
-#: templates/evenements/details.html:27 templates/sondages/index.html:21
-#: templates/sondages/view.html:38 templates/voyages/index.html:82
-#: templates/voyages/details.html:63
-#: templates/groupes_regionaux/details.html:31
-msgid "Actions"
-msgstr "Actions"
 
 #: templates/groupes/details.html:18
 msgid "Edit these data."
@@ -895,12 +974,6 @@ msgstr "Présentation du groupe"
 #: templates/groupes/edit.html:17 templates/voyages/edit.html:17
 msgid "Save changes"
 msgstr "Sauvegarder les modifications"
-
-#: templates/evenements/join.html:17 templates/evenements/subscribe.html:17
-#: templates/evenements/register.html:17 templates/evenements/edit.html:17
-#: templates/emploi/job_register.html:20 templates/voyages/join.html:20
-msgid "Register"
-msgstr "Sauvegarder"
 
 #: templates/evenements/join.html:25 templates/evenements/participants.html:27
 #: templates/evenements/subscribe.html:25 templates/evenements/details.html:37
@@ -922,14 +995,6 @@ msgstr "personnes inscrites à cet événement"
 #: templates/evenements/search.html:8
 msgid "Event Search"
 msgstr "Rechercher"
-
-#: templates/evenements/search.html:15 templates/emploi/job_search.html:15
-msgid "Search"
-msgstr "Rechercher"
-
-#: templates/evenements/search.html:28
-msgid "No event correspond to your research"
-msgstr "Aucun événement ne correspond à vos critères."
 
 #: templates/evenements/index.html:12
 msgid "List of events and meetings to come"
@@ -961,7 +1026,7 @@ msgstr "Editer cet événement"
 
 #: templates/evenements/details.html:32 templates/voyages/details.html:69
 msgid "List participants"
-msgstr "Lister les participants"
+msgstr "Liste des participants"
 
 #: templates/evenements/details.html:33
 msgid "Subscribe someone"
@@ -1035,7 +1100,7 @@ msgstr "Enregistrer une offre d'emploi"
 msgid "Job Search"
 msgstr "Recherche d'offre d'emploi"
 
-#: templates/emploi/job_search.html:20
+#: templates/emploi/job_search.html:20 templates/voyages/search.html:19
 msgid "Research result"
 msgstr "Résultats de la recherche"
 
@@ -1191,10 +1256,9 @@ msgstr "personnes inscrites à ce voyage"
 
 #: templates/voyages/participants.html:22
 msgid "Unsubscribe"
-msgstr "Désincrire"
+msgstr "Désinscrire"
 
 #: templates/voyages/participants.html:27
-#: templates/voyages/responsibles.html:24
 msgid "No one is subscribed to this travel"
 msgstr "Personne n'est inscrit à ce voyage"
 
@@ -1202,39 +1266,61 @@ msgstr "Personne n'est inscrit à ce voyage"
 msgid "Subscribe someone to this travel"
 msgstr "Inscrire une personne à ce voyage"
 
+#: templates/voyages/participants.html:46
+#: templates/voyages/responsibles.html:43 templates/voyages/list.html:39
+msgid "Navigation"
+msgstr "Navigation"
+
+#: templates/voyages/participants.html:50
+#: templates/voyages/responsibles.html:47
+msgid "Back to the page of this travel"
+msgstr "Retour à la page de ce voyage"
+
 #: templates/voyages/responsibles.html:12
 msgid "responsibles"
 msgstr "responsables"
 
-#: templates/voyages/index.html:85
+#: templates/voyages/responsibles.html:24
+msgid "No one is responsible of this travel"
+msgstr "Personne n'est responsable de ce voyage"
+
+#: templates/voyages/search.html:28
+msgid "No travel correspond to your research"
+msgstr "Aucun voyage ne correspond à vos critères"
+
+#: templates/voyages/index.html:85 templates/voyages/list.html:34
 msgid "Add a travel"
 msgstr "Ajouter un voyage"
 
-#: templates/voyages/index.html:88
+#: templates/voyages/index.html:86 templates/voyages/list.html:35
+msgid "Search a travel"
+msgstr "Rechercher un voyage"
+
+#: templates/voyages/index.html:89
 msgid "Planned travels"
 msgstr "Prochains voyages"
 
-#: templates/voyages/index.html:105
+#: templates/voyages/index.html:106
 msgid "No planned travels."
 msgstr "Aucun voyage prévu."
 
-#: templates/voyages/index.html:109
+#: templates/voyages/index.html:110
 msgid "Previous travels"
 msgstr "Voyages précédents"
 
-#: templates/voyages/index.html:120
+#: templates/voyages/index.html:121
 msgid "No previous travels"
 msgstr "Aucun voyage précédent"
 
-#: templates/voyages/index.html:125
+#: templates/voyages/index.html:126 templates/voyages/list.html:9
 msgid "List of travels"
 msgstr "Liste des voyages"
 
-#: templates/voyages/details.html:14 voyages/models.py:52
+#: templates/voyages/details.html:14 voyages/views.py:40 voyages/models.py:52
 msgid "visited places"
 msgstr "lieux visités"
 
-#: templates/voyages/details.html:19 voyages/models.py:49
+#: templates/voyages/details.html:19 voyages/views.py:38 voyages/models.py:49
 msgid "date"
 msgstr "date"
 
@@ -1281,6 +1367,14 @@ msgstr "Modifier les responsables"
 #: templates/voyages/details.html:73
 msgid "Delete this travel"
 msgstr "Supprimer ce voyage"
+
+#: templates/voyages/list.html:26
+msgid "No travel."
+msgstr "Aucun voyage."
+
+#: templates/voyages/list.html:42
+msgid "Travels main page"
+msgstr "Page principale des voyages"
 
 #: templates/groupes_regionaux/index.html:8
 msgid "The regional groups"
@@ -1346,10 +1440,6 @@ msgstr "Événement mis à jour"
 #: evenements/views.py:93
 msgid "You have been successfully subscribed to this event."
 msgstr "Vous vous êtes inscrit à cet événement avec succès."
-
-#: evenements/views.py:121
-msgid "Event successfully added."
-msgstr "L'événement a été ajouté avec succès."
 
 #: evenements/views.py:169
 msgid "You have successfully subscribed "
@@ -1675,29 +1765,51 @@ msgstr "voteur"
 msgid "vote"
 msgstr "vote"
 
-#: voyages/views.py:47
+#: voyages/views.py:36 voyages/models.py:46
+msgid "label"
+msgstr "libellé"
+
+#: voyages/views.py:74
+msgid "The travel has been successfully created."
+msgstr "Le voyage a été créé avec succès"
+
+#: voyages/views.py:84
 msgid "Do you REALLY want to delete this travel"
 msgstr "Souhaitez-vous VRAIMENT supprimer ce voyage ?"
 
-#: voyages/views.py:102
+#: voyages/views.py:144
 msgid "You have already subscribed to this travel."
 msgstr "Vous êtes déjà inscrit à ce voyage."
 
-#: voyages/views.py:118
+#: voyages/views.py:160
 msgid "You have been successfully subscribed to this travel."
 msgstr "Vous vous êtes inscrit à ce voyage avec succès."
 
-#: voyages/views.py:147
+#: voyages/views.py:189
 msgid "This person is already subscribed to this travel."
 msgstr "Cette personne est déjà inscrite à ce voyage."
 
-#: voyages/views.py:153
+#: voyages/views.py:196
 msgid "You have successfully subscribed someone to this travel."
 msgstr "Vous avez inscrit quelqu'un à ce voyage avec succès."
 
-#: voyages/views.py:160
+#: voyages/views.py:207
 msgid "Do you really want to unsubscribe this participant"
 msgstr "Souhaitez-vous vraiment désinscrire ce participant"
+
+#: voyages/views.py:252
+msgid "This person is already responsible of this travel."
+msgstr "Cette personne est déjà responsable de ce voyage."
+
+#: voyages/views.py:259
+msgid "You have successfully added someone to responsibles of this travel."
+msgstr "Vous avez nommé quelqu'un responsable de ce voyage avec succès."
+
+#: voyages/views.py:270
+msgid "Do you really want this person not to be responsible of this travel"
+msgstr ""
+"Souhaitez-vous vraiment que cette personne ne soit pas responsable de ce "
+"voyage ?"
 
 #: voyages/models.py:41
 msgid "travel type"
@@ -1706,10 +1818,6 @@ msgstr "type de voyage"
 #: voyages/models.py:42
 msgid "travel types"
 msgstr "types de voyage"
-
-#: voyages/models.py:46
-msgid "label"
-msgstr "libellé"
 
 #: voyages/models.py:50
 msgid "term"

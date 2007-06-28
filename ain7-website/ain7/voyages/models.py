@@ -90,8 +90,8 @@ class Subscription(models.Model):
 # indicates who is responsible for a travel
 class TravelResponsible(models.Model):
     
-    travel = models.ForeignKey(Travel, verbose_name=_('travel'))
-    responsible = models.ForeignKey(Person, verbose_name=_('responsible'))
+    travel = models.ForeignKey(Travel, verbose_name=_('travel'), related_name='travel_responsibles')
+    responsible = models.ForeignKey(Person, verbose_name=_('responsible'), related_name='travel_responsibilities')
 
     class Meta:
         verbose_name = _('travel responsible')

@@ -1,0 +1,35 @@
+{% extends "voyages/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+
+<div id="content-main">
+
+<div align="center">
+<form action="." method="post">
+    <table class="form">
+       {{ form }}
+    </table>
+<input class="button" type="submit" value="Rechercher" />
+</form>
+</div>
+
+{% ifequal request.method 'POST' %}
+<h2>{% trans "Research result" %}</h2>
+{% if travels %}
+    <ul>
+    {% for travel in travels %}
+        <li><a href="/voyages/{{ travel.id }}/">{{ travel.label }}</a>
+            - {{ travel.date }}</li>
+    {% endfor %}
+     </ul>
+{% else %}
+    <p>{% trans "No travel correspond to your research" %}</p>
+{% endif %}
+{% endifequal %}
+
+</div>
+
+{% endblock %}
+
