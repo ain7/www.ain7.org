@@ -722,7 +722,7 @@ Puis, visite de la <b>Tour de Tokyo</b>, du haut de ses 333m, le
 panorama sur la ville est impressionnant.</p>
 
 <p style='text-align:center'><img width="154" height="195"
-src="http://ain7.enseeiht.fr/Voyages/Programme%20Japon2007_fichiers/image004.jpg"></p>
+src="http://ain7.enseeiht.fr/Voyages/Programme%20Japon2007_fichiers/image004.jpg"/></p>
 
 <h2>17 OCTOBRE : TOKYO</h2>
 
@@ -772,7 +772,7 @@ comme le <b>Hokokuji</b> construit au milieu d'un bosquet de bambous.</p>
 <p>Puis petite croisière sur le <b>lac Aishi</b>, d'où la vue sur le Mont Fujii est la plus spectaculaire, par temps clair.</p>
 
 <p style='text-align:center'><img width="154" height="195"
-src="http://ain7.enseeiht.fr/Voyages/Programme%20Japon2007_fichiers/image006.jpg"></p>
+src="http://ain7.enseeiht.fr/Voyages/Programme%20Japon2007_fichiers/image006.jpg"/></p>
 
 <p>Déjeuner japonais dans un restaurant au bord du lac.
 Dîner et bain japonais à l'hôtel.</p>
@@ -796,7 +796,7 @@ par, selon Mishima, un moine exalté par tant de beauté dans un monde si laid ;
 5 ans plus tard, il fut reconstruit à l'identique selon les règles de l'art.
 </li>
 <li>Enfin, visite du <b>Ryoanji</b>, sans doute le plus connu et le plus pur
-des jardins secs : 15 rochers entourés de sable fin.</p>
+des jardins secs : 15 rochers entourés de sable fin.</li>
 </ul>
 
 <h2>21 OCTOBRE : KYOTO</h2>
@@ -820,7 +820,7 @@ paysages chinois. Puis, promenade sur le <b>chemin des philosophes</b> ;
 il suit un canal bordé de cerisiers et de petits temples et sanctuaires.</p>
 
 <p>Balade dans <b>Gion</b>, l'ancien quartier des plaisirs, où dans une
-atmosphère traditionnelle se sont installés antiquaires et artisans.</b>
+atmosphère traditionnelle se sont installés antiquaires et artisans.</p>
 
 <p>En fin d'après-midi, montée au temple de <b>Kyomizu Dera</b>,
 à la puissante armature de bois, qui offre un généreux panorama sur la ville.
@@ -849,14 +849,14 @@ et visite du jardin de l'écomusée. Croisière pour admirer le temple illuminé
 Visite du parc et du mémorial de la Paix.</p>
 
 <p style='text-align:center'><img width="154" height="195"
-src="http://ain7.enseeiht.fr/Voyages/Programme%20Japon2007_fichiers/image008.gif"></p>
+src="http://ain7.enseeiht.fr/Voyages/Programme%20Japon2007_fichiers/image008.gif"/></p>
 
 <p>Départ en train Shinkansen  pour OSAKA</p>
 
 <p>A l'arrivée à la gare de Shin Osaka, transfert en bus à Nara.</p>
 
 <p style='text-align:center'><img width="154" height="195"
-src="http://ain7.enseeiht.fr/Voyages/Programme%20Japon2007_fichiers/image010.jpg"></p>
+src="http://ain7.enseeiht.fr/Voyages/Programme%20Japon2007_fichiers/image010.jpg"/></p>
 
 <h2>25 OCTOBRE : NARA</h2>
 

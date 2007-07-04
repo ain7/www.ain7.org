@@ -20,8 +20,8 @@
 {% if travels %}
     <ul>
     {% for travel in travels %}
-        <li><a href="/voyages/{{ travel.id }}/">{{ travel.label }}</a>
-            - {{ travel.date }}</li>
+        <li><a href="/voyages/{{ travel.id }}/">{{ travel.label|escape }}</a>
+            - {{ travel.date|escape }}</li>
     {% endfor %}
      </ul>
 {% else %}

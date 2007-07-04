@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-28 23:46+0200\n"
-"PO-Revision-Date: 2007-06-28 23:31+0200\n"
+"POT-Creation-Date: 2007-07-04 23:54+0200\n"
+"PO-Revision-Date: 2007-07-04 23:54+0200\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -841,7 +841,7 @@ msgstr "non confidentiel"
 #: templates/emploi/cv_edit.html.py:94 templates/emploi/cv_edit.html:117
 #: templates/emploi/cv_edit.html.py:145 templates/sondages/details.html:14
 #: templates/sondages/details.html.py:40
-#: templates/voyages/responsibles.html:19
+#: templates/voyages/responsibles.html:20
 msgid "Delete"
 msgstr "Supprimer"
 
@@ -851,7 +851,6 @@ msgstr "Supprimer"
 #: templates/annuaire/edit.html:282 templates/emploi/cv_edit.html:82
 #: templates/emploi/cv_edit.html.py:102 templates/emploi/cv_edit.html:128
 #: templates/emploi/cv_edit.html.py:150 templates/sondages/details.html:44
-#: templates/voyages/responsibles.html:28
 msgid "Add"
 msgstr "Ajouter"
 
@@ -909,7 +908,8 @@ msgstr ""
 #: templates/news/index.html:32 templates/news/details.html:19
 #: templates/groupes/details.html:16 templates/evenements/index.html:31
 #: templates/evenements/details.html:27 templates/sondages/index.html:21
-#: templates/sondages/view.html:38 templates/voyages/index.html:82
+#: templates/sondages/view.html:38 templates/voyages/participants.html:35
+#: templates/voyages/responsibles.html:33 templates/voyages/index.html:82
 #: templates/voyages/details.html:63 templates/voyages/list.html:31
 #: templates/groupes_regionaux/details.html:31
 msgid "Actions"
@@ -978,8 +978,8 @@ msgstr "Sauvegarder les modifications"
 #: templates/evenements/join.html:25 templates/evenements/participants.html:27
 #: templates/evenements/subscribe.html:25 templates/evenements/details.html:37
 #: templates/evenements/register.html:25 templates/evenements/edit.html:25
-#: templates/voyages/join.html:28 templates/voyages/participants.html:38
-#: templates/voyages/responsibles.html:35 templates/voyages/details.html:79
+#: templates/voyages/join.html:28 templates/voyages/participants.html:43
+#: templates/voyages/responsibles.html:41 templates/voyages/details.html:79
 msgid "Statistics"
 msgstr "Statistiques"
 
@@ -1249,8 +1249,8 @@ msgstr "Editer ce sondage"
 msgid "See all surveys"
 msgstr "Voir tous les sondages"
 
-#: templates/voyages/join.html:33 templates/voyages/participants.html:42
-#: templates/voyages/responsibles.html:39 templates/voyages/details.html:83
+#: templates/voyages/join.html:33 templates/voyages/participants.html:47
+#: templates/voyages/responsibles.html:45 templates/voyages/details.html:83
 msgid "persons are subscribed to this travel"
 msgstr "personnes inscrites à ce voyage"
 
@@ -1262,27 +1262,31 @@ msgstr "Désinscrire"
 msgid "No one is subscribed to this travel"
 msgstr "Personne n'est inscrit à ce voyage"
 
-#: templates/voyages/participants.html:31
+#: templates/voyages/participants.html:39
 msgid "Subscribe someone to this travel"
 msgstr "Inscrire une personne à ce voyage"
 
-#: templates/voyages/participants.html:46
-#: templates/voyages/responsibles.html:43 templates/voyages/list.html:39
+#: templates/voyages/participants.html:51
+#: templates/voyages/responsibles.html:49 templates/voyages/list.html:39
 msgid "Navigation"
 msgstr "Navigation"
 
-#: templates/voyages/participants.html:50
-#: templates/voyages/responsibles.html:47
+#: templates/voyages/participants.html:55
+#: templates/voyages/responsibles.html:53
 msgid "Back to the page of this travel"
 msgstr "Retour à la page de ce voyage"
 
-#: templates/voyages/responsibles.html:12
+#: templates/voyages/responsibles.html:13
 msgid "responsibles"
 msgstr "responsables"
 
-#: templates/voyages/responsibles.html:24
+#: templates/voyages/responsibles.html:25
 msgid "No one is responsible of this travel"
 msgstr "Personne n'est responsable de ce voyage"
+
+#: templates/voyages/responsibles.html:37
+msgid "Add a responsible"
+msgstr "Ajouter un responsable"
 
 #: templates/voyages/search.html:28
 msgid "No travel correspond to your research"
@@ -1300,19 +1304,19 @@ msgstr "Rechercher un voyage"
 msgid "Planned travels"
 msgstr "Prochains voyages"
 
-#: templates/voyages/index.html:106
+#: templates/voyages/index.html:107
 msgid "No planned travels."
 msgstr "Aucun voyage prévu."
 
-#: templates/voyages/index.html:110
+#: templates/voyages/index.html:111
 msgid "Previous travels"
 msgstr "Voyages précédents"
 
-#: templates/voyages/index.html:121
+#: templates/voyages/index.html:122
 msgid "No previous travels"
 msgstr "Aucun voyage précédent"
 
-#: templates/voyages/index.html:126 templates/voyages/list.html:9
+#: templates/voyages/index.html:127 templates/voyages/list.html:9
 msgid "List of travels"
 msgstr "Liste des voyages"
 

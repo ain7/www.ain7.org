@@ -6,24 +6,24 @@
 <div id="content-main">
 
   <div class="left">
-    <h3>{{ travel.label }}, {{ travel.date }}</h3>
+    <h3>{{ travel.label|escape }}, {{ travel.date|escape }}</h3>
     <div class="left_box">
 
 <table width="100%">
   <tr>
     <td><i>{% filter capfirst %}{% trans "visited places" %}{% endfilter %}</i>
     </td>
-    <td>{{ travel.visited_places }}</td>
+    <td>{{ travel.visited_places|escape }}</td>
   </tr>
   <tr>
     <td><i>{% filter capfirst %}{% trans "date" %}{% endfilter %}</i></td>
     <td>{% trans "from" %} {{ travel.start_date|date:"d/m/Y" }}
         {% trans "to" %} {{ travel.end_date|date:"d/m/Y" }}
         {% if travel.term %}
-          ({{ travel.type }}
+          ({{ travel.type|escape }}
            {% trans "of" %} {{ travel.term }} {% trans "days" %}).
         {% else %}
-          ({{ travel.type }}).
+          ({{ travel.type|escape }}).
         {% endif %}
     </td>
   </tr>
@@ -35,14 +35,14 @@
   <tr>
     <td><i>{% filter capfirst %}{% trans "responsible" %}{% endfilter %}</i>
     </td>
-    <td>{% if travel.responsible %}{{ travel.responsible }}
+    <td>{% if travel.responsible %}{{ travel.responsible|escape }}
         {% else %}{% trans "undefined" %}{% endif %}</td>
   </tr>
 </table>
 
 {% if travel.thumbnail %}
   <p style="text-align: center">
-    <img src="{{ travel.thumbnail }}" height="250" />
+    <img src="{{ travel.thumbnail|escape }}" height="250" />
   </p>
 {% endif %}
 
@@ -81,11 +81,10 @@
         <ul>
           <li>{{ travel.subscriptions.all|length }} 
               {% trans "persons are subscribed to this travel" %}</li>
-        <ul>
+        </ul>
       </div>
 
     </div>
   </div>
-</div>
 
 {% endblock %}

@@ -9,7 +9,8 @@
 <div id="content-main">
 
 <div class="left">
-  <h3>{{ travel.label }} - {{ travel.date }} : {% trans "responsibles" %}</h3>
+  <h3>{{ travel.label|escape }} - {{ travel.date|escape }} : 
+      {% trans "responsibles" %}</h3>
 
 {% if travel.travel_responsibles.all %}
   <ul>
@@ -24,20 +25,25 @@
   <p>{% trans "No one is responsible of this travel" %}.</p>
 {% endif %}
 
-<a href="/voyages/{{ travel.id }}/responsibles/add/" class="addlink"> 
-  {% trans "Add" %}</a>
-
 </div>
 
 
 <div class="right">
+
+  <h3>{% trans "Actions" %}</h3>
+  <div class="right_block">
+    <ul>
+      <li><a href="/voyages/{{ travel.id }}/responsibles/add/"> 
+          {% trans "Add a responsible" %}</a></li>
+    </ul>
+  </div>
 
   <h3>{% trans "Statistics" %}</h3>
   <div class="right_block">
     <ul>
       <li>{{ travel.subscriptions.all|length }} 
           {% trans "persons are subscribed to this travel" %}</li>
-    <ul>
+    </ul>
   </div>
 
   <h3>{% trans "Navigation" %}</h3>
@@ -45,7 +51,7 @@
     <ul>
       <li><a href="/voyages/{{ travel.id }}/">
           {% trans "Back to the page of this travel" %}</a></li>
-    <ul>
+    </ul>
   </div>
 
 </div>

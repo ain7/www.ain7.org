@@ -92,13 +92,14 @@ sont développées</p>
         <div class="right_articles">
           <p style="text-align:center">
 	    <a href="/voyages/{{ travel.id}}/">
-            {{ travel.label }}</a> - {{travel.date }}</p>
+            {{ travel.label|escape }}</a> - {{travel.date|escape }}
+          </p>
           {% if travel.thumbnail %}
           <p style="text-align:center">
             <a href="/voyages/{{ travel.id}}/">
-            <img src="{{ travel.thumbnail }}" height="100"/></a></p>
-          {% endif %}
+            <img src="{{ travel.thumbnail|escape }}" height="100"/></a>
           </p>
+          {% endif %}
         </div>
       {% endfor %}
     {% else %}
@@ -112,8 +113,8 @@ sont développées</p>
         {% if previous_travels %}
           <ul>
             {% for travel in previous_travels %}
-              <li><a href="/voyages/{{ travel.id }}/">{{ travel.label }}</a>
-                  ({{ travel.date }})
+              <li><a href="/voyages/{{ travel.id }}/">{{ travel.label|escape }}
+                  </a> ({{ travel.date }})
               </li>
             {% endfor %}
           </ul>
@@ -122,7 +123,7 @@ sont développées</p>
         {% endif %}
       </div>
       <div class="right_articles">
-        <p style="text-align: center">
+        <p style="text-align:center">
           <a href="/voyages/list/">{% trans "List of travels" %}</a>
         </p>
       </div>

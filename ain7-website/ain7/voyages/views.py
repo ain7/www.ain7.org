@@ -132,9 +132,9 @@ def edit(request, travel_id=None):
 @login_required
 def join(request, travel_id):
     travel = get_object_or_404(Travel, pk=travel_id)
+    person = request.user.person
 
     if request.method == 'GET':
-        person = request.user.person
         # on vérifie que la personne n'est pas déjà inscrite
         already_subscribed = False 
         for subscription in person.travel_subscriptions.all():
