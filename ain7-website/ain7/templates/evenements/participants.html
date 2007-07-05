@@ -13,7 +13,7 @@
 {% if event.subscriptions.all %}
 <ul>
 {% for subscription in event.subscriptions.all %}
-     <li><a href="/annuaire/{{ subscription.subscriber.id }}/">{{ subscription.subscriber }}</a>: {{ subscription.subscriber_number }} {% trans  "person" %}</li>
+     <li><a href="/annuaire/{{ subscription.subscriber.user.id }}/">{{ subscription.subscriber }}</a>: {{ subscription.subscriber_number }} {% trans  "person" %}</li>
 {% endfor %}
 </ul>
 {% else %}
@@ -28,7 +28,7 @@
 	<div class="right_block">
                 <ul>
                         <li>{{ event.subscriptions.all|length }} {% trans "persons are subscribed to this event" %}</li>
-                <ul>
+                </ul>
         </div>
 
 </div>

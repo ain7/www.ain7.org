@@ -73,7 +73,7 @@ def edit(request, event_id):
     f = EventForm()
 
     return render_to_response('evenements/edit.html', 
-                             {'form': f, 'user': request.user},
+                             {'form': f, 'event': event, 'user': request.user},
                              context_instance=RequestContext(request))
 
 @login_required

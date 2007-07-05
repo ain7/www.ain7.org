@@ -12,7 +12,7 @@
 
 <h2>{% trans "Personal data" %}</h2>
 
-<div id="dataBlock">
+<div class="dataBlock">
 <ul>
    <li><b>{% filter capfirst %}{% trans "sex" %}{% endfilter %}
        &nbsp;:</b> {{ person.sex }}</li>
@@ -33,7 +33,7 @@
 {% trans "Modify" %}</a></p>
 
 
-<div id="dataBlock">
+<div class="dataBlock">
 <ul>
    <li><b>{% trans "Nick name" %}&nbsp;:</b> 
        {% if ain7member.nick_name %}

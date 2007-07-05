@@ -365,9 +365,8 @@ a.button, a.button:hover {
     font: bold 2.1em Tahoma, Arial, Sans-Serif;
 }
 
-#dataBlock {
-    border-style: dashed;
-    border-width: .1em;
+.dataBlock {
+    border: dashed 1px #000000;
 }
 
 

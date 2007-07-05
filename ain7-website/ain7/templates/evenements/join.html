@@ -9,12 +9,12 @@
 <div class="left">
 	<h3>{{ event.name }}</h3>
 
-<form method="post">
+<form method="post" action=".">
 <table>
 {{ form }}
 </table>
 <div align="center">
-<input type="submit" class="button" value="{% trans "Register" %}">
+<input type="submit" class="button" value="{% trans "Register" %}" />
 </div>
 </form>
 
@@ -25,9 +25,9 @@
 	<h3>{% trans "Statistics" %}</h3>
 	<div class="right_block">
                 <ul>
-                        <li>50 events are registered</li>
-                        <li>10 events are coming</li>
-                <ul>
+                        <li>50 events are registered</li>{# TODO #}
+                        <li>10 events are coming</li>{# TODO #}
+                </ul>
         </div>
 
 </div>
