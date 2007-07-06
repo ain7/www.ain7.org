@@ -7,14 +7,14 @@
 <div id="content-main">
 
 <div class="left">
-	<h3>{{ news_item.name }}</h3>
+	<h3>{% trans "Write a news" %}</h3>
 
-<form method="post">
+<form method="post" action=".">
 <table>
 {{ form }}
 </table>
 <div align="center">
-<input type="submit" class="button" value="{% trans "Validate" %}">
+<input type="submit" class="button" value="{% trans "Validate" %}" />
 </div>
 </form>
 

@@ -66,7 +66,8 @@ def edit(request, news_id):
    f = NewsForm()
 
    return render_to_response('news/edit.html', 
-                             {'form': f, 'user': request.user},
+                             {'form': f, 'news_item':news_item,
+                              'user': request.user},
                              context_instance=RequestContext(request))
 
 @login_required

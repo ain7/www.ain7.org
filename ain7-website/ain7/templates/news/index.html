@@ -11,14 +11,14 @@
 
 <h3>{% trans "Lastest news" %}</h3>
 {% if news %}
-	<ul>
+
 	{% for one_news in news %}
 			<div class="right_articles">
 				<p><img src="/site_media/images/gnome-news.png" alt="Image" title="Image" class="image" />
      <strong><a href="/actualites/{{ one_news.id }}/">{{ one_news.title }}</a></strong><br />{{ one_news.short_description }}.</p>
 			</div>
 	{% endfor %}
-	</ul>
+
 {% else %}
 	<p>{% trans "No news !" %}</p>
 {% endif %}

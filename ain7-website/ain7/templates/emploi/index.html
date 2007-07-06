@@ -12,7 +12,7 @@
 
 {% if ain7member.receive_job_offers_for_tracks.all %}
 
-<h2>{% trans "Jobs list for tracks" %}&nbsp:
+<h2>{% trans "Jobs list for tracks" %}&nbsp;
     {% for track in ain7member.receive_job_offers_for_tracks.all %}
         {{ track }}
         {% if not forloop.last %} - {% endif %}
