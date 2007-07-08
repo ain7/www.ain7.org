@@ -20,7 +20,7 @@
 #
 #
 
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
@@ -30,6 +30,7 @@ from ain7.annuaire.models import Person, AIn7Member, Address, PhoneNumber
 from ain7.annuaire.models import Track, Email, InstantMessaging, IRC, WebSite, ClubMembership
 from ain7.annuaire.models import Promo
 from ain7.decorators import confirmation_required
+from ain7.utils import _render_response
 
 class SearchPersonForm(forms.Form):
     last_name = forms.CharField(label=_('Last name'), max_length=50, required=False)
@@ -395,10 +396,4 @@ def _form_callback(f, **args):
   if f.name in exclude_fields:
     return None
   return f.formfield(**args)
-
-# pour alleger les appels a render_to_response
-# http://www.djangosnippets.org/snippets/3/
-def _render_response(req, *args, **kwargs):
-    kwargs['context_instance'] = RequestContext(req)
-    return render_to_response(*args, **kwargs)
 

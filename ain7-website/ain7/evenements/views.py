@@ -20,7 +20,7 @@
 #
 #
 
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django import newforms as forms
 from django.template import RequestContext
@@ -29,6 +29,7 @@ from django.http import HttpResponseRedirect
 
 from ain7.annuaire.models import Person
 from ain7.evenements.models import Event, EventSubscription
+from ain7.utils import _render_response
 
 class JoinEventForm(forms.Form):
     subscriber_number = forms.IntegerField(label=_('Number of persons'))
@@ -43,16 +44,14 @@ class SearchEventForm(forms.Form):
 
 def index(request):
     events = Event.objects.all()[:5]
-    return render_to_response('evenements/index.html', 
-                             {'events': events, 'user': request.user},
-                             context_instance=RequestContext(request))
+    return _render_response(request, 'evenements/index.html',
+                            {'events': events})
 
 
 def details(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
-    return render_to_response('evenements/details.html', 
-                             {'event': event, 'user': request.user},
-                             context_instance=RequestContext(request))
+    return _render_response(request, 'evenements/details.html',
+                            {'event': event})
 
 @login_required
 def edit(request, event_id):
@@ -72,9 +71,8 @@ def edit(request, event_id):
 
     f = EventForm()
 
-    return render_to_response('evenements/edit.html', 
-                             {'form': f, 'event': event, 'user': request.user},
-                             context_instance=RequestContext(request))
+    return _render_response(request, 'evenements/edit.html', 
+                             {'form': f, 'event': event})
 
 @login_required
 def join(request, event_id):
@@ -95,18 +93,16 @@ def join(request, event_id):
 
     f =  JoinEventForm()
 
-    return render_to_response('evenements/join.html', 
-                             {'event': event, 'form': f, 'user': request.user},
-                             context_instance=RequestContext(request))
+    return _render_response(request, 'evenements/join.html', 
+                            {'event': event, 'form': f})
 
 @login_required
 def participants(request, event_id):
 
     event = get_object_or_404(Event, pk=event_id)
 
-    return render_to_response('evenements/participants.html', 
-                             {'event': event, 'user': request.user},
-                             context_instance=RequestContext(request))
+    return _render_response(request, 'evenements/participants.html', 
+                            {'event': event})
 
 @login_required
 def register(request):
@@ -125,9 +121,7 @@ def register(request):
 
     f = EventForm()
 
-    return render_to_response('evenements/register.html', 
-                             {'form': f, 'user': request.user},
-                             context_instance=RequestContext(request))
+    return _render_response(request, 'evenements/register.html', {'form': f})
 
 def search(request):
 
@@ -137,18 +131,14 @@ def search(request):
                     list_events = Event.objects.filter(name__icontains=form.clean_data['name'],
                                                        place__icontains=form.clean_data['place'])
 
-        return render_to_response('evenements/search.html', 
+        return _render_response(request, 'evenements/search.html', 
                                  {'form': form, 
                                   'list_events': list_events, 
-                                  'request': request, 
-                                  'user': request.user},
-                                   context_instance=RequestContext(request))
+                                  'request': request})
 
     else:
         f = SearchEventForm()
-        return render_to_response('evenements/search.html', 
-                                 {'form': f , 'user': request.user}, 
-                                 context_instance=RequestContext(request))
+        return _render_response(request, 'evenements/search.html', {'form': f})
 
 @login_required
 def subscribe(request, event_id):
@@ -171,13 +161,11 @@ def subscribe(request, event_id):
 
     f =  SubscribeEventForm()
 
-    return render_to_response('evenements/subscribe.html', 
-                             {'event': event, 'form': f, 'user': request.user},
-                             context_instance=RequestContext(request))
+    return _render_response(request, 'evenements/subscribe.html', 
+                            {'event': event, 'form': f})
 
 def validate(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
-    return render_to_response('evenements/validate.html', 
-                             {'event': event, 'user': request.user},
-                             context_instance=RequestContext(request))
+    return _render_response(request, 'evenements/validate.html',
+                            {'event': event})
 

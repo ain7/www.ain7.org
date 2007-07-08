@@ -20,10 +20,12 @@
 #
 #
 
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django import newforms as forms
+
+from ain7.utils import _render_response
 
 def confirmation_required(get_description, section='base.html', message=_('Are you sure you want to do this action?')):
     """
@@ -35,10 +37,9 @@ def confirmation_required(get_description, section='base.html', message=_('Are y
             if request.method != 'POST':
                 description = get_description(*args, **kwargs)
                 back = request.META.get('HTTP_REFERER', '/');
-                return render_to_response('pages/confirm.html',
-                                          {'description': description, 'section': section,
-                                           'message': message, 'back': back},
-                                          context_instance=RequestContext(request))
+                return _render_response(request, 'pages/confirm.html',
+                                        {'description': description, 'section': section,
+                                         'message': message, 'back': back})
             else:
                 # Go to the decorated view
                 return view_func(request, *args, **kwargs)

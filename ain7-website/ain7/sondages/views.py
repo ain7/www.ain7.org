@@ -20,7 +20,7 @@
 #
 #
 
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
@@ -28,12 +28,13 @@ from django import newforms as forms
 
 from ain7.sondages.models import Choice, Survey, Vote
 from ain7.decorators import confirmation_required
+from ain7.utils import _render_response
 
 def index(request):
     surveys = Survey.objects.all()
 
-    return render_to_response('sondages/index.html', {'surveys': surveys},
-                              context_instance=RequestContext(request))
+    return _render_response(request, 'sondages/index.html',
+                            {'surveys': surveys})
 
 
 def view(request, survey_id):
@@ -41,9 +42,8 @@ def view(request, survey_id):
     already_vote = request.user.is_authenticated()\
                     and survey.has_been_voted_by(request.user.person)
 
-    return render_to_response('sondages/view.html', 
-                             {'survey': survey, 'already_vote': already_vote},
-                              context_instance=RequestContext(request))
+    return _render_response(request, 'sondages/view.html', 
+                             {'survey': survey, 'already_vote': already_vote})
 
 @login_required
 def vote(request, survey_id):
@@ -54,9 +54,8 @@ def vote(request, survey_id):
             choice = survey.choices.get(pk=request.GET['choice'])
         except (KeyError, Choice.DoesNotExist):
             # Go to vote form
-            return render_to_response('sondages/vote.html', 
-                                     {'survey': survey},
-                                     context_instance=RequestContext(request))
+            return _render_response(request, 'sondages/vote.html', 
+                                     {'survey': survey})
         else:
             # Create vote
             request.user.message_set.create(message=_('Your vote has been registered.'))
@@ -78,9 +77,8 @@ def create(request):
 def details(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
 
-    return render_to_response('sondages/details.html',
-                              {'survey': survey},
-                              context_instance=RequestContext(request))
+    return _render_response(request, 'sondages/details.html',
+                            {'survey': survey})
 
 @login_required
 def edit(request, survey_id):
@@ -140,9 +138,8 @@ def _form(request, survey, Form, title, message):
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
 
-    return render_to_response('sondages/form.html',
-                              {'form': form, 'title': title},
-                              context_instance=RequestContext(request))
+    return _render_response(request, 'sondages/form.html',
+                              {'form': form, 'title': title})
 
 def _form_callback(field, **args):
   if field.name == 'survey':

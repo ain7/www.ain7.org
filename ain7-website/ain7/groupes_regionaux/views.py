@@ -22,7 +22,7 @@
 
 import datetime
 
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django import newforms as forms
 from django.newforms import widgets
@@ -32,21 +32,21 @@ from django.http import HttpResponseRedirect
 from ain7.groupes_regionaux.models import Group
 from ain7.groupes_regionaux.models import GroupMembership
 from ain7.decorators import confirmation_required
+from ain7.utils import _render_response
 
 def index(request):
     groups = Group.objects.all().filter(is_active=True).order_by('name')
-    return render_to_response('groupes_regionaux/index.html', 
-                             {'groups': groups, 'user': request.user}, 
-                             context_instance=RequestContext(request))
+    return _render_response(request, 'groupes_regionaux/index.html', 
+                            {'groups': groups})
 
 def details(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
     is_member = request.user.is_authenticated()\
                 and group.has_for_member(request.user.person)
 
-    return render_to_response('groupes_regionaux/details.html', {'group': group,
-                              'user': request.user, 'is_member': is_member}, 
-                              context_instance=RequestContext(request))
+    return _render_response(request, 'groupes_regionaux/details.html',
+                            {'group': group, 'is_member': is_member})
+
 def edit(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
     is_member = request.user.is_authenticated()\
@@ -67,9 +67,8 @@ def edit(request, group_id):
     GroupForm = forms.models.form_for_instance(group)
     f = GroupForm()
 
-    return render_to_response('groupes_regionaux/edit.html', {'form': f, 
-                              'group': group,'user': request.user, 'is_member': is_member}, 
-                              context_instance=RequestContext(request))
+    return _render_response(request, 'groupes_regionaux/edit.html',
+                            {'form': f, 'group': group, 'is_member': is_member})
 
 @login_required
 def join(request, group_id):

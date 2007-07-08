@@ -22,25 +22,22 @@
 
 from django.http import HttpResponse
 from django.template import Context, loader, RequestContext
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django import newforms as forms
 from django.newforms import widgets
 from django.http import HttpResponseRedirect
 
 from ain7.groupes.models import Group
+from ain7.utils import _render_response
 
 def index(request):
     groups = Group.objects.all().order_by('name')
-    return render_to_response('groupes/index.html', 
-                             {'groups': groups, 'user': request.user},
-                              context_instance=RequestContext(request))
+    return _render_response(request, 'groupes/index.html', {'groups': groups})
 
 def detail(request, group_id):
     g = get_object_or_404(Group, pk=group_id)
-    return render_to_response('groupes/details.html', 
-                             {'group': g, 'user': request.user}, 
-                             context_instance=RequestContext(request))
+    return _render_response(request, 'groupes/details.html', {'group': g})
 
 @login_required
 def edit(request, group_id=None):
@@ -65,7 +62,5 @@ def edit(request, group_id=None):
 
                  return HttpResponseRedirect('/groupes/%s/' % (group.id))
 
-    return render_to_response('groupes/edit.html', 
-                             {'form': form, 'user': request.user},
-                              context_instance=RequestContext(request))
+    return _render_response(request, 'groupes/edit.html', {'form': form})
 

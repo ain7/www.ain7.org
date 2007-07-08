@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-04 23:54+0200\n"
-"PO-Revision-Date: 2007-07-04 23:54+0200\n"
+"PO-Revision-Date: 2007-07-08 19:01+0200\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1138,7 +1138,7 @@ msgstr "Ajout de loisirs"
 
 #: templates/emploi/job_register.html:13
 msgid "Job offer registration"
-msgstr "L'offre d'emploi est ouverte"
+msgstr "Enregistrer une offre d'emploi"
 
 #: templates/emploi/office_create.html:9
 msgid "Creation of an office"

@@ -20,7 +20,7 @@
 #
 #
 
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django import newforms as forms
 from django.newforms import widgets
@@ -32,6 +32,7 @@ from ain7.annuaire.models import Person, AIn7Member, Track
 from ain7.decorators import confirmation_required
 from ain7.emploi.models import JobOffer, Position, EducationItem, LeisureItem
 from ain7.emploi.models import Office, Company, PublicationItem
+from ain7.utils import _render_response
 
 class JobOfferForm(forms.Form):
     reference = forms.CharField(label=_('reference'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
@@ -388,10 +389,3 @@ def _form_callback(f, **args):
     if f.name in exclude_fields:
         return None
     return f.formfield(**args)
-
-# pour alléger les appels à render_to_response
-# http://www.djangosnippets.org/snippets/3/
-def _render_response(req, *args, **kwargs):
-    kwargs['context_instance'] = RequestContext(req)
-    return render_to_response(*args, **kwargs)
-

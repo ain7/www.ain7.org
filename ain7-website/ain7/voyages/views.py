@@ -20,14 +20,14 @@
 #
 #
 
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404
 from django import newforms as forms
-from django.template import RequestContext
 from django.newforms import widgets
 from django.http import HttpResponseRedirect
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from ain7.decorators import confirmation_required
+from ain7.utils import _render_response
 
 from ain7.voyages.models import Travel, Subscription, TravelResponsible
 from ain7.annuaire.models import Person
@@ -277,12 +277,6 @@ def responsibles_delete(request, travel_id, responsible_id):
     travelResponsible.delete()
     return _render_response(request, 'voyages/responsibles.html',
                             {'travel': travel})
-
-# pour alléger les appels à render_to_response
-# http://www.djangosnippets.org/snippets/3/
-def _render_response(req, *args, **kwargs):
-    kwargs['context_instance'] = RequestContext(req)
-    return render_to_response(*args, **kwargs)
 
 # une petite fonction pour exclure les champs
 # subscriber travel
