@@ -27,7 +27,7 @@ from django.http import HttpResponseRedirect
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from ain7.decorators import confirmation_required
-from ain7.utils import _render_response
+from ain7.utils import ain7_render_to_response
 
 from ain7.voyages.models import Travel, Subscription, TravelResponsible
 from ain7.annuaire.models import Person
@@ -54,7 +54,7 @@ class SearchTravelForm(forms.Form):
 def index(request):
     next_travels = Travel.objects.filter(start_date__gte=datetime.now())
     prev_travels = Travel.objects.filter(start_date__lt=datetime.now())[:5]
-    return _render_response(request, 'voyages/index.html',
+    return ain7_render_to_response(request, 'voyages/index.html',
                             {'next_travels': next_travels,
                              'previous_travels': prev_travels})
 
@@ -75,7 +75,7 @@ def add(request):
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
         return HttpResponseRedirect('/voyages/')
-    return _render_response(request, 'voyages/edit.html', {'form': form})
+    return ain7_render_to_response(request, 'voyages/edit.html', {'form': form})
 
 @confirmation_required(
     lambda user_id=None,
@@ -91,21 +91,21 @@ def delete(request, travel_id):
 def detail(request,travel_id):
     t = get_object_or_404(Travel, pk=travel_id)
     past = t in Travel.objects.filter(start_date__lt=datetime.now())
-    return _render_response(request, 'voyages/details.html',
+    return ain7_render_to_response(request, 'voyages/details.html',
                             {'travel': t, 'past': past})
 
 def list(request):
-    return _render_response(request, 'voyages/list.html',
+    return ain7_render_to_response(request, 'voyages/list.html',
                             {'travels': Travel.objects.all()})
 
 def search(request):
     if request.method == 'GET':
         form = SearchTravelForm()
-        return _render_response(request, 'voyages/search.html', {'form': form})
+        return ain7_render_to_response(request, 'voyages/search.html', {'form': form})
     else:
         form = SearchTravelForm(request.POST)
         if form.is_valid():
-            return _render_response(request, 'voyages/search.html',
+            return ain7_render_to_response(request, 'voyages/search.html',
                                     {'travels': form.search(), 'form': form,
                                      'request': request})
 
@@ -127,7 +127,7 @@ def edit(request, travel_id=None):
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
         return HttpResponseRedirect('/voyages/%s/' % (travel.id))
-    return _render_response(request, 'voyages/edit.html', {'form': form})
+    return ain7_render_to_response(request, 'voyages/edit.html', {'form': form})
 
 @login_required
 def join(request, travel_id):
@@ -146,7 +146,7 @@ def join(request, travel_id):
         JoinTravelForm = forms.models.form_for_model(Subscription,
             formfield_callback=_join_callback)
         f = JoinTravelForm()
-        return _render_response(request, "voyages/join.html",
+        return ain7_render_to_response(request, "voyages/join.html",
                                 {'form': f, 'travel': travel})
     
     if request.method == 'POST':
@@ -172,7 +172,7 @@ def subscribe(request, travel_id):
             formfield_callback=_subscribe_callback)
         f = SubscribeTravelForm()
         # TODO : AJAX pour sélectionner une personne plutôt qu'une liste
-        return _render_response(request, "voyages/join.html",
+        return ain7_render_to_response(request, "voyages/join.html",
                                 {'form': f, 'travel': travel})
     
     if request.method == 'POST':
@@ -187,7 +187,7 @@ def subscribe(request, travel_id):
                 already_subscribed = True
         if already_subscribed:
             request.user.message_set.create(message=_('This person is already subscribed to this travel.'))
-            return _render_response(request, 'voyages/participants.html',
+            return ain7_render_to_response(request, 'voyages/participants.html',
                                     {'travel': travel})
         else:
             if f.is_valid():
@@ -196,7 +196,7 @@ def subscribe(request, travel_id):
                 request.user.message_set.create(message=_('You have successfully subscribed someone to this travel.'))
             else:
                 request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
-            return _render_response(request, 'voyages/participants.html',
+            return ain7_render_to_response(request, 'voyages/participants.html',
                                     {'travel': travel})
     return HttpResponseRedirect('/voyages/%s/' % (travel.id))
 
@@ -211,19 +211,19 @@ def unsubscribe(request, travel_id, participant_id):
     participant = get_object_or_404(Person, pk=participant_id)
     subscription = get_object_or_404(Subscription, travel=travel, subscriber=participant_id)
     subscription.delete()
-    return _render_response(request, 'voyages/participants.html',
+    return ain7_render_to_response(request, 'voyages/participants.html',
                             {'travel': travel})
 
 @login_required
 def participants(request, travel_id):
     travel = get_object_or_404(Travel, pk=travel_id)
-    return _render_response(request, 'voyages/participants.html',
+    return ain7_render_to_response(request, 'voyages/participants.html',
                             {'travel': travel})
 
 @login_required
 def responsibles(request, travel_id):
     travel = get_object_or_404(Travel, pk=travel_id)
-    return _render_response(request, 'voyages/responsibles.html',
+    return ain7_render_to_response(request, 'voyages/responsibles.html',
                             {'travel': travel})
 
 @login_required
@@ -235,7 +235,7 @@ def responsibles_add(request, travel_id):
             formfield_callback=_subscribe_callback)
         f = TravelResponsibleForm()
         # TODO : AJAX pour sélectionner une personne plutôt qu'une liste
-        return _render_response(request, "voyages/join.html",
+        return ain7_render_to_response(request, "voyages/join.html",
                                 {'form': f, 'travel': travel})
     
     if request.method == 'POST':
@@ -250,7 +250,7 @@ def responsibles_add(request, travel_id):
                 already_responsible = True
         if already_responsible:
             request.user.message_set.create(message=_('This person is already responsible of this travel.'))
-            return _render_response(request, 'voyages/responsibles.html',
+            return ain7_render_to_response(request, 'voyages/responsibles.html',
                                     {'travel': travel})
         else:
             if f.is_valid():
@@ -259,7 +259,7 @@ def responsibles_add(request, travel_id):
                 request.user.message_set.create(message=_('You have successfully added someone to responsibles of this travel.'))
             else:
                 request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
-            return _render_response(request, 'voyages/responsibles.html',
+            return ain7_render_to_response(request, 'voyages/responsibles.html',
                                     {'travel': travel})
     return HttpResponseRedirect('/voyages/%s/' % (travel.id))
 
@@ -275,7 +275,7 @@ def responsibles_delete(request, travel_id, responsible_id):
     travelResponsible = get_object_or_404(TravelResponsible,
         responsible=responsible, travel=travel)
     travelResponsible.delete()
-    return _render_response(request, 'voyages/responsibles.html',
+    return ain7_render_to_response(request, 'voyages/responsibles.html',
                             {'travel': travel})
 
 # une petite fonction pour exclure les champs

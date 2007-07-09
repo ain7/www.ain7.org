@@ -29,15 +29,15 @@ from django.newforms import widgets
 from django.http import HttpResponseRedirect
 
 from ain7.groupes.models import Group
-from ain7.utils import _render_response
+from ain7.utils import ain7_render_to_response
 
 def index(request):
     groups = Group.objects.all().order_by('name')
-    return _render_response(request, 'groupes/index.html', {'groups': groups})
+    return ain7_render_to_response(request, 'groupes/index.html', {'groups': groups})
 
 def detail(request, group_id):
     g = get_object_or_404(Group, pk=group_id)
-    return _render_response(request, 'groupes/details.html', {'group': g})
+    return ain7_render_to_response(request, 'groupes/details.html', {'group': g})
 
 @login_required
 def edit(request, group_id=None):
@@ -62,5 +62,5 @@ def edit(request, group_id=None):
 
                  return HttpResponseRedirect('/groupes/%s/' % (group.id))
 
-    return _render_response(request, 'groupes/edit.html', {'form': form})
+    return ain7_render_to_response(request, 'groupes/edit.html', {'form': form})
 

@@ -32,7 +32,7 @@ from ain7.annuaire.models import Person, AIn7Member, Track
 from ain7.decorators import confirmation_required
 from ain7.emploi.models import JobOffer, Position, EducationItem, LeisureItem
 from ain7.emploi.models import Office, Company, PublicationItem
-from ain7.utils import _render_response
+from ain7.utils import ain7_render_to_response
 
 class JobOfferForm(forms.Form):
     reference = forms.CharField(label=_('reference'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
@@ -89,7 +89,7 @@ def index(request):
             jobs.extend(track.jobs.all())
     else:
         jobs = JobOffer.objects.all()
-    return _render_response(request, 'emploi/index.html',
+    return ain7_render_to_response(request, 'emploi/index.html',
                             {'ain7member': ain7member, 'liste_emplois': jobs})
 
 @login_required
@@ -97,7 +97,7 @@ def cv_details(request, user_id):
 
     p = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
-    return _render_response(request, 'emploi/cv_details.html',
+    return ain7_render_to_response(request, 'emploi/cv_details.html',
                             {'person': p, 'ain7member': ain7member})
 
 @login_required
@@ -105,7 +105,7 @@ def cv_edit(request, user_id=None):
 
     p = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
-    return _render_response(request, 'emploi/cv_edit.html',
+    return ain7_render_to_response(request, 'emploi/cv_edit.html',
                             {'person': p, 'ain7member': ain7member})
 
 def _generic_edit(request, user_id, obj, redirectPage, msgDone):
@@ -117,7 +117,7 @@ def _generic_edit(request, user_id, obj, redirectPage, msgDone):
         PosForm = forms.models.form_for_instance(obj,
             formfield_callback=_form_callback)
         f = PosForm()
-        return _render_response(request, redirectPage,
+        return ain7_render_to_response(request, redirectPage,
                                 {'form': f, 'action': 'edit',
                                  'ain7member': ain7member})
 
@@ -153,7 +153,7 @@ def _generic_add(request, user_id, objectType, redirectPage, msgDone):
         PosForm = forms.models.form_for_model(objectType,
             formfield_callback=_form_callback)
         f = PosForm()
-        return _render_response(request, redirectPage,
+        return ain7_render_to_response(request, redirectPage,
                                 {'form': f, 'action': 'create',
                                  'ain7member':ain7member, 'person': person})
 
@@ -272,7 +272,7 @@ def office_create(request, user_id=None):
     if request.method == 'GET':
         OfficeForm = forms.models.form_for_model(Office)
         f = OfficeForm()
-        return _render_response(request, 'emploi/office_create.html',
+        return ain7_render_to_response(request, 'emploi/office_create.html',
                                 {'form': f, 'person': p, 'object': 'office'})
 
     # 2e passage : sauvegarde et redirection
@@ -281,7 +281,7 @@ def office_create(request, user_id=None):
         f = OfficeForm(request.POST.copy())
         if f.is_valid():
             f.save()
-        return _render_response(request, 'emploi/cv_edit.html', {'person': p})
+        return ain7_render_to_response(request, 'emploi/cv_edit.html', {'person': p})
 
 @login_required
 def company_create(request, user_id=None):
@@ -294,7 +294,7 @@ def company_create(request, user_id=None):
         CompanyForm.base_fields['size'].widget =\
             forms.Select(choices=Company.COMPANY_SIZE)
         f = CompanyForm()
-        return _render_response(request, 'emploi/office_create.html',
+        return ain7_render_to_response(request, 'emploi/office_create.html',
                                 {'form': f, 'person': p, 'object': 'company'})
 
     # 2e passage : sauvegarde et redirection
@@ -303,7 +303,7 @@ def company_create(request, user_id=None):
         f = CompanyForm(request.POST.copy())
         if f.is_valid():
             f.save()
-        return _render_response(request, 'emploi/cv_edit.html', {'person': p})
+        return ain7_render_to_response(request, 'emploi/cv_edit.html', {'person': p})
 
 @login_required
 def job_details(request,emploi_id):
@@ -313,7 +313,7 @@ def job_details(request,emploi_id):
     j.nb_views = j.nb_views + 1
     j.save()
 
-    return _render_response(request, 'emploi/job_details.html', {'job': j})
+    return ain7_render_to_response(request, 'emploi/job_details.html', {'job': j})
 
 @login_required
 def job_edit(request, emploi_id):
@@ -335,7 +335,7 @@ def job_edit(request, emploi_id):
     f = JobOfferForm({'reference': j.reference, 'title': j.title, 'description': j.description, 
         'experience': j.experience, 'contract_type': j.contract_type})
 
-    return _render_response(request, 'emploi/job_edit.html', {'form': f})
+    return ain7_render_to_response(request, 'emploi/job_edit.html', {'form': f})
 
 @login_required
 def job_register(request):
@@ -354,7 +354,7 @@ def job_register(request):
             return HttpResponseRedirect('/emploi/job/%s/' % (job_offer.id))
 
     f = JobOfferForm({})
-    return _render_response(request, 'emploi/job_register.html', {'form': f})
+    return ain7_render_to_response(request, 'emploi/job_register.html', {'form': f})
 
 @login_required
 def job_search(request):
@@ -363,13 +363,13 @@ def job_search(request):
         form = SearchJobForm(request.POST)
         if form.is_valid():
             list_jobs = form.search()
-            return _render_response(request, 'emploi/job_search.html', 
+            return ain7_render_to_response(request, 'emploi/job_search.html', 
                                     {'form': form, 'list_jobs': list_jobs,
                                      'request': request})
         
     else:
         form = SearchJobForm()
-        return _render_response(request, 'emploi/job_search.html',
+        return ain7_render_to_response(request, 'emploi/job_search.html',
                                 {'form': form})
 
 @login_required
@@ -378,7 +378,7 @@ def company_details(request, company_id):
     company = get_object_or_404(Company, pk=company_id)
     offices = Office.objects.filter(company=company)
 
-    return _render_response(request, 'emploi/company_details.html',
+    return ain7_render_to_response(request, 'emploi/company_details.html',
                             {'company': company, 'offices': offices})
 
 # une petite fonction pour exclure les champs

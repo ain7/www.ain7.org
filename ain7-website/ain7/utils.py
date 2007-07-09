@@ -22,11 +22,11 @@
 
 import datetime
 
-from django.contrib.auth.models import User
 from django.contrib import auth
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+
 from ain7 import settings
 
 def logout(request):
@@ -41,6 +41,7 @@ def forums(request):
 
 # pour alléger les appels à render_to_response
 # http://www.djangosnippets.org/snippets/3/
-def _render_response(req, *args, **kwargs):
+def ain7_render_to_response(req, *args, **kwargs):
     kwargs['context_instance'] = RequestContext(req)
     return render_to_response(*args, **kwargs)
+

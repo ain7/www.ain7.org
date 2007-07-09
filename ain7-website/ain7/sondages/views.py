@@ -28,12 +28,12 @@ from django import newforms as forms
 
 from ain7.sondages.models import Choice, Survey, Vote
 from ain7.decorators import confirmation_required
-from ain7.utils import _render_response
+from ain7.utils import ain7_render_to_response
 
 def index(request):
     surveys = Survey.objects.all()
 
-    return _render_response(request, 'sondages/index.html',
+    return ain7_render_to_response(request, 'sondages/index.html',
                             {'surveys': surveys})
 
 
@@ -42,7 +42,7 @@ def view(request, survey_id):
     already_vote = request.user.is_authenticated()\
                     and survey.has_been_voted_by(request.user.person)
 
-    return _render_response(request, 'sondages/view.html', 
+    return ain7_render_to_response(request, 'sondages/view.html', 
                              {'survey': survey, 'already_vote': already_vote})
 
 @login_required
@@ -54,7 +54,7 @@ def vote(request, survey_id):
             choice = survey.choices.get(pk=request.GET['choice'])
         except (KeyError, Choice.DoesNotExist):
             # Go to vote form
-            return _render_response(request, 'sondages/vote.html', 
+            return ain7_render_to_response(request, 'sondages/vote.html', 
                                      {'survey': survey})
         else:
             # Create vote
@@ -77,7 +77,7 @@ def create(request):
 def details(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
 
-    return _render_response(request, 'sondages/details.html',
+    return ain7_render_to_response(request, 'sondages/details.html',
                             {'survey': survey})
 
 @login_required
@@ -138,7 +138,7 @@ def _form(request, survey, Form, title, message):
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
 
-    return _render_response(request, 'sondages/form.html',
+    return ain7_render_to_response(request, 'sondages/form.html',
                               {'form': form, 'title': title})
 
 def _form_callback(field, **args):

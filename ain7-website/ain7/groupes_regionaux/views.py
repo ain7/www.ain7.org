@@ -32,11 +32,11 @@ from django.http import HttpResponseRedirect
 from ain7.groupes_regionaux.models import Group
 from ain7.groupes_regionaux.models import GroupMembership
 from ain7.decorators import confirmation_required
-from ain7.utils import _render_response
+from ain7.utils import ain7_render_to_response
 
 def index(request):
     groups = Group.objects.all().filter(is_active=True).order_by('name')
-    return _render_response(request, 'groupes_regionaux/index.html', 
+    return ain7_render_to_response(request, 'groupes_regionaux/index.html', 
                             {'groups': groups})
 
 def details(request, group_id):
@@ -44,7 +44,7 @@ def details(request, group_id):
     is_member = request.user.is_authenticated()\
                 and group.has_for_member(request.user.person)
 
-    return _render_response(request, 'groupes_regionaux/details.html',
+    return ain7_render_to_response(request, 'groupes_regionaux/details.html',
                             {'group': group, 'is_member': is_member})
 
 def edit(request, group_id):
@@ -67,7 +67,7 @@ def edit(request, group_id):
     GroupForm = forms.models.form_for_instance(group)
     f = GroupForm()
 
-    return _render_response(request, 'groupes_regionaux/edit.html',
+    return ain7_render_to_response(request, 'groupes_regionaux/edit.html',
                             {'form': f, 'group': group, 'is_member': is_member})
 
 @login_required

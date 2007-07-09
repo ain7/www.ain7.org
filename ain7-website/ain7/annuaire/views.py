@@ -30,7 +30,7 @@ from ain7.annuaire.models import Person, AIn7Member, Address, PhoneNumber
 from ain7.annuaire.models import Track, Email, InstantMessaging, IRC, WebSite, ClubMembership
 from ain7.annuaire.models import Promo
 from ain7.decorators import confirmation_required
-from ain7.utils import _render_response
+from ain7.utils import ain7_render_to_response
 
 class SearchPersonForm(forms.Form):
     last_name = forms.CharField(label=_('Last name'), max_length=50, required=False)
@@ -42,7 +42,7 @@ class SearchPersonForm(forms.Form):
 def detail(request, person_id):
     p = get_object_or_404(Person, pk=person_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
-    return _render_response(request, 'annuaire/details.html', 
+    return ain7_render_to_response(request, 'annuaire/details.html', 
                             {'person': p, 'ain7member': ain7member})
 
 @login_required
@@ -78,19 +78,19 @@ def search(request):
                 
             ain7members = AIn7Member.objects.filter(**criteria)
 
-            return _render_response(request, 'annuaire/index.html', 
+            return ain7_render_to_response(request, 'annuaire/index.html', 
                                     {'ain7members': ain7members})
 
     else:
         f = SearchPersonForm()
-        return _render_response(request, 'annuaire/search.html', {'form': f})
+        return ain7_render_to_response(request, 'annuaire/search.html', {'form': f})
 
 @login_required
 def edit(request, person_id=None):
 
     p = get_object_or_404(Person, pk=person_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
-    return _render_response(request, 'annuaire/edit.html',
+    return ain7_render_to_response(request, 'annuaire/edit.html',
                             {'person': p, 'ain7member': ain7member})
 
 @login_required
@@ -118,7 +118,7 @@ def person_edit(request, user_id=None):
              else:
                  request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
              return HttpResponseRedirect('/annuaire/%s/edit' % (person.user.id))
-    return _render_response(request, 'annuaire/edit_form.html', 
+    return ain7_render_to_response(request, 'annuaire/edit_form.html', 
                             {'form': form,
                              'action_title': _("Modification of personal data")})
 
@@ -146,7 +146,7 @@ def ain7member_edit(request, user_id=None):
              else:
                  request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
              return HttpResponseRedirect('/annuaire/%s/edit' % (person.user.id))
-    return _render_response(request, 'annuaire/edit_form.html', 
+    return ain7_render_to_response(request, 'annuaire/edit_form.html', 
                             {'form': form,
                              'action_title':
                              _("Modification of personal data for ") +
@@ -162,7 +162,7 @@ def _generic_edit(request, user_id, object_id, object_type,
         PosForm = forms.models.form_for_instance(obj,
             formfield_callback=_form_callback)
         f = PosForm()
-        return _render_response(request, 'annuaire/edit_form.html',
+        return ain7_render_to_response(request, 'annuaire/edit_form.html',
                                 {'form': f, 'action_title': action_title})
     
     # 2e passage : sauvegarde et redirection
@@ -197,7 +197,7 @@ def _generic_add(request, user_id, object_type, person, ain7member,
         PosForm = forms.models.form_for_model(object_type,
             formfield_callback=_form_callback)
         f = PosForm()
-        return _render_response(request, 'annuaire/edit_form.html',
+        return ain7_render_to_response(request, 'annuaire/edit_form.html',
                                 {'person': person, 'ain7member': ain7member,
                                  'form': f, 'action_title': action_title})
 

@@ -24,11 +24,10 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django import newforms as forms
 from django.http import HttpResponseRedirect
-
+from django.template import RequestContext
 
 from ain7.news.models import NewsItem
-from django.template import RequestContext
-from ain7.utils import _render_response
+from ain7.utils import ain7_render_to_response
 
 
 class SearchNewsForm(forms.Form):
@@ -39,11 +38,11 @@ class SearchNewsForm(forms.Form):
 
 def index(request):
     news = NewsItem.objects.all().order_by('-creation_date')[:20]
-    return _render_response(request, 'news/index.html', {'news': news })
+    return ain7_render_to_response(request, 'news/index.html', {'news': news })
 
 def details(request, news_id):
     news_item = get_object_or_404(NewsItem, pk=news_id)
-    return _render_response(request, 'news/details.html',
+    return ain7_render_to_response(request, 'news/details.html',
                             {'news_item': news_item})
 
 
@@ -65,7 +64,7 @@ def edit(request, news_id):
 
    f = NewsForm()
 
-   return _render_response(request, 'news/edit.html', 
+   return ain7_render_to_response(request, 'news/edit.html', 
                            {'form': f, 'news_item':news_item})
 
 @login_required
@@ -85,7 +84,7 @@ def write(request):
 
     f = NewsForm()
 
-    return _render_response(request, 'news/write.html', {'form': f})
+    return ain7_render_to_response(request, 'news/write.html', {'form': f})
 
 def search(request):
 
@@ -95,10 +94,11 @@ def search(request):
                     list_news = NewsItem.objects.filter(title__icontains=form.clean_data['title'],
                                                         description__icontains=form.clean_data['content'])
 
-        return _render_response(request, 'news/search.html', 
+        return ain7_render_to_response(request, 'news/search.html', 
                                 {'form': form, 'list_news': list_news, 
                                  'request': request})
 
     else:
         f = SearchNewsForm()
-        return _render_response(request, 'news/search.html', {'form': f})
+        return ain7_render_to_response(request, 'news/search.html', {'form': f})
+

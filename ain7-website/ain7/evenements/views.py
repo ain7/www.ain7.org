@@ -29,7 +29,7 @@ from django.http import HttpResponseRedirect
 
 from ain7.annuaire.models import Person
 from ain7.evenements.models import Event, EventSubscription
-from ain7.utils import _render_response
+from ain7.utils import ain7_render_to_response
 
 class JoinEventForm(forms.Form):
     subscriber_number = forms.IntegerField(label=_('Number of persons'))
@@ -44,13 +44,13 @@ class SearchEventForm(forms.Form):
 
 def index(request):
     events = Event.objects.all()[:5]
-    return _render_response(request, 'evenements/index.html',
+    return ain7_render_to_response(request, 'evenements/index.html',
                             {'events': events})
 
 
 def details(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
-    return _render_response(request, 'evenements/details.html',
+    return ain7_render_to_response(request, 'evenements/details.html',
                             {'event': event})
 
 @login_required
@@ -71,7 +71,7 @@ def edit(request, event_id):
 
     f = EventForm()
 
-    return _render_response(request, 'evenements/edit.html', 
+    return ain7_render_to_response(request, 'evenements/edit.html', 
                              {'form': f, 'event': event})
 
 @login_required
@@ -93,7 +93,7 @@ def join(request, event_id):
 
     f =  JoinEventForm()
 
-    return _render_response(request, 'evenements/join.html', 
+    return ain7_render_to_response(request, 'evenements/join.html', 
                             {'event': event, 'form': f})
 
 @login_required
@@ -101,7 +101,7 @@ def participants(request, event_id):
 
     event = get_object_or_404(Event, pk=event_id)
 
-    return _render_response(request, 'evenements/participants.html', 
+    return ain7_render_to_response(request, 'evenements/participants.html', 
                             {'event': event})
 
 @login_required
@@ -121,7 +121,7 @@ def register(request):
 
     f = EventForm()
 
-    return _render_response(request, 'evenements/register.html', {'form': f})
+    return ain7_render_to_response(request, 'evenements/register.html', {'form': f})
 
 def search(request):
 
@@ -131,14 +131,14 @@ def search(request):
                     list_events = Event.objects.filter(name__icontains=form.clean_data['name'],
                                                        place__icontains=form.clean_data['place'])
 
-        return _render_response(request, 'evenements/search.html', 
+        return ain7_render_to_response(request, 'evenements/search.html', 
                                  {'form': form, 
                                   'list_events': list_events, 
                                   'request': request})
 
     else:
         f = SearchEventForm()
-        return _render_response(request, 'evenements/search.html', {'form': f})
+        return ain7_render_to_response(request, 'evenements/search.html', {'form': f})
 
 @login_required
 def subscribe(request, event_id):
@@ -154,18 +154,19 @@ def subscribe(request, event_id):
             subscription.event = event
             subscription.save()
 
-        p = subscription.subscriber
+            p = subscription.subscriber
 
-        request.user.message_set.create(message=_('You have successfully subscribed '+p.first_name+' '+p.last_name+' to this event.'))
+            request.user.message_set.create(message=_('You have successfully subscribed')+
+                                            ' '+p.first_name+' '+p.last_name+' '+_('to this event.'))
         return HttpResponseRedirect('/evenements/%s/' % (event.id))
 
     f =  SubscribeEventForm()
 
-    return _render_response(request, 'evenements/subscribe.html', 
+    return ain7_render_to_response(request, 'evenements/subscribe.html', 
                             {'event': event, 'form': f})
 
 def validate(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
-    return _render_response(request, 'evenements/validate.html',
+    return ain7_render_to_response(request, 'evenements/validate.html',
                             {'event': event})
 

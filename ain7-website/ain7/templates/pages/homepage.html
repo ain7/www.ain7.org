@@ -53,8 +53,13 @@
 	
 		</div>	
 		<div class="right">
-			<h3><a href="/actualites/">Actualités</a></h3>
-    {% for news_item in news %}
+			<h3>Actualités</h3>
+ 	<div class="right_articles">
+		<div align="center">
+			<a href="/actualites/">Toutes les actualités</a>
+		</div>
+	</div>
+   {% for news_item in news %}
 			<div class="right_articles">
 				<p><a href="/actualites/{{ news_item.id }}/"><img src="/site_media/images/gnome-news.png" alt="Image" title="Image" class="image" /></a><b><a href="/actualites/{{ news_item.id }}/">{{ news_item.title }}</a></b><br />{{ news_item.short_description }}.</p>
 			</div>

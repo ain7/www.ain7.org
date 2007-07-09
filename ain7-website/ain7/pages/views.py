@@ -26,38 +26,38 @@ from django.template import RequestContext
 
 from ain7.news.models import NewsItem
 from ain7.sondages.models import Survey
-from ain7.utils import _render_response
+from ain7.utils import ain7_render_to_response
 
 def homepage(request):
     news = NewsItem.objects.all().order_by('-creation_date')[:2]
     surveys = Survey.objects.filter(start_date__lte=datetime.datetime.now(), end_date__gte=datetime.datetime.now())[:2]
-    return _render_response(request, 'pages/homepage.html', 
+    return ain7_render_to_response(request, 'pages/homepage.html', 
                             {'news': news , 'surveys': surveys})
 
 def apropos(request):
-    return _render_response(request, 'pages/apropos.html', {})
+    return ain7_render_to_response(request, 'pages/apropos.html', {})
 
 def association(request):
-    return _render_response(request, 'pages/association.html', {})
+    return ain7_render_to_response(request, 'pages/association.html', {})
 
 def canal_n7(request):
-    return _render_response(request, 'pages/canal_n7.html', {})
+    return ain7_render_to_response(request, 'pages/canal_n7.html', {})
 
 def contact(request):
-    return _render_response(request, 'pages/contact.html', {})
+    return ain7_render_to_response(request, 'pages/contact.html', {})
 
 def international(request):
-    return _render_response(request, 'pages/international.html', {})
+    return ain7_render_to_response(request, 'pages/international.html', {})
 
 def mentions_legales(request):
-    return _render_response(request, 'pages/mentions_legales.html', {})
+    return ain7_render_to_response(request, 'pages/mentions_legales.html', {})
 
 def publications(request):
-    return _render_response(request, 'pages/publications.html', {})
+    return ain7_render_to_response(request, 'pages/publications.html', {})
 
 def rss(request):
-    return _render_response(request, 'pages/rss.html', {})
+    return ain7_render_to_response(request, 'pages/rss.html', {})
 
 def sitemap(request):
-    return _render_response(request, 'pages/sitemap.html', {})
+    return ain7_render_to_response(request, 'pages/sitemap.html', {})
 
