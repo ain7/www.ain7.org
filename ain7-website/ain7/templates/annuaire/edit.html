@@ -32,6 +32,21 @@
 <p><a href="/annuaire/{{ person.user.id }}/person/edit/" class="changelink">
 {% trans "Modify" %}</a></p>
 
+<div class="dataBlock">
+<ul>
+   <li><b>{% filter capfirst %}{% trans "avatar" %}{% endfilter %}</b>&nbsp;:
+       {% if ain7member.avatar %}
+	   <img src="{{ ain7member.get_avatar_url }}" height="100" 
+           alt="{% trans "avatar" %}" />
+       {% else %}
+           {% trans "No avatar" %}
+       {% endif %}</li>
+</ul>
+</div>
+
+<p><a href="/annuaire/{{ person.user.id }}/avatar/edit/" class="changelink">
+   {% trans "Modify" %}</a></p>
+
 
 <div class="dataBlock">
 <ul>
@@ -51,13 +66,6 @@
            {{ ain7member.children_count }} {% trans "children" %}.
        {% else %}
            {% trans "no child" %}.
-       {% endif %}</li>
-   <li><b>{% filter capfirst %}{% trans "avatar" %}{% endfilter %}</b>&nbsp;:
-       {% if ain7member.avatar %}
-	   <img src="/site_media/{{ ain7member.get_avatar_url }}" height="100" 
-           alt="{% trans "avatar" %}" />
-       {% else %}
-           {% trans "No avatar" %}
        {% endif %}</li>
    <li><b>{% filter capfirst %}{% trans "blog" %}{% endfilter %}</b>&nbsp;:
        {% if ain7member.blog %}

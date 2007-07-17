@@ -27,7 +27,7 @@ from django.http import HttpResponseRedirect
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from ain7.decorators import confirmation_required
-from ain7.utils import ain7_render_to_response
+from ain7.utils import ain7_render_to_response, ImgUploadForm
 
 from ain7.voyages.models import Travel, Subscription, TravelResponsible
 from ain7.annuaire.models import Person
@@ -60,7 +60,8 @@ def index(request):
 
 @login_required
 def add(request):
-    TravelForm = forms.models.form_for_model(Travel)
+    TravelForm = forms.models.form_for_model(Travel,
+                                             formfield_callback=_edit_callback)
     TravelForm.base_fields['description'].widget = \
         forms.widgets.Textarea(attrs={'rows':10, 'cols':90})
     TravelForm.base_fields['report'].widget = \
@@ -75,7 +76,8 @@ def add(request):
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
         return HttpResponseRedirect('/voyages/')
-    return ain7_render_to_response(request, 'voyages/edit.html', {'form': form})
+    return ain7_render_to_response(request, 'voyages/edit.html',
+                                   {'form': form, 'action': 'add'})
 
 @confirmation_required(
     lambda user_id=None,
@@ -112,7 +114,8 @@ def search(request):
 @login_required
 def edit(request, travel_id=None):
     travel = Travel.objects.get(pk=travel_id)
-    TravelForm = forms.models.form_for_instance(travel)
+    TravelForm = forms.models.form_for_instance(travel,
+        formfield_callback=_edit_callback)
     TravelForm.base_fields['description'].widget = \
         forms.widgets.Textarea(attrs={'rows':15, 'cols':90})
     TravelForm.base_fields['report'].widget = \
@@ -127,7 +130,32 @@ def edit(request, travel_id=None):
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
         return HttpResponseRedirect('/voyages/%s/' % (travel.id))
-    return ain7_render_to_response(request, 'voyages/edit.html', {'form': form})
+    return ain7_render_to_response(request, 'voyages/edit.html',
+        {'form': form, 'action': 'edit', 'travel': travel})
+
+@login_required
+def thumbnail_edit(request, travel_id):
+
+    travel = get_object_or_404(Travel, pk=travel_id)
+
+    if request.method == 'GET':
+        form = ImgUploadForm()
+        return ain7_render_to_response(request, 'pages/image.html',
+            {'section': 'voyages/base.html',
+             'name': _("thumbnail").capitalize(), 'form': form,
+             'filename': '/site_media/%s' % travel.thumbnail})
+    else:
+        post = request.POST.copy()
+        post.update(request.FILES)
+        form = ImgUploadForm(post)
+        if form.is_valid():
+            travel.save_thumbnail_file(
+                form.clean_data['img_file']['filename'],
+                form.clean_data['img_file']['content'])
+            request.user.message_set.create(message=_("The picture has been successfully changed."))
+        else:
+            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+        return HttpResponseRedirect('/voyages/%s/edit/' % travel_id)
 
 @login_required
 def join(request, travel_id):
@@ -278,9 +306,14 @@ def responsibles_delete(request, travel_id, responsible_id):
     return ain7_render_to_response(request, 'voyages/responsibles.html',
                             {'travel': travel})
 
-# une petite fonction pour exclure les champs
-# subscriber travel
+# une petite fonction pour exclure certains champs
 # des formulaires créés avec form_for_model et form_for_instance
+def _edit_callback(f, **args):
+    exclude_fields = ('thumbnail')
+    if f.name in exclude_fields:
+        return None
+    return f.formfield(**args)
+
 def _join_callback(f, **args):
     exclude_fields = ('subscriber', 'travel')
     if f.name in exclude_fields:

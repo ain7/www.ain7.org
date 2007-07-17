@@ -649,12 +649,14 @@ def filldb():
     news1.title = "Nouveau portail Web"
     news1.description = """L'AIn7 travaille actuellement sur l'élaboration d'un 
     nouveau portail. N'hésitez pas à apporter vos idées et vos commentaires."""
+    news1.image = "/site_media/data/www.jpg"
     news1.save()
 
     news2 = news.NewsItem()
     news2.title = "100 ans !"
     news2.description = """L'n7 fête cette année ces 100 ans et va  tout au
     long de l'année 2007 célébrer à travers différentes manifestations cet anniversaire"""
+    news2.image = "/site_media/data/Gala_N7.jpg"
     news2.save()
 
     looptravel = voyages.TravelType(type="Circuit")

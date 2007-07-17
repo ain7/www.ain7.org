@@ -18,6 +18,18 @@
 </div>
 </form>
 
+<p>
+<b>{% filter capfirst %}{% trans "image" %}{% endfilter %}</b>&nbsp;:
+    {% if news_item.image %}
+        <img src="{{ news_item.get_image_url }}" height="100" 
+             alt="{% trans "image" %}" />
+    {% else %}
+        {% trans "No image" %}
+    {% endif %}
+    <a href="/actualites/{{ news_item.id }}/image/edit/" class="changelink">
+        {% trans "Modify" %}</a>
+</p>
+
 </div>
 
 <div class="right">

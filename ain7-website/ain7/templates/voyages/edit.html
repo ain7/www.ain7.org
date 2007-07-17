@@ -17,6 +17,22 @@
 <p><input type="submit" value="{% trans "Save changes" %}" /></p>
 </form>
 
+{% ifequal action "edit" %}
+   <p><b>{% filter capfirst %}{% trans "thumbnail" %}{% endfilter %}</b>&nbsp;:
+       {% if travel.thumbnail %}
+	   <img src="{{ travel.get_thumbnail_url }}" height="100" 
+           alt="{% trans "thumbnail" %}" />
+       {% else %}
+           {% trans "No thumbnail" %}
+       {% endif %}
+       <a href="/voyages/{{ travel.id }}/thumbnail/edit/" class="changelink">
+           {% trans "Modify" %}</a>
+    </p>
+{% else %}
+    <p>{% trans "To associate an image to this travel, modify it after its creation." %}</p>
+{% endifequal %}
+
+
 </div>
 
 {% endblock %}

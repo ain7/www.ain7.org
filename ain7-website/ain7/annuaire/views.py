@@ -30,7 +30,7 @@ from ain7.annuaire.models import Person, AIn7Member, Address, PhoneNumber
 from ain7.annuaire.models import Track, Email, InstantMessaging, IRC, WebSite, ClubMembership
 from ain7.annuaire.models import Promo
 from ain7.decorators import confirmation_required
-from ain7.utils import ain7_render_to_response
+from ain7.utils import ain7_render_to_response, ImgUploadForm
 
 class SearchPersonForm(forms.Form):
     last_name = forms.CharField(label=_('Last name'), max_length=50, required=False)
@@ -71,7 +71,7 @@ def search(request):
                 promoCriteria['track']=\
                     Track.objects.get(id=form.clean_data['track'])
                 
-            # on ajoute ces promos aux crit�res de recherche
+            # on ajoute ces promos aux critères de recherche
             # si elle ne sont pas vides
             if len(promoCriteria)!=0:
                 criteria['promos__in']=Promo.objects.filter(**promoCriteria)
@@ -97,13 +97,13 @@ def edit(request, person_id=None):
 def person_edit(request, user_id=None):
 
     if user_id is None:
-        PersonForm = forms.models.form_for_model(Person,
+        PersonForm = forms.form_for_model(Person,
             formfield_callback=_form_callback)
         form = PersonForm()
 
     else:
         person = Person.objects.get(user=user_id)
-        PersonForm = forms.models.form_for_instance(person,
+        PersonForm = forms.form_for_instance(person,
             formfield_callback=_form_callback)
         PersonForm.base_fields['sex'].widget=\
             forms.Select(choices=Person.SEX)
@@ -126,31 +126,61 @@ def person_edit(request, user_id=None):
 def ain7member_edit(request, user_id=None):
 
     if user_id is None:
-        PersonForm = forms.models.form_for_model(AIn7Member,
+        PersonForm = forms.form_for_model(AIn7Member,
             formfield_callback=_form_callback)
         form = PersonForm()
 
     else:
         person = Person.objects.get(user=user_id)
         ain7member = get_object_or_404(AIn7Member, person=person)
-        PersonForm = forms.models.form_for_instance(ain7member,
+        PersonForm = forms.form_for_instance(ain7member,
             formfield_callback=_form_callback)
-        form = PersonForm(auto_id=False)
 
         if request.method == 'POST':
-             form = PersonForm(request.POST)
+             post = request.POST.copy()
+             post.update(request.FILES)
+             form = PersonForm(post)
              if form.is_valid():
                  form.clean_data['person'] = person
                  form.save()
+                 ain7member.save_avatar_file(
+                     form.clean_data['avatar']['filename'],
+                     form.clean_data['avatar']['content'])
                  request.user.message_set.create(message=_("Modifications have been successfully saved."))
              else:
                  request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
              return HttpResponseRedirect('/annuaire/%s/edit' % (person.user.id))
+        form = PersonForm(auto_id=False)
     return ain7_render_to_response(request, 'annuaire/edit_form.html', 
                             {'form': form,
                              'action_title':
                              _("Modification of personal data for ") +
                              str(person)})
+
+@login_required
+def avatar_edit(request, user_id):
+
+    person = Person.objects.get(user=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=person)
+    
+    if request.method == 'GET':
+        form = ImgUploadForm()
+        return ain7_render_to_response(request, 'pages/image.html',
+            {'section': 'annuaire/base.html',
+             'name': _("avatar").capitalize(), 'form': form,
+             'filename': '/site_media/%s' % ain7member.avatar})
+    else:
+        post = request.POST.copy()
+        post.update(request.FILES)
+        form = ImgUploadForm(post)
+        if form.is_valid():
+            ain7member.save_avatar_file(
+                form.clean_data['img_file']['filename'],
+                form.clean_data['img_file']['content'])
+            request.user.message_set.create(message=_("The picture has been successfully changed."))
+        else:
+            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+        return HttpResponseRedirect('/annuaire/%s/edit/' % (person.user.id))
 
 def _generic_edit(request, user_id, object_id, object_type,
                   person, ain7member, action_title, msg_done):
@@ -159,7 +189,7 @@ def _generic_edit(request, user_id, object_id, object_type,
 
     # 1er passage : on propose un formulaire avec les donn�es actuelles
     if request.method == 'GET':
-        PosForm = forms.models.form_for_instance(obj,
+        PosForm = forms.form_for_instance(obj,
             formfield_callback=_form_callback)
         f = PosForm()
         return ain7_render_to_response(request, 'annuaire/edit_form.html',
@@ -167,7 +197,7 @@ def _generic_edit(request, user_id, object_id, object_type,
     
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
-        PosForm = forms.models.form_for_instance(obj,
+        PosForm = forms.form_for_instance(obj,
             formfield_callback=_form_callback)
         f = PosForm(request.POST.copy())
         if f.is_valid():
@@ -194,7 +224,7 @@ def _generic_add(request, user_id, object_type, person, ain7member,
 
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
-        PosForm = forms.models.form_for_model(object_type,
+        PosForm = forms.form_for_model(object_type,
             formfield_callback=_form_callback)
         f = PosForm()
         return ain7_render_to_response(request, 'annuaire/edit_form.html',
@@ -203,7 +233,7 @@ def _generic_add(request, user_id, object_type, person, ain7member,
 
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
-        PosForm = forms.models.form_for_model(object_type,
+        PosForm = forms.form_for_model(object_type,
             formfield_callback=_form_callback)
         f = PosForm(request.POST.copy())
         if f.is_valid():
@@ -388,11 +418,10 @@ def club_membership_add(request, user_id=None):
                         _('Creation of a club membership'),
                         _('Club membership successfully added.'))
 
-# une petite fonction pour exclure les champs
-# person user ain7member
+# une petite fonction pour exclure certains champs
 # des formulaires crees avec form_for_model et form_for_instance
 def _form_callback(f, **args):
-  exclude_fields = ('person', 'user', 'member')
+  exclude_fields = ('person', 'user', 'member', 'avatar')
   if f.name in exclude_fields:
     return None
   return f.formfield(**args)

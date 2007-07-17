@@ -30,5 +30,6 @@ urlpatterns = patterns('',
     (r'^search/$', 'ain7.news.views.search'),
     (r'^(?P<news_id>\d+)/$', 'ain7.news.views.details'),
     (r'^(?P<news_id>\d+)/edit/$', 'ain7.news.views.edit'),
+    (r'^(?P<news_id>\d+)/image/edit/$', 'ain7.news.views.image_edit'),
 
 )

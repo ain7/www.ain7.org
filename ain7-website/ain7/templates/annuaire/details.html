@@ -55,7 +55,7 @@
 </ul>
 </td><td>
 {% if ain7member.avatar %}
-	<img src="/site_media/{{ ain7member.get_avatar_url }}" height="100" alt="{% trans "avatar" %}"/></td></tr>
+	<img src="{{ ain7member.get_avatar_url }}" height="100" alt="{% trans "avatar" %}"/></td></tr>
 {% endif %}
 {% for address in person.addresses.all %}
 	{% if not address.is_confidential %}

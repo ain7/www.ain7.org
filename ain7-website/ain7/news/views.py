@@ -27,7 +27,7 @@ from django.http import HttpResponseRedirect
 from django.template import RequestContext
 
 from ain7.news.models import NewsItem
-from ain7.utils import ain7_render_to_response
+from ain7.utils import ain7_render_to_response, ImgUploadForm
 
 
 class SearchNewsForm(forms.Form):
@@ -51,10 +51,11 @@ def edit(request, news_id):
 
    news_item = get_object_or_404(NewsItem, pk=news_id)
 
-   NewsForm = forms.models.form_for_instance(news_item)
+   NewsForm = forms.models.form_for_instance(news_item,
+                                             formfield_callback=_form_callback)
 
    if request.method == 'POST':
-        f = NewsForm(request.POST.copy())
+        f = NewsForm(request.POST.copy(), formfield_callback=_form_callback)
         if f.is_valid():
             f.save()
 
@@ -68,12 +69,37 @@ def edit(request, news_id):
                            {'form': f, 'news_item':news_item})
 
 @login_required
+def image_edit(request, news_id):
+
+    news_item = get_object_or_404(NewsItem, pk=news_id)
+
+    if request.method == 'GET':
+        form = ImgUploadForm()
+        return ain7_render_to_response(request, 'pages/image.html',
+            {'section': 'base.html',
+             'name': _("image").capitalize(), 'form': form,
+             'filename': '/site_media/%s' % news_item.image})
+    else:
+        post = request.POST.copy()
+        post.update(request.FILES)
+        form = ImgUploadForm(post)
+        if form.is_valid():
+            news_item.save_image_file(
+                form.clean_data['img_file']['filename'],
+                form.clean_data['img_file']['content'])
+            request.user.message_set.create(message=_("The picture has been successfully changed."))
+        else:
+            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+        return HttpResponseRedirect('/actualites/%s/edit/' % news_item.id)
+
+@login_required
 def write(request):
 
-    NewsForm = forms.models.form_for_model(NewsItem)
+    NewsForm = forms.models.form_for_model(NewsItem,
+                                           formfield_callback=_form_callback)
 
     if request.method == 'POST':
-        f = NewsForm(request.POST.copy())
+        f = NewsForm(request.POST.copy(), formfield_callback=_form_callback)
         if f.is_valid():
             f.save()
 
@@ -102,3 +128,11 @@ def search(request):
         f = SearchNewsForm()
         return ain7_render_to_response(request, 'news/search.html', {'form': f})
 
+
+# une petite fonction pour exclure certains champs
+# des formulaires crees avec form_for_model et form_for_instance
+def _form_callback(f, **args):
+  exclude_fields = ('image')
+  if f.name in exclude_fields:
+    return None
+  return f.formfield(**args)

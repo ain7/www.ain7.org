@@ -32,6 +32,7 @@ urlpatterns = patterns('',
     (r'^(?P<user_id>\d+)/person/edit/$', 'ain7.annuaire.views.person_edit'),
     (r'^(?P<user_id>\d+)/ain7member/edit/$',
      'ain7.annuaire.views.ain7member_edit'),
+    (r'^(?P<user_id>\d+)/avatar/edit/$', 'ain7.annuaire.views.avatar_edit'),
     # Adresses
     (r'^(?P<user_id>\d+)/address/(?P<address_id>\d+)/edit/$',
      'ain7.annuaire.views.address_edit'),

@@ -26,8 +26,12 @@ from django.contrib import auth
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django import newforms as forms
 
 from ain7 import settings
+
+class ImgUploadForm(forms.Form):
+    img_file = forms.Field(widget=forms.FileInput, label='')
 
 def logout(request):
     auth.logout(request)
