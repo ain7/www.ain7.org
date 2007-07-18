@@ -34,6 +34,7 @@ class Event(models.Model):
     start_date = models.DateField(verbose_name=_('start date'))
     end_date = models.DateField(verbose_name=_('end date'))
     description = models.TextField(verbose_name=_('description'), blank=True, null=True)
+    image = models.ImageField(verbose_name=_('image'), upload_to='data', null=True, blank=True)
     author = models.CharField(verbose_name=_('author'), maxlength=20)
     contact_email = models.EmailField(verbose_name=_('contact email'), maxlength=50)
     link = models.CharField(verbose_name=_('link'), maxlength=60, blank=True, null=True)

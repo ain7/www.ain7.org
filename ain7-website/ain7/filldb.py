@@ -1018,6 +1018,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     evenement1.place="Ailleurs"
     evenement1.publication_start=datetime.now()
     evenement1.publication_end=datetime.now() + timedelta(30)
+    evenement1.image = "/site_media/data/anniversaire.jpg"
     evenement1.save()
     evenement1.regional_groups.add(idfgroup)
     evenement1.save()

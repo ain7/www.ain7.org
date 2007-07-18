@@ -140,10 +140,13 @@ def thumbnail_edit(request, travel_id):
 
     if request.method == 'GET':
         form = ImgUploadForm()
+        filename = None
+        if travel.thumbnail:
+            filename = '/site_media/%s' % travel.thumbnail
         return ain7_render_to_response(request, 'pages/image.html',
             {'section': 'voyages/base.html',
              'name': _("thumbnail").capitalize(), 'form': form,
-             'filename': '/site_media/%s' % travel.thumbnail})
+             'filename': filename})
     else:
         post = request.POST.copy()
         post.update(request.FILES)

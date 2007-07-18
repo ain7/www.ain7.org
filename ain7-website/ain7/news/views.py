@@ -75,10 +75,12 @@ def image_edit(request, news_id):
 
     if request.method == 'GET':
         form = ImgUploadForm()
+        filename = None
+        if news_item.image:
+            filename = '/site_media/%s' % news_item.image
         return ain7_render_to_response(request, 'pages/image.html',
-            {'section': 'base.html',
-             'name': _("image").capitalize(), 'form': form,
-             'filename': '/site_media/%s' % news_item.image})
+            {'section': 'base.html', 'name': _("image").capitalize(),
+             'form': form, 'filename': filename})
     else:
         post = request.POST.copy()
         post.update(request.FILES)

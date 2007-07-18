@@ -18,6 +18,8 @@
 </div>
 </form>
 
+<p>{% trans "To associate an image to this event, modify it after its creation." %}</p>
+
 </div>
 
 <div class="right">
@@ -25,8 +27,10 @@
 	<h3>{% trans "Statistics" %}</h3>
 	<div class="right_block">
                 <ul>
-                        <li>50 events are registered</li>{# TODO #}
-                        <li>10 events are coming</li>{# TODO #}
+                        <li>{{ event_list|length }} 
+                            {% trans "events are registered" %}</li>
+                        <li>{{ next_events|length }} 
+                            {% trans "events are coming" %}</li>
                 </ul>
         </div>
 

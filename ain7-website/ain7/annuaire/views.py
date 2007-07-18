@@ -165,10 +165,12 @@ def avatar_edit(request, user_id):
     
     if request.method == 'GET':
         form = ImgUploadForm()
+        filename = None
+        if ain7member.avatar:
+            filename = '/site_media/%s' % ain7member.avatar
         return ain7_render_to_response(request, 'pages/image.html',
-            {'section': 'annuaire/base.html',
-             'name': _("avatar").capitalize(), 'form': form,
-             'filename': '/site_media/%s' % ain7member.avatar})
+            {'section': 'annuaire/base.html', 'name': _("avatar").capitalize(),
+             'form': form, 'filename': filename})
     else:
         post = request.POST.copy()
         post.update(request.FILES)

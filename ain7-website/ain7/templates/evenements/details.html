@@ -9,12 +9,21 @@
 <div class="left">
 	<h3>{{ event.name }}</h3>
 
+	<table border="0">
+        <tr><td>
 	<ul>
 		<li>{% trans "start date" %}: {{ event.start_date|date:"d/m/Y" }}</li>
 		<li>{% trans "end date" %}: {{ event.end_date|date:"d/m/Y" }}</li>
 		<li>{% trans "Contact" %}: <a href="mailto:{{ event.contact_email }}">{{ event.author }}</a></li>
 		<li>{% trans "Place" %}: {{ event.place }}</li>
 	</ul>
+        </td><td>
+        {% if event.image %}
+            <img src="{{ event.get_image_url }}" 
+                 height="100" alt="{% trans "image" %}"/>
+        {% endif %}
+        </td></tr>
+        </table>
 
 	{% if event.description %}
 		<p>{{ event.description }}</p>

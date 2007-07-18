@@ -18,6 +18,17 @@
 </div>
 </form>
 
+<p><b>{% filter capfirst %}{% trans "image" %}{% endfilter %}</b>&nbsp;:
+    {% if event.image %}
+	   <img src="{{ event.get_image_url }}" height="100" 
+        alt="{% trans "image" %}" />
+    {% else %}
+        {% trans "No image" %}
+    {% endif %}
+    <a href="/evenements/{{ event.id }}/image/edit/" class="changelink">
+        {% trans "Modify" %}</a>
+</p>
+
 </div>
 
 <div class="right">
@@ -25,8 +36,10 @@
 	<h3>{% trans "Statistics" %}</h3>
 	<div class="right_block">
                 <ul>
-                        <li>50 events are registered</li>{# TODO #}
-                        <li>10 events are coming</li>{# TODO #}
+                        <li>{{ event_list|length }} 
+                            {% trans "events are registered" %}</li>
+                        <li>{{ next_events|length }} 
+                            {% trans "events are coming" %}</li>
                 </ul>
         </div>
 
