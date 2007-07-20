@@ -649,14 +649,14 @@ def filldb():
     news1.title = "Nouveau portail Web"
     news1.description = """L'AIn7 travaille actuellement sur l'élaboration d'un 
     nouveau portail. N'hésitez pas à apporter vos idées et vos commentaires."""
-    news1.image = "/site_media/data/www.jpg"
+    news1.image = "data/www.jpg"
     news1.save()
 
     news2 = news.NewsItem()
     news2.title = "100 ans !"
     news2.description = """L'n7 fête cette année ces 100 ans et va  tout au
     long de l'année 2007 célébrer à travers différentes manifestations cet anniversaire"""
-    news2.image = "/site_media/data/Gala_N7.jpg"
+    news2.image = "data/Gala_N7.jpg"
     news2.save()
 
     looptravel = voyages.TravelType(type="Circuit")
@@ -676,7 +676,7 @@ def filldb():
     travel1.term = 14
     travel1.type = loopandboattravel
     travel1.visited_places = "de Gdansk à Kaliningrad"
-    travel1.thumbnail = "/site_media/data/vistule.jpg"
+    travel1.thumbnail = "data/vistule.jpg"
     travel1.prix = 2350
     travel1.save()
 
@@ -688,7 +688,7 @@ def filldb():
     travel2.term = 13
     travel2.type = looptravel
     travel2.visited_places = "Tokyo, Atami, Kyoto, Hiroshima, Nara, Osazka"
-    travel2.thumbnail = "/site_media/data/japon.jpg"
+    travel2.thumbnail = "data/japon.jpg"
     travel2.prix = 3890
     travel2.description = \
 """
@@ -965,7 +965,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     travel3.term = 14
     travel3.type = loopandboattravel
     travel3.visited_places = "Ragoon, Pagan, Sagain, Mandalay"
-    travel3.thumbnail = "/site_media/data/birmanie.jpg"
+    travel3.thumbnail = "data/birmanie.jpg"
     travel3.prix = 3550
     travel3.save()
 
@@ -976,7 +976,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     travel4.end_date = date(2008,6,23)
     travel4.term = 15
     travel4.type = looptravel
-    travel4.thumbnail = "/site_media/data/mongolie.jpg"
+    travel4.thumbnail = "data/mongolie.jpg"
     travel4.prix = 2760
     travel4.save()
 
@@ -988,7 +988,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     travel5.term = 17
     travel5.type = looptravel
     travel5.visited_places = "Delhi, Amristar, Dharamsala, Manali, Simla"
-    travel5.thumbnail = "/site_media/data/delhi.jpg"
+    travel5.thumbnail = "data/delhi.jpg"
     travel5.prix = 1900
     travel5.save()
 
@@ -1000,7 +1000,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     travel6.term = 15
     travel6.type = looptravel
     travel6.visited_places = "de Mexico à Cancun"
-    travel6.thumbnail = "/site_media/data/mexique.jpg"
+    travel6.thumbnail = "data/mexique.jpg"
     travel6.prix = 2430
     travel6.save()
 
@@ -1018,7 +1018,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     evenement1.place="Ailleurs"
     evenement1.publication_start=datetime.now()
     evenement1.publication_end=datetime.now() + timedelta(30)
-    evenement1.image = "/site_media/data/anniversaire.jpg"
+    evenement1.image = "data/anniversaire.jpg"
     evenement1.save()
     evenement1.regional_groups.add(idfgroup)
     evenement1.save()
