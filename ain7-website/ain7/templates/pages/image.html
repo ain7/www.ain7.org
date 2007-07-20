@@ -1,0 +1,30 @@
+{% load i18n %}
+{% extends section %}
+
+{% block content %}
+
+<div id="content-main">
+
+<div align="center">
+
+<p style="text-align: center"><strong>{{ name }}</strong></p>
+<p style="text-align: center">{% trans "Actual picture" %}:<br />
+{% if filename %}
+    <img src="{{ filename }}" height="100" 
+         alt="{{ name }}"/>
+{% else %}
+    {% trans "No image" %}
+{% endif %}
+</p>
+
+<form method="post" action="." enctype="multipart/form-data">
+    <table class="form">
+        {{ form }}
+    </table>
+    <input class="button" type="submit" value="{% trans "Ok" %}" />
+</form>
+
+</div>
+</div>
+
+{% endblock %}
