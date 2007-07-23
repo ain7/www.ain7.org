@@ -36,7 +36,7 @@ class SearchPersonForm(forms.Form):
     last_name = forms.CharField(label=_('Last name'), max_length=50, required=False)
     first_name = forms.CharField(label=_('First name'), max_length=50, required=False)
     promo = forms.IntegerField(label=_('Promo'), required=False)
-    track = forms.IntegerField(label=_('Track'), required=False)
+    track = forms.IntegerField(label=_('Track'), required=False, initial=-1, widget=forms.HiddenInput())
 
 @login_required
 def detail(request, person_id):
@@ -47,12 +47,12 @@ def detail(request, person_id):
 
 @login_required
 def search(request):
-    maxTrackId=Track.objects.order_by('-id')[0].id+1
-    trackList=[(maxTrackId,'Toutes')]
-    for track in Track.objects.all():
-        trackList.append((track.id,track.name))
-    SearchPersonForm.base_fields['track'].widget=\
-        forms.Select(choices=trackList)
+    #maxTrackId=Track.objects.order_by('-id')[0].id+1
+    #trackList=[(maxTrackId,'Toutes')]
+    #for track in Track.objects.all():
+        #trackList.append((track.id,track.name))
+    #SearchPersonForm.base_fields['track'].widget=\
+        #forms.Select(choices=trackList)
 
     if request.method == 'POST':
         form = SearchPersonForm(request.POST)
@@ -65,9 +65,9 @@ def search(request):
             # qui concordent avec l'annee de promotion et la filiere
             # saisis par l'utilisateur.
             promoCriteria={}
-            if form.clean_data['promo']!=None:
+            if form.clean_data['promo'] != None:
                 promoCriteria['year']=form.clean_data['promo']
-            if form.clean_data['track']!=maxTrackId:
+            if form.clean_data['track'] != -1:
                 promoCriteria['track']=\
                     Track.objects.get(id=form.clean_data['track'])
                 
@@ -428,3 +428,13 @@ def _form_callback(f, **args):
     return None
   return f.formfield(**args)
 
+def complete_track(request):
+    elements = []
+
+    if request.method == 'POST':
+        input = request.POST['input']
+        tracks = Track.objects.filter(name__icontains=input)
+        for track in tracks:
+            elements.append({'id':track.id, 'value':track.name})
+
+    return ain7_render_to_response(request, 'pages/complete.html', {'elements':elements})

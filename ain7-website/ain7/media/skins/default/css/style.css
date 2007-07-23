@@ -483,3 +483,34 @@ ul.errorlist {
 	height: 10px;
 	clear: left;
 }
+
+
+/* Auto complete form input
+   ------ */
+
+div.complete {
+	position: absolute;
+	width: 250px;
+	background-color: white;
+	border: 1px solid #EEEEEE;
+	margin: 0;
+	padding: 0;
+}
+
+div.complete ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+div.complete ul li.selected {
+	background-color: #FFFFCC;
+}
+
+div.complete ul li {
+	list-style-type: none;
+	display: block;
+	margin: 0;
+	padding: 2px;
+	cursor: pointer;
+}

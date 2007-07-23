@@ -22,59 +22,47 @@
 
 from django.conf.urls.defaults import *
 
+from ain7.annuaire.views import *
+
 urlpatterns = patterns('',
 
     # Annuaire
-    (r'^$', 'ain7.annuaire.views.search'),
-    (r'^(?P<person_id>\d+)/$', 'ain7.annuaire.views.detail'),
+    (r'^$', search),
+    (r'^(?P<person_id>\d+)/$', detail),
     # Edition
-    (r'^(?P<person_id>\d+)/edit/$', 'ain7.annuaire.views.edit'),
-    (r'^(?P<user_id>\d+)/person/edit/$', 'ain7.annuaire.views.person_edit'),
-    (r'^(?P<user_id>\d+)/ain7member/edit/$',
-     'ain7.annuaire.views.ain7member_edit'),
-    (r'^(?P<user_id>\d+)/avatar/edit/$', 'ain7.annuaire.views.avatar_edit'),
+    (r'^(?P<person_id>\d+)/edit/$', edit),
+    (r'^(?P<user_id>\d+)/person/edit/$', person_edit),
+    (r'^(?P<user_id>\d+)/ain7member/edit/$', ain7member_edit),
+    (r'^(?P<user_id>\d+)/avatar/edit/$', avatar_edit),
     # Adresses
-    (r'^(?P<user_id>\d+)/address/(?P<address_id>\d+)/edit/$',
-     'ain7.annuaire.views.address_edit'),
-    (r'^(?P<user_id>\d+)/address/(?P<address_id>\d+)/delete/$',
-     'ain7.annuaire.views.address_delete'),
-    (r'^(?P<user_id>\d+)/address/add/$', 'ain7.annuaire.views.address_add'),
+    (r'^(?P<user_id>\d+)/address/(?P<address_id>\d+)/edit/$', address_edit),
+    (r'^(?P<user_id>\d+)/address/(?P<address_id>\d+)/delete/$', address_delete),
+    (r'^(?P<user_id>\d+)/address/add/$', address_add),
     # Phone numbers
-    (r'^(?P<user_id>\d+)/phone/(?P<phone_id>\d+)/edit/$',
-     'ain7.annuaire.views.phone_edit'),
-    (r'^(?P<user_id>\d+)/phone/(?P<phone_id>\d+)/delete/$',
-     'ain7.annuaire.views.phone_delete'),
-    (r'^(?P<user_id>\d+)/phone/add/$', 'ain7.annuaire.views.phone_add'),
+    (r'^(?P<user_id>\d+)/phone/(?P<phone_id>\d+)/edit/$', phone_edit),
+    (r'^(?P<user_id>\d+)/phone/(?P<phone_id>\d+)/delete/$', phone_delete),
+    (r'^(?P<user_id>\d+)/phone/add/$', phone_add),
     # Email
-    (r'^(?P<user_id>\d+)/email/(?P<email_id>\d+)/edit/$',
-     'ain7.annuaire.views.email_edit'),
-    (r'^(?P<user_id>\d+)/email/(?P<email_id>\d+)/delete/$',
-     'ain7.annuaire.views.email_delete'),
-    (r'^(?P<user_id>\d+)/email/add/$', 'ain7.annuaire.views.email_add'),
+    (r'^(?P<user_id>\d+)/email/(?P<email_id>\d+)/edit/$', email_edit),
+    (r'^(?P<user_id>\d+)/email/(?P<email_id>\d+)/delete/$', email_delete),
+    (r'^(?P<user_id>\d+)/email/add/$', email_add),
     # Instant messaging
-    (r'^(?P<user_id>\d+)/im/(?P<im_id>\d+)/edit/$',
-     'ain7.annuaire.views.im_edit'),
-    (r'^(?P<user_id>\d+)/im/(?P<im_id>\d+)/delete/$',
-     'ain7.annuaire.views.im_delete'),
-    (r'^(?P<user_id>\d+)/im/add/$', 'ain7.annuaire.views.im_add'),
+    (r'^(?P<user_id>\d+)/im/(?P<im_id>\d+)/edit/$', im_edit),
+    (r'^(?P<user_id>\d+)/im/(?P<im_id>\d+)/delete/$', im_delete),
+    (r'^(?P<user_id>\d+)/im/add/$', im_add),
     # Comptes IRC 
-    (r'^(?P<user_id>\d+)/irc/(?P<irc_id>\d+)/edit/$',
-     'ain7.annuaire.views.irc_edit'),
-    (r'^(?P<user_id>\d+)/irc/(?P<irc_id>\d+)/delete/$',
-     'ain7.annuaire.views.irc_delete'),
-    (r'^(?P<user_id>\d+)/irc/add/$', 'ain7.annuaire.views.irc_add'),
+    (r'^(?P<user_id>\d+)/irc/(?P<irc_id>\d+)/edit/$', irc_edit),
+    (r'^(?P<user_id>\d+)/irc/(?P<irc_id>\d+)/delete/$', irc_delete),
+    (r'^(?P<user_id>\d+)/irc/add/$', irc_add),
     # Sites Web 
-    (r'^(?P<user_id>\d+)/website/(?P<website_id>\d+)/edit/$',
-     'ain7.annuaire.views.website_edit'),
-    (r'^(?P<user_id>\d+)/website/(?P<website_id>\d+)/delete/$',
-     'ain7.annuaire.views.website_delete'),
-    (r'^(?P<user_id>\d+)/website/add/$', 'ain7.annuaire.views.website_add'),
+    (r'^(?P<user_id>\d+)/website/(?P<website_id>\d+)/edit/$', website_edit),
+    (r'^(?P<user_id>\d+)/website/(?P<website_id>\d+)/delete/$', website_delete),
+    (r'^(?P<user_id>\d+)/website/add/$', website_add),
     # Activités associatives n7
-    (r'^(?P<user_id>\d+)/club_membership/(?P<club_membership_id>\d+)/edit/$',
-     'ain7.annuaire.views.club_membership_edit'),
-    (r'^(?P<user_id>\d+)/club_membership/(?P<club_membership_id>\d+)/delete/$',
-     'ain7.annuaire.views.club_membership_delete'),
-    (r'^(?P<user_id>\d+)/club_membership/add/$',
-     'ain7.annuaire.views.club_membership_add'),
+    (r'^(?P<user_id>\d+)/club_membership/(?P<club_membership_id>\d+)/edit/$', club_membership_edit),
+    (r'^(?P<user_id>\d+)/club_membership/(?P<club_membership_id>\d+)/delete/$', club_membership_delete),
+    (r'^(?P<user_id>\d+)/club_membership/add/$', club_membership_add),
 
+    # Autocompletion
+    (r'^complete/track/$', complete_track),
 )
