@@ -321,13 +321,13 @@ def job_edit(request, emploi_id):
     j = get_object_or_404(JobOffer, pk=emploi_id)
 
     if request.method == 'POST':
-        f = JobOfferForm(request.POST)
-        if f.is_valid():
-            j.reference = request.POST['reference']
-            j.title = request.POST['title']
-            j.description = request.POST['description']
-            j.experience = request.POST['experience']
-            j.contract_type = request.POST['contract_type']
+        form = JobOfferForm(request.POST)
+        if form.is_valid():
+            j.reference = form.clean_data['reference']
+            j.title = form.clean_data['title']
+            j.description = form.clean_data['description']
+            j.experience = form.clean_data['experience']
+            j.contract_type = form.clean_data['contract_type']
             j.save()
 
             return HttpResponseRedirect('/emploi/job/%s/' % (j.id) )
@@ -341,14 +341,14 @@ def job_edit(request, emploi_id):
 def job_register(request):
 
     if request.method == 'POST':
-        f = JobOfferForm(request.POST)
-        if f.is_valid():
+        form = JobOfferForm(request.POST)
+        if form.is_valid():
             job_offer = JobOffer()
-            job_offer.reference = request.POST['reference']
-            job_offer.title = request.POST['title']
-            job_offer.description = request.POST['description']
-            job_offer.experience = request.POST['experience']
-            job_offer.contract_type = request.POST['contract_type']
+            job_offer.reference = form.clean_data['reference']
+            job_offer.title = form.clean_data['title']
+            job_offer.description = form.clean_data['description']
+            job_offer.experience = form.clean_data['experience']
+            job_offer.contract_type = form.clean_data['contract_type']
             job_offer.save()
 
             return HttpResponseRedirect('/emploi/job/%s/' % (job_offer.id))
@@ -389,3 +389,4 @@ def _form_callback(f, **args):
     if f.name in exclude_fields:
         return None
     return f.formfield(**args)
+
