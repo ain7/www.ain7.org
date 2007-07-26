@@ -184,6 +184,19 @@ def avatar_edit(request, user_id):
             request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
         return HttpResponseRedirect('/annuaire/%s/edit/' % (person.user.id))
 
+@confirmation_required(lambda user_id=None, object_id=None : '', 'annuaire/base.html', _('Do you really want to delete your avatar'))
+@login_required
+def avatar_delete(request, user_id):
+
+    person = Person.objects.get(user=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=person)
+    ain7member.avatar = None
+    ain7member.save()
+    
+    request.user.message_set.create(message=
+        _('Your avatar has been successfully deleted.'))
+    return HttpResponseRedirect('/annuaire/%s/edit/' % user_id)
+
 def _generic_edit(request, user_id, object_id, object_type,
                   person, ain7member, action_title, msg_done):
 

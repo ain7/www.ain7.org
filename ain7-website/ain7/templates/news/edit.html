@@ -23,11 +23,15 @@
     {% if news_item.image %}
         <img src="{{ news_item.get_image_url }}" height="100" 
              alt="{% trans "image" %}" />
+        <a href="/actualites/{{ news_item.id }}/image/edit/" class="changelink">
+            {% trans "Modify" %}</a>
+        <a href="/actualites/{{ news_item.id }}/image/delete/" 
+            class="deletelink">{% trans "Delete" %}</a>
     {% else %}
         {% trans "No image" %}
+        <a href="/actualites/{{ news_item.id }}/image/edit/" class="addlink">
+            {% trans "Add" %}</a>
     {% endif %}
-    <a href="/actualites/{{ news_item.id }}/image/edit/" class="changelink">
-        {% trans "Modify" %}</a>
 </p>
 
 </div>

@@ -22,11 +22,15 @@
     {% if event.image %}
 	   <img src="{{ event.get_image_url }}" height="100" 
         alt="{% trans "image" %}" />
-    {% else %}
-        {% trans "No image" %}
-    {% endif %}
     <a href="/evenements/{{ event.id }}/image/edit/" class="changelink">
         {% trans "Modify" %}</a>
+    <a href="/evenements/{{ event.id }}/image/delete/" class="deletelink">
+        {% trans "Delete" %}</a>
+    {% else %}
+        {% trans "No image" %}
+    <a href="/evenements/{{ event.id }}/image/edit/" class="addlink">
+        {% trans "Add" %}</a>
+    {% endif %}
 </p>
 
 </div>

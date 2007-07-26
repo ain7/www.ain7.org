@@ -22,14 +22,17 @@
 
 from django.conf.urls.defaults import *
 
+from ain7.news.views import *
+
 urlpatterns = patterns('',
 
     # Evenements
-    (r'^$', 'ain7.news.views.index'),
-    (r'^write/$', 'ain7.news.views.write'),
-    (r'^search/$', 'ain7.news.views.search'),
-    (r'^(?P<news_id>\d+)/$', 'ain7.news.views.details'),
-    (r'^(?P<news_id>\d+)/edit/$', 'ain7.news.views.edit'),
-    (r'^(?P<news_id>\d+)/image/edit/$', 'ain7.news.views.image_edit'),
+    (r'^$', index),
+    (r'^write/$', write),
+    (r'^search/$', search),
+    (r'^(?P<news_id>\d+)/$', details),
+    (r'^(?P<news_id>\d+)/edit/$', edit),
+    (r'^(?P<news_id>\d+)/image/edit/$', image_edit),
+    (r'^(?P<news_id>\d+)/image/delete/$', image_delete),
 
 )

@@ -44,8 +44,17 @@
 </ul>
 </div>
 
-<p><a href="/annuaire/{{ person.user.id }}/avatar/edit/" class="changelink">
-   {% trans "Modify" %}</a></p>
+<p>
+{% if ain7member.avatar %}
+   <a href="/annuaire/{{ person.user.id }}/avatar/edit/" class="changelink">
+   {% trans "Modify" %}</a>
+   <a href="/annuaire/{{ person.user.id }}/avatar/delete/" class="deletelink">
+   {% trans "Delete" %}</a>
+{% else %}
+   <a href="/annuaire/{{ person.user.id }}/avatar/edit/" class="addlink">
+   {% trans "Add" %}</a>
+{% endif %}</li>
+</p>
 
 
 <div class="dataBlock">

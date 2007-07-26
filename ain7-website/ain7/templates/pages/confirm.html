@@ -5,7 +5,13 @@
 
 <form method="post" action=".">
 	<div class="confirm">
-		<p><strong>{{ message }} "{{ description|escape }}" ?</strong></p>
+		<p><strong>
+		{% if description %}
+			{{ message }} "{{ description|escape }}" ?
+		{% else %}
+			{{ message }} ?
+		{% endif %}
+		</strong></p>
 		<p>
 			<a class="button" href="{{ back }}">{% trans "No" %}</a>
 			<input type="submit" class="button" value="{% trans "Yes" %}" />

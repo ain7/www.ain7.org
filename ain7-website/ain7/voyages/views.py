@@ -160,6 +160,18 @@ def thumbnail_edit(request, travel_id):
             request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
         return HttpResponseRedirect('/voyages/%s/edit/' % travel_id)
 
+@confirmation_required(lambda travel_id=None, object_id=None : '', 'voyages/base.html', _('Do you really want to delete the thumbnail of this travel'))
+@login_required
+def thumbnail_delete(request, travel_id):
+
+    travel = get_object_or_404(Travel, pk=travel_id)
+    travel.thumbnail = None
+    travel.save()
+    
+    request.user.message_set.create(message=
+        _('The thumbnail of this travel has been successfully deleted.'))
+    return HttpResponseRedirect('/voyages/%s/edit/' % travel_id)
+
 @login_required
 def join(request, travel_id):
     travel = get_object_or_404(Travel, pk=travel_id)

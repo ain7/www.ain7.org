@@ -22,13 +22,15 @@
 
 from django.conf.urls.defaults import *
 
+from ain7.groupes_regionaux.views import *
+
 urlpatterns = patterns('',
 
     # Groupes Regionaux
-    (r'^$', 'ain7.groupes_regionaux.views.index'),
-    (r'^(?P<group_id>\d+)/$', 'ain7.groupes_regionaux.views.details'),
-    (r'^(?P<group_id>\d+)/edit/$', 'ain7.groupes_regionaux.views.edit'),
-    (r'^(?P<group_id>\d+)/join/$', 'ain7.groupes_regionaux.views.join'),
-    (r'^(?P<group_id>\d+)/quit/$', 'ain7.groupes_regionaux.views.quit'),
+    (r'^$', index),
+    (r'^(?P<group_id>\d+)/$', details),
+    (r'^(?P<group_id>\d+)/edit/$', edit),
+    (r'^(?P<group_id>\d+)/join/$', join),
+    (r'^(?P<group_id>\d+)/quit/$', quit),
 
 )

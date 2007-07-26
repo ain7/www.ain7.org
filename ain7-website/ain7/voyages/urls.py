@@ -22,29 +22,30 @@
 
 from django.conf.urls.defaults import *
 
+from ain7.voyages.views import *
+
 urlpatterns = patterns('',
 
     # Voyages
-    (r'^$', 'ain7.voyages.views.index'),
-    (r'^search/$', 'ain7.voyages.views.search'),
-    (r'^edit/$', 'ain7.voyages.views.edit'),
-    (r'^add/$', 'ain7.voyages.views.add'),
-    (r'^list/$', 'ain7.voyages.views.list'),
-    (r'^(?P<travel_id>\d+)/$', 'ain7.voyages.views.detail'),
-    (r'^(?P<travel_id>\d+)/edit/$', 'ain7.voyages.views.edit'),
-    (r'^(?P<travel_id>\d+)/thumbnail/edit/$',
-     'ain7.voyages.views.thumbnail_edit'),
-    (r'^(?P<travel_id>\d+)/join/$', 'ain7.voyages.views.join'),
-    (r'^(?P<travel_id>\d+)/search/$', 'ain7.voyages.views.search'),
-    (r'^(?P<travel_id>\d+)/subscribe/$', 'ain7.voyages.views.subscribe'),
+    (r'^$', index),
+    (r'^search/$', search),
+    (r'^edit/$', edit),
+    (r'^add/$', add),
+    (r'^list/$', list),
+    (r'^(?P<travel_id>\d+)/$', detail),
+    (r'^(?P<travel_id>\d+)/edit/$', edit),
+    (r'^(?P<travel_id>\d+)/thumbnail/edit/$', thumbnail_edit),
+    (r'^(?P<travel_id>\d+)/thumbnail/delete/$', thumbnail_delete),
+    (r'^(?P<travel_id>\d+)/join/$', join),
+    (r'^(?P<travel_id>\d+)/search/$', search),
+    (r'^(?P<travel_id>\d+)/subscribe/$', subscribe),
     (r'^(?P<travel_id>\d+)/unsubscribe/(?P<participant_id>\d+)/$',
-     'ain7.voyages.views.unsubscribe'),
-    (r'^(?P<travel_id>\d+)/participants/$', 'ain7.voyages.views.participants'),
-    (r'^(?P<travel_id>\d+)/responsibles/$', 'ain7.voyages.views.responsibles'),
-    (r'^(?P<travel_id>\d+)/responsibles/add/$',
-     'ain7.voyages.views.responsibles_add'),
+     unsubscribe),
+    (r'^(?P<travel_id>\d+)/participants/$', participants),
+    (r'^(?P<travel_id>\d+)/responsibles/$', responsibles),
+    (r'^(?P<travel_id>\d+)/responsibles/add/$', responsibles_add),
     (r'^(?P<travel_id>\d+)/responsibles/(?P<responsible_id>\d+)/delete/$',
-     'ain7.voyages.views.responsibles_delete'),
-    (r'^(?P<travel_id>\d+)/delete/$', 'ain7.voyages.views.delete'),
+     responsibles_delete),
+    (r'^(?P<travel_id>\d+)/delete/$', delete),
 
 )

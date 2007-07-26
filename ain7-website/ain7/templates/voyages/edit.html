@@ -22,11 +22,15 @@
        {% if travel.thumbnail %}
 	   <img src="{{ travel.get_thumbnail_url }}" height="100" 
            alt="{% trans "thumbnail" %}" />
+           <a href="/voyages/{{ travel.id }}/thumbnail/edit/" 
+               class="changelink">{% trans "Modify" %}</a>
+           <a href="/voyages/{{ travel.id }}/thumbnail/delete/" 
+               class="deletelink">{% trans "Delete" %}</a>
        {% else %}
            {% trans "No thumbnail" %}
+           <a href="/voyages/{{ travel.id }}/thumbnail/edit/" 
+               class="addlink">{% trans "Add" %}</a>
        {% endif %}
-       <a href="/voyages/{{ travel.id }}/thumbnail/edit/" class="changelink">
-           {% trans "Modify" %}</a>
     </p>
 {% else %}
     <p>{% trans "To associate an image to this travel, modify it after its creation." %}</p>

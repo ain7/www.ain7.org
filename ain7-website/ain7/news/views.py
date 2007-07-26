@@ -28,6 +28,7 @@ from django.template import RequestContext
 
 from ain7.news.models import NewsItem
 from ain7.utils import ain7_render_to_response, ImgUploadForm
+from ain7.decorators import confirmation_required
 
 
 class SearchNewsForm(forms.Form):
@@ -93,6 +94,18 @@ def image_edit(request, news_id):
         else:
             request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
         return HttpResponseRedirect('/actualites/%s/edit/' % news_item.id)
+
+@confirmation_required(lambda news_id=None, object_id=None : '', 'base.html', _('Do you really want to delete the image of this news'))
+@login_required
+def image_delete(request, news_id):
+
+    news_item = get_object_or_404(NewsItem, pk=news_id)
+    news_item.image = None
+    news_item.save()
+    
+    request.user.message_set.create(message=
+        _('The image of this news item has been successfully deleted.'))
+    return HttpResponseRedirect('/actualites/%s/edit/' % news_id)
 
 @login_required
 def write(request):

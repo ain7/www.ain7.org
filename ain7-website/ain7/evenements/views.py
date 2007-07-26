@@ -31,6 +31,7 @@ from datetime import datetime
 from ain7.annuaire.models import Person
 from ain7.evenements.models import Event, EventSubscription
 from ain7.utils import ain7_render_to_response, ImgUploadForm
+from ain7.decorators import confirmation_required
 
 class JoinEventForm(forms.Form):
     subscriber_number = forms.IntegerField(label=_('Number of persons'))
@@ -113,6 +114,18 @@ def image_edit(request, event_id):
         else:
             request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
         return HttpResponseRedirect('/evenements/%s/edit/' % event.id)
+
+@confirmation_required(lambda event_id=None, object_id=None : '', 'evenements/base.html', _('Do you really want to delete the image of this event'))
+@login_required
+def image_delete(request, event_id):
+
+    event = get_object_or_404(Event, pk=event_id)
+    event.image = None
+    event.save()
+    
+    request.user.message_set.create(message=
+        _('The image of this event has been successfully deleted.'))
+    return HttpResponseRedirect('/evenements/%s/edit/' % event_id)
 
 @login_required
 def join(request, event_id):
