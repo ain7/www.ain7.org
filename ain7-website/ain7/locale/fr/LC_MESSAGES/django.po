@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-26 22:55+0200\n"
-"PO-Revision-Date: 2007-07-26 22:58+0200\n"
+"PO-Revision-Date: 2007-07-26 23:34+0200\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -595,7 +595,7 @@ msgstr "Contenu"
 
 #: news/views.py:63
 msgid "News successfully updated."
-msgstr "Événement mis à jour"
+msgstr "Actualité mise à jour"
 
 #: news/views.py:83 news/models.py:32 templates/news/edit.html:22
 #: templates/news/edit.html.py:25 templates/evenements/details.html:23

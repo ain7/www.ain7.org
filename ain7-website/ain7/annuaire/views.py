@@ -133,6 +133,7 @@ def ain7member_edit(request, user_id=None):
     else:
         person = Person.objects.get(user=user_id)
         ain7member = get_object_or_404(AIn7Member, person=person)
+        avatar = ain7member.avatar
         PersonForm = forms.form_for_instance(ain7member,
             formfield_callback=_form_callback)
 
@@ -142,10 +143,8 @@ def ain7member_edit(request, user_id=None):
              form = PersonForm(post)
              if form.is_valid():
                  form.clean_data['person'] = person
+                 form.clean_data['avatar'] = avatar
                  form.save()
-                 ain7member.save_avatar_file(
-                     form.clean_data['avatar']['filename'],
-                     form.clean_data['avatar']['content'])
                  request.user.message_set.create(message=_("Modifications have been successfully saved."))
              else:
                  request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))

@@ -67,6 +67,7 @@ def details(request, event_id):
 def edit(request, event_id):
 
     event = get_object_or_404(Event, pk=event_id)
+    image = event.image
 
     EventForm = forms.models.form_for_instance(event,
         formfield_callback=_form_callback)
@@ -74,9 +75,12 @@ def edit(request, event_id):
     if request.method == 'POST':
         f = EventForm(request.POST.copy())
         if f.is_valid():
+            f.clean_data['image'] = image
             f.save()
 
-        request.user.message_set.create(message=_('Event successfully updated.'))
+            request.user.message_set.create(message=_('Event successfully updated.'))
+        else:
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(f.errors))            
 
         return HttpResponseRedirect('/evenements/%s/' % (event.id))
 
@@ -178,9 +182,12 @@ def register(request):
     if request.method == 'POST':
         f = EventForm(request.POST.copy())
         if f.is_valid():
+            f.clean_data['image'] = None
             f.save()
 
-        request.user.message_set.create(message=_('Event successfully added.'))
+            request.user.message_set.create(message=_('Event successfully added.'))
+        else:
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(f.errors))            
 
         #return HttpResponseRedirect('/evenements/%s/' % (f.id))
         return HttpResponseRedirect('/evenements/')

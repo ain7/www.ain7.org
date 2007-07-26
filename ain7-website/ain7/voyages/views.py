@@ -70,11 +70,12 @@ def add(request):
     if request.method == 'POST':
         form = TravelForm(request.POST)
         if form.is_valid():
+            form.clean_data['thumbnail'] = None
             form.save()
             request.user.message_set.create(
                 message=_('The travel has been successfully created.'))
         else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(form.errors))
         return HttpResponseRedirect('/voyages/')
     return ain7_render_to_response(request, 'voyages/edit.html',
                                    {'form': form, 'action': 'add'})
@@ -114,6 +115,7 @@ def search(request):
 @login_required
 def edit(request, travel_id=None):
     travel = Travel.objects.get(pk=travel_id)
+    thumbnail = travel.thumbnail
     TravelForm = forms.models.form_for_instance(travel,
         formfield_callback=_edit_callback)
     TravelForm.base_fields['description'].widget = \
@@ -124,11 +126,12 @@ def edit(request, travel_id=None):
     if request.method == 'POST':
         form = TravelForm(request.POST)
         if form.is_valid():
+            form.clean_data['thumbnail'] = thumbnail
             form.save()
             request.user.message_set.create(
                 message=_("Modifications have been successfully saved."))
         else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(form.errors))
         return HttpResponseRedirect('/voyages/%s/' % (travel.id))
     return ain7_render_to_response(request, 'voyages/edit.html',
         {'form': form, 'action': 'edit', 'travel': travel})
@@ -157,7 +160,7 @@ def thumbnail_edit(request, travel_id):
                 form.clean_data['img_file']['content'])
             request.user.message_set.create(message=_("The picture has been successfully changed."))
         else:
-            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done.")+str(form.errors))
         return HttpResponseRedirect('/voyages/%s/edit/' % travel_id)
 
 @confirmation_required(lambda travel_id=None, object_id=None : '', 'voyages/base.html', _('Do you really want to delete the thumbnail of this travel'))
@@ -202,7 +205,7 @@ def join(request, travel_id):
             f.save()
             request.user.message_set.create(message=_('You have been successfully subscribed to this travel.'))
         else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(f.errors))
         return HttpResponseRedirect('/voyages/%s/' % (travel.id))
 
 
@@ -238,7 +241,7 @@ def subscribe(request, travel_id):
                 f.save()
                 request.user.message_set.create(message=_('You have successfully subscribed someone to this travel.'))
             else:
-                request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+                request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(f.errors))
             return ain7_render_to_response(request, 'voyages/participants.html',
                                     {'travel': travel})
     return HttpResponseRedirect('/voyages/%s/' % (travel.id))
@@ -301,7 +304,7 @@ def responsibles_add(request, travel_id):
                 f.save()
                 request.user.message_set.create(message=_('You have successfully added someone to responsibles of this travel.'))
             else:
-                request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+                request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(f.errors))
             return ain7_render_to_response(request, 'voyages/responsibles.html',
                                     {'travel': travel})
     return HttpResponseRedirect('/voyages/%s/' % (travel.id))

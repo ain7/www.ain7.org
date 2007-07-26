@@ -51,13 +51,15 @@ def details(request, news_id):
 def edit(request, news_id):
 
    news_item = get_object_or_404(NewsItem, pk=news_id)
+   image = news_item.image
 
    NewsForm = forms.models.form_for_instance(news_item,
                                              formfield_callback=_form_callback)
 
    if request.method == 'POST':
-        f = NewsForm(request.POST.copy(), formfield_callback=_form_callback)
+        f = NewsForm(request.POST.copy())
         if f.is_valid():
+            f.clean_data['image'] = image
             f.save()
 
         request.user.message_set.create(message=_('News successfully updated.'))
@@ -114,11 +116,12 @@ def write(request):
                                            formfield_callback=_form_callback)
 
     if request.method == 'POST':
-        f = NewsForm(request.POST.copy(), formfield_callback=_form_callback)
+        f = NewsForm(request.POST.copy())
         if f.is_valid():
+            f.clean_data['image'] = None
             f.save()
 
-        request.user.message_set.create(message=_('Event successfully added.'))
+        request.user.message_set.create(message=_('News successfully added.'))
 
         #return HttpResponseRedirect('/evenements/%s/' % (f.id))
         return HttpResponseRedirect('/actualites/')
