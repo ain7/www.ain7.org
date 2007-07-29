@@ -12,7 +12,12 @@
 
 {% if ain7member.receive_job_offers_for_tracks.all %}
 
-<h2>{% trans "Jobs list for tracks" %}&nbsp;
+<h2>
+    {% if ain7member.receive_job_offers_for_tracks.all|length_is:"1" %}
+         {% trans "Job offers list for track" %}
+    {% else %}
+         {% trans "Job offers list for tracks" %}
+    {% endif %}
     {% for track in ain7member.receive_job_offers_for_tracks.all %}
         {{ track }}
         {% if not forloop.last %} - {% endif %}
@@ -21,7 +26,7 @@
 
 {% else %}
 
-<h2>{% trans "Jobs list" %}</h2>
+<h2>{% trans "Job offers list" %}</h2>
 
 {% endif %}
 
@@ -34,7 +39,7 @@
     {% endfor %}
      </ul>
 {% else %}
-    <p>{% trans "No job." %}</p>
+    <p>{% trans "No job offer." %}</p>
 {% endif %}
 <p>
 <a href="/emploi/job/search/">{% trans "Search a job offer" %}</a><br />
@@ -45,7 +50,7 @@
 <a href="/emploi/{{ user.id }}/cv/">{% trans "View your CV" %}</a>.<br />
 <a href="/emploi/{{ user.id }}/cv/edit/">{% trans "Modify your CV" %}</a>.<br />
 {% trans "To display (or not) your CV in the directory, please fill" %}
-<a href="/annuaire/{{ user.id }}/edit/">{% trans "this page" %}</a>
+<a href="/annuaire/{{ user.id }}/ain7member/edit/">{% trans "this page" %}</a>
 </p>
 
 {# ### this user is not a physical person ### #}

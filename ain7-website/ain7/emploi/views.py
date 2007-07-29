@@ -27,6 +27,7 @@ from django.newforms import widgets
 from django.template import RequestContext
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
+from datetime import datetime
 
 from ain7.annuaire.models import Person, AIn7Member, Track
 from ain7.decorators import confirmation_required
@@ -377,9 +378,28 @@ def company_details(request, company_id):
 
     company = get_object_or_404(Company, pk=company_id)
     offices = Office.objects.filter(company=company)
-
+    liste_emplois = []
+    liste_N7_past = []
+    liste_N7_current = []
+    for office in offices:
+        liste_emplois.extend(JobOffer.objects.filter(office=office))
+        for position in office.positions.all():
+            print "position:"  + str(position)
+            ain7member = position.ain7member
+            today = datetime.now().date()
+            # je veille à ce qu'une personne actuellement dans cette société
+            # n'apparaisse pas également dans la liste des précédents employés
+            if (not position.end_date) or position.end_date >= today:
+                if ain7member in liste_N7_past:
+                    liste_N7_past.remove(ain7member)
+                liste_N7_current.append(ain7member)
+            else:
+                if not ain7member in liste_N7_current:
+                    liste_N7_past.append(ain7member)
     return ain7_render_to_response(request, 'emploi/company_details.html',
-                            {'company': company, 'offices': offices})
+        {'company': company, 'offices': offices,
+         'liste_emplois': liste_emplois, 'liste_N7_past': liste_N7_past,
+         'liste_N7_current': liste_N7_current})
 
 # une petite fonction pour exclure les champs
 # person user ain7member

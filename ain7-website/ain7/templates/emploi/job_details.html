@@ -10,6 +10,13 @@
 <p>{% trans "This announce has been viewed" %} {{ job.nb_views }} {% trans "times" %}.</p>
 
 <ul>
+<li><b>{% filter capfirst%}{% trans "company" %}{% endfilter %}&nbsp;:</b>
+    <a href="/emploi/societe/{{ job.office.company.id }}/">
+    {{ job.office.company }}</a>, {{ job.office }}
+{% if job.contact %}
+<li><b>{% trans "Contact" %}&nbsp;:</b> 
+    <a href="/annuaire/{{ job.contact.user.id }}/">{{ job.contact }}</a>
+{% endif %}
 <li><b>{% trans "Reference" %}&nbsp;:</b> {{ job.reference }}</li>
 <li><b>{% trans "Title" %}&nbsp;:</b> {{ job.title }}</li>
 <li><b>{% trans "Experience" %}&nbsp;:</b> {{ job.experience }}</li>

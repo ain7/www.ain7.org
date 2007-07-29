@@ -5,13 +5,67 @@
 
 <div id="content-main">
 <h1>{{ company }}</h1>
+<h2>{% trans "List of offices" %}</h2>
 <ul>
 {% for office in offices %}
-    <li>{{ office }}</li>
+    <li>{{ office }}
+        {% if office.number or office.street or office.zip_code or office.city or office.country or office.phone_number or office.web_site %}
+        <p>
+           {% if office.number or office.street %}
+               {{ office.number|default_if_none:"" }} 
+               {{ office.street|default_if_none:"" }}<br />
+           {% endif %}
+           {% if office.zip_code or office.city or office.country %}
+               {{ office.zip_code|default_if_none:"" }}
+               {{ office.city|default_if_none:"" }}
+               {% if office.country %} - {{ office.country }} {% endif %}<br />
+           {% endif %}
+           {% if office.phone_number %} 
+               {{ office.phone_number }} <br />
+           {% endif %}
+           {% if office.web_site %} 
+               <a href="{{ office.web_site }}">{{ office.web_site }}</a> 
+           {% endif %}
+        </p>
+        {% endif %}
+    </li>
 {% endfor %}
 </ul>
 
-<p>TODO !</p>
+
+{% if liste_emplois %}
+<h2>{% trans "Job offers list" %}</h2>
+    <ul>
+    {% for emploi in liste_emplois %}
+        <li><a href="/emploi/job/{{ emploi.id }}/">{{ emploi.title }}</a> 
+            ({{ emploi.office }})
+        </li>
+    {% endfor %}
+     </ul>
+{% endif %}
+
+
+{% if liste_N7_current %}
+<h2>{% trans "Current N7 employees" %}</h2>
+    <ul>
+    {% for ain7member in liste_N7_current %}
+        <li><a href="/annuaire/{{ ain7member.person.user.id }}/">
+            {{ ain7member }}</a>
+        </li>
+    {% endfor %}
+     </ul>
+{% endif %}
+
+{% if liste_N7_past %}
+<h2>{% trans "Past N7 employees" %}</h2>
+    <ul>
+    {% for ain7member in liste_N7_past %}
+        <li><a href="/annuaire/{{ ain7member.person.user.id }}/">
+            {{ ain7member }}</a>
+        </li>
+    {% endfor %}
+     </ul>
+{% endif %}
 
 </div>
 

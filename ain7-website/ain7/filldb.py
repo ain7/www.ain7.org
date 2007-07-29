@@ -38,12 +38,10 @@ import sys
 
 def filldb():
 
-    # Country
-    france = annuaire.Country(name="France", nationality="Française")
-    france.save()
-
-    england = annuaire.Country(name="Angleterre", nationality="Anglaise")
-    england.save()
+    ######################  Fixed values  ##############################
+    # Cette partie regroupe les valeurs fixes de la base,              #
+    # que l'on s'autorise donc à tester en dur dans le code.           #
+    # Merci d'y ajouter tous les champs que vous devez tester en dur.  #
 
     # Types
     activityKnown = annuaire.Activity(activity="Connue")
@@ -55,17 +53,27 @@ def filldb():
     memberTypeActif = annuaire.MemberType(type="Membre actif")
     memberTypeActif.save()
 
-    personTypeIngeneer = annuaire.PersonType(type="Ingénieur")
-    personTypeIngeneer.save()
+    personTypeEngineer = annuaire.PersonType(type="Ingénieur")
+    personTypeEngineer.save()
 
     personTypeStudent = annuaire.PersonType(type="Etudiant")
     personTypeStudent.save()
 
-    personnalAddressType = annuaire.AddressType(type="Personnelle")
-    personnalAddressType.save()
+    personalAddressType = annuaire.AddressType(type="Personnelle")
+    personalAddressType.save()
 
     parentalAddressType = annuaire.AddressType(type="Parentale")
     parentalAddressType.save()
+
+    #                                                                  #
+    ###################### End of fixed values #########################
+
+    # Country
+    france = annuaire.Country(name="France", nationality="Française")
+    france.save()
+
+    england = annuaire.Country(name="Angleterre", nationality="Anglaise")
+    england.save()
 
     # Profiles
     profile_n7 = annuaire.Profile()
@@ -216,7 +224,7 @@ def filldb():
     lionel_ain7member.person = lionel
     lionel_ain7member.activity = activityRetired
     lionel_ain7member.member_type = memberTypeActif
-    lionel_ain7member.person_type = personTypeIngeneer
+    lionel_ain7member.person_type = personTypeEngineer
     lionel_ain7member.promos.add(n7in2003)
     lionel_ain7member.nick_name = "Yoyo"
     lionel_ain7member.blog = "http://www.porcheron.info"
@@ -239,7 +247,7 @@ def filldb():
     lionel_adresse.zip_code = "31000"
     lionel_adresse.city = "Toulouse"
     lionel_adresse.country = france
-    lionel_adresse.type = personnalAddressType
+    lionel_adresse.type = personalAddressType
     lionel_adresse.save()
 
     lionel_couriel1 = annuaire.Email()
@@ -343,7 +351,7 @@ def filldb():
     pierref_adresse.zip_code = "31000"
     pierref_adresse.city = "Toulouse"
     pierref_adresse.country = france
-    pierref_adresse.type = personnalAddressType
+    pierref_adresse.type = personalAddressType
     pierref_adresse.save()
 
     pierref_irc1 = annuaire.IRC()
@@ -369,7 +377,7 @@ def filldb():
     olivier_ain7member.person = olivier
     olivier_ain7member.activity = activityKnown
     olivier_ain7member.member_type = memberTypeActif
-    olivier_ain7member.person_type = personTypeIngeneer
+    olivier_ain7member.person_type = personTypeEngineer
     olivier_ain7member.promos.add(n7in2003)
     olivier_ain7member.display_cv_in_directory = True
     olivier_ain7member.display_cv_in_job_section = True
@@ -390,7 +398,7 @@ def filldb():
     olivier_adresse.zip_code = "31000"
     olivier_adresse.city = "Toulouse"
     olivier_adresse.country = france
-    olivier_adresse.type = personnalAddressType
+    olivier_adresse.type = personalAddressType
     olivier_adresse.save()
 
     olivier_adresse2 = annuaire.Address()
@@ -492,7 +500,7 @@ def filldb():
     alex_ain7member.person = alex
     alex_ain7member.activity = activityKnown
     alex_ain7member.member_type = memberTypeActif
-    alex_ain7member.person_type = personTypeIngeneer
+    alex_ain7member.person_type = personTypeEngineer
     alex_ain7member.promos.add(n7in2006)
     alex_ain7member.nick_name = "Alex"
     alex_ain7member.display_cv_in_directory = False
@@ -520,7 +528,7 @@ def filldb():
     alex_adresse1.zip_code = "75013"
     alex_adresse1.city = "Paris"
     alex_adresse1.country = france
-    alex_adresse1.type = personnalAddressType
+    alex_adresse1.type = personalAddressType
     alex_adresse1.save()
 
     alex_adresse2 = annuaire.Address()
@@ -1062,6 +1070,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
 
     job1 = emploi.JobOffer()
     job1.reference = "XYZ270"
+    job1.contact = lionel
     job1.title = "Ingénieur Java/J2EE"
     job1.description = """Pour l'un de nos clients Grand Compte, nous recherchons des Ingénieurs d'études Java/J2ee, sous la conduite d'un Chef de projet, vous aurez en charge la réalisation des études techniques et fonctionnelles, le développement des applications."""
     job1.experience = "1 à 2 ans"
