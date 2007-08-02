@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-29 22:43+0200\n"
-"PO-Revision-Date: 2007-07-29 22:42+0200\n"
+"POT-Creation-Date: 2007-08-02 23:20+0200\n"
+"PO-Revision-Date: 2007-08-02 23:21+0200\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -905,15 +905,19 @@ msgstr "Comptes IRC"
 msgid "Web sites"
 msgstr "Sites internet"
 
-#: templates/registration/login.html:11
+#: templates/registration/login.html:8
+msgid "Your username and password didn't match. Please try again."
+msgstr "Votre identifiaction a échoué. Veuillez essayer à nouveau."
+
+#: templates/registration/login.html:13
 msgid "You need to be authentified to access to this part of the site."
 msgstr "Vous devez être authentifié pour accéder à cette partie du site."
 
-#: templates/registration/login.html:17
+#: templates/registration/login.html:19
 msgid "Login"
 msgstr "Identifiant"
 
-#: templates/registration/login.html:20
+#: templates/registration/login.html:22
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -936,7 +940,7 @@ msgstr "Pas d'acutalité"
 #: templates/news/index.html:32 templates/news/details.html:20
 #: templates/groupes/details.html:16 templates/evenements/index.html:31
 #: templates/evenements/details.html:36 templates/sondages/index.html:21
-#: templates/sondages/view.html:38 templates/voyages/participants.html:35
+#: templates/sondages/view.html:38 templates/voyages/participants.html:34
 #: templates/voyages/responsibles.html:33 templates/voyages/index.html:82
 #: templates/voyages/details.html:63 templates/voyages/list.html:31
 #: templates/groupes_regionaux/details.html:31
@@ -1024,7 +1028,7 @@ msgstr "Sauvegarder les modifications"
 #: templates/evenements/join.html:25 templates/evenements/participants.html:27
 #: templates/evenements/subscribe.html:25 templates/evenements/details.html:46
 #: templates/evenements/register.html:27 templates/evenements/edit.html:40
-#: templates/voyages/join.html:28 templates/voyages/participants.html:43
+#: templates/voyages/join.html:28 templates/voyages/participants.html:42
 #: templates/voyages/responsibles.html:41 templates/voyages/details.html:79
 msgid "Statistics"
 msgstr "Statistiques"
@@ -1121,7 +1125,7 @@ msgstr "Liste des offres d'emploi pour la filière"
 msgid "Job offers list for tracks"
 msgstr "Liste des offres d'emploi pour les filières"
 
-#: templates/emploi/index.html:29 templates/emploi/company_details.html:37
+#: templates/emploi/index.html:29 templates/emploi/company_details.html:38
 msgid "Job offers list"
 msgstr "Liste des offres d'emploi"
 
@@ -1205,15 +1209,15 @@ msgstr "Ajout de loisirs"
 msgid "Job offer registration"
 msgstr "Enregistrer une offre d'emploi"
 
-#: templates/emploi/company_details.html:8
+#: templates/emploi/company_details.html:9
 msgid "List of offices"
 msgstr "Liste des bureaux"
 
-#: templates/emploi/company_details.html:49
+#: templates/emploi/company_details.html:50
 msgid "Current N7 employees"
 msgstr "Ingénieurs N7 actuellement employés"
 
-#: templates/emploi/company_details.html:60
+#: templates/emploi/company_details.html:61
 msgid "Past N7 employees"
 msgstr "Ingénieurs N7 employés par le passé"
 
@@ -1331,7 +1335,7 @@ msgstr "Editer ce sondage"
 msgid "See all surveys"
 msgstr "Voir tous les sondages"
 
-#: templates/voyages/join.html:33 templates/voyages/participants.html:47
+#: templates/voyages/join.html:33 templates/voyages/participants.html:46
 #: templates/voyages/responsibles.html:45 templates/voyages/details.html:83
 msgid "persons are subscribed to this travel"
 msgstr "personnes inscrites à ce voyage"
@@ -1340,20 +1344,20 @@ msgstr "personnes inscrites à ce voyage"
 msgid "Unsubscribe"
 msgstr "Désinscrire"
 
-#: templates/voyages/participants.html:27
+#: templates/voyages/participants.html:26
 msgid "No one is subscribed to this travel"
 msgstr "Personne n'est inscrit à ce voyage"
 
-#: templates/voyages/participants.html:39
+#: templates/voyages/participants.html:38
 msgid "Subscribe someone to this travel"
 msgstr "Inscrire une personne à ce voyage"
 
-#: templates/voyages/participants.html:51
+#: templates/voyages/participants.html:50
 #: templates/voyages/responsibles.html:49 templates/voyages/list.html:39
 msgid "Navigation"
 msgstr "Navigation"
 
-#: templates/voyages/participants.html:55
+#: templates/voyages/participants.html:54
 #: templates/voyages/responsibles.html:53
 msgid "Back to the page of this travel"
 msgstr "Retour à la page de ce voyage"

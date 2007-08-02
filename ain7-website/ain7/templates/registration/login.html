@@ -4,7 +4,9 @@
 {% block content %}
 
 {% if form.has_errors %}
-<p class="msg_info">Your username and password didn't match. Please try again.</p>
+<p class="msg_info">
+{% trans "Your username and password didn't match. Please try again." %}
+</p>
 {% endif %}
 
 <div class="warning">
