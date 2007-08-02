@@ -12,17 +12,16 @@
   <h3>{{ travel.label|escape }} - {{ travel.date|escape }}</h3>
 
 {% if travel.subscriptions.all %}
-  <table>
     {% for subscription in travel.subscriptions.all %}
-      <tr>
-        <td><a href="/annuaire/{{ subscription.subscriber.user.id }}/">
-          {{ subscription.subscriber|escape }}</a> :</td>
-        <td>{{ subscription.subscriber_number }} {% trans "person" %}</td>
-        <td>(<a href="/voyages/{{ travel.id }}/unsubscribe/{{ subscription.subscriber.user.id}}" class="deletelink">
-          {% trans "Unsubscribe" %}</a>)</td>
-      </tr>
+      <ul>
+        <li class="person">
+          <a href="/annuaire/{{ subscription.subscriber.user.id }}/">
+          {{ subscription.subscriber|escape }}</a> :
+        {{ subscription.subscriber_number }} {% trans "person" %}
+        (<a href="/voyages/{{ travel.id }}/unsubscribe/{{ subscription.subscriber.user.id}}" class="deletelink">
+          {% trans "Unsubscribe" %}</a>)</li>
+      </ul>
     {% endfor %}
-  </table>
 {% else %}
   <p>{% trans "No one is subscribed to this travel" %}.</p>
 {% endif %}

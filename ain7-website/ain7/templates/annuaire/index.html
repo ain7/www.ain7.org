@@ -9,7 +9,7 @@
 {% if ain7members %}
     <ul>
     {% for ain7member in ain7members %}
-        <li><a href="/annuaire/{{ ain7member.person.user.id }}/">
+        <li class="person"><a href="/annuaire/{{ ain7member.person.user.id }}/">
             {{ ain7member.person.last_name }} {{ ain7member.person.first_name }}</a> 
             {% for promo in ain7member.promos.all %}
                {% if forloop.last %} {{ promo }}{% endif %}

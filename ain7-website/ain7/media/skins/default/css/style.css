@@ -514,3 +514,16 @@ div.complete ul li {
 	padding: 2px;
 	cursor: pointer;
 }
+
+/* Icons for main items (taken from Tango)
+   ------ */
+
+.job {
+        list-style-image : url(../images/icon_job.png);
+        list-style-position: outside;
+}
+
+.person {
+        list-style-image : url(../images/icon_person.png);
+        list-style-position: outside;
+}

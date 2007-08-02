@@ -21,7 +21,7 @@
 {% if list_jobs %}
     <ul>
     {% for job in list_jobs %}
-        <li><a href="/emploi/job/{{ job.id }}/">{{ job.title }}</a></li>
+        <li class="job"><a href="/emploi/job/{{ job.id }}/">{{ job.title }}</a></li>
     {% endfor %}
      </ul>
 {% else %}
