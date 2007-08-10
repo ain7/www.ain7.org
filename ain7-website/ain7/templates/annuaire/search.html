@@ -8,12 +8,14 @@
 
 <div id="content-main">
 
+<div class="left">
+
 <form action="." method="post">
 <div align="center">
 	<table class="form">
 		{{ form }}
 		<tr>
-			<th><label for="id_track_text">{% trans "Track" %}</label></th>
+			<th><label for="id_track_text">{% trans "Track" %}:</label></th>
 			<td>
 				<input name="track_text" id="id_track_text" type="text" size="50" />
 				<div id="track_complete" class="complete"></div>
@@ -33,6 +35,50 @@
 	<input class="button" type="submit" value="{% trans "Search" %}" />
 </div>
 </form>
+
+{% if ain7members %}
+
+{% ifnotequal ain7members|length 0 %}
+
+<h2>{% trans "Results list"%}</h2>
+    <ul>
+    {% for ain7member in ain7members %}
+        <li class="person"><a href="/annuaire/{{ ain7member.person.user.id }}/">
+            {{ ain7member.person.last_name }} {{ ain7member.person.first_name }}</a> 
+            {% for promo in ain7member.promos.all %}
+               {% if forloop.last %} ({{ promo }}){% endif %}
+            {% endfor %}
+				</li>
+    {% endfor %}
+     </ul>
+{% else %}
+    <p>{% trans "No person matched your criteria." %}</p>
+{% endifnotequal %}
+
+{% endif %}
+
+</div>
+
+
+<div class="right">
+
+   <h3>{% trans "Actions" %}</h3>
+   <div class="right_articles">
+    <ul>
+      <li><a href="advanced_search/">{% trans "Advanced Search" %}</a></li>
+      <li><a href="csv/">{% trans "Export as CSV" %}</a></li>
+      <li><a href="sendmail/">{% trans "Send a mail" %}</a></li>
+      <li><a href="register_filter/">{% trans "Register a filter" %}</a></li>
+    </ul>
+   </div>
+
+   <h3>{% trans "Registered filters" %}</h3>
+   <div class="right_articles">
+   <ul>
+      <li>{% trans "My promo" %}</li>
+   </ul>
+   </div>
+</div>
 
 </div>
 

@@ -1,0 +1,19 @@
+{% extends "annuaire/base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div id="content-main">
+
+<h2>{{ person.first_name }} {{ person.last_name }} {% trans "Contributions"%}</h2>
+
+<table width="100%">
+<tr><th>{% trans "When?" %}</th><th>{% trans "What?" %}</th></tr>
+{% for contrib in list_contributions %}
+<tr><td>{{ contrib.date }}</td><td>{{ contrib.type.name }}</td></tr>
+{% endfor %}
+</table>
+
+</div>
+
+{% endblock %}

@@ -28,6 +28,7 @@ urlpatterns = patterns('',
 
     # Evenements
     (r'^$', index),
+    (r'^ical/$', ical),
     (r'^register/$', register),
     (r'^search/$', search),
     (r'^(?P<event_id>\d+)/$', details),

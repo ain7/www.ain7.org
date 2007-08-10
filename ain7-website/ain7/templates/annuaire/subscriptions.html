@@ -1,0 +1,21 @@
+{% extends "annuaire/base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div id="content-main">
+
+<h2>{{ person.first_name }} {{ person.last_name }} {% trans "Subscriptions" %}</h2>
+
+<p><a class="addlink" href="add/">Add a subscription</a></p>
+
+<table width="100%">
+<tr><th>{% trans "Year" %}</th><th>{% trans "Subscription date" %}</th><th>{% trans "Amount" %}</th>
+{% for subscription in subscriptions_list %}
+<tr><td>{{ subscription.year }}</td><td>{{ subscription.date.ctime }}</td><td>{{ subscription.amount }}</td><td><a class="changelink" href="{{ subscription.id }}/edit/">{% trans "Edit" %}</a> <a class="deletelink" href="{{ subscription.id }}/delete/">{% trans "Delete" %}</a></td></tr>
+{% endfor %}
+</table>
+
+</div>
+
+{% endblock %}

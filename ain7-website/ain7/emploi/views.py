@@ -42,7 +42,7 @@ class JobOfferForm(forms.Form):
     contract_type = forms.IntegerField(label=_('contract type'),required=False)
     contract_type.widget = forms.Select(choices=JobOffer.JOB_TYPES)
     is_opened = forms.BooleanField(label=_('is opened'),required=False)
-    description = forms.CharField(label=_('description'),max_length=500, required=False, widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':125}))
+    description = forms.CharField(label=_('description'),max_length=500, required=False, widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':95}))
 
 class SearchJobForm(forms.Form):
     title = forms.CharField(label=_('title'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))

@@ -21,6 +21,8 @@
 #
 
 import datetime
+import smtplib
+import time
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -184,7 +186,6 @@ class Track(models.Model):
 class Promo(models.Model):
 
     year = models.IntegerField(verbose_name=_('year'))
-
     track = models.ForeignKey(Track, verbose_name=_('Track'), related_name='promos')
 
     def __str__(self):
@@ -229,6 +230,30 @@ class Person(models.Model):
         self.modification_date = datetime.datetime.today()
         self.modifier = 1 # TODO
         return super(Person, self).save()
+
+    def send_mail(self, subject, message):
+
+       mail_list = Email.objects.filter(person=self,preferred_email=True)
+       if mail_list:
+           mail = mail_list[0].email
+
+           msg = """From: AIn7 <ain7@ain7.info>
+To: """+self.first_name+' '+self.last_name+' <'+mail+'>'+"""
+Subject: """+subject+"""
+Mime-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Date:  """+time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime())+"""
+X-Generated-By: AIn7 Web Portal
+
+"""+message+"""
+--
+Vous pouvez acceder a vos donnees sur le portail: http://www.ain7.com
+"""
+
+           server = smtplib.SMTP('localhost')
+           server.sendmail('ain7@ain7.info', mail, msg)
+           server.quit()
+
 
     class Admin:
         list_display = ('last_name', 'first_name')
@@ -275,6 +300,13 @@ class AIn7Member(models.Model):
         blank=True, null=True, filter_interface=models.HORIZONTAL)
     cvTitle = models.CharField(verbose_name=_('CV title'), maxlength=100, blank=True, null=True)
 
+    def karma(self):
+        karma = 0
+        list_contrib = UserContribution.objects.filter(user=self)
+        for contrib in list_contrib:
+            karma = karma + UserContributionType.objects.filter(key=contrib.type.key)[0].points
+        return karma
+
     def __str__(self):
         return str(self.person)
 
@@ -283,6 +315,15 @@ class AIn7Member(models.Model):
 
     class Meta:
         verbose_name = _('AIn7 member')
+
+class AIn7Subscription(models.Model):
+    member = models.ForeignKey(AIn7Member)
+    year = models.IntegerField()
+    date = models.DateTimeField()
+    amount = models.IntegerField()
+
+    class Admin:
+        pass
 
 # Phone number for a person
 class PhoneNumber(models.Model):
@@ -359,9 +400,9 @@ class Address(models.Model):
 class Email(models.Model):
 
     email = models.EmailField(verbose_name=_('email'), core=True)
-    is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
-
     person = models.ForeignKey(Person, related_name='emails', edit_inline=models.TABULAR, num_in_admin=1)
+    is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
+    preferred_email = models.BooleanField(verbose_name=_('preferred'), default=False)
 
     def __str__(self):
         return self.email
@@ -383,9 +424,8 @@ class InstantMessaging(models.Model):
                               )
 
     type = models.IntegerField(verbose_name=_('type'), choices=INSTANT_MESSAGING_TYPE, core=True)
-    identifier = models.CharField(verbose_name=_('identifier'), maxlength=40, core=True)
-
     person = models.ForeignKey(Person, related_name='instant_messagings', edit_inline=models.TABULAR, num_in_admin=1)
+    identifier = models.CharField(verbose_name=_('identifier'), maxlength=40, core=True)
 
     def __str__(self):
         return self.identifier
@@ -511,3 +551,20 @@ class ProfileMembership(models.Model):
     class Meta:
         verbose_name = _('profile membership')
         verbose_name_plural = _('profiles memberships')
+
+class UserContributionType(models.Model):
+     key = models.CharField(verbose_name=_('key'),maxlength=10)
+     name = models.CharField(verbose_name=_('name'), maxlength=50)
+     points = models.IntegerField(verbose_name=_('number of points'))
+
+     class Admin:
+         pass
+
+class UserContribution(models.Model):
+     user = models.ForeignKey(Person, verbose_name=_('user'))
+     type = models.ForeignKey(UserContributionType, verbose_name=_('type'))
+     date = models.DateTimeField(verbose_name=_('date of contribution'))
+
+     class Admin:
+         pass
+

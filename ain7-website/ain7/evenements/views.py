@@ -20,12 +20,14 @@
 #
 #
 
+import vobject
+
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django import newforms as forms
 from django.template import RequestContext
 from django.newforms import widgets
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from datetime import datetime
 
 from ain7.annuaire.models import Person
@@ -53,7 +55,7 @@ class SearchEventForm(forms.Form):
     place = forms.CharField(label=_('Place'), max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
 
 def index(request):
-    events = Event.objects.filter(end_date__gte=datetime.now())[:5]
+    events = Event.objects.filter(end__gte=datetime.now())[:5]
     return ain7_render_to_response(request, 'evenements/index.html',
                             {'events': events})
 
@@ -85,7 +87,7 @@ def edit(request, event_id):
         return HttpResponseRedirect('/evenements/%s/' % (event.id))
 
     f = EventForm()
-    next_events = Event.objects.filter(end_date__gte=datetime.now())
+    next_events = Event.objects.filter(end__gte=datetime.now())
 
     return ain7_render_to_response(request, 'evenements/edit.html', 
                                    {'form': f, 'event': event,
@@ -159,7 +161,7 @@ def join(request, event_id):
         return HttpResponseRedirect('/evenements/%s/' % event.id)
 
     f =  JoinEventForm()
-    next_events = Event.objects.filter(end_date__gte=datetime.now())
+    next_events = Event.objects.filter(end__gte=datetime.now())
     return ain7_render_to_response(request, 'evenements/join.html', 
                             {'event': event, 'form': f,
                              'event_list': Event.objects.all(),
@@ -193,7 +195,7 @@ def register(request):
         return HttpResponseRedirect('/evenements/')
 
     f = EventForm()
-    next_events = Event.objects.filter(end_date__gte=datetime.now())
+    next_events = Event.objects.filter(end__gte=datetime.now())
 
     return ain7_render_to_response(request, 'evenements/register.html',
                                    {'form': f,
@@ -248,12 +250,42 @@ def subscribe(request, event_id):
         return HttpResponseRedirect('/evenements/%s/' % (event.id))
 
     f =  SubscribeEventForm()
-    next_events = Event.objects.filter(end_date__gte=datetime.now())
+    next_events = Event.objects.filter(end__gte=datetime.now())
 
     return ain7_render_to_response(request, 'evenements/subscribe.html', 
                                    {'event': event, 'form': f,
                                     'event_list': Event.objects.all(),
                                     'next_events': next_events})
+
+def ical(request):
+
+    list_events = Event.objects.filter(end__gte=datetime.now())
+
+    cal = vobject.iCalendar()
+    cal.add('method').value = 'PUBLISH'  # IE/Outlook needs this
+
+    utc = vobject.icalendar.utc
+
+    for event in list_events:
+        ev = cal.add('vevent')
+        ev.add('summary').value = event.name
+        ev.add('location').value = event.location
+        ev.add('dtstart').value = event.start
+        ev.add('dtend').value = event.end
+        if event.description:
+            ev.add('description').value = event.description
+        if event.status:
+            ev.add('status').value = event.status
+        if event.category:
+            ev.add('category').value = event.description
+        ev.add('dtstamp').value = event.modification_date
+
+    icalstream = cal.serialize().encode('utf-8')
+    response = HttpResponse(icalstream, mimetype='text/calendar')
+    response['Filename'] = 'ain7.ics'  # IE needs this
+    response['Content-Disposition'] = 'attachment; filename=ain7.ics'
+
+    return response
 
 def validate(request, event_id):
     event = get_object_or_404(Event, pk=event_id)

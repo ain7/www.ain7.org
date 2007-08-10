@@ -21,6 +21,8 @@
 #
 
 import datetime
+import smtplib
+import time
 
 from django.contrib import auth
 from django.http import HttpResponseRedirect

@@ -34,6 +34,7 @@ import ain7.voyages.models as voyages
 import ain7.emploi.models as emploi
 import ain7.evenements.models as evenements
 
+import vobject
 import sys
 
 def filldb():
@@ -180,6 +181,19 @@ def filldb():
     n7in2008 = annuaire.Promo(year=2008, track=n7info)
     n7in2008.save()
 
+    # Contributions
+    poll_contrib = annuaire.UserContributionType(key='poll',name='Registering a poll',points=10)
+    poll_contrib.save()
+
+    poll_vote_contrib = annuaire.UserContributionType(key='pollvote',name='Poll vote',points=5)
+    poll_vote_contrib.save()
+
+    event_contrib = annuaire.UserContributionType(key='event',name='Register and event',points=20)
+    event_contrib.save()
+
+    event_subscription_contrib = annuaire.UserContributionType(key='eventsubs',name='Subscribe to an event',points=5)
+    event_subscription_contrib.save()
+
     # Companies
     infofield = emploi.CompanyField(field = "Informatique")
     infofield.save()
@@ -313,6 +327,41 @@ def filldb():
     lionel_position2.fonction = "Big boss"
     lionel_position2.start_date = date(2007,01,01)
     lionel_position2.save()
+
+    lionel_subscription1 = annuaire.AIn7Subscription()
+    lionel_subscription1.member = lionel_ain7member
+    lionel_subscription1.year = '2003'
+    lionel_subscription1.date = datetime.now()
+    lionel_subscription1.amount = '50'
+    lionel_subscription1.save()
+
+    lionel_subscription2 = annuaire.AIn7Subscription()
+    lionel_subscription2.member = lionel_ain7member
+    lionel_subscription2.year = '2003'
+    lionel_subscription2.date = datetime.now()
+    lionel_subscription2.amount = '50'
+    lionel_subscription2.save()
+
+    lionel_subscription3 = annuaire.AIn7Subscription()
+    lionel_subscription3.member = lionel_ain7member
+    lionel_subscription3.year = '2004'
+    lionel_subscription3.date = datetime.now()
+    lionel_subscription3.amount = '50'
+    lionel_subscription3.save()
+
+    lionel_subscription4 = annuaire.AIn7Subscription()
+    lionel_subscription4.member = lionel_ain7member
+    lionel_subscription4.year = '2005'
+    lionel_subscription4.date = datetime.now()
+    lionel_subscription4.amount = '50'
+    lionel_subscription4.save()
+
+    lionel_subscription5 = annuaire.AIn7Subscription()
+    lionel_subscription5.member = lionel_ain7member
+    lionel_subscription5.year = '2006'
+    lionel_subscription5.date = datetime.now()
+    lionel_subscription5.amount = '50'
+    lionel_subscription5.save()
 
     pierref = annuaire.Person()
     pierref.user = User.objects.create_user("pierref", "pierre.fersing@inp-net.eu.org","pierref")
@@ -1054,19 +1103,36 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     groupes_regionaux.GroupMembership(group=idfgroup, member=pierref, type=7).save()
     groupes_regionaux.GroupMembership(group=idfgroup, member=olivier, type=7).save()
 
+    utc = vobject.icalendar.utc
+
     evenement1 = evenements.Event()
-    evenement1.name="Réunion 100 ans"
-    evenement1.start_date=datetime.now()
-    evenement1.end_date=datetime.now() + timedelta(30)
-    evenement1.author="Moi"
-    evenement1.contact_email="a@b.fr"
-    evenement1.place="Ailleurs"
-    evenement1.publication_start=datetime.now()
-    evenement1.publication_end=datetime.now() + timedelta(30)
+    evenement1.name = "Reunion 100 ans"
+    evenement1.start = datetime.now()
+    evenement1.end = datetime.now() + timedelta(30)
+    evenement1.author = "Moi"
+    evenement1.contact_email = "a@b.fr"
+    evenement1.location = "Ailleurs"
+    evenement1.description = "C'est la reunion des 100 ans"
+    evenement1.publication_start = datetime.now()
+    evenement1.publication_end = datetime.now() + timedelta(30)
     evenement1.image = "data/anniversaire.jpg"
     evenement1.save()
     evenement1.regional_groups.add(idfgroup)
     evenement1.save()
+
+    evenement2 = evenements.Event()
+    evenement2.name = "Evenement 2"
+    evenement2.start = datetime(2007, 8, 10, 18, 0, tzinfo = utc)
+    evenement2.end = datetime(2007, 8, 10, 20, 0, tzinfo = utc)
+    evenement2.author = "Moi"
+    evenement2.contact_email = "a@b.fr"
+    evenement2.location = "Ailleurs"
+    evenement2.description = "C'est l'evenement 2 du porail AIn7"
+    evenement2.publication_start = datetime.now()
+    evenement2.publication_end = datetime.now() + timedelta(30)
+    evenement2.save()
+    evenement2.regional_groups.add(idfgroup)
+    evenement2.save()
 
     job1 = emploi.JobOffer()
     job1.reference = "XYZ270"

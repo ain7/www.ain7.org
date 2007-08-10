@@ -5,9 +5,10 @@
 
 <div id="content-main">
 
+<div class="left">
+
 <h1>{% trans "Personal file" %} {{ person.first_name }} {{ person.last_name }}</h1>
-<p><a href="/annuaire/{{ person.user.id }}/edit/" class="changelink">
-{% trans "Modify these data" %}</a></p>
+
 <h2>{% trans "Personal data" %}</h2>
 <table border="0">
 <tr><td>
@@ -20,6 +21,7 @@
    <li><b>{% trans "Nick name" %}&nbsp;:</b> {{ ain7member.nick_name }}</li>
    {% endif %}
    <li><b>{% trans "Promos" %}&nbsp;:</b> {% for promo in ain7member.promos.all %}{{ promo }}{% if not forloop.last %} - {% endif %}{% endfor %}</li>
+   <li><b>{% trans "Karma" %}&nbsp;:</b> {{ ain7member.karma }}</li>
    {% if ain7member.diplomas.all %}
    <li><b>{% filter capfirst %}{% trans "diplomas" %}{% endfilter %}&nbsp;:</b> 
        {% for diploma in ain7member.diplomas.all %}{{ diploma }}
@@ -57,12 +59,6 @@
 {% if ain7member.avatar %}
 	<img src="{{ ain7member.get_avatar_url }}" height="100" alt="{% trans "avatar" %}"/></td></tr>
 {% endif %}
-{% for address in person.addresses.all %}
-	{% if not address.is_confidential %}
-	    <tr><td><b>{% trans "Address" %} {{ address.type|lower }} :</b> {{ address.number }} {{ address.street }} - {{address.zip_code }} {{ address.city }} - {{ address.country.name }}</td></tr>
-	{% endif %}
-{% endfor %}
-
 {% for phone_number in person.phone_numbers.all %}
 	{% if not phone_number.is_confidential %}
     	<tr><td><b>{{ phone_number.get_type_display }} :</b> {{ phone_number.number }}</td></tr>
@@ -91,6 +87,12 @@
     <tr valign="middle"><td><img src="/site_media/images/web.png" alt="{% trans "blog" %}"/><a href="{{ ain7member.blog }}">{{ ain7member.blog }}</a></td></tr>
 {% endif %}
 </table>
+
+{% for address in person.addresses.all %}
+	{% if not address.is_confidential %}
+	    <tr><td><b>{% trans "Address" %} {{ address.type|lower }} :</b> {{ address.number }} {{ address.street }} - {{address.zip_code }} {{ address.city }} - {{ address.country.name }}</td></tr>
+	{% endif %}
+{% endfor %}
 
 {% if ain7member.group_memberships.all %}
 
@@ -137,6 +139,23 @@
     {% endif %}
 {% endfor %}
 {% endif %}
+
+</div>
+
+<div class="right">
+
+   <h3>{% trans "Actions" %}</h3>
+   <div class="right_articles">
+    <ul>
+      <li><a href="">{% trans "Overview" %}</a></li>
+      <li><a href="edit/">{% trans "Modify these data" %}</a></li>
+      <li><a href="preferences/">{% trans "Edit preferences" %}</a></li>
+      <li><a href="subscriptions/">{% trans "Manage subscriptions" %}</a></li>
+      <li><a href="vcard/">{% trans "Download contact as vCard" %}</a></li>
+    </ul>
+   </div>
+
+</div>
 
 </div>
 

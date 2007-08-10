@@ -30,15 +30,30 @@ from ain7.groupes_regionaux.models import Group
 
 class Event(models.Model):
 
+    EVENT_CATEGORY = (
+              (0,_('conference')),
+              (1,_('feistivity')),
+              (2,_('Administration Council')),
+              (3,_('General Assembly')),
+              )
+
+    EVENT_STATUS = (
+              (0,_('tentative')),
+              (0,_('confirmed')),
+              (0,_('cancel')),
+              )
+
     name = models.CharField(verbose_name=_('name'), maxlength=20)
-    start_date = models.DateField(verbose_name=_('start date'))
-    end_date = models.DateField(verbose_name=_('end date'))
+    start = models.DateTimeField(verbose_name=_('start'))
+    end = models.DateTimeField(verbose_name=_('end'))
     description = models.TextField(verbose_name=_('description'), blank=True, null=True)
+    location = models.CharField(verbose_name=_('place'), maxlength=60)
+    category = models.IntegerField(verbose_name=_('category'), choices=EVENT_CATEGORY, null=True, blank=True)
+    status = models.IntegerField(verbose_name=_('status'), choices=EVENT_STATUS, null=True, blank=True)
     image = models.ImageField(verbose_name=_('image'), upload_to='data', null=True, blank=True)
     author = models.CharField(verbose_name=_('author'), maxlength=20)
     contact_email = models.EmailField(verbose_name=_('contact email'), maxlength=50)
     link = models.CharField(verbose_name=_('link'), maxlength=60, blank=True, null=True)
-    place = models.CharField(verbose_name=_('place'), maxlength=60)
     publication_start =  models.DateTimeField(verbose_name=_('publication start'))
     publication_end = models.DateTimeField(verbose_name=_('publication end'))
 
@@ -73,7 +88,7 @@ class Event(models.Model):
         pass
 
     class Meta:
-        ordering = ['start_date', 'end_date', 'publication_start', 'publication_end']
+        ordering = ['start', 'end', 'publication_start', 'publication_end']
         verbose_name = _('event')
 
 class EventSubscription(models.Model):

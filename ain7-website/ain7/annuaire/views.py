@@ -20,15 +20,18 @@
 #
 #
 
+import csv
+import vobject
+
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django import newforms as forms
 
 from ain7.annuaire.models import Person, AIn7Member, Address, PhoneNumber
 from ain7.annuaire.models import Track, Email, InstantMessaging, IRC, WebSite, ClubMembership
-from ain7.annuaire.models import Promo
+from ain7.annuaire.models import Promo, UserContribution, AIn7Subscription
 from ain7.decorators import confirmation_required
 from ain7.utils import ain7_render_to_response, ImgUploadForm
 
@@ -38,21 +41,41 @@ class SearchPersonForm(forms.Form):
     promo = forms.IntegerField(label=_('Promo'), required=False)
     track = forms.IntegerField(label=_('Track'), required=False, initial=-1, widget=forms.HiddenInput())
 
+class AdvanceSearchPersonForm(forms.Form):
+    last_name = forms.CharField(label=_('Last name'), max_length=50, required=False)
+    first_name = forms.CharField(label=_('First name'), max_length=50, required=False)
+    promo = forms.IntegerField(label=_('Promo'), required=False)
+    track = forms.IntegerField(label=_('Track'), required=False, initial=-1, widget=forms.HiddenInput())
+    country = forms.CharField(label=_('Country'), max_length=50, required=False)
+    organization = forms.CharField(label=_('Organization'), max_length=50, required=False)
+    local_group = forms.CharField(label=_('Local group'), max_length=50, required=False)
+    club = forms.CharField(label=_('Club'), max_length=50, required=False)
+
+class SendmailForm(forms.Form):
+    subject = forms.CharField(label=_('subject'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
+    body = forms.CharField(label=_('body'),max_length=500, required=False, widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':95}))
+    send_test = forms.BooleanField(label=_('Send me a test'), required=False)
+
 @login_required
-def detail(request, person_id):
-    p = get_object_or_404(Person, pk=person_id)
+def contributions(request, user_id):
+    p = get_object_or_404(Person, pk=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=p)
+    list_contributions = UserContribution.objects.filter(user=p)
+    return ain7_render_to_response(request, 'annuaire/contributions.html', 
+                            {'person': p, 'ain7member': ain7member, 'list_contributions': list_contributions})
+
+@login_required
+def details(request, user_id):
+    p = get_object_or_404(Person, pk=user_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
     return ain7_render_to_response(request, 'annuaire/details.html', 
                             {'person': p, 'ain7member': ain7member})
 
 @login_required
 def search(request):
-    #maxTrackId=Track.objects.order_by('-id')[0].id+1
-    #trackList=[(maxTrackId,'Toutes')]
-    #for track in Track.objects.all():
-        #trackList.append((track.id,track.name))
-    #SearchPersonForm.base_fields['track'].widget=\
-        #forms.Select(choices=trackList)
+
+    f = SearchPersonForm()
+    ain7members = False
 
     if request.method == 'POST':
         form = SearchPersonForm(request.POST)
@@ -75,20 +98,88 @@ def search(request):
             # si elle ne sont pas vides
             if len(promoCriteria)!=0:
                 criteria['promos__in']=Promo.objects.filter(**promoCriteria)
+
+            request.session['filter'] = criteria
                 
             ain7members = AIn7Member.objects.filter(**criteria)
 
-            return ain7_render_to_response(request, 'annuaire/index.html', 
-                                    {'ain7members': ain7members})
-
-    else:
-        f = SearchPersonForm()
-        return ain7_render_to_response(request, 'annuaire/search.html', {'form': f})
+    return ain7_render_to_response(request, 'annuaire/search.html', 
+                            {'form': f, 'ain7members': ain7members})
 
 @login_required
-def edit(request, person_id=None):
+def advanced_search(request):
 
-    p = get_object_or_404(Person, pk=person_id)
+    f = AdvanceSearchPersonForm()
+    ain7members = False
+
+    if request.method == 'POST':
+        form = AdvanceSearchPersonForm(request.POST)
+        if form.is_valid():
+
+            # criteres sur le nom et prenom
+            criteria={'person__last_name__contains':form.clean_data['last_name'],\
+                      'person__first_name__contains':form.clean_data['first_name']}
+            # ici on commence par rechercher toutes les promos
+            # qui concordent avec l'annee de promotion et la filiere
+            # saisis par l'utilisateur.
+            promoCriteria={}
+            if form.clean_data['promo'] != None:
+                promoCriteria['year']=form.clean_data['promo']
+            if form.clean_data['track'] != -1:
+                promoCriteria['track']=\
+                    Track.objects.get(id=form.clean_data['track'])
+                
+            # on ajoute ces promos aux critères de recherche
+            # si elle ne sont pas vides
+            if len(promoCriteria)!=0:
+                criteria['promos__in']=Promo.objects.filter(**promoCriteria)
+
+            request.session['filter'] = criteria
+                
+            ain7members = AIn7Member.objects.filter(**criteria)
+
+    return ain7_render_to_response(request, 'annuaire/search.html', 
+                            {'form': f, 'ain7members': ain7members})
+
+@login_required
+def export_csv(request):
+
+    criteria = request.session['filter']
+    ain7members = AIn7Member.objects.filter(**criteria)
+
+    response = HttpResponse(mimetype='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=export_ain7.csv'
+
+    writer = csv.writer(response)
+    for member in ain7members:
+       writer.writerow([member.person.first_name, member.person.last_name])
+
+    return response
+
+@login_required
+def sendmail(request):
+
+    criteria = request.session['filter']
+    ain7members = AIn7Member.objects.filter(**criteria)
+
+    f= SendmailForm()
+
+    if request.method == 'POST':
+        f = SendmailForm(request.POST)
+        if f.is_valid():
+            if f.clean_data['send_test']:
+                request.user.person.send_mail(f.clean_data['subject'],f.clean_data['body'])
+            else:
+                for member in ain7members:
+                    member.person.send_mail(f.clean_data['subject'],f.clean_data['body'])
+
+    return ain7_render_to_response(request, 'annuaire/sendmail.html', 
+                            {'form': f})
+
+@login_required
+def edit(request, user_id=None):
+
+    p = get_object_or_404(Person, pk=user_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
     return ain7_render_to_response(request, 'annuaire/edit.html',
                             {'person': p, 'ain7member': ain7member})
@@ -201,7 +292,7 @@ def _generic_edit(request, user_id, object_id, object_type,
 
     obj = get_object_or_404(object_type, pk=object_id)
 
-    # 1er passage : on propose un formulaire avec les donn�es actuelles
+    # 1er passage : on propose un formulaire avec les donnees actuelles
     if request.method == 'GET':
         PosForm = forms.form_for_instance(obj,
             formfield_callback=_form_callback)
@@ -431,6 +522,74 @@ def club_membership_add(request, user_id=None):
                         person, get_object_or_404(AIn7Member, person=person),
                         _('Creation of a club membership'),
                         _('Club membership successfully added.'))
+
+@login_required
+def subscriptions(request, user_id):
+
+    p = get_object_or_404(Person, pk=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=p)
+
+    subscriptions_list = AIn7Subscription.objects.filter(member=ain7member).order_by('-date')
+
+    return ain7_render_to_response(request, 'annuaire/subscriptions.html', 
+                            {'person': p, 'ain7member': ain7member, 'subscriptions_list': subscriptions_list})
+
+@login_required
+def subscription_edit(request, user_id=None, subscription_id=None):
+
+    return _generic_edit(request, user_id, subscription_id, AIn7Subscription,
+                         get_object_or_404(Person, user=user_id), None,
+                         _('Modification of a subscription'),
+                         _('Subscription informations updated successfully.'))
+
+@confirmation_required(lambda user_id=None, subscription_id=None : str(get_object_or_404(AIn7Subscription, pk=subscription_id)), 'annuaire/base.html', _('Do you really want to delete this subscription'))
+@login_required
+def subscription_delete(request, user_id=None, subscription_id=None):
+
+    return _generic_delete(request, user_id, subscription_id, AIn7Subscription,
+                           _('Subscription successfully deleted.'))
+
+@login_required
+def subscription_add(request, user_id=None):
+
+    return _generic_add(request, user_id, AIn7Subscription,
+                        get_object_or_404(Person, user=user_id), None,
+                        _('Adding a subscription'),
+                        _('Subscription successfully added.'))
+
+@login_required
+def preferences(request, user_id):
+
+    p = get_object_or_404(Person, pk=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=p)
+
+    return ain7_render_to_response(request, 'annuaire/preferences.html', 
+                            {'person': p, 'ain7member': ain7member})
+
+@login_required
+def vcard(request, user_id):
+
+    p = get_object_or_404(Person, pk=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=p)
+
+    mail = None
+    mail_list = Email.objects.filter(person=p,preferred_email=True)
+    if mail_list:
+       mail = mail_list[0].email
+
+    vcard = vobject.vCard()
+    vcard.add('n').value = vobject.vcard.Name( family=p.last_name, given=p.first_name )
+    vcard.add('fn').value = p.first_name+' '+p.last_name
+    if mail:
+        vcard.add('mail').value = mail
+
+    vcardstream = vcard.serialize()
+
+    response = HttpResponse(vcardstream, mimetype='text/x-vcard')
+    response['Filename'] = p.user.username+'.vcf'  # IE needs this
+    response['Content-Disposition'] = 'attachment; filename='+p.user.username+'.vcf'
+
+    return response
 
 # une petite fonction pour exclure certains champs
 # des formulaires crees avec form_for_model et form_for_instance

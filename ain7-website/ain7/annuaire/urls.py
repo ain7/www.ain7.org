@@ -28,9 +28,13 @@ urlpatterns = patterns('',
 
     # Annuaire
     (r'^$', search),
-    (r'^(?P<person_id>\d+)/$', detail),
+    (r'^advanced_search/$', advanced_search),
+    (r'^csv/$', export_csv),
+    (r'^sendmail/$', sendmail),
+    (r'^(?P<user_id>\d+)/$', details),
     # Edition
-    (r'^(?P<person_id>\d+)/edit/$', edit),
+    (r'^(?P<user_id>\d+)/edit/$', edit),
+    (r'^(?P<user_id>\d+)/preferences/$', preferences),
     (r'^(?P<user_id>\d+)/person/edit/$', person_edit),
     (r'^(?P<user_id>\d+)/ain7member/edit/$', ain7member_edit),
     (r'^(?P<user_id>\d+)/avatar/edit/$', avatar_edit),
@@ -39,6 +43,8 @@ urlpatterns = patterns('',
     (r'^(?P<user_id>\d+)/address/(?P<address_id>\d+)/edit/$', address_edit),
     (r'^(?P<user_id>\d+)/address/(?P<address_id>\d+)/delete/$', address_delete),
     (r'^(?P<user_id>\d+)/address/add/$', address_add),
+    # User contributions
+    (r'^(?P<user_id>\d+)/contributions/$',contributions),
     # Phone numbers
     (r'^(?P<user_id>\d+)/phone/(?P<phone_id>\d+)/edit/$', phone_edit),
     (r'^(?P<user_id>\d+)/phone/(?P<phone_id>\d+)/delete/$', phone_delete),
@@ -55,6 +61,11 @@ urlpatterns = patterns('',
     (r'^(?P<user_id>\d+)/irc/(?P<irc_id>\d+)/edit/$', irc_edit),
     (r'^(?P<user_id>\d+)/irc/(?P<irc_id>\d+)/delete/$', irc_delete),
     (r'^(?P<user_id>\d+)/irc/add/$', irc_add),
+    # Subscriptions
+    (r'^(?P<user_id>\d+)/subscriptions/$', subscriptions),
+    (r'^(?P<user_id>\d+)/subscriptions/(?P<subscription_id>\d+)/edit/$', subscription_edit),
+    (r'^(?P<user_id>\d+)/subscriptions/(?P<subscription_id>\d+)/delete/$', subscription_delete),
+    (r'^(?P<user_id>\d+)/subscriptions/add/$', subscription_add),
     # Sites Web 
     (r'^(?P<user_id>\d+)/website/(?P<website_id>\d+)/edit/$', website_edit),
     (r'^(?P<user_id>\d+)/website/(?P<website_id>\d+)/delete/$', website_delete),
@@ -63,6 +74,8 @@ urlpatterns = patterns('',
     (r'^(?P<user_id>\d+)/club_membership/(?P<club_membership_id>\d+)/edit/$', club_membership_edit),
     (r'^(?P<user_id>\d+)/club_membership/(?P<club_membership_id>\d+)/delete/$', club_membership_delete),
     (r'^(?P<user_id>\d+)/club_membership/add/$', club_membership_add),
+    # vCard
+    (r'^(?P<user_id>\d+)/vcard/$', vcard),
 
     # Autocompletion
     (r'^complete/track/$', complete_track),
