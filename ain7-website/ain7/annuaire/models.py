@@ -563,7 +563,7 @@ class UserContributionType(models.Model):
 class UserContribution(models.Model):
      user = models.ForeignKey(Person, verbose_name=_('user'))
      type = models.ForeignKey(UserContributionType, verbose_name=_('type'))
-     date = models.DateTimeField(verbose_name=_('date of contribution'))
+     date = models.DateTimeField(verbose_name=_('date of contribution'), default=datetime.datetime.now, editable=False)
 
      class Admin:
          pass

@@ -182,16 +182,16 @@ def filldb():
     n7in2008.save()
 
     # Contributions
-    poll_contrib = annuaire.UserContributionType(key='poll',name='Registering a poll',points=10)
+    poll_contrib = annuaire.UserContributionType(key='poll_register',name='Registering a poll',points=10)
     poll_contrib.save()
 
-    poll_vote_contrib = annuaire.UserContributionType(key='pollvote',name='Poll vote',points=5)
+    poll_vote_contrib = annuaire.UserContributionType(key='poll_vote',name='Poll vote',points=5)
     poll_vote_contrib.save()
 
-    event_contrib = annuaire.UserContributionType(key='event',name='Register and event',points=20)
+    event_contrib = annuaire.UserContributionType(key='event_register',name='Register and event',points=20)
     event_contrib.save()
 
-    event_subscription_contrib = annuaire.UserContributionType(key='eventsubs',name='Subscribe to an event',points=5)
+    event_subscription_contrib = annuaire.UserContributionType(key='event_subcription',name='Subscribe to an event',points=5)
     event_subscription_contrib.save()
 
     # Companies

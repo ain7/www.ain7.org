@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-10 23:28+0200\n"
+"POT-Creation-Date: 2007-08-11 00:25+0200\n"
 "PO-Revision-Date: 2007-08-02 23:21+0200\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -426,8 +426,8 @@ msgstr "Les modifications ont été correctement enregistrées."
 
 #: annuaire/views.py:210 annuaire/views.py:241 annuaire/views.py:274
 #: annuaire/views.py:316 annuaire/views.py:352 emploi/views.py:135
-#: emploi/views.py:171 news/views.py:97 sondages/views.py:139
-#: evenements/views.py:85 evenements/views.py:121 evenements/views.py:192
+#: emploi/views.py:171 news/views.py:97 sondages/views.py:146
+#: evenements/views.py:85 evenements/views.py:121 evenements/views.py:200
 #: voyages/views.py:78 voyages/views.py:134 voyages/views.py:163
 #: voyages/views.py:208 voyages/views.py:244 voyages/views.py:307
 msgid "Something was wrong in the form you filled. No modification done."
@@ -953,59 +953,59 @@ msgstr "voteur"
 msgid "vote"
 msgstr "vote"
 
-#: sondages/views.py:61
+#: sondages/views.py:62
 msgid "Your vote has been registered."
 msgstr "Votre vote a été comptabilisé"
 
-#: sondages/views.py:66
+#: sondages/views.py:70
 msgid "You have already vote for this survey."
 msgstr "Vous avez déjà voté pour ce sondage."
 
-#: sondages/views.py:74
+#: sondages/views.py:78
 msgid "Survey creation"
 msgstr "Création de sondage"
 
-#: sondages/views.py:74
+#: sondages/views.py:78
 msgid "Survey succesfully created."
 msgstr "Sondage créé avec succès"
 
-#: sondages/views.py:88
+#: sondages/views.py:92
 msgid "Survey edition"
 msgstr "Edition de sondage"
 
-#: sondages/views.py:88
+#: sondages/views.py:92
 msgid "Survey succesfully updated."
 msgstr "Sondage mis à jour avec succès"
 
-#: sondages/views.py:91
+#: sondages/views.py:95
 msgid "Do you really want to delete this survey?"
 msgstr "Souhaitez-vous vraiment supprimer ce sondage ?"
 
-#: sondages/views.py:96
+#: sondages/views.py:100
 msgid "Survey successfully deleted."
 msgstr "Le sondage a été supprimée avec succès."
 
-#: sondages/views.py:104
+#: sondages/views.py:108
 msgid "Choice creation"
 msgstr "Création de choix"
 
-#: sondages/views.py:104
+#: sondages/views.py:108
 msgid "Choice succesfully added"
 msgstr "Le choix a été ajouté avec succès."
 
-#: sondages/views.py:112
+#: sondages/views.py:116
 msgid "Choice edition"
 msgstr "Edition de choix"
 
-#: sondages/views.py:112
+#: sondages/views.py:116
 msgid "Choice succesfully updated."
 msgstr "Choix mis à jour avec succès"
 
-#: sondages/views.py:115
+#: sondages/views.py:119
 msgid "Do you really want to delete the choice"
 msgstr "Souhaitez-vous vraiment supprimer ce choix"
 
-#: sondages/views.py:121
+#: sondages/views.py:125
 msgid "Choice successfully deleted."
 msgstr "Le choix a été supprimé avec succès."
 
@@ -1163,14 +1163,18 @@ msgid "Modify these data"
 msgstr "Modifier ces informations"
 
 #: templates/annuaire/details.html:152
+msgid "See contributions"
+msgstr "Voir les contributions"
+
+#: templates/annuaire/details.html:153
 msgid "Edit preferences"
 msgstr "Éditer les préférences"
 
-#: templates/annuaire/details.html:153
+#: templates/annuaire/details.html:154
 msgid "Manage subscriptions"
 msgstr "Gestions des adhésions"
 
-#: templates/annuaire/details.html:154
+#: templates/annuaire/details.html:155
 msgid "Download contact as vCard"
 msgstr "Télécharger la vCard du contact"
 
@@ -2074,27 +2078,27 @@ msgstr "Souhaitez-vous vraiment supprimer l'image de cet évènement"
 msgid "The image of this event has been successfully deleted."
 msgstr "L'image de cet évènement a été supprimée avec succès"
 
-#: evenements/views.py:150
+#: evenements/views.py:154
 msgid "You have been successfully subscribed to this event."
 msgstr "Vous vous êtes inscrit à cet événement avec succès."
 
-#: evenements/views.py:160
+#: evenements/views.py:164
 msgid "You have already subscribed to this event."
 msgstr "Vous êtes déjà inscrit à cet évènement."
 
-#: evenements/views.py:190
+#: evenements/views.py:198
 msgid "Event successfully added."
 msgstr "L'événement a été ajouté avec succès."
 
-#: evenements/views.py:236
+#: evenements/views.py:244
 msgid "This person is already subscribed to this event."
 msgstr "Cette personne est déjà inscrite à cet évènement."
 
-#: evenements/views.py:248
+#: evenements/views.py:256
 msgid "You have successfully subscribed"
 msgstr "Vous avez inscrit avec succès"
 
-#: evenements/views.py:249
+#: evenements/views.py:257
 msgid "to this event."
 msgstr "à cet événement."
 

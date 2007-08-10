@@ -30,7 +30,7 @@ from django.newforms import widgets
 from django.http import HttpResponseRedirect, HttpResponse
 from datetime import datetime
 
-from ain7.annuaire.models import Person
+from ain7.annuaire.models import Person, UserContribution, UserContributionType
 from ain7.evenements.models import Event, EventSubscription
 from ain7.utils import ain7_render_to_response, ImgUploadForm
 from ain7.decorators import confirmation_required
@@ -147,6 +147,10 @@ def join(request, event_id):
             subscription.event = event
             subscription.save()
 
+            contrib_type = UserContributionType.objects.filter(key='event_subcription')[0]
+            contrib = UserContribution(user=request.user.person, type=contrib_type)
+            contrib.save()
+
         request.user.message_set.create(message=_('You have been successfully subscribed to this event.'))
         return HttpResponseRedirect('/evenements/%s/' % (event.id))
 
@@ -186,6 +190,10 @@ def register(request):
         if f.is_valid():
             f.clean_data['image'] = None
             f.save()
+
+            contrib_type = UserContributionType.objects.filter(key='event_register')[0]
+            contrib = UserContribution(user=request.user.person, type=contrib_type)
+            contrib.save()
 
             request.user.message_set.create(message=_('Event successfully added.'))
         else:

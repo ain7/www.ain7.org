@@ -26,6 +26,7 @@ from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django import newforms as forms
 
+from ain7.annuaire.models import UserContributionType, UserContribution
 from ain7.sondages.models import Choice, Survey, Vote
 from ain7.decorators import confirmation_required
 from ain7.utils import ain7_render_to_response
@@ -61,6 +62,9 @@ def vote(request, survey_id):
             request.user.message_set.create(message=_('Your vote has been registered.'))
             vote = Vote(choice=choice, voter=voter, survey=survey)
             vote.save()
+            contrib_type = UserContributionType.objects.filter(key='poll_vote')[0]
+            contrib = UserContribution(user=voter, type=contrib_type)
+            contrib.save()
     else :
         # Already voted
         request.user.message_set.create(message=_('You have already vote for this survey.'))
@@ -133,6 +137,9 @@ def _form(request, survey, Form, title, message):
                 form.save()
             else:
                 survey = form.save()
+                contrib_type = UserContributionType.objects.filter(key='poll_register')[0]
+                contrib = UserContribution(user=request.user.person, type=contrib_type)
+                contrib.save()
             request.user.message_set.create(message=message)
             return HttpResponseRedirect('/sondages/%s/details/' % survey.id)
         else:
