@@ -23,7 +23,7 @@
 from django.contrib.syndication.feeds import Feed
 from ain7.evenements.models import Event
 
-class LatestEntries(Feed):
+class LatestEvents(Feed):
     title = "AIn7 RSS"
     link = "/evenements/"
     description = "Evenements organises par l'AIn7 ou autour de l'AIn7"

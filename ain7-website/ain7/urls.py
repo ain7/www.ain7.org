@@ -24,10 +24,10 @@ import os.path
 
 from django.conf.urls.defaults import *
 
-from ain7.feeds import LatestEntries, LatestEntriesByCategory
+from ain7.feeds import LatestEvents, LatestEntriesByCategory
 
 feeds = {
-    'latest': LatestEntries,
+    'events': LatestEvents,
     'categories': LatestEntriesByCategory,
 }
 
