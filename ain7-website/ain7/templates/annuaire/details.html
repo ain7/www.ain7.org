@@ -88,11 +88,13 @@
 {% endif %}
 </table>
 
+<table>
 {% for address in person.addresses.all %}
 	{% if not address.is_confidential %}
 	    <tr><td><b>{% trans "Address" %} {{ address.type|lower }} :</b> {{ address.number }} {{ address.street }} - {{address.zip_code }} {{ address.city }} - {{ address.country.name }}</td></tr>
 	{% endif %}
 {% endfor %}
+</table>
 
 {% if ain7member.group_memberships.all %}
 

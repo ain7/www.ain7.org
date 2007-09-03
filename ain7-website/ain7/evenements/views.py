@@ -52,7 +52,7 @@ class SubscribeEventForm(forms.Form):
 
 class SearchEventForm(forms.Form):
     name = forms.CharField(label=_('Event name'), max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
-    place = forms.CharField(label=_('Place'), max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
+    location = forms.CharField(label=_('Location'), max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
 
 def index(request):
     events = Event.objects.filter(end__gte=datetime.now())[:5]
@@ -216,7 +216,7 @@ def search(request):
         form = SearchEventForm(request.POST)
         if form.is_valid():
                     list_events = Event.objects.filter(name__icontains=form.clean_data['name'],
-                                                       place__icontains=form.clean_data['place'])
+                                                       location__icontains=form.clean_data['location'])
 
         return ain7_render_to_response(request, 'evenements/search.html', 
                                  {'form': form, 

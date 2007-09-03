@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-11 00:25+0200\n"
+"POT-Creation-Date: 2007-09-03 21:06+0200\n"
 "PO-Revision-Date: 2007-08-02 23:21+0200\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -287,7 +287,7 @@ msgstr "type d'adresse"
 msgid "address types"
 msgstr "types d'adresse"
 
-#: annuaire/models.py:397 templates/annuaire/details.html:93
+#: annuaire/models.py:397 templates/annuaire/details.html:94
 #: templates/annuaire/edit.html:157 templates/annuaire/edit.html.py:161
 #: templates/emploi/cv_edit.html:18 templates/emploi/cv_details.html:16
 msgid "Address"
@@ -696,7 +696,7 @@ msgstr "service"
 msgid "regie"
 msgstr "régie"
 
-#: emploi/models.py:129 templates/annuaire/details.html:118
+#: emploi/models.py:129 templates/annuaire/details.html:120
 #: templates/annuaire/edit.html:309 templates/emploi/cv_edit.html:69
 #: templates/emploi/cv_details.html:62
 msgid "for"
@@ -863,7 +863,7 @@ msgstr ""
 "Les informations concernant la partie \"Publication\" de votre CV ont été "
 "mises à jour avec succès."
 
-#: groupes/models.py:33 templates/base.html:96
+#: groupes/models.py:33 templates/base.html:97
 #: templates/annuaire/details.html:75 templates/annuaire/edit.html:229
 #: templates/groupes/details.html:12 templates/evenements/details.html:17
 #: templates/emploi/job_details.html:17
@@ -1009,96 +1009,96 @@ msgstr "Souhaitez-vous vraiment supprimer ce choix"
 msgid "Choice successfully deleted."
 msgstr "Le choix a été supprimé avec succès."
 
-#: templates/base.html:9
+#: templates/base.html:10
 msgid "AIn7: alumni network for IET-ENSEEIHT ingineers"
 msgstr "AIn7 : association des ingénieurs IET - ENSEEIHT"
 
-#: templates/base.html:24
+#: templates/base.html:25
 msgid "Connected as"
 msgstr "Connecté en tant que "
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "Log out"
 msgstr "Déconnexion"
 
-#: templates/base.html:29
+#: templates/base.html:30
 msgid "You are not logged-in"
 msgstr "Vous n'êtes pas authentifié"
 
-#: templates/base.html:29
+#: templates/base.html:30
 msgid "Login in"
 msgstr "Se connecter"
 
-#: templates/base.html:34
+#: templates/base.html:35
 msgid "AIn7 web portal"
 msgstr "Portail web AIn7"
 
-#: templates/base.html:42
+#: templates/base.html:43
 msgid "Home"
 msgstr "Accueil"
 
-#: templates/base.html:45
+#: templates/base.html:46
 msgid "The association"
 msgstr "L'association"
 
-#: templates/base.html:48
+#: templates/base.html:49
 msgid "Directory"
 msgstr "Annuaire"
 
-#: templates/base.html:51 templates/groupes_regionaux/details.html:46
+#: templates/base.html:52 templates/groupes_regionaux/details.html:46
 msgid "Events"
 msgstr "Évènements"
 
-#: templates/base.html:54
+#: templates/base.html:55
 msgid "Job service"
 msgstr "Service emploi"
 
-#: templates/base.html:57
+#: templates/base.html:58
 msgid "Forums"
 msgstr "Forums"
 
-#: templates/base.html:65
+#: templates/base.html:66
 msgid "Regional groups"
 msgstr "Groupes régionaux"
 
-#: templates/base.html:68
+#: templates/base.html:69
 msgid "Working groups"
 msgstr "Groupes de travail"
 
-#: templates/base.html:71 templates/emploi/cv_edit.html:85
+#: templates/base.html:72 templates/emploi/cv_edit.html:85
 #: templates/emploi/cv_details.html:79
 msgid "Publications"
 msgstr "Publications"
 
-#: templates/base.html:74
+#: templates/base.html:75
 msgid "International"
 msgstr "L'international"
 
-#: templates/base.html:77
+#: templates/base.html:78
 msgid "Travels"
 msgstr "Voyages"
 
-#: templates/base.html:80
+#: templates/base.html:81
 msgid "Planet"
 msgstr "Planet"
 
-#: templates/base.html:95
+#: templates/base.html:96
 msgid "RSS"
 msgstr "Flux RSS"
 
-#: templates/base.html:97
+#: templates/base.html:98
 msgid "About"
 msgstr "A propos"
 
-#: templates/base.html:98
+#: templates/base.html:99
 msgid "Sitemap"
 msgstr "Plan du site"
 
-#: templates/base.html:99
+#: templates/base.html:100
 msgid "Terms of use"
 msgstr "Mentions légales"
 
-#: templates/base.html:101
+#: templates/base.html:102
 msgid "and"
 msgstr "et"
 
@@ -1126,23 +1126,23 @@ msgstr "enfants"
 msgid "on"
 msgstr "sur"
 
-#: templates/annuaire/details.html:99
+#: templates/annuaire/details.html:101
 msgid "AIn7 activity"
 msgstr "Activité AIn7"
 
-#: templates/annuaire/details.html:110 templates/annuaire/edit.html:302
+#: templates/annuaire/details.html:112 templates/annuaire/edit.html:302
 msgid "Current professional experiences"
 msgstr "Expériences professionnelles actuelles"
 
-#: templates/annuaire/details.html:116 templates/annuaire/edit.html:307
+#: templates/annuaire/details.html:118 templates/annuaire/edit.html:307
 msgid "since"
 msgstr "depuis le"
 
-#: templates/annuaire/details.html:132 templates/annuaire/edit.html:283
+#: templates/annuaire/details.html:134 templates/annuaire/edit.html:283
 msgid "N7 associative activities"
 msgstr "Vie associative à l'N7"
 
-#: templates/annuaire/details.html:147 templates/annuaire/search.html:65
+#: templates/annuaire/details.html:149 templates/annuaire/search.html:65
 #: templates/groupes/details.html:16 templates/sondages/index.html:21
 #: templates/sondages/view.html:38 templates/voyages/details.html:63
 #: templates/voyages/index.html:82 templates/voyages/list.html:31
@@ -1154,27 +1154,27 @@ msgstr "Vie associative à l'N7"
 msgid "Actions"
 msgstr "Actions"
 
-#: templates/annuaire/details.html:150
+#: templates/annuaire/details.html:152
 msgid "Overview"
 msgstr "Présentation"
 
-#: templates/annuaire/details.html:151 templates/voyages/details.html:75
+#: templates/annuaire/details.html:153 templates/voyages/details.html:75
 msgid "Modify these data"
 msgstr "Modifier ces informations"
 
-#: templates/annuaire/details.html:152
+#: templates/annuaire/details.html:154
 msgid "See contributions"
 msgstr "Voir les contributions"
 
-#: templates/annuaire/details.html:153
+#: templates/annuaire/details.html:155
 msgid "Edit preferences"
 msgstr "Éditer les préférences"
 
-#: templates/annuaire/details.html:154
+#: templates/annuaire/details.html:156
 msgid "Manage subscriptions"
 msgstr "Gestions des adhésions"
 
-#: templates/annuaire/details.html:155
+#: templates/annuaire/details.html:157
 msgid "Download contact as vCard"
 msgstr "Télécharger la vCard du contact"
 
@@ -1387,7 +1387,6 @@ msgid "Edit these data."
 msgstr "Editer ces informations"
 
 #: templates/groupes/details.html:26
-#: templates/groupes_regionaux/details.html:15
 msgid "Members list"
 msgstr "Liste des membres"
 
@@ -1642,7 +1641,7 @@ msgstr "Résultats de la recherche"
 msgid "No travel correspond to your research"
 msgstr "Aucun voyage ne correspond à vos critères"
 
-#: templates/evenements/details.html:18
+#: templates/evenements/details.html:18 evenements/views.py:55
 msgid "Location"
 msgstr "Lieu"
 
@@ -1680,8 +1679,8 @@ msgid "Search an event"
 msgstr "Rechercher un événement"
 
 #: templates/evenements/index.html:35
-msgid "iCal file"
-msgstr "Fichier iCal"
+msgid "Subscribe iCal"
+msgstr "S'abonner au flux iCal"
 
 #: templates/evenements/edit.html:44 templates/evenements/join.html:29
 #: templates/evenements/register.html:31
@@ -1711,6 +1710,10 @@ msgstr "Rechercher"
 #: templates/evenements/search.html:28 templates/news/search.html:28
 msgid "No event correspond to your research"
 msgstr "Aucun événement ne correspond à vos critères."
+
+#: templates/groupes_regionaux/details.html:15
+msgid "Board Members"
+msgstr "Composition du bureau"
 
 #: templates/groupes_regionaux/details.html:36
 msgid "Join the group"
@@ -1761,7 +1764,7 @@ msgstr "Ajout d'une entrée dans la partie \"Formation\""
 msgid "List of offices"
 msgstr "Liste des bureaux"
 
-#: templates/emploi/company_details.html:38 templates/emploi/index.html:29
+#: templates/emploi/company_details.html:38 templates/emploi/index.html:35
 msgid "Job offers list"
 msgstr "Liste des offres d'emploi"
 
@@ -1773,47 +1776,47 @@ msgstr "Ingénieurs N7 actuellement employés"
 msgid "Past N7 employees"
 msgstr "Ingénieurs N7 employés par le passé"
 
-#: templates/emploi/index.html:17
+#: templates/emploi/index.html:19
+msgid "Job offers for your track"
+msgstr "Liste des offres d'emploi pour la filière"
+
+#: templates/emploi/index.html:23
 msgid "Job offers list for track"
 msgstr "Liste des offres d'emploi pour la filière"
 
-#: templates/emploi/index.html:19
+#: templates/emploi/index.html:25
 msgid "Job offers list for tracks"
 msgstr "Liste des offres d'emploi pour les filières"
 
-#: templates/emploi/index.html:42
+#: templates/emploi/index.html:48
 msgid "No job offer."
 msgstr "Aucune offre d'emploi."
 
-#: templates/emploi/index.html:45 templates/emploi/index.html.py:61
+#: templates/emploi/index.html:51 templates/emploi/index.html.py:73
 msgid "Search a job offer"
 msgstr "Rechercher une offre d'emploi"
 
-#: templates/emploi/index.html:48
-msgid "CV"
-msgstr "CV"
+#: templates/emploi/index.html:60
+msgid "Manage your CV"
+msgstr "Gérez votre CV"
 
-#: templates/emploi/index.html:50
+#: templates/emploi/index.html:63
 msgid "View your CV"
 msgstr "Voir votre CV"
 
-#: templates/emploi/index.html:51
+#: templates/emploi/index.html:64
 msgid "Modify your CV"
 msgstr "Modifier votre CV"
 
-#: templates/emploi/index.html:52
-msgid "To display (or not) your CV in the directory, please fill"
-msgstr "Pour afficher (ou non) votre CV dans l'annuaire, veuillez renseigner"
+#: templates/emploi/index.html:65
+msgid "Manage your CV visiblity"
+msgstr ""
 
-#: templates/emploi/index.html:53
-msgid "this page"
-msgstr "cette page"
-
-#: templates/emploi/index.html:58
+#: templates/emploi/index.html:70
 msgid "Manage Job Offers"
 msgstr "Gestion des offres d'emploi"
 
-#: templates/emploi/index.html:60
+#: templates/emploi/index.html:72
 msgid "Register a job offer"
 msgstr "Enregistrer une offre d'emploi"
 
@@ -2062,10 +2065,6 @@ msgstr "Personne à inscrire"
 msgid "Event name"
 msgstr "Nom de l'événement"
 
-#: evenements/views.py:55
-msgid "Place"
-msgstr "lieu"
-
 #: evenements/views.py:83
 msgid "Event successfully updated."
 msgstr "Événement mis à jour"
@@ -2260,3 +2259,19 @@ msgstr "Vous avez quitté ce groupe avec succès."
 #: groupes_regionaux/views.py:101
 msgid "You are not a member of this group."
 msgstr "Vous n'êtes pas membre de ce groupe."
+
+#~ msgid "iCal file"
+#~ msgstr "Fichier iCal"
+
+#~ msgid "CV"
+#~ msgstr "CV"
+
+#~ msgid "To display (or not) your CV in the directory, please fill"
+#~ msgstr ""
+#~ "Pour afficher (ou non) votre CV dans l'annuaire, veuillez renseigner"
+
+#~ msgid "this page"
+#~ msgstr "cette page"
+
+#~ msgid "Place"
+#~ msgstr "lieu"

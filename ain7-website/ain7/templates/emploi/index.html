@@ -5,12 +5,18 @@
 
 <div id="content-main">
 
+<div class="left">
+
+<div class="left_box">
+
 {# ### this user is a physical person ### #}
 
 {# if the user has preferred tracks for job offers, #}
 {# we only display job offers for these tracks      #}
 
 {% if ain7member.receive_job_offers_for_tracks.all %}
+
+<h3>{% trans "Job offers for your track" %}</h3>
 
 <h2>
     {% if ain7member.receive_job_offers_for_tracks.all|length_is:"1" %}
@@ -26,7 +32,7 @@
 
 {% else %}
 
-<h2>{% trans "Job offers list" %}</h2>
+<h3>{% trans "Job offers list" %}</h3>
 
 {% endif %}
 
@@ -45,21 +51,29 @@
 <a href="/emploi/job/search/">{% trans "Search a job offer" %}</a><br />
 </p>
 
-<h2>{% trans "CV" %}</h2>
-<p>
-<a href="/emploi/{{ user.id }}/cv/">{% trans "View your CV" %}</a>.<br />
-<a href="/emploi/{{ user.id }}/cv/edit/">{% trans "Modify your CV" %}</a>.<br />
-{% trans "To display (or not) your CV in the directory, please fill" %}
-<a href="/annuaire/{{ user.id }}/ain7member/edit/">{% trans "this page" %}</a>
-</p>
+</div>
+
+</div>
+
+<div class="right">
+
+<h3>{% trans "Manage your CV" %}</h3>
+
+<ul>
+<li><a href="/emploi/{{ user.id }}/cv/">{% trans "View your CV" %}</a></li>
+<li><a href="/emploi/{{ user.id }}/cv/edit/">{% trans "Modify your CV" %}</a></li>
+<li><a href="/annuaire/{{ user.id }}/ain7member/edit/">{% trans "Manage your CV visiblity" %}</a></li>
+</ul>
 
 {# ### this user is not a physical person ### #}
 
-<h2>{% trans "Manage Job Offers" %}</h2>
-<p>
-<a href="/emploi/job/register/">{% trans "Register a job offer" %}</a><br />
-<a href="/emploi/job/search/">{% trans "Search a job offer" %}</a><br />
-</p>
+<h3>{% trans "Manage Job Offers" %}</h3>
+<ul>
+<li><a href="/emploi/job/register/">{% trans "Register a job offer" %}</a></li>
+<li><a href="/emploi/job/search/">{% trans "Search a job offer" %}</a></li>
+</ul>
+
+</div>
 
 </div>
 

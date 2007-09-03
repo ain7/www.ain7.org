@@ -12,7 +12,7 @@
 		<p>{{ group.description }}</p>
 	{% endif %}
 
-	<h3>{% trans "Members list" %}</h3>
+	<h3>{% trans "Board Members" %}</h3>
 	{% regroup group.office_memberships by type as membership_groups %}
 	{% for membership_group in membership_groups %}
 		<h4>{{ membership_group.list.0.get_type_display }}</h4>
