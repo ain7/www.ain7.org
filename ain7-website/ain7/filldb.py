@@ -132,6 +132,12 @@ def filldb():
     n7hydro.school = n7
     n7hydro.save()
 
+    n7tr = annuaire.Track()
+    n7tr.name = "Télécommunications et Réseaux"
+    n7tr.initials = "TR"
+    n7tr.school = n7
+    n7tr.save()
+
     annuaire.Track(name="Electrotechnique", initials="", school=n7).save()
     annuaire.Track(name="Hydraulique", initials="", school=n7).save()
     annuaire.Track(name="Mathématiques Appliquées", initials="", school=n7).save()
@@ -180,6 +186,12 @@ def filldb():
     
     n7in2008 = annuaire.Promo(year=2008, track=n7info)
     n7in2008.save()
+
+    n7tr2003 = annuaire.Promo(year=2003, track=n7tr)
+    n7tr2003.save()
+
+    n7hy2003 = annuaire.Promo(year=2003, track=n7hydro)
+    n7hy2003.save()
 
     # Contributions
     poll_contrib = annuaire.UserContributionType(key='poll_register',name='Registering a poll',points=10)
@@ -597,6 +609,120 @@ def filldb():
     alexpos.start_date = date(2006,8,17)
     alexpos.save()
 
+    laurent = annuaire.Person()
+    laurent.user = User.objects.create_user("laurent", "laurent07@gmail.com","laurent")
+    laurent.user.is_staff = True
+    laurent.user.is_superuser = True
+    laurent.user.save()
+    laurent.sex = 'M'
+    laurent.first_name = "Laurent"
+    laurent.last_name = "Bives"
+    laurent.birth_date = date(1984,03,14)
+    laurent.country = france
+    laurent.save()
+
+    laurent_ain7member = annuaire.AIn7Member()
+    laurent_ain7member.person = laurent
+    laurent_ain7member.activity = activityKnown
+    laurent_ain7member.member_type = memberTypeActif
+    laurent_ain7member.person_type = personTypeEngineer
+    laurent_ain7member.promos.add(n7tr2003)
+    laurent_ain7member.nick_name = "Lau"
+    laurent_ain7member.display_cv_in_directory = False
+    laurent_ain7member.display_cv_in_job_section = False
+    laurent_ain7member.receive_job_offers = False
+    laurent_ain7member.cvTitle = "Ingénieur ENSEEIHT Télécommunications et Réseaux"
+    laurent_ain7member.save()
+
+    laurent_n7profile = annuaire.ProfileMembership()
+    laurent_n7profile.user = laurent.user
+    laurent_n7profile.profile = profile_n7
+    laurent_n7profile.save()
+
+    laurent_portable = annuaire.PhoneNumber()
+    laurent_portable.person = laurent
+    laurent_portable.number = "0600000000"
+    laurent_portable.type = 3
+    laurent_portable.isConfidential = False
+    laurent_portable.save()
+
+    laurent_adresse1 = annuaire.Address()
+    laurent_adresse1.person = laurent
+    laurent_adresse1.number = "2"
+    laurent_adresse1.street = "rue Charles Camichel"
+    laurent_adresse1.zip_code = "31071"
+    laurent_adresse1.city = "Paris"
+    laurent_adresse1.country = france
+    laurent_adresse1.type = personalAddressType
+    laurent_adresse1.save()
+
+    laurent_adresse2 = annuaire.Address()
+    laurent_adresse2.person = laurent
+    laurent_adresse2.number = "2"
+    laurent_adresse2.street = "rue Charles Camichel"
+    laurent_adresse2.zip_code = "31071"
+    laurent_adresse2.city = "Toulouse"
+    laurent_adresse2.country = france
+    laurent_adresse2.type = parentalAddressType
+    laurent_adresse2.save()
+
+    gui = annuaire.Person()
+    gui.user = User.objects.create_user("gui", "gui@ain7.com","gui")
+    gui.user.is_staff = True
+    gui.user.is_superuser = True
+    gui.user.save()
+    gui.sex = 'M'
+    gui.first_name = "Guillaume"
+    gui.last_name = "Bonnaffoux"
+    gui.birth_date = date(1980,06,9)
+    gui.country = france
+    gui.save()
+
+    gui_ain7member = annuaire.AIn7Member()
+    gui_ain7member.person = gui
+    gui_ain7member.activity = activityKnown
+    gui_ain7member.member_type = memberTypeActif
+    gui_ain7member.person_type = personTypeEngineer
+    gui_ain7member.promos.add(n7hy2003)
+    gui_ain7member.nick_name = "Gui"
+    gui_ain7member.display_cv_in_directory = False
+    gui_ain7member.display_cv_in_job_section = False
+    gui_ain7member.receive_job_offers = False
+    gui_ain7member.cvTitle = "Ingénieur ENSEEIHT Cuicui les petits oiseaux"
+    gui_ain7member.save()
+
+    gui_n7profile = annuaire.ProfileMembership()
+    gui_n7profile.user = gui.user
+    gui_n7profile.profile = profile_n7
+    gui_n7profile.save()
+
+    gui_portable = annuaire.PhoneNumber()
+    gui_portable.person = gui
+    gui_portable.number = "0600000000"
+    gui_portable.type = 3
+    gui_portable.isConfidential = False
+    gui_portable.save()
+
+    gui_adresse1 = annuaire.Address()
+    gui_adresse1.person = gui
+    gui_adresse1.number = "2"
+    gui_adresse1.street = "rue Charles Camichel"
+    gui_adresse1.zip_code = "31071"
+    gui_adresse1.city = "Toulouse"
+    gui_adresse1.country = france
+    gui_adresse1.type = personalAddressType
+    gui_adresse1.save()
+
+    gui_adresse2 = annuaire.Address()
+    gui_adresse2.person = alex
+    gui_adresse2.number = "2"
+    gui_adresse2.street = "rue Charles Camichel"
+    gui_adresse2.zip_code = "31071"
+    gui_adresse2.city = "Toulouse"
+    gui_adresse2.country = france
+    gui_adresse2.type = parentalAddressType
+    gui_adresse2.save()
+
     tvn7 = annuaire.Club()
     tvn7.name = "TVn7"
     tvn7.description = "Le club vidéo de l'N7"
@@ -616,6 +742,12 @@ def filldb():
     tvn7_alex.member = alex_ain7member
     tvn7_alex.fonction = "Secrétaire 2004-2005"
     tvn7_alex.save()
+
+    tvn7_gui = annuaire.ClubMembership()
+    tvn7_gui.club = tvn7
+    tvn7_gui.member = gui_ain7member
+    tvn7_gui.fonction = "Président 2002-2003"
+    tvn7_gui.save()
 
     net7 = annuaire.Club()
     net7.name = "Net7"
