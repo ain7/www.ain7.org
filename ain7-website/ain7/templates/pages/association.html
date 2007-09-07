@@ -1,4 +1,5 @@
 {% extends "pages/base_association.html" %}
+{% load i18n %}
 
 {% block content %}
 
@@ -94,6 +95,25 @@
 
 <p>L'Association propose aussi des voyages qui sont autant d'occasions d'enrichir les relations entre les participants, dans un contexte particulièrement agréable et sympathique. La variété des destinations : Europe, Asie, Afrique, Amérique, le pittoresque des pays découverts sont autant d'atouts qui incitent ses membres à se retrouver et à partager émotions et souvenirs communs.</p>
 
+</div>
+
+<div class="right">
+    <h3>{% trans "Links" %}</h3>
+   <div class="right_articles">
+    <ul>
+      <li><a href="">{% trans "Overview" %}</a></li>
+      <li><a href="status/">{% trans "Statuts" %}</a></li>
+      <li><a href="board/">{% trans "Board" %}</a></li>
+      <li><a href="contact/">{% trans "Contact" %}</a></li>
+    </ul>
+   </div>
+    <h3>{% trans "Statistics" %}</h3>
+   <div class="right_articles">
+    <ul>
+      <li>{% trans "Number of diplomas" %}: 10000</li>
+      <li>{% trans "Number of subscribers" %}: 2000</li>
+    </ul>
+   </div>
 </div>
 
 </div>

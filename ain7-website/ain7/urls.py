@@ -40,11 +40,11 @@ urlpatterns = patterns('',
     # servir le contenu statique pendant le dev
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.abspath(os.path.dirname(__file__))+'/media'}),
 
-    # Uncomment this for admin:
-    (r'^dadmin/', include('django.contrib.admin.urls')),
-
     # AIn7 admin section
     (r'^admin/', include('ain7.admin.urls')),
+
+    # Uncomment this for admin:
+    (r'^dadmin/', include('django.contrib.admin.urls')),
 
     # annuaire
     (r'^annuaire/', include('ain7.annuaire.urls')),
@@ -76,15 +76,20 @@ urlpatterns = patterns('',
     # forums
     (r'^forums/', 'ain7.utils.forums'),
 
+    # gallerie
+    (r'^gallerie/', 'ain7.utils.gallerie'),
+
     # Pages particulieres au contenu pseudo statique
-    (r'^apropos/','ain7.pages.views.apropos'),
-    (r'^association/','ain7.pages.views.association'),
-    (r'^canal_n7/','ain7.pages.views.canal_n7'),
-    (r'^contact/','ain7.pages.views.contact'),
-    (r'^international/','ain7.pages.views.international'),
-    (r'^mentions_legales/','ain7.pages.views.mentions_legales'),
-    (r'^publications/','ain7.pages.views.publications'),
-    (r'^sitemap/','ain7.pages.views.sitemap'),
+    (r'^apropos/$','ain7.pages.views.apropos'),
+    (r'^association/$','ain7.pages.views.association'),
+    (r'^association/board/$','ain7.pages.views.board'),
+    (r'^association/contact/$','ain7.pages.views.contact'),
+    (r'^association/status/$','ain7.pages.views.status'),
+    (r'^canal_n7/$','ain7.pages.views.canal_n7'),
+    (r'^international/$','ain7.pages.views.international'),
+    (r'^mentions_legales/$','ain7.pages.views.mentions_legales'),
+    (r'^publications/$','ain7.pages.views.publications'),
+    (r'^sitemap/$','ain7.pages.views.sitemap'),
     (r'^$','ain7.pages.views.homepage'),
 
     # flux RSS

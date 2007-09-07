@@ -82,7 +82,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.doc.XViewMiddleware',
-	 'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 )
 
 ROOT_URLCONF = 'ain7.urls'
@@ -100,6 +100,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.admin',
+    'ain7.admin',
     'ain7.annuaire',
     'ain7.emploi',
     'ain7.evenements',
@@ -115,4 +116,5 @@ INSTALLED_APPS = (
 SKIN = 'default'
 PLANET_URL = 'http://planet.ain7.porcheron.info/'
 FORUMS_URL = 'http://forums.ain7.porcheron.info/'
+GALLERIE_URL = 'http://gallerie.ain7.porcheron.info/'
 

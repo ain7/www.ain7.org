@@ -57,6 +57,12 @@
 {% block barre-forums %}<li>{% endblock %}
     <a href="/forums/" accesskey="f">{% trans "Forums"%}</a></li>
 
+{% block barre-gallerie %}<li>{% endblock %}
+    <a href="/gallerie/" accesskey="h">{% trans "Gallery"%}</a></li>
+
+{% block barre-admin %}<li>{% endblock %}
+    <a href="/admin/" accesskey="h">{% trans "Admin"%}</a></li>
+
 </ul>
 
 <ul class="ligne2">
@@ -94,7 +100,7 @@
 		
 		<div class="footer">
 			<p><a href="/rss/">{% trans "RSS" %}</a> | 
-         <a href="/contact/">{% trans "Contact" %}</a> | 
+         <a href="/association/contact/">{% trans "Contact" %}</a> | 
          <a href="/apropos/">{% trans "About" %}</a> | 
          <a href="/sitemap/">{% trans "Sitemap" %}</a> | 
          <a href="/mentions_legales/">{% trans "Terms of use" %}</a> | 

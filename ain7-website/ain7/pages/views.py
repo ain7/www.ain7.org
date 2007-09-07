@@ -40,6 +40,12 @@ def apropos(request):
 def association(request):
     return ain7_render_to_response(request, 'pages/association.html', {})
 
+def status(request):
+    return ain7_render_to_response(request, 'pages/status.html', {})
+
+def board(request):
+    return ain7_render_to_response(request, 'pages/board.html', {})
+
 def canal_n7(request):
     return ain7_render_to_response(request, 'pages/canal_n7.html', {})
 

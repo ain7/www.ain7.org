@@ -5,19 +5,7 @@
 
 <div id="content-main">
 
-<div class="right">
-<h3>{% trans "General informations" %}</h3>
-<ul>
-   <li><b>{% trans "name" %} :</b> {{ group.name }}</li>
-   <li><b>{% trans "Contact" %} :</b> {{ group.contact|default_if_none:"" }}</li>
-   <li><b>{% trans "Coordinator" %} :</b> {% for membership in group.memberships.all %}{% if membership.is_administrator %} {{ membership.member }}{% endif %}{% endfor %}</li>
-</ul>
-
-<h3>{% trans "Actions" %}</h3>
-<ul>
-<li><a href="/groupes/edit/{{ group.id }}/">{% trans "Edit these data." %}</a></li>
-</ul>
-</div>
+<div class="left">
 
 <h3>{{ group.name }}</h3>
 {{ group.description|default_if_none:"" }}<br/>
@@ -33,6 +21,33 @@
 
 <h4>{% trans "Group presentation" %}</h4>
 {{ group.web_page|default_if_none:"" }}
+
+</div>
+
+<div class="right">
+   <h3>{% trans "General informations" %}</h3>
+   <div class="right_articles">
+    <ul>
+      <li><b>{% trans "name" %} :</b> {{ group.name }}</li>
+      <li><b>{% trans "Contact" %} :</b> {{ group.contact|default_if_none:"" }}</li>
+      <li><b>{% trans "Coordinator" %} :</b> {% for membership in group.memberships.all %}{% if membership.is_administrator %} {{ membership.member }}{% endif %}{% endfor %}</li>
+    </ul>
+   </div>
+
+   <h3>{% trans "Actions" %}</h3>
+   <div class="right_articles">
+   <ul>
+      <li><a href="/groupes/edit/{{ group.id }}/">{% trans "Edit these data." %}</a></li>
+   </ul>
+   </div>
+
+    <h3>{% trans "Card Informations"%}</h3>
+   <div class="right_articles">
+     <ul>
+       <li>{% trans "Creation date" %}: {{ group.creation_date.ctime }}</li>
+       <li>{% trans "Modification date" %}: {{ group.modification_date.ctime }}</li>
+     </ul>
+   </div>
 
 </div>
 

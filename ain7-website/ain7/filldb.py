@@ -24,6 +24,7 @@ from datetime import date, datetime, timedelta
 
 from django.core import validators
 from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
 
 import ain7.annuaire.models as annuaire
 import ain7.groupes.models as groupes
@@ -68,6 +69,12 @@ def filldb():
 
     #                                                                  #
     ###################### End of fixed values #########################
+
+    # fixons l'URL du site
+    site = Site.objects.get(id=1)
+    site.domain = 'localhost:8888'
+    site.name = 'localhost:8888'
+    site.save()
 
     # Country
     france = annuaire.Country(name="France", nationality="Française")

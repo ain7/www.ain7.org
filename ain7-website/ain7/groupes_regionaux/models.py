@@ -33,8 +33,18 @@ class Group(models.Model):
     name = models.CharField(verbose_name=_('name'), maxlength=50)
     description = models.TextField(verbose_name=_('description'), blank=True, null=True)
 
+    # Internal
+    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
+    modification_date = models.DateTimeField(editable=False)
+    modifier = models.IntegerField(editable=False)
+
     def __str__(self):
         return self.name
+
+    def save(self):
+        self.modification_date = datetime.datetime.today()
+        self.modifier = 1
+        return super(Group, self).save()
 
     def office_memberships(self):
         return self.memberships.exclude(end_date__isnull=False, end_date__lte=datetime.datetime.now())\
