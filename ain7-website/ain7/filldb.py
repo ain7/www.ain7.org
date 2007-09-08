@@ -315,6 +315,7 @@ def filldb():
     lionel_site = annuaire.WebSite()
     lionel_site.person = lionel
     lionel_site.url = "http://www.porcheron.info"
+    lionel_site.type = 1
     lionel_site.save()
 
     lionel_irc1 = annuaire.IRC()
@@ -500,6 +501,7 @@ def filldb():
     olivier_site = annuaire.WebSite()
     olivier_site.person = olivier
     olivier_site.url = "http://www.ain7.com/"
+    olivier_site.type = 0
     olivier_site.save()
 
     olivier_bigophone1 = annuaire.PhoneNumber()

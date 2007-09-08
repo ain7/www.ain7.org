@@ -80,12 +80,9 @@
 {% endfor %}
 
 {% for web_site in person.web_sites.all %}
-    <tr valign="middle"><td><img src="/site_media/images/web.png" alt="{% trans "web site" %}"/><a href="{{ web_site.url }}">{{ web_site.url }}</a></td></tr>
+    <tr valign="middle"><td><img src="/site_media/images/{{ web_site.get_type_display|lower }}.png" alt="{% trans "web site" %}"/><a href="{{ web_site.url }}">{{ web_site.url }}</a></td></tr>
 {% endfor %}
 
-{% if ain7member.blog %}
-    <tr valign="middle"><td><img src="/site_media/images/web.png" alt="{% trans "blog" %}"/><a href="{{ ain7member.blog }}">{{ ain7member.blog }}</a></td></tr>
-{% endif %}
 </table>
 
 <table>

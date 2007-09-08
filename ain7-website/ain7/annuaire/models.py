@@ -279,8 +279,6 @@ class AIn7Member(models.Model):
     # Other
     nick_name = models.CharField(verbose_name=_('Nick name'), maxlength=50, blank=True, null=True)
     avatar = models.ImageField(verbose_name=_('avatar'), upload_to='data/', blank=True, null=True)
-    blog = models.URLField(verbose_name=_('blog'), maxlength=80, verify_exists=True, blank=True, core=True)
-    blog_is_agregated_on_planet = models.BooleanField(verbose_name=_('blog on planet'), core=True, default=False)
 
     # School situation
     promos = models.ManyToManyField(Promo, verbose_name=_('Promos'), related_name='students', blank=True, null=True, filter_interface=models.HORIZONTAL)
@@ -436,9 +434,21 @@ class InstantMessaging(models.Model):
 # Website for a person
 class WebSite(models.Model):
 
-    url = models.CharField(verbose_name=_('web site'), maxlength=100, core=True)
+    WEBSITE_TYPE = (
+                    (0,'web'),
+                    (1,'blog'),
+                    (2,'gallery'),
+                    (3,'linkedin'),
+                    (4,'viadeo'),
+                    (5,'flickr'),
+                    (100,'Other'),
+                   )
 
+    url = models.CharField(verbose_name=_('web site'), maxlength=100, core=True)
     person = models.ForeignKey(Person, related_name='web_sites', edit_inline=models.TABULAR, num_in_admin=1)
+    type = models.IntegerField(verbose_name=_('type'),choices=WEBSITE_TYPE, core=True)
+
+    blog_is_agregated_on_planet = models.BooleanField(verbose_name=_('blog on planet'), core=True, default=False)
 
     def __str__(self):
         return self.url

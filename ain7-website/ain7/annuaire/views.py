@@ -151,6 +151,7 @@ def export_csv(request):
     response['Content-Disposition'] = 'attachment; filename=export_ain7.csv'
 
     writer = csv.writer(response)
+    writer.writerow(['First Name', 'Last Name'])
     for member in ain7members:
        writer.writerow([member.person.first_name, member.person.last_name])
 

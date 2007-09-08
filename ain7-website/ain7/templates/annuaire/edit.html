@@ -76,17 +76,6 @@
        {% else %}
            {% trans "no child" %}.
        {% endif %}</li>
-   <li><b>{% filter capfirst %}{% trans "blog" %}{% endfilter %}</b>&nbsp;:
-       {% if ain7member.blog %}
-           <a href="{{ ain7member.blog }}">{{ ain7member.blog }}</a>
-           {% if ain7member.blog_is_agregated_in_planet %}
-               ({% trans "blog on planet" %})
-           {% else %}
-               ({% trans "blog not on planet" %})
-           {% endif %}
-       {% else %}
-           {% trans "No blog" %}
-       {% endif %}</li>
     <li><b>{% trans "Promos" %}&nbsp;:</b> 
         {% if ain7member.promos.all %}
             {% for promo in ain7member.promos.all %}{{ promo }}
@@ -265,7 +254,7 @@
 <table border="0" width="100%">
 {% for website in person.web_sites.all %}
     <tr valign="middle"><td>
-        <img src="/site_media/images/web.png" alt="{% trans "web site" %}"/>
+        <img src="/site_media/images/{{ website.get_type_display|lower }}.png" alt="{% trans "web site" %}"/>
         <a href="{{ website.url }}">{{ website.url }}</a></td>
     <td width="12%">
         <a href="/annuaire/{{ person.user.id }}/website/{{ website.id }}/edit/" class="changelink">
