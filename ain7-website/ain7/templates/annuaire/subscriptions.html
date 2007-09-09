@@ -12,7 +12,7 @@
 <table width="100%">
 <tr><th>{% trans "Year" %}</th><th>{% trans "Subscription date" %}</th><th>{% trans "Amount" %}</th>
 {% for subscription in subscriptions_list %}
-<tr><td>{{ subscription.year }}</td><td>{{ subscription.date.ctime }}</td><td>{{ subscription.amount }}</td><td><a class="changelink" href="{{ subscription.id }}/edit/">{% trans "Edit" %}</a> <a class="deletelink" href="{{ subscription.id }}/delete/">{% trans "Delete" %}</a></td></tr>
+<tr><td>{{ subscription.year }}</td><td>{{ subscription.date|date:"l j F Y H:i" }}</td><td>{{ subscription.amount }}</td><td><a class="changelink" href="{{ subscription.id }}/edit/">{% trans "Edit" %}</a> <a class="deletelink" href="{{ subscription.id }}/delete/">{% trans "Delete" %}</a></td></tr>
 {% endfor %}
 </table>
 

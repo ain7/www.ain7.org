@@ -251,6 +251,7 @@ def subscribe(request, travel_id):
     str(get_object_or_404(Person, pk=participant_id)),
     'voyages/base.html',
     _('Do you really want to unsubscribe this participant'))
+
 @login_required
 def unsubscribe(request, travel_id, participant_id):
     travel = get_object_or_404(Travel, pk=travel_id)

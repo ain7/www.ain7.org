@@ -44,8 +44,8 @@
     <h3>{% trans "Card Informations"%}</h3>
    <div class="right_articles">
      <ul>
-       <li>{% trans "Creation date" %}: {{ group.creation_date.ctime }}</li>
-       <li>{% trans "Modification date" %}: {{ group.modification_date.ctime }}</li>
+       <li>{% trans "Creation date" %}: {{ group.creation_date|date:"l j F Y H:i" }}</li>
+       <li>{% trans "Modification date" %}: {{ group.modification_date|date:"l j F Y H:i" }}</li>
      </ul>
    </div>
 

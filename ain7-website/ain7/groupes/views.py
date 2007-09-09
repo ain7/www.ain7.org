@@ -62,5 +62,5 @@ def edit(request, group_id=None):
 
                  return HttpResponseRedirect('/groupes/%s/' % (group.id))
 
-    return ain7_render_to_response(request, 'groupes/edit.html', {'form': form})
+    return ain7_render_to_response(request, 'groupes/edit.html', {'form': form, 'group': group})
 

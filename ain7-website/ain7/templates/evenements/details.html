@@ -53,8 +53,8 @@
     <h3>{% trans "Card Informations"%}</h3>
    <div class="right_articles">
      <ul>
-       <li>{% trans "Creation date" %}: {{ event.creation_date.ctime }}</li>
-       <li>{% trans "Modification date" %}: {{ event.modification_date.ctime }}</li>
+       <li>{% trans "Creation date" %}: {{ event.creation_date|date:"l j F Y H:i" }}</li>
+       <li>{% trans "Modification date" %}: {{ event.modification_date|date:"l j F Y H:i" }}</li>
      </ul>
    </div>
 

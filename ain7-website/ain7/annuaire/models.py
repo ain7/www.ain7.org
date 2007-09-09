@@ -453,6 +453,11 @@ class WebSite(models.Model):
     def __str__(self):
         return self.url
 
+    def save(self):
+        if not self.url.startswith('http://'):
+            self.url = 'http://'+self.url
+        return super(WebSite, self).save()
+
     class Meta:
         verbose_name = _('web site')
 

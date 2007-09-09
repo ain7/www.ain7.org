@@ -33,9 +33,9 @@
         {% else %}{% trans "undefined" %}{% endif %}</td>
   </tr>
   <tr>
-    <td><i>{% filter capfirst %}{% trans "responsible" %}{% endfilter %}</i>
+    <td><i>{% filter capfirst %}{% trans "responsible(s)" %}{% endfilter %}</i>
     </td>
-    <td>{% if travel.responsible %}{{ travel.responsible|escape }}
+    <td>{% if travel.travel_responsibles %}  {{ travel.travel_responsibles.all|join:", " }}
         {% else %}{% trans "undefined" %}{% endif %}</td>
   </tr>
 </table>
@@ -83,6 +83,14 @@
               {% trans "persons are subscribed to this travel" %}</li>
         </ul>
       </div>
+
+      <h3>{% trans "Card Informations"%}</h3>
+      <div class="right_articles">
+        <ul>
+          <li>{% trans "Creation date" %}: {{ travel.creation_date|date:"l j F Y H:i" }}</li>
+          <li>{% trans "Modification date" %}: {{ travel.modification_date|date:"l j F Y H:i" }}</li>
+        </ul>
+       </div>
 
     </div>
   </div>

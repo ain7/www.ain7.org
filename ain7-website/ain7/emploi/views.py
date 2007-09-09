@@ -336,7 +336,7 @@ def job_edit(request, emploi_id):
     f = JobOfferForm({'reference': j.reference, 'title': j.title, 'description': j.description, 
         'experience': j.experience, 'contract_type': j.contract_type})
 
-    return ain7_render_to_response(request, 'emploi/job_edit.html', {'form': f})
+    return ain7_render_to_response(request, 'emploi/job_edit.html', {'form': f, 'job': j})
 
 @login_required
 def job_register(request):

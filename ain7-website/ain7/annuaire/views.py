@@ -211,8 +211,8 @@ def person_edit(request, user_id=None):
                  request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
              return HttpResponseRedirect('/annuaire/%s/edit' % (person.user.id))
     return ain7_render_to_response(request, 'annuaire/edit_form.html', 
-                            {'form': form,
-                             'action_title': _("Modification of personal data")})
+                            {'form': form, 'person': person,
+                             'action_title': _("Modification of personal data for")})
 
 @login_required
 def ain7member_edit(request, user_id=None):
@@ -243,10 +243,9 @@ def ain7member_edit(request, user_id=None):
              return HttpResponseRedirect('/annuaire/%s/edit' % (person.user.id))
         form = PersonForm(auto_id=False)
     return ain7_render_to_response(request, 'annuaire/edit_form.html', 
-                            {'form': form,
+                            {'form': form, 'person': person,
                              'action_title':
-                             _("Modification of personal data for ") +
-                             str(person)})
+                             _("Modification of personal data for")})
 
 @login_required
 def avatar_edit(request, user_id):
@@ -299,7 +298,7 @@ def _generic_edit(request, user_id, object_id, object_type,
             formfield_callback=_form_callback)
         f = PosForm()
         return ain7_render_to_response(request, 'annuaire/edit_form.html',
-                                {'form': f, 'action_title': action_title})
+                                {'form': f, 'action_title': action_title, 'person': person})
     
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
@@ -359,7 +358,7 @@ def address_edit(request, user_id=None, address_id=None):
 
     return _generic_edit(request, user_id, address_id, Address,
                          get_object_or_404(Person, user=user_id), None,
-                         _('Modification of an addressr'),
+                         _('Modification of an address for'),
                          _('Address informations updated successfully.'))
 
 @confirmation_required(lambda user_id=None, address_id=None : str(get_object_or_404(Address, pk=address_id)), 'annuaire/base.html', _('Do you really want to delete your address'))
@@ -374,7 +373,7 @@ def address_add(request, user_id=None):
 
     return _generic_add(request, user_id, Address,
                         get_object_or_404(Person, user=user_id), None,
-                        _('Creation of an address'),
+                        _('Creation of an address for'),
                         _('Address successfully added.'))
 
 # Numeros de telephone
@@ -383,7 +382,7 @@ def phone_edit(request, user_id=None, phone_id=None):
 
     return _generic_edit(request, user_id, phone_id, PhoneNumber,
                          get_object_or_404(Person, user=user_id), None,
-                         _('Modification of a phone number'),
+                         _('Modification of a phone number for'),
                          _('Phone number informations updated successfully.'))
 
 @confirmation_required(lambda user_id=None, phone_id=None : str(get_object_or_404(PhoneNumber, pk=phone_id)), 'annuaire/base.html', _('Do you really want to delete your phone number'))
@@ -398,7 +397,7 @@ def phone_add(request, user_id=None):
 
     return _generic_add(request, user_id, PhoneNumber,
                         get_object_or_404(Person, user=user_id), None,
-                        _('Creation of a phone number'),
+                        _('Creation of a phone number for'),
                         _('Phone number successfully added.'))
 
 # Adresses de courriel
@@ -407,7 +406,7 @@ def email_edit(request, user_id=None, email_id=None):
 
     return _generic_edit(request, user_id, email_id, Email,
                          get_object_or_404(Person, user=user_id), None,
-                         _('Modification of an email address'),
+                         _('Modification of an email address for'),
                          _('Email informations updated successfully.'))
 
 @confirmation_required(lambda user_id=None, email_id=None : str(get_object_or_404(Email, pk=email_id)), 'annuaire/base.html', _('Do you really want to delete your email address'))
@@ -422,7 +421,7 @@ def email_add(request, user_id=None):
 
     return _generic_add(request, user_id, Email,
                         get_object_or_404(Person, user=user_id), None,
-                        _('Creation of an email address'),
+                        _('Creation of an email address for'),
                         _('Email address successfully added.'))
 
 # Comptes de messagerie instantan�e
@@ -431,7 +430,7 @@ def im_edit(request, user_id=None, im_id=None):
 
     return _generic_edit(request, user_id, im_id, InstantMessaging,
                          get_object_or_404(Person, user=user_id), None,
-                         _('Modification of an instant messaging account'),
+                         _('Modification of an instant messaging account for'),
                          _('Instant messaging informations updated successfully.'))
 
 @confirmation_required(lambda user_id=None, im_id=None : str(get_object_or_404(InstantMessaging, pk=im_id)), 'annuaire/base.html', _('Do you really want to delete your instant messaging account'))
@@ -446,7 +445,7 @@ def im_add(request, user_id=None):
 
     return _generic_add(request, user_id, InstantMessaging,
                         get_object_or_404(Person, user=user_id), None,
-                        _('Creation of an instant messaging account'),
+                        _('Creation of an instant messaging account for'),
                         _('Instant messaging account successfully added.'))
 
 # Comptes IRC
@@ -455,7 +454,7 @@ def irc_edit(request, user_id=None, irc_id=None):
 
     return _generic_edit(request, user_id, irc_id, IRC,
                          get_object_or_404(Person, user=user_id), None,
-                         _('Modification of an IRC account'),
+                         _('Modification of an IRC account for'),
                          _('IRC account informations updated successfully.'))
 
 @confirmation_required(lambda user_id=None, irc_id=None : str(get_object_or_404(IRC, pk=irc_id)), 'annuaire/base.html', _('Do you really want to delete your IRC account'))
@@ -470,7 +469,7 @@ def irc_add(request, user_id=None):
 
     return _generic_add(request, user_id, IRC,
                         get_object_or_404(Person, user=user_id), None,
-                        _('Creation of an IRC account'),
+                        _('Creation of an IRC account for'),
                         _('IRC account successfully added.'))
 
 # Sites Internet
@@ -479,7 +478,7 @@ def website_edit(request, user_id=None, website_id=None):
 
     return _generic_edit(request, user_id, website_id, WebSite,
                          get_object_or_404(Person, user=user_id), None,
-                         _('Modification of a website'),
+                         _('Modification of a website for'),
                          _('Website informations updated successfully.'))
 
 @confirmation_required(lambda user_id=None, website_id=None : str(get_object_or_404(WebSite, pk=website_id)), 'annuaire/base.html', _('Do you really want to delete your website'))
@@ -494,7 +493,7 @@ def website_add(request, user_id=None):
 
     return _generic_add(request, user_id, WebSite,
                         get_object_or_404(Person, user=user_id), None,
-                        _('Creation of a website'),
+                        _('Creation of a website for'),
                         _('Website successfully added.'))
 
 # Vie associative a l'n7
@@ -505,7 +504,7 @@ def club_membership_edit(request, user_id=None, club_membership_id=None):
     person = get_object_or_404(Person, user=user_id)
     return _generic_edit(request, user_id, club_membership_id, ClubMembership,
                          person, get_object_or_404(AIn7Member, person=person),
-                         _('Modification of a club membership'),
+                         _('Modification of a club membership for'),
                          _('Club membership informations updated successfully.'))
 
 @confirmation_required(lambda user_id=None, club_membership_id=None : str(get_object_or_404(ClubMembership, pk=club_membership_id)), 'annuaire/base.html', _('Do you really want to delete your club membership'))
@@ -521,7 +520,7 @@ def club_membership_add(request, user_id=None):
     person = get_object_or_404(Person, user=user_id)
     return _generic_add(request, user_id, ClubMembership,
                         person, get_object_or_404(AIn7Member, person=person),
-                        _('Creation of a club membership'),
+                        _('Creation of a club membership for'),
                         _('Club membership successfully added.'))
 
 @login_required
@@ -540,7 +539,7 @@ def subscription_edit(request, user_id=None, subscription_id=None):
 
     return _generic_edit(request, user_id, subscription_id, AIn7Subscription,
                          get_object_or_404(Person, user=user_id), None,
-                         _('Modification of a subscription'),
+                         _('Modification of a subscription for'),
                          _('Subscription informations updated successfully.'))
 
 @confirmation_required(lambda user_id=None, subscription_id=None : str(get_object_or_404(AIn7Subscription, pk=subscription_id)), 'annuaire/base.html', _('Do you really want to delete this subscription'))
@@ -555,7 +554,7 @@ def subscription_add(request, user_id=None):
 
     return _generic_add(request, user_id, AIn7Subscription,
                         get_object_or_404(Person, user=user_id), None,
-                        _('Adding a subscription'),
+                        _('Adding a subscription for'),
                         _('Subscription successfully added.'))
 
 @login_required

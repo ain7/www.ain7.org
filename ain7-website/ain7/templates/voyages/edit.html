@@ -10,11 +10,13 @@
 
 <div id="content-main">
 
+<h3>{% trans "Edit travel" %} "{{ travel.label }}"</h3>
+
 <form action="." method="post">
     <table class="form">
         {{ form }}
     </table>
-<p><input type="submit" value="{% trans "Save changes" %}" /></p>
+<p><input type="submit" class="button" value="{% trans "Save changes" %}" /></p>
 </form>
 
 {% ifequal action "edit" %}

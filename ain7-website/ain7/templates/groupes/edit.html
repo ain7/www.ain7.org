@@ -10,12 +10,44 @@
 
 <div id="content-main">
 
+<div class="left">
+
+<h3>{{ group.name }}</h3>
+
 <form action="." method="post">
     <table class="form">
         {{ form }}
     </table>
-<p><input type="submit" value="{% trans "Save changes" %}" /></p>
+<p><input type="submit" class="button" value="{% trans "Save changes" %}" /></p>
 </form>
+
+</div>
+
+<div class="right">
+   <h3>{% trans "General informations" %}</h3>
+   <div class="right_articles">
+    <ul>
+      <li><b>{% trans "name" %} :</b> {{ group.name }}</li>
+      <li><b>{% trans "Contact" %} :</b> {{ group.contact|default_if_none:"" }}</li>
+      <li><b>{% trans "Coordinator" %} :</b> {% for membership in group.memberships.all %}{% if membership.is_administrator %} {{ membership.member }}{% endif %}{% endfor %}</li>
+    </ul>
+   </div>
+
+   <h3>{% trans "Actions" %}</h3>
+   <div class="right_articles">
+   <ul>
+      <li><a href="/groupes/edit/{{ group.id }}/">{% trans "Edit these data." %}</a></li>
+   </ul>
+   </div>
+
+    <h3>{% trans "Card Informations"%}</h3>
+   <div class="right_articles">
+     <ul>
+       <li>{% trans "Creation date" %}: {{ group.creation_date|date:"l j F Y H:i" }}</li>
+       <li>{% trans "Modification date" %}: {{ group.modification_date|date:"l j F Y H:i" }}</li>
+     </ul>
+   </div>
+
 
 </div>
 

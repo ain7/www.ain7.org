@@ -79,6 +79,8 @@ class Event(models.Model):
         #self.creator = 1
         self.modification_date = datetime.datetime.today()
         #self.modifier = 1
+        if not self.pictures_gallery.startswith('http://'):
+            self.pictures_gallery = 'http://'+self.pictures_gallery
         return super(Event, self).save()
 
     def get_absolute_url(self):

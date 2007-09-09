@@ -5,9 +5,9 @@
 
 <div id="content-main">
 
-<h2>{% trans "Job Offer Details" %}</h2>
+<div class="left">
 
-<p>{% trans "This announce has been viewed" %} {{ job.nb_views }} {% trans "times" %}.</p>
+<h2>{{ job.title }}</h2>
 
 <ul>
 <li><b>{% filter capfirst%}{% trans "company" %}{% endfilter %}&nbsp;:</b>
@@ -30,6 +30,34 @@
 </ul>
 
 {{ job.description }}
+
+</div>
+
+<div class="right">
+
+   <h3>{% trans "Actions" %}</h3>
+   <div class="right_articles">
+    <ul>
+      <li><a href="">{% trans "Overview" %}</a></li>
+      <li><a href="edit/">{% trans "Edit this job offer" %}</a></li>
+    </ul>
+   </div>
+
+   <h3>{% trans "Card Informations"%}</h3>
+   <div class="right_articles">
+     <ul>
+       <li>{% trans "Creation date" %}: {{ job.creation_date|date:"l j F Y H:i" }}</li>
+       <li>{% trans "Modification date" %}: {{ job.modification_date|date:"l j F Y H:i" }}</li>
+     </ul>
+   </div>
+
+   <h3>{% trans "Statistics"%}</h3>
+   <div class="right_articles">
+     <p>{% trans "This announce has been viewed" %} {{ job.nb_views }} {% trans "times" %}.</p>
+   </div>
+
+
+</div>
 
 </div>
 

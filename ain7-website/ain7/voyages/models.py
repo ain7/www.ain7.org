@@ -93,6 +93,9 @@ class TravelResponsible(models.Model):
     travel = models.ForeignKey(Travel, verbose_name=_('travel'), related_name='travel_responsibles')
     responsible = models.ForeignKey(Person, verbose_name=_('responsible'), related_name='travel_responsibilities')
 
+    def __str__(self):
+        return self.responsible.__str__()
+
     class Meta:
         verbose_name = _('travel responsible')
         verbose_name_plural = _('travel responsibles')
