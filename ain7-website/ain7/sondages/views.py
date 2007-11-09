@@ -43,7 +43,7 @@ def view(request, survey_id):
     already_vote = request.user.is_authenticated()\
                     and survey.has_been_voted_by(request.user.person)
 
-    return ain7_render_to_response(request, 'sondages/view.html', 
+    return ain7_render_to_response(request, 'sondages/view.html',
                              {'survey': survey, 'already_vote': already_vote})
 
 @login_required
@@ -55,7 +55,7 @@ def vote(request, survey_id):
             choice = survey.choices.get(pk=request.GET['choice'])
         except (KeyError, Choice.DoesNotExist):
             # Go to vote form
-            return ain7_render_to_response(request, 'sondages/vote.html', 
+            return ain7_render_to_response(request, 'sondages/vote.html',
                                      {'survey': survey})
         else:
             # Create vote
@@ -91,7 +91,7 @@ def edit(request, survey_id):
 
     return _form(request, None, Form, _('Survey edition'), _('Survey succesfully updated.'))
 
-@confirmation_required(lambda survey_id: str(get_object_or_404(Survey, pk=survey_id)), 
+@confirmation_required(lambda survey_id: str(get_object_or_404(Survey, pk=survey_id)),
                        'sondages/base.html', _('Do you really want to delete this survey?'))
 @login_required
 def delete(request, survey_id):
@@ -115,7 +115,7 @@ def choice_edit(request, survey_id, choice_id):
 
     return _form(request, survey, Form, _('Choice edition'), _('Choice succesfully updated.'))
 
-@confirmation_required(lambda survey_id, choice_id: str(get_object_or_404(Choice, pk=choice_id)), 
+@confirmation_required(lambda survey_id, choice_id: str(get_object_or_404(Choice, pk=choice_id)),
                        'sondages/base.html', _('Do you really want to delete the choice'))
 @login_required
 def choice_delete(request, survey_id, choice_id):

@@ -76,8 +76,8 @@ urlpatterns = patterns('',
     # forums
     (r'^forums/', 'ain7.utils.forums'),
 
-    # gallerie
-    (r'^gallerie/', 'ain7.utils.gallerie'),
+    # galerie
+    (r'^galerie/', 'ain7.utils.galerie'),
 
     # Pages particulieres au contenu pseudo statique
     (r'^apropos/$','ain7.pages.views.apropos'),

@@ -36,7 +36,6 @@ class SearchNewsForm(forms.Form):
     date = forms.DateField(label=_('Date'), required=False, widget=forms.TextInput(attrs={'size':'50'}))
     content = forms.CharField(label=_('News content'), max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
 
-
 def index(request):
     news = NewsItem.objects.all().order_by('-creation_date')[:20]
     return ain7_render_to_response(request, 'news/index.html', {'news': news })
@@ -45,7 +44,6 @@ def details(request, news_id):
     news_item = get_object_or_404(NewsItem, pk=news_id)
     return ain7_render_to_response(request, 'news/details.html',
                             {'news_item': news_item})
-
 
 @login_required
 def edit(request, news_id):
@@ -68,7 +66,7 @@ def edit(request, news_id):
 
    f = NewsForm()
 
-   return ain7_render_to_response(request, 'news/edit.html', 
+   return ain7_render_to_response(request, 'news/edit.html',
                            {'form': f, 'news_item':news_item})
 
 @login_required
@@ -104,7 +102,7 @@ def image_delete(request, news_id):
     news_item = get_object_or_404(NewsItem, pk=news_id)
     news_item.image = None
     news_item.save()
-    
+
     request.user.message_set.create(message=
         _('The image of this news item has been successfully deleted.'))
     return HttpResponseRedirect('/actualites/%s/edit/' % news_id)
@@ -138,8 +136,8 @@ def search(request):
                     list_news = NewsItem.objects.filter(title__icontains=form.clean_data['title'],
                                                         description__icontains=form.clean_data['content'])
 
-        return ain7_render_to_response(request, 'news/search.html', 
-                                {'form': form, 'list_news': list_news, 
+        return ain7_render_to_response(request, 'news/search.html',
+                                {'form': form, 'list_news': list_news,
                                  'request': request})
 
     else:

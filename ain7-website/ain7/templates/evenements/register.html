@@ -24,12 +24,21 @@
 
 <div class="right">
 
+        <h3>{% trans "Actions" %}</h3>
+        <div class="right_articles">
+        <ul>
+             <li><a href="/evenements/register/">{% trans "Register an event" %}</a></li>
+             <li><a href="/evenements/search/">{% trans "Search an event" %}</a></li>
+             <li><a href="/evenements/ical/">{% trans "Subscribe iCal" %}</a></li>
+        </ul>
+        </div>
+
 	<h3>{% trans "Statistics" %}</h3>
 	<div class="right_block">
                 <ul>
-                        <li>{{ event_list|length }} 
+                        <li>{{ event_list|length }}
                             {% trans "events are registered" %}</li>
-                        <li>{{ next_events|length }} 
+                        <li>{{ next_events|length }}
                             {% trans "events are coming" %}</li>
                 </ul>
         </div>

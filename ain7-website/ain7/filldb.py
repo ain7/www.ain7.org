@@ -88,27 +88,27 @@ def filldb():
     profile_n7.name = "n7"
     profile_n7.description = "Elève actuel ou passé"
     profile_n7.save()
-    
+
     profile_demo = annuaire.Profile()
     profile_demo.name = "demo"
     profile_demo.description = "Compte utilisé pour les démonstrations"
     profile_demo.save()
-    
+
     profile_secretaire = annuaire.Profile()
     profile_secretaire.name = "secretaire"
     profile_secretaire.description = "Secrétaire AIn7"
     profile_secretaire.save()
-    
+
     profile_admin = annuaire.Profile()
     profile_admin.name = "admin"
     profile_admin.description = "Administrateur du site"
     profile_admin.save()
-    
+
     profile_recruteur = annuaire.Profile()
     profile_recruteur.name = "recruteur"
     profile_recruteur.description = "Recruteur (contact entreprise)"
     profile_recruteur.save()
-    
+
     # Diplomas
     bac = annuaire.Diploma(diploma="Baccalauréat", initials="Bac")
     bac.save()
@@ -190,7 +190,7 @@ def filldb():
 
     n7in2003 = annuaire.Promo(year=2003, track=n7info)
     n7in2003.save()
-    
+
     n7in2008 = annuaire.Promo(year=2008, track=n7info)
     n7in2008.save()
 
@@ -265,7 +265,7 @@ def filldb():
     lionel_ain7member.display_cv_in_directory = True
     lionel_ain7member.display_cv_in_job_section = True
     lionel_ain7member.receive_job_offers = False
-    lionel_ain7member.cvTitle = "Ingénieur ENSEEIHT Informatique"    
+    lionel_ain7member.cv_title = "Ingénieur ENSEEIHT Informatique"
     lionel_ain7member.save()
 
     lionel_recrutProfile = annuaire.ProfileMembership()
@@ -286,6 +286,7 @@ def filldb():
     lionel_couriel1 = annuaire.Email()
     lionel_couriel1.person = lionel
     lionel_couriel1.email = "lionel@ain7.org"
+    lionel_couriel1.preferred_email = True
     lionel_couriel1.save()
 
     lionel_couriel2 = annuaire.Email()
@@ -298,19 +299,19 @@ def filldb():
     lionel_messagerie1.person = lionel
     lionel_messagerie1.type = 5
     lionel_messagerie1.identifier = "lionel@ain7.org"
-    lionel_messagerie1.save()    
+    lionel_messagerie1.save()
 
     lionel_messagerie2 = annuaire.InstantMessaging()
     lionel_messagerie2.person = lionel
     lionel_messagerie2.type = 1
     lionel_messagerie2.identifier = "12345"
-    lionel_messagerie2.save()    
-    
+    lionel_messagerie2.save()
+
     lionel_messagerie3 = annuaire.InstantMessaging()
     lionel_messagerie3.person = lionel
     lionel_messagerie3.type = 2
     lionel_messagerie3.identifier = "lionel@ain7.org"
-    lionel_messagerie3.save()    
+    lionel_messagerie3.save()
 
     lionel_site = annuaire.WebSite()
     lionel_site.person = lionel
@@ -323,7 +324,7 @@ def filldb():
     lionel_irc1.network = "irc.rezosup.net"
     lionel_irc1.pseudo = "lionel"
     lionel_irc1.channels = "#ain7, #inp-net, #net7, #n7"
-    lionel_irc1.save()    
+    lionel_irc1.save()
 
     lionel_irc2 = annuaire.IRC()
     lionel_irc2.person = lionel
@@ -405,7 +406,7 @@ def filldb():
     pierref_ain7member.display_cv_in_directory = False
     pierref_ain7member.display_cv_in_job_section = True
     pierref_ain7member.receive_job_offers = False
-    pierref_ain7member.cvTitle = "Élève Ingénieur ENSEEIHT Informatique"
+    pierref_ain7member.cv_title = "Élève Ingénieur ENSEEIHT Informatique"
     pierref_ain7member.save()
 
     pierref_recrutProfile = annuaire.ProfileMembership()
@@ -428,7 +429,7 @@ def filldb():
     pierref_irc1.network = "irc.rezosup.net"
     pierref_irc1.pseudo = "pierref"
     pierref_irc1.channels = "#ain7, #inp-net, #n7, #net7"
-    pierref_irc1.save()    
+    pierref_irc1.save()
 
     olivier = annuaire.Person()
     olivier.user = User.objects.create_user("gauwino", "olivier.gauwin@laposte.net","gauwino")
@@ -452,7 +453,7 @@ def filldb():
     olivier_ain7member.display_cv_in_job_section = True
     olivier_ain7member.receive_job_offers = True
     olivier_ain7member.receive_job_offers_for_tracks.add(n7info)
-    olivier_ain7member.cvTitle = "Ingénieur ENSEEIHT et doctorant en Informatique"    
+    olivier_ain7member.cv_title = "Ingénieur ENSEEIHT et doctorant en Informatique"
     olivier_ain7member.save()
 
     olivier_n7profile = annuaire.ProfileMembership()
@@ -489,7 +490,7 @@ def filldb():
     olivier_messagerie1.person = olivier
     olivier_messagerie1.type = 5
     olivier_messagerie1.identifier = "olivier@somewhere.jabber"
-    olivier_messagerie1.save()    
+    olivier_messagerie1.save()
 
     olivier_irc1 = annuaire.IRC()
     olivier_irc1.person = olivier
@@ -576,7 +577,7 @@ def filldb():
     alex_ain7member.display_cv_in_directory = False
     alex_ain7member.display_cv_in_job_section = False
     alex_ain7member.receive_job_offers = False
-    alex_ain7member.cvTitle = "Ingénieur ENSEEIHT Informatique"
+    alex_ain7member.cv_title = "Ingénieur ENSEEIHT Informatique"
     alex_ain7member.save()
 
     alex_n7profile = annuaire.ProfileMembership()
@@ -640,7 +641,7 @@ def filldb():
     laurent_ain7member.display_cv_in_directory = False
     laurent_ain7member.display_cv_in_job_section = False
     laurent_ain7member.receive_job_offers = False
-    laurent_ain7member.cvTitle = "Ingénieur ENSEEIHT Télécommunications et Réseaux"
+    laurent_ain7member.cv_title = "Ingénieur ENSEEIHT Télécommunications et Réseaux"
     laurent_ain7member.save()
 
     laurent_n7profile = annuaire.ProfileMembership()
@@ -697,7 +698,7 @@ def filldb():
     gui_ain7member.display_cv_in_directory = False
     gui_ain7member.display_cv_in_job_section = False
     gui_ain7member.receive_job_offers = False
-    gui_ain7member.cvTitle = "Ingénieur ENSEEIHT Cuicui les petits oiseaux"
+    gui_ain7member.cv_title = "Ingénieur ENSEEIHT Cuicui les petits oiseaux"
     gui_ain7member.save()
 
     gui_n7profile = annuaire.ProfileMembership()
@@ -802,7 +803,7 @@ def filldb():
     ain7etudiants.name = "AIn7 Étudiants"
     ain7etudiants.administrator = lionel
     ain7etudiants.save()
-    
+
     ain7etudiants_lionel = groupes.Membership()
     ain7etudiants_lionel.group = ain7etudiants
     ain7etudiants_lionel.member = lionel
@@ -882,7 +883,7 @@ def filldb():
 
     news1 = news.NewsItem()
     news1.title = "Nouveau portail Web"
-    news1.description = """L'AIn7 travaille actuellement sur l'élaboration d'un 
+    news1.description = """L'AIn7 travaille actuellement sur l'élaboration d'un
     nouveau portail. N'hésitez pas à apporter vos idées et vos commentaires."""
     news1.image = "data/www.jpg"
     news1.save()
@@ -981,15 +982,15 @@ visite du musée <b>Edo-Tokyo </b>qui retrace l'histoire de la ville.</p>
 
 <h2>18 OCTOBRE : TOKYO - KAMAKURA - ATAMI</h2>
 
-<p>Transfert des gros bagages à KYOTO. A 09h00, départ en bus pour KAMAKURA. 
-Située à une cinquantaine de kilomètres de Tokyo, cette station 
-balnéaire et populaire édifiée au milieu des collines verdoyantes, 
+<p>Transfert des gros bagages à KYOTO. A 09h00, départ en bus pour KAMAKURA.
+Située à une cinquantaine de kilomètres de Tokyo, cette station
+balnéaire et populaire édifiée au milieu des collines verdoyantes,
 capitale du Japon au XIIIème siècle abrite de nombreux temples bouddhistes
 et sanctuaires shintoïstes.</p>
 
-<p>Visite du temple <b>Kenkoji,</b> fondé au XIIIè siècle, 
+<p>Visite du temple <b>Kenkoji,</b> fondé au XIIIè siècle,
 c'est le plus important des cinq grands temples de
-Kamakura. Puis, visite du <b>sanctuaire Tsurugaoka</b>, l'un des plus beaux 
+Kamakura. Puis, visite du <b>sanctuaire Tsurugaoka</b>, l'un des plus beaux
 sanctuaires shintoistes de la ville,
 construit sur une colline au milieu de la ville et entouré d'autres édifices
 interessants.</p>
@@ -1147,7 +1148,7 @@ d'architecture contemporaine.</p>
 
 <ul>
 <li>Les transports aériens internationaux sur JAPAN AIRLINES ou AIR France</li>
-<li>Le logement en chambre double en bons hôtels de 3* et dans un monastère 
+<li>Le logement en chambre double en bons hôtels de 3* et dans un monastère
 (au Koyasan)</li>
 <li>Les transferts en bus privé</li>
 <li>Les transports en train en classe touriste comme indiqué au programme</li>
@@ -1155,19 +1156,19 @@ d'architecture contemporaine.</p>
 <li>Les visites mentionnées avec guide parlant français</li>
 <li>Les droits d'entrée sur les sites</li>
 </ul>
- 
+
 <h3>Ce prix ne comprend pas&nbsp;:</h3>
 
 <ul>
 <li>Les taxes d'aéroport&nbsp;: 127 € à ce jour</li>
-<li>Les boissons et dépenses personnelles &amp; 
+<li>Les boissons et dépenses personnelles &amp;
 Les pourboires aux guides et aux chauffeurs</li>
 <li>Les assurances</li>
 </ul>
 
 <h3>LES HOTELS</h3>
 
-<p><b>TOKYO</b>&nbsp;: SUNSHINE CITY PRINCE HOTEL (3*) / 
+<p><b>TOKYO</b>&nbsp;: SUNSHINE CITY PRINCE HOTEL (3*) /
 <a href="http://www.princehotelsjapan.com/sunshinecityprincehotel/">
 http://www.princehotelsjapan.com/sunshinecityprincehotel/</a></p>
 
@@ -1178,7 +1179,7 @@ http://www.princehotelsjapan.com/sunshinecityprincehotel/</a></p>
 <a href="http://www.asiarooms.com/japan/kyoto/tower.html">
 http://www.asiarooms.com/japan/kyoto/tower.html</a></p>
 
-<p><b>MIYAJIMA:</b>AKI GRAND HOTEL / 
+<p><b>MIYAJIMA:</b>AKI GRAND HOTEL /
 <a href="http://www.akigh.co.jp/">http://www.akigh.co.jp</a></p>
 
 <p><b>NARA</b>: NARA HOTEL (3*) /
@@ -1325,7 +1326,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     job4.save()
     job4.track.add(n7hydro)
     job4.save()
-    
+
     job5 = emploi.JobOffer()
     job5.reference = "XYZ274"
     job5.title = "Ingénieurs développement JAVA/J2EE"

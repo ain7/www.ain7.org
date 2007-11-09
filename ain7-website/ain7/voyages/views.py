@@ -39,6 +39,8 @@ class SearchTravelForm(forms.Form):
                             max_length=50, required=False)
     visited_places = forms.CharField(label=_('visited places').capitalize(),
                                      max_length=50, required=False)
+    search_old_travel = forms.BooleanField(label=_('search in old travels').capitalize(),
+                                     required=False)
 
     def __init__(self, *args, **kwargs):
         super(SearchTravelForm, self).__init__(*args, **kwargs)
@@ -170,7 +172,7 @@ def thumbnail_delete(request, travel_id):
     travel = get_object_or_404(Travel, pk=travel_id)
     travel.thumbnail = None
     travel.save()
-    
+
     request.user.message_set.create(message=
         _('The thumbnail of this travel has been successfully deleted.'))
     return HttpResponseRedirect('/voyages/%s/edit/' % travel_id)
@@ -182,7 +184,7 @@ def join(request, travel_id):
 
     if request.method == 'GET':
         # on vérifie que la personne n'est pas déjà inscrite
-        already_subscribed = False 
+        already_subscribed = False
         for subscription in person.travel_subscriptions.all():
             if subscription.travel == travel:
                 already_subscribed = True
@@ -194,7 +196,7 @@ def join(request, travel_id):
         f = JoinTravelForm()
         return ain7_render_to_response(request, "voyages/join.html",
                                 {'form': f, 'travel': travel})
-    
+
     if request.method == 'POST':
         JoinTravelForm = forms.models.form_for_model(Subscription,
             formfield_callback=_join_callback)
@@ -220,14 +222,14 @@ def subscribe(request, travel_id):
         # TODO : AJAX pour sélectionner une personne plutôt qu'une liste
         return ain7_render_to_response(request, "voyages/join.html",
                                 {'form': f, 'travel': travel})
-    
+
     if request.method == 'POST':
         SubscribeTravelForm = forms.models.form_for_model(Subscription,
             formfield_callback=_subscribe_callback)
         f = SubscribeTravelForm(request.POST.copy())
         person = Person.objects.filter(pk=request.POST['subscriber'])[0]
         # on vérifie que la personne n'est pas déjà inscrite
-        already_subscribed = False 
+        already_subscribed = False
         for subscription in person.travel_subscriptions.all():
             if subscription.travel == travel:
                 already_subscribed = True
@@ -284,14 +286,14 @@ def responsibles_add(request, travel_id):
         # TODO : AJAX pour sélectionner une personne plutôt qu'une liste
         return ain7_render_to_response(request, "voyages/join.html",
                                 {'form': f, 'travel': travel})
-    
+
     if request.method == 'POST':
         TravelResponsibleForm = forms.models.form_for_model(TravelResponsible,
             formfield_callback=_subscribe_callback)
         f = TravelResponsibleForm(request.POST.copy())
         person = Person.objects.filter(pk=request.POST['responsible'])[0]
         # on vérifie que la personne n'est pas déjà inscrite
-        already_responsible = False 
+        already_responsible = False
         for responsibility in person.travel_responsibilities.all():
             if responsibility.travel == travel:
                 already_responsible = True
@@ -344,4 +346,3 @@ def _subscribe_callback(f, **args):
     if f.name in exclude_fields:
         return None
     return f.formfield(**args)
-

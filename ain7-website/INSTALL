@@ -2,8 +2,7 @@
 =====================
 
 Pour installer le portail AIn7 en version de développement, il faut :
-- installer django (le récupérer depuis http://packages.ubuntu.com si vous
-  n'utilisez pas Edgy)
+- installer le package django
 - installer les packages python python-django python-pysqlite2, python-imaging, python-vobject
 - récupérer les sources du portail (a priori si vous lisez ce fichier, c'est
   déjà fait. Sinon: bzr co http://bazaar.launchpad.net/~ain7-devel/ain7-portal/ain7-portal.dev)

@@ -28,7 +28,7 @@ from django.utils.translation import gettext_lazy as _
 from ain7.annuaire.models import Person
 
 class TravelType(models.Model):
-    
+
     type = models.CharField(verbose_name=_('type'), maxlength=50)
 
     def __str__(self):
@@ -68,7 +68,7 @@ class Travel(models.Model):
 
     class Admin:
         pass
-    
+
     class Meta:
         verbose_name = _('travel')
         ordering = ['start_date', 'end_date']
@@ -89,7 +89,7 @@ class Subscription(models.Model):
 
 # indicates who is responsible for a travel
 class TravelResponsible(models.Model):
-    
+
     travel = models.ForeignKey(Travel, verbose_name=_('travel'), related_name='travel_responsibles')
     responsible = models.ForeignKey(Person, verbose_name=_('responsible'), related_name='travel_responsibilities')
 
@@ -99,5 +99,4 @@ class TravelResponsible(models.Model):
     class Meta:
         verbose_name = _('travel responsible')
         verbose_name_plural = _('travel responsibles')
-
 

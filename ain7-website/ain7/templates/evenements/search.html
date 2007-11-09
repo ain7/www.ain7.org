@@ -5,7 +5,11 @@
 
 <div id="content-main">
 
-<h2>{% trans "Event Search" %}</h2>
+<div class="left">
+
+<div class="left_box">
+
+<h3>{% trans "Event Search" %}</h3>
 
 <div align="center">
 <form action="." method="post">
@@ -17,7 +21,7 @@
 </div>
 
 {% ifequal request.method 'POST' %}
-<h2>Research result</h2>
+<h3>Research result</h3>
 {% if list_events %}
     <ul>
     {% for event in list_events %}
@@ -28,6 +32,23 @@
     <p>{% trans "No event correspond to your research" %}</p>
 {% endif %}
 {% endifequal %}
+
+</div>
+
+</div>
+
+<div class="right">
+
+<h3>{% trans "Actions" %}</h3>
+<div class="right_articles">
+<ul>
+<li><a href="/evenements/register/">{% trans "Register an event" %}</a></li>
+<li><a href="/evenements/search/">{% trans "Search an event" %}</a></li>
+<li><a href="/evenements/ical/">{% trans "Subscribe iCal" %}</a></li>
+</ul>
+</div>
+
+</div>
 
 </div>
 

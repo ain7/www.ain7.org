@@ -82,14 +82,14 @@ def edit(request, event_id):
 
             request.user.message_set.create(message=_('Event successfully updated.'))
         else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(f.errors))            
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(f.errors))
 
         return HttpResponseRedirect('/evenements/%s/' % (event.id))
 
     f = EventForm()
     next_events = Event.objects.filter(end__gte=datetime.now())
 
-    return ain7_render_to_response(request, 'evenements/edit.html', 
+    return ain7_render_to_response(request, 'evenements/edit.html',
                                    {'form': f, 'event': event,
                                     'event_list': Event.objects.all(),
                                     'next_events': next_events})
@@ -128,7 +128,7 @@ def image_delete(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     event.image = None
     event.save()
-    
+
     request.user.message_set.create(message=
         _('The image of this event has been successfully deleted.'))
     return HttpResponseRedirect('/evenements/%s/edit/' % event_id)
@@ -156,7 +156,7 @@ def join(request, event_id):
 
     # on vérifie que la personne n'est pas déjà inscrite
     person = request.user.person
-    already_subscribed = False 
+    already_subscribed = False
     for subscription in person.event_subscriptions.all():
         if subscription.event == event:
             already_subscribed = True
@@ -166,7 +166,7 @@ def join(request, event_id):
 
     f =  JoinEventForm()
     next_events = Event.objects.filter(end__gte=datetime.now())
-    return ain7_render_to_response(request, 'evenements/join.html', 
+    return ain7_render_to_response(request, 'evenements/join.html',
                             {'event': event, 'form': f,
                              'event_list': Event.objects.all(),
                              'next_events': next_events})
@@ -176,7 +176,7 @@ def participants(request, event_id):
 
     event = get_object_or_404(Event, pk=event_id)
 
-    return ain7_render_to_response(request, 'evenements/participants.html', 
+    return ain7_render_to_response(request, 'evenements/participants.html',
                             {'event': event})
 
 @login_required
@@ -197,7 +197,7 @@ def register(request):
 
             request.user.message_set.create(message=_('Event successfully added.'))
         else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(f.errors))            
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(f.errors))
 
         #return HttpResponseRedirect('/evenements/%s/' % (f.id))
         return HttpResponseRedirect('/evenements/')
@@ -218,9 +218,9 @@ def search(request):
                     list_events = Event.objects.filter(name__icontains=form.clean_data['name'],
                                                        location__icontains=form.clean_data['location'])
 
-        return ain7_render_to_response(request, 'evenements/search.html', 
-                                 {'form': form, 
-                                  'list_events': list_events, 
+        return ain7_render_to_response(request, 'evenements/search.html',
+                                 {'form': form,
+                                  'list_events': list_events,
                                   'request': request})
 
     else:
@@ -236,7 +236,7 @@ def subscribe(request, event_id):
         f = SubscribeEventForm(request.POST)
         person = Person.objects.filter(pk=request.POST['subscriber'])[0]
         # on vérifie que la personne n'est pas déjà inscrite
-        already_subscribed = False 
+        already_subscribed = False
         for subscription in person.event_subscriptions.all():
             if subscription.event == event:
                 already_subscribed = True
@@ -260,7 +260,7 @@ def subscribe(request, event_id):
     f =  SubscribeEventForm()
     next_events = Event.objects.filter(end__gte=datetime.now())
 
-    return ain7_render_to_response(request, 'evenements/subscribe.html', 
+    return ain7_render_to_response(request, 'evenements/subscribe.html',
                                    {'event': event, 'form': f,
                                     'event_list': Event.objects.all(),
                                     'next_events': next_events})

@@ -57,7 +57,7 @@ urlpatterns = patterns('',
     (r'^(?P<user_id>\d+)/im/(?P<im_id>\d+)/edit/$', im_edit),
     (r'^(?P<user_id>\d+)/im/(?P<im_id>\d+)/delete/$', im_delete),
     (r'^(?P<user_id>\d+)/im/add/$', im_add),
-    # Comptes IRC 
+    # Comptes IRC
     (r'^(?P<user_id>\d+)/irc/(?P<irc_id>\d+)/edit/$', irc_edit),
     (r'^(?P<user_id>\d+)/irc/(?P<irc_id>\d+)/delete/$', irc_delete),
     (r'^(?P<user_id>\d+)/irc/add/$', irc_add),
@@ -66,7 +66,7 @@ urlpatterns = patterns('',
     (r'^(?P<user_id>\d+)/subscriptions/(?P<subscription_id>\d+)/edit/$', subscription_edit),
     (r'^(?P<user_id>\d+)/subscriptions/(?P<subscription_id>\d+)/delete/$', subscription_delete),
     (r'^(?P<user_id>\d+)/subscriptions/add/$', subscription_add),
-    # Sites Web 
+    # Sites Web
     (r'^(?P<user_id>\d+)/website/(?P<website_id>\d+)/edit/$', website_edit),
     (r'^(?P<user_id>\d+)/website/(?P<website_id>\d+)/delete/$', website_delete),
     (r'^(?P<user_id>\d+)/website/add/$', website_add),

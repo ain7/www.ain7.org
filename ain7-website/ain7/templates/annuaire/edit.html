@@ -7,8 +7,10 @@
 
 <div id="cv">
 
-<h1>{% trans "Personal file" %} 
+<h1>{% trans "Personal file" %}
     {{ person.first_name }} {{ person.last_name }}</h1>
+
+<a href="/annuaire/{{ person.user.id }}/">{% trans "Back to personnal file" %}</a>
 
 <h2>{% trans "Personal data" %}</h2>
 
@@ -20,7 +22,7 @@
    <li><b>{% trans "Last name" %}&nbsp;:</b> {{ person.last_name }}</li>
    <li><b>{% filter capfirst %}{% trans "maiden name" %}{% endfilter %}
        &nbsp;:</b> {{ person.maiden_name|default:"" }}</li>
-   <li><b>{% trans "Birth date" %}&nbsp;:</b> 
+   <li><b>{% trans "Birth date" %}&nbsp;:</b>
        {{ person.birth_date|date:"d/m/Y" }}</li>
    <li><b>{% filter capfirst %}{% trans "death date" %}{% endfilter %}
        &nbsp;:</b> {{ person.death_date|date:"d/m/Y" }}</li>
@@ -36,7 +38,7 @@
 <ul>
    <li><b>{% filter capfirst %}{% trans "avatar" %}{% endfilter %}</b>&nbsp;:
        {% if ain7member.avatar %}
-	   <img src="{{ ain7member.get_avatar_url }}" height="100" 
+	   <img src="{{ ain7member.get_avatar_url }}" height="100"
            alt="{% trans "avatar" %}" />
        {% else %}
            {% trans "No avatar" %}
@@ -59,7 +61,7 @@
 
 <div class="dataBlock">
 <ul>
-   <li><b>{% trans "Nick name" %}&nbsp;:</b> 
+   <li><b>{% trans "Nick name" %}&nbsp;:</b>
        {% if ain7member.nick_name %}
            {{ ain7member.nick_name|default:"" }}
        {% else %}
@@ -76,7 +78,7 @@
        {% else %}
            {% trans "no child" %}.
        {% endif %}</li>
-    <li><b>{% trans "Promos" %}&nbsp;:</b> 
+    <li><b>{% trans "Promos" %}&nbsp;:</b>
         {% if ain7member.promos.all %}
             {% for promo in ain7member.promos.all %}{{ promo }}
                 {% if not forloop.last %} - {% endif %}
@@ -84,7 +86,7 @@
         {% else %}
             {% trans "No promotion" %}
         {% endif %}</li>
-    <li><b>{% filter capfirst %}{% trans "diplomas"%}{% endfilter %}&nbsp;:</b> 
+    <li><b>{% filter capfirst %}{% trans "diplomas"%}{% endfilter %}&nbsp;:</b>
         {% if ain7member.diplomas.all %}
             {% for diploma in ain7member.diplomas.all %}{{ diploma }}
                  {% if not forloop.last %} - {% endif %}{% endfor %}
@@ -92,7 +94,7 @@
             {% trans "No diploma" %}
         {% endif %}</li>
     <li><b>{% filter capfirst %}{% trans "decorations" %}{% endfilter %}
-        &nbsp;:</b> 
+        &nbsp;:</b>
         {% if ain7member.decorations.all %}
             {% for decoration in ain7member.decorations.all %}{{ decoration }}
                 {% if not forloop.last %} - {% endif %}{% endfor %}
@@ -100,7 +102,7 @@
             {% trans "No decoration" %}
         {% endif %}</li>
     <li><b>{% filter capfirst %}{% trans "ceremonial duties"%}{% endfilter %}
-        &nbsp;:</b> 
+        &nbsp;:</b>
         {% if ain7member.ceremonial_duties.all %}
             {% for duty in ain7member.ceremonial_duties.all %}{{ diploma }}
                 {% if not forloop.last %} - {% endif %}{% endfor %}
@@ -135,7 +137,7 @@
             {% trans "No" %}</li>
         {% endif %}
     <li><b>{% trans "CV title" %}</b>&nbsp;:
-        {{ ain7member.cvTitle}}</li>
+        {{ ain7member.cv_title}}</li>
 </ul>
 </div>
 
@@ -148,7 +150,7 @@
 <table border="0" width="100%">
 {% for address in person.addresses.all %}
     <tr><td><b>{% trans "Address" %} {{ address.type|lower }}&nbsp;:</b></td><td>
-        {{ address.number }} {{ address.street }} - 
+        {{ address.number }} {{ address.street }} -
         {{address.zip_code }} {{ address.city }} - {{ address.country.name }}
         {% if address.is_confidential %} ({% trans "confidential" %})
         {% else %}                       ({% trans "not confidential" %})
@@ -172,7 +174,7 @@
 {% for phone_number in person.phone_numbers.all %}
    <tr><td><b>{{ phone_number.get_type_display }} :</b></td>
    <td>{{ phone_number.number }}
-       {% if not phone_number.is_confidential %} ({% trans "confidential" %})
+       {% if phone_number.is_confidential %} ({% trans "confidential" %})
         {% else %} ({% trans "not confidential" %}) {% endif %}</td>
     <td width="12%">
         <a href="/annuaire/{{ person.user.id }}/phone/{{ phone_number.id }}/edit/" class="changelink">
@@ -214,8 +216,8 @@
 <table border="0" width="100%">
 {% for im in person.instant_messagings.all %}
     <tr valign="middle"><td>
-       <img src="/site_media/images/{{ im.get_type_display|lower }}.png" 
-       alt="{% trans "Contact" %} {{im.get_im_display|lower }}"/> 
+       <img src="/site_media/images/{{ im.get_type_display|lower }}.png"
+       alt="{% trans "Contact" %} {{im.get_im_display|lower }}"/>
        {{ im.identifier }}</td>
     <td width="12%">
         <a href="/annuaire/{{ person.user.id }}/im/{{ im.id }}/edit/" class="changelink">
@@ -234,7 +236,7 @@
 <table border="0" width="100%">
 {% for irc in person.ircs.all %}
     <tr valign="middle"><td>
-       <img src="/site_media/images/irc.png" alt="{% trans "irc" %}"/> 
+       <img src="/site_media/images/irc.png" alt="{% trans "irc" %}"/>
        {{ irc.pseudo }} @ {{ irc.network }} {% trans "on" %} {{ irc.channels }}
        </td>
     <td width="12%">
@@ -268,7 +270,6 @@
 <p><a href="/annuaire/{{ person.user.id }}/website/add/" class="addlink">
    {% trans "Add" %}</a></p>
 
-
 <h2>{% trans "N7 associative activities" %}</h2>
 
 <table border="0" width="100%">
@@ -295,8 +296,8 @@
     {% if not position.end_date %}
         <tr><td>{% trans "since" %}
                 <b>{{ position.start_date|date:"d/m/Y" }}</b>&nbsp;:</td>
-            <td><em>{{ position.fonction }}</em> {% trans "for" %} 
-                {{ position.office }} 
+            <td><em>{{ position.fonction }}</em> {% trans "for" %}
+                {{ position.office }}
                 (<a href="/emploi/societe/{{ position.office.company.id }}/">{{ position.office.company }}</a>)</td></tr>
         {% if position.description %}
             <tr><td></td><td>{{ position.description }}</td></tr>

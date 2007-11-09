@@ -73,7 +73,7 @@ class MemberType(models.Model):
     class Meta:
         verbose_name = _('member type')
 
-# Indicates the current main activity of the person: student, active retired, ... 
+# Indicates the current main activity of the person: student, active retired, ...
 class Activity(models.Model):
 
     activity = models.CharField(verbose_name=_('activity'), maxlength=50)
@@ -217,7 +217,9 @@ class Person(models.Model):
     birth_date = models.DateField(verbose_name=_('Birth date'), blank=True, null=True)
     death_date = models.DateField(verbose_name=_('death date'), blank=True, null=True)
     country = models.ForeignKey(Country, verbose_name=_('nationality'))
-    
+
+    wiki_name = models.CharField(verbose_name=_('Wiki name'), maxlength=50)
+
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
     modification_date = models.DateTimeField(editable=False)
@@ -296,7 +298,7 @@ class AIn7Member(models.Model):
         Track,
         verbose_name=_('Tracks for which you would like to receive job offers'),
         blank=True, null=True, filter_interface=models.HORIZONTAL)
-    cvTitle = models.CharField(verbose_name=_('CV title'), maxlength=100, blank=True, null=True)
+    cv_title = models.CharField(verbose_name=_('CV title'), maxlength=100, blank=True, null=True)
 
     def karma(self):
         karma = 0
@@ -332,11 +334,11 @@ class PhoneNumber(models.Model):
                          (3, _('Mobile')),
                          )
 
+    person = models.ForeignKey(Person, related_name='phone_numbers', edit_inline=models.TABULAR, num_in_admin=2)
+
     number = models.CharField(verbose_name=_('number'), maxlength=20, core=True)
     type = models.IntegerField(verbose_name=_('type'), choices=PHONE_NUMBER_TYPE, default=1)
     is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
-
-    person = models.ForeignKey(Person, related_name='phone_numbers', edit_inline=models.TABULAR, num_in_admin=2)
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
@@ -367,6 +369,8 @@ class AddressType(models.Model):
 # A person address
 class Address(models.Model):
 
+    person = models.ForeignKey(Person, related_name='addresses', edit_inline=models.STACKED, num_in_admin=2)
+
     number = models.CharField(verbose_name=_('number'), maxlength=50, core=True)
     street = models.CharField(verbose_name=_('street'), maxlength=100, core=True)
     zip_code = models.CharField(verbose_name=_('zip code'), maxlength=20, core=True)
@@ -374,8 +378,6 @@ class Address(models.Model):
     country = models.ForeignKey(Country, verbose_name=_('country'))
     type = models.ForeignKey(AddressType, verbose_name=_('type'))
     is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
-
-    person = models.ForeignKey(Person, related_name='addresses', edit_inline=models.STACKED, num_in_admin=2)
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
@@ -397,8 +399,9 @@ class Address(models.Model):
 # e-mail address for a person
 class Email(models.Model):
 
-    email = models.EmailField(verbose_name=_('email'), core=True)
     person = models.ForeignKey(Person, related_name='emails', edit_inline=models.TABULAR, num_in_admin=1)
+
+    email = models.EmailField(verbose_name=_('email'), core=True)
     is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
     preferred_email = models.BooleanField(verbose_name=_('preferred'), default=False)
 
@@ -421,8 +424,9 @@ class InstantMessaging(models.Model):
                               (7,'Skype'),
                               )
 
-    type = models.IntegerField(verbose_name=_('type'), choices=INSTANT_MESSAGING_TYPE, core=True)
     person = models.ForeignKey(Person, related_name='instant_messagings', edit_inline=models.TABULAR, num_in_admin=1)
+
+    type = models.IntegerField(verbose_name=_('type'), choices=INSTANT_MESSAGING_TYPE, core=True)
     identifier = models.CharField(verbose_name=_('identifier'), maxlength=40, core=True)
 
     def __str__(self):
@@ -441,11 +445,15 @@ class WebSite(models.Model):
                     (3,'linkedin'),
                     (4,'viadeo'),
                     (5,'flickr'),
+                    (6,'facebook'),
+                    (7,'twitter'),
+                    (8,'myspace'),
                     (100,'Other'),
                    )
 
-    url = models.CharField(verbose_name=_('web site'), maxlength=100, core=True)
     person = models.ForeignKey(Person, related_name='web_sites', edit_inline=models.TABULAR, num_in_admin=1)
+
+    url = models.CharField(verbose_name=_('web site'), maxlength=100, core=True)
     type = models.IntegerField(verbose_name=_('type'),choices=WEBSITE_TYPE, core=True)
 
     blog_is_agregated_on_planet = models.BooleanField(verbose_name=_('blog on planet'), core=True, default=False)
@@ -464,11 +472,11 @@ class WebSite(models.Model):
 # IRC contact for a person
 class IRC(models.Model):
 
+    person = models.ForeignKey(Person, related_name='ircs', edit_inline=models.TABULAR, num_in_admin=1)
+
     network = models.CharField(verbose_name=_('network'), maxlength=50, core=True)
     pseudo = models.CharField(verbose_name=_('pseudo'), maxlength=20, core=True)
     channels = models.CharField(verbose_name=_('channels'), maxlength=100)
-
-    person = models.ForeignKey(Person, related_name='ircs', edit_inline=models.TABULAR, num_in_admin=1)
 
     def __str__(self):
         return self.pseudo + "@" + self.channels
@@ -483,10 +491,12 @@ class Club(models.Model):
     description = models.CharField(verbose_name=_('description'), maxlength=100)
     web_site = models.URLField(verbose_name=_('web site'), maxlength=50, blank=True, null=True)
     email = models.EmailField(verbose_name=_('email'), maxlength=50, blank=True, null=True)
+    school = models.ForeignKey(School, verbose_name=_('school'), related_name='clubs')
+    icon = models.ImageField(verbose_name=_('icon'), upload_to='data/', blank=True, null=True)
+
+    # Internal
     creation_date = models.DateField(verbose_name=_('creation date'), blank=True, null=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
-
-    school = models.ForeignKey(School, verbose_name=_('school'), related_name='clubs')
 
     def __str__(self):
         return self.name
@@ -500,12 +510,12 @@ class Club(models.Model):
 # Club membership for a person
 class ClubMembership(models.Model):
 
+    club = models.ForeignKey(Club, verbose_name=_('club'), related_name='memberships', edit_inline=models.TABULAR, num_in_admin=1)
+    member = models.ForeignKey(AIn7Member, verbose_name=_('member'), related_name='club_memberships', edit_inline=models.TABULAR, num_in_admin=1)
+
     fonction = models.CharField(verbose_name=_('fonction'), maxlength=50, core=True)
     start_date = models.DateField(verbose_name=_('start date'), blank=True, null=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
-
-    club = models.ForeignKey(Club, verbose_name=_('club'), related_name='memberships', edit_inline=models.TABULAR, num_in_admin=1)
-    member = models.ForeignKey(AIn7Member, verbose_name=_('member'), related_name='club_memberships', edit_inline=models.TABULAR, num_in_admin=1)
 
     def __str__(self):
         return str(self.club) + " " + self.fonction
@@ -520,7 +530,7 @@ class Profile(models.Model):
 
     name = models.CharField(verbose_name=_('name'), maxlength=50)
     description = models.TextField(verbose_name=_('description'), blank=True, null=True)
-    
+
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
     modification_date = models.DateTimeField(editable=False)
@@ -546,7 +556,7 @@ class ProfileMembership(models.Model):
                              related_name='profiles')
     profile = models.ForeignKey(Profile, verbose_name=_('profile'),
                                 related_name='memberships')
-    
+
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
     modification_date = models.DateTimeField(editable=False)

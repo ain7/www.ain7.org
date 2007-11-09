@@ -116,5 +116,4 @@ INSTALLED_APPS = (
 SKIN = 'default'
 PLANET_URL = 'http://planet.ain7.porcheron.info/'
 FORUMS_URL = 'http://forums.ain7.porcheron.info/'
-GALLERIE_URL = 'http://gallerie.ain7.porcheron.info/'
-
+GALLERY_URL = 'http://gallery.ain7.porcheron.info/'

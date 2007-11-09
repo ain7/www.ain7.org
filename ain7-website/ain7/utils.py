@@ -45,12 +45,11 @@ def planet(request):
 def forums(request):
     return HttpResponseRedirect(settings.FORUMS_URL)
 
-def gallerie(request):
-    return HttpResponseRedirect(settings.GALLERIE_URL)
+def galerie(request):
+    return HttpResponseRedirect(settings.GALLERY_URL)
 
 # pour alléger les appels à render_to_response
 # http://www.djangosnippets.org/snippets/3/
 def ain7_render_to_response(req, *args, **kwargs):
     kwargs['context_instance'] = RequestContext(req)
     return render_to_response(*args, **kwargs)
-

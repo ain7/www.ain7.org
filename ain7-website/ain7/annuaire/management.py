@@ -39,4 +39,3 @@ def filldb(app, created_models, verbosity, **kwargs):
             break
 
 dispatcher.connect(filldb, sender=annuaire_app, signal=signals.post_syncdb)
-

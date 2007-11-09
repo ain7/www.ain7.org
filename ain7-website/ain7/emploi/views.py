@@ -333,7 +333,7 @@ def job_edit(request, emploi_id):
 
             return HttpResponseRedirect('/emploi/job/%s/' % (j.id) )
 
-    f = JobOfferForm({'reference': j.reference, 'title': j.title, 'description': j.description, 
+    f = JobOfferForm({'reference': j.reference, 'title': j.title, 'description': j.description,
         'experience': j.experience, 'contract_type': j.contract_type})
 
     return ain7_render_to_response(request, 'emploi/job_edit.html', {'form': f, 'job': j})
@@ -364,10 +364,10 @@ def job_search(request):
         form = SearchJobForm(request.POST)
         if form.is_valid():
             list_jobs = form.search()
-            return ain7_render_to_response(request, 'emploi/job_search.html', 
+            return ain7_render_to_response(request, 'emploi/job_search.html',
                                     {'form': form, 'list_jobs': list_jobs,
                                      'request': request})
-        
+
     else:
         form = SearchJobForm()
         return ain7_render_to_response(request, 'emploi/job_search.html',

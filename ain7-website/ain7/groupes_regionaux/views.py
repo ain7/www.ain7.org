@@ -36,7 +36,7 @@ from ain7.utils import ain7_render_to_response
 
 def index(request):
     groups = Group.objects.all().filter(is_active=True).order_by('name')
-    return ain7_render_to_response(request, 'groupes_regionaux/index.html', 
+    return ain7_render_to_response(request, 'groupes_regionaux/index.html',
                             {'groups': groups})
 
 def details(request, group_id):
@@ -83,7 +83,7 @@ def join(request, group_id):
 
     return HttpResponseRedirect('/groupes_regionaux/%s/' % (group.id))
 
-@confirmation_required(lambda group_id: str(get_object_or_404(Group, pk=group_id)), 
+@confirmation_required(lambda group_id: str(get_object_or_404(Group, pk=group_id)),
                        'groupes_regionaux/base.html', _('Do you really want to quit the group'))
 @login_required
 def quit(request, group_id):

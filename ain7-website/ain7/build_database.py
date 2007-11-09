@@ -46,7 +46,7 @@ if os.path.exists(settings.DATABASE_NAME):
         break
 
 # spawn the child process
-child = pexpect.spawn('python2.4 manage.py syncdb')
+child = pexpect.spawn('python manage.py syncdb')
 
 # log on stdout
 child.logfile = sys.stdout

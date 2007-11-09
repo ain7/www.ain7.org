@@ -236,5 +236,3 @@ class JobOffer(models.Model):
     class Admin:
         pass
 
-
-

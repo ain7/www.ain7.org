@@ -38,4 +38,3 @@ class LatestEntriesByCategory(Feed):
 
     def items(self):
         return Event.objects.order_by('-publication_start')[:5]
-

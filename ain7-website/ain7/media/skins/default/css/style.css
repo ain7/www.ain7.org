@@ -1,17 +1,16 @@
 /* project: internet services template
    author: luka cvrk (www.solucija.com) */
 
-   
 /* default styles
    -------------- */
-   
-body { 
-    padding: 0; 
-    margin: 0; 
-    font: 0.7em Tahoma, sans-serif; 
+
+body {
+    padding: 0;
+    margin: 0;
+    font: 0.7em Tahoma, sans-serif;
     line-height: 1.5em;
-    background: #fff; 
-    color: #454545; 
+    background: #fff;
+    color: #454545;
 }
 
 a {
@@ -24,7 +23,7 @@ a:hover {
     background: inherit;
 }
 
-h1 { 
+h1 {
     font: normal 2.1em Arial, Sans-Serif;
     letter-spacing: -1px;
     padding: 7px 0 0 8px;
@@ -54,7 +53,7 @@ h2 {
 }
 
 h2 {
-    font-size: 1.5em; 
+    font-size: 1.5em;
     margin-bottom: 5px;
     color: #000;
     background: inherit;
@@ -95,7 +94,7 @@ a.button, a.button:hover {
 }
 
 .warning {
-    padding: 40px; 
+    padding: 40px;
     color: #FF9148;
     font: bold 1.5em Arial, Sans-Serif;
 }
@@ -103,17 +102,17 @@ a.button, a.button:hover {
 /* layout
    ------ */
 
-.content { 
+.content {
     margin: 0 auto;
     width: 780px;
-    padding: 10px; 
+    padding: 10px;
 }
 
 #content-main {
     padding: 10px;
 }
 
-.header { 
+.header {
     height: 65px;
     background: #eee;
     color: #808080;
@@ -141,7 +140,7 @@ a.button, a.button:hover {
     border-left: 1px solid #eee;
 }
 
-.bar { 
+.bar {
     clear: both;
     width: 780px;
     font-size: 11px;
@@ -156,50 +155,50 @@ a.button, a.button:hover {
     padding : 0;
 }
 
-.bar li { 
+.bar li {
     padding: 4px 12px 4px 12px;
     color: #FFEADC;
     display:inline;
 }
-	
-.bar li.active { 
+
+.bar li.active {
     color: #fff;
-    font-weight: bold; 
+    font-weight: bold;
     padding: 5px 12px 5px 12px;
 }
 
-.bar ul.ligne1 li.active { 
-    background: #E0691A url(../images/bar.gif) no-repeat center top; 
+.bar ul.ligne1 li.active {
+    background: #E0691A url(../images/bar.gif) no-repeat center top;
 }
 
-.bar ul.ligne2 li.active { 
-    background: #E0691A url(../images/bar-up.gif) no-repeat center bottom; 
+.bar ul.ligne2 li.active {
+    background: #E0691A url(../images/bar-up.gif) no-repeat center bottom;
 }
 
-.bar li.active a { 
+.bar li.active a {
     background: #E0691A;
-} 
+}
 
-.bar li.active a:hover { 
+.bar li.active a:hover {
     background: #E0691A;
     color: #FF9148;
 }
-	
-.bar li a { 
+
+.bar li a {
     font-weight: bold;
-    color: #FFF; 
+    color: #FFF;
     background: inherit;
     text-decoration: none;
     text-align: center;
-} 
-	
-.bar li a:hover { 
-    color: #E0691A; 
-    background: inherit;
-} 
+}
 
-.search_field { 
-    background: #fff url(searchbg.gif) no-repeat right; 
+.bar li a:hover {
+    color: #E0691A;
+    background: inherit;
+}
+
+.search_field {
+    background: #fff url(searchbg.gif) no-repeat right;
     color: #808080;
     clear: both;
     font-weight: bold;
@@ -238,12 +237,12 @@ a.button, a.button:hover {
     padding: 0 0 0 10px;
     margin: 10px 0;
 }
-		
+
 .left_side a, .right_side a {
     color: #414141;
     background: #FFF;
 }
-		
+
 .right_side {
     float: right;
     width: 220px;
@@ -252,7 +251,7 @@ a.button, a.button:hover {
     padding: 0 0 0 40px;
     margin: 10px 0;
 }
-		
+
 .left_box {
     margin: 0 0 10px 0;
     color: #000;
@@ -263,7 +262,7 @@ a.button, a.button:hover {
 
 /* right side
    ---------- */
-		
+
 .right {
     float: right;
     width: 32.6%;
@@ -282,17 +281,17 @@ a.button, a.button:hover {
 .right_articles {
     background: #f5f5f5;
     color: #414141;
-    padding: 8px;	
+    padding: 8px;
     margin: 0 0 3px 0;
 }
 
 .right_block {
     background: #f5f5f5;
     color: #414141;
-    padding: 1px;	
+    padding: 1px;
     margin: 0 0 3px 0;
 }
-	
+
 .image {
     float: left;
     margin: 0 9px 3px 0;
@@ -301,7 +300,7 @@ a.button, a.button:hover {
 /* footer
    ------ */
 
-.footer { 
+.footer {
     clear: both;
     text-align: center;
     padding: 10px 0 10px 0;
@@ -359,7 +358,7 @@ a.button, a.button:hover {
     background: #eee;
 }
 
-#cv #cvTitle {
+#cv #cv_title {
     margin: 55px 0px 45px 0px;
     text-align: center;
     font: bold 2.1em Tahoma, Arial, Sans-Serif;

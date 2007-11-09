@@ -61,14 +61,14 @@ def contributions(request, user_id):
     p = get_object_or_404(Person, pk=user_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
     list_contributions = UserContribution.objects.filter(user=p).order_by('-date')
-    return ain7_render_to_response(request, 'annuaire/contributions.html', 
+    return ain7_render_to_response(request, 'annuaire/contributions.html',
                             {'person': p, 'ain7member': ain7member, 'list_contributions': list_contributions})
 
 @login_required
 def details(request, user_id):
     p = get_object_or_404(Person, pk=user_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
-    return ain7_render_to_response(request, 'annuaire/details.html', 
+    return ain7_render_to_response(request, 'annuaire/details.html',
                             {'person': p, 'ain7member': ain7member})
 
 @login_required
@@ -93,17 +93,17 @@ def search(request):
             if form.clean_data['track'] != -1:
                 promoCriteria['track']=\
                     Track.objects.get(id=form.clean_data['track'])
-                
+
             # on ajoute ces promos aux critères de recherche
             # si elle ne sont pas vides
             if len(promoCriteria)!=0:
                 criteria['promos__in']=Promo.objects.filter(**promoCriteria)
 
             request.session['filter'] = criteria
-                
+
             ain7members = AIn7Member.objects.filter(**criteria)
 
-    return ain7_render_to_response(request, 'annuaire/search.html', 
+    return ain7_render_to_response(request, 'annuaire/search.html',
                             {'form': f, 'ain7members': ain7members})
 
 @login_required
@@ -128,17 +128,17 @@ def advanced_search(request):
             if form.clean_data['track'] != -1:
                 promoCriteria['track']=\
                     Track.objects.get(id=form.clean_data['track'])
-                
+
             # on ajoute ces promos aux critères de recherche
             # si elle ne sont pas vides
             if len(promoCriteria)!=0:
                 criteria['promos__in']=Promo.objects.filter(**promoCriteria)
 
             request.session['filter'] = criteria
-                
+
             ain7members = AIn7Member.objects.filter(**criteria)
 
-    return ain7_render_to_response(request, 'annuaire/search.html', 
+    return ain7_render_to_response(request, 'annuaire/search.html',
                             {'form': f, 'ain7members': ain7members})
 
 @login_required
@@ -174,7 +174,7 @@ def sendmail(request):
                 for member in ain7members:
                     member.person.send_mail(f.clean_data['subject'],f.clean_data['body'])
 
-    return ain7_render_to_response(request, 'annuaire/sendmail.html', 
+    return ain7_render_to_response(request, 'annuaire/sendmail.html',
                             {'form': f})
 
 @login_required
@@ -210,7 +210,7 @@ def person_edit(request, user_id=None):
              else:
                  request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
              return HttpResponseRedirect('/annuaire/%s/edit' % (person.user.id))
-    return ain7_render_to_response(request, 'annuaire/edit_form.html', 
+    return ain7_render_to_response(request, 'annuaire/edit_form.html',
                             {'form': form, 'person': person,
                              'action_title': _("Modification of personal data for")})
 
@@ -242,7 +242,7 @@ def ain7member_edit(request, user_id=None):
                  request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
              return HttpResponseRedirect('/annuaire/%s/edit' % (person.user.id))
         form = PersonForm(auto_id=False)
-    return ain7_render_to_response(request, 'annuaire/edit_form.html', 
+    return ain7_render_to_response(request, 'annuaire/edit_form.html',
                             {'form': form, 'person': person,
                              'action_title':
                              _("Modification of personal data for")})
@@ -252,7 +252,7 @@ def avatar_edit(request, user_id):
 
     person = Person.objects.get(user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
-    
+
     if request.method == 'GET':
         form = ImgUploadForm()
         filename = None
@@ -282,7 +282,7 @@ def avatar_delete(request, user_id):
     ain7member = get_object_or_404(AIn7Member, person=person)
     ain7member.avatar = None
     ain7member.save()
-    
+
     request.user.message_set.create(message=
         _('Your avatar has been successfully deleted.'))
     return HttpResponseRedirect('/annuaire/%s/edit/' % user_id)
@@ -299,7 +299,7 @@ def _generic_edit(request, user_id, object_id, object_type,
         f = PosForm()
         return ain7_render_to_response(request, 'annuaire/edit_form.html',
                                 {'form': f, 'action_title': action_title, 'person': person})
-    
+
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
         PosForm = forms.form_for_instance(obj,
@@ -344,7 +344,7 @@ def _generic_add(request, user_id, object_type, person, ain7member,
         if f.is_valid():
             if person is not None:
                 f.clean_data['person'] = person
-            if ain7member is not None:            
+            if ain7member is not None:
                 f.clean_data['member'] = ain7member
             f.save()
             request.user.message_set.create(message=msg_done)
@@ -424,7 +424,7 @@ def email_add(request, user_id=None):
                         _('Creation of an email address for'),
                         _('Email address successfully added.'))
 
-# Comptes de messagerie instantan�e
+# Comptes de messagerie instantanee
 @login_required
 def im_edit(request, user_id=None, im_id=None):
 
@@ -531,7 +531,7 @@ def subscriptions(request, user_id):
 
     subscriptions_list = AIn7Subscription.objects.filter(member=ain7member).order_by('-date')
 
-    return ain7_render_to_response(request, 'annuaire/subscriptions.html', 
+    return ain7_render_to_response(request, 'annuaire/subscriptions.html',
                             {'person': p, 'ain7member': ain7member, 'subscriptions_list': subscriptions_list})
 
 @login_required
@@ -563,7 +563,7 @@ def preferences(request, user_id):
     p = get_object_or_404(Person, pk=user_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
 
-    return ain7_render_to_response(request, 'annuaire/preferences.html', 
+    return ain7_render_to_response(request, 'annuaire/preferences.html',
                             {'person': p, 'ain7member': ain7member})
 
 @login_required
@@ -573,7 +573,7 @@ def vcard(request, user_id):
     ain7member = get_object_or_404(AIn7Member, person=p)
 
     mail = None
-    mail_list = Email.objects.filter(person=p,preferred_email=True)
+    mail_list = Email.objects.filter(person=p,preferred_email=True,is_confidential=False)
     if mail_list:
        mail = mail_list[0].email
 
@@ -582,6 +582,12 @@ def vcard(request, user_id):
     vcard.add('fn').value = p.first_name+' '+p.last_name
     if mail:
         vcard.add('mail').value = mail
+        vcard.add('mail').type_param = 'INTERNET'
+    for address in  Address.objects.filter(person=p):
+        vcard.add('adr').value = vobject.vcard.Address(street=address.street, city=address.city, region='', code=address.zip_code, country=address.country.name, box=address.number, extended='')
+        vcard.add('adr').type_param = address.type.type
+    for tel in PhoneNumber.objects.filter(person=p):
+        vcard.add('tel').value = tel.number
 
     vcardstream = vcard.serialize()
 
