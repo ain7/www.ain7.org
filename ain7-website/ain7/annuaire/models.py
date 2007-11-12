@@ -87,6 +87,20 @@ class Activity(models.Model):
     class Meta:
         verbose_name = _('activity')
 
+# Indicates the current marital status of the person: single, married, ...
+class MaritalStatus(models.Model):
+
+    status = models.CharField(verbose_name=_('status'), maxlength=50)
+
+    def __str__(self):
+        return self.status
+
+    class Admin:
+        pass
+
+    class Meta:
+        verbose_name = _('marital status')
+
 # Diploma received
 class Diploma(models.Model):
 
@@ -275,7 +289,7 @@ class AIn7Member(models.Model):
     activity = models.ForeignKey(Activity, verbose_name=_('activity'))
 
     # Family situation
-    is_married = models.BooleanField(verbose_name=_('married'), core=True, default=False)
+    marital_status = models.ForeignKey(MaritalStatus, verbose_name=_('marital status'), blank=True, null=True)
     children_count = models.IntegerField(verbose_name=_('children number'), blank=True, null=True)
 
     # Other

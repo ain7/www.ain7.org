@@ -68,10 +68,10 @@
            {% trans "No nickname" %}
        {% endif %}</li>
    <li><b>{% trans "Family situation" %}&nbsp;:</b>
-       {% if ain7member.is_married %}
-           {% filter capfirst %}{% trans "married" %}{% endfilter %},
+       {% if ain7member.marital_status %}
+           {{ ain7member.marital_status }},
        {% else %}
-           {% filter capfirst %}{% trans "not married" %}{% endfilter %},
+           {% filter capfirst %}{% trans "not available" %}{% endfilter %},
        {% endif %}
        {% if ain7member.children_count %}
            {{ ain7member.children_count }} {% trans "children" %}.

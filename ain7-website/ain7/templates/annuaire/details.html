@@ -32,10 +32,10 @@
    <li><b>{% filter capfirst %}{% trans "death date" %}{% endfilter %}
        &nbsp;:</b> {{ person.death_date|date:"d/m/Y" }}</li>
    {% endif %}
-   {% if ain7member.is_married or ain7member.children_count %}
+   {% if ain7member.marital_status or ain7member.children_count %}
    <li><b>{% trans "Family situation" %}&nbsp;:</b>
-       {% if ain7member.is_married %}
-           {% filter capfirst %}{% trans "married" %}{% endfilter %}&nbsp;
+       {% if ain7member.marital_status %}
+           {{ ain7member.marital_status }}&nbsp;
        {% endif %}
        {% if ain7member.children_count %}
            {{ ain7member.children_count }}&nbsp;{% trans "children" %}
