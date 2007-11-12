@@ -67,6 +67,25 @@ def filldb():
     parentalAddressType = annuaire.AddressType(type="Parentale")
     parentalAddressType.save()
 
+    maritalstatus_1 = annuaire.MaritalStatus(status="Marié(e)")
+    maritalstatus_1.save()
+
+    maritalstatus_2 = annuaire.MaritalStatus(status="Célibataire")
+    maritalstatus_2.save()
+
+    maritalstatus_3 = annuaire.MaritalStatus(status="Divorcé(e)")
+    maritalstatus_3.save()
+
+    maritalstatus_4 = annuaire.MaritalStatus(status="Maritalement")
+    maritalstatus_4.save()
+
+    maritalstatus_5 = annuaire.MaritalStatus(status="Veuf(veuve)")
+    maritalstatus_5.save()
+
+    maritalstatus_7 = annuaire.MaritalStatus(status="Séparé(e)")
+    maritalstatus_7.save()
+
+
     #                                                                  #
     ###################### End of fixed values #########################
 
@@ -266,6 +285,7 @@ def filldb():
     lionel_ain7member.display_cv_in_job_section = True
     lionel_ain7member.receive_job_offers = False
     lionel_ain7member.cv_title = "Ingénieur ENSEEIHT Informatique"
+    lionel_ain7member.marital_status = maritalstatus_2
     lionel_ain7member.save()
 
     lionel_recrutProfile = annuaire.ProfileMembership()
@@ -407,6 +427,7 @@ def filldb():
     pierref_ain7member.display_cv_in_job_section = True
     pierref_ain7member.receive_job_offers = False
     pierref_ain7member.cv_title = "Élève Ingénieur ENSEEIHT Informatique"
+    pierref_ain7member.marital_status = maritalstatus_2
     pierref_ain7member.save()
 
     pierref_recrutProfile = annuaire.ProfileMembership()
@@ -454,6 +475,7 @@ def filldb():
     olivier_ain7member.receive_job_offers = True
     olivier_ain7member.receive_job_offers_for_tracks.add(n7info)
     olivier_ain7member.cv_title = "Ingénieur ENSEEIHT et doctorant en Informatique"
+    olivier_ain7member.marital_status = maritalstatus_2
     olivier_ain7member.save()
 
     olivier_n7profile = annuaire.ProfileMembership()
@@ -578,6 +600,7 @@ def filldb():
     alex_ain7member.display_cv_in_job_section = False
     alex_ain7member.receive_job_offers = False
     alex_ain7member.cv_title = "Ingénieur ENSEEIHT Informatique"
+    alex_ain7member.marital_status = maritalstatus_2
     alex_ain7member.save()
 
     alex_n7profile = annuaire.ProfileMembership()
@@ -642,6 +665,7 @@ def filldb():
     laurent_ain7member.display_cv_in_job_section = False
     laurent_ain7member.receive_job_offers = False
     laurent_ain7member.cv_title = "Ingénieur ENSEEIHT Télécommunications et Réseaux"
+    laurent_ain7member.marital_status = maritalstatus_2
     laurent_ain7member.save()
 
     laurent_n7profile = annuaire.ProfileMembership()
@@ -699,6 +723,7 @@ def filldb():
     gui_ain7member.display_cv_in_job_section = False
     gui_ain7member.receive_job_offers = False
     gui_ain7member.cv_title = "Ingénieur ENSEEIHT Cuicui les petits oiseaux"
+    gui_ain7member.marital_status = maritalstatus_1
     gui_ain7member.save()
 
     gui_n7profile = annuaire.ProfileMembership()
