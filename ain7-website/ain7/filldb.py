@@ -483,6 +483,11 @@ def filldb():
     olivier_n7profile.profile = profile_n7
     olivier_n7profile.save()
 
+    olivier_adminprofile = annuaire.ProfileMembership()
+    olivier_adminprofile.user = olivier.user
+    olivier_adminprofile.profile = profile_admin
+    olivier_adminprofile.save()
+
     olivier_adresse = annuaire.Address()
     olivier_adresse.person = olivier
     olivier_adresse.number = "2"

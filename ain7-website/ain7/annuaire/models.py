@@ -224,12 +224,12 @@ class Person(models.Model):
     user = models.OneToOneField(User, verbose_name=_('user'))
 
     # Civility
-    sex = models.CharField(verbose_name=_('sex'), maxlength=1, choices=SEX, radio_admin=True)
     last_name = models.CharField(verbose_name=_('Last name'), maxlength=50)
     first_name = models.CharField(verbose_name=_('First name'), maxlength=50)
     maiden_name = models.CharField(verbose_name=_('maiden name'), maxlength=100, blank=True, null=True)
     birth_date = models.DateField(verbose_name=_('Birth date'), blank=True, null=True)
     death_date = models.DateField(verbose_name=_('death date'), blank=True, null=True)
+    sex = models.CharField(verbose_name=_('sex'), maxlength=1, choices=SEX, radio_admin=True)
     country = models.ForeignKey(Country, verbose_name=_('nationality'))
 
     wiki_name = models.CharField(verbose_name=_('Wiki name'), maxlength=50)
@@ -606,4 +606,28 @@ class UserContribution(models.Model):
 
      class Admin:
          pass
+
+
+# For advanced search : filters !
+
+class SearchFilter(models.Model):
+    OPERATORS = [ ('and', _('ALL the following conditions must be satisfied')),
+                  ('or', _('SOME of the following conditions must be satisfied')) ]
+    name = models.CharField(verbose_name=('name'), maxlength=20)
+    operator = models.CharField(verbose_name=_('operator'),
+                                maxlength=3, choices=OPERATORS)
+
+    def __str__(self):
+        return self.name
+
+    def save(self):
+        self.modification_date = datetime.datetime.today()
+        return super(SearchFilter, self).save()
+
+    class Admin:
+        pass
+
+    class Meta:
+        verbose_name = _('filter')
+        verbose_name_plural = _('filters')
 

@@ -53,3 +53,11 @@ def galerie(request):
 def ain7_render_to_response(req, *args, **kwargs):
     kwargs['context_instance'] = RequestContext(req)
     return render_to_response(*args, **kwargs)
+
+# détermine si un user a le profil administrateur
+def isAdmin(user):
+    result = False
+    for profileMembership in user.profiles.all():
+        if profileMembership.profile.name == 'admin':
+            result = True
+    return result

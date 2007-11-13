@@ -28,10 +28,29 @@ urlpatterns = patterns('',
 
     # Annuaire
     (r'^$', search),
-    (r'^advanced_search/$', advanced_search),
     (r'^csv/$', export_csv),
     (r'^sendmail/$', sendmail),
     (r'^(?P<user_id>\d+)/$', details),
+    # Advanced search
+    (r'^advanced_search/$', advanced_search),
+    # Advanced search: session filter
+    (r'^advanced_search/sessionFilter/edit/$',  sessionFilter_edit),
+    (r'^advanced_search/sessionFilter/reset/$', sessionFilter_reset),
+    (r'^advanced_search/sessionFilter/swapOp/$', sessionFilter_swapOp),
+    (r'^advanced_search/sessionFilter/criterion/add/$',
+     sessionCriterion_add),
+    (r'^advanced_search/sessionFilter/criterion/edit/$',sessionCriterion_edit),
+    (r'^advanced_search/sessionFilter/criterion/(?P<criterion_id>\d+)/edit/$',sessionCriterion_edit),
+    (r'^advanced_search/sessionFilter/criterion/(?P<criterion_id>\d+)/delete/$',sessionCriterion_delete),
+    # Advanced search: filter saved in database
+    (r'^advanced_search/filter/(?P<filter_id>\d+)/edit/$',
+     filter_edit),
+    (r'^advanced_search/filter/(?P<filter_id>\d+)/reset/$',
+     filter_reset),
+    (r'^advanced_search/filter/(?P<filter_id>\d+)/criterion/add/$',
+     criterion_add),
+    (r'^advanced_search/filter/(?P<filter_id>\d+)/criterion/(?P<criterion_id>\d+)/edit/$',
+     criterion_edit),
     # Edition
     (r'^(?P<user_id>\d+)/edit/$', edit),
     (r'^(?P<user_id>\d+)/preferences/$', preferences),
