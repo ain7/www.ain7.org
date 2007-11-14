@@ -346,6 +346,11 @@ a.button, a.button:hover {
 	padding-left: 12px;
 }
 
+.savelink, .savelink:hover {
+	background: transparent url(../images/icon_savelink.gif) left center no-repeat;
+	padding-left: 12px;
+}
+
 /* CV
    ------ */
 

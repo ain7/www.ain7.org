@@ -115,7 +115,7 @@ def advanced_search(request):
 
     # default values of a filter
     filterName = _('My filter')
-    filterOperator = 'OR'
+    filterOperator = _('or')
     conditionsList = []
     try:
         filterName = request.session['filter_name']
@@ -144,20 +144,14 @@ def sessionFilter_edit(request):
     searchFilter = SearchFilter(
         name=request.session['filter_name'],
         operator=request.session['filter_operator'])
-    FilterForm = forms.form_for_instance(searchFilter)
-    FilterForm.base_fields['operator'].widget=\
-        forms.Select(choices=SearchFilter.OPERATORS)
+    FilterForm = forms.form_for_instance(searchFilter,
+        formfield_callback=_form_callback)
     form = FilterForm()
 
     if request.method == 'POST':
         form = FilterForm(request.POST)
         if form.is_valid():
-#             if filter_id:
-#                 form.save()
-#             else:
             request.session['filter_name'] = form.clean_data['name']
-            request.session['filter_operator'] = \
-                form.clean_data['operator']
             request.user.message_set.create(message=_("Modifications have been successfully saved."))
         else:
             request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
@@ -172,7 +166,7 @@ def sessionFilter_swapOp(request):
     operator = request.session['filter_operator']
     for (op,desc) in SearchFilter.OPERATORS:
       if op != operator:
-        request.session['filter_operator'] = op
+        request.session['filter_operator'] = _(op)
     return HttpResponseRedirect('/annuaire/advanced_search')
 
 @login_required
@@ -268,13 +262,7 @@ def sessionCriterion_edit(request, criterion_id=None):
                       getCompVerboseName(searchField, compCode),
                       form.clean_data['value'] )
             request.session['criteria'] = critList
-            return ain7_render_to_response(request,
-                'annuaire/adv_search.html', 
-                {'ain7members': False,
-                 'searchFilter': None,
-                 'conditionsList': critList,
-                 'filterName': request.session['filter_name'],
-                 'filterOperator': request.session['filter_operator']})
+            return HttpResponseRedirect('/annuaire/advanced_search')
     return ain7_render_to_response(request,
         'annuaire/criterion_edit.html', 
         {'form': form,
@@ -777,7 +765,7 @@ def vcard(request, user_id):
 # une petite fonction pour exclure certains champs
 # des formulaires crees avec form_for_model et form_for_instance
 def _form_callback(f, **args):
-  exclude_fields = ('person', 'user', 'member', 'avatar')
+  exclude_fields = ('person', 'user', 'member', 'avatar', 'operator')
   if f.name in exclude_fields:
     return None
   return f.formfield(**args)
