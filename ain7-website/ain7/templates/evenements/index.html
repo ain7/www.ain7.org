@@ -10,14 +10,28 @@
 <div class="left_box">
 
 <h3>{% trans "List of events and meetings to come" %}</h3>
+
 {% if events %}
-	<ul>
+	<table>
 	{% for event in events %}
-		<li>
-			<strong><a href="/evenements/{{ event.id }}/">{{ event.name }}</a></strong> {{ event.description|default_if_none:"" }}
-		</li>
+	  <tr>
+           <td align="center">
+             {% if event.image %}
+               <a href="/evenements/{{ event.id }}/">
+	          <img src="{{ event.get_image_url }}" 
+                      height="100" alt="{% trans "image" %}"/>
+               </a>
+             {% endif %}
+           </td>
+           <td>
+	      <strong><a href="/evenements/{{ event.id }}/">
+                     {{ event.name }}</a>
+             </strong><br />
+             {{ event.description|default_if_none:"" }}
+	    </td>
+         </tr>
 	{% endfor %}
-	</ul>
+	</table>
 {% else %}
 	<p>{% trans "No planned event." %}</p>
 {% endif %}

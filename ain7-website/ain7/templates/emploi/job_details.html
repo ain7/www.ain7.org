@@ -23,7 +23,7 @@
 <li><b>{% trans "Contract Type" %}&nbsp;:</b> {{ job.get_contract_type_display }}</li>
 <li><b>{% trans "Tracks" %}&nbsp;:</b> 
     {% for track in job.track.all %}
-        {{ track }}
+        {{ track.name }}
         {% if not forloop.last %} - {% endif %}
     {% endfor %}
 </li>
@@ -46,8 +46,10 @@
    <h3>{% trans "Card Informations"%}</h3>
    <div class="right_articles">
      <ul>
-       <li>{% trans "Creation date" %}: {{ job.creation_date|date:"l j F Y H:i" }}</li>
-       <li>{% trans "Modification date" %}: {{ job.modification_date|date:"l j F Y H:i" }}</li>
+       <li>{% trans "Creation date" %}&nbsp;: <br />
+           {{ job.creation_date|date:"l j F Y" }}</li>
+       <li>{% trans "Modification date" %}&nbsp;: <br />
+           {{ job.modification_date|date:"l j F Y" }}</li>
      </ul>
    </div>
 

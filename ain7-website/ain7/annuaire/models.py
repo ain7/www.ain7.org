@@ -611,11 +611,13 @@ class UserContribution(models.Model):
 # For advanced search : filters !
 
 class SearchFilter(models.Model):
-    OPERATORS = [ ('and', _('ALL the following conditions must be satisfied')),
-                  ('or', _('SOME of the following conditions must be satisfied')) ]
+    OPERATORS = [ ('and', _('and')),
+                  ('or', _('or')) ]
     name = models.CharField(verbose_name=('name'), maxlength=20)
     operator = models.CharField(verbose_name=_('operator'),
                                 maxlength=3, choices=OPERATORS)
+    user = models.ForeignKey(Person, verbose_name=_('user'),
+                             related_name='filters')
 
     def __str__(self):
         return self.name
@@ -630,4 +632,30 @@ class SearchFilter(models.Model):
     class Meta:
         verbose_name = _('filter')
         verbose_name_plural = _('filters')
+
+class SearchCondition(models.Model):
+    searchFilter = models.ForeignKey(SearchFilter)
+    fieldName = models.CharField(maxlength=30)
+    fieldVerboseName = models.CharField(maxlength=50)
+    fieldClass = models.CharField(maxlength=30)
+    comparatorName = models.CharField(maxlength=2)
+    comparatorVerboseName = models.CharField(maxlength=20)
+    value = models.CharField(maxlength=50)
+    # Example: for a criterion 'prénom égale Toto'
+    #     fieldName = 'last_name'
+    #     fieldVerboseName = 'prénom'
+    #     fieldClass = 'Person'
+    #     comparatorName = 'EQ'
+    #     comparatorVerboseName = 'égale'
+    #     value = 'Toto'
+
+    def __str__(self):
+        return self.fieldVerboseName \
+               + self.comparatorVerboseName \
+               + self.value
+
+    def save(self):
+        self.modification_date = datetime.datetime.today()
+        return super(SearchFilter, self).save()
+
 

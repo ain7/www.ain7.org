@@ -34,7 +34,8 @@ urlpatterns = patterns('',
     # Advanced search
     (r'^advanced_search/$', advanced_search),
     # Advanced search: session filter
-    (r'^advanced_search/sessionFilter/edit/$',  sessionFilter_edit),
+    (r'^advanced_search/sessionFilter/edit/$', sessionFilter_edit),
+    (r'^advanced_search/sessionFilter/register/$', sessionFilter_register),
     (r'^advanced_search/sessionFilter/reset/$', sessionFilter_reset),
     (r'^advanced_search/sessionFilter/swapOp/$', sessionFilter_swapOp),
     (r'^advanced_search/sessionFilter/criterion/add/$',

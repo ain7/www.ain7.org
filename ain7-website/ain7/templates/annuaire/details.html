@@ -158,8 +158,10 @@
     <h3>{% trans "Card Informations"%}</h3>
    <div class="right_articles">
      <ul>
-       <li>{% trans "Creation date" %}: {{ person.creation_date|date:"l j F Y H:i" }}</li>
-       <li>{% trans "Modification date" %}: {{ person.modification_date|date:"l j F Y H:i" }}</li>
+       <li>{% trans "Creation date" %}&nbsp;: <br />
+           {{ person.creation_date|date:"l j F Y" }}</li>
+       <li>{% trans "Modification date" %}&nbsp;: <br />
+           {{ person.modification_date|date:"l j F Y" }}</li>
      </ul>
    </div>
 

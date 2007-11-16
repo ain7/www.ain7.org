@@ -1288,13 +1288,13 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     utc = vobject.icalendar.utc
 
     evenement1 = evenements.Event()
-    evenement1.name = "Reunion 100 ans"
-    evenement1.start = datetime.now()
-    evenement1.end = datetime.now() + timedelta(30)
-    evenement1.author = "Moi"
-    evenement1.contact_email = "a@b.fr"
-    evenement1.location = "Ailleurs"
-    evenement1.description = "C'est la reunion des 100 ans"
+    evenement1.name = "Réunion 100 ans"
+    evenement1.start = datetime.now() + timedelta(10)
+    evenement1.end = datetime.now() + timedelta(60)
+    evenement1.author = "Olivier Gauwin"
+    evenement1.contact_email = "olivier.gauwin@alumni.enseeiht.fr"
+    evenement1.location = "ENSEEIHT"
+    evenement1.description = "Organisation des événements liés au centenaire de l'ENSEEIHT."
     evenement1.publication_start = datetime.now()
     evenement1.publication_end = datetime.now() + timedelta(30)
     evenement1.image = "data/anniversaire.jpg"
@@ -1303,13 +1303,14 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     evenement1.save()
 
     evenement2 = evenements.Event()
-    evenement2.name = "Evenement 2"
-    evenement2.start = datetime(2007, 8, 10, 18, 0, tzinfo = utc)
-    evenement2.end = datetime(2007, 8, 10, 20, 0, tzinfo = utc)
-    evenement2.author = "Moi"
-    evenement2.contact_email = "a@b.fr"
-    evenement2.location = "Ailleurs"
-    evenement2.description = "C'est l'evenement 2 du porail AIn7"
+    evenement2.name = "Réunion CA"
+    evenement2.start = datetime(2007, 11, 17, 10, 0, tzinfo = utc)
+    evenement2.end = datetime(2007, 11, 17, 12, 0, tzinfo = utc)
+    evenement2.author = "Lionel Porcheron"
+    evenement2.contact_email = "lionel.porcheron@alumni.enseeiht.fr"
+    evenement2.location = "ENSEEIHT"
+    evenement2.description = "Conseil d'administration"
+    evenement2.image = "data/conseil.jpg"
     evenement2.publication_start = datetime.now()
     evenement2.publication_end = datetime.now() + timedelta(30)
     evenement2.save()

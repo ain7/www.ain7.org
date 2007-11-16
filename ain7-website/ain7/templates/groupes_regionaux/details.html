@@ -46,12 +46,12 @@
 		<h3>{% trans "Events" %}</h3>
 		{% for event in group.active_events %}
 			<div class="right_articles">
-				<h4><a href="/evenements/{{ event.id }}/">{{ event.name|upper }}</a></h4>
+				<p><strong><a href="/evenements/{{ event.id }}/">{{ event.name|upper }}</a></strong></p>
 				<p>
-					{% blocktrans with event.start_date|date:"d/m/Y" as start_date and event.end_date|date:"d/m/Y" as end_date and event.place as place %}From {{ start_date }} to {{ end_date }} at {{ place }}{% endblocktrans %}
+{% blocktrans with event.start|date:"d/m/Y" as start_date and event.end|date:"d/m/Y" as end_date and event.location as place %}From {{ start_date }} to {{ end_date }} at {{ place }}{% endblocktrans %}
 				</p>
 				{% if event.description %}
-					<p>{{ event.description|truncatewords:10 }}</p>
+					<p><em>{{ event.description|truncatewords:10 }}</em></p>
 				{% endif %}
 			</div>
 		{% endfor %}
@@ -60,8 +60,10 @@
     <h3>{% trans "Card Informations"%}</h3>
    <div class="right_articles">
      <ul>
-       <li>{% trans "Creation date" %}: {{ group.creation_date|date:"l j F Y H:i" }}</li>
-       <li>{% trans "Modification date" %}: {{ group.modification_date|date:"l j F Y H:i" }}</li>
+       <li>{% trans "Creation date" %}&nbsp;: <br />
+           {{ group.creation_date|date:"l j F Y" }}</li>
+       <li>{% trans "Modification date" %}&nbsp;: <br /> 
+           {{ group.modification_date|date:"l j F Y" }}</li>
      </ul>
    </div>
 

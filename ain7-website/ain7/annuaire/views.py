@@ -165,9 +165,53 @@ def sessionFilter_swapOp(request):
 
     operator = request.session['filter_operator']
     for (op,desc) in SearchFilter.OPERATORS:
-      if op != operator:
+      if _(op) != operator:
         request.session['filter_operator'] = _(op)
     return HttpResponseRedirect('/annuaire/advanced_search')
+
+@login_required
+def sessionFilter_register(request):
+
+    sessionCriteria = []
+    person = request.user.person
+    sf = None
+
+    try:
+        # First we check that the user does not have a filter with
+        # the same name
+        fName = request.session['filter_name']
+        sameName = SearchFilter.objects.filter(name=fName).filter(user=person).count()
+        if sameName>0:
+            request.user.message_set.create(
+                message=_("One of your filters already has this name."))
+            return HttpResponseRedirect('/annuaire/advanced_search/')
+        # Build the SearchFilter
+        sf = SearchFilter(name     = request.session['filter_name'],
+                          operator = request.session['filter_operator'],
+                          user     = person)
+        sf.save()
+
+        sessionCriteria = request.session['criteria']
+    except KeyError:
+        raise NotImplementedError # TODO
+
+    # Build SearchConditions linked to this SearchFilter
+    for (fName, cCode, fVName, cVName, val, model) in sessionCriteria:
+        sc = SearchCondition(searchFilter = sf,
+                             fieldName = fName,
+                             fieldVerboseName = fVName,
+                             fieldClass = model,
+                             comparatorName = cCode,
+                             comparatorVerboseName = cVName,
+                             value = val)
+        sc.save()
+    return ain7_render_to_response(request, 'annuaire/adv_search.html', 
+        {'ain7members': ain7members,
+         'searchFilter': sf,
+         'conditionsList': None,
+         'filterName': None,
+         'filterOperator': None,
+         'userFilters': SearchFilter.objects.filter(user=person)})
 
 @login_required
 def sessionCriterion_add(request):
@@ -212,7 +256,7 @@ def sessionCriterion_edit(request, criterion_id=None):
                 conditionsList[int(criterion_id)]
         except KeyError:
             pass
-    searchField = getFieldFromName(fieldName)
+    model,searchField = getFieldFromName(fieldName)
     comps,valueField = findComparatorsForField(searchField)
     
     class CriterionValueForm(forms.Form):
@@ -251,7 +295,8 @@ def sessionCriterion_edit(request, criterion_id=None):
                             compCode,
                             searchField.verbose_name.lower(),
                             getCompVerboseName(searchField, compCode),
-                            form.clean_data['value'] )
+                            form.clean_data['value'],
+                            model )
                 critList.append(newCrit)
             # otherwise we're modifying an existing criterion    
             else:
@@ -260,7 +305,8 @@ def sessionCriterion_edit(request, criterion_id=None):
                       compCode,
                       searchField.verbose_name.lower(),
                       getCompVerboseName(searchField, compCode),
-                      form.clean_data['value'] )
+                      form.clean_data['value'],
+                      model )
             request.session['criteria'] = critList
             return HttpResponseRedirect('/annuaire/advanced_search')
     return ain7_render_to_response(request,
@@ -803,7 +849,7 @@ def sessionSearch(request, criteriaList):
     #
     q = models.Q()
     for qCrit in criteria:
-        if operator == 'and':
+        if operator == _('and'):
             q = q & qCrit
         else:
             q = q | qCrit
@@ -847,14 +893,14 @@ def criteriaList(isAdmin):
 # type of field to display in the form
 FIELD_PARAMS = [
     ('CharField',
-     [('EQ',_('equals'),    '',           True ),
-      ('NE',_('not equals'),'',           False),
-      ('CT',_('contains'),  '__icontains',True )],
+     [('EQ',_('equals'),    '',           False),
+      ('NE',_('not equals'),'',           True ),
+      ('CT',_('contains'),  '__icontains',False)],
      forms.CharField('value', label='')),
     ('DateField',
-     [('EQ',_('equals'),'',    True),
-      ('BF',_('before'),'__le',True),
-      ('AT',_('after'), '__ge',True),],
+     [('EQ',_('equals'),'',    False),
+      ('BF',_('before'),'__le',False),
+      ('AT',_('after'), '__ge',False),],
      forms.DateField('value', label='')),
     # TODO : pour les autres types
     ]
@@ -886,16 +932,18 @@ def findComparatorsForField(field):
 
 def getFieldFromName(fieldName):
     """ Returns a field from its name."""
-    field = None
+    field = fieldModel = None
     for model in CRITERIA_MODELS:
         for basicField in model._meta.fields:
             if fieldName == basicField.name:
+                fieldModel = model
                 field = basicField
         if model._meta.many_to_many:  
             for manyToManyField in model._meta.many_to_many:  
                 if fieldName == manyToManyField.name:
+                    fieldModel = model
                     field = manyToManyField    
-    return field
+    return (str(fieldModel._meta),field)
 
 def getCompVerboseName(field, compCode):
     """ Returns the description of a comparator,
@@ -914,24 +962,24 @@ def buildCriteriaFromSession(request):
         sessionCriteria = request.session['criteria']
     except KeyError:
         pass
-    for (fieldN, compCode, fieldVN, compVN, value) in sessionCriteria:
+    for (fieldN, compCode, fieldVN, compVN, value, model) in sessionCriteria:
         qComp, qNeg = compInQ(fieldN,compCode)
         # TODO
         crit = "person__" + fieldN + qComp
         q = models.Q(**{crit: value})
-        if not qNeg:
+        if qNeg:
             q = models.query.QNot(q)
         criteria.append(q)
     return criteria
 
 def compInQ(fieldName,compCode):
-    print fieldName
-    fieldName, comps, formField = findParamsForField(
-        getFieldFromName(fieldName))
+    model, field = getFieldFromName(fieldName)
+    fieldName, comps, formField = findParamsForField(field)
     if comps == None:
         raise NotImplementedError
     for compName, compVN, qComp, qNeg in comps:
         if compName == compCode:
             return (qComp,qNeg)
     return None
+
 
