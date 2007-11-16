@@ -51,6 +51,7 @@ def galerie(request):
 # pour alléger les appels à render_to_response
 # http://www.djangosnippets.org/snippets/3/
 def ain7_render_to_response(req, *args, **kwargs):
+    args[1]['portal_version'] = settings.VERSION
     kwargs['context_instance'] = RequestContext(req)
     return render_to_response(*args, **kwargs)
 

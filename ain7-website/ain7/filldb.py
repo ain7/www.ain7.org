@@ -40,6 +40,16 @@ import sys
 
 def filldb():
 
+    try:
+        import filldbain7
+    except:
+        print "Pas de donnes privees AIn7, importation des donnees de demo"
+        pass
+    else:
+        print "Import des donnees privees AIn7"
+        filldbain7.filldb()
+        return
+
     ######################  Fixed values  ##############################
     # Cette partie regroupe les valeurs fixes de la base,              #
     # que l'on s'autorise donc à tester en dur dans le code.           #
