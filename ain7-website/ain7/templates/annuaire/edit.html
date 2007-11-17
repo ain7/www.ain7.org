@@ -22,12 +22,13 @@
    <li><b>{% trans "Last name" %}&nbsp;:</b> {{ person.last_name }}</li>
    <li><b>{% filter capfirst %}{% trans "maiden name" %}{% endfilter %}
        &nbsp;:</b> {{ person.maiden_name|default:"" }}</li>
+   <li><b>{% trans "Nick name" %}&nbsp;:</b> {{ ain7member.nick_name }}</li>
    <li><b>{% trans "Birth date" %}&nbsp;:</b>
        {{ person.birth_date|date:"d/m/Y" }}</li>
    <li><b>{% filter capfirst %}{% trans "death date" %}{% endfilter %}
        &nbsp;:</b> {{ person.death_date|date:"d/m/Y" }}</li>
    <li><b>{% filter capfirst %}{% trans "nationality" %}{% endfilter %}
-       &nbsp;:</b> {{ person.nationality }}</li>
+       &nbsp;:</b> {{ person.country.nationality }}</li>
 </ul>
 </div>
 

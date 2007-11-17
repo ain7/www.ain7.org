@@ -832,7 +832,7 @@ def opDescription(operator):
         if op == operator:
             filterOp = desc
     return filterOp
-            
+
 def sessionSearch(request, criteriaList):
     #
     # AND or OR ?
@@ -869,7 +869,7 @@ def criteriaList(isAdmin):
 
     # models for which attributes are criteria for advanced search
     for model in CRITERIA_MODELS:
-        
+
         for basicField in model._meta.fields:
             add_attr(basicField)
 

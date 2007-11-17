@@ -17,13 +17,16 @@
    <li><b>{% filter capfirst %}{% trans "maiden name" %}{% endfilter %}
        &nbsp;:</b> {{ person.maiden_name }}</li>
    {% endif %}
-   {% if person.nick_name %}
+   {% if ain7member.nick_name %}
    <li><b>{% trans "Nick name" %}&nbsp;:</b> {{ ain7member.nick_name }}</li>
    {% endif %}
    <li><b>{% trans "Promos" %}&nbsp;:</b> {% for promo in ain7member.promos.all %}{{ promo }}{% if not forloop.last %} - {% endif %}{% endfor %}</li>
+    {% if person.wiki_name %}
+   <li><b>{% trans "Wiki name" %}&nbsp;:</b> <a href="http://wiki.ain7.porcheron.info/{{ person.wiki_name }}">{{ person.wiki_name }}</a></li>
+   {% endif %}
    <li><b>{% trans "Karma" %}&nbsp;:</b> {{ ain7member.karma }}</li>
    {% if ain7member.diplomas.all %}
-   <li><b>{% filter capfirst %}{% trans "diplomas" %}{% endfilter %}&nbsp;:</b> 
+   <li><b>{% filter capfirst %}{% trans "diplomas" %}{% endfilter %}&nbsp;:</b>
        {% for diploma in ain7member.diplomas.all %}{{ diploma }}
            {% if not forloop.last %} - {% endif %}{% endfor %}</li>
    {% endif %}
@@ -44,13 +47,13 @@
    {% endif %}
    {% if ain7member.decorations.all %}
    <li><b>{% filter capfirst %}{% trans "decorations" %}{% endfilter %}
-       &nbsp;:</b> 
+       &nbsp;:</b>
        {% for decoration in ain7member.decorations.all %}{{ decoration }}
            {% if not forloop.last %} - {% endif %}{% endfor %}</li>
    {% endif %}
    {% if ain7member.ceremonial_duties.all %}
    <li><b>{% filter capfirst %}{% trans "ceremonial duties" %}{% endfilter %}
-       &nbsp;:</b> 
+       &nbsp;:</b>
        {% for duty in ain7member.ceremonial_duties.all %}{{ duty }}
            {% if not forloop.last %} - {% endif %}{% endfor %}</li>
    {% endif %}
