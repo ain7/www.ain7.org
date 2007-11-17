@@ -32,7 +32,7 @@ from django.db import models
 
 from ain7.annuaire.models import *
 from ain7.decorators import confirmation_required
-from ain7.utils import ain7_render_to_response, ImgUploadForm, isAdmin
+from ain7.utils import ain7_render_to_response, ImgUploadForm, isAdmin, form_callback
 
 # A few settings
 
@@ -814,7 +814,7 @@ def _form_callback(f, **args):
   exclude_fields = ('person', 'user', 'member', 'avatar', 'operator')
   if f.name in exclude_fields:
     return None
-  return f.formfield(**args)
+  return form_callback(f, **args)
 
 def complete_track(request):
     elements = []

@@ -27,7 +27,7 @@ from django.http import HttpResponseRedirect
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from ain7.decorators import confirmation_required
-from ain7.utils import ain7_render_to_response, ImgUploadForm
+from ain7.utils import ain7_render_to_response, ImgUploadForm, form_callback
 
 from ain7.voyages.models import Travel, Subscription, TravelResponsible
 from ain7.annuaire.models import Person
@@ -333,16 +333,16 @@ def _edit_callback(f, **args):
     exclude_fields = ('thumbnail')
     if f.name in exclude_fields:
         return None
-    return f.formfield(**args)
+    return form_callback(f, **args) 
 
 def _join_callback(f, **args):
     exclude_fields = ('subscriber', 'travel')
     if f.name in exclude_fields:
         return None
-    return f.formfield(**args)
+    return form_callback(f, **args) 
 
 def _subscribe_callback(f, **args):
     exclude_fields = ('travel')
     if f.name in exclude_fields:
         return None
-    return f.formfield(**args)
+    return form_callback(f, **args)

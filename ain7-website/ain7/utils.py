@@ -29,8 +29,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django import newforms as forms
+from django.db import models
 
 from ain7 import settings
+from ain7.widgets import DateTimeWidget
 
 class ImgUploadForm(forms.Form):
     img_file = forms.Field(widget=forms.FileInput, label='')
@@ -62,3 +64,17 @@ def isAdmin(user):
         if profileMembership.profile.name == 'admin':
             result = True
     return result
+
+def form_callback(f, **args):
+    if isinstance(f, models.DateTimeField):
+        mywidget = DateTimeWidget()
+        mywidget.dformat= "%d/%m/%Y %H:%M"
+        args['widget']=mywidget
+        return f.formfield(**args)
+    elif isinstance(f, models.DateField):
+        mywidget = DateTimeWidget()
+        mywidget.dformat= "%d/%m/%Y"
+        args['widget']=mywidget
+        return f.formfield(**args)
+    else:
+        return f.formfield(**args)

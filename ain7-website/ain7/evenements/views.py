@@ -22,6 +22,8 @@
 
 import vobject
 
+
+from django.db import models
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django import newforms as forms
@@ -32,7 +34,7 @@ from datetime import datetime
 
 from ain7.annuaire.models import Person, UserContribution, UserContributionType
 from ain7.evenements.models import Event, EventSubscription
-from ain7.utils import ain7_render_to_response, ImgUploadForm
+from ain7.utils import ain7_render_to_response, ImgUploadForm, form_callback
 from ain7.decorators import confirmation_required
 
 class JoinEventForm(forms.Form):
@@ -306,5 +308,6 @@ def _form_callback(f, **args):
   exclude_fields = ('image')
   if f.name in exclude_fields:
     return None
-  return f.formfield(**args)
+  else:
+    return form_callback(f, **args)
 

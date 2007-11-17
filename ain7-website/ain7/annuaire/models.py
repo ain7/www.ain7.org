@@ -232,7 +232,7 @@ class Person(models.Model):
     sex = models.CharField(verbose_name=_('sex'), maxlength=1, choices=SEX, radio_admin=True)
     country = models.ForeignKey(Country, verbose_name=_('nationality'))
 
-    wiki_name = models.CharField(verbose_name=_('Wiki name'), maxlength=50)
+    wiki_name = models.CharField(verbose_name=_('Wiki name'), maxlength=50, blank=True, null=True)
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)

@@ -32,7 +32,7 @@ from django.http import HttpResponseRedirect
 from ain7.groupes_regionaux.models import Group
 from ain7.groupes_regionaux.models import GroupMembership
 from ain7.decorators import confirmation_required
-from ain7.utils import ain7_render_to_response
+from ain7.utils import ain7_render_to_response, form_callback
 
 def index(request):
     groups = Group.objects.all().filter(is_active=True).order_by('name')
@@ -54,7 +54,7 @@ def edit(request, group_id):
 
     if request.method == 'POST':
 
-        GroupForm = forms.models.form_for_instance(group)
+        GroupForm = forms.models.form_for_instance(group, formfield_callback=form_callback)
         f = GroupForm(request.POST.copy())
         if f.is_valid():
             f.clean_data['group'] = group
@@ -64,7 +64,7 @@ def edit(request, group_id):
 
         return HttpResponseRedirect('/groupes_regionaux/%s/' % (group.id))
 
-    GroupForm = forms.models.form_for_instance(group)
+    GroupForm = forms.models.form_for_instance(group, formfield_callback=form_callback)
     f = GroupForm()
 
     return ain7_render_to_response(request, 'groupes_regionaux/edit.html',

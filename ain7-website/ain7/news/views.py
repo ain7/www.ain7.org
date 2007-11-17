@@ -27,7 +27,7 @@ from django.http import HttpResponseRedirect
 from django.template import RequestContext
 
 from ain7.news.models import NewsItem
-from ain7.utils import ain7_render_to_response, ImgUploadForm
+from ain7.utils import ain7_render_to_response, ImgUploadForm, form_callback
 from ain7.decorators import confirmation_required
 
 
@@ -151,4 +151,4 @@ def _form_callback(f, **args):
   exclude_fields = ('image')
   if f.name in exclude_fields:
     return None
-  return f.formfield(**args)
+  return form_callback(f, **args)

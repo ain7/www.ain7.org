@@ -29,7 +29,7 @@ from django.newforms import widgets
 from django.http import HttpResponseRedirect
 
 from ain7.groupes.models import Group
-from ain7.utils import ain7_render_to_response
+from ain7.utils import ain7_render_to_response, form_callback
 
 def index(request):
     groups = Group.objects.all().order_by('name')
@@ -43,13 +43,13 @@ def detail(request, group_id):
 def edit(request, group_id=None):
 
     if group_id is None:
-        GroupForm = forms.models.form_for_model(Group)
+        GroupForm = forms.models.form_for_model(Group, formfield_callback=form_callback)
         GroupForm.base_fields['web_page'].widget = forms.widgets.Textarea(attrs={'rows':10, 'cols':90})
         form = GroupForm()
 
     else:
         group = Group.objects.get(id=group_id)
-        GroupForm = forms.models.form_for_instance(group)
+        GroupForm = forms.models.form_for_instance(group, formfield_callback=form_callback)
         GroupForm.base_fields['web_page'].widget = forms.widgets.Textarea(attrs={'rows':10, 'cols':90})
         form = GroupForm()
 

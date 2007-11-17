@@ -33,7 +33,7 @@ from ain7.annuaire.models import Person, AIn7Member, Track
 from ain7.decorators import confirmation_required
 from ain7.emploi.models import JobOffer, Position, EducationItem, LeisureItem
 from ain7.emploi.models import Office, Company, PublicationItem
-from ain7.utils import ain7_render_to_response
+from ain7.utils import ain7_render_to_response, form_callback
 
 class JobOfferForm(forms.Form):
     reference = forms.CharField(label=_('reference'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
@@ -408,5 +408,5 @@ def _form_callback(f, **args):
     exclude_fields = ('person', 'user', 'ain7member')
     if f.name in exclude_fields:
         return None
-    return f.formfield(**args)
+    return form_callback(f,**args)
 

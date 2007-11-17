@@ -29,7 +29,7 @@ from django import newforms as forms
 from ain7.annuaire.models import UserContributionType, UserContribution
 from ain7.sondages.models import Choice, Survey, Vote
 from ain7.decorators import confirmation_required
-from ain7.utils import ain7_render_to_response
+from ain7.utils import ain7_render_to_response, form_callback
 
 def index(request):
     surveys = Survey.objects.all()
@@ -73,7 +73,7 @@ def vote(request, survey_id):
 
 @login_required
 def create(request):
-    Form = forms.models.form_for_model(Survey)
+    Form = forms.models.form_for_model(Survey, formfield_callback=_form_callback)
 
     return _form(request, None, Form, _('Survey creation'), _('Survey succesfully created.'))
 
@@ -151,5 +151,5 @@ def _form(request, survey, Form, title, message):
 def _form_callback(field, **args):
   if field.name == 'survey':
     return None
-  return field.formfield(**args)
+  return form_callback(field, **args) 
 
