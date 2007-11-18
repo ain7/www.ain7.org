@@ -33,17 +33,40 @@ from django.db import models
 from ain7.annuaire.models import *
 from ain7.decorators import confirmation_required
 from ain7.utils import ain7_render_to_response, ImgUploadForm, isAdmin, form_callback
+from ain7.widgets import DateTimeWidget
 
 # A few settings
 
 # list of models for which attributes can be advanced search criteria
 CRITERIA_MODELS = [Person, AIn7Member]
+
 # we exclude some of them for non-admin users
 EXCLUDE_FIELDS = [
     # in Person
     'user','creation_date', 'modification_date', 'modifier',
     # in AIn7Member
     'person', 'member_type', 'person_type', 'avatar' ]
+
+# default filter operator
+DEFAULT_OPERATOR = _('or')
+
+# for each type of attribute, we define the comparators and the
+# type of field to display in the form
+dateWidget = DateTimeWidget()
+dateWidget.dformat = '%d/%m/%Y'
+FIELD_PARAMS = [
+    ('CharField',
+     [('EQ',_('equals'),    '__iexact',   False),
+      ('NE',_('not equals'),'__iexact',   True ),
+      ('CT',_('contains'),  '__icontains',False)],
+     forms.CharField('value', label='')),
+    ('DateField',
+     [('EQ',_('equals'),'',     False),
+      ('BF',_('before'),'__lte',False),
+      ('AT',_('after'), '__gte',False),],
+     forms.DateField('value', label='', widget=dateWidget)),
+    # TODO : pour les autres types
+    ]
 
 # Some basic forms
 
@@ -86,8 +109,8 @@ def search(request):
         if form.is_valid():
 
             # criteres sur le nom et prenom
-            criteria={'person__last_name__contains':form.clean_data['last_name'],\
-                      'person__first_name__contains':form.clean_data['first_name']}
+            criteria={'person__last_name__contains':form.clean_data['last_name'].encode('utf8'),\
+                      'person__first_name__contains':form.clean_data['first_name'].encode('utf8')}
             # ici on commence par rechercher toutes les promos
             # qui concordent avec l'annee de promotion et la filiere
             # saisis par l'utilisateur.
@@ -96,7 +119,7 @@ def search(request):
                 promoCriteria['year']=form.clean_data['promo']
             if form.clean_data['track'] != -1:
                 promoCriteria['track']=\
-                    Track.objects.get(id=form.clean_data['track'])
+                    Track.objects.get(id=form.clean_data['track'].encode('utf8'))
 
             # on ajoute ces promos aux critères de recherche
             # si elle ne sont pas vides
@@ -114,107 +137,193 @@ def search(request):
 def advanced_search(request):
 
     # default values of a filter
-    filterName = _('My filter')
-    filterOperator = _('or')
+    filterOperator = DEFAULT_OPERATOR
     conditionsList = []
     try:
-        filterName = request.session['filter_name']
         filterOperator = request.session['filter_operator']
         conditionsList = request.session['criteria']
     except KeyError:
         pass
-    request.session['filter_name'] = filterName
     request.session['filter_operator'] = filterOperator
     request.session['criteria'] = conditionsList
     ain7members = False
     if request.method == 'POST':
-        ain7members = sessionSearch(request,
-                                    request.session['criteria'])
+        ain7members = performSearch(request, None)
     return ain7_render_to_response(request, 'annuaire/adv_search.html', 
         {'ain7members': ain7members,
          'searchFilter': None,
          'conditionsList': conditionsList,
-         'filterName': filterName,
-         'filterOperator': filterOperator})
-#          'filterOperator': opDescription(filterOperator)})
-
-@login_required
-def sessionFilter_edit(request):
-
-    searchFilter = SearchFilter(
-        name=request.session['filter_name'],
-        operator=request.session['filter_operator'])
-    FilterForm = forms.form_for_instance(searchFilter,
-        formfield_callback=_form_callback)
-    form = FilterForm()
-
-    if request.method == 'POST':
-        form = FilterForm(request.POST)
-        if form.is_valid():
-            request.session['filter_name'] = form.clean_data['name']
-            request.user.message_set.create(message=_("Modifications have been successfully saved."))
-        else:
-            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
-        return HttpResponseRedirect('/annuaire/advanced_search/')
-    return ain7_render_to_response(request, 'annuaire/edit_form.html', 
-        {'form': form, 'searchFilter': searchFilter,
-         'action_title': _("Modification of the filter")})
-
-@login_required
-def sessionFilter_swapOp(request):
-
-    operator = request.session['filter_operator']
-    for (op,desc) in SearchFilter.OPERATORS:
-      if _(op) != operator:
-        request.session['filter_operator'] = _(op)
-    return HttpResponseRedirect('/annuaire/advanced_search')
+         'filterOperator': filterOperator,
+         'userFilters': SearchFilter.objects.filter(
+                            user=request.user.person)})
 
 @login_required
 def sessionFilter_register(request):
 
-    sessionCriteria = []
-    person = request.user.person
-    sf = None
+    FilterForm = forms.form_for_model(SearchFilter,
+        formfield_callback=_form_callback)
+    form = FilterForm()
 
-    try:
-        # First we check that the user does not have a filter with
-        # the same name
-        fName = request.session['filter_name']
-        sameName = SearchFilter.objects.filter(name=fName).filter(user=person).count()
-        if sameName>0:
+    if request.method != 'POST':
+        return ain7_render_to_response(request,
+            'annuaire/edit_form.html', 
+            {'form': form, 
+             'action_title': _("Enter parameters of your filter")})
+    else:
+        form = FilterForm(request.POST)
+        if form.is_valid():
+            fName = form.clean_data['name'].encode('utf8')
             request.user.message_set.create(
-                message=_("One of your filters already has this name."))
-            return HttpResponseRedirect('/annuaire/advanced_search/')
-        # Build the SearchFilter
-        sf = SearchFilter(name     = request.session['filter_name'],
-                          operator = request.session['filter_operator'],
-                          user     = person)
-        sf.save()
+                message=_("Modifications have been successfully saved.")
+                )
+            sessionCriteria = []
+            sf = None
+            try:
+                # First we check that the user does not have
+                # a filter with the same name
+                sameName = SearchFilter.objects.filter(name=fName)\
+                           .filter(user=request.user.person).count()
+                if sameName>0:
+                    request.user.message_set.create(
+                        message=_("One of your filters already has this name."))
+                    return HttpResponseRedirect('/annuaire/advanced_search/')
+                # Build the SearchFilter
+                sf = SearchFilter(
+                    name     = fName,
+                    operator = request.session['filter_operator'],
+                    user     = request.user.person)
+                sf.save()
+                # Get the criteria in session
+                sessionCriteria = request.session['criteria']
+            except KeyError:
+                raise NotImplementedError # TODO
 
-        sessionCriteria = request.session['criteria']
-    except KeyError:
-        raise NotImplementedError # TODO
-
-    # Build SearchConditions linked to this SearchFilter
-    for (fName, cCode, fVName, cVName, val, model) in sessionCriteria:
-        sc = SearchCondition(searchFilter = sf,
-                             fieldName = fName,
-                             fieldVerboseName = fVName,
-                             fieldClass = model,
-                             comparatorName = cCode,
-                             comparatorVerboseName = cVName,
-                             value = val)
-        sc.save()
-    return ain7_render_to_response(request, 'annuaire/adv_search.html', 
-        {'ain7members': ain7members,
-         'searchFilter': sf,
-         'conditionsList': None,
-         'filterName': None,
-         'filterOperator': None,
-         'userFilters': SearchFilter.objects.filter(user=person)})
+            # Build SearchCriterions linked to this SearchFilter
+            for (fn, cCode, fvn, cvn, val, model) in sessionCriteria:
+                sc = SearchCriterion(
+                    searchFilter = sf,
+                    fieldName = fn,
+                    fieldVerboseName = unicode(fvn,'utf8'),
+                    fieldClass = model,
+                    comparatorName = cCode,
+                    comparatorVerboseName = unicode(cvn,'utf8'),
+                    value = unicode(val,'utf8'))
+                sc.save()
+                # Reset session filter
+                resetSessionFilter(request)
+                # Redirect to filter page
+                return HttpResponseRedirect(
+                    '/annuaire/advanced_search/filter/%s/' % sf.id)
+        else:
+            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+        return HttpResponseRedirect('/annuaire/advanced_search/')
 
 @login_required
-def sessionCriterion_add(request):
+def sessionCriterion_delete(request, criterion_id):
+
+    try:
+        conditionsList = request.session['criteria']
+    except KeyError:
+        pass
+    conditionsList.pop(int(criterion_id))
+    request.session['criteria'] = conditionsList
+    return HttpResponseRedirect('/annuaire/advanced_search/')
+
+@login_required
+def sessionFilter_reset(request):
+
+    resetSessionFilter(request)
+    return HttpResponseRedirect('/annuaire/advanced_search/')
+
+@login_required
+def filter_details(request, filter_id):
+
+    filtr = get_object_or_404(SearchFilter, pk=filter_id)
+    ain7members = False
+    if request.method == 'POST':
+        ain7members = performSearch(request, filtr)
+    return ain7_render_to_response(request,
+        'annuaire/filter_details.html', 
+        {'filtr': filtr,
+         'criteria': filtr.criteria.all(),
+         'ain7members': ain7members,
+         'userFilters': SearchFilter.objects.filter(
+                            user=request.user.person)})
+
+@login_required
+def filter_edit(request, filter_id):
+
+    filtr = get_object_or_404(SearchFilter, pk=filter_id)
+    FilterForm = forms.form_for_instance(
+        filtr, formfield_callback=_form_callback)
+    form = FilterForm()
+ 	     
+    if request.method == 'POST':
+        form = FilterForm(request.POST)
+        if form.is_valid():
+            form.clean_data['user'] = filtr.user
+            form.clean_data['operator'] = filtr.operator
+            form.save()
+            request.user.message_set.create(message=_("Modifications have been successfully saved."))
+        else:
+            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+        return HttpResponseRedirect(
+            '/annuaire/advanced_search/filter/%s/' % filter_id)
+    return ain7_render_to_response(
+        request, 'annuaire/edit_form.html', 
+        {'form': form, 'action_title': _("Modification of the filter")})
+
+@login_required
+def filter_reset(request, filter_id):
+
+    filtr = get_object_or_404(SearchFilter, pk=filter_id)
+    for crit in filtr.criteria.all():
+        crit.delete()
+    return HttpResponseRedirect(
+        '/annuaire/advanced_search/filter/%s/' % filter_id)
+
+@login_required
+def filter_delete(request, filter_id):
+
+    filtr = get_object_or_404(SearchFilter, pk=filter_id)
+    try:
+        for crit in filtr.criteria.all():
+            crit.delete()
+        filtr.delete()
+        request.user.message_set.create(
+            message=_("Your filter has been successfully deleted."))
+    except KeyError:
+        request.user.message_set.create(
+            message=_("Something went wrong. The filter has not been deleted."))    
+    return HttpResponseRedirect('/annuaire/advanced_search/')
+
+@login_required
+def filter_swapOp(request, filter_id=None):
+
+    operator = None
+    if filter_id:
+        filtr = get_object_or_404(SearchFilter, pk=filter_id)
+        operator = filtr.operator
+    else:
+        operator = request.session['filter_operator']
+    for (op,desc) in SearchFilter.OPERATORS:
+      if _(op) != operator:
+          if filter_id:
+              filtr.operator = _(op)
+              filtr.save()
+              return HttpResponseRedirect(
+                  '/annuaire/advanced_search/filter/%s/' % filter_id)
+
+          else:
+              request.session['filter_operator'] = _(op)
+              return HttpResponseRedirect('/annuaire/advanced_search/')
+
+@login_required
+def criterion_add(request, filter_id=None):
+    """ Used to add a criterion, either in session
+    or in a registered filter.
+    It only deals with the first page (choice of the field)
+    and then redirects to criterion_edit. """
 
     choiceList = []
     for field in criteriaList(isAdmin(request.user)):
@@ -231,17 +340,25 @@ def sessionCriterion_add(request):
         if form.is_valid():
             request.session['criterion_field'] = \
                 form.clean_data['chosenField']
-            return HttpResponseRedirect(
-                '/annuaire/advanced_search/sessionFilter/criterion/edit/')
+            if filter_id:
+                return HttpResponseRedirect(
+                    '/annuaire/advanced_search/filter/%s/criterion/edit/' % filter_id)
+            else:
+                return HttpResponseRedirect(
+                    '/annuaire/advanced_search/sessionFilter/criterion/edit/')
     return ain7_render_to_response(request,
         'annuaire/criterion_add.html', 
         {'form': form,
          'action_title': _("Choose the criterion to add")})
 
 @login_required
-def sessionCriterion_edit(request, criterion_id=None):
-
-    fieldName = ""
+def criterion_edit(request, filter_id=None, criterion_id=None):
+    """ Used to modify a criterion, either in session or
+    in a registered filter.
+    It can either be the second step during the creation of a criterion
+    (see criterion_add) or the modification of an existing criterion."""
+    
+    fieldName = compCode = value = ""
     # if we're adding a new criterion
     if criterion_id == None:
         try:
@@ -250,15 +367,22 @@ def sessionCriterion_edit(request, criterion_id=None):
             pass
     # otherwise we're modifying an existing criterion    
     else:
-        try:
-            conditionsList = request.session['criteria']
-            fieldName, compCode, fieldVerbName, compVerbName, value = \
-                conditionsList[int(criterion_id)]
-        except KeyError:
-            pass
+        if filter_id:
+            crit = get_object_or_404(SearchCriterion, pk=criterion_id)
+            fieldName = crit.fieldName
+            compCode  = crit.comparatorName
+            value     = crit.value
+        else:
+            try:
+                conditionsList = request.session['criteria']
+                fieldName, compCode, fVName, compVName, value, model = \
+                           conditionsList[int(criterion_id)]
+            except KeyError:
+                pass
     model,searchField = getFieldFromName(fieldName)
     comps,valueField = findComparatorsForField(searchField)
-    
+
+    # the form with 2 fields : comparator and value
     class CriterionValueForm(forms.Form):
         def __init__(self, *args, **kwargs):
             super(CriterionValueForm, self).__init__(*args, **kwargs)
@@ -276,81 +400,88 @@ def sessionCriterion_edit(request, criterion_id=None):
         #     label='', choices=comps, required=True)
         # value = valueField
     
-    form = CriterionValueForm()
+    form = CriterionValueForm({'comparator':compCode, 'value':value})
 
     if request.method == 'POST':
         form = CriterionValueForm(request.POST)
         if form.is_valid():
-            # get the current list of criteria
-            critList = []
-            try:
-                critList = request.session['criteria']
-            except KeyError:
-                pass
             compCode = form.clean_data['comparator']
-            # if we're adding a new criterion
-            if criterion_id == None:
-                # I don't know why, but I have to use lower case
-                newCrit = ( searchField.name,
-                            compCode,
-                            searchField.verbose_name.lower(),
-                            getCompVerboseName(searchField, compCode),
-                            form.clean_data['value'],
-                            model )
-                critList.append(newCrit)
-            # otherwise we're modifying an existing criterion    
+            val = form.clean_data['value']
+            # if the filter is registered
+            if filter_id:
+                filtr = get_object_or_404(SearchFilter, pk=filter_id)
+                fVName = unicode(str(searchField.verbose_name),'utf8')
+                compVName = getCompVerboseName(searchField, compCode)
+                # if we're adding a new criterion
+                if criterion_id == None:
+                    newCrit = SearchCriterion(
+                        searchFilter = filtr,
+                        fieldName = searchField.name,
+                        fieldVerboseName = fVName,
+                        fieldClass = model,
+                        comparatorName = compCode,
+                        comparatorVerboseName = compVName,
+                        value = val)
+                    newCrit.save()
+                # otherwise we're modifying an existing criterion    
+                else:
+                    crit = get_object_or_404(
+                        SearchCondition, pk=condition_id)
+                    crit.searchFilter = filtr
+                    crit.fieldName = searchField.name
+                    crit.fieldVerboseName = fVName
+                    crit.fieldClass = model
+                    crit.comparatorName = compCode
+                    crit.comparatorVerboseName = compVName
+                    crit.value = val
+                    crit.save()
+                return HttpResponseRedirect(
+                    '/annuaire/advanced_search/filter/%s/' % filter_id)
+            # if the filter is in session
             else:
-                critList[int(criterion_id)] = \
-                    ( searchField.name,
-                      compCode,
-                      searchField.verbose_name.lower(),
-                      getCompVerboseName(searchField, compCode),
-                      form.clean_data['value'],
-                      model )
-            request.session['criteria'] = critList
-            return HttpResponseRedirect('/annuaire/advanced_search')
+                # get the current list of criteria
+                critList = []
+                try:
+                    critList = request.session['criteria']
+                except KeyError:
+                    pass
+                # if we're adding a new criterion
+                if criterion_id == None:
+                    # I don't know why, but I have to use lower case
+                    newCrit = (
+                        searchField.name, compCode,
+                        searchField.verbose_name.lower(),
+                        getCompVerboseName(searchField, compCode),
+                        val, model )
+                    critList.append(newCrit)
+                # otherwise we're modifying an existing criterion    
+                else:
+                    critList[int(criterion_id)] = \
+                        ( searchField.name, compCode,
+                          searchField.verbose_name.lower(),
+                          getCompVerboseName(searchField, compCode),
+                          val, model )
+                request.session['criteria'] = critList
+                return HttpResponseRedirect(
+                    '/annuaire/advanced_search/')
     return ain7_render_to_response(request,
         'annuaire/criterion_edit.html', 
         {'form': form,
          'chosenField': searchField.verbose_name,
          'action_title': _("Edit the criterion")})
 
-@login_required
-def sessionCriterion_delete(request, criterion_id):
+    return HttpResponseRedirect('/annuaire/advanced_search/')
 
+@login_required
+def criterion_delete(request, filter_id=None, criterion_id=None):
+    crit = get_object_or_404(SearchCondition, pk=condition_id)
     try:
-        conditionsList = request.session['criteria']
+        crit.delete()
+        request.user.message_set.create(message=_("Modifications have been successfully saved."))
     except KeyError:
-        pass
-    conditionsList.pop(int(criterion_id))
-    request.session['criteria'] = conditionsList
-    return HttpResponseRedirect('/annuaire/advanced_search/')
-
-@login_required
-def sessionFilter_reset(request):
-
-    request.session['criteria'] = []
-    return HttpResponseRedirect('/annuaire/advanced_search/')
-
-@login_required
-def filter_edit(request, filter_id):
-    # TODO
-    return HttpResponseRedirect('/annuaire/advanced_search/')
-
-@login_required
-def filter_reset(request, filter_id):
-    # TODO
-    return HttpResponseRedirect('/annuaire/advanced_search/')
-
-@login_required
-def criterion_add(request, filter_id):
-    # TODO
-    return HttpResponseRedirect('/annuaire/advanced_search/')
-
-@login_required
-def criterion_edit(request, filter_id, criterion_id):
-    # TODO
-    return HttpResponseRedirect('/annuaire/advanced_search/')
+        request.user.message_set.create(message=_("Something went wrong. No modification done."))
+    return HttpResponseRedirect(
+        '/annuaire/advanced_search/filter/%s/' % filter_id)
 
 @login_required
 def export_csv(request):
@@ -380,10 +511,10 @@ def sendmail(request):
         f = SendmailForm(request.POST)
         if f.is_valid():
             if f.clean_data['send_test']:
-                request.user.person.send_mail(f.clean_data['subject'],f.clean_data['body'])
+                request.user.person.send_mail(f.clean_data['subject'].encode('utf8'),f.clean_data['body'].encode('utf8'))
             else:
                 for member in ain7members:
-                    member.person.send_mail(f.clean_data['subject'],f.clean_data['body'])
+                    member.person.send_mail(f.clean_data['subject'].encode('utf8'),f.clean_data['body'].encode('utf8'))
 
     return ain7_render_to_response(request, 'annuaire/sendmail.html',
                             {'form': f})
@@ -833,17 +964,23 @@ def opDescription(operator):
             filterOp = desc
     return filterOp
 
-def sessionSearch(request, criteriaList):
+def performSearch(request, filtr=None):
+    """ Really perform search.
+    If filtr is None, then we get criteria from the session. """
     #
-    # AND or OR ?
-    #
-    operator = request.session['filter_operator']
-    #
-    # build list of criteria for Qs from the criteria in session.
-    # we don't use a dictionary because the same key could appear
-    # several times.
-    #
-    criteria = buildCriteriaFromSession(request)
+    # Determine :
+    # - operator : AND or OR ?
+    # - criteria : build list of criteria for Qs:
+    #              we don't use a dictionary because the same key
+    #              could appear several times.
+    operator = None
+    criteria = []
+    if filtr:
+        operator = filtr.operator
+        criteria = buildCriteriaFromFilter(request, filtr)
+    else:
+        operator = request.session['filter_operator']
+        criteria = buildCriteriaFromSession(request)
     #
     # now use this list of criteria to filter
     #
@@ -889,22 +1026,6 @@ def criteriaList(isAdmin):
     
     return attrList
 
-# for each type of attribute, we define the comparators and the
-# type of field to display in the form
-FIELD_PARAMS = [
-    ('CharField',
-     [('EQ',_('equals'),    '',           False),
-      ('NE',_('not equals'),'',           True ),
-      ('CT',_('contains'),  '__icontains',False)],
-     forms.CharField('value', label='')),
-    ('DateField',
-     [('EQ',_('equals'),'',    False),
-      ('BF',_('before'),'__le',False),
-      ('AT',_('after'), '__ge',False),],
-     forms.DateField('value', label='')),
-    # TODO : pour les autres types
-    ]
-
 def findParamsForField(field):
     for fieldName, comps, formField in FIELD_PARAMS:
         if str(type(field)).find(fieldName)!=-1:
@@ -930,6 +1051,8 @@ def findComparatorsForField(field):
         choiceList.append((compName,compVN))
     return (choiceList,formField)
 
+# TODO: il faut s'assurer que les champs de
+# Person et AIn7Member sont disjoints !!!
 def getFieldFromName(fieldName):
     """ Returns a field from its name."""
     field = fieldModel = None
@@ -953,7 +1076,7 @@ def getCompVerboseName(field, compCode):
     for code, name, qComp, qNeg in comps:
         if code == compCode:
             compVerbName = name
-    return compVerbName
+    return unicode(compVerbName,'utf8')
 
 def buildCriteriaFromSession(request):
     criteria = []
@@ -962,15 +1085,41 @@ def buildCriteriaFromSession(request):
         sessionCriteria = request.session['criteria']
     except KeyError:
         pass
-    for (fieldN, compCode, fieldVN, compVN, value, model) in sessionCriteria:
-        qComp, qNeg = compInQ(fieldN,compCode)
-        # TODO
-        crit = "person__" + fieldN + qComp
-        q = models.Q(**{crit: value})
-        if qNeg:
-            q = models.query.QNot(q)
-        criteria.append(q)
+    for (fieldN, compCode, fVN, cVN, value, model) in sessionCriteria:
+        criteria.append(
+            buildQForCriterion(model, fieldN, compCode,value))
     return criteria
+
+def buildCriteriaFromFilter(request, filtr):
+    criteria = []
+    sessionCriteria = []
+    try:
+        sessionCriteria = request.session['criteria']
+    except KeyError:
+        pass
+    for crit in filtr.criteria.all():
+        criteria.append(
+            buildQForCriterion(crit.fieldClass,
+                               crit.fieldName.encode('utf8'),
+                               crit.comparatorName,
+                               unicode(crit.value, 'utf8')))
+    return criteria
+
+def buildQForCriterion(model,fieldN,compCode,value):
+    qComp, qNeg = compInQ(fieldN,compCode)
+    # TODO : c'est du spécifique...
+    modelPrefix = ''
+    if model == 'annuaire.person':
+        modelPrefix = 'person__'
+    crit = modelPrefix + fieldN + qComp
+    mdl, field = getFieldFromName(fieldN)
+    print fieldN + "|" + str(field) + "|" + str(type(field))
+    if str(type(field)).find('CharField')!=-1:
+        value = value.encode('utf8')
+    q = models.Q(**{crit: value})
+    if qNeg:
+        q = models.query.QNot(q)
+    return q
 
 def compInQ(fieldName,compCode):
     model, field = getFieldFromName(fieldName)
@@ -983,3 +1132,7 @@ def compInQ(fieldName,compCode):
     return None
 
 
+def resetSessionFilter(request):
+    request.session['criteria'] = []
+    request.session['filter_operator'] = DEFAULT_OPERATOR
+    return

@@ -19,11 +19,11 @@
 					{{ survey.question }}
 				</li>
 				<li>
-					<strong>{% filter capfirst %}{% trans "start date" %}{% endfilter %}&nbsp;:</strong>
+					<strong>{% trans "start date" %}&nbsp;:</strong>
 					{{ survey.start_date|date:"d/m/Y H:i" }}
 				</li>
 				<li>
-					<strong>{% filter capfirst %}{% trans "end date" %}{% endfilter %}&nbsp;:</strong>
+					<strong>{% trans "end date" %}&nbsp;:</strong>
 					{{ survey.end_date|date:"d/m/Y H:i" }}
 				</li>
 			</ul>

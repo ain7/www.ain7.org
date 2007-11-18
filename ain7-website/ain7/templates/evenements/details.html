@@ -12,10 +12,15 @@
 	<table border="0">
         <tr><td>
 	<ul>
-		<li>{% trans "start date" %}: {{ event.start|date:"d/m/Y" }}</li>
-		<li>{% trans "end date" %}: {{ event.end|date:"d/m/Y" }}</li>
-		<li>{% trans "Contact" %}: <a href="mailto:{{ event.contact_email }}">{{ event.author }}</a></li>
-		<li>{% trans "Location" %}: {{ event.location }}</li>
+         <li>{% trans "start date" %}: 
+             {{ event.start|date:"d/m/Y H:i" }}</li>
+	  <li>{% trans "end date" %}: 
+             {{ event.end|date:"d/m/Y H:i" }}</li>
+         <li>{% trans "Contact" %}: 
+             <a href="mailto:{{ event.contact_email }}">
+               {{ event.author }}</a></li>
+         <li>{% trans "Location" %}: 
+             {{ event.location }}</li>
 	</ul>
         </td><td>
         {% if event.image %}
@@ -53,8 +58,10 @@
     <h3>{% trans "Card Informations"%}</h3>
    <div class="right_articles">
      <ul>
-       <li>{% trans "Creation date" %}: {{ event.creation_date|date:"l j F Y H:i" }}</li>
-       <li>{% trans "Modification date" %}: {{ event.modification_date|date:"l j F Y H:i" }}</li>
+       <li>{% trans "Creation date" %}&nbsp;: <br />
+           {{ event.creation_date|date:"l j F Y" }}</li>
+       <li>{% trans "Modification date" %}&nbsp;: <br />
+           {{ event.modification_date|date:"l j F Y" }}</li>
      </ul>
    </div>
 

@@ -633,8 +633,9 @@ class SearchFilter(models.Model):
         verbose_name = _('filter')
         verbose_name_plural = _('filters')
 
-class SearchCondition(models.Model):
-    searchFilter = models.ForeignKey(SearchFilter)
+class SearchCriterion(models.Model):
+    searchFilter = models.ForeignKey(SearchFilter,
+                                     related_name='criteria')
     fieldName = models.CharField(maxlength=30)
     fieldVerboseName = models.CharField(maxlength=50)
     fieldClass = models.CharField(maxlength=30)
@@ -650,12 +651,12 @@ class SearchCondition(models.Model):
     #     value = 'Toto'
 
     def __str__(self):
-        return self.fieldVerboseName \
-               + self.comparatorVerboseName \
+        return self.fieldVerboseName + " " \
+               + self.comparatorVerboseName + " " \
                + self.value
 
     def save(self):
         self.modification_date = datetime.datetime.today()
-        return super(SearchFilter, self).save()
+        return super(SearchCriterion, self).save()
 
 

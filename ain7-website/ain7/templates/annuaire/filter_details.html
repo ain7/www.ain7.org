@@ -1,0 +1,131 @@
+{% extends "annuaire/base.html" %}
+
+{% load i18n %}
+
+{% block javascript %}
+<script src="/site_media/js/scriptaculous/scriptaculous.js?load=effects,controls" type="text/javascript"></script>
+{% endblock %}
+
+{% block content %}
+
+<div id="content-main">
+
+<div class="left">
+
+<form action="." method="post">
+<div>
+
+<h1>{% trans "Filter" %}&nbsp;: {{ filtr.name }}</h1>
+
+<div id="edition">
+
+{% if filtr.criteria.all %}
+  <table class="datas">
+    {% for criterion in filtr.criteria.all %}
+      <tr class="{% cycle row1,row2 %}">
+        <td>{% if not forloop.first %}
+          <a href="/annuaire/advanced_search/filter/{{ filtr.id }}/swapOp/">
+            {{ filtr.operator }}
+          </a>
+          {% endif %}
+        </td>
+        <td>{% filter capfirst %}
+              {{ criterion.fieldVerboseName }}
+            {% endfilter %}
+        </td>
+        <td>{{ criterion.comparatorVerboseName }}</td>
+        <td>{{ criterion.value }}</td>
+        <td><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/edit/" class="changelink">{% trans "Modify" %}</a></td>
+        <td><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/delete/" class="deletelink">{% trans "Delete" %}</a></td>
+      </tr>
+    {% endfor %}
+  </table>
+{% else %}
+    <p>{% trans "No criterion. Please add one." %}</p>
+{% endif %}
+
+</div>
+
+
+    <a href="/annuaire/advanced_search/filter/{{ filtr.id }}/criterion/add/" 
+       class="addlink">{% trans "Add a criterion" %}</a>
+
+<div align="center">
+    <input type="submit" class="button" value="{% trans "Search" %}" />
+</div>
+
+</div>
+
+</form>
+
+{% if ain7members %}
+
+{% ifnotequal ain7members|length 0 %}
+
+<h2>{% trans "Results list"%}</h2>
+    <ul>
+    {% for ain7member in ain7members %}
+        <li class="person"><a href="/annuaire/{{ ain7member.person.user.id }}/">
+            {{ ain7member.person.last_name }} {{ ain7member.person.first_name }}</a> 
+            {% for promo in ain7member.promos.all %}
+               {% if forloop.last %} ({{ promo }}){% endif %}
+            {% endfor %}
+				</li>
+    {% endfor %}
+     </ul>
+{% else %}
+    <p>{% trans "No person matched your criteria." %}</p>
+{% endifnotequal %}
+
+{% endif %}
+
+</div>
+
+
+<div class="right">
+
+   <h3>{% trans "Actions" %}</h3>
+   <div class="right_articles">
+     <ul>
+       <li><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/edit/">
+           {% trans "Modify the name of this filter" %}</a>&nbsp;
+       <li><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/reset/">
+           {% trans "Reset this filter" %}</a>&nbsp;
+       <li><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/delete/">
+           {% trans "Delete this filter" %}</a>&nbsp;
+       <li><a href="/annuaire/advanced_search/filter/add/">
+           {% trans "New filter" %}</a>&nbsp;
+       <li><a href="/annuaire/csv/">
+           {% trans "Export as CSV" %}</a></li>
+       <li><a href="/annuaire/sendmail/">
+           {% trans "Send a mail" %}</a></li>
+    </ul>
+   </div>
+
+   <h3>{% trans "Navigation" %}</h3>
+   <div class="right_articles">
+    <ul>
+      <li><a href="/annuaire/">
+          {% trans "Simple Search" %}</a></li>
+    </ul>
+   </div>
+
+   <h3>{% trans "Registered filters" %}</h3>
+   <div class="right_articles">
+   <ul>
+     <li>{% trans "My promo" %} (TODO)</li>
+     {% if userFilters %} 
+       {% for filter in userFilters %}
+         <li>
+           <a href="/annuaire/advanced_search/filter/{{ filter.id }}/">
+             {{ filter }}</a>
+         </li>
+       {% endfor %}
+     {% endif %}
+   </ul>
+   </div>
+</div>
+
+</div>
+
+{% endblock %}
