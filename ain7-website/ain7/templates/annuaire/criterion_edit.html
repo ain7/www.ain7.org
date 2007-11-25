@@ -1,0 +1,39 @@
+{% extends "annuaire/base.html" %}
+{% load i18n %}
+
+{% block stylesheet %}{{ block.super }}
+<link rel="stylesheet" type="text/css" href="/site_media/js/calendar/calendar-win2k-cold-2.css" />
+{% endblock %}
+{% block javascript %}{{ block.super }}
+<!-- calendar -->
+<script type="text/javascript" src="/site_media/js/calendar/calendar.js"></script>
+<!-- this is translation file - choose your language here -->
+<script type="text/javascript" src="/site_media/js/calendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="/site_media/js/calendar/calendar-setup.js"></script>
+<!-- /calendar -->
+{% endblock %}
+
+{% block content %}
+
+<div id="content-main">
+
+<h2>{{ action_title }}</h2>
+
+<form method="post" action=".">
+
+<ul>
+  <li style="display:inline">{{ chosenField }}</li>
+  {% for field in form %}
+    <li style="display:inline">{{ field }}</li>
+  {% endfor %}
+</ul>
+
+<div align="center">
+<input type="submit" class="button" value="{% trans "Save" %}" />
+</div>
+
+</form>
+
+</div>
+
+{% endblock %}
