@@ -22,6 +22,8 @@
 
 import csv
 import vobject
+import time
+import datetime
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -199,13 +201,13 @@ def sessionFilter_register(request):
                 raise NotImplementedError # TODO
 
             # Build SearchCriterions linked to this SearchFilter
-            for (fn, cCode, fvn, cvn, val, model) in sessionCriteria:
+            for (fn, cC, fvn, cvn, val, dVal, model) in sessionCriteria:
                 sc = SearchCriterion(
                     searchFilter = sf,
                     fieldName = fn,
                     fieldVerboseName = unicode(fvn,'utf8'),
                     fieldClass = model,
-                    comparatorName = cCode,
+                    comparatorName = cC,
                     comparatorVerboseName = unicode(cvn,'utf8'),
                     value = unicode(val,'utf8'))
                 sc.save()
@@ -358,28 +360,28 @@ def criterion_edit(request, filter_id=None, criterion_id=None):
     It can either be the second step during the creation of a criterion
     (see criterion_add) or the modification of an existing criterion."""
     
-    fieldName = compCode = value = ""
+    fName = cCode = value = ""
     # if we're adding a new criterion
     if criterion_id == None:
         try:
-            fieldName = request.session['criterion_field']
+            fName = request.session['criterion_field']
         except KeyError:
             pass
     # otherwise we're modifying an existing criterion    
     else:
         if filter_id:
             crit = get_object_or_404(SearchCriterion, pk=criterion_id)
-            fieldName = crit.fieldName
-            compCode  = crit.comparatorName
-            value     = crit.value
+            fName = crit.fieldName
+            cCode = crit.comparatorName
+            value = crit.value
         else:
             try:
                 conditionsList = request.session['criteria']
-                fieldName, compCode, fVName, compVName, value, model = \
+                fName, cCode, fVName, compVName, value, dVal, model = \
                            conditionsList[int(criterion_id)]
             except KeyError:
                 pass
-    model,searchField = getFieldFromName(fieldName)
+    model,searchField = getFieldFromName(fName)
     comps,valueField = findComparatorsForField(searchField)
 
     # the form with 2 fields : comparator and value
@@ -400,18 +402,19 @@ def criterion_edit(request, filter_id=None, criterion_id=None):
         #     label='', choices=comps, required=True)
         # value = valueField
     
-    form = CriterionValueForm({'comparator':compCode, 'value':value})
+    form = CriterionValueForm({'comparator':cCode, 'value':value})
 
     if request.method == 'POST':
         form = CriterionValueForm(request.POST)
         if form.is_valid():
-            compCode = form.clean_data['comparator']
+            cCode = form.clean_data['comparator']
             val = form.clean_data['value']
+            displayedVal = getDisplayedVal(val,fName)
             # if the filter is registered
             if filter_id:
                 filtr = get_object_or_404(SearchFilter, pk=filter_id)
                 fVName = unicode(str(searchField.verbose_name),'utf8')
-                compVName = getCompVerboseName(searchField, compCode)
+                compVName = getCompVerboseName(searchField, cCode)
                 # if we're adding a new criterion
                 if criterion_id == None:
                     newCrit = SearchCriterion(
@@ -419,7 +422,7 @@ def criterion_edit(request, filter_id=None, criterion_id=None):
                         fieldName = searchField.name,
                         fieldVerboseName = fVName,
                         fieldClass = model,
-                        comparatorName = compCode,
+                        comparatorName = cCode,
                         comparatorVerboseName = compVName,
                         value = val)
                     newCrit.save()
@@ -431,7 +434,7 @@ def criterion_edit(request, filter_id=None, criterion_id=None):
                     crit.fieldName = searchField.name
                     crit.fieldVerboseName = fVName
                     crit.fieldClass = model
-                    crit.comparatorName = compCode
+                    crit.comparatorName = cCode
                     crit.comparatorVerboseName = compVName
                     crit.value = val
                     crit.save()
@@ -449,18 +452,18 @@ def criterion_edit(request, filter_id=None, criterion_id=None):
                 if criterion_id == None:
                     # I don't know why, but I have to use lower case
                     newCrit = (
-                        searchField.name, compCode,
+                        searchField.name, cCode,
                         searchField.verbose_name.lower(),
-                        getCompVerboseName(searchField, compCode),
-                        val, model )
+                        getCompVerboseName(searchField, cCode),
+                        val, displayedVal, model )
                     critList.append(newCrit)
                 # otherwise we're modifying an existing criterion    
                 else:
                     critList[int(criterion_id)] = \
-                        ( searchField.name, compCode,
+                        ( searchField.name, cCode,
                           searchField.verbose_name.lower(),
-                          getCompVerboseName(searchField, compCode),
-                          val, model )
+                          getCompVerboseName(searchField, cCode),
+                          val, displayedVal, model )
                 request.session['criteria'] = critList
                 return HttpResponseRedirect(
                     '/annuaire/advanced_search/')
@@ -1085,18 +1088,13 @@ def buildCriteriaFromSession(request):
         sessionCriteria = request.session['criteria']
     except KeyError:
         pass
-    for (fieldN, compCode, fVN, cVN, value, model) in sessionCriteria:
+    for (fieldN, cCode, fVN, cVN, val, dVal, model) in sessionCriteria:
         criteria.append(
-            buildQForCriterion(model, fieldN, compCode,value))
+            buildQForCriterion(model, fieldN, cCode,val))
     return criteria
 
 def buildCriteriaFromFilter(request, filtr):
     criteria = []
-    sessionCriteria = []
-    try:
-        sessionCriteria = request.session['criteria']
-    except KeyError:
-        pass
     for crit in filtr.criteria.all():
         criteria.append(
             buildQForCriterion(crit.fieldClass,
@@ -1113,7 +1111,6 @@ def buildQForCriterion(model,fieldN,compCode,value):
         modelPrefix = 'person__'
     crit = modelPrefix + fieldN + qComp
     mdl, field = getFieldFromName(fieldN)
-    print fieldN + "|" + str(field) + "|" + str(type(field))
     if str(type(field)).find('CharField')!=-1:
         value = value.encode('utf8')
     q = models.Q(**{crit: value})
@@ -1136,3 +1133,14 @@ def resetSessionFilter(request):
     request.session['criteria'] = []
     request.session['filter_operator'] = DEFAULT_OPERATOR
     return
+
+def getDisplayedVal(value, fieldName):
+    """ Converts a value obtained from the form
+    to a format displayed in the criteria list. """
+    displayedVal = value
+    mdl, field = getFieldFromName(fieldName)
+    if str(type(field)).find('DateField')!=-1:
+        dateVal = datetime.datetime(
+            *time.strptime(str(value),'%Y-%m-%d')[0:5])
+        displayedVal = dateVal.strftime('%d/%m/%Y')
+    return displayedVal
