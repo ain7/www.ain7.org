@@ -642,6 +642,7 @@ class SearchCriterion(models.Model):
     comparatorName = models.CharField(maxlength=2)
     comparatorVerboseName = models.CharField(maxlength=20)
     value = models.CharField(maxlength=50)
+    displayedValue = models.CharField(maxlength=50)
     # Example: for a criterion 'prénom égale Toto'
     #     fieldName = 'last_name'
     #     fieldVerboseName = 'prénom'
@@ -649,11 +650,12 @@ class SearchCriterion(models.Model):
     #     comparatorName = 'EQ'
     #     comparatorVerboseName = 'égale'
     #     value = 'Toto'
+    #     displayedValue = 'Toto'
 
     def __str__(self):
         return self.fieldVerboseName + " " \
                + self.comparatorVerboseName + " " \
-               + self.value
+               + self.displayedValue
 
     def save(self):
         self.modification_date = datetime.datetime.today()

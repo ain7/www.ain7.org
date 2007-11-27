@@ -61,12 +61,12 @@ FIELD_PARAMS = [
      [('EQ',_('equals'),    '__iexact',   False),
       ('NE',_('not equals'),'__iexact',   True ),
       ('CT',_('contains'),  '__icontains',False)],
-     forms.CharField('value', label='')),
+     forms.CharField(label='')),
     ('DateField',
      [('EQ',_('equals'),'',     False),
       ('BF',_('before'),'__lte',False),
       ('AT',_('after'), '__gte',False),],
-     forms.DateField('value', label='', widget=dateWidget)),
+     forms.DateField(label='', widget=dateWidget)),
     # TODO : pour les autres types
     ]
 
@@ -208,8 +208,9 @@ def sessionFilter_register(request):
                     fieldVerboseName = unicode(fvn,'utf8'),
                     fieldClass = model,
                     comparatorName = cC,
-                    comparatorVerboseName = unicode(cvn,'utf8'),
-                    value = unicode(val,'utf8'))
+                    comparatorVerboseName = cvn,
+                    value = val,
+                    displayedValue = getDisplayedVal(val,fn))
                 sc.save()
                 # Reset session filter
                 resetSessionFilter(request)
@@ -424,12 +425,14 @@ def criterion_edit(request, filter_id=None, criterion_id=None):
                         fieldClass = model,
                         comparatorName = cCode,
                         comparatorVerboseName = compVName,
-                        value = val)
+                        value = val,
+                        displayedValue = getDisplayedVal(
+                            val,searchField.name))
                     newCrit.save()
                 # otherwise we're modifying an existing criterion    
                 else:
                     crit = get_object_or_404(
-                        SearchCondition, pk=condition_id)
+                        SearchCriterion, pk=criterion_id)
                     crit.searchFilter = filtr
                     crit.fieldName = searchField.name
                     crit.fieldVerboseName = fVName
@@ -437,6 +440,8 @@ def criterion_edit(request, filter_id=None, criterion_id=None):
                     crit.comparatorName = cCode
                     crit.comparatorVerboseName = compVName
                     crit.value = val
+                    crit.displayedValue = getDisplayedVal(
+                        val, searchField.name)
                     crit.save()
                 return HttpResponseRedirect(
                     '/annuaire/advanced_search/filter/%s/' % filter_id)
@@ -477,7 +482,7 @@ def criterion_edit(request, filter_id=None, criterion_id=None):
 
 @login_required
 def criterion_delete(request, filter_id=None, criterion_id=None):
-    crit = get_object_or_404(SearchCondition, pk=condition_id)
+    crit = get_object_or_404(SearchCriterion, pk=criterion_id)
     try:
         crit.delete()
         request.user.message_set.create(message=_("Modifications have been successfully saved."))

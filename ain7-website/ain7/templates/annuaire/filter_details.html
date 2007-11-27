@@ -29,12 +29,9 @@
           </a>
           {% endif %}
         </td>
-        <td>{% filter capfirst %}
-              {{ criterion.fieldVerboseName }}
-            {% endfilter %}
-        </td>
+        <td>{{ criterion.fieldVerboseName|capfirst }}</td>
         <td>{{ criterion.comparatorVerboseName }}</td>
-        <td>{{ criterion.value }}</td>
+        <td>{{ criterion.displayedValue }}</td>
         <td><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/edit/" class="changelink">{% trans "Modify" %}</a></td>
         <td><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/delete/" class="deletelink">{% trans "Delete" %}</a></td>
       </tr>
