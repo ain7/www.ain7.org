@@ -56,6 +56,8 @@ DEFAULT_OPERATOR = _('or')
 # type of field to display in the form
 dateWidget = DateTimeWidget()
 dateWidget.dformat = '%d/%m/%Y'
+dateTimeWidget = DateTimeWidget()
+dateTimeWidget.dformat = '%d/%m/%Y %H:%M'
 FIELD_PARAMS = [
     ('CharField',
      [('EQ',_('equals'),    '__iexact',   False),
@@ -67,6 +69,17 @@ FIELD_PARAMS = [
       ('BF',_('before'),'__lte',False),
       ('AT',_('after'), '__gte',False),],
      forms.DateField(label='', widget=dateWidget)),
+    ('DateTimeField',
+     [('EQ',_('equals'),'',     False),
+      ('BF',_('before'),'__lte',False),
+      ('AT',_('after'), '__gte',False),],
+     forms.DateTimeField(label='', widget=dateTimeWidget)),
+    ('IntegerField',
+     [('EQ',_('equals'),    '__exact', False),
+      ('NE',_('not equals'),'__exact', True ),
+      ('LT',_('lower'),     '__lt',    False),
+      ('GT',_('greater'),   '__gt',    False),],
+     forms.IntegerField(label='')),
     # TODO : pour les autres types
     ]
 
@@ -1039,12 +1052,14 @@ def findParamsForField(field):
     for fieldName, comps, formField in FIELD_PARAMS:
         if str(type(field)).find(fieldName)!=-1:
             return (fieldName, comps, formField)
+    raise NotImplementedError
     return None
 
 def findParamsForFieldName(fieldName):
     for fieldNam, comps, formField in FIELD_PARAMS:
         if fieldNam==fieldName:
             return (fieldName, comps, formField)
+    raise NotImplementedError
     return None
 
 def findComparatorsForField(field):
@@ -1149,4 +1164,8 @@ def getDisplayedVal(value, fieldName):
         dateVal = datetime.datetime(
             *time.strptime(str(value),'%Y-%m-%d')[0:5])
         displayedVal = dateVal.strftime('%d/%m/%Y')
+    if str(type(field)).find('DateTimeField')!=-1:
+        dateVal = datetime.datetime(
+            *time.strptime(str(value),'%Y-%m-%d %H:%M:%S')[0:5])
+        displayedVal = dateVal.strftime('%d/%m/%Y %H:%M')
     return displayedVal

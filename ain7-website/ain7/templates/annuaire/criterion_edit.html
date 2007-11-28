@@ -22,7 +22,7 @@
 <form method="post" action=".">
 
 <ul>
-  <li style="display:inline">{{ chosenField }}</li>
+  <li style="display:inline">{{ chosenField|capfirst }}</li>
   {% for field in form %}
     <li style="display:inline">{{ field }}</li>
   {% endfor %}

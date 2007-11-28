@@ -212,7 +212,7 @@ class JobOffer(models.Model):
     )
 
     reference = models.CharField(verbose_name=_('Reference'), maxlength=50, blank=True, null=True)
-    title = models.CharField(verbose_name=_('Title'), maxlength=50, core=True)
+    title = models.CharField(verbose_name=_('Title'), maxlength=100, core=True)
     description = models.TextField(verbose_name=_('Description'), blank=True, null=True)
     experience = models.CharField(verbose_name=_('Experience'), maxlength=50, blank=True, null=True)
     contract_type = models.IntegerField(verbose_name=_('Contract type'), choices=JOB_TYPES, blank=True, null=True)
