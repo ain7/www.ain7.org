@@ -132,8 +132,9 @@ def search(request):
 
             ain7members = AIn7Member.objects.filter(**criteria)
 
-    return ain7_render_to_response(request, 'annuaire/search.html', 
-                            {'form': form, 'ain7members': ain7members})
+    return ain7_render_to_response(request, 'annuaire/search.html',
+                            {'form': form, 'ain7members': ain7members,
+                            'userFilters': SearchFilter.objects.filter(user=request.user.person)})
 
 @login_required
 def advanced_search(request):
@@ -151,7 +152,7 @@ def advanced_search(request):
     ain7members = False
     if request.method == 'POST':
         ain7members = performSearch(request, None)
-    return ain7_render_to_response(request, 'annuaire/adv_search.html', 
+    return ain7_render_to_response(request, 'annuaire/adv_search.html',
         {'ain7members': ain7members,
          'searchFilter': None,
          'conditionsList': conditionsList,
@@ -168,8 +169,8 @@ def sessionFilter_register(request):
 
     if request.method != 'POST':
         return ain7_render_to_response(request,
-            'annuaire/edit_form.html', 
-            {'form': form, 
+            'annuaire/edit_form.html',
+            {'form': form,
              'action_title': _("Enter parameters of your filter")})
     else:
         form = FilterForm(request.POST)
@@ -246,7 +247,7 @@ def filter_details(request, filter_id):
     if request.method == 'POST':
         ain7members = performSearch(request, filtr)
     return ain7_render_to_response(request,
-        'annuaire/filter_details.html', 
+        'annuaire/filter_details.html',
         {'filtr': filtr,
          'criteria': filtr.criteria.all(),
          'ain7members': ain7members,
@@ -260,7 +261,7 @@ def filter_edit(request, filter_id):
     FilterForm = forms.form_for_instance(
         filtr, formfield_callback=_form_callback)
     form = FilterForm()
- 	     
+
     if request.method == 'POST':
         form = FilterForm(request.POST)
         if form.is_valid():

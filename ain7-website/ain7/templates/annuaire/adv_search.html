@@ -104,7 +104,7 @@
    <div class="right_articles">
    <ul>
      <li>{% trans "My promo" %} (TODO)</li>
-     {% if userFilters %} 
+     {% if userFilters %}
        {% for filter in userFilters %}
          <li>
            <a href="/annuaire/advanced_search/filter/{{ filter.id }}/">
@@ -119,4 +119,3 @@
 </div>
 
 {% endblock %}
-

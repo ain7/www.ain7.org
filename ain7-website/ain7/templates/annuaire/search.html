@@ -76,6 +76,14 @@
    <div class="right_articles">
    <ul>
       <li>{% trans "My promo" %}</li>
+     {% if userFilters %}
+       {% for filter in userFilters %}
+         <li>
+           <a href="/annuaire/advanced_search/filter/{{ filter.id }}/">
+             {{ filter }}</a>
+         </li>
+       {% endfor %}
+     {% endif %}
    </ul>
    </div>
 </div>
