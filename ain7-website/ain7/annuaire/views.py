@@ -80,6 +80,9 @@ FIELD_PARAMS = [
       ('LT',_('lower'),     '__lt',    False),
       ('GT',_('greater'),   '__gt',    False),],
      forms.IntegerField(label='')),
+    ('BooleanField',
+     [('IS',_('is'),'',False)],
+     forms.BooleanField(label='', required=False, initial=True)),
     # TODO : pour les autres types
     ]
 
@@ -403,12 +406,11 @@ def criterion_edit(request, filter_id=None, criterion_id=None):
     class CriterionValueForm(forms.Form):
         def __init__(self, *args, **kwargs):
             super(CriterionValueForm, self).__init__(*args, **kwargs)
-            self.fields = {
-                'value': valueField,
-                'comparator': forms.ChoiceField(
-                                  label='', choices=comps,
-                                  required=True),
-                }
+            fieldsDict = {'value': valueField}
+            if len(comps)>1:
+                fieldsDict['comparator'] = forms.ChoiceField(
+                    label='', choices=comps, required=True)
+            self.fields = fieldsDict
         # What's above is a trick to get the fields in the right order
         # when rendering the form.
         # It looks like a bug in Django. Try the code below to see
@@ -416,13 +418,22 @@ def criterion_edit(request, filter_id=None, criterion_id=None):
         # comparator = forms.ChoiceField(
         #     label='', choices=comps, required=True)
         # value = valueField
-    
-    form = CriterionValueForm({'comparator':cCode, 'value':value})
+
+    initDict = {'value': value}
+    if len(comps)>1:
+        initDict['comparator'] = cCode
+    else:
+        initDict['comparator'] = comps[0][0]
+    form = CriterionValueForm(initDict)
 
     if request.method == 'POST':
         form = CriterionValueForm(request.POST)
         if form.is_valid():
-            cCode = form.clean_data['comparator']
+            cCode = comps[0][0]
+            try:
+                cCode = form.clean_data['comparator']
+            except KeyError:
+                pass
             val = form.clean_data['value']
             displayedVal = getDisplayedVal(val,fName)
             # if the filter is registered
@@ -1168,4 +1179,9 @@ def getDisplayedVal(value, fieldName):
         dateVal = datetime.datetime(
             *time.strptime(str(value),'%Y-%m-%d %H:%M:%S')[0:5])
         displayedVal = dateVal.strftime('%d/%m/%Y %H:%M')
+    if str(type(field)).find('BooleanField')!=-1:
+        if value:
+            displayedVal = _('checked')
+        else:
+            displayedVal = _('unchecked')            
     return displayedVal
