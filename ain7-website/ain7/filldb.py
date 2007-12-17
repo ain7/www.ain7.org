@@ -37,18 +37,22 @@ import ain7.evenements.models as evenements
 
 import vobject
 import sys
+import os
 
 def filldb():
 
-    try:
-        import filldbain7
-    except:
+    if os.path.exists('filldbain7'):
+        print "Import des donnees privees AIn7"
+        execfile('filldbain7/base.py')
+        for root, dirs, files in os.walk('filldbain7'):
+           for filename in files:
+              if filename != 'base.py':
+                 print filename
+                 execfile(root + '/' + filename)
+        return
+    else:
         print "Pas de donnes privees AIn7, importation des donnees de demo"
         pass
-    else:
-        print "Import des donnees privees AIn7"
-        filldbain7.filldb()
-        return
 
     ######################  Fixed values  ##############################
     # Cette partie regroupe les valeurs fixes de la base,              #
