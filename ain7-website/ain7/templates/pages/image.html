@@ -10,7 +10,7 @@
 <p style="text-align: center"><strong>{{ name }}</strong></p>
 <p style="text-align: center">{% trans "Actual picture" %}:<br />
 {% if filename %}
-    <img src="{{ filename }}" height="100" 
+    <img src="{{ filename }}" height="100"
          alt="{{ name }}"/>
 {% else %}
     {% trans "No image" %}
@@ -21,7 +21,8 @@
     <table class="form">
         {{ form }}
     </table>
-    <input class="button" type="submit" value="{% trans "Ok" %}" />
+    <a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
+    <input class="button" type="submit" value="{% trans "Save" %}" />
 </form>
 
 </div>

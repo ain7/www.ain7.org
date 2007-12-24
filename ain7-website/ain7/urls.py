@@ -40,11 +40,11 @@ urlpatterns = patterns('',
     # servir le contenu statique pendant le dev
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.abspath(os.path.dirname(__file__))+'/media'}),
 
+    # django admin
+    (r'^dadmin/', include('django.contrib.admin.urls')),
+
     # AIn7 admin section
     (r'^admin/', include('ain7.admin.urls')),
-
-    # Uncomment this for admin:
-    (r'^dadmin/', include('django.contrib.admin.urls')),
 
     # annuaire
     (r'^annuaire/', include('ain7.annuaire.urls')),

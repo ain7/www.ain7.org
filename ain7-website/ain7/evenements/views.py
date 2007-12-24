@@ -91,8 +91,9 @@ def edit(request, event_id):
     f = EventForm()
     next_events = Event.objects.filter(end__gte=datetime.now())
 
+    back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'evenements/edit.html',
-                                   {'form': f, 'event': event,
+                                   {'form': f, 'event': event, 'back': back,
                                     'event_list': Event.objects.all(),
                                     'next_events': next_events})
 
@@ -168,8 +169,9 @@ def join(request, event_id):
 
     f =  JoinEventForm()
     next_events = Event.objects.filter(end__gte=datetime.now())
+    back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'evenements/join.html',
-                            {'event': event, 'form': f,
+                            {'event': event, 'form': f, 'back': back,
                              'event_list': Event.objects.all(),
                              'next_events': next_events})
 
@@ -207,8 +209,9 @@ def register(request):
     f = EventForm()
     next_events = Event.objects.filter(end__gte=datetime.now())
 
+    back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'evenements/register.html',
-                                   {'form': f,
+                                   {'form': f, 'back': back,
                                     'event_list': Event.objects.all(),
                                     'next_events': next_events})
 
@@ -262,8 +265,9 @@ def subscribe(request, event_id):
     f =  SubscribeEventForm()
     next_events = Event.objects.filter(end__gte=datetime.now())
 
+    back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'evenements/subscribe.html',
-                                   {'event': event, 'form': f,
+                                   {'event': event, 'form': f, 'back': back,
                                     'event_list': Event.objects.all(),
                                     'next_events': next_events})
 

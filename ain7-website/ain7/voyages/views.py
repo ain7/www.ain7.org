@@ -50,8 +50,16 @@ class SearchTravelForm(forms.Form):
             'label__contains':self.clean_data['label'],
             'date__contains':self.clean_data['date'],
             'visited_places__contains':self.clean_data['visited_places']}
+        if not self.clean_data['search_old_travel']:
+            criteria['start_date__gte'] = datetime.now()
         return Travel.objects.filter(**criteria)
 
+def count_travel_participants(travel):
+    value = Subscription.objects.filter(travel=travel).values('subscriber_number').extra(select={'sum': 'sum(subscriber_number)'})
+    if len(value) > 0:
+        return value[0]['subscriber_number']
+    else:
+        return 0
 
 def index(request):
     next_travels = Travel.objects.filter(start_date__gte=datetime.now())
@@ -79,8 +87,10 @@ def add(request):
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(form.errors))
         return HttpResponseRedirect('/voyages/')
+
+    back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'voyages/edit.html',
-                                   {'form': form, 'action': 'add'})
+                                   {'form': form, 'action': 'add', 'back': back})
 
 @confirmation_required(
     lambda user_id=None,
@@ -93,11 +103,11 @@ def delete(request, travel_id):
     travel.delete()
     return HttpResponseRedirect('/voyages/')
 
-def detail(request,travel_id):
+def details(request,travel_id):
     t = get_object_or_404(Travel, pk=travel_id)
     past = t in Travel.objects.filter(start_date__lt=datetime.now())
     return ain7_render_to_response(request, 'voyages/details.html',
-                            {'travel': t, 'past': past})
+                            {'travel': t, 'past': past, 'travel_subscriptions': count_travel_participants(t)})
 
 def list(request):
     return ain7_render_to_response(request, 'voyages/list.html',
@@ -135,8 +145,10 @@ def edit(request, travel_id=None):
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(form.errors))
         return HttpResponseRedirect('/voyages/%s/' % (travel.id))
+
+    back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'voyages/edit.html',
-        {'form': form, 'action': 'edit', 'travel': travel})
+        {'form': form, 'action': 'edit', 'travel': travel, 'back': back})
 
 @login_required
 def thumbnail_edit(request, travel_id):
@@ -194,8 +206,9 @@ def join(request, travel_id):
         JoinTravelForm = forms.models.form_for_model(Subscription,
             formfield_callback=_join_callback)
         f = JoinTravelForm()
+        back = request.META.get('HTTP_REFERER', '/')
         return ain7_render_to_response(request, "voyages/join.html",
-                                {'form': f, 'travel': travel})
+                                {'form': f, 'travel': travel, 'back': back, 'travel_subscriptions': count_travel_participants(travel)})
 
     if request.method == 'POST':
         JoinTravelForm = forms.models.form_for_model(Subscription,
@@ -267,13 +280,13 @@ def unsubscribe(request, travel_id, participant_id):
 def participants(request, travel_id):
     travel = get_object_or_404(Travel, pk=travel_id)
     return ain7_render_to_response(request, 'voyages/participants.html',
-                            {'travel': travel})
+                            {'travel': travel, 'travel_subscriptions': count_travel_participants(travel)})
 
 @login_required
 def responsibles(request, travel_id):
     travel = get_object_or_404(Travel, pk=travel_id)
     return ain7_render_to_response(request, 'voyages/responsibles.html',
-                            {'travel': travel})
+                            {'travel': travel, 'travel_subscriptions': count_travel_participants(travel)})
 
 @login_required
 def responsibles_add(request, travel_id):
@@ -284,8 +297,9 @@ def responsibles_add(request, travel_id):
             formfield_callback=_subscribe_callback)
         f = TravelResponsibleForm()
         # TODO : AJAX pour sélectionner une personne plutôt qu'une liste
+        back = request.META.get('HTTP_REFERER', '/')
         return ain7_render_to_response(request, "voyages/join.html",
-                                {'form': f, 'travel': travel})
+                                {'form': f, 'travel': travel, 'back': back})
 
     if request.method == 'POST':
         TravelResponsibleForm = forms.models.form_for_model(TravelResponsible,

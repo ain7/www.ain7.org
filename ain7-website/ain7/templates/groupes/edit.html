@@ -28,7 +28,10 @@
     <table class="form">
         {{ form }}
     </table>
-<p><input type="submit" class="button" value="{% trans "Save changes" %}" /></p>
+<div align="center">
+<a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
+<input type="submit" class="button" value="{% trans "Save" %}" />
+</div>
 </form>
 
 </div>

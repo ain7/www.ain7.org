@@ -36,7 +36,7 @@ def confirmation_required(get_description, section='base.html', message=_('Are y
         def _checkconfirm(request, *args, **kwargs):
             if request.method != 'POST':
                 description = get_description(*args, **kwargs)
-                back = request.META.get('HTTP_REFERER', '/');
+                back = request.META.get('HTTP_REFERER', '/')
                 return ain7_render_to_response(request, 'pages/confirm.html',
                                         {'description': description, 'section': section,
                                          'message': message, 'back': back})

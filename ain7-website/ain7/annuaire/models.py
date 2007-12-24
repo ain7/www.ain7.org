@@ -234,6 +234,8 @@ class Person(models.Model):
 
     wiki_name = models.CharField(verbose_name=_('Wiki name'), maxlength=50, blank=True, null=True)
 
+    notes = models.TextField(verbose_name=_('Notes'), blank=True, null=True)
+
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
     modification_date = models.DateTimeField(editable=False)
@@ -392,6 +394,7 @@ class Address(models.Model):
     country = models.ForeignKey(Country, verbose_name=_('country'))
     type = models.ForeignKey(AddressType, verbose_name=_('type'))
     is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
+    is_valid = models.BooleanField(verbose_name=_('is valid'), default=True)
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)

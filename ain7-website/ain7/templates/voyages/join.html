@@ -26,6 +26,7 @@
       {{ form }}
     </table>
     <div align="center">
+      <a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
       <input type="submit" class="button" value="{% trans "Register" %}" />
     </div>
   </form>
@@ -38,7 +39,7 @@
 
   <div class="right_block">
     <ul>
-      <li>{{ travel.subscriptions.all|length }} 
+      <li>{{ travel_subscriptions }}
           {% trans "persons are subscribed to this travel" %}</li>
     </ul>
   </div>

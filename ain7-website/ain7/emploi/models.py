@@ -75,6 +75,8 @@ class Company(models.Model):
 # A company office informations
 class Office(models.Model):
 
+    company = models.ForeignKey(Company, verbose_name=_('company'), related_name='offices', edit_inline=models.STACKED)
+
     name = models.CharField(verbose_name=_('name'), maxlength=50, core=True)
 
     number = models.CharField(verbose_name=_('number'), maxlength=50, blank=True, null=True)
@@ -86,7 +88,7 @@ class Office(models.Model):
     phone_number = models.CharField(verbose_name=_('phone number'), maxlength=20, blank=True, null=True)
     web_site = models.CharField(verbose_name=_('web site'), maxlength=100, blank=True, null=True)
 
-    company = models.ForeignKey(Company, verbose_name=_('company'), related_name='offices', edit_inline=models.STACKED)
+    is_valid = models.BooleanField(verbose_name=_('is valid'), default=True)
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)

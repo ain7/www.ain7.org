@@ -20,8 +20,9 @@
 #
 #
 
+import os
+
 def detect_path():
-    import os.path
     return os.path.abspath(os.path.dirname(__file__))
 
 # Django settings for ain7 project.
@@ -37,7 +38,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASE_ENGINE = 'sqlite3'           # 'postgresql', 'mysql', 'sqlite3' or 'ado_mssql'.
-DATABASE_NAME = './data/ain7.db'      # Or path to database file if using sqlite3.
+DATABASE_NAME = detect_path()+'/data/ain7.db'      # Or path to database file if using sqlite3.
 DATABASE_USER = ''             # Not used with sqlite3.
 DATABASE_PASSWORD = ''         # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
@@ -119,5 +120,10 @@ FORUMS_URL = 'http://forums.ain7.porcheron.info/'
 GALLERY_URL = 'http://gallery.ain7.porcheron.info/'
 
 # Version
-VERSION = '0.0.0'
+BASE = '0.0.0'
+REVISION = os.popen('bzr revno 2> /dev/null').read()
+
+VERSION=BASE
+if REVISION:
+    VERSION += 'r'+REVISION
 

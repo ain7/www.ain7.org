@@ -67,8 +67,9 @@ def edit(request, group_id):
     GroupForm = forms.models.form_for_instance(group, formfield_callback=form_callback)
     f = GroupForm()
 
+    back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'groupes_regionaux/edit.html',
-                            {'form': f, 'group': group, 'is_member': is_member})
+                            {'form': f, 'group': group, 'is_member': is_member, 'back': back})
 
 @login_required
 def join(request, group_id):

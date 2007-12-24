@@ -28,21 +28,24 @@
     <table class="form">
         {{ form }}
     </table>
-<p><input type="submit" class="button" value="{% trans "Save changes" %}" /></p>
+<div align="center">
+<a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
+<input type="submit" class="button" value="{% trans "Save" %}" />
+</div>
 </form>
 
 {% ifequal action "edit" %}
    <p><b>{% filter capfirst %}{% trans "thumbnail" %}{% endfilter %}</b>&nbsp;:
        {% if travel.thumbnail %}
-	   <img src="{{ travel.get_thumbnail_url }}" height="100" 
+	   <img src="{{ travel.get_thumbnail_url }}" height="100"
            alt="{% trans "thumbnail" %}" />
-           <a href="/voyages/{{ travel.id }}/thumbnail/edit/" 
+           <a href="/voyages/{{ travel.id }}/thumbnail/edit/"
                class="changelink">{% trans "Modify" %}</a>
-           <a href="/voyages/{{ travel.id }}/thumbnail/delete/" 
+           <a href="/voyages/{{ travel.id }}/thumbnail/delete/"
                class="deletelink">{% trans "Delete" %}</a>
        {% else %}
            {% trans "No thumbnail" %}
-           <a href="/voyages/{{ travel.id }}/thumbnail/edit/" 
+           <a href="/voyages/{{ travel.id }}/thumbnail/edit/"
                class="addlink">{% trans "Add" %}</a>
        {% endif %}
     </p>

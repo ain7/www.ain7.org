@@ -133,6 +133,7 @@ def _generic_edit(request, user_id, obj, redirectPage, msgDone):
             request.user.message_set.create(message=msgDone)
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+            return ain7_render_to_response(request, redirectPage,{'form': f, 'action': 'edit','ain7member': ain7member})
             # pour avoir le détail des champs mal remplis :
             # request.user.message_set.create(message=str(f.errors))
         return HttpResponseRedirect('/emploi/%s/cv/edit/' % user_id)
@@ -169,6 +170,7 @@ def _generic_add(request, user_id, objectType, redirectPage, msgDone):
             request.user.message_set.create(message=msgDone)
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+            return ain7_render_to_response(request, redirectPage,{'form': f, 'action': 'create','person': person})
             # TODO pour avoir le détail des champs mal remplis :
             # request.user.message_set.create(message=str(f.errors))
         return HttpResponseRedirect('/emploi/%s/cv/edit/' % user_id)
@@ -336,7 +338,8 @@ def job_edit(request, emploi_id):
     f = JobOfferForm({'reference': j.reference, 'title': j.title, 'description': j.description,
         'experience': j.experience, 'contract_type': j.contract_type})
 
-    return ain7_render_to_response(request, 'emploi/job_edit.html', {'form': f, 'job': j})
+    back = request.META.get('HTTP_REFERER', '/')
+    return ain7_render_to_response(request, 'emploi/job_edit.html', {'form': f, 'job': j, 'back': back})
 
 @login_required
 def job_register(request):
@@ -355,7 +358,8 @@ def job_register(request):
             return HttpResponseRedirect('/emploi/job/%s/' % (job_offer.id))
 
     f = JobOfferForm({})
-    return ain7_render_to_response(request, 'emploi/job_register.html', {'form': f})
+    back = request.META.get('HTTP_REFERER', '/')
+    return ain7_render_to_response(request, 'emploi/job_register.html', {'form': f, 'back': back})
 
 @login_required
 def job_search(request):

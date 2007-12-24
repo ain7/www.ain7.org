@@ -348,7 +348,7 @@ def criterion_add(request, filter_id=None):
     choiceList = []
     for field in criteriaList(isAdmin(request.user)):
         choiceList.append((field.name,field.verbose_name.capitalize()))
-        
+
     class ChooseFieldForm(forms.Form):
         chosenField = forms.ChoiceField(
             label=_('Field'), required=True,
@@ -487,7 +487,7 @@ def criterion_edit(request, filter_id=None, criterion_id=None):
                         getCompVerboseName(searchField, cCode),
                         val, displayedVal, model )
                     critList.append(newCrit)
-                # otherwise we're modifying an existing criterion    
+                # otherwise we're modifying an existing criterion
                 else:
                     critList[int(criterion_id)] = \
                         ( searchField.name, cCode,
@@ -498,7 +498,7 @@ def criterion_edit(request, filter_id=None, criterion_id=None):
                 return HttpResponseRedirect(
                     '/annuaire/advanced_search/')
     return ain7_render_to_response(request,
-        'annuaire/criterion_edit.html', 
+        'annuaire/criterion_edit.html',
         {'form': form,
          'chosenField': searchField.verbose_name,
          'action_title': _("Edit the criterion")})
@@ -582,11 +582,13 @@ def person_edit(request, user_id=None):
                  form.clean_data['user'] = person.user
                  form.save()
                  request.user.message_set.create(message=_("Modifications have been successfully saved."))
+                 return HttpResponseRedirect('/annuaire/%s/edit' % (person.user.id))
              else:
                  request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
-             return HttpResponseRedirect('/annuaire/%s/edit' % (person.user.id))
+
+    back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'annuaire/edit_form.html',
-                            {'form': form, 'person': person,
+                            {'form': form, 'person': person, 'back': back,
                              'action_title': _("Modification of personal data for")})
 
 @login_required
@@ -613,12 +615,13 @@ def ain7member_edit(request, user_id=None):
                  form.clean_data['avatar'] = avatar
                  form.save()
                  request.user.message_set.create(message=_("Modifications have been successfully saved."))
+                 return HttpResponseRedirect('/annuaire/%s/edit' % (person.user.id))
              else:
                  request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
-             return HttpResponseRedirect('/annuaire/%s/edit' % (person.user.id))
         form = PersonForm(auto_id=False)
+    back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'annuaire/edit_form.html',
-                            {'form': form, 'person': person,
+                            {'form': form, 'person': person, 'back': back,
                              'action_title':
                              _("Modification of personal data for")})
 
@@ -633,9 +636,10 @@ def avatar_edit(request, user_id):
         filename = None
         if ain7member.avatar:
             filename = '/site_media/%s' % ain7member.avatar
+        back = request.META.get('HTTP_REFERER', '/')
         return ain7_render_to_response(request, 'pages/image.html',
             {'section': 'annuaire/base.html', 'name': _("avatar").capitalize(),
-             'form': form, 'filename': filename})
+             'form': form, 'back': back, 'filename': filename})
     else:
         post = request.POST.copy()
         post.update(request.FILES)
@@ -669,11 +673,11 @@ def _generic_edit(request, user_id, object_id, object_type,
 
     # 1er passage : on propose un formulaire avec les donnees actuelles
     if request.method == 'GET':
-        PosForm = forms.form_for_instance(obj,
-            formfield_callback=_form_callback)
+        PosForm = forms.form_for_instance(obj,formfield_callback=_form_callback)
         f = PosForm()
+        back = request.META.get('HTTP_REFERER', '/')
         return ain7_render_to_response(request, 'annuaire/edit_form.html',
-                                {'form': f, 'action_title': action_title, 'person': person})
+                                {'form': f, 'action_title': action_title, 'person': person, 'back': back})
 
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
@@ -689,6 +693,7 @@ def _generic_edit(request, user_id, object_id, object_type,
             request.user.message_set.create(message=msg_done)
         else:
             request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+            return ain7_render_to_response(request, 'annuaire/edit_form.html',{'form': f, 'action_title': action_title, 'person': person, 'back': '/annuaire/'+user_id+'/edit/'})
         return HttpResponseRedirect('/annuaire/%s/edit/' % user_id)
 
 def _generic_delete(request, user_id, object_id, object_type, msg_done):
@@ -707,8 +712,9 @@ def _generic_add(request, user_id, object_type, person, ain7member,
         PosForm = forms.form_for_model(object_type,
             formfield_callback=_form_callback)
         f = PosForm()
+        back = request.META.get('HTTP_REFERER', '/')
         return ain7_render_to_response(request, 'annuaire/edit_form.html',
-                                {'person': person, 'ain7member': ain7member,
+                                {'person': person, 'ain7member': ain7member, 'back': back,
                                  'form': f, 'action_title': action_title})
 
     # 2e passage : sauvegarde et redirection
@@ -725,6 +731,7 @@ def _generic_add(request, user_id, object_type, person, ain7member,
             request.user.message_set.create(message=msg_done)
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+            return ain7_render_to_response(request, 'annuaire/edit_form.html',{'person': person, 'ain7member': ain7member, 'back': '/annuaire/'+user_id+'/edit/', 'form': f, 'action_title': action_title})
         return HttpResponseRedirect('/annuaire/%s/edit/' % user_id)
 
 # Adresses
@@ -1056,7 +1063,7 @@ def criteriaList(isAdmin):
     #     return cmp(field1.verbose_name.capitalize(),
     #                field2.verbose_name.capitalize())
     # attrList.sort(cmpFields)
-    
+
     return attrList
 
 def findParamsForField(field):
@@ -1183,5 +1190,5 @@ def getDisplayedVal(value, fieldName):
         if value:
             displayedVal = _('checked')
         else:
-            displayedVal = _('unchecked')            
+            displayedVal = _('unchecked')
     return displayedVal

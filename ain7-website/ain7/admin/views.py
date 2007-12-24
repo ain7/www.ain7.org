@@ -26,6 +26,6 @@ from ain7.utils import ain7_render_to_response
 
 @login_required
 def index(request):
-    return ain7_render_to_response(request, 'admin/index.html')
+    return ain7_render_to_response(request, 'admin/default.html', {})
 
 
