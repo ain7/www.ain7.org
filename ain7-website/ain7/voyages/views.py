@@ -2,7 +2,7 @@
 #
 # voyages/views.py
 #
-#   Copyright (C) 2007 AIn7
+#   Copyright (C) 2007-2008 AIn7
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -20,12 +20,14 @@
 #
 #
 
+from datetime import datetime
+
 from django.shortcuts import get_object_or_404
 from django import newforms as forms
 from django.newforms import widgets
 from django.http import HttpResponseRedirect
-from datetime import datetime
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import ObjectPaginator, InvalidPage
 from ain7.decorators import confirmation_required
 from ain7.utils import ain7_render_to_response, ImgUploadForm, form_callback
 
@@ -114,15 +116,39 @@ def list(request):
                             {'travels': Travel.objects.all()})
 
 def search(request):
-    if request.method == 'GET':
-        form = SearchTravelForm()
-        return ain7_render_to_response(request, 'voyages/search.html', {'form': form})
-    else:
+
+    form = SearchTravelForm()
+    nb_results_by_page = 25
+    travels = False
+    paginator = ObjectPaginator(Travel.objects.none(),nb_results_by_page)
+    page = 1
+
+    if request.method == 'POST':
         form = SearchTravelForm(request.POST)
         if form.is_valid():
-            return ain7_render_to_response(request, 'voyages/search.html',
-                                    {'travels': form.search(), 'form': form,
-                                     'request': request})
+
+            travels = form.search()
+            paginator = ObjectPaginator(travels, nb_results_by_page)
+
+            try:
+                page =  int(request.GET.get('page', '1'))
+                travels = paginator.get_page(page - 1)
+
+            except InvalidPage:
+                raise http.Http404
+
+    return ain7_render_to_response(request, 'voyages/search.html',
+                                    {'travels': travels, 'form': form, 'request': request,
+                    'paginator': paginator, 'is_paginated': paginator.pages > 1,
+                    'has_next': paginator.has_next_page(page - 1),
+                    'has_previous': paginator.has_previous_page(page - 1),
+                    'current_page': page,
+                    'next_page': page + 1,
+                    'previous_page': page - 1,
+                    'pages': paginator.pages,
+                    'first_result': (page - 1) * nb_results_by_page +1,
+                    'last_result': min((page) * nb_results_by_page, paginator.hits),
+                    'hits' : paginator.hits,})
 
 @login_required
 def edit(request, travel_id=None):

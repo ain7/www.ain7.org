@@ -2,7 +2,7 @@
 #
 # pages/views.py
 #
-#   Copyright (C) 2007 AIn7
+#   Copyright (C) 2007-2008 AIn7
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -63,7 +63,4 @@ def publications(request):
 
 def rss(request):
     return ain7_render_to_response(request, 'pages/rss.html', {})
-
-def sitemap(request):
-    return ain7_render_to_response(request, 'pages/sitemap.html', {})
 

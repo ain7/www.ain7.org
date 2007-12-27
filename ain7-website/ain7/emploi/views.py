@@ -2,7 +2,7 @@
 #
 # emploi/views.py
 #
-#   Copyright (C) 2007 AIn7
+#   Copyright (C) 2007-2008 AIn7
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import ObjectPaginator, InvalidPage
 from django import newforms as forms
 from django.newforms import widgets
 from django.template import RequestContext
@@ -364,18 +365,38 @@ def job_register(request):
 @login_required
 def job_search(request):
 
+    form = SearchJobForm()
+    nb_results_by_page = 25
+    list_jobs = False
+    paginator = ObjectPaginator(JobOffer.objects.none(),nb_results_by_page)
+    page = 1
+
     if request.method == 'POST':
         form = SearchJobForm(request.POST)
         if form.is_valid():
             list_jobs = form.search()
-            return ain7_render_to_response(request, 'emploi/job_search.html',
-                                    {'form': form, 'list_jobs': list_jobs,
-                                     'request': request})
+            paginator = ObjectPaginator(list_jobs, nb_results_by_page)
 
-    else:
-        form = SearchJobForm()
-        return ain7_render_to_response(request, 'emploi/job_search.html',
-                                {'form': form})
+            try:
+                page = int(request.GET.get('page', '1'))
+                list_jobs = paginator.get_page(page - 1)
+
+            except InvalidPage:
+                raise http.Http404
+
+    return ain7_render_to_response(request, 'emploi/job_search.html',
+                                    {'form': form, 'list_jobs': list_jobs,
+                                     'request': request,
+                                     'paginator': paginator, 'is_paginated': paginator.pages > 1,
+                                     'has_next': paginator.has_next_page(page - 1),
+                                     'has_previous': paginator.has_previous_page(page - 1),
+                                     'current_page': page,
+                                     'next_page': page + 1,
+                                     'previous_page': page - 1,
+                                     'pages': paginator.pages,
+                                     'first_result': (page - 1) * nb_results_by_page +1,
+                                     'last_result': min((page) * nb_results_by_page, paginator.hits),
+                                     'hits' : paginator.hits,})
 
 @login_required
 def company_details(request, company_id):

@@ -68,6 +68,8 @@
     {% endif %}
 {% endfor %}
 
+
+
 {% for email in person.emails.all %}
 	{% if not email.is_confidential %}
 	    <tr><td><img src="/site_media/images/mail.png" alt="{% trans "email" %}"/><a href="mailto:{{ email.email }}">{{ email.email }}</a></td></tr>
@@ -157,13 +159,20 @@
     </ul>
    </div>
 
+   <h3>{% trans "Groups AIn7" %}</h3>
+   <div class="right_articles">
+    <ul>
+    {% for group in person.user.groups.all %}
+	    <li>{{ group.name }}</li>
+    {% endfor %}
+    </ul>
+    </div>
+
     <h3>{% trans "Card Informations"%}</h3>
    <div class="right_articles">
      <ul>
-       <li>{% trans "Creation date" %}&nbsp;: <br />
-           {{ person.creation_date|date:"l j F Y" }}</li>
-       <li>{% trans "Modification date" %}&nbsp;: <br />
-           {{ person.modification_date|date:"l j F Y" }}</li>
+       <li>{% trans "Creation" %}&nbsp;: {{ person.creation_date|date:"l j F Y" }}</li>
+       <li>{% trans "Update" %}&nbsp;: {{ person.modification_date|date:"l j F Y" }}</li>
      </ul>
    </div>
 

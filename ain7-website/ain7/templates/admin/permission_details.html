@@ -1,0 +1,57 @@
+{% extends "admin/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+
+<div id="content-main">
+
+<div class="left">
+
+<h2>{{permission.name }} ({{ permission.codename }})</h2>
+
+<h3>{% trans "Group with this permission" %}</h3>
+<ul>
+{% if permission.group_set.all %}
+{% for group in permission.group_set.all %}
+    <li>{{ group.name }}:</li>
+    <ul>
+    {% for user in group.user_set.all %}
+         <li>{{ user.person.first_name }} {{ user.person.last_name }}</li>
+    {% endfor %}
+</ul>
+{% endfor %}
+{% else %}
+{% trans "No group has this permission" %}
+{% endif %}
+</ul>
+
+<h3>{% trans "Individual users with this permission" %}</h3>
+<ul>
+{% if permission.user_set.all %}
+{% for user in permission.user_set.all %}
+    <li>{{ user.person.first_name }} {{ user.person.last_name }}</li>
+{% endfor %}
+{% else %}
+{% trans "No user has this permission" %}
+{% endif %}
+</ul>
+
+</div>
+
+<div class="right">
+
+<h3>{% trans "Actions" %}</h3>
+<div class="right_articles">
+<ul>
+<li><a href="/admin/users/">{% trans "Manage users" %}</a></li>
+<li><a href="/admin/groups/">{% trans "Manage groups" %}</a></li>
+<li><a href="/admin/permissions/">{% trans "Manage permissions" %}</a></li>
+</ul>
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

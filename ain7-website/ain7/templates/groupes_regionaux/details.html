@@ -1,7 +1,6 @@
 {% extends "groupes_regionaux/base.html" %}
 {% load i18n %}
 
-{% block stylesheet %}{% endblock %}
 {% block content %}
 
 <div id="content-main">
@@ -36,7 +35,7 @@
 				<a href="/groupes_regionaux/{{ group.id }}/join/">{% trans "Join the group" %}</a>
 			{% else %}
 				<a href="/groupes_regionaux/{{ group.id }}/quit/">{% trans "Quit the group" %}</a>
-			{% endif %}	
+			{% endif %}
 			</li>
 			<li><a href="/groupes_regionaux/{{ group.id }}/edit/">{% trans "Edit group informations" %}</a></li>
 		</ul>
@@ -60,10 +59,8 @@
     <h3>{% trans "Card Informations"%}</h3>
    <div class="right_articles">
      <ul>
-       <li>{% trans "Creation date" %}&nbsp;: <br />
-           {{ group.creation_date|date:"l j F Y" }}</li>
-       <li>{% trans "Modification date" %}&nbsp;: <br /> 
-           {{ group.modification_date|date:"l j F Y" }}</li>
+       <li>{% trans "Creation" %}&nbsp;: {{ group.creation_date|date:"l j F Y" }}</li>
+       <li>{% trans "Update" %}&nbsp;: {{ group.modification_date|date:"l j F Y" }}</li>
      </ul>
    </div>
 

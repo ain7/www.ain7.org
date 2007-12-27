@@ -1,0 +1,24 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block javascript %}<script src="/site_media/js/scriptaculous/scriptaculous.js?load=effects,controls?version={{ scriptaculous_version }}" type="text/javascript"></script>{% endblock %}
+
+{% block content %}
+
+<div id="content-main">
+
+<h2>{{ group.name }}</h2>
+
+<form method="post" action=".">
+<table>
+{{ form }}
+</table>
+<div align="center">
+<a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
+<input type="submit" class="button" value="{% trans "Save" %}" />
+</div>
+</form>
+
+</div>
+
+{% endblock %}

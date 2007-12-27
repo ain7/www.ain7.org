@@ -2,7 +2,7 @@
 #
 # annuaire/urls.py
 #
-#   Copyright (C) 2007 AIn7
+#   Copyright (C) 2007-2008 AIn7
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@ urlpatterns = patterns('',
     (r'^$', search),
     (r'^csv/$', export_csv),
     (r'^sendmail/$', sendmail),
+    (r'^register/$', register),
     (r'^(?P<user_id>\d+)/$', details),
     # Advanced search
     (r'^advanced_search/$', advanced_search),

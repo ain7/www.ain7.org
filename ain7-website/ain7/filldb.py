@@ -2,7 +2,7 @@
 #
 # filldb.py
 #
-#   Copyright (C) 2007 AIn7
+#   Copyright (C) 2007-2008 AIn7
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -281,6 +281,7 @@ def filldb():
     lionel.sex = 'M'
     lionel.first_name = "Lionel"
     lionel.last_name = "Porcheron"
+    lionel.complete_name = "Lionel Porcheron"
     lionel.birth_date = date(1978,11,18)
     lionel.country = france
     lionel.save()
@@ -426,6 +427,7 @@ def filldb():
     pierref.sex = 'M'
     pierref.first_name = "Pierre"
     pierref.last_name = "Fersing"
+    pierref.complete_name = "Pierre Fersing"
     pierref.birth_date = date(1985,11,05)
     pierref.country = france
     pierref.save()
@@ -474,6 +476,7 @@ def filldb():
     olivier.sex = 'M'
     olivier.first_name = "Olivier"
     olivier.last_name = "Gauwin"
+    olivier.complete_name = "Olivier Gauwin"
     olivier.birth_date = date(1955,12,9)
     olivier.country = france
     olivier.save()
@@ -604,6 +607,7 @@ def filldb():
     alex.sex = 'M'
     alex.first_name = "Alexandre"
     alex.last_name = "Garnier"
+    alex.complete_name = "Alexandre Garnier"
     alex.birth_date = date(1984,03,14)
     alex.country = france
     alex.save()
@@ -669,6 +673,7 @@ def filldb():
     laurent.sex = 'M'
     laurent.first_name = "Laurent"
     laurent.last_name = "Bives"
+    laurent.complete_name = "Laurent Bives"
     laurent.birth_date = date(1984,03,14)
     laurent.country = france
     laurent.save()
@@ -727,6 +732,7 @@ def filldb():
     gui.sex = 'M'
     gui.first_name = "Guillaume"
     gui.last_name = "Bonnaffoux"
+    gui.complete_name = "Guillaume Bonnaffoux"
     gui.birth_date = date(1980,06,9)
     gui.country = france
     gui.save()

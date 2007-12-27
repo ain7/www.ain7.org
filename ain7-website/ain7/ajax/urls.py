@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #
-# feeds.py
+# ajax/urls.py
 #
 #   Copyright (C) 2007-2008 AIn7
 #
@@ -20,21 +20,12 @@
 #
 #
 
-from django.contrib.syndication.feeds import Feed
-from ain7.evenements.models import Event
+from django.conf.urls.defaults import *
 
-class LatestEvents(Feed):
-    title = "AIn7 RSS"
-    link = "/evenements/"
-    description = "Evenements organises par l'AIn7 ou autour de l'AIn7"
+urlpatterns = patterns('ain7.ajax.views',
+    (r'^person/$', 'person'),
+    (r'^nationality/$', 'nationality'),
+    (r'^promo/$', 'promo'),
+    (r'^track/$', 'track'),
+)
 
-    def items(self):
-        return Event.objects.order_by('-publication_start')[:5]
-
-class LatestEntriesByCategory(Feed):
-    title = "AIn7 RSS"
-    link = "/evenements/"
-    description = "Evenements organises par l'AIn7 ou autour de l'AIn7"
-
-    def items(self):
-        return Event.objects.order_by('-publication_start')[:5]

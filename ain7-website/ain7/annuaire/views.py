@@ -2,7 +2,7 @@
 #
 # annuaire/views.py
 #
-#   Copyright (C) 2007 AIn7
+#   Copyright (C) 2007-2008 AIn7
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@ import datetime
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import ObjectPaginator, InvalidPage
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django import newforms as forms
@@ -36,6 +37,7 @@ from ain7.annuaire.models import *
 from ain7.decorators import confirmation_required
 from ain7.utils import ain7_render_to_response, ImgUploadForm, isAdmin, form_callback
 from ain7.widgets import DateTimeWidget
+from ain7.fields import AutoCompleteField, LanguageField
 
 # A few settings
 
@@ -91,13 +93,23 @@ FIELD_PARAMS = [
 class SearchPersonForm(forms.Form):
     last_name = forms.CharField(label=_('Last name'), max_length=50, required=False)
     first_name = forms.CharField(label=_('First name'), max_length=50, required=False)
-    promo = forms.IntegerField(label=_('Promo'), required=False)
+    promo = forms.IntegerField(label=_('Promo'), required=False, widget=AutoCompleteField(url='/ajax/promo/'))
     track = forms.IntegerField(label=_('Track'), required=False, initial=-1, widget=forms.HiddenInput())
 
 class SendmailForm(forms.Form):
     subject = forms.CharField(label=_('subject'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
     body = forms.CharField(label=_('body'),max_length=500, required=False, widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':95}))
     send_test = forms.BooleanField(label=_('Send me a test'), required=False)
+
+class NewMemberForm(forms.Form):
+    first_name = forms.CharField(label=_('First name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size':50}))
+    last_name = forms.CharField(label=_('Last name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 50}))
+    mail = forms.CharField(label=_('Mail'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 50}))
+    nationality = forms.IntegerField(label=_('Nationality'), required=True, widget=AutoCompleteField(url='/ajax/nationality/'))
+    birth_date = forms.DateTimeField(label=_('Date of birth'), required=True)
+    sex = forms.CharField(label=_('sex'), required=True)
+    promo = forms.IntegerField(label=_('Promo'), required=True, widget=AutoCompleteField(url='/ajax/promo/'))
+    track = forms.IntegerField(label=_('Track'), required=True,  widget=AutoCompleteField(url='/ajax/track/'))
 
 # Main functions
 
@@ -121,6 +133,9 @@ def search(request):
 
     form = SearchPersonForm()
     ain7members = False
+    nb_results_by_page = 25
+    paginator = ObjectPaginator(AIn7Member.objects.none(),nb_results_by_page)
+    page = 1
 
     if request.method == 'POST':
         form = SearchPersonForm(request.POST)
@@ -137,7 +152,8 @@ def search(request):
                 promoCriteria['year']=form.clean_data['promo']
             if form.clean_data['track'] != -1:
                 promoCriteria['track']=\
-                    Track.objects.get(id=form.clean_data['track'].encode('utf8'))
+                    Track.objects.get(id=form.clean_data['track']) #.encode('utf8'))
+                print form.clean_data['track']
 
             # on ajoute ces promos aux critères de recherche
             # si elle ne sont pas vides
@@ -148,12 +164,36 @@ def search(request):
 
             ain7members = AIn7Member.objects.filter(**criteria)
 
+            paginator = ObjectPaginator(ain7members, nb_results_by_page)
+
+            try:
+                page = int(request.GET.get('page', '1'))
+                ain7members = paginator.get_page(page - 1)
+
+            except InvalidPage:
+                raise http.Http404
+
     return ain7_render_to_response(request, 'annuaire/search.html',
                             {'form': form, 'ain7members': ain7members,
-                            'userFilters': SearchFilter.objects.filter(user=request.user.person)})
+                            'userFilters': SearchFilter.objects.filter(user=request.user.person),
+                            'paginator': paginator, 'is_paginated': paginator.pages > 1,
+                            'has_next': paginator.has_next_page(page - 1),
+                            'has_previous': paginator.has_previous_page(page - 1),
+                            'current_page': page,
+                            'next_page': page + 1,
+                            'previous_page': page - 1,
+                            'pages': paginator.pages,
+                            'first_result': (page - 1) * nb_results_by_page +1,
+                            'last_result': min((page) * nb_results_by_page, paginator.hits),
+                            'hits' : paginator.hits,})
 
 @login_required
 def advanced_search(request):
+
+    ain7members = False
+    nb_results_by_page = 25
+    paginator = ObjectPaginator(AIn7Member.objects.none(),nb_results_by_page)
+    page = 1
 
     # default values of a filter
     filterOperator = DEFAULT_OPERATOR
@@ -165,16 +205,34 @@ def advanced_search(request):
         pass
     request.session['filter_operator'] = filterOperator
     request.session['criteria'] = conditionsList
-    ain7members = False
     if request.method == 'POST':
         ain7members = performSearch(request, None)
+
+        paginator = ObjectPaginator(ain7members, nb_results_by_page)
+
+        try:
+            page = int(request.GET.get('page', '1'))
+            ain7members = paginator.get_page(page - 1)
+
+        except InvalidPage:
+            raise http.Http404
+
     return ain7_render_to_response(request, 'annuaire/adv_search.html',
         {'ain7members': ain7members,
          'searchFilter': None,
          'conditionsList': conditionsList,
          'filterOperator': filterOperator,
-         'userFilters': SearchFilter.objects.filter(
-                            user=request.user.person)})
+         'userFilters': SearchFilter.objects.filter(user=request.user.person),
+         'paginator': paginator, 'is_paginated': paginator.pages > 1,
+         'has_next': paginator.has_next_page(page - 1),
+         'has_previous': paginator.has_previous_page(page - 1),
+         'current_page': page,
+         'next_page': page + 1,
+         'previous_page': page - 1,
+         'pages': paginator.pages,
+         'first_result': (page - 1) * nb_results_by_page +1,
+         'last_result': min((page) * nb_results_by_page, paginator.hits),
+         'hits' : paginator.hits,})
 
 @login_required
 def sessionFilter_register(request):
@@ -290,7 +348,7 @@ def filter_edit(request, filter_id):
         return HttpResponseRedirect(
             '/annuaire/advanced_search/filter/%s/' % filter_id)
     return ain7_render_to_response(
-        request, 'annuaire/edit_form.html', 
+        request, 'annuaire/edit_form.html',
         {'form': form, 'action_title': _("Modification of the filter")})
 
 @login_required
@@ -367,7 +425,7 @@ def criterion_add(request, filter_id=None):
                 return HttpResponseRedirect(
                     '/annuaire/advanced_search/sessionFilter/criterion/edit/')
     return ain7_render_to_response(request,
-        'annuaire/criterion_add.html', 
+        'annuaire/criterion_add.html',
         {'form': form,
          'action_title': _("Choose the criterion to add")})
 
@@ -377,7 +435,7 @@ def criterion_edit(request, filter_id=None, criterion_id=None):
     in a registered filter.
     It can either be the second step during the creation of a criterion
     (see criterion_add) or the modification of an existing criterion."""
-    
+
     fName = cCode = value = ""
     # if we're adding a new criterion
     if criterion_id == None:
@@ -385,7 +443,7 @@ def criterion_edit(request, filter_id=None, criterion_id=None):
             fName = request.session['criterion_field']
         except KeyError:
             pass
-    # otherwise we're modifying an existing criterion    
+    # otherwise we're modifying an existing criterion
     else:
         if filter_id:
             crit = get_object_or_404(SearchCriterion, pk=criterion_id)
@@ -454,7 +512,7 @@ def criterion_edit(request, filter_id=None, criterion_id=None):
                         displayedValue = getDisplayedVal(
                             val,searchField.name))
                     newCrit.save()
-                # otherwise we're modifying an existing criterion    
+                # otherwise we're modifying an existing criterion
                 else:
                     crit = get_object_or_404(
                         SearchCriterion, pk=criterion_id)
@@ -945,8 +1003,61 @@ def preferences(request, user_id):
     p = get_object_or_404(Person, pk=user_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
 
+    form = PreferencesForm()
+
     return ain7_render_to_response(request, 'annuaire/preferences.html',
-                            {'person': p, 'ain7member': ain7member})
+                            {'form': form, 'person': p, 'ain7member': ain7member})
+
+@login_required
+def register(request, user_id=None):
+
+    form = NewMemberForm()
+
+    if request.method == 'POST':
+        form = NewMemberForm(request.POST)
+        if form.is_valid():
+            login = (form.clean_data['first_name'][0]+form.clean_data['last_name']).lower()
+            mail = form.clean_data['mail']
+            new_user = User.objects.create_user(login, mail, 'password')
+            new_user.first_name = form.clean_data['first_name']
+            new_user.last_name = form.clean_data['last_name']
+            new_user.save()
+
+            new_person = Person()
+            new_person.user = new_user
+            new_person.first_name = form.clean_data['first_name']
+            new_person.last_name = form.clean_data['last_name']
+            new_person.complete_name = new_person.first_name+' '+new_person.last_name
+            new_person.sex = form.clean_data['sex']
+            new_person.birth_date = datetime.date(1978,11,18)
+            new_person.country = Country.objects.filter(id=form.clean_data['nationality'])[0]
+            new_person.save()
+
+            new_ain7member = AIn7Member()
+            new_ain7member.person = new_person
+            new_ain7member.promos.add(Promo.objects.filter(id=form.clean_data['promo'])[0])
+            new_ain7member.marital_status = MaritalStatus.objects.filter(status="Célibataire")[0]
+            new_ain7member.display_cv_in_directory = False
+            new_ain7member.display_cv_in_job_section = False
+            new_ain7member.receive_job_offers = False
+            new_ain7member.member_type = MemberType.objects.filter(type="Membre actif")[0]
+            new_ain7member.person_type = PersonType.objects.filter(type="Etudiant")[0]
+            new_ain7member.activity = Activity.objects.filter(activity="Connue")[0]
+            new_ain7member.save()
+
+            new_couriel = Email()
+            new_couriel.person = new_person
+            new_couriel.email = form.clean_data['mail']
+            new_couriel.preferred_email = True
+            new_couriel.save()
+
+            request.user.message_set.create(message=_("New user successfully created"))
+            return HttpResponseRedirect('/annuaire/%s/edit' % (new_person.user.id))
+        else:
+            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+
+    back = request.META.get('HTTP_REFERER', '/')
+    return ain7_render_to_response(request, 'annuaire/edit_form.html', {'action_title': 'Register new user', 'back': back, 'form': form})
 
 @login_required
 def vcard(request, user_id):
@@ -1051,9 +1162,9 @@ def criteriaList(isAdmin):
             add_attr(basicField)
 
         # _meta.fields does not contain ManyToManyFields, so we add them
-        if model._meta.many_to_many:  
-            for manyToManyField in model._meta.many_to_many:  
-                add_attr(manyToManyField)  
+        if model._meta.many_to_many:
+            for manyToManyField in model._meta.many_to_many:
+                add_attr(manyToManyField)
 
         # TODO: add related_names ??? (it's also in _meta)
 
@@ -1103,11 +1214,11 @@ def getFieldFromName(fieldName):
             if fieldName == basicField.name:
                 fieldModel = model
                 field = basicField
-        if model._meta.many_to_many:  
-            for manyToManyField in model._meta.many_to_many:  
+        if model._meta.many_to_many:
+            for manyToManyField in model._meta.many_to_many:
                 if fieldName == manyToManyField.name:
                     fieldModel = model
-                    field = manyToManyField    
+                    field = manyToManyField
     return (str(fieldModel._meta),field)
 
 def getCompVerboseName(field, compCode):

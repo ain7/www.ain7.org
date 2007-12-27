@@ -2,7 +2,7 @@
 #
 # settings.py
 #
-#   Copyright (C) 2007 AIn7
+#   Copyright (C) 2007-2008 AIn7
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -91,7 +91,7 @@ ROOT_URLCONF = 'ain7.urls'
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates".
     # Always use forward slashes, even on Windows.
-    '/usr/share/python-support/python-django/django/contrib/admin/templates',
+    #'/usr/share/python-support/python-django/django/contrib/admin/templates',
     detect_path()+'/templates',
 )
 
@@ -121,9 +121,15 @@ GALLERY_URL = 'http://gallery.ain7.porcheron.info/'
 
 # Version
 BASE = '0.0.0'
-REVISION = os.popen('bzr revno 2> /dev/null').read()
+REVISION = os.popen('bzr revno 2> /dev/null').read().rstrip()
 
-VERSION=BASE
+VERSION = BASE
 if REVISION:
     VERSION += 'r'+REVISION
+
+TINYMCE_VERSION = '2.1.2'
+
+SCRIPTACULOUS_VERSION = '1.7.0'
+
+PROTOTYPE_VERSION = '1.5.0'
 

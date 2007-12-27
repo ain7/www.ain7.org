@@ -45,10 +45,8 @@
    <h3>{% trans "Card Informations"%}</h3>
    <div class="right_articles">
      <ul>
-       <li>{% trans "Creation date" %}&nbsp;: <br />
-           {{ job.creation_date|date:"l j F Y" }}</li>
-       <li>{% trans "Modification date" %}&nbsp;: <br />
-           {{ job.modification_date|date:"l j F Y" }}</li>
+       <li>{% trans "Creation" %}&nbsp;: {{ job.creation_date|date:"l j F Y" }}</li>
+       <li>{% trans "Update" %}&nbsp;: {{ job.modification_date|date:"l j F Y" }}</li>
      </ul>
    </div>
 

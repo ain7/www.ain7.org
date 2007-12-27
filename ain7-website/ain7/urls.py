@@ -2,7 +2,7 @@
 #
 # urls.py
 #
-#   Copyright (C) 2007 AIn7
+#   Copyright (C) 2007-2008 AIn7
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -45,6 +45,9 @@ urlpatterns = patterns('',
 
     # AIn7 admin section
     (r'^admin/', include('ain7.admin.urls')),
+
+    # AJAX autocompletion
+    (r'^ajax/', include('ain7.ajax.urls')),
 
     # annuaire
     (r'^annuaire/', include('ain7.annuaire.urls')),
@@ -89,7 +92,6 @@ urlpatterns = patterns('',
     (r'^international/$','ain7.pages.views.international'),
     (r'^mentions_legales/$','ain7.pages.views.mentions_legales'),
     (r'^publications/$','ain7.pages.views.publications'),
-    (r'^sitemap/$','ain7.pages.views.sitemap'),
     (r'^$','ain7.pages.views.homepage'),
 
     # flux RSS

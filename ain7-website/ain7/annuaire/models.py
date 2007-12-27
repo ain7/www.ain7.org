@@ -2,7 +2,7 @@
 #
 # annuaire/models.py
 #
-#   Copyright (C) 2007 AIn7
+#   Copyright (C) 2007-2008 AIn7
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -226,6 +226,7 @@ class Person(models.Model):
     # Civility
     last_name = models.CharField(verbose_name=_('Last name'), maxlength=50)
     first_name = models.CharField(verbose_name=_('First name'), maxlength=50)
+    complete_name = models.CharField(verbose_name=_('Complete name'), maxlength=50)
     maiden_name = models.CharField(verbose_name=_('maiden name'), maxlength=100, blank=True, null=True)
     birth_date = models.DateField(verbose_name=_('Birth date'), blank=True, null=True)
     death_date = models.DateField(verbose_name=_('death date'), blank=True, null=True)

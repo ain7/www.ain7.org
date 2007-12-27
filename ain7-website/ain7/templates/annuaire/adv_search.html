@@ -2,9 +2,7 @@
 
 {% load i18n %}
 
-{% block javascript %}
-<script src="/site_media/js/scriptaculous/scriptaculous.js?load=effects,controls" type="text/javascript"></script>
-{% endblock %}
+{% block javascript %}<script src="/site_media/js/scriptaculous/scriptaculous.js?load=effects,controls?version={{ scriptaculous_version }}" type="text/javascript"></script>{% endblock %}
 
 {% block content %}
 
@@ -57,6 +55,18 @@
 {% ifnotequal ain7members|length 0 %}
 
 <h2>{% trans "Results list"%}</h2>
+<table width="100%">
+<tr>
+<td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
+<td align="right">
+{% if is_paginated %}
+{% if has_previous %}<a href="/annuaire/advanced_search/?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="/annuaire/advanced_search/?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="/annuaire/advanced_search/?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="/annuaire/advanced_search/?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% endif %}
+</td>
+</table>
     <ul>
     {% for ain7member in ain7members %}
         <li class="person"><a href="/annuaire/{{ ain7member.person.user.id }}/">

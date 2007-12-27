@@ -2,14 +2,13 @@
 
 {% load i18n %}
 
-{% block javascript %}<script src="/site_media/js/scriptaculous/scriptaculous.js?load=effects,controls" type="text/javascript"></script>{% endblock %}
+{% block javascript %}<script src="/site_media/js/scriptaculous/scriptaculous.js?load=effects,controls?version={{ scriptaculous_version }}" type="text/javascript"></script>{% endblock %}
 
 {% block content %}
 
 <div id="content-main">
 
 <div class="left">
-
 <form action="." method="post">
 <div align="center">
 	<table class="form">
@@ -25,7 +24,7 @@
 						$('id_track').value = li.id;
 					}
 
-					new Ajax.Autocompleter('id_track_text', 'track_complete', '/annuaire/complete/track/',
+					new Ajax.Autocompleter('id_track_text', 'track_complete', '/ajax/track/',
 					                       {paramName:'input', autoSelect:true, afterUpdateElement:setSelected});
 				// ]]>
 				</script>
@@ -41,16 +40,28 @@
 {% ifnotequal ain7members|length 0 %}
 
 <h2>{% trans "Results list"%}</h2>
-    <ul>
+<table width="100%">
+<tr>
+<td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
+<td align="right">
+{% if is_paginated %}
+{% if has_previous %}<a href="/annuaire/?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="/annuaire/?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="/annuaire/?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="/annuaire/?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% endif %}
+</td>
+</table>
+<ul>
     {% for ain7member in ain7members %}
         <li class="person"><a href="/annuaire/{{ ain7member.person.user.id }}/">
-            {{ ain7member.person.last_name }} {{ ain7member.person.first_name }}</a> 
+            {{ ain7member.person.last_name }} {{ ain7member.person.first_name }}</a>
             {% for promo in ain7member.promos.all %}
                {% if forloop.last %} ({{ promo }}){% endif %}
             {% endfor %}
 				</li>
     {% endfor %}
-     </ul>
+</ul>
 {% else %}
     <p>{% trans "No person matched your criteria." %}</p>
 {% endifnotequal %}
@@ -59,7 +70,6 @@
 
 </div>
 
-
 <div class="right">
 
    <h3>{% trans "Actions" %}</h3>
@@ -67,6 +77,7 @@
     <ul>
       <li><a href="/annuaire/csv/">{% trans "Export as CSV" %}</a></li>
       <li><a href="/annuaire/sendmail/">{% trans "Send a mail" %}</a></li>
+      <li><a href="/annuaire/register/">{% trans "Register a member" %}</a></li>
     </ul>
    </div>
 

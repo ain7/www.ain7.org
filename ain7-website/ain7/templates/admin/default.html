@@ -12,7 +12,9 @@
 
 <h3>{% trans "Admin" %}</h3>
 
-Heya!
+{% trans "This section is dedicated to the portal administration." %}
+{% trans "You can add, edit, delete users, groups and permissions." %}
+{% trans "Do all your modifications carefully!" %}
 
 </div>
 
@@ -21,10 +23,13 @@ Heya!
 <div class="right">
 
 <h3>{% trans "Actions" %}</h3>
+<div class="right_articles">
 <ul>
 <li><a href="/admin/users/">{% trans "Manage users" %}</a></li>
-<li><a href="/admin/permissions/">{% trans "Permissions management" %}</a></li>
+<li><a href="/admin/groups/">{% trans "Manage groups" %}</a></li>
+<li><a href="/admin/permissions/">{% trans "Manage permissions" %}</a></li>
 </ul>
+</div>
 
 </div>
 

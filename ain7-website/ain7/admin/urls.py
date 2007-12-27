@@ -2,7 +2,7 @@
 #
 # admin/urls.py
 #
-#   Copyright (C) 2007 AIn7
+#   Copyright (C) 2007-2008 AIn7
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -24,5 +24,15 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('ain7.admin.views',
     (r'^$', 'index'),
+    (r'^users/$', 'users_search'),
+    (r'^groups/$', 'groups_search'),
+    (r'^groups/autocomplete/$', 'group_autocomplete'),
+    (r'^groups/(?P<group_id>\d+)/$', 'group_details'),
+    (r'^groups/(?P<group_id>\d+)/member/(?P<member_id>\d+)/delete/$', 'member_delete'),
+    (r'^groups/(?P<group_id>\d+)/member/add/$', 'member_add'),
+    (r'^groups/(?P<group_id>\d+)/perm/(?P<perm_id>\d+)/delete/$', 'perm_delete'),
+    (r'^groups/(?P<group_id>\d+)/perm/add/$', 'perm_add'),
+    (r'^permissions/$', 'permissions'),
+    (r'^permissions/(?P<perm_id>\d+)/$', 'permission_details'),
 )
 
