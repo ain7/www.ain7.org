@@ -41,12 +41,13 @@ class AutoCompleteField(TextInput):
             final_attrs['value'] = escape(value)
         if not self.attrs.has_key('id'):
             final_attrs['id'] = 'id_%s' % name
-        return (u'<input type="text" name="%(name)s" id="%(id)s"/> <div class="complete" id="box_%(name)s"></div>'
+        return (u'<input type="hidden" name="%(name)s" value="-1" id="%(id)s" />'
+                  '<input type="text" name="%(name)s_text" id="%(id)s_text" size="50" /> <div class="complete" id="box_%(name)s"></div>'
                         '<script type="text/javascript">'
                         'function setSelected(text, li) {'
                         '    $(\'%(id)s\').value = li.id;'
                         '}'
-                        ' new Ajax.Autocompleter(\'%(id)s\', \'box_%(name)s\', \'%(url)s\', %(options)s);'
+                        ' new Ajax.Autocompleter(\'%(id)s_text\', \'box_%(name)s\', \'%(url)s\', %(options)s);'
                         '</script>') % {'attrs'	: flatatt(final_attrs),
                                         'name'	: name,
                                         'id'	: final_attrs['id'],

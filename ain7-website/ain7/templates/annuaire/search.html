@@ -13,23 +13,6 @@
 <div align="center">
 	<table class="form">
 		{{ form }}
-		<tr>
-			<th><label for="id_track_text">{% trans "Track" %}:</label></th>
-			<td>
-				<input name="track_text" id="id_track_text" type="text" size="50" />
-				<div id="track_complete" class="complete"></div>
-				<script type="text/javascript" language="javascript" charset="utf-8">
-				// <![CDATA[
-					function setSelected(text, li) {
-						$('id_track').value = li.id;
-					}
-
-					new Ajax.Autocompleter('id_track_text', 'track_complete', '/ajax/track/',
-					                       {paramName:'input', autoSelect:true, afterUpdateElement:setSelected});
-				// ]]>
-				</script>
-			</td>
-		</tr>
 	</table>
 	<input class="button" type="submit" value="{% trans "Search" %}" />
 </div>

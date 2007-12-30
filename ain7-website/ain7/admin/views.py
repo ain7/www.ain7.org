@@ -176,7 +176,7 @@ def member_add(request, group_id):
         form = MemberGroupForm(request.POST)
         if form.is_valid():
             print form.clean_data['username']
-            u = User.objects.filter(id=form.clean_data['username'])[0]
+            u = User.objects.get(id=form.clean_data['username'])
             u.groups.add(g)
             request.user.message_set.create(message=_('User added to group'))
             return HttpResponseRedirect('/admin/groups/%s/' % group_id)

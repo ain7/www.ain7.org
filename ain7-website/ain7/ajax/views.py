@@ -55,9 +55,9 @@ def promo(request):
 
     if request.method == 'POST':
         input = request.POST['text']
-        promos = Promo.objects.filter(year__icontains=input)
+        promos = Promo.objects.filter(year__istartswith=input).values('year').distinct()
         for promo in promos:
-            elements.append({'id': promo.id, 'value': promo.year})
+            elements.append({'id': promo['year'], 'value': promo['year']})
 
     return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
 
@@ -65,7 +65,7 @@ def track(request):
     elements = []
 
     if request.method == 'POST':
-        input = request.POST['input']
+        input = request.POST['text']
         tracks = Track.objects.filter(name__icontains=input)
         for track in tracks:
             elements.append({'id':track.id, 'value': track.name})

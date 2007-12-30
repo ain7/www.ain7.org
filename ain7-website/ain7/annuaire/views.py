@@ -94,7 +94,7 @@ class SearchPersonForm(forms.Form):
     last_name = forms.CharField(label=_('Last name'), max_length=50, required=False)
     first_name = forms.CharField(label=_('First name'), max_length=50, required=False)
     promo = forms.IntegerField(label=_('Promo'), required=False, widget=AutoCompleteField(url='/ajax/promo/'))
-    track = forms.IntegerField(label=_('Track'), required=False, initial=-1, widget=forms.HiddenInput())
+    track = forms.IntegerField(label=_('Track'), required=False, widget=AutoCompleteField(url='/ajax/track/'))
 
 class SendmailForm(forms.Form):
     subject = forms.CharField(label=_('subject'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
@@ -152,7 +152,7 @@ def search(request):
                 promoCriteria['year']=form.clean_data['promo']
             if form.clean_data['track'] != -1:
                 promoCriteria['track']=\
-                    Track.objects.get(id=form.clean_data['track']) #.encode('utf8'))
+                    Track.objects.get(id=form.clean_data['track'])
                 print form.clean_data['track']
 
             # on ajoute ces promos aux critères de recherche
