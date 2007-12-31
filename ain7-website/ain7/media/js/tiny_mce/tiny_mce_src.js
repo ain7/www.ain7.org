@@ -5,8 +5,8 @@ function TinyMCE_Engine() {
 	var ua;
 
 	this.majorVersion = "2";
-	this.minorVersion = "1.2";
-	this.releaseDate = "2007-08-21";
+	this.minorVersion = "1.3";
+	this.releaseDate = "2007-11-27";
 
 	this.instances = [];
 	this.switchClassCache = [];
@@ -1082,8 +1082,8 @@ TinyMCE_Engine.prototype = {
 		// s = s.replace(new RegExp('mce_href\\s*=\\s*\"[^ >\"]*\"', 'gi'), '');
 
 		if (!s.match(/(mce_src|mce_href)/gi, s)) {
-			s = s.replace(new RegExp('src\\s*=\\s*\"([^ >\"]*)\"', 'gi'), 'src="$1" mce_src="$1"');
-			s = s.replace(new RegExp('href\\s*=\\s*\"([^ >\"]*)\"', 'gi'), 'href="$1" mce_href="$1"');
+			s = s.replace(new RegExp('src\\s*=\\s*[\"\']([^ >\"]*)[\"\']', 'gi'), 'src="$1" mce_src="$1"');
+			s = s.replace(new RegExp('href\\s*=\\s*[\"\']([^ >\"]*)[\"\']', 'gi'), 'href="$1" mce_href="$1"');
 		}
 
 		return s;
@@ -1158,18 +1158,14 @@ TinyMCE_Engine.prototype = {
 			// Workaround for drag drop/copy paste base href bug
 			case "drop":
 			case "beforepaste":
-				if (tinyMCE.selectedInstance)
+/*				if (tinyMCE.selectedInstance)
 					tinyMCE.selectedInstance.setBaseHREF(null);
 
 				// Fixes odd MSIE bug where drag/droping elements in a iframe with height 100% breaks
 				// This logic forces the width/height to be in pixels while the user is drag/dropping
+				// NOTE: This has been disabled for now since it messes up copy/paste that is far more important than image drag
 				if (tinyMCE.isRealIE) {
 					var ife = tinyMCE.selectedInstance.iframeElement;
-
-					/*if (ife.style.width.indexOf('%') != -1) {
-						ife._oldWidth = ife.width.height;
-						ife.style.width = ife.clientWidth;
-					}*/
 
 					if (ife.style.height.indexOf('%') != -1) {
 						ife._oldHeight = ife.style.height;
@@ -1178,6 +1174,7 @@ TinyMCE_Engine.prototype = {
 				}
 
 				window.setTimeout("tinyMCE.selectedInstance.setBaseHREF(tinyMCE.settings.base_href);tinyMCE._resetIframeHeight();", 1);
+				*/
 				return;
 
 			case "submit":
@@ -1777,7 +1774,7 @@ TinyMCE_Engine.prototype = {
 	},
 
 	triggerNodeChange : function(focus, setup_content) {
-		var elm, inst, editorId, undoIndex = -1, undoLevels = -1, doc, anySelection = false, st;
+		var elm, inst, editorId, undoIndex = -1, undoLevels = -1, doc, anySelection, st;
 
 		if (tinyMCE.selectedInstance) {
 			inst = tinyMCE.selectedInstance;
@@ -1798,9 +1795,7 @@ TinyMCE_Engine.prototype = {
 				elm = inst.getBody();
 
 			inst.switchSettings();
-
-			if (tinyMCE.selectedElement)
-				anySelection = (tinyMCE.selectedElement.nodeName.toLowerCase() == "img") || (st && st.length > 0);
+			anySelection = !inst.selection.isCollapsed();
 
 			if (tinyMCE.settings.custom_undo_redo) {
 				undoIndex = inst.undoRedo.undoIndex;
@@ -1972,7 +1967,7 @@ TinyMCE_Engine.prototype = {
 				}
 
 				// Make it bigger if statusbar is forced
-				if (tinyMCE.isGecko) {
+				if (tinyMCE.isGecko && win.document) {
 					if (win.document.defaultView.statusbar.visible)
 						win.resizeBy(0, tinyMCE.isMac ? 10 : 24);
 				}
@@ -6338,7 +6333,7 @@ TinyMCE_Selection.prototype = {
 		e = document.createElement("body");
 
 		if (r.cloneContents)
-			e.appendChild(r.cloneContents());
+			e.appendChild(document.importNode(r.cloneContents(), true));
 		else if (typeof(r.item) != 'undefined' || typeof(r.htmlText) != 'undefined')
 			e.innerHTML = r.item ? r.item(0).outerHTML : r.htmlText;
 		else
