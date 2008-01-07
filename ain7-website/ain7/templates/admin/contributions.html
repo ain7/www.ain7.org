@@ -30,22 +30,20 @@
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
 <td align="right">
 {% if is_paginated %}
-{% if has_previous %}<a href="/admin/permissions/?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="/admin/permissions/?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="/admin/permissions/?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="/admin/permissions/?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% if has_previous %}<a href="/admin/contributions/?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="/admin/contributions/?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="/admin/contributions/?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="/admin/contributions/?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
 {% endif %}
 </td>
 </table>
-<ul>
-    {% for person in persons %}
-        <li class="person"><a href="/annuaire/{{ person.user.id }}/">
-            {{ person.last_name }} {{ person.first_name }}</a>
-				</li>
+<table width="100%">
+    {% for contribution in contributions %}
+        <tr><td><a href="/admin/users/{{ contribution.user.id }}/">{{ contribution.user }}</a></td><td>{{ contribution.key }}</td><td></td></tr>
     {% endfor %}
-</ul>
+</table>
 {% else %}
-    <p>{% trans "No person matched your criteria." %}</p>
+    <p>{% trans "No contribution matched your criteria." %}</p>
 {% endifnotequal %}
 
 {% endif %}
@@ -62,7 +60,7 @@
     <li><a href="/admin/groups/">{% trans "Manage groups" %}</a></li>
     <li><a href="/admin/permissions/">{% trans "Manage permissions" %}</a></li>
     <li><a href="/admin/companies/">{% trans "Manage companies" %}</a></li>
-    <li><a href="/admin/contributions/">{% trans "Contributions" %}</a></li>
+    <li><a href="/admin/contributions/">{% trans "See contributions" %}</a></li>
 </ul>
 </div>
 

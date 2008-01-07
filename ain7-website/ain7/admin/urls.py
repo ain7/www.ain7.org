@@ -24,9 +24,11 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('ain7.admin.views',
     (r'^$', 'index'),
+    (r'^companies/$', 'companies_search'),
+    (r'^companies/(?P<company_id>\d+)/$', 'company_details'),
     (r'^users/$', 'users_search'),
+    (r'^users/(?P<user_id>\d+)/$', 'user_details'),
     (r'^groups/$', 'groups_search'),
-    (r'^groups/autocomplete/$', 'group_autocomplete'),
     (r'^groups/(?P<group_id>\d+)/$', 'group_details'),
     (r'^groups/(?P<group_id>\d+)/member/(?P<member_id>\d+)/delete/$', 'member_delete'),
     (r'^groups/(?P<group_id>\d+)/member/add/$', 'member_add'),
@@ -34,5 +36,6 @@ urlpatterns = patterns('ain7.admin.views',
     (r'^groups/(?P<group_id>\d+)/perm/add/$', 'perm_add'),
     (r'^permissions/$', 'permissions'),
     (r'^permissions/(?P<perm_id>\d+)/$', 'permission_details'),
+    (r'^contributions/$', 'contributions'),
 )
 

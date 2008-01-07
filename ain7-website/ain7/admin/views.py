@@ -28,7 +28,8 @@ from django import newforms as forms
 from django.http import HttpResponseRedirect, HttpResponse
 
 from ain7.utils import ain7_render_to_response
-from ain7.annuaire.models import Person
+from ain7.annuaire.models import Person, UserContribution
+from ain7.emploi.models import Company
 
 from ain7.fields import AutoCompleteField
 
@@ -42,6 +43,15 @@ class SearchPersonForm(forms.Form):
 
 class SearchGroupForm(forms.Form):
     name = forms.CharField(label=_('Name'), max_length=50, required=False)
+
+class SearchCompanyForm(forms.Form):
+    name = forms.CharField(label=_('Name'), max_length=50, required=False)
+    location = forms.CharField(label=_('Location'), max_length=50, required=False)
+    activity = forms.CharField(label=_('Activity'), max_length=50, required=False)
+
+class SearchContributionForm(forms.Form):
+    user = forms.CharField(label=_('User'), max_length=50, required=False)
+    type = forms.CharField(label=_('Type'), max_length=50, required=False)
 
 class PermGroupForm(forms.Form):
     perm = forms.CharField(label=_('Permission'), max_length=50, required=True)
@@ -87,6 +97,55 @@ def users_search(request):
                              'first_result': (page - 1) * nb_results_by_page +1,
                              'last_result': min((page) * nb_results_by_page, paginator.hits),
                              'hits' : paginator.hits,})
+
+@login_required
+def user_details(request, user_id):
+    u = get_object_or_404(User, pk=user_id)
+    return ain7_render_to_response(request, 'admin/user_details.html', {'this_user': u})
+
+@login_required
+def companies_search(request):
+
+    form = SearchCompanyForm()
+    nb_results_by_page = 25
+    companies = False
+    paginator = ObjectPaginator(Company.objects.none(),nb_results_by_page)
+    page = 1
+
+    if request.method == 'POST':
+        form = SearchCompanyForm(request.POST)
+        if form.is_valid():
+
+            # criteres sur le nom et prenom
+            criteria={'name__contains':form.clean_data['name'].encode('utf8')} # ,\
+                      #'location__contains':form.clean_data['location'].encode('utf8')}
+
+            companies = Company.objects.filter(**criteria)
+            paginator = ObjectPaginator(companies, nb_results_by_page)
+
+            try:
+                page = int(request.GET.get('page', '1'))
+                companies = paginator.get_page(page - 1)
+
+            except InvalidPage:
+                raise http.Http404
+
+    return ain7_render_to_response(request, 'admin/companies_search.html',
+                            {'form': form, 'companies': companies,'paginator': paginator, 'is_paginated': paginator.pages > 1,
+                             'has_next': paginator.has_next_page(page - 1),
+                             'has_previous': paginator.has_previous_page(page - 1),
+                             'current_page': page,
+                             'next_page': page + 1,
+                             'previous_page': page - 1,
+                             'pages': paginator.pages,
+                             'first_result': (page - 1) * nb_results_by_page +1,
+                             'last_result': min((page) * nb_results_by_page, paginator.hits),
+                             'hits' : paginator.hits,})
+
+@login_required
+def company_details(request, company_id):
+    c = get_object_or_404(Company, pk=company_id)
+    return ain7_render_to_response(request, 'admin/company_details.html', {'company': c})
 
 @login_required
 def groups_search(request):
@@ -231,3 +290,43 @@ def permission_details(request, perm_id):
     permission = get_object_or_404(Permission, pk=perm_id)
 
     return ain7_render_to_response(request, 'admin/permission_details.html', {'permission': permission})
+
+@login_required
+def contributions(request):
+
+    form = SearchContributionForm()
+    nb_results_by_page = 25
+    contributions = False
+    paginator = ObjectPaginator(UserContribution.objects.none(),nb_results_by_page)
+    page = 1
+
+    if request.method == 'POST':
+        form = SearchContributionForm(request.POST)
+        if form.is_valid():
+
+            # criteres sur le nom et prenom
+            #criteria={'user__contains':form.clean_data['user'].encode('utf8')}
+            criteria={}
+
+            contributions = UserContribution.objects.filter(**criteria)
+            paginator = ObjectPaginator(contributions, nb_results_by_page)
+
+            try:
+                page = int(request.GET.get('page', '1'))
+                contributions = paginator.get_page(page - 1)
+
+            except InvalidPage:
+                raise http.Http404
+
+    return ain7_render_to_response(request, 'admin/contributions.html',
+                            {'form': form, 'contributions': contributions,'paginator': paginator, 'is_paginated': paginator.pages > 1,
+                    'has_next': paginator.has_next_page(page - 1),
+                    'has_previous': paginator.has_previous_page(page - 1),
+                    'current_page': page,
+                    'next_page': page + 1,
+                    'previous_page': page - 1,
+                    'pages': paginator.pages,
+                    'first_result': (page - 1) * nb_results_by_page +1,
+                    'last_result': min((page) * nb_results_by_page, paginator.hits),
+                    'hits' : paginator.hits,})
+

@@ -331,7 +331,7 @@ def responsibles_add(request, travel_id):
         TravelResponsibleForm = forms.models.form_for_model(TravelResponsible,
             formfield_callback=_subscribe_callback)
         f = TravelResponsibleForm(request.POST.copy())
-        person = Person.objects.filter(pk=request.POST['responsible'])[0]
+        person = Person.objects.get(pk=request.POST['responsible'])
         # on vérifie que la personne n'est pas déjà inscrite
         already_responsible = False
         for responsibility in person.travel_responsibilities.all():
@@ -373,13 +373,13 @@ def _edit_callback(f, **args):
     exclude_fields = ('thumbnail')
     if f.name in exclude_fields:
         return None
-    return form_callback(f, **args) 
+    return form_callback(f, **args)
 
 def _join_callback(f, **args):
     exclude_fields = ('subscriber', 'travel')
     if f.name in exclude_fields:
         return None
-    return form_callback(f, **args) 
+    return form_callback(f, **args)
 
 def _subscribe_callback(f, **args):
     exclude_fields = ('travel')

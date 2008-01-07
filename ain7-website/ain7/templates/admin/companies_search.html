@@ -19,9 +19,9 @@
 </div>
 </form>
 
-{% if persons %}
+{% if companies %}
 
-{% ifnotequal persons|length 0 %}
+{% ifnotequal companies|length 0 %}
 
 <h2>{% trans "Results list"%}</h2>
 
@@ -30,17 +30,17 @@
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
 <td align="right">
 {% if is_paginated %}
-{% if has_previous %}<a href="/admin/permissions/?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="/admin/permissions/?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="/admin/permissions/?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="/admin/permissions/?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% if has_previous %}<a href="/admin/companies/?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="/admin/companies/?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="/admin/companies/?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="/admin/companies/?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
 {% endif %}
 </td>
 </table>
 <ul>
-    {% for person in persons %}
-        <li class="person"><a href="/annuaire/{{ person.user.id }}/">
-            {{ person.last_name }} {{ person.first_name }}</a>
+    {% for company in companies %}
+        <li class="company"><a href="/admin/companies/{{ company.id }}/">
+            {{ company.name }}</a>
 				</li>
     {% endfor %}
 </ul>

@@ -15,7 +15,7 @@
 <h3>{% trans "Content of the group" %}</h3>
 <ul>
 {% for user in group.user_set.all %}
-  <li><a href="/annuaire/{{ user.id }}/">{{ user.person.first_name }} {{ user.person.last_name }}</a> <a href="/admin/groups/{{ group.id }}/member/{{ user.id }}/delete/" class="deletelink">{% trans "Delete" %}</a></li>
+  <li><a href="/annuaire/{{ user.id }}/">{{ user.person.first_name }} {{ user.person.last_name }}</a> &nbsp; &nbsp; <a href="/admin/groups/{{ group.id }}/member/{{ user.id }}/delete/" class="deletelink">{% trans "Delete" %}</a></li>
 {% endfor %}
 </ul>
 <p><a href="/admin/groups/{{ group.id }}/member/add/" class="addlink">{% trans "Add" %}</a></p>
@@ -23,7 +23,7 @@
 <h3>{% trans "Permissions granted to this group" %}</h3>
 <ul>
 {% for permission in group.permissions.all %}
-    <li>{{ permission.name }} <a href="/admin/groups/{{ group.id }}/perm/{{ permission.id }}/delete/" class="deletelink">{% trans "Delete" %}</a></li>
+    <li>{{ permission.name }}&nbsp;&nbsp; <a href="/admin/groups/{{ group.id }}/perm/{{ permission.id }}/delete/" class="deletelink">{% trans "Delete" %}</a></li>
 {% endfor %}
 </ul>
 <p><a href="/admin/groups/{{ group.id }}/perm/add/" class="addlink">{% trans "Add" %}</a></p>
@@ -40,6 +40,8 @@
 <li><a href="/admin/users/">{% trans "Manage users" %}</a></li>
 <li><a href="/admin/groups/">{% trans "Manage groups" %}</a></li>
 <li><a href="/admin/permissions/">{% trans "Manage permissions" %}</a></li>
+<li><a href="/admin/companies/">{% trans "Manage companies" %}</a></li>
+<li><a href="/admin/contributions/">{% trans "Contributions" %}</a></li>
 </ul>
 </div>
 

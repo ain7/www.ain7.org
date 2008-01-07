@@ -151,7 +151,7 @@ def join(request, event_id):
             subscription.event = event
             subscription.save()
 
-            contrib_type = UserContributionType.objects.filter(key='event_subcription')[0]
+            contrib_type = UserContributionType.objects.get(key='event_subcription')
             contrib = UserContribution(user=request.user.person, type=contrib_type)
             contrib.save()
 
@@ -196,7 +196,7 @@ def register(request):
             f.clean_data['image'] = None
             f.save()
 
-            contrib_type = UserContributionType.objects.filter(key='event_register')[0]
+            contrib_type = UserContributionType.objects.get(id='event_register')
             contrib = UserContribution(user=request.user.person, type=contrib_type)
             contrib.save()
 
@@ -261,7 +261,7 @@ def subscribe(request, event_id):
 
     if request.method == 'POST':
         f = SubscribeEventForm(request.POST)
-        person = Person.objects.filter(pk=request.POST['subscriber'])[0]
+        person = Person.objects.get(id=request.POST['subscriber'])
         # on vérifie que la personne n'est pas déjà inscrite
         already_subscribed = False
         for subscription in person.event_subscriptions.all():
@@ -274,7 +274,7 @@ def subscribe(request, event_id):
         if f.is_valid():
             subscription = EventSubscription()
             subscription.subscriber_number = request.POST['subscriber_number']
-            subscription.subscriber = Person.objects.filter(pk=request.POST['subscriber'])[0]
+            subscription.subscriber = Person.objects.get(id=request.POST['subscriber'])
             subscription.event = event
             subscription.save()
 

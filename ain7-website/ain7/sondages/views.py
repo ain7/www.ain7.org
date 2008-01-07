@@ -137,7 +137,7 @@ def _form(request, survey, Form, title, message):
                 form.save()
             else:
                 survey = form.save()
-                contrib_type = UserContributionType.objects.filter(key='poll_register')[0]
+                contrib_type = UserContributionType.objects.get(key='poll_register')
                 contrib = UserContribution(user=request.user.person, type=contrib_type)
                 contrib.save()
             request.user.message_set.create(message=message)

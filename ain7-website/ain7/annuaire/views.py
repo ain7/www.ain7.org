@@ -1030,19 +1030,19 @@ def register(request, user_id=None):
             new_person.complete_name = new_person.first_name+' '+new_person.last_name
             new_person.sex = form.clean_data['sex']
             new_person.birth_date = datetime.date(1978,11,18)
-            new_person.country = Country.objects.filter(id=form.clean_data['nationality'])[0]
+            new_person.country = Country.objects.get(id=form.clean_data['nationality'])
             new_person.save()
 
             new_ain7member = AIn7Member()
             new_ain7member.person = new_person
-            new_ain7member.promos.add(Promo.objects.filter(id=form.clean_data['promo'])[0])
-            new_ain7member.marital_status = MaritalStatus.objects.filter(status="Célibataire")[0]
+            new_ain7member.promos.add(Promo.objects.get(id=form.clean_data['promo']))
+            new_ain7member.marital_status = MaritalStatus.objects.get(status="Célibataire")
             new_ain7member.display_cv_in_directory = False
             new_ain7member.display_cv_in_job_section = False
             new_ain7member.receive_job_offers = False
-            new_ain7member.member_type = MemberType.objects.filter(type="Membre actif")[0]
-            new_ain7member.person_type = PersonType.objects.filter(type="Etudiant")[0]
-            new_ain7member.activity = Activity.objects.filter(activity="Connue")[0]
+            new_ain7member.member_type = MemberType.objects.get(type="Membre actif")
+            new_ain7member.person_type = PersonType.objects.get(type="Etudiant")
+            new_ain7member.activity = Activity.objects.get(activity="Connue")
             new_ain7member.save()
 
             new_couriel = Email()
