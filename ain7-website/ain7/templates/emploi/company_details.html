@@ -10,11 +10,11 @@
 <ul>
 {% for office in offices %}
     <li>{{ office }}
-        {% if office.number or office.street or office.zip_code or office.city or office.country or office.phone_number or office.web_site %}
+        {% if office.line1 or office.line2 or office.zip_code or office.city or office.country or office.phone_number or office.web_site %}
         <p>
-           {% if office.number or office.street %}
-               {{ office.number|default_if_none:"" }} 
-               {{ office.street|default_if_none:"" }}<br />
+           {% if office.line1 or office.line2 %}
+               {{ office.line1|default_if_none:"" }} 
+               {{ office.line2|default_if_none:"" }}<br />
            {% endif %}
            {% if office.zip_code or office.city or office.country %}
                {{ office.zip_code|default_if_none:"" }}

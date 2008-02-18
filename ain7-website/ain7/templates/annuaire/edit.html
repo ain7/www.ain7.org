@@ -157,7 +157,7 @@
 <table border="0" width="100%">
 {% for address in person.addresses.all %}
     <tr><td><b>{% trans "Address" %} {{ address.type|lower }}&nbsp;:</b></td><td>
-        {{ address.number }} {{ address.street }} -
+        {{ address.line1 }} {{ address.line2|default_if_none:"" }} -
         {{address.zip_code }} {{ address.city }} - {{ address.country.name }}
         {% if address.is_confidential %} ({% trans "confidential" %})
         {% else %}                       ({% trans "not confidential" %})

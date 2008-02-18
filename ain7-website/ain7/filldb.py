@@ -310,8 +310,7 @@ def filldb():
 
     lionel_adresse = annuaire.Address()
     lionel_adresse.person = lionel
-    lionel_adresse.number = "2"
-    lionel_adresse.street = "rue Charles Camichel"
+    lionel_adresse.line1 = "2 rue Charles Camichel"
     lionel_adresse.zip_code = "31000"
     lionel_adresse.city = "Toulouse"
     lionel_adresse.country = france
@@ -453,8 +452,7 @@ def filldb():
 
     pierref_adresse = annuaire.Address()
     pierref_adresse.person = pierref
-    pierref_adresse.number = "2"
-    pierref_adresse.street = "rue Charles Camichel"
+    pierref_adresse.line1 = "2 rue Charles Camichel"
     pierref_adresse.zip_code = "31000"
     pierref_adresse.city = "Toulouse"
     pierref_adresse.country = france
@@ -507,8 +505,7 @@ def filldb():
 
     olivier_adresse = annuaire.Address()
     olivier_adresse.person = olivier
-    olivier_adresse.number = "2"
-    olivier_adresse.street = "rue Charles Camichel"
+    olivier_adresse.line1 = "2 rue Charles Camichel"
     olivier_adresse.zip_code = "31000"
     olivier_adresse.city = "Toulouse"
     olivier_adresse.country = france
@@ -517,8 +514,7 @@ def filldb():
 
     olivier_adresse2 = annuaire.Address()
     olivier_adresse2.person = olivier
-    olivier_adresse2.number = "8"
-    olivier_adresse2.street = "rue de nulle part"
+    olivier_adresse2.line1 = "8 rue de nulle part"
     olivier_adresse2.zip_code = "30001"
     olivier_adresse2.city = "Lille"
     olivier_adresse2.country = france
@@ -640,8 +636,8 @@ def filldb():
 
     alex_adresse1 = annuaire.Address()
     alex_adresse1.person = alex
-    alex_adresse1.number = "79"
-    alex_adresse1.street = "rue Broca"
+    alex_adresse1.line1 = "79 rue Broca"
+    alex_adresse1.line2 = "1er étage gauche"
     alex_adresse1.zip_code = "75013"
     alex_adresse1.city = "Paris"
     alex_adresse1.country = france
@@ -650,8 +646,7 @@ def filldb():
 
     alex_adresse2 = annuaire.Address()
     alex_adresse2.person = alex
-    alex_adresse2.number = "70"
-    alex_adresse2.street = "rue de Paris"
+    alex_adresse2.line1 = "70 rue de Paris"
     alex_adresse2.zip_code = "95720"
     alex_adresse2.city = "Le Mesnil-Aubry"
     alex_adresse2.country = france
@@ -706,8 +701,7 @@ def filldb():
 
     laurent_adresse1 = annuaire.Address()
     laurent_adresse1.person = laurent
-    laurent_adresse1.number = "2"
-    laurent_adresse1.street = "rue Charles Camichel"
+    laurent_adresse1.line1 = "2 rue Charles Camichel"
     laurent_adresse1.zip_code = "31071"
     laurent_adresse1.city = "Paris"
     laurent_adresse1.country = france
@@ -716,8 +710,7 @@ def filldb():
 
     laurent_adresse2 = annuaire.Address()
     laurent_adresse2.person = laurent
-    laurent_adresse2.number = "2"
-    laurent_adresse2.street = "rue Charles Camichel"
+    laurent_adresse2.line1 = "2 rue Charles Camichel"
     laurent_adresse2.zip_code = "31071"
     laurent_adresse2.city = "Toulouse"
     laurent_adresse2.country = france
@@ -765,8 +758,7 @@ def filldb():
 
     gui_adresse1 = annuaire.Address()
     gui_adresse1.person = gui
-    gui_adresse1.number = "2"
-    gui_adresse1.street = "rue Charles Camichel"
+    gui_adresse1.line1 = "2 rue Charles Camichel"
     gui_adresse1.zip_code = "31071"
     gui_adresse1.city = "Toulouse"
     gui_adresse1.country = france
@@ -774,9 +766,8 @@ def filldb():
     gui_adresse1.save()
 
     gui_adresse2 = annuaire.Address()
-    gui_adresse2.person = alex
-    gui_adresse2.number = "2"
-    gui_adresse2.street = "rue Charles Camichel"
+    gui_adresse2.person = gui
+    gui_adresse2.line1 = "2 rue Charles Camichel"
     gui_adresse2.zip_code = "31071"
     gui_adresse2.city = "Toulouse"
     gui_adresse2.country = france

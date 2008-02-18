@@ -151,8 +151,8 @@ class School(models.Model):
     name = models.CharField(verbose_name=_('name'), maxlength=500)
     initials = models.CharField(verbose_name=_('initials'), maxlength=10, blank=True, null=True)
 
-    number = models.CharField(verbose_name=_('number'), maxlength=50, blank=True, null=True)
-    street = models.CharField(verbose_name=_('street'), maxlength=100, blank=True, null=True)
+    line1 = models.CharField(verbose_name=_('line1'), maxlength=50, blank=True, null=True)
+    line2 = models.CharField(verbose_name=_('line2'), maxlength=100, blank=True, null=True)
     zip_code = models.CharField(verbose_name=_('zip code'), maxlength=20, blank=True, null=True)
     city = models.CharField(verbose_name=_('city'), maxlength=50, blank=True, null=True)
     country = models.ForeignKey(Country, verbose_name=_('country'), blank=True, null=True)
@@ -388,8 +388,8 @@ class Address(models.Model):
 
     person = models.ForeignKey(Person, related_name='addresses', edit_inline=models.STACKED, num_in_admin=2)
 
-    number = models.CharField(verbose_name=_('number'), maxlength=50, core=True)
-    street = models.CharField(verbose_name=_('street'), maxlength=100, core=True)
+    line1 = models.CharField(verbose_name=_('line1'), maxlength=50, core=True)
+    line2 = models.CharField(verbose_name=_('line2'), maxlength=100, blank=True, null=True, core=True)
     zip_code = models.CharField(verbose_name=_('zip code'), maxlength=20, core=True)
     city = models.CharField(verbose_name=_('city'), maxlength=50, core=True)
     country = models.ForeignKey(Country, verbose_name=_('country'))
@@ -402,7 +402,7 @@ class Address(models.Model):
     modification_date = models.DateTimeField(editable=False)
 
     def __str__(self):
-        addr  = self.number + " " + self.street + " - "
+        addr  = self.line1 + " " + self.line2 + " - "
         addr += self.zip_code + " " + self.city + " - "
         addr += self.country.name
         return addr

@@ -16,7 +16,7 @@
     {% if not address.is_confidential %}
         <td>
         <b>{% trans "Address" %} {{ address.type|lower }}&nbsp;:</b><br />
-        {{ address.number }} {{ address.street }}<br />
+        {{ address.line1 }} {{ address.line2|default_if_none:"" }}<br />
         {{ address.zip_code }} {{ address.city }}<br />
         {{ address.country.name }}
 	</td>

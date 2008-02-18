@@ -93,7 +93,7 @@
 <table>
 {% for address in person.addresses.all %}
 	{% if not address.is_confidential %}
-	    <tr><td><b>{% trans "Address" %} {{ address.type|lower }} :</b> {{ address.number }} {{ address.street }} - {{address.zip_code }} {{ address.city }} - {{ address.country.name }}</td></tr>
+	    <tr><td><b>{% trans "Address" %} {{ address.type|lower }} :</b> {{ address.line1 }} {{ address.line2|default_if_none:"" }} - {{address.zip_code }} {{ address.city }} - {{ address.country.name }}</td></tr>
 	{% endif %}
 {% endfor %}
 </table>

@@ -794,12 +794,12 @@ msgstr "fonctions honorifiques"
 
 #: annuaire/models.py:154 annuaire/models.py:356 annuaire/models.py:391
 #: emploi/models.py:82
-msgid "number"
-msgstr "numéro"
+msgid "line1"
+msgstr "ligne 1"
 
 #: annuaire/models.py:155 annuaire/models.py:392 emploi/models.py:83
-msgid "street"
-msgstr "rue"
+msgid "line2"
+msgstr "ligne 2"
 
 #: annuaire/models.py:156 annuaire/models.py:393 emploi/models.py:84
 msgid "zip code"

@@ -79,8 +79,8 @@ class Office(models.Model):
 
     name = models.CharField(verbose_name=_('name'), maxlength=50, core=True)
 
-    number = models.CharField(verbose_name=_('number'), maxlength=50, blank=True, null=True)
-    street = models.CharField(verbose_name=_('street'), maxlength=100, blank=True, null=True)
+    line1 = models.CharField(verbose_name=_('line1'), maxlength=50, blank=True, null=True)
+    line2 = models.CharField(verbose_name=_('line2'), maxlength=100, blank=True, null=True)
     zip_code = models.CharField(verbose_name=_('zip code'), maxlength=20, blank=True, null=True)
     city = models.CharField(verbose_name=_('city'), maxlength=50, blank=True, null=True)
     country = models.ForeignKey(Country, verbose_name=_('country'), blank=True, null=True)
