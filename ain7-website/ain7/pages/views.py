@@ -27,6 +27,7 @@ from django.template import RequestContext
 from ain7.news.models import NewsItem
 from ain7.sondages.models import Survey
 from ain7.utils import ain7_render_to_response
+from ain7.annuaire.models import AIn7Member
 
 def homepage(request):
     news = NewsItem.objects.all().order_by('-creation_date')[:2]
@@ -38,7 +39,14 @@ def apropos(request):
     return ain7_render_to_response(request, 'pages/apropos.html', {})
 
 def association(request):
-    return ain7_render_to_response(request, 'pages/association.html', {})
+    # calcul du nombre d'AIn7Member ayant un diplome (au sens large)
+    nbDiplomes = 0
+    for member in AIn7Member.objects.all():
+        if member.diplomas.count() != 0:
+            nbDiplomes = nbDiplomes + 1
+    # calcul du nombre d'AIn7Member
+    nbAdherents = AIn7Member.objects.all().count()
+    return ain7_render_to_response(request, 'pages/association.html', {'nbDiplomes': nbDiplomes, 'nbAdherents': nbAdherents})
 
 def status(request):
     return ain7_render_to_response(request, 'pages/status.html', {})

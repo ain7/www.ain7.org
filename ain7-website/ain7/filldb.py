@@ -301,6 +301,7 @@ def filldb():
     lionel_ain7member.receive_job_offers = False
     lionel_ain7member.cv_title = "Ingénieur ENSEEIHT Informatique"
     lionel_ain7member.marital_status = maritalstatus_2
+    lionel_ain7member.diplomas.add(bac)
     lionel_ain7member.save()
 
     lionel_recrutProfile = annuaire.ProfileMembership()
