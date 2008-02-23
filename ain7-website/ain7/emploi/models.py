@@ -30,7 +30,9 @@ from ain7.annuaire.models import Country
 # ???
 class CompanyField(models.Model):
 
-    field = models.CharField(verbose_name=_('field'), maxlength=100)
+    code = models.CharField(verbose_name=_('field'), maxlength=100)
+    keywords = models.CharField(verbose_name=_('keywords'), maxlength=100)
+    label = models.CharField(verbose_name=_('label'), maxlength=100)
 
     def __str__(self):
         return self.field

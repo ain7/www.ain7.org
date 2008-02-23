@@ -31,7 +31,7 @@ from ain7.utils import ain7_render_to_response
 from ain7.annuaire.models import Person, UserContribution
 from ain7.emploi.models import Company
 
-from ain7.fields import AutoCompleteField
+from ain7.fields import AutoCompleteFieldNG
 
 @login_required
 def index(request):
@@ -57,7 +57,7 @@ class PermGroupForm(forms.Form):
     perm = forms.CharField(label=_('Permission'), max_length=50, required=True)
 
 class MemberGroupForm(forms.Form):
-    username = forms.CharField(label=_('Username'), max_length=100, required=True, widget=AutoCompleteField(url='/ajax/person/'))
+    username = forms.CharField(label=_('Username'), max_length=100, required=True, widget=AutoCompleteFieldNG(url='/ajax/person/'))
 
 @login_required
 def users_search(request):

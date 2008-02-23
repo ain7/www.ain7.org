@@ -54,3 +54,45 @@ class AutoCompleteField(TextInput):
                                         'url'	: self.url,
                                         'options' : self.options}
 
+class AutoCompleteFieldNG(TextInput):
+    def __init__(self, url='', options='{ paramName: "text", autoSelect:true, afterUpdateElement:setSelected }', attrs=None):
+        self.url = url
+        self.options = options
+        if attrs is None:
+            attrs = {}
+        self.attrs = attrs
+
+    def render(self, name, value=None, attrs=None):
+        final_attrs = self.build_attrs(attrs, name=name)
+        if value:
+            value = smart_unicode(value)
+            final_attrs['value'] = escape(value)
+        if not self.attrs.has_key('id'):
+            final_attrs['id'] = 'id_%s' % name
+        return (u'<input type="hidden" name="%(name)s" value="-1" id="%(id)s" />'
+                  '<input type="text" name="%(name)s_text" id="%(id)s_text" size="50" /> <div class="complete" id="box_%(name)s"></div>'
+                        '<script type="text/javascript">'
+	   	'window.addEvent(\'domready\', function() {'
+			'window.myAutoComplete = new AutoComplete($(\'autocomplete\'), %(url)s?text=%(), "displayValue", {maxHeight: 350, zIndex: 6});'
+			'myAutoComplete.addEvent(\'onItemChoose\', function(item) {'
+			'	document.getElementById(\'hiddenInput\').value = item.getProperty(\'contactid\');'
+			'});'
+            ''
+			'window.floatingPane = new FloatingPane({title: "floating pane", height: 400, width: 600, opacity: 0.75, draggable: true});'
+			'floatingPane.addEvent(\'onFloatingPaneClose\', function(event) {'
+			'	event.stop();'
+			'	myAutoComplete.canClose = true;'
+			'});'
+		    '});'
+            ''
+		    'function showContactDetails(url, title) {'
+			'myAutoComplete.canClose = false;'
+			'floatingPane.show(url, title);'
+		'}'
+
+                        '</script>') % {'attrs'	: flatatt(final_attrs),
+                                        'name'	: name,
+                                        'id'	: final_attrs['id'],
+                                        'url'	: self.url,
+                                        'options' : self.options}
+

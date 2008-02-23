@@ -1,7 +1,16 @@
 {% extends "admin/base.html" %}
 {% load i18n %}
 
-{% block javascript %}<script src="/site_media/js/scriptaculous/scriptaculous.js?load=effects,controls?version={{ scriptaculous_version }}" type="text/javascript"></script>{% endblock %}
+{% block javascript %}
+<script type="text/javascript" src="/site_media/js/mootools-release-1.11.js?version={{ mootools_version }}"></script>
+<script type="text/javascript" src="/site_media/js/autocomplete.js"></script>
+<script type="text/javascript" src="/site_media/js/floatingpane.js"></script>
+{% endblock %}
+
+{% block stylesheet %}
+<link type="text/css" rel="stylesheet" href="/site_media/css/autocomplete.css">
+<link type="text/css" rel="stylesheet" href="/site_media/css/floatingpane.css">
+{% endblock %}
 
 {% block content %}
 

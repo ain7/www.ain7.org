@@ -1,0 +1,32 @@
+div.autocompleteResultContainer {
+    background-color:white;
+    border:1px solid #888;
+    margin:0px;
+    padding:0px;
+    overflow-x: hidden;
+    overflow-y: auto; 
+}
+div.autocompleteResultContainer ul {
+    list-style-type:none;
+    margin:0px;
+    padding:0px;
+}
+div.autocompleteResultContainer ul li.selected {
+	background-color: #ffb;
+}
+div.autocompleteResultContainer ul li {
+    list-style-type:none;
+    display:block;
+    height: 28px;
+    cursor:pointer;
+}
+div.autocompleteResultContainer ul li img {
+	height: 20px;
+	margin: 3px;
+	background-color: aqua;
+	vertical-align: middle;	
+}
+
+div.autocompleteResultContainer ul li span {
+	vertical-align: middle;	
+}
