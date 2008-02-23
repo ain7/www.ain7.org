@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #
-# admin/models.py
+# manage/models.py
 #
 #   Copyright (C) 2007-2008 AIn7
 #

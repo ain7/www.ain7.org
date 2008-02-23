@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #
-# admin/views.py
+# manage/views.py
 #
 #   Copyright (C) 2007-2008 AIn7
 #
@@ -35,7 +35,7 @@ from ain7.fields import AutoCompleteFieldNG
 
 @login_required
 def index(request):
-    return ain7_render_to_response(request, 'admin/default.html', {})
+    return ain7_render_to_response(request, 'manage/default.html', {})
 
 class SearchPersonForm(forms.Form):
     last_name = forms.CharField(label=_('Last name'), max_length=50, required=False)
@@ -86,7 +86,7 @@ def users_search(request):
             except InvalidPage:
                 raise http.Http404
 
-    return ain7_render_to_response(request, 'admin/users_search.html',
+    return ain7_render_to_response(request, 'manage/users_search.html',
                             {'form': form, 'persons': persons,'paginator': paginator, 'is_paginated': paginator.pages > 1,
                              'has_next': paginator.has_next_page(page - 1),
                              'has_previous': paginator.has_previous_page(page - 1),
@@ -101,7 +101,7 @@ def users_search(request):
 @login_required
 def user_details(request, user_id):
     u = get_object_or_404(User, pk=user_id)
-    return ain7_render_to_response(request, 'admin/user_details.html', {'this_user': u})
+    return ain7_render_to_response(request, 'manage/user_details.html', {'this_user': u})
 
 @login_required
 def companies_search(request):
@@ -130,7 +130,7 @@ def companies_search(request):
             except InvalidPage:
                 raise http.Http404
 
-    return ain7_render_to_response(request, 'admin/companies_search.html',
+    return ain7_render_to_response(request, 'manage/companies_search.html',
                             {'form': form, 'companies': companies,'paginator': paginator, 'is_paginated': paginator.pages > 1,
                              'has_next': paginator.has_next_page(page - 1),
                              'has_previous': paginator.has_previous_page(page - 1),
@@ -145,7 +145,7 @@ def companies_search(request):
 @login_required
 def company_details(request, company_id):
     c = get_object_or_404(Company, pk=company_id)
-    return ain7_render_to_response(request, 'admin/company_details.html', {'company': c})
+    return ain7_render_to_response(request, 'manage/company_details.html', {'company': c})
 
 @login_required
 def groups_search(request):
@@ -175,7 +175,7 @@ def groups_search(request):
             except InvalidPage:
                 raise http.Http404
 
-    return ain7_render_to_response(request, 'admin/groups_search.html',
+    return ain7_render_to_response(request, 'manage/groups_search.html',
                             {'form': form, 'groups': groups,'paginator': paginator, 'is_paginated': paginator.pages > 1,
                     'has_next': paginator.has_next_page(page - 1),
                     'has_previous': paginator.has_previous_page(page - 1),
@@ -190,7 +190,7 @@ def groups_search(request):
 @login_required
 def group_details(request, group_id):
     g = get_object_or_404(Group, pk=group_id)
-    return ain7_render_to_response(request, 'admin/group_details.html', {'group': g})
+    return ain7_render_to_response(request, 'manage/group_details.html', {'group': g})
 
 @login_required
 def perm_add(request, group_id):
@@ -204,13 +204,13 @@ def perm_add(request, group_id):
             p = Permission.objects.filter(name=form.clean_data['perm'])[0]
             g.permissions.add(p)
             request.user.message_set.create(message=_('Permission added to group'))
-            return HttpResponseRedirect('/admin/groups/%s/' % group_id)
+            return HttpResponseRedirect('/manage/groups/%s/' % group_id)
         else:
             request.user.message_set.create(message=_('Permission is not correct'))
 
     back = request.META.get('HTTP_REFERER', '/')
 
-    return ain7_render_to_response(request, 'admin/groups_perm_add.html',
+    return ain7_render_to_response(request, 'manage/groups_perm_add.html',
                             {'form': form, 'group': g, 'back': back})
 
 @login_required
@@ -222,7 +222,7 @@ def perm_delete(request, group_id, perm_id):
 
     request.user.message_set.create(message=_('Permission removed from group'))
 
-    return HttpResponseRedirect('/admin/groups/%s/' % group_id)
+    return HttpResponseRedirect('/manage/groups/%s/' % group_id)
 
 @login_required
 def member_add(request, group_id):
@@ -238,13 +238,13 @@ def member_add(request, group_id):
             u = User.objects.get(id=form.clean_data['username'])
             u.groups.add(g)
             request.user.message_set.create(message=_('User added to group'))
-            return HttpResponseRedirect('/admin/groups/%s/' % group_id)
+            return HttpResponseRedirect('/manage/groups/%s/' % group_id)
         else:
             request.user.message_set.create(message=_('User is not correct'))
 
     back = request.META.get('HTTP_REFERER', '/')
 
-    return ain7_render_to_response(request, 'admin/groups_user_add.html',
+    return ain7_render_to_response(request, 'manage/groups_user_add.html',
                             {'form': form, 'group': g, 'back': back})
 
 @login_required
@@ -256,7 +256,7 @@ def member_delete(request, group_id, member_id):
 
     request.user.message_set.create(message=_('Member removed from group'))
 
-    return HttpResponseRedirect('/admin/groups/%s/' % group_id)
+    return HttpResponseRedirect('/manage/groups/%s/' % group_id)
 
 @login_required
 def permissions(request):
@@ -273,7 +273,7 @@ def permissions(request):
     except InvalidPage:
         raise http.Http404
 
-    return ain7_render_to_response(request, 'admin/permissions.html', {'permissions': permissions, 'paginator': paginator, 'is_paginated': paginator.pages > 1,
+    return ain7_render_to_response(request, 'manage/permissions.html', {'permissions': permissions, 'paginator': paginator, 'is_paginated': paginator.pages > 1,
             'has_next': paginator.has_next_page(page - 1),
             'has_previous': paginator.has_previous_page(page - 1),
             'current_page': page,
@@ -289,7 +289,7 @@ def permission_details(request, perm_id):
 
     permission = get_object_or_404(Permission, pk=perm_id)
 
-    return ain7_render_to_response(request, 'admin/permission_details.html', {'permission': permission})
+    return ain7_render_to_response(request, 'manage/permission_details.html', {'permission': permission})
 
 @login_required
 def contributions(request):
@@ -318,7 +318,7 @@ def contributions(request):
             except InvalidPage:
                 raise http.Http404
 
-    return ain7_render_to_response(request, 'admin/contributions.html',
+    return ain7_render_to_response(request, 'manage/contributions.html',
                             {'form': form, 'contributions': contributions,'paginator': paginator, 'is_paginated': paginator.pages > 1,
                     'has_next': paginator.has_next_page(page - 1),
                     'has_previous': paginator.has_previous_page(page - 1),

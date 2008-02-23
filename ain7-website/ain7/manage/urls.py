@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #
-# admin/urls.py
+# manage/urls.py
 #
 #   Copyright (C) 2007-2008 AIn7
 #
@@ -22,7 +22,7 @@
 
 from django.conf.urls.defaults import *
 
-urlpatterns = patterns('ain7.admin.views',
+urlpatterns = patterns('ain7.manage.views',
     (r'^$', 'index'),
     (r'^companies/$', 'companies_search'),
     (r'^companies/(?P<company_id>\d+)/$', 'company_details'),

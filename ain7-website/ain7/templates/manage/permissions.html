@@ -1,0 +1,51 @@
+{% extends "manage/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+
+<div id="content-main">
+
+<div class="left">
+
+<table width="100%">
+<tr>
+<td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
+<td align="right">
+{% if is_paginated %}
+{% if has_previous %}<a href="/manage/permissions/?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="/manage/permissions/?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="/manage/permissions/?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="/manage/permissions/?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% endif %}
+</td>
+</table>
+
+<ul>
+{% for permission in permissions %}
+    <li><a href="/manage/permissions/{{ permission.id }}/">{{permission.name }}</a> ({{ permission.codename }})</li>
+{% endfor %}
+</ul>
+
+
+
+</div>
+
+<div class="right">
+
+<h3>{% trans "Actions" %}</h3>
+<div class="right_articles">
+<ul>
+<li><a href="/manage/users/">{% trans "Manage users" %}</a></li>
+<li><a href="/manage/groups/">{% trans "Manage groups" %}</a></li>
+<li><a href="/manage/permissions/">{% trans "Manage permissions" %}</a></li>
+<li><a href="/manage/companies/">{% trans "Manage companies" %}</a></li>
+<li><a href="/manage/contributions/">{% trans "Contributions" %}</a></li>
+</ul>
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}
