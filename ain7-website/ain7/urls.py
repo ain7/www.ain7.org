@@ -41,7 +41,7 @@ urlpatterns = patterns('',
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.abspath(os.path.dirname(__file__))+'/media'}),
 
     # django admin
-    (r'^dadmin/', include('django.contrib.admin.urls')),
+    (r'^admin/', include('django.contrib.admin.urls')),
 
     # AIn7 management section
     (r'^manage/', include('ain7.manage.urls')),

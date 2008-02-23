@@ -91,7 +91,7 @@ ROOT_URLCONF = 'ain7.urls'
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates".
     # Always use forward slashes, even on Windows.
-    #'/usr/share/python-support/python-django/django/contrib/admin/templates',
+    '/usr/share/python-support/python-django/django/contrib/admin/templates',
     detect_path()+'/templates',
 )
 
