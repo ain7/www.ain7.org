@@ -148,11 +148,15 @@ def search(request):
             # qui concordent avec l'annee de promotion et la filiere
             # saisis par l'utilisateur.
             promoCriteria={}
+            promo_default = [ -1, ""]
+            track_default = [ -1, ""]
             if form.clean_data['promo'] != -1:
                 promoCriteria['year']=form.clean_data['promo']
+                promo_default=[promoCriteria['year'], promoCriteria['year']]
             if form.clean_data['track'] != -1:
                 promoCriteria['track']=\
                     Track.objects.get(id=form.clean_data['track'])
+                track_default=[form.clean_data['track'], promoCriteria['track'].name]
                 print form.clean_data['track']
 
             # on ajoute ces promos aux critères de recherche
@@ -165,6 +169,9 @@ def search(request):
             ain7members = AIn7Member.objects.filter(**criteria)
 
             paginator = ObjectPaginator(ain7members, nb_results_by_page)
+
+            form = SearchPersonForm(initial={'last_name':criteria['person__last_name__contains'],
+                            'first_name':criteria['person__first_name__contains'], 'promo':promo_default, 'track':track_default})
 
             try:
                 page = int(request.GET.get('page', '1'))

@@ -36,13 +36,18 @@ class AutoCompleteField(TextInput):
 
     def render(self, name, value=None, attrs=None):
         final_attrs = self.build_attrs(attrs, name=name)
-        if value:
+        value_hiden=-1
+        value_text=""  # value_text doit include value="<valeur>" !
+        if value.__class__ == list and len(value) == 2:
+            value_hiden=value[0]
+            value_text='value="%s"' % escape(smart_unicode(value[1]))
+        elif value:
             value = smart_unicode(value)
             final_attrs['value'] = escape(value)
         if not self.attrs.has_key('id'):
             final_attrs['id'] = 'id_%s' % name
-        return (u'<input type="hidden" name="%(name)s" value="-1" id="%(id)s" />'
-                  '<input type="text" name="%(name)s_text" id="%(id)s_text" size="50" /> <div class="complete" id="box_%(name)s"></div>'
+        return (u'<input type="hidden" name="%(name)s" value="%(value_hiden)i" id="%(id)s" />'
+                  '<input type="text" name="%(name)s_text" id="%(id)s_text" %(value_text)s size="50" /> <div class="complete" id="box_%(name)s"></div>'
                         '<script type="text/javascript">'
                         'function setSelected(text, li) {'
                         '    $(\'%(id)s\').value = li.id;'
@@ -52,7 +57,9 @@ class AutoCompleteField(TextInput):
                                         'name'	: name,
                                         'id'	: final_attrs['id'],
                                         'url'	: self.url,
-                                        'options' : self.options}
+                                        'options' : self.options,
+                                        'value_hiden': value_hiden,
+                                        'value_text': value_text}
 
 class AutoCompleteFieldNG(TextInput):
     def __init__(self, url='', options='{ paramName: "text", autoSelect:true, afterUpdateElement:setSelected }', attrs=None):
