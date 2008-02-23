@@ -148,7 +148,7 @@ def search(request):
             # qui concordent avec l'annee de promotion et la filiere
             # saisis par l'utilisateur.
             promoCriteria={}
-            if form.clean_data['promo'] != None:
+            if form.clean_data['promo'] != -1:
                 promoCriteria['year']=form.clean_data['promo']
             if form.clean_data['track'] != -1:
                 promoCriteria['track']=\

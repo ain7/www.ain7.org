@@ -35,7 +35,7 @@ urlpatterns = patterns('',
 
     (r'^accounts/login/$', 'django.contrib.auth.views.login'),
 #    (r'^accounts/logout/$', 'ain7.utils.logout'),
-    (r'^accounts/logout/$', 'django.contrib.auth.views.logout_then_login'),
+    (r'^accounts/logout/$', 'django.contrib.auth.views.logout_then_login', {'login_url':'/accounts/login/?next=/'}),
 
     # servir le contenu statique pendant le dev
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.abspath(os.path.dirname(__file__))+'/media'}),

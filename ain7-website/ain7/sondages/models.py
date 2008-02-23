@@ -27,8 +27,8 @@ from ain7.annuaire.models import Person
 
 class Survey(models.Model):
     question = models.CharField(verbose_name=_('question'), maxlength=200)
-    start_date = models.DateTimeField(verbose_name=_('start date'))
-    end_date = models.DateTimeField(verbose_name=_('end date'))
+    start_date = models.DateField(verbose_name=_('start date'))
+    end_date = models.DateField(verbose_name=_('end date'))
 
     def __str__(self):
         return self.question

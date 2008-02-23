@@ -13,20 +13,23 @@
 {% trans "You need to be authentified to access to this part of the site." %}
 </div>
 
-<form method="post" action=".">
-	<table align="center">
-		<tr>
-		    <td><label for="id_username">{% trans "Login" %}</label>&nbsp;:</td><td>{{ form.username }}</td>
-		</tr>
-		<tr>
-			<td><label for="id_password">{% trans "Password" %}</label>&nbsp;:</td><td>{{ form.password }}</td>
-		</tr>
-		<tr>
-			<td colspan="2" style="text-align: center;"><input class="button" type="submit" value="Ok" /></td>
-		</tr>
-	</table>
+<form method="post" action="." name="login">
+    <table align="center">
+        <tr>
+            <td><label for="id_username">{% trans "Login" %}</label>&nbsp;:</td><td>{{ form.username }}</td>
+             <script type="text/javascript">
+               document.getElementById("id_username").focus();
+             </script>
+        </tr>
+        <tr>
+            <td><label for="id_password">{% trans "Password" %}</label>&nbsp;:</td><td>{{ form.password }}</td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center;"><input class="button" type="submit" value="Ok" /></td>
+        </tr>
+    </table>
 
-	<input type="hidden" name="next" value="{{ next }}" />
+    <input type="hidden" name="next" value="{{ next }}" />
 </form>
 
 {% endblock %}

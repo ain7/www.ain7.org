@@ -87,7 +87,7 @@ def details(request, survey_id):
 @login_required
 def edit(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
-    Form = forms.models.form_for_instance(survey)
+    Form = forms.models.form_for_instance(survey, formfield_callback=_form_callback)
 
     return _form(request, None, Form, _('Survey edition'), _('Survey succesfully updated.'))
 
