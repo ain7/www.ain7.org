@@ -85,6 +85,12 @@ FIELD_PARAMS = [
     ('BooleanField',
      [('IS',_('is'),'',False)],
      forms.BooleanField(label='', required=False, initial=True)),
+    # for ForeignKey, the field is defined later
+    ('ForeignKey',
+     [('EQ',_('equals'),    '__exact', False),
+      ('NE',_('not equals'),'__exact', True )],
+     None),
+#      forms.ModelChoiceField(label='', queryset=None)),
     # TODO : pour les autres types
     ]
 
@@ -472,9 +478,17 @@ def criterion_edit(request, filter_id=None, criterion_id=None):
         def __init__(self, *args, **kwargs):
             super(CriterionValueForm, self).__init__(*args, **kwargs)
             fieldsDict = {'value': valueField}
+            # If several comparators are listed, then they are proposed
+            # in the formular. Otherwise, we take the only one.
             if len(comps)>1:
                 fieldsDict['comparator'] = forms.ChoiceField(
                     label='', choices=comps, required=True)
+            # for ForeignKey, we define the value field entirely.
+            # It "should" be possible to only redefine the queryset here...
+            if isinstance(searchField,models.fields.related.ForeignKey):
+                fieldsDict['value'] = forms.ModelChoiceField(
+                    label='', empty_label=None,
+                    queryset=searchField.rel.to.objects.all())
             self.fields = fieldsDict
         # What's above is a trick to get the fields in the right order
         # when rendering the form.
