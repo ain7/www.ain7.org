@@ -7,7 +7,7 @@ Pour installer le portail AIn7 en version de développement, il faut :
 - récupérer les sources du portail (a priori si vous lisez ce fichier, c'est
   déjà fait. Sinon: bzr co bzr+ssh://<name>@bazaar.launchpad.net/~ain7-devel/ain7-portal/ain7-portal.dev
   ou <name> est votre identifiant launchpad.
-- éditer le fichier ain7-website/ain7/setting.py pour adapter la configuration
+- éditer le fichier ain7-website/ain7/settings.py pour adapter la configuration
   (templates et resources statiques)
 - éditer le fichier urls.py pour modifier le chemin d'accès aux resources
   statiques
