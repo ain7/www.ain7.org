@@ -30,7 +30,7 @@ from ain7.annuaire.models import Person
 class Group(models.Model):
 
     name = models.CharField(verbose_name=_('name'), maxlength=100)
-    contact = models.CharField(verbose_name=_('Contact'), maxlength=100, blank=True, null=True)
+    contact = models.CharField(verbose_name=_('Contact email'), maxlength=100, blank=True, null=True)
     description = models.CharField(verbose_name=_('description'), maxlength=200, blank=True, null=True)
     web_page = models.TextField(verbose_name=_('web page'), blank=True, null=True)
     parent = models.ForeignKey('Group', verbose_name=_('parent'), related_name='children', blank=True, null=True)
@@ -58,10 +58,13 @@ class Group(models.Model):
 
 class Membership(models.Model):
 
-    is_administrator = models.BooleanField(verbose_name=_('administrator'), default=False)
+    is_coordinator = models.BooleanField(verbose_name=_('coordinator'), default=False)
 
     group = models.ForeignKey(Group, verbose_name=_('group'), related_name='memberships', edit_inline=models.TABULAR, num_in_admin=1)
     member = models.ForeignKey(Person, verbose_name=_('member'), related_name='group_memberships', core=True)
+
+    start_date = models.DateField(verbose_name=_('start date'), default=datetime.datetime.now, blank=True, null=True)
+    end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
 
     class Meta:
         verbose_name = _('membership')

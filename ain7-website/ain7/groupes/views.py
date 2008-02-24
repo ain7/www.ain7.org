@@ -27,9 +27,23 @@ from django.contrib.auth.decorators import login_required
 from django import newforms as forms
 from django.newforms import widgets
 from django.http import HttpResponseRedirect
+from datetime import datetime
 
-from ain7.groupes.models import Group
+from ain7.groupes.models import Group, Membership
 from ain7.utils import ain7_render_to_response, form_callback
+from ain7.annuaire.models import Person
+
+class SubscribeGroupForm(forms.Form):
+    member = forms.IntegerField(label=_('Person to subscribe'))
+    is_coordinator = forms.BooleanField(label=_('Is coordinator'))
+
+    def __init__(self, *args, **kwargs):
+        personList = []
+        for person in Person.objects.all():
+            personList.append( (person.user.id, str(person)) )
+        self.base_fields['member'].widget = \
+            forms.Select(choices=personList)
+        super(SubscribeGroupForm, self).__init__(*args, **kwargs)
 
 def index(request):
     groups = Group.objects.all().order_by('name')
@@ -37,8 +51,48 @@ def index(request):
 
 def detail(request, group_id):
     g = get_object_or_404(Group, pk=group_id)
-    return ain7_render_to_response(request, 'groupes/details.html', {'group': g})
+    memberships = g.memberships
+    return ain7_render_to_response(request, 'groupes/details.html', {'group': g, 'memberships': memberships})
 
+@login_required
+def subscribe(request, group_id):
+
+    group = get_object_or_404(Group, pk=group_id)
+
+    if request.method == 'POST':
+        f = SubscribeGroupForm(request.POST)
+        person = Person.objects.get(user__id=request.POST['member'])
+        # on vérifie que la personne n'est pas déjà inscrite
+        already_subscribed = False
+        for subscription in person.group_memberships.all():
+            if subscription.group == group:
+                already_subscribed = True
+        if already_subscribed:
+            request.user.message_set.create(message=_('This person is already subscribed to this group.'))
+            memberships = group.memberships
+            return ain7_render_to_response(request, 'groupes/details.html',
+                                           {'group': group, 'memberships': memberships})
+        if f.is_valid():
+            membership = Membership()
+            membership.member = Person.objects.get(user__id=request.POST['member'])
+            membership.group = group
+            membership.is_coordinator = f.clean_data['is_coordinator']
+            membership.save()
+
+            p = membership.member
+
+            request.user.message_set.create(message=_('You have successfully subscribed')+
+                                            ' '+p.first_name+' '+p.last_name+' '+_('to this event.'))
+        return HttpResponseRedirect('/groupes/%s/' % (group.id))
+
+    f =  SubscribeGroupForm()
+    next_groups = Group.objects.filter(end__gte=datetime.now())
+
+    back = request.META.get('HTTP_REFERER', '/')
+    return ain7_render_to_response(request, 'groupes/subscribe.html',
+                                   {'group': group, 'form': f, 'back': back,
+                                    'group_list': Group.objects.all(),
+                                    'next_groups': next_groups})
 @login_required
 def edit(request, group_id=None):
 

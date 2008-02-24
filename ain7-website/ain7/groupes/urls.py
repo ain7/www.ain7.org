@@ -30,5 +30,6 @@ urlpatterns = patterns('',
     (r'^$', index),
     (r'^(?P<group_id>\d+)/$', detail),
     (r'^edit/(?P<group_id>\d+)/$', edit),
+    (r'^(?P<group_id>\d+)/subscribe/$', subscribe),
 
 )

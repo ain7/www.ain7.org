@@ -850,6 +850,7 @@ def filldb():
     ain7etudiants_lionel.group = ain7etudiants
     ain7etudiants_lionel.member = lionel
     ain7etudiants_lionel.is_administrator = True
+    ain7etudiants_lionel.start_date = datetime.now()
     ain7etudiants_lionel.save()
 
     ain7ecole = groupes.Group()
