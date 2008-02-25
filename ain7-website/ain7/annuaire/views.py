@@ -66,6 +66,11 @@ FIELD_PARAMS = [
       ('NE',_('not equals'),'__iexact',   True ),
       ('CT',_('contains'),  '__icontains',False)],
      forms.CharField(label='')),
+    ('TextField',
+     [('EQ',_('equals'),    '__iexact',   False),
+      ('NE',_('not equals'),'__iexact',   True ),
+      ('CT',_('contains'),  '__icontains',False)],
+     forms.CharField(label='')),
     ('DateField',
      [('EQ',_('equals'),'',     False),
       ('BF',_('before'),'__lte',False),
@@ -90,8 +95,24 @@ FIELD_PARAMS = [
      [('EQ',_('equals'),    '__exact', False),
       ('NE',_('not equals'),'__exact', True )],
      None),
-#      forms.ModelChoiceField(label='', queryset=None)),
-    # TODO : pour les autres types
+    # for ManyToManyField, the field is defined later
+    ('ManyToManyField',
+     [('EQ',_('equals'),    '__exact', False),
+      ('NE',_('not equals'),'__exact', True )],
+     None),
+
+    # Not implemented: RelatedField
+    
+    # Not implemented because not used in our model
+    # or meaningless for a search engine:
+    # AutoField, DecimalField, EmailField(CharField), FileField,
+    # FilePathField, FloatField, ImageField(FileField), IPAddressField,
+    # NullBooleanField, PhoneNumberField(IntegerField),
+    # PositiveIntegerField(IntegerField),
+    # PositiveSmallIntegerField(IntegerField), SlugField(CharField),
+    # SmallIntegerField(IntegerField), TimeField, URLField(CharField),
+    # USStateField(Field), XMLField(TextField),
+    # OrderingField(IntegerField)
     ]
 
 # Some basic forms
@@ -163,7 +184,6 @@ def search(request):
                 promoCriteria['track']=\
                     Track.objects.get(id=form.clean_data['track'])
                 track_default=[form.clean_data['track'], promoCriteria['track'].name]
-                print form.clean_data['track']
 
             # on ajoute ces promos aux critères de recherche
             # si elle ne sont pas vides
@@ -485,7 +505,8 @@ def criterion_edit(request, filter_id=None, criterion_id=None):
                     label='', choices=comps, required=True)
             # for ForeignKey, we define the value field entirely.
             # It "should" be possible to only redefine the queryset here...
-            if isinstance(searchField,models.fields.related.ForeignKey):
+            if isinstance(searchField,models.fields.related.ForeignKey)\
+            or isinstance(searchField,models.fields.related.ManyToManyField):
                 fieldsDict['value'] = forms.ModelChoiceField(
                     label='', empty_label=None,
                     queryset=searchField.rel.to.objects.all())
@@ -1168,26 +1189,21 @@ def criteriaList(isAdmin):
     """ Returns the list of fields that are criteria for an advanced
     search.
     These fields are the attributes of models of CRITERIA_MODELS.
-    If the user has an admin profile, he gets all these attributes.
-    If not, we exclude the fields of EXCLUDE_FIELDS."""
+    If the user has an admin profile, he gets all these attributes,
+    except OneToOne and ImageField fields.
+    If not, we also exclude the fields of EXCLUDE_FIELDS."""
 
     attrList = []
-    def add_attr(field):
-        if (not field.name in EXCLUDE_FIELDS) or isAdmin:
-            attrList.append(field)
 
     # models for which attributes are criteria for advanced search
     for model in CRITERIA_MODELS:
 
-        for basicField in model._meta.fields:
-            add_attr(basicField)
+        for field in model._meta.fields + model._meta.many_to_many:
 
-        # _meta.fields does not contain ManyToManyFields, so we add them
-        if model._meta.many_to_many:
-            for manyToManyField in model._meta.many_to_many:
-                add_attr(manyToManyField)
-
-        # TODO: add related_names ??? (it's also in _meta)
+            if ((not field.name in EXCLUDE_FIELDS) or isAdmin)\
+                and (str(type(field)).find('OneToOneField')==-1)\
+                and not isinstance(field,models.fields.FileField):
+                attrList.append(field)
 
     # uncomment this if you want a sorted list of criteria
     #

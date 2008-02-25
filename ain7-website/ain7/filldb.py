@@ -478,6 +478,7 @@ def filldb():
     olivier.complete_name = "Olivier Gauwin"
     olivier.birth_date = date(1955,12,9)
     olivier.country = france
+    olivier.notes = "Je ne sais pas à quoi sert ce champ mais je fais confiance à Alex!"
     olivier.save()
 
     olivier_ain7member = annuaire.AIn7Member()
