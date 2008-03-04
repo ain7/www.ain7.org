@@ -617,7 +617,7 @@ class UserContribution(models.Model):
 class SearchFilter(models.Model):
     OPERATORS = [ ('and', _('and')),
                   ('or', _('or')) ]
-    name = models.CharField(verbose_name=('name'), maxlength=20)
+    name = models.CharField(verbose_name=_('name'), maxlength=20)
     operator = models.CharField(verbose_name=_('operator'),
                                 maxlength=3, choices=OPERATORS)
     user = models.ForeignKey(Person, verbose_name=_('user'),
@@ -637,9 +637,9 @@ class SearchFilter(models.Model):
         verbose_name = _('filter')
         verbose_name_plural = _('filters')
 
-class SearchCriterion(models.Model):
+class SearchCriterionField(models.Model):
     searchFilter = models.ForeignKey(SearchFilter,
-                                     related_name='criteria')
+                                     related_name='criteriaField')
     fieldName = models.CharField(maxlength=30)
     fieldVerboseName = models.CharField(maxlength=50)
     fieldClass = models.CharField(maxlength=30)
@@ -663,6 +663,20 @@ class SearchCriterion(models.Model):
 
     def save(self):
         self.modification_date = datetime.datetime.today()
-        return super(SearchCriterion, self).save()
+        return super(SearchCriterionField, self).save()
 
+
+class SearchCriterionFilter(models.Model):
+    searchFilter = models.ForeignKey(SearchFilter,
+        related_name='criteriaFilter', core=True)
+    filterCriterion = models.ForeignKey(SearchFilter,
+        related_name='used_as_criterion')
+    is_in = models.BooleanField(default=True)
+
+    def __str__(self):
+        return str(filterCriterion)
+
+    def save(self):
+        self.modification_date = datetime.datetime.today()
+        return super(SearchCriterionFilter, self).save()
 

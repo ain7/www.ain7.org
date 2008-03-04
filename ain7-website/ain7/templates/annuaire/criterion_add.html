@@ -5,16 +5,39 @@
 
 <div id="content-main">
 
-<h2>{{ action_title }}</h2>
+<h2>{% trans "Choose the criterion to add" %}</h2>
 
-<form method="post" action=".">
+<hr />
+
+{% trans "You can choose one of the following fields as criterion..." %}
+
+<form method="post" action="./field/">
 <table>
-{{ form }}
+{{ formFields }}
 </table>
+<div align="center">
+<input type="submit" class="button" value="{% trans "Continue" %}" />
+</div>
+</form>
+
+{% if not zeroFilters %}
+
+<hr />
+
+{% trans "... or you can choose an existing filter, and decide if you want that the result contains people selected by this filter or not." %}
+
+<form method="post" action="./filter/">
+<ul>
+  {% for field in formFilters %}
+    <li style="display:inline">{{ field }}{{ field.label }}</li>
+  {% endfor %}
+</ul>
 <div align="center">
 <input type="submit" class="button" value="{% trans "Save" %}" />
 </div>
 </form>
+
+{% endif %}
 
 </div>
 

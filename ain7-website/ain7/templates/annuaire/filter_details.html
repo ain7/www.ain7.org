@@ -19,10 +19,10 @@
 
 <div id="edition">
 
-{% if filtr.criteria.all %}
+{% if filtr.criteriaField.all or filtr.criteriaFilter.all %}
   <table class="datas">
-    {% for criterion in filtr.criteria.all %}
-      <tr class="{% cycle row1,row2 %}">
+    {% for criterion in filtr.criteriaField.all %}
+      <tr class="{% cycle row1,row2 as rowvar %}">
         <td>{% if not forloop.first %}
           <a href="/annuaire/advanced_search/filter/{{ filtr.id }}/swapOp/">
             {{ filtr.operator }}
@@ -32,8 +32,30 @@
         <td>{{ criterion.fieldVerboseName|capfirst }}</td>
         <td>{{ criterion.comparatorVerboseName }}</td>
         <td>{{ criterion.displayedValue }}</td>
-        <td><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/edit/" class="changelink">{% trans "Modify" %}</a></td>
-        <td><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/delete/" class="deletelink">{% trans "Delete" %}</a></td>
+        <td><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/edit/field/" class="changelink">{% trans "Modify" %}</a></td>
+        <td><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/delete/field/" class="deletelink">{% trans "Delete" %}</a></td>
+      </tr>
+    {% endfor %}
+
+    {% for criterion in filtr.criteriaFilter.all %}
+      <tr class="{% cycle rowvar %}">
+        <td>{% if filtr.criteriaField.all or not forloop.first %}
+          <a href="/annuaire/advanced_search/filter/{{ filtr.id }}/swapOp/">
+            {{ filtr.operator }}
+          </a>
+          {% endif %}
+        </td>
+        <td>
+          {% if criterion.is_in %}
+            {% trans "belongs to filter" %}
+          {% else %}
+            {% trans "does not belong to filter" %}
+          {% endif %}
+        </td>
+        <td>&nbsp;</td>
+        <td>{{ criterion.filterCriterion }}</td>
+        <td><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/edit/filter/" class="changelink">{% trans "Modify" %}</a></td>
+        <td><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/delete/filter/" class="deletelink">{% trans "Delete" %}</a></td>
       </tr>
     {% endfor %}
   </table>
@@ -110,7 +132,6 @@
    <h3>{% trans "Registered filters" %}</h3>
    <div class="right_articles">
    <ul>
-     <li>{% trans "My promo" %} (TODO)</li>
      {% if userFilters %} 
        {% for filter in userFilters %}
          <li>

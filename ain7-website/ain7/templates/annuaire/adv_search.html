@@ -25,11 +25,23 @@
           </a>
           {% endif %}
         </td>
-        <td>{% filter capfirst %}{{ condition.2 }}{% endfilter %}</td>
-        <td>{{ condition.3 }}</td>
-        <td>{{ condition.5 }}</td>
-        <td><a href="/annuaire/advanced_search/sessionFilter/criterion/{{ forloop.counter0 }}/edit/" class="changelink">{% trans "Modify" %}</a></td>
-        <td><a href="/annuaire/advanced_search/sessionFilter/criterion/{{ forloop.counter0 }}/delete/" class="deletelink">{% trans "Delete" %}</a></td>
+        {% ifequal condition.1 "field" %}
+          <td>{% filter capfirst %}{{ condition.4 }}{% endfilter %}</td>
+          <td>{{ condition.5 }}</td>
+          <td>{{ condition.7 }}</td>
+        {% else %}
+          <td>
+            {% ifequal condition.3 "True" %}
+              {% trans "belongs to filter" %}
+            {% else %}
+              {% trans "does not belong to filter" %}
+            {% endifequal %}
+          </td>
+          <td>&nbsp;</td>
+          <td>{{ condition.2 }}</td>
+        {% endifequal %}
+        <td><a href="/annuaire/advanced_search/sessionFilter/criterion/{{ condition.0 }}/edit/{{ condition.1 }}/" class="changelink">{% trans "Modify" %}</a></td>
+        <td><a href="/annuaire/advanced_search/sessionFilter/criterion/{{ condition.0 }}/delete/{{ condition.1 }}/" class="deletelink">{% trans "Delete" %}</a></td>
       </tr>
     {% endfor %}
   </table>
@@ -113,7 +125,6 @@
    <h3>{% trans "Registered filters" %}</h3>
    <div class="right_articles">
    <ul>
-     <li>{% trans "My promo" %} (TODO)</li>
      {% if userFilters %}
        {% for filter in userFilters %}
          <li>
