@@ -20,6 +20,34 @@
 #
 #
 
-from django.db import models
+import datetime
 
-# Create your models here.
+from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+# A notification
+class Notification(models.Model):
+    
+    title = models.CharField(verbose_name=_('title'), maxlength=50)
+    details = models.TextField(verbose_name=_('Notes'),
+                               blank=True, null=True)
+
+    # Internal
+    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
+    modification_date = models.DateTimeField(editable=False)
+    modifier = models.IntegerField(editable=False)
+
+    def __str__(self):
+        return self.title
+
+    def save(self):
+        self.modification_date = datetime.datetime.today()
+        self.modifier = 1 # TODO
+        return super(Notification, self).save()
+
+    class Admin:
+        pass
+
+    class Meta:
+        verbose_name = _('notification')
+

@@ -34,6 +34,7 @@ import ain7.news.models as news
 import ain7.voyages.models as voyages
 import ain7.emploi.models as emploi
 import ain7.evenements.models as evenements
+import ain7.manage.models as manage
 
 import vobject
 import sys
@@ -1381,3 +1382,8 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     job5.is_opened = True
     job5.office = lepaysdesschtroumpfs
     job5.save()
+
+    notif1 = manage.Notification()
+    notif1.title = "Un exemple de notification !"
+    notif1.details = "Ceci est une exemple de notification..."
+    notif1.save()

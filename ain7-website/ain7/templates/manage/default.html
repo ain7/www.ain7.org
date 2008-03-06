@@ -18,6 +18,18 @@
 
 </div>
 
+{% if notifications %}
+<div class="left_box">
+  {% for notification in notifications %}
+    <h3 class="notif">{{ notification.title }}</h3>
+    {{ notification.details }}
+    <br />
+    <a href="/manage/notification/{{ notification.id }}/edit/" class="changelink">{% trans "Modify" %}</a>&nbsp;
+    <a href="/manage/notification/{{ notification.id }}/delete/" class="deletelink">{% trans "Delete" %}</a>
+  {% endfor %}
+</div>
+{% endif %}
+
 </div>
 
 <div class="right">
@@ -30,6 +42,8 @@
 <li><a href="/manage/permissions/">{% trans "Manage permissions" %}</a></li>
 <li><a href="/manage/companies/">{% trans "Manage companies" %}</a></li>
 <li><a href="/manage/contributions/">{% trans "Contributions" %}</a></li>
+<li><a href="/manage/notification/add/">{% trans "Add a notification" %}</a></li>
+
 </ul>
 </div>
 

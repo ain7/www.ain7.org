@@ -259,6 +259,9 @@ a.button, a.button:hover {
     padding: 3px 0;
 }
 
+h3.notif {
+    background: #A90000 url(../images/corner.gif) no-repeat top right;
+}
 
 /* right side
    ---------- */

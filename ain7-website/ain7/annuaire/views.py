@@ -481,8 +481,8 @@ def criterion_add(request, filter_id=None, criterionType=None):
     formFields = ChooseFieldForm()
     formFields.fields['chosenField'].choices = choiceList
     qs = SearchFilter.objects.filter(user=request.user.person)
-    if filter_id:
-        qs = qs.exclude(id=filter_id)
+    for filterToExclude in filtersToExclude(filter_id):
+        qs = qs.exclude(id=filterToExclude)
     zeroFilters = False
     if qs.count()==0:
         zeroFilters = True
@@ -700,8 +700,8 @@ def criterionFilter_edit(request, filter_id=None, criterion_id=None):
             pass
 
     qs = SearchFilter.objects.filter(user=request.user.person)
-    if filter_id:
-        qs = qs.exclude(id=filter_id)
+    for filterToExclude in filtersToExclude(filter_id):
+        qs = qs.exclude(id=filterToExclude)
 
     class ChooseFilterForm(forms.Form):
         is_in = forms.BooleanField(label=_('is in filter'),
@@ -1512,3 +1512,17 @@ def mergeCondsLst(request, fieldCondsLst,filterCondsLst):
         id += 1
         
     return merged
+
+def filtersToExclude(filter_id=None):
+    """ A recursive function that computes filters to exclude
+    when proposing the user a list of filters as criteria for the
+    filter given in parameter. This corresponds to the filter itself
+    and to every filter having this filter as criterion."""
+    if filter_id==None:
+        return []
+    else:
+        filtr = get_object_or_404(SearchFilter, pk=filter_id)
+        result = [ filter_id ]        
+        for crit in filtr.used_as_criterion.all():
+            result.extend(filtersToExclude(crit.searchFilter))
+        return result

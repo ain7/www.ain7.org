@@ -27,15 +27,13 @@ from django.core.paginator import ObjectPaginator, InvalidPage
 from django import newforms as forms
 from django.http import HttpResponseRedirect, HttpResponse
 
-from ain7.utils import ain7_render_to_response
+from ain7.utils import ain7_render_to_response, form_callback
+from ain7.decorators import confirmation_required
 from ain7.annuaire.models import Person, UserContribution
 from ain7.emploi.models import Company
+from ain7.manage.models import *
 
 from ain7.fields import AutoCompleteFieldNG
-
-@login_required
-def index(request):
-    return ain7_render_to_response(request, 'manage/default.html', {})
 
 class SearchPersonForm(forms.Form):
     last_name = forms.CharField(label=_('Last name'), max_length=50, required=False)
@@ -58,6 +56,19 @@ class PermGroupForm(forms.Form):
 
 class MemberGroupForm(forms.Form):
     username = forms.CharField(label=_('Username'), max_length=100, required=True, widget=AutoCompleteFieldNG(url='/ajax/person/'))
+
+# TODO : utiliser TinyMCE pour le champ details
+class NotificationForm(forms.Form):
+    title = forms.CharField(label=_('title'), max_length=50, required=True)
+    details = forms.CharField(label=_('details'), required=True, widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':90}))
+    
+
+@login_required
+def index(request):
+    for n in Notification.objects.all():
+        print n
+    return ain7_render_to_response(request, 'manage/default.html',
+        {'notifications': Notification.objects.all()})
 
 @login_required
 def users_search(request):
@@ -330,3 +341,80 @@ def contributions(request):
                     'last_result': min((page) * nb_results_by_page, paginator.hits),
                     'hits' : paginator.hits,})
 
+@login_required
+def perm_add(request, group_id):
+    g = get_object_or_404(Group, pk=group_id)
+
+    form = PermGroupForm()
+
+    if request.method == 'POST':
+        form = PermGroupForm(request.POST)
+        if form.is_valid():
+            p = Permission.objects.filter(name=form.clean_data['perm'])[0]
+            g.permissions.add(p)
+            request.user.message_set.create(message=_('Permission added to group'))
+            return HttpResponseRedirect('/manage/groups/%s/' % group_id)
+        else:
+            request.user.message_set.create(message=_('Permission is not correct'))
+
+    back = request.META.get('HTTP_REFERER', '/')
+
+    return ain7_render_to_response(request, 'manage/groups_perm_add.html',
+                            {'form': form, 'group': g, 'back': back})
+
+@login_required
+def notification_add(request):
+
+    form = NotificationForm()
+
+    if request.method == 'POST':
+        form = NotificationForm(request.POST)
+        if form.is_valid():
+            notif = Notification()
+            notif.title = form.clean_data['title']
+            notif.details = form.clean_data['details']
+            notif.save()
+            request.user.message_set.create(message=_('Notification successfully created'))
+            return HttpResponseRedirect('/manage/')
+        else:
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(form.errors))
+
+    back = request.META.get('HTTP_REFERER', '/')
+
+    return ain7_render_to_response(request,
+        'manage/notification.html',
+        {'action_title': _('Add a new notification'),
+         'form': form, 'back': back})
+
+@login_required
+def notification_edit(request, notif_id):
+
+    notif = get_object_or_404(Notification, pk=notif_id)
+    form = NotificationForm(
+        {'title':notif.title, 'details':notif.details})
+
+    if request.method == 'POST':
+        form = NotificationForm(request.POST)
+        if form.is_valid():
+            notif.title  = form.clean_data['title']
+            notif.details= form.clean_data['details']
+            notif.save()
+            request.user.message_set.create(message=_("Modifications have been successfully saved."))
+        else:
+            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done.")+str(form.errors))
+        return HttpResponseRedirect('/manage/')
+    return ain7_render_to_response(
+        request, 'manage/notification.html',
+        {'form': form,
+         'action_title': _("Modification of the notification")})
+
+@confirmation_required(
+    lambda user_id=None,
+    notif_id=None: str(get_object_or_404(Notification, pk=notif_id)),
+    'manage/base.html',
+    _('Do you REALLY want to delete the notification'))
+def notification_delete(request, notif_id):
+
+    notif = get_object_or_404(Notification, pk=notif_id)
+    notif.delete()
+    return HttpResponseRedirect('/manage/')

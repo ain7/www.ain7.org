@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-04 23:38+0100\n"
-"PO-Revision-Date: 2008-03-04 23:34+0100\n"
+"POT-Creation-Date: 2008-03-07 00:18+0100\n"
+"PO-Revision-Date: 2008-03-07 00:15+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -59,12 +59,12 @@ msgid "is"
 msgstr "est"
 
 #: annuaire/views.py:121 annuaire/views.py:133 annuaire/models.py:227
-#: templates/annuaire/edit.html:22 manage/views.py:41
+#: templates/annuaire/edit.html:22 manage/views.py:39
 msgid "Last name"
 msgstr "Nom"
 
 #: annuaire/views.py:122 annuaire/views.py:132 annuaire/models.py:228
-#: templates/annuaire/edit.html:21 manage/views.py:42
+#: templates/annuaire/edit.html:21 manage/views.py:40
 msgid "First name"
 msgstr "Prénom"
 
@@ -115,8 +115,8 @@ msgid "Enter parameters of your filter"
 msgstr "Paramètres de votre filtre"
 
 #: annuaire/views.py:294 annuaire/views.py:403 annuaire/views.py:754
-#: annuaire/views.py:825 annuaire/views.py:858 groupes/views.py:115
-#: voyages/views.py:170
+#: annuaire/views.py:825 annuaire/views.py:858 manage/views.py:402
+#: groupes/views.py:115 voyages/views.py:170
 msgid "Modifications have been successfully saved."
 msgstr "Les modifications ont été correctement enregistrées."
 
@@ -127,10 +127,11 @@ msgstr "L'un de vos filtres a déjà ce nom."
 #: annuaire/views.py:348 annuaire/views.py:405 annuaire/views.py:828
 #: annuaire/views.py:861 annuaire/views.py:894 annuaire/views.py:936
 #: annuaire/views.py:974 annuaire/views.py:1240 news/views.py:96
-#: evenements/views.py:88 evenements/views.py:125 evenements/views.py:205
-#: emploi/views.py:136 emploi/views.py:173 sondages/views.py:146
-#: voyages/views.py:90 voyages/views.py:172 voyages/views.py:203
-#: voyages/views.py:249 voyages/views.py:285 voyages/views.py:350
+#: manage/views.py:380 manage/views.py:404 evenements/views.py:88
+#: evenements/views.py:125 evenements/views.py:205 emploi/views.py:136
+#: emploi/views.py:173 sondages/views.py:146 voyages/views.py:90
+#: voyages/views.py:172 voyages/views.py:203 voyages/views.py:249
+#: voyages/views.py:285 voyages/views.py:350
 msgid "Something was wrong in the form you filled. No modification done."
 msgstr ""
 "Certains champs ont été incorrectement remplis. Aucune modification "
@@ -558,7 +559,7 @@ msgstr "date de décès"
 msgid "Wiki name"
 msgstr "Nom du wiki"
 
-#: annuaire/models.py:238
+#: annuaire/models.py:238 manage/models.py:32
 msgid "Notes"
 msgstr "Notes"
 
@@ -817,7 +818,8 @@ msgstr "L'image associée à cette actualité a été supprimée avec succès"
 msgid "News successfully added."
 msgstr "Actualité mise à jour"
 
-#: news/models.py:30 emploi/views.py:41 emploi/views.py:49
+#: news/models.py:30 manage/views.py:62 manage/models.py:31 emploi/views.py:41
+#: emploi/views.py:49
 msgid "title"
 msgstr "titre"
 
@@ -951,6 +953,7 @@ msgstr ""
 #: templates/annuaire/criterionFilter_edit.html:31
 #: templates/annuaire/edit_form.html:29 templates/pages/image.html:25
 #: templates/manage/groups_perm_add.html:17
+#: templates/manage/notification.html:29
 #: templates/manage/groups_user_add.html:27 templates/groupes/edit.html:33
 #: templates/emploi/education_edit.html:31
 #: templates/emploi/position_edit.html:31
@@ -1053,7 +1056,7 @@ msgstr "Aucune personne dans l'application."
 #: templates/news/index.html:32 templates/news/details.html:20
 #: templates/manage/user_details.html:61
 #: templates/manage/companies_search.html:57
-#: templates/manage/users_search.html:58 templates/manage/default.html:25
+#: templates/manage/users_search.html:58 templates/manage/default.html:37
 #: templates/manage/groups_search.html:56
 #: templates/manage/company_details.html:21
 #: templates/manage/permissions.html:36
@@ -1121,11 +1124,12 @@ msgstr "Filtre"
 #: templates/annuaire/edit.html.py:211 templates/annuaire/edit.html:231
 #: templates/annuaire/edit.html.py:251 templates/annuaire/edit.html:270
 #: templates/annuaire/edit.html.py:288 templates/annuaire/edit.html:316
-#: templates/news/edit.html:38 templates/evenements/edit.html:38
-#: templates/emploi/cv_edit.html:58 templates/emploi/cv_edit.html.py:72
-#: templates/emploi/cv_edit.html:93 templates/emploi/cv_edit.html.py:116
-#: templates/emploi/cv_edit.html:144 templates/sondages/details.html:31
-#: templates/sondages/details.html.py:39 templates/voyages/edit.html:43
+#: templates/news/edit.html:38 templates/manage/default.html:27
+#: templates/evenements/edit.html:38 templates/emploi/cv_edit.html:58
+#: templates/emploi/cv_edit.html.py:72 templates/emploi/cv_edit.html:93
+#: templates/emploi/cv_edit.html.py:116 templates/emploi/cv_edit.html:144
+#: templates/sondages/details.html:31 templates/sondages/details.html.py:39
+#: templates/voyages/edit.html:43
 msgid "Modify"
 msgstr "Modifier"
 
@@ -1137,7 +1141,7 @@ msgstr "Modifier"
 #: templates/annuaire/edit.html.py:214 templates/annuaire/edit.html:234
 #: templates/annuaire/edit.html.py:254 templates/annuaire/edit.html:273
 #: templates/annuaire/edit.html.py:291 templates/news/edit.html:40
-#: templates/manage/group_details.html:18
+#: templates/manage/default.html:28 templates/manage/group_details.html:18
 #: templates/manage/group_details.html:26 templates/evenements/edit.html:40
 #: templates/emploi/cv_edit.html:73 templates/emploi/cv_edit.html.py:94
 #: templates/emploi/cv_edit.html:117 templates/emploi/cv_edit.html.py:145
@@ -1317,6 +1321,7 @@ msgstr "Enregistrer ce filtre"
 
 #: templates/annuaire/edit_form.html:28 templates/pages/image.html:24
 #: templates/manage/groups_perm_add.html:16
+#: templates/manage/notification.html:28
 #: templates/manage/groups_user_add.html:26
 #: templates/groupes/subscribe.html:17 templates/groupes/edit.html:32
 #: templates/evenements/join.html:17 templates/evenements/subscribe.html:17
@@ -1330,7 +1335,7 @@ msgstr "Annuler"
 #: templates/annuaire/contributions.html:8
 #: templates/manage/user_details.html:68
 #: templates/manage/companies_search.html:64
-#: templates/manage/users_search.html:65 templates/manage/default.html:32
+#: templates/manage/users_search.html:65 templates/manage/default.html:44
 #: templates/manage/company_details.html:28
 #: templates/manage/permissions.html:43 templates/manage/group_details.html:44
 msgid "Contributions"
@@ -1564,7 +1569,7 @@ msgstr "Nombre d'adhérents"
 
 #: templates/manage/user_details.html:64
 #: templates/manage/companies_search.html:60
-#: templates/manage/users_search.html:61 templates/manage/default.html:28
+#: templates/manage/users_search.html:61 templates/manage/default.html:40
 #: templates/manage/groups_search.html:59
 #: templates/manage/company_details.html:24
 #: templates/manage/permissions.html:39
@@ -1576,7 +1581,7 @@ msgstr "Gestion des utilisateurs"
 
 #: templates/manage/user_details.html:65
 #: templates/manage/companies_search.html:61
-#: templates/manage/users_search.html:62 templates/manage/default.html:29
+#: templates/manage/users_search.html:62 templates/manage/default.html:41
 #: templates/manage/groups_search.html:60
 #: templates/manage/company_details.html:25
 #: templates/manage/permissions.html:40
@@ -1588,7 +1593,7 @@ msgstr "Gestion des groupes"
 
 #: templates/manage/user_details.html:66
 #: templates/manage/companies_search.html:62
-#: templates/manage/users_search.html:63 templates/manage/default.html:30
+#: templates/manage/users_search.html:63 templates/manage/default.html:42
 #: templates/manage/groups_search.html:61
 #: templates/manage/company_details.html:26
 #: templates/manage/permissions.html:41
@@ -1600,7 +1605,7 @@ msgstr "Gestion des permissions"
 
 #: templates/manage/user_details.html:67
 #: templates/manage/companies_search.html:63
-#: templates/manage/users_search.html:64 templates/manage/default.html:31
+#: templates/manage/users_search.html:64 templates/manage/default.html:43
 #: templates/manage/groups_search.html:62
 #: templates/manage/company_details.html:27
 #: templates/manage/permissions.html:42
@@ -1612,17 +1617,21 @@ msgstr "Gestion des entreprises"
 
 #: templates/manage/default.html:15
 msgid "This section is dedicated to the portal administration."
-msgstr "Cette section vise à la gestion du site de l'AIn7"
+msgstr "Cette section vise à la gestion du site de l'AIn7."
 
 #: templates/manage/default.html:16
 msgid "You can add, edit, delete users, groups and permissions."
 msgstr ""
 "Vous pouvez ajouter, éditer, effacer des utilisateurs, des groupes et des "
-"permissions"
+"permissions."
 
 #: templates/manage/default.html:17
 msgid "Do all your modifications carefully!"
-msgstr "Effectuez vos modifications avec la plus grande attention!"
+msgstr "Effectuez vos modifications avec la plus grande attention !"
+
+#: templates/manage/default.html:45
+msgid "Add a notification"
+msgstr "Ajouter une notification"
 
 #: templates/manage/groups_search.html:47
 msgid "No group matched your criteria"
@@ -1742,7 +1751,7 @@ msgstr "Liste des événements et manifestations à venir"
 msgid "No planned event."
 msgstr "Aucun événement prévu."
 
-#: templates/evenements/details.html:22 manage/views.py:49
+#: templates/evenements/details.html:22 manage/views.py:47
 #: evenements/views.py:58
 msgid "Location"
 msgstr "Lieu"
@@ -2166,53 +2175,77 @@ msgstr "Éditer les informations de groupe"
 msgid "From %(start_date)s to %(end_date)s at %(place)s"
 msgstr "Du %(start_date)s au %(end_date)s à %(place)s"
 
-#: manage/views.py:45 manage/views.py:48
+#: manage/views.py:43 manage/views.py:46
 msgid "Name"
 msgstr "Nom"
 
-#: manage/views.py:50
+#: manage/views.py:48
 msgid "Activity"
 msgstr "Activité"
 
-#: manage/views.py:53
+#: manage/views.py:51
 msgid "User"
 msgstr "Utilisateur"
 
-#: manage/views.py:54
+#: manage/views.py:52
 msgid "Type"
 msgstr "Type"
 
-#: manage/views.py:57
+#: manage/views.py:55
 msgid "Permission"
 msgstr "Permission"
 
-#: manage/views.py:60
+#: manage/views.py:58
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
-#: manage/views.py:206
+#: manage/views.py:63
+msgid "details"
+msgstr "détails"
+
+#: manage/views.py:217 manage/views.py:355
 msgid "Permission added to group"
 msgstr "Permission ajoutée pour le groupe"
 
-#: manage/views.py:209
+#: manage/views.py:220 manage/views.py:358
 msgid "Permission is not correct"
 msgstr "Permission incorrecte"
 
-#: manage/views.py:223
+#: manage/views.py:234
 msgid "Permission removed from group"
 msgstr "Permission supprimée pour le groupe"
 
-#: manage/views.py:240
+#: manage/views.py:251
 msgid "User added to group"
 msgstr "Utilisateur ajouté au groupe"
 
-#: manage/views.py:243
+#: manage/views.py:254
 msgid "User is not correct"
 msgstr "Utilisateur incorrect"
 
-#: manage/views.py:257
+#: manage/views.py:268
 msgid "Member removed from group"
 msgstr "Membre du groupe supprimé"
+
+#: manage/views.py:377
+msgid "Notification successfully created"
+msgstr "La notification a été créée avec succès."
+
+#: manage/views.py:386
+msgid "Add a new notification"
+msgstr "Ajouter une notification"
+
+#: manage/views.py:409
+msgid "Modification of the notification"
+msgstr "Modifier une notification"
+
+#: manage/views.py:415
+msgid "Do you REALLY want to delete the notification"
+msgstr "Souhaitez-vous VRAIMENT supprimer cette notification ?"
+
+#: manage/models.py:52
+msgid "notification"
+msgstr "notification"
 
 #: groupes/views.py:37 evenements/views.py:45
 msgid "Person to subscribe"
