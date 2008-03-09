@@ -10,14 +10,6 @@
 
 <div class="left_box">
 
-<h3>{% trans "AIn7 Management" %}</h3>
-
-{% trans "This section is dedicated to the portal administration." %}
-{% trans "You can add, edit, delete users, groups and permissions." %}
-{% trans "Do all your modifications carefully!" %}
-
-</div>
-
 {% if notifications %}
 <div class="left_box">
   {% for notification in notifications %}
@@ -30,11 +22,19 @@
 </div>
 {% endif %}
 
+<h3>{% trans "AIn7 Management" %}</h3>
+
+{% trans "This section is dedicated to the portal administration." %}
+{% trans "You can add, edit, delete users, groups and permissions." %}
+{% trans "Do all your modifications carefully!" %}
+
+</div>
+
 </div>
 
 <div class="right">
 
-<h3>{% trans "Actions" %}</h3>
+<h3>{% trans "Navigation" %}</h3>
 <div class="right_articles">
 <ul>
 <li><a href="/manage/users/">{% trans "Manage users" %}</a></li>
