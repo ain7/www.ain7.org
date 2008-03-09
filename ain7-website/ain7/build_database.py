@@ -4,7 +4,7 @@
 #
 # build_database.py
 #
-#   Copyright (C) 2007 AIn7
+#   Copyright (C) 2007-2008 AIn7
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -21,10 +21,6 @@
 #   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 #
-
-USER = 'admin'
-PASSWORD = 'admin'    # replace this with something good
-EMAIL = 'admin@admin.com'
 
 import os
 import pexpect
@@ -59,20 +55,6 @@ child.expect('Would you like to create one now.*')
 
 # Send this line in response
 child.sendline('no')
-
-# Again wait for this, and send what is needed
-#child.expect('Username.*')
-
-# A blank string for the default username
-#child.sendline(USER)
-
-# And so it goes on
-#child.expect('E-mail.*')
-#child.sendline(EMAIL)
-#child.expect('Password.*')
-#child.sendline(PASSWORD)
-#child.expect('Password.*')
-#child.sendline(PASSWORD)
 
 # Wait for the application to give us this text (a regular expression)
 child.expect('Would you like to fill your db now.*')

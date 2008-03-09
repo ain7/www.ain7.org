@@ -12,13 +12,21 @@
 
 <h2>{{ company.name }}</h2>
 
+{% if company.short_description %}
+<p>{{ company.short_description }}</p>
+{% endif %}
+
+{% if company.long_description %}
+{{ company.long_description }}
+{% endif %}
+
 </div>
 
 </div>
 
 <div class="right">
 
-<h3>{% trans "Actions" %}</h3>
+<h3>{% trans "Navigation" %}</h3>
 <div class="right_articles">
 <ul>
 <li><a href="/manage/users/">{% trans "Manage users" %}</a></li>
@@ -26,6 +34,24 @@
 <li><a href="/manage/permissions/">{% trans "Manage permissions" %}</a></li>
 <li><a href="/manage/companies/">{% trans "Manage companies" %}</a></li>
 <li><a href="/manage/contributions/">{% trans "Contributions" %}</a></li>
+</ul>
+</div>
+
+<h3>{% trans "Actions" %}</h3>
+<div class="right_articles">
+<ul>
+<li><a href="/manage/companies/register/">{% trans "Register a new company" %}</a></li>
+<li><a href="/manage/companies/{{ company.id }}/edit/">{% trans "Edit this company" %}</a></li>
+<li><a href="/manage/companies/{{ company.id }}/delete/">{% trans "Delete this company" %}</a></li>
+<li><a href="/manage/companies/{{ company.id }}/merge/">{% trans "Merge this company" %}</a></li>
+</ul>
+</div>
+
+<h3>{% trans "Card Informations"%}</h3>
+<div class="right_articles">
+<ul>
+  <li>{% trans "Creation" %}&nbsp;: {{ company.creation_date|date:"l j F Y" }}</li>
+  <li>{% trans "Update" %}&nbsp;: {{ company.modification_date|date:"l j F Y" }}</li>
 </ul>
 </div>
 

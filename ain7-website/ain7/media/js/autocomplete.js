@@ -1,5 +1,5 @@
 var AutoComplete = Ajax.extend({
-	
+
 	isFrozen: false,
 	currentSelection: -1,
 
@@ -13,7 +13,7 @@ var AutoComplete = Ajax.extend({
 		this.displayValue = displayValue;
 		this.setOptions(options);
 		this.parent(url);
-		
+
 		// the div to display the results
 		this.resultContainer = new Element('div', {
 			'id': 'autocompleteResultContainer',
@@ -28,7 +28,7 @@ var AutoComplete = Ajax.extend({
 		}).inject(document.body);
 		this.setResultContainerPosition();
 		this.options.update = this.resultContainer;
-		
+
 		// connect the input field keyup event to this Ajax requester
 		this.input.addEvent('keyup', function(e) {
 			if(!this.isFrozen) {
@@ -45,13 +45,13 @@ var AutoComplete = Ajax.extend({
 						var data = {};
 						data[this.input.name] = this.input.value;
 						this.request(data);
-					}												
+					}
 				}
 			}
 		}.bind(this));
-		
+
 		this.addEvent('onComplete', this._onResultReceived);
-		
+
 		// close the result list when click elsewhere
 		document.addEvent("click", function(e) {
 			if(!this.isFrozen) {
@@ -60,7 +60,7 @@ var AutoComplete = Ajax.extend({
 				}
 			}
 		}.bindWithEvent(this));
-		
+
 		// navigate in the result list with the up & down arrow
 		document.addEvent('keyup', function(e) {
 			if(!this.isFrozen) {
@@ -78,12 +78,12 @@ var AutoComplete = Ajax.extend({
 				}
 			}
 		}.bind(this));
-		
+
 		window.addEvent("resize", function() {
 			this.setResultContainerPosition();
 		}.bind(this));
 	},
-	
+
 	_navigateOnResult: function(/*boolean*/ up) {
 		if(this.resultList && this.resultList.length > 0) {
 			this.input.blur();
@@ -114,7 +114,7 @@ var AutoComplete = Ajax.extend({
 			}
 		}
 	},
-	
+
 	setResultContainerPosition: function() {
 		var inputCoords = this.input.getCoordinates();
 		this.resultContainer.setStyles({
@@ -122,7 +122,7 @@ var AutoComplete = Ajax.extend({
 			left: inputCoords.left
 		});
 	},
-	
+
 	_onResultReceived: function(result) {
 		// remove all the events of the last items
 		if(this.resultList) {
@@ -132,10 +132,10 @@ var AutoComplete = Ajax.extend({
 			}
 		}
 		this.resultContainer.innerHTML = result;
-		
+
 		// display the result list
 		this.resultContainer.style.display = "block";
-		
+
 		this.resultList = $$('#autocompleteResultContainer li');
 		this.resultList.each(function(item, i) {
 			item.addEvent('mouseover', function() {
@@ -149,13 +149,13 @@ var AutoComplete = Ajax.extend({
 			}.bind(this));
 			item.addEvent('click', this._onItemSelect.bind(this, item));
 		}, this);
-		
+
 		// reset the current selection
 		this.currentSelection = -1;
 		// reset the scroll position
 		this.resultContainer.scrollTop = 0;
 	},
-	
+
 	_onItemSelect: function(item) {
 		if(!this.isFrozen) {
 			this.input.value = item.getProperty(this.displayValue);
@@ -163,7 +163,7 @@ var AutoComplete = Ajax.extend({
 			this.fireEvent('onItemChoose', item);
 		}
 	}
-	
+
 });
 
 AutoComplete.implement(new Events);

@@ -248,7 +248,7 @@ def filldb():
     event_subscription_contrib.save()
 
     # Companies
-    infofield = emploi.CompanyField(field = "Informatique")
+    infofield = emploi.CompanyField(field = "Informatique", code="ZZ", label="Informatique")
     infofield.save()
 
     babelstore = emploi.Company(name="BABELSTORE", field=infofield, size=2)

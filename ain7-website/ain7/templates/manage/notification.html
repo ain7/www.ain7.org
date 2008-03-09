@@ -2,16 +2,16 @@
 {% load i18n %}
 
 {% block javascript %}
-<script type="text/javascript" src="/site_media/js/mootools-release-1.11.js?version={{ mootools_version }}"></script>
-<script type="text/javascript" src="/site_media/js/autocomplete.js"></script>
-<script type="text/javascript" src="/site_media/js/floatingpane.js"></script>
+<script type="text/javascript" src="/site_media/js/mootools-release-{{ mootools_version }}.js"></script>
+<script type="text/javascript" src="/site_media/js/autocomplete.js?version={{ portal_version }}"></script>
+<script type="text/javascript" src="/site_media/js/floatingpane.js?version={{ portal_version }}"></script>
 <script src="/site_media/js/tiny_mce/tiny_mce.js" type="text/javascript"></script>
 <script src="/site_media/js/textareas.js" type="text/javascript"></script>
 {% endblock %}
 
 {% block stylesheet %}
-<link type="text/css" rel="stylesheet" href="/site_media/css/autocomplete.css">
-<link type="text/css" rel="stylesheet" href="/site_media/css/floatingpane.css">
+<link type="text/css" rel="stylesheet" href="/site_media/css/autocomplete.css?version={{ portal_version }}">
+<link type="text/css" rel="stylesheet" href="/site_media/css/floatingpane.css?version={{ portal_version }}">
 {% endblock %}
 
 {% block content %}

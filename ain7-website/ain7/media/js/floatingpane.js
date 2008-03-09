@@ -17,7 +17,7 @@ var FloatingPane = new Class({
 			this.zIndex = args.zIndex || this.zIndex;
 			this.title = args.title || this.title;
 		}
-	
+
 		this.container = new Element('div', {
 			'class': 'floatingPaneContainer',
 			'styles': {
@@ -37,8 +37,8 @@ var FloatingPane = new Class({
 			 	'backgroundColor': "black"
 			}
 		}).setOpacity(this.opacity).inject(document.body);
-		
-		
+
+
 		// Header
 		var header = new Element('div', {
 			'class': 'hd',
@@ -46,15 +46,15 @@ var FloatingPane = new Class({
 				'overflow': 'hidden'
 			}
 		}).inject(this.container);
-		
+
 		// make this floating pane draggable if the property is set
 		if(this.draggable) {
 			new Drag.Base(this.container, {handler: header});
 			header.style.cursor = 'move';
 		}
-		
+
 		this.titleContainer = new Element('span').setText(this.title).inject(header);
-		
+
 		var closeImage = new Element('div', {
 			'class': 'close',
 			'styles': {
@@ -72,7 +72,7 @@ var FloatingPane = new Class({
 				}.bindWithEvent(this)
 			}
 		}).inject(header);
-		
+
 		// Body
 		var body = new Element('div', {
 			'class': 'bd',
@@ -80,23 +80,23 @@ var FloatingPane = new Class({
 				'height': this.height
 			}
 		}).inject(this.container);
-		
+
 		this.pleasewait = new Element('div', {
 			'class': 'pleaseWait'
 		}).inject(body);
-		
+
 		this.content = new Element('iframe', {
 			'styles': {
 				'width': this.width,
 				'height': 0
 			}
 		}).inject(body);
-		
+
 		// firefox specific
 		this.content.onload = function() {
 			this.onContentready();
 		}.bind(this);
-		
+
 		// IE specific
 		this.content.onreadystatechange = function() {
 			if(this.content.readyState == "complete") {

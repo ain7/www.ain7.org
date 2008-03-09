@@ -36,70 +36,30 @@ class AutoCompleteField(TextInput):
 
     def render(self, name, value=None, attrs=None):
         final_attrs = self.build_attrs(attrs, name=name)
-        value_hiden=-1
-        value_text=""  # value_text doit include value="<valeur>" !
-        if value.__class__ == list and len(value) == 2:
-            value_hiden=value[0]
-            value_text='value="%s"' % escape(smart_unicode(value[1]))
-        elif value:
-            value = smart_unicode(value)
-            final_attrs['value'] = escape(value)
-        if not self.attrs.has_key('id'):
-            final_attrs['id'] = 'id_%s' % name
-        return (u'<input type="hidden" name="%(name)s" value="%(value_hiden)i" id="%(id)s" />'
-                  '<input type="text" name="%(name)s_text" id="%(id)s_text" %(value_text)s size="50" /> <div class="complete" id="box_%(name)s"></div>'
-                        '<script type="text/javascript">'
-                        'function setSelected(text, li) {'
-                        '    $(\'%(id)s\').value = li.id;'
-                        '}'
-                        ' new Ajax.Autocompleter(\'%(id)s_text\', \'box_%(name)s\', \'%(url)s\', %(options)s);'
-                        '</script>') % {'attrs'	: flatatt(final_attrs),
-                                        'name'	: name,
-                                        'id'	: final_attrs['id'],
-                                        'url'	: self.url,
-                                        'options' : self.options,
-                                        'value_hiden': value_hiden,
-                                        'value_text': value_text}
-
-class AutoCompleteFieldNG(TextInput):
-    def __init__(self, url='', options='{ paramName: "text", autoSelect:true, afterUpdateElement:setSelected }', attrs=None):
-        self.url = url
-        self.options = options
-        if attrs is None:
-            attrs = {}
-        self.attrs = attrs
-
-    def render(self, name, value=None, attrs=None):
-        final_attrs = self.build_attrs(attrs, name=name)
         if value:
             value = smart_unicode(value)
             final_attrs['value'] = escape(value)
         if not self.attrs.has_key('id'):
             final_attrs['id'] = 'id_%s' % name
         return (u'<input type="hidden" name="%(name)s" value="-1" id="%(id)s" />'
-                  '<input type="text" name="%(name)s_text" id="%(id)s_text" size="50" /> <div class="complete" id="box_%(name)s"></div>'
-                        '<script type="text/javascript">'
-	   	'window.addEvent(\'domready\', function() {'
-			'window.myAutoComplete = new AutoComplete($(\'autocomplete\'), %(url)s?text=%(), "displayValue", {maxHeight: 350, zIndex: 6});'
-			'myAutoComplete.addEvent(\'onItemChoose\', function(item) {'
-			'	document.getElementById(\'hiddenInput\').value = item.getProperty(\'contactid\');'
-			'});'
-            ''
-			'window.floatingPane = new FloatingPane({title: "floating pane", height: 400, width: 600, opacity: 0.75, draggable: true});'
-			'floatingPane.addEvent(\'onFloatingPaneClose\', function(event) {'
-			'	event.stop();'
-			'	myAutoComplete.canClose = true;'
-			'});'
-		    '});'
-            ''
-		    'function showContactDetails(url, title) {'
-			'myAutoComplete.canClose = false;'
-			'floatingPane.show(url, title);'
-		'}'
-
-                        '</script>') % {'attrs'	: flatatt(final_attrs),
-                                        'name'	: name,
-                                        'id'	: final_attrs['id'],
-                                        'url'	: self.url,
-                                        'options' : self.options}
+                  '<input type="text" name="text" id="%(id)s_text" size="50" autocomplete="off"/> <div class="complete" id="box_%(name)s"></div>'
+                  '<script type="text/javascript">'
+                  'window.myAutoComplete = new AutoComplete($(\'%(id)s_text\'), "http://"+window.location.host+"%(url)s", "displayValue", {maxHeight: 350, zIndex: 6, method: \'post\'});'
+                  'myAutoComplete.addEvent(\'onItemChoose\', function(item) {'
+                  '	document.getElementById(\'%(id)s\').value = item.getProperty(\'id\');'
+		  '});'
+                  'window.floatingPane = new FloatingPane({title: "floating pane", height: 400, width: 600, opacity: 0.75, draggable: true});'
+                  'floatingPane.addEvent(\'onFloatingPaneClose\', function(event) {'
+                  '	event.stop();'
+                  '	myAutoComplete.canClose = true;'
+                  '});'
+                  'function showContactDetails(url, title) {'
+                  'myAutoComplete.canClose = false;'
+                  'floatingPane.show(url, title);'
+                  '}'
+                  '</script>') % {'attrs'	: flatatt(final_attrs),
+                                  'name'	: name,
+                                  'id'	: final_attrs['id'],
+                                  'url'	: self.url,
+                                  'options' : self.options}
 

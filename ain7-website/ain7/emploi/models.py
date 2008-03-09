@@ -57,6 +57,8 @@ class Company(models.Model):
     name = models.CharField(verbose_name=_('name'), maxlength=50, core=True)
     size = models.IntegerField(verbose_name=_('size'), choices=COMPANY_SIZE, blank=True, null=True)
     field = models.ForeignKey(CompanyField, verbose_name=_('field'), related_name='companies')
+    short_description = models.CharField(verbose_name=_('short description'), maxlength=50, blank=True, null=True)
+    long_description = models.TextField(verbose_name=_('long description'), blank=True, null=True)
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)

@@ -115,9 +115,9 @@ INSTALLED_APPS = (
 
 # attributs non standards
 SKIN = 'default'
-PLANET_URL = 'http://planet.ain7.porcheron.info/'
-FORUMS_URL = 'http://forums.ain7.porcheron.info/'
-GALLERY_URL = 'http://gallery.ain7.porcheron.info/'
+PLANET_URL = 'http://planet.ain7.info/'
+FORUMS_URL = 'http://forums.ain7.info/'
+GALLERY_URL = 'http://gallery.ain7.info/'
 
 # Version
 BASE = '0.0.0'
@@ -129,9 +129,8 @@ if REVISION:
 
 TINYMCE_VERSION = '2.1.3'
 
-SCRIPTACULOUS_VERSION = '1.8.0'
-
-PROTOTYPE_VERSION = '1.6.0'
-
 MOOTOOLS_VERSION = '1.11'
+
+if os.path.exists('settings.local.py'):
+    from ain7.settings.local import *
 

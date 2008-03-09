@@ -26,11 +26,11 @@ div.floatingPaneContainer div.hd div.close-over {
 }
 
 div.floatingPaneContainer div.hd div.close {
-	background-image: url("hd-close.png");
+	background-image: url("../images/hd-close.png");
 }
 
 div.floatingPaneContainer div.hd div.close-over {
-	background-image: url("hd-close-over.png");
+	background-image: url("../images/hd-close-over.png");
 }
 
 div.floatingPaneContainer div.bd div.pleaseWait {
@@ -39,7 +39,7 @@ div.floatingPaneContainer div.bd div.pleaseWait {
 	height: 35px;
 	top: 45%;
 	left: 45%;
-	background-image: url("loading.gif");
+	background-image: url("../images/loading.gif");
 }
 
 div.bd iframe {

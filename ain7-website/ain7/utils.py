@@ -55,8 +55,7 @@ def galerie(request):
 def ain7_render_to_response(req, *args, **kwargs):
     args[1]['portal_version'] = settings.VERSION
     args[1]['tinymce_version'] = settings.TINYMCE_VERSION
-    args[1]['scriptaculous_version'] = settings.SCRIPTACULOUS_VERSION
-    args[1]['prototype_version'] = settings.PROTOTYPE_VERSION
+    args[1]['mootools_version'] = settings.MOOTOOLS_VERSION
     kwargs['context_instance'] = RequestContext(req)
     return render_to_response(*args, **kwargs)
 

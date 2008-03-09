@@ -7,7 +7,6 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rel="shortcut icon" type="image/x-icon" href="/site_media/images/favicon.png" />
 <link rel="alternate" type="application/rss+xml" href="/rss/events/" />
-<script src="/site_media/js/prototype.js?version={{ prototype_version  }}" type="text/javascript"></script>
 {% block javascript %}{{ javascript }}{% endblock %}
 <link rel="stylesheet" href="/site_media/skins/default/css/style.css?version={{ portal_version }}" type="text/css" />
 {% block stylesheet %}{{ stylesheet }}{% endblock %}
@@ -66,8 +65,7 @@
 <ul class="ligne2">
 
 {% block barre-groupes_regionaux %}<li>{% endblock %}
-    <a href="/groupes_regionaux/" accesskey="r">
-        {% trans "Regional groups"%}</a></li>
+    <a href="/groupes_regionaux/" accesskey="r">{% trans "Regional groups"%}</a></li>
 
 {% block barre-groupes %}<li>{% endblock %}
     <a href="/groupes/" accesskey="g">{% trans "Working groups"%}</a></li>

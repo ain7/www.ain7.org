@@ -21,6 +21,7 @@
 #
 
 from ain7.annuaire.models import *
+from ain7.emploi.models import CompanyField
 from ain7.utils import ain7_render_to_response
 
 def person(request):
@@ -33,9 +34,9 @@ def person(request):
             value = person.complete_name
             if person.ain7member:
                 promo = person.ain7member.promos.all()[person.ain7member.promos.all().count()-1]
-                value = '<a href="/annuaire/'+str(person.user.id)+'/">'+person.complete_name+'</a>'
+                value = '<a href="javascript:showContactDetails(\'/annuaire/'+str(person.user.id)+'/ \', \''+person.complete_name+'\');">'+person.complete_name+'</a>'
                 value += ' ('+str(promo)+')'
-            elements.append({'id': person.user.id, 'value': value})
+            elements.append({'id': person.user.id, 'displayValue': person.complete_name, 'value': value})
 
     return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
 
@@ -46,7 +47,7 @@ def nationality(request):
         input = request.POST['text']
         nationalities = Country.objects.filter(nationality__icontains=input)
         for nationality in nationalities:
-            elements.append({'id': nationality.id, 'value': nationality.nationality})
+            elements.append({'id': nationality.id, 'displayValue': nationality.nationality , 'value': nationality.nationality})
 
     return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
 
@@ -58,7 +59,7 @@ def promo(request):
         input = request.POST['text']
         promos = Promo.objects.filter(year__istartswith=input).values('year').distinct()
         for promo in promos:
-            elements.append({'id': promo['year'], 'value': promo['year']})
+            elements.append({'id': promo['year'], 'displayValue': promo['year'], 'value': promo['year']})
 
     return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
 
@@ -69,7 +70,18 @@ def track(request):
         input = request.POST['text']
         tracks = Track.objects.filter(name__icontains=input)
         for track in tracks:
-            elements.append({'id':track.id, 'value': track.name})
+            elements.append({'id':track.id, 'displayValue': track.name , 'value': track.name})
+
+    return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
+
+def companyfield(request):
+    elements = []
+
+    if request.method == 'POST':
+        input = request.POST['text']
+        companyfields = CompanyField.objects.filter(label__icontains=input)
+        for cf in companyfields:
+            elements.append({'id': cf.id, 'displayValue': cf.label , 'value': cf.label })
 
     return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
 

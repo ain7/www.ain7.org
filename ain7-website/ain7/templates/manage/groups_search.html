@@ -2,10 +2,6 @@
 
 {% load i18n %}
 
-{% block javascript %}
-<script src="/site_media/js/scriptaculous/scriptaculous.js?load=effects,controls?version={{ scriptaculous_version }}" type="text/javascript"></script>
-{% endblock %}
-
 {% block content %}
 
 <div id="content-main">
@@ -53,15 +49,23 @@
 
 <div class="right">
 
-   <h3>{% trans "Actions" %}</h3>
-   <div class="right_articles">
-    <ul>
-        <li><a href="/manage/users/">{% trans "Manage users" %}</a></li>
-        <li><a href="/manage/groups/">{% trans "Manage groups" %}</a></li>
-        <li><a href="/manage/permissions/">{% trans "Manage permissions" %}</a></li>
-        <li><a href="/manage/companies/">{% trans "Manage companies" %}</a></li>
-    </ul>
-   </div>
+<h3>{% trans "Navigation" %}</h3>
+<div class="right_articles">
+<ul>
+    <li><a href="/manage/users/">{% trans "Manage users" %}</a></li>
+    <li><a href="/manage/groups/">{% trans "Manage groups" %}</a></li>
+    <li><a href="/manage/permissions/">{% trans "Manage permissions" %}</a></li>
+    <li><a href="/manage/companies/">{% trans "Manage companies" %}</a></li>
+</ul>
+</div>
+
+<h3>{% trans "Actions" %}</h3>
+<div class="right_articles">
+<ul>
+    <li><a href="/manage/groups/register/">{% trans "Register group" %}</a></li>
+</ul>
+</div>
+
 
 </div>
 
