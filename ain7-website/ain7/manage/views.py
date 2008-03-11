@@ -30,7 +30,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from ain7.utils import ain7_render_to_response, form_callback
 from ain7.decorators import confirmation_required
 from ain7.annuaire.models import Person, UserContribution
-from ain7.emploi.models import Company, CompanyField
+from ain7.emploi.models import Company, CompanyField, OrganizationProposal
 from ain7.manage.models import *
 
 from ain7.fields import AutoCompleteField
@@ -79,8 +79,6 @@ class NotificationForm(forms.Form):
 
 @login_required
 def index(request):
-    for n in Notification.objects.all():
-        print n
     return ain7_render_to_response(request, 'manage/default.html',
         {'notifications': Notification.objects.all()})
 
@@ -270,8 +268,6 @@ def groups_search(request):
             # criteres sur le nom et prenom
             criteria={'name__contains':form.clean_data['name'].encode('utf8')}
 
-            print form.clean_data['name']
-
             groups = Group.objects.filter(**criteria)
             paginator = ObjectPaginator(groups, nb_results_by_page)
 
@@ -341,7 +337,6 @@ def member_add(request, group_id):
     if request.method == 'POST':
         form = MemberGroupForm(request.POST)
         if form.is_valid():
-            print form.clean_data['username']
             u = User.objects.get(id=form.clean_data['username'])
             u.groups.add(g)
             request.user.message_set.create(message=_('User added to group'))
@@ -512,5 +507,12 @@ def notification_edit(request, notif_id):
 def notification_delete(request, notif_id):
 
     notif = get_object_or_404(Notification, pk=notif_id)
+    if notif.proposal_object:
+        proposal = None
+        if notif.proposal_type == 0:
+            proposal = get_object_or_404(OrganizationProposal, pk=notif_id)
+        if notif.proposal_type == 1:
+            proposal = get_object_or_404(OfficeProposal, pk=notif_id)
+        proposal.delete()
     notif.delete()
     return HttpResponseRedirect('/manage/')

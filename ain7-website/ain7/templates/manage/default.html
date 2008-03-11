@@ -16,8 +16,12 @@
     <h3 class="notif">{{ notification.title }}</h3>
     {{ notification.details }}
     <br />
-    <a href="/manage/notification/{{ notification.id }}/edit/" class="changelink">{% trans "Modify" %}</a>&nbsp;
-    <a href="/manage/notification/{{ notification.id }}/delete/" class="deletelink">{% trans "Delete" %}</a>
+    {% if notification.proposal_object %}
+      <a href="/manage/notification/{{ notification.id }}/delete/" class="deletelink">{% trans "Delete this proposal" %}</a>
+    {% else %}
+      <a href="/manage/notification/{{ notification.id }}/edit/" class="changelink">{% trans "Modify" %}</a>&nbsp;
+      <a href="/manage/notification/{{ notification.id }}/delete/" class="deletelink">{% trans "Delete" %}</a>
+    {% endif %}
   {% endfor %}
 </div>
 {% endif %}

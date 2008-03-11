@@ -27,6 +27,12 @@ from django.db import models
 from ain7.annuaire.models import Person, AIn7Member, Track
 from ain7.annuaire.models import Country
 
+ACTIONS = (
+    (0, _('Create')),
+    (1, _('Modify')),
+    (2, _('Remove')),
+    )
+
 # ???
 class CompanyField(models.Model):
 
@@ -77,6 +83,31 @@ class Company(models.Model):
     class Admin:
         pass
 
+
+# A proposal for creating, modifying or deleting an organization
+class OrganizationProposal(Company):
+
+    author = models.ForeignKey(Person, verbose_name=_('author'),
+                               related_name='organization_proposals')
+    original = models.ForeignKey(Company,
+                                 verbose_name=_('original organization'),
+                                 related_name='organization_proposals')
+    action = models.IntegerField(verbose_name=_('action'), choices=ACTIONS,
+                                 blank=True, null=True)
+
+    def __str__(self):
+        return self.action + " " + self.name
+
+    def save(self):
+        self.modification_date = datetime.datetime.today()
+        return super(OrganizationProposal, self).save()
+
+    class Meta:
+        verbose_name = _('organization modification proposal')
+
+    class Admin:
+        pass
+
 # A company office informations
 class Office(models.Model):
 
@@ -112,6 +143,31 @@ class Office(models.Model):
     class Meta:
         verbose_name = _('office')
         verbose_name_plural = _('offices')
+
+
+# A proposal for creating, modifying or deleting an office
+class OfficeProposal(Office):
+
+    author = models.ForeignKey(Person, verbose_name=_('author'),
+                               related_name='office_proposals')
+    original = models.ForeignKey(Office, verbose_name=_('original office'),
+                                 related_name='office_proposals')
+    action = models.IntegerField(verbose_name=_('action'), choices=ACTIONS,
+                                 blank=True, null=True)
+
+    def __str__(self):
+        return self.action + " " + self.name
+
+    def save(self):
+        self.modification_date = datetime.datetime.today()
+        return super(OfficeProposal, self).save()
+
+    class Meta:
+        verbose_name = _('office modification proposal')
+
+    class Admin:
+        pass
+
 
 # A position occupied by a person.
 class Position(models.Model):

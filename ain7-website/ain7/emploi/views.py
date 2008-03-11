@@ -32,8 +32,8 @@ from datetime import datetime
 
 from ain7.annuaire.models import Person, AIn7Member, Track
 from ain7.decorators import confirmation_required
-from ain7.emploi.models import JobOffer, Position, EducationItem, LeisureItem
-from ain7.emploi.models import Office, Company, PublicationItem
+from ain7.emploi.models import *
+from ain7.manage.models import Notification
 from ain7.utils import ain7_render_to_response, form_callback
 
 class JobOfferForm(forms.Form):
@@ -285,7 +285,8 @@ def office_create(request, user_id=None):
         f = OfficeForm(request.POST.copy())
         if f.is_valid():
             f.save()
-        return ain7_render_to_response(request, 'emploi/cv_edit.html', {'person': p})
+        ain7member = get_object_or_404(AIn7Member, person=p)
+        return ain7_render_to_response(request, 'emploi/cv_edit.html', {'person': p, 'ain7member': ain7member})
 
 @login_required
 def company_create(request, user_id=None):
@@ -294,20 +295,37 @@ def company_create(request, user_id=None):
 
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
-        CompanyForm = forms.models.form_for_model(Company)
-        CompanyForm.base_fields['size'].widget =\
+        OrgForm = forms.models.form_for_model(OrganizationProposal,
+            formfield_callback=_form_callback)
+        OrgForm.base_fields['size'].widget =\
             forms.Select(choices=Company.COMPANY_SIZE)
-        f = CompanyForm()
+        f = OrgForm()
         return ain7_render_to_response(request, 'emploi/office_create.html',
                                 {'form': f, 'person': p, 'object': 'company'})
 
-    # 2e passage : sauvegarde et redirection
+    # 2e passage : sauvegarde, notification et redirection
     if request.method == 'POST':
-        CompanyForm = forms.models.form_for_model(Company)
-        f = CompanyForm(request.POST.copy())
+        OrgForm = forms.models.form_for_model(Company,
+            formfield_callback=_form_callback)
+        f = OrgForm(request.POST.copy())
         if f.is_valid():
-            f.save()
-        return ain7_render_to_response(request, 'emploi/cv_edit.html', {'person': p})
+            # create the OrganizationProposal
+            f.original = None
+            f.author = request.user.person
+            proposal = f.save()
+            # create the notification
+            notif = Notification()
+            notif.title = _('Proposal for adding an organization')
+            notif.details = _('<a href="/annuaire/%d/">%s</a> proposed the creation of the organization <em>%s</em>. Please visit <a href="/manage/organizations/proposals/register/%d/">this page</a> to check for correctness and possibly confirm.' % (request.user.id, request.user.person, f.clean_data['name'], proposal.id))
+            notif.proposal_type   = 0           # organization
+            notif.proposal_action = 0           # creation
+            notif.proposal_object = proposal.id
+            notif.save()
+            request.user.message_set.create(message=_('Your proposal for adding an organization has been sent to moderators.'))
+        else:
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+        ain7member = get_object_or_404(AIn7Member, person=p)
+        return ain7_render_to_response(request, 'emploi/cv_edit.html', {'person': p, 'ain7member': ain7member})
 
 @login_required
 def job_details(request,emploi_id):
@@ -409,7 +427,6 @@ def company_details(request, company_id):
     for office in offices:
         liste_emplois.extend(JobOffer.objects.filter(office=office))
         for position in office.positions.all():
-            print "position:"  + str(position)
             ain7member = position.ain7member
             today = datetime.now().date()
             # je veille à ce qu'une personne actuellement dans cette société
@@ -430,7 +447,8 @@ def company_details(request, company_id):
 # person user ain7member
 # des formulaires créés avec form_for_model et form_for_instance
 def _form_callback(f, **args):
-    exclude_fields = ('person', 'user', 'ain7member')
+    exclude_fields = ('person', 'user', 'ain7member', 'original', 'author',
+                      'action')
     if f.name in exclude_fields:
         return None
     return form_callback(f,**args)

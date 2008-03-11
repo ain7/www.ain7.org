@@ -21,8 +21,8 @@
 </form>
 
 {% ifequal object "office" %}
-    <a href="/emploi/{{ user.id }}/cv/company/create/">
-    {% trans "Create a new company" %}</a>.
+    <a href="/emploi/{{ user.id }}/cv/company/create/" class="addlink">
+    {% trans "Propose a new company" %}</a>
 {% endifequal %}
 
 </div>
