@@ -32,6 +32,7 @@ urlpatterns = patterns('',
     (r'^sendmail/$', sendmail),
     (r'^register/$', register),
     (r'^(?P<user_id>\d+)/$', details),
+    (r'^(?P<user_id>\d+)/frame/$', details_frame),
     # Advanced search
     (r'^advanced_search/$', advanced_search),
     # Advanced search: session filter

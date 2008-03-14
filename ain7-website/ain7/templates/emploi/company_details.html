@@ -5,6 +5,11 @@
 
 <div id="content-main">
 <h1>{{ company }}</h1>
+
+{% if company.long_description %}
+<p> {{ company.long_description }} </p>
+{% endif %}
+
 <!--TODO: ajouter size + field-->
 <h2>{% trans "List of offices" %}</h2>
 <ul>

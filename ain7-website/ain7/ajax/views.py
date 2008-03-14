@@ -34,7 +34,7 @@ def person(request):
             value = person.complete_name
             if person.ain7member:
                 promo = person.ain7member.promos.all()[person.ain7member.promos.all().count()-1]
-                value = '<a href="javascript:showContactDetails(\'/annuaire/'+str(person.user.id)+'/ \', \''+person.complete_name+'\');">'+person.complete_name+'</a>'
+                value = '<a href="javascript:showContactDetails(\'/annuaire/'+str(person.user.id)+'/frame/ \', \''+person.complete_name+'\');">'+person.complete_name+'</a>'
                 value += ' ('+str(promo)+')'
             elements.append({'id': person.user.id, 'displayValue': person.complete_name, 'value': value})
 

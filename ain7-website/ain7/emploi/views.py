@@ -91,11 +91,14 @@ class OrganizationForm(forms.Form):
     short_description = forms.CharField(
         label=_('Short Description'), max_length=50)
     long_description = forms.CharField(
-        label=_('Long Description'), max_length=500, required=False,
+        label=_('Long Description'), max_length=5000, required=False,
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':95}))
 
     def save(self, is_a_proposal=False):
-        org = Company()
+        if self.clean_data.has_key('company'):
+            org = self.clean_data['company']
+        else:
+             org = Company()
         # TODO : automatiser avec qqchose comme ça:
 #         for field in org._meta.fields:
 #             if field.name=='is_a_proposal':
@@ -373,7 +376,7 @@ def office_create(request, user_id=None):
             # create the notification
             notif = Notification()
             notif.title = _('Proposal for adding an office')
-            notif.details = _('<a href="/annuaire/%(userid)d/">%(userperson)s</a> proposed the creation of the office <em>%(officename)s</em> for the organization <em>%(orgname)s</em>. Please visit <a href="/manage/offices/proposals/register/%(proposalid)d/">this page</a> to check for correctness and possibly confirm.') % {'userid': request.user.id, 'userperson': request.user.person, 'officename': modifiedOffice.name, 'orgname': modifiedOffice.company, 'proposalid': officeProp.id}
+            notif.details = unicode(_('<a href="/annuaire/%(userid)d/">%(userperson)s</a> proposed the creation of the office <em>%(officename)s</em> for the organization <em>%(orgname)s</em>. Please visit <a href="/manage/offices/proposals/register/%(proposalid)d/">this page</a> to check for correctness and possibly confirm.'), 'utf8') % {'userid': request.user.id, 'userperson': request.user.person, 'officename': modifiedOffice.name, 'orgname': modifiedOffice.company, 'proposalid': officeProp.id}
             notif.proposal_type   = 1           # office
             notif.proposal_action = 0           # creation
             notif.proposal_object = officeProp.id
@@ -411,7 +414,7 @@ def company_create(request, user_id=None):
             # create the notification
             notif = Notification()
             notif.title = unicode(_('Proposal for adding an organization'),'utf8')
-            notif.details = _('<a href="/annuaire/%(userid)d/">%(userperson)s</a> proposed the creation of the organization <em>%(orgname)s</em>. Please visit <a href="/manage/organizations/proposals/register/%(proposalid)d/">this page</a> to check for correctness and possibly confirm.') % {'userid': request.user.id, 'userperson': p, 'orgname': modifiedOrg.name, 'proposalid': orgprop.id}
+            notif.details = unicode(_('<a href="/annuaire/%(userid)d/">%(userperson)s</a> proposed the creation of the organization <em>%(orgname)s</em>. Please visit <a href="/manage/organizations/proposals/register/%(proposalid)d/">this page</a> to check for correctness and possibly confirm.'),'utf8') % {'userid': request.user.id, 'userperson': p, 'orgname': modifiedOrg.name, 'proposalid': orgprop.id}
             notif.proposal_type   = 0           # organization
             notif.proposal_action = 0           # creation
             notif.proposal_object = orgprop.id
@@ -516,7 +519,7 @@ def job_search(request):
 def company_details(request, company_id):
 
     company = get_object_or_404(Company, pk=company_id)
-    offices = Office.objects.filter(company=company)
+    offices = Office.objects.filter(company=company).filter(is_valid=True)
     liste_emplois = []
     liste_N7_past = []
     liste_N7_current = []

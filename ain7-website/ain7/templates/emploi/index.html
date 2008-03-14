@@ -39,7 +39,8 @@
 {% if liste_emplois %}
     <ul>
     {% for emploi in liste_emplois %}
-        <li class="job">{{ emploi.office.company }} ({{ emploi.office }}) 
+        <li class="job"><a href="/emploi/societe/{{ emploi.office.company.id }}/">
+    {{ emploi.office.company }}</a> ({{ emploi.office }}) 
            - <a href="/emploi/job/{{ emploi.id }}/">{{ emploi.title }}</a>
         </li>
     {% endfor %}

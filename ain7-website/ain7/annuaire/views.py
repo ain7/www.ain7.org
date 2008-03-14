@@ -160,6 +160,13 @@ def details(request, user_id):
                             {'person': p, 'ain7member': ain7member})
 
 @login_required
+def details_frame(request, user_id):
+    p = get_object_or_404(Person, pk=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=p)
+    return ain7_render_to_response(request, 'annuaire/details_frame.html',
+                            {'person': p, 'ain7member': ain7member})
+
+@login_required
 def search(request):
 
     form = SearchPersonForm()

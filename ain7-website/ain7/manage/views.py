@@ -213,8 +213,10 @@ def company_edit(request, company_id=None):
         form = OrganizationForm()
 
     if request.method == 'POST':
-        form = OrganizationForm(request.POST)
+        form = OrganizationForm(request.POST.copy())
         if form.is_valid():
+            print Company.objects.get(id=company_id)
+            form.clean_data['company']=Company.objects.get(id=company_id)
             form.save(is_a_proposal=False)
             request.user.message_set.create(message=_('Company successfully created'))
             return HttpResponseRedirect('/manage/')
