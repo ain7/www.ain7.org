@@ -35,6 +35,8 @@ from ain7.emploi.models import OfficeProposal
 from ain7.manage.models import *
 from ain7.emploi.views import OrganizationForm
 
+from ain7.widgets import DateTimeWidget
+
 from ain7.fields import AutoCompleteField
 
 class SearchPersonForm(forms.Form):
@@ -63,9 +65,9 @@ class NewPersonForm(forms.Form):
     first_name = forms.CharField(label=_('First name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size':50}))
     last_name = forms.CharField(label=_('Last name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 50}))
     mail = forms.CharField(label=_('Mail'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 50}))
-    nationality = forms.IntegerField(label=_('Nationality'), required=True, widget=AutoCompleteField(url='/ajax/nationality/'))
-    birth_date = forms.DateTimeField(label=_('Date of birth'), required=True)
-    sex = forms.CharField(label=_('sex'), required=True)
+    nationality = forms.IntegerField(label=_('Nationality'), required=False, widget=AutoCompleteField(url='/ajax/nationality/'))
+    birth_date = forms.DateTimeField(label=_('Date of birth'), required=False, widget=DateTimeWidget)
+    sex = forms.IntegerField(label=_('Sex'), required=False,  widget=forms.Select(choices=Person.SEX))
 
 # TODO : utiliser TinyMCE pour le champ details
 class NotificationForm(forms.Form):
@@ -127,6 +129,7 @@ def user_register(request):
     form = NewPersonForm()
 
     if request.method == 'POST':
+        form = NewPersonForm(request.POST)
         if form.is_valid():
             login = (form.clean_data['first_name'][0]+form.clean_data['last_name']).lower()
             mail = form.clean_data['mail']
