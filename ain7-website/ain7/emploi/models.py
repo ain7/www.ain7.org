@@ -31,7 +31,7 @@ ACTIONS = (
     (0, _('Create')),
     (1, _('Modify')),
     (2, _('Remove')),
-    )
+)
 
 # ???
 class CompanyField(models.Model):
@@ -65,6 +65,8 @@ class Company(models.Model):
     field = models.ForeignKey(CompanyField, verbose_name=_('field'), related_name='companies')
     short_description = models.CharField(verbose_name=_('short description'), maxlength=50, blank=True, null=True)
     long_description = models.TextField(verbose_name=_('long description'), blank=True, null=True)
+    is_a_proposal = models.BooleanField(
+        verbose_name=_('is a proposal'), default=False)
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
@@ -85,28 +87,40 @@ class Company(models.Model):
 
 
 # A proposal for creating, modifying or deleting an organization
-class OrganizationProposal(Company):
+class OrganizationProposal(models.Model):
 
     author = models.ForeignKey(Person, verbose_name=_('author'),
                                related_name='organization_proposals')
     original = models.ForeignKey(Company,
                                  verbose_name=_('original organization'),
-                                 related_name='organization_proposals')
+                                 related_name='organization_proposals',
+                                 blank=True, null=True)
+    modified = models.ForeignKey(Company,
+                                 verbose_name=_('modified organization'))
     action = models.IntegerField(verbose_name=_('action'), choices=ACTIONS,
                                  blank=True, null=True)
 
+    # Internal
+    creation_date =  models.DateTimeField(
+        default=datetime.datetime.now, editable=False)
+    modification_date = models.DateTimeField(editable=False)
+
     def __str__(self):
-        return self.action + " " + self.name
+        act = ""
+        for (actnum, actname) in ACTIONS:
+            if actnum==self.action:
+                act = actname
+        return act + _(" the organization ") + self.modified.name
 
     def save(self):
         self.modification_date = datetime.datetime.today()
         return super(OrganizationProposal, self).save()
 
-    class Meta:
-        verbose_name = _('organization modification proposal')
-
     class Admin:
         pass
+
+    class Meta:
+        verbose_name = _('organization modification proposal')
 
 # A company office informations
 class Office(models.Model):
@@ -125,6 +139,8 @@ class Office(models.Model):
     web_site = models.CharField(verbose_name=_('web site'), maxlength=100, blank=True, null=True)
 
     is_valid = models.BooleanField(verbose_name=_('is valid'), default=True)
+    is_a_proposal = models.BooleanField(
+        verbose_name=_('is a proposal'), default=False)
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
@@ -146,17 +162,28 @@ class Office(models.Model):
 
 
 # A proposal for creating, modifying or deleting an office
-class OfficeProposal(Office):
+class OfficeProposal(models.Model):
 
     author = models.ForeignKey(Person, verbose_name=_('author'),
                                related_name='office_proposals')
     original = models.ForeignKey(Office, verbose_name=_('original office'),
-                                 related_name='office_proposals')
+                                 related_name='office_proposals',
+                                 null=True)
+    modified = models.ForeignKey(Office, verbose_name=_('modified office'))
     action = models.IntegerField(verbose_name=_('action'), choices=ACTIONS,
                                  blank=True, null=True)
 
+    # Internal
+    creation_date =  models.DateTimeField(
+        default=datetime.datetime.now, editable=False)
+    modification_date = models.DateTimeField(editable=False)
+
     def __str__(self):
-        return self.action + " " + self.name
+        act = ""
+        for (actnum, actname) in ACTIONS:
+            if actnum==self.action:
+                act = actname
+        return act + _(" the office ") + self.modified.name
 
     def save(self):
         self.modification_date = datetime.datetime.today()

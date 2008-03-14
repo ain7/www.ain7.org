@@ -34,7 +34,7 @@ class Notification(models.Model):
         (0, _('organization')),
         (1, _('office')),
         )
-    
+
     title = models.CharField(verbose_name=_('title'), maxlength=50)
     details = models.TextField(verbose_name=_('Notes'),
         blank=True, null=True)

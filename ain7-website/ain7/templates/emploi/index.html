@@ -73,6 +73,17 @@
 </ul>
 </div>
 
+{% if proposals %}
+<h3>{% trans "Your proposals under review" %}</h3>
+  <div class="right_articles">
+    <ul>
+      {% for proposal in proposals %}
+        <li>{{ proposal }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
 </div>
 
 </div>

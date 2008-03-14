@@ -31,7 +31,9 @@ from ain7.utils import ain7_render_to_response, form_callback
 from ain7.decorators import confirmation_required
 from ain7.annuaire.models import Person, UserContribution
 from ain7.emploi.models import Company, CompanyField, OrganizationProposal
+from ain7.emploi.models import OfficeProposal
 from ain7.manage.models import *
+from ain7.emploi.views import OrganizationForm
 
 from ain7.fields import AutoCompleteField
 
@@ -41,13 +43,6 @@ class SearchPersonForm(forms.Form):
 
 class SearchGroupForm(forms.Form):
     name = forms.CharField(label=_('Name'), max_length=50, required=False)
-
-class RegisterCompanyForm(forms.Form):
-    name = forms.CharField(label=_('Name'), max_length=50, required=True)
-    size = forms.IntegerField(label=_('Size'), required=True, widget=forms.Select(choices=Company.COMPANY_SIZE))
-    field = forms.CharField(label=_('Field'), max_length=50, required=True, widget=AutoCompleteField(url='/ajax/companyfield/'))
-    short_description = forms.CharField(label=_('Short Description'), max_length=50)
-    long_description = forms.CharField(label=_('Long Description'), max_length=500, required=False, widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':95}))
 
 class SearchCompanyForm(forms.Form):
     name = forms.CharField(label=_('Name'), max_length=50, required=False)
@@ -178,7 +173,8 @@ def companies_search(request):
         if form.is_valid():
 
             # criteres sur le nom et prenom
-            criteria={'name__contains':form.clean_data['name'].encode('utf8')} # ,\
+            criteria={'name__contains':form.clean_data['name'].encode('utf8'),
+                      'is_a_proposal': False} # ,\
                       #'location__contains':form.clean_data['location'].encode('utf8')}
 
             companies = Company.objects.filter(**criteria)
@@ -208,22 +204,15 @@ def company_edit(request, company_id=None):
 
     if company_id:
         company = get_object_or_404(Company, pk=company_id)
-        form = RegisterCompanyForm({'name': company.name, 'size': company.size, 'field': company.field, 'short_description': company.short_description, 
+        form = OrganizationForm({'name': company.name, 'size': company.size, 'field': company.field, 'short_description': company.short_description, 
                                     'long_description': company.long_description })
     else:
-        form = RegisterCompanyForm()
+        form = OrganizationForm()
 
     if request.method == 'POST':
-        form = RegisterCompanyForm(request.POST)
+        form = OrganizationForm(request.POST)
         if form.is_valid():
-            company = Company()
-            company.name = form.clean_data['name']
-            company.size = form.clean_data['size']
-            company.field = CompanyField.objects.get(id=form.clean_data['field'])
-            company.short_description = form.clean_data['short_description']
-            company.long_description = form.clean_data['long_description']
-            company.size = form.clean_data['size']
-            company.save()
+            form.save(is_a_proposal=False)
             request.user.message_set.create(message=_('Company successfully created'))
             return HttpResponseRedirect('/manage/')
         else:
@@ -251,6 +240,43 @@ def company_delete(request, company_id):
     company = get_object_or_404(Company, pk=company_id)
     company.delete()
     return HttpResponseRedirect('/manage/')
+
+
+@login_required
+def organization_register_proposal(request, proposal_id=None):
+
+    if not proposal_id:
+        return HttpResponseRedirect('/manage/')
+    
+    proposal = get_object_or_404(OrganizationProposal, pk=proposal_id)
+    form = OrganizationForm(
+        {'name': proposal.modified.name,
+         'size': proposal.modified.size,
+         'field': proposal.modified.field,
+         'short_description': proposal.modified.short_description, 
+         'long_description': proposal.modified.long_description })
+
+    if request.method == 'POST':
+        form = OrganizationForm(request.POST)
+        if form.is_valid():
+            company = form.save(is_a_proposal=False)
+            # on supprime la notification et la proposition
+            notification = Notification.objects.get(
+                proposal_object=proposal.id )
+            notification.delete()
+            proposal.modified.delete()
+            proposal.delete()
+            request.user.message_set.create(message=_('Organization successfully created'))
+            return HttpResponseRedirect('/manage/')
+        else:
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No company registered.') + str(form.errors))
+
+    back = request.META.get('HTTP_REFERER', '/')
+
+    return ain7_render_to_response(request,
+        'manage/proposal_register.html',
+        {'action_title': _('Proposal for adding an organization'),
+         'form': form, 'back': back})
 
 @login_required
 def groups_search(request):
@@ -468,7 +494,8 @@ def notification_add(request):
             request.user.message_set.create(message=_('Notification successfully created'))
             return HttpResponseRedirect('/manage/')
         else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(form.errors))
+            request.user.message_set.create(
+                message=_('Something was wrong in the form you filled. No modification done.') + str(form.errors))
 
     back = request.META.get('HTTP_REFERER', '/')
 
@@ -490,9 +517,11 @@ def notification_edit(request, notif_id):
             notif.title  = form.clean_data['title']
             notif.details= form.clean_data['details']
             notif.save()
-            request.user.message_set.create(message=_("Modifications have been successfully saved."))
+            request.user.message_set.create(
+                message=_("Modifications have been successfully saved."))
         else:
-            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done.")+str(form.errors))
+            request.user.message_set.create(
+                message=_("Something was wrong in the form you filled. No modification done.") + str(form.errors))
         return HttpResponseRedirect('/manage/')
     return ain7_render_to_response(
         request, 'manage/notification.html',
@@ -508,11 +537,16 @@ def notification_delete(request, notif_id):
 
     notif = get_object_or_404(Notification, pk=notif_id)
     if notif.proposal_object:
-        proposal = None
+        model = None
         if notif.proposal_type == 0:
-            proposal = get_object_or_404(OrganizationProposal, pk=notif_id)
+            model = OrganizationProposal
         if notif.proposal_type == 1:
-            proposal = get_object_or_404(OfficeProposal, pk=notif_id)
+            model = OfficeProposal
+        proposal = get_object_or_404(model, pk=notif.proposal_object)
+        if proposal.modified:
+            proposal.modified.delete()
         proposal.delete()
     notif.delete()
+    request.user.message_set.create(
+        message=_("The notification has been successfully removed."))
     return HttpResponseRedirect('/manage/')
