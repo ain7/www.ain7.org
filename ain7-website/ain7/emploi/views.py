@@ -373,7 +373,7 @@ def office_create(request, user_id=None):
             # create the notification
             notif = Notification()
             notif.title = _('Proposal for adding an office')
-            notif.details = _('<a href="/annuaire/%(userid)d/">%(userperson)s</a> proposed the creation of the office <em>%(officename)s</em> for the organization <em>%(orgname)s</em>. Please visit <a href="/manage/offices/proposals/register/%(proposalid)d/">this page</a> to check for correctness and possibly confirm.' % {'userid': request.user.id, 'userperson': request.user.person, 'officename': modifiedOffice.name, 'orgname': modifiedOffice.company, 'proposalid': officeProp.id})
+            notif.details = _('<a href="/annuaire/%(userid)d/">%(userperson)s</a> proposed the creation of the office <em>%(officename)s</em> for the organization <em>%(orgname)s</em>. Please visit <a href="/manage/offices/proposals/register/%(proposalid)d/">this page</a> to check for correctness and possibly confirm.') % {'userid': request.user.id, 'userperson': request.user.person, 'officename': modifiedOffice.name, 'orgname': modifiedOffice.company, 'proposalid': officeProp.id}
             notif.proposal_type   = 1           # office
             notif.proposal_action = 0           # creation
             notif.proposal_object = officeProp.id
@@ -411,7 +411,7 @@ def company_create(request, user_id=None):
             # create the notification
             notif = Notification()
             notif.title = unicode(_('Proposal for adding an organization'),'utf8')
-            notif.details = _('<a href="/annuaire/%(userid)d/">%(userperson)s</a> proposed the creation of the organization <em>%(orgname)s</em>. Please visit <a href="/manage/organizations/proposals/register/%(proposalid)d/">this page</a> to check for correctness and possibly confirm.' % {'userid': request.user.id, 'userperson': p, 'orgname': modifiedOrg.name, 'proposalid': orgprop.id})
+            notif.details = _('<a href="/annuaire/%(userid)d/">%(userperson)s</a> proposed the creation of the organization <em>%(orgname)s</em>. Please visit <a href="/manage/organizations/proposals/register/%(proposalid)d/">this page</a> to check for correctness and possibly confirm.') % {'userid': request.user.id, 'userperson': p, 'orgname': modifiedOrg.name, 'proposalid': orgprop.id}
             notif.proposal_type   = 0           # organization
             notif.proposal_action = 0           # creation
             notif.proposal_object = orgprop.id
@@ -524,7 +524,7 @@ def company_details(request, company_id):
         liste_emplois.extend(JobOffer.objects.filter(office=office))
         for position in office.positions.all():
             ain7member = position.ain7member
-            today = datetime.now().date()
+            today = datetime.datetime.now().date()
             # je veille à ce qu'une personne actuellement dans cette société
             # n'apparaisse pas également dans la liste des précédents employés
             if (not position.end_date) or position.end_date >= today:
