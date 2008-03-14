@@ -1285,10 +1285,12 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     travel6.prix = 2430
     travel6.save()
 
-    groupes_regionaux.GroupMembership(group=idfgroup, member=lionel, type=0).save()
-    groupes_regionaux.GroupMembership(group=idfgroup, member=alex, type=2).save()
-    groupes_regionaux.GroupMembership(group=idfgroup, member=pierref, type=7).save()
-    groupes_regionaux.GroupMembership(group=idfgroup, member=olivier, type=7).save()
+    groupes_regionaux.GroupMembership(group=idfgroup, member=lionel).save()
+    groupes_regionaux.GroupRole(group=idfgroup, member=lionel, type=0).save()
+    groupes_regionaux.GroupMembership(group=idfgroup, member=alex).save()
+    groupes_regionaux.GroupRole(group=idfgroup, member=alex, type=2).save()
+    groupes_regionaux.GroupMembership(group=idfgroup, member=pierref).save()
+    groupes_regionaux.GroupMembership(group=idfgroup, member=olivier).save()
 
     utc = vobject.icalendar.utc
 

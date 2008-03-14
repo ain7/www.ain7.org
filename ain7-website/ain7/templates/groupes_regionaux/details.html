@@ -6,55 +6,55 @@
 <div id="content-main">
 
 <div class="left">
-	<h1>{{ group.name }}</h1>
-	{% if group.description %}
-		<p>{{ group.description }}</p>
-	{% endif %}
+    <h1>{{ group.name }}</h1>
+    {% if group.description %}
+        <p>{{ group.description }}</p>
+    {% endif %}
 
-	<h3>{% trans "Board Members" %}</h3>
-	{% regroup group.office_memberships by type as membership_groups %}
-	{% for membership_group in membership_groups %}
-		<h4>{{ membership_group.list.0.get_type_display }}</h4>
-		<ul>
-		{% for membership in membership_group.list %}
-			<li>
-				<a href="/annuaire/{{ membership.member.user.id }}/">{{ membership.member }}</a>
-			</li>
-		{% endfor %}
-		</ul>
+    <h3>{% trans "Board Members" %}</h3>
+    {% regroup group.office_memberships by type as membership_groups %}
+    {% for membership_group in membership_groups %}
+        <h4>{{ membership_group.list.0.get_type_display }}</h4>
+        <ul>
+        {% for membership in membership_group.list %}
+            <li>
+                <a href="/annuaire/{{ membership.member.user.id }}/">{{ membership.member }}</a>
+            </li>
+        {% endfor %}
+        </ul>
 {% endfor %}
 </div>
 
 <div class="right">
 
-	<h3>{% trans "Actions" %}</h3>
-	<div class="right_block">
-		<ul>
-			<li>
-			{% if not is_member %}
-				<a href="/groupes_regionaux/{{ group.id }}/join/">{% trans "Join the group" %}</a>
-			{% else %}
-				<a href="/groupes_regionaux/{{ group.id }}/quit/">{% trans "Quit the group" %}</a>
-			{% endif %}
-			</li>
-			<li><a href="/groupes_regionaux/{{ group.id }}/edit/">{% trans "Edit group informations" %}</a></li>
-		</ul>
-	</div>
+    <h3>{% trans "Actions" %}</h3>
+    <div class="right_block">
+        <ul>
+            <li>
+            {% if not is_member %}
+                <a href="/groupes_regionaux/{{ group.id }}/join/">{% trans "Join the group" %}</a>
+            {% else %}
+                <a href="/groupes_regionaux/{{ group.id }}/quit/">{% trans "Quit the group" %}</a>
+            {% endif %}
+            </li>
+            <li><a href="/groupes_regionaux/{{ group.id }}/edit/">{% trans "Edit group informations" %}</a></li>
+        </ul>
+    </div>
 
-	{% if group.active_events %}
-		<h3>{% trans "Events" %}</h3>
-		{% for event in group.active_events %}
-			<div class="right_articles">
-				<p><strong><a href="/evenements/{{ event.id }}/">{{ event.name|upper }}</a></strong></p>
-				<p>
+    {% if group.active_events %}
+        <h3>{% trans "Events" %}</h3>
+        {% for event in group.active_events %}
+            <div class="right_articles">
+                <p><strong><a href="/evenements/{{ event.id }}/">{{ event.name|upper }}</a></strong></p>
+                <p>
 {% blocktrans with event.start|date:"d/m/Y" as start_date and event.end|date:"d/m/Y" as end_date and event.location as place %}From {{ start_date }} to {{ end_date }} at {{ place }}{% endblocktrans %}
-				</p>
-				{% if event.description %}
-					<p><em>{{ event.description|truncatewords:10 }}</em></p>
-				{% endif %}
-			</div>
-		{% endfor %}
-	{% endif %}
+                </p>
+                {% if event.description %}
+                    <p><em>{{ event.description|truncatewords:10 }}</em></p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% endif %}
 
     <h3>{% trans "Card Informations"%}</h3>
    <div class="right_articles">
@@ -63,6 +63,8 @@
        <li>{% trans "Update" %}&nbsp;: {{ group.modification_date|date:"l j F Y" }}</li>
      </ul>
    </div>
+
+</div>
 
 </div>
 

@@ -215,7 +215,7 @@ a.button, a.button:hover {
 /* left side
    --------- */
 
-.left {
+div.left {
     float: left;
     width: 65%;
     margin: 0 0 10px 0;

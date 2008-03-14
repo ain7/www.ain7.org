@@ -47,9 +47,8 @@ class Group(models.Model):
         return super(Group, self).save()
 
     def office_memberships(self):
-        return self.memberships.exclude(end_date__isnull=False, end_date__lte=datetime.datetime.now())\
-                                .filter(start_date__lte=datetime.datetime.now())\
-                                .exclude(type=7) # exclude normal members
+        return self.roles.exclude(end_date__isnull=False, end_date__lte=datetime.datetime.now())\
+                                .filter(start_date__lte=datetime.datetime.now())
 
     def active_events(self):
         return self.events.filter(publication_start__lte=datetime.datetime.now(), publication_end__gte=datetime.datetime.now())
@@ -70,18 +69,6 @@ class Group(models.Model):
 
 class GroupMembership(models.Model):
 
-    MEMBERSHIP_TYPE = (
-                       (0, _('President')),
-                       (1, _('Vice president')),
-                       (2, _('Secretary')),
-                       (3, _('Treasurer')),
-                       (4, _('Under treasurer')),
-                       (5, _('Emploi manager')),
-                       (6, _('Office member')),
-                       (7, _('Member'))
-                       )
-
-    type = models.IntegerField(verbose_name=_('type'), choices=MEMBERSHIP_TYPE, core=True)
     start_date = models.DateField(verbose_name=_('start date'), default=datetime.datetime.now, blank=True, null=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
 
@@ -89,6 +76,30 @@ class GroupMembership(models.Model):
     member = models.ForeignKey(Person, verbose_name=_('member'), related_name='regional_group_memberships', core=True)
 
     class Meta:
-        ordering = ['type', 'start_date', 'end_date']
+        ordering = ['start_date', 'end_date']
         verbose_name = _('regional group membership')
         verbose_name_plural = _('regional group memberships')
+
+class GroupRole(models.Model):
+
+    ROLE_TYPE = (
+                       (0, _('President')),
+                       (1, _('Vice president')),
+                       (2, _('Secretary')),
+                       (3, _('Treasurer')),
+                       (4, _('Under treasurer')),
+                       (5, _('Emploi manager')),
+                       (6, _('Office member')),
+                       )
+
+    type = models.IntegerField(verbose_name=_('type'), choices=ROLE_TYPE, core=True)
+    start_date = models.DateField(verbose_name=_('start date'), default=datetime.datetime.now, blank=True, null=True)
+    end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
+
+    group = models.ForeignKey(Group, verbose_name=_('regional group'), related_name='roles', edit_inline=models.TABULAR, num_in_admin=2)
+    member = models.ForeignKey(Person, verbose_name=_('member'), related_name='regional_group_roles', core=True)
+
+    class Meta:
+        ordering = ['type', 'start_date', 'end_date']
+        verbose_name = _('regional group role')
+        verbose_name_plural = _('regional group roles')

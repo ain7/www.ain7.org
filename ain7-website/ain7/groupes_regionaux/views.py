@@ -65,6 +65,7 @@ def edit(request, group_id):
         return HttpResponseRedirect('/groupes_regionaux/%s/' % (group.id))
 
     GroupForm = forms.models.form_for_instance(group, formfield_callback=form_callback)
+    GroupForm.base_fields['description'].widget = forms.widgets.Textarea(attrs={'rows':10, 'cols':90})
     f = GroupForm()
 
     back = request.META.get('HTTP_REFERER', '/')
