@@ -14,13 +14,44 @@
 <div class="left_box">
   {% for notification in notifications %}
     <h3 class="notif">{{ notification.title }}</h3>
-    {{ notification.details }}
-    <br />
-    {% if notification.proposal_object %}
-      <a href="/manage/notification/{{ notification.id }}/delete/" class="deletelink">{% trans "Delete this proposal" %}</a>
+
+    {% if notification.organization_proposal %}
+
+      <a href="/annuaire/{{ notification.organization_proposal.author.user.id }}/">{{ notification.organization_proposal.author }}</a> 
+      {% trans "proposed the creation of the organization" %}
+      <em>{{ notification.organization_proposal.modified }}</em>. 
+      {% trans "Please visit" %} 
+      <a href="/manage/organizations/proposals/register/{{ notification.organization_proposal.id }}/">{% trans "this page" %}</a> 
+      {% trans "to check for correctness and possibly confirm" %}.
+      <br />
+      <a href="/manage/notification/{{ notification.id }}/delete/" 
+         class="deletelink">{% trans "Delete this proposal" %}</a>
+
     {% else %}
-      <a href="/manage/notification/{{ notification.id }}/edit/" class="changelink">{% trans "Modify" %}</a>&nbsp;
-      <a href="/manage/notification/{{ notification.id }}/delete/" class="deletelink">{% trans "Delete" %}</a>
+
+      {% if notification.office_proposal %}
+
+        <a href="/annuaire/{{ notification.office_proposal.author.user.id }}/">{{ notification.office_proposal.author }}</a> 
+        {% trans "proposed the creation of the office" %}
+        <em>{{ notification.office_proposal.modified }}</em>
+        {% trans "for the organisation" %}
+        <em>{{ notification.office_proposal.modified.company }}</em>. 
+        {% trans "Please visit" %} 
+        <a href="/manage/offices/proposals/register/{{ notification.office_proposal.id }}/">{% trans "this page" %}</a> 
+        {% trans "to check for correctness and possibly confirm" %}.
+        <br />
+        <a href="/manage/notification/{{ notification.id }}/delete/" 
+           class="deletelink">{% trans "Delete this proposal" %}</a>
+
+      {% else %}
+
+        {{ notification.details }}<br />
+        <a href="/manage/notification/{{ notification.id }}/edit/" 
+           class="changelink">{% trans "Modify" %}</a>&nbsp;
+        <a href="/manage/notification/{{ notification.id }}/delete/" 
+           class="deletelink">{% trans "Delete" %}</a>
+
+      {% endif %}
     {% endif %}
   {% endfor %}
 </div>

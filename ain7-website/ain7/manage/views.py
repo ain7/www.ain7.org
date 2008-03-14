@@ -33,7 +33,7 @@ from ain7.annuaire.models import Person, UserContribution
 from ain7.emploi.models import Company, CompanyField, OrganizationProposal
 from ain7.emploi.models import OfficeProposal
 from ain7.manage.models import *
-from ain7.emploi.views import OrganizationForm
+from ain7.emploi.views import OrganizationForm, OfficeForm
 
 from ain7.widgets import DateTimeWidget
 
@@ -215,7 +215,6 @@ def company_edit(request, company_id=None):
     if request.method == 'POST':
         form = OrganizationForm(request.POST.copy())
         if form.is_valid():
-            print Company.objects.get(id=company_id)
             form.clean_data['company']=Company.objects.get(id=company_id)
             form.save(is_a_proposal=False)
             request.user.message_set.create(message=_('Company successfully created'))
@@ -257,7 +256,7 @@ def organization_register_proposal(request, proposal_id=None):
     form = OrganizationForm(
         {'name': proposal.modified.name,
          'size': proposal.modified.size,
-         'field': proposal.modified.field,
+         'field': str(proposal.modified.field),
          'short_description': proposal.modified.short_description, 
          'long_description': proposal.modified.long_description })
 
@@ -267,7 +266,7 @@ def organization_register_proposal(request, proposal_id=None):
             company = form.save(is_a_proposal=False)
             # on supprime la notification et la proposition
             notification = Notification.objects.get(
-                proposal_object=proposal.id )
+                organization_proposal=proposal )
             notification.delete()
             proposal.modified.delete()
             proposal.delete()
@@ -281,6 +280,47 @@ def organization_register_proposal(request, proposal_id=None):
     return ain7_render_to_response(request,
         'manage/proposal_register.html',
         {'action_title': _('Proposal for adding an organization'),
+         'form': form, 'back': back})
+
+@login_required
+def office_register_proposal(request, proposal_id=None):
+
+    if not proposal_id:
+        return HttpResponseRedirect('/manage/')
+    
+    proposal = get_object_or_404(OfficeProposal, pk=proposal_id)
+    form = OfficeForm({
+        'company'     : proposal.modified.company.id,
+        'name'        : proposal.modified.name,
+        'line1'       : proposal.modified.line1,
+        'line2'       : proposal.modified.line2,
+        'zip_code'    : proposal.modified.zip_code,
+        'city'        : proposal.modified.city,
+        'country'     : proposal.modified.country.id,
+        'phone_number': proposal.modified.phone_number,
+        'web_site'    : proposal.modified.web_site,
+        'is_valid'    : proposal.modified.is_valid
+        })
+
+    if request.method == 'POST':
+        form = OfficeForm(request.POST)
+        if form.is_valid():
+            office = form.save(is_a_proposal=False)
+            # on supprime la notification et la proposition
+            notification = Notification.objects.get(office_proposal=proposal)
+            notification.delete()
+            proposal.modified.delete()
+            proposal.delete()
+            request.user.message_set.create(message=_('Office successfully created'))
+            return HttpResponseRedirect('/manage/')
+        else:
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.') + str(form.errors))
+
+    back = request.META.get('HTTP_REFERER', '/')
+
+    return ain7_render_to_response(request,
+        'manage/proposal_register.html',
+        {'action_title': _('Proposal for adding an office'),
          'form': form, 'back': back})
 
 @login_required
@@ -541,13 +581,12 @@ def notification_edit(request, notif_id):
 def notification_delete(request, notif_id):
 
     notif = get_object_or_404(Notification, pk=notif_id)
-    if notif.proposal_object:
-        model = None
-        if notif.proposal_type == 0:
-            model = OrganizationProposal
-        if notif.proposal_type == 1:
-            model = OfficeProposal
-        proposal = get_object_or_404(model, pk=notif.proposal_object)
+    proposal = None
+    if notif.organization_proposal:
+        proposal = notif.organization_proposal
+    if notif.office_proposal:
+        proposal = notif.office_proposal
+    if proposal:
         if proposal.modified:
             proposal.modified.delete()
         proposal.delete()

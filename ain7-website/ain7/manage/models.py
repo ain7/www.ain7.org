@@ -25,7 +25,7 @@ import datetime
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from ain7.emploi.models import ACTIONS
+from ain7.emploi.models import ACTIONS, OrganizationProposal, OfficeProposal
 
 # A notification
 class Notification(models.Model):
@@ -38,12 +38,12 @@ class Notification(models.Model):
     title = models.CharField(verbose_name=_('title'), maxlength=50)
     details = models.TextField(verbose_name=_('Notes'),
         blank=True, null=True)
-    proposal_action = models.IntegerField(
-        choices=ACTIONS,
+    organization_proposal = models.ForeignKey(
+        OrganizationProposal, verbose_name=_('organization proposal'),
         blank=True, null=True)
-    proposal_type = models.IntegerField(choices=PROPOSAL_TYPE,
+    office_proposal = models.ForeignKey(
+        OfficeProposal, verbose_name=_('organization proposal'),
         blank=True, null=True)
-    proposal_object = models.IntegerField(blank=True, null=True)
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)

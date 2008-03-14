@@ -170,8 +170,6 @@ def index(request):
     proposals = []
     proposals.extend(p.office_proposals.all())
     proposals.extend(p.organization_proposals.all())
-    for prop in OrganizationProposal.objects.all():
-        print prop.author
     
     return ain7_render_to_response(request, 'emploi/index.html',
                             {'ain7member': ain7member, 'liste_emplois': jobs,
@@ -376,10 +374,8 @@ def office_create(request, user_id=None):
             # create the notification
             notif = Notification()
             notif.title = _('Proposal for adding an office')
-            notif.details = unicode(_('<a href="/annuaire/%(userid)d/">%(userperson)s</a> proposed the creation of the office <em>%(officename)s</em> for the organization <em>%(orgname)s</em>. Please visit <a href="/manage/offices/proposals/register/%(proposalid)d/">this page</a> to check for correctness and possibly confirm.'), 'utf8') % {'userid': request.user.id, 'userperson': request.user.person, 'officename': modifiedOffice.name, 'orgname': modifiedOffice.company, 'proposalid': officeProp.id}
-            notif.proposal_type   = 1           # office
-            notif.proposal_action = 0           # creation
-            notif.proposal_object = officeProp.id
+            notif.details = ""
+            notif.office_proposal = officeProp
             notif.save()
             request.user.message_set.create(message=_('Your proposal for adding an office has been sent to moderators.'))
         else:
@@ -414,10 +410,8 @@ def company_create(request, user_id=None):
             # create the notification
             notif = Notification()
             notif.title = unicode(_('Proposal for adding an organization'),'utf8')
-            notif.details = unicode(_('<a href="/annuaire/%(userid)d/">%(userperson)s</a> proposed the creation of the organization <em>%(orgname)s</em>. Please visit <a href="/manage/organizations/proposals/register/%(proposalid)d/">this page</a> to check for correctness and possibly confirm.'),'utf8') % {'userid': request.user.id, 'userperson': p, 'orgname': modifiedOrg.name, 'proposalid': orgprop.id}
-            notif.proposal_type   = 0           # organization
-            notif.proposal_action = 0           # creation
-            notif.proposal_object = orgprop.id
+            notif.details = ""
+            notif.organization_proposal = orgprop
             notif.save()
             request.user.message_set.create(message=_('Your proposal for adding an organization has been sent to moderators.'))
         else:
