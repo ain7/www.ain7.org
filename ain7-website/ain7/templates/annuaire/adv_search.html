@@ -9,8 +9,8 @@
 {% endblock %}
 
 {% block stylesheet %}
-<link type="text/css" rel="stylesheet" href="/site_media/css/autocomplete.css?version={{ portal_version }}">
-<link type="text/css" rel="stylesheet" href="/site_media/css/floatingpane.css?version={{ portal_version }}">
+<link type="text/css" rel="stylesheet" href="/site_media/css/autocomplete.css?version={{ portal_version }}"/>
+<link type="text/css" rel="stylesheet" href="/site_media/css/floatingpane.css?version={{ portal_version }}"/>
 {% endblock %}
 
 {% block content %}
@@ -133,16 +133,18 @@
 
    <h3>{% trans "Registered filters" %}</h3>
    <div class="right_articles">
+   {% if userFilters %}
    <ul>
-     {% if userFilters %}
        {% for filter in userFilters %}
          <li>
            <a href="/annuaire/advanced_search/filter/{{ filter.id }}/">
              {{ filter }}</a>
          </li>
        {% endfor %}
-     {% endif %}
    </ul>
+   {% else %}
+     {% trans "No registered filter" %}
+   {% endif %}
    </div>
 </div>
 

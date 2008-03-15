@@ -51,6 +51,14 @@ EXCLUDE_FIELDS = [
     # in AIn7Member
     'person', 'member_type', 'person_type', 'avatar' ]
 
+# some fields that we manage manually
+CUSTOM_FIELDS = [
+    ('organization', _('company').capitalize()),
+    ('organizationField', _('field').capitalize()),
+    ('zip_code', _('zip code').capitalize()),
+    ('country', _('country').capitalize()),
+    ]
+
 # default filter operator
 DEFAULT_OPERATOR = _('or')
 
@@ -291,7 +299,7 @@ def sessionFilter_register(request):
     if request.method != 'POST':
         return ain7_render_to_response(request,
             'annuaire/edit_form.html',
-            {'form': form,
+            {'form': form, 'back': request.META.get('HTTP_REFERER', '/'),
              'action_title': _("Enter parameters of your filter")})
     else:
         form = FilterForm(request.POST)
@@ -484,6 +492,8 @@ def criterion_add(request, filter_id=None, criterionType=None):
     choiceList = []
     for field in criteriaList(isAdmin(request.user)):
         choiceList.append((field.name,field.verbose_name.capitalize()))
+#     for custom in CUSTOM_FIELDS:
+#         choiceList.append(custom)
 
     formFields = ChooseFieldForm()
     formFields.fields['chosenField'].choices = choiceList
@@ -503,14 +513,10 @@ def criterion_add(request, filter_id=None, criterionType=None):
     formFilters = ChooseFilterForm()
 
     if request.method == 'POST' and criterionType == 'field':
-        choiceList = []
-        for field in criteriaList(isAdmin(request.user)):
-            choiceList.append((field.name,field.verbose_name.capitalize()))
         form = ChooseFieldForm(request.POST)
         form.fields['chosenField'].choices = choiceList
         if form.is_valid():
-            request.session['criterion_field'] = \
-                form.clean_data['chosenField']
+            request.session['criterion_field']= form.clean_data['chosenField']
             if filter_id:
                 return HttpResponseRedirect(
                     '/annuaire/advanced_search/filter/%s/criterion/edit/field/' % filter_id)
@@ -562,8 +568,7 @@ def criterionField_edit(request, filter_id=None, criterion_id=None):
     else:
         msg = _("Edit the criterion")
         if filter_id:
-            crit = get_object_or_404(SearchCriterionField,
-                                     pk=criterion_id)
+            crit = get_object_or_404(SearchCriterionField, pk=criterion_id)
             fName = crit.fieldName
             cCode = crit.comparatorName
             value = crit.value
@@ -1387,7 +1392,11 @@ def getFieldFromName(fieldName):
                 if fieldName == manyToManyField.name:
                     fieldModel = model
                     field = manyToManyField
-    return (str(fieldModel._meta),field)
+    if field:
+        return (str(fieldModel._meta),field)
+#     for (fName, fVName, model) in CUSTOM_FIELDS:
+#         if fName==fieldName:
+#             return (model, )
 
 def getCompVerboseName(field, compCode):
     """ Returns the description of a comparator,

@@ -380,6 +380,9 @@ def office_create(request, user_id=None):
             request.user.message_set.create(message=_('Your proposal for adding an office has been sent to moderators.'))
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+            return ain7_render_to_response(request,
+                'emploi/office_create.html',
+                {'form': f, 'person': p, 'object': 'office'})
         ain7member = get_object_or_404(AIn7Member, person=p)
         return ain7_render_to_response(request, 'emploi/cv_edit.html',
                                        {'person': p, 'ain7member': ain7member})
@@ -416,6 +419,9 @@ def company_create(request, user_id=None):
             request.user.message_set.create(message=_('Your proposal for adding an organization has been sent to moderators.'))
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+            return ain7_render_to_response(request,
+                'emploi/office_create.html',
+                {'form': f, 'person': p, 'object': 'company'})
         ain7member = get_object_or_404(AIn7Member, person=p)
         return ain7_render_to_response(request, 'emploi/cv_edit.html',
                                        {'person': p, 'ain7member': ain7member})

@@ -28,6 +28,7 @@ from django.newforms import widgets
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import ObjectPaginator, InvalidPage
+from django.db import models
 from ain7.decorators import confirmation_required
 from ain7.utils import ain7_render_to_response, ImgUploadForm, form_callback
 
@@ -50,11 +51,15 @@ class SearchTravelForm(forms.Form):
     def search(self):
         criteria={
             'label__contains':self.clean_data['label'],
-            'date__contains':self.clean_data['date'],
-            'visited_places__contains':self.clean_data['visited_places']}
+            'date__contains':self.clean_data['date']}
+        # visited places are also searched in labels
+        visited = self.clean_data['visited_places']
+        q_visited = \
+            models.Q(visited_places__contains = visited) | \
+            models.Q(label__contains = visited)
         if not self.clean_data['search_old_travel']:
             criteria['start_date__gte'] = datetime.now()
-        return Travel.objects.filter(**criteria)
+        return Travel.objects.filter(**criteria).filter(q_visited)
 
 def count_travel_participants(travel):
     value = Subscription.objects.filter(travel=travel).values('subscriber_number').extra(select={'sum': 'sum(subscriber_number)'})
