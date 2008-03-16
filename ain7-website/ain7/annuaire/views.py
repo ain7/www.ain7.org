@@ -34,6 +34,7 @@ from django import newforms as forms
 from django.db import models
 
 from ain7.annuaire.models import *
+from ain7.emploi.models import Company, Office
 from ain7.decorators import confirmation_required
 from ain7.utils import ain7_render_to_response, ImgUploadForm, isAdmin, form_callback
 from ain7.widgets import DateTimeWidget
@@ -53,10 +54,10 @@ EXCLUDE_FIELDS = [
 
 # some fields that we manage manually
 CUSTOM_FIELDS = [
-    ('organization', _('company').capitalize()),
-    ('organizationField', _('field').capitalize()),
-    ('zip_code', _('zip code').capitalize()),
-    ('country', _('country').capitalize()),
+    ('company', Office , 'positions__office__company'       ),
+    ('field',   Company, 'positions__office__company__field'),
+    ('city',    Address, 'person__addresses__city'          ),
+    ('country', Address, 'person__addresses__country'       ),
     ]
 
 # default filter operator
@@ -130,6 +131,31 @@ class SearchPersonForm(forms.Form):
     first_name = forms.CharField(label=_('First name'), max_length=50, required=False)
     promo = forms.IntegerField(label=_('Promo'), required=False, widget=AutoCompleteField(url='/ajax/promo/'))
     track = forms.IntegerField(label=_('Track'), required=False, widget=AutoCompleteField(url='/ajax/track/'))
+    organization = forms.CharField(label=_('company').capitalize(), max_length=50, required=False)
+
+    def criteria(self):
+        # criteres sur le nom et prenom, et sur l'organisation
+        criteria={
+            'person__last_name__contains': self.clean_data['last_name'].encode('utf8'),
+            'person__first_name__contains': self.clean_data['first_name'].encode('utf8'),
+            'positions__office__company__name__contains': self.clean_data['organization'].encode('utf8'),}
+        # ici on commence par rechercher toutes les promos
+        # qui concordent avec l'annee de promotion et la filiere
+        # saisis par l'utilisateur.
+        promoCriteria={}
+        if self.clean_data['promo'] != -1:
+            promoCriteria['year']=self.clean_data['promo']
+        if self.clean_data['track'] != -1:
+            promoCriteria['track']=\
+                Track.objects.get(id=self.clean_data['track'])
+        # on ajoute ces promos aux critères de recherche
+        # si elle ne sont pas vides
+        if len(promoCriteria)!=0:
+            criteria['promos__in']=Promo.objects.filter(**promoCriteria)
+        return criteria
+
+    def search(self, criteria):
+        return AIn7Member.objects.filter(**criteria).distinct()
 
 class SendmailForm(forms.Form):
     subject = forms.CharField(label=_('subject'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
@@ -187,57 +213,49 @@ def search(request):
         form = SearchPersonForm(request.POST)
         if form.is_valid():
 
-            # criteres sur le nom et prenom
-            criteria={'person__last_name__contains':form.clean_data['last_name'].encode('utf8'),\
-                      'person__first_name__contains':form.clean_data['first_name'].encode('utf8')}
-            # ici on commence par rechercher toutes les promos
-            # qui concordent avec l'annee de promotion et la filiere
-            # saisis par l'utilisateur.
-            promoCriteria={}
+            # perform search
+            criteria = form.criteria()
+            ain7members = form.search(criteria)
+
+            # compute criteria to be displayed in the form
             promo_default = [ -1, ""]
             track_default = [ -1, ""]
             if form.clean_data['promo'] != -1:
-                promoCriteria['year']=form.clean_data['promo']
-                promo_default=[promoCriteria['year'], promoCriteria['year']]
+                promo_default = \
+                    [promoCriteria['year'], promoCriteria['year']]
             if form.clean_data['track'] != -1:
-                promoCriteria['track']=\
-                    Track.objects.get(id=form.clean_data['track'])
-                track_default=[form.clean_data['track'], promoCriteria['track'].name]
+                track_default = \
+                    [form.clean_data['track'], promoCriteria['track'].name]
 
-            # on ajoute ces promos aux critères de recherche
-            # si elle ne sont pas vides
-            if len(promoCriteria)!=0:
-                criteria['promos__in']=Promo.objects.filter(**promoCriteria)
-
+            # put the criteria in session: they must be accessed when
+            # performing a CSV export, sending a mail...
             request.session['filter'] = criteria
-
-            ain7members = AIn7Member.objects.filter(**criteria)
 
             paginator = ObjectPaginator(ain7members, nb_results_by_page)
 
-            form = SearchPersonForm(initial={'last_name':criteria['person__last_name__contains'],
-                            'first_name':criteria['person__first_name__contains'], 'promo':promo_default, 'track':track_default})
+            form = SearchPersonForm(
+                initial={'last_name':criteria['person__last_name__contains'],
+                         'first_name':criteria['person__first_name__contains'],
+                         'organization':criteria['positions__office__company__name__contains'],
+                         'promo':promo_default, 'track':track_default})
 
             try:
                 page = int(request.GET.get('page', '1'))
                 ain7members = paginator.get_page(page - 1)
-
             except InvalidPage:
                 raise http.Http404
 
     return ain7_render_to_response(request, 'annuaire/search.html',
-                            {'form': form, 'ain7members': ain7members,
-                            'userFilters': SearchFilter.objects.filter(user=request.user.person),
-                            'paginator': paginator, 'is_paginated': paginator.pages > 1,
-                            'has_next': paginator.has_next_page(page - 1),
-                            'has_previous': paginator.has_previous_page(page - 1),
-                            'current_page': page,
-                            'next_page': page + 1,
-                            'previous_page': page - 1,
-                            'pages': paginator.pages,
-                            'first_result': (page - 1) * nb_results_by_page +1,
-                            'last_result': min((page) * nb_results_by_page, paginator.hits),
-                            'hits' : paginator.hits,})
+        {'form': form, 'ain7members': ain7members,
+         'userFilters': SearchFilter.objects.filter(user=request.user.person),
+         'paginator': paginator, 'is_paginated': paginator.pages > 1,
+         'has_next': paginator.has_next_page(page - 1),
+         'has_previous': paginator.has_previous_page(page - 1),
+         'current_page': page, 'pages': paginator.pages,
+         'next_page': page + 1, 'previous_page': page - 1,
+         'first_result': (page - 1) * nb_results_by_page +1,
+         'last_result': min((page) * nb_results_by_page, paginator.hits),
+         'hits' : paginator.hits,})
 
 @login_required
 def advanced_search(request):
@@ -484,34 +502,31 @@ def filter_swapOp(request, filter_id=None):
 
 @login_required
 def criterion_add(request, filter_id=None, criterionType=None):
-    """ Used to add a field criterion, either in session
+    """ Used to add a criterion, either in session
     or in a registered filter.
     It only deals with the first page (choice of the field)
     and then redirects to criterion_edit. """
 
+    # build formFields: the form containing the list of fields to be proposed
     choiceList = []
     for field in criteriaList(isAdmin(request.user)):
         choiceList.append((field.name,field.verbose_name.capitalize()))
-#     for custom in CUSTOM_FIELDS:
-#         choiceList.append(custom)
-
     formFields = ChooseFieldForm()
     formFields.fields['chosenField'].choices = choiceList
+
+    # build formFilters: the form containing the list of filters to be proposed
     qs = SearchFilter.objects.filter(user=request.user.person)
     for filterToExclude in filtersToExclude(filter_id):
         qs = qs.exclude(id=filterToExclude)
-    zeroFilters = False
-    if qs.count()==0:
-        zeroFilters = True
-
+    zeroFilters = (qs.count()==0)
     class ChooseFilterForm(forms.Form):
         is_in = forms.BooleanField(label=_('is in filter'),
             required=False)
         chosenFilter = forms.ModelChoiceField(label=' ',
             required=True, empty_label=None, queryset = qs)
-
     formFilters = ChooseFilterForm()
 
+    # in the POST case, we redirect to the corresponding edit methods
     if request.method == 'POST' and criterionType == 'field':
         form = ChooseFieldForm(request.POST)
         form.fields['chosenField'].choices = choiceList
@@ -773,7 +788,7 @@ def criterion_delete(request, filtr_id=None, crit_id=None, crit_type=None):
 def export_csv(request):
 
     criteria = request.session['filter']
-    ain7members = AIn7Member.objects.filter(**criteria)
+    ain7members = AIn7Member.objects.filter(**criteria).distinct()
 
     response = HttpResponse(mimetype='text/csv')
     response['Content-Disposition'] = 'attachment; filename=export_ain7.csv'
@@ -789,7 +804,7 @@ def export_csv(request):
 def sendmail(request):
 
     criteria = request.session['filter']
-    ain7members = AIn7Member.objects.filter(**criteria)
+    ain7members = AIn7Member.objects.filter(**criteria).distinct()
 
     f= SendmailForm()
 
@@ -1319,7 +1334,7 @@ def performSearch(request, filtr=None):
     else:
         q = buildQFromSession(request,
                               request.session['filter_operator'])
-    return AIn7Member.objects.filter(q)
+    return AIn7Member.objects.filter(q).distinct()
 
 def criteriaList(isAdmin):
     """ Returns the list of fields that are criteria for an advanced
@@ -1340,6 +1355,10 @@ def criteriaList(isAdmin):
                 and (str(type(field)).find('OneToOneField')==-1)\
                 and not isinstance(field,models.fields.FileField):
                 attrList.append(field)
+
+    # now we deal with custom fields
+    for (fName,fModel,query) in CUSTOM_FIELDS:
+        attrList.append(getModelField(fModel, fName))
 
     # uncomment this if you want a sorted list of criteria
     #
@@ -1382,6 +1401,7 @@ def findComparatorsForField(field):
 def getFieldFromName(fieldName):
     """ Returns a field from its name."""
     field = fieldModel = None
+    # first we look into models for which all fields are criteria
     for model in CRITERIA_MODELS:
         for basicField in model._meta.fields:
             if fieldName == basicField.name:
@@ -1392,11 +1412,12 @@ def getFieldFromName(fieldName):
                 if fieldName == manyToManyField.name:
                     fieldModel = model
                     field = manyToManyField
-    if field:
-        return (str(fieldModel._meta),field)
-#     for (fName, fVName, model) in CUSTOM_FIELDS:
-#         if fName==fieldName:
-#             return (model, )
+    # then we look for fields manually managed
+    for (fName, fModel, comps) in CUSTOM_FIELDS:
+        if fieldName == fName:
+            fieldModel = fModel
+            field = getModelField(fModel, fName)
+    return (str(fieldModel._meta),field)
 
 def getCompVerboseName(field, compCode):
     """ Returns the description of a comparator,
@@ -1461,6 +1482,10 @@ def buildQForCriterion(model,fieldN,compCode,value):
     if model == 'annuaire.person':
         modelPrefix = 'person__'
     crit = modelPrefix + fieldN + qComp
+    # if the criterion comes from a custom field, we use the specified query
+    for (fName,fModel,query) in CUSTOM_FIELDS:
+        if model == str(fModel._meta):
+            crit = query
     mdl, field = getFieldFromName(fieldN)
     if str(type(field)).find('CharField')!=-1:
         value = value.encode('utf8')
@@ -1542,3 +1567,11 @@ def filtersToExclude(filter_id=None):
         for crit in filtr.used_as_criterion.all():
             result.extend(filtersToExclude(crit.searchFilter))
         return result
+
+def getModelField(fModel, fName):
+    """ Given a model and the name of one of its fields, returns this field."""
+    field = None
+    for f in fModel._meta.fields:
+        if f.name == fName:
+            field = f
+    return field
