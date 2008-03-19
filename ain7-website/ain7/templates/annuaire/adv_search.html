@@ -22,53 +22,70 @@
 <form action="." method="post">
 <div>
 
-<div id="edition">
+{% if filtr %}
+  {% if filtr.registered %}
+    <h1>{% trans "Filter" %}&nbsp;: {{ filtr.name }}</h1>
+  {% endif %}
 
-{% if conditionsList %}
-  <table class="datas">
-    {% for condition in conditionsList %}
-      <tr class="{% cycle row1,row2 %}">
+  <div id="edition">
+
+  {% if filtr.criteriaField.all or filtr.criteriaFilter.all %}
+    <table class="datas">
+    {% for criterion in filtr.criteriaField.all %}
+      <tr class="{% cycle row1,row2 as rowvar %}">
         <td>{% if not forloop.first %}
-          <a href="/annuaire/advanced_search/sessionFilter/swapOp/">
-            {{ filterOperator }}
+          <a href="/annuaire/advanced_search/filter/{{ filtr.id }}/swapOp/">
+            {{ filtr.operator }}
           </a>
           {% endif %}
         </td>
-        {% ifequal condition.1 "field" %}
-          <td>{% filter capfirst %}{{ condition.4 }}{% endfilter %}</td>
-          <td>{{ condition.5 }}</td>
-          <td>{{ condition.7 }}</td>
-        {% else %}
-          <td>
-            {% ifequal condition.3 "True" %}
-              {% trans "belongs to filter" %}
-            {% else %}
-              {% trans "does not belong to filter" %}
-            {% endifequal %}
-          </td>
-          <td>&nbsp;</td>
-          <td>{{ condition.2 }}</td>
-        {% endifequal %}
-        <td><a href="/annuaire/advanced_search/sessionFilter/criterion/{{ condition.0 }}/edit/{{ condition.1 }}/" class="changelink">{% trans "Modify" %}</a></td>
-        <td><a href="/annuaire/advanced_search/sessionFilter/criterion/{{ condition.0 }}/delete/{{ condition.1 }}/" class="deletelink">{% trans "Delete" %}</a></td>
+        <td>{{ criterion.fieldVerboseName|capfirst }}</td>
+        <td>{{ criterion.comparatorVerboseName }}</td>
+        <td>{{ criterion.displayedValue }}</td>
+        <td><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/edit/field/" class="changelink">{% trans "Modify" %}</a></td>
+        <td><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/delete/field/" class="deletelink">{% trans "Delete" %}</a></td>
       </tr>
     {% endfor %}
-  </table>
-{% else %}
+
+    {% for criterion in filtr.criteriaFilter.all %}
+      <tr class="{% cycle rowvar %}">
+        <td>{% if filtr.criteriaField.all or not forloop.first %}
+          <a href="/annuaire/advanced_search/filter/{{ filtr.id }}/swapOp/">
+            {{ filtr.operator }}
+          </a>
+          {% endif %}
+        </td>
+        <td>
+          {% if criterion.is_in %}
+            {% trans "belongs to filter" %}
+          {% else %}
+            {% trans "does not belong to filter" %}
+          {% endif %}
+        </td>
+        <td>&nbsp;</td>
+        <td>{{ criterion.filterCriterion }}</td>
+        <td><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/edit/filter/" class="changelink">{% trans "Modify" %}</a></td>
+        <td><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/delete/filter/" class="deletelink">{% trans "Delete" %}</a></td>
+      </tr>
+    {% endfor %}
+    </table>
+  {% else %}
     <p>{% trans "No criterion. Please add one." %}</p>
+  {% endif %}
+  {% else %}
+  <p>{% trans "No criterion. Please add one." %}</p>
 {% endif %}
 
 </div>
 
-    <a href="/annuaire/advanced_search/sessionFilter/criterion/add/" 
-       class="addlink">{% trans "Add a criterion" %}</a>
+<a href="/annuaire/advanced_search/filter/{{ filtr.id }}/criterion/add/" 
+   class="addlink">{% trans "Add a criterion" %}</a>
 
 <div align="center">
     <input type="submit" class="button" value="{% trans "Search" %}" />
 </div>
 
 </div>
-
 </form>
 
 {% if ain7members %}
@@ -112,10 +129,21 @@
    <h3>{% trans "Actions" %}</h3>
    <div class="right_articles">
     <ul>
-      <li><a href="/annuaire/advanced_search/sessionFilter/reset/">
-             {% trans "Reset this filter" %}</a></li>
-      <li><a href="/annuaire/advanced_search/sessionFilter/register/">
-             {% trans "Save this filter" %}</a></li>
+      {% if filtr %}
+      <li><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/reset/">
+          {% trans "Reset this filter" %}</a></li>
+      {% endif %}
+      {% if filtr.registered %}
+      <li><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/edit/">
+          {% trans "Modify the name of this filter" %}</a>&nbsp;
+      <li><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/delete/">
+          {% trans "Delete this filter" %}</a>&nbsp;
+      <li><a href="/annuaire/advanced_search/filter/add/">
+          {% trans "New filter" %}</a>&nbsp;
+      {% else %}
+      <li><a href="/annuaire/advanced_search/filter/register/">
+          {% trans "Save this filter" %}</a></li>
+      {% endif %}
       <li><a href="/annuaire/csv/">
           {% trans "Export as CSV" %}</a></li>
       <li><a href="/annuaire/sendmail/">

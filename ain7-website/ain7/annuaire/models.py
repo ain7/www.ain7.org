@@ -212,6 +212,7 @@ class Promo(models.Model):
         verbose_name = _('Promo')
         ordering = ['year']
 
+
 # The main class for a person
 class Person(models.Model):
 
@@ -614,6 +615,18 @@ class UserContribution(models.Model):
 
 # For advanced search : filters !
 
+class SearchFilterManager(models.Manager):
+    
+    def get_registered(self, person):
+        return self.filter(registered=True).filter(user=person)
+    
+    def get_unregistered(self, person):
+        unregs = self.filter(registered=False).filter(user=person)
+        if unregs:
+            assert(unregs.count()<2)
+            return unregs[0]
+        return None
+
 class SearchFilter(models.Model):
     OPERATORS = [ ('and', _('and')),
                   ('or', _('or')) ]
@@ -622,6 +635,8 @@ class SearchFilter(models.Model):
                                 maxlength=3, choices=OPERATORS)
     user = models.ForeignKey(Person, verbose_name=_('user'),
                              related_name='filters')
+    registered = models.BooleanField(default=True)
+    objects = SearchFilterManager()
 
     def __str__(self):
         return self.name
