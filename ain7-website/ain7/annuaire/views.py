@@ -37,7 +37,7 @@ from ain7.annuaire.models import *
 from ain7.annuaire.forms import *
 from ain7.emploi.models import Company, Office
 from ain7.decorators import confirmation_required
-from ain7.utils import ain7_render_to_response, ImgUploadForm, isAdmin, form_callback
+from ain7.utils import ain7_render_to_response, ImgUploadForm, form_callback
 from ain7.widgets import DateTimeWidget
 from ain7.fields import LanguageField
 
@@ -46,13 +46,6 @@ from ain7.fields import LanguageField
 # list of models for which attributes can be advanced search criteria
 CRITERIA_MODELS = [Person, AIn7Member]
 
-# we exclude some of them for non-admin users
-EXCLUDE_FIELDS = [
-    # in Person
-    'user','creation_date', 'modification_date', 'modifier',
-    # in AIn7Member
-    'person', 'member_type', 'person_type', 'avatar' ]
-
 # some fields that we manage manually
 CUSTOM_FIELDS = [
     ('company', Office , 'positions__office__company'       ),
@@ -60,9 +53,6 @@ CUSTOM_FIELDS = [
     ('city',    Address, 'person__addresses__city'          ),
     ('country', Address, 'person__addresses__country'       ),
     ]
-
-# default filter operator
-DEFAULT_OPERATOR = _('or')
 
 # for each type of attribute, we define the comparators and the
 # type of field to display in the form
@@ -212,8 +202,12 @@ def search(request):
 def advanced_search(request):
 
     filtr = SearchFilter.objects.get_unregistered(request.user.person)
-    return ain7_render_to_response(request, 'annuaire/adv_search.html',
-        dict_for_filter(request, filtr.id))
+    if filtr:
+        return ain7_render_to_response(request, 'annuaire/adv_search.html',
+            dict_for_filter(request, filtr.id))
+    else:
+        return ain7_render_to_response(request, 'annuaire/adv_search.html',
+            dict_for_filter(request, None))
     
 
 @login_required
@@ -231,7 +225,9 @@ def dict_for_filter(request, filter_id):
     nb_results_by_page = 25
     paginator = ObjectPaginator(AIn7Member.objects.none(),nb_results_by_page)
     page = 1
-    sf = get_object_or_404(SearchFilter, pk=filter_id)
+    sf = None
+    if filter_id:
+        sf = get_object_or_404(SearchFilter, pk=filter_id)
 
     if request.method == 'POST':
 
@@ -362,6 +358,19 @@ def filter_delete(request, filter_id):
     return HttpResponseRedirect('/annuaire/advanced_search/')
 
 @login_required
+def filter_new(request):
+
+    filtr = SearchFilter.objects.get_unregistered(request.user.person)
+    if not filtr:
+        return HttpResponseRedirect('/annuaire/advanced_search/')
+    remove_criteria(request, filtr)
+    if filtr.registered:
+        return HttpResponseRedirect(
+            '/annuaire/advanced_search/filter/%s/' % filter_id)
+    else:
+        return HttpResponseRedirect('/annuaire/advanced_search/')
+
+@login_required
 def filter_swapOp(request, filter_id=None):
 
     operator = None
@@ -390,7 +399,7 @@ def criterion_add(request, filter_id=None, criterionType=None):
 
     # build formFields: the form containing the list of fields to propose
     choiceList = []
-    for field in criteriaList(isAdmin(request.user)):
+    for field in criteriaList(request.user):
         choiceList.append((field.name,field.verbose_name.capitalize()))
     formFields = ChooseFieldForm()
     formFields.fields['chosenField'].choices = choiceList
@@ -411,7 +420,7 @@ def criterion_add(request, filter_id=None, criterionType=None):
     if request.method == 'POST' and filter_id=='':
         filtr = SearchFilter()
         filtr.name=""
-        filtr.operator=SearchFilter.OPERATORS[0][1]
+        filtr.operator=_(SearchFilter.OPERATORS[0][0])
         filtr.user = request.user.person
         filtr.registered = False
         filtr.save()
@@ -516,31 +525,23 @@ def criterionField_edit(request, filter_id=None, criterion_id=None):
             filtr = get_object_or_404(SearchFilter, pk=filter_id)
             fVName = unicode(str(searchField.verbose_name),'utf8')
             compVName = getCompVerboseName(searchField, cCode)
+            crit = None
             # if we're adding a new criterion
             if criterion_id == None:
-                newCrit = SearchCriterionField(
-                    searchFilter = filtr,
-                    fieldName = searchField.name,
-                    fieldVerboseName = fVName,
-                    fieldClass = model,
-                    comparatorName = cCode,
-                    comparatorVerboseName = compVName,
-                    value = val,
-                    displayedValue = displayedVal)
-                newCrit.save()
+                crit = SearchCriterionField()
             # otherwise we're modifying an existing criterion
             else:
                 crit = get_object_or_404(
                     SearchCriterionField, pk=criterion_id)
-                crit.searchFilter = filtr
-                crit.fieldName = searchField.name
-                crit.fieldVerboseName = fVName
-                crit.fieldClass = model
-                crit.comparatorName = cCode
-                crit.comparatorVerboseName = compVName
-                crit.value = val
-                crit.displayedValue = displayedVal
-                crit.save()
+            crit.searchFilter = filtr
+            crit.fieldName = searchField.name
+            crit.fieldVerboseName = fVName
+            crit.fieldClass = model
+            crit.comparatorName = cCode
+            crit.comparatorVerboseName = compVName
+            crit.value = val
+            crit.displayedValue = displayedVal
+            crit.save()
             if filtr.registered:
                 return HttpResponseRedirect(
                     '/annuaire/advanced_search/filter/%s/' % filter_id)
@@ -1108,12 +1109,6 @@ def complete_track(request):
 
     return ain7_render_to_response(request, 'pages/complete.html', {'elements':elements})
 
-def opDescription(operator):
-    for (op,desc) in SearchFilter.OPERATORS:
-        if op == operator:
-            filterOp = desc
-    return filterOp
-
 def performSearch(request, filtr=None):
     """ Really perform search.
     If filtr is None, return all members. """
@@ -1123,7 +1118,7 @@ def performSearch(request, filtr=None):
     else:
         return AIn7Member.objects.all()
 
-def criteriaList(isAdmin):
+def criteriaList(user):
     """ Returns the list of fields that are criteria for an advanced
     search.
     These fields are the attributes of models of CRITERIA_MODELS.
@@ -1138,7 +1133,7 @@ def criteriaList(isAdmin):
 
         for field in model._meta.fields + model._meta.many_to_many:
 
-            if ((not field.name in EXCLUDE_FIELDS) or isAdmin)\
+            if field.name in model.objects.adv_search_fields(user)\
                 and (str(type(field)).find('OneToOneField')==-1)\
                 and not isinstance(field,models.fields.FileField):
                 attrList.append(field)

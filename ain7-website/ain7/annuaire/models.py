@@ -28,6 +28,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
+from ain7.utils import isAdmin
+
 # Country (used for adresses)
 class Country(models.Model):
 
@@ -213,6 +215,23 @@ class Promo(models.Model):
         ordering = ['year']
 
 
+# a Manager for the class Person
+class PersonManager(models.Manager):
+    
+    def adv_search_fields(self, user):
+        """ Returns the list of field names that can be used as criteria
+        in advanced search."""
+        critsForAll  = [
+            "last_name" , "first_name" , "complete_name" , "maiden_name" ,
+            "birth_date", "death_date" , "sex" , "country" , "wiki_name" ,
+            "notes" ]
+        critsForAdmin = [
+            "user" , "creation_date" , "modification_date" , "modifier" ]
+        crits = critsForAll
+        if isAdmin(user):
+            crits.extend(critsForAdmin)
+        return crits
+
 # The main class for a person
 class Person(models.Model):
 
@@ -242,6 +261,7 @@ class Person(models.Model):
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
     modification_date = models.DateTimeField(editable=False)
     modifier = models.IntegerField(editable=False)
+    objects = PersonManager()
 
     def __str__(self):
         return self.first_name + " " + self.last_name
@@ -282,6 +302,25 @@ Vous pouvez acceder a vos donnees sur le portail: http://www.ain7.com
     class Meta:
         verbose_name = _('person')
 
+# a Manager for the class AIn7Member
+class AIn7MemberManager(models.Manager):
+    
+    def adv_search_fields(self, user):
+        """ Returns the list of field names that can be used as criteria
+        in advanced search."""
+        critsForAll  = [
+            "activity" , "marital_status" , "children_count" , "nick_name" ,
+            "promos"   , "diplomas"       , "decorations"    , "cv_title"  ,
+            "ceremonial_duties" ]
+        critsForAdmin = [
+            "person" , "person_type" , "member_type" ,
+            "display_cv_in_directory" , "display_cv_in_job_section" ,
+            "receive_job_offers" , "receive_job_offers_for_tracks" ]
+        crits = critsForAll
+        if isAdmin(user):
+            crits.extend(critsForAdmin)
+        return crits
+
 # AIn7 member
 class AIn7Member(models.Model):
 
@@ -317,6 +356,9 @@ class AIn7Member(models.Model):
         verbose_name=_('Tracks for which you would like to receive job offers'),
         blank=True, null=True, filter_interface=models.HORIZONTAL)
     cv_title = models.CharField(verbose_name=_('CV title'), maxlength=100, blank=True, null=True)
+    
+    # Internal
+    objects = AIn7MemberManager()
 
     def karma(self):
         karma = 0
