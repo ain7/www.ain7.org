@@ -173,12 +173,6 @@ def search(request):
 
             paginator = ObjectPaginator(ain7members, nb_results_by_page)
 
-            form = SearchPersonForm(
-                initial={'last_name':criteria['person__last_name__contains'],
-                         'first_name':criteria['person__first_name__contains'],
-                         'organization':criteria['positions__office__company__name__contains'],
-                         'promo':promo_default, 'track':track_default})
-
             try:
                 page = int(request.GET.get('page', '1'))
                 ain7members = paginator.get_page(page - 1)
@@ -445,7 +439,7 @@ def criterion_add(request, filter_id=None, criterionType=None):
             new_criterion.is_in = form.clean_data['is_in']
             new_criterion.save()
         return HttpResponseRedirect('/annuaire/advanced_search/')
-    
+
     return ain7_render_to_response(request,
         'annuaire/criterion_add.html',
         {'formFields': formFields, 'formFilters': formFilters,

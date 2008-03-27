@@ -50,6 +50,7 @@ class CompanyField(models.Model):
     class Meta:
         verbose_name = _('field')
 
+
 # Company informations
 class Company(models.Model):
 
@@ -79,6 +80,11 @@ class Company(models.Model):
         self.modification_date = datetime.datetime.today()
         return super(Company, self).save()
 
+    def delete(self):
+        for propos in self.organization_proposals.all(): propos.delete()
+        for office in self.offices.all():                office.delete() 
+        return super(Company, self).delete()
+        
     class Meta:
         verbose_name = _('company')
 
@@ -87,6 +93,7 @@ class Company(models.Model):
 
 
 # A proposal for creating, modifying or deleting an organization
+# Actually, it is only used for proposing a creation.
 class OrganizationProposal(models.Model):
 
     author = models.ForeignKey(Person, verbose_name=_('author'),
@@ -116,6 +123,10 @@ class OrganizationProposal(models.Model):
         self.modification_date = datetime.datetime.today()
         return super(OrganizationProposal, self).save()
 
+    def delete(self):
+        self.modified.delete()
+        return super(OrganizationProposal, self).delete()
+        
     class Admin:
         pass
 
@@ -153,6 +164,12 @@ class Office(models.Model):
         self.modification_date = datetime.datetime.today()
         return super(Office, self).save()
 
+    def delete(self):
+        for propos   in self.office_proposals.all(): propos.delete()
+        for position in self.positions.all():        position.delete() 
+        for joboffer in self.job_offers.all():       joboffer.delete() 
+        return super(Office, self).delete()
+        
     class Admin:
         pass
 
@@ -162,6 +179,7 @@ class Office(models.Model):
 
 
 # A proposal for creating, modifying or deleting an office
+# Actually, it is only used for proposing a creation.
 class OfficeProposal(models.Model):
 
     author = models.ForeignKey(Person, verbose_name=_('author'),
@@ -189,6 +207,10 @@ class OfficeProposal(models.Model):
         self.modification_date = datetime.datetime.today()
         return super(OfficeProposal, self).save()
 
+    def delete(self):
+        self.modified.delete()
+        return super(OfficeProposal, self).delete()
+        
     class Meta:
         verbose_name = _('office modification proposal')
 
@@ -307,7 +329,8 @@ class JobOffer(models.Model):
     experience = models.CharField(verbose_name=_('Experience'), maxlength=50, blank=True, null=True)
     contract_type = models.IntegerField(verbose_name=_('Contract type'), choices=JOB_TYPES, blank=True, null=True)
     is_opened = models.BooleanField(verbose_name=_('Job offer is opened'), default=False)
-    office = models.ForeignKey(Office, blank=True, null=True)
+    office = models.ForeignKey(Office, related_name='job_offers',
+                               blank=True, null=True)
     contact = models.ForeignKey(Person, blank=True, null=True)
     track = models.ManyToManyField(Track, verbose_name=_('Track'), related_name='jobs', blank=True, null=True, filter_interface=models.HORIZONTAL)
     nb_views = models.IntegerField(verbose_name=_('Number of views'), default=0, editable=False)

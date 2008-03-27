@@ -32,6 +32,7 @@ from ain7.decorators import confirmation_required
 from ain7.annuaire.models import Person, UserContribution
 from ain7.emploi.models import Company, CompanyField, OrganizationProposal
 from ain7.emploi.models import OfficeProposal
+from ain7.emploi.forms import *
 from ain7.manage.models import *
 from ain7.emploi.views import OrganizationForm, OfficeForm
 
@@ -69,7 +70,6 @@ class NewPersonForm(forms.Form):
     birth_date = forms.DateTimeField(label=_('Date of birth'), required=False, widget=DateTimeWidget)
     sex = forms.IntegerField(label=_('Sex'), required=False,  widget=forms.Select(choices=Person.SEX))
 
-# TODO : utiliser TinyMCE pour le champ details
 class NotificationForm(forms.Form):
     title = forms.CharField(label=_('title'), max_length=50, required=True)
     details = forms.CharField(label=_('details'), required=True, widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':90}))
@@ -205,19 +205,26 @@ def companies_search(request):
 @login_required
 def company_edit(request, company_id=None):
 
+    company = None
     if company_id:
         company = get_object_or_404(Company, pk=company_id)
-        form = OrganizationForm({'name': company.name, 'size': company.size, 'field': company.field, 'short_description': company.short_description, 
-                                    'long_description': company.long_description })
+        form = OrganizationForm(
+            {'name': company.name, 'size': company.size,
+             'field': company.field,
+             'short_description': company.short_description,
+             'long_description': company.long_description })
     else:
         form = OrganizationForm()
 
     if request.method == 'POST':
         form = OrganizationForm(request.POST.copy())
         if form.is_valid():
-            form.clean_data['company']=Company.objects.get(id=company_id)
-            form.save(is_a_proposal=False)
-            request.user.message_set.create(message=_('Company successfully created'))
+            form.save(is_a_proposal=False, organization=company)
+            if company:
+                msg = _('Company successfully modified')
+            else:
+                msg = _('Company successfully created')
+            request.user.message_set.create(message=msg)
             return HttpResponseRedirect('/manage/')
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No company registered.')+str(form.errors))
@@ -243,6 +250,8 @@ def company_delete(request, company_id):
 
     company = get_object_or_404(Company, pk=company_id)
     company.delete()
+    request.user.message_set.create(
+        message=_('Organization successfully removed'))
     return HttpResponseRedirect('/manage/')
 
 
@@ -268,7 +277,6 @@ def organization_register_proposal(request, proposal_id=None):
             notification = Notification.objects.get(
                 organization_proposal=proposal )
             notification.delete()
-            proposal.modified.delete()
             proposal.delete()
             request.user.message_set.create(message=_('Organization successfully created'))
             return HttpResponseRedirect('/manage/')
@@ -309,7 +317,6 @@ def office_register_proposal(request, proposal_id=None):
             # on supprime la notification et la proposition
             notification = Notification.objects.get(office_proposal=proposal)
             notification.delete()
-            proposal.modified.delete()
             proposal.delete()
             request.user.message_set.create(message=_('Office successfully created'))
             return HttpResponseRedirect('/manage/')
@@ -587,8 +594,6 @@ def notification_delete(request, notif_id):
     if notif.office_proposal:
         proposal = notif.office_proposal
     if proposal:
-        if proposal.modified:
-            proposal.modified.delete()
         proposal.delete()
     notif.delete()
     request.user.message_set.create(

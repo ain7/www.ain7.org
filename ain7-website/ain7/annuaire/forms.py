@@ -22,6 +22,7 @@
 
 from django import newforms as forms
 from ain7.fields import AutoCompleteField
+from ain7.annuaire.models import *
 
 class SearchPersonForm(forms.Form):
     last_name = forms.CharField(label=_('Last name'), max_length=50, required=False)
@@ -33,9 +34,11 @@ class SearchPersonForm(forms.Form):
     def criteria(self):
         # criteres sur le nom et prenom, et sur l'organisation
         criteria={
-            'person__last_name__contains': self.clean_data['last_name'].encode('utf8'),
-            'person__first_name__contains': self.clean_data['first_name'].encode('utf8'),
-            'positions__office__company__name__contains': self.clean_data['organization'].encode('utf8'),}
+            'person__last_name__icontains': self.clean_data['last_name'].encode('utf8'),
+            'person__first_name__icontains': self.clean_data['first_name'].encode('utf8')}
+        if self.clean_data['organization']!='':
+            criteria['positions__office__company__name__icontains'] = \
+                self.clean_data['organization'].encode('utf8')
         # ici on commence par rechercher toutes les promos
         # qui concordent avec l'annee de promotion et la filiere
         # saisis par l'utilisateur.
