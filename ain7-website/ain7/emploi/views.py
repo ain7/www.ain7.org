@@ -409,22 +409,13 @@ def company_details(request, company_id):
     liste_N7_past = []
     liste_N7_current = []
     for office in offices:
-        liste_emplois.extend(JobOffer.objects.filter(office=office))
-        for position in office.positions.all():
-            ain7member = position.ain7member
-            today = datetime.datetime.now().date()
-            # je veille à ce qu'une personne actuellement dans cette société
-            # n'apparaisse pas également dans la liste des précédents employés
-            if (not position.end_date) or position.end_date >= today:
-                if ain7member in liste_N7_past:
-                    liste_N7_past.remove(ain7member)
-                liste_N7_current.append(ain7member)
-            else:
-                if not ain7member in liste_N7_current:
-                    liste_N7_past.append(ain7member)
+        liste_emplois.extend(office.job_offers.all())
+        liste_N7_past.extend(office.past_n7_employees())
+        liste_N7_current.extend(office.current_n7_employees())
     return ain7_render_to_response(request, 'emploi/company_details.html',
         {'company': company, 'offices': offices,
-         'liste_emplois': liste_emplois, 'liste_N7_past': liste_N7_past,
+         'liste_emplois': liste_emplois,
+         'liste_N7_past': liste_N7_past,
          'liste_N7_current': liste_N7_current})
 
 # une petite fonction pour exclure les champs

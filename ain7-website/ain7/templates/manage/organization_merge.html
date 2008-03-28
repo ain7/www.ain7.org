@@ -1,0 +1,70 @@
+{% extends "manage/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+
+<div id="content-main">
+
+<div class="left">
+
+<div class="left_box">
+
+<h2>{% trans "Organizations merging" %}</h2>
+
+<p>
+{% blocktrans %}
+This procedure will replace all the references to the organization <em>{{ organization }}</em> by references of another organization.
+{% endblocktrans %}
+
+<p>{% trans "Please choose this second organization." %}</p>
+
+<div align="center">
+<form action="." method="post">
+    <table border="0" align="center">
+       {{ form }}
+    </table>
+<input type="submit" class="button" value="{% trans 'Confirm' %}" />
+</form>
+</div>
+
+</div>
+
+</div>
+
+<div class="right">
+
+<h3>{% trans "Navigation" %}</h3>
+<div class="right_articles">
+<ul>
+<li><a href="/manage/users/">{% trans "Manage users" %}</a></li>
+<li><a href="/manage/groups/">{% trans "Manage groups" %}</a></li>
+<li><a href="/manage/permissions/">{% trans "Manage permissions" %}</a></li>
+<li><a href="/manage/companies/">{% trans "Manage companies" %}</a></li>
+<li><a href="/manage/contributions/">{% trans "Contributions" %}</a></li>
+</ul>
+</div>
+
+<h3>{% trans "Actions" %}</h3>
+<div class="right_articles">
+<ul>
+<li><a href="/manage/companies/register/">{% trans "Register a new organization" %}</a></li>
+<li><a href="/manage/companies/{{ organization.id }}/edit/">{% trans "Edit this organization" %}</a></li>
+<li><a href="/manage/companies/{{ organization.id }}/delete/">{% trans "Delete this organization" %}</a></li>
+<li><a href="/manage/companies/{{ organization.id }}/merge/">{% trans "Merge this organization" %}</a></li>
+</ul>
+</div>
+
+<h3>{% trans "Card Informations"%}</h3>
+<div class="right_articles">
+<ul>
+  <li>{% trans "Creation" %}&nbsp;: {{ organization.creation_date|date:"l j F Y" }}</li>
+  <li>{% trans "Update" %}&nbsp;: {{ organization.modification_date|date:"l j F Y" }}</li>
+</ul>
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

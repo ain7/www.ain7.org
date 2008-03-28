@@ -236,10 +236,12 @@ def company_edit(request, company_id=None):
         {'action_title': _('Register a company'),
          'form': form, 'back': back})
 
+
 @login_required
 def company_details(request, company_id):
     c = get_object_or_404(Company, pk=company_id)
     return ain7_render_to_response(request, 'manage/company_details.html', {'company': c})
+
 
 @confirmation_required(
     lambda user_id=None,
@@ -254,6 +256,53 @@ def company_delete(request, company_id):
         message=_('Organization successfully removed'))
     return HttpResponseRedirect('/manage/')
 
+
+@login_required
+def organization_merge(request, organization_id=None):
+
+    organization = get_object_or_404(Company, pk=organization_id)
+
+    # comme on ne peut définir le queryset qu'à la déclaration du champ,
+    # je dois créer le formulaire ici
+    class OrganizationListForm(forms.Form):        
+        org = forms.ModelChoiceField(
+            label=_('organization'), required=True,
+            queryset=Company.objects.valid_organizations().exclude(id=organization_id))
+
+    # 1er passage : on demande la saisie d'une deuxième organisation
+    if request.method == 'GET':
+        f = OrganizationListForm()
+        return ain7_render_to_response(
+            request, 'manage/organization_merge.html',
+            {'form': f, 'organization': organization})
+
+    # 2e passage : sauvegarde, notification et redirection
+    if request.method == 'POST':
+        f = OrganizationListForm(request.POST.copy())
+        if f.is_valid():
+            organization2 = f.clean_data['org']
+            return HttpResponseRedirect('/manage/companies/%s/merge/%s/' %
+                (organization_id, organization2.id))
+        else:
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+            return HttpResponseRedirect('/manage/companies/%s/merge/' %
+                organization_id)
+        
+
+@confirmation_required(
+    lambda user_id=None, org1_id=None, org2_id=None:
+    str(get_object_or_404(Company, pk=org2_id)) + _(' replaced by ') + \
+    str(get_object_or_404(Company, pk=org1_id)),
+    'manage/base.html',
+    _('Do you REALLY want to have'))
+def organization_do_merge(request, org1_id, org2_id):
+
+    org1 = get_object_or_404(Company, pk=org1_id)
+    org2 = get_object_or_404(Company, pk=org2_id)
+    org1.merge(org2)
+    request.user.message_set.create(
+        message=_('Organizations successfully merged'))
+    return HttpResponseRedirect('/manage/')
 
 @login_required
 def organization_register_proposal(request, proposal_id=None):

@@ -28,6 +28,7 @@
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
 <td align="right">
 {% if is_paginated %}
+{# TODO : je pense que les liens ci-dessous sont incorrects #}
 {% if has_previous %}<a href="/admin/groups/?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
 {% if has_previous %}<a href="/admin/groups/?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
 {% if has_next %}<a href="/admin/groups/?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -

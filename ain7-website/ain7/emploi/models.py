@@ -51,6 +51,13 @@ class CompanyField(models.Model):
         verbose_name = _('field')
 
 
+# A manager for organizations
+class OrganizationManager(models.Manager):
+
+    def valid_organizations(self):
+        return self.filter(is_a_proposal=False)
+
+
 # Company informations
 class Company(models.Model):
 
@@ -68,6 +75,7 @@ class Company(models.Model):
     long_description = models.TextField(verbose_name=_('long description'), blank=True, null=True)
     is_a_proposal = models.BooleanField(
         verbose_name=_('is a proposal'), default=False)
+    objects = OrganizationManager()
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
@@ -85,6 +93,13 @@ class Company(models.Model):
         for office in self.offices.all():                office.delete() 
         return super(Company, self).delete()
         
+    def merge(self, org2):
+        """ Replaces all references to org2 by reference to this organization.
+        Then org2 is removed."""
+        for propos in org2.organization_proposals.all(): propos.original=self
+        for office in org2.offices.all(): office.company=self
+        return org2.delete()
+
     class Meta:
         verbose_name = _('company')
 
@@ -133,6 +148,13 @@ class OrganizationProposal(models.Model):
     class Meta:
         verbose_name = _('organization modification proposal')
 
+# A manager for offices
+class OfficeManager(models.Manager):
+
+    def valid_offices(self):
+        return self.filter(is_a_proposal=False)
+
+
 # A company office informations
 class Office(models.Model):
 
@@ -149,9 +171,9 @@ class Office(models.Model):
     phone_number = models.CharField(verbose_name=_('phone number'), maxlength=20, blank=True, null=True)
     web_site = models.CharField(verbose_name=_('web site'), maxlength=100, blank=True, null=True)
 
-    is_valid = models.BooleanField(verbose_name=_('is valid'), default=True)
     is_a_proposal = models.BooleanField(
         verbose_name=_('is a proposal'), default=False)
+    objects = OfficeManager()
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
@@ -170,6 +192,27 @@ class Office(models.Model):
         for joboffer in self.job_offers.all():       joboffer.delete() 
         return super(Office, self).delete()
         
+    def current_n7_employees(self):
+        liste_N7_current = []
+        for position in self.positions.all():
+            ain7member = position.ain7member
+            today = datetime.datetime.now().date()
+            if (not position.end_date) or position.end_date >= today:
+                liste_N7_current.append(ain7member)
+        return liste_N7_current
+
+    def past_n7_employees(self):
+        liste_N7_past = []
+        liste_N7_current = self.current_n7_employees()
+        for position in self.positions.all():
+            ain7member = position.ain7member
+            today = datetime.datetime.now().date()
+            # je veille à ce qu'une personne actuellement dans cette société
+            # n'apparaisse pas également dans la liste des précédents employés
+            if not ain7member in liste_N7_current:
+                liste_N7_past.append(ain7member)
+        return liste_N7_past
+
     class Admin:
         pass
 

@@ -125,7 +125,6 @@ class OfficeForm(forms.Form):
         label=_('phone number'), max_length=20, required=False)
     web_site = forms.CharField(
         label=_('web site'), max_length=100, required=False)
-    is_valid = forms.BooleanField(label=_('is valid'), required=False)
 
     def save(self, is_a_proposal=False):
         office = Office()
@@ -138,9 +137,6 @@ class OfficeForm(forms.Form):
         office.country = self.clean_data['country']
         office.phone_number = self.clean_data['phone_number']
         office.web_site = self.clean_data['web_site']
-        office.is_valid = self.clean_data['is_valid']        
         office.is_a_proposal = is_a_proposal
         office.save()
         return office
-
-
