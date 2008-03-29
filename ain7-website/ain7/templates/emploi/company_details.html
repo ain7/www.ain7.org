@@ -4,16 +4,25 @@
 {% block content %}
 
 <div id="content-main">
-<h1>{{ company }}</h1>
+
+<div class="left">
+
+<div class="left_box">
+
+<h2>{{ company.name }}</h2>
+
+{% if company.short_description %}
+<p>{{ company.short_description }}</p>
+{% endif %}
 
 {% if company.long_description %}
-<p> {{ company.long_description }} </p>
+{{ company.long_description }}
 {% endif %}
 
 <!--TODO: ajouter size + field-->
 <h2>{% trans "List of offices" %}</h2>
 <ul>
-{% for office in offices %}
+{% for office in company.offices.all %}
     <li>{{ office }}
         {% if office.line1 or office.line2 or office.zip_code or office.city or office.country or office.phone_number or office.web_site %}
         <p>
@@ -34,44 +43,84 @@
            {% endif %}
         </p>
         {% endif %}
+
+        {% if office.job_offers.all %}
+	<br />
+        {% trans "Job offers" %} :
+          <ul>
+            {% for emploi in office.job_offers.all %}
+            <li class="job">
+              <a href="/emploi/job/{{ emploi.id }}/">{{ emploi.title }}</a> 
+            </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% if office.current_n7_employees %}
+          <br />{% trans "Current N7 employees" %}
+          <ul>
+            {% for ain7member in office.current_n7_employees %}
+              <li class="person">
+                <a href="/annuaire/{{ ain7member.person.user.id }}/">
+                {{ ain7member }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% if office.past_n7_employees %}
+          <br />{% trans "Past N7 employees" %}
+          <ul>
+            {% for ain7member in office.past_n7_employees %}
+              <li class="person">
+                <a href="/annuaire/{{ ain7member.person.user.id }}/">
+                {{ ain7member }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
     </li>
 {% endfor %}
 </ul>
 
+</div>
 
-{% if liste_emplois %}
-<h2>{% trans "Job offers list" %}</h2>
+</div>
+
+<div class="right">
+
+<h3>{% trans "Manage your CV" %}</h3>
+<div class="right_articles">
+<ul>
+<li><a href="/emploi/{{ user.id }}/cv/">{% trans "View your CV" %}</a></li>
+<li><a href="/emploi/{{ user.id }}/cv/edit/">{% trans "Modify your CV" %}</a></li>
+<li><a href="/annuaire/{{ user.id }}/ain7member/edit/">{% trans "Manage your CV visiblity" %}</a></li>
+</ul>
+</div>
+
+{# ### this user is not a physical person ### #}
+
+<h3>{% trans "Manage Job Offers" %}</h3>
+<div class="right_articles">
+<ul>
+<li><a href="/emploi/job/register/">{% trans "Register a job offer" %}</a></li>
+<li><a href="/emploi/job/search/">{% trans "Search a job offer" %}</a></li>
+</ul>
+</div>
+
+{% if proposals %}
+<h3>{% trans "Your proposals under review" %}</h3>
+  <div class="right_articles">
     <ul>
-    {% for emploi in liste_emplois %}
-        <li><a href="/emploi/job/{{ emploi.id }}/">{{ emploi.title }}</a> 
-            ({{ emploi.office }})
-        </li>
-    {% endfor %}
-     </ul>
+      {% for proposal in proposals %}
+        <li>{{ proposal }}</li>
+      {% endfor %}
+    </ul>
+  </div>
 {% endif %}
 
-
-{% if liste_N7_current %}
-<h2>{% trans "Current N7 employees" %}</h2>
-    <ul>
-    {% for ain7member in liste_N7_current %}
-        <li><a href="/annuaire/{{ ain7member.person.user.id }}/">
-            {{ ain7member }}</a>
-        </li>
-    {% endfor %}
-     </ul>
-{% endif %}
-
-{% if liste_N7_past %}
-<h2>{% trans "Past N7 employees" %}</h2>
-    <ul>
-    {% for ain7member in liste_N7_past %}
-        <li><a href="/annuaire/{{ ain7member.person.user.id }}/">
-            {{ ain7member }}</a>
-        </li>
-    {% endfor %}
-     </ul>
-{% endif %}
+</div>
 
 </div>
 

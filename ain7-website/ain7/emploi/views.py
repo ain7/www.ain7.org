@@ -404,19 +404,8 @@ def job_search(request):
 def company_details(request, company_id):
 
     company = get_object_or_404(Company, pk=company_id)
-    offices = Office.objects.filter(company=company).filter(is_valid=True)
-    liste_emplois = []
-    liste_N7_past = []
-    liste_N7_current = []
-    for office in offices:
-        liste_emplois.extend(office.job_offers.all())
-        liste_N7_past.extend(office.past_n7_employees())
-        liste_N7_current.extend(office.current_n7_employees())
     return ain7_render_to_response(request, 'emploi/company_details.html',
-        {'company': company, 'offices': offices,
-         'liste_emplois': liste_emplois,
-         'liste_N7_past': liste_N7_past,
-         'liste_N7_current': liste_N7_current})
+        {'company': company})
 
 # une petite fonction pour exclure les champs
 # person user ain7member

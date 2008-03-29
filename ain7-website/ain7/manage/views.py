@@ -282,7 +282,7 @@ def organization_merge(request, organization_id=None):
         if f.is_valid():
             organization2 = f.clean_data['org']
             return HttpResponseRedirect('/manage/companies/%s/merge/%s/' %
-                (organization_id, organization2.id))
+                (organization2.id, organization_id))
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
             return HttpResponseRedirect('/manage/companies/%s/merge/' %
@@ -302,7 +302,7 @@ def organization_do_merge(request, org1_id, org2_id):
     org1.merge(org2)
     request.user.message_set.create(
         message=_('Organizations successfully merged'))
-    return HttpResponseRedirect('/manage/')
+    return HttpResponseRedirect('/manage/companies/%s/' % org1_id)
 
 @login_required
 def organization_register_proposal(request, proposal_id=None):

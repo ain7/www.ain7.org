@@ -96,8 +96,12 @@ class Company(models.Model):
     def merge(self, org2):
         """ Replaces all references to org2 by reference to this organization.
         Then org2 is removed."""
-        for propos in org2.organization_proposals.all(): propos.original=self
-        for office in org2.offices.all(): office.company=self
+        for propos in org2.organization_proposals.all():
+            propos.original=self
+            propos.save()
+        for office in org2.offices.all():
+            office.company=self
+            office.save()
         return org2.delete()
 
     class Meta:
