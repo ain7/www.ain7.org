@@ -191,16 +191,17 @@ def companies_search(request):
                 raise http.Http404
 
     return ain7_render_to_response(request, 'manage/companies_search.html',
-                            {'form': form, 'companies': companies,'paginator': paginator, 'is_paginated': paginator.pages > 1,
-                             'has_next': paginator.has_next_page(page - 1),
-                             'has_previous': paginator.has_previous_page(page - 1),
-                             'current_page': page,
-                             'next_page': page + 1,
-                             'previous_page': page - 1,
-                             'pages': paginator.pages,
-                             'first_result': (page - 1) * nb_results_by_page +1,
-                             'last_result': min((page) * nb_results_by_page, paginator.hits),
-                             'hits' : paginator.hits,})
+        {'form': form, 'companies': companies,
+         'nb_org': Company.objects.valid_organizations().count(),
+         'nb_offices': Office.objects.valid_offices().count(),
+         'paginator': paginator, 'is_paginated': paginator.pages > 1,
+         'has_next': paginator.has_next_page(page - 1),
+         'has_previous': paginator.has_previous_page(page - 1),
+         'current_page': page, 'pages': paginator.pages,
+         'next_page': page + 1, 'previous_page': page - 1,
+         'first_result': (page - 1) * nb_results_by_page +1,
+         'last_result': min((page) * nb_results_by_page, paginator.hits),
+         'hits' : paginator.hits,})
 
 @login_required
 def company_edit(request, company_id=None):
@@ -213,19 +214,21 @@ def company_edit(request, company_id=None):
              'field': company.field,
              'short_description': company.short_description,
              'long_description': company.long_description })
+        action_title = _('Edit a company')
     else:
         form = OrganizationForm()
+        action_title = _('Register a company')
 
     if request.method == 'POST':
         form = OrganizationForm(request.POST.copy())
         if form.is_valid():
-            form.save(is_a_proposal=False, organization=company)
+            org = form.save(is_a_proposal=False, organization=company)
             if company:
                 msg = _('Company successfully modified')
             else:
                 msg = _('Company successfully created')
             request.user.message_set.create(message=msg)
-            return HttpResponseRedirect('/manage/')
+            return HttpResponseRedirect('/manage/companies/%s/' % org.id)
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No company registered.')+str(form.errors))
 
@@ -233,7 +236,7 @@ def company_edit(request, company_id=None):
 
     return ain7_render_to_response(request,
         'manage/company_edit.html',
-        {'action_title': _('Register a company'),
+        {'action_title': action_title,
          'form': form, 'back': back})
 
 
@@ -338,6 +341,113 @@ def organization_register_proposal(request, proposal_id=None):
         'manage/proposal_register.html',
         {'action_title': _('Proposal for adding an organization'),
          'form': form, 'back': back})
+
+@login_required
+def office_edit(request, office_id=None, organization_id=None):
+
+    office = None
+    if office_id:
+        office = get_object_or_404(Office, pk=office_id)
+        form = OfficeForm(
+            {'company': office.company.id, 'name': office.name,
+            'line1': office.line1, 'line2': office.line2,
+            'zip_code': office.zip_code, 'city': office.city,
+            'country': office.country.id, 'phone_number': office.phone_number,
+            'web_site': office.web_site})
+        action_title = _('Edit an office')
+
+    else:
+        form = OfficeForm({'company': organization_id})
+        action_title = _('Register an office')
+
+    if request.method == 'POST':
+        form = OfficeForm(request.POST.copy())
+        if form.is_valid():
+            office = form.save(is_a_proposal=False, office=office)
+            if office_id:
+                msg = _('Office successfully modified')
+            else:
+                msg = _('Office successfully created')
+            request.user.message_set.create(message=msg)
+            return HttpResponseRedirect('/manage/offices/%s/' % office.id)
+        else:
+            request.user.message_set.create(
+                message=_('Something was wrong in the form you filled.'))
+
+    back = request.META.get('HTTP_REFERER', '/')
+
+    return ain7_render_to_response(request,
+        'manage/company_edit.html',
+        {'action_title': action_title, 'form': form, 'back': back})
+
+
+@login_required
+def office_details(request, office_id):
+    office = get_object_or_404(Office, pk=office_id)
+    return ain7_render_to_response(request, 'manage/office_details.html',
+        {'office': office})
+
+
+@confirmation_required(
+    lambda user_id=None,
+    office_id=None: str(get_object_or_404(Office, pk=office_id)),
+    'manage/base.html',
+    _('Do you REALLY want to delete this office'))
+def office_delete(request, office_id):
+
+    office = get_object_or_404(Office, pk=office_id)
+    company_id = office.company.id
+    office.delete()
+    request.user.message_set.create(
+        message=_('Office successfully removed'))
+    return HttpResponseRedirect('/manage/companies/%s/' % company_id)
+
+
+@login_required
+def office_merge(request, office_id=None):
+
+    office = get_object_or_404(Office, pk=office_id)
+
+    # comme on ne peut définir le queryset qu'à la déclaration du champ,
+    # je dois créer le formulaire ici
+    class OfficeListForm(forms.Form):        
+        bureau = forms.ModelChoiceField(
+            label=_('office'), required=True,
+            queryset=Office.objects.valid_offices().exclude(id=office_id))
+
+    # 1er passage : on demande la saisie d'une deuxième organisation
+    if request.method == 'GET':
+        f = OfficeListForm()
+        return ain7_render_to_response(
+            request, 'manage/office_merge.html', {'form':f, 'office':office})
+
+    # 2e passage : sauvegarde, notification et redirection
+    if request.method == 'POST':
+        f = OfficeListForm(request.POST.copy())
+        if f.is_valid():
+            office2 = f.clean_data['bureau']
+            return HttpResponseRedirect('/manage/offices/%s/merge/%s/' %
+                (office2.id, office_id))
+        else:
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(f.errors))
+            return HttpResponseRedirect('/manage/offices/%s/merge/' %
+                office_id)
+        
+
+@confirmation_required(
+    lambda user_id=None, office1_id=None, office2_id=None:
+    str(get_object_or_404(Office, pk=office2_id)) + _(' replaced by ') + \
+    str(get_object_or_404(Office, pk=office1_id)),
+    'manage/base.html',
+    _('Do you REALLY want to have'))
+def office_do_merge(request, office1_id, office2_id):
+
+    office1 = get_object_or_404(Office, pk=office1_id)
+    office2 = get_object_or_404(Office, pk=office2_id)
+    office1.merge(office2)
+    request.user.message_set.create(message=_('Offices successfully merged'))
+    return HttpResponseRedirect('/manage/offices/%s/' % office1_id)
+
 
 @login_required
 def office_register_proposal(request, proposal_id=None):

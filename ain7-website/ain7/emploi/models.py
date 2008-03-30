@@ -188,6 +188,10 @@ class Office(models.Model):
 
     def save(self):
         self.modification_date = datetime.datetime.today()
+        if self.web_site and \
+           (not (self.web_site.startswith("http://") or \
+                 (self.web_site.startswith("https://")))):
+            self.web_site = "http://" + self.web_site
         return super(Office, self).save()
 
     def delete(self):
@@ -196,6 +200,20 @@ class Office(models.Model):
         for joboffer in self.job_offers.all():       joboffer.delete() 
         return super(Office, self).delete()
         
+    def merge(self, office2):
+        """ Replaces all references to office2 by reference to
+        this organization. Then office2 is removed."""
+        for propos in office2.office_proposals.all():
+            propos.original = self
+            propos.save()
+        for position in office2.positions.all():
+            position.office = self
+            position.save() 
+        for joboffer in office2.job_offers.all():
+            joboffer.office = self
+            joboffer.save() 
+        return office2.delete()
+
     def current_n7_employees(self):
         liste_N7_current = []
         for position in self.positions.all():

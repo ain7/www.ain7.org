@@ -1,0 +1,81 @@
+{% extends "manage/base.html" %}
+
+{% load i18n %}
+
+{% block javascript %}
+<script type="text/javascript" src="/site_media/js/mootools-release-{{ mootools_version }}.js"></script>
+<script type="text/javascript" src="/site_media/js/autocomplete.js?version={{ portal_version }}"></script>
+<script type="text/javascript" src="/site_media/js/floatingpane.js?version={{ portal_version }}"></script>
+<script type="text/javascript" src="/site_media/js/tiny_mce/tiny_mce.js"></script>
+<script type="text/javascript" src="/site_media/js/textareas.js?version={{ portal_version }}"></script>
+{% endblock %}
+
+{% block stylesheet %}
+<link type="text/css" rel="stylesheet" href="/site_media/css/autocomplete.css?version={{ portal_version }}"/>
+<link type="text/css" rel="stylesheet" href="/site_media/css/floatingpane.css?version={{ portal_version }}"/>
+{% endblock %}
+
+{% block content %}
+
+<div id="content-main">
+
+<div class="left">
+
+<div class="left_box">
+
+<h2>{% trans "Organizations merging" %}</h2>
+
+<p>
+{% blocktrans %}This procedure will replace all the references to the office <em>{{ office }}</em> by references of another office, and then remove <em>{{ office }}</em>.{% endblocktrans %}
+
+<p>{% trans "Please choose this second office." %}</p>
+
+<div align="center">
+<form action="." method="post">
+    <table border="0" align="center">
+       {{ form }}
+    </table>
+<input type="submit" class="button" value="{% trans 'Continue' %}" />
+</form>
+</div>
+
+</div>
+
+</div>
+
+<div class="right">
+
+<h3>{% trans "Navigation" %}</h3>
+<div class="right_articles">
+<ul>
+<li><a href="/manage/users/">{% trans "Manage users" %}</a></li>
+<li><a href="/manage/groups/">{% trans "Manage groups" %}</a></li>
+<li><a href="/manage/permissions/">{% trans "Manage permissions" %}</a></li>
+<li><a href="/manage/companies/">{% trans "Manage companies" %}</a></li>
+<li><a href="/manage/contributions/">{% trans "Contributions" %}</a></li>
+</ul>
+</div>
+
+<h3>{% trans "Actions" %}</h3>
+<div class="right_articles">
+<ul>
+<li><a href="/manage/offices/register/{{ office.company.id}}/">
+{% trans "Register a new office" %}</a></li>
+</ul>
+</div>
+
+<h3>{% trans "Card Informations"%}</h3>
+<div class="right_articles">
+<ul>
+  <li>{% trans "Creation" %}&nbsp;: 
+      {{ office.creation_date|date:"l j F Y" }}</li>
+  <li>{% trans "Update" %}&nbsp;: 
+       {{ organization.modification_date|date:"l j F Y" }}</li>
+</ul>
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

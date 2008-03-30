@@ -10,22 +10,12 @@
 
 <div class="left_box">
 
-<h2>{{ company.name }}</h2>
+<h2>{{ office }}</h2>
 
-{% if company.short_description %}
-<p>{{ company.short_description }}</p>
-{% endif %}
+<p>{% trans "Office of the organization:" %}&nbsp;
+<a href="/manage/companies/{{ office.company.id }}/">{{ office.company }}</a>
+</p>
 
-{% if company.long_description %}
-{{ company.long_description }}
-{% endif %}
-
-<!--TODO: ajouter size + field-->
-<h2>{% trans "List of offices" %}</h2>
-{% if company.offices.all %}
-<ul>
-{% for office in company.offices.all %}
-    <li><a href="/manage/offices/{{ office.id }}/">{{ office }}</a>
         {% if office.line1 or office.line2 or office.zip_code or office.city or office.country or office.phone_number or office.web_site %}
         <p>
            {% if office.line1 or office.line2 %}
@@ -82,11 +72,6 @@
           </ul>
         {% endif %}
 
-    </li>
-{% endfor %}
-</ul>
-{% endif %}
-
 </div>
 
 </div>
@@ -107,19 +92,26 @@
 <h3>{% trans "Actions" %}</h3>
 <div class="right_articles">
 <ul>
-<li><a href="/manage/companies/register/">{% trans "Register a new company" %}</a></li>
-<li><a href="/manage/companies/{{ company.id }}/edit/">{% trans "Edit this company" %}</a></li>
-<li><a href="/manage/companies/{{ company.id }}/delete/">{% trans "Delete this company" %}</a></li>
-<li><a href="/manage/companies/{{ company.id }}/merge/">{% trans "Merge this company" %}</a></li>
-<li><a href="/manage/offices/register/{{ company.id }}/">{% trans "Register a new office" %}</a></li>
+<li><a href="/manage/offices/register/{{ office.company.id}}/">
+{% trans "Register a new office" %}</a></li>
+<li><a href="/manage/offices/{{ office.id }}/edit/">
+{% trans "Edit this office" %}</a></li>
+<li><a href="/manage/offices/{{ office.id }}/delete/">
+{% trans "Delete this office" %}</a></li>
+<li><a href="/manage/offices/{{ office.id }}/merge/">
+{% trans "Merge this office" %}</a></li>
 </ul>
 </div>
 
 <h3>{% trans "Card Informations"%}</h3>
 <div class="right_articles">
 <ul>
-  <li>{% trans "Creation" %}&nbsp;: {{ company.creation_date|date:"l j F Y" }}</li>
-  <li>{% trans "Update" %}&nbsp;: {{ company.modification_date|date:"l j F Y" }}</li>
+  <li>
+    {% trans "Creation" %}&nbsp;: {{ office.creation_date|date:"l j F Y" }}
+  </li>
+  <li>
+    {% trans "Update" %}&nbsp;: {{ office.modification_date|date:"l j F Y" }}
+  </li>
 </ul>
 </div>
 

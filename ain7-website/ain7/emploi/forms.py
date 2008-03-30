@@ -126,8 +126,9 @@ class OfficeForm(forms.Form):
     web_site = forms.CharField(
         label=_('web site'), max_length=100, required=False)
 
-    def save(self, is_a_proposal=False):
-        office = Office()
+    def save(self, is_a_proposal=False, office=None):
+        if not office:
+            office = Office()
         office.company = self.clean_data['company']
         office.name = self.clean_data['name']
         office.line1 = self.clean_data['line1']

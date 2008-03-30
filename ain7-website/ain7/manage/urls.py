@@ -39,11 +39,11 @@ urlpatterns = patterns('ain7.manage.views',
      'organization_register_proposal'),
                        
     # Offices
-    (r'^offices/register/$', 'office_edit'),
+    (r'^offices/register/(?P<organization_id>\d+)/$', 'office_edit'),
     (r'^offices/(?P<office_id>\d+)/$', 'office_details'),
     (r'^offices/(?P<office_id>\d+)/edit/$', 'office_edit'),
     (r'^offices/(?P<office_id>\d+)/delete/$', 'office_delete'),
-    (r'^offices/(?P<organization_id>\d+)/merge/$', 'office_merge'),
+    (r'^offices/(?P<office_id>\d+)/merge/$', 'office_merge'),
     (r'^offices/(?P<office1_id>\d+)/merge/(?P<office2_id>\d+)/$',
      'office_do_merge'),
     (r'^offices/proposals/register/(?P<proposal_id>\d+)/$',
