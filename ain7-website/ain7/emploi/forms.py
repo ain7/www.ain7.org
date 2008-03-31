@@ -28,13 +28,47 @@ from ain7.emploi.models import *
 from ain7.fields import AutoCompleteField
 
 class JobOfferForm(forms.Form):
-    reference = forms.CharField(label=_('reference'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
-    title = forms.CharField(label=_('title'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
-    experience = forms.CharField(label=_('experience'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
-    contract_type = forms.IntegerField(label=_('contract type'),required=False)
+    reference = forms.CharField(label=_('reference'), max_length=50,
+        required=False, widget=forms.TextInput(attrs={'size':'50'}))
+    title = forms.CharField(label=_('title').capitalize(), max_length=50,
+        required=False, widget=forms.TextInput(attrs={'size':'50'}))
+    experience = forms.CharField(label=_('experience'), max_length=50,
+        required=False, widget=forms.TextInput(attrs={'size':'50'}))
+    contract_type = forms.IntegerField(label=_('contract type'),
+        required=False)
     contract_type.widget = forms.Select(choices=JobOffer.JOB_TYPES)
     is_opened = forms.BooleanField(label=_('is opened'),required=False)
-    description = forms.CharField(label=_('description'),max_length=500, required=False, widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':95}))
+    description = forms.CharField(label=_('description').capitalize(),
+        max_length=500, required=False,
+        widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':95}))
+    office = forms.ModelChoiceField(label=_('office').capitalize(),
+        queryset=Office.objects.valid_offices(), required=True)
+    contact_name = forms.CharField(label=_('Contact name'), max_length=50,
+        required=False, widget=forms.TextInput(attrs={'size':'50'}))
+    contact_email = forms.EmailField(label=_('Contact email').capitalize(),
+        required=False)
+    track = forms.ModelMultipleChoiceField(label=_('track').capitalize(),
+        queryset=Track.objects.all(), required=False)
+    
+
+    def save(self, job_offer=None):
+        if not job_offer:
+            job_offer = JobOffer()
+        job_offer.reference = self.clean_data['reference']
+        job_offer.title = self.clean_data['title']
+        job_offer.experience = self.clean_data['experience']
+        job_offer.contract_type = self.clean_data['contract_type']
+        job_offer.is_opened = self.clean_data['is_opened']
+        job_offer.description = self.clean_data['description']
+        job_offer.office = self.clean_data['office']
+        job_offer.contact_name = self.clean_data['contact_name']
+        job_offer.contact_email = self.clean_data['contact_email']
+        job_offer.save()
+        # needs to have a primary key before a many-to-many can be used
+        job_offer.track = self.clean_data['track']
+        job_offer.save()
+        return job_offer
+
 
 class SearchJobForm(forms.Form):
     title = forms.CharField(label=_('title'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
@@ -108,7 +142,7 @@ class OrganizationForm(forms.Form):
 class OfficeForm(forms.Form):
     company = forms.ModelChoiceField(
         label=_('organization'),
-        queryset=Company.objects.filter(is_a_proposal=False),required=True)
+        queryset=Company.objects.valid_organizations(),required=True)
     name = forms.CharField(
         label=_('name'), max_length=50, required=True)
     line1 = forms.CharField(

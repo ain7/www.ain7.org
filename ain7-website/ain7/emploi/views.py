@@ -325,21 +325,27 @@ def job_details(request,emploi_id):
 def job_edit(request, emploi_id):
 
     j = get_object_or_404(JobOffer, pk=emploi_id)
+    tracks_id = []
+    if j.track:
+        tracks_id = [ t.id for t in j.track.all() ]
+    f = JobOfferForm(
+        {'reference': j.reference, 'title': j.title,
+         'experience': j.experience, 'contract_type': j.contract_type,
+         'is_opened': j.is_opened, 'description': j.description,
+         'office': j.office.id, 'contact_name': j.contact_name,
+         'contact_email': j.contact_email,
+         'track':  tracks_id})
 
     if request.method == 'POST':
-        form = JobOfferForm(request.POST)
-        if form.is_valid():
-            j.reference = form.clean_data['reference']
-            j.title = form.clean_data['title']
-            j.description = form.clean_data['description']
-            j.experience = form.clean_data['experience']
-            j.contract_type = form.clean_data['contract_type']
-            j.save()
-
+        f = JobOfferForm(request.POST)
+        if f.is_valid():
+            f.save(job_offer=j)
+            request.user.message_set.create(
+                message=_('Job offer successfully modified.'))
             return HttpResponseRedirect('/emploi/job/%s/' % (j.id) )
-
-    f = JobOfferForm({'reference': j.reference, 'title': j.title, 'description': j.description,
-        'experience': j.experience, 'contract_type': j.contract_type})
+        else:
+            request.user.message_set.create(
+                message=_('Something was wrong in the form you filled. No modification done.'))
 
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'emploi/job_edit.html', {'form': f, 'job': j, 'back': back})
@@ -347,20 +353,19 @@ def job_edit(request, emploi_id):
 @login_required
 def job_register(request):
 
-    if request.method == 'POST':
-        form = JobOfferForm(request.POST)
-        if form.is_valid():
-            job_offer = JobOffer()
-            job_offer.reference = form.clean_data['reference']
-            job_offer.title = form.clean_data['title']
-            job_offer.description = form.clean_data['description']
-            job_offer.experience = form.clean_data['experience']
-            job_offer.contract_type = form.clean_data['contract_type']
-            job_offer.save()
-
-            return HttpResponseRedirect('/emploi/job/%s/' % (job_offer.id))
-
     f = JobOfferForm({})
+
+    if request.method == 'POST':
+        f = JobOfferForm(request.POST)
+        if f.is_valid():
+            job_offer = f.save()
+            request.user.message_set.create(
+                message=_('Job offer successfully created.'))
+            return HttpResponseRedirect('/emploi/job/%s/' % (job_offer.id))
+        else:
+            request.user.message_set.create(
+                message=_('Something was wrong in the form you filled. No modification done.'))
+            
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'emploi/job_register.html', {'form': f, 'back': back})
 

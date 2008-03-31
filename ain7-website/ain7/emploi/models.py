@@ -396,7 +396,8 @@ class JobOffer(models.Model):
     is_opened = models.BooleanField(verbose_name=_('Job offer is opened'), default=False)
     office = models.ForeignKey(Office, related_name='job_offers',
                                blank=True, null=True)
-    contact = models.ForeignKey(Person, blank=True, null=True)
+    contact_name = models.CharField(verbose_name=_('Contact name'), maxlength=80, blank=True, null=True)
+    contact_email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
     track = models.ManyToManyField(Track, verbose_name=_('Track'), related_name='jobs', blank=True, null=True, filter_interface=models.HORIZONTAL)
     nb_views = models.IntegerField(verbose_name=_('Number of views'), default=0, editable=False)
 

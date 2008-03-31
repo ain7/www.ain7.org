@@ -27,6 +27,19 @@
         {% if not forloop.last %} - {% endif %}
     {% endfor %}
 </li>
+{% if job.contact_name or job.contact_email %}
+    <li><b>{% trans "Contact" %}&nbsp;:</b>
+      {% if job.contact_email %}
+        <a href="mailto:{{ job.contact_email }}">
+      {% endif %}
+      {% if job.contact_name %} 
+        {{ job.contact_name }}
+      {% else %} 
+        {{ job.contact_email }}
+      {% endif %}
+      {% if job.contact_email %}</a>{% endif %}
+    </li>
+{% endif %}
 </ul>
 
 {{ job.description }}

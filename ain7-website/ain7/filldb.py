@@ -1326,7 +1326,8 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
 
     job1 = emploi.JobOffer()
     job1.reference = "XYZ270"
-    job1.contact = lionel
+    job1.contact_name = "Lionel Porcheron"
+    job1.contact_email = "lionel.porcheron@alumni.enseeiht.fr"
     job1.title = "Ingénieur Java/J2EE"
     job1.description = """Pour l'un de nos clients Grand Compte, nous recherchons des Ingénieurs d'études Java/J2ee, sous la conduite d'un Chef de projet, vous aurez en charge la réalisation des études techniques et fonctionnelles, le développement des applications."""
     job1.experience = "1 à 2 ans"
