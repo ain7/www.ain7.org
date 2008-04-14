@@ -22,6 +22,7 @@
 
 from django import newforms as forms
 from django.newforms import widgets
+from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Track
 from ain7.emploi.models import *
@@ -54,18 +55,18 @@ class JobOfferForm(forms.Form):
     def save(self, job_offer=None):
         if not job_offer:
             job_offer = JobOffer()
-        job_offer.reference = self.clean_data['reference']
-        job_offer.title = self.clean_data['title']
-        job_offer.experience = self.clean_data['experience']
-        job_offer.contract_type = self.clean_data['contract_type']
-        job_offer.is_opened = self.clean_data['is_opened']
-        job_offer.description = self.clean_data['description']
-        job_offer.office = self.clean_data['office']
-        job_offer.contact_name = self.clean_data['contact_name']
-        job_offer.contact_email = self.clean_data['contact_email']
+        job_offer.reference = self.cleaned_data['reference']
+        job_offer.title = self.cleaned_data['title']
+        job_offer.experience = self.cleaned_data['experience']
+        job_offer.contract_type = self.cleaned_data['contract_type']
+        job_offer.is_opened = self.cleaned_data['is_opened']
+        job_offer.description = self.cleaned_data['description']
+        job_offer.office = self.cleaned_data['office']
+        job_offer.contact_name = self.cleaned_data['contact_name']
+        job_offer.contact_email = self.cleaned_data['contact_email']
         job_offer.save()
         # needs to have a primary key before a many-to-many can be used
-        job_offer.track = self.clean_data['track']
+        job_offer.track = self.cleaned_data['track']
         job_offer.save()
         return job_offer
 
@@ -80,24 +81,24 @@ class SearchJobForm(forms.Form):
         super(SearchJobForm, self).__init__(*args, **kwargs)
 
     def clean_track(self):
-        return self.clean_data['track']
+        return self.cleaned_data['track']
 
     def search(self):
         maxTrackId = Track.objects.latest('id').id + 1
         # si des filières sont sélectionnées mais pas le joker
         # on filtre par rapport à ces filières
         jobsMatchingTracks = []
-        if (not self.clean_data['allTracks'])\
-               and len(self.clean_data['track'])>0:
-            for track in self.clean_data['track']:
+        if (not self.cleaned_data['allTracks'])\
+               and len(self.cleaned_data['track'])>0:
+            for track in self.cleaned_data['track']:
                 jobsMatchingTracks.extend(track.jobs.all())
         else:
             jobsMatchingTracks = JobOffer.objects.all()
         # maintenant on filtre ces jobs par rapport au titre saisi
         matchingJobs = []
-        if self.clean_data['title']:
+        if self.cleaned_data['title']:
             for job in jobsMatchingTracks:
-                if str(self.clean_data['title']) in job.title:
+                if str(self.cleaned_data['title']) in job.title:
                     matchingJobs.append(job)
         else:
             matchingJobs = jobsMatchingTracks
@@ -128,12 +129,12 @@ class OrganizationForm(forms.Form):
 #             if field.name=='is_a_proposal':
 #                 field.value = is_a_proposal
 #             else:
-#                 field.value = self.clean_data[field.name]
-        org.name = self.clean_data['name']
-        org.size = self.clean_data['size']
-        org.field = CompanyField.objects.get(id=self.clean_data['field'])
-        org.short_description = self.clean_data['short_description']
-        org.long_description = self.clean_data['long_description']
+#                 field.value = self.cleaned_data[field.name]
+        org.name = self.cleaned_data['name']
+        org.size = self.cleaned_data['size']
+        org.field = CompanyField.objects.get(id=self.cleaned_data['field'])
+        org.short_description = self.cleaned_data['short_description']
+        org.long_description = self.cleaned_data['long_description']
         org.is_a_proposal = is_a_proposal
         org.save()
         return org
@@ -163,15 +164,15 @@ class OfficeForm(forms.Form):
     def save(self, is_a_proposal=False, office=None):
         if not office:
             office = Office()
-        office.company = self.clean_data['company']
-        office.name = self.clean_data['name']
-        office.line1 = self.clean_data['line1']
-        office.line2 = self.clean_data['line2']
-        office.zip_code = self.clean_data['zip_code']
-        office.city = self.clean_data['city']
-        office.country = self.clean_data['country']
-        office.phone_number = self.clean_data['phone_number']
-        office.web_site = self.clean_data['web_site']
+        office.company = self.cleaned_data['company']
+        office.name = self.cleaned_data['name']
+        office.line1 = self.cleaned_data['line1']
+        office.line2 = self.cleaned_data['line2']
+        office.zip_code = self.cleaned_data['zip_code']
+        office.city = self.cleaned_data['city']
+        office.country = self.cleaned_data['country']
+        office.phone_number = self.cleaned_data['phone_number']
+        office.web_site = self.cleaned_data['web_site']
         office.is_a_proposal = is_a_proposal
         office.save()
         return office

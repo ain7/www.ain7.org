@@ -23,15 +23,15 @@
 import datetime
 
 from django.db import models
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
 
 class Group(models.Model):
 
-    name = models.CharField(verbose_name=_('name'), maxlength=100)
-    contact = models.CharField(verbose_name=_('Contact email'), maxlength=100, blank=True, null=True)
-    description = models.CharField(verbose_name=_('description'), maxlength=200, blank=True, null=True)
+    name = models.CharField(verbose_name=_('name'), max_length=100)
+    contact = models.CharField(verbose_name=_('Contact email'), max_length=100, blank=True, null=True)
+    description = models.CharField(verbose_name=_('description'), max_length=200, blank=True, null=True)
     web_page = models.TextField(verbose_name=_('web page'), blank=True, null=True)
     parent = models.ForeignKey('Group', verbose_name=_('parent'), related_name='children', blank=True, null=True)
 

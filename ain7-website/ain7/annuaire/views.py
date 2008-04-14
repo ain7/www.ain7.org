@@ -32,6 +32,7 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django import newforms as forms
 from django.db import models
+from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import *
 from ain7.annuaire.forms import *
@@ -160,12 +161,12 @@ def search(request):
             # compute criteria to be displayed in the form
             promo_default = [ -1, ""]
             track_default = [ -1, ""]
-            if form.clean_data['promo'] != -1:
+            if form.cleaned_data['promo'] != -1:
                 promo_default = \
                     [promoCriteria['year'], promoCriteria['year']]
-            if form.clean_data['track'] != -1:
+            if form.cleaned_data['track'] != -1:
                 track_default = \
-                    [form.clean_data['track'], promoCriteria['track'].name]
+                    [form.cleaned_data['track'], promoCriteria['track'].name]
 
             # put the criteria in session: they must be accessed when
             # performing a CSV export, sending a mail...
@@ -267,7 +268,7 @@ def filter_register(request):
     else:
         form = FilterForm(request.POST)
         if form.is_valid():
-            fName = form.clean_data['name'].encode('utf8')
+            fName = form.cleaned_data['name'].encode('utf8')
             # First we check that the user does not have
             # a filter with the same name
             sameName = SearchFilter.objects.\
@@ -304,8 +305,8 @@ def filter_edit(request, filter_id):
     if request.method == 'POST':
         form = FilterForm(request.POST)
         if form.is_valid():
-            form.clean_data['user'] = filtr.user
-            form.clean_data['operator'] = filtr.operator
+            form.cleaned_data['user'] = filtr.user
+            form.cleaned_data['operator'] = filtr.operator
             form.save()
             request.user.message_set.create(message=_("Modifications have been successfully saved."))
         else:
@@ -425,7 +426,7 @@ def criterion_add(request, filter_id=None, criterionType=None):
         form = ChooseFieldForm(request.POST)
         form.fields['chosenField'].choices = choiceList
         if form.is_valid():
-            request.session['criterion_field']= form.clean_data['chosenField']
+            request.session['criterion_field']= form.cleaned_data['chosenField']
             return HttpResponseRedirect(
                 '/annuaire/advanced_search/filter/%s/criterion/edit/field/' %\
                 filter_id)
@@ -435,8 +436,8 @@ def criterion_add(request, filter_id=None, criterionType=None):
         if form.is_valid():
             new_criterion = SearchCriterionFilter()
             new_criterion.searchFilter= SearchFilter.objects.get(id=filter_id)
-            new_criterion.filterCriterion = form.clean_data['chosenFilter']
-            new_criterion.is_in = form.clean_data['is_in']
+            new_criterion.filterCriterion = form.cleaned_data['chosenFilter']
+            new_criterion.is_in = form.cleaned_data['is_in']
             new_criterion.save()
         return HttpResponseRedirect('/annuaire/advanced_search/')
 
@@ -507,10 +508,10 @@ def criterionField_edit(request, filter_id=None, criterion_id=None):
         if form.is_valid():
             cCode = comps[0][0]
             try:
-                cCode = form.clean_data['comparator']
+                cCode = form.cleaned_data['comparator']
             except KeyError:
                 pass
-            val = form.clean_data['value']
+            val = form.cleaned_data['value']
             displayedVal = getDisplayedVal(val,fName)
             # if the value is an object, store its id
             if str(type(val)).find('class ')!=-1:
@@ -569,8 +570,8 @@ def criterionFilter_edit(request, filter_id=None, criterion_id=None):
     if request.method == 'POST':
         form = ChooseFilterForm(request.POST)
         if form.is_valid():
-            crit = form.clean_data['chosenFilter']
-            isin = form.clean_data['is_in']
+            crit = form.cleaned_data['chosenFilter']
+            isin = form.cleaned_data['is_in']
             filtr  = get_object_or_404(SearchFilter, pk=filter_id)
             criter = get_object_or_404(SearchCriterionFilter, pk=criterion_id)
             criter.searchFilter    = filtr
@@ -628,11 +629,11 @@ def sendmail(request):
     if request.method == 'POST':
         f = SendmailForm(request.POST)
         if f.is_valid():
-            if f.clean_data['send_test']:
-                request.user.person.send_mail(f.clean_data['subject'].encode('utf8'),f.clean_data['body'].encode('utf8'))
+            if f.cleaned_data['send_test']:
+                request.user.person.send_mail(f.cleaned_data['subject'].encode('utf8'),f.cleaned_data['body'].encode('utf8'))
             else:
                 for member in ain7members:
-                    member.person.send_mail(f.clean_data['subject'].encode('utf8'),f.clean_data['body'].encode('utf8'))
+                    member.person.send_mail(f.cleaned_data['subject'].encode('utf8'),f.cleaned_data['body'].encode('utf8'))
 
     return ain7_render_to_response(request, 'annuaire/sendmail.html',
                             {'form': f})
@@ -664,7 +665,7 @@ def person_edit(request, user_id=None):
         if request.method == 'POST':
              form = PersonForm(request.POST)
              if form.is_valid():
-                 form.clean_data['user'] = person.user
+                 form.cleaned_data['user'] = person.user
                  form.save()
                  request.user.message_set.create(message=_("Modifications have been successfully saved."))
                  return HttpResponseRedirect('/annuaire/%s/edit' % (person.user.id))
@@ -696,8 +697,8 @@ def ain7member_edit(request, user_id=None):
              post.update(request.FILES)
              form = PersonForm(post)
              if form.is_valid():
-                 form.clean_data['person'] = person
-                 form.clean_data['avatar'] = avatar
+                 form.cleaned_data['person'] = person
+                 form.cleaned_data['avatar'] = avatar
                  form.save()
                  request.user.message_set.create(message=_("Modifications have been successfully saved."))
                  return HttpResponseRedirect('/annuaire/%s/edit' % (person.user.id))
@@ -731,8 +732,8 @@ def avatar_edit(request, user_id):
         form = ImgUploadForm(post)
         if form.is_valid():
             ain7member.save_avatar_file(
-                form.clean_data['img_file']['filename'],
-                form.clean_data['img_file']['content'])
+                form.cleaned_data['img_file']['filename'],
+                form.cleaned_data['img_file']['content'])
             request.user.message_set.create(message=_("The picture has been successfully changed."))
         else:
             request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
@@ -771,9 +772,9 @@ def _generic_edit(request, user_id, object_id, object_type,
         f = PosForm(request.POST.copy())
         if f.is_valid():
             if person is not None:
-                f.clean_data['person'] = person
+                f.cleaned_data['person'] = person
             if ain7member is not None:
-                f.clean_data['member'] = ain7member
+                f.cleaned_data['member'] = ain7member
             f.save()
             request.user.message_set.create(message=msg_done)
         else:
@@ -809,9 +810,9 @@ def _generic_add(request, user_id, object_type, person, ain7member,
         f = PosForm(request.POST.copy())
         if f.is_valid():
             if person is not None:
-                f.clean_data['person'] = person
+                f.cleaned_data['person'] = person
             if ain7member is not None:
-                f.clean_data['member'] = ain7member
+                f.cleaned_data['member'] = ain7member
             f.save()
             request.user.message_set.create(message=msg_done)
         else:

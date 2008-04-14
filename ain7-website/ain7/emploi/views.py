@@ -29,6 +29,7 @@ from django.template import RequestContext
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from datetime import datetime
+from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person, AIn7Member, Track
 from ain7.decorators import confirmation_required
@@ -95,7 +96,7 @@ def _generic_edit(request, user_id, obj, redirectPage, msgDone):
             formfield_callback=_form_callback)
         f = PosForm(request.POST.copy())
         if f.is_valid():
-            f.clean_data['ain7member'] = ain7member
+            f.cleaned_data['ain7member'] = ain7member
             f.save()
             request.user.message_set.create(message=msgDone)
         else:
@@ -132,7 +133,7 @@ def _generic_add(request, user_id, objectType, redirectPage, msgDone):
             formfield_callback=_form_callback)
         f = PosForm(request.POST.copy())
         if f.is_valid():
-            f.clean_data['ain7member'] = ain7member
+            f.cleaned_data['ain7member'] = ain7member
             f.save()
             request.user.message_set.create(message=msgDone)
         else:

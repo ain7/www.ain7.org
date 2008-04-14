@@ -21,7 +21,7 @@
 #
 
 import vobject
-
+from datetime import datetime
 
 from django.db import models
 from django.shortcuts import get_object_or_404
@@ -31,7 +31,7 @@ from django import newforms as forms
 from django.template import RequestContext
 from django.newforms import widgets
 from django.http import HttpResponseRedirect, HttpResponse
-from datetime import datetime
+from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person, UserContribution, UserContributionType
 from ain7.evenements.models import Event, EventSubscription
@@ -80,7 +80,7 @@ def edit(request, event_id):
     if request.method == 'POST':
         f = EventForm(request.POST.copy())
         if f.is_valid():
-            f.clean_data['image'] = image
+            f.cleaned_data['image'] = image
             f.save()
 
             request.user.message_set.create(message=_('Event successfully updated.'))
@@ -118,8 +118,8 @@ def image_edit(request, event_id):
         form = ImgUploadForm(post)
         if form.is_valid():
             event.save_image_file(
-                form.clean_data['img_file']['filename'],
-                form.clean_data['img_file']['content'])
+                form.cleaned_data['img_file']['filename'],
+                form.cleaned_data['img_file']['content'])
             request.user.message_set.create(message=_("The picture has been successfully changed."))
         else:
             request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
@@ -193,7 +193,7 @@ def register(request):
     if request.method == 'POST':
         f = EventForm(request.POST.copy())
         if f.is_valid():
-            f.clean_data['image'] = None
+            f.cleaned_data['image'] = None
             f.save()
 
             contrib_type = UserContributionType.objects.get(id='event_register')
@@ -227,8 +227,8 @@ def search(request):
     if request.method == 'POST':
         form = SearchEventForm(request.POST)
         if form.is_valid():
-            list_events = Event.objects.filter(name__icontains=form.clean_data['name'],
-                                                       location__icontains=form.clean_data['location'])
+            list_events = Event.objects.filter(name__icontains=form.cleaned_data['name'],
+                                                       location__icontains=form.cleaned_data['location'])
 
             paginator = ObjectPaginator(list_events, nb_results_by_page)
 

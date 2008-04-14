@@ -29,9 +29,10 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import ObjectPaginator, InvalidPage
 from django.db import models
+from django.utils.translation import ugettext as _
+
 from ain7.decorators import confirmation_required
 from ain7.utils import ain7_render_to_response, ImgUploadForm, form_callback
-
 from ain7.voyages.models import Travel, Subscription, TravelResponsible
 from ain7.annuaire.models import Person
 
@@ -50,14 +51,14 @@ class SearchTravelForm(forms.Form):
 
     def search(self):
         criteria={
-            'label__contains':self.clean_data['label'],
-            'date__contains':self.clean_data['date']}
+            'label__contains':self.cleaned_data['label'],
+            'date__contains':self.cleaned_data['date']}
         # visited places are also searched in labels
-        visited = self.clean_data['visited_places']
+        visited = self.cleaned_data['visited_places']
         q_visited = \
             models.Q(visited_places__contains = visited) | \
             models.Q(label__contains = visited)
-        if not self.clean_data['search_old_travel']:
+        if not self.cleaned_data['search_old_travel']:
             criteria['start_date__gte'] = datetime.now()
         return Travel.objects.filter(**criteria).filter(q_visited)
 
@@ -87,7 +88,7 @@ def add(request):
     if request.method == 'POST':
         form = TravelForm(request.POST)
         if form.is_valid():
-            form.clean_data['thumbnail'] = None
+            form.cleaned_data['thumbnail'] = None
             form.save()
             request.user.message_set.create(
                 message=_('The travel has been successfully created.'))
@@ -169,7 +170,7 @@ def edit(request, travel_id=None):
     if request.method == 'POST':
         form = TravelForm(request.POST)
         if form.is_valid():
-            form.clean_data['thumbnail'] = thumbnail
+            form.cleaned_data['thumbnail'] = thumbnail
             form.save()
             request.user.message_set.create(
                 message=_("Modifications have been successfully saved."))
@@ -201,8 +202,8 @@ def thumbnail_edit(request, travel_id):
         form = ImgUploadForm(post)
         if form.is_valid():
             travel.save_thumbnail_file(
-                form.clean_data['img_file']['filename'],
-                form.clean_data['img_file']['content'])
+                form.cleaned_data['img_file']['filename'],
+                form.cleaned_data['img_file']['content'])
             request.user.message_set.create(message=_("The picture has been successfully changed."))
         else:
             request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done.")+str(form.errors))
@@ -246,8 +247,8 @@ def join(request, travel_id):
             formfield_callback=_join_callback)
         f = JoinTravelForm(request.POST.copy())
         if f.is_valid():
-            f.clean_data['subscriber'] = person
-            f.clean_data['travel'] = travel
+            f.cleaned_data['subscriber'] = person
+            f.cleaned_data['travel'] = travel
             f.save()
             request.user.message_set.create(message=_('You have been successfully subscribed to this travel.'))
         else:
@@ -283,7 +284,7 @@ def subscribe(request, travel_id):
                                     {'travel': travel})
         else:
             if f.is_valid():
-                f.clean_data['travel'] = travel
+                f.cleaned_data['travel'] = travel
                 f.save()
                 request.user.message_set.create(message=_('You have successfully subscribed someone to this travel.'))
             else:
@@ -348,7 +349,7 @@ def responsibles_add(request, travel_id):
                                     {'travel': travel})
         else:
             if f.is_valid():
-                f.clean_data['travel'] = travel
+                f.cleaned_data['travel'] = travel
                 f.save()
                 request.user.message_set.create(message=_('You have successfully added someone to responsibles of this travel.'))
             else:

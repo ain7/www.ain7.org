@@ -23,7 +23,7 @@
 import datetime
 
 from django.db import models
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
 from ain7.groupes_regionaux.models import Group
@@ -43,23 +43,23 @@ class Event(models.Model):
               (0,_('cancel')),
               )
 
-    name = models.CharField(verbose_name=_('name'), maxlength=20)
+    name = models.CharField(verbose_name=_('name'), max_length=20)
     start = models.DateTimeField(verbose_name=_('start'))
     end = models.DateTimeField(verbose_name=_('end'))
     description = models.TextField(verbose_name=_('description'), blank=True, null=True)
-    location = models.CharField(verbose_name=_('place'), maxlength=60)
+    location = models.CharField(verbose_name=_('place'), max_length=60)
     category = models.IntegerField(verbose_name=_('category'), choices=EVENT_CATEGORY, null=True, blank=True)
     status = models.IntegerField(verbose_name=_('status'), choices=EVENT_STATUS, null=True, blank=True)
     image = models.ImageField(verbose_name=_('image'), upload_to='data', null=True, blank=True)
-    author = models.CharField(verbose_name=_('author'), maxlength=20)
-    contact_email = models.EmailField(verbose_name=_('contact email'), maxlength=50)
-    link = models.CharField(verbose_name=_('link'), maxlength=60, blank=True, null=True)
+    author = models.CharField(verbose_name=_('author'), max_length=20)
+    contact_email = models.EmailField(verbose_name=_('contact email'), max_length=50)
+    link = models.CharField(verbose_name=_('link'), max_length=60, blank=True, null=True)
     publication_start =  models.DateTimeField(verbose_name=_('publication start'))
     publication_end = models.DateTimeField(verbose_name=_('publication end'))
 
     organizer = models.ManyToManyField(Person, verbose_name=_('organizer'),related_name='events', blank=True, null=True, filter_interface=models.HORIZONTAL)
     regional_groups = models.ManyToManyField(Group, verbose_name=_('regional groups'), related_name='events', blank=True, null=True, filter_interface=models.HORIZONTAL)
-    pictures_gallery = models.CharField(verbose_name=_('Pictures gallery'), maxlength=100, blank=True, null=True)
+    pictures_gallery = models.CharField(verbose_name=_('Pictures gallery'), max_length=100, blank=True, null=True)
     question = models.TextField(null=True, blank=True)
 
     # Internal

@@ -21,12 +21,12 @@
 #
 
 from django.db import models
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
 
 class Survey(models.Model):
-    question = models.CharField(verbose_name=_('question'), maxlength=200)
+    question = models.CharField(verbose_name=_('question'), max_length=200)
     start_date = models.DateField(verbose_name=_('start date'))
     end_date = models.DateField(verbose_name=_('end date'))
 
@@ -47,7 +47,7 @@ class Survey(models.Model):
         verbose_name = _('survey')
 
 class Choice(models.Model):
-    choice = models.CharField(verbose_name=_('choice'), maxlength=200, core=True)
+    choice = models.CharField(verbose_name=_('choice'), max_length=200, core=True)
 
     survey = models.ForeignKey(Survey, verbose_name=_('survey'), related_name='choices', edit_inline=models.TABULAR, num_in_admin=3)
 

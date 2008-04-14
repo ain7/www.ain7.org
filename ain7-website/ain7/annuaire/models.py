@@ -26,15 +26,15 @@ import time
 
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ugettext as _
 
 from ain7.utils import isAdmin
 
 # Country (used for adresses)
 class Country(models.Model):
 
-    name = models.CharField(verbose_name=_('name'), maxlength=50)
-    nationality = models.CharField(verbose_name=_('nationality'), maxlength=50)
+    name = models.CharField(verbose_name=_('name'), max_length=50)
+    nationality = models.CharField(verbose_name=_('nationality'), max_length=50)
 
     def __str__(self):
         return self.name
@@ -49,7 +49,7 @@ class Country(models.Model):
 # Indicates the current status of a person: Student, Ingeneer
 class PersonType(models.Model):
 
-    type = models.CharField(verbose_name=_('type'), maxlength=50)
+    type = models.CharField(verbose_name=_('type'), max_length=50)
 
     def __str__(self):
         return self.type
@@ -64,7 +64,7 @@ class PersonType(models.Model):
 # Indicates the current relation with the association: actif member or ?
 class MemberType(models.Model):
 
-    type = models.CharField(verbose_name=_('type'), maxlength=50)
+    type = models.CharField(verbose_name=_('type'), max_length=50)
 
     def __str__(self):
         return self.type
@@ -78,7 +78,7 @@ class MemberType(models.Model):
 # Indicates the current main activity of the person: student, active retired, ...
 class Activity(models.Model):
 
-    activity = models.CharField(verbose_name=_('activity'), maxlength=50)
+    activity = models.CharField(verbose_name=_('activity'), max_length=50)
 
     def __str__(self):
         return self.activity
@@ -92,7 +92,7 @@ class Activity(models.Model):
 # Indicates the current marital status of the person: single, married, ...
 class MaritalStatus(models.Model):
 
-    status = models.CharField(verbose_name=_('status'), maxlength=50)
+    status = models.CharField(verbose_name=_('status'), max_length=50)
 
     def __str__(self):
         return self.status
@@ -106,8 +106,8 @@ class MaritalStatus(models.Model):
 # Diploma received
 class Diploma(models.Model):
 
-    diploma = models.CharField(verbose_name=_('diploma'), maxlength=100, core=True)
-    initials = models.CharField(verbose_name=_('initials'), maxlength=10, core=True, blank=True, null=True)
+    diploma = models.CharField(verbose_name=_('diploma'), max_length=100, core=True)
+    initials = models.CharField(verbose_name=_('initials'), max_length=10, core=True, blank=True, null=True)
 
     def __str__(self):
         return self.diploma
@@ -121,7 +121,7 @@ class Diploma(models.Model):
 # Decoration received by people (war cross, etc.)
 class Decoration(models.Model):
 
-    decoration = models.CharField(verbose_name=_('decoration'), maxlength=200, core=True)
+    decoration = models.CharField(verbose_name=_('decoration'), max_length=200, core=True)
 
     def __str__(self):
         return self.decoration
@@ -135,7 +135,7 @@ class Decoration(models.Model):
 # Honorific functions occupied by some persons
 class CeremonialDuty(models.Model):
 
-    ceremonial_duty = models.CharField(verbose_name=_('ceremonial duty'), maxlength=200, core=True)
+    ceremonial_duty = models.CharField(verbose_name=_('ceremonial duty'), max_length=200, core=True)
 
     def __str__(self):
         return self.ceremonial_duty
@@ -150,17 +150,17 @@ class CeremonialDuty(models.Model):
 # School where users come from
 class School(models.Model):
 
-    name = models.CharField(verbose_name=_('name'), maxlength=500)
-    initials = models.CharField(verbose_name=_('initials'), maxlength=10, blank=True, null=True)
+    name = models.CharField(verbose_name=_('name'), max_length=500)
+    initials = models.CharField(verbose_name=_('initials'), max_length=10, blank=True, null=True)
 
-    line1 = models.CharField(verbose_name=_('line1'), maxlength=50, blank=True, null=True)
-    line2 = models.CharField(verbose_name=_('line2'), maxlength=100, blank=True, null=True)
-    zip_code = models.CharField(verbose_name=_('zip code'), maxlength=20, blank=True, null=True)
-    city = models.CharField(verbose_name=_('city'), maxlength=50, blank=True, null=True)
+    line1 = models.CharField(verbose_name=_('line1'), max_length=50, blank=True, null=True)
+    line2 = models.CharField(verbose_name=_('line2'), max_length=100, blank=True, null=True)
+    zip_code = models.CharField(verbose_name=_('zip code'), max_length=20, blank=True, null=True)
+    city = models.CharField(verbose_name=_('city'), max_length=50, blank=True, null=True)
     country = models.ForeignKey(Country, verbose_name=_('country'), blank=True, null=True)
 
-    phone_number = models.CharField(verbose_name=_('phone number'), maxlength=20, blank=True, null=True)
-    web_site = models.CharField(verbose_name=_('web site'), maxlength=100, blank=True, null=True)
+    phone_number = models.CharField(verbose_name=_('phone number'), max_length=20, blank=True, null=True)
+    web_site = models.CharField(verbose_name=_('web site'), max_length=100, blank=True, null=True)
     email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
 
     def __str__(self):
@@ -178,8 +178,8 @@ class School(models.Model):
 # Speciality the student has studied during his cursus
 class Track(models.Model):
 
-    name = models.CharField(verbose_name=_('name'), maxlength=100)
-    initials = models.CharField(verbose_name=_('initials'), maxlength=10, blank=True, null=True)
+    name = models.CharField(verbose_name=_('name'), max_length=100)
+    initials = models.CharField(verbose_name=_('initials'), max_length=10, blank=True, null=True)
     email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
 
     active = models.BooleanField(verbose_name=_('active'))
@@ -244,16 +244,16 @@ class Person(models.Model):
     user = models.OneToOneField(User, verbose_name=_('user'))
 
     # Civility
-    last_name = models.CharField(verbose_name=_('Last name'), maxlength=50)
-    first_name = models.CharField(verbose_name=_('First name'), maxlength=50)
-    complete_name = models.CharField(verbose_name=_('Complete name'), maxlength=50)
-    maiden_name = models.CharField(verbose_name=_('maiden name'), maxlength=100, blank=True, null=True)
+    last_name = models.CharField(verbose_name=_('Last name'), max_length=50)
+    first_name = models.CharField(verbose_name=_('First name'), max_length=50)
+    complete_name = models.CharField(verbose_name=_('Complete name'), max_length=50)
+    maiden_name = models.CharField(verbose_name=_('maiden name'), max_length=100, blank=True, null=True)
     birth_date = models.DateField(verbose_name=_('Birth date'), blank=True, null=True)
     death_date = models.DateField(verbose_name=_('death date'), blank=True, null=True)
-    sex = models.CharField(verbose_name=_('sex'), maxlength=1, choices=SEX, radio_admin=True)
+    sex = models.CharField(verbose_name=_('sex'), max_length=1, choices=SEX, radio_admin=True)
     country = models.ForeignKey(Country, verbose_name=_('nationality'))
 
-    wiki_name = models.CharField(verbose_name=_('Wiki name'), maxlength=50, blank=True, null=True)
+    wiki_name = models.CharField(verbose_name=_('Wiki name'), max_length=50, blank=True, null=True)
 
     notes = models.TextField(verbose_name=_('Notes'), blank=True, null=True)
 
@@ -336,7 +336,7 @@ class AIn7Member(models.Model):
     children_count = models.IntegerField(verbose_name=_('children number'), blank=True, null=True)
 
     # Other
-    nick_name = models.CharField(verbose_name=_('Nick name'), maxlength=50, blank=True, null=True)
+    nick_name = models.CharField(verbose_name=_('Nick name'), max_length=50, blank=True, null=True)
     avatar = models.ImageField(verbose_name=_('avatar'), upload_to='data/', blank=True, null=True)
 
     # School situation
@@ -355,7 +355,7 @@ class AIn7Member(models.Model):
         Track,
         verbose_name=_('Tracks for which you would like to receive job offers'),
         blank=True, null=True, filter_interface=models.HORIZONTAL)
-    cv_title = models.CharField(verbose_name=_('CV title'), maxlength=100, blank=True, null=True)
+    cv_title = models.CharField(verbose_name=_('CV title'), max_length=100, blank=True, null=True)
     
     # Internal
     objects = AIn7MemberManager()
@@ -396,7 +396,7 @@ class PhoneNumber(models.Model):
 
     person = models.ForeignKey(Person, related_name='phone_numbers', edit_inline=models.TABULAR, num_in_admin=2)
 
-    number = models.CharField(verbose_name=_('number'), maxlength=20, core=True)
+    number = models.CharField(verbose_name=_('number'), max_length=20, core=True)
     type = models.IntegerField(verbose_name=_('type'), choices=PHONE_NUMBER_TYPE, default=1)
     is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
 
@@ -414,7 +414,7 @@ class PhoneNumber(models.Model):
 # Type of the address: can be parental, personal or business
 class AddressType(models.Model):
 
-    type = models.CharField(verbose_name=_('type'), maxlength=50)
+    type = models.CharField(verbose_name=_('type'), max_length=50)
 
     def __str__(self):
         return self.type
@@ -431,10 +431,10 @@ class Address(models.Model):
 
     person = models.ForeignKey(Person, related_name='addresses', edit_inline=models.STACKED, num_in_admin=2)
 
-    line1 = models.CharField(verbose_name=_('line1'), maxlength=50, core=True)
-    line2 = models.CharField(verbose_name=_('line2'), maxlength=100, blank=True, null=True, core=True)
-    zip_code = models.CharField(verbose_name=_('zip code'), maxlength=20, core=True)
-    city = models.CharField(verbose_name=_('city'), maxlength=50, core=True)
+    line1 = models.CharField(verbose_name=_('line1'), max_length=50, core=True)
+    line2 = models.CharField(verbose_name=_('line2'), max_length=100, blank=True, null=True, core=True)
+    zip_code = models.CharField(verbose_name=_('zip code'), max_length=20, core=True)
+    city = models.CharField(verbose_name=_('city'), max_length=50, core=True)
     country = models.ForeignKey(Country, verbose_name=_('country'))
     type = models.ForeignKey(AddressType, verbose_name=_('type'))
     is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
@@ -488,7 +488,7 @@ class InstantMessaging(models.Model):
     person = models.ForeignKey(Person, related_name='instant_messagings', edit_inline=models.TABULAR, num_in_admin=1)
 
     type = models.IntegerField(verbose_name=_('type'), choices=INSTANT_MESSAGING_TYPE, core=True)
-    identifier = models.CharField(verbose_name=_('identifier'), maxlength=40, core=True)
+    identifier = models.CharField(verbose_name=_('identifier'), max_length=40, core=True)
 
     def __str__(self):
         return self.identifier
@@ -514,7 +514,7 @@ class WebSite(models.Model):
 
     person = models.ForeignKey(Person, related_name='web_sites', edit_inline=models.TABULAR, num_in_admin=1)
 
-    url = models.CharField(verbose_name=_('web site'), maxlength=100, core=True)
+    url = models.CharField(verbose_name=_('web site'), max_length=100, core=True)
     type = models.IntegerField(verbose_name=_('type'),choices=WEBSITE_TYPE, core=True)
 
     blog_is_agregated_on_planet = models.BooleanField(verbose_name=_('blog on planet'), core=True, default=False)
@@ -535,9 +535,9 @@ class IRC(models.Model):
 
     person = models.ForeignKey(Person, related_name='ircs', edit_inline=models.TABULAR, num_in_admin=1)
 
-    network = models.CharField(verbose_name=_('network'), maxlength=50, core=True)
-    pseudo = models.CharField(verbose_name=_('pseudo'), maxlength=20, core=True)
-    channels = models.CharField(verbose_name=_('channels'), maxlength=100)
+    network = models.CharField(verbose_name=_('network'), max_length=50, core=True)
+    pseudo = models.CharField(verbose_name=_('pseudo'), max_length=20, core=True)
+    channels = models.CharField(verbose_name=_('channels'), max_length=100)
 
     def __str__(self):
         return self.pseudo + "@" + self.channels
@@ -548,10 +548,10 @@ class IRC(models.Model):
 # N7 club
 class Club(models.Model):
 
-    name = models.CharField(verbose_name=('name'), maxlength=20)
-    description = models.CharField(verbose_name=_('description'), maxlength=100)
-    web_site = models.URLField(verbose_name=_('web site'), maxlength=50, blank=True, null=True)
-    email = models.EmailField(verbose_name=_('email'), maxlength=50, blank=True, null=True)
+    name = models.CharField(verbose_name=('name'), max_length=20)
+    description = models.CharField(verbose_name=_('description'), max_length=100)
+    web_site = models.URLField(verbose_name=_('web site'), max_length=50, blank=True, null=True)
+    email = models.EmailField(verbose_name=_('email'), max_length=50, blank=True, null=True)
     school = models.ForeignKey(School, verbose_name=_('school'), related_name='clubs')
     icon = models.ImageField(verbose_name=_('icon'), upload_to='data/', blank=True, null=True)
 
@@ -574,7 +574,7 @@ class ClubMembership(models.Model):
     club = models.ForeignKey(Club, verbose_name=_('club'), related_name='memberships', edit_inline=models.TABULAR, num_in_admin=1)
     member = models.ForeignKey(AIn7Member, verbose_name=_('member'), related_name='club_memberships', edit_inline=models.TABULAR, num_in_admin=1)
 
-    fonction = models.CharField(verbose_name=_('fonction'), maxlength=50, core=True)
+    fonction = models.CharField(verbose_name=_('fonction'), max_length=50, core=True)
     start_date = models.DateField(verbose_name=_('start date'), blank=True, null=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
 
@@ -589,7 +589,7 @@ class ClubMembership(models.Model):
 # A profile indicates which rights has a user
 class Profile(models.Model):
 
-    name = models.CharField(verbose_name=_('name'), maxlength=50)
+    name = models.CharField(verbose_name=_('name'), max_length=50)
     description = models.TextField(verbose_name=_('description'), blank=True, null=True)
 
     # Internal
@@ -639,8 +639,8 @@ class ProfileMembership(models.Model):
         verbose_name_plural = _('profiles memberships')
 
 class UserContributionType(models.Model):
-     key = models.CharField(verbose_name=_('key'),maxlength=10)
-     name = models.CharField(verbose_name=_('name'), maxlength=50)
+     key = models.CharField(verbose_name=_('key'),max_length=10)
+     name = models.CharField(verbose_name=_('name'), max_length=50)
      points = models.IntegerField(verbose_name=_('number of points'))
 
      class Admin:
@@ -672,9 +672,9 @@ class SearchFilterManager(models.Manager):
 class SearchFilter(models.Model):
     OPERATORS = [ ('and', _('and')),
                   ('or', _('or')) ]
-    name = models.CharField(verbose_name=_('name'), maxlength=20)
+    name = models.CharField(verbose_name=_('name'), max_length=20)
     operator = models.CharField(verbose_name=_('operator'),
-                                maxlength=3, choices=OPERATORS)
+                                max_length=3, choices=OPERATORS)
     user = models.ForeignKey(Person, verbose_name=_('user'),
                              related_name='filters')
     registered = models.BooleanField(default=True)
@@ -697,13 +697,13 @@ class SearchFilter(models.Model):
 class SearchCriterionField(models.Model):
     searchFilter = models.ForeignKey(SearchFilter,
                                      related_name='criteriaField')
-    fieldName = models.CharField(maxlength=30)
-    fieldVerboseName = models.CharField(maxlength=50)
-    fieldClass = models.CharField(maxlength=30)
-    comparatorName = models.CharField(maxlength=2)
-    comparatorVerboseName = models.CharField(maxlength=20)
-    value = models.CharField(maxlength=50)
-    displayedValue = models.CharField(maxlength=50)
+    fieldName = models.CharField(max_length=30)
+    fieldVerboseName = models.CharField(max_length=50)
+    fieldClass = models.CharField(max_length=30)
+    comparatorName = models.CharField(max_length=2)
+    comparatorVerboseName = models.CharField(max_length=20)
+    value = models.CharField(max_length=50)
+    displayedValue = models.CharField(max_length=50)
     # Example: for a criterion 'prénom égale Toto'
     #     fieldName = 'last_name'
     #     fieldVerboseName = 'prénom'

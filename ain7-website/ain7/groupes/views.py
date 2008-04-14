@@ -20,6 +20,8 @@
 #
 #
 
+from datetime import datetime
+
 from django.http import HttpResponse
 from django.template import Context, loader, RequestContext
 from django.shortcuts import get_object_or_404
@@ -27,7 +29,7 @@ from django.contrib.auth.decorators import login_required
 from django import newforms as forms
 from django.newforms import widgets
 from django.http import HttpResponseRedirect
-from datetime import datetime
+from django.utils.translation import ugettext as _
 
 from ain7.groupes.models import Group, Membership
 from ain7.utils import ain7_render_to_response, form_callback
@@ -76,7 +78,7 @@ def subscribe(request, group_id):
             membership = Membership()
             membership.member = Person.objects.get(user__id=request.POST['member'])
             membership.group = group
-            membership.is_coordinator = f.clean_data['is_coordinator']
+            membership.is_coordinator = f.cleaned_data['is_coordinator']
             membership.save()
 
             p = membership.member

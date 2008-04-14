@@ -26,6 +26,7 @@ from django.contrib.auth.models import Group, Permission, User
 from django.core.paginator import ObjectPaginator, InvalidPage
 from django import newforms as forms
 from django.http import HttpResponseRedirect, HttpResponse
+from django.utils.translation import ugettext as _
 
 from ain7.utils import ain7_render_to_response, form_callback
 from ain7.decorators import confirmation_required
@@ -93,8 +94,8 @@ def users_search(request):
         if form.is_valid():
 
             # criteres sur le nom et prenom
-            criteria={'last_name__contains':form.clean_data['last_name'].encode('utf8'),\
-                      'first_name__contains':form.clean_data['first_name'].encode('utf8')}
+            criteria={'last_name__contains':form.cleaned_data['last_name'].encode('utf8'),\
+                      'first_name__contains':form.cleaned_data['first_name'].encode('utf8')}
 
             persons = Person.objects.filter(**criteria)
             paginator = ObjectPaginator(persons, nb_results_by_page)
@@ -131,26 +132,26 @@ def user_register(request):
     if request.method == 'POST':
         form = NewPersonForm(request.POST)
         if form.is_valid():
-            login = (form.clean_data['first_name'][0]+form.clean_data['last_name']).lower()
-            mail = form.clean_data['mail']
+            login = (form.cleaned_data['first_name'][0]+form.cleaned_data['last_name']).lower()
+            mail = form.cleaned_data['mail']
             new_user = User.objects.create_user(login, mail, 'password')
-            new_user.first_name = form.clean_data['first_name']
-            new_user.last_name = form.clean_data['last_name']
+            new_user.first_name = form.cleaned_data['first_name']
+            new_user.last_name = form.cleaned_data['last_name']
             new_user.save()
 
             new_person = Person()
             new_person.user = new_user
-            new_person.first_name = form.clean_data['first_name']
-            new_person.last_name = form.clean_data['last_name']
+            new_person.first_name = form.cleaned_data['first_name']
+            new_person.last_name = form.cleaned_data['last_name']
             new_person.complete_name = new_person.first_name+' '+new_person.last_name
-            new_person.sex = form.clean_data['sex']
+            new_person.sex = form.cleaned_data['sex']
             new_person.birth_date = datetime.date(1978,11,18)
-            new_person.country = Country.objects.get(id=form.clean_data['nationality'])
+            new_person.country = Country.objects.get(id=form.cleaned_data['nationality'])
             new_person.save()
 
             new_couriel = Email()
             new_couriel.person = new_person
-            new_couriel.email = form.clean_data['mail']
+            new_couriel.email = form.cleaned_data['mail']
             new_couriel.preferred_email = True
             new_couriel.save()
 
@@ -176,9 +177,9 @@ def companies_search(request):
         if form.is_valid():
 
             # criteres sur le nom et prenom
-            criteria={'name__contains':form.clean_data['name'].encode('utf8'),
+            criteria={'name__contains':form.cleaned_data['name'].encode('utf8'),
                       'is_a_proposal': False} # ,\
-                      #'location__contains':form.clean_data['location'].encode('utf8')}
+                      #'location__contains':form.cleaned_data['location'].encode('utf8')}
 
             companies = Company.objects.filter(**criteria)
             paginator = ObjectPaginator(companies, nb_results_by_page)
@@ -283,7 +284,7 @@ def organization_merge(request, organization_id=None):
     if request.method == 'POST':
         f = OrganizationListForm(request.POST.copy())
         if f.is_valid():
-            organization2 = f.clean_data['org']
+            organization2 = f.cleaned_data['org']
             return HttpResponseRedirect('/manage/companies/%s/merge/%s/' %
                 (organization2.id, organization_id))
         else:
@@ -425,7 +426,7 @@ def office_merge(request, office_id=None):
     if request.method == 'POST':
         f = OfficeListForm(request.POST.copy())
         if f.is_valid():
-            office2 = f.clean_data['bureau']
+            office2 = f.cleaned_data['bureau']
             return HttpResponseRedirect('/manage/offices/%s/merge/%s/' %
                 (office2.id, office_id))
         else:
@@ -503,7 +504,7 @@ def groups_search(request):
         if form.is_valid():
 
             # criteres sur le nom et prenom
-            criteria={'name__contains':form.clean_data['name'].encode('utf8')}
+            criteria={'name__contains':form.cleaned_data['name'].encode('utf8')}
 
             groups = Group.objects.filter(**criteria)
             paginator = ObjectPaginator(groups, nb_results_by_page)
@@ -541,7 +542,7 @@ def perm_add(request, group_id):
     if request.method == 'POST':
         form = PermGroupForm(request.POST)
         if form.is_valid():
-            p = Permission.objects.filter(name=form.clean_data['perm'])[0]
+            p = Permission.objects.filter(name=form.cleaned_data['perm'])[0]
             g.permissions.add(p)
             request.user.message_set.create(message=_('Permission added to group'))
             return HttpResponseRedirect('/manage/groups/%s/' % group_id)
@@ -574,7 +575,7 @@ def member_add(request, group_id):
     if request.method == 'POST':
         form = MemberGroupForm(request.POST)
         if form.is_valid():
-            u = User.objects.get(id=form.clean_data['username'])
+            u = User.objects.get(id=form.cleaned_data['username'])
             u.groups.add(g)
             request.user.message_set.create(message=_('User added to group'))
             return HttpResponseRedirect('/manage/groups/%s/' % group_id)
@@ -644,7 +645,7 @@ def contributions(request):
         if form.is_valid():
 
             # criteres sur le nom et prenom
-            #criteria={'user__contains':form.clean_data['user'].encode('utf8')}
+            #criteria={'user__contains':form.cleaned_data['user'].encode('utf8')}
             criteria={}
 
             contributions = UserContribution.objects.filter(**criteria)
@@ -678,7 +679,7 @@ def perm_add(request, group_id):
     if request.method == 'POST':
         form = PermGroupForm(request.POST)
         if form.is_valid():
-            p = Permission.objects.filter(name=form.clean_data['perm'])[0]
+            p = Permission.objects.filter(name=form.cleaned_data['perm'])[0]
             g.permissions.add(p)
             request.user.message_set.create(message=_('Permission added to group'))
             return HttpResponseRedirect('/manage/groups/%s/' % group_id)
@@ -699,8 +700,8 @@ def notification_add(request):
         form = NotificationForm(request.POST)
         if form.is_valid():
             notif = Notification()
-            notif.title = form.clean_data['title']
-            notif.details = form.clean_data['details']
+            notif.title = form.cleaned_data['title']
+            notif.details = form.cleaned_data['details']
             notif.save()
             request.user.message_set.create(message=_('Notification successfully created'))
             return HttpResponseRedirect('/manage/')
@@ -725,8 +726,8 @@ def notification_edit(request, notif_id):
     if request.method == 'POST':
         form = NotificationForm(request.POST)
         if form.is_valid():
-            notif.title  = form.clean_data['title']
-            notif.details= form.clean_data['details']
+            notif.title  = form.cleaned_data['title']
+            notif.details= form.cleaned_data['details']
             notif.save()
             request.user.message_set.create(
                 message=_("Modifications have been successfully saved."))

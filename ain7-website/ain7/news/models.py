@@ -23,11 +23,11 @@
 import datetime
 
 from django.db import models
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ugettext as _
 
 class NewsItem(models.Model):
 
-    title = models.CharField(verbose_name=_('title'), maxlength=100)
+    title = models.CharField(verbose_name=_('title'), max_length=100)
     description = models.TextField(verbose_name=_('description'))
     image = models.ImageField(verbose_name=_('image'), upload_to='data', null=True, blank=True)
 

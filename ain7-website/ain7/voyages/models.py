@@ -23,13 +23,13 @@
 import datetime
 
 from django.db import models
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
 
 class TravelType(models.Model):
 
-    type = models.CharField(verbose_name=_('type'), maxlength=50)
+    type = models.CharField(verbose_name=_('type'), max_length=50)
 
     def __str__(self):
         return self.type
@@ -43,13 +43,13 @@ class TravelType(models.Model):
 
 class Travel(models.Model):
 
-    label = models.CharField(verbose_name=_('label'), maxlength=20)
+    label = models.CharField(verbose_name=_('label'), max_length=20)
     start_date = models.DateField(verbose_name=_('start date'), blank=True, null=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
-    date = models.CharField(verbose_name=_('date'), maxlength=30)
+    date = models.CharField(verbose_name=_('date'), max_length=30)
     term = models.IntegerField(verbose_name=_('term'), default=0, blank=True, null=True)
     type = models.ForeignKey(TravelType, verbose_name=_('type'))
-    visited_places = models.CharField(verbose_name=_('visited places'), maxlength=100)
+    visited_places = models.CharField(verbose_name=_('visited places'), max_length=100)
     description = models.TextField(verbose_name=_('description'), blank=True, null=True)
     price = models.IntegerField(verbose_name=_('price'), blank=True, null=True)
     thumbnail = models.ImageField(verbose_name=_('thumbnail'), upload_to='data',blank=True,null=True)

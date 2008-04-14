@@ -26,6 +26,7 @@ from django.core.paginator import ObjectPaginator, InvalidPage
 from django import newforms as forms
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
+from django.utils.translation import ugettext as _
 
 from ain7.news.models import NewsItem
 from ain7.utils import ain7_render_to_response, ImgUploadForm, form_callback
@@ -58,7 +59,7 @@ def edit(request, news_id):
    if request.method == 'POST':
         f = NewsForm(request.POST.copy())
         if f.is_valid():
-            f.clean_data['image'] = image
+            f.cleaned_data['image'] = image
             f.save()
 
         request.user.message_set.create(message=_('News successfully updated.'))
@@ -89,8 +90,8 @@ def image_edit(request, news_id):
         form = ImgUploadForm(post)
         if form.is_valid():
             news_item.save_image_file(
-                form.clean_data['img_file']['filename'],
-                form.clean_data['img_file']['content'])
+                form.cleaned_data['img_file']['filename'],
+                form.cleaned_data['img_file']['content'])
             request.user.message_set.create(message=_("The picture has been successfully changed."))
         else:
             request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
@@ -117,7 +118,7 @@ def write(request):
     if request.method == 'POST':
         f = NewsForm(request.POST.copy())
         if f.is_valid():
-            f.clean_data['image'] = None
+            f.cleaned_data['image'] = None
             f.save()
 
         request.user.message_set.create(message=_('News successfully added.'))
@@ -140,8 +141,8 @@ def search(request):
     if request.method == 'POST':
         form = SearchNewsForm(request.POST)
         if form.is_valid():
-            list_news = NewsItem.objects.filter(title__icontains=form.clean_data['title'],
-                                                        description__icontains=form.clean_data['content'])
+            list_news = NewsItem.objects.filter(title__icontains=form.cleaned_data['title'],
+                                                        description__icontains=form.cleaned_data['content'])
 
             paginator = ObjectPaginator(list_news,nb_results_by_page)
 

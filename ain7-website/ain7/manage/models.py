@@ -23,7 +23,7 @@
 import datetime
 
 from django.db import models
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ugettext as _
 
 from ain7.emploi.models import ACTIONS, OrganizationProposal, OfficeProposal
 
@@ -35,7 +35,7 @@ class Notification(models.Model):
         (1, _('office')),
         )
 
-    title = models.CharField(verbose_name=_('title'), maxlength=50)
+    title = models.CharField(verbose_name=_('title'), max_length=50)
     details = models.TextField(verbose_name=_('Notes'),
         blank=True, null=True)
     organization_proposal = models.ForeignKey(

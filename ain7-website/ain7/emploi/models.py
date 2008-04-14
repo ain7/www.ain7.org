@@ -23,6 +23,7 @@
 import datetime
 
 from django.db import models
+from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person, AIn7Member, Track
 from ain7.annuaire.models import Country
@@ -36,10 +37,10 @@ ACTIONS = (
 # ???
 class CompanyField(models.Model):
 
-    field = models.CharField(verbose_name=_('field'), maxlength=100)
-    code = models.CharField(verbose_name=_('field'), maxlength=100)
-    keywords = models.CharField(verbose_name=_('keywords'), maxlength=100)
-    label = models.CharField(verbose_name=_('label'), maxlength=100)
+    field = models.CharField(verbose_name=_('field'), max_length=100)
+    code = models.CharField(verbose_name=_('field'), max_length=100)
+    keywords = models.CharField(verbose_name=_('keywords'), max_length=100)
+    label = models.CharField(verbose_name=_('label'), max_length=100)
 
     def __str__(self):
         return self.field
@@ -68,10 +69,10 @@ class Company(models.Model):
                     (3, _('Large (500+)')),
                     )
 
-    name = models.CharField(verbose_name=_('name'), maxlength=50, core=True)
+    name = models.CharField(verbose_name=_('name'), max_length=50, core=True)
     size = models.IntegerField(verbose_name=_('size'), choices=COMPANY_SIZE, blank=True, null=True)
     field = models.ForeignKey(CompanyField, verbose_name=_('field'), related_name='companies')
-    short_description = models.CharField(verbose_name=_('short description'), maxlength=50, blank=True, null=True)
+    short_description = models.CharField(verbose_name=_('short description'), max_length=50, blank=True, null=True)
     long_description = models.TextField(verbose_name=_('long description'), blank=True, null=True)
     is_a_proposal = models.BooleanField(
         verbose_name=_('is a proposal'), default=False)
@@ -164,16 +165,16 @@ class Office(models.Model):
 
     company = models.ForeignKey(Company, verbose_name=_('company'), related_name='offices', edit_inline=models.STACKED)
 
-    name = models.CharField(verbose_name=_('name'), maxlength=50, core=True)
+    name = models.CharField(verbose_name=_('name'), max_length=50, core=True)
 
-    line1 = models.CharField(verbose_name=_('line1'), maxlength=50, blank=True, null=True)
-    line2 = models.CharField(verbose_name=_('line2'), maxlength=100, blank=True, null=True)
-    zip_code = models.CharField(verbose_name=_('zip code'), maxlength=20, blank=True, null=True)
-    city = models.CharField(verbose_name=_('city'), maxlength=50, blank=True, null=True)
+    line1 = models.CharField(verbose_name=_('line1'), max_length=50, blank=True, null=True)
+    line2 = models.CharField(verbose_name=_('line2'), max_length=100, blank=True, null=True)
+    zip_code = models.CharField(verbose_name=_('zip code'), max_length=20, blank=True, null=True)
+    city = models.CharField(verbose_name=_('city'), max_length=50, blank=True, null=True)
     country = models.ForeignKey(Country, verbose_name=_('country'), blank=True, null=True)
 
-    phone_number = models.CharField(verbose_name=_('phone number'), maxlength=20, blank=True, null=True)
-    web_site = models.CharField(verbose_name=_('web site'), maxlength=100, blank=True, null=True)
+    phone_number = models.CharField(verbose_name=_('phone number'), max_length=20, blank=True, null=True)
+    web_site = models.CharField(verbose_name=_('web site'), max_length=100, blank=True, null=True)
 
     is_a_proposal = models.BooleanField(
         verbose_name=_('is a proposal'), default=False)
@@ -286,10 +287,10 @@ class OfficeProposal(models.Model):
 # A position occupied by a person.
 class Position(models.Model):
 
-    fonction = models.CharField(verbose_name=_('fonction'), maxlength=50, core=True)
-    service = models.CharField(verbose_name=_('service'), maxlength=50, blank=True, null=True)
+    fonction = models.CharField(verbose_name=_('fonction'), max_length=50, core=True)
+    service = models.CharField(verbose_name=_('service'), max_length=50, blank=True, null=True)
     description = models.TextField(verbose_name=_('description'), blank=True, null=True)
-    phone_number = models.CharField(verbose_name=_('phone number'), maxlength=20, blank=True, null=True)
+    phone_number = models.CharField(verbose_name=_('phone number'), max_length=20, blank=True, null=True)
     email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
     start_date = models.DateField(verbose_name=_('start date'), core=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
@@ -318,8 +319,8 @@ class Position(models.Model):
 # An education item in the CV of a person.
 class EducationItem(models.Model):
 
-    school = models.CharField(verbose_name=_('school'), maxlength=150, core=True)
-    diploma = models.CharField(verbose_name=_('diploma'), maxlength=150, blank=True, null=True)
+    school = models.CharField(verbose_name=_('school'), max_length=150, core=True)
+    diploma = models.CharField(verbose_name=_('diploma'), max_length=150, blank=True, null=True)
     details = models.TextField(verbose_name=_('description'), blank=True, null=True)
     start_date = models.DateField(verbose_name=_('start date'), core=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
@@ -342,7 +343,7 @@ class EducationItem(models.Model):
 #               title="Sport" detail="Judo, Pastis, Pétanque"
 class LeisureItem(models.Model):
 
-    title = models.CharField(verbose_name=_('Title'), maxlength=50, core=True)
+    title = models.CharField(verbose_name=_('Title'), max_length=50, core=True)
     detail = models.TextField(verbose_name=_('Detail'), blank=True, null=True)
     ain7member = models.ForeignKey(AIn7Member, related_name='leisure', edit_inline=models.STACKED, num_in_admin=1)
 
@@ -361,7 +362,7 @@ class LeisureItem(models.Model):
 # An publication item in the CV of a person.
 class PublicationItem(models.Model):
 
-    title = models.CharField(verbose_name=_('Title'), maxlength=50, core=True)
+    title = models.CharField(verbose_name=_('Title'), max_length=50, core=True)
     details = models.TextField(verbose_name=_('Detail'), blank=True, null=True)
     date = models.DateField()
     ain7member = models.ForeignKey(AIn7Member, related_name='publication', edit_inline=models.STACKED, num_in_admin=1)
@@ -388,15 +389,15 @@ class JobOffer(models.Model):
         (2,'Stage'),
     )
 
-    reference = models.CharField(verbose_name=_('Reference'), maxlength=50, blank=True, null=True)
-    title = models.CharField(verbose_name=_('Title'), maxlength=100, core=True)
+    reference = models.CharField(verbose_name=_('Reference'), max_length=50, blank=True, null=True)
+    title = models.CharField(verbose_name=_('Title'), max_length=100, core=True)
     description = models.TextField(verbose_name=_('Description'), blank=True, null=True)
-    experience = models.CharField(verbose_name=_('Experience'), maxlength=50, blank=True, null=True)
+    experience = models.CharField(verbose_name=_('Experience'), max_length=50, blank=True, null=True)
     contract_type = models.IntegerField(verbose_name=_('Contract type'), choices=JOB_TYPES, blank=True, null=True)
     is_opened = models.BooleanField(verbose_name=_('Job offer is opened'), default=False)
     office = models.ForeignKey(Office, related_name='job_offers',
                                blank=True, null=True)
-    contact_name = models.CharField(verbose_name=_('Contact name'), maxlength=80, blank=True, null=True)
+    contact_name = models.CharField(verbose_name=_('Contact name'), max_length=80, blank=True, null=True)
     contact_email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
     track = models.ManyToManyField(Track, verbose_name=_('Track'), related_name='jobs', blank=True, null=True, filter_interface=models.HORIZONTAL)
     nb_views = models.IntegerField(verbose_name=_('Number of views'), default=0, editable=False)

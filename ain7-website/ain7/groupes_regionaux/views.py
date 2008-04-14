@@ -28,6 +28,7 @@ from django import newforms as forms
 from django.newforms import widgets
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
+from django.utils.translation import ugettext as _
 
 from ain7.groupes_regionaux.models import Group
 from ain7.groupes_regionaux.models import GroupMembership
@@ -57,7 +58,7 @@ def edit(request, group_id):
         GroupForm = forms.models.form_for_instance(group, formfield_callback=form_callback)
         f = GroupForm(request.POST.copy())
         if f.is_valid():
-            f.clean_data['group'] = group
+            f.cleaned_data['group'] = group
             f.save()
 
         request.user.message_set.create(message=_('Regional group informations updated successfully.'))

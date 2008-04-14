@@ -25,6 +25,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django import newforms as forms
+from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import UserContributionType, UserContribution
 from ain7.sondages.models import Choice, Survey, Vote
@@ -133,7 +134,7 @@ def _form(request, survey, Form, title, message):
         form = Form(request.POST.copy())
         if form.is_valid():
             if survey is not None:
-                form.clean_data['survey'] = survey
+                form.cleaned_data['survey'] = survey
                 form.save()
             else:
                 survey = form.save()

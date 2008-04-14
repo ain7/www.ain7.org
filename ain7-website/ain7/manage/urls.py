@@ -21,6 +21,7 @@
 #
 
 from django.conf.urls.defaults import *
+
 from ain7.manage.views import *
 
 urlpatterns = patterns('ain7.manage.views',

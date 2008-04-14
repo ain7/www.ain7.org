@@ -21,6 +21,8 @@
 #
 
 from django import newforms as forms
+from django.utils.translation import ugettext as _
+
 from ain7.fields import AutoCompleteField
 from ain7.annuaire.models import *
 
@@ -34,20 +36,20 @@ class SearchPersonForm(forms.Form):
     def criteria(self):
         # criteres sur le nom et prenom, et sur l'organisation
         criteria={
-            'person__last_name__icontains': self.clean_data['last_name'].encode('utf8'),
-            'person__first_name__icontains': self.clean_data['first_name'].encode('utf8')}
-        if self.clean_data['organization']!='':
+            'person__last_name__icontains': self.cleaned_data['last_name'].encode('utf8'),
+            'person__first_name__icontains': self.cleaned_data['first_name'].encode('utf8')}
+        if self.cleaned_data['organization']!='':
             criteria['positions__office__company__name__icontains'] = \
-                self.clean_data['organization'].encode('utf8')
+                self.cleaned_data['organization'].encode('utf8')
         # ici on commence par rechercher toutes les promos
         # qui concordent avec l'annee de promotion et la filiere
         # saisis par l'utilisateur.
         promoCriteria={}
-        if self.clean_data['promo'] != -1:
-            promoCriteria['year']=self.clean_data['promo']
-        if self.clean_data['track'] != -1:
+        if self.cleaned_data['promo'] != -1:
+            promoCriteria['year']=self.cleaned_data['promo']
+        if self.cleaned_data['track'] != -1:
             promoCriteria['track']=\
-                Track.objects.get(id=self.clean_data['track'])
+                Track.objects.get(id=self.cleaned_data['track'])
         # on ajoute ces promos aux critères de recherche
         # si elle ne sont pas vides
         if len(promoCriteria)!=0:
@@ -73,29 +75,29 @@ class NewMemberForm(forms.Form):
     track = forms.IntegerField(label=_('Track'), required=True,  widget=AutoCompleteField(url='/ajax/track/'))
 
     def save(self):
-        login = (self.clean_data['first_name'][0]+self.clean_data['last_name']).lower()
-        mail = self.clean_data['mail']
+        login = (self.cleaned_data['first_name'][0]+self.clean_data['last_name']).lower()
+        mail = self.cleaned_data['mail']
         new_user = User.objects.create_user(login, mail, 'password')
-        new_user.first_name = self.clean_data['first_name']
-        new_user.last_name = self.clean_data['last_name']
+        new_user.first_name = self.cleaned_data['first_name']
+        new_user.last_name = self.cleaned_data['last_name']
         new_user.save()
         
         new_person = Person()
         new_person.user = new_user
-        new_person.first_name = self.clean_data['first_name']
-        new_person.last_name = self.clean_data['last_name']
+        new_person.first_name = self.cleaned_data['first_name']
+        new_person.last_name = self.cleaned_data['last_name']
         new_person.complete_name = \
             new_person.first_name+' '+new_person.last_name
-        new_person.sex = self.clean_data['sex']
+        new_person.sex = self.cleaned_data['sex']
         new_person.birth_date = datetime.date(1978,11,18)
         new_person.country = \
-            Country.objects.get(id=self.clean_data['nationality'])
+            Country.objects.get(id=self.cleaned_data['nationality'])
         new_person.save()
 
         new_ain7member = AIn7Member()
         new_ain7member.person = new_person
         new_ain7member.promos.add(
-            Promo.objects.get(id=self.clean_data['promo']))
+            Promo.objects.get(id=self.cleaned_data['promo']))
         new_ain7member.marital_status = \
             MaritalStatus.objects.get(status="Célibataire")
         new_ain7member.display_cv_in_directory = False
@@ -109,7 +111,7 @@ class NewMemberForm(forms.Form):
 
         new_couriel = Email()
         new_couriel.person = new_person
-        new_couriel.email = self.clean_data['mail']
+        new_couriel.email = self.cleaned_data['mail']
         new_couriel.preferred_email = True
         new_couriel.save()
 

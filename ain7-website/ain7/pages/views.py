@@ -23,6 +23,7 @@
 import datetime
 
 from django.template import RequestContext
+from django.utils.translation import ugettext as _
 
 from ain7.news.models import NewsItem
 from ain7.sondages.models import Survey

@@ -24,6 +24,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django import newforms as forms
+from django.utils.translation import ugettext as _
 
 from ain7.utils import ain7_render_to_response
 

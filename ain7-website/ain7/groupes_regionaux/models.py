@@ -23,14 +23,14 @@
 import datetime
 
 from django.db import models
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
 
 class Group(models.Model):
 
     is_active = models.BooleanField(verbose_name=_('active'), default=True)
-    name = models.CharField(verbose_name=_('name'), maxlength=50)
+    name = models.CharField(verbose_name=_('name'), max_length=50)
     description = models.TextField(verbose_name=_('description'), blank=True, null=True)
 
     # Internal
