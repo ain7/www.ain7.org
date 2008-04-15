@@ -61,43 +61,43 @@ def filldb():
     # Merci d'y ajouter tous les champs que vous devez tester en dur.  #
 
     # Types
-    activityKnown = annuaire.Activity(activity="Connue")
+    activityKnown = annuaire.Activity(activity=u"Connue")
     activityKnown.save()
 
-    activityRetired = annuaire.Activity(activity="Retraité")
+    activityRetired = annuaire.Activity(activity=u"Retraité")
     activityRetired.save()
 
-    memberTypeActif = annuaire.MemberType(type="Membre actif")
+    memberTypeActif = annuaire.MemberType(type=u"Membre actif")
     memberTypeActif.save()
 
-    personTypeEngineer = annuaire.PersonType(type="Ingénieur")
+    personTypeEngineer = annuaire.PersonType(type=u"Ingénieur")
     personTypeEngineer.save()
 
-    personTypeStudent = annuaire.PersonType(type="Etudiant")
+    personTypeStudent = annuaire.PersonType(type=u"Étudiant")
     personTypeStudent.save()
 
-    personalAddressType = annuaire.AddressType(type="Personnelle")
+    personalAddressType = annuaire.AddressType(type=u"Personnelle")
     personalAddressType.save()
 
-    parentalAddressType = annuaire.AddressType(type="Parentale")
+    parentalAddressType = annuaire.AddressType(type=u"Parentale")
     parentalAddressType.save()
 
-    maritalstatus_1 = annuaire.MaritalStatus(status="Marié(e)")
+    maritalstatus_1 = annuaire.MaritalStatus(status=u"Marié(e)")
     maritalstatus_1.save()
 
-    maritalstatus_2 = annuaire.MaritalStatus(status="Célibataire")
+    maritalstatus_2 = annuaire.MaritalStatus(status=u"Célibataire")
     maritalstatus_2.save()
 
-    maritalstatus_3 = annuaire.MaritalStatus(status="Divorcé(e)")
+    maritalstatus_3 = annuaire.MaritalStatus(status=u"Divorcé(e)")
     maritalstatus_3.save()
 
-    maritalstatus_4 = annuaire.MaritalStatus(status="Maritalement")
+    maritalstatus_4 = annuaire.MaritalStatus(status=u"Maritalement")
     maritalstatus_4.save()
 
-    maritalstatus_5 = annuaire.MaritalStatus(status="Veuf(veuve)")
+    maritalstatus_5 = annuaire.MaritalStatus(status=u"Veuf(veuve)")
     maritalstatus_5.save()
 
-    maritalstatus_7 = annuaire.MaritalStatus(status="Séparé(e)")
+    maritalstatus_7 = annuaire.MaritalStatus(status=u"Séparé(e)")
     maritalstatus_7.save()
 
 
@@ -111,110 +111,110 @@ def filldb():
     site.save()
 
     # Country
-    france = annuaire.Country(name="France", nationality="Française")
+    france = annuaire.Country(name=u"France", nationality=u"Française")
     france.save()
 
-    england = annuaire.Country(name="Angleterre", nationality="Anglaise")
+    england = annuaire.Country(name=u"Angleterre", nationality=u"Anglaise")
     england.save()
 
     # Profiles
     profile_n7 = annuaire.Profile()
     profile_n7.name = "n7"
-    profile_n7.description = "Elève actuel ou passé"
+    profile_n7.description = u"Élève actuel ou passé"
     profile_n7.save()
 
     profile_demo = annuaire.Profile()
     profile_demo.name = "demo"
-    profile_demo.description = "Compte utilisé pour les démonstrations"
+    profile_demo.description = u"Compte utilisé pour les démonstrations"
     profile_demo.save()
 
     profile_secretaire = annuaire.Profile()
-    profile_secretaire.name = "secretaire"
-    profile_secretaire.description = "Secrétaire AIn7"
+    profile_secretaire.name = u"secretaire"
+    profile_secretaire.description = u"Secrétaire AIn7"
     profile_secretaire.save()
 
     profile_admin = annuaire.Profile()
-    profile_admin.name = "admin"
-    profile_admin.description = "Administrateur du site"
+    profile_admin.name = u"admin"
+    profile_admin.description = u"Administrateur du site"
     profile_admin.save()
 
     profile_recruteur = annuaire.Profile()
-    profile_recruteur.name = "recruteur"
-    profile_recruteur.description = "Recruteur (contact entreprise)"
+    profile_recruteur.name = u"recruteur"
+    profile_recruteur.description = u"Recruteur (contact entreprise)"
     profile_recruteur.save()
 
     # Diplomas
-    bac = annuaire.Diploma(diploma="Baccalauréat", initials="Bac")
+    bac = annuaire.Diploma(diploma=u"Baccalauréat", initials=u"Bac")
     bac.save()
 
     # Decorations
-    warCross = annuaire.Decoration(decoration="Croix de Guerre")
+    warCross = annuaire.Decoration(decoration=u"Croix de Guerre")
     warCross.save()
 
     # Decorations
-    JCPrice = annuaire.CeremonialDuty(ceremonial_duty="Prix Joliot Curie")
+    JCPrice = annuaire.CeremonialDuty(ceremonial_duty=u"Prix Joliot Curie")
     JCPrice.save()
 
     # School
     n7 = annuaire.School()
-    n7.name = "Ecole national supérieure d'éléctronique, d'éléctrotechnique, d'informatique, d'hydraulique et des télécommunications"
-    n7.initials = "ENSEEIHT"
+    n7.name = u"École national supérieure d'éléctronique, d'éléctrotechnique, d'informatique, d'hydraulique et des télécommunications"
+    n7.initials = u"ENSEEIHT"
     n7.save()
 
     n7info = annuaire.Track()
-    n7info.name = "Informatique et Mathématiques Appliquées"
-    n7info.initials = "IN"
+    n7info.name = u"Informatique et Mathématiques Appliquées"
+    n7info.initials = u"IN"
     n7info.school = n7
     n7info.save()
 
     n7hydro = annuaire.Track()
-    n7hydro.name = "Hydraulique et Mécanique des Fluides"
-    n7hydro.initials = "HY"
+    n7hydro.name = u"Hydraulique et Mécanique des Fluides"
+    n7hydro.initials = u"HY"
     n7hydro.school = n7
     n7hydro.save()
 
     n7tr = annuaire.Track()
-    n7tr.name = "Télécommunications et Réseaux"
-    n7tr.initials = "TR"
+    n7tr.name = u"Télécommunications et Réseaux"
+    n7tr.initials = u"TR"
     n7tr.school = n7
     n7tr.save()
 
-    annuaire.Track(name="Electrotechnique", initials="", school=n7).save()
-    annuaire.Track(name="Hydraulique", initials="", school=n7).save()
-    annuaire.Track(name="Mathématiques Appliquées", initials="", school=n7).save()
-    annuaire.Track(name="Automatique", initials="", school=n7).save()
-    annuaire.Track(name="Automatique Avancée", initials="", school=n7).save()
-    annuaire.Track(name="Electrotechnique option Génie Energétique", initials="", school=n7).save()
-    annuaire.Track(name="Méthodes & Applications Avancées en IN option F", initials="", school=n7).save()
-    annuaire.Track(name="Electrotechnique option Electronique Industrielle", initials="", school=n7).save()
-    annuaire.Track(name="Systèmes de Communication & des Réseaux", initials="", school=n7).save()
-    annuaire.Track(name="Informatique", initials="", school=n7).save()
-    annuaire.Track(name="Electrotechnique & Electronique de Puissance", initials="", school=n7).save()
-    annuaire.Track(name="Méthodes & Applications Avancées en Informatiqi.", initials="", school=n7).save()
-    annuaire.Track(name="Génie Energétique des Equipements Industriels", initials="", school=n7).save()
-    annuaire.Track(name="Traitement du Signal et des Images", initials="", school=n7).save()
-    annuaire.Track(name="Méthodes & Applications Avancées en IN option II", initials="", school=n7).save()
-    annuaire.Track(name="Electronique de Puissance Avancée", initials="", school=n7).save()
-    annuaire.Track(name="Méthodes & Applications Avancées en IN option?", initials="", school=n7).save()
-    annuaire.Track(name="Télécommunications et Réseaux", initials="", school=n7).save()
-    annuaire.Track(name="Section Spéciale Calcul Scientifique à Haute Performance", initials="", school=n7).save()
-    annuaire.Track(name="Informatique et Mathématiques Appliquées", initials="", school=n7).save()
-    annuaire.Track(name="Hydraulique et Mécanique des Fluides", initials="", school=n7).save()
-    annuaire.Track(name="Electronique et Traitement du Signal", initials="", school=n7).save()
-    annuaire.Track(name="Génie Electrique et Automatique", initials="", school=n7).save()
-    annuaire.Track(name="Section Spéciale Calcul Scientifique à Haute Performance", initials="", school=n7).save()
-    annuaire.Track(name="Docteur Ingénieur", initials="", school=n7).save()
-    annuaire.Track(name="Section Spéciale Génie Electrique et Automatique", initials="", school=n7).save()
-    annuaire.Track(name="Section Spéciale Génie Electrique et Automatique", initials="", school=n7).save()
-    annuaire.Track(name="Section Speciale Systèmes de Communications et Réseaux", initials="", school=n7).save()
-    annuaire.Track(name="Section Speciale Systèmes de Communications et Réseaux", initials="", school=n7).save()
-    annuaire.Track(name="Section Spéciale Traitement Avancé de l'Energie Electrique", initials="", school=n7).save()
-    annuaire.Track(name="DHET Technologies Multimedia", initials="", school=n7).save()
-    annuaire.Track(name="DHET Hydraulique", initials="", school=n7).save()
-    annuaire.Track(name="DHET Systèmes de Communication et Réseaux", initials="", school=n7).save()
-    annuaire.Track(name="DHET Génie Electrique et Automatique", initials="", school=n7).save()
-    annuaire.Track(name="DHET Systèmes Electroniques", initials="", school=n7).save()
-    annuaire.Track(name="DHET informatique fl.", initials="", school=n7).save()
+    annuaire.Track(name=u"Electrotechnique", initials="", school=n7).save()
+    annuaire.Track(name=u"Hydraulique", initials="", school=n7).save()
+    annuaire.Track(name=u"Mathématiques Appliquées", initials="", school=n7).save()
+    annuaire.Track(name=u"Automatique", initials="", school=n7).save()
+    annuaire.Track(name=u"Automatique Avancée", initials="", school=n7).save()
+    annuaire.Track(name=u"Electrotechnique option Génie Energétique", initials="", school=n7).save()
+    annuaire.Track(name=u"Méthodes & Applications Avancées en IN option F", initials="", school=n7).save()
+    annuaire.Track(name=u"Electrotechnique option Electronique Industrielle", initials="", school=n7).save()
+    annuaire.Track(name=u"Systèmes de Communication & des Réseaux", initials="", school=n7).save()
+    annuaire.Track(name=u"Informatique", initials="", school=n7).save()
+    annuaire.Track(name=u"Electrotechnique & Electronique de Puissance", initials="", school=n7).save()
+    annuaire.Track(name=u"Méthodes & Applications Avancées en Informatiqi.", initials="", school=n7).save()
+    annuaire.Track(name=u"Génie Energétique des Equipements Industriels", initials="", school=n7).save()
+    annuaire.Track(name=u"Traitement du Signal et des Images", initials="", school=n7).save()
+    annuaire.Track(name=u"Méthodes & Applications Avancées en IN option II", initials="", school=n7).save()
+    annuaire.Track(name=u"Electronique de Puissance Avancée", initials="", school=n7).save()
+    annuaire.Track(name=u"Méthodes & Applications Avancées en IN option?", initials="", school=n7).save()
+    annuaire.Track(name=u"Télécommunications et Réseaux", initials="", school=n7).save()
+    annuaire.Track(name=u"Section Spéciale Calcul Scientifique à Haute Performance", initials="", school=n7).save()
+    annuaire.Track(name=u"Informatique et Mathématiques Appliquées", initials="", school=n7).save()
+    annuaire.Track(name=u"Hydraulique et Mécanique des Fluides", initials="", school=n7).save()
+    annuaire.Track(name=u"Electronique et Traitement du Signal", initials="", school=n7).save()
+    annuaire.Track(name=u"Génie Electrique et Automatique", initials="", school=n7).save()
+    annuaire.Track(name=u"Section Spéciale Calcul Scientifique à Haute Performance", initials="", school=n7).save()
+    annuaire.Track(name=u"Docteur Ingénieur", initials="", school=n7).save()
+    annuaire.Track(name=u"Section Spéciale Génie Electrique et Automatique", initials="", school=n7).save()
+    annuaire.Track(name=u"Section Spéciale Génie Electrique et Automatique", initials="", school=n7).save()
+    annuaire.Track(name=u"Section Speciale Systèmes de Communications et Réseaux", initials="", school=n7).save()
+    annuaire.Track(name=u"Section Speciale Systèmes de Communications et Réseaux", initials="", school=n7).save()
+    annuaire.Track(name=u"Section Spéciale Traitement Avancé de l'Energie Electrique", initials="", school=n7).save()
+    annuaire.Track(name=u"DHET Technologies Multimedia", initials="", school=n7).save()
+    annuaire.Track(name=u"DHET Hydraulique", initials="", school=n7).save()
+    annuaire.Track(name=u"DHET Systèmes de Communication et Réseaux", initials="", school=n7).save()
+    annuaire.Track(name=u"DHET Génie Electrique et Automatique", initials="", school=n7).save()
+    annuaire.Track(name=u"DHET Systèmes Electroniques", initials="", school=n7).save()
+    annuaire.Track(name=u"DHET informatique fl.", initials="", school=n7).save()
 
     n7hy2006 = annuaire.Promo(year=2006, track=n7hydro)
     n7hy2006.save()
@@ -235,42 +235,42 @@ def filldb():
     n7hy2003.save()
 
     # Contributions
-    poll_contrib = annuaire.UserContributionType(key='poll_register',name='Registering a poll',points=10)
+    poll_contrib = annuaire.UserContributionType(key=u'poll_register',name=u'Registering a poll',points=10)
     poll_contrib.save()
 
-    poll_vote_contrib = annuaire.UserContributionType(key='poll_vote',name='Poll vote',points=5)
+    poll_vote_contrib = annuaire.UserContributionType(key=u'poll_vote',name=u'Poll vote',points=5)
     poll_vote_contrib.save()
 
-    event_contrib = annuaire.UserContributionType(key='event_register',name='Register and event',points=20)
+    event_contrib = annuaire.UserContributionType(key=u'event_register',name=u'Register and event',points=20)
     event_contrib.save()
 
-    event_subscription_contrib = annuaire.UserContributionType(key='event_subcription',name='Subscribe to an event',points=5)
+    event_subscription_contrib = annuaire.UserContributionType(key=u'event_subcription',name=u'Subscribe to an event',points=5)
     event_subscription_contrib.save()
 
     # Companies
-    infofield = emploi.CompanyField(field = "Informatique", code="ZZ", label="Informatique")
+    infofield = emploi.CompanyField(field = u"Informatique", code=u"ZZ", label=u"Informatique")
     infofield.save()
 
-    babelstore = emploi.Company(name="BABELSTORE", field=infofield, size=2)
+    babelstore = emploi.Company(name=u"BABELSTORE", field=infofield, size=2)
     babelstore.save()
 
-    priceminister = emploi.Office(name="PriceMinister", company=babelstore)
+    priceminister = emploi.Office(name=u"PriceMinister", company=babelstore)
     priceminister.save()
 
-    anyware = emploi.Company(name="Anyware", field=infofield)
+    anyware = emploi.Company(name=u"Anyware", field=infofield)
     anyware.save()
 
-    anywareoffice = emploi.Office(name="Bureau de Toulouse", company=anyware)
+    anywareoffice = emploi.Office(name=u"Bureau de Toulouse", company=anyware)
     anywareoffice.save()
 
-    schtroumpfland = emploi.Company(name="Schtroumpfland", field=infofield)
+    schtroumpfland = emploi.Company(name=u"Schtroumpfland", field=infofield)
     schtroumpfland.save()
 
-    lepaysdesschtroumpfs = emploi.Office(name="Mon champignon", company=schtroumpfland)
+    lepaysdesschtroumpfs = emploi.Office(name=u"Mon champignon", company=schtroumpfland)
     lepaysdesschtroumpfs.save()
 
     # Regional group
-    idfgroup = groupes_regionaux.Group(name="Ile de France")
+    idfgroup = groupes_regionaux.Group(name=u"Ile de France")
     idfgroup.save()
 
     # Person
@@ -443,7 +443,7 @@ def filldb():
     pierref_ain7member.display_cv_in_directory = False
     pierref_ain7member.display_cv_in_job_section = True
     pierref_ain7member.receive_job_offers = False
-    pierref_ain7member.cv_title = "Élève Ingénieur ENSEEIHT Informatique"
+    pierref_ain7member.cv_title = u"Élève Ingénieur ENSEEIHT Informatique"
     pierref_ain7member.marital_status = maritalstatus_2
     pierref_ain7member.save()
 
@@ -479,7 +479,7 @@ def filldb():
     olivier.complete_name = "Olivier Gauwin"
     olivier.birth_date = date(1955,12,9)
     olivier.country = france
-    olivier.notes = "Je ne sais pas à quoi sert ce champ mais je fais confiance à Alex!"
+    olivier.notes = u"Je ne sais pas à quoi sert ce champ mais je fais confiance à Alex!"
     olivier.save()
 
     olivier_ain7member = annuaire.AIn7Member()
@@ -492,7 +492,7 @@ def filldb():
     olivier_ain7member.display_cv_in_job_section = True
     olivier_ain7member.receive_job_offers = True
     olivier_ain7member.receive_job_offers_for_tracks.add(n7info)
-    olivier_ain7member.cv_title = "Ingénieur ENSEEIHT et doctorant en Informatique"
+    olivier_ain7member.cv_title = u"Ingénieur ENSEEIHT et doctorant en Informatique"
     olivier_ain7member.marital_status = maritalstatus_2
     olivier_ain7member.save()
 
@@ -580,8 +580,8 @@ def filldb():
     olivier_education1 = emploi.EducationItem()
     olivier_education1.ain7member = olivier_ain7member
     olivier_education1.school = "ENSEEIHT"
-    olivier_education1.diploma = "Ingenieur en informatique et mathématiques appliquées"
-    olivier_education1.details = "Troisième année à la Technische Universität Darmstadt, Allemagne."
+    olivier_education1.diploma = u"Ingenieur en informatique et mathématiques appliquées"
+    olivier_education1.details = u"Troisième année à la Technische Universität Darmstadt, Allemagne."
     olivier_education1.start_date = date(2001,1,11)
     olivier_education1.end_date = date(2003,8,23)
     olivier_education1.save()
@@ -589,7 +589,7 @@ def filldb():
     olivier_leisure1 = emploi.LeisureItem()
     olivier_leisure1.ain7member = olivier_ain7member
     olivier_leisure1.title = "Culture"
-    olivier_leisure1.detail = "Guitare, cinéma"
+    olivier_leisure1.detail = u"Guitare, cinéma"
     olivier_leisure1.save()
 
     olivier_leisure2 = emploi.LeisureItem()
@@ -621,7 +621,7 @@ def filldb():
     alex_ain7member.display_cv_in_directory = False
     alex_ain7member.display_cv_in_job_section = False
     alex_ain7member.receive_job_offers = False
-    alex_ain7member.cv_title = "Ingénieur ENSEEIHT Informatique"
+    alex_ain7member.cv_title = u"Ingénieur ENSEEIHT Informatique"
     alex_ain7member.marital_status = maritalstatus_2
     alex_ain7member.save()
 
@@ -640,7 +640,7 @@ def filldb():
     alex_adresse1 = annuaire.Address()
     alex_adresse1.person = alex
     alex_adresse1.line1 = "79 rue Broca"
-    alex_adresse1.line2 = "1er étage gauche"
+    alex_adresse1.line2 = u"1er étage gauche"
     alex_adresse1.zip_code = "75013"
     alex_adresse1.city = "Paris"
     alex_adresse1.country = france
@@ -686,7 +686,7 @@ def filldb():
     laurent_ain7member.display_cv_in_directory = False
     laurent_ain7member.display_cv_in_job_section = False
     laurent_ain7member.receive_job_offers = False
-    laurent_ain7member.cv_title = "Ingénieur ENSEEIHT Télécommunications et Réseaux"
+    laurent_ain7member.cv_title = u"Ingénieur ENSEEIHT Télécommunications et Réseaux"
     laurent_ain7member.marital_status = maritalstatus_2
     laurent_ain7member.save()
 
@@ -743,7 +743,7 @@ def filldb():
     gui_ain7member.display_cv_in_directory = False
     gui_ain7member.display_cv_in_job_section = False
     gui_ain7member.receive_job_offers = False
-    gui_ain7member.cv_title = "Ingénieur ENSEEIHT Cuicui les petits oiseaux"
+    gui_ain7member.cv_title = u"Ingénieur ENSEEIHT Cuicui les petits oiseaux"
     gui_ain7member.marital_status = maritalstatus_1
     gui_ain7member.save()
 
@@ -779,7 +779,7 @@ def filldb():
 
     tvn7 = annuaire.Club()
     tvn7.name = "TVn7"
-    tvn7.description = "Le club vidéo de l'N7"
+    tvn7.description = u"Le club vidéo de l'N7"
     tvn7.web_site = "http://www.tvn7.fr.st"
     tvn7.email = "tvn7@lists.bde.enseeiht.fr"
     tvn7.creation_date = date(1992,01,01)
@@ -794,7 +794,7 @@ def filldb():
     tvn7_alex = annuaire.ClubMembership()
     tvn7_alex.club = tvn7
     tvn7_alex.member = alex_ain7member
-    tvn7_alex.fonction = "Secrétaire 2004-2005"
+    tvn7_alex.fonction = u"Secrétaire 2004-2005"
     tvn7_alex.save()
 
     tvn7_gui = annuaire.ClubMembership()
@@ -805,7 +805,7 @@ def filldb():
 
     net7 = annuaire.Club()
     net7.name = "Net7"
-    net7.description = "Le club informatique et réseau de l'N7"
+    net7.description = u"Le club informatique et réseau de l'N7"
     net7.web_site = "http://www.bde.enseeiht.fr"
     net7.email = "net7@bde.enseeiht.fr"
     net7.creation_date = date(1992,01,01)
@@ -824,7 +824,7 @@ def filldb():
 
     inpnet = annuaire.Club()
     inpnet.name = "INP-net"
-    inpnet.description = "Le club informatique et réseau de l'INP"
+    inpnet.description = u"Le club informatique et réseau de l'INP"
     inpnet.web_site = "http://www.inp-net.eu.org"
     inpnet.email = "inp-net@bde.inp-toulouse.fr"
     inpnet.creation_date = date(2002,07,01)
@@ -840,11 +840,11 @@ def filldb():
     inpnet_pierref = annuaire.ClubMembership()
     inpnet_pierref.club = inpnet
     inpnet_pierref.member = pierref_ain7member
-    inpnet_pierref.fonction = "Président 2006-2007"
+    inpnet_pierref.fonction = u"Président 2006-2007"
     inpnet_pierref.save()
 
     ain7etudiants = groupes.Group()
-    ain7etudiants.name = "AIn7 Étudiants"
+    ain7etudiants.name = u"AIn7 Étudiants"
     ain7etudiants.administrator = lionel
     ain7etudiants.save()
 
@@ -856,7 +856,7 @@ def filldb():
     ain7etudiants_lionel.save()
 
     ain7ecole = groupes.Group()
-    ain7ecole.name = "AIn7 École"
+    ain7ecole.name = u"AIn7 École"
     ain7ecole.administrator = lionel
     ain7ecole.save()
 
@@ -866,37 +866,37 @@ def filldb():
     ain7entreprises.save()
 
     ain7entreprisesemploi = groupes.Group()
-    ain7entreprisesemploi.name = "AIn7 Entreprises - Emplois Carrières"
+    ain7entreprisesemploi.name = u"AIn7 Entreprises - Emplois Carrières"
     ain7entreprisesemploi.administrator = lionel
     ain7entreprisesemploi.save()
 
     ain7evenementiel = groupes.Group()
-    ain7evenementiel.name = "Événementiel"
+    ain7evenementiel.name = u"Événementiel"
     ain7evenementiel.administrator = lionel
     ain7evenementiel.save()
 
     groupesregionauxinter = groupes.Group()
-    groupesregionauxinter.name = "Groupes régionaux et international"
+    groupesregionauxinter.name = u"Groupes régionaux et international"
     groupesregionauxinter.administrator = lionel
     groupesregionauxinter.save()
 
     mediacomcanal = groupes.Group()
-    mediacomcanal.name = "Médias et Communications - Canal N7"
+    mediacomcanal.name = u"Médias et Communications - Canal N7"
     mediacomcanal.administrator = lionel
     mediacomcanal.save()
 
     mediacomweb = groupes.Group()
-    mediacomweb.name = "Médias et Communications - Serveur Web / Internet"
+    mediacomweb.name = u"Médias et Communications - Serveur Web / Internet"
     mediacomweb.administrator = lionel
     mediacomweb.save()
 
     mediacomannuaire = groupes.Group()
-    mediacomannuaire.name = "Médias et Communications - Annuaire"
+    mediacomannuaire.name = u"Médias et Communications - Annuaire"
     mediacomannuaire.administrator = lionel
     mediacomannuaire.save()
 
     relationscnisf = groupes.Group()
-    relationscnisf.name = "Relations avec le CNISF et les URIS"
+    relationscnisf.name = u"Relations avec le CNISF et les URIS"
     relationscnisf.administrator = lionel
     relationscnisf.save()
 
@@ -906,7 +906,7 @@ def filldb():
     ain7voyages.save()
 
     sondage1 = sondages.Survey()
-    sondage1.question = "Quelle est votre couleur préférée ?"
+    sondage1.question = u"Quelle est votre couleur préférée ?"
     sondage1.start_date = datetime.now()
     sondage1.end_date = datetime.now() + timedelta(30)
     sondage1.save()
@@ -928,14 +928,14 @@ def filldb():
 
     news1 = news.NewsItem()
     news1.title = "Nouveau portail Web"
-    news1.description = """L'AIn7 travaille actuellement sur l'élaboration d'un
+    news1.description = u"""L'AIn7 travaille actuellement sur l'élaboration d'un
     nouveau portail. N'hésitez pas à apporter vos idées et vos commentaires."""
     news1.image = "data/www.jpg"
     news1.save()
 
     news2 = news.NewsItem()
     news2.title = "100 ans !"
-    news2.description = """L'n7 fête cette année ces 100 ans et va  tout au
+    news2.description = u"""L'n7 fête cette année ces 100 ans et va  tout au
     long de l'année 2007 célébrer à travers différentes manifestations cet anniversaire"""
     news2.image = "data/Gala_N7.jpg"
     news2.save()
@@ -943,14 +943,14 @@ def filldb():
     looptravel = voyages.TravelType(type="Circuit")
     looptravel.save()
 
-    boattravel = voyages.TravelType(type="Croisière")
+    boattravel = voyages.TravelType(type=u"Croisière")
     boattravel.save()
 
-    loopandboattravel = voyages.TravelType(type="Circuit et croisière")
+    loopandboattravel = voyages.TravelType(type=u"Circuit et croisière")
     loopandboattravel.save()
 
     travel1 = voyages.Travel()
-    travel1.label = "Varsovie & croisière sur la Vistule"
+    travel1.label = u"Varsovie & croisière sur la Vistule"
     travel1.start_date = date(2007,6,1)
     travel1.end_date = date(2007,6,15)
     travel1.date = "Juin 2007"
@@ -972,7 +972,7 @@ def filldb():
     travel2.thumbnail = "data/japon.jpg"
     travel2.prix = 3890
     travel2.description = \
-"""
+u"""
 <p><i>Temples et jardins, disséminés en
 oasis d'ordre et de perfection formelle, dans un ruban baroque d'immenses
 villes côtières conquises sur une nature omniprésente : le Japon cultive l'art
@@ -1240,7 +1240,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
 
     travel3 = voyages.Travel()
     travel3.label = "Birmanie"
-    travel3.date = "Février 2008"
+    travel3.date = u"Février 2008"
     travel3.start_date = date(2008,2,7)
     travel3.end_date = date(2008,2,20)
     travel3.term = 14
@@ -1251,7 +1251,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     travel3.save()
 
     travel4 = voyages.Travel()
-    travel4.label = "Mongolie / Pékin"
+    travel4.label = u"Mongolie / Pékin"
     travel4.date = "Juin 2008"
     travel4.start_date = date(2008,6,8)
     travel4.end_date = date(2008,6,23)
@@ -1295,13 +1295,13 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     utc = vobject.icalendar.utc
 
     evenement1 = evenements.Event()
-    evenement1.name = "Réunion 100 ans"
+    evenement1.name = u"Réunion 100 ans"
     evenement1.start = datetime.now() + timedelta(10)
     evenement1.end = datetime.now() + timedelta(60)
     evenement1.author = "Olivier Gauwin"
     evenement1.contact_email = "olivier.gauwin@alumni.enseeiht.fr"
     evenement1.location = "ENSEEIHT"
-    evenement1.description = "Organisation des événements liés au centenaire de l'ENSEEIHT."
+    evenement1.description = u"Organisation des événements liés au centenaire de l'ENSEEIHT."
     evenement1.publication_start = datetime.now()
     evenement1.publication_end = datetime.now() + timedelta(30)
     evenement1.image = "data/anniversaire.jpg"
@@ -1310,7 +1310,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     evenement1.save()
 
     evenement2 = evenements.Event()
-    evenement2.name = "Réunion CA"
+    evenement2.name = u"Réunion CA"
     evenement2.start = datetime(2007, 11, 17, 10, 0, tzinfo = utc)
     evenement2.end = datetime(2007, 11, 17, 12, 0, tzinfo = utc)
     evenement2.author = "Lionel Porcheron"
@@ -1328,8 +1328,8 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     job1.reference = "XYZ270"
     job1.contact_name = "Lionel Porcheron"
     job1.contact_email = "lionel.porcheron@alumni.enseeiht.fr"
-    job1.title = "Ingénieur Java/J2EE"
-    job1.description = """Pour l'un de nos clients Grand Compte, nous recherchons des Ingénieurs d'études Java/J2ee, sous la conduite d'un Chef de projet, vous aurez en charge la réalisation des études techniques et fonctionnelles, le développement des applications."""
+    job1.title = u"Ingénieur Java/J2EE"
+    job1.description = u"""Pour l'un de nos clients Grand Compte, nous recherchons des Ingénieurs d'études Java/J2ee, sous la conduite d'un Chef de projet, vous aurez en charge la réalisation des études techniques et fonctionnelles, le développement des applications."""
     job1.experience = "1 à 2 ans"
     job1.contract_type = 0
     job1.is_opened = True
@@ -1340,8 +1340,8 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
 
     job2 = emploi.JobOffer()
     job2.reference = "XYZ271"
-    job2.title = "Ingénieur d'études Oracle, UNIX Expérimenté"
-    job2.description = """Nous recherchons un ingénieur d'étude et de développement expérimenté pour un client grand compte. Mission :
+    job2.title = u"Ingénieur d'études Oracle, UNIX Expérimenté"
+    job2.description = u"""Nous recherchons un ingénieur d'étude et de développement expérimenté pour un client grand compte. Mission :
     - Maintenance et développement sur une application sensible.
     -Développement de nouvelles fonctionnalités."""
     job2.experience = "2 à 3 ans"
@@ -1354,8 +1354,8 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
 
     job3 = emploi.JobOffer()
     job3.reference = "XYZ272"
-    job3.title = "Ingénieur étude et développement décisionnel"
-    job3.description = """Dans le cadre de nos projets réalisés pour nos clients grands comptes, sous la conduite d'un Chef de projet, vous serez chargé de réaliser des études techniques et fonctionnelles, de développer des applications, d'élaborer les plans d'intégration."""
+    job3.title = u"Ingénieur étude et développement décisionnel"
+    job3.description = u"""Dans le cadre de nos projets réalisés pour nos clients grands comptes, sous la conduite d'un Chef de projet, vous serez chargé de réaliser des études techniques et fonctionnelles, de développer des applications, d'élaborer les plans d'intégration."""
     job3.experience = "1 à 2 ans"
     job3.contract_type = 1
     job3.is_opened = True
@@ -1366,8 +1366,8 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
 
     job4 = emploi.JobOffer()
     job4.reference = "XYZ273"
-    job4.title = "Ingénieur SI support produit"
-    job4.description = """Intégré au sein de l'équipe « Formes de Vente » (15 personnes) et sous la direction d'un Responsable d'Equipe, vous garantissez le bon fonctionnement des produits à votre charge dans le système d'information."""
+    job4.title = u"Ingénieur SI support produit"
+    job4.description = u"""Intégré au sein de l'équipe « Formes de Vente » (15 personnes) et sous la direction d'un Responsable d'Equipe, vous garantissez le bon fonctionnement des produits à votre charge dans le système d'information."""
     job4.experience = "1 à 2 ans"
     job4.contract_type = 3
     job4.is_opened = False
@@ -1378,8 +1378,8 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
 
     job5 = emploi.JobOffer()
     job5.reference = "XYZ274"
-    job5.title = "Ingénieurs développement JAVA/J2EE"
-    job5.description = """Nous souhaitons renforcer notre pôle de compétences NTIC Java J2EE : De formation informatique Bac+4/5, vous êtes aujourd'hui un Ingénieur débutant ou expérimenté et vous bénéficiez d'une réelle maîtrise des environnements de développement NTIC."""
+    job5.title = u"Ingénieurs développement JAVA/J2EE"
+    job5.description = u"""Nous souhaitons renforcer notre pôle de compétences NTIC Java J2EE : De formation informatique Bac+4/5, vous êtes aujourd'hui un Ingénieur débutant ou expérimenté et vous bénéficiez d'une réelle maîtrise des environnements de développement NTIC."""
     job5.experience = "0 à 3 ans"
     job5.contract_type = 3
     job5.is_opened = True

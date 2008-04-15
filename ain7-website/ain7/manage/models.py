@@ -50,7 +50,7 @@ class Notification(models.Model):
     modification_date = models.DateTimeField(editable=False)
     modifier = models.IntegerField(editable=False)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.title
 
     def save(self):

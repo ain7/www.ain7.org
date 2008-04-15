@@ -27,6 +27,8 @@ def detect_path():
 
 # Django settings for ain7 project.
 
+EFAULT_CHARSET = 'utf-8'
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 

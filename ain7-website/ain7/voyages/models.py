@@ -31,7 +31,7 @@ class TravelType(models.Model):
 
     type = models.CharField(verbose_name=_('type'), max_length=50)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.type
 
     class Admin:
@@ -59,7 +59,7 @@ class Travel(models.Model):
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
     modification_date = models.DateTimeField(editable=False)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.label
 
     def save(self):
@@ -93,7 +93,7 @@ class TravelResponsible(models.Model):
     travel = models.ForeignKey(Travel, verbose_name=_('travel'), related_name='travel_responsibles')
     responsible = models.ForeignKey(Person, verbose_name=_('responsible'), related_name='travel_responsibilities')
 
-    def __str__(self):
+    def __unicode__(self):
         return self.responsible.__str__()
 
     class Meta:

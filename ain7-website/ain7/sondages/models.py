@@ -30,7 +30,7 @@ class Survey(models.Model):
     start_date = models.DateField(verbose_name=_('start date'))
     end_date = models.DateField(verbose_name=_('end date'))
 
-    def __str__(self):
+    def __unicode__(self):
         return self.question
 
     def has_been_voted_by(self, voter):
@@ -51,7 +51,7 @@ class Choice(models.Model):
 
     survey = models.ForeignKey(Survey, verbose_name=_('survey'), related_name='choices', edit_inline=models.TABULAR, num_in_admin=3)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.choice
 
     def rate(self):

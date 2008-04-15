@@ -72,7 +72,7 @@ class Event(models.Model):
     approved = models.BooleanField(default=False)
     approved_by = models.ForeignKey(Person, related_name='events_approved', editable=False, null=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     def save(self):

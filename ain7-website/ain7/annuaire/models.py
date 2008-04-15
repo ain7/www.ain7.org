@@ -36,7 +36,7 @@ class Country(models.Model):
     name = models.CharField(verbose_name=_('name'), max_length=50)
     nationality = models.CharField(verbose_name=_('nationality'), max_length=50)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     class Admin:
@@ -51,7 +51,7 @@ class PersonType(models.Model):
 
     type = models.CharField(verbose_name=_('type'), max_length=50)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.type
 
     class Admin:
@@ -66,7 +66,7 @@ class MemberType(models.Model):
 
     type = models.CharField(verbose_name=_('type'), max_length=50)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.type
 
     class Admin:
@@ -80,7 +80,7 @@ class Activity(models.Model):
 
     activity = models.CharField(verbose_name=_('activity'), max_length=50)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.activity
 
     class Admin:
@@ -94,7 +94,7 @@ class MaritalStatus(models.Model):
 
     status = models.CharField(verbose_name=_('status'), max_length=50)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.status
 
     class Admin:
@@ -109,7 +109,7 @@ class Diploma(models.Model):
     diploma = models.CharField(verbose_name=_('diploma'), max_length=100, core=True)
     initials = models.CharField(verbose_name=_('initials'), max_length=10, core=True, blank=True, null=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.diploma
 
     class Admin:
@@ -123,7 +123,7 @@ class Decoration(models.Model):
 
     decoration = models.CharField(verbose_name=_('decoration'), max_length=200, core=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.decoration
 
     class Admin:
@@ -137,7 +137,7 @@ class CeremonialDuty(models.Model):
 
     ceremonial_duty = models.CharField(verbose_name=_('ceremonial duty'), max_length=200, core=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.ceremonial_duty
 
     class Admin:
@@ -163,7 +163,7 @@ class School(models.Model):
     web_site = models.CharField(verbose_name=_('web site'), max_length=100, blank=True, null=True)
     email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
 
-    def __str__(self):
+    def __unicode__(self):
         if self.initials:
             return self.initials
         else:
@@ -186,7 +186,7 @@ class Track(models.Model):
 
     school = models.ForeignKey(School, verbose_name=_('school'), related_name='tracks')
 
-    def __str__(self):
+    def __unicode__(self):
         if self.initials:
             return self.initials
         else:
@@ -204,7 +204,7 @@ class Promo(models.Model):
     year = models.IntegerField(verbose_name=_('year'))
     track = models.ForeignKey(Track, verbose_name=_('Track'), related_name='promos')
 
-    def __str__(self):
+    def __unicode__(self):
         return str(self.track) + " " + str(self.year)
 
     class Admin:
@@ -263,7 +263,7 @@ class Person(models.Model):
     modifier = models.IntegerField(editable=False)
     objects = PersonManager()
 
-    def __str__(self):
+    def __unicode__(self):
         return self.first_name + " " + self.last_name
 
     def save(self):
@@ -367,7 +367,7 @@ class AIn7Member(models.Model):
             karma = karma + UserContributionType.objects.filter(key=contrib.type.key)[0].points
         return karma
 
-    def __str__(self):
+    def __unicode__(self):
         return str(self.person)
 
     class Admin:
@@ -416,7 +416,7 @@ class AddressType(models.Model):
 
     type = models.CharField(verbose_name=_('type'), max_length=50)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.type
 
     class Admin:
@@ -444,7 +444,7 @@ class Address(models.Model):
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
     modification_date = models.DateTimeField(editable=False)
 
-    def __str__(self):
+    def __unicode__(self):
         addr  = self.line1 + " " + self.line2 + " - "
         addr += self.zip_code + " " + self.city + " - "
         addr += self.country.name
@@ -466,7 +466,7 @@ class Email(models.Model):
     is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
     preferred_email = models.BooleanField(verbose_name=_('preferred'), default=False)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.email
 
     class Meta:
@@ -490,7 +490,7 @@ class InstantMessaging(models.Model):
     type = models.IntegerField(verbose_name=_('type'), choices=INSTANT_MESSAGING_TYPE, core=True)
     identifier = models.CharField(verbose_name=_('identifier'), max_length=40, core=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.identifier
 
     class Meta:
@@ -519,7 +519,7 @@ class WebSite(models.Model):
 
     blog_is_agregated_on_planet = models.BooleanField(verbose_name=_('blog on planet'), core=True, default=False)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.url
 
     def save(self):
@@ -539,7 +539,7 @@ class IRC(models.Model):
     pseudo = models.CharField(verbose_name=_('pseudo'), max_length=20, core=True)
     channels = models.CharField(verbose_name=_('channels'), max_length=100)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.pseudo + "@" + self.channels
 
     class Meta:
@@ -559,7 +559,7 @@ class Club(models.Model):
     creation_date = models.DateField(verbose_name=_('creation date'), blank=True, null=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     class Admin:
@@ -578,7 +578,7 @@ class ClubMembership(models.Model):
     start_date = models.DateField(verbose_name=_('start date'), blank=True, null=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return str(self.club) + " " + self.fonction
 
     class Meta:
@@ -596,7 +596,7 @@ class Profile(models.Model):
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
     modification_date = models.DateTimeField(editable=False)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     def save(self):
@@ -623,7 +623,7 @@ class ProfileMembership(models.Model):
     modification_date = models.DateTimeField(editable=False)
     modifier = models.IntegerField(editable=False)
 
-    def __str__(self):
+    def __unicode__(self):
         return str(self.user) + ": " + str(self.profile)
 
     def save(self):
@@ -680,7 +680,7 @@ class SearchFilter(models.Model):
     registered = models.BooleanField(default=True)
     objects = SearchFilterManager()
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     def save(self):
@@ -713,7 +713,7 @@ class SearchCriterionField(models.Model):
     #     value = 'Toto'
     #     displayedValue = 'Toto'
 
-    def __str__(self):
+    def __unicode__(self):
         return self.fieldVerboseName + " " \
                + self.comparatorVerboseName + " " \
                + self.displayedValue
@@ -730,7 +730,7 @@ class SearchCriterionFilter(models.Model):
         related_name='used_as_criterion')
     is_in = models.BooleanField(default=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return str(filterCriterion)
 
     def save(self):
