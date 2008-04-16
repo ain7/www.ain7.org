@@ -32,42 +32,11 @@ from django.db import models
 from django.utils.translation import ugettext as _
 
 from ain7.decorators import confirmation_required
-from ain7.utils import ain7_render_to_response, ImgUploadForm, form_callback
+from ain7.utils import ain7_render_to_response, ImgUploadForm
 from ain7.voyages.models import Travel, Subscription, TravelResponsible
+from ain7.voyages.forms import *
 from ain7.annuaire.models import Person
 
-class SearchTravelForm(forms.Form):
-    label = forms.CharField(label=_('label').capitalize(),
-                            max_length=50, required=False)
-    date  = forms.CharField(label=_('date').capitalize(),
-                            max_length=50, required=False)
-    visited_places = forms.CharField(label=_('visited places').capitalize(),
-                                     max_length=50, required=False)
-    search_old_travel = forms.BooleanField(label=_('search in old travels').capitalize(),
-                                     required=False)
-
-    def __init__(self, *args, **kwargs):
-        super(SearchTravelForm, self).__init__(*args, **kwargs)
-
-    def search(self):
-        criteria={
-            'label__contains':self.cleaned_data['label'],
-            'date__contains':self.cleaned_data['date']}
-        # visited places are also searched in labels
-        visited = self.cleaned_data['visited_places']
-        q_visited = \
-            models.Q(visited_places__contains = visited) | \
-            models.Q(label__contains = visited)
-        if not self.cleaned_data['search_old_travel']:
-            criteria['start_date__gte'] = datetime.now()
-        return Travel.objects.filter(**criteria).filter(q_visited)
-
-def count_travel_participants(travel):
-    value = Subscription.objects.filter(travel=travel).values('subscriber_number').extra(select={'sum': 'sum(subscriber_number)'})
-    if len(value) > 0:
-        return value[0]['subscriber_number']
-    else:
-        return 0
 
 def index(request):
     next_travels = Travel.objects.filter(start_date__gte=datetime.now())
@@ -78,12 +47,6 @@ def index(request):
 
 @login_required
 def add(request):
-    TravelForm = forms.models.form_for_model(Travel,
-                                             formfield_callback=_edit_callback)
-    TravelForm.base_fields['description'].widget = \
-        forms.widgets.Textarea(attrs={'rows':10, 'cols':90})
-    TravelForm.base_fields['report'].widget = \
-        forms.widgets.Textarea(attrs={'rows':15, 'cols':90})
     form = TravelForm()
     if request.method == 'POST':
         form = TravelForm(request.POST)
@@ -98,7 +61,7 @@ def add(request):
 
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'voyages/edit.html',
-                                   {'form': form, 'action': 'add', 'back': back})
+        {'form': form, 'action': 'add', 'back': back})
 
 @confirmation_required(
     lambda user_id=None,
@@ -113,9 +76,8 @@ def delete(request, travel_id):
 
 def details(request,travel_id):
     t = get_object_or_404(Travel, pk=travel_id)
-    past = t in Travel.objects.filter(start_date__lt=datetime.now())
     return ain7_render_to_response(request, 'voyages/details.html',
-                            {'travel': t, 'past': past, 'travel_subscriptions': count_travel_participants(t)})
+        {'travel': t})
 
 def list(request):
     return ain7_render_to_response(request, 'voyages/list.html',
@@ -160,15 +122,9 @@ def search(request):
 def edit(request, travel_id=None):
     travel = Travel.objects.get(pk=travel_id)
     thumbnail = travel.thumbnail
-    TravelForm = forms.models.form_for_instance(travel,
-        formfield_callback=_edit_callback)
-    TravelForm.base_fields['description'].widget = \
-        forms.widgets.Textarea(attrs={'rows':15, 'cols':90})
-    TravelForm.base_fields['report'].widget = \
-        forms.widgets.Textarea(attrs={'rows':15, 'cols':90})
-    form = TravelForm()
+    form = TravelForm(instance=travel)
     if request.method == 'POST':
-        form = TravelForm(request.POST)
+        form = TravelForm(request.POST, instance=travel)
         if form.is_valid():
             form.cleaned_data['thumbnail'] = thumbnail
             form.save()
@@ -235,16 +191,12 @@ def join(request, travel_id):
         if already_subscribed:
             request.user.message_set.create(message=_('You have already subscribed to this travel.'))
             return HttpResponseRedirect('/voyages/%s/' % (travel.id))
-        JoinTravelForm = forms.models.form_for_model(Subscription,
-            formfield_callback=_join_callback)
         f = JoinTravelForm()
         back = request.META.get('HTTP_REFERER', '/')
         return ain7_render_to_response(request, "voyages/join.html",
-                                {'form': f, 'travel': travel, 'back': back, 'travel_subscriptions': count_travel_participants(travel)})
+            {'form': f, 'travel': travel, 'back': back})
 
     if request.method == 'POST':
-        JoinTravelForm = forms.models.form_for_model(Subscription,
-            formfield_callback=_join_callback)
         f = JoinTravelForm(request.POST.copy())
         if f.is_valid():
             f.cleaned_data['subscriber'] = person
@@ -261,16 +213,12 @@ def subscribe(request, travel_id):
     travel = get_object_or_404(Travel, pk=travel_id)
 
     if request.method == 'GET':
-        SubscribeTravelForm = forms.models.form_for_model(Subscription,
-            formfield_callback=_subscribe_callback)
         f = SubscribeTravelForm()
         # TODO : AJAX pour sélectionner une personne plutôt qu'une liste
         return ain7_render_to_response(request, "voyages/join.html",
                                 {'form': f, 'travel': travel})
 
     if request.method == 'POST':
-        SubscribeTravelForm = forms.models.form_for_model(Subscription,
-            formfield_callback=_subscribe_callback)
         f = SubscribeTravelForm(request.POST.copy())
         person = Person.objects.filter(pk=request.POST['subscriber'])[0]
         # on vérifie que la personne n'est pas déjà inscrite
@@ -280,8 +228,8 @@ def subscribe(request, travel_id):
                 already_subscribed = True
         if already_subscribed:
             request.user.message_set.create(message=_('This person is already subscribed to this travel.'))
-            return ain7_render_to_response(request, 'voyages/participants.html',
-                                    {'travel': travel})
+            return ain7_render_to_response(request,
+                'voyages/participants.html', {'travel': travel})
         else:
             if f.is_valid():
                 f.cleaned_data['travel'] = travel
@@ -289,8 +237,8 @@ def subscribe(request, travel_id):
                 request.user.message_set.create(message=_('You have successfully subscribed someone to this travel.'))
             else:
                 request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(f.errors))
-            return ain7_render_to_response(request, 'voyages/participants.html',
-                                    {'travel': travel})
+            return ain7_render_to_response(request,
+                'voyages/participants.html', {'travel': travel})
     return HttpResponseRedirect('/voyages/%s/' % (travel.id))
 
 @confirmation_required(
@@ -312,21 +260,19 @@ def unsubscribe(request, travel_id, participant_id):
 def participants(request, travel_id):
     travel = get_object_or_404(Travel, pk=travel_id)
     return ain7_render_to_response(request, 'voyages/participants.html',
-                            {'travel': travel, 'travel_subscriptions': count_travel_participants(travel)})
+        {'travel': travel})
 
 @login_required
 def responsibles(request, travel_id):
     travel = get_object_or_404(Travel, pk=travel_id)
     return ain7_render_to_response(request, 'voyages/responsibles.html',
-                            {'travel': travel, 'travel_subscriptions': count_travel_participants(travel)})
+        {'travel': travel})
 
 @login_required
 def responsibles_add(request, travel_id):
     travel = get_object_or_404(Travel, pk=travel_id)
 
     if request.method == 'GET':
-        TravelResponsibleForm = forms.models.form_for_model(TravelResponsible,
-            formfield_callback=_subscribe_callback)
         f = TravelResponsibleForm()
         # TODO : AJAX pour sélectionner une personne plutôt qu'une liste
         back = request.META.get('HTTP_REFERER', '/')
@@ -334,8 +280,6 @@ def responsibles_add(request, travel_id):
                                 {'form': f, 'travel': travel, 'back': back})
 
     if request.method == 'POST':
-        TravelResponsibleForm = forms.models.form_for_model(TravelResponsible,
-            formfield_callback=_subscribe_callback)
         f = TravelResponsibleForm(request.POST.copy())
         person = Person.objects.get(pk=request.POST['responsible'])
         # on vérifie que la personne n'est pas déjà inscrite
@@ -345,8 +289,8 @@ def responsibles_add(request, travel_id):
                 already_responsible = True
         if already_responsible:
             request.user.message_set.create(message=_('This person is already responsible of this travel.'))
-            return ain7_render_to_response(request, 'voyages/responsibles.html',
-                                    {'travel': travel})
+            return ain7_render_to_response(request,
+                'voyages/responsibles.html', {'travel': travel})
         else:
             if f.is_valid():
                 f.cleaned_data['travel'] = travel
@@ -354,8 +298,8 @@ def responsibles_add(request, travel_id):
                 request.user.message_set.create(message=_('You have successfully added someone to responsibles of this travel.'))
             else:
                 request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(f.errors))
-            return ain7_render_to_response(request, 'voyages/responsibles.html',
-                                    {'travel': travel})
+            return ain7_render_to_response(request,
+                'voyages/responsibles.html', {'travel': travel})
     return HttpResponseRedirect('/voyages/%s/' % (travel.id))
 
 @confirmation_required(
@@ -373,22 +317,3 @@ def responsibles_delete(request, travel_id, responsible_id):
     return ain7_render_to_response(request, 'voyages/responsibles.html',
                             {'travel': travel})
 
-# une petite fonction pour exclure certains champs
-# des formulaires créés avec form_for_model et form_for_instance
-def _edit_callback(f, **args):
-    exclude_fields = ('thumbnail')
-    if f.name in exclude_fields:
-        return None
-    return form_callback(f, **args)
-
-def _join_callback(f, **args):
-    exclude_fields = ('subscriber', 'travel')
-    if f.name in exclude_fields:
-        return None
-    return form_callback(f, **args)
-
-def _subscribe_callback(f, **args):
-    exclude_fields = ('travel')
-    if f.name in exclude_fields:
-        return None
-    return form_callback(f, **args)

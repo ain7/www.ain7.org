@@ -36,7 +36,7 @@ from ain7.decorators import confirmation_required
 from ain7.emploi.models import *
 from ain7.emploi.forms import *
 from ain7.manage.models import Notification
-from ain7.utils import ain7_render_to_response, form_callback
+from ain7.utils import ain7_render_to_response
 from ain7.fields import AutoCompleteField
 
 
@@ -81,27 +81,29 @@ def _generic_edit(request, user_id, obj, redirectPage, msgDone):
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
+
+    class GenericForm(forms.ModelForm):
+        class Meta:
+            model = type(obj)
+            exclude = ('ain7member')
+
     # 1er passage : on propose un formulaire avec les données actuelles
     if request.method == 'GET':
-        PosForm = forms.models.form_for_instance(obj,
-            formfield_callback=_form_callback)
-        f = PosForm()
+        f = GenericForm(instance=obj)
         return ain7_render_to_response(request, redirectPage,
-                                {'form': f, 'action': 'edit',
-                                 'ain7member': ain7member})
+            {'form': f, 'action': 'edit', 'ain7member': ain7member})
 
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
-        PosForm = forms.models.form_for_instance(obj,
-            formfield_callback=_form_callback)
-        f = PosForm(request.POST.copy())
+        f = GenericForm(request.POST.copy(), instance=obj)
         if f.is_valid():
             f.cleaned_data['ain7member'] = ain7member
             f.save()
             request.user.message_set.create(message=msgDone)
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
-            return ain7_render_to_response(request, redirectPage,{'form': f, 'action': 'edit','ain7member': ain7member})
+            return ain7_render_to_response(request, redirectPage,
+                {'form': f, 'action': 'edit','ain7member': ain7member})
             # pour avoir le détail des champs mal remplis :
             # request.user.message_set.create(message=str(f.errors))
         return HttpResponseRedirect('/emploi/%s/cv/edit/' % user_id)
@@ -118,20 +120,22 @@ def _generic_add(request, user_id, objectType, redirectPage, msgDone):
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
+
+    class GenericForm(forms.ModelForm):
+        class Meta:
+            model = objectType
+            exclude = ('ain7member')
+
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
-        PosForm = forms.models.form_for_model(objectType,
-            formfield_callback=_form_callback)
-        f = PosForm()
+        f = GenericForm()
         return ain7_render_to_response(request, redirectPage,
-                                {'form': f, 'action': 'create',
-                                 'ain7member':ain7member, 'person': person})
+            {'form': f, 'action': 'create',
+             'ain7member':ain7member, 'person': person})
 
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
-        PosForm = forms.models.form_for_model(objectType,
-            formfield_callback=_form_callback)
-        f = PosForm(request.POST.copy())
+        f = GenericForm(request.POST.copy())
         if f.is_valid():
             f.cleaned_data['ain7member'] = ain7member
             f.save()
@@ -412,13 +416,4 @@ def company_details(request, company_id):
     company = get_object_or_404(Company, pk=company_id)
     return ain7_render_to_response(request, 'emploi/company_details.html',
         {'company': company})
-
-# une petite fonction pour exclure les champs
-# person user ain7member
-# des formulaires créés avec form_for_model et form_for_instance
-def _form_callback(f, **args):
-    exclude_fields = ('person', 'user', 'ain7member')
-    if f.name in exclude_fields:
-        return None
-    return form_callback(f,**args)
 

@@ -121,3 +121,19 @@ class NewMemberForm(forms.Form):
 class ChooseFieldForm(forms.Form):
     chosenField = forms.ChoiceField(label=_('Field'), required=True,
         choices = [])
+
+class SearchFilterForm(forms.ModelForm):
+    class Meta:
+        model = SearchFilter
+        fields = ('name')
+
+class PersonForm(forms.ModelForm):
+    sex = forms.CharField(widget=forms.Select(choices=Person.SEX))
+    class Meta:
+        model = Person
+        exclude = ('user')
+
+class AIn7MemberForm(forms.ModelForm):
+    class Meta:
+        model = AIn7Member
+        exclude = ('person','avatar')

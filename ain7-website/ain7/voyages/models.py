@@ -66,6 +66,21 @@ class Travel(models.Model):
         self.modification_date = datetime.datetime.today()
         return super(Travel, self).save()
 
+    def is_past(self):
+        """ Defines if a travel is past or not."""
+        return self in Travel.objects.filter(
+            start_date__lt=datetime.datetime.now())
+
+    def nb_participants(self):
+        """ Returns how many participants are registered for this travel."""
+        value = Subscription.objects.filter(travel=self)\
+                .values('subscriber_number')\
+                .extra(select={'sum': 'sum(subscriber_number)'})
+        if len(value) > 0:
+            return value[0]['subscriber_number']
+        else:
+            return 0
+    
     class Admin:
         pass
 

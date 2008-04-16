@@ -38,7 +38,7 @@ from ain7.annuaire.models import *
 from ain7.annuaire.forms import *
 from ain7.emploi.models import Company, Office
 from ain7.decorators import confirmation_required
-from ain7.utils import ain7_render_to_response, ImgUploadForm, form_callback
+from ain7.utils import ain7_render_to_response, ImgUploadForm
 from ain7.widgets import DateTimeWidget
 from ain7.fields import LanguageField
 
@@ -256,9 +256,7 @@ def filter_register(request):
     if not sf:
         return HttpResponseRedirect('/annuaire/advanced_search/')
 
-    FilterForm = forms.form_for_model(SearchFilter,
-        formfield_callback=_form_callback)
-    form = FilterForm()
+    form = SearchFilterForm()
 
     if request.method != 'POST':
         return ain7_render_to_response(request,
@@ -266,9 +264,9 @@ def filter_register(request):
             {'form': form, 'back': request.META.get('HTTP_REFERER', '/'),
              'action_title': _("Enter parameters of your filter")})
     else:
-        form = FilterForm(request.POST)
+        form = SearchFilterForm(request.POST)
         if form.is_valid():
-            fName = form.cleaned_data['name'].encode('utf8')
+            fName = form.cleaned_data['name']
             # First we check that the user does not have
             # a filter with the same name
             sameName = SearchFilter.objects.\
@@ -298,12 +296,10 @@ def filter_register(request):
 def filter_edit(request, filter_id):
 
     filtr = get_object_or_404(SearchFilter, pk=filter_id)
-    FilterForm = forms.form_for_instance(
-        filtr, formfield_callback=_form_callback)
-    form = FilterForm()
+    form = SearchFilterForm(instance=filtr)
 
     if request.method == 'POST':
-        form = FilterForm(request.POST)
+        form = SearchFilterForm(request.POST, instance=filtr)
         if form.is_valid():
             form.cleaned_data['user'] = filtr.user
             form.cleaned_data['operator'] = filtr.operator
@@ -515,10 +511,10 @@ def criterionField_edit(request, filter_id=None, criterion_id=None):
             displayedVal = getDisplayedVal(val,fName)
             # if the value is an object, store its id
             if str(type(val)).find('class ')!=-1:
-                displayedVal = unicode(str(val),'utf8')
+                displayedVal = val
                 val = val.id                
             filtr = get_object_or_404(SearchFilter, pk=filter_id)
-            fVName = unicode(str(searchField.verbose_name),'utf8')
+            fVName = searchField.verbose_name
             compVName = getCompVerboseName(searchField, cCode)
             crit = None
             # if we're adding a new criterion
@@ -650,20 +646,14 @@ def edit(request, user_id=None):
 def person_edit(request, user_id=None):
 
     if user_id is None:
-        PersonForm = forms.form_for_model(Person,
-            formfield_callback=_form_callback)
         form = PersonForm()
 
     else:
         person = Person.objects.get(user=user_id)
-        PersonForm = forms.form_for_instance(person,
-            formfield_callback=_form_callback)
-        PersonForm.base_fields['sex'].widget=\
-            forms.Select(choices=Person.SEX)
-        form = PersonForm(auto_id=False)
+        form = PersonForm(instance=person,auto_id=False)
 
         if request.method == 'POST':
-             form = PersonForm(request.POST)
+             form = PersonForm(request.POST, instance=person)
              if form.is_valid():
                  form.cleaned_data['user'] = person.user
                  form.save()
@@ -681,21 +671,17 @@ def person_edit(request, user_id=None):
 def ain7member_edit(request, user_id=None):
 
     if user_id is None:
-        PersonForm = forms.form_for_model(AIn7Member,
-            formfield_callback=_form_callback)
-        form = PersonForm()
+        form = AIn7MemberForm()
 
     else:
         person = Person.objects.get(user=user_id)
         ain7member = get_object_or_404(AIn7Member, person=person)
         avatar = ain7member.avatar
-        PersonForm = forms.form_for_instance(ain7member,
-            formfield_callback=_form_callback)
 
         if request.method == 'POST':
              post = request.POST.copy()
              post.update(request.FILES)
-             form = PersonForm(post)
+             form = AIn7MemberForm(post, instance=ain7member)
              if form.is_valid():
                  form.cleaned_data['person'] = person
                  form.cleaned_data['avatar'] = avatar
@@ -704,7 +690,7 @@ def ain7member_edit(request, user_id=None):
                  return HttpResponseRedirect('/annuaire/%s/edit' % (person.user.id))
              else:
                  request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
-        form = PersonForm(auto_id=False)
+        form = AIn7MemberForm(instance=ain7member, auto_id=False)
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'annuaire/edit_form.html',
                             {'form': form, 'person': person, 'back': back,
@@ -757,19 +743,22 @@ def _generic_edit(request, user_id, object_id, object_type,
 
     obj = get_object_or_404(object_type, pk=object_id)
 
+    class GenericForm(forms.ModelForm):
+        class Meta:
+            model = type(obj)
+            exclude = ('person','member')
+
     # 1er passage : on propose un formulaire avec les donnees actuelles
     if request.method == 'GET':
-        PosForm = forms.form_for_instance(obj,formfield_callback=_form_callback)
-        f = PosForm()
+        f = GenericForm(instance=obj)
         back = request.META.get('HTTP_REFERER', '/')
         return ain7_render_to_response(request, 'annuaire/edit_form.html',
-                                {'form': f, 'action_title': action_title, 'person': person, 'back': back})
+            {'form': f, 'action_title': action_title,
+             'person': person, 'back': back})
 
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
-        PosForm = forms.form_for_instance(obj,
-            formfield_callback=_form_callback)
-        f = PosForm(request.POST.copy())
+        f = GenericForm(request.POST.copy(),instance=obj)
         if f.is_valid():
             if person is not None:
                 f.cleaned_data['person'] = person
@@ -779,7 +768,9 @@ def _generic_edit(request, user_id, object_id, object_type,
             request.user.message_set.create(message=msg_done)
         else:
             request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
-            return ain7_render_to_response(request, 'annuaire/edit_form.html',{'form': f, 'action_title': action_title, 'person': person, 'back': '/annuaire/'+user_id+'/edit/'})
+            return ain7_render_to_response(request, 'annuaire/edit_form.html',
+                {'form': f, 'action_title': action_title, 'person': person,
+                 'back': '/annuaire/'+user_id+'/edit/'})
         return HttpResponseRedirect('/annuaire/%s/edit/' % user_id)
 
 def _generic_delete(request, user_id, object_id, object_type, msg_done):
@@ -793,21 +784,22 @@ def _generic_delete(request, user_id, object_id, object_type, msg_done):
 def _generic_add(request, user_id, object_type, person, ain7member,
                 action_title, msg_done):
 
+    class GenericForm(forms.ModelForm):
+        class Meta:
+            model = object_type
+            exclude = ('person','member')
+
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
-        PosForm = forms.form_for_model(object_type,
-            formfield_callback=_form_callback)
-        f = PosForm()
+        f = GenericForm()
         back = request.META.get('HTTP_REFERER', '/')
         return ain7_render_to_response(request, 'annuaire/edit_form.html',
-                                {'person': person, 'ain7member': ain7member, 'back': back,
-                                 'form': f, 'action_title': action_title})
+            {'person': person, 'ain7member': ain7member, 'back': back,
+             'form': f, 'action_title': action_title})
 
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
-        PosForm = forms.form_for_model(object_type,
-            formfield_callback=_form_callback)
-        f = PosForm(request.POST.copy())
+        f = GenericForm(request.POST.copy())
         if f.is_valid():
             if person is not None:
                 f.cleaned_data['person'] = person
@@ -1084,15 +1076,6 @@ def vcard(request, user_id):
 
     return response
 
-# une petite fonction pour exclure certains champs
-# des formulaires crees avec form_for_model et form_for_instance
-def _form_callback(f, **args):
-  exclude_fields = ('person', 'user', 'member', 'avatar', 'operator',
-                    'registered')
-  if f.name in exclude_fields:
-    return None
-  return form_callback(f, **args)
-
 def complete_track(request):
     elements = []
 
@@ -1204,7 +1187,7 @@ def getCompVerboseName(field, compCode):
     for code, name, qComp, qNeg in comps:
         if code == compCode:
             compVerbName = name
-    return unicode(compVerbName,'utf8')
+    return compVerbName
 
 def buildQFromFilter(filtr):
     q = models.Q()
@@ -1212,7 +1195,7 @@ def buildQFromFilter(filtr):
         qCrit = buildQForCriterion(crit.fieldClass,
                                    crit.fieldName.encode('utf8'),
                                    crit.comparatorName,
-                                   unicode(crit.value, 'utf8'))
+                                   crit.value)
         if filtr.operator == _('and'): q = q & qCrit
         else: q = q | qCrit
         

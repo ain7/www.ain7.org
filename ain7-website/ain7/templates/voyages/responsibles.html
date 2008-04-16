@@ -41,8 +41,17 @@
   <h3>{% trans "Statistics" %}</h3>
   <div class="right_block">
     <ul>
-      <li>{{ travel_subscriptions }}
-          {% trans "persons are subscribed to this travel" %}</li>
+      <li>
+        {% if travel.nb_participants %}
+          {% blocktrans count travel.nb_participants as counter %}
+            1 person is subscribed to this travel
+          {% plural %}
+            {{ counter }} persons are subscribed to this travel
+          {% endblocktrans %}
+        {% else %}
+          {% trans "There is currently no subscription for this travel" %}
+        {% endif %}
+      </li>
     </ul>
   </div>
 
