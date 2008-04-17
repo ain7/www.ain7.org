@@ -32,8 +32,9 @@ from django.utils.translation import ugettext as _
 
 from ain7.groupes_regionaux.models import Group
 from ain7.groupes_regionaux.models import GroupMembership
+from ain7.groupes_regionaux.forms import *
 from ain7.decorators import confirmation_required
-from ain7.utils import ain7_render_to_response, form_callback
+from ain7.utils import ain7_render_to_response
 
 def index(request):
     groups = Group.objects.all().filter(is_active=True).order_by('name')
@@ -48,6 +49,7 @@ def details(request, group_id):
     return ain7_render_to_response(request, 'groupes_regionaux/details.html',
                             {'group': group, 'is_member': is_member})
 
+@login_required
 def edit(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
     is_member = request.user.is_authenticated()\
@@ -55,8 +57,7 @@ def edit(request, group_id):
 
     if request.method == 'POST':
 
-        GroupForm = forms.models.form_for_instance(group, formfield_callback=form_callback)
-        f = GroupForm(request.POST.copy())
+        f = GroupForm(request.POST.copy(), instance=group)
         if f.is_valid():
             f.cleaned_data['group'] = group
             f.save()
@@ -65,13 +66,10 @@ def edit(request, group_id):
 
         return HttpResponseRedirect('/groupes_regionaux/%s/' % (group.id))
 
-    GroupForm = forms.models.form_for_instance(group, formfield_callback=form_callback)
-    GroupForm.base_fields['description'].widget = forms.widgets.Textarea(attrs={'rows':10, 'cols':90})
-    f = GroupForm()
-
+    f = GroupForm(instance=group)
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'groupes_regionaux/edit.html',
-                            {'form': f, 'group': group, 'is_member': is_member, 'back': back})
+        {'form': f, 'group': group, 'is_member': is_member, 'back': back})
 
 @login_required
 def join(request, group_id):

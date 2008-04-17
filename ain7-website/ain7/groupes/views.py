@@ -32,20 +32,9 @@ from django.http import HttpResponseRedirect
 from django.utils.translation import ugettext as _
 
 from ain7.groupes.models import Group, Membership
-from ain7.utils import ain7_render_to_response, form_callback
+from ain7.groupes.forms import *
+from ain7.utils import ain7_render_to_response
 from ain7.annuaire.models import Person
-
-class SubscribeGroupForm(forms.Form):
-    member = forms.IntegerField(label=_('Person to subscribe'))
-    is_coordinator = forms.BooleanField(label=_('Is coordinator'))
-
-    def __init__(self, *args, **kwargs):
-        personList = []
-        for person in Person.objects.all():
-            personList.append( (person.user.id, str(person)) )
-        self.base_fields['member'].widget = \
-            forms.Select(choices=personList)
-        super(SubscribeGroupForm, self).__init__(*args, **kwargs)
 
 def index(request):
     groups = Group.objects.all().order_by('name')
@@ -99,18 +88,14 @@ def subscribe(request, group_id):
 def edit(request, group_id=None):
 
     if group_id is None:
-        GroupForm = forms.models.form_for_model(Group, formfield_callback=form_callback)
-        GroupForm.base_fields['web_page'].widget = forms.widgets.Textarea(attrs={'rows':10, 'cols':90})
         form = GroupForm()
 
     else:
         group = Group.objects.get(id=group_id)
-        GroupForm = forms.models.form_for_instance(group, formfield_callback=form_callback)
-        GroupForm.base_fields['web_page'].widget = forms.widgets.Textarea(attrs={'rows':10, 'cols':90})
-        form = GroupForm()
+        form = GroupForm(instance=group)
 
         if request.method == 'POST':
-             form = GroupForm(request.POST)
+             form = GroupForm(request.POST, instance=group)
              if form.is_valid():
                  form.save()
 

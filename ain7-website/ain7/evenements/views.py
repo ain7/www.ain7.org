@@ -35,30 +35,13 @@ from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person, UserContribution, UserContributionType
 from ain7.evenements.models import Event, EventSubscription
-from ain7.utils import ain7_render_to_response, ImgUploadForm, form_callback
+from ain7.evenements.forms import *
+from ain7.utils import ain7_render_to_response, ImgUploadForm
 from ain7.decorators import confirmation_required
 
-class JoinEventForm(forms.Form):
-    subscriber_number = forms.IntegerField(label=_('Number of persons'))
-
-class SubscribeEventForm(forms.Form):
-    subscriber = forms.IntegerField(label=_('Person to subscribe'))
-    subscriber_number = forms.IntegerField(label=_('Number of persons'))
-
-    def __init__(self, *args, **kwargs):
-        personList = []
-        for person in Person.objects.all():
-            personList.append( (person.user.id, str(person)) )
-        self.base_fields['subscriber'].widget = \
-            forms.Select(choices=personList)
-        super(SubscribeEventForm, self).__init__(*args, **kwargs)
-
-class SearchEventForm(forms.Form):
-    name = forms.CharField(label=_('Event name'), max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
-    location = forms.CharField(label=_('Location'), max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
 
 def index(request):
-    events = Event.objects.filter(end__gte=datetime.now())[:5]
+    events = Event.objects.filter(end__gte=datetime.datetime.now())[:5]
     return ain7_render_to_response(request, 'evenements/index.html',
                             {'events': events})
 
@@ -74,11 +57,8 @@ def edit(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     image = event.image
 
-    EventForm = forms.models.form_for_instance(event,
-        formfield_callback=_form_callback)
-
     if request.method == 'POST':
-        f = EventForm(request.POST.copy())
+        f = EventForm(request.POST.copy(), instance=event)
         if f.is_valid():
             f.cleaned_data['image'] = image
             f.save()
@@ -89,8 +69,8 @@ def edit(request, event_id):
 
         return HttpResponseRedirect('/evenements/%s/' % (event.id))
 
-    f = EventForm()
-    next_events = Event.objects.filter(end__gte=datetime.now())
+    f = EventForm(instance=event)
+    next_events = Event.objects.filter(end__gte=datetime.datetime.now())
 
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'evenements/edit.html',
@@ -169,7 +149,7 @@ def join(request, event_id):
         return HttpResponseRedirect('/evenements/%s/' % event.id)
 
     f =  JoinEventForm()
-    next_events = Event.objects.filter(end__gte=datetime.now())
+    next_events = Event.objects.filter(end__gte=datetime.datetime.now())
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'evenements/join.html',
                             {'event': event, 'form': f, 'back': back,
@@ -187,32 +167,29 @@ def participants(request, event_id):
 @login_required
 def register(request):
 
-    EventForm = forms.models.form_for_model(Event,
-                                            formfield_callback=_form_callback)
+    next_events = Event.objects.filter(end__gte=datetime.datetime.now())
+    back = request.META.get('HTTP_REFERER', '/')
 
     if request.method == 'POST':
         f = EventForm(request.POST.copy())
         if f.is_valid():
             f.cleaned_data['image'] = None
-            f.save()
+            event = f.save()
 
-            contrib_type = UserContributionType.objects.get(id='event_register')
+            contrib_type = UserContributionType.objects.get(key=u'event_register')
             contrib = UserContribution(user=request.user.person, type=contrib_type)
             contrib.save()
 
             request.user.message_set.create(message=_('Event successfully added.'))
+            return HttpResponseRedirect('/evenements/%s/' % (event.id))
         else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(f.errors))
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+            return ain7_render_to_response(request, 'evenements/register.html',
+                {'form': f, 'back': back, 'event_list': Event.objects.all(),
+                 'next_events': next_events})
 
-        #return HttpResponseRedirect('/evenements/%s/' % (f.id))
-        return HttpResponseRedirect('/evenements/')
-
-    f = EventForm()
-    next_events = Event.objects.filter(end__gte=datetime.now())
-
-    back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'evenements/register.html',
-                                   {'form': f, 'back': back,
+                                   {'form': EventForm(), 'back': back,
                                     'event_list': Event.objects.all(),
                                     'next_events': next_events})
 
@@ -285,7 +262,7 @@ def subscribe(request, event_id):
         return HttpResponseRedirect('/evenements/%s/' % (event.id))
 
     f =  SubscribeEventForm()
-    next_events = Event.objects.filter(end__gte=datetime.now())
+    next_events = Event.objects.filter(end__gte=datetime.datetime.now())
 
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'evenements/subscribe.html',
@@ -295,7 +272,7 @@ def subscribe(request, event_id):
 
 def ical(request):
 
-    list_events = Event.objects.filter(end__gte=datetime.now())
+    list_events = Event.objects.filter(end__gte=datetime.datetime.now())
 
     cal = vobject.iCalendar()
     cal.add('method').value = 'PUBLISH'  # IE/Outlook needs this
@@ -327,13 +304,4 @@ def validate(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     return ain7_render_to_response(request, 'evenements/validate.html',
                             {'event': event})
-
-# une petite fonction pour exclure certains champs
-# des formulaires crees avec form_for_model et form_for_instance
-def _form_callback(f, **args):
-  exclude_fields = ('image')
-  if f.name in exclude_fields:
-    return None
-  else:
-    return form_callback(f, **args)
 

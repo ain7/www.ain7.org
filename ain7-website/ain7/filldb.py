@@ -100,6 +100,18 @@ def filldb():
     maritalstatus_7 = annuaire.MaritalStatus(status=u"Séparé(e)")
     maritalstatus_7.save()
 
+    # Contributions
+    poll_contrib = annuaire.UserContributionType(key=u'poll_register',name=u'Registering a poll',points=10)
+    poll_contrib.save()
+
+    poll_vote_contrib = annuaire.UserContributionType(key=u'poll_vote',name=u'Poll vote',points=5)
+    poll_vote_contrib.save()
+
+    event_contrib = annuaire.UserContributionType(key=u'event_register',name=u'Register and event',points=20)
+    event_contrib.save()
+
+    event_subscription_contrib = annuaire.UserContributionType(key=u'event_subcription',name=u'Subscribe to an event',points=5)
+    event_subscription_contrib.save()
 
     #                                                                  #
     ###################### End of fixed values #########################
@@ -233,19 +245,6 @@ def filldb():
 
     n7hy2003 = annuaire.Promo(year=2003, track=n7hydro)
     n7hy2003.save()
-
-    # Contributions
-    poll_contrib = annuaire.UserContributionType(key=u'poll_register',name=u'Registering a poll',points=10)
-    poll_contrib.save()
-
-    poll_vote_contrib = annuaire.UserContributionType(key=u'poll_vote',name=u'Poll vote',points=5)
-    poll_vote_contrib.save()
-
-    event_contrib = annuaire.UserContributionType(key=u'event_register',name=u'Register and event',points=20)
-    event_contrib.save()
-
-    event_subscription_contrib = annuaire.UserContributionType(key=u'event_subcription',name=u'Subscribe to an event',points=5)
-    event_subscription_contrib.save()
 
     # Companies
     infofield = emploi.CompanyField(field = u"Informatique", code=u"ZZ", label=u"Informatique")

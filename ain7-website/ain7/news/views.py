@@ -28,15 +28,11 @@ from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
-from ain7.news.models import NewsItem
-from ain7.utils import ain7_render_to_response, ImgUploadForm, form_callback
+from ain7.news.models import *
+from ain7.news.forms import *
+from ain7.utils import ain7_render_to_response, ImgUploadForm
 from ain7.decorators import confirmation_required
 
-
-class SearchNewsForm(forms.Form):
-    title = forms.CharField(label=_('News title'), max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
-    date = forms.DateField(label=_('Date'), required=False, widget=forms.TextInput(attrs={'size':'50'}))
-    content = forms.CharField(label=_('News content'), max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
 
 def index(request):
     news = NewsItem.objects.all().order_by('-creation_date')[:20]
@@ -53,11 +49,8 @@ def edit(request, news_id):
    news_item = get_object_or_404(NewsItem, pk=news_id)
    image = news_item.image
 
-   NewsForm = forms.models.form_for_instance(news_item,
-                                             formfield_callback=_form_callback)
-
    if request.method == 'POST':
-        f = NewsForm(request.POST.copy())
+        f = NewsForm(request.POST.copy(), instance=news_item)
         if f.is_valid():
             f.cleaned_data['image'] = image
             f.save()
@@ -66,7 +59,7 @@ def edit(request, news_id):
 
         return HttpResponseRedirect('/actualites/%s/' % (news_item.id))
 
-   f = NewsForm()
+   f = NewsForm(instance=news_item)
 
    return ain7_render_to_response(request, 'news/edit.html',
                            {'form': f, 'news_item':news_item})
@@ -112,9 +105,6 @@ def image_delete(request, news_id):
 @login_required
 def write(request):
 
-    NewsForm = forms.models.form_for_model(NewsItem,
-                                           formfield_callback=_form_callback)
-
     if request.method == 'POST':
         f = NewsForm(request.POST.copy())
         if f.is_valid():
@@ -123,7 +113,6 @@ def write(request):
 
         request.user.message_set.create(message=_('News successfully added.'))
 
-        #return HttpResponseRedirect('/evenements/%s/' % (f.id))
         return HttpResponseRedirect('/actualites/')
 
     f = NewsForm()
@@ -165,11 +154,3 @@ def search(request):
                                  'first_result': (page - 1) * nb_results_by_page +1,
                                  'last_result': min((page) * nb_results_by_page, paginator.hits),
                                  'hits' : paginator.hits,})
-
-# une petite fonction pour exclure certains champs
-# des formulaires crees avec form_for_model et form_for_instance
-def _form_callback(f, **args):
-  exclude_fields = ('image')
-  if f.name in exclude_fields:
-    return None
-  return form_callback(f, **args)

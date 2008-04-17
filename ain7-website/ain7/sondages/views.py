@@ -29,8 +29,9 @@ from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import UserContributionType, UserContribution
 from ain7.sondages.models import Choice, Survey, Vote
+from ain7.sondages.forms import *
 from ain7.decorators import confirmation_required
-from ain7.utils import ain7_render_to_response, form_callback
+from ain7.utils import ain7_render_to_response
 
 def index(request):
     surveys = Survey.objects.all()
@@ -69,28 +70,24 @@ def vote(request, survey_id):
     else :
         # Already voted
         request.user.message_set.create(message=_('You have already vote for this survey.'))
-
     return HttpResponseRedirect('/sondages/%s/view' % (survey.id))
 
 @login_required
 def create(request):
-    Form = forms.models.form_for_model(Survey, formfield_callback=_form_callback)
-
-    return _form(request, None, Form, _('Survey creation'), _('Survey succesfully created.'))
+    return _form(request, None, SurveyForm, None,
+                 _('Survey creation'), _('Survey succesfully created.'))
 
 @login_required
 def details(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
-
     return ain7_render_to_response(request, 'sondages/details.html',
                             {'survey': survey})
 
 @login_required
 def edit(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
-    Form = forms.models.form_for_instance(survey, formfield_callback=_form_callback)
-
-    return _form(request, None, Form, _('Survey edition'), _('Survey succesfully updated.'))
+    return _form(request, None, SurveyForm, survey,
+                 _('Survey edition'), _('Survey succesfully updated.'))
 
 @confirmation_required(lambda survey_id: str(get_object_or_404(Survey, pk=survey_id)),
                        'sondages/base.html', _('Do you really want to delete this survey?'))
@@ -104,20 +101,17 @@ def delete(request, survey_id):
 @login_required
 def choice_add(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
-    Form = forms.models.form_for_model(Choice, formfield_callback=_form_callback)
-
-    return _form(request, survey, Form, _('Choice creation'), _('Choice succesfully added'))
+    return _form(request, survey, ChoiceForm, None,
+                 _('Choice creation'), _('Choice succesfully added'))
 
 @login_required
 def choice_edit(request, survey_id, choice_id):
     survey = get_object_or_404(Survey, pk=survey_id)
     choice = get_object_or_404(Choice, pk=choice_id)
-    Form = forms.models.form_for_instance(choice, formfield_callback=_form_callback)
+    return _form(request, survey, ChoiceForm, choice,
+                 _('Choice edition'), _('Choice succesfully updated.'))
 
-    return _form(request, survey, Form, _('Choice edition'), _('Choice succesfully updated.'))
-
-@confirmation_required(lambda survey_id, choice_id: str(get_object_or_404(Choice, pk=choice_id)),
-                       'sondages/base.html', _('Do you really want to delete the choice'))
+@confirmation_required(lambda survey_id, choice_id: str(get_object_or_404(Choice, pk=choice_id)),'sondages/base.html', _('Do you really want to delete the choice'))
 @login_required
 def choice_delete(request, survey_id, choice_id):
     survey = get_object_or_404(Survey, pk=survey_id)
@@ -127,11 +121,15 @@ def choice_delete(request, survey_id, choice_id):
     return HttpResponseRedirect('/sondages/%s/details/' % survey.id)
 
 
-def _form(request, survey, Form, title, message):
+def _form(request, survey, Form, instance, title, message):
     form = Form()
+    if instance:
+        form = Form(instance=instance)
 
     if request.method == 'POST':
         form = Form(request.POST.copy())
+        if instance:
+            form = Form(request.POST.copy(), instance=instance)
         if form.is_valid():
             if survey is not None:
                 form.cleaned_data['survey'] = survey
@@ -148,9 +146,4 @@ def _form(request, survey, Form, title, message):
 
     return ain7_render_to_response(request, 'sondages/form.html',
                               {'form': form, 'title': title})
-
-def _form_callback(field, **args):
-  if field.name == 'survey':
-    return None
-  return form_callback(field, **args) 
 

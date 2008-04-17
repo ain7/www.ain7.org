@@ -28,7 +28,7 @@ from django import newforms as forms
 from django.http import HttpResponseRedirect, HttpResponse
 from django.utils.translation import ugettext as _
 
-from ain7.utils import ain7_render_to_response, form_callback
+from ain7.utils import ain7_render_to_response
 from ain7.decorators import confirmation_required
 from ain7.annuaire.models import Person, UserContribution
 from ain7.emploi.models import Company, CompanyField, OrganizationProposal

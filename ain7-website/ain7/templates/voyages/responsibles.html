@@ -43,11 +43,7 @@
     <ul>
       <li>
         {% if travel.nb_participants %}
-          {% blocktrans count travel.nb_participants as counter %}
-            1 person is subscribed to this travel
-          {% plural %}
-            {{ counter }} persons are subscribed to this travel
-          {% endblocktrans %}
+{% blocktrans count travel.nb_participants as counter %}1 person is subscribed to this travel{% plural %}{{ counter }} persons are subscribed to this travel{% endblocktrans %}
         {% else %}
           {% trans "There is currently no subscription for this travel" %}
         {% endif %}

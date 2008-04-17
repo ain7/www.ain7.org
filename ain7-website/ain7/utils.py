@@ -67,16 +67,3 @@ def isAdmin(user):
             result = True
     return result
 
-def form_callback(f, **args):
-    if isinstance(f, models.DateTimeField):
-        mywidget = DateTimeWidget()
-        mywidget.dformat= "%d/%m/%Y %H:%M"
-        args['widget']=mywidget
-        return f.formfield(**args)
-    elif isinstance(f, models.DateField):
-        mywidget = DateTimeWidget()
-        mywidget.dformat= "%d/%m/%Y"
-        args['widget']=mywidget
-        return f.formfield(**args)
-    else:
-        return f.formfield(**args)

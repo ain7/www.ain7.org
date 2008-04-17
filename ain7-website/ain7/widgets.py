@@ -54,7 +54,7 @@ class DateTimeWidget(forms.widgets.TextInput):
         a = u'<input%s />%s' % (forms.util.flatatt(final_attrs), cal)
         return a
 
-    def value_from_datadict(self, data, name):
+    def value_from_datadict(self, data, files, name):
         dtf = forms.fields.DEFAULT_DATETIME_INPUT_FORMATS
         empty_values = forms.fields.EMPTY_VALUES
 
