@@ -13,9 +13,11 @@
 <!-- /calendar -->
 {% endblock %}
 
-{% block content %}
+{% block content-main %}
 
-<div id="content-main">
+<div class="left">
+
+<div class="left_box">
 
 {% ifequal action "edit" %}
     <h2>{% trans "Modification of a position" %}</h2>
@@ -35,6 +37,7 @@
 <a href="/emploi/{{ user.id }}/cv/office/create/" class="addlink">
 {% trans "Propose a new office" %}</a>
 
+</div>
 </div>
 
 {% endblock %}

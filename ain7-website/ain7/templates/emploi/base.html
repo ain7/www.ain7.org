@@ -2,3 +2,55 @@
 {% load i18n %}
 
 {% block barre-emploi %}<li class="active">{% endblock %}
+
+{% block content %}
+
+<div id="content-main">
+
+{% block content-main %}{% endblock %}
+
+</div>
+
+<div class="right">
+
+{% block menu-right %}
+
+{% block menu-cv %}
+<h3>{% trans "Manage your CV" %}</h3>
+<div class="right_articles">
+<ul>
+<li><a href="/emploi/{{ user.id }}/cv/">{% trans "View your CV" %}</a></li>
+<li><a href="/emploi/{{ user.id }}/cv/edit/">{% trans "Modify your CV" %}</a></li>
+<li><a href="/annuaire/{{ user.id }}/ain7member/edit/">{% trans "Manage your CV visiblity" %}</a></li>
+</ul>
+</div>
+{% endblock %}
+
+
+{% block menu-offres %}
+<h3>{% trans "Manage Job Offers" %}</h3>
+<div class="right_articles">
+<ul>
+<li><a href="/emploi/job/register/">{% trans "Register a job offer" %}</a></li>
+<li><a href="/emploi/job/search/">{% trans "Search a job offer" %}</a></li>
+</ul>
+</div>
+{% endblock %}
+
+{% block menu-proposals %}
+{% if proposals %}
+<h3>{% trans "Your proposals under review" %}</h3>
+  <div class="right_articles">
+    <ul>
+      {% for proposal in proposals %}
+        <li>{{ proposal }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+{% endblock %}
+{% endblock %}
+
+</div>
+
+{% endblock %}

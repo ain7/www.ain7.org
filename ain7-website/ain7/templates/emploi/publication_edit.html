@@ -13,9 +13,11 @@
 <!-- /calendar -->
 {% endblock %}
 
-{% block content %}
+{% block content-main %}
 
-<div id="content-main">
+<div class="left">
+
+<div class="left_box">
 
 {% ifequal action "edit" %}
     <h2>{% trans "Modification of a publication" %}</h2>
@@ -31,7 +33,7 @@
 <input type="submit" class="button" value="{% trans "Save" %}" />
 </div>
 </form>
-
+</div>
 </div>
 
 {% endblock %}

@@ -1,9 +1,9 @@
 {% extends "emploi/base.html" %}
 {% load i18n %}
 
-{% block content %}
+{% block content-main %}
 
-<div id="content-main">
+<!-- <div id="content-main"> -->
 
 <div class="left">
 
@@ -46,7 +46,10 @@
 
 </div>
 
-<div class="right">
+{% endblock %}
+
+
+{% block menu-right %}
 
    <h3>{% trans "Actions" %}</h3>
    <div class="right_articles">
@@ -67,10 +70,5 @@
    <div class="right_articles">
      <p>{% trans "This announce has been viewed" %} {{ job.nb_views }} {% trans "times" %}.</p>
    </div>
-
-
-</div>
-
-</div>
 
 {% endblock %}

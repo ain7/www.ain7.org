@@ -24,6 +24,10 @@
 
 <div id="content-main">
 
+<div class="left">
+
+<div class="left_box">
+
 <h2>{{ action_title }} {{ person }}</h2>
 
 <form method="post" action=".">
@@ -35,6 +39,35 @@
 <input type="submit" class="button" value="{% trans "Save" %}" />
 </div>
 </form>
+
+</div>
+</div>
+
+<div class="right">
+   <h3>{% trans "Navigation" %}</h3>
+   <div class="right_articles">
+    <ul>
+      <li><a href="/annuaire/advanced_search/">{% trans "Advanced Search" %}</a></li>
+    </ul>
+   </div>
+
+   {% if userFilters %}
+
+   <h3>{% trans "Registered filters" %}</h3>
+   <div class="right_articles">
+   <ul>
+       {% for filter in userFilters %}
+         <li>
+           <a href="/annuaire/advanced_search/filter/{{ filter.id }}/">
+             {{ filter }}</a>
+         </li>
+       {% endfor %}
+   </ul>
+   </div>
+
+   {% endif %}
+
+</div>
 
 </div>
 

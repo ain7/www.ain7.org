@@ -1,9 +1,12 @@
 {% extends "emploi/base.html" %}
 {% load i18n %}
 
-{% block content %}
+{% block content-main %}
 
-<div id="content-main">
+<div class="left">
+
+<div class="left_box">
+
 <div id="cv">
 
 <div class="dataBlock">
@@ -57,7 +60,8 @@
 <a href="/annuaire/{{ person.user.id }}/edit/" class="changelink">
 {% trans "Modify" %}</a>
 
-<h2>{% trans "Professional experiences" %}</h2>
+
+<h2><a name="prof_exp"/>{% trans "Professional experiences" %}</h2>
 
 
 {% if ain7member.positions.all %}
@@ -82,7 +86,8 @@
 <a href="/emploi/{{ person.user.id }}/cv/position/add/" class="addlink"> {% trans "Add" %}</a>
 <br />
 
-<h2>{% trans "Publications" %}</h2>
+
+<h2><a name="publications"/>{% trans "Publications" %}</h2>
 
 
 {% if ain7member.publication.all %}
@@ -103,8 +108,7 @@
 <br />
 
 
-
-<h2>{% trans "Education" %}</h2>
+<h2><a name="education"/>{% trans "Education" %}</h2>
 
 
 {% if ain7member.education.all %}
@@ -129,7 +133,7 @@
 <br />
 
 
-<h2>{% trans "Leisure activities" %}</h2>
+<h2><a name="leisure"/>{% trans "Leisure activities" %}</h2>
 
 
 {% if ain7member.leisure.all %}
@@ -151,5 +155,5 @@
 
 </div>
 </div>
-
+</div>
 {% endblock %}

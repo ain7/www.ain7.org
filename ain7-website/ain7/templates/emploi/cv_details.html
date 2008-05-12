@@ -1,9 +1,12 @@
 {% extends "emploi/base.html" %}
 {% load i18n %}
 
-{% block content %}
+{% block content-main %}
 
-<div id="content-main">
+<div class="left">
+
+<div class="left_box">
+
 <div id="cv">
 
 <h1>{{ person.first_name }} {{ person.last_name }}</h1>
@@ -125,6 +128,7 @@
 </table>
 {% endif %}
 
+</div>
 </div>
 </div>
 

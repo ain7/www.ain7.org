@@ -36,7 +36,7 @@ from ain7.decorators import confirmation_required
 from ain7.emploi.models import *
 from ain7.emploi.forms import *
 from ain7.manage.models import Notification
-from ain7.utils import ain7_render_to_response
+from ain7.utils import *
 from ain7.fields import AutoCompleteField
 
 
@@ -77,7 +77,7 @@ def cv_edit(request, user_id=None):
     return ain7_render_to_response(request, 'emploi/cv_edit.html',
                             {'person': p, 'ain7member': ain7member})
 
-def _generic_edit(request, user_id, obj, redirectPage, msgDone):
+def _generic_edit(request, user_id, obj, formPage, redirectPage, msgDone):
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -90,7 +90,7 @@ def _generic_edit(request, user_id, obj, redirectPage, msgDone):
     # 1er passage : on propose un formulaire avec les données actuelles
     if request.method == 'GET':
         f = GenericForm(instance=obj)
-        return ain7_render_to_response(request, redirectPage,
+        return ain7_render_to_response(request, formPage,
             {'form': f, 'action': 'edit', 'ain7member': ain7member})
 
     # 2e passage : sauvegarde et redirection
@@ -102,21 +102,21 @@ def _generic_edit(request, user_id, obj, redirectPage, msgDone):
             request.user.message_set.create(message=msgDone)
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
-            return ain7_render_to_response(request, redirectPage,
+            return ain7_render_to_response(request, formPage,
                 {'form': f, 'action': 'edit','ain7member': ain7member})
             # pour avoir le détail des champs mal remplis :
             # request.user.message_set.create(message=str(f.errors))
-        return HttpResponseRedirect('/emploi/%s/cv/edit/' % user_id)
+        return HttpResponseRedirect(redirectPage)
 
-def _generic_delete(request, user_id, obj, msgDone):
+def _generic_delete(request, user_id, obj, redirectPage, msgDone):
 
     obj.delete()
 
     request.user.message_set.create(message=msgDone)
 
-    return HttpResponseRedirect('/emploi/%s/cv/edit/' % user_id)
+    return HttpResponseRedirect(redirectPage)
 
-def _generic_add(request, user_id, objectType, redirectPage, msgDone):
+def _generic_add(request, user_id, objectType, formPage, redirectPage, msgDone):
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -129,7 +129,7 @@ def _generic_add(request, user_id, objectType, redirectPage, msgDone):
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
         f = GenericForm()
-        return ain7_render_to_response(request, redirectPage,
+        return ain7_render_to_response(request, formPage,
             {'form': f, 'action': 'create',
              'ain7member':ain7member, 'person': person})
 
@@ -142,10 +142,10 @@ def _generic_add(request, user_id, objectType, redirectPage, msgDone):
             request.user.message_set.create(message=msgDone)
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
-            return ain7_render_to_response(request, redirectPage,{'form': f, 'action': 'create','person': person})
+            return ain7_render_to_response(request, formPage,{'form': f, 'action': 'create','person': person})
             # TODO pour avoir le détail des champs mal remplis :
             # request.user.message_set.create(message=str(f.errors))
-        return HttpResponseRedirect('/emploi/%s/cv/edit/' % user_id)
+        return HttpResponseRedirect(redirectPage)
 
 @login_required
 def position_edit(request, user_id=None, position_id=None):
@@ -153,6 +153,7 @@ def position_edit(request, user_id=None, position_id=None):
     return _generic_edit(request, user_id,
                          get_object_or_404(Position, pk=position_id),
                          'emploi/position_edit.html',
+                         '/emploi/%s/cv/edit/#prof_exp' % user_id,
                          _('Position informations updated successfully.'))
 
 @confirmation_required(lambda user_id=None, position_id=None: str(get_object_or_404(Position, pk=position_id)), 'emploi/base.html', _('Do you really want to delete your position'))
@@ -161,12 +162,15 @@ def position_delete(request, user_id=None, position_id=None):
 
     return _generic_delete(request, user_id,
                            get_object_or_404(Position, pk=position_id),
+                           '/emploi/%s/cv/edit/#prof_exp' % user_id,
                            _('Position successfully deleted.'))
 
 @login_required
 def position_add(request, user_id=None):
 
-    return _generic_add(request, user_id, Position, 'emploi/position_edit.html',
+    return _generic_add(request, user_id, Position,
+                        'emploi/position_edit.html',
+                        '/emploi/%s/cv/edit/#prof_exp' % user_id,
                         _('Position successfully added.'))
 
 @login_required
@@ -175,6 +179,7 @@ def education_edit(request, user_id=None, education_id=None):
     return _generic_edit(request, user_id,
                          get_object_or_404(EducationItem, pk=education_id),
                          'emploi/education_edit.html',
+                         '/emploi/%s/cv/edit/#education' % user_id,
                          _('Education informations updated successfully.'))
 
 @confirmation_required(lambda user_id=None, education_id=None: str(get_object_or_404(EducationItem, pk=education_id)), 'emploi/base.html', _('Do you really want to delete your education item'))
@@ -183,6 +188,7 @@ def education_delete(request, user_id=None, education_id=None):
 
     return _generic_delete(request, user_id,
                            get_object_or_404(EducationItem, pk=education_id),
+                           '/emploi/%s/cv/edit/#education' % user_id,
                            _('Education informations deleted successfully.'))
 
 @login_required
@@ -190,6 +196,7 @@ def education_add(request, user_id=None):
 
     return _generic_add(request, user_id, EducationItem,
                         'emploi/education_edit.html',
+                        '/emploi/%s/cv/edit/#education' % user_id,
                         _('Education informations successfully added.'))
 
 @login_required
@@ -198,6 +205,7 @@ def leisure_edit(request, user_id=None, leisure_id=None):
     return _generic_edit(request, user_id,
                          get_object_or_404(LeisureItem, pk=leisure_id),
                          'emploi/leisure_edit.html',
+                         '/emploi/%s/cv/edit/#leisure' % user_id,
                          _('Leisure informations updated successfully.'))
 
 @confirmation_required(lambda user_id=None, leisure_id=None: str(get_object_or_404(LeisureItem, pk=leisure_id)), 'emploi/base.html', _('Do you really want to delete your leisure item'))
@@ -206,6 +214,7 @@ def leisure_delete(request, user_id=None, leisure_id=None):
 
     return _generic_delete(request, user_id,
                            get_object_or_404(LeisureItem, pk=leisure_id),
+                           '/emploi/%s/cv/edit/#leisure' % user_id,
                            _('Leisure informations successfully deleted.'))
 
 @login_required
@@ -213,30 +222,44 @@ def leisure_add(request, user_id=None):
 
     return _generic_add(request, user_id, LeisureItem,
                         'emploi/leisure_edit.html',
+                        '/emploi/%s/cv/edit/#leisure' % user_id,
                         _('Leisure informations successfully added.'))
 
 @login_required
 def publication_edit(request, user_id=None, publication_id=None):
 
-    return _generic_edit(request, user_id,
-                         get_object_or_404(PublicationItem, pk=publication_id),
-                         'emploi/publication_edit.html',
-                         _('Publication informations updated successfully.'))
+    person = get_object_or_404(Person, user=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=person)
+    publi = get_object_or_404(PublicationItem,pk=publication_id)
+    return ain7_generic_edit(
+        request, user_id, publi,
+        PublicationItemForm, {'ain7member': ain7member},
+        'emploi/publication_edit.html',
+        {'action': 'edit', 'ain7member': ain7member},
+        '/emploi/%s/cv/edit/#publications' % user_id,
+        _('Publication informations updated successfully.'))
 
 @confirmation_required(lambda user_id=None, publication_id=None: str(get_object_or_404(PublicationItem,pk=publication_id)), 'emploi/base.html', _('Do you really want to delete your publication'))
 @login_required
 def publication_delete(request, user_id=None, publication_id=None):
 
-    return _generic_delete(request, user_id,
-                           get_object_or_404(PublicationItem,pk=publication_id),
-                           _('Publication informations deleted successfully.'))
+    return ain7_generic_delete(request,
+        get_object_or_404(PublicationItem,pk=publication_id),
+        '/emploi/%s/cv/edit/#publications' % user_id,
+        _('Publication informations deleted successfully.'))
 
 @login_required
 def publication_add(request, user_id=None):
 
-    return _generic_add(request, user_id, PublicationItem,
-                        'emploi/publication_edit.html',
-                        _('Publication informations successfully added.'))
+    person = get_object_or_404(Person, user=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=person)
+    return ain7_generic_edit(
+        request, user_id, None,
+        PublicationItemForm, {'ain7member': ain7member},
+        'emploi/publication_edit.html',
+        {'action': 'create', 'ain7member': ain7member},
+        '/emploi/%s/cv/edit/#publications' % user_id,
+        _('Publication informations updated successfully.'))
 
 @login_required
 def office_create(request, user_id=None):

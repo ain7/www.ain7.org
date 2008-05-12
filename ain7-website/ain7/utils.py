@@ -30,6 +30,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django import newforms as forms
 from django.db import models
+from django.utils.translation import ugettext as _
 
 from ain7 import settings
 from ain7.widgets import DateTimeWidget
@@ -66,4 +67,50 @@ def isAdmin(user):
         if profileMembership.profile.name == 'admin':
             result = True
     return result
+
+def ain7_generic_edit(request, user_id, obj, MyForm, formInitDict, formPage, formPageDict, redirectPage, msgDone):
+    """ Méthode utilisée pour éditer (ou créer) un objet de façon standard,
+    c'est-à-dire via un formulaire de type ModelForms.
+    obj : objet à éditer. S'il s'agit de None, on est en mode création.
+    MyForm : la classe du formulaire.
+    formInitDict : données de l'objet exclues du formulaire.
+    formPage : template du formulaire.
+    formPageDict : dictionnaire passé au template du formulaire.
+    redirectPage : redirection après le formulaire.
+    msgDone : message en cas de succès."""
+    
+    # 1er passage : on propose un formulaire avec les données actuelles
+    if request.method == 'GET':
+        if obj:
+            f = MyForm(instance=obj)
+        else:
+            f = MyForm()
+        pageDict = {'form': f}
+        pageDict.update(formPageDict)
+        return ain7_render_to_response(request, formPage, pageDict)
+
+    # 2e passage : sauvegarde et redirection
+    if request.method == 'POST':
+        if obj:
+            f = MyForm(request.POST.copy(), instance=obj)
+        else:
+            f = MyForm(request.POST.copy())
+        if f.is_valid():
+            for k,v in formInitDict.iteritems():
+                f.cleaned_data[k] = v
+            f.save()
+            request.user.message_set.create(message=msgDone)
+        else:
+            pageDict = {'form': f}
+            pageDict.update(formPageDict)
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+            return ain7_render_to_response(request, formPage, pageDict)
+        return HttpResponseRedirect(redirectPage)
+
+def ain7_generic_delete(request, obj, redirectPage, msgDone):
+    """ Méthode générique pour supprimer un objet."""
+
+    obj.delete()
+    request.user.message_set.create(message=msgDone)
+    return HttpResponseRedirect(redirectPage)
 

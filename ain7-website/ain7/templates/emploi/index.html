@@ -1,9 +1,7 @@
 {% extends "emploi/base.html" %}
 {% load i18n %}
 
-{% block content %}
-
-<div id="content-main">
+{% block content-main %}
 
 <div class="left">
 
@@ -47,42 +45,6 @@
      </ul>
 {% else %}
     <p>{% trans "No job offer." %}</p>
-{% endif %}
-
-</div>
-
-</div>
-
-<div class="right">
-
-<h3>{% trans "Manage your CV" %}</h3>
-<div class="right_articles">
-<ul>
-<li><a href="/emploi/{{ user.id }}/cv/">{% trans "View your CV" %}</a></li>
-<li><a href="/emploi/{{ user.id }}/cv/edit/">{% trans "Modify your CV" %}</a></li>
-<li><a href="/annuaire/{{ user.id }}/ain7member/edit/">{% trans "Manage your CV visiblity" %}</a></li>
-</ul>
-</div>
-
-{# ### this user is not a physical person ### #}
-
-<h3>{% trans "Manage Job Offers" %}</h3>
-<div class="right_articles">
-<ul>
-<li><a href="/emploi/job/register/">{% trans "Register a job offer" %}</a></li>
-<li><a href="/emploi/job/search/">{% trans "Search a job offer" %}</a></li>
-</ul>
-</div>
-
-{% if proposals %}
-<h3>{% trans "Your proposals under review" %}</h3>
-  <div class="right_articles">
-    <ul>
-      {% for proposal in proposals %}
-        <li>{{ proposal }}</li>
-      {% endfor %}
-    </ul>
-  </div>
 {% endif %}
 
 </div>

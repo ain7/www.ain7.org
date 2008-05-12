@@ -375,6 +375,9 @@ class PublicationItem(models.Model):
         self.modification_date = datetime.datetime.today()
         return super(PublicationItem, self).save()
 
+    def __str__(self):
+        return self.title
+
     class Meta:
         verbose_name = _('Publication item')
 

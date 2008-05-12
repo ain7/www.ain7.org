@@ -14,9 +14,11 @@
 <link type="text/css" rel="stylesheet" href="/site_media/css/floatingpane.css?version={{ portal_version }}"/>
 {% endblock %}
 
-{% block content %}
+{% block content-main %}
 
-<div id="content-main">
+<div class="left">
+
+<div class="left_box">
 
 {% ifequal object "office" %}
     <h2>{% trans "Creation of an office" %}</h2>
@@ -38,6 +40,7 @@
     {% trans "Propose a new company" %}</a>
 {% endifequal %}
 
+</div>
 </div>
 
 {% endblock %}

@@ -176,3 +176,25 @@ class OfficeForm(forms.Form):
         office.is_a_proposal = is_a_proposal
         office.save()
         return office
+
+class PositionForm(forms.ModelForm):
+    class Meta:
+        model = Position
+        exclude = ('ain7member')
+
+class EducationItemForm(forms.ModelForm):
+    class Meta:
+        model = EducationItem
+        exclude = ('ain7member')
+
+class LeisureItemForm(forms.ModelForm):
+    
+    class Meta:
+        model = LeisureItem
+        exclude = ('ain7member')
+
+class PublicationItemForm(forms.ModelForm):
+
+    class Meta:
+        model = PublicationItem
+        exclude = ('ain7member')

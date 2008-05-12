@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-18 00:01+0200\n"
-"PO-Revision-Date: 2008-04-18 00:01+0200\n"
+"POT-Creation-Date: 2008-05-12 16:56+0200\n"
+"PO-Revision-Date: 2008-05-12 17:04+0200\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -18,6 +18,22 @@ msgstr ""
 #: decorators.py:31
 msgid "Are you sure you want to do this action?"
 msgstr "Souhaitez-vous vraiment effectuer cette action ?"
+
+#: utils.py:106 annuaire/views.py:291 annuaire/views.py:309
+#: annuaire/views.py:663 annuaire/views.py:692 annuaire/views.py:725
+#: annuaire/views.py:770 annuaire/views.py:811 annuaire/views.py:1043
+#: emploi/views.py:104 emploi/views.py:144 emploi/views.py:299
+#: emploi/views.py:338 emploi/views.py:380 emploi/views.py:399
+#: evenements/views.py:68 evenements/views.py:105 evenements/views.py:186
+#: manage/views.py:161 manage/views.py:291 manage/views.py:433
+#: manage/views.py:484 manage/views.py:710 manage/views.py:736
+#: news/views.py:90 sondages/views.py:145 voyages/views.py:59
+#: voyages/views.py:134 voyages/views.py:165 voyages/views.py:207
+#: voyages/views.py:239 voyages/views.py:300
+msgid "Something was wrong in the form you filled. No modification done."
+msgstr ""
+"Certains champs ont été incorrectement remplis. Aucune modification "
+"effectuée."
 
 #: annuaire/forms.py:30 annuaire/forms.py:69 annuaire/models.py:247
 #: manage/views.py:45 manage/views.py:68 templates/annuaire/edit.html:22
@@ -34,7 +50,7 @@ msgid "Promo"
 msgstr "Promotions"
 
 #: annuaire/forms.py:33 annuaire/forms.py:75 annuaire/models.py:199
-#: annuaire/models.py:205 emploi/models.py:402
+#: annuaire/models.py:205 emploi/models.py:405
 msgid "Track"
 msgstr "Filière"
 
@@ -182,7 +198,7 @@ msgstr "site internet"
 
 #: annuaire/models.py:164 annuaire/models.py:183 annuaire/models.py:465
 #: annuaire/models.py:473 annuaire/models.py:554 emploi/models.py:294
-#: emploi/models.py:401 templates/annuaire/details.html:75
+#: emploi/models.py:404 templates/annuaire/details.html:75
 #: templates/annuaire/details_frame.html:85 templates/annuaire/edit.html:199
 #: templates/annuaire/edit.html.py:203 templates/emploi/cv_details.html:44
 #: templates/emploi/cv_edit.html:46 templates/manage/user_details.html:24
@@ -526,26 +542,10 @@ msgid "One of your filters already has this name."
 msgstr "L'un de vos filtres a déjà ce nom."
 
 #: annuaire/views.py:287 annuaire/views.py:307 annuaire/views.py:591
-#: annuaire/views.py:660 annuaire/views.py:689 groupes/views.py:117
+#: annuaire/views.py:660 annuaire/views.py:689 groupes/views.py:102
 #: manage/views.py:733 voyages/views.py:132
 msgid "Modifications have been successfully saved."
 msgstr "Les modifications ont été correctement enregistrées."
-
-#: annuaire/views.py:291 annuaire/views.py:309 annuaire/views.py:663
-#: annuaire/views.py:692 annuaire/views.py:725 annuaire/views.py:770
-#: annuaire/views.py:811 annuaire/views.py:1043 emploi/views.py:104
-#: emploi/views.py:144 emploi/views.py:272 emploi/views.py:311
-#: emploi/views.py:353 emploi/views.py:372 evenements/views.py:68
-#: evenements/views.py:105 evenements/views.py:186 manage/views.py:161
-#: manage/views.py:291 manage/views.py:433 manage/views.py:484
-#: manage/views.py:710 manage/views.py:736 news/views.py:90
-#: sondages/views.py:145 voyages/views.py:59 voyages/views.py:134
-#: voyages/views.py:165 voyages/views.py:207 voyages/views.py:239
-#: voyages/views.py:300
-msgid "Something was wrong in the form you filled. No modification done."
-msgstr ""
-"Certains champs ont été incorrectement remplis. Aucune modification "
-"effectuée."
 
 #: annuaire/views.py:314
 msgid "Modification of the filter"
@@ -825,7 +825,7 @@ msgstr "L'offre d'emploi est ouverte"
 msgid "office"
 msgstr "bureau"
 
-#: emploi/forms.py:47 emploi/models.py:400
+#: emploi/forms.py:47 emploi/models.py:403
 msgid "Contact name"
 msgstr "Nom du contact"
 
@@ -872,9 +872,9 @@ msgstr "Créer"
 #: templates/annuaire/edit.html.py:211 templates/annuaire/edit.html:231
 #: templates/annuaire/edit.html.py:251 templates/annuaire/edit.html:270
 #: templates/annuaire/edit.html.py:288 templates/annuaire/edit.html:316
-#: templates/emploi/cv_edit.html:58 templates/emploi/cv_edit.html.py:72
-#: templates/emploi/cv_edit.html:93 templates/emploi/cv_edit.html.py:116
-#: templates/emploi/cv_edit.html:144 templates/evenements/edit.html:38
+#: templates/emploi/cv_edit.html:58 templates/emploi/cv_edit.html.py:73
+#: templates/emploi/cv_edit.html:95 templates/emploi/cv_edit.html.py:117
+#: templates/emploi/cv_edit.html:145 templates/evenements/edit.html:38
 #: templates/manage/default.html:50 templates/news/edit.html:38
 #: templates/sondages/details.html:31 templates/sondages/details.html.py:39
 #: templates/voyages/edit.html:43
@@ -984,7 +984,7 @@ msgstr "régie"
 
 #: emploi/models.py:307 templates/annuaire/details.html:122
 #: templates/annuaire/details_frame.html:132 templates/annuaire/edit.html:306
-#: templates/emploi/cv_details.html:62 templates/emploi/cv_edit.html:69
+#: templates/emploi/cv_details.html:62 templates/emploi/cv_edit.html:70
 msgid "for"
 msgstr "au sein de"
 
@@ -996,7 +996,7 @@ msgstr "expérience professionnelle"
 msgid "Education item"
 msgstr "Entrée du CV partie \"Formation\""
 
-#: emploi/models.py:346 emploi/models.py:365 emploi/models.py:393
+#: emploi/models.py:346 emploi/models.py:365 emploi/models.py:396
 #: templates/emploi/job_details.html:21
 msgid "Title"
 msgstr "Titre"
@@ -1009,142 +1009,136 @@ msgstr "Détail"
 msgid "Leisure item"
 msgstr "Loisirs"
 
-#: emploi/models.py:379
+#: emploi/models.py:382
 msgid "Publication item"
 msgstr "Publication"
 
-#: emploi/models.py:392 templates/emploi/job_details.html:20
+#: emploi/models.py:395 templates/emploi/job_details.html:20
 msgid "Reference"
 msgstr "Réference"
 
-#: emploi/models.py:394
+#: emploi/models.py:397
 msgid "Description"
 msgstr "Description"
 
-#: emploi/models.py:395 templates/emploi/job_details.html:22
+#: emploi/models.py:398 templates/emploi/job_details.html:22
 msgid "Experience"
 msgstr "Experience"
 
-#: emploi/models.py:396
+#: emploi/models.py:399
 msgid "Contract type"
 msgstr "Type de Contrat"
 
-#: emploi/models.py:397
+#: emploi/models.py:400
 msgid "Job offer is opened"
 msgstr "L'offre d'emploi est ouverte"
 
-#: emploi/models.py:403
+#: emploi/models.py:406
 msgid "Number of views"
 msgstr "Nombre de visionnages"
 
-#: emploi/views.py:156
+#: emploi/views.py:157
 msgid "Position informations updated successfully."
 msgstr ""
 "Les informations concernant votre expérience professionnelle ont été "
 "correctement enregistrées."
 
-#: emploi/views.py:158
+#: emploi/views.py:159
 msgid "Do you really want to delete your position"
 msgstr "Souhaitez-vous vraiment supprimer ce site web"
 
-#: emploi/views.py:164
+#: emploi/views.py:166
 msgid "Position successfully deleted."
 msgstr "L'expérience professionnelle sélectionnée a été supprimée avec succès."
 
-#: emploi/views.py:170
+#: emploi/views.py:174
 msgid "Position successfully added."
 msgstr "L'expérience professionnelle a été créée avec succès."
 
-#: emploi/views.py:178
+#: emploi/views.py:183
 msgid "Education informations updated successfully."
 msgstr ""
 "Les informations concernant la partie \"Education\" de votre CV ont été "
 "mises à jour avec succès."
 
-#: emploi/views.py:180
+#: emploi/views.py:185
 msgid "Do you really want to delete your education item"
 msgstr ""
 "Souhaitez-vous vraiment supprimer cette entrée de la partie \"Education\""
 
-#: emploi/views.py:186
+#: emploi/views.py:192
 msgid "Education informations deleted successfully."
 msgstr ""
 "Les informations concernant la partie \"Education\" de votre CV ont été "
 "effacées aevc succès."
 
-#: emploi/views.py:193
+#: emploi/views.py:200
 msgid "Education informations successfully added."
 msgstr ""
 "Les informations concernant la partie \"Education\" de votre CV ont été "
 "mises à jour avec succès."
 
-#: emploi/views.py:201
+#: emploi/views.py:209
 msgid "Leisure informations updated successfully."
 msgstr ""
 "Les informations concernant vos loisirs ont été correctement enregistrées."
 
-#: emploi/views.py:203
+#: emploi/views.py:211
 msgid "Do you really want to delete your leisure item"
 msgstr ""
 "Souhaitez-vous vraiment supprimer cette entrée de la partie \"Loisirs\""
 
-#: emploi/views.py:209
+#: emploi/views.py:218
 msgid "Leisure informations successfully deleted."
 msgstr "La partie \"Loisirs\" sélectionnée a été supprimée avec succès."
 
-#: emploi/views.py:216
+#: emploi/views.py:226
 msgid "Leisure informations successfully added."
 msgstr ""
 "Les informations sur la partie \"Loisirs\" de votre CV ont été ajoutées avec "
 "succès."
 
-#: emploi/views.py:224
+#: emploi/views.py:240 emploi/views.py:266
 msgid "Publication informations updated successfully."
 msgstr ""
 "Les informations concernant la partie \"Publications\" de votre CV ont été "
 "mises à jour avec succès."
 
-#: emploi/views.py:226
+#: emploi/views.py:242
 msgid "Do you really want to delete your publication"
 msgstr ""
 "Souhaitez-vous vraiment supprimer cette entrée de la partie \"Publications\""
 
-#: emploi/views.py:232
+#: emploi/views.py:253
 msgid "Publication informations deleted successfully."
 msgstr ""
-"Les informations concernant la partie \"Education\" de votre CV ont été "
+"Les informations concernant la partie \"Publications\" de votre CV ont été "
 "mises à jour avec succès."
 
-#: emploi/views.py:239
-msgid "Publication informations successfully added."
-msgstr ""
-"Les informations concernant la partie \"Publication\" de votre CV ont été "
-"mises à jour avec succès."
-
-#: emploi/views.py:266 manage/views.py:490
+#: emploi/views.py:293 manage/views.py:490
 msgid "Proposal for adding an office"
 msgstr "Proposition d'ajout d'un bureau"
 
-#: emploi/views.py:270
+#: emploi/views.py:297
 msgid "Your proposal for adding an office has been sent to moderators."
 msgstr ""
 "Votre proposition de création d'un bureau a été soumise aux modérateurs."
 
-#: emploi/views.py:305 manage/views.py:343
+#: emploi/views.py:332 manage/views.py:343
 msgid "Proposal for adding an organization"
 msgstr "Proposition de création d'une organisation"
 
-#: emploi/views.py:309
+#: emploi/views.py:336
 msgid "Your proposal for adding an organization has been sent to moderators."
 msgstr ""
 "Votre proposition de création d'une organisation a été soumise aux "
 "modérateurs."
 
-#: emploi/views.py:349
+#: emploi/views.py:376
 msgid "Job offer successfully modified."
 msgstr "Offre d'emploi modifiée avec succès"
 
-#: emploi/views.py:368
+#: emploi/views.py:395
 msgid "Job offer successfully created."
 msgstr "Offre d'emploi créée avec succès"
 
@@ -1152,7 +1146,7 @@ msgstr "Offre d'emploi créée avec succès"
 msgid "Number of persons"
 msgstr "Nombre de personnes"
 
-#: evenements/forms.py:37 groupes/views.py:39
+#: evenements/forms.py:37 groupes/forms.py:30
 msgid "Person to subscribe"
 msgstr "Personne à inscrire"
 
@@ -1298,15 +1292,19 @@ msgstr "L'événement a été ajouté avec succès."
 msgid "This person is already subscribed to this event."
 msgstr "Cette personne est déjà inscrite à cet évènement."
 
-#: evenements/views.py:260 groupes/views.py:86
+#: evenements/views.py:260 groupes/views.py:75
 msgid "You have successfully subscribed"
 msgstr "Vous avez inscrit avec succès"
 
-#: evenements/views.py:261 groupes/views.py:87
+#: evenements/views.py:261 groupes/views.py:76
 msgid "to this event."
 msgstr "à cet événement."
 
-#: groupes/models.py:35
+#: groupes/forms.py:31
+msgid "Is coordinator"
+msgstr "responsable"
+
+#: groupes/forms.py:42 groupes/models.py:35
 msgid "web page"
 msgstr "page web"
 
@@ -1326,11 +1324,7 @@ msgstr "responsable"
 msgid "membership"
 msgstr "adhésion group"
 
-#: groupes/views.py:40
-msgid "Is coordinator"
-msgstr "responsable"
-
-#: groupes/views.py:73
+#: groupes/views.py:62
 msgid "This person is already subscribed to this group."
 msgstr "Cette personne est déjà inscrite à ce groupe."
 
@@ -1740,7 +1734,7 @@ msgid "Working groups"
 msgstr "Groupes de travail"
 
 #: templates/base.html:74 templates/emploi/cv_details.html:79
-#: templates/emploi/cv_edit.html:85
+#: templates/emploi/cv_edit.html:87
 msgid "Publications"
 msgstr "Publications"
 
@@ -1785,9 +1779,9 @@ msgstr "Filtre"
 #: templates/annuaire/edit.html:191 templates/annuaire/edit.html.py:214
 #: templates/annuaire/edit.html:234 templates/annuaire/edit.html.py:254
 #: templates/annuaire/edit.html:273 templates/annuaire/edit.html.py:291
-#: templates/annuaire/subscriptions.html:31 templates/emploi/cv_edit.html:73
-#: templates/emploi/cv_edit.html.py:94 templates/emploi/cv_edit.html:117
-#: templates/emploi/cv_edit.html.py:145 templates/evenements/edit.html:40
+#: templates/annuaire/subscriptions.html:31 templates/emploi/cv_edit.html:74
+#: templates/emploi/cv_edit.html.py:96 templates/emploi/cv_edit.html:118
+#: templates/emploi/cv_edit.html.py:146 templates/evenements/edit.html:40
 #: templates/manage/default.html:52 templates/manage/group_details.html:18
 #: templates/manage/group_details.html:26 templates/news/edit.html:40
 #: templates/sondages/details.html:14 templates/sondages/details.html.py:40
@@ -2161,8 +2155,8 @@ msgstr "Pas d'avatar"
 #: templates/annuaire/edit.html:196 templates/annuaire/edit.html.py:219
 #: templates/annuaire/edit.html:239 templates/annuaire/edit.html.py:259
 #: templates/annuaire/edit.html:278 templates/annuaire/edit.html.py:296
-#: templates/emploi/cv_edit.html:82 templates/emploi/cv_edit.html.py:102
-#: templates/emploi/cv_edit.html:128 templates/emploi/cv_edit.html.py:150
+#: templates/emploi/cv_edit.html:83 templates/emploi/cv_edit.html.py:104
+#: templates/emploi/cv_edit.html:129 templates/emploi/cv_edit.html.py:151
 #: templates/evenements/edit.html:44 templates/manage/group_details.html:21
 #: templates/manage/group_details.html:29 templates/news/edit.html:44
 #: templates/sondages/details.html:44 templates/voyages/edit.html:49
@@ -2341,15 +2335,15 @@ msgstr "Rechercher une offre d'emploi"
 msgid "Your proposals under review"
 msgstr "En cours de modération"
 
-#: templates/emploi/cv_details.html:55 templates/emploi/cv_edit.html:60
+#: templates/emploi/cv_details.html:55 templates/emploi/cv_edit.html:61
 msgid "Professional experiences"
 msgstr "Expériences professionnelles"
 
-#: templates/emploi/cv_details.html:94 templates/emploi/cv_edit.html:107
+#: templates/emploi/cv_details.html:94 templates/emploi/cv_edit.html:108
 msgid "Education"
 msgstr "Formation"
 
-#: templates/emploi/cv_details.html:113 templates/emploi/cv_edit.html:132
+#: templates/emploi/cv_details.html:113 templates/emploi/cv_edit.html:133
 msgid "Leisure activities"
 msgstr "Loisirs"
 
