@@ -45,7 +45,7 @@
 
       {% else %}
 
-        {{ notification.details }}<br />
+        {{ notification.details|safe }}<br />
         <a href="/manage/notification/{{ notification.id }}/edit/" 
            class="changelink">{% trans "Modify" %}</a>&nbsp;
         <a href="/manage/notification/{{ notification.id }}/delete/" 

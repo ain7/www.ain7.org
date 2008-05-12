@@ -31,7 +31,7 @@
         </table>
 
 	{% if event.description %}
-		<p>{{ event.description }}</p>
+		<p>{{ event.description|safe }}</p>
 	{% endif %}
 
 </div>

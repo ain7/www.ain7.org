@@ -20,7 +20,7 @@
 {% endif %}
 
 <h4>{% trans "Group presentation" %}</h4>
-{{ group.web_page|default_if_none:"" }}
+{{ group.web_page|safe|default_if_none:"" }}
 
 </div>
 
@@ -50,6 +50,7 @@
      </ul>
    </div>
 
+</div>
 </div>
 
 {% endblock %}

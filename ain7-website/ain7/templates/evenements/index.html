@@ -27,7 +27,7 @@
 	      <strong><a href="/evenements/{{ event.id }}/">
                      {{ event.name }}</a>
              </strong><br />
-             {{ event.description|default_if_none:"" }}
+             {{ event.description|safe|default_if_none:"" }}
 	    </td>
          </tr>
 	{% endfor %}

@@ -8,7 +8,7 @@
 <div class="left">
     <h1>{{ group.name }}</h1>
     {% if group.description %}
-        <p>{{ group.description }}</p>
+        <p>{{ group.description|safe }}</p>
     {% endif %}
 
     <h3>{% trans "Board Members" %}</h3>
@@ -50,7 +50,7 @@
 {% blocktrans with event.start|date:"d/m/Y" as start_date and event.end|date:"d/m/Y" as end_date and event.location as place %}From {{ start_date }} to {{ end_date }} at {{ place }}{% endblocktrans %}
                 </p>
                 {% if event.description %}
-                    <p><em>{{ event.description|truncatewords:10 }}</em></p>
+                    <p><em>{{ event.description|safe|truncatewords:10 }}</em></p>
                 {% endif %}
             </div>
         {% endfor %}
