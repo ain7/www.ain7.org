@@ -113,6 +113,7 @@ INSTALLED_APPS = (
     'ain7.pages',
     'ain7.sondages',
     'ain7.voyages',
+    'ain7.search_engine',
 )
 
 # attributs non standards

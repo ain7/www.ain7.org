@@ -25,6 +25,7 @@ from django.utils.translation import ugettext as _
 
 from ain7.fields import AutoCompleteField
 from ain7.annuaire.models import *
+from ain7.search_engine.models import SearchFilter
 
 class SearchPersonForm(forms.Form):
     last_name = forms.CharField(label=_('Last name'), max_length=50, required=False)

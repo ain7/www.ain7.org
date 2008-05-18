@@ -35,6 +35,7 @@ import ain7.voyages.models as voyages
 import ain7.emploi.models as emploi
 import ain7.evenements.models as evenements
 import ain7.manage.models as manage
+import ain7.search_engine.models as search_engine
 
 import vobject
 import sys
@@ -112,6 +113,10 @@ def filldb():
 
     event_subscription_contrib = annuaire.UserContributionType(key=u'event_subcription',name=u'Subscribe to an event',points=5)
     event_subscription_contrib.save()
+
+    annuaireSearchEngine = search_engine.SearchEngine()
+    annuaireSearchEngine.name = "annuaire"
+    annuaireSearchEngine.save()
 
     #                                                                  #
     ###################### End of fixed values #########################
@@ -292,7 +297,6 @@ def filldb():
     lionel_ain7member.activity = activityRetired
     lionel_ain7member.member_type = memberTypeActif
     lionel_ain7member.person_type = personTypeEngineer
-    lionel_ain7member.promos.add(n7in2003)
     lionel_ain7member.nick_name = "Yoyo"
     lionel_ain7member.blog = "http://www.porcheron.info"
     lionel_ain7member.blog_agrege_sur_le_planet = True
@@ -301,7 +305,9 @@ def filldb():
     lionel_ain7member.receive_job_offers = False
     lionel_ain7member.cv_title = "Ingénieur ENSEEIHT Informatique"
     lionel_ain7member.marital_status = maritalstatus_2
+    lionel_ain7member.save() # un premier save avant les many2many
     lionel_ain7member.diplomas.add(bac)
+    lionel_ain7member.promos.add(n7in2003)
     lionel_ain7member.save()
 
     lionel_recrutProfile = annuaire.ProfileMembership()
@@ -437,13 +443,14 @@ def filldb():
     pierref_ain7member.activity = activityKnown
     pierref_ain7member.member_type = memberTypeActif
     pierref_ain7member.person_type = personTypeStudent
-    pierref_ain7member.promos.add(n7in2008)
     pierref_ain7member.nick_name = "PierreF"
     pierref_ain7member.display_cv_in_directory = False
     pierref_ain7member.display_cv_in_job_section = True
     pierref_ain7member.receive_job_offers = False
     pierref_ain7member.cv_title = u"Élève Ingénieur ENSEEIHT Informatique"
     pierref_ain7member.marital_status = maritalstatus_2
+    pierref_ain7member.save() # un premier save avant les many2many
+    pierref_ain7member.promos.add(n7in2008)
     pierref_ain7member.save()
 
     pierref_recrutProfile = annuaire.ProfileMembership()
@@ -486,13 +493,14 @@ def filldb():
     olivier_ain7member.activity = activityKnown
     olivier_ain7member.member_type = memberTypeActif
     olivier_ain7member.person_type = personTypeEngineer
-    olivier_ain7member.promos.add(n7in2003)
     olivier_ain7member.display_cv_in_directory = True
     olivier_ain7member.display_cv_in_job_section = True
     olivier_ain7member.receive_job_offers = True
-    olivier_ain7member.receive_job_offers_for_tracks.add(n7info)
     olivier_ain7member.cv_title = u"Ingénieur ENSEEIHT et doctorant en Informatique"
     olivier_ain7member.marital_status = maritalstatus_2
+    olivier_ain7member.save()
+    olivier_ain7member.promos.add(n7in2003)
+    olivier_ain7member.receive_job_offers_for_tracks.add(n7info)
     olivier_ain7member.save()
 
     olivier_n7profile = annuaire.ProfileMembership()
@@ -615,13 +623,14 @@ def filldb():
     alex_ain7member.activity = activityKnown
     alex_ain7member.member_type = memberTypeActif
     alex_ain7member.person_type = personTypeEngineer
-    alex_ain7member.promos.add(n7in2006)
     alex_ain7member.nick_name = "Alex"
     alex_ain7member.display_cv_in_directory = False
     alex_ain7member.display_cv_in_job_section = False
     alex_ain7member.receive_job_offers = False
     alex_ain7member.cv_title = u"Ingénieur ENSEEIHT Informatique"
     alex_ain7member.marital_status = maritalstatus_2
+    alex_ain7member.save()
+    alex_ain7member.promos.add(n7in2006)
     alex_ain7member.save()
 
     alex_n7profile = annuaire.ProfileMembership()
@@ -680,13 +689,14 @@ def filldb():
     laurent_ain7member.activity = activityKnown
     laurent_ain7member.member_type = memberTypeActif
     laurent_ain7member.person_type = personTypeEngineer
-    laurent_ain7member.promos.add(n7tr2003)
     laurent_ain7member.nick_name = "Lau"
     laurent_ain7member.display_cv_in_directory = False
     laurent_ain7member.display_cv_in_job_section = False
     laurent_ain7member.receive_job_offers = False
     laurent_ain7member.cv_title = u"Ingénieur ENSEEIHT Télécommunications et Réseaux"
     laurent_ain7member.marital_status = maritalstatus_2
+    laurent_ain7member.save()
+    laurent_ain7member.promos.add(n7tr2003)
     laurent_ain7member.save()
 
     laurent_n7profile = annuaire.ProfileMembership()
@@ -737,13 +747,14 @@ def filldb():
     gui_ain7member.activity = activityKnown
     gui_ain7member.member_type = memberTypeActif
     gui_ain7member.person_type = personTypeEngineer
-    gui_ain7member.promos.add(n7hy2003)
     gui_ain7member.nick_name = "Gui"
     gui_ain7member.display_cv_in_directory = False
     gui_ain7member.display_cv_in_job_section = False
     gui_ain7member.receive_job_offers = False
     gui_ain7member.cv_title = u"Ingénieur ENSEEIHT Cuicui les petits oiseaux"
     gui_ain7member.marital_status = maritalstatus_1
+    gui_ain7member.save()
+    gui_ain7member.promos.add(n7hy2003)
     gui_ain7member.save()
 
     gui_n7profile = annuaire.ProfileMembership()

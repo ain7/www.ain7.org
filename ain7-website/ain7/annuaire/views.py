@@ -41,83 +41,26 @@ from ain7.decorators import confirmation_required
 from ain7.utils import ain7_render_to_response, ImgUploadForm
 from ain7.widgets import DateTimeWidget
 from ain7.fields import LanguageField
+from ain7.search_engine.models import *
+from ain7.search_engine.utils import *
 
-# A few settings
+# Some parameters for the search engine
 
-# list of models for which attributes can be advanced search criteria
-CRITERIA_MODELS = [Person, AIn7Member]
-
-# some fields that we manage manually
-CUSTOM_FIELDS = [
+parameters = Parameters()
+parameters.criteria_models = [Person, AIn7Member]
+parameters.custom_fields = [
     ('company', Office , 'positions__office__company'       ),
     ('field',   Company, 'positions__office__company__field'),
     ('city',    Address, 'person__addresses__city'          ),
     ('country', Address, 'person__addresses__country'       ),
     ]
-
-# for each type of attribute, we define the comparators and the
-# type of field to display in the form
-dateWidget = DateTimeWidget()
-dateWidget.dformat = '%d/%m/%Y'
-dateTimeWidget = DateTimeWidget()
-dateTimeWidget.dformat = '%d/%m/%Y %H:%M'
-FIELD_PARAMS = [
-    ('CharField',
-     [('EQ',_('equals'),    '__iexact',   False),
-      ('NE',_('not equals'),'__iexact',   True ),
-      ('CT',_('contains'),  '__icontains',False)],
-     forms.CharField(label='')),
-    ('TextField',
-     [('EQ',_('equals'),    '__iexact',   False),
-      ('NE',_('not equals'),'__iexact',   True ),
-      ('CT',_('contains'),  '__icontains',False)],
-     forms.CharField(label='')),
-    ('DateField',
-     [('EQ',_('equals'),'',     False),
-      ('BF',_('before'),'__lte',False),
-      ('AT',_('after'), '__gte',False),],
-     forms.DateField(label='', widget=dateWidget)),
-    ('DateTimeField',
-     [('EQ',_('equals'),'',     False),
-      ('BF',_('before'),'__lte',False),
-      ('AT',_('after'), '__gte',False),],
-     forms.DateTimeField(label='', widget=dateTimeWidget)),
-    ('IntegerField',
-     [('EQ',_('equals'),    '__exact', False),
-      ('NE',_('not equals'),'__exact', True ),
-      ('LT',_('lower'),     '__lt',    False),
-      ('GT',_('greater'),   '__gt',    False),],
-     forms.IntegerField(label='')),
-    ('BooleanField',
-     [('IS',_('is'),'',False)],
-     forms.BooleanField(label='', required=False, initial=True)),
-    # for ForeignKey, the field is defined later
-    ('ForeignKey',
-     [('EQ',_('equals'),    '__exact', False),
-      ('NE',_('not equals'),'__exact', True )],
-     None),
-    # for ManyToManyField, the field is defined later
-    ('ManyToManyField',
-     [('EQ',_('equals'),    '__exact', False),
-      ('NE',_('not equals'),'__exact', True )],
-     None),
-
-    # Not implemented: RelatedField
-    
-    # Not implemented because not used in our model
-    # or meaningless for a search engine:
-    # AutoField, DecimalField, EmailField(CharField), FileField,
-    # FilePathField, FloatField, ImageField(FileField), IPAddressField,
-    # NullBooleanField, PhoneNumberField(IntegerField),
-    # PositiveIntegerField(IntegerField),
-    # PositiveSmallIntegerField(IntegerField), SlugField(CharField),
-    # SmallIntegerField(IntegerField), TimeField, URLField(CharField),
-    # USStateField(Field), XMLField(TextField),
-    # OrderingField(IntegerField)
-    ]
+parameters.baseClass = AIn7Member
 
 
 # Main functions
+
+def annuaire_search_engine():
+    return get_object_or_404(SearchEngine, name="annuaire")
 
 @login_required
 def contributions(request, user_id):
@@ -182,7 +125,8 @@ def search(request):
 
     return ain7_render_to_response(request, 'annuaire/search.html',
         {'form': form, 'ain7members': ain7members,
-         'userFilters': SearchFilter.objects.get_registered(request.user.person),
+         'userFilters': annuaire_search_engine().registered_filters(
+                            request.user.person),
          'paginator': paginator, 'is_paginated': paginator.pages > 1,
          'has_next': paginator.has_next_page(page - 1),
          'has_previous': paginator.has_previous_page(page - 1),
@@ -196,7 +140,7 @@ def search(request):
 @login_required
 def advanced_search(request):
 
-    filtr = SearchFilter.objects.get_unregistered(request.user.person)
+    filtr = annuaire_search_engine().unregistered_filters(request.user.person)
     if filtr:
         return ain7_render_to_response(request, 'annuaire/adv_search.html',
             dict_for_filter(request, filtr.id))
@@ -223,10 +167,13 @@ def dict_for_filter(request, filter_id):
     sf = None
     if filter_id:
         sf = get_object_or_404(SearchFilter, pk=filter_id)
+        
 
     if request.method == 'POST':
 
-        ain7members = performSearch(request, sf)
+        ain7members = AIn7Member.objects.all()
+        if filter_id:
+            ain7members = sf.search(parameters)
         paginator = ObjectPaginator(ain7members, nb_results_by_page)
 
         try:
@@ -237,7 +184,7 @@ def dict_for_filter(request, filter_id):
 
     return {'ain7members': ain7members,
          'filtr': sf,
-         'userFilters': SearchFilter.objects.get_registered(p),
+         'userFilters': annuaire_search_engine().registered_filters(p),
          'paginator': paginator, 'is_paginated': paginator.pages > 1,
          'has_next': paginator.has_next_page(page - 1),
          'has_previous': paginator.has_previous_page(page - 1),
@@ -252,7 +199,7 @@ def dict_for_filter(request, filter_id):
 @login_required
 def filter_register(request):
 
-    sf = SearchFilter.objects.get_unregistered(request.user.person)
+    sf = annuaire_search_engine().unregistered_filters(request.user.person)
     if not sf:
         return HttpResponseRedirect('/annuaire/advanced_search/')
 
@@ -269,8 +216,8 @@ def filter_register(request):
             fName = form.cleaned_data['name']
             # First we check that the user does not have
             # a filter with the same name
-            sameName = SearchFilter.objects.\
-                get_registered(request.user.person).\
+            sameName = annuaire_search_engine().\
+                registered_filters(request.user.person).\
                 filter(name=fName).count()
             if sameName>0:
                 request.user.message_set.create(
@@ -351,7 +298,7 @@ def filter_delete(request, filter_id):
 @login_required
 def filter_new(request):
 
-    filtr = SearchFilter.objects.get_unregistered(request.user.person)
+    filtr = annuaire_search_engine().unregistered_filters(request.user.person)
     if not filtr:
         return HttpResponseRedirect('/annuaire/advanced_search/')
     remove_criteria(request, filtr)
@@ -396,7 +343,7 @@ def criterion_add(request, filter_id=None, criterionType=None):
     formFields.fields['chosenField'].choices = choiceList
 
     # build formFilters: the form containing the list of filters to propose
-    qs = SearchFilter.objects.get_registered(request.user.person)
+    qs = annuaire_search_engine().registered_filters(request.user.person)
     if filter_id != '':
         for filterToExclude in filtersToExclude(filter_id):
             qs = qs.exclude(id=filterToExclude)
@@ -414,6 +361,7 @@ def criterion_add(request, filter_id=None, criterionType=None):
         filtr.operator=_(SearchFilter.OPERATORS[0][0])
         filtr.user = request.user.person
         filtr.registered = False
+        filtr.search_engine = annuaire_search_engine()
         filtr.save()
         filter_id = filtr.id
 
@@ -463,7 +411,7 @@ def criterionField_edit(request, filter_id=None, criterion_id=None):
         fName = crit.fieldName
         cCode = crit.comparatorName
         value = crit.value
-    model,searchField = getFieldFromName(fName)
+    model,searchField = getFieldFromName(fName, parameters)
     comps,valueField = findComparatorsForField(searchField)
 
     # the form with 2 fields : comparator and value
@@ -551,7 +499,7 @@ def criterionFilter_edit(request, filter_id=None, criterion_id=None):
     critFilter = get_object_or_404(SearchCriterionFilter, pk=criterion_id)
     (crit, isin) = (critFilter.filterCriterion, critFilter.is_in)
 
-    qs = SearchFilter.objects.get_registered(request.user.person)
+    qs = annuaire_search_engine().registered_filters(request.user.person)
     for filterToExclude in filtersToExclude(filter_id):
         qs = qs.exclude(id=filterToExclude)
 
@@ -1087,15 +1035,6 @@ def complete_track(request):
 
     return ain7_render_to_response(request, 'pages/complete.html', {'elements':elements})
 
-def performSearch(request, filtr=None):
-    """ Really perform search.
-    If filtr is None, return all members. """
-    if filtr:
-        q = buildQFromFilter(filtr)
-        return AIn7Member.objects.filter(q).distinct()
-    else:
-        return AIn7Member.objects.all()
-
 def criteriaList(user):
     """ Returns the list of fields that are criteria for an advanced
     search.
@@ -1107,7 +1046,7 @@ def criteriaList(user):
     attrList = []
 
     # models for which attributes are criteria for advanced search
-    for model in CRITERIA_MODELS:
+    for model in parameters.criteria_models:
 
         for field in model._meta.fields + model._meta.many_to_many:
 
@@ -1117,7 +1056,7 @@ def criteriaList(user):
                 attrList.append(field)
 
     # now we deal with custom fields
-    for (fName,fModel,query) in CUSTOM_FIELDS:
+    for (fName,fModel,query) in parameters.custom_fields:
         attrList.append(getModelField(fModel, fName))
 
     # uncomment this if you want a sorted list of criteria
@@ -1128,13 +1067,6 @@ def criteriaList(user):
     # attrList.sort(cmpFields)
 
     return attrList
-
-def findParamsForField(field):
-    for fieldName, comps, formField in FIELD_PARAMS:
-        if str(type(field)).find(fieldName)!=-1:
-            return (fieldName, comps, formField)
-    raise NotImplementedError
-    return None
 
 def findParamsForFieldName(fieldName):
     for fieldNam, comps, formField in FIELD_PARAMS:
@@ -1156,29 +1088,6 @@ def findComparatorsForField(field):
         choiceList.append((compName,compVN))
     return (choiceList,formField)
 
-# TODO: il faut s'assurer que les champs de
-# Person et AIn7Member sont disjoints !!!
-def getFieldFromName(fieldName):
-    """ Returns a field from its name."""
-    field = fieldModel = None
-    # first we look into models for which all fields are criteria
-    for model in CRITERIA_MODELS:
-        for basicField in model._meta.fields:
-            if fieldName == basicField.name:
-                fieldModel = model
-                field = basicField
-        if model._meta.many_to_many:
-            for manyToManyField in model._meta.many_to_many:
-                if fieldName == manyToManyField.name:
-                    fieldModel = model
-                    field = manyToManyField
-    # then we look for fields manually managed
-    for (fName, fModel, comps) in CUSTOM_FIELDS:
-        if fieldName == fName:
-            fieldModel = fModel
-            field = getModelField(fModel, fName)
-    return (str(fieldModel._meta),field)
-
 def getCompVerboseName(field, compCode):
     """ Returns the description of a comparator,
     given the field and the comparator's code."""
@@ -1189,59 +1098,11 @@ def getCompVerboseName(field, compCode):
             compVerbName = name
     return compVerbName
 
-def buildQFromFilter(filtr):
-    q = models.Q()
-    for crit in filtr.criteriaField.all():
-        qCrit = buildQForCriterion(crit.fieldClass,
-                                   crit.fieldName.encode('utf8'),
-                                   crit.comparatorName,
-                                   crit.value)
-        if filtr.operator == _('and'): q = q & qCrit
-        else: q = q | qCrit
-        
-    for crit in filtr.criteriaFilter.all():
-        qCrit = buildQFromFilter(crit.filterCriterion)
-        if not crit.is_in:
-            qCrit = models.query.QNot(qCrit)
-        if filtr.operator == _('and'): q = q & qCrit
-        else: q = q | qCrit
-    return q
-
-def buildQForCriterion(model,fieldN,compCode,value):
-    qComp, qNeg = compInQ(fieldN,compCode)
-    # TODO : c'est du spécifique...
-    modelPrefix = ''
-    if model == 'annuaire.person':
-        modelPrefix = 'person__'
-    crit = modelPrefix + fieldN + qComp
-    # if the criterion comes from a custom field, we use the specified query
-    for (fName,fModel,query) in CUSTOM_FIELDS:
-        if model == str(fModel._meta):
-            crit = query
-    mdl, field = getFieldFromName(fieldN)
-    if str(type(field)).find('CharField')!=-1:
-        value = value.encode('utf8')
-    q = models.Q(**{crit: value})
-    if qNeg:
-        q = models.query.QNot(q)
-    return q
-
-def compInQ(fieldName,compCode):
-    model, field = getFieldFromName(fieldName)
-    fieldName, comps, formField = findParamsForField(field)
-    if comps == None:
-        raise NotImplementedError
-    for compName, compVN, qComp, qNeg in comps:
-        if compName == compCode:
-            return (qComp,qNeg)
-    return None
-
-
 def getDisplayedVal(value, fieldName):
     """ Converts a value obtained from the form
     to a format displayed in the criteria list. """
     displayedVal = value
-    mdl, field = getFieldFromName(fieldName)
+    mdl, field = getFieldFromName(fieldName, parameters)
     if str(type(field)).find('DateField')!=-1:
         dateVal = datetime.datetime(
             *time.strptime(str(value),'%Y-%m-%d')[0:5])
@@ -1271,10 +1132,3 @@ def filtersToExclude(filter_id=None):
             result.extend(filtersToExclude(crit.searchFilter))
         return result
 
-def getModelField(fModel, fName):
-    """ Given a model and the name of one of its fields, returns this field."""
-    field = None
-    for f in fModel._meta.fields:
-        if f.name == fName:
-            field = f
-    return field
