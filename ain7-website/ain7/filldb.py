@@ -252,22 +252,22 @@ def filldb():
     n7hy2003.save()
 
     # Companies
-    infofield = emploi.CompanyField(field = u"Informatique", code=u"ZZ", label=u"Informatique")
+    infofield = emploi.ActivityField(field = u"Informatique", code=u"ZZ", label=u"Informatique")
     infofield.save()
 
-    babelstore = emploi.Company(name=u"BABELSTORE", field=infofield, size=2)
+    babelstore = emploi.Company(name=u"BABELSTORE", activity_field=infofield, size=2)
     babelstore.save()
 
     priceminister = emploi.Office(name=u"PriceMinister", company=babelstore)
     priceminister.save()
 
-    anyware = emploi.Company(name=u"Anyware", field=infofield)
+    anyware = emploi.Company(name=u"Anyware", activity_field=infofield)
     anyware.save()
 
     anywareoffice = emploi.Office(name=u"Bureau de Toulouse", company=anyware)
     anywareoffice.save()
 
-    schtroumpfland = emploi.Company(name=u"Schtroumpfland", field=infofield)
+    schtroumpfland = emploi.Company(name=u"Schtroumpfland", activity_field=infofield)
     schtroumpfland.save()
 
     lepaysdesschtroumpfs = emploi.Office(name=u"Mon champignon", company=schtroumpfland)

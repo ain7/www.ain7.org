@@ -21,7 +21,7 @@
 #
 
 from ain7.annuaire.models import *
-from ain7.emploi.models import CompanyField
+from ain7.emploi.models import ActivityField
 from ain7.utils import ain7_render_to_response
 
 def person(request):
@@ -74,13 +74,13 @@ def track(request):
 
     return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
 
-def companyfield(request):
+def activityfield(request):
     elements = []
 
     if request.method == 'POST':
         input = request.POST['text']
-        companyfields = CompanyField.objects.filter(label__icontains=input)
-        for cf in companyfields:
+        activityfields = ActivityField.objects.filter(label__icontains=input)
+        for cf in activityfields:
             elements.append({'id': cf.id, 'displayValue': cf.label , 'value': cf.label })
 
     return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})

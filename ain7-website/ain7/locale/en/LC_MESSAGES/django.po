@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Lionel Porcheron <lionel@alveonet.org>, 2008
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-12 19:26+0200\n"
+"POT-Creation-Date: 2008-05-21 23:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,9 +19,9 @@ msgstr ""
 msgid "Are you sure you want to do this action?"
 msgstr ""
 
-#: utils.py:106 annuaire/views.py:291 annuaire/views.py:309
-#: annuaire/views.py:663 annuaire/views.py:692 annuaire/views.py:725
-#: annuaire/views.py:770 annuaire/views.py:811 annuaire/views.py:1043
+#: utils.py:106 annuaire/views.py:238 annuaire/views.py:256
+#: annuaire/views.py:611 annuaire/views.py:640 annuaire/views.py:673
+#: annuaire/views.py:718 annuaire/views.py:759 annuaire/views.py:991
 #: emploi/views.py:104 emploi/views.py:144 emploi/views.py:295
 #: emploi/views.py:334 emploi/views.py:376 emploi/views.py:395
 #: evenements/views.py:68 evenements/views.py:105 evenements/views.py:186
@@ -34,67 +33,68 @@ msgstr ""
 msgid "Something was wrong in the form you filled. No modification done."
 msgstr ""
 
-#: annuaire/forms.py:30 annuaire/forms.py:69 annuaire/models.py:247
+#: annuaire/forms.py:31 annuaire/forms.py:70 annuaire/models.py:247
 #: manage/views.py:45 manage/views.py:68 templates/annuaire/edit.html:26
 msgid "Last name"
 msgstr ""
 
-#: annuaire/forms.py:31 annuaire/forms.py:68 annuaire/models.py:248
+#: annuaire/forms.py:32 annuaire/forms.py:69 annuaire/models.py:248
 #: manage/views.py:46 manage/views.py:67 templates/annuaire/edit.html:25
 msgid "First name"
 msgstr ""
 
-#: annuaire/forms.py:32 annuaire/forms.py:74 annuaire/models.py:214
+#: annuaire/forms.py:33 annuaire/forms.py:75 annuaire/models.py:214
 msgid "Promo"
 msgstr ""
 
-#: annuaire/forms.py:33 annuaire/forms.py:75 annuaire/models.py:199
+#: annuaire/forms.py:34 annuaire/forms.py:76 annuaire/models.py:199
 #: annuaire/models.py:205 emploi/models.py:405
 msgid "Track"
 msgstr ""
 
-#: annuaire/forms.py:34 emploi/models.py:109 emploi/models.py:166
+#: annuaire/forms.py:35 emploi/models.py:109 emploi/models.py:166
 #: templates/emploi/job_details.html:13
 msgid "company"
 msgstr ""
 
-#: annuaire/forms.py:63
+#: annuaire/forms.py:64
 msgid "subject"
 msgstr ""
 
-#: annuaire/forms.py:64
+#: annuaire/forms.py:65
 msgid "body"
 msgstr ""
 
-#: annuaire/forms.py:65
+#: annuaire/forms.py:66
 msgid "Send me a test"
 msgstr ""
 
-#: annuaire/forms.py:70 manage/views.py:69
+#: annuaire/forms.py:71 manage/views.py:69
 msgid "Mail"
 msgstr ""
 
-#: annuaire/forms.py:71 manage/views.py:70
+#: annuaire/forms.py:72 manage/views.py:70
 msgid "Nationality"
 msgstr ""
 
-#: annuaire/forms.py:72 manage/views.py:71
+#: annuaire/forms.py:73 manage/views.py:71
 msgid "Date of birth"
 msgstr ""
 
-#: annuaire/forms.py:73 annuaire/models.py:253 templates/annuaire/edit.html:23
+#: annuaire/forms.py:74 annuaire/models.py:253 templates/annuaire/edit.html:23
 msgid "sex"
 msgstr ""
 
-#: annuaire/forms.py:122 emploi/forms.py:114
+#: annuaire/forms.py:123
 msgid "Field"
 msgstr ""
 
 #: annuaire/models.py:36 annuaire/models.py:153 annuaire/models.py:181
-#: annuaire/models.py:592 annuaire/models.py:643 annuaire/models.py:675
-#: emploi/forms.py:148 emploi/models.py:72 emploi/models.py:168
-#: evenements/models.py:46 groupes/models.py:32 groupes_regionaux/models.py:33
-#: templates/groupes/details.html:31 templates/groupes/edit.html:43
+#: annuaire/models.py:592 annuaire/models.py:643 emploi/forms.py:148
+#: emploi/models.py:72 emploi/models.py:168 evenements/models.py:46
+#: groupes/models.py:32 groupes_regionaux/models.py:33
+#: search_engine/models.py:59 templates/groupes/details.html:31
+#: templates/groupes/edit.html:43
 msgid "name"
 msgstr ""
 
@@ -226,7 +226,7 @@ msgid "Female"
 msgstr ""
 
 #: annuaire/models.py:244 annuaire/models.py:616 annuaire/models.py:650
-#: annuaire/models.py:678
+#: search_engine/models.py:65
 msgid "user"
 msgstr ""
 
@@ -280,7 +280,7 @@ msgstr ""
 msgid "Nick name"
 msgstr ""
 
-#: annuaire/models.py:340 annuaire/views.py:713
+#: annuaire/models.py:340 annuaire/views.py:661
 #: templates/annuaire/details.html:63 templates/annuaire/details_frame.html:73
 #: templates/annuaire/edit.html:50 templates/annuaire/edit.html.py:53
 #: templates/emploi/cv_details.html:30 templates/emploi/cv_edit.html:32
@@ -476,322 +476,266 @@ msgstr ""
 msgid "date of contribution"
 msgstr ""
 
-#: annuaire/models.py:673 annuaire/views.py:1199 annuaire/views.py:1206
-#: templates/base.html:103
-msgid "and"
-msgstr ""
-
-#: annuaire/models.py:674
-msgid "or"
-msgstr ""
-
-#: annuaire/models.py:676
-msgid "operator"
-msgstr ""
-
-#: annuaire/models.py:694
-msgid "filter"
-msgstr ""
-
-#: annuaire/models.py:695
-msgid "filters"
-msgstr ""
-
-#: annuaire/views.py:66 annuaire/views.py:71 annuaire/views.py:76
-#: annuaire/views.py:81 annuaire/views.py:86 annuaire/views.py:96
-#: annuaire/views.py:101
-msgid "equals"
-msgstr ""
-
-#: annuaire/views.py:67 annuaire/views.py:72 annuaire/views.py:87
-#: annuaire/views.py:97 annuaire/views.py:102
-msgid "not equals"
-msgstr ""
-
-#: annuaire/views.py:68 annuaire/views.py:73
-msgid "contains"
-msgstr ""
-
-#: annuaire/views.py:77 annuaire/views.py:82
-msgid "before"
-msgstr ""
-
-#: annuaire/views.py:78 annuaire/views.py:83
-msgid "after"
-msgstr ""
-
-#: annuaire/views.py:88
-msgid "lower"
-msgstr ""
-
-#: annuaire/views.py:89
-msgid "greater"
-msgstr ""
-
-#: annuaire/views.py:92
-msgid "is"
-msgstr ""
-
-#: annuaire/views.py:265
+#: annuaire/views.py:212
 msgid "Enter parameters of your filter"
 msgstr ""
 
-#: annuaire/views.py:277
+#: annuaire/views.py:224
 msgid "One of your filters already has this name."
 msgstr ""
 
-#: annuaire/views.py:287 annuaire/views.py:307 annuaire/views.py:591
-#: annuaire/views.py:660 annuaire/views.py:689 groupes/views.py:102
+#: annuaire/views.py:234 annuaire/views.py:254 annuaire/views.py:539
+#: annuaire/views.py:608 annuaire/views.py:637 groupes/views.py:102
 #: manage/views.py:733 voyages/views.py:132
 msgid "Modifications have been successfully saved."
 msgstr ""
 
-#: annuaire/views.py:314
+#: annuaire/views.py:261
 msgid "Modification of the filter"
 msgstr ""
 
-#: annuaire/views.py:345
+#: annuaire/views.py:292
 msgid "Your filter has been successfully deleted."
 msgstr ""
 
-#: annuaire/views.py:348
+#: annuaire/views.py:295
 msgid "Something went wrong. The filter has not been deleted."
 msgstr ""
 
-#: annuaire/views.py:405 annuaire/views.py:559
+#: annuaire/views.py:352 annuaire/views.py:507
 msgid "is in filter"
 msgstr ""
 
-#: annuaire/views.py:454
+#: annuaire/views.py:402
 msgid "Criterion to add"
 msgstr ""
 
-#: annuaire/views.py:461 templates/annuaire/criterionFilter_edit.html:20
+#: annuaire/views.py:409 templates/annuaire/criterionFilter_edit.html:20
 msgid "Edit the criterion"
 msgstr ""
 
-#: annuaire/views.py:593
+#: annuaire/views.py:541
 msgid "Something went wrong. No modification done."
 msgstr ""
 
-#: annuaire/views.py:668 annuaire/views.py:698
+#: annuaire/views.py:616 annuaire/views.py:646
 msgid "Modification of personal data for"
 msgstr ""
 
-#: annuaire/views.py:723 evenements/views.py:103 news/views.py:88
+#: annuaire/views.py:671 evenements/views.py:103 news/views.py:88
 #: voyages/views.py:163
 msgid "The picture has been successfully changed."
 msgstr ""
 
-#: annuaire/views.py:728
+#: annuaire/views.py:676
 msgid "Do you really want to delete your avatar"
 msgstr ""
 
-#: annuaire/views.py:738
+#: annuaire/views.py:686
 msgid "Your avatar has been successfully deleted."
 msgstr ""
 
-#: annuaire/views.py:821
+#: annuaire/views.py:769
 msgid "Modification of an address for"
 msgstr ""
 
-#: annuaire/views.py:822
+#: annuaire/views.py:770
 msgid "Address informations updated successfully."
 msgstr ""
 
-#: annuaire/views.py:824
+#: annuaire/views.py:772
 msgid "Do you really want to delete your address"
 msgstr ""
 
-#: annuaire/views.py:829
+#: annuaire/views.py:777
 msgid "Address successfully deleted."
 msgstr ""
 
-#: annuaire/views.py:836
+#: annuaire/views.py:784
 msgid "Creation of an address for"
 msgstr ""
 
-#: annuaire/views.py:837
+#: annuaire/views.py:785
 msgid "Address successfully added."
 msgstr ""
 
-#: annuaire/views.py:845
+#: annuaire/views.py:793
 msgid "Modification of a phone number for"
 msgstr ""
 
-#: annuaire/views.py:846
+#: annuaire/views.py:794
 msgid "Phone number informations updated successfully."
 msgstr ""
 
-#: annuaire/views.py:848
+#: annuaire/views.py:796
 msgid "Do you really want to delete your phone number"
 msgstr ""
 
-#: annuaire/views.py:853
+#: annuaire/views.py:801
 msgid "Phone number successfully deleted."
 msgstr ""
 
-#: annuaire/views.py:860
+#: annuaire/views.py:808
 msgid "Creation of a phone number for"
 msgstr ""
 
-#: annuaire/views.py:861
+#: annuaire/views.py:809
 msgid "Phone number successfully added."
 msgstr ""
 
-#: annuaire/views.py:869
+#: annuaire/views.py:817
 msgid "Modification of an email address for"
 msgstr ""
 
-#: annuaire/views.py:870
+#: annuaire/views.py:818
 msgid "Email informations updated successfully."
 msgstr ""
 
-#: annuaire/views.py:872
+#: annuaire/views.py:820
 msgid "Do you really want to delete your email address"
 msgstr ""
 
-#: annuaire/views.py:877
+#: annuaire/views.py:825
 msgid "Email address successfully deleted."
 msgstr ""
 
-#: annuaire/views.py:884
+#: annuaire/views.py:832
 msgid "Creation of an email address for"
 msgstr ""
 
-#: annuaire/views.py:885
+#: annuaire/views.py:833
 msgid "Email address successfully added."
 msgstr ""
 
-#: annuaire/views.py:893
+#: annuaire/views.py:841
 msgid "Modification of an instant messaging account for"
 msgstr ""
 
-#: annuaire/views.py:894
+#: annuaire/views.py:842
 msgid "Instant messaging informations updated successfully."
 msgstr ""
 
-#: annuaire/views.py:896
+#: annuaire/views.py:844
 msgid "Do you really want to delete your instant messaging account"
 msgstr ""
 
-#: annuaire/views.py:901
+#: annuaire/views.py:849
 msgid "Instant messaging account successfully deleted."
 msgstr ""
 
-#: annuaire/views.py:908
+#: annuaire/views.py:856
 msgid "Creation of an instant messaging account for"
 msgstr ""
 
-#: annuaire/views.py:909
+#: annuaire/views.py:857
 msgid "Instant messaging account successfully added."
 msgstr ""
 
-#: annuaire/views.py:917
+#: annuaire/views.py:865
 msgid "Modification of an IRC account for"
 msgstr ""
 
-#: annuaire/views.py:918
+#: annuaire/views.py:866
 msgid "IRC account informations updated successfully."
 msgstr ""
 
-#: annuaire/views.py:920
+#: annuaire/views.py:868
 msgid "Do you really want to delete your IRC account"
 msgstr ""
 
-#: annuaire/views.py:925
+#: annuaire/views.py:873
 msgid "IRC account successfully deleted."
 msgstr ""
 
-#: annuaire/views.py:932
+#: annuaire/views.py:880
 msgid "Creation of an IRC account for"
 msgstr ""
 
-#: annuaire/views.py:933
+#: annuaire/views.py:881
 msgid "IRC account successfully added."
 msgstr ""
 
-#: annuaire/views.py:941
+#: annuaire/views.py:889
 msgid "Modification of a website for"
 msgstr ""
 
-#: annuaire/views.py:942
+#: annuaire/views.py:890
 msgid "Website informations updated successfully."
 msgstr ""
 
-#: annuaire/views.py:944
+#: annuaire/views.py:892
 msgid "Do you really want to delete your website"
 msgstr ""
 
-#: annuaire/views.py:949
+#: annuaire/views.py:897
 msgid "Website successfully deleted."
 msgstr ""
 
-#: annuaire/views.py:956
+#: annuaire/views.py:904
 msgid "Creation of a website for"
 msgstr ""
 
-#: annuaire/views.py:957
+#: annuaire/views.py:905
 msgid "Website successfully added."
 msgstr ""
 
-#: annuaire/views.py:967
+#: annuaire/views.py:915
 msgid "Modification of a club membership for"
 msgstr ""
 
-#: annuaire/views.py:968
+#: annuaire/views.py:916
 msgid "Club membership informations updated successfully."
 msgstr ""
 
-#: annuaire/views.py:970
+#: annuaire/views.py:918
 msgid "Do you really want to delete your club membership"
 msgstr ""
 
-#: annuaire/views.py:975
+#: annuaire/views.py:923
 msgid "Club membership successfully deleted."
 msgstr ""
 
-#: annuaire/views.py:983
+#: annuaire/views.py:931
 msgid "Creation of a club membership for"
 msgstr ""
 
-#: annuaire/views.py:984
+#: annuaire/views.py:932
 msgid "Club membership successfully added."
 msgstr ""
 
-#: annuaire/views.py:1002
+#: annuaire/views.py:950
 msgid "Modification of a subscription for"
 msgstr ""
 
-#: annuaire/views.py:1003
+#: annuaire/views.py:951
 msgid "Subscription informations updated successfully."
 msgstr ""
 
-#: annuaire/views.py:1005
+#: annuaire/views.py:953
 msgid "Do you really want to delete this subscription"
 msgstr ""
 
-#: annuaire/views.py:1010
+#: annuaire/views.py:958
 msgid "Subscription successfully deleted."
 msgstr ""
 
-#: annuaire/views.py:1017
+#: annuaire/views.py:965
 msgid "Adding a subscription for"
 msgstr ""
 
-#: annuaire/views.py:1018
+#: annuaire/views.py:966
 msgid "Subscription successfully added."
 msgstr ""
 
-#: annuaire/views.py:1040 manage/views.py:158
+#: annuaire/views.py:988 manage/views.py:158
 msgid "New user successfully created"
 msgstr ""
 
-#: annuaire/views.py:1255
+#: annuaire/views.py:1116
 msgid "checked"
 msgstr ""
 
-#: annuaire/views.py:1257
+#: annuaire/views.py:1118
 msgid "unchecked"
 msgstr ""
 
@@ -845,6 +789,10 @@ msgstr ""
 msgid "Size"
 msgstr ""
 
+#: emploi/forms.py:114 emploi/models.py:52 emploi/models.py:74
+msgid "Activity field"
+msgstr ""
+
 #: emploi/forms.py:117
 msgid "Short Description"
 msgstr ""
@@ -881,9 +829,12 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: emploi/models.py:40 emploi/models.py:41 emploi/models.py:52
-#: emploi/models.py:74
+#: emploi/models.py:40
 msgid "field"
+msgstr ""
+
+#: emploi/models.py:41
+msgid "code"
 msgstr ""
 
 #: emploi/models.py:42
@@ -1562,6 +1513,68 @@ msgstr ""
 
 #: news/views.py:114
 msgid "News successfully added."
+msgstr ""
+
+#: search_engine/models.py:57 search_engine/models.py:78
+#: search_engine/models.py:85 templates/base.html:103
+msgid "and"
+msgstr ""
+
+#: search_engine/models.py:58
+msgid "or"
+msgstr ""
+
+#: search_engine/models.py:61
+msgid "search engine"
+msgstr ""
+
+#: search_engine/models.py:62
+msgid "operator"
+msgstr ""
+
+#: search_engine/models.py:90
+msgid "filter"
+msgstr ""
+
+#: search_engine/models.py:91
+msgid "filters"
+msgstr ""
+
+#: search_engine/utils.py:39 search_engine/utils.py:44
+#: search_engine/utils.py:49 search_engine/utils.py:54
+#: search_engine/utils.py:59 search_engine/utils.py:69
+#: search_engine/utils.py:74
+msgid "equals"
+msgstr ""
+
+#: search_engine/utils.py:40 search_engine/utils.py:45
+#: search_engine/utils.py:60 search_engine/utils.py:70
+#: search_engine/utils.py:75
+msgid "not equals"
+msgstr ""
+
+#: search_engine/utils.py:41 search_engine/utils.py:46
+msgid "contains"
+msgstr ""
+
+#: search_engine/utils.py:50 search_engine/utils.py:55
+msgid "before"
+msgstr ""
+
+#: search_engine/utils.py:51 search_engine/utils.py:56
+msgid "after"
+msgstr ""
+
+#: search_engine/utils.py:61
+msgid "lower"
+msgstr ""
+
+#: search_engine/utils.py:62
+msgid "greater"
+msgstr ""
+
+#: search_engine/utils.py:65
+msgid "is"
 msgstr ""
 
 #: sondages/models.py:52 sondages/models.py:57 sondages/models.py:76

@@ -110,9 +110,9 @@ class OrganizationForm(forms.Form):
     size = forms.IntegerField(
         label=_('Size'), required=True,
         widget=forms.Select(choices=Company.COMPANY_SIZE))
-    field = forms.CharField(
-        label=_('Field'), max_length=50, required=True,
-        widget=AutoCompleteField(url='/ajax/companyfield/'))
+    activity_field = forms.CharField(
+        label=_('Activity field'), max_length=50, required=True,
+        widget=AutoCompleteField(url='/ajax/activityfield/'))
     short_description = forms.CharField(
         label=_('Short Description'), max_length=50)
     long_description = forms.CharField(
@@ -132,7 +132,7 @@ class OrganizationForm(forms.Form):
 #                 field.value = self.cleaned_data[field.name]
         org.name = self.cleaned_data['name']
         org.size = self.cleaned_data['size']
-        org.field = CompanyField.objects.get(id=self.cleaned_data['field'])
+        org.activity_field = ActivityField.objects.get(id=self.cleaned_data['activity_field'])
         org.short_description = self.cleaned_data['short_description']
         org.long_description = self.cleaned_data['long_description']
         org.is_a_proposal = is_a_proposal

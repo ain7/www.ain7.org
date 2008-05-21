@@ -34,11 +34,11 @@ ACTIONS = (
     (2, _('Remove')),
 )
 
-# ???
-class CompanyField(models.Model):
+# Activity field of an organization
+class ActivityField(models.Model):
 
     field = models.CharField(verbose_name=_('field'), max_length=100)
-    code = models.CharField(verbose_name=_('field'), max_length=100)
+    code = models.CharField(verbose_name=_('code'), max_length=100)
     keywords = models.CharField(verbose_name=_('keywords'), max_length=100)
     label = models.CharField(verbose_name=_('label'), max_length=100)
 
@@ -49,7 +49,7 @@ class CompanyField(models.Model):
         pass
 
     class Meta:
-        verbose_name = _('field')
+        verbose_name = _('Activity field')
 
 
 # A manager for organizations
@@ -71,7 +71,7 @@ class Company(models.Model):
 
     name = models.CharField(verbose_name=_('name'), max_length=50, core=True)
     size = models.IntegerField(verbose_name=_('size'), choices=COMPANY_SIZE, blank=True, null=True)
-    field = models.ForeignKey(CompanyField, verbose_name=_('field'), related_name='companies')
+    activity_field = models.ForeignKey(ActivityField, verbose_name=_('Activity field'), related_name='companies')
     short_description = models.CharField(verbose_name=_('short description'), max_length=50, blank=True, null=True)
     long_description = models.TextField(verbose_name=_('long description'), blank=True, null=True)
     is_a_proposal = models.BooleanField(

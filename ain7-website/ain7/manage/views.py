@@ -31,7 +31,7 @@ from django.utils.translation import ugettext as _
 from ain7.utils import ain7_render_to_response
 from ain7.decorators import confirmation_required
 from ain7.annuaire.models import Person, UserContribution
-from ain7.emploi.models import Company, CompanyField, OrganizationProposal
+from ain7.emploi.models import Company, ActivityField, OrganizationProposal
 from ain7.emploi.models import OfficeProposal
 from ain7.emploi.forms import *
 from ain7.manage.models import *
@@ -212,7 +212,7 @@ def company_edit(request, company_id=None):
         company = get_object_or_404(Company, pk=company_id)
         form = OrganizationForm(
             {'name': company.name, 'size': company.size,
-             'field': company.field,
+             'activity_field': company.activity_field,
              'short_description': company.short_description,
              'long_description': company.long_description })
         action_title = _('Edit a company')
@@ -318,7 +318,7 @@ def organization_register_proposal(request, proposal_id=None):
     form = OrganizationForm(
         {'name': proposal.modified.name,
          'size': proposal.modified.size,
-         'field': str(proposal.modified.field),
+         'activity_field': str(proposal.modified.activity_field),
          'short_description': proposal.modified.short_description, 
          'long_description': proposal.modified.long_description })
 
