@@ -38,7 +38,7 @@ from ain7.annuaire.models import *
 from ain7.annuaire.forms import *
 from ain7.emploi.models import Company, Office
 from ain7.decorators import confirmation_required
-from ain7.utils import ain7_render_to_response, ImgUploadForm
+from ain7.utils import ain7_render_to_response, ImgUploadForm, ain7_generic_edit, ain7_generic_delete
 from ain7.widgets import DateTimeWidget
 from ain7.fields import LanguageField
 from ain7.search_engine.models import *
@@ -686,223 +686,172 @@ def avatar_delete(request, user_id):
         _('Your avatar has been successfully deleted.'))
     return HttpResponseRedirect('/annuaire/%s/edit/' % user_id)
 
-def _generic_edit(request, user_id, object_id, object_type,
-                  person, ain7member, action_title, msg_done):
-
-    obj = get_object_or_404(object_type, pk=object_id)
-
-    class GenericForm(forms.ModelForm):
-        class Meta:
-            model = type(obj)
-            exclude = ('person','member')
-
-    # 1er passage : on propose un formulaire avec les donnees actuelles
-    if request.method == 'GET':
-        f = GenericForm(instance=obj)
-        back = request.META.get('HTTP_REFERER', '/')
-        return ain7_render_to_response(request, 'annuaire/edit_form.html',
-            {'form': f, 'action_title': action_title,
-             'person': person, 'back': back})
-
-    # 2e passage : sauvegarde et redirection
-    if request.method == 'POST':
-        f = GenericForm(request.POST.copy(),instance=obj)
-        if f.is_valid():
-            if person is not None:
-                f.cleaned_data['person'] = person
-            if ain7member is not None:
-                f.cleaned_data['member'] = ain7member
-            f.save()
-            request.user.message_set.create(message=msg_done)
-        else:
-            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
-            return ain7_render_to_response(request, 'annuaire/edit_form.html',
-                {'form': f, 'action_title': action_title, 'person': person,
-                 'back': '/annuaire/'+user_id+'/edit/'})
-        return HttpResponseRedirect('/annuaire/%s/edit/' % user_id)
-
-def _generic_delete(request, user_id, object_id, object_type, msg_done):
-
-    obj = get_object_or_404(object_type, pk=object_id)
-    obj.delete()
-
-    request.user.message_set.create(message=msg_done)
-    return HttpResponseRedirect('/annuaire/%s/edit/' % user_id)
-
-def _generic_add(request, user_id, object_type, person, ain7member,
-                action_title, msg_done):
-
-    class GenericForm(forms.ModelForm):
-        class Meta:
-            model = object_type
-            exclude = ('person','member')
-
-    # 1er passage : on propose un formulaire vide
-    if request.method == 'GET':
-        f = GenericForm()
-        back = request.META.get('HTTP_REFERER', '/')
-        return ain7_render_to_response(request, 'annuaire/edit_form.html',
-            {'person': person, 'ain7member': ain7member, 'back': back,
-             'form': f, 'action_title': action_title})
-
-    # 2e passage : sauvegarde et redirection
-    if request.method == 'POST':
-        f = GenericForm(request.POST.copy())
-        if f.is_valid():
-            if person is not None:
-                f.cleaned_data['person'] = person
-            if ain7member is not None:
-                f.cleaned_data['member'] = ain7member
-            f.save()
-            request.user.message_set.create(message=msg_done)
-        else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
-            return ain7_render_to_response(request, 'annuaire/edit_form.html',{'person': person, 'ain7member': ain7member, 'back': '/annuaire/'+user_id+'/edit/', 'form': f, 'action_title': action_title})
-        return HttpResponseRedirect('/annuaire/%s/edit/' % user_id)
-
 # Adresses
 @login_required
 def address_edit(request, user_id=None, address_id=None):
 
-    return _generic_edit(request, user_id, address_id, Address,
-                         get_object_or_404(Person, user=user_id), None,
-                         _('Modification of an address for'),
-                         _('Address informations updated successfully.'))
+    person = get_object_or_404(Person, user=user_id)
+    address = None
+    title = _('Creation of an address for')
+    msgDone = _('Address successfully added.')
+    if address_id:
+        address = get_object_or_404(Address, pk=address_id)
+        title = _('Modification of an address for')
+        msgDone = _('Address informations updated successfully.')
+    return ain7_generic_edit(
+        request, user_id, address, AddressForm, {'person': person},
+        'annuaire/edit_form.html',
+        {'action_title': title, 'person': person,
+         'back': request.META.get('HTTP_REFERER', '/')},
+        '/annuaire/%s/edit/#address' % user_id, msgDone)
 
 @confirmation_required(lambda user_id=None, address_id=None : str(get_object_or_404(Address, pk=address_id)), 'annuaire/base.html', _('Do you really want to delete your address'))
 @login_required
 def address_delete(request, user_id=None, address_id=None):
 
-    return _generic_delete(request, user_id, address_id, Address,
-                           _('Address successfully deleted.'))
-
-@login_required
-def address_add(request, user_id=None):
-
-    return _generic_add(request, user_id, Address,
-                        get_object_or_404(Person, user=user_id), None,
-                        _('Creation of an address for'),
-                        _('Address successfully added.'))
+    return ain7_generic_delete(request,
+        get_object_or_404(Address, pk=address_id),
+        '/annuaire/%s/edit/#address' % user_id,
+        _('Address successfully deleted.'))
 
 # Numeros de telephone
 @login_required
 def phone_edit(request, user_id=None, phone_id=None):
 
-    return _generic_edit(request, user_id, phone_id, PhoneNumber,
-                         get_object_or_404(Person, user=user_id), None,
-                         _('Modification of a phone number for'),
-                         _('Phone number informations updated successfully.'))
+    person = get_object_or_404(Person, user=user_id)
+    phone = None
+    title = _('Creation of a phone number for')
+    msgDone = _('Phone number added successfully.')
+    if phone_id:
+        phone = get_object_or_404(PhoneNumber, pk=phone_id)
+        title = _('Modification of a phone number for')
+        msgDone = _('Phone number informations updated successfully.')
+    return ain7_generic_edit(
+        request, user_id, phone, PhoneNumberForm, {'person': person},
+        'annuaire/edit_form.html',
+        {'action_title': title, 'person': person,
+         'back': request.META.get('HTTP_REFERER', '/')},
+        '/annuaire/%s/edit/#phone' % user_id, msgDone)
 
 @confirmation_required(lambda user_id=None, phone_id=None : str(get_object_or_404(PhoneNumber, pk=phone_id)), 'annuaire/base.html', _('Do you really want to delete your phone number'))
 @login_required
 def phone_delete(request, user_id=None, phone_id=None):
 
-    return _generic_delete(request, user_id, phone_id, PhoneNumber,
-                           _('Phone number successfully deleted.'))
-
-@login_required
-def phone_add(request, user_id=None):
-
-    return _generic_add(request, user_id, PhoneNumber,
-                        get_object_or_404(Person, user=user_id), None,
-                        _('Creation of a phone number for'),
-                        _('Phone number successfully added.'))
+    return ain7_generic_delete(request,
+        get_object_or_404(PhoneNumber, pk=phone_id),
+        '/annuaire/%s/edit/#phone' % user_id,
+        _('Phone number successfully deleted.'))
 
 # Adresses de courriel
 @login_required
 def email_edit(request, user_id=None, email_id=None):
 
-    return _generic_edit(request, user_id, email_id, Email,
-                         get_object_or_404(Person, user=user_id), None,
-                         _('Modification of an email address for'),
-                         _('Email informations updated successfully.'))
+    person = get_object_or_404(Person, user=user_id)
+    email = None
+    title = _('Creation of an email address for')
+    msgDone = _('Email address successfully added.')
+    if email_id:
+        email = get_object_or_404(Email, pk=email_id)
+        title = _('Modification of an email address for')
+        msgDone = _('Email informations updated successfully.')
+    return ain7_generic_edit(
+        request, user_id, email, EmailForm, {'person': person},
+        'annuaire/edit_form.html',
+        {'action_title': title, 'person': person,
+         'back': request.META.get('HTTP_REFERER', '/')},
+        '/annuaire/%s/edit/#email' % user_id, msgDone)
 
 @confirmation_required(lambda user_id=None, email_id=None : str(get_object_or_404(Email, pk=email_id)), 'annuaire/base.html', _('Do you really want to delete your email address'))
 @login_required
 def email_delete(request, user_id=None, email_id=None):
 
-    return _generic_delete(request, user_id, email_id, Email,
-                           _('Email address successfully deleted.'))
-
-@login_required
-def email_add(request, user_id=None):
-
-    return _generic_add(request, user_id, Email,
-                        get_object_or_404(Person, user=user_id), None,
-                        _('Creation of an email address for'),
-                        _('Email address successfully added.'))
+    return ain7_generic_delete(request, get_object_or_404(Email, pk=email_id),
+                               '/annuaire/%s/edit/#email' % user_id,
+                               _('Email address successfully deleted.'))
 
 # Comptes de messagerie instantanee
 @login_required
 def im_edit(request, user_id=None, im_id=None):
 
-    return _generic_edit(request, user_id, im_id, InstantMessaging,
-                         get_object_or_404(Person, user=user_id), None,
-                         _('Modification of an instant messaging account for'),
-                         _('Instant messaging informations updated successfully.'))
+    person = get_object_or_404(Person, user=user_id)
+    im = None
+    title = _('Creation of an instant messaging account for')
+    msgDone = _('Instant messaging account successfully added.')
+    if im_id:
+        im = get_object_or_404(InstantMessaging, pk=im_id)
+        title = _('Modification of an instant messaging account for')
+        msgDone = _('Instant messaging informations updated successfully.')
+    return ain7_generic_edit(
+        request, user_id, im, InstantMessagingForm, {'person': person},
+        'annuaire/edit_form.html',
+        {'action_title': title, 'person': person,
+         'back': request.META.get('HTTP_REFERER', '/')},
+        '/annuaire/%s/edit/#im' % user_id, msgDone)
 
 @confirmation_required(lambda user_id=None, im_id=None : str(get_object_or_404(InstantMessaging, pk=im_id)), 'annuaire/base.html', _('Do you really want to delete your instant messaging account'))
 @login_required
 def im_delete(request, user_id=None, im_id=None):
 
-    return _generic_delete(request, user_id, im_id, InstantMessaging,
-                           _('Instant messaging account successfully deleted.'))
-
-@login_required
-def im_add(request, user_id=None):
-
-    return _generic_add(request, user_id, InstantMessaging,
-                        get_object_or_404(Person, user=user_id), None,
-                        _('Creation of an instant messaging account for'),
-                        _('Instant messaging account successfully added.'))
+    return ain7_generic_delete(request,
+        get_object_or_404(InstantMessaging, pk=im_id),
+        '/annuaire/%s/edit/#im' % user_id,
+        _('Instant messaging account successfully deleted.'))
 
 # Comptes IRC
 @login_required
 def irc_edit(request, user_id=None, irc_id=None):
 
-    return _generic_edit(request, user_id, irc_id, IRC,
-                         get_object_or_404(Person, user=user_id), None,
-                         _('Modification of an IRC account for'),
-                         _('IRC account informations updated successfully.'))
+    person = get_object_or_404(Person, user=user_id)
+    irc = None
+    title = _('Creation of an IRC account for')
+    msgDone = _('IRC account successfully added.')
+    if irc_id:
+        irc = get_object_or_404(IRC, pk=irc_id)
+        title = _('Modification of an IRC account for')
+        msgDone = _('IRC account informations updated successfully.')
+    return ain7_generic_edit(
+        request, user_id, irc, IRCForm, {'person': person},
+        'annuaire/edit_form.html',
+        {'action_title': title, 'person': person,
+         'back': request.META.get('HTTP_REFERER', '/')},
+        '/annuaire/%s/edit/#irc' % user_id, msgDone)
 
 @confirmation_required(lambda user_id=None, irc_id=None : str(get_object_or_404(IRC, pk=irc_id)), 'annuaire/base.html', _('Do you really want to delete your IRC account'))
 @login_required
 def irc_delete(request, user_id=None, irc_id=None):
 
-    return _generic_delete(request, user_id, irc_id, IRC,
-                           _('IRC account successfully deleted.'))
-
-@login_required
-def irc_add(request, user_id=None):
-
-    return _generic_add(request, user_id, IRC,
-                        get_object_or_404(Person, user=user_id), None,
-                        _('Creation of an IRC account for'),
-                        _('IRC account successfully added.'))
+    return ain7_generic_delete(request,
+        get_object_or_404(IRC, pk=irc_id),
+        '/annuaire/%s/edit/#irc' % user_id,
+        _('IRC account successfully deleted.'))
 
 # Sites Internet
 @login_required
 def website_edit(request, user_id=None, website_id=None):
 
-    return _generic_edit(request, user_id, website_id, WebSite,
-                         get_object_or_404(Person, user=user_id), None,
-                         _('Modification of a website for'),
-                         _('Website informations updated successfully.'))
+    person = get_object_or_404(Person, user=user_id)
+    website = None
+    title = _('Creation of a website for')
+    msgDone = _('Website successfully added.')
+    if website_id:
+        website = get_object_or_404(WebSite, pk=website_id)
+        title = _('Modification of a website for')
+        msgDone = _('Website informations updated successfully.')
+    return ain7_generic_edit(
+        request, user_id, website, WebSiteForm, {'person': person},
+        'annuaire/edit_form.html',
+        {'action_title': title, 'person': person,
+         'back': request.META.get('HTTP_REFERER', '/')},
+        '/annuaire/%s/edit/#website' % user_id, msgDone)
 
 @confirmation_required(lambda user_id=None, website_id=None : str(get_object_or_404(WebSite, pk=website_id)), 'annuaire/base.html', _('Do you really want to delete your website'))
 @login_required
 def website_delete(request, user_id=None, website_id=None):
 
-    return _generic_delete(request, user_id, website_id, WebSite,
-                           _('Website successfully deleted.'))
-
-@login_required
-def website_add(request, user_id=None):
-
-    return _generic_add(request, user_id, WebSite,
-                        get_object_or_404(Person, user=user_id), None,
-                        _('Creation of a website for'),
-                        _('Website successfully added.'))
+    return ain7_generic_delete(request,
+        get_object_or_404(WebSite, pk=website_id),
+        '/annuaire/%s/edit/#website' % user_id,
+        _('Website successfully deleted.'))
 
 # Vie associative a l'n7
 
@@ -910,26 +859,30 @@ def website_add(request, user_id=None):
 def club_membership_edit(request, user_id=None, club_membership_id=None):
 
     person = get_object_or_404(Person, user=user_id)
-    return _generic_edit(request, user_id, club_membership_id, ClubMembership,
-                         person, get_object_or_404(AIn7Member, person=person),
-                         _('Modification of a club membership for'),
-                         _('Club membership informations updated successfully.'))
+    ain7member = get_object_or_404(AIn7Member, person=person)
+    club_membership = None
+    title = _('Creation of a club membership for')
+    msgDone = _('Club membership successfully added.')
+    if club_membership_id:
+        club_membership = get_object_or_404(ClubMembership,
+                                            pk=club_membership_id)
+        title = _('Modification of a club membership for')
+        msgDone = _('Club membership informations updated successfully.')
+    return ain7_generic_edit(
+        request, user_id, club_membership, ClubMembershipForm,
+        {'member': ain7member}, 'annuaire/edit_form.html',
+        {'action_title': title, 'person': person,
+         'back': request.META.get('HTTP_REFERER', '/')},
+        '/annuaire/%s/edit/#assoc' % user_id, msgDone)
 
 @confirmation_required(lambda user_id=None, club_membership_id=None : str(get_object_or_404(ClubMembership, pk=club_membership_id)), 'annuaire/base.html', _('Do you really want to delete your club membership'))
 @login_required
 def club_membership_delete(request, user_id=None, club_membership_id=None):
 
-    return _generic_delete(request, user_id, club_membership_id, ClubMembership,
-                           _('Club membership successfully deleted.'))
-
-@login_required
-def club_membership_add(request, user_id=None):
-
-    person = get_object_or_404(Person, user=user_id)
-    return _generic_add(request, user_id, ClubMembership,
-                        person, get_object_or_404(AIn7Member, person=person),
-                        _('Creation of a club membership for'),
-                        _('Club membership successfully added.'))
+    return ain7_generic_delete(request,
+        get_object_or_404(ClubMembership, pk=club_membership_id),
+        '/annuaire/%s/edit/#assoc' % user_id,
+        _('Club membership successfully deleted.'))
 
 @login_required
 def subscriptions(request, user_id):
@@ -945,25 +898,30 @@ def subscriptions(request, user_id):
 @login_required
 def subscription_edit(request, user_id=None, subscription_id=None):
 
-    return _generic_edit(request, user_id, subscription_id, AIn7Subscription,
-                         get_object_or_404(Person, user=user_id), None,
-                         _('Modification of a subscription for'),
-                         _('Subscription informations updated successfully.'))
+    person = get_object_or_404(Person, user=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=person)
+    subscription = None
+    title = _('Adding a subscription for')
+    msgDone = _('Subscription successfully added.')
+    if subscription_id:
+        subscription = get_object_or_404(AIn7Subscription, pk=subscription_id)
+        title = _('Modification of a subscription for')
+        msgDone = _('Subscription informations updated successfully.')
+    return ain7_generic_edit(
+        request, user_id, subscription, AIn7SubscriptionForm,
+        {'member': ain7member}, 'annuaire/edit_form.html',
+        {'action_title': title, 'person': person,
+         'back': request.META.get('HTTP_REFERER', '/')},
+        '/annuaire/%s/subscriptions/' % user_id, msgDone)
 
 @confirmation_required(lambda user_id=None, subscription_id=None : str(get_object_or_404(AIn7Subscription, pk=subscription_id)), 'annuaire/base.html', _('Do you really want to delete this subscription'))
 @login_required
 def subscription_delete(request, user_id=None, subscription_id=None):
 
-    return _generic_delete(request, user_id, subscription_id, AIn7Subscription,
-                           _('Subscription successfully deleted.'))
-
-@login_required
-def subscription_add(request, user_id=None):
-
-    return _generic_add(request, user_id, AIn7Subscription,
-                        get_object_or_404(Person, user=user_id), None,
-                        _('Adding a subscription for'),
-                        _('Subscription successfully added.'))
+    return ain7_generic_delete(request,
+        get_object_or_404(AIn7Subscription, pk=subscription_id),
+        '/annuaire/%s/subscriptions/' % user_id,
+        _('Subscription successfully deleted.'))
 
 @login_required
 def preferences(request, user_id):

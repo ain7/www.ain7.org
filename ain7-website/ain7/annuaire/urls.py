@@ -70,38 +70,38 @@ urlpatterns = patterns('',
     # Adresses
     (r'^(?P<user_id>\d+)/address/(?P<address_id>\d+)/edit/$', address_edit),
     (r'^(?P<user_id>\d+)/address/(?P<address_id>\d+)/delete/$', address_delete),
-    (r'^(?P<user_id>\d+)/address/add/$', address_add),
+    (r'^(?P<user_id>\d+)/address/add/$', address_edit),
     # User contributions
     (r'^(?P<user_id>\d+)/contributions/$',contributions),
     # Phone numbers
     (r'^(?P<user_id>\d+)/phone/(?P<phone_id>\d+)/edit/$', phone_edit),
     (r'^(?P<user_id>\d+)/phone/(?P<phone_id>\d+)/delete/$', phone_delete),
-    (r'^(?P<user_id>\d+)/phone/add/$', phone_add),
+    (r'^(?P<user_id>\d+)/phone/add/$', phone_edit),
     # Email
     (r'^(?P<user_id>\d+)/email/(?P<email_id>\d+)/edit/$', email_edit),
     (r'^(?P<user_id>\d+)/email/(?P<email_id>\d+)/delete/$', email_delete),
-    (r'^(?P<user_id>\d+)/email/add/$', email_add),
+    (r'^(?P<user_id>\d+)/email/add/$', email_edit),
     # Instant messaging
     (r'^(?P<user_id>\d+)/im/(?P<im_id>\d+)/edit/$', im_edit),
     (r'^(?P<user_id>\d+)/im/(?P<im_id>\d+)/delete/$', im_delete),
-    (r'^(?P<user_id>\d+)/im/add/$', im_add),
+    (r'^(?P<user_id>\d+)/im/add/$', im_edit),
     # Comptes IRC
     (r'^(?P<user_id>\d+)/irc/(?P<irc_id>\d+)/edit/$', irc_edit),
     (r'^(?P<user_id>\d+)/irc/(?P<irc_id>\d+)/delete/$', irc_delete),
-    (r'^(?P<user_id>\d+)/irc/add/$', irc_add),
+    (r'^(?P<user_id>\d+)/irc/add/$', irc_edit),
     # Subscriptions
     (r'^(?P<user_id>\d+)/subscriptions/$', subscriptions),
     (r'^(?P<user_id>\d+)/subscriptions/(?P<subscription_id>\d+)/edit/$', subscription_edit),
     (r'^(?P<user_id>\d+)/subscriptions/(?P<subscription_id>\d+)/delete/$', subscription_delete),
-    (r'^(?P<user_id>\d+)/subscriptions/add/$', subscription_add),
+    (r'^(?P<user_id>\d+)/subscriptions/add/$', subscription_edit),
     # Sites Web
     (r'^(?P<user_id>\d+)/website/(?P<website_id>\d+)/edit/$', website_edit),
     (r'^(?P<user_id>\d+)/website/(?P<website_id>\d+)/delete/$', website_delete),
-    (r'^(?P<user_id>\d+)/website/add/$', website_add),
+    (r'^(?P<user_id>\d+)/website/add/$', website_edit),
     # Activités associatives n7
     (r'^(?P<user_id>\d+)/club_membership/(?P<club_membership_id>\d+)/edit/$', club_membership_edit),
     (r'^(?P<user_id>\d+)/club_membership/(?P<club_membership_id>\d+)/delete/$', club_membership_delete),
-    (r'^(?P<user_id>\d+)/club_membership/add/$', club_membership_add),
+    (r'^(?P<user_id>\d+)/club_membership/add/$', club_membership_edit),
     # vCard
     (r'^(?P<user_id>\d+)/vcard/$', vcard),
 

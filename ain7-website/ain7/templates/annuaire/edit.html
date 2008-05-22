@@ -156,7 +156,7 @@
    {% trans "Modify" %}</a></p>
 
 
-<h2>{% trans "Address" %}</h2>
+<h2><a name="address"/>{% trans "Address" %}</h2>
 
 <table border="0" width="100%">
 {% for address in person.addresses.all %}
@@ -179,7 +179,7 @@
    {% trans "Add" %}</a></p>
 
 
-<h2>{% trans "Phone numbers" %}</h2>
+<h2><a name="phone"/>{% trans "Phone numbers" %}</h2>
 
 <table border="0" width="100%">
 {% for phone_number in person.phone_numbers.all %}
@@ -200,7 +200,8 @@
    {% trans "Add" %}</a></p>
 
 
-<h2>{% filter capfirst %}{% trans "email" %}{% endfilter %}</h2>
+<h2><a name="email"/>
+{% filter capfirst %}{% trans "email" %}{% endfilter %}</h2>
 
 <table border="0" width="100%">
 {% for email in person.emails.all %}
@@ -222,7 +223,7 @@
 <p><a href="/annuaire/{{ person.user.id }}/email/add/" class="addlink">
    {% trans "Add" %}</a></p>
 
-<h2>{% trans "Instant messaging accounts" %}</h2>
+<h2><a name="im"/>{% trans "Instant messaging accounts" %}</h2>
 
 <table border="0" width="100%">
 {% for im in person.instant_messagings.all %}
@@ -242,7 +243,7 @@
 <p><a href="/annuaire/{{ person.user.id }}/im/add/" class="addlink">
    {% trans "Add" %}</a></p>
 
-<h2>{% trans "IRC accounts" %}</h2>
+<h2><a name="irc"/>{% trans "IRC accounts" %}</h2>
 
 <table border="0" width="100%">
 {% for irc in person.ircs.all %}
@@ -262,7 +263,7 @@
 <p><a href="/annuaire/{{ person.user.id }}/irc/add/" class="addlink">
    {% trans "Add" %}</a></p>
 
-<h2>{% trans "Web sites" %}</h2>
+<h2><a name="website"/>{% trans "Web sites" %}</h2>
 
 <table border="0" width="100%">
 {% for website in person.web_sites.all %}
@@ -281,7 +282,7 @@
 <p><a href="/annuaire/{{ person.user.id }}/website/add/" class="addlink">
    {% trans "Add" %}</a></p>
 
-<h2>{% trans "N7 associative activities" %}</h2>
+<h2><a name="assoc"/>{% trans "N7 associative activities" %}</h2>
 
 <table border="0" width="100%">
 {% for club_membership in ain7member.club_memberships.all %}
@@ -300,7 +301,7 @@
    {% trans "Add" %}</a></p>
 
 
-<h2>{% trans "Current professional experiences" %}</h2>
+<h2><a name="profexp"/>{% trans "Current professional experiences" %}</h2>
 
 <table>
 {% for position in ain7member.positions.all %}

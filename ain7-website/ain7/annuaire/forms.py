@@ -24,8 +24,12 @@ from django import newforms as forms
 from django.utils.translation import ugettext as _
 
 from ain7.fields import AutoCompleteField
+from ain7.widgets import DateTimeWidget
 from ain7.annuaire.models import *
 from ain7.search_engine.models import SearchFilter
+
+dateTimeWidget = DateTimeWidget()
+dateTimeWidget.dformat = '%d/%m/%Y %H:%M'
 
 class SearchPersonForm(forms.Form):
     last_name = forms.CharField(label=_('Last name'), max_length=50, required=False)
@@ -138,3 +142,45 @@ class AIn7MemberForm(forms.ModelForm):
     class Meta:
         model = AIn7Member
         exclude = ('person','avatar')
+
+class EmailForm(forms.ModelForm):
+    class Meta:
+        model = Email
+        exclude = ('person')
+
+class PhoneNumberForm(forms.ModelForm):
+    class Meta:
+        model = PhoneNumber
+        exclude = ('person')
+
+class AddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        exclude = ('person')
+
+class InstantMessagingForm(forms.ModelForm):
+    class Meta:
+        model = InstantMessaging
+        exclude = ('person')
+
+class IRCForm(forms.ModelForm):
+    class Meta:
+        model = IRC
+        exclude = ('person')
+
+class WebSiteForm(forms.ModelForm):
+    class Meta:
+        model = WebSite
+        exclude = ('person')
+
+class ClubMembershipForm(forms.ModelForm):
+    class Meta:
+        model = ClubMembership
+        exclude = ('member')
+
+class AIn7SubscriptionForm(forms.ModelForm):
+    date = forms.DateTimeField(label=_('date').capitalize(),
+        widget=dateTimeWidget)
+    class Meta:
+        model = AIn7Subscription
+        exclude = ('member')

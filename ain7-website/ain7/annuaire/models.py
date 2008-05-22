@@ -377,10 +377,10 @@ class AIn7Member(models.Model):
         verbose_name = _('AIn7 member')
 
 class AIn7Subscription(models.Model):
-    member = models.ForeignKey(AIn7Member)
-    year = models.IntegerField()
-    date = models.DateTimeField()
-    amount = models.IntegerField()
+    member = models.ForeignKey(AIn7Member, verbose_name=_('member'))
+    year = models.IntegerField(verbose_name=_('year'))
+    date = models.DateTimeField(verbose_name=_('date'))
+    amount = models.IntegerField(verbose_name=_('Amount'))
 
     class Admin:
         pass
@@ -407,6 +407,9 @@ class PhoneNumber(models.Model):
     def save(self):
         self.modification_date = datetime.datetime.today()
         return super(PhoneNumber, self).save()
+
+    def __unicode__(self):
+        return self.number
 
     class Meta:
         verbose_name = _('phone number')
