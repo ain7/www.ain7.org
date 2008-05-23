@@ -39,8 +39,6 @@ from ain7.annuaire.forms import *
 from ain7.emploi.models import Company, Office
 from ain7.decorators import confirmation_required
 from ain7.utils import ain7_render_to_response, ImgUploadForm, ain7_generic_edit, ain7_generic_delete
-from ain7.widgets import DateTimeWidget
-from ain7.fields import LanguageField
 from ain7.search_engine.models import *
 from ain7.search_engine.utils import *
 
@@ -106,10 +104,11 @@ def search(request):
             track_default = [ -1, ""]
             if form.cleaned_data['promo'] != -1:
                 promo_default = \
-                    [promoCriteria['year'], promoCriteria['year']]
+                    [form.cleaned_data['promo'], form.cleaned_data['promo']]
             if form.cleaned_data['track'] != -1:
                 track_default = \
-                    [form.cleaned_data['track'], promoCriteria['track'].name]
+                    [form.cleaned_data['track'],
+                     get_object_or_404(Track,pk=form.cleaned_data['track'])]
 
             # put the criteria in session: they must be accessed when
             # performing a CSV export, sending a mail...
@@ -949,7 +948,9 @@ def register(request, user_id=None):
             request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
 
     back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request, 'annuaire/edit_form.html', {'action_title': 'Register new user', 'back': back, 'form': form})
+    return ain7_render_to_response(request,
+        'annuaire/edit_form.html',
+        {'action_title': _('Register new user'), 'back': back, 'form': form})
 
 @login_required
 def vcard(request, user_id):

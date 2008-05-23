@@ -22,12 +22,15 @@
 
 from django import newforms as forms
 from django.utils.translation import ugettext as _
+from django.shortcuts import get_object_or_404
 
 from ain7.fields import AutoCompleteField
 from ain7.widgets import DateTimeWidget
 from ain7.annuaire.models import *
 from ain7.search_engine.models import SearchFilter
 
+dateWidget = DateTimeWidget()
+dateWidget.dformat = '%d/%m/%Y'
 dateTimeWidget = DateTimeWidget()
 dateTimeWidget.dformat = '%d/%m/%Y %H:%M'
 
@@ -58,7 +61,10 @@ class SearchPersonForm(forms.Form):
         # on ajoute ces promos aux critères de recherche
         # si elle ne sont pas vides
         if len(promoCriteria)!=0:
-            criteria['promos__in']=Promo.objects.filter(**promoCriteria)
+            # Pour éviter http://groups.google.es/group/django-users/browse_thread/thread/32143d024b17dd00,
+            # on convertit en liste
+            criteria['promos__in']=\
+                [promo for promo in Promo.objects.filter(**promoCriteria)]
         return criteria
 
     def search(self, criteria):
@@ -72,15 +78,15 @@ class SendmailForm(forms.Form):
 class NewMemberForm(forms.Form):
     first_name = forms.CharField(label=_('First name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size':50}))
     last_name = forms.CharField(label=_('Last name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 50}))
-    mail = forms.CharField(label=_('Mail'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 50}))
+    mail = forms.EmailField(label=_('Mail'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 50}))
     nationality = forms.IntegerField(label=_('Nationality'), required=True, widget=AutoCompleteField(url='/ajax/nationality/'))
-    birth_date = forms.DateTimeField(label=_('Date of birth'), required=True)
-    sex = forms.CharField(label=_('sex'), required=True)
+    birth_date = forms.DateTimeField(label=_('Date of birth'), required=True, widget=dateWidget)
+    sex = forms.ChoiceField(label=_('sex'), required=True, choices=Person.SEX)
     promo = forms.IntegerField(label=_('Promo'), required=True, widget=AutoCompleteField(url='/ajax/promo/'))
     track = forms.IntegerField(label=_('Track'), required=True,  widget=AutoCompleteField(url='/ajax/track/'))
 
     def save(self):
-        login = (self.cleaned_data['first_name'][0]+self.clean_data['last_name']).lower()
+        login = (self.cleaned_data['first_name'][0]+self.cleaned_data['last_name']).lower()
         mail = self.cleaned_data['mail']
         new_user = User.objects.create_user(login, mail, 'password')
         new_user.first_name = self.cleaned_data['first_name']
@@ -101,8 +107,6 @@ class NewMemberForm(forms.Form):
 
         new_ain7member = AIn7Member()
         new_ain7member.person = new_person
-        new_ain7member.promos.add(
-            Promo.objects.get(id=self.cleaned_data['promo']))
         new_ain7member.marital_status = \
             MaritalStatus.objects.get(status="Célibataire")
         new_ain7member.display_cv_in_directory = False
@@ -110,8 +114,11 @@ class NewMemberForm(forms.Form):
         new_ain7member.receive_job_offers = False
         new_ain7member.member_type = \
             MemberType.objects.get(type="Membre actif")
-        new_ain7member.person_type = PersonType.objects.get(type="Etudiant")
+        new_ain7member.person_type = PersonType.objects.get(type=u"Étudiant")
         new_ain7member.activity = Activity.objects.get(activity="Connue")
+        new_ain7member.save()
+        new_ain7member.promos.add(
+            Promo.objects.get(id=self.cleaned_data['promo']))
         new_ain7member.save()
 
         new_couriel = Email()
