@@ -59,7 +59,7 @@ class DateTimeWidget(forms.widgets.TextInput):
         empty_values = forms.fields.EMPTY_VALUES
 
         value = data.get(name, None)
-        print "Value = %s " % value
+        # print "Value = %s " % value
         if value in empty_values:
             return None
         if isinstance(value, datetime):

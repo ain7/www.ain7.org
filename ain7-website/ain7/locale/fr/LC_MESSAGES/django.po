@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-22 23:02+0200\n"
-"PO-Revision-Date: 2008-05-22 23:09+0200\n"
+"POT-Creation-Date: 2008-05-24 23:30+0200\n"
+"PO-Revision-Date: 2008-05-24 23:36+0200\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,78 +19,78 @@ msgstr ""
 msgid "Are you sure you want to do this action?"
 msgstr "Souhaitez-vous vraiment effectuer cette action ?"
 
-#: utils.py:106 annuaire/views.py:238 annuaire/views.py:256
-#: annuaire/views.py:611 annuaire/views.py:640 annuaire/views.py:673
-#: annuaire/views.py:949 emploi/views.py:104 emploi/views.py:144
-#: emploi/views.py:295 emploi/views.py:334 emploi/views.py:376
-#: emploi/views.py:395 evenements/views.py:68 evenements/views.py:105
+#: utils.py:107 annuaire/views.py:237 annuaire/views.py:255
+#: annuaire/views.py:610 annuaire/views.py:639 annuaire/views.py:672
+#: annuaire/views.py:948 emploi/views.py:104 emploi/views.py:144
+#: emploi/views.py:293 emploi/views.py:332 emploi/views.py:374
+#: emploi/views.py:393 evenements/views.py:68 evenements/views.py:105
 #: evenements/views.py:186 manage/views.py:161 manage/views.py:291
 #: manage/views.py:433 manage/views.py:484 manage/views.py:710
-#: manage/views.py:736 news/views.py:90 sondages/views.py:145
-#: voyages/views.py:59 voyages/views.py:134 voyages/views.py:165
-#: voyages/views.py:207 voyages/views.py:239 voyages/views.py:300
+#: manage/views.py:736 news/views.py:90 voyages/views.py:59
+#: voyages/views.py:134 voyages/views.py:165 voyages/views.py:207
+#: voyages/views.py:239 voyages/views.py:300
 msgid "Something was wrong in the form you filled. No modification done."
 msgstr ""
 "Certains champs ont été incorrectement remplis. Aucune modification "
 "effectuée."
 
-#: annuaire/forms.py:35 annuaire/forms.py:74 annuaire/models.py:247
+#: annuaire/forms.py:38 annuaire/forms.py:80 annuaire/models.py:247
 #: manage/views.py:45 manage/views.py:68 templates/annuaire/edit.html:26
 msgid "Last name"
 msgstr "Nom"
 
-#: annuaire/forms.py:36 annuaire/forms.py:73 annuaire/models.py:248
+#: annuaire/forms.py:39 annuaire/forms.py:79 annuaire/models.py:248
 #: manage/views.py:46 manage/views.py:67 templates/annuaire/edit.html:25
 msgid "First name"
 msgstr "Prénom"
 
-#: annuaire/forms.py:37 annuaire/forms.py:79 annuaire/models.py:214
+#: annuaire/forms.py:40 annuaire/forms.py:85 annuaire/models.py:214
 msgid "Promo"
 msgstr "Promotions"
 
-#: annuaire/forms.py:38 annuaire/forms.py:80 annuaire/models.py:199
+#: annuaire/forms.py:41 annuaire/forms.py:86 annuaire/models.py:199
 #: annuaire/models.py:205 emploi/models.py:405
 msgid "Track"
 msgstr "Filière"
 
-#: annuaire/forms.py:39 emploi/models.py:109 emploi/models.py:166
+#: annuaire/forms.py:42 emploi/models.py:109 emploi/models.py:166
 #: templates/emploi/job_details.html:13
 msgid "company"
 msgstr "société"
 
-#: annuaire/forms.py:68
+#: annuaire/forms.py:74
 msgid "subject"
 msgstr "sujet"
 
-#: annuaire/forms.py:69
+#: annuaire/forms.py:75
 msgid "body"
 msgstr "corps"
 
-#: annuaire/forms.py:70
+#: annuaire/forms.py:76
 msgid "Send me a test"
 msgstr "Envoyer un message de test"
 
-#: annuaire/forms.py:75 manage/views.py:69
+#: annuaire/forms.py:81 manage/views.py:69
 msgid "Mail"
 msgstr "Mail"
 
-#: annuaire/forms.py:76 manage/views.py:70
+#: annuaire/forms.py:82 manage/views.py:70
 msgid "Nationality"
 msgstr "Nationalité"
 
-#: annuaire/forms.py:77 manage/views.py:71
+#: annuaire/forms.py:83 manage/views.py:71
 msgid "Date of birth"
 msgstr "Date de naissance"
 
-#: annuaire/forms.py:78 annuaire/models.py:253 templates/annuaire/edit.html:23
+#: annuaire/forms.py:84 annuaire/models.py:253 templates/annuaire/edit.html:23
 msgid "sex"
 msgstr "sexe"
 
-#: annuaire/forms.py:127
+#: annuaire/forms.py:134
 msgid "Field"
 msgstr "Champ"
 
-#: annuaire/forms.py:182 annuaire/models.py:382
+#: annuaire/forms.py:189 annuaire/models.py:382
 #: templates/voyages/details.html:19 voyages/forms.py:33 voyages/models.py:49
 msgid "date"
 msgstr "date"
@@ -286,7 +286,7 @@ msgstr "nombre d'enfants"
 msgid "Nick name"
 msgstr "Surnom"
 
-#: annuaire/models.py:340 annuaire/views.py:661
+#: annuaire/models.py:340 annuaire/views.py:660
 #: templates/annuaire/details.html:63 templates/annuaire/details_frame.html:73
 #: templates/annuaire/edit.html:50 templates/annuaire/edit.html.py:53
 #: templates/emploi/cv_details.html:30 templates/emploi/cv_edit.html:32
@@ -428,7 +428,7 @@ msgstr "date de création"
 
 #: annuaire/models.py:563 annuaire/models.py:582 emploi/models.py:296
 #: emploi/models.py:326 groupes/models.py:67 groupes_regionaux/models.py:73
-#: groupes_regionaux/models.py:97 sondages/models.py:31
+#: groupes_regionaux/models.py:97 sondages/forms.py:36 sondages/models.py:31
 #: templates/evenements/details.html:17 templates/sondages/details.html:26
 #: voyages/models.py:48
 msgid "end date"
@@ -444,7 +444,7 @@ msgstr "fonction"
 
 #: annuaire/models.py:581 emploi/models.py:295 emploi/models.py:325
 #: groupes/models.py:66 groupes_regionaux/models.py:72
-#: groupes_regionaux/models.py:96 sondages/models.py:30
+#: groupes_regionaux/models.py:96 sondages/forms.py:34 sondages/models.py:30
 #: templates/evenements/details.html:15 templates/sondages/details.html:22
 #: voyages/models.py:47
 msgid "start date"
@@ -486,269 +486,273 @@ msgstr "nombre de points"
 msgid "date of contribution"
 msgstr "date de la contribution"
 
-#: annuaire/views.py:212
+#: annuaire/views.py:211
 msgid "Enter parameters of your filter"
 msgstr "Paramètres de votre filtre"
 
-#: annuaire/views.py:224
+#: annuaire/views.py:223
 msgid "One of your filters already has this name."
 msgstr "L'un de vos filtres a déjà ce nom."
 
-#: annuaire/views.py:234 annuaire/views.py:254 annuaire/views.py:539
-#: annuaire/views.py:608 annuaire/views.py:637 groupes/views.py:102
+#: annuaire/views.py:233 annuaire/views.py:253 annuaire/views.py:538
+#: annuaire/views.py:607 annuaire/views.py:636 groupes/views.py:102
 #: manage/views.py:733 voyages/views.py:132
 msgid "Modifications have been successfully saved."
 msgstr "Les modifications ont été correctement enregistrées."
 
-#: annuaire/views.py:261
+#: annuaire/views.py:260
 msgid "Modification of the filter"
 msgstr "Modification du filtre"
 
-#: annuaire/views.py:292
+#: annuaire/views.py:291
 msgid "Your filter has been successfully deleted."
 msgstr "Votre filtre a été supprimé avec succès."
 
-#: annuaire/views.py:295
+#: annuaire/views.py:294
 msgid "Something went wrong. The filter has not been deleted."
 msgstr "Des erreurs se sont produites. Le filtre n'a pas été supprimé."
 
-#: annuaire/views.py:352 annuaire/views.py:507
+#: annuaire/views.py:351 annuaire/views.py:506
 msgid "is in filter"
 msgstr "fait partie de"
 
-#: annuaire/views.py:402
+#: annuaire/views.py:401
 msgid "Criterion to add"
 msgstr "Critère à ajouter"
 
-#: annuaire/views.py:409 templates/annuaire/criterionFilter_edit.html:20
+#: annuaire/views.py:408 templates/annuaire/criterionFilter_edit.html:20
 msgid "Edit the criterion"
 msgstr "Modifier le critère"
 
-#: annuaire/views.py:541
+#: annuaire/views.py:540
 msgid "Something went wrong. No modification done."
 msgstr "Des erreurs se sont produites. Aucune modification effectuée."
 
-#: annuaire/views.py:616 annuaire/views.py:646
+#: annuaire/views.py:615 annuaire/views.py:645
 msgid "Modification of personal data for"
 msgstr "Modification des données personnelles de"
 
-#: annuaire/views.py:671 evenements/views.py:103 news/views.py:88
+#: annuaire/views.py:670 evenements/views.py:103 news/views.py:88
 #: voyages/views.py:163
 msgid "The picture has been successfully changed."
 msgstr "L'image a été modifiée avec succès."
 
-#: annuaire/views.py:676
+#: annuaire/views.py:675
 msgid "Do you really want to delete your avatar"
 msgstr "Souhaitez-vous vraiment supprimer votre avatar"
 
-#: annuaire/views.py:686
+#: annuaire/views.py:685
 msgid "Your avatar has been successfully deleted."
 msgstr "Votre avatar a été supprimé avec succès"
 
-#: annuaire/views.py:695
+#: annuaire/views.py:694
 msgid "Creation of an address for"
 msgstr "Ajout d'une adresse de"
 
-#: annuaire/views.py:696
+#: annuaire/views.py:695
 msgid "Address successfully added."
 msgstr "L'adresse a été ajoutée avec succès."
 
-#: annuaire/views.py:699
+#: annuaire/views.py:698
 msgid "Modification of an address for"
 msgstr "Modification d'une adresse de"
 
-#: annuaire/views.py:700
+#: annuaire/views.py:699
 msgid "Address informations updated successfully."
 msgstr "Votre adresse a été correctement enregistrée."
 
-#: annuaire/views.py:708
+#: annuaire/views.py:707
 msgid "Do you really want to delete your address"
 msgstr "Souhaitez-vous vraiment supprimer l'adresse"
 
-#: annuaire/views.py:715
+#: annuaire/views.py:714
 msgid "Address successfully deleted."
 msgstr "L'adresse a été supprimée avec succès."
 
-#: annuaire/views.py:723
+#: annuaire/views.py:722
 msgid "Creation of a phone number for"
 msgstr "Ajout d'un numéro de téléphone de"
 
-#: annuaire/views.py:724
+#: annuaire/views.py:723
 msgid "Phone number added successfully."
 msgstr "Le numéro de téléphone a été ajouté avec succès."
 
-#: annuaire/views.py:727
+#: annuaire/views.py:726
 msgid "Modification of a phone number for"
 msgstr "Modification d'un numéro de téléphone de"
 
-#: annuaire/views.py:728
+#: annuaire/views.py:727
 msgid "Phone number informations updated successfully."
 msgstr "Votre numéro de téléphone a été correctement enregistré."
 
-#: annuaire/views.py:736
+#: annuaire/views.py:735
 msgid "Do you really want to delete your phone number"
 msgstr "Souhaitez-vous vraiment supprimer le numéro de téléphone"
 
-#: annuaire/views.py:743
+#: annuaire/views.py:742
 msgid "Phone number successfully deleted."
 msgstr "Le numéro de téléphone a été supprimé avec succès."
 
-#: annuaire/views.py:751
+#: annuaire/views.py:750
 msgid "Creation of an email address for"
 msgstr "Ajout d'une adresse de courriel de"
 
-#: annuaire/views.py:752
+#: annuaire/views.py:751
 msgid "Email address successfully added."
 msgstr "L'adresse de courriel a été ajoutée avec succès."
 
-#: annuaire/views.py:755
+#: annuaire/views.py:754
 msgid "Modification of an email address for"
 msgstr "Modification d'une adresse de courriel de"
 
-#: annuaire/views.py:756
+#: annuaire/views.py:755
 msgid "Email informations updated successfully."
 msgstr "Votre adresse de courriel a été mise à jour avec succès."
 
-#: annuaire/views.py:764
+#: annuaire/views.py:763
 msgid "Do you really want to delete your email address"
 msgstr "Souhaitez-vous vraiment supprimer l'adresse mail"
 
-#: annuaire/views.py:770
+#: annuaire/views.py:769
 msgid "Email address successfully deleted."
 msgstr "L'adresse de courriel a été supprimée avec succès."
 
-#: annuaire/views.py:778
+#: annuaire/views.py:777
 msgid "Creation of an instant messaging account for"
 msgstr "Ajout d'un compte de messagerie instantanée de"
 
-#: annuaire/views.py:779
+#: annuaire/views.py:778
 msgid "Instant messaging account successfully added."
 msgstr "Le compte de messagerie instantanée a été ajouté avec succès."
 
-#: annuaire/views.py:782
+#: annuaire/views.py:781
 msgid "Modification of an instant messaging account for"
 msgstr "Modification d'un compte de messagerie instantanée de"
 
-#: annuaire/views.py:783
+#: annuaire/views.py:782
 msgid "Instant messaging informations updated successfully."
 msgstr "Votre compte de messagerie instantanée a été correctement enregistré."
 
-#: annuaire/views.py:791
+#: annuaire/views.py:790
 msgid "Do you really want to delete your instant messaging account"
 msgstr "Souhaitez-vous vraiment supprimer ce compte de messagerie instantanée"
 
-#: annuaire/views.py:798
+#: annuaire/views.py:797
 msgid "Instant messaging account successfully deleted."
 msgstr "Votre compte de messagerie instantanée a été correctement supprimé."
 
-#: annuaire/views.py:806
+#: annuaire/views.py:805
 msgid "Creation of an IRC account for"
 msgstr "Ajout d'un compte IRC de"
 
-#: annuaire/views.py:807
+#: annuaire/views.py:806
 msgid "IRC account successfully added."
 msgstr "Le compte IRC a été ajouté avec succès."
 
-#: annuaire/views.py:810
+#: annuaire/views.py:809
 msgid "Modification of an IRC account for"
 msgstr "Modification d'un compte IRC de"
 
-#: annuaire/views.py:811
+#: annuaire/views.py:810
 msgid "IRC account informations updated successfully."
 msgstr "Votre compte IRC a été mis à jour avec succès."
 
-#: annuaire/views.py:819
+#: annuaire/views.py:818
 msgid "Do you really want to delete your IRC account"
 msgstr "Souhaitez-vous vraiment supprimer ce compte IRC"
 
-#: annuaire/views.py:826
+#: annuaire/views.py:825
 msgid "IRC account successfully deleted."
 msgstr "Le compte IRC a été supprimé avec succès."
 
-#: annuaire/views.py:834
+#: annuaire/views.py:833
 msgid "Creation of a website for"
 msgstr "Ajout d'un site web de"
 
-#: annuaire/views.py:835
+#: annuaire/views.py:834
 msgid "Website successfully added."
 msgstr "Le site web a été ajouté avec succès."
 
-#: annuaire/views.py:838
+#: annuaire/views.py:837
 msgid "Modification of a website for"
 msgstr "Modification du site web de"
 
-#: annuaire/views.py:839
+#: annuaire/views.py:838
 msgid "Website informations updated successfully."
 msgstr ""
 "Les informations concernant le site web ont été correctement enregistrées."
 
-#: annuaire/views.py:847
+#: annuaire/views.py:846
 msgid "Do you really want to delete your website"
 msgstr "Souhaitez-vous vraiment supprimer ce site web"
 
-#: annuaire/views.py:854
+#: annuaire/views.py:853
 msgid "Website successfully deleted."
 msgstr "Le site web a été supprimé avec succès."
 
-#: annuaire/views.py:864
+#: annuaire/views.py:863
 msgid "Creation of a club membership for"
 msgstr "Ajout de l'appartenance à un club de"
 
-#: annuaire/views.py:865
+#: annuaire/views.py:864
 msgid "Club membership successfully added."
 msgstr "L'appartenance au club a été ajoutée avec succès."
 
-#: annuaire/views.py:869
+#: annuaire/views.py:868
 msgid "Modification of a club membership for"
 msgstr "Modification de l'appartenance à un club de"
 
-#: annuaire/views.py:870
+#: annuaire/views.py:869
 msgid "Club membership informations updated successfully."
 msgstr ""
 "Les informations concernant l'appartenance à un club ont été correctement "
 "enregistrées."
 
-#: annuaire/views.py:878
+#: annuaire/views.py:877
 msgid "Do you really want to delete your club membership"
 msgstr "Souhaitez-vous vraiment supprimer l'appartenance à ce club"
 
-#: annuaire/views.py:885
+#: annuaire/views.py:884
 msgid "Club membership successfully deleted."
 msgstr "L'appartenance au club a été supprimée avec succès."
 
-#: annuaire/views.py:904
+#: annuaire/views.py:903
 msgid "Adding a subscription for"
 msgstr "Ajout d'une adhésion de"
 
-#: annuaire/views.py:905
+#: annuaire/views.py:904
 msgid "Subscription successfully added."
 msgstr "Adhésion ajoutée avec succès."
 
-#: annuaire/views.py:908
+#: annuaire/views.py:907
 msgid "Modification of a subscription for"
 msgstr "Modification d'une adhésion de"
 
-#: annuaire/views.py:909
+#: annuaire/views.py:908
 msgid "Subscription informations updated successfully."
 msgstr "Les informations d'adhésions ont été mises à jour"
 
-#: annuaire/views.py:917
+#: annuaire/views.py:916
 msgid "Do you really want to delete this subscription"
 msgstr "Souhaitez-vous vraiment supprimer cette adhésion  ?"
 
-#: annuaire/views.py:924
+#: annuaire/views.py:923
 msgid "Subscription successfully deleted."
 msgstr "Adhésion effacée avec succès."
 
-#: annuaire/views.py:946 manage/views.py:158
+#: annuaire/views.py:945 manage/views.py:158
 msgid "New user successfully created"
 msgstr "Utilisateur créé avec succès"
 
-#: annuaire/views.py:1074
+#: annuaire/views.py:953
+msgid "Register new user"
+msgstr "Enregistrer une nouvelle personne"
+
+#: annuaire/views.py:1075
 msgid "checked"
 msgstr "coché"
 
-#: annuaire/views.py:1076
+#: annuaire/views.py:1077
 msgid "unchecked"
 msgstr "décoché"
 
@@ -1058,47 +1062,47 @@ msgstr ""
 "Les informations sur la partie \"Loisirs\" de votre CV ont été ajoutées avec "
 "succès."
 
-#: emploi/views.py:240 emploi/views.py:262
+#: emploi/views.py:239 emploi/views.py:260
 msgid "Publication informations updated successfully."
 msgstr ""
 "Les informations concernant la partie \"Publications\" de votre CV ont été "
 "mises à jour avec succès."
 
-#: emploi/views.py:242
+#: emploi/views.py:241
 msgid "Do you really want to delete your publication"
 msgstr ""
 "Souhaitez-vous vraiment supprimer cette entrée de la partie \"Publications\""
 
-#: emploi/views.py:249
+#: emploi/views.py:248
 msgid "Publication informations deleted successfully."
 msgstr ""
 "Les informations concernant la partie \"Publications\" de votre CV ont été "
 "mises à jour avec succès."
 
-#: emploi/views.py:289 manage/views.py:490
+#: emploi/views.py:287 manage/views.py:490
 msgid "Proposal for adding an office"
 msgstr "Proposition d'ajout d'un bureau"
 
-#: emploi/views.py:293
+#: emploi/views.py:291
 msgid "Your proposal for adding an office has been sent to moderators."
 msgstr ""
 "Votre proposition de création d'un bureau a été soumise aux modérateurs."
 
-#: emploi/views.py:328 manage/views.py:343
+#: emploi/views.py:326 manage/views.py:343
 msgid "Proposal for adding an organization"
 msgstr "Proposition de création d'une organisation"
 
-#: emploi/views.py:332
+#: emploi/views.py:330
 msgid "Your proposal for adding an organization has been sent to moderators."
 msgstr ""
 "Votre proposition de création d'une organisation a été soumise aux "
 "modérateurs."
 
-#: emploi/views.py:372
+#: emploi/views.py:370
 msgid "Job offer successfully modified."
 msgstr "Offre d'emploi modifiée avec succès"
 
-#: emploi/views.py:391
+#: emploi/views.py:389
 msgid "Job offer successfully created."
 msgstr "Offre d'emploi créée avec succès"
 
@@ -1614,6 +1618,10 @@ msgstr "supérieur à"
 msgid "is"
 msgstr "est"
 
+#: sondages/forms.py:46
+msgid "Start date is later than end date"
+msgstr "La date de début est postérieure à la date de fin."
+
 #: sondages/models.py:52 sondages/models.py:57 sondages/models.py:76
 msgid "survey"
 msgstr "sondage"
@@ -1642,51 +1650,51 @@ msgstr "Votre vote a été comptabilisé"
 msgid "You have already vote for this survey."
 msgstr "Vous avez déjà voté pour ce sondage."
 
-#: sondages/views.py:78
+#: sondages/views.py:79
 msgid "Survey creation"
 msgstr "Création de sondage"
 
-#: sondages/views.py:78
+#: sondages/views.py:80
 msgid "Survey succesfully created."
 msgstr "Sondage créé avec succès"
 
-#: sondages/views.py:90
+#: sondages/views.py:93
 msgid "Survey edition"
 msgstr "Edition de sondage"
 
-#: sondages/views.py:90
+#: sondages/views.py:94
 msgid "Survey succesfully updated."
 msgstr "Sondage mis à jour avec succès"
 
-#: sondages/views.py:93
+#: sondages/views.py:97
 msgid "Do you really want to delete this survey?"
 msgstr "Souhaitez-vous vraiment supprimer ce sondage ?"
 
-#: sondages/views.py:98
+#: sondages/views.py:102
 msgid "Survey successfully deleted."
 msgstr "Le sondage a été supprimée avec succès."
 
-#: sondages/views.py:105
+#: sondages/views.py:109
 msgid "Choice creation"
 msgstr "Création de choix"
 
-#: sondages/views.py:105
+#: sondages/views.py:110
 msgid "Choice succesfully added"
 msgstr "Le choix a été ajouté avec succès."
 
-#: sondages/views.py:112
+#: sondages/views.py:118
 msgid "Choice edition"
 msgstr "Edition de choix"
 
-#: sondages/views.py:112
+#: sondages/views.py:119
 msgid "Choice succesfully updated."
 msgstr "Choix mis à jour avec succès"
 
-#: sondages/views.py:114
+#: sondages/views.py:121
 msgid "Do you really want to delete the choice"
 msgstr "Souhaitez-vous vraiment supprimer ce choix"
 
-#: sondages/views.py:120
+#: sondages/views.py:126
 msgid "Choice successfully deleted."
 msgstr "Le choix a été supprimé avec succès."
 
@@ -3000,7 +3008,7 @@ msgstr "Mot de passe"
 
 #: templates/sondages/details.html:11
 msgid "Go back to results"
-msgstr "Retourner aux resultats"
+msgstr "Retourner aux résultats"
 
 #: templates/sondages/details.html:34
 msgid "Choices"

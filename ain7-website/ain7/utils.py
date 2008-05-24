@@ -23,6 +23,7 @@
 import datetime
 import smtplib
 import time
+from string import Template
 
 from django.contrib import auth
 from django.http import HttpResponseRedirect
@@ -68,7 +69,7 @@ def isAdmin(user):
             result = True
     return result
 
-def ain7_generic_edit(request, user_id, obj, MyForm, formInitDict, formPage, formPageDict, redirectPage, msgDone):
+def ain7_generic_edit(request, obj, MyForm, formInitDict, formPage, formPageDict, redirectPage, msgDone):
     """ Méthode utilisée pour éditer (ou créer) un objet de façon standard,
     c'est-à-dire via un formulaire de type ModelForms.
     obj : objet à éditer. S'il s'agit de None, on est en mode création.
@@ -76,7 +77,7 @@ def ain7_generic_edit(request, user_id, obj, MyForm, formInitDict, formPage, for
     formInitDict : données de l'objet exclues du formulaire.
     formPage : template du formulaire.
     formPageDict : dictionnaire passé au template du formulaire.
-    redirectPage : redirection après le formulaire.
+    redirectPage : redirection après le formulaire. Utiliser $objid pour l'identifiant de l'objet.
     msgDone : message en cas de succès."""
     
     # 1er passage : on propose un formulaire avec les données actuelles
@@ -98,14 +99,15 @@ def ain7_generic_edit(request, user_id, obj, MyForm, formInitDict, formPage, for
         if f.is_valid():
             for k,v in formInitDict.iteritems():
                 f.cleaned_data[k] = v
-            f.save()
+            obj = f.save()
             request.user.message_set.create(message=msgDone)
         else:
             pageDict = {'form': f}
             pageDict.update(formPageDict)
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
             return ain7_render_to_response(request, formPage, pageDict)
-        return HttpResponseRedirect(redirectPage)
+        redirect = Template(redirectPage).substitute(objid=obj.id)
+        return HttpResponseRedirect(redirect)
 
 def ain7_generic_delete(request, obj, redirectPage, msgDone):
     """ Méthode générique pour supprimer un objet."""

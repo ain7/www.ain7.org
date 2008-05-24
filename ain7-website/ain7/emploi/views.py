@@ -232,8 +232,7 @@ def publication_edit(request, user_id=None, publication_id=None):
     ain7member = get_object_or_404(AIn7Member, person=person)
     publi = get_object_or_404(PublicationItem,pk=publication_id)
     return ain7_generic_edit(
-        request, user_id, publi,
-        PublicationItemForm, {'ain7member': ain7member},
+        request, publi, PublicationItemForm, {'ain7member': ain7member},
         'emploi/publication_edit.html',
         {'action': 'edit', 'ain7member': ain7member},
         '/emploi/%s/cv/edit/#publications' % user_id,
@@ -254,8 +253,7 @@ def publication_add(request, user_id=None):
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
     return ain7_generic_edit(
-        request, user_id, None,
-        PublicationItemForm, {'ain7member': ain7member},
+        request, None, PublicationItemForm, {'ain7member': ain7member},
         'emploi/publication_edit.html',
         {'action': 'create', 'ain7member': ain7member},
         '/emploi/%s/cv/edit/#publications' % user_id,

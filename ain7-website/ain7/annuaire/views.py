@@ -698,7 +698,7 @@ def address_edit(request, user_id=None, address_id=None):
         title = _('Modification of an address for')
         msgDone = _('Address informations updated successfully.')
     return ain7_generic_edit(
-        request, user_id, address, AddressForm, {'person': person},
+        request, address, AddressForm, {'person': person},
         'annuaire/edit_form.html',
         {'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')},
@@ -726,7 +726,7 @@ def phone_edit(request, user_id=None, phone_id=None):
         title = _('Modification of a phone number for')
         msgDone = _('Phone number informations updated successfully.')
     return ain7_generic_edit(
-        request, user_id, phone, PhoneNumberForm, {'person': person},
+        request, phone, PhoneNumberForm, {'person': person},
         'annuaire/edit_form.html',
         {'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')},
@@ -754,7 +754,7 @@ def email_edit(request, user_id=None, email_id=None):
         title = _('Modification of an email address for')
         msgDone = _('Email informations updated successfully.')
     return ain7_generic_edit(
-        request, user_id, email, EmailForm, {'person': person},
+        request, email, EmailForm, {'person': person},
         'annuaire/edit_form.html',
         {'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')},
@@ -781,7 +781,7 @@ def im_edit(request, user_id=None, im_id=None):
         title = _('Modification of an instant messaging account for')
         msgDone = _('Instant messaging informations updated successfully.')
     return ain7_generic_edit(
-        request, user_id, im, InstantMessagingForm, {'person': person},
+        request, im, InstantMessagingForm, {'person': person},
         'annuaire/edit_form.html',
         {'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')},
@@ -809,7 +809,7 @@ def irc_edit(request, user_id=None, irc_id=None):
         title = _('Modification of an IRC account for')
         msgDone = _('IRC account informations updated successfully.')
     return ain7_generic_edit(
-        request, user_id, irc, IRCForm, {'person': person},
+        request, irc, IRCForm, {'person': person},
         'annuaire/edit_form.html',
         {'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')},
@@ -837,7 +837,7 @@ def website_edit(request, user_id=None, website_id=None):
         title = _('Modification of a website for')
         msgDone = _('Website informations updated successfully.')
     return ain7_generic_edit(
-        request, user_id, website, WebSiteForm, {'person': person},
+        request, website, WebSiteForm, {'person': person},
         'annuaire/edit_form.html',
         {'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')},
@@ -868,7 +868,7 @@ def club_membership_edit(request, user_id=None, club_membership_id=None):
         title = _('Modification of a club membership for')
         msgDone = _('Club membership informations updated successfully.')
     return ain7_generic_edit(
-        request, user_id, club_membership, ClubMembershipForm,
+        request, club_membership, ClubMembershipForm,
         {'member': ain7member}, 'annuaire/edit_form.html',
         {'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')},
@@ -907,7 +907,7 @@ def subscription_edit(request, user_id=None, subscription_id=None):
         title = _('Modification of a subscription for')
         msgDone = _('Subscription informations updated successfully.')
     return ain7_generic_edit(
-        request, user_id, subscription, AIn7SubscriptionForm,
+        request, subscription, AIn7SubscriptionForm,
         {'member': ain7member}, 'annuaire/edit_form.html',
         {'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')},

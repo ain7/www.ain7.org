@@ -24,12 +24,27 @@ from django import newforms as forms
 from django.utils.translation import ugettext as _
 
 from ain7.fields import AutoCompleteField
+from ain7.widgets import DateTimeWidget
 from ain7.sondages.models import *
 
+dateWidget = DateTimeWidget()
+dateWidget.dformat = '%d/%m/%Y'
+
 class SurveyForm(forms.ModelForm):
+    start_date = forms.DateTimeField(label=_('start date'), required=True,
+                                     widget=dateWidget)
+    end_date = forms.DateTimeField(label=_('end date'), required=True,
+                                   widget=dateWidget)
+
     class Meta:
         model = Survey
-        exclude = ('survey')
+
+    def clean_end_date(self):
+        if self.cleaned_data.get('start_date') and \
+            self.cleaned_data.get('end_date') and \
+            self.cleaned_data['start_date']>self.cleaned_data['end_date']:
+            raise forms.ValidationError(_('Start date is later than end date'))
+        return self.cleaned_data['end_date']
 
 class ChoiceForm(forms.ModelForm):
     class Meta:
