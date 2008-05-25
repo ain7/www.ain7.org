@@ -38,7 +38,7 @@ from ain7.annuaire.models import *
 from ain7.annuaire.forms import *
 from ain7.emploi.models import Company, Office
 from ain7.decorators import confirmation_required
-from ain7.utils import ain7_render_to_response, ImgUploadForm, ain7_generic_edit, ain7_generic_delete
+from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete
 from ain7.search_engine.models import *
 from ain7.search_engine.utils import *
 
@@ -592,85 +592,32 @@ def edit(request, user_id=None):
 @login_required
 def person_edit(request, user_id=None):
 
-    if user_id is None:
-        form = PersonForm()
-
-    else:
+    person = None
+    if user_id:
         person = Person.objects.get(user=user_id)
-        form = PersonForm(instance=person,auto_id=False)
-
-        if request.method == 'POST':
-             form = PersonForm(request.POST, instance=person)
-             if form.is_valid():
-                 form.cleaned_data['user'] = person.user
-                 form.save()
-                 request.user.message_set.create(message=_("Modifications have been successfully saved."))
-                 return HttpResponseRedirect('/annuaire/%s/edit' % (person.user.id))
-             else:
-                 request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
-
-    back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request, 'annuaire/edit_form.html',
-                            {'form': form, 'person': person, 'back': back,
-                             'action_title': _("Modification of personal data for")})
+    return ain7_generic_edit(
+        request, person, PersonForm, {'user': person.user},
+        'annuaire/edit_form.html',
+        {'action_title': _("Modification of personal data for"),
+         'person': person, 'back': request.META.get('HTTP_REFERER', '/')},
+        '/annuaire/%s/edit' % (person.user.id),
+        _("Modifications have been successfully saved."))
 
 @login_required
 def ain7member_edit(request, user_id=None):
 
-    if user_id is None:
-        form = AIn7MemberForm()
-
-    else:
-        person = Person.objects.get(user=user_id)
+    person = None
+    ain7member = None
+    if user_id:
+        person = get_object_or_404(Person, user=user_id)
         ain7member = get_object_or_404(AIn7Member, person=person)
-        avatar = ain7member.avatar
-
-        if request.method == 'POST':
-             post = request.POST.copy()
-             post.update(request.FILES)
-             form = AIn7MemberForm(post, instance=ain7member)
-             if form.is_valid():
-                 form.cleaned_data['person'] = person
-                 form.cleaned_data['avatar'] = avatar
-                 form.save()
-                 request.user.message_set.create(message=_("Modifications have been successfully saved."))
-                 return HttpResponseRedirect('/annuaire/%s/edit' % (person.user.id))
-             else:
-                 request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
-        form = AIn7MemberForm(instance=ain7member, auto_id=False)
-    back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request, 'annuaire/edit_form.html',
-                            {'form': form, 'person': person, 'back': back,
-                             'action_title':
-                             _("Modification of personal data for")})
-
-@login_required
-def avatar_edit(request, user_id):
-
-    person = Person.objects.get(user=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=person)
-
-    if request.method == 'GET':
-        form = ImgUploadForm()
-        filename = None
-        if ain7member.avatar:
-            filename = '/site_media/%s' % ain7member.avatar
-        back = request.META.get('HTTP_REFERER', '/')
-        return ain7_render_to_response(request, 'pages/image.html',
-            {'section': 'annuaire/base.html', 'name': _("avatar").capitalize(),
-             'form': form, 'back': back, 'filename': filename})
-    else:
-        post = request.POST.copy()
-        post.update(request.FILES)
-        form = ImgUploadForm(post)
-        if form.is_valid():
-            ain7member.save_avatar_file(
-                form.cleaned_data['img_file']['filename'],
-                form.cleaned_data['img_file']['content'])
-            request.user.message_set.create(message=_("The picture has been successfully changed."))
-        else:
-            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
-        return HttpResponseRedirect('/annuaire/%s/edit/' % (person.user.id))
+    return ain7_generic_edit(
+        request, ain7member, AIn7MemberForm, {'person': person},
+        'annuaire/edit_form.html',
+        {'action_title': _("Modification of personal data for"),
+         'person': person, 'back': request.META.get('HTTP_REFERER', '/')},
+        '/annuaire/%s/edit' % (person.user.id),
+        _("Modifications have been successfully saved."))
 
 @confirmation_required(lambda user_id=None, object_id=None : '', 'annuaire/base.html', _('Do you really want to delete your avatar'))
 @login_required

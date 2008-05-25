@@ -28,11 +28,10 @@ urlpatterns = patterns('',
 
     # Evenements
     (r'^$', index),
-    (r'^write/$', write),
+    (r'^add/$', add),
     (r'^search/$', search),
     (r'^(?P<news_id>\d+)/$', details),
     (r'^(?P<news_id>\d+)/edit/$', edit),
-    (r'^(?P<news_id>\d+)/image/edit/$', image_edit),
     (r'^(?P<news_id>\d+)/image/delete/$', image_delete),
 
 )

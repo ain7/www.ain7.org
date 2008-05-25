@@ -28,9 +28,6 @@
    <li><b>{% filter capfirst %}{% trans "maiden name" %}{% endfilter %}
        &nbsp;:</b> {{ person.maiden_name|default:"" }}</li>
    {% endif %}
-   {% if ain7member.nick_name %}
-   <li><b>{% trans "Nick name" %}&nbsp;:</b> {{ ain7member.nick_name }}</li>
-   {% endif %}
    <li><b>{% trans "Birth date" %}&nbsp;:</b>
        {{ person.birth_date|date:"d/m/Y" }}</li>
    {% if person.death_date %}
@@ -51,27 +48,13 @@
        {% if ain7member.avatar %}
 	   <img src="{{ ain7member.get_avatar_url }}" height="100"
            alt="{% trans "avatar" %}" />
+	   <a href="/annuaire/{{ person.user.id }}/avatar/delete/" 
+           class="deletelink">
+           {% trans "Delete" %}</a>
        {% else %}
            {% trans "No avatar" %}
-       {% endif %}</li>
-</ul>
-</div>
-
-<p>
-{% if ain7member.avatar %}
-   <a href="/annuaire/{{ person.user.id }}/avatar/edit/" class="changelink">
-   {% trans "Modify" %}</a>
-   <a href="/annuaire/{{ person.user.id }}/avatar/delete/" class="deletelink">
-   {% trans "Delete" %}</a>
-{% else %}
-   <a href="/annuaire/{{ person.user.id }}/avatar/edit/" class="addlink">
-   {% trans "Add" %}</a>
-{% endif %}
-</p>
-
-
-<div class="dataBlock">
-<ul>
+       {% endif %}
+   </li>
    <li><b>{% trans "Nick name" %}&nbsp;:</b>
        {% if ain7member.nick_name %}
            {{ ain7member.nick_name|default:"" }}

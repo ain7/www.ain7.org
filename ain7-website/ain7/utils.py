@@ -36,9 +36,6 @@ from django.utils.translation import ugettext as _
 from ain7 import settings
 from ain7.widgets import DateTimeWidget
 
-class ImgUploadForm(forms.Form):
-    img_file = forms.Field(widget=forms.FileInput, label='')
-
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
@@ -93,9 +90,9 @@ def ain7_generic_edit(request, obj, MyForm, formInitDict, formPage, formPageDict
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
         if obj:
-            f = MyForm(request.POST.copy(), instance=obj)
+            f = MyForm(request.POST.copy(), request.FILES, instance=obj)
         else:
-            f = MyForm(request.POST.copy())
+            f = MyForm(request.POST.copy(), request.FILES)
         if f.is_valid():
             for k,v in formInitDict.iteritems():
                 f.cleaned_data[k] = v

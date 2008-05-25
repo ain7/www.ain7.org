@@ -60,9 +60,13 @@
 			<a href="/actualites/">{% trans "All news" %}</a>
 		</div>
 	</div>
-   {% for news_item in news %}
-			<div class="right_articles">
-				<p><a href="/actualites/{{ news_item.id }}/"><img src="{{ news_item.get_image_url }}" alt="Image" title="Image" class="image" width="60" /></a><b><a href="/actualites/{{ news_item.id }}/">{{ news_item.title }}</a></b><br />{{ news_item.short_description }}.</p>
+  {% for news_item in news %}
+  <div class="right_articles">
+    <p>
+      {% if news_item.image %}
+      <a href="/actualites/{{ news_item.id }}/"><img src="{{ news_item.get_image_url }}" alt="Image" title="Image" class="image" width="60" /></a>
+      {% endif %}
+      <b><a href="/actualites/{{ news_item.id }}/">{{ news_item.title }}</a></b><br />{{ news_item.short_description }}.</p>
 			</div>
     {% endfor %}
 

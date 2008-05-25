@@ -148,7 +148,7 @@ class PersonForm(forms.ModelForm):
 class AIn7MemberForm(forms.ModelForm):
     class Meta:
         model = AIn7Member
-        exclude = ('person','avatar')
+        exclude = ('person')
 
 class EmailForm(forms.ModelForm):
     class Meta:

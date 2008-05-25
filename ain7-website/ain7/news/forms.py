@@ -24,18 +24,26 @@ from django import newforms as forms
 from django.utils.translation import ugettext as _
 
 from ain7.fields import AutoCompleteField
+from ain7.widgets import DateTimeWidget
 from ain7.news.models import *
+
+dateWidget = DateTimeWidget()
+dateWidget.dformat = '%d/%m/%Y'
 
 class SearchNewsForm(forms.Form):
     title = forms.CharField(label=_('News title'), max_length=50,
         required=False, widget=forms.TextInput(attrs={'size':'50'}))
     date = forms.DateField(label=_('Date'), required=False,
-        widget=forms.TextInput(attrs={'size':'50'}))
+        widget=dateWidget)
     content = forms.CharField(label=_('News content'), max_length=50,
         required=False, widget=forms.TextInput(attrs={'size':'50'}))
 
+    def search(self):
+        return NewsItem.objects.filter(
+            title__icontains=self.cleaned_data['title'],
+            creation_date=self.cleaned_data['date'],
+            description__icontains=self.cleaned_data['content'])
 
 class NewsForm(forms.ModelForm):
     class Meta:
         model = NewsItem
-        exclude = ('image')

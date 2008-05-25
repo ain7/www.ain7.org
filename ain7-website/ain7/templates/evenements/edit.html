@@ -20,30 +20,19 @@
 <div class="left">
 	<h3>{{ event.name }}</h3>
 
-<form method="post" action=".">
+<form method="post" action="." enctype="multipart/form-data">
 <table>
 {{ form }}
 </table>
+  {% if event.image %}
+    <a href="/evenements/{{ event.id }}/image/delete/" class="deletelink">
+      {% trans "Delete the image of this event." %}</a><br />
+  {% endif %}
 <div align="center">
 <a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
 <input type="submit" class="button" value="{% trans "Register" %}" />
 </div>
 </form>
-
-<p><b>{% filter capfirst %}{% trans "image" %}{% endfilter %}</b>&nbsp;:
-    {% if event.image %}
-	   <img src="{{ event.get_image_url }}" height="100" 
-        alt="{% trans "image" %}" />
-    <a href="/evenements/{{ event.id }}/image/edit/" class="changelink">
-        {% trans "Modify" %}</a>
-    <a href="/evenements/{{ event.id }}/image/delete/" class="deletelink">
-        {% trans "Delete" %}</a>
-    {% else %}
-        {% trans "No image" %}
-    <a href="/evenements/{{ event.id }}/image/edit/" class="addlink">
-        {% trans "Add" %}</a>
-    {% endif %}
-</p>
 
 </div>
 

@@ -63,7 +63,6 @@ class TravelForm(forms.ModelForm):
 
     class Meta:
         model = Travel
-        exclude = ('thumbnail')
 
 
 class JoinTravelForm(forms.ModelForm):

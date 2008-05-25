@@ -65,7 +65,6 @@ urlpatterns = patterns('',
     (r'^(?P<user_id>\d+)/preferences/$', preferences),
     (r'^(?P<user_id>\d+)/person/edit/$', person_edit),
     (r'^(?P<user_id>\d+)/ain7member/edit/$', ain7member_edit),
-    (r'^(?P<user_id>\d+)/avatar/edit/$', avatar_edit),
     (r'^(?P<user_id>\d+)/avatar/delete/$', avatar_delete),
     # Adresses
     (r'^(?P<user_id>\d+)/address/(?P<address_id>\d+)/edit/$', address_edit),

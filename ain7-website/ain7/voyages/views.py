@@ -32,7 +32,7 @@ from django.db import models
 from django.utils.translation import ugettext as _
 
 from ain7.decorators import confirmation_required
-from ain7.utils import ain7_render_to_response, ImgUploadForm
+from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete
 from ain7.voyages.models import Travel, Subscription, TravelResponsible
 from ain7.voyages.forms import *
 from ain7.annuaire.models import Person
@@ -121,49 +121,12 @@ def search(request):
 @login_required
 def edit(request, travel_id=None):
     travel = Travel.objects.get(pk=travel_id)
-    thumbnail = travel.thumbnail
-    form = TravelForm(instance=travel)
-    if request.method == 'POST':
-        form = TravelForm(request.POST, instance=travel)
-        if form.is_valid():
-            form.cleaned_data['thumbnail'] = thumbnail
-            form.save()
-            request.user.message_set.create(
-                message=_("Modifications have been successfully saved."))
-        else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(form.errors))
-        return HttpResponseRedirect('/voyages/%s/' % (travel.id))
-
     back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request, 'voyages/edit.html',
-        {'form': form, 'action': 'edit', 'travel': travel, 'back': back})
-
-@login_required
-def thumbnail_edit(request, travel_id):
-
-    travel = get_object_or_404(Travel, pk=travel_id)
-
-    if request.method == 'GET':
-        form = ImgUploadForm()
-        filename = None
-        if travel.thumbnail:
-            filename = '/site_media/%s' % travel.thumbnail
-        return ain7_render_to_response(request, 'pages/image.html',
-            {'section': 'voyages/base.html',
-             'name': _("thumbnail").capitalize(), 'form': form,
-             'filename': filename})
-    else:
-        post = request.POST.copy()
-        post.update(request.FILES)
-        form = ImgUploadForm(post)
-        if form.is_valid():
-            travel.save_thumbnail_file(
-                form.cleaned_data['img_file']['filename'],
-                form.cleaned_data['img_file']['content'])
-            request.user.message_set.create(message=_("The picture has been successfully changed."))
-        else:
-            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done.")+str(form.errors))
-        return HttpResponseRedirect('/voyages/%s/edit/' % travel_id)
+    return ain7_generic_edit(
+        request, travel, TravelForm, {}, 'voyages/edit.html',
+        {'action': 'edit', 'travel': travel, 'back': back},
+        '/voyages/%s/' % (travel.id),
+        _("Modifications have been successfully saved."))
 
 @confirmation_required(lambda travel_id=None, object_id=None : '', 'voyages/base.html', _('Do you really want to delete the thumbnail of this travel'))
 @login_required

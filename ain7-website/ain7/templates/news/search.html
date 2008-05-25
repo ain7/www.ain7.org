@@ -1,6 +1,19 @@
 {% extends "news/base.html" %}
 {% load i18n %}
 
+{% block stylesheet %}{{ block.super }}
+<link rel="stylesheet" type="text/css" href="/site_media/js/calendar/calendar-win2k-cold-2.css" />
+{% endblock %}
+
+{% block javascript %}{{ block.super }}
+<!-- calendar -->
+<script type="text/javascript" src="/site_media/js/calendar/calendar.js"></script>
+<!-- this is translation file - choose your language here -->
+<script type="text/javascript" src="/site_media/js/calendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="/site_media/js/calendar/calendar-setup.js"></script>
+<!-- /calendar -->
+{% endblock %}
+
 {% block content %}
 
 <div id="content-main">
@@ -17,7 +30,7 @@
 </div>
 
 {% ifequal request.method 'POST' %}
-<h2>Research result</h2>
+<h2>{% trans "Research result" %}</h2>
 {% if list_news %}
 <table width="100%">
 <tr>
@@ -37,7 +50,7 @@
     {% endfor %}
 </ul>
 {% else %}
-    <p>{% trans "No event correspond to your research" %}</p>
+    <p>{% trans "No news item corresponds to your research." %}</p>
 {% endif %}
 {% endifequal %}
 

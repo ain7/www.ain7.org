@@ -36,7 +36,7 @@ from django.utils.translation import ugettext as _
 from ain7.annuaire.models import Person, UserContribution, UserContributionType
 from ain7.evenements.models import Event, EventSubscription
 from ain7.evenements.forms import *
-from ain7.utils import ain7_render_to_response, ImgUploadForm
+from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete
 from ain7.decorators import confirmation_required
 
 
@@ -55,55 +55,12 @@ def details(request, event_id):
 def edit(request, event_id):
 
     event = get_object_or_404(Event, pk=event_id)
-    image = event.image
-
-    if request.method == 'POST':
-        f = EventForm(request.POST.copy(), instance=event)
-        if f.is_valid():
-            f.cleaned_data['image'] = image
-            f.save()
-
-            request.user.message_set.create(message=_('Event successfully updated.'))
-        else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(f.errors))
-
-        return HttpResponseRedirect('/evenements/%s/' % (event.id))
-
-    f = EventForm(instance=event)
     next_events = Event.objects.filter(end__gte=datetime.datetime.now())
-
-    back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request, 'evenements/edit.html',
-                                   {'form': f, 'event': event, 'back': back,
-                                    'event_list': Event.objects.all(),
-                                    'next_events': next_events})
-
-@login_required
-def image_edit(request, event_id):
-
-    event = get_object_or_404(Event, pk=event_id)
-
-    if request.method == 'GET':
-        form = ImgUploadForm()
-        filename = None
-        if event.image:
-            filename = '/site_media/%s' % event.image
-        return ain7_render_to_response(request, 'pages/image.html',
-            {'section': 'evenements/base.html',
-             'name': _("image").capitalize(), 'form': form,
-             'filename': filename})
-    else:
-        post = request.POST.copy()
-        post.update(request.FILES)
-        form = ImgUploadForm(post)
-        if form.is_valid():
-            event.save_image_file(
-                form.cleaned_data['img_file']['filename'],
-                form.cleaned_data['img_file']['content'])
-            request.user.message_set.create(message=_("The picture has been successfully changed."))
-        else:
-            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
-        return HttpResponseRedirect('/evenements/%s/edit/' % event.id)
+    return ain7_generic_edit(
+        request, event, EventForm, {}, 'evenements/edit.html',
+        {'event': event, 'back': request.META.get('HTTP_REFERER', '/'),
+         'event_list': Event.objects.all(), 'next_events': next_events},
+        '/evenements/%s/' % (event.id), _('Event successfully updated.'))
 
 @confirmation_required(lambda event_id=None, object_id=None : '', 'evenements/base.html', _('Do you really want to delete the image of this event'))
 @login_required

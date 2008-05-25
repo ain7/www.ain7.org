@@ -30,7 +30,7 @@ from django.utils.translation import ugettext as _
 
 from ain7.news.models import *
 from ain7.news.forms import *
-from ain7.utils import ain7_render_to_response, ImgUploadForm
+from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete
 from ain7.decorators import confirmation_required
 
 
@@ -46,49 +46,11 @@ def details(request, news_id):
 @login_required
 def edit(request, news_id):
 
-   news_item = get_object_or_404(NewsItem, pk=news_id)
-   image = news_item.image
-
-   if request.method == 'POST':
-        f = NewsForm(request.POST.copy(), instance=news_item)
-        if f.is_valid():
-            f.cleaned_data['image'] = image
-            f.save()
-
-        request.user.message_set.create(message=_('News successfully updated.'))
-
-        return HttpResponseRedirect('/actualites/%s/' % (news_item.id))
-
-   f = NewsForm(instance=news_item)
-
-   return ain7_render_to_response(request, 'news/edit.html',
-                           {'form': f, 'news_item':news_item})
-
-@login_required
-def image_edit(request, news_id):
-
     news_item = get_object_or_404(NewsItem, pk=news_id)
-
-    if request.method == 'GET':
-        form = ImgUploadForm()
-        filename = None
-        if news_item.image:
-            filename = '/site_media/%s' % news_item.image
-        return ain7_render_to_response(request, 'pages/image.html',
-            {'section': 'base.html', 'name': _("image").capitalize(),
-             'form': form, 'filename': filename})
-    else:
-        post = request.POST.copy()
-        post.update(request.FILES)
-        form = ImgUploadForm(post)
-        if form.is_valid():
-            news_item.save_image_file(
-                form.cleaned_data['img_file']['filename'],
-                form.cleaned_data['img_file']['content'])
-            request.user.message_set.create(message=_("The picture has been successfully changed."))
-        else:
-            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
-        return HttpResponseRedirect('/actualites/%s/edit/' % news_item.id)
+    return ain7_generic_edit(
+        request, news_item, NewsForm, {}, 'news/edit.html',
+        {'news_item':news_item}, '/actualites/%s/' % (news_id),
+        _('News successfully updated.'))
 
 @confirmation_required(lambda news_id=None, object_id=None : '', 'base.html', _('Do you really want to delete the image of this news'))
 @login_required
@@ -103,21 +65,11 @@ def image_delete(request, news_id):
     return HttpResponseRedirect('/actualites/%s/edit/' % news_id)
 
 @login_required
-def write(request):
+def add(request):
 
-    if request.method == 'POST':
-        f = NewsForm(request.POST.copy())
-        if f.is_valid():
-            f.cleaned_data['image'] = None
-            f.save()
-
-        request.user.message_set.create(message=_('News successfully added.'))
-
-        return HttpResponseRedirect('/actualites/')
-
-    f = NewsForm()
-
-    return ain7_render_to_response(request, 'news/write.html', {'form': f})
+    return ain7_generic_edit(
+        request, None, NewsForm, {}, 'news/write.html',
+        {}, '/actualites/', _('News successfully added.'))
 
 def search(request):
 
@@ -130,9 +82,7 @@ def search(request):
     if request.method == 'POST':
         form = SearchNewsForm(request.POST)
         if form.is_valid():
-            list_news = NewsItem.objects.filter(title__icontains=form.cleaned_data['title'],
-                                                        description__icontains=form.cleaned_data['content'])
-
+            list_news = form.search()
             paginator = ObjectPaginator(list_news,nb_results_by_page)
 
             try:
@@ -143,14 +93,14 @@ def search(request):
                 raise http.Http404
 
     return ain7_render_to_response(request, 'news/search.html',
-                                {'form': form, 'list_news': list_news,
-                                 'request': request,'paginator': paginator, 'is_paginated': paginator.pages > 1,
-                                 'has_next': paginator.has_next_page(page - 1),
-                                 'has_previous': paginator.has_previous_page(page - 1),
-                                 'current_page': page,
-                                 'next_page': page + 1,
-                                 'previous_page': page - 1,
-                                 'pages': paginator.pages,
-                                 'first_result': (page - 1) * nb_results_by_page +1,
-                                 'last_result': min((page) * nb_results_by_page, paginator.hits),
-                                 'hits' : paginator.hits,})
+        {'form': form, 'list_news': list_news,
+         'request': request,'paginator': paginator,
+         'is_paginated': paginator.pages > 1,
+         'has_next': paginator.has_next_page(page - 1),
+         'has_previous': paginator.has_previous_page(page - 1),
+         'current_page': page,
+         'next_page': page + 1, 'previous_page': page - 1,
+         'pages': paginator.pages,
+         'first_result': (page - 1) * nb_results_by_page +1,
+         'last_result': min((page) * nb_results_by_page, paginator.hits),
+         'hits' : paginator.hits,})

@@ -20,30 +20,19 @@
 <div class="left">
 	<h3>{{ news_item.title }}</h3>
 
-<form method="post" action=".">
+<form method="post" action="." enctype="multipart/form-data">
+
 <table>
 {{ form }}
 </table>
+
 <div align="center">
+<a href="/actualites/{{ news_item.id }}/image/delete/" class="deletelink">
+{% trans "Delete the image for this news item." %}</a><br />
 <input type="submit" class="button" value="{% trans "Register" %}" />
 </div>
-</form>
 
-<p>
-<b>{% filter capfirst %}{% trans "image" %}{% endfilter %}</b>&nbsp;:
-    {% if news_item.image %}
-        <img src="{{ news_item.get_image_url }}" height="100" 
-             alt="{% trans "image" %}" />
-        <a href="/actualites/{{ news_item.id }}/image/edit/" class="changelink">
-            {% trans "Modify" %}</a>
-        <a href="/actualites/{{ news_item.id }}/image/delete/" 
-            class="deletelink">{% trans "Delete" %}</a>
-    {% else %}
-        {% trans "No image" %}
-        <a href="/actualites/{{ news_item.id }}/image/edit/" class="addlink">
-            {% trans "Add" %}</a>
-    {% endif %}
-</p>
+</form>
 
 </div>
 
