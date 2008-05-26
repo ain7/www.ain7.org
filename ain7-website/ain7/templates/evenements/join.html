@@ -2,39 +2,21 @@
 {% load i18n %}
 
 {% block stylesheet %}{% endblock %}
-{% block content %}
 
-<div id="content-main">
+{% block content-main %}
 
-<div class="left">
-	<h3>{{ event.name }}</h3>
+<h3>{{ event.name }}</h3>
 
 <form method="post" action=".">
 <table>
 {{ form }}
 </table>
+{% trans "This number of people includes yourself." %}
 <div align="center">
 <a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
 <input type="submit" class="button" value="{% trans "Register" %}" />
 </div>
 </form>
 
-</div>
-
-<div class="right">
-
-	<h3>{% trans "Statistics" %}</h3>
-	<div class="right_block">
-                <ul>
-                        <li>{{ event_list|length }} 
-                            {% trans "events are registered" %}</li>
-                        <li>{{ next_events|length }} 
-                            {% trans "events are coming" %}</li>
-                </ul>
-        </div>
-
-</div>
-
-</div>
-
 {% endblock %}
+

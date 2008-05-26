@@ -43,24 +43,26 @@ from ain7.decorators import confirmation_required
 def index(request):
     events = Event.objects.filter(end__gte=datetime.datetime.now())[:5]
     return ain7_render_to_response(request, 'evenements/index.html',
-                            {'events': events})
+        {'events': events, 'event_list': Event.objects.all(),
+         'next_events': Event.objects.next_events()})
 
 
 def details(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     return ain7_render_to_response(request, 'evenements/details.html',
-                            {'event': event})
+        {'event': event, 'event_list': Event.objects.all(),
+         'next_events': Event.objects.next_events()})
 
 @login_required
 def edit(request, event_id):
 
     event = get_object_or_404(Event, pk=event_id)
-    next_events = Event.objects.filter(end__gte=datetime.datetime.now())
     return ain7_generic_edit(
         request, event, EventForm, {}, 'evenements/edit.html',
         {'event': event, 'back': request.META.get('HTTP_REFERER', '/'),
-         'event_list': Event.objects.all(), 'next_events': next_events},
-        '/evenements/%s/' % (event.id), _('Event successfully updated.'))
+         'event_list': Event.objects.all(),
+         'next_events': Event.objects.next_events()},
+        {}, '/evenements/%s/' % (event.id), _('Event successfully updated.'))
 
 @confirmation_required(lambda event_id=None, object_id=None : '', 'evenements/base.html', _('Do you really want to delete the image of this event'))
 @login_required
@@ -79,76 +81,55 @@ def join(request, event_id):
 
     event = get_object_or_404(Event, pk=event_id)
 
+    if request.method == 'GET':
+        # on vérifie que la personne n'est pas déjà inscrite
+        person = request.user.person
+        already_subscribed = False
+        for subscription in person.event_subscriptions.all():
+            if subscription.event == event:
+                already_subscribed = True
+        if already_subscribed:
+            request.user.message_set.create(message=_('You have already subscribed to this event.'))
+            return HttpResponseRedirect('/evenements/%s/' % event.id)
+        
+        return ain7_render_to_response(request, 'evenements/join.html',
+            {'event': event, 'form': JoinEventForm(),
+             'back': request.META.get('HTTP_REFERER', '/'),
+             'event_list': Event.objects.all(),
+             'next_events': Event.objects.next_events()})
+
     if request.method == 'POST':
         f = JoinEventForm(request.POST)
         if f.is_valid():
-            subscription = EventSubscription()
-            subscription.subscriber_number = request.POST['subscriber_number']
-            subscription.subscriber = request.user.person
-            subscription.event = event
-            subscription.save()
-
-            contrib_type = UserContributionType.objects.get(key='event_subcription')
-            contrib = UserContribution(user=request.user.person, type=contrib_type)
-            contrib.save()
-
-        request.user.message_set.create(message=_('You have been successfully subscribed to this event.'))
-        return HttpResponseRedirect('/evenements/%s/' % (event.id))
-
-    # on vérifie que la personne n'est pas déjà inscrite
-    person = request.user.person
-    already_subscribed = False
-    for subscription in person.event_subscriptions.all():
-        if subscription.event == event:
-            already_subscribed = True
-    if already_subscribed:
-        request.user.message_set.create(message=_('You have already subscribed to this event.'))
-        return HttpResponseRedirect('/evenements/%s/' % event.id)
-
-    f =  JoinEventForm()
-    next_events = Event.objects.filter(end__gte=datetime.datetime.now())
-    back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request, 'evenements/join.html',
-                            {'event': event, 'form': f, 'back': back,
-                             'event_list': Event.objects.all(),
-                             'next_events': next_events})
+            f.save(subscriber=request.user.person, event=event)
+            request.user.message_set.create(message=_('You have been successfully subscribed to this event.'))
+            return HttpResponseRedirect('/evenements/%s/' % (event.id))
+        else:
+            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+            return ain7_render_to_response(request, 'evenements/join.html',
+                {'event': event, 'form': f,
+                 'back': request.META.get('HTTP_REFERER', '/'),
+                 'event_list': Event.objects.all(),
+                 'next_events': Event.objects.next_events()})
+            
 
 @login_required
 def participants(request, event_id):
 
     event = get_object_or_404(Event, pk=event_id)
-
     return ain7_render_to_response(request, 'evenements/participants.html',
-                            {'event': event})
+        {'event': event, 'nbparticipants': event.nb_participants()})
 
 @login_required
 def register(request):
 
-    next_events = Event.objects.filter(end__gte=datetime.datetime.now())
-    back = request.META.get('HTTP_REFERER', '/')
-
-    if request.method == 'POST':
-        f = EventForm(request.POST.copy())
-        if f.is_valid():
-            f.cleaned_data['image'] = None
-            event = f.save()
-
-            contrib_type = UserContributionType.objects.get(key=u'event_register')
-            contrib = UserContribution(user=request.user.person, type=contrib_type)
-            contrib.save()
-
-            request.user.message_set.create(message=_('Event successfully added.'))
-            return HttpResponseRedirect('/evenements/%s/' % (event.id))
-        else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
-            return ain7_render_to_response(request, 'evenements/register.html',
-                {'form': f, 'back': back, 'event_list': Event.objects.all(),
-                 'next_events': next_events})
-
-    return ain7_render_to_response(request, 'evenements/register.html',
-                                   {'form': EventForm(), 'back': back,
-                                    'event_list': Event.objects.all(),
-                                    'next_events': next_events})
+    return ain7_generic_edit(
+        request, None, EventForm, {}, 'evenements/edit.html',
+        {'back': request.META.get('HTTP_REFERER', '/'),
+         'event_list': Event.objects.all(),
+         'next_events': Event.objects.next_events()},
+        {'contributor': request.user.person},
+        '/evenements/$objid/', _('Event successfully added.'))
 
 def search(request):
 
@@ -161,37 +142,39 @@ def search(request):
     if request.method == 'POST':
         form = SearchEventForm(request.POST)
         if form.is_valid():
-            list_events = Event.objects.filter(name__icontains=form.cleaned_data['name'],
-                                                       location__icontains=form.cleaned_data['location'])
-
+            list_events = form.search()
             paginator = ObjectPaginator(list_events, nb_results_by_page)
-
             try:
                 page = int(request.GET.get('page', '1'))
                 list_events = paginator.get_page(page - 1)
-
             except InvalidPage:
                 raise http.Http404
 
     return ain7_render_to_response(request, 'evenements/search.html',
-                                 {'form': form,
-                                  'list_events': list_events,
-                                  'request': request,
-                                  'paginator': paginator, 'is_paginated': paginator.pages > 1,
-                                  'has_next': paginator.has_next_page(page - 1),
-                                  'has_previous': paginator.has_previous_page(page - 1),
-                                  'current_page': page,
-                                  'next_page': page + 1,
-                                  'previous_page': page - 1,
-                                  'pages': paginator.pages,
-                                  'first_result': (page - 1) * nb_results_by_page +1,
-                                  'last_result': min((page) * nb_results_by_page, paginator.hits),
-                                  'hits' : paginator.hits,})
+        {'form': form, 'list_events': list_events, 'request': request,
+         'event_list': Event.objects.all(),
+         'next_events': Event.objects.next_events(),
+         'paginator': paginator, 'is_paginated': paginator.pages > 1,
+         'has_next': paginator.has_next_page(page - 1),
+         'has_previous': paginator.has_previous_page(page - 1),
+         'current_page': page,
+         'next_page': page + 1, 'previous_page': page - 1,
+         'pages': paginator.pages,
+         'first_result': (page - 1) * nb_results_by_page +1,
+         'last_result': min((page) * nb_results_by_page, paginator.hits),
+         'hits' : paginator.hits,})
 
 @login_required
 def subscribe(request, event_id):
 
     event = get_object_or_404(Event, pk=event_id)
+
+    if request.method == 'GET':
+        return ain7_render_to_response(request, 'evenements/subscribe.html',
+            {'event': event, 'form': SubscribeEventForm(),
+             'back': request.META.get('HTTP_REFERER', '/'),
+             'event_list': Event.objects.all(),
+             'next_events': Event.objects.next_events()})
 
     if request.method == 'POST':
         f = SubscribeEventForm(request.POST)
@@ -203,29 +186,27 @@ def subscribe(request, event_id):
                 already_subscribed = True
         if already_subscribed:
             request.user.message_set.create(message=_('This person is already subscribed to this event.'))
-            return ain7_render_to_response(request, 'evenements/participants.html',
-                                           {'event': event})
+            return ain7_render_to_response(request,
+                'evenements/subscribe.html',
+                {'event': event, 'form': SubscribeEventForm(),
+                 'back': request.META.get('HTTP_REFERER', '/'),
+                 'event_list': Event.objects.all(),
+                 'next_events': Event.objects.next_events()})
         if f.is_valid():
-            subscription = EventSubscription()
-            subscription.subscriber_number = request.POST['subscriber_number']
-            subscription.subscriber = Person.objects.get(id=request.POST['subscriber'])
-            subscription.event = event
-            subscription.save()
-
+            subscription = f.save(event=event)
             p = subscription.subscriber
-
-            request.user.message_set.create(message=_('You have successfully subscribed')+
-                                            ' '+p.first_name+' '+p.last_name+' '+_('to this event.'))
-        return HttpResponseRedirect('/evenements/%s/' % (event.id))
-
-    f =  SubscribeEventForm()
-    next_events = Event.objects.filter(end__gte=datetime.datetime.now())
-
-    back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request, 'evenements/subscribe.html',
-                                   {'event': event, 'form': f, 'back': back,
-                                    'event_list': Event.objects.all(),
-                                    'next_events': next_events})
+            request.user.message_set.create(
+                message=_('You have successfully subscribed')+
+                ' '+p.first_name+' '+p.last_name+' '+_('to this event.'))
+            return HttpResponseRedirect('/evenements/%s/' % (event.id))
+        else:
+            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+            return ain7_render_to_response(request,
+                'evenements/subscribe.html',
+                {'event': event, 'form': f,
+                 'back': request.META.get('HTTP_REFERER', '/'),
+                 'event_list': Event.objects.all(),
+                 'next_events': Event.objects.next_events()})
 
 def ical(request):
 

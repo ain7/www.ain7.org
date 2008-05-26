@@ -2,3 +2,53 @@
 {% load i18n %}
 
 {% block barre-evenements %}<li class="active">{% endblock %}
+
+{% block content %}
+
+<div id="content-main">
+<div class="left">
+
+{% block content-main %}{% endblock%}
+
+</div>
+</div>
+
+<div class="right">
+
+  {% block actions %}{% endblock %}
+
+  {% block statistics %}
+    <h3>{% trans "Statistics" %}</h3>
+    <div class="right_block">
+      <ul>
+        <li>
+          {% if event_list %}
+            {% blocktrans count event_list|length as nbevents %}
+              One event is registered
+            {% plural %}
+              {{ nbevents }} events are registered
+            {% endblocktrans %}
+          {% else %} 
+            {% trans "No registered event" %}
+          {% endif %}
+        </li>
+        <li>
+          {% if next_events %}
+            {% blocktrans count next_events|length as nbevents %}
+              One future event planned
+            {% plural %}
+              {{ nbevents }} events are coming
+            {% endblocktrans %}
+          {% else %} 
+            {% trans "No future events planned" %}
+          {% endif %}
+        </li>
+      </ul>
+    </div>
+  {% endblock %}
+
+  {% block additional-right-blocks %}{% endblock %}
+
+</div>
+
+{% endblock %}

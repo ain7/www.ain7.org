@@ -4,7 +4,10 @@
 {% block stylesheet %}{{ block.super }}
 <link rel="stylesheet" type="text/css" href="/site_media/js/calendar/calendar-win2k-cold-2.css" />
 {% endblock %}
+
 {% block javascript %}{{ block.super }}
+<script src="/site_media/js/tiny_mce/tiny_mce.js" type="text/javascript"></script>
+<script src="/site_media/js/textareas.js" type="text/javascript"></script>
 <!-- calendar -->
 <script type="text/javascript" src="/site_media/js/calendar/calendar.js"></script>
 <!-- this is translation file - choose your language here -->
@@ -13,12 +16,13 @@
 <!-- /calendar -->
 {% endblock %}
 
-{% block content %}
+{% block content-main %}
 
-<div id="content-main">
-
-<div class="left">
-	<h3>{{ event.name }}</h3>
+<h3>
+{% if event %}  {{ event.name }}
+{% else %}  {% trans "Register an event" %}
+{% endif %}
+</h3>
 
 <form method="post" action="." enctype="multipart/form-data">
 <table>
@@ -33,23 +37,16 @@
 <input type="submit" class="button" value="{% trans "Register" %}" />
 </div>
 </form>
-
-</div>
-
-<div class="right">
-
-	<h3>{% trans "Statistics" %}</h3>
-	<div class="right_block">
-                <ul>
-                        <li>{{ event_list|length }} 
-                            {% trans "events are registered" %}</li>
-                        <li>{{ next_events|length }} 
-                            {% trans "events are coming" %}</li>
-                </ul>
-        </div>
-
-</div>
-
-</div>
-
 {% endblock %}
+
+{% block actions %}
+        <h3>{% trans "Actions" %}</h3>
+        <div class="right_articles">
+        <ul>
+             <li><a href="/evenements/register/">{% trans "Register an event" %}</a></li>
+             <li><a href="/evenements/search/">{% trans "Search an event" %}</a></li>
+             <li><a href="/evenements/ical/">{% trans "Subscribe iCal" %}</a></li>
+        </ul>
+        </div>
+{% endblock %}
+

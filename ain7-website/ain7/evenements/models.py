@@ -28,6 +28,13 @@ from django.utils.translation import ugettext as _
 from ain7.annuaire.models import Person
 from ain7.groupes_regionaux.models import Group
 
+# a Manager for the class Event
+class EventManager(models.Manager):
+
+    def next_events(self):
+        """Returns all future events."""
+        return self.filter(end__gte=datetime.datetime.now())
+
 class Event(models.Model):
 
     EVENT_CATEGORY = (
@@ -61,6 +68,7 @@ class Event(models.Model):
     regional_groups = models.ManyToManyField(Group, verbose_name=_('regional groups'), related_name='events', blank=True, null=True, filter_interface=models.HORIZONTAL)
     pictures_gallery = models.CharField(verbose_name=_('Pictures gallery'), max_length=100, blank=True, null=True)
     question = models.TextField(null=True, blank=True)
+    objects = EventManager()
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
@@ -84,8 +92,15 @@ class Event(models.Model):
                 self.pictures_gallery = 'http://'+self.pictures_gallery
         return super(Event, self).save()
 
+    # TODO: ca sert à quoi ?
     def get_absolute_url(self):
         return '/evenements/'+str(self.id)+'/'
+
+    def nb_participants(self):
+        """Renvoie le nombre de participants à l'événement."""
+        nbpart = 0
+        for sub in self.subscriptions.all(): nbpart += sub.subscriber_number
+        return nbpart
 
     class Admin:
         pass

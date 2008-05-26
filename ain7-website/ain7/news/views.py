@@ -49,7 +49,7 @@ def edit(request, news_id):
     news_item = get_object_or_404(NewsItem, pk=news_id)
     return ain7_generic_edit(
         request, news_item, NewsForm, {}, 'news/edit.html',
-        {'news_item':news_item}, '/actualites/%s/' % (news_id),
+        {'news_item':news_item}, {}, '/actualites/%s/' % (news_id),
         _('News successfully updated.'))
 
 @confirmation_required(lambda news_id=None, object_id=None : '', 'base.html', _('Do you really want to delete the image of this news'))
@@ -69,7 +69,7 @@ def add(request):
 
     return ain7_generic_edit(
         request, None, NewsForm, {}, 'news/write.html',
-        {}, '/actualites/', _('News successfully added.'))
+        {}, {}, '/actualites/', _('News successfully added.'))
 
 def search(request):
 

@@ -124,7 +124,7 @@ def edit(request, travel_id=None):
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_generic_edit(
         request, travel, TravelForm, {}, 'voyages/edit.html',
-        {'action': 'edit', 'travel': travel, 'back': back},
+        {'action': 'edit', 'travel': travel, 'back': back}, {},
         '/voyages/%s/' % (travel.id),
         _("Modifications have been successfully saved."))
 

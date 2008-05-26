@@ -599,7 +599,7 @@ def person_edit(request, user_id=None):
         request, person, PersonForm, {'user': person.user},
         'annuaire/edit_form.html',
         {'action_title': _("Modification of personal data for"),
-         'person': person, 'back': request.META.get('HTTP_REFERER', '/')},
+         'person': person, 'back': request.META.get('HTTP_REFERER', '/')}, {},
         '/annuaire/%s/edit' % (person.user.id),
         _("Modifications have been successfully saved."))
 
@@ -615,7 +615,7 @@ def ain7member_edit(request, user_id=None):
         request, ain7member, AIn7MemberForm, {'person': person},
         'annuaire/edit_form.html',
         {'action_title': _("Modification of personal data for"),
-         'person': person, 'back': request.META.get('HTTP_REFERER', '/')},
+         'person': person, 'back': request.META.get('HTTP_REFERER', '/')}, {},
         '/annuaire/%s/edit' % (person.user.id),
         _("Modifications have been successfully saved."))
 
@@ -648,7 +648,7 @@ def address_edit(request, user_id=None, address_id=None):
         request, address, AddressForm, {'person': person},
         'annuaire/edit_form.html',
         {'action_title': title, 'person': person,
-         'back': request.META.get('HTTP_REFERER', '/')},
+         'back': request.META.get('HTTP_REFERER', '/')}, {},
         '/annuaire/%s/edit/#address' % user_id, msgDone)
 
 @confirmation_required(lambda user_id=None, address_id=None : str(get_object_or_404(Address, pk=address_id)), 'annuaire/base.html', _('Do you really want to delete your address'))
@@ -676,7 +676,7 @@ def phone_edit(request, user_id=None, phone_id=None):
         request, phone, PhoneNumberForm, {'person': person},
         'annuaire/edit_form.html',
         {'action_title': title, 'person': person,
-         'back': request.META.get('HTTP_REFERER', '/')},
+         'back': request.META.get('HTTP_REFERER', '/')}, {},
         '/annuaire/%s/edit/#phone' % user_id, msgDone)
 
 @confirmation_required(lambda user_id=None, phone_id=None : str(get_object_or_404(PhoneNumber, pk=phone_id)), 'annuaire/base.html', _('Do you really want to delete your phone number'))
@@ -704,7 +704,7 @@ def email_edit(request, user_id=None, email_id=None):
         request, email, EmailForm, {'person': person},
         'annuaire/edit_form.html',
         {'action_title': title, 'person': person,
-         'back': request.META.get('HTTP_REFERER', '/')},
+         'back': request.META.get('HTTP_REFERER', '/')}, {},
         '/annuaire/%s/edit/#email' % user_id, msgDone)
 
 @confirmation_required(lambda user_id=None, email_id=None : str(get_object_or_404(Email, pk=email_id)), 'annuaire/base.html', _('Do you really want to delete your email address'))
@@ -731,7 +731,7 @@ def im_edit(request, user_id=None, im_id=None):
         request, im, InstantMessagingForm, {'person': person},
         'annuaire/edit_form.html',
         {'action_title': title, 'person': person,
-         'back': request.META.get('HTTP_REFERER', '/')},
+         'back': request.META.get('HTTP_REFERER', '/')}, {},
         '/annuaire/%s/edit/#im' % user_id, msgDone)
 
 @confirmation_required(lambda user_id=None, im_id=None : str(get_object_or_404(InstantMessaging, pk=im_id)), 'annuaire/base.html', _('Do you really want to delete your instant messaging account'))
@@ -759,7 +759,7 @@ def irc_edit(request, user_id=None, irc_id=None):
         request, irc, IRCForm, {'person': person},
         'annuaire/edit_form.html',
         {'action_title': title, 'person': person,
-         'back': request.META.get('HTTP_REFERER', '/')},
+         'back': request.META.get('HTTP_REFERER', '/')}, {},
         '/annuaire/%s/edit/#irc' % user_id, msgDone)
 
 @confirmation_required(lambda user_id=None, irc_id=None : str(get_object_or_404(IRC, pk=irc_id)), 'annuaire/base.html', _('Do you really want to delete your IRC account'))
@@ -787,7 +787,7 @@ def website_edit(request, user_id=None, website_id=None):
         request, website, WebSiteForm, {'person': person},
         'annuaire/edit_form.html',
         {'action_title': title, 'person': person,
-         'back': request.META.get('HTTP_REFERER', '/')},
+         'back': request.META.get('HTTP_REFERER', '/')}, {},
         '/annuaire/%s/edit/#website' % user_id, msgDone)
 
 @confirmation_required(lambda user_id=None, website_id=None : str(get_object_or_404(WebSite, pk=website_id)), 'annuaire/base.html', _('Do you really want to delete your website'))
@@ -818,7 +818,7 @@ def club_membership_edit(request, user_id=None, club_membership_id=None):
         request, club_membership, ClubMembershipForm,
         {'member': ain7member}, 'annuaire/edit_form.html',
         {'action_title': title, 'person': person,
-         'back': request.META.get('HTTP_REFERER', '/')},
+         'back': request.META.get('HTTP_REFERER', '/')}, {},
         '/annuaire/%s/edit/#assoc' % user_id, msgDone)
 
 @confirmation_required(lambda user_id=None, club_membership_id=None : str(get_object_or_404(ClubMembership, pk=club_membership_id)), 'annuaire/base.html', _('Do you really want to delete your club membership'))
@@ -857,7 +857,7 @@ def subscription_edit(request, user_id=None, subscription_id=None):
         request, subscription, AIn7SubscriptionForm,
         {'member': ain7member}, 'annuaire/edit_form.html',
         {'action_title': title, 'person': person,
-         'back': request.META.get('HTTP_REFERER', '/')},
+         'back': request.META.get('HTTP_REFERER', '/')}, {},
         '/annuaire/%s/subscriptions/' % user_id, msgDone)
 
 @confirmation_required(lambda user_id=None, subscription_id=None : str(get_object_or_404(AIn7Subscription, pk=subscription_id)), 'annuaire/base.html', _('Do you really want to delete this subscription'))

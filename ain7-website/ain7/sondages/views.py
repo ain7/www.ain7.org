@@ -76,7 +76,7 @@ def vote(request, survey_id):
 def create(request):
     return ain7_generic_edit(
         request, None, SurveyForm, {}, 'sondages/form.html',
-        {'title': _('Survey creation')}, '/sondages/$objid/details/',
+        {'title': _('Survey creation')}, {}, '/sondages/$objid/details/',
         _('Survey succesfully created.'))
 
 @login_required
@@ -90,8 +90,8 @@ def edit(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
     return ain7_generic_edit(
         request, survey, SurveyForm, {}, 'sondages/form.html',
-        {'title': _('Survey edition')}, '/sondages/%s/details/' % survey_id,
-        _('Survey succesfully updated.'))
+        {'title': _('Survey edition')},  {},
+        '/sondages/%s/details/' % survey_id, _('Survey succesfully updated.'))
 
 @confirmation_required(lambda survey_id: str(get_object_or_404(Survey, pk=survey_id)),
                        'sondages/base.html', _('Do you really want to delete this survey?'))
@@ -106,8 +106,8 @@ def choice_add(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
     return ain7_generic_edit(
         request, None, ChoiceForm, {'survey': survey}, 'sondages/form.html',
-        {'title': _('Choice creation')}, '/sondages/%s/details/' % survey_id,
-        _('Choice succesfully added'))
+        {'title': _('Choice creation')}, {},
+        '/sondages/%s/details/' % survey_id, _('Choice succesfully added'))
 
 @login_required
 def choice_edit(request, survey_id, choice_id):
@@ -115,8 +115,8 @@ def choice_edit(request, survey_id, choice_id):
     choice = get_object_or_404(Choice, pk=choice_id)
     return ain7_generic_edit(
         request, choice, ChoiceForm, {'survey': survey}, 'sondages/form.html',
-        {'title': _('Choice edition')}, '/sondages/%s/details/' % survey_id,
-        _('Choice succesfully updated.'))
+        {'title': _('Choice edition')}, {},
+        '/sondages/%s/details/' % survey_id, _('Choice succesfully updated.'))
 
 @confirmation_required(lambda survey_id, choice_id: str(get_object_or_404(Choice, pk=choice_id)),'sondages/base.html', _('Do you really want to delete the choice'))
 @login_required

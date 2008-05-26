@@ -235,7 +235,7 @@ def publication_edit(request, user_id=None, publication_id=None):
         request, publi, PublicationItemForm, {'ain7member': ain7member},
         'emploi/publication_edit.html',
         {'action': 'edit', 'ain7member': ain7member},
-        '/emploi/%s/cv/edit/#publications' % user_id,
+        '/emploi/%s/cv/edit/#publications' % user_id, {},
         _('Publication informations updated successfully.'))
 
 @confirmation_required(lambda user_id=None, publication_id=None: str(get_object_or_404(PublicationItem,pk=publication_id)), 'emploi/base.html', _('Do you really want to delete your publication'))
@@ -255,7 +255,7 @@ def publication_add(request, user_id=None):
     return ain7_generic_edit(
         request, None, PublicationItemForm, {'ain7member': ain7member},
         'emploi/publication_edit.html',
-        {'action': 'create', 'ain7member': ain7member},
+        {'action': 'create', 'ain7member': ain7member}, {},
         '/emploi/%s/cv/edit/#publications' % user_id,
         _('Publication informations updated successfully.'))
 

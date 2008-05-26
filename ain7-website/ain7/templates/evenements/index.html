@@ -1,11 +1,7 @@
 {% extends "evenements/base.html" %}
 {% load i18n %}
 
-{% block content %}
-
-<div id="content-main">
-
-<div class="left">
+{% block content-main %}
 
 <div class="left_box">
 
@@ -38,10 +34,9 @@
 
 </div>
 
-</div>
+{% endblock %}
 
-<div class="right">
-
+{% block actions %}
 <h3>{% trans "Actions" %}</h3>
 <div class="right_articles">
 <ul>
@@ -50,9 +45,5 @@
 <li><a href="/evenements/ical/">{% trans "Subscribe iCal" %}</a></li>
 </ul>
 </div>
-
-</div>
-
-</div>
-
 {% endblock %}
+

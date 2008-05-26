@@ -2,11 +2,9 @@
 {% load i18n %}
 
 {% block stylesheet %}{% endblock %}
-{% block content %}
 
-<div id="content-main">
+{% block content-main %}
 
-<div class="left">
 	<h3>{{ event.name }}</h3>
 
 	<table border="0">
@@ -31,13 +29,11 @@
         </table>
 
 	{% if event.description %}
-		<p>{{ event.description|safe }}</p>
+		{{ event.description|safe }}
 	{% endif %}
+{% endblock %}
 
-</div>
-
-<div class="right">
-
+{% block actions %}
 	<h3>{% trans "Actions" %}</h3>
 	<div class="right_block">
 		<ul>
@@ -46,15 +42,19 @@
 			<li><a href="/evenements/{{ event.id }}/participants/">{% trans "List participants" %}</a></li>
 			<li><a href="/evenements/{{ event.id }}/subscribe/">{% trans "Subscribe someone" %}</a></li>
 		</ul>
-	</div>
+        </div>
+{% endblock %}
 
+{% block statistics %}
 	<h3>{% trans "Statistics" %}</h3>
 	<div class="right_block">
                 <ul>
                         <li>{{ event.subscriptions.all|length }} {% trans "persons are subscribed to this event" %}</li>
                 </ul>
         </div>
+{% endblock %}
 
+{% block additional-right-blocks %}
     <h3>{% trans "Card Informations"%}</h3>
    <div class="right_articles">
      <ul>
@@ -62,10 +62,5 @@
        <li>{% trans "Update" %}&nbsp;: {{ event.modification_date|date:"l j F Y" }}</li>
      </ul>
    </div>
-
-
-</div>
-
-</div>
-
 {% endblock %}
+

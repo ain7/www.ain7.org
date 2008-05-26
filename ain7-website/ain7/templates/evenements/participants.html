@@ -2,37 +2,40 @@
 {% load i18n %}
 
 {% block stylesheet %}{% endblock %}
-{% block content %}
 
-<div id="content-main">
-
-<div class="left">
-	<h3>{{ event.name }}</h3>
-
+{% block content-main %}
+<h3>{{ event.name }}</h3>
 
 {% if event.subscriptions.all %}
 <ul>
-{% for subscription in event.subscriptions.all %}
-     <li><a href="/annuaire/{{ subscription.subscriber.user.id }}/">{{ subscription.subscriber }}</a>: {{ subscription.subscriber_number }} {% trans  "person" %}</li>
-{% endfor %}
+  {% for subscription in event.subscriptions.all %}
+    <li>
+      <a href="/annuaire/{{ subscription.subscriber.user.id }}/">
+        {{ subscription.subscriber }}</a>: 
+      {% blocktrans count subscription.subscriber_number as nbsub %}
+         1 person
+      {% plural %}
+         {{ nbsub }} people
+      {% endblocktrans %}
+    </li>
+  {% endfor %}
 </ul>
 {% else %}
-<p>{% trans "No one is subscribed to this event" %}</p>
+  <p>{% trans "No one is subscribed to this event" %}</p>
 {% endif %}
+{% endblock %}
 
-</div>
-
-<div class="right">
-
-	<h3>{% trans "Statistics" %}</h3>
-	<div class="right_block">
-                <ul>
-                        <li>{{ event.subscriptions.all|length }} {% trans "persons are subscribed to this event" %}</li>
-                </ul>
-        </div>
-
-</div>
-
-</div>
-
+{% block statistics %}
+<h3>{% trans "Statistics" %}</h3>
+  <div class="right_block">
+    <ul>
+      <li>
+      {% blocktrans count nbparticipants as nbpart %}
+         1 person is subscribed to this event
+      {% plural %}
+         {{ nbpart }} people are subscribed to this event
+      {% endblocktrans %}
+      </li>
+    </ul>
+  </div>
 {% endblock %}

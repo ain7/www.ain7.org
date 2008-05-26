@@ -66,7 +66,7 @@ def isAdmin(user):
             result = True
     return result
 
-def ain7_generic_edit(request, obj, MyForm, formInitDict, formPage, formPageDict, redirectPage, msgDone):
+def ain7_generic_edit(request, obj, MyForm, formInitDict, formPage, formPageDict, saveDict, redirectPage, msgDone):
     """ Méthode utilisée pour éditer (ou créer) un objet de façon standard,
     c'est-à-dire via un formulaire de type ModelForms.
     obj : objet à éditer. S'il s'agit de None, on est en mode création.
@@ -74,6 +74,7 @@ def ain7_generic_edit(request, obj, MyForm, formInitDict, formPage, formPageDict
     formInitDict : données de l'objet exclues du formulaire.
     formPage : template du formulaire.
     formPageDict : dictionnaire passé au template du formulaire.
+    saveDict : argument passés à la méthode save du formulaire.
     redirectPage : redirection après le formulaire. Utiliser $objid pour l'identifiant de l'objet.
     msgDone : message en cas de succès."""
     
@@ -96,7 +97,7 @@ def ain7_generic_edit(request, obj, MyForm, formInitDict, formPage, formPageDict
         if f.is_valid():
             for k,v in formInitDict.iteritems():
                 f.cleaned_data[k] = v
-            obj = f.save()
+            obj = f.save(**saveDict)
             request.user.message_set.create(message=msgDone)
         else:
             pageDict = {'form': f}
