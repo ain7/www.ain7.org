@@ -41,8 +41,8 @@
 </table>
 
 {% if travel.thumbnail %}
-  <p style="text-align: center">
-    <img src="{{ travel.thumbnail|escape }}" height="250" />
+  <p style="text-align:center">
+    <img src="{{ travel.get_thumbnail_url }}" height="250"/>
   </p>
 {% endif %}
 

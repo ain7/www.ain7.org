@@ -20,12 +20,18 @@
 #
 #
 
+from datetime import datetime
+
 from django import newforms as forms
+from django.db import models
 from django.utils.translation import ugettext as _
 
 from ain7.fields import AutoCompleteField
-from ain7.voyages.models import *
+from ain7.voyages.models import Travel, Subscription, TravelResponsible
+from ain7.widgets import DateTimeWidget
 
+dateWidget = DateTimeWidget()
+dateWidget.dformat = '%d/%m/%Y'
 
 class SearchTravelForm(forms.Form):
     label = forms.CharField(label=_('label').capitalize(),
@@ -55,11 +61,23 @@ class SearchTravelForm(forms.Form):
 
 
 class TravelForm(forms.ModelForm):
-    
-    description = forms.CharField( required=False, 
+    description = forms.CharField(label=_('description').capitalize(),
+        required=False,
         widget=forms.widgets.Textarea(attrs={'rows':10, 'cols':90}))
-    report = forms.CharField( required=False, 
+    report = forms.CharField(label=_('report').capitalize(),
+        required=False, 
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':90}))
+    start_date = forms.DateTimeField(label=_('start date').capitalize(),
+        widget=dateWidget)
+    end_date = forms.DateTimeField(label=_('end date').capitalize(),
+        widget=dateWidget)
+    
+    def clean_end_date(self):
+        if self.cleaned_data.get('start_date') and \
+            self.cleaned_data.get('end_date') and \
+            self.cleaned_data['start_date']>self.cleaned_data['end_date']:
+            raise forms.ValidationError(_('Start date is later than end date'))
+        return self.cleaned_data['end_date']
 
     class Meta:
         model = Travel

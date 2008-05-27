@@ -28,52 +28,14 @@ from django import newforms as forms
 from django.http import HttpResponseRedirect, HttpResponse
 from django.utils.translation import ugettext as _
 
-from ain7.utils import ain7_render_to_response
+from ain7.utils import ain7_render_to_response, ain7_generic_edit
 from ain7.decorators import confirmation_required
 from ain7.annuaire.models import Person, UserContribution
-from ain7.emploi.models import Company, ActivityField, OrganizationProposal
-from ain7.emploi.models import OfficeProposal
-from ain7.emploi.forms import *
+from ain7.emploi.models import Company, Office, ActivityField
+from ain7.emploi.models import OrganizationProposal, OfficeProposal
 from ain7.manage.models import *
-from ain7.emploi.views import OrganizationForm, OfficeForm
-
-from ain7.widgets import DateTimeWidget
-
-from ain7.fields import AutoCompleteField
-
-class SearchPersonForm(forms.Form):
-    last_name = forms.CharField(label=_('Last name'), max_length=50, required=False)
-    first_name = forms.CharField(label=_('First name'), max_length=50, required=False)
-
-class SearchGroupForm(forms.Form):
-    name = forms.CharField(label=_('Name'), max_length=50, required=False)
-
-class SearchCompanyForm(forms.Form):
-    name = forms.CharField(label=_('Name'), max_length=50, required=False)
-    location = forms.CharField(label=_('Location'), max_length=50, required=False)
-    activity = forms.CharField(label=_('Activity'), max_length=50, required=False)
-
-class SearchContributionForm(forms.Form):
-    user = forms.CharField(label=_('User'), max_length=50, required=False)
-    type = forms.CharField(label=_('Type'), max_length=50, required=False)
-
-class PermGroupForm(forms.Form):
-    perm = forms.CharField(label=_('Permission'), max_length=50, required=True)
-
-class MemberGroupForm(forms.Form):
-    username = forms.CharField(label=_('Username'), max_length=100, required=True, widget=AutoCompleteField(url='/ajax/person/'))
-
-class NewPersonForm(forms.Form):
-    first_name = forms.CharField(label=_('First name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size':50}))
-    last_name = forms.CharField(label=_('Last name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 50}))
-    mail = forms.CharField(label=_('Mail'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 50}))
-    nationality = forms.IntegerField(label=_('Nationality'), required=False, widget=AutoCompleteField(url='/ajax/nationality/'))
-    birth_date = forms.DateTimeField(label=_('Date of birth'), required=False, widget=DateTimeWidget)
-    sex = forms.IntegerField(label=_('Sex'), required=False,  widget=forms.Select(choices=Person.SEX))
-
-class NotificationForm(forms.Form):
-    title = forms.CharField(label=_('title'), max_length=50, required=True)
-    details = forms.CharField(label=_('details'), required=True, widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':90}))
+from ain7.manage.forms import *
+from ain7.emploi.forms import OrganizationForm, OfficeForm
 
 @login_required
 def index(request):
@@ -92,37 +54,32 @@ def users_search(request):
     if request.method == 'POST':
         form = SearchPersonForm(request.POST)
         if form.is_valid():
-
-            # criteres sur le nom et prenom
-            criteria={'last_name__contains':form.cleaned_data['last_name'].encode('utf8'),\
-                      'first_name__contains':form.cleaned_data['first_name'].encode('utf8')}
-
-            persons = Person.objects.filter(**criteria)
+            persons = form.search()
             paginator = ObjectPaginator(persons, nb_results_by_page)
-
             try:
                 page = int(request.GET.get('page', '1'))
                 persons = paginator.get_page(page - 1)
-
             except InvalidPage:
                 raise http.Http404
 
     return ain7_render_to_response(request, 'manage/users_search.html',
-                            {'form': form, 'persons': persons,'paginator': paginator, 'is_paginated': paginator.pages > 1,
-                             'has_next': paginator.has_next_page(page - 1),
-                             'has_previous': paginator.has_previous_page(page - 1),
-                             'current_page': page,
-                             'next_page': page + 1,
-                             'previous_page': page - 1,
-                             'pages': paginator.pages,
-                             'first_result': (page - 1) * nb_results_by_page +1,
-                             'last_result': min((page) * nb_results_by_page, paginator.hits),
-                             'hits' : paginator.hits,})
+        {'form': form, 'persons': persons,
+         'paginator': paginator, 'is_paginated': paginator.pages > 1,
+         'has_next': paginator.has_next_page(page - 1),
+         'has_previous': paginator.has_previous_page(page - 1),
+         'current_page': page,
+         'next_page': page + 1, 'previous_page': page - 1,
+         'pages': paginator.pages,
+         'first_result': (page - 1) * nb_results_by_page +1,
+         'last_result': min((page) * nb_results_by_page, paginator.hits),
+         'hits' : paginator.hits,})
 
 @login_required
 def user_details(request, user_id):
+
     u = get_object_or_404(User, pk=user_id)
-    return ain7_render_to_response(request, 'manage/user_details.html', {'this_user': u})
+    return ain7_render_to_response(
+        request, 'manage/user_details.html', {'this_user': u})
 
 @login_required
 def user_register(request):
@@ -132,36 +89,17 @@ def user_register(request):
     if request.method == 'POST':
         form = NewPersonForm(request.POST)
         if form.is_valid():
-            login = (form.cleaned_data['first_name'][0]+form.cleaned_data['last_name']).lower()
-            mail = form.cleaned_data['mail']
-            new_user = User.objects.create_user(login, mail, 'password')
-            new_user.first_name = form.cleaned_data['first_name']
-            new_user.last_name = form.cleaned_data['last_name']
-            new_user.save()
-
-            new_person = Person()
-            new_person.user = new_user
-            new_person.first_name = form.cleaned_data['first_name']
-            new_person.last_name = form.cleaned_data['last_name']
-            new_person.complete_name = new_person.first_name+' '+new_person.last_name
-            new_person.sex = form.cleaned_data['sex']
-            new_person.birth_date = datetime.date(1978,11,18)
-            new_person.country = Country.objects.get(id=form.cleaned_data['nationality'])
-            new_person.save()
-
-            new_couriel = Email()
-            new_couriel.person = new_person
-            new_couriel.email = form.cleaned_data['mail']
-            new_couriel.preferred_email = True
-            new_couriel.save()
-
-            request.user.message_set.create(message=_("New user successfully created"))
-            return HttpResponseRedirect('/manage/users/%s/edit' % (new_person.user.id))
+            new_person = form.save()
+            request.user.message_set.create(
+                message=_("New user successfully created"))
+            return HttpResponseRedirect(
+                '/manage/users/%s/' % (new_person.user.id))
         else:
             request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
 
     back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request, 'manage/edit_form.html', {'action_title': 'Register new user', 'back': back, 'form': form})
+    return ain7_render_to_response(request, 'manage/edit_form.html',
+        {'action_title': _('Register new user'), 'back': back, 'form': form})
 
 @login_required
 def companies_search(request):
@@ -171,23 +109,14 @@ def companies_search(request):
     companies = False
     paginator = ObjectPaginator(Company.objects.none(),nb_results_by_page)
     page = 1
-
     if request.method == 'POST':
         form = SearchCompanyForm(request.POST)
         if form.is_valid():
-
-            # criteres sur le nom et prenom
-            criteria={'name__contains':form.cleaned_data['name'].encode('utf8'),
-                      'is_a_proposal': False} # ,\
-                      #'location__contains':form.cleaned_data['location'].encode('utf8')}
-
-            companies = Company.objects.filter(**criteria)
+            companies = form.search()
             paginator = ObjectPaginator(companies, nb_results_by_page)
-
             try:
                 page = int(request.GET.get('page', '1'))
                 companies = paginator.get_page(page - 1)
-
             except InvalidPage:
                 raise http.Http404
 
@@ -234,17 +163,16 @@ def company_edit(request, company_id=None):
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No company registered.')+str(form.errors))
 
     back = request.META.get('HTTP_REFERER', '/')
-
     return ain7_render_to_response(request,
         'manage/company_edit.html',
-        {'action_title': action_title,
-         'form': form, 'back': back})
+        {'action_title': action_title, 'form': form, 'back': back})
 
 
 @login_required
 def company_details(request, company_id):
     c = get_object_or_404(Company, pk=company_id)
-    return ain7_render_to_response(request, 'manage/company_details.html', {'company': c})
+    return ain7_render_to_response(request, 'manage/company_details.html',
+                                   {'company': c})
 
 
 @confirmation_required(
@@ -348,39 +276,21 @@ def office_edit(request, office_id=None, organization_id=None):
 
     office = None
     if office_id:
-        office = get_object_or_404(Office, pk=office_id)
-        form = OfficeForm(
-            {'company': office.company.id, 'name': office.name,
-            'line1': office.line1, 'line2': office.line2,
-            'zip_code': office.zip_code, 'city': office.city,
-            'country': office.country.id, 'phone_number': office.phone_number,
-            'web_site': office.web_site})
-        action_title = _('Edit an office')
-
+        return ain7_generic_edit(
+            request, get_object_or_404(Office, pk=office_id),
+            OfficeForm, {'is_a_proposal': False},
+            'manage/company_edit.html',
+            {'action_title': _('Edit an office'),
+             'back': request.META.get('HTTP_REFERER', '/')}, {},
+            '/manage/offices/%s/' % office_id,
+            _('Office successfully modified'))
     else:
-        form = OfficeForm({'company': organization_id})
-        action_title = _('Register an office')
-
-    if request.method == 'POST':
-        form = OfficeForm(request.POST.copy())
-        if form.is_valid():
-            office = form.save(is_a_proposal=False, office=office)
-            if office_id:
-                msg = _('Office successfully modified')
-            else:
-                msg = _('Office successfully created')
-            request.user.message_set.create(message=msg)
-            return HttpResponseRedirect('/manage/offices/%s/' % office.id)
-        else:
-            request.user.message_set.create(
-                message=_('Something was wrong in the form you filled.'))
-
-    back = request.META.get('HTTP_REFERER', '/')
-
-    return ain7_render_to_response(request,
-        'manage/company_edit.html',
-        {'action_title': action_title, 'form': form, 'back': back})
-
+        return ain7_generic_edit(
+            request, None, OfficeForm, {'is_a_proposal': False},
+            'manage/company_edit.html',
+            {'action_title': _('Register an office'),
+             'back': request.META.get('HTTP_REFERER', '/')}, {},
+            '/manage/offices/$objid/', _('Office successfully created'))
 
 @login_required
 def office_details(request, office_id):
@@ -396,12 +306,11 @@ def office_details(request, office_id):
     _('Do you REALLY want to delete this office'))
 def office_delete(request, office_id):
 
-    office = get_object_or_404(Office, pk=office_id)
     company_id = office.company.id
-    office.delete()
-    request.user.message_set.create(
-        message=_('Office successfully removed'))
-    return HttpResponseRedirect('/manage/companies/%s/' % company_id)
+    return ain7_generic_delete(request,
+        get_object_or_404(Office, pk=office_id),
+        '/manage/companies/%s/' % company_id,
+        _('Office successfully removed'))
 
 
 @login_required
@@ -457,23 +366,13 @@ def office_register_proposal(request, proposal_id=None):
         return HttpResponseRedirect('/manage/')
     
     proposal = get_object_or_404(OfficeProposal, pk=proposal_id)
-    form = OfficeForm({
-        'company'     : proposal.modified.company.id,
-        'name'        : proposal.modified.name,
-        'line1'       : proposal.modified.line1,
-        'line2'       : proposal.modified.line2,
-        'zip_code'    : proposal.modified.zip_code,
-        'city'        : proposal.modified.city,
-        'country'     : proposal.modified.country.id,
-        'phone_number': proposal.modified.phone_number,
-        'web_site'    : proposal.modified.web_site,
-        'is_valid'    : proposal.modified.is_valid
-        })
+    form = OfficeForm(instance=proposal.modified)
 
     if request.method == 'POST':
-        form = OfficeForm(request.POST)
+        form = OfficeForm(request.POST.copy(), instance=proposal.modified)
         if form.is_valid():
-            office = form.save(is_a_proposal=False)
+            form.cleaned_data['is_a_proposal'] = False
+            office = form.save()
             # on supprime la notification et la proposition
             notification = Notification.objects.get(office_proposal=proposal)
             notification.delete()
@@ -484,7 +383,6 @@ def office_register_proposal(request, proposal_id=None):
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.') + str(form.errors))
 
     back = request.META.get('HTTP_REFERER', '/')
-
     return ain7_render_to_response(request,
         'manage/proposal_register.html',
         {'action_title': _('Proposal for adding an office'),
@@ -502,31 +400,25 @@ def groups_search(request):
     if request.method == 'POST':
         form = SearchGroupForm(request.POST)
         if form.is_valid():
-
-            # criteres sur le nom et prenom
-            criteria={'name__contains':form.cleaned_data['name'].encode('utf8')}
-
-            groups = Group.objects.filter(**criteria)
+            groups = form.search()
             paginator = ObjectPaginator(groups, nb_results_by_page)
-
             try:
                 page = int(request.GET.get('page', '1'))
                 groups = paginator.get_page(page - 1)
-
             except InvalidPage:
                 raise http.Http404
 
     return ain7_render_to_response(request, 'manage/groups_search.html',
-                            {'form': form, 'groups': groups,'paginator': paginator, 'is_paginated': paginator.pages > 1,
-                    'has_next': paginator.has_next_page(page - 1),
-                    'has_previous': paginator.has_previous_page(page - 1),
-                    'current_page': page,
-                    'next_page': page + 1,
-                    'previous_page': page - 1,
-                    'pages': paginator.pages,
-                    'first_result': (page - 1) * nb_results_by_page +1,
-                    'last_result': min((page) * nb_results_by_page, paginator.hits),
-                    'hits' : paginator.hits,})
+        {'form': form, 'groups': groups,'paginator': paginator,
+         'is_paginated': paginator.pages > 1,
+         'has_next': paginator.has_next_page(page - 1),
+         'has_previous': paginator.has_previous_page(page - 1),
+         'current_page': page,
+         'next_page': page + 1,  'previous_page': page - 1,
+         'pages': paginator.pages,
+         'first_result': (page - 1) * nb_results_by_page +1,
+         'last_result': min((page) * nb_results_by_page, paginator.hits),
+         'hits' : paginator.hits,})
 
 @login_required
 def group_details(request, group_id):
@@ -694,51 +586,25 @@ def perm_add(request, group_id):
 @login_required
 def notification_add(request):
 
-    form = NotificationForm()
-
-    if request.method == 'POST':
-        form = NotificationForm(request.POST)
-        if form.is_valid():
-            notif = Notification()
-            notif.title = form.cleaned_data['title']
-            notif.details = form.cleaned_data['details']
-            notif.save()
-            request.user.message_set.create(message=_('Notification successfully created'))
-            return HttpResponseRedirect('/manage/')
-        else:
-            request.user.message_set.create(
-                message=_('Something was wrong in the form you filled. No modification done.') + str(form.errors))
-
-    back = request.META.get('HTTP_REFERER', '/')
-
-    return ain7_render_to_response(request,
+    return ain7_generic_edit(
+        request, None, NotificationForm,
+        {'organization_proposal': None, 'office_proposal': None},
         'manage/notification.html',
         {'action_title': _('Add a new notification'),
-         'form': form, 'back': back})
+         'back': request.META.get('HTTP_REFERER', '/')}, {},
+        '/manage/', _('Notification successfully created'))
 
 @login_required
 def notification_edit(request, notif_id):
 
-    notif = get_object_or_404(Notification, pk=notif_id)
-    form = NotificationForm(
-        {'title':notif.title, 'details':notif.details})
-
-    if request.method == 'POST':
-        form = NotificationForm(request.POST)
-        if form.is_valid():
-            notif.title  = form.cleaned_data['title']
-            notif.details= form.cleaned_data['details']
-            notif.save()
-            request.user.message_set.create(
-                message=_("Modifications have been successfully saved."))
-        else:
-            request.user.message_set.create(
-                message=_("Something was wrong in the form you filled. No modification done.") + str(form.errors))
-        return HttpResponseRedirect('/manage/')
-    return ain7_render_to_response(
-        request, 'manage/notification.html',
-        {'form': form,
-         'action_title': _("Modification of the notification")})
+    return ain7_generic_edit(
+        request, get_object_or_404(Notification, pk=notif_id),
+        NotificationForm,
+        {'organization_proposal': None, 'office_proposal': None},
+        'manage/notification.html',
+        {'action_title': _("Modification of the notification"),
+         'back': request.META.get('HTTP_REFERER', '/')}, {},
+        '/manage/', _("Modifications have been successfully saved."))
 
 @confirmation_required(
     lambda user_id=None,

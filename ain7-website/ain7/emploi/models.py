@@ -143,10 +143,6 @@ class OrganizationProposal(models.Model):
         self.modification_date = datetime.datetime.today()
         return super(OrganizationProposal, self).save()
 
-    def delete(self):
-        self.modified.delete()
-        return super(OrganizationProposal, self).delete()
-        
     class Admin:
         pass
 
@@ -273,10 +269,6 @@ class OfficeProposal(models.Model):
         self.modification_date = datetime.datetime.today()
         return super(OfficeProposal, self).save()
 
-    def delete(self):
-        self.modified.delete()
-        return super(OfficeProposal, self).delete()
-        
     class Meta:
         verbose_name = _('office modification proposal')
 
@@ -334,6 +326,9 @@ class EducationItem(models.Model):
         self.modification_date = datetime.datetime.today()
         return super(EducationItem, self).save()
 
+    def __unicode__(self):
+        return self.school
+
     class Meta:
         verbose_name = _('Education item')
         ordering = ['-start_date']
@@ -355,6 +350,9 @@ class LeisureItem(models.Model):
         self.modification_date = datetime.datetime.today()
         return super(LeisureItem, self).save()
 
+    def __unicode__(self):
+        return self.title
+        
     class Meta:
         verbose_name = _('Leisure item')
         ordering = ['title']

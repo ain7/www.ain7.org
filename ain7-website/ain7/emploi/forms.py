@@ -27,6 +27,10 @@ from django.utils.translation import ugettext as _
 from ain7.annuaire.models import Track
 from ain7.emploi.models import *
 from ain7.fields import AutoCompleteField
+from ain7.widgets import DateTimeWidget
+
+dateWidget = DateTimeWidget()
+dateWidget.dformat = '%d/%m/%Y'
 
 class JobOfferForm(forms.Form):
     reference = forms.CharField(label=_('reference'), max_length=50,
@@ -140,52 +144,50 @@ class OrganizationForm(forms.Form):
         return org
 
 
-class OfficeForm(forms.Form):
+class OfficeForm(forms.ModelForm):
     company = forms.ModelChoiceField(
         label=_('organization'),
         queryset=Company.objects.valid_organizations(),required=True)
-    name = forms.CharField(
-        label=_('name'), max_length=50, required=True)
-    line1 = forms.CharField(
-        label=_('line1'), max_length=50, required=False)
-    line2 = forms.CharField(
-        label=_('line2'), max_length=100, required=False)
-    zip_code = forms.CharField(
-        label=_('zip code'), max_length=20, required=False)
-    city = forms.CharField(
-        label=_('city'), max_length=50, required=False)
     country = forms.ModelChoiceField(
         label=_('country'), queryset=Country.objects.all(), required=False)
-    phone_number = forms.CharField(
-        label=_('phone number'), max_length=20, required=False)
-    web_site = forms.CharField(
-        label=_('web site'), max_length=100, required=False)
 
-    def save(self, is_a_proposal=False, office=None):
-        if not office:
-            office = Office()
-        office.company = self.cleaned_data['company']
-        office.name = self.cleaned_data['name']
-        office.line1 = self.cleaned_data['line1']
-        office.line2 = self.cleaned_data['line2']
-        office.zip_code = self.cleaned_data['zip_code']
-        office.city = self.cleaned_data['city']
-        office.country = self.cleaned_data['country']
-        office.phone_number = self.cleaned_data['phone_number']
-        office.web_site = self.cleaned_data['web_site']
-        office.is_a_proposal = is_a_proposal
-        office.save()
-        return office
+    class Meta:
+        model = Office
+        exclude = ('is_a_proposal')
 
 class PositionForm(forms.ModelForm):
+    start_date = forms.DateTimeField(label=_('start date').capitalize(),
+        widget=dateWidget)
+    end_date = forms.DateTimeField(label=_('end date').capitalize(),
+        widget=dateWidget)
+    
     class Meta:
         model = Position
         exclude = ('ain7member')
 
+    def clean_end_date(self):
+        if self.cleaned_data.get('start_date') and \
+            self.cleaned_data.get('end_date') and \
+            self.cleaned_data['start_date']>self.cleaned_data['end_date']:
+            raise forms.ValidationError(_('Start date is later than end date'))
+        return self.cleaned_data['end_date']
+
 class EducationItemForm(forms.ModelForm):
+    start_date = forms.DateTimeField(label=_('start date').capitalize(),
+        widget=dateWidget)
+    end_date = forms.DateTimeField(label=_('end date').capitalize(),
+        widget=dateWidget)
+
     class Meta:
         model = EducationItem
         exclude = ('ain7member')
+
+    def clean_end_date(self):
+        if self.cleaned_data.get('start_date') and \
+            self.cleaned_data.get('end_date') and \
+            self.cleaned_data['start_date']>self.cleaned_data['end_date']:
+            raise forms.ValidationError(_('Start date is later than end date'))
+        return self.cleaned_data['end_date']
 
 class LeisureItemForm(forms.ModelForm):
     
@@ -194,6 +196,8 @@ class LeisureItemForm(forms.ModelForm):
         exclude = ('ain7member')
 
 class PublicationItemForm(forms.ModelForm):
+    date = forms.DateTimeField(label=_('date').capitalize(),
+        widget=dateWidget)
 
     class Meta:
         model = PublicationItem

@@ -23,8 +23,8 @@
 from django import newforms as forms
 from django.utils.translation import ugettext as _
 
-from ain7.fields import AutoCompleteField
-from ain7.groupes.models import *
+from ain7.groupes.models import Group, Membership
+from ain7.annuaire.models import Person
 
 class SubscribeGroupForm(forms.Form):
     member = forms.IntegerField(label=_('Person to subscribe'))
@@ -37,6 +37,15 @@ class SubscribeGroupForm(forms.Form):
         self.base_fields['member'].widget = \
             forms.Select(choices=personList)
         super(SubscribeGroupForm, self).__init__(*args, **kwargs)
+
+    def save(self, group=None):
+        membership = Membership()
+        membership.member = \
+            Person.objects.get(user__id=self.cleaned_data['member'])
+        membership.group = group
+        membership.is_coordinator = self.cleaned_data['is_coordinator']
+        membership.save()
+        return membership
 
 class GroupForm(forms.ModelForm):
     web_page = forms.CharField(label=_('web page').capitalize(),

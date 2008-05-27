@@ -23,8 +23,7 @@
 from django import newforms as forms
 from django.utils.translation import ugettext as _
 
-from ain7.fields import AutoCompleteField
-from ain7.groupes_regionaux.models import *
+from ain7.groupes_regionaux.models import Group
 
 class GroupForm(forms.ModelForm):
     description = forms.CharField(label=_('description').capitalize(),

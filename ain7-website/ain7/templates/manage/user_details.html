@@ -12,6 +12,7 @@
 
 <h2>{{ this_user.person.first_name }} {{ this_user.person.last_name }}</h2>
 
+{% if this_user.person.phone_numbers.all or this_user.person.emails.all or this_user.person.instant_messagings.all or this_user.person.ircs.all or this_user.person.web_sites.all %}
 <table width="100%">
 {% for phone_number in this_user.person.phone_numbers.all %}
 {% if not phone_number.is_confidential %}
@@ -38,7 +39,9 @@
 {% endfor %}
 
 </table>
+{% endif %}
 
+{% if this_user.person.addresses.all %}
 <table>
 {% for address in this_user.person.addresses.all %}
 {% if not address.is_confidential %}
@@ -46,10 +49,11 @@
 {% endif %}
 {% endfor %}
 </table>
+{% endif %}
 
 
 {% if this_user.person.ain7member %}
-This person is also an AIn7Member. You can check is complete profile <a href="/annuaire/{{ this_user.id }}"/>here</a>.
+{% trans "This person is also an AIn7Member. You can check his complete profile" %}<a href="/annuaire/{{ this_user.id }}"/>{% trans "here" %}</a>.
 {% endif %}
 
 </div>
@@ -71,12 +75,15 @@ This person is also an AIn7Member. You can check is complete profile <a href="/a
 
 <h3>{% trans "Groups AIn7" %}</h3>
 <div class="right_articles">
+{% if this_user.groups.all %}
 <ul>
 {% for group in this_user.groups.all %}
     <li><a href="/manage/groups/{{ group.id }}/">{{ group.name }}</a></li>
 {% endfor %}
 </ul>
+{% endif %}
 </div>
+
 
 <h3>{% trans "Card Informations"%}</h3>
 <div class="right_articles">

@@ -34,7 +34,7 @@ from ain7.groupes_regionaux.models import Group
 from ain7.groupes_regionaux.models import GroupMembership
 from ain7.groupes_regionaux.forms import *
 from ain7.decorators import confirmation_required
-from ain7.utils import ain7_render_to_response
+from ain7.utils import ain7_render_to_response, ain7_generic_edit
 
 def index(request):
     groups = Group.objects.all().filter(is_active=True).order_by('name')
@@ -54,22 +54,13 @@ def edit(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
     is_member = request.user.is_authenticated()\
                 and group.has_for_member(request.user.person)
-
-    if request.method == 'POST':
-
-        f = GroupForm(request.POST.copy(), instance=group)
-        if f.is_valid():
-            f.cleaned_data['group'] = group
-            f.save()
-
-        request.user.message_set.create(message=_('Regional group informations updated successfully.'))
-
-        return HttpResponseRedirect('/groupes_regionaux/%s/' % (group.id))
-
-    f = GroupForm(instance=group)
-    back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request, 'groupes_regionaux/edit.html',
-        {'form': f, 'group': group, 'is_member': is_member, 'back': back})
+    return ain7_generic_edit(
+        request, get_object_or_404(Group, pk=group_id), GroupForm,
+        {'group': group}, 'groupes_regionaux/edit.html',
+        {'group': group, 'is_member': is_member,
+         'back': request.META.get('HTTP_REFERER', '/')}, {},
+        '/groupes_regionaux/%s/' % (group_id),
+        _('Regional group informations updated successfully.'))
 
 @login_required
 def join(request, group_id):

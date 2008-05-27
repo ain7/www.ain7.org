@@ -14,9 +14,7 @@
 
 {% if ain7member.receive_job_offers_for_tracks.all %}
 
-<h3>{% trans "Job offers for your track" %}</h3>
-
-<h2>
+<h3>
     {% if ain7member.receive_job_offers_for_tracks.all|length_is:"1" %}
          {% trans "Job offers list for track" %}
     {% else %}
@@ -26,7 +24,7 @@
         {{ track }}
         {% if not forloop.last %} - {% endif %}
     {% endfor %}
-</h2>
+</h3>
 
 {% else %}
 

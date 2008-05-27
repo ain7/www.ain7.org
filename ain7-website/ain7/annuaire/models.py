@@ -367,6 +367,18 @@ class AIn7Member(models.Model):
             karma = karma + UserContributionType.objects.filter(key=contrib.type.key)[0].points
         return karma
 
+    def interesting_jobs(self):
+        """Si la personne souhaite recevoir les offres de certaines filières,
+        renvoie les offres pour ces filières.
+        Sinon, renvoie toutes les offres."""
+        jobs = []
+        if self.receive_job_offers_for_tracks.all():
+            for track in self.receive_job_offers_for_tracks.all():
+                jobs.extend(track.jobs.all())
+        else:
+            jobs = JobOffer.objects.all()
+        return jobs
+
     def __unicode__(self):
         return str(self.person)
 

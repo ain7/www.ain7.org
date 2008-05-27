@@ -20,7 +20,7 @@
 {% endif %}
 
 <h4>{% trans "Group presentation" %}</h4>
-{{ group.web_page|safe|default_if_none:"" }}
+{{ group.web_page|default_if_none:""|safe }}
 
 </div>
 
@@ -30,7 +30,13 @@
     <ul>
       <li><b>{% trans "name" %} :</b> {{ group.name }}</li>
       <li><b>{% trans "Contact email" %} :</b> {{ group.contact|default_if_none:"" }}</li>
-      <li><b>{% trans "Coordinator" %} :</b> {% for membership in group.memberships.all %}{% if membership.is_coordinator %} {{ membership.member }}{% endif %}{% endfor %}</li>
+      <li><b>{% trans "Coordinator" %} :</b> 
+          {% for membership in group.memberships.all %}
+            {% if membership.is_coordinator %} 
+              {{ membership.member }}
+            {% endif %}
+          {% endfor %}
+      </li>
     </ul>
    </div>
 

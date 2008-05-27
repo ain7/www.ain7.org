@@ -33,7 +33,7 @@ from django.utils.translation import ugettext as _
 
 from ain7.groupes.models import Group, Membership
 from ain7.groupes.forms import *
-from ain7.utils import ain7_render_to_response
+from ain7.utils import ain7_render_to_response, ain7_generic_edit
 from ain7.annuaire.models import Person
 
 def index(request):
@@ -62,28 +62,21 @@ def subscribe(request, group_id):
             request.user.message_set.create(message=_('This person is already subscribed to this group.'))
             memberships = group.memberships
             return ain7_render_to_response(request, 'groupes/details.html',
-                                           {'group': group, 'memberships': memberships})
+                {'group': group, 'memberships': memberships})
         if f.is_valid():
-            membership = Membership()
-            membership.member = Person.objects.get(user__id=request.POST['member'])
-            membership.group = group
-            membership.is_coordinator = f.cleaned_data['is_coordinator']
-            membership.save()
-
+            membership = f.save(group=group)
             p = membership.member
-
-            request.user.message_set.create(message=_('You have successfully subscribed')+
-                                            ' '+p.first_name+' '+p.last_name+' '+_('to this event.'))
+            request.user.message_set.create(
+                message=_('You have successfully subscribed')+
+                ' '+p.first_name+' '+p.last_name+' '+_('to this event.'))
         return HttpResponseRedirect('/groupes/%s/' % (group.id))
 
     f =  SubscribeGroupForm()
-    next_groups = Group.objects.filter(end__gte=datetime.now())
-
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'groupes/subscribe.html',
-                                   {'group': group, 'form': f, 'back': back,
-                                    'group_list': Group.objects.all(),
-                                    'next_groups': next_groups})
+        {'group': group, 'form': f, 'back': back,
+         'group_list': Group.objects.all()})
+
 @login_required
 def edit(request, group_id=None):
 
@@ -98,9 +91,8 @@ def edit(request, group_id=None):
              form = GroupForm(request.POST, instance=group)
              if form.is_valid():
                  form.save()
-
-                 request.user.message_set.create(message=_("Modifications have been successfully saved."))
-
+                 request.user.message_set.create(
+                     message=_("Modifications have been successfully saved."))
                  return HttpResponseRedirect('/groupes/%s/' % (group.id))
 
     back = request.META.get('HTTP_REFERER', '/')

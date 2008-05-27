@@ -39,29 +39,19 @@ from ain7.annuaire.models import Person
 
 
 def index(request):
-    next_travels = Travel.objects.filter(start_date__gte=datetime.datetime.now())
-    prev_travels = Travel.objects.filter(start_date__lt=datetime.datetime.now())[:5]
+    next_travels = Travel.objects.filter(
+        start_date__gte=datetime.now())
+    prev_travels = Travel.objects.filter(
+        start_date__lt=datetime.now())[:5]
     return ain7_render_to_response(request, 'voyages/index.html',
-                            {'next_travels': next_travels,
-                             'previous_travels': prev_travels})
+        {'next_travels': next_travels, 'previous_travels': prev_travels})
 
 @login_required
 def add(request):
-    form = TravelForm()
-    if request.method == 'POST':
-        form = TravelForm(request.POST)
-        if form.is_valid():
-            form.cleaned_data['thumbnail'] = None
-            form.save()
-            request.user.message_set.create(
-                message=_('The travel has been successfully created.'))
-        else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(form.errors))
-        return HttpResponseRedirect('/voyages/')
-
-    back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request, 'voyages/edit.html',
-        {'form': form, 'action': 'add', 'back': back})
+    return ain7_generic_edit(
+        request, None, TravelForm, {}, 'voyages/edit.html',
+        {'action': 'add', 'back': request.META.get('HTTP_REFERER', '/')},
+        {}, '/voyages/', _('The travel has been successfully created.'))
 
 @confirmation_required(
     lambda user_id=None,
@@ -70,9 +60,9 @@ def add(request):
     _('Do you REALLY want to delete this travel'))
 @login_required
 def delete(request, travel_id):
-    travel = get_object_or_404(Travel, pk=travel_id)
-    travel.delete()
-    return HttpResponseRedirect('/voyages/')
+    return ain7_generic_delete(request,
+        get_object_or_404(Travel, pk=travel_id),
+        '/voyages/', _('Travel successfully deleted.'))
 
 def details(request,travel_id):
     t = get_object_or_404(Travel, pk=travel_id)
@@ -94,29 +84,24 @@ def search(request):
     if request.method == 'POST':
         form = SearchTravelForm(request.POST)
         if form.is_valid():
-
             travels = form.search()
             paginator = ObjectPaginator(travels, nb_results_by_page)
-
             try:
                 page =  int(request.GET.get('page', '1'))
                 travels = paginator.get_page(page - 1)
-
             except InvalidPage:
                 raise http.Http404
-
     return ain7_render_to_response(request, 'voyages/search.html',
-                                    {'travels': travels, 'form': form, 'request': request,
-                    'paginator': paginator, 'is_paginated': paginator.pages > 1,
-                    'has_next': paginator.has_next_page(page - 1),
-                    'has_previous': paginator.has_previous_page(page - 1),
-                    'current_page': page,
-                    'next_page': page + 1,
-                    'previous_page': page - 1,
-                    'pages': paginator.pages,
-                    'first_result': (page - 1) * nb_results_by_page +1,
-                    'last_result': min((page) * nb_results_by_page, paginator.hits),
-                    'hits' : paginator.hits,})
+        {'travels': travels, 'form': form, 'request': request,
+         'paginator': paginator, 'is_paginated': paginator.pages > 1,
+         'has_next': paginator.has_next_page(page - 1),
+         'has_previous': paginator.has_previous_page(page - 1),
+         'current_page': page,
+         'next_page': page + 1, 'previous_page': page - 1,
+         'pages': paginator.pages,
+         'first_result': (page - 1) * nb_results_by_page +1,
+         'last_result': min((page) * nb_results_by_page, paginator.hits),
+         'hits' : paginator.hits,})
 
 @login_required
 def edit(request, travel_id=None):

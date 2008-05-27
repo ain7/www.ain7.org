@@ -46,7 +46,7 @@ class Travel(models.Model):
     label = models.CharField(verbose_name=_('label'), max_length=20)
     start_date = models.DateField(verbose_name=_('start date'), blank=True, null=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
-    date = models.CharField(verbose_name=_('date'), max_length=30)
+    date = models.CharField(verbose_name=_('date'), max_length=30, help_text=_('Example: June 2008'))
     term = models.IntegerField(verbose_name=_('term'), default=0, blank=True, null=True)
     type = models.ForeignKey(TravelType, verbose_name=_('type'))
     visited_places = models.CharField(verbose_name=_('visited places'), max_length=100)
