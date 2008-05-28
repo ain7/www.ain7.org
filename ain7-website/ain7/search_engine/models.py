@@ -66,7 +66,10 @@ class SearchFilter(models.Model):
                              related_name='filters')
 
     def __unicode__(self):
-        return self.name
+        if self.registered:
+            return self.name
+        else:
+            return _('unregistered filter')
 
     def search(self, parameters):
         return parameters.baseClass.objects.filter(

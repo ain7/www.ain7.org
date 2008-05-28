@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-27 23:38+0200\n"
-"PO-Revision-Date: 2008-05-27 23:44+0200\n"
+"POT-Creation-Date: 2008-05-28 23:30+0200\n"
+"PO-Revision-Date: 2008-05-28 23:36+0200\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -735,11 +735,11 @@ msgstr "Utilisateur créé avec succès"
 msgid "Register new user"
 msgstr "Enregistrer une nouvelle personne"
 
-#: annuaire/views.py:1022
+#: annuaire/views.py:1026
 msgid "checked"
 msgstr "coché"
 
-#: annuaire/views.py:1024
+#: annuaire/views.py:1028
 msgid "unchecked"
 msgstr "décoché"
 
@@ -1545,8 +1545,8 @@ msgstr "L'image associée à cette actualité a été supprimée avec succès"
 msgid "News successfully added."
 msgstr "Actualité mise à jour"
 
-#: search_engine/models.py:57 search_engine/models.py:78
-#: search_engine/models.py:85 templates/base.html:103
+#: search_engine/models.py:57 search_engine/models.py:81
+#: search_engine/models.py:88 templates/base.html:103
 msgid "and"
 msgstr "et"
 
@@ -1562,11 +1562,15 @@ msgstr "Moteur de recherche"
 msgid "operator"
 msgstr "opérateur"
 
-#: search_engine/models.py:90
+#: search_engine/models.py:72
+msgid "unregistered filter"
+msgstr "Filtre non enregistré"
+
+#: search_engine/models.py:93
 msgid "filter"
 msgstr "filtre"
 
-#: search_engine/models.py:91
+#: search_engine/models.py:94
 msgid "filters"
 msgstr "filtres"
 
@@ -1979,12 +1983,16 @@ msgstr "Navigation"
 msgid "Simple Search"
 msgstr "Recherche simple"
 
-#: templates/annuaire/adv_search.html:161 templates/annuaire/edit.html:321
+#: templates/annuaire/adv_search.html:160
+msgid "Advanced Search (homepage)"
+msgstr "Recherche avancée (accueil)"
+
+#: templates/annuaire/adv_search.html:165 templates/annuaire/edit.html:321
 #: templates/annuaire/edit_form.html:56 templates/annuaire/search.html:85
 msgid "Registered filters"
 msgstr "Filtres enregistrés"
 
-#: templates/annuaire/adv_search.html:173
+#: templates/annuaire/adv_search.html:177
 msgid "No registered filter"
 msgstr "Aucun filtre enregistré"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-27 23:38+0200\n"
+"POT-Creation-Date: 2008-05-28 23:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -730,11 +730,11 @@ msgstr ""
 msgid "Register new user"
 msgstr ""
 
-#: annuaire/views.py:1022
+#: annuaire/views.py:1026
 msgid "checked"
 msgstr ""
 
-#: annuaire/views.py:1024
+#: annuaire/views.py:1028
 msgid "unchecked"
 msgstr ""
 
@@ -1514,8 +1514,8 @@ msgstr ""
 msgid "News successfully added."
 msgstr ""
 
-#: search_engine/models.py:57 search_engine/models.py:78
-#: search_engine/models.py:85 templates/base.html:103
+#: search_engine/models.py:57 search_engine/models.py:81
+#: search_engine/models.py:88 templates/base.html:103
 msgid "and"
 msgstr ""
 
@@ -1531,11 +1531,15 @@ msgstr ""
 msgid "operator"
 msgstr ""
 
-#: search_engine/models.py:90
+#: search_engine/models.py:72
+msgid "unregistered filter"
+msgstr ""
+
+#: search_engine/models.py:93
 msgid "filter"
 msgstr ""
 
-#: search_engine/models.py:91
+#: search_engine/models.py:94
 msgid "filters"
 msgstr ""
 
@@ -1948,12 +1952,16 @@ msgstr ""
 msgid "Simple Search"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:161 templates/annuaire/edit.html:321
+#: templates/annuaire/adv_search.html:160
+msgid "Advanced Search (homepage)"
+msgstr ""
+
+#: templates/annuaire/adv_search.html:165 templates/annuaire/edit.html:321
 #: templates/annuaire/edit_form.html:56 templates/annuaire/search.html:85
 msgid "Registered filters"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:173
+#: templates/annuaire/adv_search.html:177
 msgid "No registered filter"
 msgstr ""
 

@@ -47,10 +47,10 @@ from ain7.search_engine.utils import *
 parameters = Parameters()
 parameters.criteria_models = [Person, AIn7Member]
 parameters.custom_fields = [
-    ('company', Office , 'positions__office__company'       ),
-    ('field',   Company, 'positions__office__company__field'),
-    ('city',    Address, 'person__addresses__city'          ),
-    ('country', Address, 'person__addresses__country'       ),
+    ('company',        Office , 'positions__office__company'                ),
+    ('activity_field', Company, 'positions__office__company__activity_field'),
+    ('city',           Address, 'person__addresses__city'                   ),
+    ('country',        Address, 'person__addresses__country'                ),
     ]
 parameters.baseClass = AIn7Member
 
@@ -458,8 +458,8 @@ def criterionField_edit(request, filter_id=None, criterion_id=None):
             displayedVal = getDisplayedVal(val,fName)
             # if the value is an object, store its id
             if str(type(val)).find('class ')!=-1:
-                displayedVal = val
-                val = val.id                
+                displayedVal = str(val)
+                val = str(val.id)
             filtr = get_object_or_404(SearchFilter, pk=filter_id)
             fVName = searchField.verbose_name
             compVName = getCompVerboseName(searchField, cCode)
@@ -992,6 +992,10 @@ def findComparatorsForField(field):
     choiceList = []
     for compName, compVN, qComp, qNeg in comps:
         choiceList.append((compName,compVN))
+    # if there is a choice list in the model, use it (for instance Person.sex)
+    if '_choices' in field.__dict__:
+        formField = forms.ChoiceField(
+            label='', choices=field.__dict__['_choices'])
     return (choiceList,formField)
 
 def getCompVerboseName(field, compCode):
@@ -1022,6 +1026,10 @@ def getDisplayedVal(value, fieldName):
             displayedVal = _('checked')
         else:
             displayedVal = _('unchecked')
+    if '_choices' in field.__dict__:
+        # in this case we used a ChoiceField and stored a key, not a value
+        for (k,v) in field.__dict__['_choices']:
+            if k==value: displayedVal = v                
     return displayedVal
 
 def filtersToExclude(filter_id=None):

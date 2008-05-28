@@ -155,6 +155,10 @@
    <ul>
       <li><a href="/annuaire/">
           {% trans "Simple Search" %}</a></li>
+      {% if filtr.registered %}
+        <li><a href="/annuaire/advanced_search/">
+            {% trans "Advanced Search (homepage)" %}</a></li>
+      {% endif %}
    </ul>
    </div>
 
