@@ -41,11 +41,12 @@ from ain7.decorators import confirmation_required
 from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete
 from ain7.search_engine.models import *
 from ain7.search_engine.utils import *
+from ain7.ajax.views import ajaxed_fields
 
 # Some parameters for the search engine
 
 parameters = Parameters()
-parameters.criteria_models = [Person, AIn7Member]
+parameters.criteria_models = {AIn7Member:'', Person: 'person__'}
 parameters.custom_fields = [
     ('company',        Office , 'positions__office__company'                ),
     ('activity_field', Company, 'positions__office__company__activity_field'),
@@ -411,7 +412,7 @@ def criterionField_edit(request, filter_id=None, criterion_id=None):
         cCode = crit.comparatorName
         value = crit.value
     model,searchField = getFieldFromName(fName, parameters)
-    comps,valueField = findComparatorsForField(searchField)
+    comps,valueField = findComparatorsForField(searchField, parameters)
 
     # the form with 2 fields : comparator and value
     class CriterionValueForm(forms.Form):
@@ -425,8 +426,9 @@ def criterionField_edit(request, filter_id=None, criterion_id=None):
                     label='', choices=comps, required=True)
             # for ForeignKey, we define the value field entirely.
             # It "should" be possible to only redefine the queryset here...
-            if isinstance(searchField,models.fields.related.ForeignKey)\
-            or isinstance(searchField,models.fields.related.ManyToManyField):
+            if (isinstance(searchField,models.fields.related.ForeignKey)\
+            or  isinstance(searchField,models.fields.related.ManyToManyField))\
+            and not searchField.rel.to in ajaxed_fields():
                 fieldsDict['value'] = forms.ModelChoiceField(
                     label='', empty_label=None,
                     queryset=searchField.rel.to.objects.all())
@@ -981,7 +983,7 @@ def findParamsForFieldName(fieldName):
     raise NotImplementedError
     return None
 
-def findComparatorsForField(field):
+def findComparatorsForField(field, parameters):
     """ Returns the set of comparators for a given field,
     depending on its type."""
     compList = None
@@ -993,9 +995,16 @@ def findComparatorsForField(field):
     for compName, compVN, qComp, qNeg in comps:
         choiceList.append((compName,compVN))
     # if there is a choice list in the model, use it (for instance Person.sex)
-    if '_choices' in field.__dict__:
+    if '_choices' in field.__dict__ and field.__dict__['_choices'] != []:
         formField = forms.ChoiceField(
             label='', choices=field.__dict__['_choices'])
+    # if it's an ajaxed field, we use autocompletion.
+    # ajaxed fields are supposed to be ForeignKeys or ManyToMany fields.
+    ajax_dict = ajaxed_fields()
+    if field.rel and field.rel.to in ajax_dict:
+        field_url = '/ajax/' + ajax_dict[field.rel.to] + '/'
+        formField = forms.CharField(
+            label='', widget=AutoCompleteField(url=field_url))
     return (choiceList,formField)
 
 def getCompVerboseName(field, compCode):
@@ -1030,6 +1039,11 @@ def getDisplayedVal(value, fieldName):
         # in this case we used a ChoiceField and stored a key, not a value
         for (k,v) in field.__dict__['_choices']:
             if k==value: displayedVal = v                
+    # if it's an ajaxed field, we store the id,
+    # as ajaxed fields are supposed to be ForeignKeys or ManyToManyFields
+    if field.rel and field.rel.to in ajaxed_fields():
+        obj = get_object_or_404(field.rel.to, pk=value)
+        displayedVal = str(obj)
     return displayedVal
 
 def filtersToExclude(filter_id=None):

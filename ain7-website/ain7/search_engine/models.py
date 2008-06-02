@@ -32,8 +32,10 @@ from ain7 import search_engine
 class Parameters:
     # we are looking for objects from this class:
     baseClass = None
-    # list of models for which attributes can be advanced search criteria
-    criteria_models = []
+    # dictionary of {models, prefix}: list of models for which we want to
+    # propose fields as criteria. They has to be subclasses of the baseClass.
+    # Prefixes indicate how to reach this subclass from the baseClass.
+    criteria_models = {}
     # some fields that we manage manually
     custom_fields = []
  
@@ -83,8 +85,7 @@ class SearchFilter(models.Model):
         
         for crit in self.criteriaFilter.all():
             qCrit = crit.filterCriterion.buildQ(parameters)
-            if not crit.is_in:
-                qCrit = models.query.QNot(qCrit)
+            if not crit.is_in: qCrit = ~qCrit
             if self.operator == _('and'): q = q & qCrit
             else: q = q | qCrit
         return q
@@ -121,6 +122,7 @@ class SearchCriterionField(models.Model):
         qComp, qNeg = search_engine.utils.compInQ(
             self.fieldName.encode('utf8'), self.comparatorName, parameters)
         # TODO : c'est du spécifique...
+        # utiliser le dictionnaire criteria_models pour récupérer le préfixe
         modelPrefix = ''
         if self.fieldClass == 'annuaire.person':
             modelPrefix = 'person__'
@@ -131,11 +133,8 @@ class SearchCriterionField(models.Model):
                 crit = query
         mdl, field = search_engine.utils.getFieldFromName(
             self.fieldName.encode('utf8'), parameters)
-        # if str(type(field)).find('CharField')!=-1:
-        #     value = value.encode('utf8')
         q = models.Q(**{crit: self.value})
-        if qNeg:
-            q = models.query.QNot(q)
+        if qNeg: q = ~q
         return q
 
 class SearchCriterionFilter(models.Model):

@@ -20,9 +20,18 @@
 #
 #
 
-from ain7.annuaire.models import *
+from ain7.annuaire.models import Person, Country, Promo, Track
 from ain7.emploi.models import ActivityField
 from ain7.utils import ain7_render_to_response
+
+def ajaxed_fields():
+    """Links fields for which an autocompletion using Ajax exists,
+    and the names of these autocompletion methods."""
+    return {Person: 'person',
+            Country: 'nationality',
+            Promo: 'promo',
+            Track: 'track',
+            ActivityField: 'activityfield'}
 
 def person(request):
     elements = []
