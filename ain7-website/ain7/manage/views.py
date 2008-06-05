@@ -31,7 +31,7 @@ from django.utils.translation import ugettext as _
 from ain7.utils import ain7_render_to_response, ain7_generic_edit
 from ain7.decorators import confirmation_required
 from ain7.annuaire.models import Person, UserContribution
-from ain7.emploi.models import Company, Office, ActivityField
+from ain7.emploi.models import Organization, Office, ActivityField
 from ain7.emploi.models import OrganizationProposal, OfficeProposal
 from ain7.manage.models import *
 from ain7.manage.forms import *
@@ -102,27 +102,27 @@ def user_register(request):
         {'action_title': _('Register new user'), 'back': back, 'form': form})
 
 @login_required
-def companies_search(request):
+def organizations_search(request):
 
-    form = SearchCompanyForm()
+    form = SearchOrganizationForm()
     nb_results_by_page = 25
-    companies = False
-    paginator = ObjectPaginator(Company.objects.none(),nb_results_by_page)
+    organizations = False
+    paginator = ObjectPaginator(Organization.objects.none(),nb_results_by_page)
     page = 1
     if request.method == 'POST':
-        form = SearchCompanyForm(request.POST)
+        form = SearchOrganizationForm(request.POST)
         if form.is_valid():
-            companies = form.search()
-            paginator = ObjectPaginator(companies, nb_results_by_page)
+            organizations = form.search()
+            paginator = ObjectPaginator(organizations, nb_results_by_page)
             try:
                 page = int(request.GET.get('page', '1'))
-                companies = paginator.get_page(page - 1)
+                organizations = paginator.get_page(page - 1)
             except InvalidPage:
                 raise http.Http404
 
-    return ain7_render_to_response(request, 'manage/companies_search.html',
-        {'form': form, 'companies': companies,
-         'nb_org': Company.objects.valid_organizations().count(),
+    return ain7_render_to_response(request, 'manage/organizations_search.html',
+        {'form': form, 'organizations': organizations,
+         'nb_org': Organization.objects.valid_organizations().count(),
          'nb_offices': Office.objects.valid_offices().count(),
          'paginator': paginator, 'is_paginated': paginator.pages > 1,
          'has_next': paginator.has_next_page(page - 1),
@@ -134,56 +134,56 @@ def companies_search(request):
          'hits' : paginator.hits,})
 
 @login_required
-def company_edit(request, company_id=None):
+def organization_edit(request, organization_id=None):
 
-    company = None
-    if company_id:
-        company = get_object_or_404(Company, pk=company_id)
+    organization = None
+    if organization_id:
+        organization = get_object_or_404(Organization, pk=organization_id)
         form = OrganizationForm(
-            {'name': company.name, 'size': company.size,
-             'activity_field': company.activity_field,
-             'short_description': company.short_description,
-             'long_description': company.long_description })
-        action_title = _('Edit a company')
+            {'name': organization.name, 'size': organization.size,
+             'activity_field': organization.activity_field,
+             'short_description': organization.short_description,
+             'long_description': organization.long_description })
+        action_title = _('Edit an organization')
     else:
         form = OrganizationForm()
-        action_title = _('Register a company')
+        action_title = _('Register an organization')
 
     if request.method == 'POST':
         form = OrganizationForm(request.POST.copy())
         if form.is_valid():
-            org = form.save(is_a_proposal=False, organization=company)
-            if company:
-                msg = _('Company successfully modified')
+            org = form.save(is_a_proposal=False, organization=organization)
+            if organization:
+                msg = _('Organization successfully modified')
             else:
-                msg = _('Company successfully created')
+                msg = _('Organization successfully created')
             request.user.message_set.create(message=msg)
-            return HttpResponseRedirect('/manage/companies/%s/' % org.id)
+            return HttpResponseRedirect('/manage/organizations/%s/' % org.id)
         else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No company registered.')+str(form.errors))
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No organization registered.')+str(form.errors))
 
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request,
-        'manage/company_edit.html',
+        'manage/organization_edit.html',
         {'action_title': action_title, 'form': form, 'back': back})
 
 
 @login_required
-def company_details(request, company_id):
-    c = get_object_or_404(Company, pk=company_id)
-    return ain7_render_to_response(request, 'manage/company_details.html',
-                                   {'company': c})
+def organization_details(request, organization_id):
+    c = get_object_or_404(Organization, pk=organization_id)
+    return ain7_render_to_response(request, 'manage/organization_details.html',
+                                   {'organization': c})
 
 
 @confirmation_required(
     lambda user_id=None,
-    company_id=None: str(get_object_or_404(Company, pk=company_id)),
+    organization_id=None: str(get_object_or_404(Organization, pk=organization_id)),
     'manage/base.html',
-    _('Do you REALLY want to delete this company'))
-def company_delete(request, company_id):
+    _('Do you REALLY want to delete this organization'))
+def organization_delete(request, organization_id):
 
-    company = get_object_or_404(Company, pk=company_id)
-    company.delete()
+    organization = get_object_or_404(Organization, pk=organization_id)
+    organization.delete()
     request.user.message_set.create(
         message=_('Organization successfully removed'))
     return HttpResponseRedirect('/manage/')
@@ -192,14 +192,14 @@ def company_delete(request, company_id):
 @login_required
 def organization_merge(request, organization_id=None):
 
-    organization = get_object_or_404(Company, pk=organization_id)
+    organization = get_object_or_404(Organization, pk=organization_id)
 
     # comme on ne peut définir le queryset qu'à la déclaration du champ,
     # je dois créer le formulaire ici
     class OrganizationListForm(forms.Form):        
         org = forms.ModelChoiceField(
             label=_('organization'), required=True,
-            queryset=Company.objects.valid_organizations().exclude(id=organization_id))
+            queryset=Organization.objects.valid_organizations().exclude(id=organization_id))
 
     # 1er passage : on demande la saisie d'une deuxième organisation
     if request.method == 'GET':
@@ -213,28 +213,28 @@ def organization_merge(request, organization_id=None):
         f = OrganizationListForm(request.POST.copy())
         if f.is_valid():
             organization2 = f.cleaned_data['org']
-            return HttpResponseRedirect('/manage/companies/%s/merge/%s/' %
+            return HttpResponseRedirect('/manage/organizations/%s/merge/%s/' %
                 (organization2.id, organization_id))
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
-            return HttpResponseRedirect('/manage/companies/%s/merge/' %
+            return HttpResponseRedirect('/manage/organizations/%s/merge/' %
                 organization_id)
         
 
 @confirmation_required(
     lambda user_id=None, org1_id=None, org2_id=None:
-    str(get_object_or_404(Company, pk=org2_id)) + _(' replaced by ') + \
-    str(get_object_or_404(Company, pk=org1_id)),
+    str(get_object_or_404(Organization, pk=org2_id)) + _(' replaced by ') + \
+    str(get_object_or_404(Organization, pk=org1_id)),
     'manage/base.html',
     _('Do you REALLY want to have'))
 def organization_do_merge(request, org1_id, org2_id):
 
-    org1 = get_object_or_404(Company, pk=org1_id)
-    org2 = get_object_or_404(Company, pk=org2_id)
+    org1 = get_object_or_404(Organization, pk=org1_id)
+    org2 = get_object_or_404(Organization, pk=org2_id)
     org1.merge(org2)
     request.user.message_set.create(
         message=_('Organizations successfully merged'))
-    return HttpResponseRedirect('/manage/companies/%s/' % org1_id)
+    return HttpResponseRedirect('/manage/organizations/%s/' % org1_id)
 
 @login_required
 def organization_register_proposal(request, proposal_id=None):
@@ -253,7 +253,7 @@ def organization_register_proposal(request, proposal_id=None):
     if request.method == 'POST':
         form = OrganizationForm(request.POST)
         if form.is_valid():
-            company = form.save(is_a_proposal=False)
+            organization = form.save(is_a_proposal=False)
             # on supprime la notification et la proposition
             notification = Notification.objects.get(
                 organization_proposal=proposal )
@@ -262,7 +262,7 @@ def organization_register_proposal(request, proposal_id=None):
             request.user.message_set.create(message=_('Organization successfully created'))
             return HttpResponseRedirect('/manage/')
         else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No company registered.') + str(form.errors))
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No organization registered.') + str(form.errors))
 
     back = request.META.get('HTTP_REFERER', '/')
 
@@ -272,6 +272,52 @@ def organization_register_proposal(request, proposal_id=None):
          'form': form, 'back': back})
 
 @login_required
+def organization_edit_proposal(request, proposal_id=None):
+
+    if not proposal_id:
+        return HttpResponseRedirect('/manage/')
+    
+    proposal = get_object_or_404(OrganizationProposal, pk=proposal_id)
+    form = OrganizationForm(
+        {'name': proposal.modified.name,
+         'size': proposal.modified.size,
+         'activity_field': str(proposal.modified.activity_field),
+         'short_description': proposal.modified.short_description, 
+         'long_description': proposal.modified.long_description })
+
+    if request.method == 'POST':
+        form = OrganizationForm(request.POST)
+        if form.is_valid():
+            organization = form.save(is_a_proposal=False,
+                                     organization=proposal.original)
+            # on supprime la notification et la proposition
+            notification = Notification.objects.get(
+                organization_proposal=proposal )
+            notification.delete()
+            proposal.modified.delete()
+            proposal.delete()
+            request.user.message_set.create(message=_('Organization successfully modified'))
+            return HttpResponseRedirect('/manage/')
+        else:
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+            
+    back = request.META.get('HTTP_REFERER', '/')
+    return ain7_render_to_response(request,
+        'manage/proposal_edit_organization.html',
+        {'form': form, 'original': proposal.original, 'back': back})
+
+@login_required
+def organization_delete_proposal(request, proposal_id=None):
+
+    proposal = get_object_or_404(OrganizationProposal, pk=proposal_id)
+    org = proposal.original
+    back = request.META.get('HTTP_REFERER', '/')
+    if request.method == 'POST':
+        return HttpResponseRedirect('/manage/organizations/%d/delete/'% org.id)
+    return ain7_render_to_response(request, 'manage/organization_details.html',
+        {'organization': org, 'back': back, 'action': 'propose_deletion'})
+
+@login_required
 def office_edit(request, office_id=None, organization_id=None):
 
     office = None
@@ -279,7 +325,7 @@ def office_edit(request, office_id=None, organization_id=None):
         return ain7_generic_edit(
             request, get_object_or_404(Office, pk=office_id),
             OfficeForm, {'is_a_proposal': False},
-            'manage/company_edit.html',
+            'manage/organization_edit.html',
             {'action_title': _('Edit an office'),
              'back': request.META.get('HTTP_REFERER', '/')}, {},
             '/manage/offices/%s/' % office_id,
@@ -287,7 +333,7 @@ def office_edit(request, office_id=None, organization_id=None):
     else:
         return ain7_generic_edit(
             request, None, OfficeForm, {'is_a_proposal': False},
-            'manage/company_edit.html',
+            'manage/organization_edit.html',
             {'action_title': _('Register an office'),
              'back': request.META.get('HTTP_REFERER', '/')}, {},
             '/manage/offices/$objid/', _('Office successfully created'))
@@ -306,10 +352,10 @@ def office_details(request, office_id):
     _('Do you REALLY want to delete this office'))
 def office_delete(request, office_id):
 
-    company_id = office.company.id
+    organization_id = office.organization.id
     return ain7_generic_delete(request,
         get_object_or_404(Office, pk=office_id),
-        '/manage/companies/%s/' % company_id,
+        '/manage/organizations/%s/' % organization_id,
         _('Office successfully removed'))
 
 
@@ -614,13 +660,10 @@ def notification_edit(request, notif_id):
 def notification_delete(request, notif_id):
 
     notif = get_object_or_404(Notification, pk=notif_id)
-    proposal = None
     if notif.organization_proposal:
-        proposal = notif.organization_proposal
+        notif.organization_proposal.delete()
     if notif.office_proposal:
-        proposal = notif.office_proposal
-    if proposal:
-        proposal.delete()
+        notif.office_proposal.delete()
     notif.delete()
     request.user.message_set.create(
         message=_("The notification has been successfully removed."))

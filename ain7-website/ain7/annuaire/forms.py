@@ -39,7 +39,7 @@ class SearchPersonForm(forms.Form):
     first_name = forms.CharField(label=_('First name'), max_length=50, required=False)
     promo = forms.IntegerField(label=_('Promo'), required=False, widget=AutoCompleteField(url='/ajax/promo/'))
     track = forms.IntegerField(label=_('Track'), required=False, widget=AutoCompleteField(url='/ajax/track/'))
-    organization = forms.CharField(label=_('company').capitalize(), max_length=50, required=False)
+    organization = forms.CharField(label=_('organization').capitalize(), max_length=50, required=False)
 
     def criteria(self):
         # criteres sur le nom et prenom, et sur l'organisation
@@ -47,7 +47,7 @@ class SearchPersonForm(forms.Form):
             'person__last_name__icontains': self.cleaned_data['last_name'].encode('utf8'),
             'person__first_name__icontains': self.cleaned_data['first_name'].encode('utf8')}
         if self.cleaned_data['organization']!='':
-            criteria['positions__office__company__name__icontains'] = \
+            criteria['positions__office__organization__name__icontains'] = \
                 self.cleaned_data['organization'].encode('utf8')
         # ici on commence par rechercher toutes les promos
         # qui concordent avec l'annee de promotion et la filiere

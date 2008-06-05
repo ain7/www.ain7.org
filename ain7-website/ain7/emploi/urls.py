@@ -44,14 +44,24 @@ urlpatterns = patterns('',
     (r'^(?P<user_id>\d+)/cv/publication/(?P<publication_id>\d+)/delete/$', publication_delete),
     (r'^(?P<user_id>\d+)/cv/publication/(?P<publication_id>\d+)/edit/$', publication_edit),
     (r'^(?P<user_id>\d+)/cv/publication/add/$', publication_add),
-    (r'^(?P<user_id>\d+)/cv/office/create/$', office_create),
-    (r'^(?P<user_id>\d+)/cv/company/create/$', company_create),
     # Job offers
     (r'^job/register/$', job_register),
     (r'^job/search/$', job_search),
     (r'^job/(?P<emploi_id>\d+)/$', job_details),
     (r'^job/(?P<emploi_id>\d+)/edit/$', job_edit),
-    # Company
-    (r'^societe/(?P<company_id>\d+)/$', company_details),
-
+    # Organization
+    (r'^societe/(?P<organization_id>\d+)/$', organization_details),
+    (r'^organization/edit/$', organization_choose, {'action': 'edit'}),
+    (r'^organization/add/$', organization_add),
+    (r'^organization/delete/$', organization_choose, {'action': 'delete'}),
+    (r'^organization/(?P<organization_id>\d+)/edit/$',
+     organization_edit),
+    (r'^organization/(?P<organization_id>\d+)/editdata/$',
+     organization_edit_data),
+    (r'^organization/(?P<organization_id>\d+)/delete/$',
+     organization_delete),
+    # Offices
+    (r'^office/(?P<office_id>\d+)/edit/$', office_edit),
+    (r'^office/(?P<office_id>\d+)/delete/$', office_delete),
+    (r'^organization/(?P<organization_id>\d+)/office/add/$', office_add),
 )

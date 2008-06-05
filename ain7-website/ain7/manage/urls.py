@@ -27,17 +27,21 @@ from ain7.manage.views import *
 urlpatterns = patterns('ain7.manage.views',
     (r'^$', 'index'),
                        
-    # Companies
-    (r'^companies/$', 'companies_search'),
-    (r'^companies/register/$', 'company_edit'),
-    (r'^companies/(?P<company_id>\d+)/$', 'company_details'),
-    (r'^companies/(?P<company_id>\d+)/edit/$', 'company_edit'),
-    (r'^companies/(?P<company_id>\d+)/delete/$', 'company_delete'),
-    (r'^companies/(?P<organization_id>\d+)/merge/$', 'organization_merge'),
-    (r'^companies/(?P<org1_id>\d+)/merge/(?P<org2_id>\d+)/$',
+    # Organizations
+    (r'^organizations/$', 'organizations_search'),
+    (r'^organizations/register/$', 'organization_edit'),
+    (r'^organizations/(?P<organization_id>\d+)/$', 'organization_details'),
+    (r'^organizations/(?P<organization_id>\d+)/edit/$', 'organization_edit'),
+    (r'^organizations/(?P<organization_id>\d+)/delete/$', 'organization_delete'),
+    (r'^organizations/(?P<organization_id>\d+)/merge/$', 'organization_merge'),
+    (r'^organizations/(?P<org1_id>\d+)/merge/(?P<org2_id>\d+)/$',
      'organization_do_merge'),
     (r'^organizations/proposals/register/(?P<proposal_id>\d+)/$',
      'organization_register_proposal'),
+    (r'^organizations/proposals/edit/(?P<proposal_id>\d+)/$',
+     'organization_edit_proposal'),
+    (r'^organizations/proposals/delete/(?P<proposal_id>\d+)/$',
+     'organization_delete_proposal'),
                        
     # Offices
     (r'^offices/register/(?P<organization_id>\d+)/$', 'office_edit'),

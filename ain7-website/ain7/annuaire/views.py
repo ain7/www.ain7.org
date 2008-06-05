@@ -36,7 +36,7 @@ from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import *
 from ain7.annuaire.forms import *
-from ain7.emploi.models import Company, Office
+from ain7.emploi.models import Organization, Office
 from ain7.decorators import confirmation_required
 from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete
 from ain7.search_engine.models import *
@@ -48,10 +48,10 @@ from ain7.ajax.views import ajaxed_fields
 parameters = Parameters()
 parameters.criteria_models = {AIn7Member:'', Person: 'person__'}
 parameters.custom_fields = [
-    ('company',        Office , 'positions__office__company'                ),
-    ('activity_field', Company, 'positions__office__company__activity_field'),
-    ('city',           Address, 'person__addresses__city'                   ),
-    ('country',        Address, 'person__addresses__country'                ),
+    ('city',           Address, 'person__addresses__city'          ),
+    ('country',        Address, 'person__addresses__country'       ),
+    ('organization',   Office , 'positions__office__organization'  ),
+    ('activity_field', Organization, 'positions__office__organization__activity_field'),
     ]
 parameters.baseClass = AIn7Member
 
@@ -954,7 +954,7 @@ def criteriaList(user):
     attrList = []
 
     # models for which attributes are criteria for advanced search
-    for model in parameters.criteria_models:
+    for model in parameters.criteria_models.keys():
 
         for field in model._meta.fields + model._meta.many_to_many:
 

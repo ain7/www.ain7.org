@@ -18,11 +18,29 @@
     {% if notification.organization_proposal %}
 
       <a href="/annuaire/{{ notification.organization_proposal.author.user.id }}/">{{ notification.organization_proposal.author }}</a> 
-      {% trans "proposed the creation of the organization" %}
-      <em>{{ notification.organization_proposal.modified }}</em>. 
-      {% trans "Please visit" %} 
-      <a href="/manage/organizations/proposals/register/{{ notification.organization_proposal.id }}/">{% trans "this page" %}</a> 
-      {% trans "to check for correctness and possibly confirm" %}.
+      {% ifequal notification.organization_proposal.action 0 %}
+        {% trans "proposed the creation of the organization" %}
+        <em>{{ notification.organization_proposal.modified }}</em>. 
+        {% trans "Please visit" %} 
+        <a href="/manage/organizations/proposals/register/{{ notification.organization_proposal.id }}/">{% trans "this page" %}</a> 
+        {% trans "to check for correctness and possibly confirm." %}
+      {% endifequal %}
+
+      {% ifequal notification.organization_proposal.action 1 %}
+        {% trans "proposed the modification of the organization" %}
+        <em>{{ notification.organization_proposal.original }}</em>. 
+        {% trans "Please visit" %} 
+        <a href="/manage/organizations/proposals/edit/{{ notification.organization_proposal.id }}/">{% trans "this page" %}</a> 
+        {% trans "to check for correctness and possibly confirm." %}
+      {% endifequal %}
+
+      {% ifequal notification.organization_proposal.action 2 %}
+        {% trans "proposed the deletion of the organization" %}
+        <em>{{ notification.organization_proposal.original }}</em>. 
+        {% trans "Please visit" %} 
+        <a href="/manage/organizations/proposals/delete/{{ notification.organization_proposal.id }}/">{% trans "this page" %}</a> 
+        {% trans "to possibly confirm." %}
+      {% endifequal %}
       <br />
       <a href="/manage/notification/{{ notification.id }}/delete/" 
          class="deletelink">{% trans "Delete this proposal" %}</a>
@@ -32,13 +50,37 @@
       {% if notification.office_proposal %}
 
         <a href="/annuaire/{{ notification.office_proposal.author.user.id }}/">{{ notification.office_proposal.author }}</a> 
-        {% trans "proposed the creation of the office" %}
-        <em>{{ notification.office_proposal.modified }}</em>
-        {% trans "for the organisation" %}
-        <em>{{ notification.office_proposal.modified.company }}</em>. 
-        {% trans "Please visit" %} 
-        <a href="/manage/offices/proposals/register/{{ notification.office_proposal.id }}/">{% trans "this page" %}</a> 
-        {% trans "to check for correctness and possibly confirm" %}.
+
+        {% ifequal notification.office_proposal.action 0 %}
+          {% trans "proposed the creation of the office" %}
+          <em>{{ notification.office_proposal.modified }}</em>
+          {% trans "for the organization" %}
+          <em>{{ notification.office_proposal.modified.organization }}</em>. 
+          {% trans "Please visit" %} 
+          <a href="/manage/offices/proposals/register/{{ notification.office_proposal.id }}/">{% trans "this page" %}</a> 
+          {% trans "to check for correctness and possibly confirm." %}
+	{% endifequal %}
+
+        {% ifequal notification.office_proposal.action 1 %}
+          {% trans "proposed the modification of the office" %}
+          <em>{{ notification.office_proposal.original }}</em>
+          {% trans "for the organization" %}
+          <em>{{ notification.office_proposal.original.organization }}</em>. 
+          {% trans "Please visit" %}
+          <a href="/manage/offices/proposals/edit/{{ notification.office_proposal.id }}/">{% trans "this page" %}</a> 
+          {% trans "to check for correctness and possibly confirm." %}
+        {% endifequal %}
+
+        {% ifequal notification.office_proposal.action 2 %}
+          {% trans "proposed the deletion of the office" %}
+          <em>{{ notification.office_proposal.original }}</em>
+          {% trans "for the organization" %}
+          <em>{{ notification.office_proposal.original.organization }}</em>. 
+          {% trans "Please visit" %}
+          <a href="/manage/offices/proposals/delete/{{ notification.office_proposal.id }}/">{% trans "this page" %}</a> 
+          {% trans "to possibly confirm." %}
+        {% endifequal %}
+
         <br />
         <a href="/manage/notification/{{ notification.id }}/delete/" 
            class="deletelink">{% trans "Delete this proposal" %}</a>
@@ -75,7 +117,7 @@
 <li><a href="/manage/users/">{% trans "Manage users" %}</a></li>
 <li><a href="/manage/groups/">{% trans "Manage groups" %}</a></li>
 <li><a href="/manage/permissions/">{% trans "Manage permissions" %}</a></li>
-<li><a href="/manage/companies/">{% trans "Manage companies" %}</a></li>
+<li><a href="/manage/organizations/">{% trans "Manage organizations" %}</a></li>
 <li><a href="/manage/contributions/">{% trans "Contributions" %}</a></li>
 <li><a href="/manage/notification/add/">{% trans "Add a notification" %}</a></li>
 

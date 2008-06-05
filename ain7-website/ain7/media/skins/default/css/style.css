@@ -534,3 +534,12 @@ div.complete ul li {
         list-style-image : url(../images/icon_person.png);
         list-style-position: outside;
 }
+
+/* For distinction between original object and proposed modification
+   ------ */
+
+.original {
+    background: #f5f5f5;
+}
+
+.modified {}

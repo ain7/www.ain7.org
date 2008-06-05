@@ -113,7 +113,7 @@ class OrganizationForm(forms.Form):
         label=_('Name'), max_length=50, required=True)
     size = forms.IntegerField(
         label=_('Size'), required=True,
-        widget=forms.Select(choices=Company.COMPANY_SIZE))
+        widget=forms.Select(choices=Organization.ORGANIZATION_SIZE))
     activity_field = forms.CharField(
         label=_('Activity field'), max_length=50, required=True,
         widget=AutoCompleteField(url='/ajax/activityfield/'))
@@ -127,7 +127,7 @@ class OrganizationForm(forms.Form):
         if organization:
             org = organization
         else:
-            org = Company()
+            org = Organization()
         # TODO : automatiser avec qqchose comme ça:
 #         for field in org._meta.fields:
 #             if field.name=='is_a_proposal':
@@ -143,17 +143,24 @@ class OrganizationForm(forms.Form):
         org.save()
         return org
 
-
 class OfficeForm(forms.ModelForm):
-    company = forms.ModelChoiceField(
+    organization = forms.ModelChoiceField(
         label=_('organization'),
-        queryset=Company.objects.valid_organizations(),required=True)
+        queryset=Organization.objects.valid_organizations(),required=True)
     country = forms.ModelChoiceField(
         label=_('country'), queryset=Country.objects.all(), required=False)
 
     class Meta:
         model = Office
         exclude = ('is_a_proposal')
+
+class OfficeFormNoOrg(forms.ModelForm):
+    country = forms.ModelChoiceField(
+        label=_('country'), queryset=Country.objects.all(), required=False)
+
+    class Meta:
+        model = Office
+        exclude = ('is_a_proposal', 'organization')
 
 class PositionForm(forms.ModelForm):
     start_date = forms.DateTimeField(label=_('start date').capitalize(),

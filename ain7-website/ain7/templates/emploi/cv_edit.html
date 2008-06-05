@@ -71,7 +71,7 @@
         <tr><td width="25%"><b>{{ position.start_date|date:"d/m/Y" }} - 
             {{ position.end_date|date:"d/m/Y"|default:"..." }}</b></td>
             <td> <em>{{ position.fonction }}</em> {% trans "for" %} 
-                {{ position.office }} ({{ position.office.company }})</td>
+                {{ position.office }} ({{ position.office.organization }})</td>
             <td width="12%"><a href="/emploi/{{ person.user.id }}/cv/position/{{ position.id }}/edit/" class="changelink"> 
                 {% trans "Modify" %}</a></td>
             <td width="12%"><a href="/emploi/{{ person.user.id }}/cv/position/{{ position.id }}/delete/" class="deletelink"> {% trans "Delete" %}</a></td>

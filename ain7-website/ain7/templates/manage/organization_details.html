@@ -10,21 +10,21 @@
 
 <div class="left_box">
 
-<h2>{{ company.name }}</h2>
+<h2>{{ organization.name }}</h2>
 
-{% if company.short_description %}
-<p>{{ company.short_description }}</p>
+{% if organization.short_description %}
+<p>{{ organization.short_description }}</p>
 {% endif %}
 
-{% if company.long_description %}
-{{ company.long_description }}
+{% if organization.long_description %}
+{{ organization.long_description|safe }}
 {% endif %}
 
 <!--TODO: ajouter size + field-->
 <h2>{% trans "List of offices" %}</h2>
-{% if company.offices.all %}
+{% if organization.offices.all %}
 <ul>
-{% for office in company.offices.all %}
+{% for office in organization.offices.all %}
     <li><a href="/manage/offices/{{ office.id }}/">{{ office }}</a>
         {% if office.line1 or office.line2 or office.zip_code or office.city or office.country or office.phone_number or office.web_site %}
         <p>
@@ -87,6 +87,18 @@
 </ul>
 {% endif %}
 
+{% ifequal action "propose_deletion" %}
+  <form method="post" action=".">
+    <div class="confirm">
+      <p><strong>{% trans "Do you want to delete this organization? This will not remove it (as references are used for old positions in CVs, etc), but will mark it as out-of-date." %}</strong></p>
+      <p>
+        <a class="button" href="{{ back }}">{% trans "No" %}</a>
+        <input type="submit" class="button" value="{% trans "Yes" %}" />
+      </p>
+    </div>
+  </form>
+{% endifequal %}
+
 </div>
 
 </div>
@@ -99,7 +111,7 @@
 <li><a href="/manage/users/">{% trans "Manage users" %}</a></li>
 <li><a href="/manage/groups/">{% trans "Manage groups" %}</a></li>
 <li><a href="/manage/permissions/">{% trans "Manage permissions" %}</a></li>
-<li><a href="/manage/companies/">{% trans "Manage companies" %}</a></li>
+<li><a href="/manage/organizations/">{% trans "Manage organizations" %}</a></li>
 <li><a href="/manage/contributions/">{% trans "Contributions" %}</a></li>
 </ul>
 </div>
@@ -107,19 +119,19 @@
 <h3>{% trans "Actions" %}</h3>
 <div class="right_articles">
 <ul>
-<li><a href="/manage/companies/register/">{% trans "Register a new company" %}</a></li>
-<li><a href="/manage/companies/{{ company.id }}/edit/">{% trans "Edit this company" %}</a></li>
-<li><a href="/manage/companies/{{ company.id }}/delete/">{% trans "Delete this company" %}</a></li>
-<li><a href="/manage/companies/{{ company.id }}/merge/">{% trans "Merge this company" %}</a></li>
-<li><a href="/manage/offices/register/{{ company.id }}/">{% trans "Register a new office" %}</a></li>
+<li><a href="/manage/organizations/register/">{% trans "Register a new organization" %}</a></li>
+<li><a href="/manage/organizations/{{ organization.id }}/edit/">{% trans "Edit this organization" %}</a></li>
+<li><a href="/manage/organizations/{{ organization.id }}/delete/">{% trans "Delete this organization" %}</a></li>
+<li><a href="/manage/organizations/{{ organization.id }}/merge/">{% trans "Merge this organization" %}</a></li>
+<li><a href="/manage/offices/register/{{ organization.id }}/">{% trans "Register a new office" %}</a></li>
 </ul>
 </div>
 
 <h3>{% trans "Card Informations"%}</h3>
 <div class="right_articles">
 <ul>
-  <li>{% trans "Creation" %}&nbsp;: {{ company.creation_date|date:"l j F Y" }}</li>
-  <li>{% trans "Update" %}&nbsp;: {{ company.modification_date|date:"l j F Y" }}</li>
+  <li>{% trans "Creation" %}&nbsp;: {{ organization.creation_date|date:"l j F Y" }}</li>
+  <li>{% trans "Update" %}&nbsp;: {{ organization.modification_date|date:"l j F Y" }}</li>
 </ul>
 </div>
 

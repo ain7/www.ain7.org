@@ -251,26 +251,26 @@ def filldb():
     n7hy2003 = annuaire.Promo(year=2003, track=n7hydro)
     n7hy2003.save()
 
-    # Companies
+    # Organizations
     infofield = emploi.ActivityField(field = u"Informatique", code=u"ZZ", label=u"Informatique")
     infofield.save()
 
-    babelstore = emploi.Company(name=u"BABELSTORE", activity_field=infofield, size=2)
+    babelstore = emploi.Organization(name=u"BABELSTORE", activity_field=infofield, size=2)
     babelstore.save()
 
-    priceminister = emploi.Office(name=u"PriceMinister", company=babelstore)
+    priceminister = emploi.Office(name=u"PriceMinister", organization=babelstore)
     priceminister.save()
 
-    anyware = emploi.Company(name=u"Anyware", activity_field=infofield)
+    anyware = emploi.Organization(name=u"Anyware", activity_field=infofield)
     anyware.save()
 
-    anywareoffice = emploi.Office(name=u"Bureau de Toulouse", company=anyware)
+    anywareoffice = emploi.Office(name=u"Bureau de Toulouse", organization=anyware)
     anywareoffice.save()
 
-    schtroumpfland = emploi.Company(name=u"Schtroumpfland", activity_field=infofield)
+    schtroumpfland = emploi.Organization(name=u"Schtroumpfland", activity_field=infofield)
     schtroumpfland.save()
 
-    lepaysdesschtroumpfs = emploi.Office(name=u"Mon champignon", company=schtroumpfland)
+    lepaysdesschtroumpfs = emploi.Office(name=u"Mon champignon", organization=schtroumpfland)
     lepaysdesschtroumpfs.save()
 
     # Regional group

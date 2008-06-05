@@ -7,20 +7,20 @@
 
 <div class="left_box">
 
-<h2>{{ company.name }}</h2>
+<h2>{{ organization.name }}</h2>
 
-{% if company.short_description %}
-<p>{{ company.short_description }}</p>
+{% if organization.short_description %}
+<p>{{ organization.short_description }}</p>
 {% endif %}
 
-{% if company.long_description %}
-{{ company.long_description }}
+{% if organization.long_description %}
+{{ organization.long_description|safe }}
 {% endif %}
 
 <!--TODO: ajouter size + field-->
 <h2>{% trans "List of offices" %}</h2>
 <ul>
-{% for office in company.offices.all %}
+{% for office in organization.offices.all %}
     <li>{{ office }}
         {% if office.line1 or office.line2 or office.zip_code or office.city or office.country or office.phone_number or office.web_site %}
         <p>

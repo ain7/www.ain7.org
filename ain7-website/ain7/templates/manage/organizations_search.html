@@ -28,9 +28,9 @@
 </div>
 </form>
 
-{% if companies %}
+{% if organizations %}
 
-{% ifnotequal companies|length 0 %}
+{% ifnotequal organizations|length 0 %}
 
 <h2>{% trans "Results list"%}</h2>
 
@@ -39,17 +39,17 @@
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
 <td align="right">
 {% if is_paginated %}
-{% if has_previous %}<a href="/manage/companies/?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="/manage/companies/?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="/manage/companies/?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="/manage/companies/?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% if has_previous %}<a href="/manage/organizations/?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="/manage/organizations/?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="/manage/organizations/?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="/manage/organizations/?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
 {% endif %}
 </td>
 </table>
 <ul>
-    {% for company in companies %}
-        <li class="company"><a href="/manage/companies/{{ company.id }}/">
-            {{ company.name }}</a>
+    {% for organization in organizations %}
+        <li class="organization"><a href="/manage/organizations/{{ organization.id }}/">
+            {{ organization.name }}</a>
 				</li>
     {% endfor %}
 </ul>
@@ -69,7 +69,7 @@
     <li><a href="/manage/users/">{% trans "Manage users" %}</a></li>
     <li><a href="/manage/groups/">{% trans "Manage groups" %}</a></li>
     <li><a href="/manage/permissions/">{% trans "Manage permissions" %}</a></li>
-    <li><a href="/manage/companies/">{% trans "Manage companies" %}</a></li>
+    <li><a href="/manage/organizations/">{% trans "Manage organizations" %}</a></li>
     <li><a href="/manage/contributions/">{% trans "Contributions" %}</a></li>
 </ul>
 </div>
@@ -77,7 +77,7 @@
 <h3>{% trans "Actions" %}</h3>
 <div class="right_articles">
 <ul>
-    <li><a href="/manage/companies/register/">{% trans "Register company" %}</a></li>
+    <li><a href="/manage/organizations/register/">{% trans "Register organization" %}</a></li>
 </ul>
 </div>
 

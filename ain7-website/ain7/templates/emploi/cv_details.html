@@ -64,7 +64,7 @@
             {{ position.end_date|date:"d/m/Y"|default:"..." }}</b></td>
             <td> <em>{{ position.fonction }}</em> {% trans "for" %} 
                 {{ position.office }} 
-		(<a href="/emploi/societe/{{ position.office.company.id }}/">{{ position.office.company }}</a>)
+		(<a href="/emploi/societe/{{ position.office.organization.id }}/">{{ position.office.organization }}</a>)
 		</td></tr>
         {% if position.service %}
             <tr><td></td><td>{{ position.service }}</td></tr>

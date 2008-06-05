@@ -1,0 +1,83 @@
+{% extends "emploi/base.html" %}
+{% load i18n %}
+
+{% block javascript %}
+<script type="text/javascript" src="/site_media/js/mootools-release-{{ mootools_version }}.js"></script>
+<script type="text/javascript" src="/site_media/js/autocomplete.js?version={{ portal_version }}"></script>
+<script type="text/javascript" src="/site_media/js/floatingpane.js?version={{ portal_version }}"></script>
+<script type="text/javascript" src="/site_media/js/tiny_mce/tiny_mce.js"></script>
+<script type="text/javascript" src="/site_media/js/textareas.js?version={{ portal_version }}"></script>
+{% endblock %}
+
+{% block stylesheet %}
+<link type="text/css" rel="stylesheet" href="/site_media/css/autocomplete.css?version={{ portal_version }}"/>
+<link type="text/css" rel="stylesheet" href="/site_media/css/floatingpane.css?version={{ portal_version }}"/>
+{% endblock %}
+
+{% block content-main %}
+
+<div class="left">
+
+<div class="left_box">
+
+<h2>{% trans "Proposal of organization modification" %}</h2>
+
+<form method="post" action=".">
+<table>
+<thead>
+<tr>
+<th></th>
+<th class="original">{% trans "Current values" %}</th>
+<th class="modified">{% trans "Proposed modifications" %}</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{{ form.name.label_tag }}</td>
+<td class="original">{{ original.name }}</td>
+<td class="modified">
+{% if form.name.errors %}{{ form.name.errors }}{% endif %}
+{{ form.name }}</td>
+</tr>
+<tr>
+<td>{{ form.size.label_tag }}</td>
+<td class="original">{{ original.print_size|default_if_none:"" }}</td>
+<td class="modified">
+{% if form.size.errors %}{{ form.size.errors }}{% endif %}
+{{ form.size }}</td>
+</tr>
+<tr>
+<td>{{ form.activity_field.label_tag }}</td>
+<td class="original">{{ original.activity_field }}</td>
+<td class="modified">
+{% if form.activity_field.errors %}{{ form.activity_field.errors }}{% endif %}
+{{ form.activity_field|safe }}</td>
+</tr>
+<tr>
+<td>{{ form.short_description.label_tag }}</td>
+<td class="original">{{ original.short_description|default_if_none:"" }}</td>
+<td class="modified">
+{% if form.short_description.errors %}
+  {{ form.short_description.errors }}{% endif %}
+{{ form.short_description }}</td>
+</tr>
+<tr>
+<td>{{ form.long_description.label_tag }}</td>
+<td class="original">{{ original.long_description|safe|default_if_none:"" }}</td>
+<td class="modified">
+{% if form.long_description.errors %}
+  {{ form.long_description.errors }}{% endif %}
+{{ form.long_description }}</td>
+</tr>
+</tbody>
+</table>
+<div align="center">
+<a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
+<input type="submit" class="button" value="{% trans "Accept" %}" />
+</div>
+</form>
+
+</div>
+</div>
+
+{% endblock %}

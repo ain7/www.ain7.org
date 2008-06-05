@@ -131,7 +131,7 @@
                 <b>{{ position.start_date|date:"d/m/Y" }}</b>&nbsp;:</td>
             <td><em>{{ position.fonction }}</em> {% trans "for" %} 
                 {{ position.office }} 
-                (<a href="/emploi/societe/{{ position.office.company.id }}/">{{ position.office.company }}</a>)</td></tr>
+                (<a href="/emploi/societe/{{ position.office.organization.id }}/">{{ position.office.organization }}</a>)</td></tr>
         {% if position.description %}
             <tr><td></td><td>{{ position.description }}</td></tr>
         {% endif %}

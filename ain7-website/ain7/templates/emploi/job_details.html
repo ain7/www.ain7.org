@@ -10,9 +10,9 @@
 <h2>{{ job.title }}</h2>
 
 <ul>
-<li><b>{% filter capfirst%}{% trans "company" %}{% endfilter %}&nbsp;:</b>
-    <a href="/emploi/societe/{{ job.office.company.id }}/">
-    {{ job.office.company }}</a>, {{ job.office }}
+<li><b>{% filter capfirst%}{% trans "organization" %}{% endfilter %}&nbsp;:</b>
+    <a href="/emploi/societe/{{ job.office.organization.id }}/">
+    {{ job.office.organization }}</a>, {{ job.office }}
 {% if job.contact %}
 <li><b>{% trans "Contact" %}&nbsp;:</b> 
     <a href="/annuaire/{{ job.contact.user.id }}/">{{ job.contact }}</a>

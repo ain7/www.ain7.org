@@ -56,13 +56,13 @@ class ActivityField(models.Model):
 class OrganizationManager(models.Manager):
 
     def valid_organizations(self):
-        return self.filter(is_a_proposal=False)
+        return self.filter(is_a_proposal=False).filter(is_valid=True)
 
 
-# Company informations
-class Company(models.Model):
+# Organization informations
+class Organization(models.Model):
 
-    COMPANY_SIZE = (
+    ORGANIZATION_SIZE = (
                     (0, _('Micro (0)')),
                     (1, _('Small (1-9)')),
                     (2, _('Medium (10-499)')),
@@ -70,12 +70,16 @@ class Company(models.Model):
                     )
 
     name = models.CharField(verbose_name=_('name'), max_length=50, core=True)
-    size = models.IntegerField(verbose_name=_('size'), choices=COMPANY_SIZE, blank=True, null=True)
-    activity_field = models.ForeignKey(ActivityField, verbose_name=_('Activity field'), related_name='companies')
+    size = models.IntegerField(verbose_name=_('size'), choices=ORGANIZATION_SIZE, blank=True, null=True)
+    activity_field = models.ForeignKey(ActivityField, verbose_name=_('Activity field'), related_name='organizations')
     short_description = models.CharField(verbose_name=_('short description'), max_length=50, blank=True, null=True)
     long_description = models.TextField(verbose_name=_('long description'), blank=True, null=True)
     is_a_proposal = models.BooleanField(
         verbose_name=_('is a proposal'), default=False)
+    # invalid organizations are out-of-date (closed) ones
+    # we keep them as they are used for old positions, etc.
+    is_valid = models.BooleanField(
+        verbose_name=_('is valid'), default=True)
     objects = OrganizationManager()
 
     # Internal
@@ -85,14 +89,20 @@ class Company(models.Model):
     def __str__(self):
         return self.name
 
+    def print_size(self):
+        for size, size_label in self.ORGANIZATION_SIZE:
+            if size == self.size: return size_label
+        return None
+
     def save(self):
         self.modification_date = datetime.datetime.today()
-        return super(Company, self).save()
+        return super(Organization, self).save()
 
     def delete(self):
         for propos in self.organization_proposals.all(): propos.delete()
-        for office in self.offices.all():                office.delete() 
-        return super(Company, self).delete()
+        for office in self.offices.all():                office.delete()
+        self.valid = False
+        return super(Organization, self).save()
         
     def merge(self, org2):
         """ Replaces all references to org2 by reference to this organization.
@@ -101,12 +111,12 @@ class Company(models.Model):
             propos.original=self
             propos.save()
         for office in org2.offices.all():
-            office.company=self
+            office.organization=self
             office.save()
         return org2.delete()
 
     class Meta:
-        verbose_name = _('company')
+        verbose_name = _('organization')
 
     class Admin:
         pass
@@ -118,12 +128,13 @@ class OrganizationProposal(models.Model):
 
     author = models.ForeignKey(Person, verbose_name=_('author'),
                                related_name='organization_proposals')
-    original = models.ForeignKey(Company,
+    original = models.ForeignKey(Organization,
                                  verbose_name=_('original organization'),
                                  related_name='organization_proposals',
                                  blank=True, null=True)
-    modified = models.ForeignKey(Company,
-                                 verbose_name=_('modified organization'))
+    modified = models.ForeignKey(Organization,
+                                 verbose_name=_('modified organization'),
+                                 blank=True, null=True)
     action = models.IntegerField(verbose_name=_('action'), choices=ACTIONS,
                                  blank=True, null=True)
 
@@ -143,6 +154,13 @@ class OrganizationProposal(models.Model):
         self.modification_date = datetime.datetime.today()
         return super(OrganizationProposal, self).save()
 
+    def delete(self):
+        # use with caution: this destroys proposed modifications
+        # original objects keeps unchanged
+        if self.action == 0 or self.action == 1: # creation or modification
+            self.modified.delete()
+        return super(OrganizationProposal, self).delete()        
+
     class Admin:
         pass
 
@@ -153,13 +171,13 @@ class OrganizationProposal(models.Model):
 class OfficeManager(models.Manager):
 
     def valid_offices(self):
-        return self.filter(is_a_proposal=False)
+        return self.filter(is_a_proposal=False).filter(is_valid=True)
 
 
-# A company office informations
+# A organization office informations
 class Office(models.Model):
 
-    company = models.ForeignKey(Company, verbose_name=_('company'), related_name='offices', edit_inline=models.STACKED)
+    organization = models.ForeignKey(Organization, verbose_name=_('organization'), related_name='offices', edit_inline=models.STACKED)
 
     name = models.CharField(verbose_name=_('name'), max_length=50, core=True)
 
@@ -172,6 +190,10 @@ class Office(models.Model):
     phone_number = models.CharField(verbose_name=_('phone number'), max_length=20, blank=True, null=True)
     web_site = models.CharField(verbose_name=_('web site'), max_length=100, blank=True, null=True)
 
+    # invalid offices are out-of-date (closed) ones
+    # we keep them as they are used for old positions, etc.
+    is_valid = models.BooleanField(
+        verbose_name=_('is valid'), default=True)
     is_a_proposal = models.BooleanField(
         verbose_name=_('is a proposal'), default=False)
     objects = OfficeManager()
@@ -194,8 +216,9 @@ class Office(models.Model):
     def delete(self):
         for propos   in self.office_proposals.all(): propos.delete()
         for position in self.positions.all():        position.delete() 
-        for joboffer in self.job_offers.all():       joboffer.delete() 
-        return super(Office, self).delete()
+        for joboffer in self.job_offers.all():       joboffer.delete()
+        self.valid = False
+        return super(Office, self).save()
         
     def merge(self, office2):
         """ Replaces all references to office2 by reference to
@@ -249,7 +272,8 @@ class OfficeProposal(models.Model):
     original = models.ForeignKey(Office, verbose_name=_('original office'),
                                  related_name='office_proposals',
                                  null=True)
-    modified = models.ForeignKey(Office, verbose_name=_('modified office'))
+    modified = models.ForeignKey(Office, verbose_name=_('modified office'),
+                                 blank=True, null=True)
     action = models.IntegerField(verbose_name=_('action'), choices=ACTIONS,
                                  blank=True, null=True)
 
@@ -268,6 +292,13 @@ class OfficeProposal(models.Model):
     def save(self):
         self.modification_date = datetime.datetime.today()
         return super(OfficeProposal, self).save()
+
+    def delete(self):
+        # use with caution: this destroys proposed modifications
+        # original objects keeps unchanged
+        if self.action == 0 or self.action == 1: # creation or modification
+            self.modified.delete()
+        return super(OfficeProposal, self).delete()        
 
     class Meta:
         verbose_name = _('office modification proposal')
@@ -297,7 +328,7 @@ class Position(models.Model):
 
     def __str__(self):
         description  = self.fonction + " " + _("for") + " " + str(self.office)
-        description += " (" + str(self.office.company) +")"
+        description += " (" + str(self.office.organization) +")"
         return description
 
     def save(self):

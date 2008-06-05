@@ -20,11 +20,7 @@
 
 <div class="left_box">
 
-{% ifequal object "office" %}
-    <h2>{% trans "Creation of an office" %}</h2>
-{% else %}
-    <h2>{% trans "Creation of a company" %}</h2>
-{% endifequal %}
+<h2>{{ title }}</h2>
 
 <form method="post" action=".">
 <table>
@@ -34,11 +30,6 @@
 <input type="submit" class="button" value="{% trans "Save" %}" />
 </div>
 </form>
-
-{% ifequal object "office" %}
-    <a href="/emploi/{{ user.id }}/cv/company/create/" class="addlink">
-    {% trans "Propose a new company" %}</a>
-{% endifequal %}
 
 </div>
 </div>

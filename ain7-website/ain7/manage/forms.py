@@ -25,7 +25,7 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User, Group
 
 from ain7.annuaire.models import Person, Country, Email
-from ain7.emploi.models import ActivityField, Company
+from ain7.emploi.models import ActivityField, Organization
 from ain7.fields import AutoCompleteField
 from ain7.widgets import DateTimeWidget
 from ain7.manage.models import Notification
@@ -53,7 +53,7 @@ class SearchGroupForm(forms.Form):
         return Group.objects.filter(**criteria)
 
 
-class SearchCompanyForm(forms.Form):
+class SearchOrganizationForm(forms.Form):
     name = forms.CharField(label=_('Name'), max_length=50, required=False)
 #     location = forms.CharField(
 #         label=_('Location'), max_length=50, required=False)
@@ -68,7 +68,7 @@ class SearchCompanyForm(forms.Form):
         if self.cleaned_data['activity_field']!="-1":
             criteria['activity_field__exact'] = ActivityField.objects.get(
                 id=self.cleaned_data['activity_field'])
-        return Company.objects.filter(**criteria)
+        return Organization.objects.filter(**criteria)
         
 
 class SearchContributionForm(forms.Form):

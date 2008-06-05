@@ -1,0 +1,59 @@
+{% extends "emploi/base.html" %}
+{% load i18n %}
+
+{% block content-main %}
+
+<div class="left">
+
+<div class="left_box">
+
+<div class="dataBlock">
+
+<h2>{{ organization.name }}</h2>
+
+{% if organization.short_description %}
+<p>{{ organization.short_description }}</p>
+{% endif %}
+
+{% if organization.long_description %}
+{{ organization.long_description|safe }}
+{% endif %}
+
+{% if organization.activity_field %}
+<p>{% trans "Activity field" %} : {{ organization.activity_field }}</p>
+{% endif %}
+
+{% if organization.size %}
+<p>{% trans "Size"%} : {{ organization.print_size }}</p>
+{% endif %}
+
+{% if organization.field %}
+{{ organization.field }}
+{% endif %}
+
+</div>
+
+<a href="/emploi/organization/{{ organization.id }}/editdata/" class="changelink">
+  {% trans "Edit these data." %}</a>
+&nbsp;
+<a href="/emploi/organization/{{ organization.id }}/delete/" class="deletelink">
+  {% trans "Remove this organization" %}</a>
+
+<h2>{% trans "List of offices" %}</h2>
+<ul>
+{% for office in organization.offices.all %}
+    <li>{{ office }}
+      <a href="/emploi/office/{{ office.id }}/edit/" class="changelink">
+        {% trans "Edit this office" %}</a>
+      <a href="/emploi/office/{{ office.id }}/delete/" class="deletelink">
+        {% trans "Remove this office" %}</a>
+    </li>
+{% endfor %}
+</ul>
+<a href="/emploi/organization/{{ organization.id }}/office/add/" class="addlink">
+  {% trans "Add an office" %}</a>
+
+</div>
+</div>
+
+{% endblock %}

@@ -37,6 +37,7 @@
 </div>
 {% endblock %}
 
+
 {% block menu-proposals %}
 {% if proposals %}
 <h3>{% trans "Your proposals under review" %}</h3>
@@ -49,6 +50,20 @@
   </div>
 {% endif %}
 {% endblock %}
+
+
+{% block menu-organisation %}
+<h3>{% trans "Propose some modifications" %}</h3>
+<div class="right_articles">
+<ul>
+<li><a href="/emploi/organization/edit/">{% trans "Edit an organization" %}</a></li>
+<li><a href="/emploi/organization/add/">{% trans "Add an organization" %}</a></li>
+<li><a href="/emploi/organization/delete/">{% trans "Delete an organization" %}</a></li>
+</ul>
+</div>
+{% endblock %}
+
+
 {% endblock %}
 
 </div>
