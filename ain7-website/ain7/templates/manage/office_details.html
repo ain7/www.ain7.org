@@ -72,6 +72,18 @@
           </ul>
         {% endif %}
 
+{% ifequal action "propose_deletion" %}
+  <form method="post" action=".">
+    <div class="confirm">
+      <p><strong>{% trans "Do you want to delete this office? This will not remove it (as references are used for old positions in CVs, etc), but will mark it as out-of-date." %}</strong></p>
+      <p>
+        <a class="button" href="{{ back }}">{% trans "No" %}</a>
+        <input type="submit" class="button" value="{% trans "Yes" %}" />
+      </p>
+    </div>
+  </form>
+{% endifequal %}
+
 </div>
 
 </div>

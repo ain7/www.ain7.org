@@ -28,14 +28,14 @@ from django import newforms as forms
 from django.http import HttpResponseRedirect, HttpResponse
 from django.utils.translation import ugettext as _
 
-from ain7.utils import ain7_render_to_response, ain7_generic_edit
+from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete
 from ain7.decorators import confirmation_required
 from ain7.annuaire.models import Person, UserContribution
 from ain7.emploi.models import Organization, Office, ActivityField
 from ain7.emploi.models import OrganizationProposal, OfficeProposal
 from ain7.manage.models import *
 from ain7.manage.forms import *
-from ain7.emploi.forms import OrganizationForm, OfficeForm
+from ain7.emploi.forms import OrganizationForm, OfficeForm, OfficeFormNoOrg
 
 @login_required
 def index(request):
@@ -294,7 +294,7 @@ def organization_edit_proposal(request, proposal_id=None):
             notification = Notification.objects.get(
                 organization_proposal=proposal )
             notification.delete()
-            proposal.modified.delete()
+            proposal.modified.really_delete()
             proposal.delete()
             request.user.message_set.create(message=_('Organization successfully modified'))
             return HttpResponseRedirect('/manage/')
@@ -313,7 +313,12 @@ def organization_delete_proposal(request, proposal_id=None):
     org = proposal.original
     back = request.META.get('HTTP_REFERER', '/')
     if request.method == 'POST':
-        return HttpResponseRedirect('/manage/organizations/%d/delete/'% org.id)
+        org.delete()
+        notification = Notification.objects.get(organization_proposal=proposal)
+        notification.delete()
+        request.user.message_set.create(
+            message=_('Organization successfully removed'))
+        return HttpResponseRedirect('/manage/')
     return ain7_render_to_response(request, 'manage/organization_details.html',
         {'organization': org, 'back': back, 'action': 'propose_deletion'})
 
@@ -324,7 +329,7 @@ def office_edit(request, office_id=None, organization_id=None):
     if office_id:
         return ain7_generic_edit(
             request, get_object_or_404(Office, pk=office_id),
-            OfficeForm, {'is_a_proposal': False},
+            OfficeForm, {'is_a_proposal': False, 'is_valid': True},
             'manage/organization_edit.html',
             {'action_title': _('Edit an office'),
              'back': request.META.get('HTTP_REFERER', '/')}, {},
@@ -332,7 +337,8 @@ def office_edit(request, office_id=None, organization_id=None):
             _('Office successfully modified'))
     else:
         return ain7_generic_edit(
-            request, None, OfficeForm, {'is_a_proposal': False},
+            request, None, OfficeForm,
+            {'is_a_proposal': False, 'is_valid': True},
             'manage/organization_edit.html',
             {'action_title': _('Register an office'),
              'back': request.META.get('HTTP_REFERER', '/')}, {},
@@ -348,10 +354,11 @@ def office_details(request, office_id):
 @confirmation_required(
     lambda user_id=None,
     office_id=None: str(get_object_or_404(Office, pk=office_id)),
-    'manage/base.html',
-    _('Do you REALLY want to delete this office'))
+    'manage/base.html', _('Do you REALLY want to delete this office'))
+@login_required
 def office_delete(request, office_id):
 
+    office = get_object_or_404(Office, pk=office_id)
     organization_id = office.organization.id
     return ain7_generic_delete(request,
         get_object_or_404(Office, pk=office_id),
@@ -418,6 +425,7 @@ def office_register_proposal(request, proposal_id=None):
         form = OfficeForm(request.POST.copy(), instance=proposal.modified)
         if form.is_valid():
             form.cleaned_data['is_a_proposal'] = False
+            form.cleaned_data['is_valid'] = True
             office = form.save()
             # on supprime la notification et la proposition
             notification = Notification.objects.get(office_proposal=proposal)
@@ -433,6 +441,48 @@ def office_register_proposal(request, proposal_id=None):
         'manage/proposal_register.html',
         {'action_title': _('Proposal for adding an office'),
          'form': form, 'back': back})
+
+@login_required
+def office_edit_proposal(request, proposal_id=None):
+
+    if not proposal_id:
+        return HttpResponseRedirect('/manage/')
+    
+    proposal = get_object_or_404(OfficeProposal, pk=proposal_id)
+    form = OfficeFormNoOrg(instance=proposal.modified)
+
+    if request.method == 'POST':
+        form = OfficeFormNoOrg(request.POST, instance=proposal.modified)
+        if form.is_valid():
+            form.cleaned_data['is_a_proposal'] = False
+            form.cleaned_data['is_valid'] = True
+            form.cleaned_data['organization'] = proposal.original.organization
+            proposal.original = form.save()
+            # on supprime la notification et la proposition
+            notification = Notification.objects.get( office_proposal=proposal )
+            notification.delete()
+            proposal.modified.really_delete()
+            proposal.delete()
+            request.user.message_set.create(message=_('Office successfully modified'))
+            return HttpResponseRedirect('/manage/')
+        else:
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+            
+    back = request.META.get('HTTP_REFERER', '/')
+    return ain7_render_to_response(request,
+        'manage/proposal_edit_office.html',
+        {'form': form, 'original': proposal.original, 'back': back})
+
+@login_required
+def office_delete_proposal(request, proposal_id=None):
+
+    proposal = get_object_or_404(OfficeProposal, pk=proposal_id)
+    office = proposal.original
+    back = request.META.get('HTTP_REFERER', '/')
+    if request.method == 'POST':
+        return HttpResponseRedirect('/manage/offices/%d/delete/'% office.id)
+    return ain7_render_to_response(request, 'manage/office_details.html',
+        {'office': office, 'back': back, 'action': 'propose_deletion'})
 
 @login_required
 def groups_search(request):

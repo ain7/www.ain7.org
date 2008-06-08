@@ -42,12 +42,14 @@
 <h2>{% trans "List of offices" %}</h2>
 <ul>
 {% for office in organization.offices.all %}
+  {% if office.is_valid and not office.is_a_proposal %}
     <li>{{ office }}
       <a href="/emploi/office/{{ office.id }}/edit/" class="changelink">
         {% trans "Edit this office" %}</a>
       <a href="/emploi/office/{{ office.id }}/delete/" class="deletelink">
         {% trans "Remove this office" %}</a>
     </li>
+  {% endif %}
 {% endfor %}
 </ul>
 <a href="/emploi/organization/{{ organization.id }}/office/add/" class="addlink">

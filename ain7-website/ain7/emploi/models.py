@@ -99,10 +99,12 @@ class Organization(models.Model):
         return super(Organization, self).save()
 
     def delete(self):
-        for propos in self.organization_proposals.all(): propos.delete()
-        for office in self.offices.all():                office.delete()
-        self.valid = False
+        for office in self.offices.all(): office.delete()
+        self.is_valid = False
         return super(Organization, self).save()
+        
+    def really_delete(self):
+        return super(Organization, self).delete()
         
     def merge(self, org2):
         """ Replaces all references to org2 by reference to this organization.
@@ -153,13 +155,6 @@ class OrganizationProposal(models.Model):
     def save(self):
         self.modification_date = datetime.datetime.today()
         return super(OrganizationProposal, self).save()
-
-    def delete(self):
-        # use with caution: this destroys proposed modifications
-        # original objects keeps unchanged
-        if self.action == 0 or self.action == 1: # creation or modification
-            self.modified.delete()
-        return super(OrganizationProposal, self).delete()        
 
     class Admin:
         pass
@@ -214,11 +209,11 @@ class Office(models.Model):
         return super(Office, self).save()
 
     def delete(self):
-        for propos   in self.office_proposals.all(): propos.delete()
-        for position in self.positions.all():        position.delete() 
-        for joboffer in self.job_offers.all():       joboffer.delete()
-        self.valid = False
+        self.is_valid = False
         return super(Office, self).save()
+        
+    def really_delete(self):
+        return super(Office, self).delete()
         
     def merge(self, office2):
         """ Replaces all references to office2 by reference to
@@ -292,13 +287,6 @@ class OfficeProposal(models.Model):
     def save(self):
         self.modification_date = datetime.datetime.today()
         return super(OfficeProposal, self).save()
-
-    def delete(self):
-        # use with caution: this destroys proposed modifications
-        # original objects keeps unchanged
-        if self.action == 0 or self.action == 1: # creation or modification
-            self.modified.delete()
-        return super(OfficeProposal, self).delete()        
 
     class Meta:
         verbose_name = _('office modification proposal')

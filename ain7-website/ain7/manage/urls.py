@@ -53,6 +53,10 @@ urlpatterns = patterns('ain7.manage.views',
      'office_do_merge'),
     (r'^offices/proposals/register/(?P<proposal_id>\d+)/$',
      'office_register_proposal'),
+    (r'^offices/proposals/edit/(?P<proposal_id>\d+)/$',
+     'office_edit_proposal'),
+    (r'^offices/proposals/delete/(?P<proposal_id>\d+)/$',
+     'office_delete_proposal'),
                        
     # Users
     (r'^users/$', 'users_search'),

@@ -20,7 +20,7 @@
 
 <div class="left_box">
 
-<h2>{% trans "Proposal of organization modification" %}</h2>
+<h2>{% trans "Proposal of office modification" %}</h2>
 
 <form method="post" action=".">
 <table>
@@ -40,34 +40,53 @@
 {{ form.name }}</td>
 </tr>
 <tr>
-<td>{{ form.size.label_tag }}</td>
-<td class="original">{{ original.print_size|default_if_none:"" }}</td>
+<td>{{ form.line1.label_tag }}</td>
+<td class="original">{{ original.line1 }}</td>
 <td class="modified">
-{% if form.size.errors %}{{ form.size.errors }}{% endif %}
-{{ form.size }}</td>
+{% if form.line1.errors %}{{ form.line1.errors }}{% endif %}
+{{ form.line1 }}</td>
 </tr>
 <tr>
-<td>{{ form.activity_field.label_tag }}</td>
-<td class="original">{{ original.activity_field }}</td>
+<td>{{ form.line2.label_tag }}</td>
+<td class="original">{{ original.line2 }}</td>
 <td class="modified">
-{% if form.activity_field.errors %}{{ form.activity_field.errors }}{% endif %}
-{{ form.activity_field|safe }}</td>
+{% if form.line2.errors %}{{ form.line2.errors }}{% endif %}
+{{ form.line2 }}</td>
 </tr>
 <tr>
-<td>{{ form.short_description.label_tag }}</td>
-<td class="original">{{ original.short_description|default_if_none:"" }}</td>
+<td>{{ form.zip_code.label_tag }}</td>
+<td class="original">{{ original.zip_code }}</td>
 <td class="modified">
-{% if form.short_description.errors %}
-  {{ form.short_description.errors }}{% endif %}
-{{ form.short_description }}</td>
+{% if form.zip_code.errors %}{{ form.zip_code.errors }}{% endif %}
+{{ form.zip_code }}</td>
 </tr>
 <tr>
-<td>{{ form.long_description.label_tag }}</td>
-<td class="original">{{ original.long_description|default_if_none:""|safe }}</td>
+<td>{{ form.city.label_tag }}</td>
+<td class="original">{{ original.city }}</td>
 <td class="modified">
-{% if form.long_description.errors %}
-  {{ form.long_description.errors }}{% endif %}
-{{ form.long_description }}</td>
+{% if form.city.errors %}{{ form.city.errors }}{% endif %}
+{{ form.city }}</td>
+</tr>
+<tr>
+<td>{{ form.country.label_tag }}</td>
+<td class="original">{{ original.country|default_if_none:"" }}</td>
+<td class="modified">
+{% if form.country.errors %}{{ form.country.errors }}{% endif %}
+{{ form.country }}</td>
+</tr>
+<tr>
+<td>{{ form.phone_number.label_tag }}</td>
+<td class="original">{{ original.phone_number }}</td>
+<td class="modified">
+{% if form.phone_number.errors %}{{ form.phone_number.errors }}{% endif %}
+{{ form.phone_number }}</td>
+</tr>
+<tr>
+<td>{{ form.web_site.label_tag }}</td>
+<td class="original">{{ original.web_site }}</td>
+<td class="modified">
+{% if form.web_site.errors %}{{ form.web_site.errors }}{% endif %}
+{{ form.web_site }}</td>
 </tr>
 </tbody>
 </table>

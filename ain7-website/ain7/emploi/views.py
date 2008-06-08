@@ -430,21 +430,76 @@ def organization_delete(request, organization_id=None):
     return HttpResponseRedirect('/emploi/')
 
 @login_required
-def office_create(request, user_id=None):
+def office_edit(request, office_id=None):
 
-    p = get_object_or_404(Person, user=user_id)
+    office = get_object_or_404(Office, pk=office_id)
+    p = get_object_or_404(Person, user=request.user.id)
 
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
-        f = OfficeForm()
+        f = OfficeFormNoOrg(instance = office)
         return ain7_render_to_response(request, 'emploi/office_create.html',
-            {'form': f, 'title': 'Create an office'})
+            {'form': f, 'title': _('Modify an office')})
 
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
-        f = OfficeForm(request.POST.copy())
+        f = OfficeFormNoOrg(request.POST.copy(), instance = office)
         if f.is_valid():
             f.cleaned_data['is_a_proposal'] = True
+            f.cleaned_data['is_valid'] = True
+            f.cleaned_data['organization'] = office.organization
+            # create the OfficeProposal
+            modifiedOffice = f.save()
+            officeProp = OfficeProposal(original = office.organization,
+                modified = modifiedOffice, author = p, action = 1)
+            officeProp.save()
+            # create the notification
+            notif = Notification(title = _('Proposal for modifying an office'),
+                details = "", office_proposal = officeProp)
+            notif.save()
+            request.user.message_set.create(message=_('Your proposal for modifying an office has been sent to moderators.'))
+        else:
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+            return ain7_render_to_response(request,
+                'emploi/office_create.html',
+                {'form': f, 'title': _('Modify an office')})
+        return HttpResponseRedirect('/emploi/')
+
+@confirmation_required(lambda office_id=None: str(get_object_or_404(Office,pk=office_id)), 'emploi/base.html', _('Do you really want to propose the office for removal'))
+@login_required
+def office_delete(request, office_id=None):
+
+    p = get_object_or_404(Person, user=request.user.id)
+    officeProp = OfficeProposal(
+        original = get_object_or_404(Office,pk=office_id),
+        modified = None, author = p, action = 2)
+    officeProp.save()
+    # create the notification
+    notif = Notification(title = _('Proposal for removing an office'),
+        details = "", office_proposal = officeProp)
+    notif.save()
+    request.user.message_set.create(message=_('Your proposal for deleting an office has been sent to moderators.'))
+    return HttpResponseRedirect('/emploi/')
+
+@login_required
+def office_add(request, organization_id=None):
+
+    org = get_object_or_404(Organization, pk=organization_id)
+    p = get_object_or_404(Person, user=request.user.id)
+
+    # 1er passage : on propose un formulaire vide
+    if request.method == 'GET':
+        f = OfficeFormNoOrg()
+        return ain7_render_to_response(request, 'emploi/office_create.html',
+            {'form': f, 'title': _('Create an office')})
+
+    # 2e passage : sauvegarde et redirection
+    if request.method == 'POST':
+        f = OfficeFormNoOrg(request.POST.copy())
+        if f.is_valid():
+            f.cleaned_data['is_a_proposal'] = True
+            f.cleaned_data['is_valid'] = True
+            f.cleaned_data['organization'] = org
             # create the OfficeProposal
             modifiedOffice = f.save()
             officeProp = OfficeProposal(original = None,
@@ -459,71 +514,5 @@ def office_create(request, user_id=None):
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
             return ain7_render_to_response(request,
                 'emploi/office_create.html',
-                {'form': f, 'object': _('Create an office')})
-        ain7member = get_object_or_404(AIn7Member, person=p)
-        return ain7_render_to_response(request, 'emploi/cv_edit.html',
-            {'person': p, 'ain7member': ain7member})
-
-@login_required
-def office_edit(request, office_id=None):
-    pass
-
-# @confirmation_required(lambda office_id=None: str(get_object_or_404(Office,pk=office_id)), 'emploi/base.html', _('Do you really want to propose the office for removal'))
-# @login_required
-# def office_delete(request, office_id=None):
-
-#     p = get_object_or_404(Person, user=request.user.id)
-#     officeProp = OfficeProposal(
-#         original = get_object_or_404(Office,pk=office_id),
-#         modified = None, author = p, action = 2)
-#     officeProp.save()
-#     # create the notification
-#     notif = Notification(title = _('Proposal for removing an office'),
-#         details = "", office_proposal = officeProp)
-#     notif.save()
-#     request.user.message_set.create(message=_('Your proposal for deleting an office has been sent to moderators.'))
-#     return HttpResponseRedirect('/emploi/')
-
-@login_required
-def office_delete(request, office_id=None):
-    pass # implémenté ci-dessus 
-
-# @login_required
-# def office_add(request, organization_id=None):
-
-#     org = get_object_or_404(Organization, pk=organization_id)
-#     p = get_object_or_404(Person, user=request.user.id)
-
-#     # 1er passage : on propose un formulaire vide
-#     if request.method == 'GET':
-#         f = OfficeFormNoOrg()
-#         return ain7_render_to_response(request, 'emploi/office_create.html',
-#             {'form': f, 'title': _('Create an office'), 'organization': org})
-
-#     # 2e passage : sauvegarde et redirection
-#     if request.method == 'POST':
-#         f = OfficeFormNoOrg(request.POST.copy())
-#         if f.is_valid():
-#             f.cleaned_data['is_a_proposal'] = True
-#             f.cleaned_data['organization'] = org
-#             # create the OfficeProposal
-#             modifiedOffice = f.save()
-#             officeProp = OfficeProposal(original = None,
-#                 modified = modifiedOffice, author = p, action = 0)
-#             officeProp.save()
-#             # create the notification
-#             notif = Notification(title = _('Proposal for adding an office'),
-#                 details = "", office_proposal = officeProp)
-#             notif.save()
-#             request.user.message_set.create(message=_('Your proposal for adding an office has been sent to moderators.'))
-#         else:
-#             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
-#             return ain7_render_to_response(request,
-#                 'emploi/office_create.html',
-#                 {'form': f, 'title': _('Create an office'), 'organization': org})
-#         ain7member = get_object_or_404(AIn7Member, person=p)
-#         return HttpResponseRedirect('/emploi/')
-
-@login_required
-def office_add(request, organization_id=None):
-    pass # implémenté ci-dessus
+                {'form': f, 'title': _('Create an office')})
+        return HttpResponseRedirect('/emploi/')

@@ -25,6 +25,7 @@
 {% if organization.offices.all %}
 <ul>
 {% for office in organization.offices.all %}
+  {% if office.is_valid and not office.is_a_proposal %}
     <li><a href="/manage/offices/{{ office.id }}/">{{ office }}</a>
         {% if office.line1 or office.line2 or office.zip_code or office.city or office.country or office.phone_number or office.web_site %}
         <p>
@@ -83,6 +84,7 @@
         {% endif %}
 
     </li>
+  {% endif %}
 {% endfor %}
 </ul>
 {% endif %}

@@ -123,7 +123,7 @@ class OrganizationForm(forms.Form):
         label=_('Long Description'), max_length=5000, required=False,
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':95}))
 
-    def save(self, is_a_proposal=False, organization=None):
+    def save(self, is_a_proposal=False, organization=None, is_valid=True):
         if organization:
             org = organization
         else:
@@ -140,6 +140,7 @@ class OrganizationForm(forms.Form):
         org.short_description = self.cleaned_data['short_description']
         org.long_description = self.cleaned_data['long_description']
         org.is_a_proposal = is_a_proposal
+        org.is_valid = is_valid
         org.save()
         return org
 
@@ -152,7 +153,7 @@ class OfficeForm(forms.ModelForm):
 
     class Meta:
         model = Office
-        exclude = ('is_a_proposal')
+        exclude = ('is_a_proposal', 'is_valid')
 
 class OfficeFormNoOrg(forms.ModelForm):
     country = forms.ModelChoiceField(
@@ -160,7 +161,7 @@ class OfficeFormNoOrg(forms.ModelForm):
 
     class Meta:
         model = Office
-        exclude = ('is_a_proposal', 'organization')
+        exclude = ('is_a_proposal', 'is_valid', 'organization')
 
 class PositionForm(forms.ModelForm):
     start_date = forms.DateTimeField(label=_('start date').capitalize(),
