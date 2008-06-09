@@ -339,12 +339,7 @@ def organization_choose(request, action=None):
     person = get_object_or_404(Person, pk=request.user.id)
     ain7member = get_object_or_404(AIn7Member, person=person)
 
-    organizations = []
-    for position in ain7member.positions.all():
-        org = position.office.organization
-        if org in Organization.objects.valid_organizations() and \
-               not (org.id,org) in organizations:
-            organizations.append((org.id,org))
+    organizations = Organization.objects.editable_organizations(ain7member)
     class ChooseOrganizationForm(forms.Form):
         organization = forms.IntegerField(
             label=_('organization'), required=True,

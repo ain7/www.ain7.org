@@ -54,11 +54,18 @@ class Group(models.Model):
         return self.events.filter(publication_start__lte=datetime.datetime.now(), publication_end__gte=datetime.datetime.now())
 
     def has_for_member(self, person):
-        if type:
-            return self.memberships.filter(member=person)\
-                                    .exclude(end_date__isnull=False, end_date__lte=datetime.datetime.now())\
-                                    .filter(start_date__lte=datetime.datetime.now())\
-                                    .count() != 0
+        return self.memberships.filter(member=person)\
+            .exclude(end_date__isnull=False, end_date__lte=datetime.datetime.now())\
+            .filter(start_date__lte=datetime.datetime.now())\
+            .count() != 0
+
+    def has_for_office_member(self, person):
+        has_role = False
+        for role in self.roles.filter(member=person)\
+            .filter(start_date__lte=datetime.datetime.now()):
+            if not role.end_date or role.end_date > datetime.datetime.now():
+                has_role = True
+        return has_role
 
     class Admin:
         pass

@@ -58,6 +58,21 @@ class OrganizationManager(models.Manager):
     def valid_organizations(self):
         return self.filter(is_a_proposal=False).filter(is_valid=True)
 
+    def editable_organizations(self, ain7member):
+        organizations = []
+        # on ajoute les organisations dans lequel le membre a déjà travaillé
+        for position in ain7member.positions.all():
+            org = position.office.organization
+            if org in self.valid_organizations() and \
+                   not (org.id,org) in organizations:
+                organizations.append((org.id,org))
+        # on ajoute aussi les organisations qui n'ont aucun bureau,
+        # sinon il est impossible d'y ajouter un premier bureau
+        for org in self.valid_organizations():
+            if (not (org.id,org) in organizations) and org.offices.count()==0:
+                organizations.append((org.id,org))
+        return organizations
+
 
 # Organization informations
 class Organization(models.Model):
@@ -116,7 +131,7 @@ class Organization(models.Model):
             office.organization=self
             office.save()
         return org2.delete()
-
+        
     class Meta:
         verbose_name = _('organization')
 

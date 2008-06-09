@@ -68,7 +68,11 @@ def join(request, group_id):
     person = request.user.person
 
     if not group.has_for_member(person):
-        GroupMembership(type=7, group=group, member=person).save()
+        gm = GroupMembership()
+        gm.type = 7
+        gm.group = group
+        gm.member = person
+        gm.save()
         request.user.message_set.create(message=_("You have been successfully added to this group."))
     else:
         request.user.message_set.create(message=_("You are already a member of this group."))
@@ -82,13 +86,18 @@ def quit(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
     person = request.user.person
 
+    print 'tata'
     if group.has_for_member(person):
-        membership = GroupMembership.objects.filter(group=group, member=person)\
-                    .exclude(end_date__isnull=False, end_date__lte=datetime.datetime.now())\
-                    .latest('end_date')
-        membership.end_date = datetime.datetime.now()
-        membership.save()
-        request.user.message_set.create(message=_('You have been successfully removed from this group.'))
+        if group.has_for_office_member(person):
+            request.user.message_set.create(message=_("You are a member of the office of this group. You have to unsubscribe from every role in your group before leaving it."))
+        else:
+            membership = GroupMembership.objects\
+                .filter(group=group, member=person)\
+                .exclude(end_date__isnull=False, end_date__lte=datetime.datetime.now())\
+                .latest('end_date')
+            membership.end_date = datetime.datetime.now()
+            membership.save()
+            request.user.message_set.create(message=_('You have been successfully removed from this group.'))
     else:
         request.user.message_set.create(message=_("You are not a member of this group."))
 

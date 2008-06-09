@@ -376,7 +376,8 @@ class AIn7Member(models.Model):
             for track in self.receive_job_offers_for_tracks.all():
                 jobs.extend(track.jobs.all())
         else:
-            jobs = JobOffer.objects.all()
+            for track in Track.objects.all():
+                jobs.extend(track.jobs.all())
         return jobs
 
     def __unicode__(self):
