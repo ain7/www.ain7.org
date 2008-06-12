@@ -66,7 +66,7 @@ def promo(request):
 
     if request.method == 'POST':
         input = request.POST['text']
-        promos = Promo.objects.filter(year__istartswith=input).values('year').distinct()
+        promos = Promo.objects.filter(year__icontains=input).values('year').distinct()
         for promo in promos:
             elements.append({'id': promo['year'], 'displayValue': promo['year'], 'value': promo['year']})
 
@@ -77,7 +77,7 @@ def track(request):
 
     if request.method == 'POST':
         input = request.POST['text']
-        tracks = Track.objects.filter(name__icontains=input)
+        tracks = Track.objects.filter(name__icontains=input).order_by('name')
         for track in tracks:
             elements.append({'id':track.id, 'displayValue': track.name , 'value': track.name})
 

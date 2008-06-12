@@ -23,6 +23,7 @@
 from django import newforms as forms
 from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
 
 from ain7.fields import AutoCompleteField
 from ain7.widgets import DateTimeWidget
@@ -85,8 +86,14 @@ class NewMemberForm(forms.Form):
     promo = forms.IntegerField(label=_('Promo'), required=True, widget=AutoCompleteField(url='/ajax/promo/'))
     track = forms.IntegerField(label=_('Track'), required=True,  widget=AutoCompleteField(url='/ajax/track/'))
 
-    def save(self):
+    # TODO: generation du login de manière plus intelligente en verifiant qu'il n'y ait pas de doublon
+    def genlogin(self):
         login = (self.cleaned_data['first_name'][0]+self.cleaned_data['last_name']).lower()
+        nb = User.objects.filter(username=login).count()
+        return login
+
+    def save(self):
+        login = self.genlogin()
         mail = self.cleaned_data['mail']
         new_user = User.objects.create_user(login, mail, 'password')
         new_user.first_name = self.cleaned_data['first_name']
@@ -118,7 +125,7 @@ class NewMemberForm(forms.Form):
         new_ain7member.activity = Activity.objects.get(activity="Connue")
         new_ain7member.save()
         new_ain7member.promos.add(
-            Promo.objects.get(id=self.cleaned_data['promo']))
+            Promo.objects.get(id=self.cleaned_data['track']))
         new_ain7member.save()
 
         new_couriel = Email()
