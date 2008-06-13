@@ -22,7 +22,7 @@
             </li>
         {% endfor %}
         </ul>
-{% endfor %}
+    {% endfor %}
 </div>
 
 <div class="right">
@@ -38,6 +38,8 @@
             {% endif %}
             </li>
             <li><a href="/groupes_regionaux/{{ group.id }}/edit/">{% trans "Edit group informations" %}</a></li>
+            {# TODO: gestion des droits : réservé aux secrétaires et superadmin #}
+            <li><a href="/groupes_regionaux/{{ group.id }}/roles/edit/current/">{% trans "Edit roles of this group" %}</a></li>
         </ul>
     </div>
 

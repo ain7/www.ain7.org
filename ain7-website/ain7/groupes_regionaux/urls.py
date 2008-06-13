@@ -32,5 +32,9 @@ urlpatterns = patterns('',
     (r'^(?P<group_id>\d+)/edit/$', edit),
     (r'^(?P<group_id>\d+)/join/$', join),
     (r'^(?P<group_id>\d+)/quit/$', quit),
+    (r'^(?P<group_id>\d+)/roles/edit/(?P<all_current>\w+)/$', edit_roles),
+    (r'^(?P<group_id>\d+)/roles/(?P<role_id>\d+)/changedates/(?P<all_current>\w+)/$', change_dates),
+    (r'^(?P<group_id>\d+)/roles/(?P<type>\d+)/add/(?P<all_current>\w+)/$', add_role),
+    (r'^(?P<group_id>\d+)/roles/(?P<role_id>\d+)/delete/(?P<all_current>\w+)/$', delete_role),
 
 )

@@ -1,0 +1,169 @@
+{% extends "groupes_regionaux/base.html" %}
+{% load i18n %}
+
+{% block javascript %}{{ block.super }}
+<script type="text/javascript" src="/site_media/js/mootools-release-{{ mootools_version }}.js"></script>
+<script type="text/javascript" src="/site_media/js/autocomplete.js?version={{ portal_version }}"></script>
+<script type="text/javascript" src="/site_media/js/floatingpane.js?version={{ portal_version }}"></script>
+<!-- calendar -->
+<script type="text/javascript" src="/site_media/js/calendar/calendar.js"></script>
+<!-- this is translation file - choose your language here -->
+<script type="text/javascript" src="/site_media/js/calendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="/site_media/js/calendar/calendar-setup.js"></script>
+<!-- /calendar -->
+{% endblock %}
+
+{% block stylesheet %}{{ block.super }}
+<link type="text/css" rel="stylesheet" href="/site_media/css/autocomplete.css?version={{ portal_version }}"/>
+<link type="text/css" rel="stylesheet" href="/site_media/css/floatingpane.css?version={{ portal_version }}"/>
+<link rel="stylesheet" type="text/css" href="/site_media/js/calendar/calendar-win2k-cold-2.css" />
+{% endblock %}
+
+{% block content %}
+
+<div id="content-main">
+
+<div class="left">
+
+<h1>{{ group.name }}</h1>
+
+<h3>{% trans "Board Members" %}</h3>
+
+{% ifequal all_current "all" %}
+  {% trans "All members (including past ones) of the board are displayed. Click" %} <a href="/groupes_regionaux/{{ group.id }}/roles/edit/current/">{% trans "here" %}</a> {% trans "to display only current ones." %}
+{% else %}
+  {% trans "Only current members of the board are displayed. Click" %} <a href="/groupes_regionaux/{{ group.id }}/roles/edit/all/">{% trans "here" %}</a> {% trans "to display past members too." %}
+{% endifequal %}
+
+{% for type, type_display, type_form, roles in roles_by_type %}
+
+  <h4>{{ type_display }}</h4>
+
+  {% if roles %}
+    <ul>
+      {% for role, role_form in roles %}
+        <li>
+          {% if role_form %}<div class="formBlock">{% endif %}
+          {{ role.member }}&nbsp;
+          {% if not role_form %}
+            ({{ role.start_date|date:"d/m/Y" }} - 
+             {% if role.end_date %} {{ role.end_date|date:"d/m/Y" }})
+             {% else %} ...)
+             {% endif %}&nbsp;<br/>
+            <a href="/groupes_regionaux/{{ group.id }}/roles/{{ role.id }}/changedates/{{ all_current }}/" class="changelink">{% trans "Modify dates" %}</a>&nbsp;
+            <a href="/groupes_regionaux/{{ group.id }}/roles/{{ role.id }}/delete/{{ all_current }}/" class="deletelink">{% trans "Delete" %}</a>&nbsp;
+          {% else %}
+            <form method="post" action=".">
+              <table>
+                <tr>
+                  <td>{{ role_form.start_date.label_tag }}</td>
+                  <td>{% if role_form.start_date.errors %}
+                        {{ role_form.start_date.errors }}
+                      {% endif %}
+                      {{ role_form.start_date|safe }}</td>
+                <tr>
+                <tr>
+                  <td>{{ role_form.end_date.label_tag }}</td>
+                  <td>{% if role_form.end_date.errors %}
+                        {{ role_form.end_date.errors }}
+                      {% endif %}
+                      {{ role_form.end_date|safe }}</td>
+                <tr>
+              </table>
+              <div align="center">
+                <a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
+                <input type="submit" class="button" value="{% trans "Save" %}" />
+              </div>
+            </form>
+            </div>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% if type_form %}
+    <div class="formBlock">
+      <h4>{% trans "Add a" %} {{ type_display|lower }}</h4>
+      <form method="post" action=".">
+        <table>
+          <tr>
+            <td>{{ type_form.username.label_tag }}</td>
+            <td>{% if type_form.username.errors %}
+                  {{ type_form.username.errors }}
+                {% endif %}
+                {{ type_form.username|safe }}</td>
+          <tr>
+          <tr>
+            <td>{{ type_form.start_date.label_tag }}</td>
+            <td>{% if type_form.start_date.errors %}
+                  {{ type_form.start_date.errors }}
+                {% endif %}
+                {{ type_form.start_date|safe }}</td>
+          <tr>
+          <tr>
+            <td>{{ type_form.end_date.label_tag }}</td>
+            <td>{% if type_form.end_date.errors %}
+                  {{ type_form.end_date.errors }}
+                {% endif %}
+                {{ type_form.end_date|safe }}</td>
+          <tr>
+        </table>
+        <div align="center">
+          <a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
+          <input type="submit" class="button" value="{% trans "Save" %}" />
+        </div>
+      </form>
+    </div>
+  {% else %}
+    <a href="/groupes_regionaux/{{ group.id }}/roles/{{ type }}/add/{{ all_current }}/" class="addlink">{% trans "Add" %}</a>
+  {% endif %}
+
+{% endfor %}
+
+</div>
+
+<div class="right">
+
+    <h3>{% trans "Actions" %}</h3>
+    <div class="right_block">
+        <ul>
+            <li>
+            {% if not is_member %}
+                <a href="/groupes_regionaux/{{ group.id }}/join/">{% trans "Join the group" %}</a>
+            {% else %}
+                <a href="/groupes_regionaux/{{ group.id }}/quit/">{% trans "Quit the group" %}</a>
+            {% endif %}
+            </li>
+            <li><a href="/groupes_regionaux/{{ group.id }}/edit/">{% trans "Edit group informations" %}</a></li>
+        </ul>
+    </div>
+
+    {% if group.active_events %}
+        <h3>{% trans "Events" %}</h3>
+        {% for event in group.active_events %}
+            <div class="right_articles">
+                <p><strong><a href="/evenements/{{ event.id }}/">{{ event.name|upper }}</a></strong></p>
+                <p>
+{% blocktrans with event.start|date:"d/m/Y" as start_date and event.end|date:"d/m/Y" as end_date and event.location as place %}From {{ start_date }} to {{ end_date }} at {{ place }}{% endblocktrans %}
+                </p>
+                {% if event.description %}
+                    <p><em>{{ event.description|safe|truncatewords:10 }}</em></p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <h3>{% trans "Card Informations"%}</h3>
+   <div class="right_articles">
+     <ul>
+       <li>{% trans "Creation" %}&nbsp;: {{ group.creation_date|date:"l j F Y" }}</li>
+       <li>{% trans "Update" %}&nbsp;: {{ group.modification_date|date:"l j F Y" }}</li>
+     </ul>
+   </div>
+
+</div>
+
+</div>
+
+{% endblock %}

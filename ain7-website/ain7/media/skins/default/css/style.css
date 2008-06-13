@@ -376,6 +376,10 @@ h3.notif {
     border: dashed 1px #000000;
 }
 
+.formBlock {
+    background: #eee;
+}
+
 
 /* Edition
    ------ */

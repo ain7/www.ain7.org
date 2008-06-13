@@ -106,6 +106,12 @@ class GroupRole(models.Model):
     group = models.ForeignKey(Group, verbose_name=_('regional group'), related_name='roles', edit_inline=models.TABULAR, num_in_admin=2)
     member = models.ForeignKey(Person, verbose_name=_('member'), related_name='regional_group_roles', core=True)
 
+    def __unicode__(self):
+        typ = None
+        for type, typename in self.ROLE_TYPE:
+            if type==self.type: typ = typename
+        return typ + ' : ' + str(self.member)
+
     class Meta:
         ordering = ['type', 'start_date', 'end_date']
         verbose_name = _('regional group role')
