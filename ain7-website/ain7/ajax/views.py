@@ -20,8 +20,8 @@
 #
 #
 
-from ain7.annuaire.models import Person, Country, Promo, Track
-from ain7.emploi.models import ActivityField
+from ain7.annuaire.models import Person, Country, Promo, Track, PromoYear
+from ain7.emploi.models import ActivityField, Organization
 from ain7.utils import ain7_render_to_response
 
 def ajaxed_fields():
@@ -31,6 +31,7 @@ def ajaxed_fields():
             Country: 'nationality',
             Promo: 'promo',
             Track: 'track',
+            Organization: 'organization',
             ActivityField: 'activityfield'}
 
 def person(request):
@@ -66,9 +67,9 @@ def promo(request):
 
     if request.method == 'POST':
         input = request.POST['text']
-        promos = Promo.objects.filter(year__icontains=input).values('year').distinct()
+        promos = PromoYear.objects.filter(year__icontains=input)
         for promo in promos:
-            elements.append({'id': promo['year'], 'displayValue': promo['year'], 'value': promo['year']})
+            elements.append({'id': promo.id, 'displayValue': promo.year, 'value': promo.year})
 
     return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
 
@@ -80,6 +81,17 @@ def track(request):
         tracks = Track.objects.filter(name__icontains=input).order_by('name')
         for track in tracks:
             elements.append({'id':track.id, 'displayValue': track.name , 'value': track.name})
+
+    return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
+
+def organization(request):
+    elements = []
+
+    if request.method == 'POST':
+        input = request.POST['text']
+        orgas = Organization.objects.filter(name__icontains=input).order_by('name')
+        for orga in orgas:
+            elements.append({'id': orga.id, 'displayValue': orga.name , 'value': orga.name})
 
     return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
 

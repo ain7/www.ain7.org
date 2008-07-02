@@ -40,7 +40,7 @@ class SearchPersonForm(forms.Form):
     first_name = forms.CharField(label=_('First name'), max_length=50, required=False)
     promo = forms.IntegerField(label=_('Promo'), required=False, widget=AutoCompleteField(url='/ajax/promo/'))
     track = forms.IntegerField(label=_('Track'), required=False, widget=AutoCompleteField(url='/ajax/track/'))
-    organization = forms.CharField(label=_('organization').capitalize(), max_length=50, required=False)
+    organization = forms.CharField(label=_('organization').capitalize(), max_length=50, required=False) #,  widget=AutoCompleteField(url='/ajax/organization/'))
 
     def criteria(self):
         # criteres sur le nom et prenom, et sur l'organisation
@@ -65,7 +65,7 @@ class SearchPersonForm(forms.Form):
             # Pour éviter http://groups.google.es/group/django-users/browse_thread/thread/32143d024b17dd00,
             # on convertit en liste
             criteria['promos__in']=\
-                [promo for promo in Promo.objects.filter(**promoCriteria)]
+                [promo for promo in PromoYear.objects.filter(**promoCriteria)]
         return criteria
 
     def search(self, criteria):
@@ -86,10 +86,17 @@ class NewMemberForm(forms.Form):
     promo = forms.IntegerField(label=_('Promo'), required=True, widget=AutoCompleteField(url='/ajax/promo/'))
     track = forms.IntegerField(label=_('Track'), required=True,  widget=AutoCompleteField(url='/ajax/track/'))
 
-    # TODO: generation du login de manière plus intelligente en verifiant qu'il n'y ait pas de doublon
     def genlogin(self):
         login = (self.cleaned_data['first_name'][0]+self.cleaned_data['last_name']).lower()
-        nb = User.objects.filter(username=login).count()
+
+        tries = 0
+        while (User.objects.filter(username=login).count() > 0):
+            tries = tries + 1
+            if tries < len(self.cleaned_data['first_name']):
+                login = (self.cleaned_data['first_name'][0:tries]+self.cleaned_data['last_name']).lower()
+            else:
+                login = (self.cleaned_data['first_name'][0]+self.cleaned_data['last_name']+str(tries)).lower()
+
         return login
 
     def save(self):
@@ -99,7 +106,7 @@ class NewMemberForm(forms.Form):
         new_user.first_name = self.cleaned_data['first_name']
         new_user.last_name = self.cleaned_data['last_name']
         new_user.save()
-        
+       
         new_person = Person()
         new_person.user = new_user
         new_person.first_name = self.cleaned_data['first_name']
@@ -107,6 +114,7 @@ class NewMemberForm(forms.Form):
         new_person.complete_name = \
             new_person.first_name+' '+new_person.last_name
         new_person.sex = self.cleaned_data['sex']
+        #new_person.birth_date = (self.cleaned_data['birth_date']).date()
         new_person.birth_date = datetime.date(1978,11,18)
         new_person.country = \
             Country.objects.get(id=self.cleaned_data['nationality'])
@@ -124,8 +132,11 @@ class NewMemberForm(forms.Form):
         new_ain7member.person_type = PersonType.objects.get(type=u"Étudiant")
         new_ain7member.activity = Activity.objects.get(activity="Connue")
         new_ain7member.save()
+        track = Track.objects.get(id=self.cleaned_data['track'])
+        promo = PromoYear.objects.get(id=self.cleaned_data['promo'])
+   
         new_ain7member.promos.add(
-            Promo.objects.get(id=self.cleaned_data['track']))
+            Promo.objects.filter(track=track,year=promo)[0])
         new_ain7member.save()
 
         new_couriel = Email()

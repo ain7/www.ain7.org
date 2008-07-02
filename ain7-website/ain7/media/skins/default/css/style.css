@@ -501,7 +501,6 @@ ul.errorlist {
 
 div.complete {
 	position: absolute;
-	width: 400px;
 	background-color: white;
 	border: 1px solid #EEEEEE;
 	margin: 0;
@@ -522,7 +521,7 @@ div.complete ul li {
 	list-style-type: none;
 	display: block;
 	margin: 0;
-	padding: 2px;
+/*	padding: 2px; */
 	cursor: pointer;
 }
 

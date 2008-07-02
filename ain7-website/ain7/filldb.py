@@ -233,22 +233,51 @@ def filldb():
     annuaire.Track(name=u"DHET Systèmes Electroniques", initials="", school=n7).save()
     annuaire.Track(name=u"DHET informatique fl.", initials="", school=n7).save()
 
-    n7hy2006 = annuaire.Promo(year=2006, track=n7hydro)
+    y2000 = annuaire.PromoYear(year='2000')
+    y2000.save()
+
+    y2001 = annuaire.PromoYear(year='2001')
+    y2001.save()
+
+    y2002 = annuaire.PromoYear(year='2002')
+    y2002.save()
+
+    y2003 = annuaire.PromoYear(year='2003')
+    y2003.save()
+
+    y2004 = annuaire.PromoYear(year='2004')
+    y2004.save()
+
+    y2005 = annuaire.PromoYear(year='2005')
+    y2005.save()
+
+    y2006 = annuaire.PromoYear(year='2006')
+    y2006.save()
+
+    y2007 = annuaire.PromoYear(year='2007')
+    y2007.save()
+
+    y2008 = annuaire.PromoYear(year='2008')
+    y2008.save()
+
+    print y2006
+
+    n7hy2006 = annuaire.Promo(year=y2006, track=n7hydro)
     n7hy2006.save()
 
-    n7in2006 = annuaire.Promo(year=2006, track=n7info)
+    n7in2006 = annuaire.Promo(year=y2006, track=n7info)
     n7in2006.save()
 
-    n7in2003 = annuaire.Promo(year=2003, track=n7info)
+    n7in2003 = annuaire.Promo(year=y2006, track=n7info)
     n7in2003.save()
 
-    n7in2008 = annuaire.Promo(year=2008, track=n7info)
+    n7in2008 = annuaire.Promo(year=y2008, track=n7info)
     n7in2008.save()
 
-    n7tr2003 = annuaire.Promo(year=2003, track=n7tr)
+    n7tr2003 = annuaire.Promo(year=y2003, track=n7tr)
     n7tr2003.save()
 
-    n7hy2003 = annuaire.Promo(year=2003, track=n7hydro)
+    n7hy2003 = annuaire.Promo(year=y2003, track=n7hydro)
     n7hy2003.save()
 
     # Organizations

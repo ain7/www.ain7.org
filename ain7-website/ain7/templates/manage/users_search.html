@@ -17,9 +17,7 @@
 </div>
 </form>
 
-{% if persons %}
-
-{% ifnotequal persons|length 0 %}
+{% ifnotequal hits 0 %}
 
 <h2>{% trans "Results list"%}</h2>
 
@@ -37,7 +35,7 @@
 </table>
 <ul>
     {% for person in persons %}
-        <li class="person"><a href="/annuaire/{{ person.user.id }}/">
+        <li class="person"><a href="/manage/users/{{ person.user.id }}/">
             {{ person.last_name }} {{ person.first_name }}</a>
 				</li>
     {% endfor %}
@@ -45,8 +43,6 @@
 {% else %}
     <p>{% trans "No person matched your criteria." %}</p>
 {% endifnotequal %}
-
-{% endif %}
 
 </div>
 

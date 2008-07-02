@@ -23,7 +23,7 @@
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group, Permission, User
-from django.core.paginator import ObjectPaginator, InvalidPage
+from django.core.paginator import Paginator, InvalidPage
 from django import newforms as forms
 from django.http import HttpResponseRedirect, HttpResponse
 from django.utils.translation import ugettext as _
@@ -48,31 +48,31 @@ def users_search(request):
     form = SearchPersonForm()
     nb_results_by_page = 25
     persons = False
-    paginator = ObjectPaginator(Group.objects.none(),nb_results_by_page)
+    paginator = Paginator(Group.objects.none(),nb_results_by_page)
     page = 1
 
     if request.method == 'POST':
         form = SearchPersonForm(request.POST)
         if form.is_valid():
             persons = form.search()
-            paginator = ObjectPaginator(persons, nb_results_by_page)
+            paginator = Paginator(persons, nb_results_by_page)
             try:
                 page = int(request.GET.get('page', '1'))
-                persons = paginator.get_page(page - 1)
+                persons = paginator.page(page).object_list
             except InvalidPage:
                 raise http.Http404
 
     return ain7_render_to_response(request, 'manage/users_search.html',
         {'form': form, 'persons': persons,
-         'paginator': paginator, 'is_paginated': paginator.pages > 1,
-         'has_next': paginator.has_next_page(page - 1),
-         'has_previous': paginator.has_previous_page(page - 1),
+         'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
+         'has_next': paginator.page(page).has_next(),
+         'has_previous': paginator.page(page).has_previous(),
          'current_page': page,
          'next_page': page + 1, 'previous_page': page - 1,
-         'pages': paginator.pages,
+         'pages': paginator.num_pages,
          'first_result': (page - 1) * nb_results_by_page +1,
-         'last_result': min((page) * nb_results_by_page, paginator.hits),
-         'hits' : paginator.hits,})
+         'last_result': min((page) * nb_results_by_page, paginator.count),
+         'hits' : paginator.count})
 
 @login_required
 def user_details(request, user_id):

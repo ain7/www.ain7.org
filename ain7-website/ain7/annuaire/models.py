@@ -198,14 +198,27 @@ class Track(models.Model):
     class Meta:
         verbose_name = _('Track')
 
+class PromoYear(models.Model):
+    year = models.IntegerField(verbose_name=_('year'))
+
+    def __unicode__(self):
+        return str(self.year)
+
+    class Admin:
+        pass
+
+    class Meta:
+        verbose_name = _('Year')
+
 # Promo the student get out from school
 class Promo(models.Model):
 
-    year = models.IntegerField(verbose_name=_('year'))
+    #year = models.IntegerField(verbose_name=_('year'))
+    year = models.ForeignKey(PromoYear, verbose_name=_('Promo Year'), related_name='promosyear')
     track = models.ForeignKey(Track, verbose_name=_('Track'), related_name='promos')
 
     def __unicode__(self):
-        return str(self.track) + " " + str(self.year)
+        return str(self.track) + " " + str(self.year.year)
 
     class Admin:
         pass

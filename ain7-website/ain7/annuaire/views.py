@@ -27,7 +27,7 @@ import datetime
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import ObjectPaginator, InvalidPage
+from django.core.paginator import Paginator, InvalidPage
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django import newforms as forms
@@ -89,7 +89,7 @@ def search(request):
     form = SearchPersonForm()
     ain7members = False
     nb_results_by_page = 25
-    paginator = ObjectPaginator(AIn7Member.objects.none(),nb_results_by_page)
+    paginator = Paginator(AIn7Member.objects.none(),nb_results_by_page)
     page = 1
 
     if request.method == 'POST':
@@ -115,11 +115,11 @@ def search(request):
             # performing a CSV export, sending a mail...
             request.session['filter'] = criteria
 
-            paginator = ObjectPaginator(ain7members, nb_results_by_page)
+            paginator = Paginator(ain7members, nb_results_by_page)
 
             try:
                 page = int(request.GET.get('page', '1'))
-                ain7members = paginator.get_page(page - 1)
+                ain7members = paginator.page(page).object_list
             except InvalidPage:
                 raise http.Http404
 
@@ -127,14 +127,14 @@ def search(request):
         {'form': form, 'ain7members': ain7members,
          'userFilters': annuaire_search_engine().registered_filters(
                             request.user.person),
-         'paginator': paginator, 'is_paginated': paginator.pages > 1,
-         'has_next': paginator.has_next_page(page - 1),
-         'has_previous': paginator.has_previous_page(page - 1),
-         'current_page': page, 'pages': paginator.pages,
+         'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
+         'has_next': paginator.page(page).has_next(),
+         'has_previous': paginator.page(page).has_previous(),
+         'current_page': page, 'pages': paginator.num_pages,
          'next_page': page + 1, 'previous_page': page - 1,
-         'first_result': (page - 1) * nb_results_by_page +1,
-         'last_result': min((page) * nb_results_by_page, paginator.hits),
-         'hits' : paginator.hits,})
+         'first_result': (page-1) * nb_results_by_page +1,
+         'last_result': min((page) * nb_results_by_page, paginator.count),
+         'hits' : paginator.count })
 
 
 @login_required
@@ -162,7 +162,7 @@ def dict_for_filter(request, filter_id):
     ain7members = False
     p = request.user.person
     nb_results_by_page = 25
-    paginator = ObjectPaginator(AIn7Member.objects.none(),nb_results_by_page)
+    paginator = Paginator(AIn7Member.objects.none(),nb_results_by_page)
     page = 1
     sf = None
     if filter_id:
@@ -174,26 +174,26 @@ def dict_for_filter(request, filter_id):
         ain7members = AIn7Member.objects.all()
         if filter_id:
             ain7members = sf.search(parameters)
-        paginator = ObjectPaginator(ain7members, nb_results_by_page)
+        paginator = Paginator(ain7members, nb_results_by_page)
 
         try:
             page = int(request.GET.get('page', '1'))
-            ain7members = paginator.get_page(page - 1)
+            ain7members = paginator.page(page).object_list
         except InvalidPage:
             raise http.Http404
 
     return {'ain7members': ain7members,
          'filtr': sf,
          'userFilters': annuaire_search_engine().registered_filters(p),
-         'paginator': paginator, 'is_paginated': paginator.pages > 1,
-         'has_next': paginator.has_next_page(page - 1),
-         'has_previous': paginator.has_previous_page(page - 1),
+         'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
+         'has_next': paginator.page(page).has_next(),
+         'has_previous': paginator.page(page).has_previous(),
          'current_page': page,
          'next_page': page + 1, 'previous_page': page - 1,
-         'pages': paginator.pages,
+         'pages': paginator.num_pages,
          'first_result': (page - 1) * nb_results_by_page +1,
-         'last_result': min((page) * nb_results_by_page, paginator.hits),
-         'hits' : paginator.hits,}
+         'last_result': min((page) * nb_results_by_page, paginator.count),
+         'hits' : paginator.count}
 
 
 @login_required
