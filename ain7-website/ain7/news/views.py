@@ -22,7 +22,7 @@
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import ObjectPaginator, InvalidPage
+from django.core.paginator import Paginator, InvalidPage
 from django import newforms as forms
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
@@ -76,18 +76,18 @@ def search(request):
     form = SearchNewsForm()
     nb_results_by_page = 25
     list_news = False
-    paginator = ObjectPaginator(NewsItem.objects.none(),nb_results_by_page)
+    paginator = Paginator(NewsItem.objects.none(),nb_results_by_page)
     page = 1
 
     if request.method == 'POST':
         form = SearchNewsForm(request.POST)
         if form.is_valid():
             list_news = form.search()
-            paginator = ObjectPaginator(list_news,nb_results_by_page)
+            paginator = Paginator(list_news,nb_results_by_page)
 
             try:
                 page = int(request.GET.get('page', '1'))
-                list_news = paginator.get_page(page - 1)
+                list_news = paginator.page(page).object_list
 
             except InvalidPage:
                 raise http.Http404
@@ -95,12 +95,12 @@ def search(request):
     return ain7_render_to_response(request, 'news/search.html',
         {'form': form, 'list_news': list_news,
          'request': request,'paginator': paginator,
-         'is_paginated': paginator.pages > 1,
-         'has_next': paginator.has_next_page(page - 1),
-         'has_previous': paginator.has_previous_page(page - 1),
+         'is_paginated': paginator.num_pages > 1,
+         'has_next': paginator.page(page).has_next(),
+         'has_previous': paginator.page(page).has_previous(),
          'current_page': page,
          'next_page': page + 1, 'previous_page': page - 1,
-         'pages': paginator.pages,
+         'pages': paginator.num_pages,
          'first_result': (page - 1) * nb_results_by_page +1,
-         'last_result': min((page) * nb_results_by_page, paginator.hits),
-         'hits' : paginator.hits,})
+         'last_result': min((page) * nb_results_by_page, paginator.count),
+         'hits' : paginator.count})

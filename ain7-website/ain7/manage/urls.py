@@ -63,14 +63,14 @@ urlpatterns = patterns('ain7.manage.views',
     (r'^users/register/$', 'user_register'),
     (r'^users/(?P<user_id>\d+)/$', 'user_details'),
                        
-    # Groups
-    (r'^groups/$', 'groups_search'),
-    (r'^groups/register/$', 'group_register'),
-    (r'^groups/(?P<group_id>\d+)/$', 'group_details'),
-    (r'^groups/(?P<group_id>\d+)/member/(?P<member_id>\d+)/delete/$', 'member_delete'),
-    (r'^groups/(?P<group_id>\d+)/member/add/$', 'member_add'),
-    (r'^groups/(?P<group_id>\d+)/perm/(?P<perm_id>\d+)/delete/$', 'perm_delete'),
-    (r'^groups/(?P<group_id>\d+)/perm/add/$', 'perm_add'),
+    # Profils
+    (r'^profils/$', 'profils_search'),
+    (r'^profils/register/$', 'profil_register'),
+    (r'^profils/(?P<profil_id>\d+)/$', 'profil_details'),
+    (r'^profils/(?P<profil_id>\d+)/member/(?P<member_id>\d+)/delete/$', 'member_delete'),
+    (r'^profils/(?P<profil_id>\d+)/member/add/$', 'member_add'),
+    (r'^profils/(?P<profil_id>\d+)/perm/(?P<perm_id>\d+)/delete/$', 'perm_delete'),
+    (r'^profils/(?P<profil_id>\d+)/perm/add/$', 'perm_add'),
                        
     # Permissions
     (r'^permissions/$', 'permissions'),

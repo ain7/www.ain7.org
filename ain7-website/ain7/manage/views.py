@@ -107,16 +107,16 @@ def organizations_search(request):
     form = SearchOrganizationForm()
     nb_results_by_page = 25
     organizations = False
-    paginator = ObjectPaginator(Organization.objects.none(),nb_results_by_page)
+    paginator = Paginator(Organization.objects.none(),nb_results_by_page)
     page = 1
     if request.method == 'POST':
         form = SearchOrganizationForm(request.POST)
         if form.is_valid():
             organizations = form.search()
-            paginator = ObjectPaginator(organizations, nb_results_by_page)
+            paginator = Paginator(organizations, nb_results_by_page)
             try:
                 page = int(request.GET.get('page', '1'))
-                organizations = paginator.get_page(page - 1)
+                organizations = paginator.page(page).objecy_list
             except InvalidPage:
                 raise http.Http404
 
@@ -124,14 +124,14 @@ def organizations_search(request):
         {'form': form, 'organizations': organizations,
          'nb_org': Organization.objects.valid_organizations().count(),
          'nb_offices': Office.objects.valid_offices().count(),
-         'paginator': paginator, 'is_paginated': paginator.pages > 1,
-         'has_next': paginator.has_next_page(page - 1),
-         'has_previous': paginator.has_previous_page(page - 1),
-         'current_page': page, 'pages': paginator.pages,
+         'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
+         'has_next': paginator.page(page).has_next(),
+         'has_previous': paginator.page(page).has_previous(),
+         'current_page': page, 'pages': paginator.num_pages,
          'next_page': page + 1, 'previous_page': page - 1,
          'first_result': (page - 1) * nb_results_by_page +1,
-         'last_result': min((page) * nb_results_by_page, paginator.hits),
-         'hits' : paginator.hits,})
+         'last_result': min((page) * nb_results_by_page, paginator.count),
+         'hits' : paginator.count})
 
 @login_required
 def organization_edit(request, organization_id=None):
@@ -485,45 +485,45 @@ def office_delete_proposal(request, proposal_id=None):
         {'office': office, 'back': back, 'action': 'propose_deletion'})
 
 @login_required
-def groups_search(request):
+def profils_search(request):
 
     form = SearchGroupForm()
     nb_results_by_page = 25
     groups = False
-    paginator = ObjectPaginator(Group.objects.none(),nb_results_by_page)
+    paginator = Paginator(Group.objects.none(),nb_results_by_page)
     page = 1
 
     if request.method == 'POST':
         form = SearchGroupForm(request.POST)
         if form.is_valid():
             groups = form.search()
-            paginator = ObjectPaginator(groups, nb_results_by_page)
+            paginator = Paginator(groups, nb_results_by_page)
             try:
                 page = int(request.GET.get('page', '1'))
-                groups = paginator.get_page(page - 1)
+                groups = paginator.page(page).object_list
             except InvalidPage:
                 raise http.Http404
 
-    return ain7_render_to_response(request, 'manage/groups_search.html',
+    return ain7_render_to_response(request, 'manage/profil_search.html',
         {'form': form, 'groups': groups,'paginator': paginator,
-         'is_paginated': paginator.pages > 1,
-         'has_next': paginator.has_next_page(page - 1),
-         'has_previous': paginator.has_previous_page(page - 1),
+         'is_paginated': paginator.num_pages > 1,
+         'has_next': paginator.page(page).has_next(),
+         'has_previous': paginator.page(page).has_previous(),
          'current_page': page,
          'next_page': page + 1,  'previous_page': page - 1,
-         'pages': paginator.pages,
+         'pages': paginator.num_pages,
          'first_result': (page - 1) * nb_results_by_page +1,
-         'last_result': min((page) * nb_results_by_page, paginator.hits),
-         'hits' : paginator.hits,})
+         'last_result': min((page) * nb_results_by_page, paginator.count),
+         'hits' : paginator.count})
 
 @login_required
-def group_details(request, group_id):
-    g = get_object_or_404(Group, pk=group_id)
-    return ain7_render_to_response(request, 'manage/group_details.html', {'group': g})
+def profil_details(request, profil_id):
+    g = get_object_or_404(Group, pk=profil_id)
+    return ain7_render_to_response(request, 'manage/profil_details.html', {'profil': g})
 
 @login_required
 def perm_add(request, group_id):
-    g = get_object_or_404(Group, pk=group_id)
+    g = get_object_or_404(Group, pk=profil_id)
 
     form = PermGroupForm()
 
@@ -532,31 +532,31 @@ def perm_add(request, group_id):
         if form.is_valid():
             p = Permission.objects.filter(name=form.cleaned_data['perm'])[0]
             g.permissions.add(p)
-            request.user.message_set.create(message=_('Permission added to group'))
-            return HttpResponseRedirect('/manage/groups/%s/' % group_id)
+            request.user.message_set.create(message=_('Permission added to a profil'))
+            return HttpResponseRedirect('/manage/profils/%s/' % profil_id)
         else:
             request.user.message_set.create(message=_('Permission is not correct'))
 
     back = request.META.get('HTTP_REFERER', '/')
 
-    return ain7_render_to_response(request, 'manage/groups_perm_add.html',
-                            {'form': form, 'group': g, 'back': back})
+    return ain7_render_to_response(request, 'manage/profil_perm_add.html',
+                            {'form': form, 'profil': g, 'back': back})
 
 @login_required
-def perm_delete(request, group_id, perm_id):
-    group = get_object_or_404(Group, pk=group_id)
+def perm_delete(request, profil_id, perm_id):
+    group = get_object_or_404(Group, pk=profil_id)
     perm = get_object_or_404(Permission, pk=perm_id)
 
     group.permissions.remove(perm)
 
     request.user.message_set.create(message=_('Permission removed from group'))
 
-    return HttpResponseRedirect('/manage/groups/%s/' % group_id)
+    return HttpResponseRedirect('/manage/profils/%s/' % profil_id)
 
 @login_required
-def member_add(request, group_id):
+def member_add(request, profil_id):
 
-    g = get_object_or_404(Group, pk=group_id)
+    g = get_object_or_404(Group, pk=profil_id)
 
     form = MemberGroupForm()
 
@@ -565,26 +565,26 @@ def member_add(request, group_id):
         if form.is_valid():
             u = User.objects.get(id=form.cleaned_data['username'])
             u.groups.add(g)
-            request.user.message_set.create(message=_('User added to group'))
-            return HttpResponseRedirect('/manage/groups/%s/' % group_id)
+            request.user.message_set.create(message=_('User added to profil'))
+            return HttpResponseRedirect('/manage/profils/%s/' % profil_id)
         else:
             request.user.message_set.create(message=_('User is not correct'))
 
     back = request.META.get('HTTP_REFERER', '/')
 
-    return ain7_render_to_response(request, 'manage/groups_user_add.html',
-                            {'form': form, 'group': g, 'back': back})
+    return ain7_render_to_response(request, 'manage/profil_user_add.html',
+                            {'form': form, 'profil': g, 'back': back})
 
 @login_required
-def member_delete(request, group_id, member_id):
-    group = get_object_or_404(Group, pk=group_id)
+def member_delete(request, profil_id, member_id):
+    group = get_object_or_404(Group, pk=profil_id)
     member = get_object_or_404(User, pk=member_id)
 
     member.groups.remove(group)
 
-    request.user.message_set.create(message=_('Member removed from group'))
+    request.user.message_set.create(message=_('Member removed from profil'))
 
-    return HttpResponseRedirect('/manage/groups/%s/' % group_id)
+    return HttpResponseRedirect('/manage/profils/%s/' % profil_id)
 
 @login_required
 def permissions(request):
@@ -592,25 +592,27 @@ def permissions(request):
     nb_results_by_page = 25
 
     permissions = Permission.objects.all()
-    paginator = ObjectPaginator(Permission.objects.all(), nb_results_by_page)
+    paginator = Paginator(Permission.objects.all(), nb_results_by_page)
 
     try:
         page = int(request.GET.get('page', '1'))
-        permissions = paginator.get_page(page - 1)
+        permissions = paginator.page(page).object_list
 
     except InvalidPage:
         raise http.Http404
 
-    return ain7_render_to_response(request, 'manage/permissions.html', {'permissions': permissions, 'paginator': paginator, 'is_paginated': paginator.pages > 1,
-            'has_next': paginator.has_next_page(page - 1),
-            'has_previous': paginator.has_previous_page(page - 1),
+    return ain7_render_to_response(request, 'manage/permissions.html', 
+           {'permissions': permissions, 'paginator': paginator, 
+            'is_paginated': paginator.num_pages > 1,
+            'has_next': paginator.page(page).has_next(),
+            'has_previous': paginator.page(page).has_previous(),
             'current_page': page,
             'next_page': page + 1,
             'previous_page': page - 1,
-            'pages': paginator.pages,
+            'pages': paginator.num_pages,
             'first_result': (page - 1) * nb_results_by_page +1,
-            'last_result': min((page) * nb_results_by_page, paginator.hits),
-            'hits' : paginator.hits,})
+            'last_result': min((page) * nb_results_by_page, paginator.count),
+            'hits' : paginator.count})
 
 @login_required
 def permission_details(request, perm_id):
@@ -625,7 +627,7 @@ def contributions(request):
     form = SearchContributionForm()
     nb_results_by_page = 25
     contributions = False
-    paginator = ObjectPaginator(UserContribution.objects.none(),nb_results_by_page)
+    paginator = Paginator(UserContribution.objects.none(),nb_results_by_page)
     page = 1
 
     if request.method == 'POST':
@@ -637,26 +639,27 @@ def contributions(request):
             criteria={}
 
             contributions = UserContribution.objects.filter(**criteria)
-            paginator = ObjectPaginator(contributions, nb_results_by_page)
+            paginator = Paginator(contributions, nb_results_by_page)
 
             try:
                 page = int(request.GET.get('page', '1'))
-                contributions = paginator.get_page(page - 1)
+                contributions = paginator.page(page).object_list
 
             except InvalidPage:
                 raise http.Http404
 
     return ain7_render_to_response(request, 'manage/contributions.html',
-                            {'form': form, 'contributions': contributions,'paginator': paginator, 'is_paginated': paginator.pages > 1,
-                    'has_next': paginator.has_next_page(page - 1),
-                    'has_previous': paginator.has_previous_page(page - 1),
+                   {'form': form, 'contributions': contributions,
+                    'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
+                    'has_next': paginator.page(page).has_next(),
+                    'has_previous': paginator.page(page).has_previous(),
                     'current_page': page,
                     'next_page': page + 1,
                     'previous_page': page - 1,
-                    'pages': paginator.pages,
+                    'pages': paginator.num_pages,
                     'first_result': (page - 1) * nb_results_by_page +1,
-                    'last_result': min((page) * nb_results_by_page, paginator.hits),
-                    'hits' : paginator.hits,})
+                    'last_result': min((page) * nb_results_by_page, paginator.count),
+                    'hits' : paginator.count})
 
 @login_required
 def perm_add(request, group_id):

@@ -55,7 +55,7 @@ class SearchPersonForm(forms.Form):
         # saisis par l'utilisateur.
         promoCriteria={}
         if self.cleaned_data['promo'] != -1:
-            promoCriteria['year']=self.cleaned_data['promo']
+            promoCriteria['year']=PromoYear.objects.get(id=self.cleaned_data['promo'])
         if self.cleaned_data['track'] != -1:
             promoCriteria['track']=\
                 Track.objects.get(id=self.cleaned_data['track'])
@@ -65,7 +65,7 @@ class SearchPersonForm(forms.Form):
             # Pour éviter http://groups.google.es/group/django-users/browse_thread/thread/32143d024b17dd00,
             # on convertit en liste
             criteria['promos__in']=\
-                [promo for promo in PromoYear.objects.filter(**promoCriteria)]
+                [promo for promo in Promo.objects.filter(**promoCriteria)]
         return criteria
 
     def search(self, criteria):
@@ -83,7 +83,7 @@ class NewMemberForm(forms.Form):
     nationality = forms.IntegerField(label=_('Nationality'), required=True, widget=AutoCompleteField(url='/ajax/nationality/'))
     birth_date = forms.DateTimeField(label=_('Date of birth'), required=True, widget=dateWidget)
     sex = forms.ChoiceField(label=_('sex'), required=True, choices=Person.SEX)
-    promo = forms.IntegerField(label=_('Promo'), required=True, widget=AutoCompleteField(url='/ajax/promo/'))
+    promo = forms.IntegerField(label=_('Promo year'), required=True, widget=AutoCompleteField(url='/ajax/promo/'))
     track = forms.IntegerField(label=_('Track'), required=True,  widget=AutoCompleteField(url='/ajax/track/'))
 
     def genlogin(self):
@@ -114,8 +114,7 @@ class NewMemberForm(forms.Form):
         new_person.complete_name = \
             new_person.first_name+' '+new_person.last_name
         new_person.sex = self.cleaned_data['sex']
-        #new_person.birth_date = (self.cleaned_data['birth_date']).date()
-        new_person.birth_date = datetime.date(1978,11,18)
+        new_person.birth_date = self.cleaned_data['birth_date']
         new_person.country = \
             Country.objects.get(id=self.cleaned_data['nationality'])
         new_person.save()

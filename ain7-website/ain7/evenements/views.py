@@ -26,7 +26,7 @@ from datetime import datetime
 from django.db import models
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import ObjectPaginator, InvalidPage
+from django.core.paginator import Paginator, InvalidPage
 from django import newforms as forms
 from django.template import RequestContext
 from django.newforms import widgets
@@ -136,17 +136,17 @@ def search(request):
     form = SearchEventForm()
     nb_results_by_page = 25
     list_events = False
-    paginator = ObjectPaginator(Event.objects.none(),nb_results_by_page)
+    paginator = Paginator(Event.objects.none(),nb_results_by_page)
     page = 1
 
     if request.method == 'POST':
         form = SearchEventForm(request.POST)
         if form.is_valid():
             list_events = form.search()
-            paginator = ObjectPaginator(list_events, nb_results_by_page)
+            paginator = Paginator(list_events, nb_results_by_page)
             try:
                 page = int(request.GET.get('page', '1'))
-                list_events = paginator.get_page(page - 1)
+                list_events = paginator.page(page).object_list
             except InvalidPage:
                 raise http.Http404
 
@@ -154,15 +154,15 @@ def search(request):
         {'form': form, 'list_events': list_events, 'request': request,
          'event_list': Event.objects.all(),
          'next_events': Event.objects.next_events(),
-         'paginator': paginator, 'is_paginated': paginator.pages > 1,
-         'has_next': paginator.has_next_page(page - 1),
-         'has_previous': paginator.has_previous_page(page - 1),
+         'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
+         'has_next': paginator.page(page).has_next(),
+         'has_previous': paginator.page(page).has_previous(),
          'current_page': page,
          'next_page': page + 1, 'previous_page': page - 1,
-         'pages': paginator.pages,
+         'pages': paginator.num_pages,
          'first_result': (page - 1) * nb_results_by_page +1,
-         'last_result': min((page) * nb_results_by_page, paginator.hits),
-         'hits' : paginator.hits,})
+         'last_result': min((page) * nb_results_by_page, paginator.count),
+         'hits' : paginator.count })
 
 @login_required
 def subscribe(request, event_id):

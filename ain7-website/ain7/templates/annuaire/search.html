@@ -27,7 +27,7 @@
 </div>
 </form>
 
-{% ifnotequal hits 0 %}
+{% if ain7members %}
 
 <h2>{% trans "Results list"%}</h2>
 <table width="100%">
@@ -54,8 +54,8 @@
 </ul>
 {% else %}
     <p></p>
-    <p>{% trans "No person matched your criteria." %}</p>
-{% endifnotequal %}
+    <p><b>{% trans "No person matched your criteria." %}</b></p>
+{% endif %}
 
 </div>
 
