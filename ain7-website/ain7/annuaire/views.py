@@ -30,7 +30,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
-from django import newforms as forms
+from django import forms
 from django.db import models
 from django.utils.translation import ugettext as _
 

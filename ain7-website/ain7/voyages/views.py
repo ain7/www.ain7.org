@@ -23,8 +23,8 @@
 from datetime import datetime
 
 from django.shortcuts import get_object_or_404
-from django import newforms as forms
-from django.newforms import widgets
+from django import forms
+from django.forms import widgets
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage

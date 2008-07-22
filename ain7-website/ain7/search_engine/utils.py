@@ -23,7 +23,7 @@
 import time
 import datetime
 
-from django import newforms as forms
+from django import forms
 from django.utils.translation import ugettext as _
 
 from ain7.widgets import DateTimeWidget

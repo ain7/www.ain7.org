@@ -20,7 +20,7 @@
 #
 #
 
-from django import newforms as forms
+from django import forms
 from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
@@ -59,10 +59,10 @@ class SearchPersonForm(forms.Form):
         if self.cleaned_data['track'] != -1:
             promoCriteria['track']=\
                 Track.objects.get(id=self.cleaned_data['track'])
-        # on ajoute ces promos aux critères de recherche
+        # on ajoute ces promos aux critÃ¨res de recherche
         # si elle ne sont pas vides
         if len(promoCriteria)!=0:
-            # Pour éviter http://groups.google.es/group/django-users/browse_thread/thread/32143d024b17dd00,
+            # Pour Ã©viter http://groups.google.es/group/django-users/browse_thread/thread/32143d024b17dd00,
             # on convertit en liste
             criteria['promos__in']=\
                 [promo for promo in Promo.objects.filter(**promoCriteria)]
@@ -122,13 +122,13 @@ class NewMemberForm(forms.Form):
         new_ain7member = AIn7Member()
         new_ain7member.person = new_person
         new_ain7member.marital_status = \
-            MaritalStatus.objects.get(status="Célibataire")
+            MaritalStatus.objects.get(status="CÃ©libataire")
         new_ain7member.display_cv_in_directory = False
         new_ain7member.display_cv_in_job_section = False
         new_ain7member.receive_job_offers = False
         new_ain7member.member_type = \
             MemberType.objects.get(type="Membre actif")
-        new_ain7member.person_type = PersonType.objects.get(type=u"Étudiant")
+        new_ain7member.person_type = PersonType.objects.get(type=u"Ãtudiant")
         new_ain7member.activity = Activity.objects.get(activity="Connue")
         new_ain7member.save()
         track = Track.objects.get(id=self.cleaned_data['track'])

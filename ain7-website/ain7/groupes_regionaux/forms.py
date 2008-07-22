@@ -20,7 +20,7 @@
 #
 #
 
-from django import newforms as forms
+from django import forms
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 

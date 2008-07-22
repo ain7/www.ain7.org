@@ -22,7 +22,7 @@
 
 from datetime import datetime
 
-from django import newforms as forms
+from django import forms
 from django.db import models
 from django.utils.translation import ugettext as _
 

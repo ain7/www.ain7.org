@@ -26,8 +26,8 @@ from django.http import HttpResponse
 from django.template import Context, loader, RequestContext
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django import newforms as forms
-from django.newforms import widgets
+from django import forms
+from django.forms import widgets
 from django.http import HttpResponseRedirect
 from django.utils.translation import ugettext as _
 

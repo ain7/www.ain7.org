@@ -434,7 +434,7 @@ class JobOffer(models.Model):
                                blank=True, null=True)
     contact_name = models.CharField(verbose_name=_('Contact name'), max_length=80, blank=True, null=True)
     contact_email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
-    track = models.ManyToManyField(Track, verbose_name=_('Track'), related_name='jobs', blank=True, null=True, filter_interface=models.HORIZONTAL)
+    track = models.ManyToManyField(Track, verbose_name=_('Track'), related_name='jobs', blank=True, null=True)
     nb_views = models.IntegerField(verbose_name=_('Number of views'), default=0, editable=False)
 
     # Internal

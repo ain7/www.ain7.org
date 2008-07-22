@@ -64,8 +64,8 @@ class Event(models.Model):
     publication_start =  models.DateTimeField(verbose_name=_('publication start'))
     publication_end = models.DateTimeField(verbose_name=_('publication end'))
 
-    organizer = models.ManyToManyField(Person, verbose_name=_('organizer'),related_name='events', blank=True, null=True, filter_interface=models.HORIZONTAL)
-    regional_groups = models.ManyToManyField(Group, verbose_name=_('regional groups'), related_name='events', blank=True, null=True, filter_interface=models.HORIZONTAL)
+    organizer = models.ManyToManyField(Person, verbose_name=_('organizer'),related_name='events', blank=True, null=True)
+    regional_groups = models.ManyToManyField(Group, verbose_name=_('regional groups'), related_name='events', blank=True, null=True)
     pictures_gallery = models.CharField(verbose_name=_('Pictures gallery'), max_length=100, blank=True, null=True)
     question = models.TextField(null=True, blank=True)
     objects = EventManager()
