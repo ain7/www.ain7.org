@@ -1,6 +1,6 @@
 #!/bin/sh
 
-python /usr/share/python-support/python-django/django/bin/make-messages.py -l fr
-python /usr/share/python-support/python-django/django/bin/make-messages.py -l en
+django-admin.py makemessages -l fr
+django-admin.py makemessages -l en
 
-python /usr/share/python-support/python-django/django/bin/compile-messages.py
+django-admin.py compilemessages

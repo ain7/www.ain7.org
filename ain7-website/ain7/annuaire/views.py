@@ -356,14 +356,18 @@ def criterion_add(request, filter_id=None, criterionType=None):
 
     # if the user has no unregistered filter, we create one
     if request.method == 'POST' and filter_id=='':
-        filtr = SearchFilter()
-        filtr.name=""
-        filtr.operator=_(SearchFilter.OPERATORS[0][0])
-        filtr.user = request.user.person
-        filtr.registered = False
-        filtr.search_engine = annuaire_search_engine()
-        filtr.save()
-        filter_id = filtr.id
+        unreg = annuaire_search_engine().unregistered_filters(request.user.person)
+        if unreg:
+            filter_id = unreg.id
+        else:
+            filtr = SearchFilter()
+            filtr.name=""
+            filtr.operator=_(SearchFilter.OPERATORS[0][0])
+            filtr.user = request.user
+            filtr.registered = False
+            filtr.search_engine = annuaire_search_engine()
+            filtr.save()
+            filter_id = filtr.id
 
     # in the POST case, we redirect to the corresponding edit methods
     if request.method == 'POST' and criterionType == 'field':
@@ -1057,6 +1061,6 @@ def filtersToExclude(filter_id=None):
         filtr = get_object_or_404(SearchFilter, pk=filter_id)
         result = [ filter_id ]        
         for crit in filtr.used_as_criterion.all():
-            result.extend(filtersToExclude(crit.searchFilter))
+            result.extend(filtersToExclude(crit.searchFilter.id))
         return result
 

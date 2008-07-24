@@ -51,9 +51,7 @@ class SearchEngine(models.Model):
     def unregistered_filters(self, person):
         unregs = self.filters.filter(registered=False).filter(user=person)
         if unregs:
-            # mise en commentaire de cet assert qui provoque un plantage de la recherche
-            # avancee dans le profile dans certains cas restant à déterminer :(
-            #assert(unregs.count()<2)
+            assert(unregs.count()<2)
             return unregs[0]
         return None
 

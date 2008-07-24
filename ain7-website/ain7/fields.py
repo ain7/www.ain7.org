@@ -21,8 +21,8 @@ class LanguageField(models.CharField):
 # http://www.djangosnippets.org/snippets/253/
 #
 
-from django.newforms.widgets import TextInput,flatatt
-from django.newforms.util import smart_unicode
+from django.forms.widgets import TextInput,flatatt
+from django.forms.util import smart_unicode
 
 from django.utils.html import escape
 
