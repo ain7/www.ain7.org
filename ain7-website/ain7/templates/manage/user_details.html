@@ -53,7 +53,7 @@
 
 
 {% if this_user.person.ain7member %}
-{% trans "This person is also an AIn7Member. You can check his complete profile" %}<a href="/annuaire/{{ this_user.id }}/"/>{% trans "here" %}</a>.
+{% trans "This person is also an AIn7Member. You can check his complete role" %}<a href="/annuaire/{{ this_user.id }}/"/>{% trans "here" %}</a>.
 {% endif %}
 
 </div>
@@ -66,7 +66,7 @@
 <div class="right_articles">
 <ul>
 <li><a href="/manage/users/">{% trans "Manage users" %}</a></li>
-<li><a href="/manage/groups/">{% trans "Manage groups" %}</a></li>
+<li><a href="/manage/roles/">{% trans "Manage roles" %}</a></li>
 <li><a href="/manage/permissions/">{% trans "Manage permissions" %}</a></li>
 <li><a href="/manage/organizations/">{% trans "Manage organizations" %}</a></li>
 <li><a href="/manage/contributions/">{% trans "Contributions" %}</a></li>
@@ -78,7 +78,7 @@
 {% if this_user.groups.all %}
 <ul>
 {% for group in this_user.groups.all %}
-    <li><a href="/manage/groups/{{ group.id }}/">{{ group.name }}</a></li>
+    <li><a href="/manage/roles/{{ group.id }}/">{{ group.name }}</a></li>
 {% endfor %}
 </ul>
 {% endif %}

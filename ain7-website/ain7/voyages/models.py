@@ -34,9 +34,6 @@ class TravelType(models.Model):
     def __unicode__(self):
         return self.type
 
-    class Admin:
-        pass
-
     class Meta:
         verbose_name = _('travel type')
         verbose_name_plural = _('travel types')
@@ -81,9 +78,6 @@ class Travel(models.Model):
         else:
             return 0
     
-    class Admin:
-        pass
-
     class Meta:
         verbose_name = _('travel')
         ordering = ['start_date', 'end_date']

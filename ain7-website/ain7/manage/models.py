@@ -58,9 +58,6 @@ class Notification(models.Model):
         self.modifier = 1 # TODO
         return super(Notification, self).save()
 
-    class Admin:
-        pass
-
     class Meta:
         verbose_name = _('notification')
 

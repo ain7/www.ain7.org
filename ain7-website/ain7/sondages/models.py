@@ -44,10 +44,6 @@ class Survey(models.Model):
         for vote   in self.votes.all():   vote.delete()
         return super(Survey, self).delete()
         
-    class Admin:
-        list_display = ('question', 'start_date', 'end_date')
-        ordering = ['-start_date', '-end_date']
-
     class Meta:
         verbose_name = _('survey')
 

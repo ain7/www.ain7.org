@@ -48,11 +48,6 @@ class Group(models.Model):
         self.modifier = 1
         return super(Group, self).save()
 
-    class Admin:
-        list_display = ('name', 'description')
-        list_filter = ['name']
-        search_fields = ['name']
-
     class Meta:
         verbose_name=_('group')
 

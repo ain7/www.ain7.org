@@ -17,9 +17,9 @@
 </div>
 </form>
 
-{% if profils %}
+{% if roles %}
 
-{% ifnotequal profils|length 0 %}
+{% ifnotequal roles|length 0 %}
 
 <h2>{% trans "Results list"%}</h2>
 <table width="100%">
@@ -27,20 +27,20 @@
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
 <td align="right">
 {% if is_paginated %}
-{% if has_previous %}<a href="/manage/profils/?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="/manage/profils/?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="/manage/profils/?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="/manage/profils/?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% if has_previous %}<a href="/manage/roles/?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="/manage/roles/?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="/manage/roles/?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="/manage/roles/?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
 {% endif %}
 </td>
 </table>
 <ul>
-    {% for profil in profils %}
-        <li class="profil"><a href="/manage/profils/{{ profil.id }}/">{{ profil.name }}</a></li>
+    {% for role in roles %}
+        <li class="role"><a href="/manage/roles/{{ role.id }}/">{{ role.name }}</a></li>
     {% endfor %}
 </ul>
 {% else %}
-    <p>{% trans "No profil matched your criteria" %}</p>
+    <p>{% trans "No role matched your criteria" %}</p>
 {% endifnotequal %}
 
 {% endif %}
@@ -53,7 +53,7 @@
 <div class="right_articles">
 <ul>
     <li><a href="/manage/users/">{% trans "Manage users" %}</a></li>
-    <li><a href="/manage/profils/">{% trans "Manage profils" %}</a></li>
+    <li><a href="/manage/roles/">{% trans "Manage roles" %}</a></li>
     <li><a href="/manage/permissions/">{% trans "Manage permissions" %}</a></li>
     <li><a href="/manage/organizations/">{% trans "Manage organizations" %}</a></li>
 </ul>
@@ -62,10 +62,9 @@
 <h3>{% trans "Actions" %}</h3>
 <div class="right_articles">
 <ul>
-    <li><a href="/manage/profils/register/">{% trans "Register profil" %}</a></li>
+    <li><a href="/manage/roles/register/">{% trans "Register new role" %}</a></li>
 </ul>
 </div>
-
 
 </div>
 

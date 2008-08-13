@@ -20,6 +20,9 @@
 #
 #
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Permission
+
 from ain7.annuaire.models import Person, Country, Promo, Track, PromoYear
 from ain7.emploi.models import ActivityField, Organization
 from ain7.utils import ain7_render_to_response
@@ -32,8 +35,10 @@ def ajaxed_fields():
             Promo: 'promo',
             Track: 'track',
             Organization: 'organization',
-            ActivityField: 'activityfield'}
+            ActivityField: 'activityfield',
+            Permission: 'permission'}
 
+@login_required
 def person(request):
     elements = []
 
@@ -50,6 +55,7 @@ def person(request):
 
     return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
 
+@login_required
 def nationality(request):
     elements = []
 
@@ -61,7 +67,7 @@ def nationality(request):
 
     return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
 
-
+@login_required
 def promo(request):
     elements = []
 
@@ -73,6 +79,7 @@ def promo(request):
 
     return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
 
+@login_required
 def track(request):
     elements = []
 
@@ -84,6 +91,7 @@ def track(request):
 
     return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
 
+@login_required
 def organization(request):
     elements = []
 
@@ -95,6 +103,7 @@ def organization(request):
 
     return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
 
+@login_required
 def activityfield(request):
     elements = []
 
@@ -103,6 +112,31 @@ def activityfield(request):
         activityfields = ActivityField.objects.filter(label__icontains=input)
         for cf in activityfields:
             elements.append({'id': cf.id, 'displayValue': cf.label , 'value': cf.label })
+
+    return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
+
+@login_required
+def activitycode(request):
+    elements = []
+
+    if request.method == 'POST':
+        input = request.POST['text']
+        activitycode = ActivityField.objects.filter(code__icontains=input)
+        for cf in activitycode:
+            elements.append({'id': cf.id, 'displayValue': cf.code , 'value': cf.code })
+
+    return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
+
+@login_required
+def permission(request):
+    elements = []
+
+    if request.method == 'POST':
+        input = request.POST['text']
+        perms = Permission.objects.filter(name__icontains=input)
+
+        for perm in perms:
+            elements.append({'id': perm.id, 'displayValue': perm.name, 'value': perm.name})
 
     return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
 

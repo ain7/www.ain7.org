@@ -67,9 +67,6 @@ class Group(models.Model):
                 has_role = True
         return has_role
 
-    class Admin:
-        pass
-
     class Meta:
         verbose_name = _('regional group')
         verbose_name_plural = _('regional groups')

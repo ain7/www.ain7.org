@@ -39,9 +39,6 @@ class Country(models.Model):
     def __unicode__(self):
         return self.name
 
-    class Admin:
-        pass
-
     class Meta:
         verbose_name = _('country')
         verbose_name_plural = _('country')
@@ -53,9 +50,6 @@ class PersonType(models.Model):
 
     def __unicode__(self):
         return self.type
-
-    class Admin:
-        pass
 
     class Meta:
         verbose_name = _('person type')
@@ -69,9 +63,6 @@ class MemberType(models.Model):
     def __unicode__(self):
         return self.type
 
-    class Admin:
-        pass
-
     class Meta:
         verbose_name = _('member type')
 
@@ -83,9 +74,6 @@ class Activity(models.Model):
     def __unicode__(self):
         return self.activity
 
-    class Admin:
-        pass
-
     class Meta:
         verbose_name = _('activity')
 
@@ -96,9 +84,6 @@ class MaritalStatus(models.Model):
 
     def __unicode__(self):
         return self.status
-
-    class Admin:
-        pass
 
     class Meta:
         verbose_name = _('marital status')
@@ -112,9 +97,6 @@ class Diploma(models.Model):
     def __unicode__(self):
         return self.diploma
 
-    class Admin:
-        pass
-
     class Meta:
         verbose_name = _('diploma')
 
@@ -126,9 +108,6 @@ class Decoration(models.Model):
     def __unicode__(self):
         return self.decoration
 
-    class Admin:
-        pass
-
     class Meta:
         verbose_name = _('decoration')
 
@@ -139,9 +118,6 @@ class CeremonialDuty(models.Model):
 
     def __unicode__(self):
         return self.ceremonial_duty
-
-    class Admin:
-        pass
 
     class Meta:
         verbose_name = _('ceremonial duty')
@@ -169,9 +145,6 @@ class School(models.Model):
         else:
             return self.name
 
-    class Admin:
-        pass
-
     class Meta:
         verbose_name = _('school')
 
@@ -192,9 +165,6 @@ class Track(models.Model):
         else:
             return self.name
 
-    class Admin:
-        pass
-
     class Meta:
         verbose_name = _('Track')
 
@@ -203,9 +173,6 @@ class PromoYear(models.Model):
 
     def __unicode__(self):
         return str(self.year)
-
-    class Admin:
-        pass
 
     class Meta:
         verbose_name = _('Year')
@@ -219,9 +186,6 @@ class Promo(models.Model):
 
     def __unicode__(self):
         return str(self.track) + " " + str(self.year.year)
-
-    class Admin:
-        pass
 
     class Meta:
         verbose_name = _('Promo')
@@ -308,10 +272,6 @@ Vous pouvez acceder a vos donnees sur le portail: http://www.ain7.com
            server.quit()
 
 
-    class Admin:
-        list_display = ('last_name', 'first_name')
-        search_fields = ['last_name', 'first_name']
-
     class Meta:
         verbose_name = _('person')
 
@@ -396,9 +356,6 @@ class AIn7Member(models.Model):
     def __unicode__(self):
         return str(self.person)
 
-    class Admin:
-        pass
-
     class Meta:
         verbose_name = _('AIn7 member')
 
@@ -407,9 +364,6 @@ class AIn7Subscription(models.Model):
     year = models.IntegerField(verbose_name=_('year'))
     date = models.DateTimeField(verbose_name=_('date'))
     amount = models.IntegerField(verbose_name=_('Amount'))
-
-    class Admin:
-        pass
 
 # Phone number for a person
 class PhoneNumber(models.Model):
@@ -448,9 +402,6 @@ class AddressType(models.Model):
     def __unicode__(self):
         return self.type
 
-    class Admin:
-        pass
-
     class Meta:
         verbose_name = _('address type')
         verbose_name_plural = _('address types')
@@ -460,8 +411,8 @@ class Address(models.Model):
 
     person = models.ForeignKey(Person, related_name='addresses', edit_inline=models.STACKED, num_in_admin=2)
 
-    line1 = models.CharField(verbose_name=_('line1'), max_length=50, core=True)
-    line2 = models.CharField(verbose_name=_('line2'), max_length=100, blank=True, null=True, core=True)
+    line1 = models.CharField(verbose_name=_('address line1'), max_length=50, core=True)
+    line2 = models.CharField(verbose_name=_('address line2'), max_length=100, blank=True, null=True, core=True)
     zip_code = models.CharField(verbose_name=_('zip code'), max_length=20, core=True)
     city = models.CharField(verbose_name=_('city'), max_length=50, core=True)
     country = models.ForeignKey(Country, verbose_name=_('country'))
@@ -591,9 +542,6 @@ class Club(models.Model):
     def __unicode__(self):
         return self.name
 
-    class Admin:
-        pass
-
     class Meta:
         verbose_name = _('club')
 
@@ -632,9 +580,6 @@ class Profile(models.Model):
         self.modification_date = datetime.datetime.today()
         return super(Profile, self).save()
 
-    class Admin:
-        pass
-
     class Meta:
         verbose_name = _('profile')
         verbose_name_plural = _('profiles')
@@ -660,9 +605,6 @@ class ProfileMembership(models.Model):
         self.modifier = 1 # TODO
         return super(ProfileMembership, self).save()
 
-    class Admin:
-        pass
-
     class Meta:
         verbose_name = _('profile membership')
         verbose_name_plural = _('profiles memberships')
@@ -672,14 +614,8 @@ class UserContributionType(models.Model):
      name = models.CharField(verbose_name=_('name'), max_length=50)
      points = models.IntegerField(verbose_name=_('number of points'))
 
-     class Admin:
-         pass
-
 class UserContribution(models.Model):
      user = models.ForeignKey(Person, verbose_name=_('user'))
      type = models.ForeignKey(UserContributionType, verbose_name=_('type'))
      date = models.DateTimeField(verbose_name=_('date of contribution'), default=datetime.datetime.now, editable=False)
-
-     class Admin:
-         pass
 

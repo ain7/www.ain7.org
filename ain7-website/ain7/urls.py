@@ -23,6 +23,7 @@
 import os.path
 
 from django.conf.urls.defaults import *
+from django.contrib import admin
 
 from ain7.feeds import LatestEvents, LatestEntriesByCategory
 
@@ -30,6 +31,10 @@ feeds = {
     'events': LatestEvents,
     'categories': LatestEntriesByCategory,
 }
+
+# Add (nearly) all object to the django admin, so we can edit them with django admin.
+admin.autodiscover()
+import ain7.admin
 
 urlpatterns = patterns('',
 
@@ -41,7 +46,7 @@ urlpatterns = patterns('',
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.abspath(os.path.dirname(__file__))+'/media'}),
 
     # django admin
-    (r'^admin/', include('django.contrib.admin.urls')),
+    (r'^admin/(.*)', admin.site.root),
 
     # AIn7 management section
     (r'^manage/', include('ain7.manage.urls')),

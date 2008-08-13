@@ -50,8 +50,5 @@ class NewsItem(models.Model):
         self.modifier = 1
         return super(NewsItem, self).save()
 
-    class Admin:
-        list_display = ('title', 'description')
-
     class Meta:
         verbose_name = _('news item')

@@ -45,7 +45,7 @@ class SearchPersonForm(forms.Form):
             'first_name__contains':self.cleaned_data['first_name']}
         return Person.objects.filter(**criteria)
 
-class SearchGroupForm(forms.Form):
+class SearchRoleForm(forms.Form):
     name = forms.CharField(label=_('Name'), max_length=50, required=False)
 
     def search(self):
@@ -57,9 +57,8 @@ class SearchOrganizationForm(forms.Form):
     name = forms.CharField(label=_('Name'), max_length=50, required=False)
 #     location = forms.CharField(
 #         label=_('Location'), max_length=50, required=False)
-    activity_field = forms.CharField(
-        label=_('Activity field'), max_length=50, required=False,
-        widget=AutoCompleteField(url='/ajax/activityfield/'))
+    activity_field = forms.CharField(label=_('Activity field'), max_length=50, required=False,widget=AutoCompleteField(url='/ajax/activityfield/'))
+    activity_code = forms.CharField(label=_('Activity code'), max_length=50, required=False,widget=AutoCompleteField(url='/ajax/activitycode/'))
 
     def search(self):
         criteria = {'name__contains': self.cleaned_data['name'],
@@ -68,6 +67,9 @@ class SearchOrganizationForm(forms.Form):
         if self.cleaned_data['activity_field']!="-1":
             criteria['activity_field__exact'] = ActivityField.objects.get(
                 id=self.cleaned_data['activity_field'])
+        if self.cleaned_data['activity_code']!="-1":
+            criteria['activity_field__exact'] = ActivityField.objects.get(
+                id=self.cleaned_data['activity_code'])
         return Organization.objects.filter(**criteria)
         
 
@@ -75,10 +77,10 @@ class SearchContributionForm(forms.Form):
     user = forms.CharField(label=_('User'), max_length=50, required=False)
     type = forms.CharField(label=_('Type'), max_length=50, required=False)
 
-class PermGroupForm(forms.Form):
-    perm = forms.CharField(label=_('Permission'), max_length=50, required=True)
+class PermRoleForm(forms.Form):
+    perm = forms.CharField(label=_('Permission'), max_length=50, required=True, widget=AutoCompleteField(url='/ajax/permission/'))
 
-class MemberGroupForm(forms.Form):
+class MemberRoleForm(forms.Form):
     username = forms.CharField(label=_('Username'), max_length=100, required=True, widget=AutoCompleteField(url='/ajax/person/'))
 
 class NewPersonForm(forms.ModelForm):
@@ -120,6 +122,19 @@ class NewPersonForm(forms.ModelForm):
 
         return new_person
 
+class NewRoleForm(forms.ModelForm):
+    name = forms.CharField(label=_('Name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size':50}))
+
+    class Meta:
+        model = Group
+        exclude = ('permissions')
+
+    def save(self):
+        new_role = Group(name = self.cleaned_data['name'])
+        new_role.save()
+        
+        return new_role
+
 class NotificationForm(forms.ModelForm):
     details = forms.CharField(label=_('details'), required=True,
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':90}))
@@ -127,3 +142,4 @@ class NotificationForm(forms.ModelForm):
     class Meta:
         model = Notification
         exclude = ('organization_proposal', 'office_proposal')
+

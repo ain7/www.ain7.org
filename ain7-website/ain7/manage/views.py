@@ -116,7 +116,7 @@ def organizations_search(request):
             paginator = Paginator(organizations, nb_results_by_page)
             try:
                 page = int(request.GET.get('page', '1'))
-                organizations = paginator.page(page).objecy_list
+                organizations = paginator.page(page).object_list
             except InvalidPage:
                 raise http.Http404
 
@@ -485,27 +485,27 @@ def office_delete_proposal(request, proposal_id=None):
         {'office': office, 'back': back, 'action': 'propose_deletion'})
 
 @login_required
-def profils_search(request):
+def roles_search(request):
 
-    form = SearchGroupForm()
+    form = SearchRoleForm()
     nb_results_by_page = 25
-    groups = False
+    roles = False
     paginator = Paginator(Group.objects.none(),nb_results_by_page)
     page = 1
 
     if request.method == 'POST':
-        form = SearchGroupForm(request.POST)
+        form = SearchRoleForm(request.POST)
         if form.is_valid():
-            groups = form.search()
-            paginator = Paginator(groups, nb_results_by_page)
+            roles = form.search()
+            paginator = Paginator(roles, nb_results_by_page)
             try:
                 page = int(request.GET.get('page', '1'))
-                groups = paginator.page(page).object_list
+                roles = paginator.page(page).object_list
             except InvalidPage:
                 raise http.Http404
 
-    return ain7_render_to_response(request, 'manage/profil_search.html',
-        {'form': form, 'groups': groups,'paginator': paginator,
+    return ain7_render_to_response(request, 'manage/role_search.html',
+        {'form': form, 'roles': roles,'paginator': paginator,
          'is_paginated': paginator.num_pages > 1,
          'has_next': paginator.page(page).has_next(),
          'has_previous': paginator.page(page).has_previous(),
@@ -517,74 +517,101 @@ def profils_search(request):
          'hits' : paginator.count})
 
 @login_required
-def profil_details(request, profil_id):
-    g = get_object_or_404(Group, pk=profil_id)
-    return ain7_render_to_response(request, 'manage/profil_details.html', {'profil': g})
+def role_register(request):
 
-@login_required
-def perm_add(request, group_id):
-    g = get_object_or_404(Group, pk=profil_id)
-
-    form = PermGroupForm()
+    form = NewRoleForm()
 
     if request.method == 'POST':
-        form = PermGroupForm(request.POST)
+        form = NewRoleForm(request.POST)
         if form.is_valid():
-            p = Permission.objects.filter(name=form.cleaned_data['perm'])[0]
+
+            if not Group.objects.filter(name=form.cleaned_data['name']).count() == 0:
+                request.user.message_set.create(message=_("Several roles have the same name. Please choose another one"))
+
+            else:
+                new_role = form.save()
+                request.user.message_set.create(
+                    message=_("New role successfully created"))
+                return HttpResponseRedirect(
+                    '/manage/roles/%s/' % (new_role.id))
+        else:
+            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+
+    back = request.META.get('HTTP_REFERER', '/')
+    return ain7_render_to_response(request, 'manage/edit_form.html',
+        {'action_title': _('Register new role'), 'back': back, 'form': form})
+
+
+@login_required
+def role_details(request, role_id):
+    g = get_object_or_404(Group, pk=role_id)
+    return ain7_render_to_response(request, 'manage/role_details.html', {'role': g})
+
+@login_required
+def role_perm_add(request, role_id):
+
+    g = get_object_or_404(Group, pk=role_id)
+
+    form = PermRoleForm()
+
+    if request.method == 'POST':
+        form = PermRoleForm(request.POST)
+        if form.is_valid():
+            p = Permission.objects.get(id=form.cleaned_data['perm'])
             g.permissions.add(p)
-            request.user.message_set.create(message=_('Permission added to a profil'))
-            return HttpResponseRedirect('/manage/profils/%s/' % profil_id)
+            request.user.message_set.create(message=_('Permission added to a role'))
+            return HttpResponseRedirect('/manage/roles/%s/' % role_id)
         else:
             request.user.message_set.create(message=_('Permission is not correct'))
 
     back = request.META.get('HTTP_REFERER', '/')
 
-    return ain7_render_to_response(request, 'manage/profil_perm_add.html',
-                            {'form': form, 'profil': g, 'back': back})
+    return ain7_render_to_response(request, 'manage/role_perm_add.html',
+                            {'form': form, 'role': g, 'back': back})
 
 @login_required
-def perm_delete(request, profil_id, perm_id):
-    group = get_object_or_404(Group, pk=profil_id)
+def perm_delete(request, role_id, perm_id):
+    group = get_object_or_404(Group, pk=role_id)
     perm = get_object_or_404(Permission, pk=perm_id)
 
     group.permissions.remove(perm)
 
-    request.user.message_set.create(message=_('Permission removed from group'))
+    request.user.message_set.create(message=_('Permission removed from role'))
 
-    return HttpResponseRedirect('/manage/profils/%s/' % profil_id)
+    return HttpResponseRedirect('/manage/roles/%s/' % role_id)
 
 @login_required
-def member_add(request, profil_id):
+def role_member_add(request, role_id):
 
-    g = get_object_or_404(Group, pk=profil_id)
+    g = get_object_or_404(Group, pk=role_id)
 
-    form = MemberGroupForm()
+    form = MemberRoleForm()
 
     if request.method == 'POST':
-        form = MemberGroupForm(request.POST)
+        form = MemberRoleForm(request.POST)
         if form.is_valid():
             u = User.objects.get(id=form.cleaned_data['username'])
             u.groups.add(g)
-            request.user.message_set.create(message=_('User added to profil'))
-            return HttpResponseRedirect('/manage/profils/%s/' % profil_id)
+            request.user.message_set.create(message=_('User added to role'))
+            return HttpResponseRedirect('/manage/roles/%s/' % role_id)
         else:
             request.user.message_set.create(message=_('User is not correct'))
 
     back = request.META.get('HTTP_REFERER', '/')
 
-    return ain7_render_to_response(request, 'manage/profil_user_add.html',
-                            {'form': form, 'profil': g, 'back': back})
+    return ain7_render_to_response(request, 'manage/role_user_add.html',
+                            {'form': form, 'role': g, 'back': back})
 
 @login_required
-def member_delete(request, profil_id, member_id):
-    group = get_object_or_404(Group, pk=profil_id)
+def role_member_delete(request, role_id, member_id):
+    group = get_object_or_404(Group, pk=role_id)
     member = get_object_or_404(User, pk=member_id)
 
     member.groups.remove(group)
 
-    request.user.message_set.create(message=_('Member removed from profil'))
+    request.user.message_set.create(message=_('Member removed from role'))
 
-    return HttpResponseRedirect('/manage/profils/%s/' % profil_id)
+    return HttpResponseRedirect('/manage/roles/%s/' % role_id)
 
 @login_required
 def permissions(request):
@@ -662,13 +689,13 @@ def contributions(request):
                     'hits' : paginator.count})
 
 @login_required
-def perm_add(request, group_id):
+def group_perm_add(request, group_id):
     g = get_object_or_404(Group, pk=group_id)
 
-    form = PermGroupForm()
+    form = PermRoleForm()
 
     if request.method == 'POST':
-        form = PermGroupForm(request.POST)
+        form = PermRoleForm(request.POST)
         if form.is_valid():
             p = Permission.objects.filter(name=form.cleaned_data['perm'])[0]
             g.permissions.add(p)

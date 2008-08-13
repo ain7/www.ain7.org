@@ -45,9 +45,6 @@ class ActivityField(models.Model):
     def __str__(self):
         return self.field
 
-    class Admin:
-        pass
-
     class Meta:
         verbose_name = _('Activity field')
 
@@ -135,9 +132,6 @@ class Organization(models.Model):
     class Meta:
         verbose_name = _('organization')
 
-    class Admin:
-        pass
-
 
 # A proposal for creating, modifying or deleting an organization
 # Actually, it is only used for proposing a creation.
@@ -170,9 +164,6 @@ class OrganizationProposal(models.Model):
     def save(self):
         self.modification_date = datetime.datetime.today()
         return super(OrganizationProposal, self).save()
-
-    class Admin:
-        pass
 
     class Meta:
         verbose_name = _('organization modification proposal')
@@ -265,9 +256,6 @@ class Office(models.Model):
                 liste_N7_past.append(ain7member)
         return liste_N7_past
 
-    class Admin:
-        pass
-
     class Meta:
         verbose_name = _('office')
         verbose_name_plural = _('offices')
@@ -305,9 +293,6 @@ class OfficeProposal(models.Model):
 
     class Meta:
         verbose_name = _('office modification proposal')
-
-    class Admin:
-        pass
 
 
 # A position occupied by a person.
@@ -411,10 +396,7 @@ class PublicationItem(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = _('Publication item')
-
-    class Admin:
-        pass
+        verbose_name = _('Publication and patent')
 
 class JobOffer(models.Model):
 
@@ -448,6 +430,4 @@ class JobOffer(models.Model):
         self.modification_date = datetime.datetime.today()
         return super(JobOffer, self).save()
 
-    class Admin:
-        pass
 

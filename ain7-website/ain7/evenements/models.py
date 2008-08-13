@@ -102,9 +102,6 @@ class Event(models.Model):
         for sub in self.subscriptions.all(): nbpart += sub.subscriber_number
         return nbpart
 
-    class Admin:
-        pass
-
     class Meta:
         ordering = ['start', 'end', 'publication_start', 'publication_end']
         verbose_name = _('event')
@@ -118,9 +115,6 @@ class EventSubscription(models.Model):
 
     subscription_date = models.DateTimeField(default=datetime.datetime.now, editable=False)
     subscribed_by = models.ForeignKey(Person, related_name='subscriptions_done', editable=False, null=True)
-
-    class Admin:
-        pass
 
     class Meta:
         verbose_name = _('event subscription')
