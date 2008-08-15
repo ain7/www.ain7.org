@@ -2,15 +2,55 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>{% trans "AIn7: alumni network for IET-ENSEEIHT ingineers" %}</title>
+<title>{% trans "AIn7: alumni network for IET-ENSEEIHT engineers" %}</title>
 <meta name="author" content="AIn7 Devel Team (www.ain7.com)" />
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rel="shortcut icon" type="image/x-icon" href="/site_media/images/favicon.png" />
 <link rel="alternate" type="application/rss+xml" href="/rss/events/" />
-{% block javascript %}{{ javascript }}{% endblock %}
+
+{% block javascript %}
+
+{# Par defaut, on importe ces codes javascript sur toutes les pages. #}
+{# Rien n'empeche de redefinir ce bloc pour certaines pages... #}
+<!-- calendar -->
+<script src="/site_media/js/calendar/calendar.js"
+         type="text/javascript"></script>
+<!-- this is translation file for calendar - choose your language here -->
+<script src="/site_media/js/calendar/lang/calendar-en.js"
+         type="text/javascript"></script>
+<script src="/site_media/js/calendar/calendar-setup.js"
+         type="text/javascript"></script>
+<!-- /calendar -->
+<script src="/site_media/js/mootools-release-{{ mootools_version }}.js"
+         type="text/javascript"></script>
+<script src="/site_media/js/autocomplete.js?version={{ portal_version }}"
+         type="text/javascript"></script>
+<script src="/site_media/js/floatingpane.js?version={{ portal_version }}"
+         type="text/javascript"></script>
+<script src="/site_media/js/tiny_mce/tiny_mce.js" 
+         type="text/javascript"></script>
+<script src="/site_media/js/textareas.js" 
+         type="text/javascript"></script>
+
+{% endblock %}
+
 <link rel="stylesheet" href="/site_media/skins/default/css/style.css?version={{ portal_version }}" type="text/css" />
-{% block stylesheet %}{{ stylesheet }}{% endblock %}
+
+{% block stylesheet %}
+
+{# CSS par defaut sur toutes les pages. #}
+{# Rien n'empeche de redefinir ce bloc pour certaines pages... #}
+<link rel="stylesheet" type="text/css" 
+       href="/site_media/js/calendar/calendar-win2k-cold-2.css" />
+<link type="text/css" rel="stylesheet" 
+       href="/site_media/css/autocomplete.css?version={{ portal_version }}"/>
+<link type="text/css" rel="stylesheet" 
+       href="/site_media/css/floatingpane.css?version={{ portal_version }}"/>
+
+{% endblock %}
+
 </head>
+
 <body>
 	<div class="content">
 		<div class="header">

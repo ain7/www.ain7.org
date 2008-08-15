@@ -1,19 +1,6 @@
 {% extends "emploi/base.html" %}
 {% load i18n %}
 
-{% block javascript %}
-<script type="text/javascript" src="/site_media/js/mootools-release-{{ mootools_version }}.js"></script>
-<script type="text/javascript" src="/site_media/js/autocomplete.js?version={{ portal_version }}"></script>
-<script type="text/javascript" src="/site_media/js/floatingpane.js?version={{ portal_version }}"></script>
-<script type="text/javascript" src="/site_media/js/tiny_mce/tiny_mce.js"></script>
-<script type="text/javascript" src="/site_media/js/textareas.js?version={{ portal_version }}"></script>
-{% endblock %}
-
-{% block stylesheet %}
-<link type="text/css" rel="stylesheet" href="/site_media/css/autocomplete.css?version={{ portal_version }}"/>
-<link type="text/css" rel="stylesheet" href="/site_media/css/floatingpane.css?version={{ portal_version }}"/>
-{% endblock %}
-
 {% block content-main %}
 
 <div class="left">

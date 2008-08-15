@@ -1,6 +1,6 @@
 #!/bin/sh
 
-django-admin.py makemessages -l fr
-django-admin.py makemessages -l en
+./manage.py makemessages -l fr
+./manage.py makemessages -l en
 
-django-admin.py compilemessages
+./manage.py compilemessages

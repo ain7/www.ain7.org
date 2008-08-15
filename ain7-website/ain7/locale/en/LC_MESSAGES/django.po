@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-13 20:32+0200\n"
+"POT-Creation-Date: 2008-08-15 16:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,7 +92,19 @@ msgstr ""
 msgid "Field"
 msgstr ""
 
-#: annuaire/forms.py:206 annuaire/models.py:365 emploi/forms.py:207
+#: annuaire/forms.py:161 evenements/forms.py:100 evenements/models.py:54
+msgid "start"
+msgstr ""
+
+#: annuaire/forms.py:163 evenements/forms.py:102 evenements/models.py:55
+msgid "end"
+msgstr ""
+
+#: annuaire/forms.py:172
+msgid "Birth date is later than death date"
+msgstr ""
+
+#: annuaire/forms.py:218 annuaire/models.py:365 emploi/forms.py:207
 #: templates/voyages/details.html:19 voyages/forms.py:39 voyages/models.py:46
 msgid "date"
 msgstr ""
@@ -101,7 +113,7 @@ msgstr ""
 #: annuaire/models.py:569 annuaire/models.py:614 emploi/models.py:84
 #: emploi/models.py:183 evenements/models.py:53 groupes/models.py:32
 #: groupes_regionaux/models.py:33 search_engine/models.py:61
-#: templates/groupes/details.html:31 templates/groupes/edit.html:43
+#: templates/groupes/details.html:31 templates/groupes/edit.html:28
 msgid "name"
 msgstr ""
 
@@ -166,7 +178,7 @@ msgid "ceremonial duty"
 msgstr ""
 
 #: annuaire/models.py:124 annuaire/models.py:321
-#: templates/annuaire/details.html:55 templates/annuaire/details_frame.html:65
+#: templates/annuaire/details.html:55 templates/annuaire/details_frame.html:63
 #: templates/annuaire/edit.html:98
 msgid "ceremonial duties"
 msgstr ""
@@ -194,7 +206,7 @@ msgstr ""
 
 #: annuaire/models.py:139 annuaire/models.py:497 annuaire/models.py:511
 #: annuaire/models.py:533 emploi/models.py:192
-#: templates/annuaire/details.html:88 templates/annuaire/details_frame.html:98
+#: templates/annuaire/details.html:88 templates/annuaire/details_frame.html:96
 #: templates/annuaire/edit.html:254 templates/manage/user_details.html:38
 msgid "web site"
 msgstr ""
@@ -202,7 +214,7 @@ msgstr ""
 #: annuaire/models.py:140 annuaire/models.py:156 annuaire/models.py:445
 #: annuaire/models.py:453 annuaire/models.py:534 emploi/models.py:305
 #: emploi/models.py:418 templates/annuaire/details.html:75
-#: templates/annuaire/details_frame.html:85 templates/annuaire/edit.html:187
+#: templates/annuaire/details_frame.html:83 templates/annuaire/edit.html:187
 #: templates/annuaire/edit.html.py:191 templates/emploi/cv_details.html:47
 #: templates/emploi/cv_edit.html:49 templates/manage/user_details.html:25
 msgid "email"
@@ -247,22 +259,22 @@ msgid "Complete name"
 msgstr ""
 
 #: annuaire/models.py:227 templates/annuaire/details.html:17
-#: templates/annuaire/details_frame.html:27 templates/annuaire/edit.html:28
+#: templates/annuaire/details_frame.html:25 templates/annuaire/edit.html:28
 msgid "maiden name"
 msgstr ""
 
 #: annuaire/models.py:228 templates/annuaire/details.html:33
-#: templates/annuaire/details_frame.html:43 templates/annuaire/edit.html:31
+#: templates/annuaire/details_frame.html:41 templates/annuaire/edit.html:31
 msgid "Birth date"
 msgstr ""
 
 #: annuaire/models.py:229 templates/annuaire/details.html:35
-#: templates/annuaire/details_frame.html:45 templates/annuaire/edit.html:34
+#: templates/annuaire/details_frame.html:43 templates/annuaire/edit.html:34
 msgid "death date"
 msgstr ""
 
 #: annuaire/models.py:233 templates/annuaire/details.html:25
-#: templates/annuaire/details_frame.html:35
+#: templates/annuaire/details_frame.html:33
 msgid "Wiki name"
 msgstr ""
 
@@ -286,29 +298,29 @@ msgid "children number"
 msgstr ""
 
 #: annuaire/models.py:312 templates/annuaire/details.html:21
-#: templates/annuaire/details_frame.html:31 templates/annuaire/edit.html:58
+#: templates/annuaire/details_frame.html:29 templates/annuaire/edit.html:58
 msgid "Nick name"
 msgstr ""
 
 #: annuaire/models.py:313 templates/annuaire/details.html:63
-#: templates/annuaire/details_frame.html:73 templates/annuaire/edit.html:47
+#: templates/annuaire/details_frame.html:71 templates/annuaire/edit.html:47
 #: templates/annuaire/edit.html.py:50 templates/emploi/cv_details.html:30
 #: templates/emploi/cv_edit.html:32
 msgid "avatar"
 msgstr ""
 
 #: annuaire/models.py:316 templates/annuaire/details.html:23
-#: templates/annuaire/details_frame.html:33 templates/annuaire/edit.html:75
+#: templates/annuaire/details_frame.html:31 templates/annuaire/edit.html:75
 msgid "Promos"
 msgstr ""
 
 #: annuaire/models.py:317 templates/annuaire/details.html:29
-#: templates/annuaire/details_frame.html:39 templates/annuaire/edit.html:83
+#: templates/annuaire/details_frame.html:37 templates/annuaire/edit.html:83
 msgid "diplomas"
 msgstr ""
 
 #: annuaire/models.py:320 templates/annuaire/details.html:49
-#: templates/annuaire/details_frame.html:59 templates/annuaire/edit.html:90
+#: templates/annuaire/details_frame.html:57 templates/annuaire/edit.html:90
 msgid "decorations"
 msgstr ""
 
@@ -383,7 +395,7 @@ msgid "is valid"
 msgstr ""
 
 #: annuaire/models.py:438 templates/annuaire/details.html:96
-#: templates/annuaire/details_frame.html:106 templates/annuaire/edit.html:142
+#: templates/annuaire/details_frame.html:104 templates/annuaire/edit.html:142
 #: templates/annuaire/edit.html.py:146 templates/emploi/cv_details.html:19
 #: templates/emploi/cv_edit.html:21 templates/manage/user_details.html:48
 msgid "Address"
@@ -418,7 +430,7 @@ msgid "channels"
 msgstr ""
 
 #: annuaire/models.py:526 templates/annuaire/details.html:84
-#: templates/annuaire/details_frame.html:94 templates/annuaire/edit.html:234
+#: templates/annuaire/details_frame.html:92 templates/annuaire/edit.html:234
 #: templates/manage/user_details.html:34
 msgid "irc"
 msgstr ""
@@ -537,7 +549,7 @@ msgstr ""
 msgid "Criterion to add"
 msgstr ""
 
-#: annuaire/views.py:413 templates/annuaire/criterionFilter_edit.html:20
+#: annuaire/views.py:413 templates/annuaire/criterionFilter_edit.html:8
 msgid "Edit the criterion"
 msgstr ""
 
@@ -838,8 +850,8 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: emploi/models.py:33 templates/annuaire/adv_search.html:45
-#: templates/annuaire/adv_search.html:67 templates/annuaire/edit.html:43
+#: emploi/models.py:33 templates/annuaire/adv_search.html:34
+#: templates/annuaire/adv_search.html:56 templates/annuaire/edit.html:43
 #: templates/annuaire/edit.html.py:139 templates/annuaire/edit.html:154
 #: templates/annuaire/edit.html.py:175 templates/annuaire/edit.html:199
 #: templates/annuaire/edit.html.py:219 templates/annuaire/edit.html:239
@@ -928,7 +940,7 @@ msgstr ""
 msgid "organization modification proposal"
 msgstr ""
 
-#: emploi/models.py:261 templates/manage/organizations_search.html:88
+#: emploi/models.py:261 templates/manage/organizations_search.html:76
 msgid "offices"
 msgstr ""
 
@@ -957,7 +969,7 @@ msgid "regie"
 msgstr ""
 
 #: emploi/models.py:318 templates/annuaire/details.html:122
-#: templates/annuaire/details_frame.html:132 templates/annuaire/edit.html:294
+#: templates/annuaire/details_frame.html:130 templates/annuaire/edit.html:294
 #: templates/emploi/cv_details.html:65 templates/emploi/cv_edit.html:73
 msgid "for"
 msgstr ""
@@ -1188,14 +1200,6 @@ msgstr ""
 #: evenements/forms.py:97 sondages/models.py:29
 #: templates/sondages/details.html:18
 msgid "question"
-msgstr ""
-
-#: evenements/forms.py:100 evenements/models.py:54
-msgid "start"
-msgstr ""
-
-#: evenements/forms.py:102 evenements/models.py:55
-msgid "end"
 msgstr ""
 
 #: evenements/forms.py:105 evenements/models.py:64
@@ -1637,7 +1641,7 @@ msgid "News successfully added."
 msgstr ""
 
 #: search_engine/models.py:59 search_engine/models.py:83
-#: search_engine/models.py:89 templates/base.html:103
+#: search_engine/models.py:89 templates/base.html:143
 msgid "and"
 msgstr ""
 
@@ -1779,112 +1783,112 @@ msgid "Choice successfully deleted."
 msgstr ""
 
 #: templates/base.html:5 templates/annuaire/details_frame.html:5
-msgid "AIn7: alumni network for IET-ENSEEIHT ingineers"
+msgid "AIn7: alumni network for IET-ENSEEIHT engineers"
 msgstr ""
 
-#: templates/base.html:22
+#: templates/base.html:62
 msgid "Connected as"
 msgstr ""
 
-#: templates/base.html:23
+#: templates/base.html:63
 msgid "Log out"
 msgstr ""
 
-#: templates/base.html:27
+#: templates/base.html:67
 msgid "You are not logged-in"
 msgstr ""
 
-#: templates/base.html:27
+#: templates/base.html:67
 msgid "Login in"
 msgstr ""
 
-#: templates/base.html:32
+#: templates/base.html:72
 msgid "AIn7 web portal"
 msgstr ""
 
-#: templates/base.html:40
+#: templates/base.html:80
 msgid "Home"
 msgstr ""
 
-#: templates/base.html:43
+#: templates/base.html:83
 msgid "The association"
 msgstr ""
 
-#: templates/base.html:46
+#: templates/base.html:86
 msgid "Directory"
 msgstr ""
 
-#: templates/base.html:49 templates/groupes_regionaux/details.html:47
-#: templates/groupes_regionaux/edit.html:41
-#: templates/groupes_regionaux/edit_roles.html:143
+#: templates/base.html:89 templates/groupes_regionaux/details.html:47
+#: templates/groupes_regionaux/edit.html:26
+#: templates/groupes_regionaux/edit_roles.html:125
 msgid "Events"
 msgstr ""
 
-#: templates/base.html:52
+#: templates/base.html:92
 msgid "Job service"
 msgstr ""
 
-#: templates/base.html:55
+#: templates/base.html:95
 msgid "Forums"
 msgstr ""
 
-#: templates/base.html:58
+#: templates/base.html:98
 msgid "Gallery"
 msgstr ""
 
-#: templates/base.html:61 templates/manage/default.html:102
+#: templates/base.html:101 templates/manage/default.html:102
 msgid "AIn7 Management"
 msgstr ""
 
-#: templates/base.html:68
+#: templates/base.html:108
 msgid "Regional groups"
 msgstr ""
 
-#: templates/base.html:71
+#: templates/base.html:111
 msgid "Working groups"
 msgstr ""
 
-#: templates/base.html:74
+#: templates/base.html:114
 msgid "Publications"
 msgstr ""
 
-#: templates/base.html:77
+#: templates/base.html:117
 msgid "International"
 msgstr ""
 
-#: templates/base.html:80
+#: templates/base.html:120
 msgid "Travels"
 msgstr ""
 
-#: templates/base.html:83
+#: templates/base.html:123
 msgid "Planet"
 msgstr ""
 
-#: templates/base.html:98
+#: templates/base.html:138
 msgid "RSS"
 msgstr ""
 
-#: templates/base.html:99 templates/annuaire/details.html:80
-#: templates/annuaire/details_frame.html:90 templates/annuaire/edit.html:215
+#: templates/base.html:139 templates/annuaire/details.html:80
+#: templates/annuaire/details_frame.html:88 templates/annuaire/edit.html:215
 #: templates/emploi/job_details.html:17 templates/emploi/job_details.html:31
-#: templates/evenements/details.html:17 templates/groupes/edit.html:44
-#: templates/manage/user_details.html:30 templates/pages/association.html:108
+#: templates/evenements/details.html:17 templates/groupes/edit.html:29
+#: templates/manage/user_details.html:30 templates/pages/association.html:111
 msgid "Contact"
 msgstr ""
 
-#: templates/base.html:100
+#: templates/base.html:140
 msgid "About"
 msgstr ""
 
-#: templates/base.html:101
+#: templates/base.html:141
 msgid "Terms of use"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:27
+#: templates/annuaire/adv_search.html:16
 msgid "Filter"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:46 templates/annuaire/adv_search.html:68
+#: templates/annuaire/adv_search.html:35 templates/annuaire/adv_search.html:57
 #: templates/annuaire/edit.html:53 templates/annuaire/edit.html.py:157
 #: templates/annuaire/edit.html:178 templates/annuaire/edit.html.py:202
 #: templates/annuaire/edit.html:222 templates/annuaire/edit.html.py:242
@@ -1892,7 +1896,7 @@ msgstr ""
 #: templates/annuaire/subscriptions.html:31 templates/emploi/cv_edit.html:77
 #: templates/emploi/cv_edit.html.py:99 templates/emploi/cv_edit.html:121
 #: templates/emploi/cv_edit.html.py:149
-#: templates/groupes_regionaux/edit_roles.html:54
+#: templates/groupes_regionaux/edit_roles.html:36
 #: templates/manage/default.html:94 templates/manage/role_details.html:18
 #: templates/manage/role_details.html:26 templates/sondages/details.html:14
 #: templates/sondages/details.html.py:40
@@ -1900,121 +1904,121 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:60
+#: templates/annuaire/adv_search.html:49
 msgid "belongs to filter"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:62
+#: templates/annuaire/adv_search.html:51
 msgid "does not belong to filter"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:73 templates/annuaire/adv_search.html:77
+#: templates/annuaire/adv_search.html:62 templates/annuaire/adv_search.html:66
 msgid "No criterion. Please add one."
 msgstr ""
 
-#: templates/annuaire/adv_search.html:81
+#: templates/annuaire/adv_search.html:70
 msgid "Add a criterion"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:84 templates/annuaire/search.html:26
+#: templates/annuaire/adv_search.html:73 templates/annuaire/search.html:15
 #: templates/emploi/job_search.html:17 templates/evenements/search.html:15
-#: templates/manage/contributions.html:27
-#: templates/manage/organizations_search.html:27
+#: templates/manage/contributions.html:16
+#: templates/manage/organizations_search.html:15
 #: templates/manage/role_search.html:16 templates/manage/users_search.html:16
-#: templates/news/search.html:28
+#: templates/news/search.html:15
 msgid "Search"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:92 templates/annuaire/search.html:32
-#: templates/groupes/index.html:8 templates/manage/contributions.html:35
-#: templates/manage/organizations_search.html:35
+#: templates/annuaire/adv_search.html:81 templates/annuaire/search.html:21
+#: templates/groupes/index.html:8 templates/manage/contributions.html:24
+#: templates/manage/organizations_search.html:23
 #: templates/manage/role_search.html:24 templates/manage/users_search.html:22
 msgid "Results list"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:95 templates/annuaire/search.html:35
+#: templates/annuaire/adv_search.html:84 templates/annuaire/search.html:24
 #: templates/emploi/job_search.html:26 templates/evenements/search.html:24
-#: templates/manage/contributions.html:39
-#: templates/manage/organizations_search.html:39
+#: templates/manage/contributions.html:28
+#: templates/manage/organizations_search.html:27
 #: templates/manage/permissions.html:13 templates/manage/role_search.html:27
-#: templates/manage/users_search.html:26 templates/news/search.html:37
+#: templates/manage/users_search.html:26 templates/news/search.html:24
 #: templates/voyages/details.html:24 templates/voyages/search.html:24
 msgid "of"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:95 templates/annuaire/search.html:35
+#: templates/annuaire/adv_search.html:84 templates/annuaire/search.html:24
 #: templates/emploi/job_search.html:26 templates/evenements/search.html:24
-#: templates/manage/contributions.html:39
-#: templates/manage/organizations_search.html:39
+#: templates/manage/contributions.html:28
+#: templates/manage/organizations_search.html:27
 #: templates/manage/permissions.html:13 templates/manage/role_search.html:27
-#: templates/manage/users_search.html:26 templates/news/search.html:37
+#: templates/manage/users_search.html:26 templates/news/search.html:24
 #: templates/voyages/search.html:24
 msgid "results"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:98 templates/annuaire/search.html:38
+#: templates/annuaire/adv_search.html:87 templates/annuaire/search.html:27
 #: templates/emploi/job_search.html:29 templates/evenements/search.html:28
-#: templates/manage/contributions.html:42
-#: templates/manage/organizations_search.html:42
+#: templates/manage/contributions.html:31
+#: templates/manage/organizations_search.html:30
 #: templates/manage/permissions.html:16 templates/manage/role_search.html:30
-#: templates/manage/users_search.html:29 templates/news/search.html:40
+#: templates/manage/users_search.html:29 templates/news/search.html:27
 #: templates/voyages/search.html:27
 msgid "First"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:99 templates/annuaire/search.html:39
+#: templates/annuaire/adv_search.html:88 templates/annuaire/search.html:28
 #: templates/emploi/job_search.html:30 templates/evenements/search.html:29
-#: templates/manage/contributions.html:43
-#: templates/manage/organizations_search.html:43
+#: templates/manage/contributions.html:32
+#: templates/manage/organizations_search.html:31
 #: templates/manage/permissions.html:17 templates/manage/role_search.html:31
-#: templates/manage/users_search.html:30 templates/news/search.html:41
+#: templates/manage/users_search.html:30 templates/news/search.html:28
 #: templates/voyages/search.html:28
 msgid "Previous"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:100 templates/annuaire/search.html:40
+#: templates/annuaire/adv_search.html:89 templates/annuaire/search.html:29
 #: templates/emploi/job_search.html:31 templates/evenements/search.html:30
-#: templates/manage/contributions.html:44
-#: templates/manage/organizations_search.html:44
+#: templates/manage/contributions.html:33
+#: templates/manage/organizations_search.html:32
 #: templates/manage/permissions.html:18 templates/manage/role_search.html:32
-#: templates/manage/users_search.html:31 templates/news/search.html:42
+#: templates/manage/users_search.html:31 templates/news/search.html:29
 #: templates/voyages/search.html:29
 msgid "Next"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:101 templates/annuaire/search.html:41
+#: templates/annuaire/adv_search.html:90 templates/annuaire/search.html:30
 #: templates/emploi/job_search.html:32 templates/evenements/search.html:31
-#: templates/manage/contributions.html:45
-#: templates/manage/organizations_search.html:45
+#: templates/manage/contributions.html:34
+#: templates/manage/organizations_search.html:33
 #: templates/manage/permissions.html:19 templates/manage/role_search.html:33
-#: templates/manage/users_search.html:32 templates/news/search.html:43
+#: templates/manage/users_search.html:32 templates/news/search.html:30
 #: templates/voyages/search.html:30
 msgid "Last"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:117 templates/annuaire/search.html:57
-#: templates/manage/organizations_search.html:57
+#: templates/annuaire/adv_search.html:106 templates/annuaire/search.html:46
+#: templates/manage/organizations_search.html:45
 #: templates/manage/users_search.html:44
 msgid "No person matched your criteria."
 msgstr ""
 
-#: templates/annuaire/adv_search.html:125 templates/annuaire/details.html:151
-#: templates/annuaire/search.html:64 templates/emploi/job_details.html:54
-#: templates/evenements/details.html:37 templates/evenements/edit.html:43
+#: templates/annuaire/adv_search.html:114 templates/annuaire/details.html:151
+#: templates/annuaire/search.html:53 templates/emploi/job_details.html:54
+#: templates/evenements/details.html:37 templates/evenements/edit.html:28
 #: templates/evenements/index.html:40 templates/evenements/search.html:48
-#: templates/groupes/details.html:43 templates/groupes/edit.html:49
+#: templates/groupes/details.html:43 templates/groupes/edit.html:34
 #: templates/groupes_regionaux/details.html:30
-#: templates/groupes_regionaux/edit_roles.html:128
-#: templates/manage/contributions.html:64
+#: templates/groupes_regionaux/edit_roles.html:110
+#: templates/manage/contributions.html:53
 #: templates/manage/office_details.html:104
-#: templates/manage/office_merge.html:59
+#: templates/manage/office_merge.html:46
 #: templates/manage/organization_details.html:121
-#: templates/manage/organization_edit.html:50
+#: templates/manage/organization_edit.html:37
 #: templates/manage/organization_merge.html:46
-#: templates/manage/organizations_search.html:77
+#: templates/manage/organizations_search.html:65
 #: templates/manage/permission_details.html:44
 #: templates/manage/permissions.html:47
-#: templates/manage/proposal_register.html:51
+#: templates/manage/proposal_register.html:38
 #: templates/manage/role_details.html:37 templates/manage/role_search.html:62
 #: templates/manage/user_details.html:65 templates/manage/users_search.html:63
 #: templates/news/details.html:25 templates/news/index.html:32
@@ -2025,76 +2029,76 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:130
+#: templates/annuaire/adv_search.html:119
 msgid "Reset this filter"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:134
+#: templates/annuaire/adv_search.html:123
 msgid "Modify the name of this filter"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:136
+#: templates/annuaire/adv_search.html:125
 msgid "Delete this filter"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:138
+#: templates/annuaire/adv_search.html:127
 msgid "New filter"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:141
+#: templates/annuaire/adv_search.html:130
 msgid "Save this filter"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:144 templates/annuaire/search.html:67
+#: templates/annuaire/adv_search.html:133 templates/annuaire/search.html:56
 msgid "Export as CSV"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:146 templates/annuaire/search.html:68
+#: templates/annuaire/adv_search.html:135 templates/annuaire/search.html:57
 msgid "Send a mail"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:150 templates/annuaire/edit.html:312
-#: templates/annuaire/edit_form.html:47 templates/annuaire/search.html:73
+#: templates/annuaire/adv_search.html:139 templates/annuaire/edit.html:312
+#: templates/annuaire/edit_form.html:28 templates/annuaire/search.html:62
 #: templates/manage/default.html:114 templates/manage/office_details.html:93
-#: templates/manage/office_merge.html:48
+#: templates/manage/office_merge.html:35
 #: templates/manage/organization_details.html:110
-#: templates/manage/organization_edit.html:39
+#: templates/manage/organization_edit.html:26
 #: templates/manage/organization_merge.html:35
-#: templates/manage/organizations_search.html:66
+#: templates/manage/organizations_search.html:54
 #: templates/manage/permissions.html:36
-#: templates/manage/proposal_register.html:40
+#: templates/manage/proposal_register.html:27
 #: templates/manage/role_search.html:52 templates/manage/users_search.html:52
 #: templates/voyages/list.html:39 templates/voyages/participants.html:55
 #: templates/voyages/responsibles.html:54
 msgid "Navigation"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:154
+#: templates/annuaire/adv_search.html:143
 msgid "Simple Search"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:157
+#: templates/annuaire/adv_search.html:146
 msgid "Advanced Search (homepage)"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:162 templates/annuaire/edit.html:321
-#: templates/annuaire/edit_form.html:56 templates/annuaire/search.html:82
+#: templates/annuaire/adv_search.html:151 templates/annuaire/edit.html:321
+#: templates/annuaire/edit_form.html:37 templates/annuaire/search.html:71
 msgid "Registered filters"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:174
+#: templates/annuaire/adv_search.html:163
 msgid "No registered filter"
 msgstr ""
 
 #: templates/annuaire/contributions.html:8 templates/manage/default.html:121
 #: templates/manage/office_details.html:100
-#: templates/manage/office_merge.html:55
+#: templates/manage/office_merge.html:42
 #: templates/manage/organization_details.html:117
-#: templates/manage/organization_edit.html:46
+#: templates/manage/organization_edit.html:33
 #: templates/manage/organization_merge.html:42
-#: templates/manage/organizations_search.html:73
+#: templates/manage/organizations_search.html:61
 #: templates/manage/permissions.html:43
-#: templates/manage/proposal_register.html:47
+#: templates/manage/proposal_register.html:34
 #: templates/manage/role_details.html:44 templates/manage/user_details.html:72
 #: templates/manage/users_search.html:59
 msgid "Contributions"
@@ -2108,22 +2112,22 @@ msgstr ""
 msgid "What?"
 msgstr ""
 
-#: templates/annuaire/criterionFilter_edit.html:31
+#: templates/annuaire/criterionFilter_edit.html:19
 #: templates/annuaire/criterion_add.html:36
-#: templates/annuaire/criterion_edit.html:37
-#: templates/annuaire/edit_form.html:39 templates/annuaire/preferences.html:15
-#: templates/emploi/education_edit.html:33 templates/emploi/job_edit.html:33
-#: templates/emploi/leisure_edit.html:33
-#: templates/emploi/office_create.html:30
-#: templates/emploi/position_edit.html:33
-#: templates/emploi/publication_edit.html:33 templates/groupes/edit.html:33
-#: templates/groupes_regionaux/edit.html:32
-#: templates/groupes_regionaux/edit_roles.html:75
-#: templates/groupes_regionaux/edit_roles.html:114
-#: templates/manage/edit_form.html:36 templates/manage/notification.html:29
-#: templates/manage/role_perm_add.html:28
-#: templates/manage/role_user_add.html:27 templates/sondages/form.html:27
-#: templates/voyages/edit.html:41
+#: templates/annuaire/criterion_edit.html:20
+#: templates/annuaire/edit_form.html:20 templates/annuaire/preferences.html:15
+#: templates/emploi/education_edit.html:21 templates/emploi/job_edit.html:18
+#: templates/emploi/leisure_edit.html:21
+#: templates/emploi/office_create.html:17
+#: templates/emploi/position_edit.html:21
+#: templates/emploi/publication_edit.html:21 templates/groupes/edit.html:18
+#: templates/groupes_regionaux/edit.html:17
+#: templates/groupes_regionaux/edit_roles.html:57
+#: templates/groupes_regionaux/edit_roles.html:96
+#: templates/manage/edit_form.html:14 templates/manage/notification.html:16
+#: templates/manage/role_perm_add.html:17
+#: templates/manage/role_user_add.html:16 templates/sondages/form.html:15
+#: templates/voyages/edit.html:24
 msgid "Save"
 msgstr ""
 
@@ -2136,7 +2140,7 @@ msgid "You can choose one of the following fields as criterion..."
 msgstr ""
 
 #: templates/annuaire/criterion_add.html:19
-#: templates/manage/office_merge.html:38
+#: templates/manage/office_merge.html:25
 msgid "Continue"
 msgstr ""
 
@@ -2146,52 +2150,52 @@ msgid ""
 "result contains people selected by this filter or not."
 msgstr ""
 
-#: templates/annuaire/details.html:10 templates/annuaire/details_frame.html:20
+#: templates/annuaire/details.html:10 templates/annuaire/details_frame.html:18
 #: templates/annuaire/edit.html:14
 msgid "Personal file"
 msgstr ""
 
-#: templates/annuaire/details.html:12 templates/annuaire/details_frame.html:22
+#: templates/annuaire/details.html:12 templates/annuaire/details_frame.html:20
 #: templates/annuaire/edit.html:19
 msgid "Personal data"
 msgstr ""
 
-#: templates/annuaire/details.html:27 templates/annuaire/details_frame.html:37
+#: templates/annuaire/details.html:27 templates/annuaire/details_frame.html:35
 msgid "Karma"
 msgstr ""
 
-#: templates/annuaire/details.html:39 templates/annuaire/details_frame.html:49
+#: templates/annuaire/details.html:39 templates/annuaire/details_frame.html:47
 #: templates/annuaire/edit.html:64
 msgid "Family situation"
 msgstr ""
 
-#: templates/annuaire/details.html:44 templates/annuaire/details_frame.html:54
+#: templates/annuaire/details.html:44 templates/annuaire/details_frame.html:52
 #: templates/annuaire/edit.html:71
 msgid "children"
 msgstr ""
 
-#: templates/annuaire/details.html:84 templates/annuaire/details_frame.html:94
+#: templates/annuaire/details.html:84 templates/annuaire/details_frame.html:92
 #: templates/annuaire/edit.html:235 templates/manage/user_details.html:34
 msgid "on"
 msgstr ""
 
 #: templates/annuaire/details.html:103
-#: templates/annuaire/details_frame.html:113
+#: templates/annuaire/details_frame.html:111
 msgid "AIn7 activity"
 msgstr ""
 
 #: templates/annuaire/details.html:114
-#: templates/annuaire/details_frame.html:124 templates/annuaire/edit.html:287
+#: templates/annuaire/details_frame.html:122 templates/annuaire/edit.html:287
 msgid "Current professional experiences"
 msgstr ""
 
 #: templates/annuaire/details.html:120
-#: templates/annuaire/details_frame.html:130 templates/annuaire/edit.html:292
+#: templates/annuaire/details_frame.html:128 templates/annuaire/edit.html:292
 msgid "since"
 msgstr ""
 
 #: templates/annuaire/details.html:136
-#: templates/annuaire/details_frame.html:146 templates/annuaire/edit.html:268
+#: templates/annuaire/details_frame.html:144 templates/annuaire/edit.html:268
 msgid "N7 associative activities"
 msgstr ""
 
@@ -2199,7 +2203,7 @@ msgstr ""
 msgid "Modify these data"
 msgstr ""
 
-#: templates/annuaire/details.html:155 templates/manage/contributions.html:71
+#: templates/annuaire/details.html:155 templates/manage/contributions.html:60
 msgid "See contributions"
 msgstr ""
 
@@ -2221,12 +2225,12 @@ msgstr ""
 
 #: templates/annuaire/details.html:171 templates/emploi/job_details.html:61
 #: templates/evenements/details.html:58 templates/groupes/details.html:51
-#: templates/groupes/edit.html:56 templates/groupes/subscribe.html:25
+#: templates/groupes/edit.html:41 templates/groupes/subscribe.html:25
 #: templates/groupes_regionaux/details.html:61
-#: templates/groupes_regionaux/edit.html:55
-#: templates/groupes_regionaux/edit_roles.html:157
+#: templates/groupes_regionaux/edit.html:40
+#: templates/groupes_regionaux/edit_roles.html:139
 #: templates/manage/office_details.html:118
-#: templates/manage/office_merge.html:67
+#: templates/manage/office_merge.html:54
 #: templates/manage/organization_details.html:132
 #: templates/manage/organization_merge.html:55
 #: templates/manage/user_details.html:88 templates/voyages/details.html:92
@@ -2237,10 +2241,10 @@ msgstr ""
 #: templates/evenements/details.html:61 templates/groupes/details.html:54
 #: templates/groupes/subscribe.html:28
 #: templates/groupes_regionaux/details.html:64
-#: templates/groupes_regionaux/edit.html:58
-#: templates/groupes_regionaux/edit_roles.html:160
+#: templates/groupes_regionaux/edit.html:43
+#: templates/groupes_regionaux/edit_roles.html:142
 #: templates/manage/office_details.html:122
-#: templates/manage/office_merge.html:70
+#: templates/manage/office_merge.html:57
 #: templates/manage/organization_details.html:135
 #: templates/manage/organization_merge.html:58
 #: templates/manage/user_details.html:91 templates/voyages/details.html:95
@@ -2251,10 +2255,10 @@ msgstr ""
 #: templates/evenements/details.html:62 templates/groupes/details.html:55
 #: templates/groupes/subscribe.html:29
 #: templates/groupes_regionaux/details.html:65
-#: templates/groupes_regionaux/edit.html:59
-#: templates/groupes_regionaux/edit_roles.html:161
+#: templates/groupes_regionaux/edit.html:44
+#: templates/groupes_regionaux/edit_roles.html:143
 #: templates/manage/office_details.html:125
-#: templates/manage/office_merge.html:72
+#: templates/manage/office_merge.html:59
 #: templates/manage/organization_details.html:136
 #: templates/manage/organization_merge.html:59
 #: templates/manage/user_details.html:92 templates/voyages/details.html:96
@@ -2326,7 +2330,7 @@ msgstr ""
 #: templates/annuaire/edit.html:284 templates/emploi/cv_edit.html:86
 #: templates/emploi/cv_edit.html.py:107 templates/emploi/cv_edit.html:132
 #: templates/emploi/cv_edit.html.py:154
-#: templates/groupes_regionaux/edit_roles.html:119
+#: templates/groupes_regionaux/edit_roles.html:101
 #: templates/manage/role_details.html:21 templates/manage/role_details.html:29
 #: templates/sondages/details.html:44
 msgid "Add"
@@ -2348,33 +2352,33 @@ msgstr ""
 msgid "Web sites"
 msgstr ""
 
-#: templates/annuaire/edit.html:315 templates/annuaire/edit_form.html:50
-#: templates/annuaire/search.html:76
+#: templates/annuaire/edit.html:315 templates/annuaire/edit_form.html:31
+#: templates/annuaire/search.html:65
 msgid "Advanced Search"
 msgstr ""
 
-#: templates/annuaire/edit_form.html:38 templates/emploi/job_edit.html:32
-#: templates/emploi/job_register.html:22 templates/evenements/edit.html:36
+#: templates/annuaire/edit_form.html:19 templates/emploi/job_edit.html:17
+#: templates/emploi/job_register.html:17 templates/evenements/edit.html:21
 #: templates/evenements/join.html:16 templates/evenements/subscribe.html:16
-#: templates/groupes/edit.html:32 templates/groupes/subscribe.html:17
-#: templates/groupes_regionaux/edit.html:31
-#: templates/groupes_regionaux/edit_roles.html:74
-#: templates/groupes_regionaux/edit_roles.html:113
-#: templates/manage/edit_form.html:35 templates/manage/notification.html:28
-#: templates/manage/proposal_edit_office.html:94
-#: templates/manage/proposal_edit_organization.html:75
-#: templates/manage/proposal_register.html:31
-#: templates/manage/role_perm_add.html:27
-#: templates/manage/role_user_add.html:26 templates/voyages/edit.html:40
-#: templates/voyages/join.html:29
+#: templates/groupes/edit.html:17 templates/groupes/subscribe.html:17
+#: templates/groupes_regionaux/edit.html:16
+#: templates/groupes_regionaux/edit_roles.html:56
+#: templates/groupes_regionaux/edit_roles.html:95
+#: templates/manage/edit_form.html:13 templates/manage/notification.html:15
+#: templates/manage/proposal_edit_office.html:81
+#: templates/manage/proposal_edit_organization.html:62
+#: templates/manage/proposal_register.html:18
+#: templates/manage/role_perm_add.html:16
+#: templates/manage/role_user_add.html:15 templates/voyages/edit.html:23
+#: templates/voyages/join.html:17
 msgid "Cancel"
 msgstr ""
 
-#: templates/annuaire/search.html:69
+#: templates/annuaire/search.html:58
 msgid "Register a member"
 msgstr ""
 
-#: templates/annuaire/sendmail.html:13 templates/annuaire/sendmail.html:21
+#: templates/annuaire/sendmail.html:8 templates/annuaire/sendmail.html:16
 msgid "Send mail"
 msgstr ""
 
@@ -2458,11 +2462,11 @@ msgstr ""
 msgid "Leisure activities"
 msgstr ""
 
-#: templates/emploi/education_edit.html:23
+#: templates/emploi/education_edit.html:11
 msgid "Modification of an education item"
 msgstr ""
 
-#: templates/emploi/education_edit.html:25
+#: templates/emploi/education_edit.html:13
 msgid "Creation of an education item"
 msgstr ""
 
@@ -2497,9 +2501,9 @@ msgstr ""
 #: templates/emploi/job_details.html:69 templates/evenements/base.html:21
 #: templates/evenements/details.html:49
 #: templates/evenements/participants.html:29
-#: templates/manage/organizations_search.html:84
-#: templates/pages/association.html:111 templates/voyages/details.html:79
-#: templates/voyages/join.html:38 templates/voyages/participants.html:42
+#: templates/manage/organizations_search.html:72
+#: templates/pages/association.html:114 templates/voyages/details.html:79
+#: templates/voyages/join.html:26 templates/voyages/participants.html:42
 #: templates/voyages/responsibles.html:41
 msgid "Statistics"
 msgstr ""
@@ -2512,20 +2516,20 @@ msgstr ""
 msgid "times"
 msgstr ""
 
-#: templates/emploi/job_edit.html:25
+#: templates/emploi/job_edit.html:10
 msgid "Edit Job Offer"
 msgstr ""
 
-#: templates/emploi/job_register.html:15
+#: templates/emploi/job_register.html:10
 msgid "Job offer registration"
 msgstr ""
 
-#: templates/emploi/job_register.html:23 templates/evenements/edit.html:37
+#: templates/emploi/job_register.html:18 templates/evenements/edit.html:22
 #: templates/evenements/join.html:17 templates/evenements/subscribe.html:17
 #: templates/groupes/subscribe.html:18
-#: templates/manage/organization_edit.html:31
-#: templates/manage/proposal_register.html:32 templates/news/edit.html:32
-#: templates/voyages/join.html:30
+#: templates/manage/organization_edit.html:18
+#: templates/manage/proposal_register.html:19 templates/news/edit.html:20
+#: templates/voyages/join.html:18
 msgid "Register"
 msgstr ""
 
@@ -2534,7 +2538,7 @@ msgid "Job Offer Search"
 msgstr ""
 
 #: templates/emploi/job_search.html:22 templates/evenements/search.html:20
-#: templates/news/search.html:33 templates/voyages/search.html:19
+#: templates/news/search.html:20 templates/voyages/search.html:19
 msgid "Research result"
 msgstr ""
 
@@ -2542,11 +2546,11 @@ msgstr ""
 msgid "No job offer correspond to your research"
 msgstr ""
 
-#: templates/emploi/leisure_edit.html:23
+#: templates/emploi/leisure_edit.html:11
 msgid "Modification of a leisure item"
 msgstr ""
 
-#: templates/emploi/leisure_edit.html:25
+#: templates/emploi/leisure_edit.html:13
 msgid "Creation of a leisure item"
 msgstr ""
 
@@ -2575,7 +2579,7 @@ msgid "Past N7 employees"
 msgstr ""
 
 #: templates/emploi/organization_edit.html:37
-#: templates/groupes/details.html:46 templates/groupes/edit.html:52
+#: templates/groupes/details.html:46 templates/groupes/edit.html:37
 msgid "Edit these data."
 msgstr ""
 
@@ -2596,19 +2600,19 @@ msgstr ""
 msgid "Add an office"
 msgstr ""
 
-#: templates/emploi/position_edit.html:23
+#: templates/emploi/position_edit.html:11
 msgid "Modification of a position"
 msgstr ""
 
-#: templates/emploi/position_edit.html:25
+#: templates/emploi/position_edit.html:13
 msgid "Creation of a position"
 msgstr ""
 
-#: templates/emploi/publication_edit.html:23
+#: templates/emploi/publication_edit.html:11
 msgid "Modification of a publication or patent"
 msgstr ""
 
-#: templates/emploi/publication_edit.html:25
+#: templates/emploi/publication_edit.html:13
 msgid "Creation of a publication or patent"
 msgstr ""
 
@@ -2666,21 +2670,21 @@ msgstr ""
 msgid "persons are subscribed to this event"
 msgstr ""
 
-#: templates/evenements/edit.html:23 templates/evenements/edit.html.py:46
+#: templates/evenements/edit.html:8 templates/evenements/edit.html.py:31
 #: templates/evenements/index.html:43 templates/evenements/search.html:51
 msgid "Register an event"
 msgstr ""
 
-#: templates/evenements/edit.html:33
+#: templates/evenements/edit.html:18
 msgid "Delete the image of this event."
 msgstr ""
 
-#: templates/evenements/edit.html:47 templates/evenements/index.html:44
+#: templates/evenements/edit.html:32 templates/evenements/index.html:44
 #: templates/evenements/search.html:52
 msgid "Search an event"
 msgstr ""
 
-#: templates/evenements/edit.html:48 templates/evenements/index.html:45
+#: templates/evenements/edit.html:33 templates/evenements/index.html:45
 #: templates/evenements/search.html:53
 msgid "Subscribe iCal"
 msgstr ""
@@ -2747,19 +2751,19 @@ msgstr ""
 msgid "Group presentation"
 msgstr ""
 
-#: templates/groupes/details.html:28 templates/groupes/edit.html:40
+#: templates/groupes/details.html:28 templates/groupes/edit.html:25
 msgid "General informations"
 msgstr ""
 
-#: templates/groupes/details.html:33 templates/groupes/edit.html:45
+#: templates/groupes/details.html:33 templates/groupes/edit.html:30
 msgid "Coordinator"
 msgstr ""
 
-#: templates/groupes/edit.html:59
+#: templates/groupes/edit.html:44
 msgid "Creation date"
 msgstr ""
 
-#: templates/groupes/edit.html:60
+#: templates/groupes/edit.html:45
 msgid "Modification date"
 msgstr ""
 
@@ -2768,22 +2772,22 @@ msgid "No group is defined."
 msgstr ""
 
 #: templates/groupes_regionaux/details.html:14
-#: templates/groupes_regionaux/edit_roles.html:30
+#: templates/groupes_regionaux/edit_roles.html:12
 msgid "Board Members"
 msgstr ""
 
 #: templates/groupes_regionaux/details.html:35
-#: templates/groupes_regionaux/edit_roles.html:133
+#: templates/groupes_regionaux/edit_roles.html:115
 msgid "Join the group"
 msgstr ""
 
 #: templates/groupes_regionaux/details.html:37
-#: templates/groupes_regionaux/edit_roles.html:135
+#: templates/groupes_regionaux/edit_roles.html:117
 msgid "Quit the group"
 msgstr ""
 
 #: templates/groupes_regionaux/details.html:40
-#: templates/groupes_regionaux/edit_roles.html:138
+#: templates/groupes_regionaux/edit_roles.html:120
 msgid "Edit group informations"
 msgstr ""
 
@@ -2792,39 +2796,39 @@ msgid "Edit roles of this group"
 msgstr ""
 
 #: templates/groupes_regionaux/details.html:52
-#: templates/groupes_regionaux/edit.html:46
-#: templates/groupes_regionaux/edit_roles.html:148
+#: templates/groupes_regionaux/edit.html:31
+#: templates/groupes_regionaux/edit_roles.html:130
 #, python-format
 msgid "From %(start_date)s to %(end_date)s at %(place)s"
 msgstr ""
 
-#: templates/groupes_regionaux/edit_roles.html:33
+#: templates/groupes_regionaux/edit_roles.html:15
 msgid "All members (including past ones) of the board are displayed. Click"
 msgstr ""
 
-#: templates/groupes_regionaux/edit_roles.html:33
-#: templates/groupes_regionaux/edit_roles.html:35
+#: templates/groupes_regionaux/edit_roles.html:15
+#: templates/groupes_regionaux/edit_roles.html:17
 #: templates/manage/user_details.html:56
 msgid "here"
 msgstr ""
 
-#: templates/groupes_regionaux/edit_roles.html:33
+#: templates/groupes_regionaux/edit_roles.html:15
 msgid "to display only current ones."
 msgstr ""
 
-#: templates/groupes_regionaux/edit_roles.html:35
+#: templates/groupes_regionaux/edit_roles.html:17
 msgid "Only current members of the board are displayed. Click"
 msgstr ""
 
-#: templates/groupes_regionaux/edit_roles.html:35
+#: templates/groupes_regionaux/edit_roles.html:17
 msgid "to display past members too."
 msgstr ""
 
-#: templates/groupes_regionaux/edit_roles.html:53
+#: templates/groupes_regionaux/edit_roles.html:35
 msgid "Modify dates"
 msgstr ""
 
-#: templates/groupes_regionaux/edit_roles.html:87
+#: templates/groupes_regionaux/edit_roles.html:69
 msgid "Add a"
 msgstr ""
 
@@ -2836,63 +2840,63 @@ msgstr ""
 msgid "No regional group."
 msgstr ""
 
-#: templates/manage/contributions.html:55
+#: templates/manage/contributions.html:44
 msgid "No contribution matched your criteria."
 msgstr ""
 
-#: templates/manage/contributions.html:67 templates/manage/default.html:117
+#: templates/manage/contributions.html:56 templates/manage/default.html:117
 #: templates/manage/office_details.html:96
-#: templates/manage/office_merge.html:51
+#: templates/manage/office_merge.html:38
 #: templates/manage/organization_details.html:113
-#: templates/manage/organization_edit.html:42
+#: templates/manage/organization_edit.html:29
 #: templates/manage/organization_merge.html:38
-#: templates/manage/organizations_search.html:69
+#: templates/manage/organizations_search.html:57
 #: templates/manage/permission_details.html:47
 #: templates/manage/permissions.html:39
-#: templates/manage/proposal_register.html:43
+#: templates/manage/proposal_register.html:30
 #: templates/manage/role_details.html:40 templates/manage/role_search.html:55
 #: templates/manage/user_details.html:68 templates/manage/users_search.html:55
 msgid "Manage users"
 msgstr ""
 
-#: templates/manage/contributions.html:68 templates/manage/default.html:118
+#: templates/manage/contributions.html:57 templates/manage/default.html:118
 #: templates/manage/office_details.html:97
-#: templates/manage/office_merge.html:52
+#: templates/manage/office_merge.html:39
 #: templates/manage/organization_details.html:114
-#: templates/manage/organization_edit.html:43
+#: templates/manage/organization_edit.html:30
 #: templates/manage/organization_merge.html:39
 #: templates/manage/permission_details.html:48
-#: templates/manage/proposal_register.html:44
+#: templates/manage/proposal_register.html:31
 #: templates/manage/role_details.html:41 templates/manage/role_search.html:56
 #: templates/manage/user_details.html:69 templates/manage/users_search.html:56
 msgid "Manage roles"
 msgstr ""
 
-#: templates/manage/contributions.html:69 templates/manage/default.html:119
+#: templates/manage/contributions.html:58 templates/manage/default.html:119
 #: templates/manage/office_details.html:98
-#: templates/manage/office_merge.html:53
+#: templates/manage/office_merge.html:40
 #: templates/manage/organization_details.html:115
-#: templates/manage/organization_edit.html:44
+#: templates/manage/organization_edit.html:31
 #: templates/manage/organization_merge.html:40
-#: templates/manage/organizations_search.html:71
+#: templates/manage/organizations_search.html:59
 #: templates/manage/permission_details.html:49
 #: templates/manage/permissions.html:41
-#: templates/manage/proposal_register.html:45
+#: templates/manage/proposal_register.html:32
 #: templates/manage/role_details.html:42 templates/manage/role_search.html:57
 #: templates/manage/user_details.html:70 templates/manage/users_search.html:57
 msgid "Manage permissions"
 msgstr ""
 
-#: templates/manage/contributions.html:70 templates/manage/default.html:120
+#: templates/manage/contributions.html:59 templates/manage/default.html:120
 #: templates/manage/office_details.html:99
-#: templates/manage/office_merge.html:54
+#: templates/manage/office_merge.html:41
 #: templates/manage/organization_details.html:116
-#: templates/manage/organization_edit.html:45
+#: templates/manage/organization_edit.html:32
 #: templates/manage/organization_merge.html:41
-#: templates/manage/organizations_search.html:72
+#: templates/manage/organizations_search.html:60
 #: templates/manage/permission_details.html:50
 #: templates/manage/permissions.html:42
-#: templates/manage/proposal_register.html:46
+#: templates/manage/proposal_register.html:33
 #: templates/manage/role_details.html:43 templates/manage/role_search.html:58
 #: templates/manage/user_details.html:71 templates/manage/users_search.html:58
 msgid "Manage organizations"
@@ -2979,7 +2983,7 @@ msgid ""
 msgstr ""
 
 #: templates/manage/office_details.html:108
-#: templates/manage/office_merge.html:63
+#: templates/manage/office_merge.html:50
 #: templates/manage/organization_details.html:128
 msgid "Register a new office"
 msgstr ""
@@ -2992,19 +2996,19 @@ msgstr ""
 msgid "Merge this office"
 msgstr ""
 
-#: templates/manage/office_merge.html:26
+#: templates/manage/office_merge.html:13
 #: templates/manage/organization_merge.html:13
 msgid "Organizations merging"
 msgstr ""
 
-#: templates/manage/office_merge.html:29
+#: templates/manage/office_merge.html:16
 #, python-format
 msgid ""
 "This procedure will replace all the references to the office <em>%(office)s</"
 "em> by references of another office, and then remove <em>%(office)s</em>."
 msgstr ""
 
-#: templates/manage/office_merge.html:31
+#: templates/manage/office_merge.html:18
 msgid "Please choose this second office."
 msgstr ""
 
@@ -3034,9 +3038,9 @@ msgstr ""
 msgid "Merge this organization"
 msgstr ""
 
-#: templates/manage/organization_edit.html:53
-#: templates/manage/organizations_search.html:80
-#: templates/manage/proposal_register.html:54
+#: templates/manage/organization_edit.html:40
+#: templates/manage/organizations_search.html:68
+#: templates/manage/proposal_register.html:41
 msgid "Register organization"
 msgstr ""
 
@@ -3056,12 +3060,12 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
-#: templates/manage/organizations_search.html:70
+#: templates/manage/organizations_search.html:58
 #: templates/manage/permissions.html:40
 msgid "Manage groups"
 msgstr ""
 
-#: templates/manage/organizations_search.html:87
+#: templates/manage/organizations_search.html:75
 msgid "organizations"
 msgstr ""
 
@@ -3085,26 +3089,26 @@ msgstr ""
 msgid "Register permission"
 msgstr ""
 
-#: templates/manage/proposal_edit_office.html:23
+#: templates/manage/proposal_edit_office.html:10
 msgid "Proposal of office modification"
 msgstr ""
 
-#: templates/manage/proposal_edit_office.html:30
-#: templates/manage/proposal_edit_organization.html:30
+#: templates/manage/proposal_edit_office.html:17
+#: templates/manage/proposal_edit_organization.html:17
 msgid "Current values"
 msgstr ""
 
-#: templates/manage/proposal_edit_office.html:31
-#: templates/manage/proposal_edit_organization.html:31
+#: templates/manage/proposal_edit_office.html:18
+#: templates/manage/proposal_edit_organization.html:18
 msgid "Proposed modifications"
 msgstr ""
 
-#: templates/manage/proposal_edit_office.html:95
-#: templates/manage/proposal_edit_organization.html:76
+#: templates/manage/proposal_edit_office.html:82
+#: templates/manage/proposal_edit_organization.html:63
 msgid "Accept"
 msgstr ""
 
-#: templates/manage/proposal_edit_organization.html:23
+#: templates/manage/proposal_edit_organization.html:10
 msgid "Proposal of organization modification"
 msgstr ""
 
@@ -3140,7 +3144,7 @@ msgstr ""
 msgid "Edit this news"
 msgstr ""
 
-#: templates/news/edit.html:31
+#: templates/news/edit.html:19
 msgid "Delete the image for this news item."
 msgstr ""
 
@@ -3160,11 +3164,11 @@ msgstr ""
 msgid "Search a news"
 msgstr ""
 
-#: templates/news/search.html:21
+#: templates/news/search.html:8
 msgid "News Search"
 msgstr ""
 
-#: templates/news/search.html:53
+#: templates/news/search.html:40
 msgid "No news item corresponds to your research."
 msgstr ""
 
@@ -3176,55 +3180,55 @@ msgstr ""
 msgid "To associate an image to this news, modify it after its creation."
 msgstr ""
 
-#: templates/pages/association.html:101 templates/pages/homepage.html:90
+#: templates/pages/association.html:104 templates/pages/homepage.html:93
 msgid "Links"
 msgstr ""
 
-#: templates/pages/association.html:104
+#: templates/pages/association.html:107
 msgid "Overview"
 msgstr ""
 
-#: templates/pages/association.html:105
+#: templates/pages/association.html:108
 msgid "Statuts"
 msgstr ""
 
-#: templates/pages/association.html:106
+#: templates/pages/association.html:109
 msgid "Board"
 msgstr ""
 
-#: templates/pages/association.html:107
+#: templates/pages/association.html:110
 msgid "Council"
 msgstr ""
 
-#: templates/pages/association.html:114
+#: templates/pages/association.html:117
 msgid "Number of diplomas"
 msgstr ""
 
-#: templates/pages/association.html:115
+#: templates/pages/association.html:118
 msgid "Number of subscribers"
 msgstr ""
 
-#: templates/pages/homepage.html:9
+#: templates/pages/homepage.html:12
 msgid "Presentation"
 msgstr ""
 
-#: templates/pages/homepage.html:57
+#: templates/pages/homepage.html:60
 msgid "News"
 msgstr ""
 
-#: templates/pages/homepage.html:60
+#: templates/pages/homepage.html:63
 msgid "All news"
 msgstr ""
 
-#: templates/pages/homepage.html:74 templates/sondages/details.html:13
+#: templates/pages/homepage.html:77 templates/sondages/details.html:13
 msgid "Survey"
 msgstr ""
 
-#: templates/pages/homepage.html:77
+#: templates/pages/homepage.html:80
 msgid "Surveys history"
 msgstr ""
 
-#: templates/pages/homepage.html:85
+#: templates/pages/homepage.html:88
 msgid "Results"
 msgstr ""
 
@@ -3340,7 +3344,7 @@ msgstr ""
 msgid "Delete this travel"
 msgstr ""
 
-#: templates/voyages/details.html:84 templates/voyages/join.html:44
+#: templates/voyages/details.html:84 templates/voyages/join.html:32
 #: templates/voyages/participants.html:47
 #: templates/voyages/responsibles.html:46
 #, python-format
@@ -3349,21 +3353,21 @@ msgid_plural "%(counter)s persons are subscribed to this travel"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/voyages/details.html:86 templates/voyages/join.html:46
+#: templates/voyages/details.html:86 templates/voyages/join.html:34
 #: templates/voyages/participants.html:49
 #: templates/voyages/responsibles.html:48
 msgid "There is currently no subscription for this travel"
 msgstr ""
 
-#: templates/voyages/edit.html:26
+#: templates/voyages/edit.html:9
 msgid "Creation of a new travel"
 msgstr ""
 
-#: templates/voyages/edit.html:27
+#: templates/voyages/edit.html:10
 msgid "Edit travel"
 msgstr ""
 
-#: templates/voyages/edit.html:37
+#: templates/voyages/edit.html:20
 msgid "Delete the thumbnail of this travel."
 msgstr ""
 

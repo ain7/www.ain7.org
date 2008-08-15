@@ -1,24 +1,6 @@
 {% extends "groupes_regionaux/base.html" %}
 {% load i18n %}
 
-{% block javascript %}{{ block.super }}
-<script type="text/javascript" src="/site_media/js/mootools-release-{{ mootools_version }}.js"></script>
-<script type="text/javascript" src="/site_media/js/autocomplete.js?version={{ portal_version }}"></script>
-<script type="text/javascript" src="/site_media/js/floatingpane.js?version={{ portal_version }}"></script>
-<!-- calendar -->
-<script type="text/javascript" src="/site_media/js/calendar/calendar.js"></script>
-<!-- this is translation file - choose your language here -->
-<script type="text/javascript" src="/site_media/js/calendar/lang/calendar-en.js"></script>
-<script type="text/javascript" src="/site_media/js/calendar/calendar-setup.js"></script>
-<!-- /calendar -->
-{% endblock %}
-
-{% block stylesheet %}{{ block.super }}
-<link type="text/css" rel="stylesheet" href="/site_media/css/autocomplete.css?version={{ portal_version }}"/>
-<link type="text/css" rel="stylesheet" href="/site_media/css/floatingpane.css?version={{ portal_version }}"/>
-<link rel="stylesheet" type="text/css" href="/site_media/js/calendar/calendar-win2k-cold-2.css" />
-{% endblock %}
-
 {% block content %}
 
 <div id="content-main">

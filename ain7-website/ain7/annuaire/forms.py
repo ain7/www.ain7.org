@@ -158,9 +158,21 @@ class SearchFilterForm(forms.ModelForm):
 
 class PersonForm(forms.ModelForm):
     sex = forms.CharField(widget=forms.Select(choices=Person.SEX))
+    birth_date = forms.DateTimeField(label=_('start').capitalize(),
+        widget=dateWidget, required=False)
+    death_date = forms.DateTimeField(label=_('end').capitalize(),
+        widget=dateWidget, required=False)
     class Meta:
         model = Person
         exclude = ('user')
+    def clean_death_date(self):
+        if self.cleaned_data.get('birth_date') and \
+            self.cleaned_data.get('death_date') and \
+            self.cleaned_data['birth_date']>self.cleaned_data['death_date']:
+            raise forms.ValidationError(_('Birth date is later than death date'))
+        return self.cleaned_data['death_date']
+
+
 
 class AIn7MemberForm(forms.ModelForm):
     class Meta:
