@@ -31,5 +31,6 @@ urlpatterns = patterns('ain7.ajax.views',
     (r'^activityfield/$', 'activityfield'),
     (r'^activitycode/$', 'activitycode'),
     (r'^permission/$', 'permission'),
+    (r'^office/$', 'office'),
 )
 

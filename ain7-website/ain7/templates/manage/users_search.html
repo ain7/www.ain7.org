@@ -17,10 +17,11 @@
 </div>
 </form>
 
-{% ifnotequal hits 0 %}
+{% ifequal request.method 'POST' %}
 
 <h2>{% trans "Results list"%}</h2>
 
+{% if persons %}
 <table width="100%">
 <tr>
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
@@ -42,7 +43,8 @@
 </ul>
 {% else %}
     <p>{% trans "No person matched your criteria." %}</p>
-{% endifnotequal %}
+{% endif %}
+{% endifequal %}
 
 </div>
 

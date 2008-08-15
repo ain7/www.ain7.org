@@ -36,6 +36,9 @@ from ain7.emploi.models import OrganizationProposal, OfficeProposal
 from ain7.manage.models import *
 from ain7.manage.forms import *
 from ain7.emploi.forms import OrganizationForm, OfficeForm, OfficeFormNoOrg
+from ain7.annuaire.forms import PersonForm
+from ain7.annuaire.models import *
+from ain7.annuaire.forms import *
 
 @login_required
 def index(request):
@@ -63,7 +66,7 @@ def users_search(request):
                 raise http.Http404
 
     return ain7_render_to_response(request, 'manage/users_search.html',
-        {'form': form, 'persons': persons,
+        {'form': form, 'persons': persons, 'request': request,
          'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
          'has_next': paginator.page(page).has_next(),
          'has_previous': paginator.page(page).has_previous(),
@@ -100,6 +103,27 @@ def user_register(request):
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'manage/edit_form.html',
         {'action_title': _('Register new user'), 'back': back, 'form': form})
+
+@login_required 
+def user_edit(request, user_id=None): 
+ 
+    p = get_object_or_404(Person, pk=user_id) 
+    return ain7_render_to_response(request, 'manage/user_edit.html', 
+                            {'person': p}) 
+
+@login_required
+def user_person_edit(request, user_id=None):
+
+    person = None
+    if user_id:
+        person = Person.objects.get(user=user_id)
+    return ain7_generic_edit(
+        request, person, PersonForm, {'user': person.user},
+        'manage/edit_form.html',
+        {'action_title': _("Modification of personal data for"),
+         'person': person, 'back': request.META.get('HTTP_REFERER', '/')}, {},
+        '/manage/user/%s/edit' % (person.user.id),
+        _("Modifications have been successfully saved."))
 
 @login_required
 def organizations_search(request):
@@ -748,3 +772,87 @@ def notification_delete(request, notif_id):
     request.user.message_set.create(
         message=_("The notification has been successfully removed."))
     return HttpResponseRedirect('/manage/')
+
+# Adresses
+@login_required
+def user_address_edit(request, user_id=None, address_id=None):
+
+    person = get_object_or_404(Person, user=user_id)
+    address = None
+    title = _('Creation of an address for')
+    msgDone = _('Address successfully added.')
+    if address_id:
+        address = get_object_or_404(Address, pk=address_id)
+        title = _('Modification of an address for')
+        msgDone = _('Address informations updated successfully.')
+    return ain7_generic_edit(
+        request, address, AddressForm, {'person': person},
+        'manage/edit_form.html',
+        {'action_title': title, 'person': person,
+         'back': request.META.get('HTTP_REFERER', '/')}, {},
+        '/manage/users/%s/edit/#address' % user_id, msgDone)
+
+@confirmation_required(lambda user_id=None, address_id=None : str(get_object_or_404(Address, pk=address_id)), 'manage/base.html', _('Do you really want to delete your address'))
+@login_required
+def user_address_delete(request, user_id=None, address_id=None):
+
+    return ain7_generic_delete(request,
+        get_object_or_404(Address, pk=address_id),
+        '/manage/users/%s/edit/#address' % user_id,
+        _('Address successfully deleted.'))
+
+# Numeros de telephone
+@login_required
+def user_phone_edit(request, user_id=None, phone_id=None):
+
+    person = get_object_or_404(Person, user=user_id)
+    phone = None
+    title = _('Creation of a phone number for')
+    msgDone = _('Phone number added successfully.')
+    if phone_id:
+        phone = get_object_or_404(PhoneNumber, pk=phone_id)
+        title = _('Modification of a phone number for')
+        msgDone = _('Phone number informations updated successfully.')
+    return ain7_generic_edit(
+        request, phone, PhoneNumberForm, {'person': person},
+        'manage/edit_form.html',
+        {'action_title': title, 'person': person,
+         'back': request.META.get('HTTP_REFERER', '/')}, {},
+        '/manage/users/%s/edit/#phone' % user_id, msgDone)
+
+@confirmation_required(lambda user_id=None, phone_id=None : str(get_object_or_404(PhoneNumber, pk=phone_id)), 'manage/base.html', _('Do you really want to delete your phone number'))
+@login_required
+def user_phone_delete(request, user_id=None, phone_id=None):
+
+    return ain7_generic_delete(request,
+        get_object_or_404(PhoneNumber, pk=phone_id),
+        '/manage/users/%s/edit/#phone' % user_id,
+        _('Phone number successfully deleted.'))
+
+# Adresses de courriel
+@login_required
+def user_email_edit(request, user_id=None, email_id=None):
+
+    person = get_object_or_404(Person, user=user_id)
+    email = None
+    title = _('Creation of an email address for')
+    msgDone = _('Email address successfully added.')
+    if email_id:
+        email = get_object_or_404(Email, pk=email_id)
+        title = _('Modification of an email address for')
+        msgDone = _('Email informations updated successfully.')
+    return ain7_generic_edit(
+        request, email, EmailForm, {'person': person},
+        'manage/edit_form.html',
+        {'action_title': title, 'person': person,
+         'back': request.META.get('HTTP_REFERER', '/')}, {},
+        '/manage/users/%s/edit/#email' % user_id, msgDone)
+
+@confirmation_required(lambda user_id=None, email_id=None : str(get_object_or_404(Email, pk=email_id)), 'manage/base.html', _('Do you really want to delete your email address'))
+@login_required
+def user_email_delete(request, user_id=None, email_id=None):
+
+    return ain7_generic_delete(request, get_object_or_404(Email, pk=email_id),
+                               '/manage/users/%s/edit/#email' % user_id,
+                               _('Email address successfully deleted.'))
+ 

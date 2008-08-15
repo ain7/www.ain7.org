@@ -164,10 +164,9 @@ class OfficeFormNoOrg(forms.ModelForm):
         exclude = ('is_a_proposal', 'is_valid', 'organization')
 
 class PositionForm(forms.ModelForm):
-    start_date = forms.DateTimeField(label=_('start date').capitalize(),
-        widget=dateWidget)
-    end_date = forms.DateTimeField(label=_('end date').capitalize(),
-        widget=dateWidget)
+    start_date = forms.DateTimeField(label=_('start date').capitalize(),widget=dateWidget)
+    end_date = forms.DateTimeField(label=_('end date').capitalize(), widget=dateWidget)
+    office = forms.IntegerField(label=_('Office'), required=False, widget=AutoCompleteField(url='/ajax/office/'))
     
     class Meta:
         model = Position
@@ -181,10 +180,8 @@ class PositionForm(forms.ModelForm):
         return self.cleaned_data['end_date']
 
 class EducationItemForm(forms.ModelForm):
-    start_date = forms.DateTimeField(label=_('start date').capitalize(),
-        widget=dateWidget)
-    end_date = forms.DateTimeField(label=_('end date').capitalize(),
-        widget=dateWidget)
+    start_date = forms.DateTimeField(label=_('start date').capitalize(),widget=dateWidget)
+    end_date = forms.DateTimeField(label=_('end date').capitalize(),widget=dateWidget)
 
     class Meta:
         model = EducationItem
@@ -204,9 +201,9 @@ class LeisureItemForm(forms.ModelForm):
         exclude = ('ain7member')
 
 class PublicationItemForm(forms.ModelForm):
-    date = forms.DateTimeField(label=_('date').capitalize(),
-        widget=dateWidget)
+    date = forms.DateTimeField(label=_('date').capitalize(),widget=dateWidget)
 
     class Meta:
         model = PublicationItem
         exclude = ('ain7member')
+

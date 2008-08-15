@@ -23,7 +23,7 @@
 from datetime import date, datetime, timedelta
 
 from django.core import validators
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.sites.models import Site
 
 import ain7.annuaire.models as annuaire
@@ -134,32 +134,6 @@ def filldb():
     england = annuaire.Country(name=u"Angleterre", nationality=u"Anglaise")
     england.save()
 
-    # Profiles
-    profile_n7 = annuaire.Profile()
-    profile_n7.name = "n7"
-    profile_n7.description = u"Élève actuel ou passé"
-    profile_n7.save()
-
-    profile_demo = annuaire.Profile()
-    profile_demo.name = "demo"
-    profile_demo.description = u"Compte utilisé pour les démonstrations"
-    profile_demo.save()
-
-    profile_secretaire = annuaire.Profile()
-    profile_secretaire.name = u"secretaire"
-    profile_secretaire.description = u"Secrétaire AIn7"
-    profile_secretaire.save()
-
-    profile_admin = annuaire.Profile()
-    profile_admin.name = u"admin"
-    profile_admin.description = u"Administrateur du site"
-    profile_admin.save()
-
-    profile_recruteur = annuaire.Profile()
-    profile_recruteur.name = u"recruteur"
-    profile_recruteur.description = u"Recruteur (contact entreprise)"
-    profile_recruteur.save()
-
     # Diplomas
     bac = annuaire.Diploma(diploma=u"Baccalauréat", initials=u"Bac")
     bac.save()
@@ -197,7 +171,6 @@ def filldb():
     n7tr.save()
 
     annuaire.Track(name=u"Electrotechnique", initials="", school=n7).save()
-    annuaire.Track(name=u"Hydraulique", initials="", school=n7).save()
     annuaire.Track(name=u"Mathématiques Appliquées", initials="", school=n7).save()
     annuaire.Track(name=u"Automatique", initials="", school=n7).save()
     annuaire.Track(name=u"Automatique Avancée", initials="", school=n7).save()
@@ -205,7 +178,6 @@ def filldb():
     annuaire.Track(name=u"Méthodes & Applications Avancées en IN option F", initials="", school=n7).save()
     annuaire.Track(name=u"Electrotechnique option Electronique Industrielle", initials="", school=n7).save()
     annuaire.Track(name=u"Systèmes de Communication & des Réseaux", initials="", school=n7).save()
-    annuaire.Track(name=u"Informatique", initials="", school=n7).save()
     annuaire.Track(name=u"Electrotechnique & Electronique de Puissance", initials="", school=n7).save()
     annuaire.Track(name=u"Méthodes & Applications Avancées en Informatiqi.", initials="", school=n7).save()
     annuaire.Track(name=u"Génie Energétique des Equipements Industriels", initials="", school=n7).save()
@@ -213,10 +185,7 @@ def filldb():
     annuaire.Track(name=u"Méthodes & Applications Avancées en IN option II", initials="", school=n7).save()
     annuaire.Track(name=u"Electronique de Puissance Avancée", initials="", school=n7).save()
     annuaire.Track(name=u"Méthodes & Applications Avancées en IN option?", initials="", school=n7).save()
-    annuaire.Track(name=u"Télécommunications et Réseaux", initials="", school=n7).save()
     annuaire.Track(name=u"Section Spéciale Calcul Scientifique à Haute Performance", initials="", school=n7).save()
-    annuaire.Track(name=u"Informatique et Mathématiques Appliquées", initials="", school=n7).save()
-    annuaire.Track(name=u"Hydraulique et Mécanique des Fluides", initials="", school=n7).save()
     annuaire.Track(name=u"Electronique et Traitement du Signal", initials="", school=n7).save()
     annuaire.Track(name=u"Génie Electrique et Automatique", initials="", school=n7).save()
     annuaire.Track(name=u"Section Spéciale Calcul Scientifique à Haute Performance", initials="", school=n7).save()
@@ -260,8 +229,6 @@ def filldb():
     y2008 = annuaire.PromoYear(year='2008')
     y2008.save()
 
-    print y2006
-
     n7hy2006 = annuaire.Promo(year=y2006, track=n7hydro)
     n7hy2006.save()
 
@@ -290,10 +257,13 @@ def filldb():
     priceminister = emploi.Office(name=u"PriceMinister", organization=babelstore)
     priceminister.save()
 
-    anyware = emploi.Organization(name=u"Anyware", activity_field=infofield)
+    anyware = emploi.Organization(name=u"Anyware Technologies", activity_field=infofield)
     anyware.save()
 
-    anywareoffice = emploi.Office(name=u"Bureau de Toulouse", organization=anyware)
+    anywareoffice = emploi.Office(name=u"Toulouse Labège", organization=anyware)
+    anywareoffice.save()
+
+    anywareoffice = emploi.Office(name=u"Paris", organization=anyware)
     anywareoffice.save()
 
     schtroumpfland = emploi.Organization(name=u"Schtroumpfland", activity_field=infofield)
@@ -306,11 +276,37 @@ def filldb():
     idfgroup = groupes_regionaux.Group(name=u"Ile de France")
     idfgroup.save()
 
+    # Groups / Roles
+    ain7_admin = Group(name='ain7-admin')
+    ain7_admin.save()
+    ain7_devel = Group(name='ain7-devel')
+    ain7_devel.save()
+    ain7_bureau = Group(name='ain7-bureau')
+    ain7_bureau.save()
+    ain7_ca = Group(name='ain7-ca')
+    ain7_ca.save()
+    ain7_secretaire = Group(name='ain7-secretaire')
+    ain7_secretaire.save()
+    ain7_membre = Group(name='ain7-membre')
+    ain7_membre.save()
+    ain7_recruteur = Group(name='ain7-recruteur')
+    ain7_recruteur.save()
+    ain7_emploi = Group(name='ain7-emploi')
+    ain7_emploi.save()
+    ain7_voyages = Group(name='ain7-voyages')
+    ain7_voyages.save()
+    ain7_externe = Group(name='ain7-externe')
+    ain7_externe.save()
+
     # Person
     lionel = annuaire.Person()
     lionel.user = User.objects.create_user("lionel", "lionel@ain7.org","lionel")
     lionel.user.is_staff = True
     lionel.user.is_superuser = True
+    lionel.user.groups.add(ain7_admin)
+    lionel.user.groups.add(ain7_devel)
+    lionel.user.groups.add(ain7_ca)
+    lionel.user.groups.add(ain7_membre)
     lionel.user.save()
     lionel.sex = 'M'
     lionel.first_name = "Lionel"
@@ -338,11 +334,6 @@ def filldb():
     lionel_ain7member.diplomas.add(bac)
     lionel_ain7member.promos.add(n7in2003)
     lionel_ain7member.save()
-
-    lionel_recrutProfile = annuaire.ProfileMembership()
-    lionel_recrutProfile.user = lionel.user
-    lionel_recrutProfile.profile = profile_recruteur
-    lionel_recrutProfile.save()
 
     lionel_adresse = annuaire.Address()
     lionel_adresse.person = lionel
@@ -403,7 +394,6 @@ def filldb():
     lionel_irc2.channels = "#hive, #ubuntu-motu, #ubuntu-server"
     lionel_irc2.save()
 
-
     lionel_position1 = emploi.Position()
     lionel_position1.ain7member = lionel_ain7member
     lionel_position1.office = anywareoffice
@@ -458,6 +448,9 @@ def filldb():
     pierref.user = User.objects.create_user("pierref", "pierre.fersing@inp-net.eu.org","pierref")
     pierref.user.is_staff = True
     pierref.user.is_superuser = True
+    pierref.user.groups.add(ain7_admin)
+    pierref.user.groups.add(ain7_devel)
+    pierref.user.groups.add(ain7_membre)
     pierref.user.save()
     pierref.sex = 'M'
     pierref.first_name = "Pierre"
@@ -482,11 +475,6 @@ def filldb():
     pierref_ain7member.promos.add(n7in2008)
     pierref_ain7member.save()
 
-    pierref_recrutProfile = annuaire.ProfileMembership()
-    pierref_recrutProfile.user = pierref.user
-    pierref_recrutProfile.profile = profile_recruteur
-    pierref_recrutProfile.save()
-
     pierref_adresse = annuaire.Address()
     pierref_adresse.person = pierref
     pierref_adresse.line1 = "2 rue Charles Camichel"
@@ -507,6 +495,9 @@ def filldb():
     olivier.user = User.objects.create_user("gauwino", "olivier.gauwin@laposte.net","gauwino")
     olivier.user.is_staff = True
     olivier.user.is_superuser = True
+    olivier.user.groups.add(ain7_admin)
+    olivier.user.groups.add(ain7_devel)
+    olivier.user.groups.add(ain7_membre)
     olivier.user.save()
     olivier.sex = 'M'
     olivier.first_name = "Olivier"
@@ -531,16 +522,6 @@ def filldb():
     olivier_ain7member.promos.add(n7in2003)
     olivier_ain7member.receive_job_offers_for_tracks.add(n7info)
     olivier_ain7member.save()
-
-    olivier_n7profile = annuaire.ProfileMembership()
-    olivier_n7profile.user = olivier.user
-    olivier_n7profile.profile = profile_n7
-    olivier_n7profile.save()
-
-    olivier_adminprofile = annuaire.ProfileMembership()
-    olivier_adminprofile.user = olivier.user
-    olivier_adminprofile.profile = profile_admin
-    olivier_adminprofile.save()
 
     olivier_adresse = annuaire.Address()
     olivier_adresse.person = olivier
@@ -638,6 +619,9 @@ def filldb():
     alex.user = User.objects.create_user("alex", "zigouigoui.garnier@laposte.net","alex")
     alex.user.is_staff = True
     alex.user.is_superuser = True
+    alex.user.groups.add(ain7_admin)
+    alex.user.groups.add(ain7_devel)
+    alex.user.groups.add(ain7_membre)
     alex.user.save()
     alex.sex = 'M'
     alex.first_name = "Alexandre"
@@ -661,11 +645,6 @@ def filldb():
     alex_ain7member.save()
     alex_ain7member.promos.add(n7in2006)
     alex_ain7member.save()
-
-    alex_n7profile = annuaire.ProfileMembership()
-    alex_n7profile.user = alex.user
-    alex_n7profile.profile = profile_n7
-    alex_n7profile.save()
 
     alex_portable = annuaire.PhoneNumber()
     alex_portable.person = alex
@@ -704,6 +683,7 @@ def filldb():
     laurent.user = User.objects.create_user("laurent", "laurent07@gmail.com","laurent")
     laurent.user.is_staff = True
     laurent.user.is_superuser = True
+    laurent.user.groups.add(ain7_membre)
     laurent.user.save()
     laurent.sex = 'M'
     laurent.first_name = "Laurent"
@@ -727,11 +707,6 @@ def filldb():
     laurent_ain7member.save()
     laurent_ain7member.promos.add(n7tr2003)
     laurent_ain7member.save()
-
-    laurent_n7profile = annuaire.ProfileMembership()
-    laurent_n7profile.user = laurent.user
-    laurent_n7profile.profile = profile_n7
-    laurent_n7profile.save()
 
     laurent_portable = annuaire.PhoneNumber()
     laurent_portable.person = laurent
@@ -762,6 +737,7 @@ def filldb():
     gui.user = User.objects.create_user("gui", "gui@ain7.com","gui")
     gui.user.is_staff = True
     gui.user.is_superuser = True
+    gui.user.groups.add(ain7_membre)
     gui.user.save()
     gui.sex = 'M'
     gui.first_name = "Guillaume"
@@ -785,11 +761,6 @@ def filldb():
     gui_ain7member.save()
     gui_ain7member.promos.add(n7hy2003)
     gui_ain7member.save()
-
-    gui_n7profile = annuaire.ProfileMembership()
-    gui_n7profile.user = gui.user
-    gui_n7profile.profile = profile_n7
-    gui_n7profile.save()
 
     gui_portable = annuaire.PhoneNumber()
     gui_portable.person = gui
@@ -881,6 +852,87 @@ def filldb():
     inpnet_pierref.member = pierref_ain7member
     inpnet_pierref.fonction = u"Président 2006-2007"
     inpnet_pierref.save()
+
+    sylvie = annuaire.Person()
+    sylvie.user = User.objects.create_user("sylvie", "noreply@ain7.info","sylvie")
+    sylvie.user.groups.add(ain7_admin)
+    sylvie.user.groups.add(ain7_secretaire)
+    sylvie.user.save()
+    sylvie.sex = 'F'
+    sylvie.first_name = "Sylvie"
+    sylvie.last_name = "H"
+    sylvie.complete_name = "Sylvie H"
+    sylvie.country = france
+    sylvie.save()
+
+    sylvie_adresse = annuaire.Address()
+    sylvie_adresse.person = sylvie
+    sylvie_adresse.line1 = "2 rue Charles Camichel"
+    sylvie_adresse.zip_code = "31000"
+    sylvie_adresse.city = "Toulouse"
+    sylvie_adresse.country = france
+    sylvie_adresse.type = personalAddressType
+    sylvie_adresse.save()
+
+    sylvie_couriel1 = annuaire.Email()
+    sylvie_couriel1.person = sylvie
+    sylvie_couriel1.email = "noreply@ain7.info"
+    sylvie_couriel1.preferred_email = True
+
+    frederique = annuaire.Person()
+    frederique.user = User.objects.create_user("frederique", "noreply@ain7.info","frederique")
+    frederique.user.groups.add(ain7_admin)
+    frederique.user.groups.add(ain7_secretaire)
+    frederique.user.groups.add(ain7_emploi)
+    frederique.user.save()
+    frederique.sex = 'F'
+    frederique.first_name = "Frédérique"
+    frederique.last_name = "F"
+    frederique.complete_name = "Frédérique F"
+    frederique.country = france
+    frederique.save()
+
+    frederique_adresse = annuaire.Address()
+    frederique_adresse.person = frederique
+    frederique_adresse.line1 = "2 rue Charles Camichel"
+    frederique_adresse.zip_code = "31000"
+    frederique_adresse.city = "Toulouse"
+    frederique_adresse.country = france
+    frederique_adresse.type = personalAddressType
+    frederique_adresse.save()
+
+    frederique_couriel1 = annuaire.Email()
+    frederique_couriel1.person = frederique
+    frederique_couriel1.email = "noreply@ain7.info"
+    frederique_couriel1.preferred_email = True
+    frederique_couriel1.save()
+
+    recruteur = annuaire.Person()
+    recruteur.user = User.objects.create_user("jeannot", "noreply@ain7.info","jeannot")
+    recruteur.user.groups.add(ain7_recruteur)
+    recruteur.user.groups.add(ain7_externe)
+    recruteur.user.save()
+    recruteur.sex = 'M'
+    recruteur.first_name = "Jeannot"
+    recruteur.last_name = "Lapin"
+    recruteur.complete_name = "Jeannot Lapin"
+    recruteur.country = france
+    recruteur.save()
+
+    recruteur_adresse = annuaire.Address()
+    recruteur_adresse.person = recruteur
+    recruteur_adresse.line1 = "2 rue Charles Camichel"
+    recruteur_adresse.zip_code = "31000"
+    recruteur_adresse.city = "Toulouse"
+    recruteur_adresse.country = france
+    recruteur_adresse.type = personalAddressType
+    recruteur_adresse.save()
+
+    recruteur_couriel1 = annuaire.Email()
+    recruteur_couriel1.person = recruteur
+    recruteur_couriel1.email = "noreply@ain7.info"
+    recruteur_couriel1.preferred_email = True
+    recruteur_couriel1.save()
 
     ain7etudiants = groupes.Group()
     ain7etudiants.name = u"AIn7 Étudiants"

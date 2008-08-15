@@ -124,7 +124,7 @@ def search(request):
                 raise http.Http404
 
     return ain7_render_to_response(request, 'annuaire/search.html',
-        {'form': form, 'ain7members': ain7members,
+        {'form': form, 'ain7members': ain7members, 'request': request,
          'userFilters': annuaire_search_engine().registered_filters(
                             request.user.person),
          'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
@@ -134,7 +134,7 @@ def search(request):
          'next_page': page + 1, 'previous_page': page - 1,
          'first_result': (page-1) * nb_results_by_page +1,
          'last_result': min((page) * nb_results_by_page, paginator.count),
-         'hits' : paginator.count })
+         'hits' : paginator.count})
 
 
 @login_required
@@ -874,17 +874,6 @@ def subscription_delete(request, user_id=None, subscription_id=None):
         get_object_or_404(AIn7Subscription, pk=subscription_id),
         '/annuaire/%s/subscriptions/' % user_id,
         _('Subscription successfully deleted.'))
-
-@login_required
-def preferences(request, user_id):
-
-    p = get_object_or_404(Person, pk=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=p)
-
-    form = PreferencesForm()
-
-    return ain7_render_to_response(request, 'annuaire/preferences.html',
-                            {'form': form, 'person': p, 'ain7member': ain7member})
 
 @login_required
 def register(request, user_id=None):

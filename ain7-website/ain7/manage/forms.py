@@ -34,10 +34,9 @@ dateWidget = DateTimeWidget()
 dateWidget.dformat = '%d/%m/%Y'
 
 class SearchPersonForm(forms.Form):
-    last_name = forms.CharField(
-        label=_('Last name'), max_length=50, required=False)
-    first_name = forms.CharField(
-        label=_('First name'), max_length=50, required=False)
+    last_name = forms.CharField(label=_('Last name'), max_length=50, required=False)
+    first_name = forms.CharField(label=_('First name'), max_length=50, required=False)
+    organization = forms.CharField(label=_('organization').capitalize(), max_length=50, required=False,widget=AutoCompleteField(url='/ajax/organization/'))
 
     def search(self):
         criteria={
@@ -50,7 +49,7 @@ class SearchRoleForm(forms.Form):
 
     def search(self):
         criteria={'name__contains':self.cleaned_data['name']}
-        return Group.objects.filter(**criteria)
+        return Group.objects.filter(**criteria).order_by('name')
 
 
 class SearchOrganizationForm(forms.Form):
@@ -70,7 +69,7 @@ class SearchOrganizationForm(forms.Form):
         if self.cleaned_data['activity_code']!="-1":
             criteria['activity_field__exact'] = ActivityField.objects.get(
                 id=self.cleaned_data['activity_code'])
-        return Organization.objects.filter(**criteria)
+        return Organization.objects.filter(**criteria).order_by('name')
         
 
 class SearchContributionForm(forms.Form):
@@ -96,9 +95,34 @@ class NewPersonForm(forms.ModelForm):
         exclude = ('user', 'complete_name', 'maiden_name', 'death_date',
                    'wiki_name', 'notes')
 
+    def clean_nationality(self):
+        n = self.cleaned_data['nationality']
+
+        if n != -1:
+            try:
+                Country.objects.get(id=n)
+            except Country.DoesNotExist:
+                raise ValidationError(_('The nationality "%s" does not exist.') % n)
+            else:
+                return self.cleaned_data['nationality']
+        else:
+             return self.cleaned_data['nationality']
+
+    def genlogin(self):
+        login = (self.cleaned_data['first_name'][0]+self.cleaned_data['last_name']).lower()
+
+        tries = 0
+        while (User.objects.filter(username=login).count() > 0):
+            tries = tries + 1
+            if tries < len(self.cleaned_data['first_name']):
+                login = (self.cleaned_data['first_name'][0:tries]+self.cleaned_data['last_name']).lower()
+            else:
+                login = (self.cleaned_data['first_name'][0]+self.cleaned_data['last_name']+str(tries)).lower()
+
+        return login
+
     def save(self):
-        login = (self.cleaned_data['first_name'][0]+
-                 self.cleaned_data['last_name']).lower()
+        login = self.genlogin()
         mail = self.cleaned_data['mail']
         new_user = User.objects.create_user(login, mail, 'password')
         new_user.first_name = self.cleaned_data['first_name']
@@ -111,11 +135,17 @@ class NewPersonForm(forms.ModelForm):
             complete_name = \
                 self.cleaned_data['first_name'] + ' ' +
                 self.cleaned_data['last_name'],
-            sex = self.cleaned_data['sex'],
-            birth_date = self.cleaned_data['birth_date'],
-            country= Country.objects.get(id=self.cleaned_data['country']))
+            sex = self.cleaned_data['sex'])
         new_person.save()
-        
+       
+        if self.cleaned_data.has_key('birth_date'): 
+            new_person.birth_date = self.cleaned_data['birth_date']
+            new_person.save()
+
+        if self.cleaned_data.has_key('country') and self.cleaned_data['country'] != -1:
+            new_person.country = Country.objects.get(id=self.cleaned_data['country'])
+            new_person.save()
+
         new_couriel = Email(person = new_person,
             email = self.cleaned_data['mail'], preferred_email = True)
         new_couriel.save()

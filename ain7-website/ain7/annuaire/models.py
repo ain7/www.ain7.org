@@ -228,7 +228,7 @@ class Person(models.Model):
     birth_date = models.DateField(verbose_name=_('Birth date'), blank=True, null=True)
     death_date = models.DateField(verbose_name=_('death date'), blank=True, null=True)
     sex = models.CharField(verbose_name=_('sex'), max_length=1, choices=SEX)
-    country = models.ForeignKey(Country, verbose_name=_('nationality'))
+    country = models.ForeignKey(Country, verbose_name=_('nationality'), blank=True, null=True)
 
     wiki_name = models.CharField(verbose_name=_('Wiki name'), max_length=50, blank=True, null=True)
 
@@ -562,52 +562,6 @@ class ClubMembership(models.Model):
         verbose_name = _('club membership')
         verbose_name_plural = _('club memberships')
         ordering = ['start_date']
-
-# A profile indicates which rights has a user
-class Profile(models.Model):
-
-    name = models.CharField(verbose_name=_('name'), max_length=50)
-    description = models.TextField(verbose_name=_('description'), blank=True, null=True)
-
-    # Internal
-    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
-    modification_date = models.DateTimeField(editable=False)
-
-    def __unicode__(self):
-        return self.name
-
-    def save(self):
-        self.modification_date = datetime.datetime.today()
-        return super(Profile, self).save()
-
-    class Meta:
-        verbose_name = _('profile')
-        verbose_name_plural = _('profiles')
-
-# This class links Users with their Profiles
-class ProfileMembership(models.Model):
-
-    user = models.ForeignKey(User, verbose_name=_('user'),
-                             related_name='profiles')
-    profile = models.ForeignKey(Profile, verbose_name=_('profile'),
-                                related_name='memberships')
-
-    # Internal
-    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
-    modification_date = models.DateTimeField(editable=False)
-    modifier = models.IntegerField(editable=False)
-
-    def __unicode__(self):
-        return str(self.user) + ": " + str(self.profile)
-
-    def save(self):
-        self.modification_date = datetime.datetime.today()
-        self.modifier = 1 # TODO
-        return super(ProfileMembership, self).save()
-
-    class Meta:
-        verbose_name = _('profile membership')
-        verbose_name_plural = _('profiles memberships')
 
 class UserContributionType(models.Model):
      key = models.CharField(verbose_name=_('key'),max_length=10)

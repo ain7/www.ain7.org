@@ -62,7 +62,6 @@ urlpatterns = patterns('',
      criterion_delete, {'crit_type': 'filter'}),
     # Edition
     (r'^(?P<user_id>\d+)/edit/$', edit),
-    (r'^(?P<user_id>\d+)/preferences/$', preferences),
     (r'^(?P<user_id>\d+)/person/edit/$', person_edit),
     (r'^(?P<user_id>\d+)/ain7member/edit/$', ain7member_edit),
     (r'^(?P<user_id>\d+)/avatar/delete/$', avatar_delete),

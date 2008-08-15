@@ -24,6 +24,7 @@ from django import forms
 from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
+from django.forms.util import ValidationError
 
 from ain7.fields import AutoCompleteField
 from ain7.widgets import DateTimeWidget
@@ -40,7 +41,7 @@ class SearchPersonForm(forms.Form):
     first_name = forms.CharField(label=_('First name'), max_length=50, required=False)
     promo = forms.IntegerField(label=_('Promo'), required=False, widget=AutoCompleteField(url='/ajax/promo/'))
     track = forms.IntegerField(label=_('Track'), required=False, widget=AutoCompleteField(url='/ajax/track/'))
-    organization = forms.CharField(label=_('organization').capitalize(), max_length=50, required=False) #,  widget=AutoCompleteField(url='/ajax/organization/'))
+    organization = forms.CharField(label=_('organization').capitalize(), max_length=50, required=False) widget=AutoCompleteField(url='/ajax/organization/'))
 
     def criteria(self):
         # criteres sur le nom et prenom, et sur l'organisation
@@ -62,7 +63,7 @@ class SearchPersonForm(forms.Form):
         # on ajoute ces promos aux critÃ¨res de recherche
         # si elle ne sont pas vides
         if len(promoCriteria)!=0:
-            # Pour Ã©viter http://groups.google.es/group/django-users/browse_thread/thread/32143d024b17dd00,
+            # Pour éviter http://groups.google.es/group/django-users/browse_thread/thread/32143d024b17dd00,
             # on convertit en liste
             criteria['promos__in']=\
                 [promo for promo in Promo.objects.filter(**promoCriteria)]
@@ -99,6 +100,46 @@ class NewMemberForm(forms.Form):
 
         return login
 
+    def clean_nationality(self):
+        n = self.cleaned_data['nationality']
+
+        try:
+            Country.objects.get(id=n)
+        except Country.DoesNotExist:
+            raise ValidationError(_('The nationality "%s" does not exist.') % n)
+        else:
+            return self.cleaned_data['nationality']
+
+    def clean_promo(self):
+        p = self.cleaned_data['promo']
+
+        try:
+            PromoYear.objects.get(id=p)
+        except PromoYear.DoesNotExist:
+            raise ValidationError(_('The promo "%s" does not exist.') % p)
+        else:
+            return self.cleaned_data['promo']
+
+    def clean_track(self):
+        t = self.cleaned_data['track']
+        try:
+            track = Track.objects.get(id=t)
+        except Track.DoesNotExist:
+            raise ValidationError(_('The track "%s" does not exist.') % t)
+
+        if self.cleaned_data.has_key('promo'):
+            p = self.cleaned_data['promo']
+            if self.cleaned_data['promo'] != -1 and self.cleaned_data['track'] != -1 :
+                try:
+                    promo_year = PromoYear.objects.get(id=p)
+                    promo = Promo.objects.get(year=promo_year,track=track)
+                except PromoYear.DoesNotExist:
+                    raise ValidationError(_('The promo "%s" does not exist.') % p)
+                except Promo.DoesNotExist:
+                    raise ValidationError(_('There is no promo year and track associated.'))
+                else:
+                    return self.cleaned_data['track']
+
     def save(self):
         login = self.genlogin()
         mail = self.cleaned_data['mail']
@@ -122,20 +163,20 @@ class NewMemberForm(forms.Form):
         new_ain7member = AIn7Member()
         new_ain7member.person = new_person
         new_ain7member.marital_status = \
-            MaritalStatus.objects.get(status="CÃ©libataire")
+            MaritalStatus.objects.get(pk=1)
         new_ain7member.display_cv_in_directory = False
         new_ain7member.display_cv_in_job_section = False
         new_ain7member.receive_job_offers = False
         new_ain7member.member_type = \
             MemberType.objects.get(type="Membre actif")
-        new_ain7member.person_type = PersonType.objects.get(type=u"Ãtudiant")
+        new_ain7member.person_type = PersonType.objects.get(type=u"Étudiant")
         new_ain7member.activity = Activity.objects.get(activity="Connue")
         new_ain7member.save()
+
         track = Track.objects.get(id=self.cleaned_data['track'])
         promo = PromoYear.objects.get(id=self.cleaned_data['promo'])
    
-        new_ain7member.promos.add(
-            Promo.objects.filter(track=track,year=promo)[0])
+        new_ain7member.promos.add(Promo.objects.get(track=track,year=promo))
         new_ain7member.save()
 
         new_couriel = Email()
@@ -220,3 +261,4 @@ class AIn7SubscriptionForm(forms.ModelForm):
     class Meta:
         model = AIn7Subscription
         exclude = ('member')
+

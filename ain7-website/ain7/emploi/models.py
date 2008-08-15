@@ -298,17 +298,15 @@ class OfficeProposal(models.Model):
 # A position occupied by a person.
 class Position(models.Model):
 
+    office = models.ForeignKey(Office, verbose_name=_('office'), related_name='positions')
     fonction = models.CharField(verbose_name=_('fonction'), max_length=50, core=True)
     service = models.CharField(verbose_name=_('service'), max_length=50, blank=True, null=True)
-    description = models.TextField(verbose_name=_('description'), blank=True, null=True)
-    phone_number = models.CharField(verbose_name=_('phone number'), max_length=20, blank=True, null=True)
-    email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
     start_date = models.DateField(verbose_name=_('start date'), core=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
-    is_regie = models.BooleanField(verbose_name=_('regie'), default=False)
+    is_regie = models.BooleanField(verbose_name=_('regie outside'), default=False)
 
-    office = models.ForeignKey(Office, verbose_name=_('office'), related_name='positions')
     ain7member = models.ForeignKey(AIn7Member, related_name='positions', edit_inline=models.STACKED, num_in_admin=1)
+    description = models.TextField(verbose_name=_('description'), blank=True, null=True)
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)

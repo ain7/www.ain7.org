@@ -20,6 +20,8 @@
 #
 #
 
+from datetime import datetime
+
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
@@ -28,8 +30,8 @@ from django.forms import widgets
 from django.template import RequestContext
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
-from datetime import datetime
 from django.utils.translation import ugettext as _
+from django.forms.util import ValidationError
 
 from ain7.annuaire.models import Person, AIn7Member, Track
 from ain7.decorators import confirmation_required
@@ -341,9 +343,21 @@ def organization_choose(request, action=None):
 
     organizations = Organization.objects.editable_organizations(ain7member)
     class ChooseOrganizationForm(forms.Form):
-        organization = forms.IntegerField(
-            label=_('organization'), required=True,
-            widget=forms.Select(choices=organizations))
+        organization = forms.IntegerField(label=_('Organization'), required=True,widget=AutoCompleteField(url='/ajax/organization/'))
+
+        def clean_organization(self):
+            o = self.cleaned_data['organization']
+
+            if o == -1:
+                raise ValidationError(_('The organization is mandatory.'))
+
+            try:
+                Organization.objects.get(id=o)
+            except Organization.DoesNotExist:
+                raise ValidationError(_('The organization "%s" does not exist.') % o)
+            else:
+                return self.cleaned_data['organization']
+
 
     if request.method == 'GET':
             
@@ -366,7 +380,7 @@ def organization_choose(request, action=None):
                 return HttpResponseRedirect(
                     '/emploi/organization/%d/delete/' % org_id)            
         else:
-            return HttpResponseRedirect('/emploi/')
+            return HttpResponseRedirect('/emploi/organization/edit/')
 
 @login_required
 def organization_edit(request, organization_id=None):

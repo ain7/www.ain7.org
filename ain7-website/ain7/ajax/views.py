@@ -22,9 +22,10 @@
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Permission
+from django.db.models import Q
 
 from ain7.annuaire.models import Person, Country, Promo, Track, PromoYear
-from ain7.emploi.models import ActivityField, Organization
+from ain7.emploi.models import ActivityField, Organization, Office
 from ain7.utils import ain7_render_to_response
 
 def ajaxed_fields():
@@ -137,6 +138,19 @@ def permission(request):
 
         for perm in perms:
             elements.append({'id': perm.id, 'displayValue': perm.name, 'value': perm.name})
+
+    return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
+
+@login_required
+def office(request):
+    elements = []
+
+    if request.method == 'POST':
+        input = request.POST['text']
+        offices = Office.objects.filter(Q(name__icontains=input) | Q(organization__name__icontains=input)).order_by('organization__name','name')
+
+        for office in offices:
+            elements.append({'id': office.id, 'displayValue': office.organization.name+" - "+office.name, 'value': office.organization.name+" - "+office.name})
 
     return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
 

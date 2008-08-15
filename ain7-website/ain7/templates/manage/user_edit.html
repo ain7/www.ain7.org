@@ -1,0 +1,166 @@
+{% extends "manage/base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div id="content-main">
+
+<div class="left">
+
+<div class="left_box">
+
+<div id="cv">
+
+<h1>{% trans "Personal file" %}
+    {{ person.first_name }} {{ person.last_name }}</h1>
+
+<a href="/manage/users/{{ person.user.id }}/">{% trans "Back to personnal file" %}</a>
+
+<h2>{% trans "Personal data" %}</h2>
+
+<div class="dataBlock">
+<ul>
+   <li><b>{% filter capfirst %}{% trans "sex" %}{% endfilter %}
+       &nbsp;:</b> {{ person.sex }}</li>
+   <li><b>{% trans "First name" %}&nbsp;:</b> {{ person.first_name }}</li>
+   <li><b>{% trans "Last name" %}&nbsp;:</b> {{ person.last_name }}</li>
+   {% if ain7member.maiden_name %}
+   <li><b>{% filter capfirst %}{% trans "maiden name" %}{% endfilter %}
+       &nbsp;:</b> {{ person.maiden_name|default:"" }}</li>
+   {% endif %}
+   <li><b>{% trans "Birth date" %}&nbsp;:</b>
+       {{ person.birth_date|date:"d/m/Y" }}</li>
+   {% if person.death_date %}
+   <li><b>{% filter capfirst %}{% trans "death date" %}{% endfilter %}
+       &nbsp;:</b> {{ person.death_date|date:"d/m/Y" }}</li>
+   {% endif %}
+   <li><b>{% filter capfirst %}{% trans "nationality" %}{% endfilter %}
+       &nbsp;:</b> {{ person.country.nationality }}</li>
+</ul>
+</div>
+
+<p><a href="/manage/users/{{ person.user.id }}/person/edit/" class="changelink">
+{% trans "Modify" %}</a></p>
+
+<h2><a name="address"/>{% trans "Address" %}</h2>
+
+<table border="0" width="100%">
+{% for address in person.addresses.all %}
+    <tr><td><b>{% trans "Address" %} {{ address.type|lower }}&nbsp;:</b></td><td>
+        {{ address.line1 }} {{ address.line2|default_if_none:"" }} -
+        {{address.zip_code }} {{ address.city }} - {{ address.country.name }}
+        {% if address.is_confidential %} ({% trans "confidential" %})
+        {% else %}                       ({% trans "not confidential" %})
+        {% endif %}</td>
+    <td width="12%">
+        <a href="/manage/users/{{ person.user.id }}/address/{{ address.id }}/edit/" class="changelink">
+        {% trans "Modify" %}</a></td>
+    <td width="12%">
+        <a href="/manage/users/{{ person.user.id }}/address/{{ address.id }}/delete/" class="deletelink">
+        {% trans "Delete" %}</a></td>
+    </tr>
+{% endfor %}
+</table>
+<p><a href="/manage/users/{{ person.user.id }}/address/add/" class="addlink">
+   {% trans "Add" %}</a></p>
+
+
+<h2><a name="phone"/>{% trans "Phone numbers" %}</h2>
+
+<table border="0" width="100%">
+{% for phone_number in person.phone_numbers.all %}
+   <tr><td><b>{{ phone_number.get_type_display }} :</b></td>
+   <td>{{ phone_number.number }}
+       {% if phone_number.is_confidential %} ({% trans "confidential" %})
+        {% else %} ({% trans "not confidential" %}) {% endif %}</td>
+    <td width="12%">
+        <a href="/manage/users/{{ person.user.id }}/phone/{{ phone_number.id }}/edit/" class="changelink">
+        {% trans "Modify" %}</a></td>
+    <td width="12%">
+        <a href="/manage/users/{{ person.user.id }}/phone/{{ phone_number.id }}/delete/" class="deletelink">
+        {% trans "Delete" %}</a></td>
+    </tr>
+{% endfor %}
+</table>
+<p><a href="/manage/users/{{ person.user.id }}/phone/add/" class="addlink">
+   {% trans "Add" %}</a></p>
+
+
+<h2><a name="email"/>
+{% filter capfirst %}{% trans "email" %}{% endfilter %}</h2>
+
+<table border="0" width="100%">
+{% for email in person.emails.all %}
+	    <tr><td><img src="/site_media/images/mail.png" alt="{% trans "email" %}"/><a href="mailto:{{ email.email }}">{{ email.email }}</a>
+	{% if email.is_confidential %} ({% trans "confidential" %})
+	{% else %}                     ({% trans "not confidential" %})
+	{% endif %}
+
+</td>
+    <td width="12%">
+        <a href="/manage/users/{{ person.user.id }}/email/{{ email.id }}/edit/" class="changelink">
+        {% trans "Modify" %}</a></td>
+    <td width="12%">
+        <a href="/manage/users/{{ person.user.id }}/email/{{ email.id }}/delete/" class="deletelink">
+        {% trans "Delete" %}</a></td>
+    </tr>
+{% endfor %}
+</table>
+<p><a href="/manage/users/{{ person.user.id }}/email/add/" class="addlink">
+   {% trans "Add" %}</a></p>
+
+<h2><a name="profexp"/>{% trans "Current professional experiences" %}</h2>
+
+<table>
+{% for position in ain7member.positions.all %}
+    {% if not position.end_date %}
+        <tr><td>{% trans "since" %}
+                <b>{{ position.start_date|date:"d/m/Y" }}</b>&nbsp;:</td>
+            <td><em>{{ position.fonction }}</em> {% trans "for" %}
+                {{ position.office }}
+                (<a href="/emploi/societe/{{ position.office.organization.id }}/">{{ position.office.organization }}</a>)</td></tr>
+        {% if position.description %}
+            <tr><td></td><td>{{ position.description }}</td></tr>
+        {% endif %}
+    {% endif %}
+{% endfor %}
+</table>
+<p><a href="/emploi/{{ person.user.id }}/cv/edit/" class="changelink">
+{% trans "Modify" %}</a></p>
+
+</div>
+</div>
+</div>
+
+
+<div class="right">
+   <h3>{% trans "Navigation" %}</h3>
+   <div class="right_articles">
+    <ul>
+      <li><a href="/annuaire/advanced_search/">{% trans "Advanced Search" %}</a></li>
+    </ul>
+   </div>
+
+   {% if userFilters %}
+
+   <h3>{% trans "Registered filters" %}</h3>
+   <div class="right_articles">
+   <ul>
+       {% for filter in userFilters %}
+         <li>
+           <a href="/annuaire/advanced_search/filter/{{ filter.id }}/">
+             {{ filter }}</a>
+         </li>
+       {% endfor %}
+   </ul>
+   </div>
+
+   {% endif %}
+
+</div>
+
+
+
+</div>
+
+{% endblock %}
