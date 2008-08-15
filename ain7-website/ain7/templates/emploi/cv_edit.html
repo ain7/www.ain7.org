@@ -28,7 +28,7 @@
 
 <td>
 {% if person.avatar %}
-    <img src="/site_media/{{ person.get_avatar_url }}" 
+    <img src="/site_media/{{ person.avatar.url }}" 
      height="100" alt="{% trans "avatar" %}"/>
 {% endif %}
 </td>

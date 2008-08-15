@@ -97,7 +97,7 @@ sont développées</p>
           {% if travel.thumbnail %}
           <p style="text-align:center">
             <a href="/voyages/{{ travel.id}}/">
-            <img src="{{ travel.get_thumbnail_url }}" height="100"/></a>
+            <img src="{{ travel.thumbnail.url }}" height="100"/></a>
           </p>
           {% endif %}
         </div>

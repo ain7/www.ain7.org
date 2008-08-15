@@ -11,7 +11,7 @@
 
 	<p>
           {% if news_item.image %}
-            <img src="{{ news_item.get_image_url }}" alt="Image" title="Image" class="image" width="60" />
+            <img src="{{ news_item.image.url }}" alt="Image" title="Image" class="image" width="60" />
           {% endif %}
           {{ news_item.description }}
         </p>

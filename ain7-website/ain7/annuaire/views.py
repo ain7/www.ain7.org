@@ -964,7 +964,7 @@ def criteriaList(user):
 
             if field.name in model.objects.adv_search_fields(user)\
                 and (str(type(field)).find('OneToOneField')==-1)\
-                and not isinstance(field,models.fields.FileField):
+                and not isinstance(field,models.FileField):
                 attrList.append(field)
 
     # now we deal with custom fields

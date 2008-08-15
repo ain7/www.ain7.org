@@ -60,7 +60,7 @@
 </ul>
 </td><td>
 {% if ain7member.avatar %}
-	<img src="{{ ain7member.get_avatar_url }}" height="100" alt="{% trans "avatar" %}"/></td></tr>
+	<img src="{{ ain7member.avatar.url }}" height="100" alt="{% trans "avatar" %}"/></td></tr>
 {% endif %}
 {% for phone_number in person.phone_numbers.all %}
 	{% if not phone_number.is_confidential %}

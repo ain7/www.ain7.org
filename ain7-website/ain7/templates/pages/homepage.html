@@ -67,7 +67,7 @@
   <div class="right_articles">
     <p>
       {% if news_item.image %}
-      <a href="/actualites/{{ news_item.id }}/"><img src="{{ news_item.get_image_url }}" alt="Image" title="Image" class="image" width="60" /></a>
+      <a href="/actualites/{{ news_item.id }}/"><img src="{{ news_item.image.url }}" alt="Image" title="Image" class="image" width="60" /></a>
       {% endif %}
       <b><a href="/actualites/{{ news_item.id }}/">{{ news_item.title }}</a></b><br />{{ news_item.short_description }}.</p>
 			</div>

@@ -14,7 +14,7 @@
            <td align="center">
              {% if event.image %}
                <a href="/evenements/{{ event.id }}/">
-	          <img src="{{ event.get_image_url }}" 
+	          <img src="{{ event.image.url }}" 
                       height="100" alt="{% trans "image" %}"/>
                </a>
              {% endif %}
