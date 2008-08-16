@@ -37,7 +37,8 @@ def ajaxed_fields():
             Track: 'track',
             Organization: 'organization',
             ActivityField: 'activityfield',
-            Permission: 'permission'}
+            Permission: 'permission',
+            Office: 'office'}
 
 @login_required
 def person(request):

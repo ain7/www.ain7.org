@@ -33,7 +33,7 @@ from ain7.manage.models import Notification
 dateWidget = DateTimeWidget()
 dateWidget.dformat = '%d/%m/%Y'
 
-class SearchPersonForm(forms.Form):
+class SearchUserForm(forms.Form):
     last_name = forms.CharField(label=_('Last name'), max_length=50, required=False)
     first_name = forms.CharField(label=_('First name'), max_length=50, required=False)
     organization = forms.CharField(label=_('organization').capitalize(), max_length=50, required=False,widget=AutoCompleteField(url='/ajax/organization/'))

@@ -26,6 +26,7 @@ import time
 from string import Template
 
 from django.contrib import auth
+from django.contrib.auth.models import User, Group
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -60,11 +61,14 @@ def ain7_render_to_response(req, *args, **kwargs):
 
 # détermine si un user a le profil administrateur
 def isAdmin(user):
-    result = False
-    for profileMembership in user.profiles.all():
-        if profileMembership.profile.name == 'admin':
-            result = True
-    return result
+    try:
+        portal_admin = Group.objects.get(name=settings.AIN7_PORTAL_ADMIN)
+        if portal_admin in user.groups.all():
+            return True
+    except Group.DoesNotExist:
+        return False
+    else:
+        return False
 
 def ain7_generic_edit(request, obj, MyForm, formInitDict, formPage, formPageDict, saveDict, redirectPage, msgDone):
     """ Méthode utilisée pour éditer (ou créer) un objet de façon standard,

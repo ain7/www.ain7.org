@@ -134,6 +134,8 @@ TINYMCE_VERSION = '2.1.3'
 
 MOOTOOLS_VERSION = '1.11'
 
+AIN7_PORTAL_ADMIN = 'ain7-admin'
+
 if os.path.exists('settings.local.py'):
     from ain7.settings.local import *
 
