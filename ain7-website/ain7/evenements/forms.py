@@ -81,9 +81,9 @@ class SubscribeEventForm(forms.Form):
 
 class SearchEventForm(forms.Form):
     name = forms.CharField(label=_('Event name'), max_length=50,
-        required=False, widget=forms.TextInput(attrs={'size':'50'}))
+        required=False, widget=forms.TextInput(attrs={'size':'40'}))
     location = forms.CharField(label=_('Location'), max_length=50,
-        required=False, widget=forms.TextInput(attrs={'size':'50'}))
+        required=False, widget=forms.TextInput(attrs={'size':'40'}))
 
     def search(self):
         return Event.objects.filter(

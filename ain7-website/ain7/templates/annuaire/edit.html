@@ -269,7 +269,8 @@
 
 <table border="0" width="100%">
 {% for club_membership in ain7member.club_memberships.all %}
-    <tr><td>{{ club_membership.club.name }}</td>
+    <tr><td>{{ club_membership.club.name }}
+    {% if club_membership.start_date and club_membership.end_date %}(<i>{{ club_membership.start_date|date:"Y" }} - {{ club_membership.end_date|date:"Y" }}</i>){% endif %}</td>
     <td>{{ club_membership.fonction }}</td>
     <td width="12%">
         <a href="/annuaire/{{ person.user.id }}/club_membership/{{ club_membership.id }}/edit/" class="changelink">

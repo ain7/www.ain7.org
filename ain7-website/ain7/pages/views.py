@@ -39,30 +39,32 @@ def homepage(request):
 def apropos(request):
     return ain7_render_to_response(request, 'pages/apropos.html', {})
 
+def count_members():
+    nb_members = AIn7Member.objects.all().count()
+    return nb_members
+
+def count_subscribers():
+    nb_subscribers = AIn7Member.objects.all().count()
+    return nb_subscribers
+
 def association(request):
-    # calcul du nombre d'AIn7Member ayant un diplome (au sens large)
-    nbDiplomes = 0
-    for member in AIn7Member.objects.all():
-        if member.diplomas.count() != 0:
-            nbDiplomes = nbDiplomes + 1
-    # calcul du nombre d'AIn7Member
-    nbAdherents = AIn7Member.objects.all().count()
-    return ain7_render_to_response(request, 'pages/association.html', {'nbDiplomes': nbDiplomes, 'nbAdherents': nbAdherents})
+   # calcul du nombre d'AIn7Member
+    return ain7_render_to_response(request, 'pages/association.html', {'count_members': count_members(), 'count_subscribers': count_subscribers()})
 
 def status(request):
-    return ain7_render_to_response(request, 'pages/status.html', {})
+    return ain7_render_to_response(request, 'pages/status.html', {'count_members': count_members(), 'count_subscribers': count_subscribers()})
 
 def board(request):
-    return ain7_render_to_response(request, 'pages/board.html', {})
+    return ain7_render_to_response(request, 'pages/board.html', {'count_members': count_members(), 'count_subscribers': count_subscribers()})
 
 def council(request):
-    return ain7_render_to_response(request, 'pages/council.html', {})
+    return ain7_render_to_response(request, 'pages/council.html', {'count_members': count_members(), 'count_subscribers': count_subscribers()})
+
+def contact(request):
+    return ain7_render_to_response(request, 'pages/contact.html', {'count_members': count_members(), 'count_subscribers': count_subscribers()})
 
 def canal_n7(request):
     return ain7_render_to_response(request, 'pages/canal_n7.html', {})
-
-def contact(request):
-    return ain7_render_to_response(request, 'pages/contact.html', {})
 
 def international(request):
     return ain7_render_to_response(request, 'pages/international.html', {})

@@ -225,8 +225,7 @@ def filter_register(request):
                 registered_filters(request.user.person).\
                 filter(name=fName).count()
             if sameName>0:
-                request.user.message_set.create(
-                    message=_("One of your filters already has this name."))
+                request.user.message_set.create(message=_("One of your filters already has this name."))
                 return HttpResponseRedirect('/annuaire/advanced_search/')
 
             # Set the registered flag to True
@@ -559,6 +558,10 @@ def criterion_delete(request, filtr_id=None, crit_id=None, crit_type=None):
 @login_required
 def export_csv(request):
 
+    if not request.session.has_key('filter'):
+        request.user.message_set.create(message=_("You have to make a search before using csv export."))
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
     criteria = request.session['filter']
     ain7members = AIn7Member.objects.filter(**criteria).distinct()
 
@@ -574,6 +577,10 @@ def export_csv(request):
 
 @login_required
 def sendmail(request):
+
+    if not request.session.has_key('filter'):
+        request.user.message_set.create(message=_("You have to make a search before using sendmail."))
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
     criteria = request.session['filter']
     ain7members = AIn7Member.objects.filter(**criteria).distinct()
@@ -929,17 +936,6 @@ def vcard(request, user_id):
     response['Content-Disposition'] = 'attachment; filename='+p.user.username+'.vcf'
 
     return response
-
-def complete_track(request):
-    elements = []
-
-    if request.method == 'POST':
-        input = request.POST['input']
-        tracks = Track.objects.filter(name__icontains=input)
-        for track in tracks:
-            elements.append({'id':track.id, 'value':track.name})
-
-    return ain7_render_to_response(request, 'pages/complete.html', {'elements':elements})
 
 def criteriaList(user):
     """ Returns the list of fields that are criteria for an advanced

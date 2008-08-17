@@ -538,7 +538,7 @@ def roles_search(request):
          'pages': paginator.num_pages,
          'first_result': (page - 1) * nb_results_by_page +1,
          'last_result': min((page) * nb_results_by_page, paginator.count),
-         'hits' : paginator.count})
+         'hits' : paginator.count, 'request': request})
 
 @login_required
 def role_register(request):
@@ -664,6 +664,34 @@ def permissions(request):
             'first_result': (page - 1) * nb_results_by_page +1,
             'last_result': min((page) * nb_results_by_page, paginator.count),
             'hits' : paginator.count})
+
+@login_required
+def permission_register(request):
+
+    form = NewPermissionForm()
+
+    if request.method == 'POST':
+        form = NewPermissionForm(request.POST)
+        if form.is_valid():
+
+            if not Permission.objects.filter(name=form.cleaned_data['name']).count() == 0:
+                request.user.message_set.create(message=_("Several permissions have the same name. Please choose another one"))
+
+            if not Permission.objects.filter(codename=form.cleaned_data['codename']).count() == 0:
+                request.user.message_set.create(message=_("Several permissions have the same codename. Please choose another one"))
+
+            else:
+                new_perm = form.save()
+                request.user.message_set.create(
+                    message=_("New permission successfully created"))
+                return HttpResponseRedirect(
+                    '/manage/permissions/%s/' % (new_perm.id))
+        else:
+            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+
+    back = request.META.get('HTTP_REFERER', '/')
+    return ain7_render_to_response(request, 'manage/edit_form.html',
+        {'action_title': _('Register new permission'), 'back': back, 'form': form})
 
 @login_required
 def permission_details(request, perm_id):
@@ -855,4 +883,29 @@ def user_email_delete(request, user_id=None, email_id=None):
     return ain7_generic_delete(request, get_object_or_404(Email, pk=email_id),
                                '/manage/users/%s/edit/#email' % user_id,
                                _('Email address successfully deleted.'))
- 
+
+@login_required
+def nationality_add(request):
+
+    form = NewCountryForm()
+
+    if request.method == 'POST':
+        form = NewCountryForm(request.POST)
+        if form.is_valid():
+
+            if not Country.objects.filter(name=form.cleaned_data['name']).count() == 0:
+                request.user.message_set.create(message=_("Several countries have the same name. Please choose another one"))
+
+            else:
+                new_role = form.save()
+                request.user.message_set.create(
+                    message=_("New country successfully created"))
+                return ain7_render_to_response(request, 'pages/frame_message.html', {})
+
+        else:
+            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+
+    back = request.META.get('HTTP_REFERER', '/')
+    return ain7_render_to_response(request, 'pages/frame_edit_form.html',
+        {'action_title': _('Register new country'), 'back': back, 'form': form})
+

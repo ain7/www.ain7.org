@@ -23,12 +23,14 @@ class LanguageField(models.CharField):
 
 from django.forms.widgets import TextInput,flatatt
 from django.forms.util import smart_unicode
+from django.utils.translation import ugettext as _
 
 from django.utils.html import escape
 
 class AutoCompleteField(TextInput):
-    def __init__(self, url='', options='{ paramName: "text", autoSelect:true, afterUpdateElement:setSelected }', attrs=None):
+    def __init__(self, url='', options='{ paramName: "text", autoSelect:true, afterUpdateElement:setSelected }', addable=False, attrs=None):
         self.url = url
+        self.addable = addable
         self.options = options
         if attrs is None:
             attrs = {}
@@ -36,15 +38,25 @@ class AutoCompleteField(TextInput):
 
     def render(self, name, value=None, attrs=None):
         final_attrs = self.build_attrs(attrs, name=name)
+        valueTxt = ''
+        addlink = ''
+        if self.addable:
+            addlink =  '<script type="text/javascript">'
+            addlink += 'window.addEvent(\'domready\', function() {'
+            addlink += 'window.floatingPane = new FloatingPane({title: "Adding", height: 400, width: 600, opacity: 0.75, draggable: true});'
+            addlink += '});'
+	    addlink += '</script>'
+            addlink += '<a href="javascript:floatingPane.show(\'/manage/nationality/add/\',\'Add a new nationality\');" class="addlink">'+_('Add')+'</a>'
+
         if value:
             value = smart_unicode(value)
             final_attrs['value'] = escape(value)
         if not self.attrs.has_key('id'):
             final_attrs['id'] = 'id_%s' % name
         return (u'<input type="hidden" name="%(name)s" value="-1" id="%(id)s" />'
-                  '<input type="text" name="text" id="%(id)s_text" size="50" autocomplete="off"/> <div class="complete" id="box_%(name)s"></div>'
+                  '<input type="text" name="text" id="%(id)s_text" size="40" autocomplete="off" value="%(valueTxt)s"/>'+addlink+'<div class="complete" id="box_%(name)s"></div>'
                   '<script type="text/javascript">'
-                  'window.myAutoComplete = new AutoComplete($(\'%(id)s_text\'), "http://"+window.location.host+"%(url)s", "displayValue", {maxHeight: 350, zIndex: 6, method: \'post\'});'
+                  'window.myAutoComplete = new AutoComplete($(\'%(id)s_text\'), window.location.protocol+"//"+window.location.host+"%(url)s", "displayValue", {maxHeight: 350, zIndex: 6, method: \'post\'});'
                   'myAutoComplete.addEvent(\'onItemChoose\', function(item) {'
                   '	document.getElementById(\'%(id)s\').value = item.getProperty(\'id\');'
 		  '});'
@@ -61,5 +73,8 @@ class AutoCompleteField(TextInput):
                                   'name'	: name,
                                   'id'	: final_attrs['id'],
                                   'url'	: self.url,
+                                  'valueTxt': valueTxt,
                                   'options' : self.options}
+    def valuefromid(self):
+        pass
 

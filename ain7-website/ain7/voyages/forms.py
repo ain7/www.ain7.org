@@ -61,16 +61,12 @@ class SearchTravelForm(forms.Form):
 
 
 class TravelForm(forms.ModelForm):
-    description = forms.CharField(label=_('description').capitalize(),
-        required=False,
+    description = forms.CharField(label=_('description').capitalize(),required=False,
         widget=forms.widgets.Textarea(attrs={'rows':10, 'cols':90}))
-    report = forms.CharField(label=_('report').capitalize(),
-        required=False, 
+    report = forms.CharField(label=_('report').capitalize(),required=False, 
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':90}))
-    start_date = forms.DateTimeField(label=_('start date').capitalize(),
-        widget=dateWidget)
-    end_date = forms.DateTimeField(label=_('end date').capitalize(),
-        widget=dateWidget)
+    start_date = forms.DateTimeField(label=_('start date').capitalize(),widget=dateWidget)
+    end_date = forms.DateTimeField(label=_('end date').capitalize(),widget=dateWidget)
     
     def clean_end_date(self):
         if self.cleaned_data.get('start_date') and \

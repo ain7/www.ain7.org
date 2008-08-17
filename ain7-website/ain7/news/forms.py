@@ -32,11 +32,11 @@ dateWidget.dformat = '%d/%m/%Y'
 
 class SearchNewsForm(forms.Form):
     title = forms.CharField(label=_('News title'), max_length=50,
-        required=False, widget=forms.TextInput(attrs={'size':'50'}))
+        required=False, widget=forms.TextInput(attrs={'size':'40'}))
     date = forms.DateField(label=_('Date'), required=False,
         widget=dateWidget)
     content = forms.CharField(label=_('News content'), max_length=50,
-        required=False, widget=forms.TextInput(attrs={'size':'50'}))
+        required=False, widget=forms.TextInput(attrs={'size':'40'}))
 
     def search(self):
         return NewsItem.objects.filter(

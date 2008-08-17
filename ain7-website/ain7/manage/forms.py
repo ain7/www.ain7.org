@@ -22,7 +22,9 @@
 
 from django import forms
 from django.utils.translation import ugettext as _
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group, Permission
+from django.contrib.contenttypes.models import ContentType
+from django.forms.util import ValidationError
 
 from ain7.annuaire.models import Person, Country, Email
 from ain7.emploi.models import ActivityField, Organization
@@ -73,8 +75,19 @@ class SearchOrganizationForm(forms.Form):
         
 
 class SearchContributionForm(forms.Form):
-    user = forms.CharField(label=_('User'), max_length=50, required=False)
+    user = forms.IntegerField(label=_('user'), required=True, widget=AutoCompleteField(url='/ajax/person/'))
     type = forms.CharField(label=_('Type'), max_length=50, required=False)
+
+    def clean_user(self):
+        u = self.cleaned_data['user']
+
+        if self.cleaned_data['user'] != -1:
+            try:
+                Person.objects.get(id=u)
+            except Person.DoesNotExist:
+                raise ValidationError(_('The user "%s" does not exist.') % u)
+
+        return self.cleaned_data['user']
 
 class PermRoleForm(forms.Form):
     perm = forms.CharField(label=_('Permission'), max_length=50, required=True, widget=AutoCompleteField(url='/ajax/permission/'))
@@ -83,9 +96,9 @@ class MemberRoleForm(forms.Form):
     username = forms.CharField(label=_('Username'), max_length=100, required=True, widget=AutoCompleteField(url='/ajax/person/'))
 
 class NewPersonForm(forms.ModelForm):
-    first_name = forms.CharField(label=_('First name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size':50}))
-    last_name = forms.CharField(label=_('Last name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 50}))
-    mail = forms.EmailField(label=_('Mail'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 50}))
+    first_name = forms.CharField(label=_('First name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size':40}))
+    last_name = forms.CharField(label=_('Last name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 40}))
+    mail = forms.EmailField(label=_('Mail'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 40}))
     country = forms.IntegerField(label=_('Nationality'), required=False, widget=AutoCompleteField(url='/ajax/nationality/'))
     birth_date = forms.DateTimeField(label=_('Date of birth'), required=False, widget=dateWidget)
     sex = forms.CharField(label=_('Sex'), required=False,  widget=forms.Select(choices=Person.SEX))
@@ -153,7 +166,7 @@ class NewPersonForm(forms.ModelForm):
         return new_person
 
 class NewRoleForm(forms.ModelForm):
-    name = forms.CharField(label=_('Name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size':50}))
+    name = forms.CharField(label=_('Name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size':40}))
 
     class Meta:
         model = Group
@@ -165,6 +178,20 @@ class NewRoleForm(forms.ModelForm):
         
         return new_role
 
+class NewPermissionForm(forms.ModelForm):
+    name = forms.CharField(label=_('Name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size':40}))
+
+    class Meta:
+        model = Permission
+        exclude = ('content_type')
+
+    def save(self):
+        ct = ContentType.objects.get(id=1)
+        new_perm = Permission(name = self.cleaned_data['name'], content_type=ct, codename=self.cleaned_data['codename'])
+        new_perm.save()
+        
+        return new_perm
+
 class NotificationForm(forms.ModelForm):
     details = forms.CharField(label=_('details'), required=True,
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':90}))
@@ -172,4 +199,10 @@ class NotificationForm(forms.ModelForm):
     class Meta:
         model = Notification
         exclude = ('organization_proposal', 'office_proposal')
+
+class NewCountryForm(forms.ModelForm):
+
+    class Meta:
+        model = Country
+        exclude = ()
 

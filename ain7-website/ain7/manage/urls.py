@@ -96,5 +96,12 @@ urlpatterns = patterns('ain7.manage.views',
     (r'^notification/add/$', 'notification_add'),
     (r'^notification/(?P<notif_id>\d+)/edit/$', 'notification_edit'),
     (r'^notification/(?P<notif_id>\d+)/delete/$', 'notification_delete'),
+
+    # Nationality
+    (r'^nationality/add/$', 'nationality_add'),
+
+    # Office
+    (r'^office/add/$', 'office_add'),
 )
+
 

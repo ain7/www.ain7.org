@@ -20,6 +20,7 @@ var FloatingPane = new Class({
 
 		this.container = new Element('div', {
 			'class': 'floatingPaneContainer',
+                        'id': 'MyNiceFloatingPane',
 			'styles': {
 				'display': 'none',
 				'position': 'absolute',

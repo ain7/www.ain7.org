@@ -135,13 +135,20 @@
 
 <h2>{% trans "N7 associative activities" %}</h2>
 
+<ul>
 {% for club_membership in ain7member.club_memberships.all %}
+    <li>
     {% if club_membership.club.web_site %}
         <a href="{{ club_membership.club.web_site }}">{{ club_membership.club.name }}</a>
     {% else %}
         {{ club_membership.club.name }}
     {% endif %}
+    {% if club_membership.start_date and club_membership.end_date %}
+    (<i>{{ club_membership.start_date|date:"Y" }} - {{ club_membership.end_date|date:"Y" }}</i>)
+    {% endif %}
+    </li>
 {% endfor %}
+</ul>
 {% endif %}
 
 </div>

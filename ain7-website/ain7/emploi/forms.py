@@ -34,11 +34,11 @@ dateWidget.dformat = '%d/%m/%Y'
 
 class JobOfferForm(forms.Form):
     reference = forms.CharField(label=_('reference'), max_length=50,
-        required=False, widget=forms.TextInput(attrs={'size':'50'}))
+        required=False, widget=forms.TextInput(attrs={'size':'40'}))
     title = forms.CharField(label=_('title').capitalize(), max_length=50,
-        required=False, widget=forms.TextInput(attrs={'size':'50'}))
+        required=False, widget=forms.TextInput(attrs={'size':'40'}))
     experience = forms.CharField(label=_('experience'), max_length=50,
-        required=False, widget=forms.TextInput(attrs={'size':'50'}))
+        required=False, widget=forms.TextInput(attrs={'size':'40'}))
     contract_type = forms.IntegerField(label=_('contract type'),
         required=False)
     contract_type.widget = forms.Select(choices=JobOffer.JOB_TYPES)
@@ -49,7 +49,7 @@ class JobOfferForm(forms.Form):
     office = forms.ModelChoiceField(label=_('office').capitalize(),
         queryset=Office.objects.valid_offices(), required=True)
     contact_name = forms.CharField(label=_('Contact name'), max_length=50,
-        required=False, widget=forms.TextInput(attrs={'size':'50'}))
+        required=False, widget=forms.TextInput(attrs={'size':'40'}))
     contact_email = forms.EmailField(label=_('Contact email').capitalize(),
         required=False)
     track = forms.ModelMultipleChoiceField(label=_('track').capitalize(),
@@ -76,7 +76,7 @@ class JobOfferForm(forms.Form):
 
 
 class SearchJobForm(forms.Form):
-    title = forms.CharField(label=_('title'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
+    title = forms.CharField(label=_('title'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'40'}))
     allTracks = forms.BooleanField(label=_('all tracks'), required=False)
     track = forms.ModelMultipleChoiceField(
         label=_('track'), queryset=Track.objects.all(), required=False)

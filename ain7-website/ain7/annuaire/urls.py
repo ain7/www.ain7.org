@@ -103,6 +103,4 @@ urlpatterns = patterns('',
     # vCard
     (r'^(?P<user_id>\d+)/vcard/$', vcard),
 
-    # Autocompletion
-    (r'^complete/track/$', complete_track),
 )

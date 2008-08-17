@@ -75,17 +75,17 @@ class SearchPersonForm(forms.Form):
         return AIn7Member.objects.filter(**criteria).distinct()
 
 class SendmailForm(forms.Form):
-    subject = forms.CharField(label=_('subject'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'50'}))
+    subject = forms.CharField(label=_('subject'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'40'}))
     body = forms.CharField(label=_('body'),max_length=500, required=False, widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':95}))
     send_test = forms.BooleanField(label=_('Send me a test'), required=False)
 
 class NewMemberForm(forms.Form):
-    first_name = forms.CharField(label=_('First name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size':50}))
-    last_name = forms.CharField(label=_('Last name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 50}))
-    mail = forms.EmailField(label=_('Mail'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 50}))
-    nationality = forms.IntegerField(label=_('Nationality'), required=True, widget=AutoCompleteField(url='/ajax/nationality/'))
+    first_name = forms.CharField(label=_('First name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size':40}))
+    last_name = forms.CharField(label=_('Last name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 40}))
+    mail = forms.EmailField(label=_('Mail'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 40}))
+    nationality = forms.IntegerField(label=_('Nationality'), required=True, widget=AutoCompleteField(url='/ajax/nationality/',addable=True))
     birth_date = forms.DateTimeField(label=_('Date of birth'), required=True, widget=dateWidget)
-    sex = forms.ChoiceField(label=_('sex'), required=True, choices=Person.SEX)
+    sex = forms.ChoiceField(label=_('Sex'), required=True, choices=Person.SEX)
     promo = forms.IntegerField(label=_('Promo year'), required=True, widget=AutoCompleteField(url='/ajax/promo/'))
     track = forms.IntegerField(label=_('Track'), required=True,  widget=AutoCompleteField(url='/ajax/track/'))
 
@@ -253,13 +253,14 @@ class WebSiteForm(forms.ModelForm):
         exclude = ('person')
 
 class ClubMembershipForm(forms.ModelForm):
+    start_date = forms.DateTimeField(label=_('start date').capitalize(),widget=dateTimeWidget)
+    end_date = forms.DateTimeField(label=_('end date').capitalize(),widget=dateTimeWidget)
     class Meta:
         model = ClubMembership
         exclude = ('member')
 
 class AIn7SubscriptionForm(forms.ModelForm):
-    date = forms.DateTimeField(label=_('date').capitalize(),
-        widget=dateTimeWidget)
+    date = forms.DateTimeField(label=_('date').capitalize(),widget=dateTimeWidget)
     class Meta:
         model = AIn7Subscription
         exclude = ('member')
