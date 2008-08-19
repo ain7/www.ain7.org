@@ -85,7 +85,7 @@ class SearchContributionForm(forms.Form):
             try:
                 Person.objects.get(id=u)
             except Person.DoesNotExist:
-                raise ValidationError(_('The user "%s" does not exist.') % u)
+                raise ValidationError(_('The entered user does not exist.'))
 
         return self.cleaned_data['user']
 
@@ -115,7 +115,7 @@ class NewPersonForm(forms.ModelForm):
             try:
                 Country.objects.get(id=n)
             except Country.DoesNotExist:
-                raise ValidationError(_('The nationality "%s" does not exist.') % n)
+                raise ValidationError(_('The entered nationality does not exist.'))
             else:
                 return self.cleaned_data['nationality']
         else:

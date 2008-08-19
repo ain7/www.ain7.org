@@ -42,7 +42,7 @@ class ActivityField(models.Model):
     keywords = models.CharField(verbose_name=_('keywords'), max_length=100)
     label = models.CharField(verbose_name=_('label'), max_length=100)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.field
 
     class Meta:
@@ -98,7 +98,7 @@ class Organization(models.Model):
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
     modification_date = models.DateTimeField(editable=False)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     def print_size(self):
@@ -154,7 +154,7 @@ class OrganizationProposal(models.Model):
         default=datetime.datetime.now, editable=False)
     modification_date = models.DateTimeField(editable=False)
 
-    def __str__(self):
+    def __unicode__(self):
         act = ""
         for (actnum, actname) in ACTIONS:
             if actnum==self.action:
@@ -203,7 +203,7 @@ class Office(models.Model):
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
     modification_date = models.DateTimeField(editable=False)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     def save(self):
@@ -280,7 +280,7 @@ class OfficeProposal(models.Model):
         default=datetime.datetime.now, editable=False)
     modification_date = models.DateTimeField(editable=False)
 
-    def __str__(self):
+    def __unicode__(self):
         act = ""
         for (actnum, actname) in ACTIONS:
             if actnum==self.action:
@@ -312,9 +312,9 @@ class Position(models.Model):
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
     modification_date = models.DateTimeField(editable=False)
 
-    def __str__(self):
-        description  = self.fonction + " " + _("for") + " " + str(self.office)
-        description += " (" + str(self.office.organization) +")"
+    def __unicode__(self):
+        description  = self.fonction + " " + _("for") + " " + unicode(self.office)
+        description += " (" + unicode(self.office.organization) +")"
         return description
 
     def save(self):
@@ -390,7 +390,7 @@ class PublicationItem(models.Model):
         self.modification_date = datetime.datetime.today()
         return super(PublicationItem, self).save()
 
-    def __str__(self):
+    def __unicode__(self):
         return self.title
 
     class Meta:
@@ -421,11 +421,10 @@ class JobOffer(models.Model):
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
     modification_date = models.DateTimeField(editable=False)
 
-    def __str__(self):
-        return self.reference + " " + self.title + " ("+ str(self.office) + ")"
+    def __unicode__(self):
+        return self.reference + " " + self.title + " ("+ unicode(self.office) + ")"
 
     def save(self):
         self.modification_date = datetime.datetime.today()
         return super(JobOffer, self).save()
-
 

@@ -103,7 +103,7 @@ class TravelResponsible(models.Model):
     responsible = models.ForeignKey(Person, verbose_name=_('responsible'), related_name='travel_responsibilities')
 
     def __unicode__(self):
-        return self.responsible.__str__()
+        return unicode(self.responsible)
 
     class Meta:
         verbose_name = _('travel responsible')

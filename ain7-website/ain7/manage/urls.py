@@ -59,7 +59,7 @@ urlpatterns = patterns('ain7.manage.views',
     (r'^users/register/$', 'user_register'),
     (r'^users/(?P<user_id>\d+)/$', 'user_details'),
     (r'^users/(?P<user_id>\d+)/edit/$', 'user_edit'),
-    (r'^users/(?P<user_id>\d+)/edit/person/$', 'user_person_edit'),
+    (r'^users/(?P<user_id>\d+)/person/edit/$', 'user_person_edit'),
     # Adresses
     (r'^users/(?P<user_id>\d+)/address/(?P<address_id>\d+)/edit/$', 'user_address_edit'),
     (r'^users/(?P<user_id>\d+)/address/(?P<address_id>\d+)/delete/$', 'user_address_delete'),

@@ -108,8 +108,7 @@ def user_register(request):
 def user_edit(request, user_id=None): 
  
     p = get_object_or_404(Person, pk=user_id) 
-    return ain7_render_to_response(request, 'manage/user_edit.html', 
-                            {'person': p}) 
+    return ain7_render_to_response(request, 'manage/user_edit.html', {'person': p}) 
 
 @login_required
 def user_person_edit(request, user_id=None):
@@ -122,7 +121,7 @@ def user_person_edit(request, user_id=None):
         'manage/edit_form.html',
         {'action_title': _("Modification of personal data for"),
          'person': person, 'back': request.META.get('HTTP_REFERER', '/')}, {},
-        '/manage/user/%s/edit' % (person.user.id),
+        '/manage/users/%s/edit/' % (person.user.id),
         _("Modifications have been successfully saved."))
 
 @login_required
