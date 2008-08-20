@@ -28,6 +28,19 @@ from django.utils.translation import ugettext as _
 from django.utils.html import escape
 
 class AutoCompleteField(TextInput):
+
+    entities = { 
+                 'nationality': { 'url': '/ajax/nationality/', 'add_url': '/manage/nationality/add', 'add_title': _('Add a new nationality') },
+                 'office': { 'url': '/ajax/office/', 'add_url': '/manage/office/add', 'add_title': _('Add a new office') },
+                 'person': { 'url': '/ajax/person/' },
+                 'promo': { 'url': '/ajax/promo/' },
+                 'track': { 'url': '/ajax/track/' },
+                 'organization': { 'url': '/ajax/organization/' },
+                 'activityfield': { 'url': '/ajax/activityfield/' },
+                 'activitycode': { 'url': '/ajax/activitycode/' },
+                 'permission': { 'url': '/ajax/permission/' },
+               }
+
     def __init__(self, url='', options='{ paramName: "text", autoSelect:true, afterUpdateElement:setSelected }', addable=False, attrs=None):
         self.url = url
         self.addable = addable
@@ -75,6 +88,7 @@ class AutoCompleteField(TextInput):
                                   'url'	: self.url,
                                   'valueTxt': valueTxt,
                                   'options' : self.options}
+
     def valuefromid(self):
         pass
 

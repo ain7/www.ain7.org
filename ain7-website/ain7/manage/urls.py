@@ -104,4 +104,3 @@ urlpatterns = patterns('ain7.manage.views',
     (r'^office/add/$', 'office_add'),
 )
 
-

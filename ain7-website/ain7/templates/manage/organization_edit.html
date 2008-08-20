@@ -1,6 +1,11 @@
 {% extends "manage/base.html" %}
-
 {% load i18n %}
+
+{% block javascript %}
+{{ block.super }}
+<script src="/site_media/js/tiny_mce/tiny_mce.js" type="text/javascript"></script>
+<script src="/site_media/js/textareas.js" type="text/javascript"></script>
+{% endblock %}
 
 {% block content %}
 
@@ -40,7 +45,6 @@
     <li><a href="/manage/organizations/register/">{% trans "Register organization" %}</a></li>
 </ul>
 </div>
-
 
 </div>
 

@@ -43,36 +43,6 @@ class SearchPersonForm(forms.Form):
     track = forms.IntegerField(label=_('Track'), required=False, widget=AutoCompleteField(url='/ajax/track/'))
     organization = forms.IntegerField(label=_('organization').capitalize(), required=False,widget=AutoCompleteField(url='/ajax/organization/'))
 
-    def clean_promo(self):
-        p = self.cleaned_data['promo']
-
-        try:
-            PromoYear.objects.get(id=p)
-        except PromoYear.DoesNotExist:
-            raise ValidationError(_('The entered year of promotion does not exist.'))
-        else:
-            return self.cleaned_data['promo']
-
-    def clean_track(self):
-        t = self.cleaned_data['track']
-        try:
-            track = Track.objects.get(id=t)
-        except Track.DoesNotExist:
-            raise ValidationError(_('The entered track does not exist.'))
-
-        if self.cleaned_data.has_key('promo'):
-            p = self.cleaned_data['promo']
-            if self.cleaned_data['promo'] != -1 and self.cleaned_data['track'] != -1 :
-                try:
-                    promo_year = PromoYear.objects.get(id=p)
-                    promo = Promo.objects.get(year=promo_year,track=track)
-                except PromoYear.DoesNotExist:
-                    raise ValidationError(_('The entered year of promotion does not exist.'))
-                except Promo.DoesNotExist:
-                    raise ValidationError(_('There is no promo year and track associated.'))
-                else:
-                    return self.cleaned_data['track']
-
     def criteria(self):
         # criteres sur le nom et prenom, et sur l'organisation
         criteria={

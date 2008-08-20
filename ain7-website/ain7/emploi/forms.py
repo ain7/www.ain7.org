@@ -166,7 +166,7 @@ class OfficeFormNoOrg(forms.ModelForm):
 class PositionForm(forms.ModelForm):
     start_date = forms.DateTimeField(label=_('start date').capitalize(),widget=dateWidget)
     end_date = forms.DateTimeField(label=_('end date').capitalize(), widget=dateWidget)
-    office = forms.IntegerField(label=_('Office'), required=False, widget=AutoCompleteField(url='/ajax/office/'))
+    office = forms.IntegerField(label=_('Office'), required=False, widget=AutoCompleteField(url='/ajax/office/',addable=True))
     
     class Meta:
         model = Position
