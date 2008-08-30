@@ -22,7 +22,6 @@
 
 from datetime import date, datetime, timedelta
 
-from django.core import validators
 from django.contrib.auth.models import User, Group
 from django.contrib.sites.models import Site
 

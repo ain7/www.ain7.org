@@ -91,8 +91,8 @@ class MaritalStatus(models.Model):
 # Diploma received
 class Diploma(models.Model):
 
-    diploma = models.CharField(verbose_name=_('diploma'), max_length=100, core=True)
-    initials = models.CharField(verbose_name=_('initials'), max_length=10, core=True, blank=True, null=True)
+    diploma = models.CharField(verbose_name=_('diploma'), max_length=100)
+    initials = models.CharField(verbose_name=_('initials'), max_length=10, blank=True, null=True)
 
     def __unicode__(self):
         return self.diploma
@@ -103,7 +103,7 @@ class Diploma(models.Model):
 # Decoration received by people (war cross, etc.)
 class Decoration(models.Model):
 
-    decoration = models.CharField(verbose_name=_('decoration'), max_length=200, core=True)
+    decoration = models.CharField(verbose_name=_('decoration'), max_length=200)
 
     def __unicode__(self):
         return self.decoration
@@ -114,7 +114,7 @@ class Decoration(models.Model):
 # Honorific functions occupied by some persons
 class CeremonialDuty(models.Model):
 
-    ceremonial_duty = models.CharField(verbose_name=_('ceremonial duty'), max_length=200, core=True)
+    ceremonial_duty = models.CharField(verbose_name=_('ceremonial duty'), max_length=200)
 
     def __unicode__(self):
         return self.ceremonial_duty
@@ -321,9 +321,9 @@ class AIn7Member(models.Model):
     ceremonial_duties = models.ManyToManyField(CeremonialDuty, verbose_name=_('ceremonial duties'), blank=True, null=True)
 
     # Curriculum Vitae and Job Service
-    display_cv_in_directory = models.BooleanField(verbose_name=_('Display my CV in the directory'), core=True, default=False)
-    display_cv_in_job_section = models.BooleanField(verbose_name=_('Display my CV in the job service section'), core=True, default=True)
-    receive_job_offers = models.BooleanField(verbose_name=_('Receive job offers by email'), core=True, default=False)
+    display_cv_in_directory = models.BooleanField(verbose_name=_('Display my CV in the directory'), default=False)
+    display_cv_in_job_section = models.BooleanField(verbose_name=_('Display my CV in the job service section'), default=True)
+    receive_job_offers = models.BooleanField(verbose_name=_('Receive job offers by email'), default=False)
     receive_job_offers_for_tracks = models.ManyToManyField(
         Track,
         verbose_name=_('Tracks for which you would like to receive job offers'),
@@ -374,9 +374,9 @@ class PhoneNumber(models.Model):
                          (3, _('Mobile')),
                          )
 
-    person = models.ForeignKey(Person, related_name='phone_numbers', edit_inline=models.TABULAR, num_in_admin=2)
+    person = models.ForeignKey(Person, related_name='phone_numbers')
 
-    number = models.CharField(verbose_name=_('number'), max_length=20, core=True)
+    number = models.CharField(verbose_name=_('number'), max_length=20)
     type = models.IntegerField(verbose_name=_('type'), choices=PHONE_NUMBER_TYPE, default=1)
     is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
 
@@ -409,12 +409,12 @@ class AddressType(models.Model):
 # A person address
 class Address(models.Model):
 
-    person = models.ForeignKey(Person, related_name='addresses', edit_inline=models.STACKED, num_in_admin=2)
+    person = models.ForeignKey(Person, related_name='addresses')
 
-    line1 = models.CharField(verbose_name=_('address line1'), max_length=50, core=True)
-    line2 = models.CharField(verbose_name=_('address line2'), max_length=100, blank=True, null=True, core=True)
-    zip_code = models.CharField(verbose_name=_('zip code'), max_length=20, core=True)
-    city = models.CharField(verbose_name=_('city'), max_length=50, core=True)
+    line1 = models.CharField(verbose_name=_('address line1'), max_length=50)
+    line2 = models.CharField(verbose_name=_('address line2'), max_length=100, blank=True, null=True)
+    zip_code = models.CharField(verbose_name=_('zip code'), max_length=20)
+    city = models.CharField(verbose_name=_('city'), max_length=50)
     country = models.ForeignKey(Country, verbose_name=_('country'))
     type = models.ForeignKey(AddressType, verbose_name=_('type'))
     is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
@@ -440,9 +440,9 @@ class Address(models.Model):
 # e-mail address for a person
 class Email(models.Model):
 
-    person = models.ForeignKey(Person, related_name='emails', edit_inline=models.TABULAR, num_in_admin=1)
+    person = models.ForeignKey(Person, related_name='emails')
 
-    email = models.EmailField(verbose_name=_('email'), core=True)
+    email = models.EmailField(verbose_name=_('email'))
     is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
     preferred_email = models.BooleanField(verbose_name=_('preferred'), default=False)
 
@@ -465,10 +465,10 @@ class InstantMessaging(models.Model):
                               (7,'Skype'),
                               )
 
-    person = models.ForeignKey(Person, related_name='instant_messagings', edit_inline=models.TABULAR, num_in_admin=1)
+    person = models.ForeignKey(Person, related_name='instant_messagings')
 
-    type = models.IntegerField(verbose_name=_('type'), choices=INSTANT_MESSAGING_TYPE, core=True)
-    identifier = models.CharField(verbose_name=_('identifier'), max_length=40, core=True)
+    type = models.IntegerField(verbose_name=_('type'), choices=INSTANT_MESSAGING_TYPE)
+    identifier = models.CharField(verbose_name=_('identifier'), max_length=40)
 
     def __unicode__(self):
         return self.identifier
@@ -492,12 +492,12 @@ class WebSite(models.Model):
                     (100,'Other'),
                    )
 
-    person = models.ForeignKey(Person, related_name='web_sites', edit_inline=models.TABULAR, num_in_admin=1)
+    person = models.ForeignKey(Person, related_name='web_sites')
 
-    url = models.CharField(verbose_name=_('web site'), max_length=100, core=True)
-    type = models.IntegerField(verbose_name=_('type'),choices=WEBSITE_TYPE, core=True)
+    url = models.CharField(verbose_name=_('web site'), max_length=100)
+    type = models.IntegerField(verbose_name=_('type'),choices=WEBSITE_TYPE)
 
-    blog_is_agregated_on_planet = models.BooleanField(verbose_name=_('blog on planet'), core=True, default=False)
+    blog_is_agregated_on_planet = models.BooleanField(verbose_name=_('blog on planet'), default=False)
 
     def __unicode__(self):
         return self.url
@@ -513,10 +513,10 @@ class WebSite(models.Model):
 # IRC contact for a person
 class IRC(models.Model):
 
-    person = models.ForeignKey(Person, related_name='ircs', edit_inline=models.TABULAR, num_in_admin=1)
+    person = models.ForeignKey(Person, related_name='ircs')
 
-    network = models.CharField(verbose_name=_('network'), max_length=50, core=True)
-    pseudo = models.CharField(verbose_name=_('pseudo'), max_length=20, core=True)
+    network = models.CharField(verbose_name=_('network'), max_length=50)
+    pseudo = models.CharField(verbose_name=_('pseudo'), max_length=20)
     channels = models.CharField(verbose_name=_('channels'), max_length=100)
 
     def __unicode__(self):
@@ -548,8 +548,8 @@ class Club(models.Model):
 # Club membership for a person
 class ClubMembership(models.Model):
 
-    club = models.ForeignKey(Club, verbose_name=_('club'), related_name='memberships', edit_inline=models.TABULAR, num_in_admin=1)
-    member = models.ForeignKey(AIn7Member, verbose_name=_('member'), related_name='club_memberships', edit_inline=models.TABULAR, num_in_admin=1)
+    club = models.ForeignKey(Club, verbose_name=_('club'), related_name='memberships')
+    member = models.ForeignKey(AIn7Member, verbose_name=_('member'), related_name='club_memberships')
 
     fonction = models.CharField(verbose_name=_('fonction'), max_length=50, null=True)
     start_date = models.DateField(verbose_name=_('start date'), blank=True, null=True)

@@ -84,13 +84,13 @@ class Travel(models.Model):
 
 class Subscription(models.Model):
 
-    subscriber_number = models.IntegerField(verbose_name=_('subscriber number'), default=1, core=True)
+    subscriber_number = models.IntegerField(verbose_name=_('subscriber number'), default=1)
     comment = models.TextField(verbose_name=_('comment'), blank=True, null=True)
 
     subscription_date = models.DateTimeField(default=datetime.datetime.now, editable=False)
 
     subscriber = models.ForeignKey(Person, verbose_name=_('subscriber'), related_name='travel_subscriptions')
-    travel = models.ForeignKey(Travel, verbose_name=_('event'), related_name='subscriptions', edit_inline=models.TABULAR, num_in_admin=1)
+    travel = models.ForeignKey(Travel, verbose_name=_('event'), related_name='subscriptions')
 
     class Meta:
         verbose_name = _('travel subscription')

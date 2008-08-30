@@ -76,8 +76,8 @@ class GroupMembership(models.Model):
     start_date = models.DateField(verbose_name=_('start date'), default=datetime.datetime.now, blank=True, null=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
 
-    group = models.ForeignKey(Group, verbose_name=_('regional group'), related_name='memberships', edit_inline=models.TABULAR, num_in_admin=2)
-    member = models.ForeignKey(Person, verbose_name=_('member'), related_name='regional_group_memberships', core=True)
+    group = models.ForeignKey(Group, verbose_name=_('regional group'), related_name='memberships')
+    member = models.ForeignKey(Person, verbose_name=_('member'), related_name='regional_group_memberships')
 
     class Meta:
         ordering = ['start_date', 'end_date']
@@ -96,12 +96,12 @@ class GroupRole(models.Model):
                        (6, _('Office member')),
                        )
 
-    type = models.IntegerField(verbose_name=_('type'), choices=ROLE_TYPE, core=True)
+    type = models.IntegerField(verbose_name=_('type'), choices=ROLE_TYPE)
     start_date = models.DateField(verbose_name=_('start date'), default=datetime.datetime.now, blank=True, null=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
 
-    group = models.ForeignKey(Group, verbose_name=_('regional group'), related_name='roles', edit_inline=models.TABULAR, num_in_admin=2)
-    member = models.ForeignKey(Person, verbose_name=_('member'), related_name='regional_group_roles', core=True)
+    group = models.ForeignKey(Group, verbose_name=_('regional group'), related_name='roles')
+    member = models.ForeignKey(Person, verbose_name=_('member'), related_name='regional_group_roles')
 
     def __unicode__(self):
         typ = None

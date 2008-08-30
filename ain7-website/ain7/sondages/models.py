@@ -48,9 +48,9 @@ class Survey(models.Model):
         verbose_name = _('survey')
 
 class Choice(models.Model):
-    choice = models.CharField(verbose_name=_('choice'), max_length=200, core=True)
+    choice = models.CharField(verbose_name=_('choice'), max_length=200)
 
-    survey = models.ForeignKey(Survey, verbose_name=_('survey'), related_name='choices', edit_inline=models.TABULAR, num_in_admin=3)
+    survey = models.ForeignKey(Survey, verbose_name=_('survey'), related_name='choices')
 
     def __unicode__(self):
         return self.choice

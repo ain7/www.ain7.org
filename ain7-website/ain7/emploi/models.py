@@ -81,7 +81,7 @@ class Organization(models.Model):
                     (3, _('Large (500+)')),
                     )
 
-    name = models.CharField(verbose_name=_('name'), max_length=50, core=True)
+    name = models.CharField(verbose_name=_('name'), max_length=50)
     size = models.IntegerField(verbose_name=_('size'), choices=ORGANIZATION_SIZE, blank=True, null=True)
     activity_field = models.ForeignKey(ActivityField, verbose_name=_('Activity field'), related_name='organizations')
     short_description = models.CharField(verbose_name=_('short description'), max_length=50, blank=True, null=True)
@@ -178,9 +178,9 @@ class OfficeManager(models.Manager):
 # A organization office informations
 class Office(models.Model):
 
-    organization = models.ForeignKey(Organization, verbose_name=_('organization'), related_name='offices', edit_inline=models.STACKED)
+    organization = models.ForeignKey(Organization, verbose_name=_('organization'), related_name='offices')
 
-    name = models.CharField(verbose_name=_('name'), max_length=50, core=True)
+    name = models.CharField(verbose_name=_('name'), max_length=50)
 
     line1 = models.CharField(verbose_name=_('line1'), max_length=50, blank=True, null=True)
     line2 = models.CharField(verbose_name=_('line2'), max_length=100, blank=True, null=True)
@@ -299,13 +299,13 @@ class OfficeProposal(models.Model):
 class Position(models.Model):
 
     office = models.ForeignKey(Office, verbose_name=_('office'), related_name='positions')
-    fonction = models.CharField(verbose_name=_('fonction'), max_length=50, core=True)
+    fonction = models.CharField(verbose_name=_('fonction'), max_length=50)
     service = models.CharField(verbose_name=_('service'), max_length=50, blank=True, null=True)
-    start_date = models.DateField(verbose_name=_('start date'), core=True)
+    start_date = models.DateField(verbose_name=_('start date'))
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
     is_regie = models.BooleanField(verbose_name=_('regie outside'), default=False)
 
-    ain7member = models.ForeignKey(AIn7Member, related_name='positions', edit_inline=models.STACKED, num_in_admin=1)
+    ain7member = models.ForeignKey(AIn7Member, related_name='positions')
     description = models.TextField(verbose_name=_('description'), blank=True, null=True)
 
     # Internal
@@ -328,12 +328,12 @@ class Position(models.Model):
 # An education item in the CV of a person.
 class EducationItem(models.Model):
 
-    school = models.CharField(verbose_name=_('school'), max_length=150, core=True)
+    school = models.CharField(verbose_name=_('school'), max_length=150)
     diploma = models.CharField(verbose_name=_('diploma'), max_length=150, blank=True, null=True)
     details = models.TextField(verbose_name=_('description'), blank=True, null=True)
-    start_date = models.DateField(verbose_name=_('start date'), core=True)
+    start_date = models.DateField(verbose_name=_('start date'))
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
-    ain7member = models.ForeignKey(AIn7Member, related_name='education', edit_inline=models.STACKED, num_in_admin=1)
+    ain7member = models.ForeignKey(AIn7Member, related_name='education')
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
@@ -355,9 +355,9 @@ class EducationItem(models.Model):
 #               title="Sport" detail="Judo, Pastis, Pétanque"
 class LeisureItem(models.Model):
 
-    title = models.CharField(verbose_name=_('Title'), max_length=50, core=True)
+    title = models.CharField(verbose_name=_('Title'), max_length=50)
     detail = models.TextField(verbose_name=_('Detail'), blank=True, null=True)
-    ain7member = models.ForeignKey(AIn7Member, related_name='leisure', edit_inline=models.STACKED, num_in_admin=1)
+    ain7member = models.ForeignKey(AIn7Member, related_name='leisure')
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
@@ -377,10 +377,10 @@ class LeisureItem(models.Model):
 # An publication item in the CV of a person.
 class PublicationItem(models.Model):
 
-    title = models.CharField(verbose_name=_('Title'), max_length=50, core=True)
+    title = models.CharField(verbose_name=_('Title'), max_length=50)
     details = models.TextField(verbose_name=_('Detail'), blank=True, null=True)
     date = models.DateField()
-    ain7member = models.ForeignKey(AIn7Member, related_name='publication', edit_inline=models.STACKED, num_in_admin=1)
+    ain7member = models.ForeignKey(AIn7Member, related_name='publication')
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
@@ -405,7 +405,7 @@ class JobOffer(models.Model):
     )
 
     reference = models.CharField(verbose_name=_('Reference'), max_length=50, blank=True, null=True)
-    title = models.CharField(verbose_name=_('Title'), max_length=100, core=True)
+    title = models.CharField(verbose_name=_('Title'), max_length=100)
     description = models.TextField(verbose_name=_('Description'), blank=True, null=True)
     experience = models.CharField(verbose_name=_('Experience'), max_length=50, blank=True, null=True)
     contract_type = models.IntegerField(verbose_name=_('Contract type'), choices=JOB_TYPES, blank=True, null=True)

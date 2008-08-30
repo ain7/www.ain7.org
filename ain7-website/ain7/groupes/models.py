@@ -55,8 +55,8 @@ class Membership(models.Model):
 
     is_coordinator = models.BooleanField(verbose_name=_('coordinator'), default=False)
 
-    group = models.ForeignKey(Group, verbose_name=_('group'), related_name='memberships', edit_inline=models.TABULAR, num_in_admin=1)
-    member = models.ForeignKey(Person, verbose_name=_('member'), related_name='group_memberships', core=True)
+    group = models.ForeignKey(Group, verbose_name=_('group'), related_name='memberships')
+    member = models.ForeignKey(Person, verbose_name=_('member'), related_name='group_memberships')
 
     start_date = models.DateField(verbose_name=_('start date'), default=datetime.datetime.now, blank=True, null=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)

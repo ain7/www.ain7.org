@@ -109,8 +109,8 @@ class Event(models.Model):
 class EventSubscription(models.Model):
 
     subscriber = models.ForeignKey(Person, verbose_name=_('subscriber'), related_name='event_subscriptions')
-    event = models.ForeignKey(Event, verbose_name=_('event'), related_name='subscriptions', edit_inline=models.TABULAR, num_in_admin=1)
-    subscriber_number = models.IntegerField(verbose_name=_('subscriber number'), core=True)
+    event = models.ForeignKey(Event, verbose_name=_('event'), related_name='subscriptions')
+    subscriber_number = models.IntegerField(verbose_name=_('subscriber number'))
     note = models.TextField(null=True, blank=True)
 
     subscription_date = models.DateTimeField(default=datetime.datetime.now, editable=False)

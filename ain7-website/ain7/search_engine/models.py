@@ -139,7 +139,7 @@ class SearchCriterionField(models.Model):
 
 class SearchCriterionFilter(models.Model):
     searchFilter = models.ForeignKey(SearchFilter,
-        related_name='criteriaFilter', core=True)
+        related_name='criteriaFilter')
     filterCriterion = models.ForeignKey(SearchFilter,
         related_name='used_as_criterion')
     is_in = models.BooleanField(default=True)
