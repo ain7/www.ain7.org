@@ -33,7 +33,7 @@ class EventManager(models.Manager):
 
     def next_events(self):
         """Returns all future events."""
-        return self.filter(end__gte=datetime.datetime.now())
+        return self.filter(date__gte=datetime.datetime.now())
 
 class Event(models.Model):
 
@@ -51,8 +51,7 @@ class Event(models.Model):
               )
 
     name = models.CharField(verbose_name=_('name'), max_length=20)
-    start = models.DateTimeField(verbose_name=_('start'))
-    end = models.DateTimeField(verbose_name=_('end'))
+    date = models.DateTimeField(verbose_name=_('date'))
     description = models.TextField(verbose_name=_('description'), blank=True, null=True)
     location = models.CharField(verbose_name=_('place'), max_length=60)
     category = models.IntegerField(verbose_name=_('category'), choices=EVENT_CATEGORY, null=True, blank=True)
@@ -64,10 +63,9 @@ class Event(models.Model):
     publication_start =  models.DateTimeField(verbose_name=_('publication start'))
     publication_end = models.DateTimeField(verbose_name=_('publication end'))
 
-    organizer = models.ManyToManyField(Person, verbose_name=_('organizer'),related_name='events', blank=True, null=True)
+    organizers = models.ManyToManyField(Person, verbose_name=_('organizers'),related_name='events', blank=True, null=True)
     regional_groups = models.ManyToManyField(Group, verbose_name=_('regional groups'), related_name='events', blank=True, null=True)
     pictures_gallery = models.CharField(verbose_name=_('Pictures gallery'), max_length=100, blank=True, null=True)
-    question = models.TextField(null=True, blank=True)
     objects = EventManager()
 
     # Internal
@@ -103,7 +101,7 @@ class Event(models.Model):
         return nbpart
 
     class Meta:
-        ordering = ['start', 'end', 'publication_start', 'publication_end']
+        ordering = ['date', 'publication_start', 'publication_end']
         verbose_name = _('event')
 
 class EventSubscription(models.Model):

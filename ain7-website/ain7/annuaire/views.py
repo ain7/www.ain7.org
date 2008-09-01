@@ -924,7 +924,12 @@ def vcard(request, user_id):
         vcard.add('mail').value = mail
         vcard.add('mail').type_param = 'INTERNET'
     for address in  Address.objects.filter(person=p):
-        vcard.add('adr').value = vobject.vcard.Address(street=address.line1 + ' ' + address.line2, city=address.city, region='', code=address.zip_code, country=address.country.name, box=address.number, extended='')
+        street = ''
+        if address.line1:
+            street = street + address.line1
+        if address.line2:
+            street = street + address.line2
+        vcard.add('adr').value = vobject.vcard.Address(street=street, city=address.city, region='', code=address.zip_code, country=address.country.name, box='', extended='')
         vcard.add('adr').type_param = address.type.type
     for tel in PhoneNumber.objects.filter(person=p):
         vcard.add('tel').value = tel.number

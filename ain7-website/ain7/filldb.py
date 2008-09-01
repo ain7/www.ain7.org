@@ -284,8 +284,8 @@ def filldb():
     ain7_bureau.save()
     ain7_ca = Group(name='ain7-ca')
     ain7_ca.save()
-    ain7_secretaire = Group(name='ain7-secretaire')
-    ain7_secretaire.save()
+    ain7_secretariat = Group(name='ain7-secretariat')
+    ain7_secretariat.save()
     ain7_membre = Group(name='ain7-membre')
     ain7_membre.save()
     ain7_recruteur = Group(name='ain7-recruteur')
@@ -296,6 +296,8 @@ def filldb():
     ain7_voyages.save()
     ain7_externe = Group(name='ain7-externe')
     ain7_externe.save()
+    ain7_contrib = Group(name='ain7-contributeur')
+    ain7_contrib.save()
 
     # Person
     lionel = annuaire.Person()
@@ -855,7 +857,7 @@ def filldb():
     sylvie = annuaire.Person()
     sylvie.user = User.objects.create_user("sylvie", "noreply@ain7.info","sylvie")
     sylvie.user.groups.add(ain7_admin)
-    sylvie.user.groups.add(ain7_secretaire)
+    sylvie.user.groups.add(ain7_secretariat)
     sylvie.user.save()
     sylvie.sex = 'F'
     sylvie.first_name = "Sylvie"
@@ -881,7 +883,7 @@ def filldb():
     frederique = annuaire.Person()
     frederique.user = User.objects.create_user("frederique", "noreply@ain7.info","frederique")
     frederique.user.groups.add(ain7_admin)
-    frederique.user.groups.add(ain7_secretaire)
+    frederique.user.groups.add(ain7_secretariat)
     frederique.user.groups.add(ain7_emploi)
     frederique.user.save()
     frederique.sex = 'F'
@@ -1386,8 +1388,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
 
     evenement1 = evenements.Event()
     evenement1.name = u"Réunion 100 ans"
-    evenement1.start = datetime.now() + timedelta(10)
-    evenement1.end = datetime.now() + timedelta(60)
+    evenement1.date = datetime.now() + timedelta(10)
     evenement1.author = "Olivier Gauwin"
     evenement1.contact_email = "olivier.gauwin@alumni.enseeiht.fr"
     evenement1.location = "ENSEEIHT"
@@ -1401,8 +1402,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
 
     evenement2 = evenements.Event()
     evenement2.name = u"Réunion CA"
-    evenement2.start = datetime(2007, 11, 17, 10, 0, tzinfo = utc)
-    evenement2.end = datetime(2007, 11, 17, 12, 0, tzinfo = utc)
+    evenement2.date = datetime(2007, 11, 17, 10, 0, tzinfo = utc)
     evenement2.author = "Lionel Porcheron"
     evenement2.contact_email = "lionel.porcheron@alumni.enseeiht.fr"
     evenement2.location = "ENSEEIHT"

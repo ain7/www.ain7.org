@@ -24,7 +24,6 @@
     {% if person.wiki_name %}
    <li><b>{% trans "Wiki name" %}&nbsp;:</b> <a href="http://wiki.ain7.porcheron.info/{{ person.wiki_name }}">{{ person.wiki_name }}</a></li>
    {% endif %}
-   <li><b>{% trans "Karma" %}&nbsp;:</b> {{ ain7member.karma }}</li>
    {% if ain7member.diplomas.all %}
    <li><b>{% filter capfirst %}{% trans "diplomas" %}{% endfilter %}&nbsp;:</b>
        {% for diploma in ain7member.diplomas.all %}{{ diploma }}
@@ -111,7 +110,7 @@
 
 {% if ain7member.display_cv_in_directory %}
 
-<h2>{% trans "Current professional experiences" %}</h2>
+<h2>{% trans "Professional experiences" %}</h2>
 
 {% if ain7member.positions.all %}
 <table>
@@ -165,11 +164,11 @@
     </ul>
    </div>
 
-   <h3>{% trans "Groups AIn7" %}</h3>
+   <h3>{% trans "AIn7 enrolment" %}</h3>
    <div class="right_articles">
     <ul>
     {% for group in person.user.groups.all %}
-	    <li>{{ group.name }}</li>
+	    <li><a href="/manage/roles/{{ group.id }}/">{{ group.name }}</a></li>
     {% endfor %}
     </ul>
     </div>
@@ -177,7 +176,6 @@
     <h3>{% trans "Card Informations"%}</h3>
    <div class="right_articles">
      <ul>
-       <li>{% trans "Creation" %}&nbsp;: {{ person.creation_date|date:"l j F Y" }}</li>
        <li>{% trans "Update" %}&nbsp;: {{ person.modification_date|date:"l j F Y" }}</li>
      </ul>
    </div>

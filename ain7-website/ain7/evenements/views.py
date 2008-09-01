@@ -41,7 +41,7 @@ from ain7.decorators import confirmation_required
 
 
 def index(request):
-    events = Event.objects.filter(end__gte=datetime.datetime.now())[:5]
+    events = Event.objects.filter(date__gte=datetime.datetime.now())[:5]
     return ain7_render_to_response(request, 'evenements/index.html',
         {'events': events, 'event_list': Event.objects.all(),
          'next_events': Event.objects.next_events()})
@@ -50,7 +50,7 @@ def index(request):
 def details(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     return ain7_render_to_response(request, 'evenements/details.html',
-        {'event': event, 'event_list': Event.objects.all(),
+        {'event': event, 'event_list': Event.objects.all(),'nbparticipants': event.nb_participants(),
          'next_events': Event.objects.next_events()})
 
 @login_required
@@ -210,7 +210,7 @@ def subscribe(request, event_id):
 
 def ical(request):
 
-    list_events = Event.objects.filter(end__gte=datetime.datetime.now())
+    list_events = Event.objects.filter(date__gte=datetime.datetime.now())
 
     cal = vobject.iCalendar()
     cal.add('method').value = 'PUBLISH'  # IE/Outlook needs this
@@ -221,8 +221,8 @@ def ical(request):
         ev = cal.add('vevent')
         ev.add('summary').value = event.name
         ev.add('location').value = event.location
-        ev.add('dtstart').value = event.start
-        ev.add('dtend').value = event.end
+        ev.add('dtstart').value = event.date
+        #ev.add('dtend').value = event.end
         if event.description:
             ev.add('description').value = event.description
         if event.status:

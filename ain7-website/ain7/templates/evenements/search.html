@@ -15,7 +15,7 @@
 <input type="submit" class="button" value="{% trans "Search" %}" />
 </form>
 </div>
-
+<br/>
 {% ifequal request.method 'POST' %}
 <h3>{% trans "Research result" %}</h3>
 {% if list_events %}
@@ -24,11 +24,10 @@
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
 <td align="right">
 {% if is_paginated %}
-{# TODO : je pense que les liens ci-dessous sont incorrects #}
-{% if has_previous %}<a href="/admin/groups/?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="/admin/groups/?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="/admin/groups/?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="/admin/groups/?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% if has_previous %}<a href="/evenements/search/?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="/evenements/search/?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="/evenements/search/?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="/evenements/search/?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
 {% endif %}
 </td>
 </table>

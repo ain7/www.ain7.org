@@ -32,7 +32,6 @@
     {% if person.wiki_name %}
    <li><b>{% trans "Wiki name" %}&nbsp;:</b> <a href="http://wiki.ain7.porcheron.info/{{ person.wiki_name }}">{{ person.wiki_name }}</a></li>
    {% endif %}
-   <li><b>{% trans "Karma" %}&nbsp;:</b> {{ ain7member.karma }}</li>
    {% if ain7member.diplomas.all %}
    <li><b>{% filter capfirst %}{% trans "diplomas" %}{% endfilter %}&nbsp;:</b>
        {% for diploma in ain7member.diplomas.all %}{{ diploma }}

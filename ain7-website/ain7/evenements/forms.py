@@ -34,6 +34,8 @@ dateTimeWidget.dformat = '%d/%m/%Y %H:%M'
 class JoinEventForm(forms.Form):
     subscriber_number = forms.IntegerField(label=_('Number of persons'),
                                            required=True)
+    note = forms.CharField(label=_('Note, question, etc..'), max_length=200,
+        required=False, widget=forms.TextInput(attrs={'size':'40'}))
 
     def clean_subscriber_number(self, *args, **kwargs):
         """On vérifie qu'il y a au moins une personne."""
@@ -46,6 +48,7 @@ class JoinEventForm(forms.Form):
         subscription.subscriber_number = self.cleaned_data['subscriber_number']
         subscription.subscriber = kwargs['subscriber']
         subscription.event = kwargs['event']
+        subscription.note = self.cleaned_data['note']
         subscription.save()
         contrib_type=UserContributionType.objects.get(key='event_subcription')
         contrib=UserContribution(user=kwargs['subscriber'], type=contrib_type)
@@ -53,16 +56,10 @@ class JoinEventForm(forms.Form):
         return subscription
 
 class SubscribeEventForm(forms.Form):
-    subscriber = forms.IntegerField(label=_('Person to subscribe'))
+    subscriber = forms.IntegerField(label=_('Person to subscribe'), widget=AutoCompleteField(url='/ajax/person/'))
     subscriber_number = forms.IntegerField(label=_('Number of persons'))
-
-    def __init__(self, *args, **kwargs):
-        personList = []
-        for person in Person.objects.all():
-            personList.append( (person.user.id, str(person)) )
-        self.base_fields['subscriber'].widget = \
-            forms.Select(choices=personList)
-        super(SubscribeEventForm, self).__init__(*args, **kwargs)
+    note = forms.CharField(label=_('Note, question, etc..'), max_length=200,
+        required=False, widget=forms.TextInput(attrs={'size':'40'}))
 
     def clean_subscriber_number(self, *args, **kwargs):
         """On vérifie qu'il y a au moins une personne."""
@@ -76,6 +73,7 @@ class SubscribeEventForm(forms.Form):
         subscription.subscriber = Person.objects.get(
             id=self.cleaned_data['subscriber'])
         subscription.event = kwargs['event']
+        subscription.note = self.cleaned_data['note']
         subscription.save()
         return subscription
 
@@ -94,12 +92,7 @@ class EventForm(forms.ModelForm):
     description = forms.CharField( label=_('description').capitalize(),
         required=False,
         widget=forms.widgets.Textarea(attrs={'rows':10, 'cols':40}))
-    question = forms.CharField( label=_('question').capitalize(),
-        required=False, 
-        widget=forms.widgets.Textarea(attrs={'rows':10, 'cols':40}))
-    start = forms.DateTimeField(label=_('start').capitalize(),
-        widget=dateTimeWidget)
-    end = forms.DateTimeField(label=_('end').capitalize(),
+    date = forms.DateTimeField(label=_('date').capitalize(),
         widget=dateTimeWidget)
     publication_start = forms.DateTimeField(
         label=_('publication start').capitalize(), widget=dateTimeWidget)
@@ -108,13 +101,6 @@ class EventForm(forms.ModelForm):
     
     class Meta:
         model = Event
-
-    def clean_end(self):
-        if self.cleaned_data.get('start') and \
-            self.cleaned_data.get('end') and \
-            self.cleaned_data['start']>self.cleaned_data['end']:
-            raise forms.ValidationError(_('Start date is later than end date'))
-        return self.cleaned_data['end']
 
     def clean_publication_end(self):
         if self.cleaned_data.get('publication_start') and \
