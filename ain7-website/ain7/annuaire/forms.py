@@ -45,20 +45,24 @@ class SearchPersonForm(forms.Form):
 
     def criteria(self):
         # criteres sur le nom et prenom, et sur l'organisation
-        criteria={
-            'person__last_name__icontains': self.cleaned_data['last_name'].encode('utf8'),
-            'person__first_name__icontains': self.cleaned_data['first_name'].encode('utf8')}
+        criteria={}
 
-        if self.cleaned_data['organization'] != -1:
+        if self.cleaned_data['last_name']:
+            criteria['person__last_name__icontains'] = self.cleaned_data['last_name'].encode('utf8')
+
+        if self.cleaned_data['first_name']:
+            criteria['person__first_name__icontains'] = self.cleaned_data['first_name'].encode('utf8')
+
+        if self.cleaned_data['organization'] and self.cleaned_data['organization'] != -1:
             criteria['positions__office__organization__id'] = self.cleaned_data['organization']
 
         # ici on commence par rechercher toutes les promos
         # qui concordent avec l'annee de promotion et la filiere
         # saisis par l'utilisateur.
         promoCriteria={}
-        if self.cleaned_data['promo'] != -1:
+        if self.cleaned_data['promo'] and self.cleaned_data['promo'] != -1:
             promoCriteria['year'] = PromoYear.objects.get(id=self.cleaned_data['promo'])
-        if self.cleaned_data['track'] != -1:
+        if self.cleaned_data['track'] and self.cleaned_data['track'] != -1:
             promoCriteria['track'] = Track.objects.get(id=self.cleaned_data['track'])
         # on ajoute ces promos aux critÃ¨res de recherche
         # si elle ne sont pas vides
@@ -67,12 +71,10 @@ class SearchPersonForm(forms.Form):
             # on convertit en liste
             criteria['promos__in'] = [promo for promo in Promo.objects.filter(**promoCriteria)]
 
-        print criteria
-
         return criteria
 
     def search(self, criteria):
-        return AIn7Member.objects.filter(**criteria).distinct()
+        return AIn7Member.objects.filter(**criteria).distinct().order_by('person__last_name','person__first_name')
 
 class SendmailForm(forms.Form):
     subject = forms.CharField(label=_('subject'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'40'}))

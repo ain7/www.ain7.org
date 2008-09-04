@@ -3734,5 +3734,3 @@ msgstr ""
 "Souhaitez-vous vraiment que cette personne ne soit pas responsable de ce "
 "voyage ?"
 
-#~ msgid "Karma"
-#~ msgstr "Karma"

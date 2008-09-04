@@ -12,6 +12,8 @@
 {# if the user has preferred tracks for job offers, #}
 {# we only display job offers for these tracks      #}
 
+{% if ain7member %}
+
 {% if ain7member.receive_job_offers_for_tracks.all %}
 
 <h3>
@@ -43,6 +45,8 @@
      </ul>
 {% else %}
     <p>{% trans "No job offer." %}</p>
+{% endif %}
+
 {% endif %}
 
 </div>

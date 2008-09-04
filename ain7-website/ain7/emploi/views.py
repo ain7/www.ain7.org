@@ -46,10 +46,15 @@ from ain7.fields import AutoCompleteField
 def index(request):
 
     p = Person.objects.get(user=request.user.id)
-    ain7member = get_object_or_404(AIn7Member, person=p)
+    try:
+         ain7member = AIn7Member.objects.get(person=p)
+         list_emplois =  ain7member.interesting_jobs()
+    except AIn7Member.DoesNotExist:
+         ain7member = None
+         list_emplois = None
     return ain7_render_to_response(request, 'emploi/index.html',
         {'ain7member': ain7member,
-         'liste_emplois': ain7member.interesting_jobs()})
+         'liste_emplois': list_emplois})
 
 @login_required
 def cv_details(request, user_id):
@@ -339,9 +344,9 @@ def organization_add(request):
 def organization_choose(request, action=None):
 
     person = get_object_or_404(Person, pk=request.user.id)
-    ain7member = get_object_or_404(AIn7Member, person=person)
+    #ain7member = get_object_or_404(AIn7Member, person=person)
 
-    organizations = Organization.objects.editable_organizations(ain7member)
+    #organizations = Organization.objects.editable_organizations(ain7member)
     class ChooseOrganizationForm(forms.Form):
         organization = forms.IntegerField(label=_('Organization'), required=True,widget=AutoCompleteField(url='/ajax/organization/'))
 

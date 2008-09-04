@@ -33,6 +33,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django import forms
 from django.db import models
 from django.utils.translation import ugettext as _
+from django.http import Http404
 
 from ain7.annuaire.models import *
 from ain7.annuaire.forms import *
@@ -87,38 +88,45 @@ def details_frame(request, user_id):
 def search(request):
 
     form = SearchPersonForm()
+    dosearch = False
     ain7members = False
     nb_results_by_page = 25
     paginator = Paginator(AIn7Member.objects.none(),nb_results_by_page)
     page = 1
 
-    if request.method == 'POST':
-        form = SearchPersonForm(request.POST)
+    if request.GET.has_key('first_name') or request.GET.has_key('last_name') or \
+       request.GET.has_key('organization') or request.GET.has_key('promo') or request.GET.has_key('track'):
+        form = SearchPersonForm(request.GET)
         if form.is_valid():
+
+            dosearch = True
 
             # perform search
             criteria = form.criteria()
             ain7members = form.search(criteria)
 
+            # TODO: hum... ca sert à quoi?!
             # compute criteria to be displayed in the form
-            promo_default = [ -1, ""]
-            track_default = [ -1, ""]
-            organization_default = [-1, ""]
-            if form.cleaned_data['promo'] != -1:
-                promo_default = \
-                    [form.cleaned_data['promo'], form.cleaned_data['promo']]
-            if form.cleaned_data['track'] != -1:
-                track_default = \
-                    [form.cleaned_data['track'],
-                     get_object_or_404(Track,pk=form.cleaned_data['track'])]
-            if form.cleaned_data['organization'] != -1:
-                organization_default = \
-                    [form.cleaned_data['organization'],
-                     get_object_or_404(Track,pk=form.cleaned_data['organization'])]
+            #promo_default = [ -1, ""]
+            #track_default = [ -1, ""]
+            #organization_default = [-1, ""]
+            #if form.cleaned_data['promo'] != -1:
+            #    promo_default = \
+            #        [form.cleaned_data['promo'], form.cleaned_data['promo']]
+            #if form.cleaned_data['track'] != -1:
+            #    track_default = \
+            #        [form.cleaned_data['track'],
+            #         get_object_or_404(Track,pk=form.cleaned_data['track'])]
+            #if form.cleaned_data['organization'] != -1:
+            #    organization_default = \
+            #        [form.cleaned_data['organization'],
+            #         get_object_or_404(Track,pk=form.cleaned_data['organization'])]
 
             # put the criteria in session: they must be accessed when
             # performing a CSV export, sending a mail...
             request.session['filter'] = criteria
+
+            print ain7members.count()
 
             paginator = Paginator(ain7members, nb_results_by_page)
 
@@ -126,7 +134,7 @@ def search(request):
                 page = int(request.GET.get('page', '1'))
                 ain7members = paginator.page(page).object_list
             except InvalidPage:
-                raise http.Http404
+                raise Http404
 
     return ain7_render_to_response(request, 'annuaire/search.html',
         {'form': form, 'ain7members': ain7members, 'request': request,
@@ -139,7 +147,7 @@ def search(request):
          'next_page': page + 1, 'previous_page': page - 1,
          'first_result': (page-1) * nb_results_by_page +1,
          'last_result': min((page) * nb_results_by_page, paginator.count),
-         'hits' : paginator.count})
+         'hits' : paginator.count, 'dosearch': dosearch})
 
 
 @login_required
