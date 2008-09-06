@@ -28,7 +28,7 @@ import ain7.emploi.models as emploi
 import ain7.evenements.models as evenements
 import ain7.voyages.models as voyages
 import ain7.news.models as news
-import ain7.groupes.models as groupes
+import ain7.groupes_professionnels.models as groupes_professionnels
 import ain7.groupes_regionaux.models as groupes_regionaux
 
 admin.site.register(manage.Notification)
@@ -67,7 +67,7 @@ admin.site.register(voyages.Travel)
 
 admin.site.register(news.NewsItem)
 
-admin.site.register(groupes.Group)
+admin.site.register(groupes_professionnels.Group)
 
 admin.site.register(groupes_regionaux.Group)
 

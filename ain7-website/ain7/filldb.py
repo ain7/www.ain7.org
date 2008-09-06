@@ -26,7 +26,7 @@ from django.contrib.auth.models import User, Group
 from django.contrib.sites.models import Site
 
 import ain7.annuaire.models as annuaire
-import ain7.groupes.models as groupes
+import ain7.groupes_professionnels.models as groupes_professionnels
 import ain7.groupes_regionaux.models as groupes_regionaux
 import ain7.sondages.models as sondages
 import ain7.news.models as news
@@ -935,64 +935,64 @@ def filldb():
     recruteur_couriel1.preferred_email = True
     recruteur_couriel1.save()
 
-    ain7etudiants = groupes.Group()
+    ain7etudiants = groupes_professionnels.Group()
     ain7etudiants.name = u"AIn7 Étudiants"
     ain7etudiants.administrator = lionel
     ain7etudiants.save()
 
-    ain7etudiants_lionel = groupes.Membership()
+    ain7etudiants_lionel = groupes_professionnels.Membership()
     ain7etudiants_lionel.group = ain7etudiants
     ain7etudiants_lionel.member = lionel
     ain7etudiants_lionel.is_administrator = True
     ain7etudiants_lionel.start_date = datetime.now()
     ain7etudiants_lionel.save()
 
-    ain7ecole = groupes.Group()
+    ain7ecole = groupes_professionnels.Group()
     ain7ecole.name = u"AIn7 École"
     ain7ecole.administrator = lionel
     ain7ecole.save()
 
-    ain7entreprises = groupes.Group()
+    ain7entreprises = groupes_professionnels.Group()
     ain7entreprises.name = "AIn7 Entreprises"
     ain7entreprises.administrator = lionel
     ain7entreprises.save()
 
-    ain7entreprisesemploi = groupes.Group()
+    ain7entreprisesemploi = groupes_professionnels.Group()
     ain7entreprisesemploi.name = u"AIn7 Entreprises - Emplois Carrières"
     ain7entreprisesemploi.administrator = lionel
     ain7entreprisesemploi.save()
 
-    ain7evenementiel = groupes.Group()
+    ain7evenementiel = groupes_professionnels.Group()
     ain7evenementiel.name = u"Événementiel"
     ain7evenementiel.administrator = lionel
     ain7evenementiel.save()
 
-    groupesregionauxinter = groupes.Group()
+    groupesregionauxinter = groupes_professionnels.Group()
     groupesregionauxinter.name = u"Groupes régionaux et international"
     groupesregionauxinter.administrator = lionel
     groupesregionauxinter.save()
 
-    mediacomcanal = groupes.Group()
+    mediacomcanal = groupes_professionnels.Group()
     mediacomcanal.name = u"Médias et Communications - Canal N7"
     mediacomcanal.administrator = lionel
     mediacomcanal.save()
 
-    mediacomweb = groupes.Group()
+    mediacomweb = groupes_professionnels.Group()
     mediacomweb.name = u"Médias et Communications - Serveur Web / Internet"
     mediacomweb.administrator = lionel
     mediacomweb.save()
 
-    mediacomannuaire = groupes.Group()
+    mediacomannuaire = groupes_professionnels.Group()
     mediacomannuaire.name = u"Médias et Communications - Annuaire"
     mediacomannuaire.administrator = lionel
     mediacomannuaire.save()
 
-    relationscnisf = groupes.Group()
+    relationscnisf = groupes_professionnels.Group()
     relationscnisf.name = u"Relations avec le CNISF et les URIS"
     relationscnisf.administrator = lionel
     relationscnisf.save()
 
-    ain7voyages = groupes.Group()
+    ain7voyages = groupes_professionnels.Group()
     ain7voyages.name = "Relations avec le CNISF et les URIS"
     ain7voyages.administrator = lionel
     ain7voyages.save()

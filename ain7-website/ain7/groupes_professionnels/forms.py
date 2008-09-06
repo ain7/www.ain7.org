@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# groupes/forms.py
+# groupes_professionnels/forms.py
 #
 #   Copyright (C) 2007-2008 AIn7
 #
@@ -23,7 +23,7 @@
 from django import forms
 from django.utils.translation import ugettext as _
 
-from ain7.groupes.models import Group, Membership
+from ain7.groupes_professionnels.models import Group, Membership
 from ain7.annuaire.models import Person
 
 class SubscribeGroupForm(forms.Form):

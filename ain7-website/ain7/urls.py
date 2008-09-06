@@ -66,8 +66,8 @@ urlpatterns = patterns('',
     # evenements
     (r'^evenements/', include('ain7.evenements.urls')),
 
-    # groupes
-    (r'^groupes/', include('ain7.groupes.urls')),
+    # groupes professionnels
+    (r'^groupes_professionnels/', include('ain7.groupes_professionnels.urls')),
 
     # groupes regionaux
     (r'^groupes_regionaux/', include('ain7.groupes_regionaux.urls')),
@@ -87,13 +87,23 @@ urlpatterns = patterns('',
     # galerie
     (r'^galerie/', 'ain7.utils.galerie'),
 
+    # association
+    (r'^association/',include('ain7.association.urls')),
+
+    # adhesions
+    (r'^adhesions/',include('ain7.adhesions.urls')),
+
+    # communaute N7
+    (r'^communaute_n7/',include('ain7.communaute_n7.urls')),
+
+    # media & communication
+    (r'^media_communication/',include('ain7.media_communication.urls')),
+
+    # relations école étudiants
+    (r'^relations_ecole_etudiants/',include('ain7.relations_ecole_etudiants.urls')),
+
     # Pages particulieres au contenu pseudo statique
     (r'^apropos/$','ain7.pages.views.apropos'),
-    (r'^association/$','ain7.pages.views.association'),
-    (r'^association/board/$','ain7.pages.views.board'),
-    (r'^association/council/$','ain7.pages.views.council'),
-    (r'^association/contact/$','ain7.pages.views.contact'),
-    (r'^association/status/$','ain7.pages.views.status'),
     (r'^canal_n7/$','ain7.pages.views.canal_n7'),
     (r'^international/$','ain7.pages.views.international'),
     (r'^mentions_legales/$','ain7.pages.views.mentions_legales'),

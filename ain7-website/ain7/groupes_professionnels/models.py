@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #
-# groupes/models.py
+# groupes_professionnels/models.py
 #
 #   Copyright (C) 2007-2008 AIn7
 #
@@ -33,7 +33,6 @@ class Group(models.Model):
     contact = models.EmailField(verbose_name=_('Contact email'), max_length=100, blank=True, null=True)
     description = models.CharField(verbose_name=_('description'), max_length=200, blank=True, null=True)
     web_page = models.TextField(verbose_name=_('web page'), blank=True, null=True)
-    parent = models.ForeignKey('Group', verbose_name=_('parent'), related_name='children', blank=True, null=True)
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)

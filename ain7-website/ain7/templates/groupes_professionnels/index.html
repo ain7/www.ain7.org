@@ -1,4 +1,4 @@
-{% extends "groupes/base.html" %}
+{% extends "groupes_professionnels/base.html" %}
 {% load i18n %}
 
 {% block content %}
@@ -9,7 +9,7 @@
 {% if groups %}
     <ul>
     {% for group in groups %}
-        <li><a href="/groupes/{{ group.id }}/">{{ group.name }}</a></li>
+        <li><a href="/groupes_professionnels/{{ group.id }}/">{{ group.name }}</a></li>
     {% endfor %}
      </ul>
 {% else %}

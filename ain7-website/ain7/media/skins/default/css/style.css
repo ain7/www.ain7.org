@@ -104,7 +104,7 @@ a.button, a.button:hover {
 
 .content {
     margin: 0 auto;
-    width: 780px;
+    width: 950px;
     padding: 10px;
 }
 
@@ -142,7 +142,7 @@ a.button, a.button:hover {
 
 .bar {
     clear: both;
-    width: 780px;
+    width: 950px;
     font-size: 11px;
     background: #FF9148;
     list-style: none;
@@ -172,6 +172,10 @@ a.button, a.button:hover {
 }
 
 .bar ul.ligne2 li.active {
+    background: #E0691A url(../images/bar-up.gif) no-repeat center bottom;
+}
+
+.bar ul.ligne3 li.active {
     background: #E0691A url(../images/bar-up.gif) no-repeat center bottom;
 }
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #
-# groupes/views.py
+# groupes_professionnels/views.py
 #
 #   Copyright (C) 2007-2008 AIn7
 #
@@ -31,19 +31,19 @@ from django.forms import widgets
 from django.http import HttpResponseRedirect
 from django.utils.translation import ugettext as _
 
-from ain7.groupes.models import Group, Membership
-from ain7.groupes.forms import *
+from ain7.groupes_professionnels.models import Group, Membership
+from ain7.groupes_professionnels.forms import *
 from ain7.utils import ain7_render_to_response, ain7_generic_edit
 from ain7.annuaire.models import Person
 
 def index(request):
     groups = Group.objects.all().order_by('name')
-    return ain7_render_to_response(request, 'groupes/index.html', {'groups': groups})
+    return ain7_render_to_response(request, 'groupes_professionnels/index.html', {'groups': groups})
 
 def detail(request, group_id):
     g = get_object_or_404(Group, pk=group_id)
     memberships = g.memberships
-    return ain7_render_to_response(request, 'groupes/details.html', {'group': g, 'memberships': memberships})
+    return ain7_render_to_response(request, 'groupes_professionnels/details.html', {'group': g, 'memberships': memberships})
 
 @login_required
 def subscribe(request, group_id):
@@ -61,7 +61,7 @@ def subscribe(request, group_id):
         if already_subscribed:
             request.user.message_set.create(message=_('This person is already subscribed to this group.'))
             memberships = group.memberships
-            return ain7_render_to_response(request, 'groupes/details.html',
+            return ain7_render_to_response(request, 'groupes_professionnels/details.html',
                 {'group': group, 'memberships': memberships})
         if f.is_valid():
             membership = f.save(group=group)
@@ -69,7 +69,7 @@ def subscribe(request, group_id):
             request.user.message_set.create(
                 message=_('You have successfully subscribed')+
                 ' '+p.first_name+' '+p.last_name+' '+_('to this event.'))
-        return HttpResponseRedirect('/groupes/%s/' % (group.id))
+        return HttpResponseRedirect('/groupes_professionnels/%s/' % (group.id))
 
     f =  SubscribeGroupForm()
     back = request.META.get('HTTP_REFERER', '/')
@@ -93,8 +93,8 @@ def edit(request, group_id=None):
                  form.save()
                  request.user.message_set.create(
                      message=_("Modifications have been successfully saved."))
-                 return HttpResponseRedirect('/groupes/%s/' % (group.id))
+                 return HttpResponseRedirect('/groupes_professionnels/%s/' % (group.id))
 
     back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request, 'groupes/edit.html', {'form': form, 'group': group, 'back': back})
+    return ain7_render_to_response(request, 'groupes_professionnels/edit.html', {'form': form, 'group': group, 'back': back})
 

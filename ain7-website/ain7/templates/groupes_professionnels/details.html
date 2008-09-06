@@ -1,4 +1,4 @@
-{% extends "groupes/base.html" %}
+{% extends "groupes_professionnels/base.html" %}
 {% load i18n %}
 
 {% block content %}
@@ -19,7 +19,6 @@
 </ul>
 {% endif %}
 
-<h4>{% trans "Group presentation" %}</h4>
 {{ group.web_page|default_if_none:""|safe }}
 
 </div>
@@ -43,8 +42,8 @@
    <h3>{% trans "Actions" %}</h3>
    <div class="right_articles">
    <ul>
-      <li><a href="/groupes/edit/{{ group.id }}/">{% trans "Edit these data." %}</a></li>
-      <li><a href="/groupes/{{ group.id }}/subscribe/">{% trans "Subscribe someone" %}</a></li>
+      <li><a href="/groupes_professionnels/edit/{{ group.id }}/">{% trans "Edit these data." %}</a></li>
+      <li><a href="/groupes_professionnels/{{ group.id }}/subscribe/">{% trans "Subscribe someone" %}</a></li>
    </ul>
    </div>
 

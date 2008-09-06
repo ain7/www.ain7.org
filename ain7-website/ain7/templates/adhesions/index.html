@@ -1,0 +1,34 @@
+{% extends "adhesions/base.html" %}
+{% load i18n %}
+
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
+{% block content %}
+
+<div id="content-main">
+
+<div class="left">
+<h3>Adhésions!</h3>
+
+</div>
+
+<div class="right">
+    <h3>{% trans "Links" %}</h3>
+   <div class="right_articles">
+    <ul>
+    </ul>
+   </div>
+    <h3>{% trans "Statistics" %}</h3>
+   <div class="right_articles">
+    <ul>
+      <li>{% trans "Number of members" %}: {{ count_members }}</li>
+      <li>{% trans "Number of subscribers" %}: {{ count_subscribers }}</li>
+    </ul>
+   </div>
+</div>
+
+</div>
+
+{% endblock %}
+
