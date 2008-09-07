@@ -7,43 +7,37 @@
 
 <div class="left">
 
-<h3>{{ group.name }}</h3>
-{{ group.description|default_if_none:"" }}<br/>
+<h3>{{ group.description }}</h3>
 
-{% if memberships.all %}
+{% if memberships %}
 <h4>{% trans "Members list" %}</h4>
 <ul>
-{% for membership in group.memberships.all %}
-    <li><a href="/annuaire/{{ membership.member.user.id }}/">{{ membership.member }}</a></li>
+{% for membership in memberships %}
+    <li><a href="{% url ain7.annuaire.views.details user.id %}/">{{ membership.member }}</a>
+        {% for promo in membership.member.ain7member.promos.all %}
+            {% if forloop.last %} ({{ promo }}){% endif %}
+        {% endfor %}
+        {% if membership.is_coordinator %}
+            ({% trans "coordinator" %})
+        {% endif %}
+   </li>
 {% endfor %}
 </ul>
 {% endif %}
+
+<h4>{% trans "Description" %}</h4>
 
 {{ group.web_page|default_if_none:""|safe }}
 
 </div>
 
 <div class="right">
-   <h3>{% trans "General informations" %}</h3>
-   <div class="right_articles">
-    <ul>
-      <li><b>{% trans "name" %} :</b> {{ group.name }}</li>
-      <li><b>{% trans "Contact email" %} :</b> {{ group.contact|default_if_none:"" }}</li>
-      <li><b>{% trans "Coordinator" %} :</b> 
-          {% for membership in group.memberships.all %}
-            {% if membership.is_coordinator %} 
-              {{ membership.member }}
-            {% endif %}
-          {% endfor %}
-      </li>
-    </ul>
-   </div>
 
    <h3>{% trans "Actions" %}</h3>
    <div class="right_articles">
    <ul>
-      <li><a href="/groupes_professionnels/edit/{{ group.id }}/">{% trans "Edit these data." %}</a></li>
-      <li><a href="/groupes_professionnels/{{ group.id }}/subscribe/">{% trans "Subscribe someone" %}</a></li>
+      <li><a href="{% url ain7.groupes_professionnels.views.edit group.name %}">{% trans "Edit these data." %}</a></li>
+      <li><a href="{% url ain7.groupes_professionnels.views.subscribe group.name %}">{% trans "Subscribe someone" %}</a></li>
    </ul>
    </div>
 

@@ -67,7 +67,7 @@ admin.site.register(voyages.Travel)
 
 admin.site.register(news.NewsItem)
 
-admin.site.register(groupes_professionnels.Group)
+admin.site.register(groupes_professionnels.GroupPro)
 
 admin.site.register(groupes_regionaux.Group)
 

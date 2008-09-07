@@ -27,12 +27,14 @@ from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
 
-class Group(models.Model):
+class GroupPro(models.Model):
 
+    shortname = models.CharField(verbose_name=_('name'), max_length=100)
     name = models.CharField(verbose_name=_('name'), max_length=100)
-    contact = models.EmailField(verbose_name=_('Contact email'), max_length=100, blank=True, null=True)
     description = models.CharField(verbose_name=_('description'), max_length=200, blank=True, null=True)
+    contact = models.EmailField(verbose_name=_('Contact email'), max_length=100, blank=True, null=True)
     web_page = models.TextField(verbose_name=_('web page'), blank=True, null=True)
+    link = models.CharField(verbose_name=_('link'), max_length=100, blank=True, null=True)
 
     # Internal
     creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
@@ -45,7 +47,7 @@ class Group(models.Model):
     def save(self):
         self.modification_date = datetime.datetime.today()
         self.modifier = 1
-        return super(Group, self).save()
+        return super(GroupPro, self).save()
 
     class Meta:
         verbose_name=_('group')
@@ -54,7 +56,7 @@ class Membership(models.Model):
 
     is_coordinator = models.BooleanField(verbose_name=_('coordinator'), default=False)
 
-    group = models.ForeignKey(Group, verbose_name=_('group'), related_name='memberships')
+    group = models.ForeignKey(GroupPro, verbose_name=_('group'), related_name='memberships')
     member = models.ForeignKey(Person, verbose_name=_('member'), related_name='group_memberships')
 
     start_date = models.DateField(verbose_name=_('start date'), default=datetime.datetime.now, blank=True, null=True)

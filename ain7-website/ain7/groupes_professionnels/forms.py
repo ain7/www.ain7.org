@@ -23,20 +23,13 @@
 from django import forms
 from django.utils.translation import ugettext as _
 
-from ain7.groupes_professionnels.models import Group, Membership
+from ain7.fields import AutoCompleteField
 from ain7.annuaire.models import Person
+from ain7.groupes_professionnels.models import GroupPro, Membership
 
-class SubscribeGroupForm(forms.Form):
-    member = forms.IntegerField(label=_('Person to subscribe'))
-    is_coordinator = forms.BooleanField(label=_('Is coordinator'))
-
-    def __init__(self, *args, **kwargs):
-        personList = []
-        for person in Person.objects.all():
-            personList.append( (person.user.id, str(person)) )
-        self.base_fields['member'].widget = \
-            forms.Select(choices=personList)
-        super(SubscribeGroupForm, self).__init__(*args, **kwargs)
+class SubscribeGroupProForm(forms.Form):
+    member = forms.IntegerField(label=_('Person to subscribe'), widget=AutoCompleteField(url='/ajax/person/'))
+    is_coordinator = forms.BooleanField(label=_('Is coordinator'), required=False)
 
     def save(self, group=None):
         membership = Membership()
@@ -45,12 +38,13 @@ class SubscribeGroupForm(forms.Form):
         membership.group = group
         membership.is_coordinator = self.cleaned_data['is_coordinator']
         membership.save()
+        print membership
         return membership
 
-class GroupForm(forms.ModelForm):
+class GroupProForm(forms.ModelForm):
     web_page = forms.CharField(label=_('web page').capitalize(),
         widget = forms.widgets.Textarea(attrs={'rows':10, 'cols':90}),
         required=False)
     
     class Meta:
-        model = Group
+        model = GroupPro

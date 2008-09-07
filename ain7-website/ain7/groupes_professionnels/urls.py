@@ -28,8 +28,8 @@ urlpatterns = patterns('',
 
     # Groupes
     (r'^$', index),
-    (r'^(?P<group_id>\d+)/$', detail),
-    (r'^edit/(?P<group_id>\d+)/$', edit),
-    (r'^(?P<group_id>\d+)/subscribe/$', subscribe),
+    (r'^(?P<group_id>[A-Za-z0-9.\-_]+)/$', details),
+    (r'^(?P<group_id>[A-Za-z0-9.\-_]+)/edit/$', edit),
+    (r'^(?P<group_id>[A-Za-z0-9.\-_]+)/subscribe/$', subscribe),
 
 )

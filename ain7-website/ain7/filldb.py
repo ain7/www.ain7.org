@@ -935,67 +935,165 @@ def filldb():
     recruteur_couriel1.preferred_email = True
     recruteur_couriel1.save()
 
-    ain7etudiants = groupes_professionnels.Group()
-    ain7etudiants.name = u"AIn7 Étudiants"
-    ain7etudiants.administrator = lionel
-    ain7etudiants.save()
+    ain7tic = groupes_professionnels.GroupPro()
+    ain7tic.name = "tic"
+    ain7tic.description = "Technologies de l'Information et Communications"
+    ain7tic.web_page = """<p>Ce groupe de travail s'adresse aux N7 dirigeants d'une petite entreprise / PME, PMI ou TPE. L'ingénieur N7, qu'il soit fraîchement diplômé ou chevronné, est confronté à un monde économique en profonde mutation qui se traduit en particulier par la création d'entreprise et par une accélération de leur renouvellement. Ce facteur est amplifié avec les opportunités qu'offre la nouvelle économie avec Internet.</p>
 
-    ain7etudiants_lionel = groupes_professionnels.Membership()
-    ain7etudiants_lionel.group = ain7etudiants
-    ain7etudiants_lionel.member = lionel
-    ain7etudiants_lionel.is_administrator = True
-    ain7etudiants_lionel.start_date = datetime.now()
-    ain7etudiants_lionel.save()
+<p>Un certain nombre d'entre nous ont créé leur entreprise, et ce qui était rare jusqu'à un passé récent devient de plus en plus fréquent.</p>
 
-    ain7ecole = groupes_professionnels.Group()
-    ain7ecole.name = u"AIn7 École"
-    ain7ecole.administrator = lionel
-    ain7ecole.save()
+<p>Dans l'esprit de convivialité et de solidarité qui la caractérise, l'AIN7 a donc proposé la création en son sein d'un groupe professionnel sur la création d'entreprise, persudée qu'il rencontrera de l'intérêt auprès de ses membres.</p>
 
-    ain7entreprises = groupes_professionnels.Group()
-    ain7entreprises.name = "AIn7 Entreprises"
-    ain7entreprises.administrator = lionel
-    ain7entreprises.save()
+<p>L'objectif visé est de faciliter les échanges entre les créateurs, qui ont donc des préoccupations communes, et aussi avec ceux d'entre nos camarades qui ont de tels projets.</p>
 
-    ain7entreprisesemploi = groupes_professionnels.Group()
-    ain7entreprisesemploi.name = u"AIn7 Entreprises - Emplois Carrières"
-    ain7entreprisesemploi.administrator = lionel
-    ain7entreprisesemploi.save()
+<p>De plus, ces travaux sont susceptibles d'intéresser nos camarades futurs diplômés pour les aider à trouver un écho pertinent auprès d'acteurs de la création d'entreprise et ils pourront faire des propositions à l'Ecole pour introduire, le cas échéant, des enseignements appropriés dans ses programmes, répondant ainsi à cette nouvelle demande.</p>"""
+    ain7tic.save()
 
-    ain7evenementiel = groupes_professionnels.Group()
-    ain7evenementiel.name = u"Événementiel"
-    ain7evenementiel.administrator = lionel
-    ain7evenementiel.save()
+    ain7telecom = groupes_professionnels.GroupPro()
+    ain7telecom.name = "telecom"
+    ain7telecom.description = "Groupe Telecom"
+    ain7telecom.web_page="""<p>Le Groupe professionnel TELECOM réunit les ingénieurs qui travaillent aux réseaux de Télécommunications.</p>
 
-    groupesregionauxinter = groupes_professionnels.Group()
-    groupesregionauxinter.name = u"Groupes régionaux et international"
-    groupesregionauxinter.administrator = lionel
-    groupesregionauxinter.save()
+<p>Un noyau d'ingénieurs N7 animent le groupe, préparent les manifestations extérieures (N7à9, Manifestions de prestige…) et recherchent le cas échéant le financement de celles-ci.</p>
 
-    mediacomcanal = groupes_professionnels.Group()
-    mediacomcanal.name = u"Médias et Communications - Canal N7"
-    mediacomcanal.administrator = lionel
-    mediacomcanal.save()
+<p>Il est un des interlocuteurs de l'ENSEEIHT du Département "Télécommunications & Réseaux".</p>
 
-    mediacomweb = groupes_professionnels.Group()
-    mediacomweb.name = u"Médias et Communications - Serveur Web / Internet"
-    mediacomweb.administrator = lionel
-    mediacomweb.save()
+<p>Il a une couverture nationale.</p>
 
-    mediacomannuaire = groupes_professionnels.Group()
-    mediacomannuaire.name = u"Médias et Communications - Annuaire"
-    mediacomannuaire.administrator = lionel
-    mediacomannuaire.save()
+<p>Il participe dans son domaine à assurer la promotion de l'ENSEEIHT dans le cadre de l'AIN7 et en liaison avec la Direction de l'Ecole.</p>
 
-    relationscnisf = groupes_professionnels.Group()
-    relationscnisf.name = u"Relations avec le CNISF et les URIS"
-    relationscnisf.administrator = lionel
-    relationscnisf.save()
+<p>Il a vocation d'entraide pour la recherche d'emplois, en liaison avec les Correspondants d'Entreprises.</p>
 
-    ain7voyages = groupes_professionnels.Group()
-    ain7voyages.name = "Relations avec le CNISF et les URIS"
-    ain7voyages.administrator = lionel
-    ain7voyages.save()
+<p>Il bénéficie de la logistique de l'AIN7.</p>
+
+<p>La Communication du Groupe se fait par le canal de l'AIN7.</p>
+
+<b>REALISATIONS</b>
+
+<ul>
+  <li>N7à9 du 5 juin 1997 " Les Métiers de France Télécom Mobiles"</li>
+  <li>Table Ronde du 14 janvier 1999 "La Dérégulation des Télécoms, facteur de croissance"</li>
+  <li>Colloque du 20 janvier 2000 : "La Future Génération des Ingénieurs Télécom", à l'ENSEEIHT</li>
+  <li>N7à9 du 18 mai 2000 : "Compte-Rendu du Colloque du 20 janvier 2000 à Toulouse"</i>
+</ul>
+
+<b>PROGRAMME FUTUR</b>
+
+Axes de réflexion:
+<ul>
+  <li>les clés de l'adaptation de l'ingénieur dans une Entreprise des télécommunications</li>
+  <li>le phènomène INTERNET et/ou INTERNET Mobiles</li>
+  <li>les technologies de l'Information</li>
+  <li>l'UMTS</li>
+</ul>
+
+Prochaines manifestations
+<ul>
+  <li>Conférence-Débat sur le thème : "M-Commerce", dans le cadre de l'N7à9 du groupe parisien, mercredi 16 mai 2001 à 19 H 30 à l'USIC, 18 rue de Varenne PARIS, 7ème avec la participation de :
+  <ul>
+    <li>Philippe CROS (EN 80) – Les systèmes de paiement</li>
+    <li>Francis BARRIER (EN 86) – Les mobiles et leurs technologies</li>
+    <li>Roland DUBOIS (SEN 65) – Le marketing</li>
+  </ul>
+</ul>
+
+<p>en 2002, manifestation de prestige à l'occasion de la sortie de la première promotion de la Filière "Télécommunications & Réseaux". Programme de la manifestation en cours d'élaboration.</p>"""
+    ain7telecom.save()
+
+    ain7ge = groupes_professionnels.GroupPro()
+    ain7ge.name = "genie-electrique"
+    ain7ge.description = "Génie Electrique"
+    ain7ge.page_web = """<p>Quand les limites sont en cause…</p>
+
+<p>Joël L'HERMITTE (EN 59)</p>
+
+<p>Le compte rendu des activités explicite des soutiens qui convergent vers notre groupe : relations avec l'école, avec les élèves, avec l'étranger, création des affiliés, du prix de la vie associative, implication au CNISF, qualité de l'annuaire, messagerie électronique, ouverture de site web aux adhérents et aux groupes professionnels…. A nous d'exploiter ces moyens pour avoir la chance d'être saisis par la multitude croissante dont l'e.mail figure dans l'annuaire traditionnel.</p>
+
+<p>Nous affichons clairement qu'il faut être deux pour démarrer un groupe professionnel, l'un du pôle association étant membre du bureau, l'autre du pôle client étant l'animateur. L'administrateur dispose de la liaison avec la prise de décision administrative et de la cohérence dans la stratégie multi-agent du groupe professionnel. L'animateur est confronté à une cible hypothétique faite de systèmes dynamiques complexes et de paradoxes.</p>
+
+<ul>
+  <li>En 1999, nous avons rédigé une CHARTE qui fut acceptée par le bureau il y a un an.</li>
+  <li>En 2000, nous avons organisé une réunion sur le devenir des industries de l'énergie Électrique en étant pris en charge par le Groupe parisien.</li>
+  <li>En 2001, nous consolidons notre mode de fonctionnement à l'horizon 2003 avec un noyau participatif de dix personnes, une communication active, une représentation pertinente et une réflexion sur le financement… Nous garderons la Charte en position ouverte puisqu'il n'existe en la matière ni tradition, ni socle jamais remis en cause. Au titre de notre savoir Néo-associatif, nous posons le principe que la souplesse surclasse l'immuable et que les fondamentaux sont en réalité des fusibles placés au plus près de la critique. Notre développement hypothétique se reformule comme la nécessité de diffuser ce qui sera opératoire demain et que nous ne savons pas ou dont nous n'avons pas idée.</li>
+  <li>La tradition nous dit de faire de la science parce que c'est légitime et que la raison est garante de ce que nous n'avons pas idée. Nous avons commencé à diffuser le lieu de ce dont nous n'avons pas idée. Cette diffusion à l'intérieur de la base de connaissance que représente les anciens N7 afin de scruter et détecter le sillage de l'émergence.</li>
+</ul>
+
+<p><b>LA CHARTE</b></p>
+
+<p>Elle se veut être le reflet de l'association comme principe législateur des rapports humains et de l'intersubjectivité entre les diplômés N7, principe fondateur du groupe d'individus dans le but d'une activité commune, relativement à des règles garantissant la transparence. Il importe à chacun de connaître les limites de ce qu'il peut dire ou ne pas dire vis à vis de ses employeurs et partenaires. De ce fait, et par principe, notre prospective portera exclusivement sur le devenir des professions sans mettre les entreprises en cause dans le jeu des acteurs. Cette vision des choses permettra de constituer une bénéfice partagé malgré la prégnance de la concurrence. Ici sont liées les idées dont on parle, les idées dont on a rien à dire, tout ce dont nous n'avons idée. Le commencement est au milieu. La charte formalise la quête en quatre points :<p>
+
+<p><b>1. L'électricité dans un monde en devenir</b></p>
+
+<ul>
+  <li>A quelles évolution faut-il être attentif ?</li>
+  <li>Quand et où doivent elles avoir lieu et dans quelles conditions ?</li>
+  <li>Comment tirer partie des nouvelles possibilités ?</li>
+  <li>Comment réduire les risques qui ne sont pas négligeables ?</li>
+  <li>A quoi bon des mutations industrielles sans l'instrumentation de contrôle et commande ?</li>
+  <li>A quoi bon l'informatique sans l'électricité qui exécute l'action ?</li>
+</ul>
+
+<p>Aujourd'hui la compétence surclasse le métier et la plus importante source de productivité découle d'une action du savoir sur le savoir lui-même, à partir de ce questionnement.</p>
+
+<p><b>2. Le bouleversement des relations entre les partenaires</b></p>
+
+<ul>
+  <li>Comment évoluent les rapports de forces ?</li>
+  <li>Où en est la qualité globale puisque tout résultat du progrès est limité ?</li>
+  <li>Quelle adéquation entre les produits et leur usage ?</li>
+  <li>Quelle évolution des organisations et des professions ?</li>
+  <li>La loi, la règle, la norme, la sanction, quel impact du juridisme ?</li>
+</ul>
+
+<p>A l'encontre d'un développement acceptable ou souhaitable, l'idéologie nous détache du passé, brouille notre visibilité de l'avenir dans le présent, instaure l'incertitude et le risque dans notre quotidien.</p>
+
+<p><b>3. La course à l'innovation modifie ses règles</b></p>
+
+<ul>
+  <li>Quelles liaisons entre la formation, la recherche, le développement, le marché, le droit ?</li>
+  <li>La logique des projets et la logique des questions avec quatre valeurs de vérité : oui, non, peut-être, je ne sais pas, et la résolution des problèmes complexes ?</li>
+</ul>
+
+<p>Une liaison privilégiée sera établie avec le corps enseignant et la recherche à l'école dans le cadre de la connexion avec les professions par les sociétés savantes et les structures professionnelles lors de manifestations thématiques.</p>
+
+<p><b>4. Méthodologies pour aller plus sûrement et plus vite au but en acceptant la complexité.</b></p>
+
+<ul>
+  <li>La normalisation</li>
+  <li>Les brevets</li>
+  <li>Le savoir faire,</li>
+  <li>Les bases de connaissances</li>
+  <li>La qualité globale et ses nouveaux outils</li>
+  <li>Les nouveaux outils de la communication</li>
+  <li>etc…</li>
+</ul>
+
+<p>L'originalité est d'associer les différentes industries électriques dans leur sémiotique propre et leur chaînes de valeur. Deux points sont essentiels : la forte implication des experts avec les parties prenantes dès que le départ d'un projet et le besoin de méthodes pour ne pas déformer leur diagnostic tout en renforçant la cohérence et la vérité des résultats et des configurations obtenues.</p>
+
+<p><b>LA DEMARCHE</b></p>
+
+<p>La gestion étant mise en place, l'étude commence. Nous approchons des limites de notre savoir néo-associatif par le constat que les personnes que nous ciblons sont inaccessibles par l'écriture et qu'il ne peuvent pas être réduits à l'écriture. Nous atteignons les limites de la disponibilité, de la mobilité, de la sollicitation, de l'ouverture… Ces causes peuvent se comprendre comme conditions de possibilité ou comme objet de notre savoir. En d'autres termes, quel est le destin de notre groupe professionnel qui ne veut pas s'affranchir des limitations de la cible d'une part et qui d'autre part applique à chaque adhérent une stratégie multicarte ? Ce destin serait de tendre à rencontrer comme limite ce qu'il sera parvenu à élaborer, en tant que construction hypothétique, comme cause de lui-même. Autrement dit, nous ne pouvons déplacer le frein à notre proposition associative, sans déplacer corrélativement, l'origine, les conditions de possibilité, l'objet du groupe professionnel.</p>
+
+<p><b>DU COTE DE L'ADHERENT</b></p>
+
+<p>Les conditions de fonctionnement sont les conditions de limitation. L'adhérent est distant et l'écriture est une mise à distance. Le téléphone ne fait que réduire la distance. Tout notre espoir est dans les nouvelles technologies. Deux adhérents distincts ou le même adhérent à deux moments différents sont tous deux hypothétiques, ils définissent un espace logique pour toute proposition associative. Il y a un entre-deux et un changement d'état. L'effectivité s'inscrit en blanc. L'effectivité du groupe professionnel est l'union à la négativité associative. C'est la relativité effective de l'action dans ce cadre de contraintes. L'effectivité appelle son propre dépassement dans les instances à un niveau d'intelligence plus élaboré . La réalité est constitué dans l'unité de l'extérieur et de l'intérieur par le dépassement du dualisme de la chose en soi et de ce dont on n'a pas idée, où le réel n'est pas le simple paraître du fondement.</p>
+
+<p>Cette nécessité encore aveugle de ce dont on n'a pas idée est à poser dans la sphère logique et conceptuelle du groupe professionnel où elle s'auto déploiera, comme contenu rationnel de l'expérience que la conscience fait du monde par opposition à tout ce qui n'est qu'idéal abstrait relevant du sentiment ou de l'imaginaire.</p>
+
+<p><b>DU COTE DE L'ASSOCIATION</b></p>
+
+<p>Les entretiens de salon de l'année 2000 révèlent une participation d'une très haute qualité assortie d'un effectif très réduit. Cette pratique semble beaucoup plus dans l'ère du temps que les grandes messes. C'est aussi que pour démarrer le groupe professionnel il faut la subsitualité des effectifs (individus, propositions, fonctions) et la correspondance des structures de part et d'autre (invité, adhérent et association).</p>
+
+<p>A chaque fois, il faudra construire ce rapport des effectivités mises en correspondance à travers le groupe professionnel. C'est un rapport du réel à du réel, de part et d'autre. L'effectivité de l'association doit être en correspondance avec ce qui s'inscrit en blanc entre deux adhérents hypothétiques de manière à ce que les bords puissent être comparés, c'est à dire faire percevoir les limites aux causes.</p>
+
+<p>La limite est principe de clôture et principe de transgression, franchir cette limite est devenir réellement soi-même en se posant comme autre que soi.</p>"""
+    ain7ge.save()
+
+
+    ain7aero = groupes_professionnels.GroupPro()
+    ain7aero.name = "aero"
+    ain7aero.description = "Groupe Aéronotique"
+    ain7aero.save()
 
     sondage1 = sondages.Survey()
     sondage1.question = u"Quelle est votre couleur préférée ?"
