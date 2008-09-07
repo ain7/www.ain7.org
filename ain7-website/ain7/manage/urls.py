@@ -73,7 +73,7 @@ urlpatterns = patterns('ain7.manage.views',
     (r'^users/(?P<user_id>\d+)/email/(?P<email_id>\d+)/delete/$', 'user_email_delete'),
     (r'^users/(?P<user_id>\d+)/email/add/$', 'user_email_edit'),
     # vCard
-    (r'^users/(?P<user_id>\d+)/vcard/$', 'user_vcard'),
+    #(r'^users/(?P<user_id>\d+)/vcard/$', 'user_vcard'),
                        
     # Roles
     (r'^roles/$', 'roles_search'),
@@ -81,7 +81,7 @@ urlpatterns = patterns('ain7.manage.views',
     (r'^roles/(?P<role_id>\d+)/$', 'role_details'),
     (r'^roles/(?P<role_id>\d+)/member/(?P<member_id>\d+)/delete/$', 'role_member_delete'),
     (r'^roles/(?P<role_id>\d+)/member/add/$', 'role_member_add'),
-    (r'^roles/(?P<role_id>\d+)/perm/(?P<perm_id>\d+)/delete/$', 'role_perm_delete'),
+    #(r'^roles/(?P<role_id>\d+)/perm/(?P<perm_id>\d+)/delete/$', 'role_perm_delete'),
     (r'^roles/(?P<role_id>\d+)/perm/add/$', 'role_perm_add'),
 
     # Permissions
@@ -101,6 +101,6 @@ urlpatterns = patterns('ain7.manage.views',
     (r'^nationality/add/$', 'nationality_add'),
 
     # Office
-    (r'^office/add/$', 'office_add'),
+    #(r'^office/add/$', 'office_add'),
 )
 

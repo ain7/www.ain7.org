@@ -25,3 +25,12 @@ from ain7.utils import ain7_render_to_response
 def index(request): 
     return ain7_render_to_response(request, 'media_communication/index.html', {})
 
+def canal_n7(request): 
+    return ain7_render_to_response(request, 'media_communication/canal_n7.html', {})
+
+def canal_n7_edito(request): 
+    return ain7_render_to_response(request, 'media_communication/canal_n7_edito.html', {})
+
+def website(request): 
+    return ain7_render_to_response(request, 'media_communication/website.html', {})
+

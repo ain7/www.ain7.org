@@ -1,4 +1,5 @@
-{% extends "pages/base_publications.html" %}
+{% extends "media_communication/base.html" %}
+{% load i18n %}
 
 {% block content %}
 
@@ -45,6 +46,44 @@
 <p>La liste complète des numéros est disponible auprés du secrétariat de l’AIN7.</p>
 
 <p>Vous pourrez consulter le sommaire des derniers numéros en cliquant sur la photo du numéro correspondant.</p>
+
+</div>
+
+<div class="right">
+
+   <h3>{% trans "Index" %}</h3> 
+   <div class="right_articles">
+   <ul> 
+      <li><a href="{% url ain7.media_communication.views.canal_n7 %}">Canal N7</a></li> 
+      <li><a href="{% url ain7.media_communication.views.website %}">Site internet</a></li> 
+   </ul> 
+   </div>
+
+   <h3>{% trans "Table of content" %}</h3>
+   <div class="right_articles">
+   <ul>
+      <li><a href="{% url ain7.media_communication.views.canal_n7_edito %}">Editorial</a></li>
+      <li>Le mot du président</li>
+      <li>Vestiges historiques</li>
+      <li>Naissance de FEST'INP, le nouveau gala des étudiants des trois écoles toulousaines de l'INPT</li>
+      <li>Le Fest'INP, une inauguration réussie !</li>
+      <li>Bureau du Développement Durable</li>
+      <li>La certification des compétences, un futur inéluctable</li>
+      <li>Forum des lecteurs</li>
+      <li>Quelques nouvelles de l'ENSEEIHT</li>
+      <li>Souvenir de Jean-Louis Amalric</li>
+      <li>Skype</li>
+      <li>Assemblée générale 2008</li>
+      <li>Commission voyage</li>
+   </ul>
+   </div>
+
+    <h3>{% trans "Card Informations"%}</h3>
+   <div class="right_articles">
+     <ul>
+       <li>{% trans "Update" %}&nbsp;: {{ group.modification_date|date:"l j F Y" }}</li>
+     </ul>
+   </div>
 
 </div>
 

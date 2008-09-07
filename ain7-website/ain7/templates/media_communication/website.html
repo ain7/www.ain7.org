@@ -1,0 +1,45 @@
+{% extends "media_communication/base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div id="content-main">
+
+<div class="left">
+
+<h3>{% trans "Web site" %}</h3>
+
+<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Curabitur sit amet turpis non augue commodo tincidunt. Nulla commodo convallis neque. Donec elementum, justo ut dapibus dictum, nibh felis fringilla magna, ut rhoncus neque purus sed tortor. Donec sollicitudin. Cras lacus dolor, rhoncus vel, semper gravida, molestie quis, pede. Cras risus risus, mollis ac, sollicitudin sed, tempor ac, arcu. Aenean augue ipsum, convallis sit amet, luctus sit amet, scelerisque in, sem. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris quis metus ut leo congue varius. Duis euismod nisi varius justo rhoncus vestibulum.</p>
+
+<p>Nunc nulla. Vestibulum ante. Praesent fringilla vestibulum lorem. Duis vel dolor. Phasellus lobortis tincidunt dolor. Mauris et sapien sollicitudin odio tincidunt gravida. Etiam enim. Mauris ut metus id lacus dapibus consectetuer. Maecenas eu pede ut leo faucibus dictum. Praesent nec nisi at leo egestas euismod. Nunc varius erat vitae lacus. Nam leo risus, vehicula nec, molestie vel, rhoncus nec, libero. Cras velit.</p>
+
+<p>Curabitur sit amet arcu in leo scelerisque pellentesque. Sed lobortis, nunc sed gravida vehicula, nulla sem porta sapien, vel eleifend sapien leo ac justo. Donec pharetra, ante et mattis auctor, sapien ipsum luctus tellus, eu euismod leo tellus non tellus. Praesent urna. Aliquam bibendum odio. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum neque. Quisque tincidunt. Pellentesque in purus. Aliquam volutpat. Mauris id velit in purus congue convallis. Phasellus nec nisl. Quisque nisl. Praesent viverra. Pellentesque tristique. Sed sed justo a mi pulvinar cursus.</p>
+
+<p>Quisque vel tortor ac neque feugiat feugiat. Proin laoreet eleifend augue. Etiam ut nisi vitae sapien molestie vehicula. Aenean mattis purus eget velit. Nulla sapien tellus, venenatis quis, consequat vel, tincidunt eget, neque. Fusce egestas. Curabitur ipsum leo, dignissim ac, sodales nec, tincidunt vel, ipsum. Duis laoreet nunc eget quam. Proin ac dui convallis leo accumsan ultrices. Pellentesque a sapien sit amet lorem bibendum consectetuer. Fusce sodales, purus eget fringilla iaculis, felis orci mattis orci, vitae tristique mi risus at lectus. Cras nec lorem eu dolor consequat pellentesque. Morbi pulvinar pede quis mauris. Fusce sit amet augue.</p>
+
+<p>Cras faucibus vehicula nisl. Quisque in velit. Sed augue. Vestibulum eu orci et mi porttitor commodo. Mauris malesuada, elit ac sagittis pharetra, odio sapien commodo lectus, sit amet mollis odio mauris eget tortor. Donec facilisis bibendum diam. Morbi accumsan. Nullam massa orci, luctus nec, tristique posuere, eleifend sed, urna. Nunc felis lectus, suscipit id, auctor at, hendrerit vitae, massa. Suspendisse malesuada erat ac augue. Sed nibh.</p>
+
+</div>
+
+<div class="right">
+
+   <h3>{% trans "Index" %}</h3>
+   <div class="right_articles">
+   <ul>
+      <li><a href="{% url ain7.media_communication.views.canal_n7 %}">Canal N7</a></li>
+      <li><a href="{% url ain7.media_communication.views.website %}">Site internet</a></li>
+   </ul>
+   </div>
+
+   <h3>{% trans "Informations"%}</h3>
+   <div class="right_articles">
+     <ul>
+     </ul>
+   </div>
+
+</div>
+
+</div>
+
+{% endblock %}
+

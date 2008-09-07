@@ -55,7 +55,7 @@ def person(request):
                 value += ' ('+str(promo)+')'
             elements.append({'id': person.user.id, 'displayValue': person.complete_name, 'value': value})
 
-    return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
+    return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
 @login_required
 def nationality(request):
@@ -67,7 +67,7 @@ def nationality(request):
         for nationality in nationalities:
             elements.append({'id': nationality.id, 'displayValue': nationality.nationality , 'value': nationality.nationality})
 
-    return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
+    return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
 @login_required
 def promo(request):
@@ -79,7 +79,7 @@ def promo(request):
         for promo in promos:
             elements.append({'id': promo.id, 'displayValue': promo.year, 'value': promo.year})
 
-    return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
+    return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
 @login_required
 def track(request):
@@ -91,7 +91,7 @@ def track(request):
         for track in tracks:
             elements.append({'id':track.id, 'displayValue': track.name , 'value': track.name})
 
-    return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
+    return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
 @login_required
 def organization(request):
@@ -103,7 +103,7 @@ def organization(request):
         for orga in orgas:
             elements.append({'id': orga.id, 'displayValue': orga.name , 'value': orga.name})
 
-    return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
+    return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
 @login_required
 def activityfield(request):
@@ -115,7 +115,7 @@ def activityfield(request):
         for cf in activityfields:
             elements.append({'id': cf.id, 'displayValue': cf.label , 'value': cf.label })
 
-    return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
+    return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
 @login_required
 def activitycode(request):
@@ -127,7 +127,7 @@ def activitycode(request):
         for cf in activitycode:
             elements.append({'id': cf.id, 'displayValue': cf.code , 'value': cf.code })
 
-    return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
+    return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
 @login_required
 def permission(request):
@@ -140,7 +140,7 @@ def permission(request):
         for perm in perms:
             elements.append({'id': perm.id, 'displayValue': perm.name, 'value': perm.name})
 
-    return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
+    return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
 @login_required
 def office(request):
@@ -153,5 +153,5 @@ def office(request):
         for office in offices:
             elements.append({'id': office.id, 'displayValue': office.organization.name+" - "+office.name, 'value': office.organization.name+" - "+office.name})
 
-    return ain7_render_to_response(request, 'pages/complete.html', {'elements': elements})
+    return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
