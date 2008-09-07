@@ -18,7 +18,7 @@
         <ul>
         {% for membership in membership_group.list %}
             <li>
-                <a href="/annuaire/{{ membership.member.user.id }}/">{{ membership.member }}</a>
+                <a href="{% url ain7.annuaire.views.details membership.member.user.id %}">{{ membership.member }}</a>
             </li>
         {% endfor %}
         </ul>
@@ -32,12 +32,12 @@
         <ul>
             <li>
             {% if not is_member %}
-                <a href="/groupes_regionaux/{{ group.id }}/join/">{% trans "Join the group" %}</a>
+                <a href="{% url ain7.groupes_regionaux.views.join group.id %}">{% trans "Join the group" %}</a>
             {% else %}
-                <a href="/groupes_regionaux/{{ group.id }}/quit/">{% trans "Quit the group" %}</a>
+                <a href="{% url ain7.groupes_regionaux.views.quit group.id %}">{% trans "Quit the group" %}</a>
             {% endif %}
             </li>
-            <li><a href="/groupes_regionaux/{{ group.id }}/edit/">{% trans "Edit group informations" %}</a></li>
+            <li><a href="{% url ain7.groupes_regionaux.views.edit group.id %}">{% trans "Edit group informations" %}</a></li>
             {# TODO: gestion des droits : réservé aux secrétaires et superadmin #}
             <li><a href="/groupes_regionaux/{{ group.id }}/roles/edit/current/">{% trans "Edit roles of this group" %}</a></li>
         </ul>
@@ -47,7 +47,7 @@
         <h3>{% trans "Events" %}</h3>
         {% for event in group.active_events %}
             <div class="right_articles">
-                <p><strong><a href="/evenements/{{ event.id }}/">{{ event.name|upper }}</a></strong></p>
+                <p><strong><a href="{% url ain7.evenements.views.details event.id %}">{{ event.name|upper }}</a></strong></p>
                 <p>
 {% blocktrans with event.start|date:"d/m/Y" as start_date and event.end|date:"d/m/Y" as end_date and event.location as place %}From {{ start_date }} to {{ end_date }} at {{ place }}{% endblocktrans %}
                 </p>

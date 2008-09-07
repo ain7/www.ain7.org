@@ -113,3 +113,4 @@ class GroupRole(models.Model):
         ordering = ['type', 'start_date', 'end_date']
         verbose_name = _('regional group role')
         verbose_name_plural = _('regional group roles')
+

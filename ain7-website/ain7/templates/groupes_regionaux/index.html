@@ -9,7 +9,7 @@
 {% if groups %}
     <ul>
     {% for group in groups %}
-           <li><a href="{% url ain7.groupes_regionaux.views.details group.name %}/">{{ group.description }}</a></li>
+           <li><a href="{% url ain7.groupes_regionaux.views.details group.id %}">{{ group.name }}</a></li>
     {% endfor %}
      </ul>
 {% else %}

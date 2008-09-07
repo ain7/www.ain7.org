@@ -24,11 +24,9 @@ import datetime
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django import forms
-from django.forms import widgets
-from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
 
 from ain7.groupes_regionaux.models import Group, GroupRole
 from ain7.groupes_regionaux.models import GroupMembership
@@ -59,7 +57,7 @@ def edit(request, group_id):
         {'group': group}, 'groupes_regionaux/edit.html',
         {'group': group, 'is_member': is_member,
          'back': request.META.get('HTTP_REFERER', '/')}, {},
-        '/groupes_regionaux/%s/' % (group_id),
+         reverse(details, args=[group.id]),
         _('Regional group informations updated successfully.'))
 
 @login_required
@@ -77,7 +75,7 @@ def join(request, group_id):
     else:
         request.user.message_set.create(message=_("You are already a member of this group."))
 
-    return HttpResponseRedirect('/groupes_regionaux/%s/' % (group.id))
+    return HttpResponseRedirect(reverse(details, args=[group.id]))
 
 @confirmation_required(lambda group_id: str(get_object_or_404(Group, pk=group_id)),
                        'groupes_regionaux/base.html', _('Do you really want to quit the group'))
@@ -100,7 +98,7 @@ def quit(request, group_id):
     else:
         request.user.message_set.create(message=_("You are not a member of this group."))
 
-    return HttpResponseRedirect('/groupes_regionaux/%s/' % (group.id))
+    return HttpResponseRedirect(reverse(details, args=[group.id]))
 
 @login_required
 def build_roles_by_type(request, group=None, all_current=None,
@@ -162,8 +160,7 @@ def add_role(request, group_id=None, type=None, all_current=None):
         form = NewRoleForm(request.POST)
         if form.is_valid():
             gr = form.save(group, type)
-            return HttpResponseRedirect(
-                '/groupes_regionaux/%s/roles/edit/%s/' % (group.id, all_current))            
+            return HttpResponseRedirect(reverse(edit_roles, args=[group.id,all_current]))
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
             roles_by_type = build_roles_by_type(
@@ -180,7 +177,7 @@ def delete_role(request, group_id=None, role_id=None, all_current=None):
 
     return ain7_generic_delete(request,
         get_object_or_404(GroupRole, pk=role_id),
-        '/groupes_regionaux/%s/roles/edit/%s/' % (group_id, all_current),
+        reverse(edit_roles, args=[group.id,all_current]),
         _('Role successfully deleted.'))
 
 @login_required
@@ -199,9 +196,7 @@ def change_dates(request, group_id=None, role_id=None, all_current=None):
         form = ChangeDatesForm(request.POST)
         if form.is_valid():
             form.save(role)
-            return HttpResponseRedirect(
-                '/groupes_regionaux/%s/roles/edit/%s/' %
-                (group.id, all_current))                        
+            return HttpResponseRedirect(reverse(edit_roles, args=[group.id,all_current]))
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
             roles_by_type = build_roles_by_type(

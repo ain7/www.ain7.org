@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-07 01:13+0200\n"
+"POT-Creation-Date: 2008-09-07 23:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -149,7 +149,7 @@ msgstr ""
 
 #: annuaire/forms.py:268 annuaire/models.py:555 emploi/forms.py:167
 #: emploi/forms.py:183 emploi/models.py:304 emploi/models.py:334
-#: groupes_professionnels/models.py:60 groupes_regionaux/forms.py:46
+#: groupes_professionnels/models.py:62 groupes_regionaux/forms.py:46
 #: groupes_regionaux/forms.py:70 groupes_regionaux/models.py:76
 #: groupes_regionaux/models.py:100 sondages/forms.py:34 sondages/models.py:30
 #: templates/sondages/details.html:22 voyages/forms.py:68 voyages/models.py:44
@@ -158,7 +158,7 @@ msgstr ""
 
 #: annuaire/forms.py:269 annuaire/models.py:540 annuaire/models.py:556
 #: emploi/forms.py:168 emploi/forms.py:184 emploi/models.py:305
-#: emploi/models.py:335 groupes_professionnels/models.py:61
+#: emploi/models.py:335 groupes_professionnels/models.py:63
 #: groupes_regionaux/forms.py:48 groupes_regionaux/forms.py:72
 #: groupes_regionaux/models.py:77 groupes_regionaux/models.py:101
 #: sondages/forms.py:36 sondages/models.py:31
@@ -176,9 +176,8 @@ msgstr ""
 #: annuaire/models.py:36 annuaire/models.py:129 annuaire/models.py:154
 #: annuaire/models.py:568 emploi/models.py:84 emploi/models.py:183
 #: evenements/models.py:53 groupes_professionnels/models.py:32
-#: groupes_regionaux/models.py:33 search_engine/models.py:61
-#: templates/groupes_professionnels/details.html:30
-#: templates/groupes_professionnels/edit.html:34
+#: groupes_professionnels/models.py:33 groupes_regionaux/models.py:33
+#: search_engine/models.py:61 templates/groupes_professionnels/edit.html:34
 msgid "name"
 msgstr ""
 
@@ -361,7 +360,7 @@ msgid "person"
 msgstr ""
 
 #: annuaire/models.py:304 annuaire/models.py:363 annuaire/models.py:552
-#: groupes_professionnels/models.py:58 groupes_regionaux/models.py:80
+#: groupes_professionnels/models.py:60 groupes_regionaux/models.py:80
 #: groupes_regionaux/models.py:104 templates/annuaire/edit.html:108
 msgid "member"
 msgstr ""
@@ -564,7 +563,7 @@ msgstr ""
 
 #: annuaire/views.py:246 annuaire/views.py:266 annuaire/views.py:556
 #: annuaire/views.py:630 annuaire/views.py:646
-#: groupes_professionnels/views.py:95 manage/views.py:125 manage/views.py:784
+#: groupes_professionnels/views.py:90 manage/views.py:125 manage/views.py:784
 #: voyages/views.py:114
 msgid "Modifications have been successfully saved."
 msgstr ""
@@ -854,8 +853,7 @@ msgstr ""
 msgid "Contact name"
 msgstr ""
 
-#: emploi/forms.py:53 groupes_professionnels/models.py:33
-#: templates/groupes_professionnels/details.html:31
+#: emploi/forms.py:53 groupes_professionnels/models.py:35
 msgid "Contact email"
 msgstr ""
 
@@ -1059,7 +1057,7 @@ msgstr ""
 msgid "Reference"
 msgstr ""
 
-#: emploi/models.py:409
+#: emploi/models.py:409 templates/groupes_professionnels/details.html:28
 msgid "Description"
 msgstr ""
 
@@ -1253,7 +1251,7 @@ msgstr ""
 msgid "This number includes yourself, so it should be at least 1."
 msgstr ""
 
-#: evenements/forms.py:59 groupes_professionnels/forms.py:30
+#: evenements/forms.py:59 groupes_professionnels/forms.py:31
 msgid "Person to subscribe"
 msgstr ""
 
@@ -1323,7 +1321,7 @@ msgstr ""
 msgid "contact email"
 msgstr ""
 
-#: evenements/models.py:62
+#: evenements/models.py:62 groupes_professionnels/models.py:37
 msgid "link"
 msgstr ""
 
@@ -1387,35 +1385,36 @@ msgstr ""
 msgid "This person is already subscribed to this event."
 msgstr ""
 
-#: evenements/views.py:199 groupes_professionnels/views.py:70
+#: evenements/views.py:199 groupes_professionnels/views.py:65
 msgid "You have successfully subscribed"
 msgstr ""
 
-#: evenements/views.py:200 groupes_professionnels/views.py:71
+#: evenements/views.py:200 groupes_professionnels/views.py:66
 msgid "to this event."
 msgstr ""
 
-#: groupes_professionnels/forms.py:31
+#: groupes_professionnels/forms.py:32
 msgid "Is coordinator"
 msgstr ""
 
-#: groupes_professionnels/forms.py:51 groupes_professionnels/models.py:35
+#: groupes_professionnels/forms.py:45 groupes_professionnels/models.py:36
 msgid "web page"
 msgstr ""
 
-#: groupes_professionnels/models.py:51 groupes_professionnels/models.py:57
+#: groupes_professionnels/models.py:53 groupes_professionnels/models.py:59
 msgid "group"
 msgstr ""
 
-#: groupes_professionnels/models.py:55
+#: groupes_professionnels/models.py:57
+#: templates/groupes_professionnels/details.html:21
 msgid "coordinator"
 msgstr ""
 
-#: groupes_professionnels/models.py:64
+#: groupes_professionnels/models.py:66
 msgid "membership"
 msgstr ""
 
-#: groupes_professionnels/views.py:62
+#: groupes_professionnels/views.py:59
 msgid "This person is already subscribed to this group."
 msgstr ""
 
@@ -1991,9 +1990,7 @@ msgstr ""
 #: templates/adhesions/index.html:17 templates/association/board.html:30
 #: templates/association/contact.html:36 templates/association/council.html:55
 #: templates/association/index.html:104 templates/association/status.html:244
-#: templates/communaute_n7/index.html:17
-#: templates/media_communication/index.html:17
-#: templates/pages/homepage.html:93
+#: templates/communaute_n7/index.html:17 templates/pages/homepage.html:93
 #: templates/relations_ecole_etudiants/index.html:17
 msgid "Links"
 msgstr ""
@@ -2005,7 +2002,6 @@ msgstr ""
 #: templates/evenements/base.html:21 templates/evenements/details.html:56
 #: templates/evenements/participants.html:29
 #: templates/manage/organizations_search.html:72
-#: templates/media_communication/index.html:22
 #: templates/relations_ecole_etudiants/index.html:22
 #: templates/voyages/details.html:79 templates/voyages/join.html:26
 #: templates/voyages/participants.html:42
@@ -2072,7 +2068,6 @@ msgid "Search"
 msgstr ""
 
 #: templates/annuaire/adv_search.html:81 templates/annuaire/search.html:20
-#: templates/groupes_professionnels/index.html:8
 #: templates/manage/contributions.html:24
 #: templates/manage/organizations_search.html:23
 #: templates/manage/role_search.html:22 templates/manage/users_search.html:22
@@ -2149,7 +2144,7 @@ msgstr ""
 #: templates/annuaire/search.html:54 templates/emploi/job_details.html:54
 #: templates/evenements/details.html:44 templates/evenements/edit.html:34
 #: templates/evenements/index.html:40 templates/evenements/search.html:47
-#: templates/groupes_professionnels/details.html:42
+#: templates/groupes_professionnels/details.html:36
 #: templates/groupes_professionnels/edit.html:40
 #: templates/groupes_regionaux/details.html:30
 #: templates/groupes_regionaux/edit_roles.html:110
@@ -2370,7 +2365,7 @@ msgstr ""
 
 #: templates/annuaire/details.html:180 templates/emploi/job_details.html:61
 #: templates/evenements/details.html:65
-#: templates/groupes_professionnels/details.html:50
+#: templates/groupes_professionnels/details.html:44
 #: templates/groupes_professionnels/edit.html:47
 #: templates/groupes_professionnels/subscribe.html:25
 #: templates/groupes_regionaux/details.html:61
@@ -2380,13 +2375,16 @@ msgstr ""
 #: templates/manage/office_merge.html:54
 #: templates/manage/organization_details.html:132
 #: templates/manage/organization_merge.html:55
-#: templates/manage/user_details.html:88 templates/voyages/details.html:92
+#: templates/manage/user_details.html:88
+#: templates/media_communication/canal_n7.html:81
+#: templates/media_communication/canal_n7_edito.html:53
+#: templates/voyages/details.html:92
 msgid "Card Informations"
 msgstr ""
 
 #: templates/annuaire/details.html:183 templates/emploi/job_details.html:64
 #: templates/evenements/details.html:68
-#: templates/groupes_professionnels/details.html:53
+#: templates/groupes_professionnels/details.html:47
 #: templates/groupes_professionnels/subscribe.html:28
 #: templates/groupes_regionaux/details.html:64
 #: templates/groupes_regionaux/edit.html:49
@@ -2395,7 +2393,10 @@ msgstr ""
 #: templates/manage/office_merge.html:57
 #: templates/manage/organization_details.html:135
 #: templates/manage/organization_merge.html:58
-#: templates/manage/user_details.html:91 templates/voyages/details.html:95
+#: templates/manage/user_details.html:91
+#: templates/media_communication/canal_n7.html:84
+#: templates/media_communication/canal_n7_edito.html:56
+#: templates/voyages/details.html:95
 msgid "Update"
 msgstr ""
 
@@ -2719,7 +2720,7 @@ msgid "Past N7 employees"
 msgstr ""
 
 #: templates/emploi/organization_edit.html:43
-#: templates/groupes_professionnels/details.html:45
+#: templates/groupes_professionnels/details.html:39
 #: templates/groupes_professionnels/edit.html:43
 msgid "Edit these data."
 msgstr ""
@@ -2812,7 +2813,7 @@ msgid "List participants"
 msgstr ""
 
 #: templates/evenements/details.html:50
-#: templates/groupes_professionnels/details.html:46
+#: templates/groupes_professionnels/details.html:40
 msgid "Subscribe someone"
 msgstr ""
 
@@ -2893,22 +2894,24 @@ msgstr ""
 msgid "This number of people includes the person you subscribe."
 msgstr ""
 
-#: templates/groupes_professionnels/details.html:14
+#: templates/groupes_professionnels/details.html:13
 msgid "Members list"
 msgstr ""
 
-#: templates/groupes_professionnels/details.html:27
 #: templates/groupes_professionnels/edit.html:31
 msgid "General informations"
 msgstr ""
 
-#: templates/groupes_professionnels/details.html:32
 #: templates/groupes_professionnels/edit.html:36
 msgid "Coordinator"
 msgstr ""
 
 #: templates/groupes_professionnels/edit.html:50
 msgid "Modification date"
+msgstr ""
+
+#: templates/groupes_professionnels/index.html:8
+msgid "Professionnal Groups"
 msgstr ""
 
 #: templates/groupes_professionnels/index.html:16
@@ -3286,6 +3289,30 @@ msgstr ""
 
 #: templates/manage/users_search.html:68
 msgid "Register external user"
+msgstr ""
+
+#: templates/media_communication/canal_n7.html:54
+#: templates/media_communication/canal_n7_edito.html:26
+#: templates/media_communication/index.html:24
+#: templates/media_communication/website.html:26
+msgid "Index"
+msgstr ""
+
+#: templates/media_communication/canal_n7.html:62
+#: templates/media_communication/canal_n7_edito.html:34
+msgid "Table of content"
+msgstr ""
+
+#: templates/media_communication/canal_n7_edito.html:10
+msgid "Editorial"
+msgstr ""
+
+#: templates/media_communication/website.html:10
+msgid "Web site"
+msgstr ""
+
+#: templates/media_communication/website.html:34
+msgid "Informations"
 msgstr ""
 
 #: templates/news/details.html:18
