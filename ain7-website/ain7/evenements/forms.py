@@ -110,12 +110,15 @@ class EventForm(forms.ModelForm):
         return self.cleaned_data['publication_end']
 
     def save(self, *args, **kwargs):
-        event = super(EventForm, self).save()
         if kwargs.has_key('contributor'):
             contributor = kwargs['contributor']
+            event = super(EventForm, self).save()
+            event.logged_save(contributor.user)
             contrib_type = \
                 UserContributionType.objects.get(key=u'event_register')
             contrib = UserContribution(user=contributor, type=contrib_type)
             contrib.save()
+        else:
+            event = super(EventForm, self).save()            
         return event
 

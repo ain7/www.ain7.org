@@ -1,5 +1,5 @@
 {% extends "voyages/base.html" %}
-{% load i18n %}
+{% load i18n ain7_tags %}
 
 {% block content %}
 
@@ -90,11 +90,7 @@
       </div>
 
       <h3>{% trans "Card Informations"%}</h3>
-      <div class="right_articles">
-        <ul>
-          <li>{% trans "Update" %}: {{ travel.modification_date|date:"l j F Y H:i" }}</li>
-        </ul>
-       </div>
+      {% show_last_change travel %}
 
     </div>
   </div>

@@ -27,6 +27,7 @@ from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
 from ain7.groupes_regionaux.models import Group
+from ain7.utils import LoggedClass
 
 # a Manager for the class Event
 class EventManager(models.Manager):
@@ -35,7 +36,7 @@ class EventManager(models.Manager):
         """Returns all future events."""
         return self.filter(date__gte=datetime.datetime.now())
 
-class Event(models.Model):
+class Event(LoggedClass):
 
     EVENT_CATEGORY = (
               (0,_('conference')),
@@ -68,12 +69,6 @@ class Event(models.Model):
     pictures_gallery = models.CharField(verbose_name=_('Pictures gallery'), max_length=100, blank=True, null=True)
     objects = EventManager()
 
-    # Internal
-    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
-    modification_date = models.DateTimeField(editable=False)
-    creator = models.ForeignKey(Person, related_name='created_events', editable=False, null=True)
-    modifier = models.ForeignKey(Person, related_name='modified_events', editable=False, null=True)
-
     # Moderation
     approved = models.BooleanField(default=False)
     approved_by = models.ForeignKey(Person, related_name='events_approved', editable=False, null=True)
@@ -82,9 +77,6 @@ class Event(models.Model):
         return self.name
 
     def save(self):
-        #self.creator = 1
-        self.modification_date = datetime.datetime.today()
-        #self.modifier = 1
         if self.pictures_gallery:
             if not self.pictures_gallery.startswith('http://'):
                 self.pictures_gallery = 'http://'+self.pictures_gallery

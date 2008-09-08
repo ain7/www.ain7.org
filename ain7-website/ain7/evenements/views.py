@@ -62,7 +62,8 @@ def edit(request, event_id):
         {'event': event, 'back': request.META.get('HTTP_REFERER', '/'),
          'event_list': Event.objects.all(),
          'next_events': Event.objects.next_events()},
-        {}, '/evenements/%s/' % (event.id), _('Event successfully updated.'))
+        {'contributor': request.user.person},
+        '/evenements/%s/' % (event.id), _('Event successfully updated.'))
 
 @confirmation_required(lambda event_id=None, object_id=None : '', 'evenements/base.html', _('Do you really want to delete the image of this event'))
 @login_required
@@ -70,7 +71,7 @@ def image_delete(request, event_id):
 
     event = get_object_or_404(Event, pk=event_id)
     event.image = None
-    event.save()
+    event.logged_save(request.user)
 
     request.user.message_set.create(message=
         _('The image of this event has been successfully deleted.'))

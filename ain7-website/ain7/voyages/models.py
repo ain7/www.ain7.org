@@ -26,6 +26,7 @@ from django.db import models
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
+from ain7.utils import LoggedClass
 
 class TravelType(models.Model):
 
@@ -38,7 +39,7 @@ class TravelType(models.Model):
         verbose_name = _('travel type')
         verbose_name_plural = _('travel types')
 
-class Travel(models.Model):
+class Travel(LoggedClass):
 
     label = models.CharField(verbose_name=_('label'), max_length=20)
     start_date = models.DateField(verbose_name=_('start date'), blank=True, null=True)
@@ -52,16 +53,8 @@ class Travel(models.Model):
     thumbnail = models.ImageField(verbose_name=_('thumbnail'), upload_to='data',blank=True,null=True)
     report = models.TextField(verbose_name=_('report'), blank=True, null=True)
 
-    # Internal
-    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
-    modification_date = models.DateTimeField(editable=False)
-
     def __unicode__(self):
         return self.label
-
-    def save(self):
-        self.modification_date = datetime.datetime.today()
-        return super(Travel, self).save()
 
     def is_past(self):
         """ Defines if a travel is past or not."""

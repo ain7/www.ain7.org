@@ -33,6 +33,7 @@ from django.template import RequestContext
 from django import forms
 from django.db import models
 from django.utils.translation import ugettext as _
+from django import template
 
 from ain7 import settings
 from ain7.widgets import DateTimeWidget
@@ -102,6 +103,8 @@ def ain7_generic_edit(request, obj, MyForm, formInitDict, formPage, formPageDict
             for k,v in formInitDict.iteritems():
                 f.cleaned_data[k] = v
             obj = f.save(**saveDict)
+            if isinstance(obj, LoggedClass) and request.user:
+                obj.logged_save(request.user)
             request.user.message_set.create(message=msgDone)
         else:
             pageDict = {'form': f}
@@ -117,4 +120,33 @@ def ain7_generic_delete(request, obj, redirectPage, msgDone):
     obj.delete()
     request.user.message_set.create(message=msgDone)
     return HttpResponseRedirect(redirectPage)
+
+ 
+class LoggedClass(models.Model):
+    """ Classe abstraite contenant les infos à enregistrer pour les modèles
+    pour lesquels on veut connaître la date de création/modif et l'auteur."""
+    last_change_by = models.OneToOneField(
+        User, verbose_name=_('modifier'), editable=False,
+        related_name='last_changed_%(class)s', blank=True, null=True)
+    last_change_at = models.DateTimeField(
+        verbose_name=_('last changed at'), blank=True, editable=False)
+
+    class Meta:
+        abstract = True
+        
+    def logged_save(self, user):
+        self.last_change_by = user
+        return self.save()
+        
+    def save(self):
+        self.last_change_at = datetime.datetime.now()
+        return super(LoggedClass, self).save()
+        
+def generic_show_last_change(logged_obj):
+    """ Utilisé pour le rendu du tag show_last_change.
+    Peut être utilisé sur tout objet dont le modèle hérite de LoggedClass."""
+    if not isinstance(logged_obj, LoggedClass):
+        raise django.template.TemplateSyntaxError,\
+            "show_last_change should only be used with LoggedClass objects."
+    return {'obj': logged_obj}
 

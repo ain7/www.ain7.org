@@ -26,28 +26,19 @@ from django.db import models
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
+from ain7.utils import LoggedClass
 
-class GroupPro(models.Model):
+class GroupPro(LoggedClass):
 
-    shortname = models.CharField(verbose_name=_('name'), max_length=100)
+    shortname = models.CharField(verbose_name=_('short name'), max_length=100)
     name = models.CharField(verbose_name=_('name'), max_length=100)
     description = models.CharField(verbose_name=_('description'), max_length=200, blank=True, null=True)
     contact = models.EmailField(verbose_name=_('Contact email'), max_length=100, blank=True, null=True)
     web_page = models.TextField(verbose_name=_('web page'), blank=True, null=True)
     link = models.CharField(verbose_name=_('link'), max_length=100, blank=True, null=True)
 
-    # Internal
-    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
-    modification_date = models.DateTimeField(editable=False)
-    modifier = models.IntegerField(editable=False)
-
     def __unicode__(self):
         return self.name
-
-    def save(self):
-        self.modification_date = datetime.datetime.today()
-        self.modifier = 1
-        return super(GroupPro, self).save()
 
     class Meta:
         verbose_name=_('group')

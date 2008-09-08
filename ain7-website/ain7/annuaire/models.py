@@ -28,7 +28,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
-from ain7.utils import isAdmin
+from ain7.utils import isAdmin, LoggedClass
 
 # Country (used for adresses)
 class Country(models.Model):
@@ -203,14 +203,14 @@ class PersonManager(models.Manager):
             "birth_date", "death_date" , "sex" , "country" , "wiki_name" ,
             "notes" ]
         critsForAdmin = [
-            "user" , "creation_date" , "modification_date" , "modifier" ]
+            "user" , "last_change_at" , "last_change_by" ]
         crits = critsForAll
         if isAdmin(user):
             crits.extend(critsForAdmin)
         return crits
 
 # The main class for a person
-class Person(models.Model):
+class Person(LoggedClass):
 
     SEX = (
            ('M', _('Male')),
@@ -234,19 +234,10 @@ class Person(models.Model):
 
     notes = models.TextField(verbose_name=_('Notes'), blank=True, null=True)
 
-    # Internal
-    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
-    modification_date = models.DateTimeField(editable=False)
-    modifier = models.IntegerField(editable=False)
     objects = PersonManager()
 
     def __unicode__(self):
         return self.first_name + " " + self.last_name
-
-    def save(self):
-        self.modification_date = datetime.datetime.today()
-        self.modifier = 1 # TODO
-        return super(Person, self).save()
 
     def send_mail(self, subject, message):
 
@@ -295,7 +286,7 @@ class AIn7MemberManager(models.Manager):
         return crits
 
 # AIn7 member
-class AIn7Member(models.Model):
+class AIn7Member(LoggedClass):
 
     person = models.OneToOneField(Person, verbose_name=_('person'))
 
@@ -366,7 +357,7 @@ class AIn7Subscription(models.Model):
     amount = models.IntegerField(verbose_name=_('Amount'))
 
 # Phone number for a person
-class PhoneNumber(models.Model):
+class PhoneNumber(LoggedClass):
 
     PHONE_NUMBER_TYPE = (
                          (1, _('Fix')),
@@ -379,14 +370,6 @@ class PhoneNumber(models.Model):
     number = models.CharField(verbose_name=_('number'), max_length=20)
     type = models.IntegerField(verbose_name=_('type'), choices=PHONE_NUMBER_TYPE, default=1)
     is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
-
-    # Internal
-    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
-    modification_date = models.DateTimeField(editable=False)
-
-    def save(self):
-        self.modification_date = datetime.datetime.today()
-        return super(PhoneNumber, self).save()
 
     def __unicode__(self):
         return self.number
@@ -407,7 +390,7 @@ class AddressType(models.Model):
         verbose_name_plural = _('address types')
 
 # A person address
-class Address(models.Model):
+class Address(LoggedClass):
 
     person = models.ForeignKey(Person, related_name='addresses')
 
@@ -420,19 +403,11 @@ class Address(models.Model):
     is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
     is_valid = models.BooleanField(verbose_name=_('is valid'), default=True)
 
-    # Internal
-    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
-    modification_date = models.DateTimeField(editable=False)
-
     def __unicode__(self):
         addr  = self.line1 + " " + self.line2 + " - "
         addr += self.zip_code + " " + self.city + " - "
         addr += self.country.name
         return addr
-
-    def save(self):
-        self.modification_date = datetime.datetime.today()
-        return super(Address, self).save()
 
     class Meta:
         verbose_name = _('Address')
@@ -526,7 +501,7 @@ class IRC(models.Model):
         verbose_name = _('irc')
 
 # N7 club
-class Club(models.Model):
+class Club(LoggedClass):
 
     name = models.CharField(verbose_name=('name'), max_length=20)
     description = models.CharField(verbose_name=_('description'), max_length=100)
@@ -535,8 +510,6 @@ class Club(models.Model):
     school = models.ForeignKey(School, verbose_name=_('school'), related_name='clubs')
     icon = models.ImageField(verbose_name=_('icon'), upload_to='data/', blank=True, null=True)
 
-    # Internal
-    creation_date = models.DateField(verbose_name=_('creation date'), blank=True, null=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
 
     def __unicode__(self):

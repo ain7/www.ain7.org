@@ -56,7 +56,7 @@ class JobOfferForm(forms.Form):
         queryset=Track.objects.all(), required=False)
     
 
-    def save(self, job_offer=None):
+    def save(self, user, job_offer=None):
         if not job_offer:
             job_offer = JobOffer()
         job_offer.reference = self.cleaned_data['reference']
@@ -71,7 +71,7 @@ class JobOfferForm(forms.Form):
         job_offer.save()
         # needs to have a primary key before a many-to-many can be used
         job_offer.track = self.cleaned_data['track']
-        job_offer.save()
+        job_offer.logged_save(user)
         return job_offer
 
 
@@ -123,7 +123,7 @@ class OrganizationForm(forms.Form):
         label=_('Long Description'), max_length=5000, required=False,
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':95}))
 
-    def save(self, is_a_proposal=False, organization=None, is_valid=True):
+    def save(self, user, is_a_proposal=False, organization=None, is_valid=True):
         if organization:
             org = organization
         else:
@@ -141,7 +141,7 @@ class OrganizationForm(forms.Form):
         org.long_description = self.cleaned_data['long_description']
         org.is_a_proposal = is_a_proposal
         org.is_valid = is_valid
-        org.save()
+        org.logged_save(user)
         return org
 
 class OfficeForm(forms.ModelForm):
@@ -165,7 +165,7 @@ class OfficeFormNoOrg(forms.ModelForm):
 
 class PositionForm(forms.ModelForm):
     start_date = forms.DateTimeField(label=_('start date').capitalize(),widget=dateWidget)
-    end_date = forms.DateTimeField(label=_('end date').capitalize(), widget=dateWidget)
+    end_date = forms.DateTimeField(label=_('end date').capitalize(), widget=dateWidget, required=False)
     office = forms.IntegerField(label=_('Office'), required=False, widget=AutoCompleteField(url='/ajax/office/',addable=True))
     
     class Meta:

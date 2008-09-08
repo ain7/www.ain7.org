@@ -238,7 +238,7 @@ def job_edit(request, emploi_id):
     if request.method == 'POST':
         f = JobOfferForm(request.POST)
         if f.is_valid():
-            f.save(job_offer=j)
+            f.save(request.user, job_offer=j)
             request.user.message_set.create(
                 message=_('Job offer successfully modified.'))
             return HttpResponseRedirect('/emploi/job/%s/' % (j.id) )
@@ -257,7 +257,7 @@ def job_register(request):
     if request.method == 'POST':
         f = JobOfferForm(request.POST)
         if f.is_valid():
-            job_offer = f.save()
+            job_offer = f.save(request.user)
             request.user.message_set.create(
                 message=_('Job offer successfully created.'))
             return HttpResponseRedirect('/emploi/job/%s/' % (job_offer.id))
@@ -324,14 +324,14 @@ def organization_add(request):
         f = OrganizationForm(request.POST.copy())
         if f.is_valid():
             # create the OrganizationProposal
-            modifiedOrg = f.save(is_a_proposal=True)
+            modifiedOrg = f.save(request.user,is_a_proposal=True)
             orgprop = OrganizationProposal(original = None,
                 modified = modifiedOrg, author = p, action = 0)
-            orgprop.save()
+            orgprop.logged_save(request.user)
             # create the notification
             notif = Notification(details="", organization_proposal=orgprop,
                 title=_('Proposal for adding an organization'))
-            notif.save()
+            notif.logged_save(request.user)
             request.user.message_set.create(message=_('Your proposal for adding an organization has been sent to moderators.'))
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
@@ -411,14 +411,14 @@ def organization_edit_data(request, organization_id=None):
         f = OrganizationForm(request.POST.copy())
         if f.is_valid():
             # create the OrganizationProposal
-            modifiedOrg = f.save(is_a_proposal=True)
+            modifiedOrg = f.save(request.user, is_a_proposal=True)
             orgprop = OrganizationProposal(original = org,
                 modified = modifiedOrg, author = p, action = 1)
-            orgprop.save()
+            orgprop.logged_save(request.user)
             # create the notification
             notif = Notification(details="", organization_proposal=orgprop,
                 title=_('Proposal for modifying an organization'))
-            notif.save()
+            notif.logged_save(request.user)
             request.user.message_set.create(message=_('Your proposal for modifying an organization has been sent to moderators.'))
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
@@ -435,11 +435,11 @@ def organization_delete(request, organization_id=None):
     p = get_object_or_404(Person, user=request.user.id)
     orgprop = OrganizationProposal(original = org,
         modified = None, author = p, action = 2)
-    orgprop.save()
+    orgprop.logged_save(request.user)
     # create the notification
     notif = Notification(details="", organization_proposal=orgprop,
                          title=_('Proposal for deleting an organization'))
-    notif.save()
+    notif.logged_save(request.user)
     request.user.message_set.create(message=_('Your proposal for deleting an organization has been sent to moderators.'))
     return HttpResponseRedirect('/emploi/')
 
@@ -464,13 +464,14 @@ def office_edit(request, office_id=None):
             f.cleaned_data['organization'] = office.organization
             # create the OfficeProposal
             modifiedOffice = f.save()
+            modifiedOffice.logged_save(request.user)
             officeProp = OfficeProposal(original = office.organization,
                 modified = modifiedOffice, author = p, action = 1)
-            officeProp.save()
+            officeProp.logged_save(request.user)
             # create the notification
             notif = Notification(title = _('Proposal for modifying an office'),
                 details = "", office_proposal = officeProp)
-            notif.save()
+            notif.logged_save(request.user)
             request.user.message_set.create(message=_('Your proposal for modifying an office has been sent to moderators.'))
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
@@ -487,11 +488,11 @@ def office_delete(request, office_id=None):
     officeProp = OfficeProposal(
         original = get_object_or_404(Office,pk=office_id),
         modified = None, author = p, action = 2)
-    officeProp.save()
+    officeProp.logged_save(request.user)
     # create the notification
     notif = Notification(title = _('Proposal for removing an office'),
         details = "", office_proposal = officeProp)
-    notif.save()
+    notif.logged_save(request.user)
     request.user.message_set.create(message=_('Your proposal for deleting an office has been sent to moderators.'))
     return HttpResponseRedirect('/emploi/')
 
@@ -516,13 +517,14 @@ def office_add(request, organization_id=None):
             f.cleaned_data['organization'] = org
             # create the OfficeProposal
             modifiedOffice = f.save()
+            modifiedOffice.logged_save(request.user)
             officeProp = OfficeProposal(original = None,
                 modified = modifiedOffice, author = p, action = 0)
-            officeProp.save()
+            officeProp.logged_save(request.user)
             # create the notification
             notif = Notification(title = _('Proposal for adding an office'),
                 details = "", office_proposal = officeProp)
-            notif.save()
+            notif.logged_save(request.user)
             request.user.message_set.create(message=_('Your proposal for adding an office has been sent to moderators.'))
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))

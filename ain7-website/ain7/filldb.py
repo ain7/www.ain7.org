@@ -1092,7 +1092,7 @@ Prochaines manifestations
 
     ain7aero = groupes_professionnels.GroupPro()
     ain7aero.name = "aero"
-    ain7aero.description = "Groupe Aéronotique"
+    ain7aero.description = "Groupe Aéronautique"
     ain7aero.save()
 
     sondage1 = sondages.Survey()

@@ -119,7 +119,7 @@ def thumbnail_delete(request, travel_id):
 
     travel = get_object_or_404(Travel, pk=travel_id)
     travel.thumbnail = None
-    travel.save()
+    travel.logged_save(request.user)
 
     request.user.message_set.create(message=
         _('The thumbnail of this travel has been successfully deleted.'))

@@ -48,3 +48,8 @@ class GroupProForm(forms.ModelForm):
     
     class Meta:
         model = GroupPro
+
+    def save(self, user=None):
+        groupPro =  super(GroupProForm, self).save()
+        groupPro.logged_save(user)
+        return groupPro

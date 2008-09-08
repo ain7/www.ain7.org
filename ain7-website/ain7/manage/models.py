@@ -25,10 +25,11 @@ import datetime
 from django.db import models
 from django.utils.translation import ugettext as _
 
+from ain7.utils import LoggedClass
 from ain7.emploi.models import ACTIONS, OrganizationProposal, OfficeProposal
 
 # A notification
-class Notification(models.Model):
+class Notification(LoggedClass):
 
     PROPOSAL_TYPE = (
         (0, _('organization')),
@@ -45,18 +46,8 @@ class Notification(models.Model):
         OfficeProposal, verbose_name=_('organization proposal'),
         blank=True, null=True)
 
-    # Internal
-    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
-    modification_date = models.DateTimeField(editable=False)
-    modifier = models.IntegerField(editable=False)
-
     def __unicode__(self):
         return self.title
-
-    def save(self):
-        self.modification_date = datetime.datetime.today()
-        self.modifier = 1 # TODO
-        return super(Notification, self).save()
 
     class Meta:
         verbose_name = _('notification')

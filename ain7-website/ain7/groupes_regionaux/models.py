@@ -26,25 +26,16 @@ from django.db import models
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
+from ain7.utils import LoggedClass
 
-class Group(models.Model):
+class Group(LoggedClass):
 
     is_active = models.BooleanField(verbose_name=_('active'), default=True)
     name = models.CharField(verbose_name=_('name'), max_length=50)
     description = models.TextField(verbose_name=_('description'), blank=True, null=True)
 
-    # Internal
-    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
-    modification_date = models.DateTimeField(editable=False)
-    modifier = models.IntegerField(editable=False)
-
     def __unicode__(self):
         return self.name
-
-    def save(self):
-        self.modification_date = datetime.datetime.today()
-        self.modifier = 1
-        return super(Group, self).save()
 
     def office_memberships(self):
         return self.roles.exclude(end_date__isnull=False, end_date__lte=datetime.datetime.now())\

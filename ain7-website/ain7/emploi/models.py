@@ -25,6 +25,7 @@ import datetime
 from django.db import models
 from django.utils.translation import ugettext as _
 
+from ain7.utils import LoggedClass
 from ain7.annuaire.models import Person, AIn7Member, Track
 from ain7.annuaire.models import Country
 
@@ -72,7 +73,7 @@ class OrganizationManager(models.Manager):
 
 
 # Organization informations
-class Organization(models.Model):
+class Organization(LoggedClass):
 
     ORGANIZATION_SIZE = (
                     (0, _('Micro (0)')),
@@ -94,10 +95,6 @@ class Organization(models.Model):
         verbose_name=_('is valid'), default=True)
     objects = OrganizationManager()
 
-    # Internal
-    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
-    modification_date = models.DateTimeField(editable=False)
-
     def __unicode__(self):
         return self.name
 
@@ -105,10 +102,6 @@ class Organization(models.Model):
         for size, size_label in self.ORGANIZATION_SIZE:
             if size == self.size: return size_label
         return None
-
-    def save(self):
-        self.modification_date = datetime.datetime.today()
-        return super(Organization, self).save()
 
     def delete(self):
         for office in self.offices.all(): office.delete()
@@ -135,7 +128,7 @@ class Organization(models.Model):
 
 # A proposal for creating, modifying or deleting an organization
 # Actually, it is only used for proposing a creation.
-class OrganizationProposal(models.Model):
+class OrganizationProposal(LoggedClass):
 
     author = models.ForeignKey(Person, verbose_name=_('author'),
                                related_name='organization_proposals')
@@ -149,21 +142,12 @@ class OrganizationProposal(models.Model):
     action = models.IntegerField(verbose_name=_('action'), choices=ACTIONS,
                                  blank=True, null=True)
 
-    # Internal
-    creation_date =  models.DateTimeField(
-        default=datetime.datetime.now, editable=False)
-    modification_date = models.DateTimeField(editable=False)
-
     def __unicode__(self):
         act = ""
         for (actnum, actname) in ACTIONS:
             if actnum==self.action:
                 act = actname
         return act + _(" the organization ") + self.modified.name
-
-    def save(self):
-        self.modification_date = datetime.datetime.today()
-        return super(OrganizationProposal, self).save()
 
     class Meta:
         verbose_name = _('organization modification proposal')
@@ -176,7 +160,7 @@ class OfficeManager(models.Manager):
 
 
 # A organization office informations
-class Office(models.Model):
+class Office(LoggedClass):
 
     organization = models.ForeignKey(Organization, verbose_name=_('organization'), related_name='offices')
 
@@ -199,15 +183,10 @@ class Office(models.Model):
         verbose_name=_('is a proposal'), default=False)
     objects = OfficeManager()
 
-    # Internal
-    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
-    modification_date = models.DateTimeField(editable=False)
-
     def __unicode__(self):
         return self.name
 
     def save(self):
-        self.modification_date = datetime.datetime.today()
         if self.web_site and \
            (not (self.web_site.startswith("http://") or \
                  (self.web_site.startswith("https://")))):
@@ -263,7 +242,7 @@ class Office(models.Model):
 
 # A proposal for creating, modifying or deleting an office
 # Actually, it is only used for proposing a creation.
-class OfficeProposal(models.Model):
+class OfficeProposal(LoggedClass):
 
     author = models.ForeignKey(Person, verbose_name=_('author'),
                                related_name='office_proposals')
@@ -275,11 +254,6 @@ class OfficeProposal(models.Model):
     action = models.IntegerField(verbose_name=_('action'), choices=ACTIONS,
                                  blank=True, null=True)
 
-    # Internal
-    creation_date =  models.DateTimeField(
-        default=datetime.datetime.now, editable=False)
-    modification_date = models.DateTimeField(editable=False)
-
     def __unicode__(self):
         act = ""
         for (actnum, actname) in ACTIONS:
@@ -287,16 +261,12 @@ class OfficeProposal(models.Model):
                 act = actname
         return act + _(" the office ") + self.modified.name
 
-    def save(self):
-        self.modification_date = datetime.datetime.today()
-        return super(OfficeProposal, self).save()
-
     class Meta:
         verbose_name = _('office modification proposal')
 
 
 # A position occupied by a person.
-class Position(models.Model):
+class Position(LoggedClass):
 
     office = models.ForeignKey(Office, verbose_name=_('office'), related_name='positions')
     fonction = models.CharField(verbose_name=_('fonction'), max_length=50)
@@ -308,25 +278,17 @@ class Position(models.Model):
     ain7member = models.ForeignKey(AIn7Member, related_name='positions')
     description = models.TextField(verbose_name=_('description'), blank=True, null=True)
 
-    # Internal
-    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
-    modification_date = models.DateTimeField(editable=False)
-
     def __unicode__(self):
         description  = self.fonction + " " + _("for") + " " + unicode(self.office)
         description += " (" + unicode(self.office.organization) +")"
         return description
-
-    def save(self):
-        self.modification_date = datetime.datetime.today()
-        return super(Position, self).save()
 
     class Meta:
         verbose_name = _('position')
         ordering = ['-start_date']
 
 # An education item in the CV of a person.
-class EducationItem(models.Model):
+class EducationItem(LoggedClass):
 
     school = models.CharField(verbose_name=_('school'), max_length=150)
     diploma = models.CharField(verbose_name=_('diploma'), max_length=150, blank=True, null=True)
@@ -334,14 +296,6 @@ class EducationItem(models.Model):
     start_date = models.DateField(verbose_name=_('start date'))
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
     ain7member = models.ForeignKey(AIn7Member, related_name='education')
-
-    # Internal
-    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
-    modification_date = models.DateTimeField(editable=False)
-
-    def save(self):
-        self.modification_date = datetime.datetime.today()
-        return super(EducationItem, self).save()
 
     def __unicode__(self):
         return self.school
@@ -353,19 +307,11 @@ class EducationItem(models.Model):
 # A leisure item in the CV of a person.
 # For instance: title="Culture" detail="Japanim"
 #               title="Sport" detail="Judo, Pastis, Pétanque"
-class LeisureItem(models.Model):
+class LeisureItem(LoggedClass):
 
     title = models.CharField(verbose_name=_('Title'), max_length=50)
     detail = models.TextField(verbose_name=_('Detail'), blank=True, null=True)
     ain7member = models.ForeignKey(AIn7Member, related_name='leisure')
-
-    # Internal
-    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
-    modification_date = models.DateTimeField(editable=False)
-
-    def save(self):
-        self.modification_date = datetime.datetime.today()
-        return super(LeisureItem, self).save()
 
     def __unicode__(self):
         return self.title
@@ -375,20 +321,12 @@ class LeisureItem(models.Model):
         ordering = ['title']
 
 # An publication item in the CV of a person.
-class PublicationItem(models.Model):
+class PublicationItem(LoggedClass):
 
     title = models.CharField(verbose_name=_('Title'), max_length=50)
     details = models.TextField(verbose_name=_('Detail'), blank=True, null=True)
     date = models.DateField()
     ain7member = models.ForeignKey(AIn7Member, related_name='publication')
-
-    # Internal
-    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
-    modification_date = models.DateTimeField(editable=False)
-
-    def save(self):
-        self.modification_date = datetime.datetime.today()
-        return super(PublicationItem, self).save()
 
     def __unicode__(self):
         return self.title
@@ -396,7 +334,7 @@ class PublicationItem(models.Model):
     class Meta:
         verbose_name = _('Publication and patent')
 
-class JobOffer(models.Model):
+class JobOffer(LoggedClass):
 
     JOB_TYPES = (
         (0,'CDI'),
@@ -417,14 +355,6 @@ class JobOffer(models.Model):
     track = models.ManyToManyField(Track, verbose_name=_('Track'), related_name='jobs', blank=True, null=True)
     nb_views = models.IntegerField(verbose_name=_('Number of views'), default=0, editable=False)
 
-    # Internal
-    creation_date =  models.DateTimeField(default=datetime.datetime.now, editable=False)
-    modification_date = models.DateTimeField(editable=False)
-
     def __unicode__(self):
         return self.reference + " " + self.title + " ("+ unicode(self.office) + ")"
-
-    def save(self):
-        self.modification_date = datetime.datetime.today()
-        return super(JobOffer, self).save()
 

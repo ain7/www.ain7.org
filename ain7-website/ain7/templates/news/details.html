@@ -1,5 +1,5 @@
 {% extends "news/base.html" %}
-{% load i18n %}
+{% load i18n ain7_tags %}
 
 {% block stylesheet %}{% endblock %}
 {% block content %}
@@ -16,7 +16,7 @@
           {{ news_item.description }}
         </p>
 	<p>{% trans "posted : " %} {{ news_item.creation_date|date:"l j F Y H:i" }}</p>
-	<p>{% trans "modified : " %} {{ news_item.modification_date|date:"l j F Y H:i" }}</p>
+	<p>{% trans "modified : " %} {{ news_item.last_change_at|date:"l j F Y H:i" }}</p>
 
 </div>
 
@@ -28,6 +28,10 @@
 			<li><a href="/actualites/{{ news_item.id }}/edit/">{% trans "Edit this news" %}</a></li>
 		</ul>
 	</div>
+
+    <h3>{% trans "Card Informations"%}</h3>
+    {%  show_last_change news_item %}
+
 </div>
 
 </div>

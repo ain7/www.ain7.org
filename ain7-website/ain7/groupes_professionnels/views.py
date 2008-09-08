@@ -85,7 +85,7 @@ def edit(request, group_id=None):
         if request.method == 'POST':
              form = GroupProForm(request.POST, instance=group)
              if form.is_valid():
-                 form.save()
+                 form.save(user=request.user)
                  request.user.message_set.create(
                      message=_("Modifications have been successfully saved."))
                  return HttpResponseRedirect(reverse(details, args=[group.name]))
