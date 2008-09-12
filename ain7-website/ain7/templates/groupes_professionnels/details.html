@@ -9,21 +9,24 @@
 
 <h3>{{ group.description }}</h3>
 
-{% if memberships %}
+{% if group.current_memberships %}
 <h4>{% trans "Members list" %}</h4>
 <ul>
-{% for membership in memberships %}
-    <li><a href="{% url ain7.annuaire.views.details user.id %}/">{{ membership.member }}</a>
+    {% for membership in group.current_memberships %}
+    <li><a href="{% url ain7.annuaire.views.details membership.member.user.id %}/">{{ membership.member }}</a>
         {% for promo in membership.member.ain7member.promos.all %}
             {% if forloop.last %} ({{ promo }}){% endif %}
         {% endfor %}
-        {% if membership.is_coordinator %}
-            ({% trans "coordinator" %})
-        {% endif %}
+        {% for role in membership.member.professional_group_roles.all %}
+          {% if role.current %}
+            ({{ role }})
+          {% endif %}
+        {% endfor %}
    </li>
 {% endfor %}
 </ul>
 {% endif %}
+
 
 <h4>{% trans "Description" %}</h4>
 
@@ -38,6 +41,9 @@
    <ul>
       <li><a href="{% url ain7.groupes_professionnels.views.edit group.name %}">{% trans "Edit these data." %}</a></li>
       <li><a href="{% url ain7.groupes_professionnels.views.subscribe group.name %}">{% trans "Subscribe someone" %}</a></li>
+      <li><a href="{% url ain7.groupes_professionnels.views.unsubscribe group.name %}">{% trans "Unsubscribe someone" %}</a></li>
+      {# TODO: gestion des droits : réservé aux secrétaires et superadmin #}
+      <li><a href="{% url ain7.groupes_professionnels.views.edit_roles group.id,"current" %}">{% trans "Edit roles of this group" %}</a></li>
    </ul>
    </div>
 

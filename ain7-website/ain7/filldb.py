@@ -948,6 +948,15 @@ def filldb():
 
 <p>De plus, ces travaux sont susceptibles d'intéresser nos camarades futurs diplômés pour les aider à trouver un écho pertinent auprès d'acteurs de la création d'entreprise et ils pourront faire des propositions à l'Ecole pour introduire, le cas échéant, des enseignements appropriés dans ses programmes, répondant ainsi à cette nouvelle demande.</p>"""
     ain7tic.save()
+    ain7ticMS1 = groupes_professionnels.Membership()
+    ain7ticMS1.group = ain7tic
+    ain7ticMS1.member = olivier
+    ain7ticMS1.save()
+    ain7ticRole1 = groupes_professionnels.GroupProRole()
+    ain7ticRole1.member = olivier
+    ain7ticRole1.group = ain7tic
+    ain7ticRole1.type = 0
+    ain7ticRole1.save()
 
     ain7telecom = groupes_professionnels.GroupPro()
     ain7telecom.name = "telecom"

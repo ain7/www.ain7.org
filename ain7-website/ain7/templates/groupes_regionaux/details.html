@@ -39,7 +39,7 @@
             </li>
             <li><a href="{% url ain7.groupes_regionaux.views.edit group.id %}">{% trans "Edit group informations" %}</a></li>
             {# TODO: gestion des droits : réservé aux secrétaires et superadmin #}
-            <li><a href="/groupes_regionaux/{{ group.id }}/roles/edit/current/">{% trans "Edit roles of this group" %}</a></li>
+            <li><a href="{% url ain7.groupes_regionaux.views.edit_roles group.id,"current" %}">{% trans "Edit roles of this group" %}</a></li>
         </ul>
     </div>
 

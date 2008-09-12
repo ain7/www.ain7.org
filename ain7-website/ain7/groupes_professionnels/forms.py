@@ -20,26 +20,45 @@
 #
 #
 
+import datetime
+
 from django import forms
+from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
 from ain7.fields import AutoCompleteField
+from ain7.widgets import DateTimeWidget
 from ain7.annuaire.models import Person
-from ain7.groupes_professionnels.models import GroupPro, Membership
+from ain7.groupes_professionnels.models import *
+
+dateWidget = DateTimeWidget()
+dateWidget.dformat = '%d/%m/%Y'
 
 class SubscribeGroupProForm(forms.Form):
     member = forms.IntegerField(label=_('Person to subscribe'), widget=AutoCompleteField(url='/ajax/person/'))
-    is_coordinator = forms.BooleanField(label=_('Is coordinator'), required=False)
 
     def save(self, group=None):
         membership = Membership()
         membership.member = \
             Person.objects.get(user__id=self.cleaned_data['member'])
         membership.group = group
-        membership.is_coordinator = self.cleaned_data['is_coordinator']
         membership.save()
         print membership
         return membership
+
+class UnsubscribeGroupProForm(forms.Form):
+    member = forms.IntegerField(label=_('Person to unsubscribe'),
+                                widget=AutoCompleteField(url='/ajax/person/'))
+
+    def unsubscribe(self, group=None):
+        person = Person.objects.get(user__id=self.cleaned_data['member'])
+        membership = Membership.objects\
+            .filter(group=group, member=person)\
+            .exclude(end_date__isnull=False,
+                     end_date__lte=datetime.datetime.now())\
+            .latest('end_date')
+        membership.end_date = datetime.datetime.now()
+        membership.save()
 
 class GroupProForm(forms.ModelForm):
     web_page = forms.CharField(label=_('web page').capitalize(),
@@ -53,3 +72,47 @@ class GroupProForm(forms.ModelForm):
         groupPro =  super(GroupProForm, self).save()
         groupPro.logged_save(user)
         return groupPro
+
+class NewRoleForm(forms.Form):
+    username = forms.CharField(label=_('Username'), max_length=100,
+        required=True, widget=AutoCompleteField(url='/ajax/person/'))
+    start_date = forms.DateTimeField(label=_('start date').capitalize(),
+        widget=dateWidget, required=True)
+    end_date = forms.DateTimeField(label=_('end date').capitalize(),
+        widget=dateWidget, required=False)
+
+    def clean_end_date(self):
+        if self.cleaned_data.get('start_date') and \
+            self.cleaned_data.get('end_date') and \
+            self.cleaned_data['start_date']>self.cleaned_data['end_date']:
+            raise forms.ValidationError(_('Start date is later than end date'))
+        return self.cleaned_data['end_date']
+
+    def save(self, group, type):
+        gr = GroupProRole()
+        gr.type = type
+        gr.start_date = self.cleaned_data['start_date']
+        gr.end_date = self.cleaned_data['end_date']
+        gr.group = group
+        gr.member = get_object_or_404(Person,
+                                      pk=self.cleaned_data['username'])
+        gr.save()
+        return gr
+
+class ChangeDatesForm(forms.Form):
+    start_date = forms.DateTimeField(label=_('start date').capitalize(),
+        widget=dateWidget, required=True)
+    end_date = forms.DateTimeField(label=_('end date').capitalize(),
+        widget=dateWidget, required=False)
+
+    def clean_end_date(self):
+        if self.cleaned_data.get('start_date') and \
+            self.cleaned_data.get('end_date') and \
+            self.cleaned_data['start_date']>self.cleaned_data['end_date']:
+            raise forms.ValidationError(_('Start date is later than end date'))
+        return self.cleaned_data['end_date']
+
+    def save(self, role):
+        role.start_date = self.cleaned_data['start_date']
+        role.end_date = self.cleaned_data['end_date']
+        return role.save()

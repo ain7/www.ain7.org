@@ -1,5 +1,5 @@
 {% extends "groupes_professionnels/base.html" %}
-{% load i18n %}
+{% load i18n ain7_tags %}
 
 {% block stylesheet %}{% endblock %}
 {% block content %}
@@ -23,11 +23,7 @@
 
 <div class="right">
     <h3>{% trans "Card Informations"%}</h3>
-   <div class="right_articles">
-     <ul>
-       <li>{% trans "Update" %}&nbsp;: {{ group.modification_date|date:"l j F Y" }}</li>
-     </ul>
-   </div>
+    {% show_last_change group %}
 </div>
 
 </div>
