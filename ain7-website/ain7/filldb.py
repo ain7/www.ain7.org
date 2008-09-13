@@ -25,6 +25,7 @@ from datetime import date, datetime, timedelta
 from django.contrib.auth.models import User, Group
 from django.contrib.sites.models import Site
 
+import ain7.association.models as association
 import ain7.annuaire.models as annuaire
 import ain7.groupes_professionnels.models as groupes_professionnels
 import ain7.groupes_regionaux.models as groupes_regionaux
@@ -1103,6 +1104,24 @@ Prochaines manifestations
     ain7aero.name = "aero"
     ain7aero.description = "Groupe Aéronautique"
     ain7aero.save()
+
+    # L'association
+    councilRole0 = association.CouncilRole()
+    councilRole0.member = lionel
+    councilRole0.role = 0
+    councilRole0.save()
+    councilRole1 = association.CouncilRole()
+    councilRole1.member = olivier
+    councilRole1.role = 1
+    councilRole1.save()
+    boardRole0 = association.BoardRole()
+    boardRole0.member = lionel
+    boardRole0.role = 0
+    boardRole0.save()
+    boardRole1 = association.BoardRole()
+    boardRole1.member = olivier
+    boardRole1.role = 1
+    boardRole1.save()
 
     sondage1 = sondages.Survey()
     sondage1.question = u"Quelle est votre couleur préférée ?"

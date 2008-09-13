@@ -111,13 +111,6 @@
     <div class="right_block">
         <ul>
             <li><a href="/groupes_professionnels/{{ group.name }}/">{% trans "Page of this group" %}</a></li>
-            <li>
-            {% if not is_member %}
-                <a href="/groupes_professionnels/{{ group.id }}/join/">{% trans "Join the group" %}</a>
-            {% else %}
-                <a href="/groupes_professionnels/{{ group.id }}/quit/">{% trans "Quit the group" %}</a>
-            {% endif %}
-            </li>
             <li><a href="/groupes_professionnels/{{ group.id }}/edit/">{% trans "Edit group informations" %}</a></li>
         </ul>
     </div>

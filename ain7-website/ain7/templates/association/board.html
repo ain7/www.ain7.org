@@ -9,20 +9,20 @@
 
 <div class="left">
 
-<h3>Bureau</h3>
+<h3>{% trans "Board" %}</h3>
 
-<ul>
-<li>Mireille Bourbotte</li>
-<li>Gilbert Callais</li>
-<li>Jean-marie Cammas</li>
-<li>Michel Canon</li>
-<li>Alain Hamon</li>
-<li>Maryse Lemmet</li>
-<li>Monique Nourison</li>
-<li>Dominique Platon</li>
-<li>Lionel Porcheron</li>
-<li>Pierre Welby</li>
-</ul>
+{% regroup current_roles by role as roles_by_role %}
+{% for roles in roles_by_role %}
+  <h4>{{ roles.list.0.get_role_display }}</h4>
+    <ul>
+      {% for role in roles.list %}
+      <li>
+        <a href="{% url ain7.annuaire.views.details role.member.user.id %}">
+          {{ role.member }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+{% endfor %}
 
 </div>
 
@@ -30,18 +30,30 @@
     <h3>{% trans "Links" %}</h3>
    <div class="right_articles">
     <ul>
-      <li><a href="/association/">{% trans "Overview" %}</a></li>
-      <li><a href="/association/status/">{% trans "Statuts" %}</a></li>
-      <li><a href="/association/board/">{% trans "Board" %}</a></li>
-      <li><a href="/association/council/">{% trans "Council" %}</a></li>
-      <li><a href="/association/contact/">{% trans "Contact" %}</a></li>
+      <li><a href="{% url ain7.association.views.index %}">
+          {% trans "Overview" %}</a></li>
+      <li><a href="{% url ain7.association.views.status %}">
+          {% trans "Status" %}</a></li>
+      <li><a href="{% url ain7.association.views.board %}">
+          {% trans "Board" %}</a></li>
+      <li><a href="{% url ain7.association.views.council %}">
+          {% trans "Council" %}</a></li>
+      <li><a href="{% url ain7.association.views.contact %}">
+          {% trans "Contact" %}</a></li>
     </ul>
    </div>
+
+   <h3>{% trans "Actions" %}</h3>
+   <div class="right_articles">
+    <ul>
+      <li><a href="{% url ain7.association.views.edit_board "current" %}">{% trans "Change board roles" %}</a></li>
+    </ul>
+   </div>
+
     <h3>{% trans "Statistics" %}</h3>
    <div class="right_articles">
     <ul>
       <li>{% trans "Number of members" %}: {{ count_members }}</li>
-      <li>{% trans "Number of subscribers" %}: {{ count_subscribers }}</li>
     </ul>
    </div>
 </div>

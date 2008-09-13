@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-12 22:37+0200\n"
-"PO-Revision-Date: 2008-09-12 22:37+0200\n"
+"POT-Creation-Date: 2008-09-13 16:52+0200\n"
+"PO-Revision-Date: 2008-09-13 16:51+0200\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -34,6 +34,8 @@ msgstr "Ajouter un établissement"
 #: templates/annuaire/edit.html.py:183 templates/annuaire/edit.html:207
 #: templates/annuaire/edit.html.py:227 templates/annuaire/edit.html:247
 #: templates/annuaire/edit.html.py:266 templates/annuaire/edit.html:285
+#: templates/association/edit_board.html:101
+#: templates/association/edit_council.html:101
 #: templates/emploi/cv_edit.html:86 templates/emploi/cv_edit.html.py:107
 #: templates/emploi/cv_edit.html:132 templates/emploi/cv_edit.html.py:154
 #: templates/groupes_professionnels/edit_roles.html:101
@@ -45,16 +47,17 @@ msgid "Add"
 msgstr "Ajouter"
 
 #: utils.py:112 annuaire/views.py:250 annuaire/views.py:268
-#: annuaire/views.py:910 emploi/views.py:247 emploi/views.py:266
-#: emploi/views.py:337 emploi/views.py:424 emploi/views.py:477
-#: emploi/views.py:530 evenements/views.py:109 evenements/views.py:204
-#: groupes_professionnels/views.py:91 groupes_professionnels/views.py:186
-#: groupes_professionnels/views.py:222 groupes_regionaux/views.py:165
-#: groupes_regionaux/views.py:201 manage/views.py:101 manage/views.py:242
-#: manage/views.py:325 manage/views.py:418 manage/views.py:460
-#: manage/views.py:492 manage/views.py:561 manage/views.py:689
-#: manage/views.py:905 voyages/views.py:155 voyages/views.py:187
-#: voyages/views.py:248
+#: annuaire/views.py:910 association/views.py:115 association/views.py:148
+#: association/views.py:211 association/views.py:244 emploi/views.py:247
+#: emploi/views.py:266 emploi/views.py:337 emploi/views.py:424
+#: emploi/views.py:477 emploi/views.py:530 evenements/views.py:109
+#: evenements/views.py:204 groupes_professionnels/views.py:91
+#: groupes_professionnels/views.py:186 groupes_professionnels/views.py:222
+#: groupes_regionaux/views.py:165 groupes_regionaux/views.py:201
+#: manage/views.py:101 manage/views.py:242 manage/views.py:325
+#: manage/views.py:418 manage/views.py:460 manage/views.py:492
+#: manage/views.py:561 manage/views.py:689 manage/views.py:905
+#: voyages/views.py:155 voyages/views.py:187 voyages/views.py:248
 msgid "Something was wrong in the form you filled. No modification done."
 msgstr ""
 "Certains champs ont été incorrectement remplis. Aucune modification "
@@ -163,8 +166,10 @@ msgstr "fin"
 msgid "Birth date is later than death date"
 msgstr "La date de naissance est postérieure à la date de décès."
 
-#: annuaire/forms.py:268 annuaire/models.py:528 emploi/forms.py:167
-#: emploi/forms.py:183 emploi/models.py:274 emploi/models.py:296
+#: annuaire/forms.py:268 annuaire/models.py:528 association/forms.py:38
+#: association/forms.py:63 association/forms.py:85 association/models.py:44
+#: association/models.py:76 emploi/forms.py:167 emploi/forms.py:183
+#: emploi/models.py:274 emploi/models.py:296
 #: groupes_professionnels/forms.py:79 groupes_professionnels/forms.py:103
 #: groupes_professionnels/models.py:62 groupes_professionnels/models.py:82
 #: groupes_regionaux/forms.py:46 groupes_regionaux/forms.py:70
@@ -175,12 +180,14 @@ msgid "start date"
 msgstr "Date de début"
 
 #: annuaire/forms.py:269 annuaire/models.py:513 annuaire/models.py:529
-#: emploi/forms.py:168 emploi/forms.py:184 emploi/models.py:275
-#: emploi/models.py:297 groupes_professionnels/forms.py:81
-#: groupes_professionnels/forms.py:105 groupes_professionnels/models.py:63
-#: groupes_professionnels/models.py:83 groupes_regionaux/forms.py:48
-#: groupes_regionaux/forms.py:72 groupes_regionaux/models.py:68
-#: groupes_regionaux/models.py:92 sondages/forms.py:36 sondages/models.py:31
+#: association/forms.py:40 association/forms.py:65 association/forms.py:87
+#: association/models.py:46 association/models.py:78 emploi/forms.py:168
+#: emploi/forms.py:184 emploi/models.py:275 emploi/models.py:297
+#: groupes_professionnels/forms.py:81 groupes_professionnels/forms.py:105
+#: groupes_professionnels/models.py:63 groupes_professionnels/models.py:83
+#: groupes_regionaux/forms.py:48 groupes_regionaux/forms.py:72
+#: groupes_regionaux/models.py:68 groupes_regionaux/models.py:92
+#: sondages/forms.py:36 sondages/models.py:31
 #: templates/sondages/details.html:26 voyages/forms.py:69 voyages/models.py:46
 msgid "end date"
 msgstr "Date de fin"
@@ -214,6 +221,7 @@ msgstr "pays"
 #: annuaire/models.py:49 annuaire/models.py:61 annuaire/models.py:294
 #: annuaire/models.py:371 annuaire/models.py:383 annuaire/models.py:402
 #: annuaire/models.py:445 annuaire/models.py:473 annuaire/models.py:546
+#: association/models.py:41 association/models.py:73
 #: groupes_professionnels/models.py:81 groupes_regionaux/models.py:90
 #: templates/annuaire/edit.html:106 voyages/models.py:33 voyages/models.py:49
 msgid "type"
@@ -379,6 +387,7 @@ msgid "person"
 msgstr "personne"
 
 #: annuaire/models.py:295 annuaire/models.py:354 annuaire/models.py:525
+#: association/models.py:42 association/models.py:74
 #: groupes_professionnels/models.py:60 groupes_professionnels/models.py:86
 #: groupes_regionaux/models.py:71 groupes_regionaux/models.py:95
 #: templates/annuaire/edit.html:108
@@ -843,6 +852,75 @@ msgstr "coché"
 msgid "unchecked"
 msgstr "décoché"
 
+#: association/forms.py:36 association/forms.py:61
+#: groupes_professionnels/forms.py:77 groupes_regionaux/forms.py:44
+#: manage/forms.py:96
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+#: association/forms.py:47 association/forms.py:72 association/forms.py:94
+#: emploi/forms.py:179 emploi/forms.py:194 evenements/forms.py:109
+#: groupes_professionnels/forms.py:88 groupes_professionnels/forms.py:112
+#: groupes_regionaux/forms.py:55 groupes_regionaux/forms.py:79
+#: sondages/forms.py:46 voyages/forms.py:75
+msgid "Start date is later than end date"
+msgstr "La date de début est postérieure à la date de fin."
+
+#: association/models.py:34 association/models.py:66
+#: groupes_regionaux/models.py:81
+msgid "President"
+msgstr "Président"
+
+#: association/models.py:35 association/models.py:67
+#: groupes_regionaux/models.py:82
+msgid "Vice president"
+msgstr "Vice président"
+
+#: association/models.py:36 association/models.py:68
+#: groupes_regionaux/models.py:83
+msgid "Secretary"
+msgstr "Secrétaire"
+
+#: association/models.py:37 association/models.py:69
+#: groupes_regionaux/models.py:84
+msgid "Treasurer"
+msgstr "Trésorier"
+
+#: association/models.py:38 association/models.py:70
+#: groupes_regionaux/models.py:85
+msgid "Under treasurer"
+msgstr "Trésorier adjoint"
+
+#: association/models.py:58
+msgid "council role"
+msgstr "Rôle au conseil d'administration"
+
+#: association/models.py:59
+msgid "council roles"
+msgstr "Rôles au conseil d'administration"
+
+#: association/models.py:90
+msgid "board role"
+msgstr "Rôle au bureau"
+
+#: association/models.py:91
+msgid "board roles"
+msgstr "Rôles au bureau"
+
+#: association/views.py:124 association/views.py:220
+#: groupes_professionnels/views.py:195 groupes_regionaux/views.py:174
+msgid ""
+"Do you really want to remove the role of this person (you can end a role by "
+"setting its end date)"
+msgstr ""
+"Souhaitez-vous vraiment supprimer le rôle de cette personne (vous pouvez y "
+"mettre fin en précisant la date de fin)"
+
+#: association/views.py:131 association/views.py:227
+#: groupes_professionnels/views.py:202 groupes_regionaux/views.py:181
+msgid "Role successfully deleted."
+msgstr "Le rôle a été supprimé avec succès."
+
 #: emploi/forms.py:36
 msgid "reference"
 msgstr "réference"
@@ -909,13 +987,6 @@ msgstr "Description longue"
 #: emploi/forms.py:169
 msgid "Office"
 msgstr "Établissement"
-
-#: emploi/forms.py:179 emploi/forms.py:194 evenements/forms.py:109
-#: groupes_professionnels/forms.py:88 groupes_professionnels/forms.py:112
-#: groupes_regionaux/forms.py:55 groupes_regionaux/forms.py:79
-#: sondages/forms.py:46 voyages/forms.py:75
-msgid "Start date is later than end date"
-msgstr "La date de début est postérieure à la date de fin."
 
 #: emploi/models.py:33
 msgid "Create"
@@ -1338,7 +1409,8 @@ msgstr "conférence"
 msgid "feistivity"
 msgstr "festivité"
 
-#: evenements/models.py:44
+#: evenements/models.py:44 templates/association/council.html:10
+#: templates/association/edit_council.html:10
 msgid "Administration Council"
 msgstr "Conseil d'administration"
 
@@ -1455,11 +1527,6 @@ msgstr "Personne à désinscrire"
 msgid "web page"
 msgstr "page web"
 
-#: groupes_professionnels/forms.py:77 groupes_regionaux/forms.py:44
-#: manage/forms.py:96
-msgid "Username"
-msgstr "Nom d'utilisateur"
-
 #: groupes_professionnels/models.py:55 groupes_professionnels/models.py:59
 msgid "group"
 msgstr "groupe"
@@ -1504,18 +1571,6 @@ msgstr "Adhésion effacée avec succès."
 msgid "This person is not a member of this group. Nothing done."
 msgstr "Cette personne n'est pas membre de ce groupe. Aucune action effectuée"
 
-#: groupes_professionnels/views.py:195 groupes_regionaux/views.py:174
-msgid ""
-"Do you really want to remove the role of this person (you can end a role by "
-"setting its end date)"
-msgstr ""
-"Souhaitez-vous vraiment supprimer le rôle de cette personne (vous pouvez y "
-"mettre fin en précisant la date de fin)"
-
-#: groupes_professionnels/views.py:202 groupes_regionaux/views.py:181
-msgid "Role successfully deleted."
-msgstr "Le rôle a été supprimé avec succès."
-
 #: groupes_regionaux/models.py:62 groupes_regionaux/models.py:70
 #: groupes_regionaux/models.py:94
 msgid "regional group"
@@ -1528,26 +1583,6 @@ msgstr "adhésion group régional"
 #: groupes_regionaux/models.py:76
 msgid "regional group memberships"
 msgstr "adhésions groupes régionaux"
-
-#: groupes_regionaux/models.py:81
-msgid "President"
-msgstr "Président"
-
-#: groupes_regionaux/models.py:82
-msgid "Vice president"
-msgstr "Vice président"
-
-#: groupes_regionaux/models.py:83
-msgid "Secretary"
-msgstr "Secrétaire"
-
-#: groupes_regionaux/models.py:84
-msgid "Treasurer"
-msgstr "Trésorier"
-
-#: groupes_regionaux/models.py:85
-msgid "Under treasurer"
-msgstr "Trésorier adjoint"
 
 #: groupes_regionaux/models.py:86
 msgid "Emploi manager"
@@ -2005,7 +2040,7 @@ msgstr "Adhésions"
 msgid "Directory"
 msgstr "Annuaire"
 
-#: templates/base.html:81 templates/groupes_professionnels/edit_roles.html:126
+#: templates/base.html:81 templates/groupes_professionnels/edit_roles.html:119
 #: templates/groupes_regionaux/details.html:47
 #: templates/groupes_regionaux/edit.html:32
 #: templates/groupes_regionaux/edit_roles.html:125
@@ -2062,10 +2097,13 @@ msgstr "Flux RSS"
 
 #: templates/base.html:135 templates/annuaire/details.html:79
 #: templates/annuaire/details_frame.html:87 templates/annuaire/edit.html:215
-#: templates/association/board.html:37 templates/association/contact.html:43
-#: templates/association/council.html:62 templates/association/index.html:111
-#: templates/association/status.html:251 templates/emploi/job_details.html:17
-#: templates/emploi/job_details.html:31 templates/evenements/details.html:14
+#: templates/association/board.html:42 templates/association/contact.html:51
+#: templates/association/council.html:41
+#: templates/association/edit_board.html:122
+#: templates/association/edit_council.html:122
+#: templates/association/index.html:116 templates/association/status.html:259
+#: templates/emploi/job_details.html:17 templates/emploi/job_details.html:31
+#: templates/evenements/details.html:14
 #: templates/groupes_professionnels/edit.html:35
 #: templates/manage/user_details.html:30
 msgid "Contact"
@@ -2080,16 +2118,20 @@ msgid "Terms of use"
 msgstr "Mentions légales"
 
 #: templates/adhesions/index.html:17 templates/association/board.html:30
-#: templates/association/contact.html:36 templates/association/council.html:55
-#: templates/association/index.html:104 templates/association/status.html:244
+#: templates/association/contact.html:39 templates/association/council.html:29
+#: templates/association/edit_board.html:110
+#: templates/association/edit_council.html:110
+#: templates/association/index.html:104 templates/association/status.html:247
 #: templates/communaute_n7/index.html:17 templates/pages/homepage.html:93
 #: templates/relations_ecole_etudiants/index.html:17
 msgid "Links"
 msgstr "Liens"
 
-#: templates/adhesions/index.html:22 templates/association/board.html:40
-#: templates/association/contact.html:46 templates/association/council.html:65
-#: templates/association/index.html:114 templates/association/status.html:254
+#: templates/adhesions/index.html:22 templates/association/board.html:53
+#: templates/association/contact.html:54 templates/association/council.html:52
+#: templates/association/edit_board.html:126
+#: templates/association/edit_council.html:126
+#: templates/association/index.html:119 templates/association/status.html:262
 #: templates/communaute_n7/index.html:22 templates/emploi/job_details.html:64
 #: templates/evenements/base.html:21 templates/evenements/details.html:56
 #: templates/evenements/participants.html:29
@@ -2101,15 +2143,15 @@ msgstr "Liens"
 msgid "Statistics"
 msgstr "Statistiques"
 
-#: templates/adhesions/index.html:25 templates/association/board.html:43
-#: templates/association/contact.html:49 templates/association/council.html:68
-#: templates/association/index.html:117 templates/association/status.html:257
+#: templates/adhesions/index.html:25 templates/association/board.html:56
+#: templates/association/contact.html:57 templates/association/council.html:55
+#: templates/association/edit_board.html:129
+#: templates/association/edit_council.html:129
+#: templates/association/index.html:122 templates/association/status.html:265
 msgid "Number of members"
 msgstr "Nombre de membres"
 
-#: templates/adhesions/index.html:26 templates/association/board.html:44
-#: templates/association/contact.html:50 templates/association/council.html:69
-#: templates/association/index.html:118 templates/association/status.html:258
+#: templates/adhesions/index.html:26
 msgid "Number of subscribers"
 msgstr "Nombre d'adhérents"
 
@@ -2122,7 +2164,9 @@ msgstr "Filtre"
 #: templates/annuaire/edit.html:178 templates/annuaire/edit.html.py:202
 #: templates/annuaire/edit.html:222 templates/annuaire/edit.html.py:242
 #: templates/annuaire/edit.html:261 templates/annuaire/edit.html.py:280
-#: templates/annuaire/subscriptions.html:31 templates/emploi/cv_edit.html:77
+#: templates/annuaire/subscriptions.html:31
+#: templates/association/edit_board.html:36
+#: templates/association/edit_council.html:36 templates/emploi/cv_edit.html:77
 #: templates/emploi/cv_edit.html.py:99 templates/emploi/cv_edit.html:121
 #: templates/emploi/cv_edit.html.py:149
 #: templates/groupes_professionnels/edit_roles.html:36
@@ -2234,7 +2278,8 @@ msgid "No person matched your criteria."
 msgstr "Aucun résultat ne correspond à votre recherche."
 
 #: templates/annuaire/adv_search.html:114 templates/annuaire/details.html:161
-#: templates/annuaire/search.html:54 templates/emploi/job_details.html:54
+#: templates/annuaire/search.html:54 templates/association/board.html:46
+#: templates/association/council.html:45 templates/emploi/job_details.html:54
 #: templates/evenements/details.html:44 templates/evenements/edit.html:34
 #: templates/evenements/index.html:40 templates/evenements/search.html:47
 #: templates/groupes_professionnels/details.html:39
@@ -2351,6 +2396,10 @@ msgstr "Quoi ?"
 #: templates/annuaire/criterion_add.html:36
 #: templates/annuaire/criterion_edit.html:20
 #: templates/annuaire/edit_form.html:20 templates/annuaire/preferences.html:15
+#: templates/association/edit_board.html:57
+#: templates/association/edit_board.html:96
+#: templates/association/edit_council.html:57
+#: templates/association/edit_council.html:96
 #: templates/emploi/education_edit.html:21 templates/emploi/job_edit.html:24
 #: templates/emploi/leisure_edit.html:21
 #: templates/emploi/office_create.html:17
@@ -2465,7 +2514,7 @@ msgstr "Participation à l'AIn7"
 #: templates/evenements/details.html:65
 #: templates/groupes_professionnels/details.html:50
 #: templates/groupes_professionnels/edit.html:47
-#: templates/groupes_professionnels/edit_roles.html:140
+#: templates/groupes_professionnels/edit_roles.html:133
 #: templates/groupes_professionnels/subscribe.html:25
 #: templates/groupes_regionaux/details.html:61
 #: templates/groupes_regionaux/edit.html:46
@@ -2567,9 +2616,14 @@ msgstr "Sites internet"
 msgid "Advanced Search"
 msgstr "Recherche avancée"
 
-#: templates/annuaire/edit_form.html:19 templates/emploi/job_edit.html:23
-#: templates/emploi/job_register.html:23 templates/evenements/edit.html:27
-#: templates/evenements/join.html:16 templates/evenements/subscribe.html:16
+#: templates/annuaire/edit_form.html:19
+#: templates/association/edit_board.html:56
+#: templates/association/edit_board.html:95
+#: templates/association/edit_council.html:56
+#: templates/association/edit_council.html:95
+#: templates/emploi/job_edit.html:23 templates/emploi/job_register.html:23
+#: templates/evenements/edit.html:27 templates/evenements/join.html:16
+#: templates/evenements/subscribe.html:16
 #: templates/groupes_professionnels/edit.html:23
 #: templates/groupes_professionnels/edit_roles.html:56
 #: templates/groupes_professionnels/edit_roles.html:95
@@ -2616,29 +2670,96 @@ msgstr "euros"
 msgid "Edit"
 msgstr "Édition"
 
-#: templates/association/board.html:33 templates/association/contact.html:39
-#: templates/association/council.html:58 templates/association/index.html:107
-#: templates/association/status.html:247
+#: templates/association/board.html:34 templates/association/contact.html:43
+#: templates/association/council.html:33
+#: templates/association/edit_board.html:114
+#: templates/association/edit_council.html:114
+#: templates/association/index.html:108 templates/association/status.html:251
 msgid "Overview"
 msgstr "Présentation"
 
-#: templates/association/board.html:34 templates/association/contact.html:40
-#: templates/association/council.html:59 templates/association/index.html:108
-#: templates/association/status.html:248
-msgid "Statuts"
+#: templates/association/board.html:36 templates/association/contact.html:45
+#: templates/association/council.html:35
+#: templates/association/edit_board.html:116
+#: templates/association/edit_council.html:116
+#: templates/association/index.html:110 templates/association/status.html:253
+msgid "Status"
 msgstr "Statuts"
 
-#: templates/association/board.html:35 templates/association/contact.html:41
-#: templates/association/council.html:60 templates/association/index.html:109
-#: templates/association/status.html:249
+#: templates/association/board.html:38 templates/association/contact.html:47
+#: templates/association/council.html:37
+#: templates/association/edit_board.html:10
+#: templates/association/edit_board.html:118
+#: templates/association/edit_council.html:118
+#: templates/association/index.html:112 templates/association/status.html:255
 msgid "Board"
 msgstr "Bureau"
 
-#: templates/association/board.html:36 templates/association/contact.html:42
-#: templates/association/council.html:61 templates/association/index.html:110
-#: templates/association/status.html:250
+#: templates/association/board.html:40 templates/association/contact.html:49
+#: templates/association/council.html:39
+#: templates/association/edit_board.html:120
+#: templates/association/edit_council.html:120
+#: templates/association/index.html:114 templates/association/status.html:257
 msgid "Council"
 msgstr "Conseil d'administration"
+
+#: templates/association/board.html:49
+msgid "Change board roles"
+msgstr "Modifier le bureau"
+
+#: templates/association/council.html:48
+msgid "Change council roles"
+msgstr "Modifier le conseil d'administration"
+
+#: templates/association/edit_board.html:13
+#: templates/association/edit_council.html:13
+msgid "All members (including past ones) are displayed. Click"
+msgstr "Tous les membres (y compris les anciens) sont affichés. Cliquez"
+
+#: templates/association/edit_board.html:13
+#: templates/association/edit_board.html:15
+#: templates/association/edit_council.html:13
+#: templates/association/edit_council.html:15
+#: templates/groupes_professionnels/edit_roles.html:15
+#: templates/groupes_professionnels/edit_roles.html:17
+#: templates/groupes_regionaux/edit_roles.html:15
+#: templates/groupes_regionaux/edit_roles.html:17
+#: templates/manage/user_details.html:55
+msgid "here"
+msgstr "ici"
+
+#: templates/association/edit_board.html:13
+#: templates/association/edit_council.html:13
+#: templates/groupes_professionnels/edit_roles.html:15
+#: templates/groupes_regionaux/edit_roles.html:15
+msgid "to display only current ones."
+msgstr "pour afficher uniquement les membres actuels."
+
+#: templates/association/edit_board.html:15
+#: templates/association/edit_council.html:15
+msgid "Only current members are displayed. Click"
+msgstr "Seuls les membres actuels sont affichés. Cliquez"
+
+#: templates/association/edit_board.html:15
+#: templates/association/edit_council.html:15
+#: templates/groupes_professionnels/edit_roles.html:17
+#: templates/groupes_regionaux/edit_roles.html:17
+msgid "to display past members too."
+msgstr "pour afficher les anciens membres également."
+
+#: templates/association/edit_board.html:35
+#: templates/association/edit_council.html:35
+#: templates/groupes_professionnels/edit_roles.html:35
+#: templates/groupes_regionaux/edit_roles.html:35
+msgid "Modify dates"
+msgstr "Modifier ces dates"
+
+#: templates/association/edit_board.html:69
+#: templates/association/edit_council.html:69
+#: templates/groupes_professionnels/edit_roles.html:69
+#: templates/groupes_regionaux/edit_roles.html:69
+msgid "Add a"
+msgstr "Ajouter un"
 
 #: templates/emploi/base.html:21
 msgid "Manage your CV"
@@ -3030,62 +3151,22 @@ msgid "All members (including past ones) of the board are displayed. Click"
 msgstr ""
 "Tous les membres (y compris les anciens) de ce bureau sont affichés. Cliquez"
 
-#: templates/groupes_professionnels/edit_roles.html:15
-#: templates/groupes_professionnels/edit_roles.html:17
-#: templates/groupes_regionaux/edit_roles.html:15
-#: templates/groupes_regionaux/edit_roles.html:17
-#: templates/manage/user_details.html:55
-msgid "here"
-msgstr "ici"
-
-#: templates/groupes_professionnels/edit_roles.html:15
-#: templates/groupes_regionaux/edit_roles.html:15
-msgid "to display only current ones."
-msgstr "pour afficher uniquement les membres actuels."
-
 #: templates/groupes_professionnels/edit_roles.html:17
 #: templates/groupes_regionaux/edit_roles.html:17
 msgid "Only current members of the board are displayed. Click"
 msgstr "Seuls les membres actuels du bureau sont affichés. Cliquez"
 
-#: templates/groupes_professionnels/edit_roles.html:17
-#: templates/groupes_regionaux/edit_roles.html:17
-msgid "to display past members too."
-msgstr "pour afficher les anciens membres également."
-
-#: templates/groupes_professionnels/edit_roles.html:35
-#: templates/groupes_regionaux/edit_roles.html:35
-msgid "Modify dates"
-msgstr "Modifier ces dates"
-
-#: templates/groupes_professionnels/edit_roles.html:69
-#: templates/groupes_regionaux/edit_roles.html:69
-msgid "Add a"
-msgstr "Ajouter un"
-
 #: templates/groupes_professionnels/edit_roles.html:113
 msgid "Page of this group"
 msgstr "Page de ce groupe"
 
-#: templates/groupes_professionnels/edit_roles.html:116
-#: templates/groupes_regionaux/details.html:35
-#: templates/groupes_regionaux/edit_roles.html:115
-msgid "Join the group"
-msgstr "Rejoindre le groupe."
-
-#: templates/groupes_professionnels/edit_roles.html:118
-#: templates/groupes_regionaux/details.html:37
-#: templates/groupes_regionaux/edit_roles.html:117
-msgid "Quit the group"
-msgstr "Quitter le groupe."
-
-#: templates/groupes_professionnels/edit_roles.html:121
+#: templates/groupes_professionnels/edit_roles.html:114
 #: templates/groupes_regionaux/details.html:40
 #: templates/groupes_regionaux/edit_roles.html:120
 msgid "Edit group informations"
 msgstr "Éditer les informations de groupe"
 
-#: templates/groupes_professionnels/edit_roles.html:131
+#: templates/groupes_professionnels/edit_roles.html:124
 #: templates/groupes_regionaux/details.html:52
 #: templates/groupes_regionaux/edit.html:37
 #: templates/groupes_regionaux/edit_roles.html:130
@@ -3100,6 +3181,16 @@ msgstr "Groupes professionnels"
 #: templates/groupes_professionnels/index.html:16
 msgid "No group is defined."
 msgstr "Aucun groupe dans l'application."
+
+#: templates/groupes_regionaux/details.html:35
+#: templates/groupes_regionaux/edit_roles.html:115
+msgid "Join the group"
+msgstr "Rejoindre le groupe."
+
+#: templates/groupes_regionaux/details.html:37
+#: templates/groupes_regionaux/edit_roles.html:117
+msgid "Quit the group"
+msgstr "Quitter le groupe."
 
 #: templates/groupes_regionaux/edit.html:49
 #: templates/manage/office_details.html:122

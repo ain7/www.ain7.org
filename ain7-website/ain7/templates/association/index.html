@@ -1,6 +1,9 @@
 {% extends "association/base.html" %}
 {% load i18n %}
 
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
 {% block content %}
 
 <div id="content-main">
@@ -101,18 +104,22 @@
     <h3>{% trans "Links" %}</h3>
    <div class="right_articles">
     <ul>
-      <li><a href="/association/">{% trans "Overview" %}</a></li>
-      <li><a href="/association/status/">{% trans "Statuts" %}</a></li>
-      <li><a href="/association/board/">{% trans "Board" %}</a></li>
-      <li><a href="/association/council/">{% trans "Council" %}</a></li>
-      <li><a href="/association/contact/">{% trans "Contact" %}</a></li>
+      <li><a href="{% url ain7.association.views.index %}">
+          {% trans "Overview" %}</a></li>
+      <li><a href="{% url ain7.association.views.status %}">
+          {% trans "Status" %}</a></li>
+      <li><a href="{% url ain7.association.views.board %}">
+          {% trans "Board" %}</a></li>
+      <li><a href="{% url ain7.association.views.council %}">
+          {% trans "Council" %}</a></li>
+      <li><a href="{% url ain7.association.views.contact %}">
+          {% trans "Contact" %}</a></li>
     </ul>
    </div>
     <h3>{% trans "Statistics" %}</h3>
    <div class="right_articles">
     <ul>
       <li>{% trans "Number of members" %}: {{ count_members }}</li>
-      <li>{% trans "Number of subscribers" %}: {{ count_subscribers }}</li>
     </ul>
    </div>
 </div>
