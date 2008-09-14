@@ -11,11 +11,10 @@
 
 <ul>
 <li><b>{% filter capfirst%}{% trans "organization" %}{% endfilter %}&nbsp;:</b>
-    <a href="/emploi/societe/{{ job.office.organization.id }}/">
-    {{ job.office.organization }}</a>, {{ job.office }}
+    <a href="{% url ain7.emploi.views.organization_details job.office.organization.id %}">{{ job.office.organization }}</a>, {{ job.office }}
 {% if job.contact %}
 <li><b>{% trans "Contact" %}&nbsp;:</b> 
-    <a href="/annuaire/{{ job.contact.user.id }}/">{{ job.contact }}</a>
+    <a href="{% url ain7.annuaire.views.details job.contact.user.id %}">{{ job.contact }}</a>
 {% endif %}
 <li><b>{% trans "Reference" %}&nbsp;:</b> {{ job.reference }}</li>
 <li><b>{% trans "Title" %}&nbsp;:</b> {{ job.title }}</li>
@@ -54,7 +53,7 @@
    <h3>{% trans "Actions" %}</h3>
    <div class="right_articles">
     <ul>
-      <li><a href="edit/">{% trans "Edit this job offer" %}</a></li>
+      <li><a href="{% url ain7.emploi.views.job_edit job.id %}">{% trans "Edit this job offer" %}</a></li>
     </ul>
    </div>
 

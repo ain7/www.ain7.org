@@ -22,6 +22,7 @@
 
 from django import forms
 from django.forms import widgets
+from django.forms.util import ValidationError
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Track
@@ -167,6 +168,18 @@ class PositionForm(forms.ModelForm):
     start_date = forms.DateTimeField(label=_('start date').capitalize(),widget=dateWidget)
     end_date = forms.DateTimeField(label=_('end date').capitalize(), widget=dateWidget, required=False)
     office = forms.IntegerField(label=_('Office'), required=False, widget=AutoCompleteField(url='/ajax/office/',addable=True))
+
+    def clean_office(self):
+        o = self.cleaned_data['office']
+
+        if o == -1:
+            raise ValidationError(_('The office is mandatory.'))
+        else:
+            try:
+                office = Office.objects.get(id=self.cleaned_data['office'])
+            except Office.DoesNotExist:
+                raise ValidationError(_('The entered office does not exist.'))
+            return office
     
     class Meta:
         model = Position

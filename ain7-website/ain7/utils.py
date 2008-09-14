@@ -125,11 +125,9 @@ def ain7_generic_delete(request, obj, redirectPage, msgDone):
 class LoggedClass(models.Model):
     """ Classe abstraite contenant les infos à enregistrer pour les modèles
     pour lesquels on veut connaître la date de création/modif et l'auteur."""
-    last_change_by = models.OneToOneField(
-        User, verbose_name=_('modifier'), editable=False,
+    last_change_by = models.ForeignKey(User, verbose_name=_('modifier'), editable=False,
         related_name='last_changed_%(class)s', blank=True, null=True)
-    last_change_at = models.DateTimeField(
-        verbose_name=_('last changed at'), blank=True, editable=False)
+    last_change_at = models.DateTimeField(verbose_name=_('last changed at'), blank=True, editable=False)
 
     class Meta:
         abstract = True

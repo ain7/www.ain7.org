@@ -39,27 +39,27 @@
 
 </div>
 
-<a href="/emploi/organization/{{ organization.id }}/editdata/" class="changelink">
-  {% trans "Edit these data." %}</a>
+<a href="{% url ain7.emploi.views.organization_edit_data organization.id %}" class="changelink">
+  {% trans "Modify" %}</a>
 &nbsp;
-<a href="/emploi/organization/{{ organization.id }}/delete/" class="deletelink">
-  {% trans "Remove this organization" %}</a>
+<a href="{% url ain7.emploi.views.organization_delete organization.id %}" class="deletelink">
+  {% trans "Delete" %}</a>
 
 <h2>{% trans "List of offices" %}</h2>
 <ul>
 {% for office in organization.offices.all %}
   {% if office.is_valid and not office.is_a_proposal %}
     <li>{{ office }}
-      <a href="/emploi/office/{{ office.id }}/edit/" class="changelink">
-        {% trans "Edit this office" %}</a>
-      <a href="/emploi/office/{{ office.id }}/delete/" class="deletelink">
-        {% trans "Remove this office" %}</a>
+      <a href="{% url ain7.emploi.views.office_edit office.id %}" class="changelink">
+        {% trans "Modify" %}</a>
+      <a href="{% url ain7.emploi.views.office_delete office.id %}" class="deletelink">
+        {% trans "Delete" %}</a>
     </li>
   {% endif %}
 {% endfor %}
 </ul>
-<a href="/emploi/organization/{{ organization.id }}/office/add/" class="addlink">
-  {% trans "Add an office" %}</a>
+<a href="{% url ain7.emploi.views.office_add organization.id %}" class="addlink">
+  {% trans "Add" %}</a>
 
 </div>
 </div>

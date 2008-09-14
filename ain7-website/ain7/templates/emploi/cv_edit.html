@@ -57,7 +57,7 @@
 <div id="cv_title">{{ AIn7Member.cv_title }}</div>
 
 </div>
-<a href="/annuaire/{{ person.user.id }}/edit/" class="changelink">
+<a href="{% url ain7.annuaire.views.edit person.user.id %}" class="changelink">
 {% trans "Modify" %}</a>
 
 
@@ -72,9 +72,8 @@
             {{ position.end_date|date:"d/m/Y"|default:"..." }}</b></td>
             <td> <em>{{ position.fonction }}</em> {% trans "for" %} 
                 {{ position.office }} ({{ position.office.organization }})</td>
-            <td width="12%"><a href="/emploi/{{ person.user.id }}/cv/position/{{ position.id }}/edit/" class="changelink"> 
-                {% trans "Modify" %}</a></td>
-            <td width="12%"><a href="/emploi/{{ person.user.id }}/cv/position/{{ position.id }}/delete/" class="deletelink"> {% trans "Delete" %}</a></td>
+            <td width="12%"><a href="{% url ain7.emploi.views.position_edit person.user.id,position.id %}" class="changelink">{% trans "Modify" %}</a></td>
+            <td width="12%"><a href="{% url ain7.emploi.views.position_delete person.user.id position.id %}" class="deletelink"> {% trans "Delete" %}</a></td>
         </tr>
         {% if position.description %}
             <tr><td></td><td>{{ position.description }}</td></tr>
@@ -83,7 +82,7 @@
 {% endfor %}
 </table>
 {% endif %}
-<a href="/emploi/{{ person.user.id }}/cv/position/add/" class="addlink"> {% trans "Add" %}</a>
+<a href="{% url ain7.emploi.views.position_add person.user.id %}" class="addlink"> {% trans "Add" %}</a>
 <br />
 
 
@@ -95,8 +94,8 @@
 {% for publicationItem in ain7member.publication.all %}
     <tr><td width="25%"><b>{{ publicationItem.date|date:"d/m/Y"|default:"" }}</b></td>
         <td> <em>{{ publicationItem.title }}</em></td>
-        <td width="12%"><a href="/emploi/{{ person.user.id }}/cv/publication/{{ publicationItem.id }}/edit/" class="changelink"> {% trans "Modify" %}</a></td>
-        <td width="12%"><a href="/emploi/{{ person.user.id }}/cv/publication/{{ publicationItem.id }}/delete/" class="deletelink"> {% trans "Delete" %}</a></td>
+        <td width="12%"><a href="{% url ain7.emploi.views.publication_edit person.user.id publicationItem.id %}" class="changelink"> {% trans "Modify" %}</a></td>
+        <td width="12%"><a href="{% url ain7.emploi.views.publication_delete person.user.id publicationItem.id %}" class="deletelink"> {% trans "Delete" %}</a></td>
     </tr>
     {% if publicationItem.details %}
         <tr><td></td><td>{{ publicationItem.details }}</td></tr>
@@ -104,7 +103,7 @@
 {% endfor %}
 </table>
 {% endif %}
-<a href="/emploi/{{ person.user.id }}/cv/publication/add/" class="addlink"> {% trans "Add" %}</a>
+<a href="{% url ain7.emploi.views.publication_add person.user.id %}" class="addlink"> {% trans "Add" %}</a>
 <br />
 
 
@@ -117,8 +116,8 @@
     <tr><td width="25%"><b>{{ educationItem.start_date|date:"d/m/Y" }} - 
         {{ educationItem.end_date|date:"d/m/Y"|default:"..." }}</b></td>
         <td> <em>{{ educationItem.school }}</em></td>
-        <td width="12%"><a href="/emploi/{{ person.user.id }}/cv/education/{{ educationItem.id }}/edit/" class="changelink"> {% trans "Modify" %}</a></td>
-        <td width="12%"><a href="/emploi/{{ person.user.id }}/cv/education/{{ educationItem.id }}/delete/" class="deletelink"> {% trans "Delete" %}</a></td>
+        <td width="12%"><a href="{% url ain7.emploi.views.education_edit person.user.id educationItem.id %}" class="changelink"> {% trans "Modify" %}</a></td>
+        <td width="12%"><a href="{% url ain7.emploi.views.education_delete person.user.id educationItem.id %}" class="deletelink"> {% trans "Delete" %}</a></td>
     </tr>
     {% if educationItem.diploma %}
         <tr><td></td><td>{{ educationItem.diploma }}</td></tr>
@@ -129,7 +128,7 @@
 {% endfor %}
 </table>
 {% endif %}
-<a href="/emploi/{{ person.user.id }}/cv/education/add/" class="addlink"> {% trans "Add" %}</a>
+<a href="{% url ain7.emploi.views.education_add person.user.id %}" class="addlink"> {% trans "Add" %}</a>
 <br />
 
 
@@ -145,13 +144,13 @@
                 {{ leisureItem.detail }}
             {% endif %}
 	</td>
-        <td width="12%"><a href="/emploi/{{ person.user.id }}/cv/leisure/{{ leisureItem.id }}/edit/" class="changelink"> {% trans "Modify" %}</a></td>
-        <td width="12%"><a href="/emploi/{{ person.user.id }}/cv/leisure/{{ leisureItem.id }}/delete/" class="deletelink"> {% trans "Delete" %}</a></td>
+        <td width="12%"><a href="{% url ain7.emploi.views.leisure_edit person.user.id leisureItem.id %}" class="changelink"> {% trans "Modify" %}</a></td>
+        <td width="12%"><a href="{% url ain7.emploi.views.leisure_delete person.user.id leisureItem.id %}" class="deletelink"> {% trans "Delete" %}</a></td>
     </tr>
 {% endfor %}
 </table>
 {% endif %}
-<a href="/emploi/{{ person.user.id }}/cv/leisure/add/" class="addlink"> {% trans "Add" %}</a>
+<a href="{% url ain7.emploi.views.leisure_add person.user.id %}" class="addlink"> {% trans "Add" %}</a>
 
 </div>
 </div>

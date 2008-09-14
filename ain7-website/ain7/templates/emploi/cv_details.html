@@ -63,8 +63,8 @@
         <tr><td width="25%"><b>{{ position.start_date|date:"d/m/Y" }} - 
             {{ position.end_date|date:"d/m/Y"|default:"..." }}</b></td>
             <td> <em>{{ position.fonction }}</em> {% trans "for" %} 
-                {{ position.office }} 
-		(<a href="/emploi/societe/{{ position.office.organization.id }}/">{{ position.office.organization }}</a>)
+		<a href="{% url ain7.emploi.views.organization_details position.office.organization.id %}">
+                {{ position.office.organization }}</a> {{ position.office }}
 		</td></tr>
         {% if position.service %}
             <tr><td></td><td>{{ position.service }}</td></tr>

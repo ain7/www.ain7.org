@@ -48,7 +48,7 @@
           <ul>
             {% for emploi in office.job_offers.all %}
             <li class="job">
-              <a href="/emploi/job/{{ emploi.id }}/">{{ emploi.title }}</a> 
+              <a href="{% url ain7.emploi.views.job_details emploi.id %}">{{ emploi.title }}</a> 
             </li>
             {% endfor %}
           </ul>
@@ -59,7 +59,7 @@
           <ul>
             {% for ain7member in office.current_n7_employees %}
               <li class="person">
-                <a href="/annuaire/{{ ain7member.person.user.id }}/">
+                <a href="{% url ain7.annuaire.views.details ain7member.person.user.id %}">
                 {{ ain7member }}</a>
               </li>
             {% endfor %}
@@ -71,7 +71,7 @@
           <ul>
             {% for ain7member in office.past_n7_employees %}
               <li class="person">
-                <a href="/annuaire/{{ ain7member.person.user.id }}/">
+                <a href="{% url ain7.annuaire.views.details ain7member.person.user.id %}">
                 {{ ain7member }}</a>
               </li>
             {% endfor %}

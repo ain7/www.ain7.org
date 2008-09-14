@@ -21,9 +21,9 @@
 <h3>{% trans "Manage your CV" %}</h3>
 <div class="right_articles">
 <ul>
-<li><a href="/emploi/{{ user.id }}/cv/">{% trans "View your CV" %}</a></li>
-<li><a href="/emploi/{{ user.id }}/cv/edit/">{% trans "Modify your CV" %}</a></li>
-<li><a href="/annuaire/{{ user.id }}/ain7member/edit/">{% trans "Manage your CV visiblity" %}</a></li>
+<li><a href="{% url ain7.emploi.views.cv_details user.id %}">{% trans "View your CV" %}</a></li>
+<li><a href="{% url ain7.emploi.views.cv_edit user.id %}">{% trans "Modify your CV" %}</a></li>
+<li><a href="{% url ain7.annuaire.views.ain7member_edit user.id %}">{% trans "Manage your CV visiblity" %}</a></li>
 </ul>
 </div>
 {% endblock %}
@@ -34,8 +34,8 @@
 <h3>{% trans "Manage Job Offers" %}</h3>
 <div class="right_articles">
 <ul>
-<li><a href="/emploi/job/register/">{% trans "Register a job offer" %}</a></li>
-<li><a href="/emploi/job/search/">{% trans "Search a job offer" %}</a></li>
+<li><a href="{% url ain7.emploi.views.job_register %}">{% trans "Register a job offer" %}</a></li>
+<li><a href="{% url ain7.emploi.views.job_search %}">{% trans "Search a job offer" %}</a></li>
 </ul>
 </div>
 {% endblock %}
@@ -60,7 +60,7 @@
 <div class="right_articles">
 <ul>
 <li><a href="/emploi/organization/edit/">{% trans "Edit an organization" %}</a></li>
-<li><a href="/emploi/organization/add/">{% trans "Add an organization" %}</a></li>
+<li><a href="{% url ain7.emploi.views.organization_add %}">{% trans "Add an organization" %}</a></li>
 <li><a href="/emploi/organization/delete/">{% trans "Delete an organization" %}</a></li>
 </ul>
 </div>
