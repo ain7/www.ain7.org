@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# groupes_regionaux/forms.py
+# associations/forms.py
 #
 #   Copyright (C) 2007-2008 AIn7
 #

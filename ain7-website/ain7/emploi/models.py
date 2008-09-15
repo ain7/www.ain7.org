@@ -25,7 +25,7 @@ import datetime
 from django.db import models
 from django.utils.translation import ugettext as _
 
-from ain7.utils import LoggedClass
+from ain7.utils import LoggedClass, isAdmin
 from ain7.annuaire.models import Person, AIn7Member, Track
 from ain7.annuaire.models import Country
 
@@ -70,6 +70,20 @@ class OrganizationManager(models.Manager):
             if (not (org.id,org) in organizations) and org.offices.count()==0:
                 organizations.append((org.id,org))
         return organizations
+
+    def adv_search_fields(self, user):
+        """ Returns the list of field names that can be used as criteria
+        in advanced search."""
+        critsForAll  = [
+            "name" , "size", "activity_field", "short_description" ,
+            "long_description", ]
+        critsForAdmin = [
+            "is_valid" , "is_a_proposal" ,
+            "last_change_at" , "last_change_by" ]
+        crits = critsForAll
+        if isAdmin(user):
+            crits.extend(critsForAdmin)
+        return crits
 
 
 # Organization informations
@@ -157,6 +171,20 @@ class OfficeManager(models.Manager):
 
     def valid_offices(self):
         return self.filter(is_a_proposal=False).filter(is_valid=True)
+
+    def adv_search_fields(self, user):
+        """ Returns the list of field names that can be used as criteria
+        in advanced search."""
+        critsForAll  = [
+            "organization" , "name" , "line1" , "line2" ,
+            "zip_code", "city" , "country" , "phone_number" , "web_site", ]
+        critsForAdmin = [
+            "is_valid" , "is_a_proposal" ,
+            "last_change_at" , "last_change_by" ]
+        crits = critsForAll
+        if isAdmin(user):
+            crits.extend(critsForAdmin)
+        return crits
 
 
 # A organization office informations

@@ -25,7 +25,10 @@ import datetime
 from django.db import models
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 from ain7 import search_engine
+from ain7.annuaire.models import AIn7Member, Person, Address
+from ain7.emploi.models import Office, Organization
 
 # classes
 
@@ -38,12 +41,12 @@ class Parameters:
     criteria_models = {}
     # some fields that we manage manually
     custom_fields = []
- 
+
 class SearchEngine(models.Model):
     name = models.CharField(max_length=30, unique=True)
 
     def __unicode__(self):
-        return name
+        return self.name
 
     def registered_filters(self, person):
         return self.filters.filter(registered=True).filter(user=person)
@@ -54,6 +57,35 @@ class SearchEngine(models.Model):
             assert(unregs.count()<2)
             return unregs[0]
         return None
+
+def params(search_engine):
+    """This is the place where we define parameters of search engine,
+    as it cannot be stored in the base."""
+    assert(search_engine)
+
+    ase = get_object_or_404(SearchEngine, name="annuaire")
+    aseParams = Parameters()
+    aseParams.criteria_models = {AIn7Member:'', Person: 'person__'}
+    aseParams.custom_fields = [
+    ('city',           Address,   'person__addresses__city'          ),
+    ('country',        Address,   'person__addresses__country'       ),
+    ('organization',   Office   , 'positions__office__organization'  ),
+    ('activity_field', Organization,
+     'positions__office__organization__activity_field'),
+    ]
+    aseParams.baseClass = AIn7Member
+
+    ose = get_object_or_404(SearchEngine, name="organization")
+    oseParams = Parameters()
+    oseParams.criteria_models = {Office:'', Organization: 'organization__'}
+    oseParams.custom_fields = []
+    oseParams.baseClass = Office
+
+    params = { ase: aseParams , ose: oseParams, }
+    if not search_engine in params.keys():
+        raise AssertionError, \
+              "No parameters found for search engine: " + str(search_engine)
+    return params[search_engine]
 
 class SearchFilter(models.Model):
     OPERATORS = [ ('and', _('and')),
@@ -73,18 +105,18 @@ class SearchFilter(models.Model):
         else:
             return _('unregistered filter')
 
-    def search(self, parameters):
-        return parameters.baseClass.objects.filter(
-            self.buildQ(parameters)).distinct()
+    def search(self):
+        return params(self.search_engine).baseClass.objects.filter(
+            self.buildQ()).distinct()
 
-    def buildQ(self, parameters):
+    def buildQ(self):
         q = models.Q()
         for crit in self.criteriaField.all():
-            if self.operator == _('and'): q = q & crit.buildQ(parameters)
-            else: q = q | crit.buildQ(parameters)
+            if self.operator == _('and'): q = q & crit.buildQ()
+            else: q = q | crit.buildQ()
         
         for crit in self.criteriaFilter.all():
-            qCrit = crit.filterCriterion.buildQ(parameters)
+            qCrit = crit.filterCriterion.buildQ()
             if not crit.is_in: qCrit = ~qCrit
             if self.operator == _('and'): q = q & qCrit
             else: q = q | qCrit
@@ -118,21 +150,17 @@ class SearchCriterionField(models.Model):
                + self.comparatorVerboseName + " " \
                + self.displayedValue
 
-    def buildQ(self, parameters):
+    def buildQ(self):
+        se = self.searchFilter.search_engine
+        clas = getClassFromName(self.fieldClass, se)
         qComp, qNeg = search_engine.utils.compInQ(
-            self.fieldName.encode('utf8'), self.comparatorName, parameters)
-        # TODO : c'est du spécifique...
-        # utiliser le dictionnaire criteria_models pour récupérer le préfixe
-        modelPrefix = ''
-        if self.fieldClass == 'annuaire.person':
-            modelPrefix = 'person__'
+            clas, self.fieldName.encode('utf8'), self.comparatorName, se)
+        modelPrefix = params(se).criteria_models[clas]
         crit = modelPrefix + self.fieldName.encode('utf8') + qComp
         # if the criterion comes from a custom field, we use the specified query
-        for (fName,fModel,query) in parameters.custom_fields:
+        for (fName,fModel,query) in params(se).custom_fields:
             if self.fieldClass == str(fModel._meta):
                 crit = query
-        mdl, field = search_engine.utils.getFieldFromName(
-            self.fieldName.encode('utf8'), parameters)
         q = models.Q(**{crit: self.value})
         if qNeg: q = ~q
         return q
@@ -146,4 +174,20 @@ class SearchCriterionFilter(models.Model):
 
     def __unicode__(self):
         return str(filterCriterion)
+
+def getClassFromName(className, search_engine):
+    """Example: 'annuaire.person' -> Person
+    This is the invert function of getModelName."""
+    model = None
+    for modl in params(search_engine).criteria_models:
+        if getModelName(modl) == className: model = modl
+    for (fName, fModel, comps) in params(search_engine).custom_fields:
+        if getModelName(fModel) == className: model = fModel
+    return model
+
+def getModelName(model):
+    """A unique way to stringify model names.
+    This is the invert function of getClassFromName.
+    Example : Person -> 'annuaire.person'"""
+    return str(model._meta)
 

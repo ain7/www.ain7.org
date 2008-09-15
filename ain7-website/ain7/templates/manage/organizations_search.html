@@ -16,9 +16,9 @@
 </div>
 </form>
 
-{% if organizations %}
+{% if offices %}
 
-{% ifnotequal organizations|length 0 %}
+{% ifnotequal offices|length 0 %}
 
 <h2>{% trans "Results list"%}</h2>
 
@@ -35,14 +35,16 @@
 </td>
 </table>
 <ul>
-    {% for organization in organizations %}
-        <li class="organization"><a href="{% url ain7.manage.views.organization_details organization.id %}">
-            {{ organization.name }}</a>
-				</li>
-    {% endfor %}
+  {% for office in offices %}
+    <li>
+      {# <a href="{% url ain7.manage.views.office_details office.id %}"> #}
+        {{ office.name }}
+      {# </a> #}
+    </li>
+  {% endfor %}
 </ul>
 {% else %}
-    <p>{% trans "No person matched your criteria." %}</p>
+    <p>{% trans "No office matched your criteria." %}</p>
 {% endifnotequal %}
 
 {% endif %}
@@ -56,21 +58,21 @@
 <ul>
     <li><a href="{% url ain7.manage.views.users_search %}">{% trans "Manage users" %}</a></li>
     <li><a href="/manage/groups/">{% trans "Manage groups" %}</a></li>
-    <li><a href="/manage/permissions/">{% trans "Manage permissions" %}</a></li>
-    <li><a href="/manage/organizations/">{% trans "Manage organizations" %}</a></li>
-    <li><a href="/manage/contributions/">{% trans "Contributions" %}</a></li>
+    <li><a href="{% url ain7.manage.views.permissions %}">{% trans "Manage permissions" %}</a></li>
+    <li><a href="{% url ain7.manage.views.organizations_search %}">{% trans "Manage organizations" %}</a></li>
+    <li><a href="{% url ain7.manage.views.contributions %}">{% trans "Contributions" %}</a></li>
 </ul>
 </div>
 <div class="right_articles">
 <ul>
-    <li><a href="/manage/organizations/">{% trans "Advanced search" %}</a></li>
+    <li><a href="{% url ain7.manage.views.organizations_adv_search %}">{% trans "Advanced Search" %}</a></li>
 </ul>
 </div>
 
 <h3>{% trans "Actions" %}</h3>
 <div class="right_articles">
 <ul>
-    <li><a href="/manage/organizations/register/">{% trans "Register organization" %}</a></li>
+    <li><a href="{% url ain7.manage.views.organization_edit %}">{% trans "Register organization" %}</a></li>
 </ul>
 </div>
 

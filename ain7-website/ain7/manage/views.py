@@ -30,15 +30,20 @@ from django.utils.translation import ugettext as _
 
 from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete
 from ain7.decorators import confirmation_required
-from ain7.annuaire.models import Person, UserContribution
 from ain7.emploi.models import Organization, Office, ActivityField
 from ain7.emploi.models import OrganizationProposal, OfficeProposal
+from ain7.emploi.forms import OrganizationForm, OfficeForm, OfficeFormNoOrg
 from ain7.manage.models import *
 from ain7.manage.forms import *
-from ain7.emploi.forms import OrganizationForm, OfficeForm, OfficeFormNoOrg
 from ain7.annuaire.forms import PersonForm
-from ain7.annuaire.models import *
-from ain7.annuaire.forms import *
+from ain7.annuaire.models import Person, UserContribution
+from ain7.search_engine.models import *
+from ain7.search_engine.utils import *
+from ain7.search_engine.views import *
+
+
+def organization_search_engine():
+    return get_object_or_404(SearchEngine, name="organization")
 
 @login_required
 def index(request):
@@ -155,6 +160,216 @@ def organizations_search(request):
          'first_result': (page - 1) * nb_results_by_page +1,
          'last_result': min((page) * nb_results_by_page, paginator.count),
          'hits' : paginator.count})
+
+@login_required
+def organizations_adv_search(request):
+    filtr = organization_search_engine()\
+            .unregistered_filters(request.user.person)
+    if filtr:
+        return ain7_render_to_response(request,
+            'manage/organizations_adv_search.html',
+            dict_for_filter(request, filtr.id))
+    else:
+        return ain7_render_to_response(request,
+            'manage/organizations_adv_search.html',
+            dict_for_filter(request, None))
+
+@login_required
+def filter_details(request, filter_id):
+    return ain7_render_to_response(request,
+        'manage/organizations_adv_search.html',
+        dict_for_filter(request, filter_id))
+
+
+@login_required
+def dict_for_filter(request, filter_id):
+
+    offices = False
+    p = request.user.person
+    nb_results_by_page = 25
+    paginator = Paginator(Office.objects.none(),nb_results_by_page)
+    page = 1
+    sf = None
+    if filter_id:
+        sf = get_object_or_404(SearchFilter, pk=filter_id)
+        
+    if request.method == 'POST':
+
+        offices = Office.objects.all()
+        if filter_id:
+            offices = sf.search()
+        paginator = Paginator(offices, nb_results_by_page)
+
+        try:
+            page = int(request.GET.get('page', '1'))
+            offices = paginator.page(page).object_list
+        except InvalidPage:
+            raise http.Http404
+
+    return {'offices': offices,
+         'filtr': sf,
+         'nb_org': Organization.objects.valid_organizations().count(),
+         'nb_offices': Office.objects.valid_offices().count(),
+         'userFilters': organization_search_engine().registered_filters(p),
+         'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
+         'has_next': paginator.page(page).has_next(),
+         'has_previous': paginator.page(page).has_previous(),
+         'current_page': page,
+         'next_page': page + 1, 'previous_page': page - 1,
+         'pages': paginator.num_pages,
+         'first_result': (page - 1) * nb_results_by_page +1,
+         'last_result': min((page) * nb_results_by_page, paginator.count),
+         'hits' : paginator.count}
+
+@login_required
+def filter_details(request, filter_id):
+    return ain7_render_to_response(request,
+        'manage/organizations_adv_search.html',
+        dict_for_filter(request, filter_id))
+
+@login_required
+def filter_swapOp(request, filter_id=None):
+    return se_filter_swapOp(request, filter_id,
+                            reverse(filter_details, args =[ filter_id ]),
+                            reverse(organizations_adv_search))
+
+@login_required
+def filter_register(request):
+
+    sf = organization_search_engine().\
+         unregistered_filters(request.user.person)
+    if not sf:
+        return HttpResponseRedirect(reverse(organizations_adv_search))
+
+    form = SearchFilterForm()
+
+    if request.method != 'POST':
+        return ain7_render_to_response(request,
+            'manage/edit_form.html',
+            {'form': form, 'back': request.META.get('HTTP_REFERER', '/'),
+             'action_title': _("Enter parameters of your filter")})
+    else:
+        form = SearchFilterForm(request.POST)
+        if form.is_valid():
+            fName = form.cleaned_data['name']
+            # First we check that the user does not have
+            # a filter with the same name
+            sameName = organization_search_engine().\
+                registered_filters(request.user.person).\
+                filter(name=fName).count()
+            if sameName>0:
+                request.user.message_set.create(message=_("One of your filters already has this name."))
+                return HttpResponseRedirect(reverse(organizations_adv_search))
+
+            # Set the registered flag to True
+            sf.registered = True
+            sf.name = fName
+            sf.save()
+
+            # Redirect to filter page
+            request.user.message_set.create(
+                message=_("Modifications have been successfully saved."))
+            return HttpResponseRedirect(
+                reverse(filter_details, args=[ sf.id ]))
+        else:
+            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+        return HttpResponseRedirect(reverse(organizations_adv_search))
+
+
+@login_required
+def filter_edit(request, filter_id):
+
+    filtr = get_object_or_404(SearchFilter, pk=filter_id)
+    form = SearchFilterForm(instance=filtr)
+
+    if request.method == 'POST':
+        form = SearchFilterForm(request.POST, instance=filtr)
+        if form.is_valid():
+            form.cleaned_data['user'] = filtr.user
+            form.cleaned_data['operator'] = filtr.operator
+            form.save()
+            request.user.message_set.create(message=_("Modifications have been successfully saved."))
+        else:
+            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+        return HttpResponseRedirect(
+            reverse(filter_details, args=[ filter_id ]))
+    return ain7_render_to_response(
+        request, 'manage/edit_form.html',
+        {'form': form, 'action_title': _("Modification of the filter")})
+
+
+@login_required
+def remove_criteria(request, filtr):
+    for crit in filtr.criteriaField.all():  crit.delete()
+    for crit in filtr.criteriaFilter.all(): crit.delete()
+    # TODO non recursivite + supprimer filtres sans criteres
+    return
+
+@login_required
+def filter_reset(request, filter_id):
+
+    filtr = get_object_or_404(SearchFilter, pk=filter_id)
+    remove_criteria(request, filtr)
+    if filtr.registered:
+        return HttpResponseRedirect(
+            reverse(filter_details, args=[ filter_id ]))
+    else:
+        return HttpResponseRedirect(reverse(organizations_adv_search))
+
+@login_required
+def filter_delete(request, filter_id):
+
+    filtr = get_object_or_404(SearchFilter, pk=filter_id)
+    try:
+        # remove criteria linked to this filter from database
+        remove_criteria(request, filtr)
+        # now remove the filter
+        filtr.delete()
+        request.user.message_set.create(
+            message=_("Your filter has been successfully deleted."))
+    except KeyError:
+        request.user.message_set.create(
+            message=_("Something went wrong. The filter has not been deleted."))    
+    return HttpResponseRedirect(reverse(organizations_adv_search))
+
+@login_required
+def filter_new(request):
+
+    filtr = organization_search_engine().unregistered_filters(request.user.person)
+    if not filtr:
+        return HttpResponseRedirect(reverse(organizations_adv_search))
+    remove_criteria(request, filtr)
+    if filtr.registered:
+        return HttpResponseRedirect(
+            reverse(filter_details, args=[ filter_id ]))
+    else:
+        return HttpResponseRedirect(reverse(organizations_adv_search))
+
+@login_required
+def criterion_add(request, filter_id=None, criterionType=None):
+    return se_criterion_add(request, organization_search_engine(),
+        filter_id, criterionType, criterionField_edit,
+        reverse(filter_details, args=[ filter_id ]),
+        'manage/org_criterion_add.html')
+
+@login_required
+def criterionField_edit(request, filter_id=None, criterion_id=None):
+    return se_criterionField_edit(request, organization_search_engine(),
+        filter_id, criterion_id, reverse(filter_details, args=[filter_id]),
+        reverse(organizations_adv_search),
+        'manage/org_criterion_edit.html')
+
+@login_required
+def criterionFilter_edit(request, filter_id=None, criterion_id=None):
+    return se_criterionFilter_edit(request, organization_search_engine(),
+        filter_id, criterion_id, reverse(filter_details, args=[filter_id]),
+        'manage/org_criterionFilter_edit.html')
+
+@login_required
+def criterion_delete(request, filtr_id=None, crit_id=None, crit_type=None):
+    return se_criterion_delete(request, filtr_id, crit_id, crit_type,
+        reverse(filter_details, args=[filtr_id]),
+        reverse(organizations_adv_search))
 
 @login_required
 def organization_edit(request, organization_id=None):

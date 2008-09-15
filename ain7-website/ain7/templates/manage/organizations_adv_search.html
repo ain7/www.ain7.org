@@ -1,0 +1,196 @@
+{% extends "manage/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+
+<div id="content-main">
+
+<div class="left">
+
+<form action="." method="post">
+<div>
+
+{% if filtr %}
+  {% if filtr.registered %}
+    <h1>{% trans "Filter" %}&nbsp;: {{ filtr.name }}</h1>
+  {%  else %}
+    <h1>{% trans "Office/Organization advanced search" %}</h1>
+  {% endif %}
+
+  <div id="edition">
+
+  {% if filtr.criteriaField.all or filtr.criteriaFilter.all %}
+    <table class="datas">
+    {% for criterion in filtr.criteriaField.all %}
+      <tr class="{% cycle row1,row2 as rowvar %}">
+        <td>{% if not forloop.first %}
+          <a href="{% url manage.views.filter_swapOp filtr.id %}">
+            {{ filtr.operator }}
+          </a>
+          {% endif %}
+        </td>
+        <td>{{ criterion.fieldVerboseName|capfirst }}</td>
+        <td>{{ criterion.comparatorVerboseName }}</td>
+        <td>{{ criterion.displayedValue }}</td>
+        <td><a href="/manage/organizations/adv_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/edit/field/" 
+                class="changelink">{% trans "Modify" %}</a></td>
+        <td><a href="{% url criterionField_delete filtr.id,criterion.id,"field" %}"
+                class="deletelink">{% trans "Delete" %}</a></td>
+      </tr>
+    {% endfor %}
+
+    {% for criterion in filtr.criteriaFilter.all %}
+      <tr class="{% cycle rowvar %}">
+        <td>{% if filtr.criteriaField.all or not forloop.first %}
+          <a href="{% url ain7.manage.views.filter_swapOp filtr.id %}">
+            {{ filtr.operator }}
+          </a>
+          {% endif %}
+        </td>
+        <td>
+          {% if criterion.is_in %}
+            {% trans "belongs to filter" %}
+          {% else %}
+            {% trans "does not belong to filter" %}
+          {% endif %}
+        </td>
+        <td>&nbsp;</td>
+        <td>{{ criterion.filterCriterion }}</td>
+        <td><a href="/manage/organizations/adv_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/edit/filter/" 
+               class="changelink">{% trans "Modify" %}</a></td>
+        <td><a href="{% url criterionFilter_delete filtr.id,criterion.id,"filter" %}"
+               class="deletelink">{% trans "Delete" %}</a></td>
+      </tr>
+    {% endfor %}
+    </table>
+  {% else %}
+    <p>{% trans "No criterion. Please add one." %}</p>
+  {% endif %}
+  </div>
+{% else %}
+  <h1>{% trans "Office/Organization advanced search" %}</h1>
+  <p>{% trans "No criterion. Please add one." %}</p>
+{% endif %}
+
+<a href="{% url ain7.manage.views.criterion_add filtr.id %}" 
+   class="addlink">{% trans "Add a criterion" %}</a>
+
+<div align="center">
+    <input type="submit" class="button" value="{% trans "Search" %}" />
+</div>
+
+</div>
+</form>
+
+{% ifnotequal hits 0 %}
+
+<h2>{% trans "Results list"%}</h2>
+<table width="100%">
+<tr>
+<td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
+<td align="right">
+{% if is_paginated %}
+{% if has_previous %}<a href="/manage/organizations/adv_search/?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="/manage/organizations/adv_search/?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="/manage/organizations/adv_search/?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="/manage/organizations/adv_search/?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% endif %}
+</td>
+</table>
+  <ul>
+    {% for office in offices %}
+      <li>
+        <a href="{% url ain7.manage.views.organization_details office.organization.id %}">
+          {{ office.organization }} </a> - 
+        <a href="{% url ain7.manage.views.office_details office.id %}">
+          {{ office.name }} </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+    <p></p>
+    <p>{% trans "No office matched your criteria." %}</p>
+{% endifnotequal %}
+
+</div>
+
+
+<div class="right">
+
+<h3>{% trans "Navigation" %}</h3>
+<div class="right_articles">
+<ul>
+    <li><a href="{% url ain7.manage.views.organizations_search %}">{% trans "Simple Search" %}</a></li>
+    {% if filtr.registered %}
+      <li><a href="{% url ain7.manage.views.organizations_adv_search %}">
+          {% trans "Advanced Search (homepage)" %}</a></li>
+    {% endif %}
+</ul>
+</div>
+<div class="right_articles">
+<ul>
+    <li><a href="{% url ain7.manage.views.users_search %}">{% trans "Manage users" %}</a></li>
+    <li><a href="/manage/groups/">{% trans "Manage groups" %}</a></li>
+    <li><a href="{% url ain7.manage.views.permissions %}">{% trans "Manage permissions" %}</a></li>
+    <li><a href="{% url ain7.manage.views.organizations_search %}">{% trans "Manage organizations" %}</a></li>
+    <li><a href="{% url ain7.manage.views.contributions %}">{% trans "Contributions" %}</a></li>
+</ul>
+</div>
+
+<h3>{% trans "Actions" %}</h3>
+<div class="right_articles">
+<ul>
+      {% if filtr %}
+      <li><a href="{% url ain7.manage.views.filter_reset filtr.id %}">
+          {% trans "Reset this filter" %}</a></li>
+      {% endif %}
+      {% if filtr.registered %}
+      <li><a href="{% url ain7.manage.views.filter_edit filtr.id %}">
+          {% trans "Modify the name of this filter" %}</a>&nbsp;
+      <li><a href="{% url ain7.manage.views.filter_delete filtr.id %}">
+          {% trans "Delete this filter" %}</a>&nbsp;
+      <li><a href="{% url ain7.manage.views.filter_new %}">
+          {% trans "New filter" %}</a>&nbsp;
+      {% else %}
+      <li><a href="{% url ain7.manage.views.filter_register %}">
+          {% trans "Save this filter" %}</a></li>
+      {% endif %}
+    <li><a href="/manage/organizations/adv_search/csv/">
+        {% trans "Export as CSV" %}</a> TODO</li>
+</ul>
+</div>
+<div class="right_articles">
+<ul>
+    <li><a href="{% url ain7.manage.views.organization_edit %}">{% trans "Register organization" %}</a></li>
+</ul>
+</div>
+
+<h3>{% trans "Registered filters" %}</h3>
+<div class="right_articles">
+{% if userFilters %}
+<ul>
+    {% for filter in userFilters %}
+      <li>
+        <a href="{% url ain7.manage.views.filter_details filter.id %}">
+          {{ filter }}</a>
+      </li>
+    {% endfor %}
+</ul>
+{% else %}
+  {% trans "No registered filter" %}
+{% endif %}
+</div>
+
+<h3>{% trans "Statistics"%}</h3>
+<div class="right_articles">
+<ul>
+    <li>{{ nb_org }}&nbsp;{% trans "organizations" %}</li>
+    <li>{{ nb_offices }}&nbsp;{% trans "offices" %}</li>
+</ul>
+</div>
+</div>
+
+</div>
+
+{% endblock %}

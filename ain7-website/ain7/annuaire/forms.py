@@ -202,15 +202,6 @@ class NewMemberForm(forms.Form):
         return new_person
     
 
-class ChooseFieldForm(forms.Form):
-    chosenField = forms.ChoiceField(label=_('Field'), required=True,
-        choices = [])
-
-class SearchFilterForm(forms.ModelForm):
-    class Meta:
-        model = SearchFilter
-        fields = ('name')
-
 class PersonForm(forms.ModelForm):
     sex = forms.CharField(widget=forms.Select(choices=Person.SEX))
     birth_date = forms.DateTimeField(label=_('start').capitalize(),

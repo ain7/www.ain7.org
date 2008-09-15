@@ -28,6 +28,7 @@ import datetime
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
+from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django import forms
@@ -42,19 +43,7 @@ from ain7.decorators import confirmation_required
 from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete
 from ain7.search_engine.models import *
 from ain7.search_engine.utils import *
-from ain7.ajax.views import ajaxed_fields
-
-# Some parameters for the search engine
-
-parameters = Parameters()
-parameters.criteria_models = {AIn7Member:'', Person: 'person__'}
-parameters.custom_fields = [
-    ('city',           Address, 'person__addresses__city'          ),
-    ('country',        Address, 'person__addresses__country'       ),
-    ('organization',   Office , 'positions__office__organization'  ),
-    ('activity_field', Organization, 'positions__office__organization__activity_field'),
-    ]
-parameters.baseClass = AIn7Member
+from ain7.search_engine.views import *
 
 
 # Main functions
@@ -125,9 +114,6 @@ def search(request):
             # put the criteria in session: they must be accessed when
             # performing a CSV export, sending a mail...
             request.session['filter'] = criteria
-
-            print ain7members.count()
-
             paginator = Paginator(ain7members, nb_results_by_page)
 
             try:
@@ -186,7 +172,7 @@ def dict_for_filter(request, filter_id):
 
         ain7members = AIn7Member.objects.all()
         if filter_id:
-            ain7members = sf.search(parameters)
+            ain7members = sf.search(params(annuaire_search_engine()))
         paginator = Paginator(ain7members, nb_results_by_page)
 
         try:
@@ -322,246 +308,33 @@ def filter_new(request):
 
 @login_required
 def filter_swapOp(request, filter_id=None):
-
-    operator = None
-    if filter_id:
-        filtr = get_object_or_404(SearchFilter, pk=filter_id)
-        operator = filtr.operator
-    else:
-        operator = request.session['filter_operator']
-    for (op,desc) in SearchFilter.OPERATORS:
-      if _(op) != operator:
-          if filter_id:
-              filtr.operator = _(op)
-              filtr.save()
-              return HttpResponseRedirect(
-                  '/annuaire/advanced_search/filter/%s/' % filter_id)
-
-          else:
-              request.session['filter_operator'] = _(op)
-              return HttpResponseRedirect('/annuaire/advanced_search/')
+    return se_filter_swapOp(request, filter_id,
+                            reverse(filter_details, args =[ filter_id ]),
+                            reverse(advanced_search))
 
 @login_required
 def criterion_add(request, filter_id=None, criterionType=None):
-    """ Used to add a criterion.
-    It only deals with the first page (choice of the field or filter)
-    and then redirects to criterion_edit. """
-
-    # build formFields: the form containing the list of fields to propose
-    choiceList = []
-    for field in criteriaList(request.user):
-        choiceList.append((field.name,field.verbose_name.capitalize()))
-    formFields = ChooseFieldForm()
-    formFields.fields['chosenField'].choices = choiceList
-
-    # build formFilters: the form containing the list of filters to propose
-    qs = annuaire_search_engine().registered_filters(request.user.person)
-    if filter_id != '':
-        for filterToExclude in filtersToExclude(filter_id):
-            qs = qs.exclude(id=filterToExclude)
-    zeroFilters = (qs.count()==0)
-    class ChooseFilterForm(forms.Form):
-        is_in = forms.BooleanField(label=_('is in filter'), required=False)
-        chosenFilter = forms.ModelChoiceField(label=' ',
-            required=True, empty_label=None, queryset = qs)
-    formFilters = ChooseFilterForm()
-
-    # if the user has no unregistered filter, we create one
-    if request.method == 'POST' and filter_id=='':
-        unreg = annuaire_search_engine().unregistered_filters(request.user.person)
-        if unreg:
-            filter_id = unreg.id
-        else:
-            filtr = SearchFilter()
-            filtr.name=""
-            filtr.operator=_(SearchFilter.OPERATORS[0][0])
-            filtr.user = request.user
-            filtr.registered = False
-            filtr.search_engine = annuaire_search_engine()
-            filtr.save()
-            filter_id = filtr.id
-
-    # in the POST case, we redirect to the corresponding edit methods
-    if request.method == 'POST' and criterionType == 'field':
-        form = ChooseFieldForm(request.POST)
-        form.fields['chosenField'].choices = choiceList
-        if form.is_valid():
-            request.session['criterion_field']= form.cleaned_data['chosenField']
-            return HttpResponseRedirect(
-                '/annuaire/advanced_search/filter/%s/criterion/edit/field/' %\
-                filter_id)
-        
-    if request.method == 'POST' and criterionType == 'filter':
-        form = ChooseFilterForm(request.POST)
-        if form.is_valid():
-            new_criterion = SearchCriterionFilter()
-            new_criterion.searchFilter= SearchFilter.objects.get(id=filter_id)
-            new_criterion.filterCriterion = form.cleaned_data['chosenFilter']
-            new_criterion.is_in = form.cleaned_data['is_in']
-            new_criterion.save()
-        return HttpResponseRedirect('/annuaire/advanced_search/')
-
-    return ain7_render_to_response(request,
-        'annuaire/criterion_add.html',
-        {'formFields': formFields, 'formFilters': formFilters,
-         'zeroFilters': zeroFilters})
+    return se_criterion_add(request, annuaire_search_engine(),
+        filter_id, criterionType, criterionField_edit,
+        reverse(filter_details, args=[ filter_id ]),
+        'annuaire/criterion_add.html')
 
 @login_required
 def criterionField_edit(request, filter_id=None, criterion_id=None):
-    """ Used to modify a criterion.
-    It can either be the second step during the creation of a criterion
-    (see criterion_add) or the modification of an existing criterion."""
-
-    fName = cCode = value = msg = ""
-    # if we're adding a new criterion
-    if criterion_id == None:
-        msg = _("Criterion to add")
-        try:
-            fName = request.session['criterion_field']
-        except KeyError:
-            pass
-    # otherwise we're modifying an existing criterion
-    else:
-        msg = _("Edit the criterion")
-        crit = get_object_or_404(SearchCriterionField, pk=criterion_id)
-        fName = crit.fieldName
-        cCode = crit.comparatorName
-        value = crit.value
-    model,searchField = getFieldFromName(fName, parameters)
-    comps,valueField = findComparatorsForField(searchField, parameters)
-
-    # the form with 2 fields : comparator and value
-    class CriterionValueForm(forms.Form):
-        def __init__(self, *args, **kwargs):
-            super(CriterionValueForm, self).__init__(*args, **kwargs)
-            fieldsDict = {'value': valueField}
-            # If several comparators are listed, then they are proposed
-            # in the formular. Otherwise, we take the only one.
-            if len(comps)>1:
-                fieldsDict['comparator'] = forms.ChoiceField(
-                    label='', choices=comps, required=True)
-            # for ForeignKey, we define the value field entirely.
-            # It "should" be possible to only redefine the queryset here...
-            if (isinstance(searchField,models.fields.related.ForeignKey)\
-            or  isinstance(searchField,models.fields.related.ManyToManyField))\
-            and not searchField.rel.to in ajaxed_fields():
-                fieldsDict['value'] = forms.ModelChoiceField(
-                    label='', empty_label=None,
-                    queryset=searchField.rel.to.objects.all())
-            self.fields = fieldsDict
-        # What's above is a trick to get the fields in the right order
-        # when rendering the form.
-        # It looks like a bug in Django. Try the code below to see
-        # what happens:
-        # comparator = forms.ChoiceField(
-        #     label='', choices=comps, required=True)
-        # value = valueField
-
-    initDict = {'value': value}
-    if len(comps)>1:
-        initDict['comparator'] = cCode
-    else:
-        initDict['comparator'] = comps[0][0]
-    form = CriterionValueForm(initDict)
-
-    if request.method == 'POST':
-        form = CriterionValueForm(request.POST)
-        if form.is_valid():
-            cCode = comps[0][0]
-            try:
-                cCode = form.cleaned_data['comparator']
-            except KeyError:
-                pass
-            val = form.cleaned_data['value']
-            displayedVal = getDisplayedVal(val,fName)
-            # if the value is an object, store its id
-            if str(type(val)).find('class ')!=-1:
-                displayedVal = str(val)
-                val = str(val.id)
-            filtr = get_object_or_404(SearchFilter, pk=filter_id)
-            fVName = searchField.verbose_name
-            compVName = getCompVerboseName(searchField, cCode)
-            crit = None
-            # if we're adding a new criterion
-            if criterion_id == None:
-                crit = SearchCriterionField()
-            # otherwise we're modifying an existing criterion
-            else:
-                crit = get_object_or_404(
-                    SearchCriterionField, pk=criterion_id)
-            crit.searchFilter = filtr
-            crit.fieldName = searchField.name
-            crit.fieldVerboseName = fVName
-            crit.fieldClass = model
-            crit.comparatorName = cCode
-            crit.comparatorVerboseName = compVName
-            crit.value = val
-            crit.displayedValue = displayedVal
-            crit.save()
-            if filtr.registered:
-                return HttpResponseRedirect(
-                    '/annuaire/advanced_search/filter/%s/' % filter_id)
-            else:
-                return HttpResponseRedirect('/annuaire/advanced_search/')
-    return ain7_render_to_response(request,
-        'annuaire/criterion_edit.html',
-        {'form': form, 'chosenField': searchField.verbose_name,
-         'action_title': msg})
+    return se_criterionField_edit(request, annuaire_search_engine(),
+        filter_id, criterion_id, reverse(filter_details, args=[filter_id]),
+        reverse(advanced_search), 'annuaire/criterion_edit.html')
 
 @login_required
 def criterionFilter_edit(request, filter_id=None, criterion_id=None):
-    """ Used to modify a filter criterion, either in session or
-    in a registered filter."""
-
-    critFilter = get_object_or_404(SearchCriterionFilter, pk=criterion_id)
-    (crit, isin) = (critFilter.filterCriterion, critFilter.is_in)
-
-    qs = annuaire_search_engine().registered_filters(request.user.person)
-    for filterToExclude in filtersToExclude(filter_id):
-        qs = qs.exclude(id=filterToExclude)
-
-    class ChooseFilterForm(forms.Form):
-        is_in = forms.BooleanField(label=_('is in filter'),
-            required=False)
-        chosenFilter = forms.ModelChoiceField(label=' ',
-            required=False, empty_label=None, queryset = qs)
-
-    form = ChooseFilterForm({'chosenField':crit, 'is_in': isin})
-
-    if request.method == 'POST':
-        form = ChooseFilterForm(request.POST)
-        if form.is_valid():
-            crit = form.cleaned_data['chosenFilter']
-            isin = form.cleaned_data['is_in']
-            filtr  = get_object_or_404(SearchFilter, pk=filter_id)
-            criter = get_object_or_404(SearchCriterionFilter, pk=criterion_id)
-            criter.searchFilter    = filtr
-            criter.filterCriterion = crit
-            criter.is_in           = isin
-            criter.save()
-            return HttpResponseRedirect(
-                '/annuaire/advanced_search/filter/%s/' % filter_id)
-    return ain7_render_to_response(request,
-        'annuaire/criterionFilter_edit.html', {'form': form})
+    return se_criterionFilter_edit(request, annuaire_search_engine(),
+        filter_id, criterion_id, reverse(filter_details, args=[filter_id]),
+        'annuaire/criterionFilter_edit.html')
 
 @login_required
 def criterion_delete(request, filtr_id=None, crit_id=None, crit_type=None):
-    crit = None
-    if (crit_type == "field"):
-        crit = get_object_or_404(SearchCriterionField, pk=crit_id)
-    else:
-        crit = get_object_or_404(SearchCriterionFilter, pk=crit_id)
-    try:
-        crit.delete()
-        request.user.message_set.create(message=_("Modifications have been successfully saved."))
-    except KeyError:
-        request.user.message_set.create(message=_("Something went wrong. No modification done."))
-    filtr = get_object_or_404(SearchFilter, pk=filtr_id)
-    if filtr.registered:
-        return HttpResponseRedirect(
-            '/annuaire/advanced_search/filter/%s/' % filtr_id)
-    else:
-        return HttpResponseRedirect('/annuaire/advanced_search/')
+    return se_criterion_delete(request, filtr_id, crit_id, crit_type,
+        reverse(filter_details, args=[filtr_id]), reverse(advanced_search))
 
 @login_required
 def export_csv(request):
@@ -950,120 +723,10 @@ def vcard(request, user_id):
 
     return response
 
-def criteriaList(user):
-    """ Returns the list of fields that are criteria for an advanced
-    search.
-    These fields are the attributes of models of CRITERIA_MODELS.
-    If the user has an admin profile, he gets all these attributes,
-    except OneToOne and ImageField fields.
-    If not, we also exclude the fields of EXCLUDE_FIELDS."""
-
-    attrList = []
-
-    # models for which attributes are criteria for advanced search
-    for model in parameters.criteria_models.keys():
-
-        for field in model._meta.fields + model._meta.many_to_many:
-
-            if field.name in model.objects.adv_search_fields(user)\
-                and (str(type(field)).find('OneToOneField')==-1)\
-                and not isinstance(field,models.FileField):
-                attrList.append(field)
-
-    # now we deal with custom fields
-    for (fName,fModel,query) in parameters.custom_fields:
-        attrList.append(getModelField(fModel, fName))
-
-    # uncomment this if you want a sorted list of criteria
-    #
-    # def cmpFields(field1, field2):
-    #     return cmp(field1.verbose_name.capitalize(),
-    #                field2.verbose_name.capitalize())
-    # attrList.sort(cmpFields)
-
-    return attrList
-
 def findParamsForFieldName(fieldName):
     for fieldNam, comps, formField in FIELD_PARAMS:
         if fieldNam==fieldName:
             return (fieldName, comps, formField)
     raise NotImplementedError
     return None
-
-def findComparatorsForField(field, parameters):
-    """ Returns the set of comparators for a given field,
-    depending on its type."""
-    compList = None
-    formField = None
-    (fieldName, comps, formField) = findParamsForField(field)
-    if comps == None:
-        raise NotImplementedError
-    choiceList = []
-    for compName, compVN, qComp, qNeg in comps:
-        choiceList.append((compName,compVN))
-    # if there is a choice list in the model, use it (for instance Person.sex)
-    if '_choices' in field.__dict__ and field.__dict__['_choices'] != []:
-        formField = forms.ChoiceField(
-            label='', choices=field.__dict__['_choices'])
-    # if it's an ajaxed field, we use autocompletion.
-    # ajaxed fields are supposed to be ForeignKeys or ManyToMany fields.
-    ajax_dict = ajaxed_fields()
-    if field.rel and field.rel.to in ajax_dict:
-        field_url = '/ajax/' + ajax_dict[field.rel.to] + '/'
-        formField = forms.CharField(
-            label='', widget=AutoCompleteField(url=field_url))
-    return (choiceList,formField)
-
-def getCompVerboseName(field, compCode):
-    """ Returns the description of a comparator,
-    given the field and the comparator's code."""
-    compVerbName = None
-    (fieldName, comps, formField) = findParamsForField(field)
-    for code, name, qComp, qNeg in comps:
-        if code == compCode:
-            compVerbName = name
-    return compVerbName
-
-def getDisplayedVal(value, fieldName):
-    """ Converts a value obtained from the form
-    to a format displayed in the criteria list. """
-    displayedVal = value
-    mdl, field = getFieldFromName(fieldName, parameters)
-    if str(type(field)).find('DateField')!=-1:
-        dateVal = datetime.datetime(
-            *time.strptime(str(value),'%Y-%m-%d')[0:5])
-        displayedVal = dateVal.strftime('%d/%m/%Y')
-    if str(type(field)).find('DateTimeField')!=-1:
-        dateVal = datetime.datetime(
-            *time.strptime(str(value),'%Y-%m-%d %H:%M:%S')[0:5])
-        displayedVal = dateVal.strftime('%d/%m/%Y %H:%M')
-    if str(type(field)).find('BooleanField')!=-1:
-        if value:
-            displayedVal = _('checked')
-        else:
-            displayedVal = _('unchecked')
-    if '_choices' in field.__dict__:
-        # in this case we used a ChoiceField and stored a key, not a value
-        for (k,v) in field.__dict__['_choices']:
-            if k==value: displayedVal = v                
-    # if it's an ajaxed field, we store the id,
-    # as ajaxed fields are supposed to be ForeignKeys or ManyToManyFields
-    if field.rel and field.rel.to in ajaxed_fields():
-        obj = get_object_or_404(field.rel.to, pk=value)
-        displayedVal = str(obj)
-    return displayedVal
-
-def filtersToExclude(filter_id=None):
-    """ A recursive function that computes filters to exclude
-    when proposing the user a list of filters as criteria for the
-    filter given in parameter. This corresponds to the filter itself
-    and to every filter having this filter as criterion."""
-    if filter_id==None:
-        return []
-    else:
-        filtr = get_object_or_404(SearchFilter, pk=filter_id)
-        result = [ filter_id ]        
-        for crit in filtr.used_as_criterion.all():
-            result.extend(filtersToExclude(crit.searchFilter.id))
-        return result
 

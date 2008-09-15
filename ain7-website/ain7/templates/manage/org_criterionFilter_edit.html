@@ -1,0 +1,26 @@
+{% extends "manage/base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div id="content-main">
+
+<h2>{% trans "Edit the criterion" %}</h2>
+
+<form method="post" action=".">
+
+<ul>
+  {% for field in form %}
+    <li style="display:inline">{{ field }}{{ field.label }}</li>
+  {% endfor %}
+</ul>
+
+<div align="center">
+<input type="submit" class="button" value="{% trans "Save" %}" />
+</div>
+
+</form>
+
+</div>
+
+{% endblock %}

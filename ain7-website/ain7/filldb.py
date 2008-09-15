@@ -118,6 +118,10 @@ def filldb():
     annuaireSearchEngine.name = "annuaire"
     annuaireSearchEngine.save()
 
+    orgSearchEngine = search_engine.SearchEngine()
+    orgSearchEngine.name = "organization"
+    orgSearchEngine.save()
+
     #                                                                  #
     ###################### End of fixed values #########################
 
