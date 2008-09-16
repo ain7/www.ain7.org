@@ -347,10 +347,11 @@ def filter_new(request):
 
 @login_required
 def criterion_add(request, filter_id=None, criterionType=None):
+    redirect = reverse(organizations_adv_search)
+    if filter_id: redirect = reverse(filter_details, args=[ filter_id ])
     return se_criterion_add(request, organization_search_engine(),
         filter_id, criterionType, criterionField_edit,
-        reverse(filter_details, args=[ filter_id ]),
-        'manage/org_criterion_add.html')
+        redirect, 'manage/org_criterion_add.html')
 
 @login_required
 def criterionField_edit(request, filter_id=None, criterion_id=None):

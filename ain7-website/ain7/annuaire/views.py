@@ -172,7 +172,7 @@ def dict_for_filter(request, filter_id):
 
         ain7members = AIn7Member.objects.all()
         if filter_id:
-            ain7members = sf.search(params(annuaire_search_engine()))
+            ain7members = sf.search()
         paginator = Paginator(ain7members, nb_results_by_page)
 
         try:
@@ -314,10 +314,11 @@ def filter_swapOp(request, filter_id=None):
 
 @login_required
 def criterion_add(request, filter_id=None, criterionType=None):
+    redirect = reverse(advanced_search)
+    if filter_id: redirect = reverse(filter_details, args=[ filter_id ])
     return se_criterion_add(request, annuaire_search_engine(),
         filter_id, criterionType, criterionField_edit,
-        reverse(filter_details, args=[ filter_id ]),
-        'annuaire/criterion_add.html')
+        redirect, 'annuaire/criterion_add.html')
 
 @login_required
 def criterionField_edit(request, filter_id=None, criterion_id=None):
