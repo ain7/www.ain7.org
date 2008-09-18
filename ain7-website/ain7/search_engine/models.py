@@ -66,12 +66,24 @@ def params(search_engine):
     ase = get_object_or_404(SearchEngine, name="annuaire")
     aseParams = Parameters()
     aseParams.criteria_models = {AIn7Member:'', Person: 'person__'}
+    def get_city(ain7member):
+        return display_list(
+            [ addr.city for addr in ain7member.person.addresses.all() ])
+    def get_country(ain7member):
+        return display_list(
+            [ addr.country for addr in ain7member.person.addresses.all() ])
+    def get_org(ain7member):
+        return display_list(
+            [ p.office.organization for p in ain7member.positions.all() ])
+    def get_activity(ain7member):
+        return display_list([ p.office.organization.activity_field
+                         for p in ain7member.positions.all() ])
     aseParams.custom_fields = [
-    ('city',           Address,   'person__addresses__city'          ),
-    ('country',        Address,   'person__addresses__country'       ),
-    ('organization',   Office   , 'positions__office__organization'  ),
+    ('city',         Address, 'person__addresses__city',        get_city ),
+    ('country',      Address, 'person__addresses__country',     get_country ),
+    ('organization', Office , 'positions__office__organization',get_org ),
     ('activity_field', Organization,
-     'positions__office__organization__activity_field'),
+     'positions__office__organization__activity_field', get_activity),
     ]
     aseParams.baseClass = AIn7Member
 
@@ -86,6 +98,14 @@ def params(search_engine):
         raise AssertionError, \
               "No parameters found for search engine: " + str(search_engine)
     return params[search_engine]
+
+def display_list(seq):
+    """Converts a list of objects to a string."""
+    if len(seq)==0: return ''
+    seq = dict.fromkeys(seq).keys()  # remove duplicates
+    ret = unicode(seq.pop())
+    for s in seq: ret+=';'+unicode(seq.pop()).encode('utf8') 
+    return ret
 
 class SearchFilter(models.Model):
     OPERATORS = [ ('and', _('and')),
@@ -158,7 +178,7 @@ class SearchCriterionField(models.Model):
         modelPrefix = params(se).criteria_models[clas]
         crit = modelPrefix + self.fieldName.encode('utf8') + qComp
         # if the criterion comes from a custom field, we use the specified query
-        for (fName,fModel,query) in params(se).custom_fields:
+        for (fName,fModel,query,solver) in params(se).custom_fields:
             if self.fieldClass == str(fModel._meta):
                 crit = query
         q = models.Q(**{crit: self.value})
@@ -181,7 +201,7 @@ def getClassFromName(className, search_engine):
     model = None
     for modl in params(search_engine).criteria_models:
         if getModelName(modl) == className: model = modl
-    for (fName, fModel, comps) in params(search_engine).custom_fields:
+    for (fName, fModel, comps, solver) in params(search_engine).custom_fields:
         if getModelName(fModel) == className: model = fModel
     return model
 

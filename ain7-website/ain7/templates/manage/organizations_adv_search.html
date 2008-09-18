@@ -156,8 +156,8 @@
       <li><a href="{% url ain7.manage.views.filter_register %}">
           {% trans "Save this filter" %}</a></li>
       {% endif %}
-    <li><a href="/manage/organizations/adv_search/csv/">
-        {% trans "Export as CSV" %}</a> TODO</li>
+    <li><a href="{% url ain7.manage.views.adv_export_csv%}">
+        {% trans "Export as CSV" %}</a></li>
 </ul>
 </div>
 <div class="right_articles">

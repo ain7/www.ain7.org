@@ -61,7 +61,7 @@ class SearchOrganizationForm(forms.Form):
     activity_field = forms.CharField(label=_('Activity field'), max_length=50, required=False,widget=AutoCompleteField(url='/ajax/activityfield/'))
     activity_code = forms.CharField(label=_('Activity code'), max_length=50, required=False,widget=AutoCompleteField(url='/ajax/activitycode/'))
 
-    def search(self):
+    def criteria(self):
         criteria = {'name__contains': self.cleaned_data['name'],
                     'is_a_proposal': False}
 #                     'location__contains': self.cleaned_data['location'],
@@ -71,7 +71,10 @@ class SearchOrganizationForm(forms.Form):
         if self.cleaned_data['activity_code']!="-1":
             criteria['activity_field__exact'] = ActivityField.objects.get(
                 id=self.cleaned_data['activity_code'])
-        return Organization.objects.filter(**criteria).order_by('name')
+        return criteria
+
+    def search(self, criteria):
+        return Organization.objects.filter(**criteria).order_by('name')    
         
 
 class SearchContributionForm(forms.Form):

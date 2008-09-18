@@ -20,7 +20,6 @@
 #
 #
 
-import csv
 import vobject
 import time
 import datetime
@@ -347,15 +346,21 @@ def export_csv(request):
     criteria = request.session['filter']
     ain7members = AIn7Member.objects.filter(**criteria).distinct()
 
-    response = HttpResponse(mimetype='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=export_ain7.csv'
+    return se_export_csv(request, ain7members, annuaire_search_engine(),
+        'annuaire/edit_form.html')
 
-    writer = csv.writer(response)
-    writer.writerow(['First Name', 'Last Name'])
-    for member in ain7members:
-       writer.writerow([member.person.first_name, member.person.last_name])
-
-    return response
+@login_required
+def adv_export_csv(request, filter_id=None):
+    se = annuaire_search_engine()
+    if not filter_id and not se.unregistered_filters(request.user.person):
+        request.user.message_set.create(message=
+            _("You have to make a search before using csv export."))
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    if filter_id:
+        sf = get_object_or_404(SearchFilter, id=filter_id)
+    else:
+        sf = se.unregistered_filters(request.user.person)
+    return se_export_csv(request, sf.search(), se, 'annuaire/edit_form.html')
 
 @login_required
 def sendmail(request):

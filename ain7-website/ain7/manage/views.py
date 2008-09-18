@@ -140,7 +140,9 @@ def organizations_search(request):
     if request.method == 'POST':
         form = SearchOrganizationForm(request.POST)
         if form.is_valid():
-            organizations = form.search()
+            criteria = form.criteria()
+            organizations = form.search(criteria)
+            request.session['filter'] = criteria
             paginator = Paginator(organizations, nb_results_by_page)
             try:
                 page = int(request.GET.get('page', '1'))
@@ -413,6 +415,32 @@ def organization_details(request, organization_id):
     return ain7_render_to_response(request, 'manage/organization_details.html',
                                    {'organization': c})
 
+@login_required
+def export_csv(request):
+
+    if not request.session.has_key('filter'):
+        request.user.message_set.create(message=_("You have to make a search before using csv export."))
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+    criteria = request.session['filter']
+    orgs = Organization.objects.filter(**criteria).distinct()
+    offices = Office.objects.filter(organization__in=orgs)
+
+    return se_export_csv(request, offices, organization_search_engine(),
+        'manage/edit_form.html')
+
+@login_required
+def adv_export_csv(request, filter_id=None):
+    se = organization_search_engine()
+    if not filter_id and not se.unregistered_filters(request.user.person):
+        request.user.message_set.create(message=
+            _("You have to make a search before using csv export."))
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    if filter_id:
+        sf = get_object_or_404(SearchFilter, id=filter_id)
+    else:
+        sf = se.unregistered_filters(request.user.person)
+    return se_export_csv(request, sf.search(), se, 'manage/edit_form.html')
 
 @confirmation_required(
     lambda user_id=None,

@@ -41,3 +41,6 @@ class SearchFilterForm(forms.ModelForm):
         model = SearchFilter
         fields = ('name')
 
+class ChooseCSVFieldsForm(forms.Form):
+    chosenFields = forms.MultipleChoiceField(label='', choices = [])
+

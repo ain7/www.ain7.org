@@ -107,7 +107,7 @@ def getFieldFromName(fieldClass, fieldName, search_engine):
             if fieldName == manyToManyField.name:
                 field = manyToManyField
     # then we look for fields manually managed
-    for (fName, fModel, comps) in params(search_engine).custom_fields:
+    for (fName, fModel, comps, solver) in params(search_engine).custom_fields:
         if fieldName == fName:
             field = getModelField(fModel, fName)
     return field
@@ -166,7 +166,7 @@ def criteriaList(search_engine, user):
                 attrList.append((field,model))
 
     # now we deal with custom fields
-    for (fName,fModel,query) in params(search_engine).custom_fields:
+    for (fName,fModel,query,solver) in params(search_engine).custom_fields:
         attrList.append((getModelField(fModel, fName),fModel))
 
     # uncomment this if you want a sorted list of criteria
@@ -177,6 +177,34 @@ def criteriaList(search_engine, user):
     # attrList.sort(cmpFields)
 
     return attrList
+
+def getValueFromField(field, obj, search_engine):
+    """Returns the value contained in the field 'field' of the object 'obj'."""
+    # we look in criteria_models
+    fieldFullname = ''
+    found = False
+    for clas, prefix in params(search_engine).criteria_models.iteritems():
+        if getModelField(clas,field.name) is field:
+            fieldFullname = prefix + field.name
+            found = True
+    if found:
+        return getAttrWithInherit(fieldFullname, obj)
+    # otherwise we look in custom_fields
+    for fieldName, clas, query, solver in params(search_engine).custom_fields:
+        if getModelField(clas,fieldName) is field:
+            return solver(obj)
+    return None
+
+def getAttrWithInherit(fieldName, obj):
+    """Finds recursively an attribute value.
+    For instance, if fieldName is 'person__last_name' on an AIn7Member object,
+    we recursively call with fieldName 'last_name' on obj.person, etc."""
+    if fieldName.find('__')==-1:
+        return unicode(obj.__getattribute__(fieldName)).encode('utf8')
+    else:
+        pointPos  = fieldName.index('__')
+        nextClass, remaining = fieldName[:pointPos], fieldName[pointPos+2:]
+        return getAttrWithInherit(remaining, obj.__getattribute__(nextClass))
 
 def filtersToExclude(filter_id=None):
     """ A recursive function that computes filters to exclude
@@ -192,7 +220,7 @@ def filtersToExclude(filter_id=None):
             result.extend(filtersToExclude(crit.searchFilter.id))
         return result
 
-def findComparatorsForField(field, parameters):
+def findComparatorsForField(field):
     """ Returns the set of comparators for a given field,
     depending on its type."""
     compList = None

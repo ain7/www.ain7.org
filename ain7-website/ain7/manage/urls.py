@@ -29,7 +29,9 @@ urlpatterns = patterns('ain7.manage.views',
                        
     # Organizations
     (r'^organizations/$', 'organizations_search'),
+    (r'^organizations/csv/$', export_csv),
     (r'^organizations/adv_search/$', 'organizations_adv_search'),
+    (r'^organizations/adv_search/csv/$', adv_export_csv),
     (r'^organizations/adv_search/filter/new/$', filter_new),
     (r'^organizations/adv_search/filter/register/$', filter_register),
     (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/$', filter_details),

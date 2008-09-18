@@ -20,10 +20,12 @@
 #
 #
 
+import csv
+
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404
 
 from ain7.search_engine.forms import *
@@ -128,8 +130,7 @@ def se_criterionField_edit(request, search_engine=None, filter_id=None,
         cCode = crit.comparatorName
         value = crit.value
     searchField = getFieldFromName(fModel, fName, search_engine)
-    comps,valueField = findComparatorsForField(searchField,
-        params(search_engine))
+    comps,valueField = findComparatorsForField(searchField)
 
     # the form with 2 fields : comparator and value
     class CriterionValueForm(forms.Form):
@@ -285,4 +286,51 @@ def se_filter_swapOp(request, filter_id=None,
               return HttpResponseRedirect(unregisteredRedirect)
 
 
+@login_required
+def se_export_csv(request, objects_to_export=None, search_engine=None,
+    editTemplate=None):
+    """Export advanced search results to a CSV file.
+    Fields to be exported are slected by the user."""
+
+    choiceList = []
+    for field,model in criteriaList(search_engine, request.user):
+        choiceList.append((getModelName(model)+'.'+field.name,
+                           model._meta.verbose_name.capitalize() + ' : ' +
+                           field.verbose_name.capitalize()))
+    form = ChooseCSVFieldsForm()
+    form.fields['chosenFields'].choices = choiceList
+
+    if request.method != 'POST':
+        return ain7_render_to_response(request, editTemplate,
+            {'form': form, 'back': request.META.get('HTTP_REFERER', '/'),
+             'action_title': _("Choose fields to export")})
+    else:
+        form = ChooseCSVFieldsForm(request.POST)
+        form.fields['chosenFields'].choices = choiceList
+        if form.is_valid():
+            response = HttpResponse(mimetype='text/csv')
+            response['Content-Disposition'] = \
+                'attachment; filename=export_ain7.csv'
+            writer = csv.writer(response)
+            # in the first row we write fields names
+            fields = []
+            for fullname in form.cleaned_data['chosenFields']:
+                classname, fieldname = splitFieldFullname(fullname)
+                clas  = getClassFromName(classname, search_engine)
+                field = getFieldFromName(clas, fieldname, search_engine)
+                fields.append((field,clas))
+            writer.writerow(
+                [ f.verbose_name.capitalize().encode('utf8')
+                  for f,c in fields ])
+            # then we fill the following lines with search results
+            for found_obj in objects_to_export:
+                writer.writerow(
+                    [ getValueFromField(f, found_obj, search_engine)
+                      for f,c in fields ])
+            return response
+        else:
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+            return ain7_render_to_response(request, editForm,
+                {'form': form, 'back': request.META.get('HTTP_REFERER', '/'),
+                'action_title': _("Choose fields to export")})
 

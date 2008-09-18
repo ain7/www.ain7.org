@@ -129,7 +129,7 @@
       <li><a href="/annuaire/advanced_search/filter/register/">
           {% trans "Save this filter" %}</a></li>
       {% endif %}
-      <li><a href="/annuaire/csv/">
+      <li><a href="{% url ain7.annuaire.views.adv_export_csv %}">
           {% trans "Export as CSV" %}</a></li>
       <li><a href="/annuaire/sendmail/">
           {% trans "Send a mail" %}</a></li>

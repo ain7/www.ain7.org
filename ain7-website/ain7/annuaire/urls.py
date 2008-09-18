@@ -35,6 +35,7 @@ urlpatterns = patterns('',
     (r'^(?P<user_id>\d+)/frame/$', details_frame),
     # Advanced search
     (r'^advanced_search/$', advanced_search),
+    (r'^advanced_search/csv/$', adv_export_csv),
     (r'^advanced_search/filter/new/$', filter_new),
     (r'^advanced_search/filter/register/$', filter_register),
     (r'^advanced_search/filter/(?P<filter_id>\d+)/$', filter_details),
