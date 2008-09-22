@@ -46,9 +46,10 @@ def filldb():
     if os.path.exists('filldbain7'):
         print "Import des donnees privees AIn7"
         execfile('filldbain7/base.py')
+        execfile('filldbain7/companies.py')
         for root, dirs, files in os.walk('filldbain7'):
            for filename in files:
-              if filename != 'base.py':
+              if filename != 'base.py' and filename != 'companies.py':
                  print filename
                  execfile(root + '/' + filename)
         return

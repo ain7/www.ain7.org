@@ -291,7 +291,7 @@
 {% for position in ain7member.positions.all %}
     {% if not position.end_date %}
         <tr><td>{% trans "since" %}
-                <b>{{ position.start_date|date:"d/m/Y" }}</b>&nbsp;:</td>
+                <b>{{ position.start_date|date:"d/m/Y"|default:"???" }}</b>&nbsp;:</td>
             <td><em>{{ position.fonction }}</em> {% trans "for" %}
                 {{ position.office }}
                 (<a href="/emploi/organization/{{ position.office.organization.id }}/">{{ position.office.organization }}</a>)</td></tr>

@@ -60,7 +60,7 @@
 <table width="100%">
 {% for position in ain7member.positions.all %}
     {% if not position.is_confidential %}
-        <tr><td width="25%"><b>{{ position.start_date|date:"d/m/Y" }} - 
+        <tr><td width="25%"><b>{{ position.start_date|date:"d/m/Y"|default:"???" }} - 
             {{ position.end_date|date:"d/m/Y"|default:"..." }}</b></td>
             <td> <em>{{ position.fonction }}</em> {% trans "for" %} 
 		<a href="{% url ain7.emploi.views.organization_details position.office.organization.id %}">

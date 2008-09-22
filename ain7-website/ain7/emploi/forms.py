@@ -154,7 +154,7 @@ class OfficeForm(forms.ModelForm):
 
     class Meta:
         model = Office
-        exclude = ('is_a_proposal', 'is_valid')
+        exclude = ('old_id', 'is_a_proposal', 'is_valid')
 
 class OfficeFormNoOrg(forms.ModelForm):
     country = forms.ModelChoiceField(
@@ -162,7 +162,7 @@ class OfficeFormNoOrg(forms.ModelForm):
 
     class Meta:
         model = Office
-        exclude = ('is_a_proposal', 'is_valid', 'organization')
+        exclude = ('old_id', 'is_a_proposal', 'is_valid', 'organization')
 
 class PositionForm(forms.ModelForm):
     start_date = forms.DateTimeField(label=_('start date').capitalize(),widget=dateWidget)

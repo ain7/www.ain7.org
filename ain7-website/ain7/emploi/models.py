@@ -190,6 +190,8 @@ class OfficeManager(models.Manager):
 # A organization office informations
 class Office(LoggedClass):
 
+    old_id = models.IntegerField(verbose_name='old id', blank=True, null=True, unique=True)
+
     organization = models.ForeignKey(Organization, verbose_name=_('organization'), related_name='offices')
 
     name = models.CharField(verbose_name=_('name'), max_length=50)
@@ -299,7 +301,9 @@ class Position(LoggedClass):
     office = models.ForeignKey(Office, verbose_name=_('office'), related_name='positions')
     fonction = models.CharField(verbose_name=_('fonction'), max_length=50)
     service = models.CharField(verbose_name=_('service'), max_length=50, blank=True, null=True)
-    start_date = models.DateField(verbose_name=_('start date'))
+    phone_number = models.CharField(verbose_name=_('phone number'), max_length=20, blank=True, null=True)
+    email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
+    start_date = models.DateField(verbose_name=_('start date'), blank=True, null=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
     is_regie = models.BooleanField(verbose_name=_('regie outside'), default=False)
 
