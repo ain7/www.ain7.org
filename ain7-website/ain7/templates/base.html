@@ -122,6 +122,12 @@
 
 		</div>
 
+                <div class="messages">
+                {% for message in messages %}
+	            <p class="msg_info">{{ message }}</p>
+                {% endfor %}
+                </div>
+
         {% block content %}{{ content }}{% endblock %}
 
 		<div class="footer">
