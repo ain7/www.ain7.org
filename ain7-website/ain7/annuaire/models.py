@@ -537,7 +537,7 @@ class ClubMembership(models.Model):
         ordering = ['start_date']
 
 class UserContributionType(models.Model):
-     key = models.CharField(verbose_name=_('key'),max_length=10)
+     key = models.CharField(verbose_name=_('key'),max_length=20)
      name = models.CharField(verbose_name=_('name'), max_length=50)
      points = models.IntegerField(verbose_name=_('number of points'))
 

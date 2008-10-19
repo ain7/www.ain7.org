@@ -41,7 +41,7 @@ class TravelType(models.Model):
 
 class Travel(LoggedClass):
 
-    label = models.CharField(verbose_name=_('label'), max_length=20)
+    label = models.CharField(verbose_name=_('label'), max_length=50)
     start_date = models.DateField(verbose_name=_('start date'), blank=True, null=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
     date = models.CharField(verbose_name=_('date'), max_length=30, help_text=_('Example: June 2008'))

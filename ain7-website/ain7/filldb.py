@@ -1533,7 +1533,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
 
     evenement2 = evenements.Event()
     evenement2.name = u"Réunion CA"
-    evenement2.date = datetime(2007, 11, 17, 10, 0, tzinfo = utc)
+    evenement2.date = datetime(2007, 11, 17, 10, 0)
     evenement2.author = "Lionel Porcheron"
     evenement2.contact_email = "lionel.porcheron@alumni.enseeiht.fr"
     evenement2.location = "ENSEEIHT"
