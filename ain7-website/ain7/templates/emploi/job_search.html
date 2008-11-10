@@ -9,14 +9,14 @@
 
 <h2>{% trans "Job Offer Search" %}</h2>
 
-<div align="center">
 <form action="." method="post">
-    <table border="0" align="center">
+    <table style="border: 0; text-align: left">
        {{ form }}
     </table>
+<div style="text-align: center">
 <input type="submit" class="button" value="{% trans "Search" %}" />
-</form>
 </div>
+</form>
 
 {% ifequal request.method 'POST' %}
 <h2>{% trans "Research result" %}</h2>

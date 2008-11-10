@@ -11,12 +11,12 @@
 <h1>{{ action_title }}</h1>
 
 <form action="." method="post">
-<div align="center">
-	<table class="form">
-		{{ form }}
-	</table>
-	<a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
-	<input class="button" type="submit" value="{% trans "Register" %}" />
+    <table class="form">
+       {{ form }}
+    </table>
+<div style="text-align: center">
+   <a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
+   <input class="button" type="submit" value="{% trans "Register" %}" />
 </div>
 </form>
 
@@ -29,7 +29,6 @@
 <ul>
     <li><a href="/manage/users/">{% trans "Manage users" %}</a></li>
     <li><a href="/manage/roles/">{% trans "Manage roles" %}</a></li>
-    <li><a href="/manage/permissions/">{% trans "Manage permissions" %}</a></li>
     <li><a href="/manage/organizations/">{% trans "Manage organizations" %}</a></li>
     <li><a href="/manage/contributions/">{% trans "Contributions" %}</a></li>
 </ul>

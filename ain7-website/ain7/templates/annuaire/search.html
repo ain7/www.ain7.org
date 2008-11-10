@@ -8,10 +8,10 @@
 
 <div class="left">
 <form action="." method="get">
-<div align="center">
 	<table class="form">
 		{{ form }}
 	</table>
+<div style="text-align: center;">
 	<input class="button" type="submit" value="{% trans "Search" %}" />
 </div>
 </form>
@@ -31,6 +31,7 @@
 {% if has_next %}<a href="/annuaire/?first_name={{ request.GET.first_name }}&last_name={{ request.GET.last_name }}&promo={{ request.GET.promo}}&track={{ request.GET.track }}&organization={{ request.GET.organization }}&page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
 {% endif %}
 </td>
+</tr>
 </table>
 <ul>
     {% for ain7member in ain7members %}
@@ -54,7 +55,7 @@
    <h3>{% trans "Actions" %}</h3>
    <div class="right_articles">
     <ul>
-      <li><a href="/annuaire/csv/">{% trans "Export as CSV" %}</a></li>
+      <li><a href="/annuaire/csv/">{% trans "Worksheet export" %}</a></li>
       <li><a href="/annuaire/sendmail/">{% trans "Send a mail" %}</a></li>
       <li><a href="/annuaire/register/">{% trans "Register a member" %}</a></li>
     </ul>

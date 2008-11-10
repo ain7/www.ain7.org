@@ -94,7 +94,7 @@ urlpatterns = patterns('',
     (r'^adhesions/',include('ain7.adhesions.urls')),
 
     # communaute N7
-    (r'^communaute_n7/',include('ain7.communaute_n7.urls')),
+    #(r'^communaute_n7/',include('ain7.communaute_n7.urls')),
 
     # media & communication
     (r'^media_communication/',include('ain7.media_communication.urls')),

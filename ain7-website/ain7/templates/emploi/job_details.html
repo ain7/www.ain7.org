@@ -12,9 +12,9 @@
 <ul>
 <li><b>{% filter capfirst%}{% trans "organization" %}{% endfilter %}&nbsp;:</b>
     <a href="{% url ain7.emploi.views.organization_details job.office.organization.id %}">{{ job.office.organization }}</a>, {{ job.office }}
+</li>
 {% if job.contact %}
-<li><b>{% trans "Contact" %}&nbsp;:</b> 
-    <a href="{% url ain7.annuaire.views.details job.contact.user.id %}">{{ job.contact }}</a>
+<li><b>{% trans "Contact" %}&nbsp;:</b><a href="{% url ain7.annuaire.views.details job.contact.user.id %}">{{ job.contact }}</a></li>
 {% endif %}
 <li><b>{% trans "Reference" %}&nbsp;:</b> {{ job.reference }}</li>
 <li><b>{% trans "Title" %}&nbsp;:</b> {{ job.title }}</li>

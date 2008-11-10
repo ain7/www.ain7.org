@@ -32,6 +32,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.utils.translation import ugettext as _
 from django.forms.util import ValidationError
+from django.core.urlresolvers import reverse
 
 from ain7.annuaire.models import Person, AIn7Member, Track
 from ain7.decorators import confirmation_required
@@ -82,7 +83,7 @@ def position_edit(request, user_id=None, position_id=None):
         PositionForm, {'ain7member': ain7member},
         'emploi/position_edit.html',
         {'action': 'edit', 'ain7member': ain7member}, {},
-        '/emploi/%s/cv/edit/#prof_exp' % user_id,
+        reverse(cv_edit, args=[user_id])+'#prof_exp',
         _('Position informations updated successfully.'))
 
 @confirmation_required(lambda user_id=None, position_id=None: str(get_object_or_404(Position, pk=position_id)), 'emploi/base.html', _('Do you really want to delete your position'))
@@ -91,7 +92,7 @@ def position_delete(request, user_id=None, position_id=None):
 
     return ain7_generic_delete(request,
         get_object_or_404(Position, pk=position_id),
-        '/emploi/%s/cv/edit/#prof_exp' % user_id,
+        reverse(cv_edit, args=[user_id])+'#prof_exp',
         _('Position successfully deleted.'))
 
 @login_required
@@ -104,7 +105,7 @@ def position_add(request, user_id=None):
         PositionForm, {'ain7member': ain7member},
         'emploi/position_edit.html',
         {'action': 'create', 'ain7member': ain7member}, {},
-        '/emploi/%s/cv/edit/#prof_exp' % user_id,
+        reverse(cv_edit, args=[user_id])+'#prof_exp',
         _('Position successfully added.'))
 
 @login_required
@@ -117,7 +118,7 @@ def education_edit(request, user_id=None, education_id=None):
         EducationItemForm, {'ain7member': ain7member},
         'emploi/education_edit.html',
         {'action': 'edit', 'ain7member': ain7member}, {},
-        '/emploi/%s/cv/edit/#education' % user_id,
+        reverse(cv_edit, args=[user_id])+'#education',
         _('Education informations updated successfully.'))
 
 @confirmation_required(lambda user_id=None, education_id=None: str(get_object_or_404(EducationItem, pk=education_id)), 'emploi/base.html', _('Do you really want to delete your education item'))
@@ -126,7 +127,7 @@ def education_delete(request, user_id=None, education_id=None):
 
     return ain7_generic_delete(request,
         get_object_or_404(EducationItem, pk=education_id),
-        '/emploi/%s/cv/edit/#education' % user_id,
+        reverse(cv_edit, args=[user_id])+'#education',
         _('Education informations deleted successfully.'))
 
 @login_required
@@ -139,7 +140,7 @@ def education_add(request, user_id=None):
         EducationItemForm, {'ain7member': ain7member},
         'emploi/education_edit.html',
         {'action': 'create', 'ain7member': ain7member}, {},
-        '/emploi/%s/cv/edit/#education' % user_id,
+        reverse(cv_edit, args=[user_id])+'#education',
         _('Education informations successfully added.'))
 
 @login_required
@@ -152,7 +153,7 @@ def leisure_edit(request, user_id=None, leisure_id=None):
         LeisureItemForm, {'ain7member': ain7member},
         'emploi/leisure_edit.html',
         {'action': 'edit', 'ain7member': ain7member}, {},
-        '/emploi/%s/cv/edit/#leisure' % user_id,
+        reverse(cv_edit, args=[user_id])+'#leisure',
         _('Leisure informations updated successfully.'))
 
 @confirmation_required(lambda user_id=None, leisure_id=None: str(get_object_or_404(LeisureItem, pk=leisure_id)), 'emploi/base.html', _('Do you really want to delete your leisure item'))
@@ -161,7 +162,7 @@ def leisure_delete(request, user_id=None, leisure_id=None):
 
     return ain7_generic_delete(request,
         get_object_or_404(LeisureItem, pk=leisure_id),
-        '/emploi/%s/cv/edit/#leisure' % user_id,
+        reverse(cv_edit, args=[user_id])+'#leisure',
         _('Leisure informations successfully deleted.'))
 
 @login_required
@@ -174,7 +175,7 @@ def leisure_add(request, user_id=None):
         LeisureItemForm, {'ain7member': ain7member},
         'emploi/leisure_edit.html',
         {'action': 'create', 'ain7member': ain7member}, {},
-        '/emploi/%s/cv/edit/#leisure' % user_id,
+        reverse(cv_edit, args=[user_id])+'#leisure',
         _('Leisure informations successfully added.'))
 
 @login_required
@@ -187,7 +188,7 @@ def publication_edit(request, user_id=None, publication_id=None):
         request, publi, PublicationItemForm, {'ain7member': ain7member},
         'emploi/publication_edit.html',
         {'action': 'edit', 'ain7member': ain7member}, {},
-        '/emploi/%s/cv/edit/#publications' % user_id,
+        reverse(cv_edit, args=[user_id])+'#publications',
         _('Publication informations updated successfully.'))
 
 @confirmation_required(lambda user_id=None, publication_id=None: str(get_object_or_404(PublicationItem,pk=publication_id)), 'emploi/base.html', _('Do you really want to delete your publication'))
@@ -196,7 +197,7 @@ def publication_delete(request, user_id=None, publication_id=None):
 
     return ain7_generic_delete(request,
         get_object_or_404(PublicationItem,pk=publication_id),
-        '/emploi/%s/cv/edit/#publications' % user_id,
+        reverse(cv_edit, args=[user_id])+'#publications',
         _('Publication informations deleted successfully.'))
 
 @login_required
@@ -208,7 +209,7 @@ def publication_add(request, user_id=None):
         request, None, PublicationItemForm, {'ain7member': ain7member},
         'emploi/publication_edit.html',
         {'action': 'create', 'ain7member': ain7member}, {},
-        '/emploi/%s/cv/edit/#publications' % user_id,
+        reverse(cv_edit, args=[user_id])+'#publications',
         _('Publication informations updated successfully.'))
 
 @login_required
@@ -241,7 +242,7 @@ def job_edit(request, emploi_id):
             f.save(request.user, job_offer=j)
             request.user.message_set.create(
                 message=_('Job offer successfully modified.'))
-            return HttpResponseRedirect('/emploi/job/%s/' % (j.id) )
+            return HttpResponseRedirect(reverse(job_details, args=[j.id]))
         else:
             request.user.message_set.create(
                 message=_('Something was wrong in the form you filled. No modification done.'))
@@ -260,7 +261,7 @@ def job_register(request):
             job_offer = f.save(request.user)
             request.user.message_set.create(
                 message=_('Job offer successfully created.'))
-            return HttpResponseRedirect('/emploi/job/%s/' % (job_offer.id))
+            return HttpResponseRedirect(reverse(job_details, args=[j.id]))
         else:
             request.user.message_set.create(
                 message=_('Something was wrong in the form you filled. No modification done.'))
@@ -338,15 +339,13 @@ def organization_add(request):
             return ain7_render_to_response(request,
                 'emploi/office_create.html', {'form': f,
                 'title': _('Propose the creation of an organization')})
-        return HttpResponseRedirect('/emploi/')
+        return HttpResponseRedirect(reverse(index))
 
 @login_required
 def organization_choose(request, action=None):
 
     person = get_object_or_404(Person, pk=request.user.id)
-    #ain7member = get_object_or_404(AIn7Member, person=person)
 
-    #organizations = Organization.objects.editable_organizations(ain7member)
     class ChooseOrganizationForm(forms.Form):
         organization = forms.IntegerField(label=_('Organization'), required=True,widget=AutoCompleteField(url='/ajax/organization/'))
 
@@ -379,13 +378,11 @@ def organization_choose(request, action=None):
         if form.is_valid():
             org_id = form.cleaned_data['organization']
             if action == 'edit':
-                return HttpResponseRedirect(
-                    '/emploi/organization/%d/edit/' % org_id)
+                return HttpResponseRedirect(reverse(organization_edit,args=[org_id]))
             if action == 'delete':
-                return HttpResponseRedirect(
-                    '/emploi/organization/%d/delete/' % org_id)            
+                return HttpResponseRedirect(reverse(organization_delete,args=[org_id]))
         else:
-            return HttpResponseRedirect('/emploi/organization/edit/')
+            return HttpResponseRedirect(reverse(organization_edit,args=[org_id]))
 
 @login_required
 def organization_edit(request, organization_id=None):
@@ -425,7 +422,7 @@ def organization_edit_data(request, organization_id=None):
             return ain7_render_to_response(request,
                 'emploi/office_create.html',
                 {'form': f, 'title': _('Proposition of organization modification')})
-        return HttpResponseRedirect('/emploi/')
+        return HttpResponseRedirect(reverse(index))
 
 @confirmation_required(lambda organization_id=None: str(get_object_or_404(Organization, pk=organization_id)), 'emploi/base.html', _('Do you really want to propose the deletion of this organization'))
 @login_required
@@ -441,7 +438,7 @@ def organization_delete(request, organization_id=None):
                          title=_('Proposal for deleting an organization'))
     notif.logged_save(request.user)
     request.user.message_set.create(message=_('Your proposal for deleting an organization has been sent to moderators.'))
-    return HttpResponseRedirect('/emploi/')
+    return HttpResponseRedirect(reverse(index))
 
 @login_required
 def office_edit(request, office_id=None):
@@ -478,7 +475,7 @@ def office_edit(request, office_id=None):
             return ain7_render_to_response(request,
                 'emploi/office_create.html',
                 {'form': f, 'title': _('Modify an office')})
-        return HttpResponseRedirect('/emploi/')
+        return HttpResponseRedirect(reverse(index))
 
 @confirmation_required(lambda office_id=None: str(get_object_or_404(Office,pk=office_id)), 'emploi/base.html', _('Do you really want to propose the office for removal'))
 @login_required
@@ -494,7 +491,7 @@ def office_delete(request, office_id=None):
         details = "", office_proposal = officeProp)
     notif.logged_save(request.user)
     request.user.message_set.create(message=_('Your proposal for deleting an office has been sent to moderators.'))
-    return HttpResponseRedirect('/emploi/')
+    return HttpResponseRedirect(reverse(index))
 
 @login_required
 def office_add(request, organization_id=None):
@@ -531,4 +528,4 @@ def office_add(request, organization_id=None):
             return ain7_render_to_response(request,
                 'emploi/office_create.html',
                 {'form': f, 'title': _('Create an office')})
-        return HttpResponseRedirect('/emploi/')
+        return HttpResponseRedirect(reverse(index))

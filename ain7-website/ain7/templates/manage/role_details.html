@@ -15,18 +15,10 @@
 <h3>{% trans "Content of the role" %}</h3>
 <ul>
 {% for user in role.user_set.all %}
-  <li><a href="/annuaire/{{ user.id }}/">{{ user.person.first_name }} {{ user.person.last_name }}</a> &nbsp; &nbsp; <a href="/manage/roles/{{ role.id }}/member/{{ user.id }}/delete/" class="deletelink">{% trans "Delete" %}</a></li>
+  <li><a href="/annuaire/{{ user.id }}/">{{ user.person.first_name }} {{ user.person.last_name }}</a> &nbsp; &nbsp; <a href="/manage/roles/{{ role.name }}/member/{{ user.id }}/delete/" class="deletelink">{% trans "Delete" %}</a></li>
 {% endfor %}
 </ul>
-<p><a href="/manage/roles/{{ role.id }}/member/add/" class="addlink">{% trans "Add" %}</a></p>
-
-<h3>{% trans "Permissions granted to this role" %}</h3>
-<ul>
-{% for permission in role.permissions.all %}
-    <li>{{ permission.name }}&nbsp;&nbsp; <a href="/manage/roles/{{ role.id }}/perm/{{ permission.id }}/delete/" class="deletelink">{% trans "Delete" %}</a></li>
-{% endfor %}
-</ul>
-<p><a href="/manage/roles/{{ role.id }}/perm/add/" class="addlink">{% trans "Add" %}</a></p>
+<p><a href="/manage/roles/{{ role.name }}/member/add/" class="addlink">{% trans "Add" %}</a></p>
 
 </div>
 
@@ -39,7 +31,6 @@
 <ul>
 <li><a href="/manage/users/">{% trans "Manage users" %}</a></li>
 <li><a href="/manage/roles/">{% trans "Manage roles" %}</a></li>
-<li><a href="/manage/permissions/">{% trans "Manage permissions" %}</a></li>
 <li><a href="/manage/organizations/">{% trans "Manage organizations" %}</a></li>
 <li><a href="/manage/contributions/">{% trans "Contributions" %}</a></li>
 </ul>

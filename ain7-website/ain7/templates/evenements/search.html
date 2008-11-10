@@ -7,11 +7,11 @@
 
 <h3>{% trans "Event Search" %}</h3>
 
-<div align="center">
 <form action="." method="post">
-    <table border="0" align="center">
-       {{ form }}
-    </table>
+<table style="border: 0; text-align: left;">
+   {{ form }}
+</table>
+<div style="text-align: center">
 <input type="submit" class="button" value="{% trans "Search" %}" />
 </form>
 </div>
@@ -19,7 +19,7 @@
 {% ifequal request.method 'POST' %}
 <h3>{% trans "Research result" %}</h3>
 {% if list_events %}
-<table width="100%">
+<table style="width: 100%">
 <tr>
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
 <td align="right">
@@ -33,7 +33,7 @@
 </table>
 <ul>
     {% for event in list_events %}
-        <li><a href="/evenements/{{ event.id }}/">{{ event.name }}</a></li>
+        <li><a href="/evenements/{{ event.id }}/">{{ event.name }}</a> ({{ event.date|date:"d/m/Y H:i" }} - {{ event.location }})</li>
     {% endfor %}
 </ul>
 {% else %}

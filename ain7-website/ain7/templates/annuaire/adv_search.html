@@ -69,7 +69,7 @@
 <a href="/annuaire/advanced_search/filter/{{ filtr.id }}/criterion/add/" 
    class="addlink">{% trans "Add a criterion" %}</a>
 
-<div align="center">
+<div style="text-align: center">
     <input type="submit" class="button" value="{% trans "Search" %}" />
 </div>
 
@@ -90,6 +90,7 @@
 {% if has_next %}<a href="/annuaire/advanced_search/?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
 {% endif %}
 </td>
+</tr>
 </table>
     <ul>
     {% for ain7member in ain7members %}
@@ -119,31 +120,23 @@
           {% trans "Reset this filter" %}</a></li>
       {% endif %}
       {% if filtr.registered %}
-      <li><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/edit/">
-          {% trans "Modify the name of this filter" %}</a>&nbsp;
-      <li><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/delete/">
-          {% trans "Delete this filter" %}</a>&nbsp;
-      <li><a href="/annuaire/advanced_search/filter/new/">
-          {% trans "New filter" %}</a>&nbsp;
+      <li><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/edit/">{% trans "Modify the name of this filter" %}</a></li>
+      <li><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/delete/">{% trans "Delete this filter" %}</a></li>
+      <li><a href="/annuaire/advanced_search/filter/new/">{% trans "New filter" %}</a></li>
       {% else %}
-      <li><a href="/annuaire/advanced_search/filter/register/">
-          {% trans "Save this filter" %}</a></li>
+      <li><a href="/annuaire/advanced_search/filter/register/">{% trans "Save this filter" %}</a></li>
       {% endif %}
-      <li><a href="{% url ain7.annuaire.views.adv_export_csv %}">
-          {% trans "Export as CSV" %}</a></li>
-      <li><a href="/annuaire/sendmail/">
-          {% trans "Send a mail" %}</a></li>
+      <li><a href="{% url ain7.annuaire.views.adv_export_csv %}">{% trans "Worksheet export" %}</a></li>
+      <li><a href="/annuaire/sendmail/">{% trans "Send a mail" %}</a></li>
     </ul>
    </div>
 
    <h3>{% trans "Navigation" %}</h3>
    <div class="right_articles">
    <ul>
-      <li><a href="/annuaire/">
-          {% trans "Simple Search" %}</a></li>
+      <li><a href="/annuaire/">{% trans "Simple Search" %}</a></li>
       {% if filtr.registered %}
-        <li><a href="/annuaire/advanced_search/">
-            {% trans "Advanced Search (homepage)" %}</a></li>
+        <li><a href="/annuaire/advanced_search/">{% trans "Advanced Search (homepage)" %}</a></li>
       {% endif %}
    </ul>
    </div>

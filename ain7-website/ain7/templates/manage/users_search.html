@@ -9,7 +9,7 @@
 <div class="left">
 
 <form action="." method="post">
-<div align="center">
+<div style="tex-align: center">
 	<table class="form">
 		{{ form }}
 	</table>
@@ -27,10 +27,10 @@
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
 <td align="right">
 {% if is_paginated %}
-{% if has_previous %}<a href="/manage/permissions/?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="/manage/permissions/?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="/manage/permissions/?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="/manage/permissions/?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% if has_previous %}<a href="/manage/users/?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="/manage/users/?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="/manage/users/?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="/manage/users/?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
 {% endif %}
 </td>
 </table>
@@ -56,7 +56,6 @@
 <ul>
     <li><a href="/manage/users/">{% trans "Manage users" %}</a></li>
     <li><a href="/manage/roles/">{% trans "Manage roles" %}</a></li>
-    <li><a href="/manage/permissions/">{% trans "Manage permissions" %}</a></li>
     <li><a href="/manage/organizations/">{% trans "Manage organizations" %}</a></li>
     <li><a href="/manage/contributions/">{% trans "Contributions" %}</a></li>
 </ul>

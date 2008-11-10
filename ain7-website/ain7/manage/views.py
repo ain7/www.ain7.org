@@ -22,7 +22,7 @@
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import Group, Permission, User
+from django.contrib.auth.models import Group, User
 from django.core.paginator import Paginator, InvalidPage
 from django import forms
 from django.http import HttpResponseRedirect, HttpResponse
@@ -811,46 +811,13 @@ def role_register(request):
 
 @login_required
 def role_details(request, role_id):
-    g = get_object_or_404(Group, pk=role_id)
+    g = get_object_or_404(Group, name=role_id)
     return ain7_render_to_response(request, 'manage/role_details.html', {'role': g})
-
-@login_required
-def role_perm_add(request, role_id):
-
-    g = get_object_or_404(Group, pk=role_id)
-
-    form = PermRoleForm()
-
-    if request.method == 'POST':
-        form = PermRoleForm(request.POST)
-        if form.is_valid():
-            p = Permission.objects.get(id=form.cleaned_data['perm'])
-            g.permissions.add(p)
-            request.user.message_set.create(message=_('Permission added to a role'))
-            return HttpResponseRedirect('/manage/roles/%s/' % role_id)
-        else:
-            request.user.message_set.create(message=_('Permission is not correct'))
-
-    back = request.META.get('HTTP_REFERER', '/')
-
-    return ain7_render_to_response(request, 'manage/role_perm_add.html',
-                            {'form': form, 'role': g, 'back': back})
-
-@login_required
-def perm_delete(request, role_id, perm_id):
-    group = get_object_or_404(Group, pk=role_id)
-    perm = get_object_or_404(Permission, pk=perm_id)
-
-    group.permissions.remove(perm)
-
-    request.user.message_set.create(message=_('Permission removed from role'))
-
-    return HttpResponseRedirect('/manage/roles/%s/' % role_id)
 
 @login_required
 def role_member_add(request, role_id):
 
-    g = get_object_or_404(Group, pk=role_id)
+    g = get_object_or_404(Group, name=role_id)
 
     form = MemberRoleForm()
 
@@ -871,7 +838,7 @@ def role_member_add(request, role_id):
 
 @login_required
 def role_member_delete(request, role_id, member_id):
-    group = get_object_or_404(Group, pk=role_id)
+    group = get_object_or_404(Group, name=role_id)
     member = get_object_or_404(User, pk=member_id)
 
     member.groups.remove(group)
@@ -879,69 +846,6 @@ def role_member_delete(request, role_id, member_id):
     request.user.message_set.create(message=_('Member removed from role'))
 
     return HttpResponseRedirect('/manage/roles/%s/' % role_id)
-
-@login_required
-def permissions(request):
-
-    nb_results_by_page = 25
-
-    permissions = Permission.objects.all()
-    paginator = Paginator(Permission.objects.all(), nb_results_by_page)
-
-    try:
-        page = int(request.GET.get('page', '1'))
-        permissions = paginator.page(page).object_list
-
-    except InvalidPage:
-        raise http.Http404
-
-    return ain7_render_to_response(request, 'manage/permissions.html', 
-           {'permissions': permissions, 'paginator': paginator, 
-            'is_paginated': paginator.num_pages > 1,
-            'has_next': paginator.page(page).has_next(),
-            'has_previous': paginator.page(page).has_previous(),
-            'current_page': page,
-            'next_page': page + 1,
-            'previous_page': page - 1,
-            'pages': paginator.num_pages,
-            'first_result': (page - 1) * nb_results_by_page +1,
-            'last_result': min((page) * nb_results_by_page, paginator.count),
-            'hits' : paginator.count})
-
-@login_required
-def permission_register(request):
-
-    form = NewPermissionForm()
-
-    if request.method == 'POST':
-        form = NewPermissionForm(request.POST)
-        if form.is_valid():
-
-            if not Permission.objects.filter(name=form.cleaned_data['name']).count() == 0:
-                request.user.message_set.create(message=_("Several permissions have the same name. Please choose another one"))
-
-            if not Permission.objects.filter(codename=form.cleaned_data['codename']).count() == 0:
-                request.user.message_set.create(message=_("Several permissions have the same codename. Please choose another one"))
-
-            else:
-                new_perm = form.save()
-                request.user.message_set.create(
-                    message=_("New permission successfully created"))
-                return HttpResponseRedirect(
-                    '/manage/permissions/%s/' % (new_perm.id))
-        else:
-            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
-
-    back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request, 'manage/edit_form.html',
-        {'action_title': _('Register new permission'), 'back': back, 'form': form})
-
-@login_required
-def permission_details(request, perm_id):
-
-    permission = get_object_or_404(Permission, pk=perm_id)
-
-    return ain7_render_to_response(request, 'manage/permission_details.html', {'permission': permission})
 
 @login_required
 def contributions(request):

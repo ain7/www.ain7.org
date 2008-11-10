@@ -59,8 +59,9 @@
 </ul>
 </td><td>
 {% if ain7member.avatar %}
-	<img src="{{ ain7member.avatar.url }}" height="100" alt="{% trans "avatar" %}"/></td></tr>
+	<img src="{{ ain7member.avatar.url }}" height="100" alt="{% trans "avatar" %}"/>
 {% endif %}
+</td></tr>
 {% for phone_number in person.phone_numbers.all %}
 	{% if not phone_number.is_confidential %}
     	<tr><td><b>{{ phone_number.get_type_display }} :</b> {{ phone_number.number }}</td></tr>

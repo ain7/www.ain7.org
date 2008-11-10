@@ -59,7 +59,7 @@
 		<div class="right">
 			<h3>{% trans "News" %}</h3>
  	<div class="right_articles">
-		<div align="center">
+		<div style="text-align: center">
 			<a href="/actualites/">{% trans "All news" %}</a>
 		</div>
 	</div>
@@ -74,9 +74,18 @@
     {% endfor %}
 
 
+
+			<h3>{% trans "Links" %}</h3>
+			<div class="right_articles">
+				<p><a href="http://www.enseeiht.fr">ENSEEIHT</a></p>
+				<p><a href="http://www.bde.enseeiht.fr">Bureau des élèves</a></p>
+				<p><a href="http://www.inp-toulouse.fr">INP Toulouse</a></p>
+				<p><a href="http://www.cnsif.org">CNSIF</a></p>
+			</div>
+
 	<h3>{% trans "Survey" %}</h3>
 	<div class="right_articles">
-		<div align="center">
+		<div style="text-align: center">
 			<a href="/sondages/">{% trans "Surveys history" %}</a>
 		</div>
 	</div>
@@ -84,22 +93,13 @@
 		<div class="right_articles">
 			<p> {{ survey.question }} </p>
 			{% include "sondages/vote_include.html" %}
-			<div align="center">
+			<div style="text-align: center">
 				<a href="/sondages/{{ survey.id }}/view/">{% trans "Results" %}</a>
 			</div>
 		</div>
-    {% endfor %}
+        {% endfor %}
 
-			<h3>{% trans "Links" %}</h3>
-			<div class="right_articles">
-				<p><a href="http://www.enseeiht.fr">ENSEEIHT</a></p>
-				<p><a href="http://www.bde.enseeiht.fr">Bureau des élèves</a></p>
-				<p><a href="http://www.inp-toulouse.fr">INP Toulouse</a></p>
-				<p><a href="http://www.ensat.fr">ENSAT</a></p>
-				<p><a href="http://www.ensiacet.fr">ENSIACET</a></p>
-				<p><a href="http://www.cnsif.org">CNSIF</a></p>
-			</div>
-		</div>
+	</div>
 
 </div>
 

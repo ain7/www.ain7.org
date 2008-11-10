@@ -66,7 +66,6 @@
 <ul>
 <li><a href="/manage/users/">{% trans "Manage users" %}</a></li>
 <li><a href="/manage/roles/">{% trans "Manage roles" %}</a></li>
-<li><a href="/manage/permissions/">{% trans "Manage permissions" %}</a></li>
 <li><a href="/manage/organizations/">{% trans "Manage organizations" %}</a></li>
 <li><a href="/manage/contributions/">{% trans "Contributions" %}</a></li>
 <li><a href="/manage/users/{{ this_user.id }}/edit/">{% trans "Edit those informations" %}</a></li>
@@ -78,7 +77,7 @@
 {% if this_user.groups.all %}
 <ul>
 {% for group in this_user.groups.all %}
-    <li><a href="/manage/roles/{{ group.id }}/">{{ group.name }}</a></li>
+    <li><a href="/manage/roles/{{ group.name }}/">{{ group.name }}</a></li>
 {% endfor %}
 </ul>
 {% endif %}

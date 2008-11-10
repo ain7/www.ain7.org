@@ -17,14 +17,14 @@
 
 <p>{% trans "Please choose this second office." %}</p>
 
-<div align="center">
 <form action="." method="post">
-    <table border="0" align="center">
-       {{ form }}
-    </table>
+<table border="0" align="center">
+   {{ form }}
+</table>
+<div style="text-align: center">
 <input type="submit" class="button" value="{% trans 'Continue' %}" />
-</form>
 </div>
+</form>
 
 </div>
 
@@ -37,7 +37,6 @@
 <ul>
 <li><a href="/manage/users/">{% trans "Manage users" %}</a></li>
 <li><a href="/manage/roles/">{% trans "Manage roles" %}</a></li>
-<li><a href="/manage/permissions/">{% trans "Manage permissions" %}</a></li>
 <li><a href="/manage/organizations/">{% trans "Manage organizations" %}</a></li>
 <li><a href="/manage/contributions/">{% trans "Contributions" %}</a></li>
 </ul>

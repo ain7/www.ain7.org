@@ -106,17 +106,10 @@ urlpatterns = patterns('ain7.manage.views',
     # Roles
     (r'^roles/$', 'roles_search'),
     (r'^roles/register/$', 'role_register'),
-    (r'^roles/(?P<role_id>\d+)/$', 'role_details'),
-    (r'^roles/(?P<role_id>\d+)/member/(?P<member_id>\d+)/delete/$', 'role_member_delete'),
-    (r'^roles/(?P<role_id>\d+)/member/add/$', 'role_member_add'),
-    #(r'^roles/(?P<role_id>\d+)/perm/(?P<perm_id>\d+)/delete/$', 'role_perm_delete'),
-    (r'^roles/(?P<role_id>\d+)/perm/add/$', 'role_perm_add'),
+    (r'^roles/(?P<role_id>[A-Za-z0-9.\-_]+)/$', 'role_details'),
+    (r'^roles/(?P<role_id>[A-Za-z0-9.\-_]+)/member/(?P<member_id>\d+)/delete/$', 'role_member_delete'),
+    (r'^roles/(?P<role_id>[A-Za-z0-9.\-_]+)/member/add/$', 'role_member_add'),
 
-    # Permissions
-    (r'^permissions/$', 'permissions'),
-    (r'^permissions/register/$', 'permission_register'),
-    (r'^permissions/(?P<perm_id>\d+)/$', 'permission_details'),
-                       
     # Contributions
     (r'^contributions/$', 'contributions'),
                        

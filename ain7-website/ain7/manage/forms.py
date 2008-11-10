@@ -92,9 +92,6 @@ class SearchContributionForm(forms.Form):
 
         return self.cleaned_data['user']
 
-class PermRoleForm(forms.Form):
-    perm = forms.CharField(label=_('Permission'), max_length=50, required=True, widget=AutoCompleteField(url='/ajax/permission/'))
-
 class MemberRoleForm(forms.Form):
     username = forms.CharField(label=_('Username'), max_length=100, required=True, widget=AutoCompleteField(url='/ajax/person/'))
 
@@ -180,20 +177,6 @@ class NewRoleForm(forms.ModelForm):
         new_role.save()
         
         return new_role
-
-class NewPermissionForm(forms.ModelForm):
-    name = forms.CharField(label=_('Name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size':40}))
-
-    class Meta:
-        model = Permission
-        exclude = ('content_type')
-
-    def save(self):
-        ct = ContentType.objects.get(id=1)
-        new_perm = Permission(name = self.cleaned_data['name'], content_type=ct, codename=self.cleaned_data['codename'])
-        new_perm.save()
-        
-        return new_perm
 
 class NotificationForm(forms.ModelForm):
     details = forms.CharField(label=_('details'), required=True,

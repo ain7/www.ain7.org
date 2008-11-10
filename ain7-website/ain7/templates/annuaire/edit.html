@@ -141,44 +141,44 @@
 
 <h2><a name="address"/>{% trans "Address" %}</h2>
 
-<table border="0" width="100%">
 {% for address in person.addresses.all %}
+<table style="border: 0; width: 100%;">
     <tr><td><b>{% trans "Address" %} {{ address.type|lower }}&nbsp;:</b></td><td>
         {{ address.line1 }} {{ address.line2|default_if_none:"" }} -
         {{address.zip_code }} {{ address.city }} - {{ address.country.name }}
         {% if address.is_confidential %} ({% trans "confidential" %})
         {% else %}                       ({% trans "not confidential" %})
         {% endif %}</td>
-    <td width="12%">
+    <td style="width: 12%">
         <a href="/annuaire/{{ person.user.id }}/address/{{ address.id }}/edit/" class="changelink">
         {% trans "Modify" %}</a></td>
-    <td width="12%">
+    <td style="width: 12%">
         <a href="/annuaire/{{ person.user.id }}/address/{{ address.id }}/delete/" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
-{% endfor %}
 </table>
+{% endfor %}
 <p><a href="/annuaire/{{ person.user.id }}/address/add/" class="addlink">
    {% trans "Add" %}</a></p>
 
 
 <h2><a name="phone"/>{% trans "Phone numbers" %}</h2>
 
-<table border="0" width="100%">
 {% for phone_number in person.phone_numbers.all %}
+<table style="border: 0; width: 100%;">
    <tr><td><b>{{ phone_number.get_type_display }} :</b></td>
    <td>{{ phone_number.number }}
        {% if phone_number.is_confidential %} ({% trans "confidential" %})
         {% else %} ({% trans "not confidential" %}) {% endif %}</td>
-    <td width="12%">
+    <td style="width: 12%">
         <a href="/annuaire/{{ person.user.id }}/phone/{{ phone_number.id }}/edit/" class="changelink">
         {% trans "Modify" %}</a></td>
-    <td width="12%">
+    <td style="width: 12%">
         <a href="/annuaire/{{ person.user.id }}/phone/{{ phone_number.id }}/delete/" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
-{% endfor %}
 </table>
+{% endfor %}
 <p><a href="/annuaire/{{ person.user.id }}/phone/add/" class="addlink">
    {% trans "Add" %}</a></p>
 
@@ -186,50 +186,50 @@
 <h2><a name="email"/>
 {% filter capfirst %}{% trans "email" %}{% endfilter %}</h2>
 
-<table border="0" width="100%">
 {% for email in person.emails.all %}
+<table style="border:0; width: 100%;">
 	    <tr><td><img src="/site_media/images/mail.png" alt="{% trans "email" %}"/><a href="mailto:{{ email.email }}">{{ email.email }}</a>
 	{% if email.is_confidential %} ({% trans "confidential" %})
 	{% else %}                     ({% trans "not confidential" %})
 	{% endif %}
 
 </td>
-    <td width="12%">
+    <td style="width: 12%">
         <a href="/annuaire/{{ person.user.id }}/email/{{ email.id }}/edit/" class="changelink">
         {% trans "Modify" %}</a></td>
-    <td width="12%">
+    <td style="width: 12%">
         <a href="/annuaire/{{ person.user.id }}/email/{{ email.id }}/delete/" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
-{% endfor %}
 </table>
+{% endfor %}
 <p><a href="/annuaire/{{ person.user.id }}/email/add/" class="addlink">
    {% trans "Add" %}</a></p>
 
 <h2><a name="im"/>{% trans "Instant messaging accounts" %}</h2>
 
-<table border="0" width="100%">
 {% for im in person.instant_messagings.all %}
+<table style="border: 0; width: 100%">
     <tr valign="middle"><td>
        <img src="/site_media/images/{{ im.get_type_display|lower }}.png"
        alt="{% trans "Contact" %} {{im.get_im_display|lower }}"/>
        {{ im.identifier }}</td>
-    <td width="12%">
+    <td style="width: 12%">
         <a href="/annuaire/{{ person.user.id }}/im/{{ im.id }}/edit/" class="changelink">
         {% trans "Modify" %}</a></td>
-    <td width="12%">
+    <td style="width: 12%">
         <a href="/annuaire/{{ person.user.id }}/im/{{ im.id }}/delete/" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
-{% endfor %}
 </table>
+{% endfor %}
 <p><a href="/annuaire/{{ person.user.id }}/im/add/" class="addlink">
    {% trans "Add" %}</a></p>
 
 <h2><a name="irc"/>{% trans "IRC accounts" %}</h2>
 
-<table border="0" width="100%">
 {% for irc in person.ircs.all %}
+<table border="0" width="100%">
     <tr valign="middle"><td>
        <img src="/site_media/images/irc.png" alt="{% trans "irc" %}"/>
        {{ irc.pseudo }} @ {{ irc.network }} {% trans "on" %} {{ irc.channels }}
@@ -241,54 +241,54 @@
         <a href="/annuaire/{{ person.user.id }}/irc/{{ irc.id }}/delete/" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
-{% endfor %}
 </table>
+{% endfor %}
 <p><a href="/annuaire/{{ person.user.id }}/irc/add/" class="addlink">
    {% trans "Add" %}</a></p>
 
 <h2><a name="website"/>{% trans "Web sites" %}</h2>
 
-<table border="0" width="100%">
 {% for website in person.web_sites.all %}
+<table style="border: 0; width: 100%;">
     <tr valign="middle"><td>
         <img src="/site_media/images/{{ website.get_type_display|lower }}.png" alt="{% trans "web site" %}"/>
         <a href="{{ website.url }}">{{ website.url }}</a></td>
-    <td width="12%">
+    <td style="width: 12%">
         <a href="/annuaire/{{ person.user.id }}/website/{{ website.id }}/edit/" class="changelink">
         {% trans "Modify" %}</a></td>
-    <td width="12%">
+    <td style="width: 12%">
         <a href="/annuaire/{{ person.user.id }}/website/{{ website.id }}/delete/" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
-{% endfor %}
 </table>
+{% endfor %}
 <p><a href="/annuaire/{{ person.user.id }}/website/add/" class="addlink">
    {% trans "Add" %}</a></p>
 
 <h2><a name="assoc"/>{% trans "N7 associative activities" %}</h2>
 
-<table border="0" width="100%">
 {% for club_membership in ain7member.club_memberships.all %}
+<table style="border: 0; width: 100%;">
     <tr><td>{{ club_membership.club.name }}
     {% if club_membership.start_date and club_membership.end_date %}(<i>{{ club_membership.start_date|date:"Y" }} - {{ club_membership.end_date|date:"Y" }}</i>){% endif %}</td>
     <td>{{ club_membership.fonction }}</td>
-    <td width="12%">
+    <td style="width: 12%">
         <a href="/annuaire/{{ person.user.id }}/club_membership/{{ club_membership.id }}/edit/" class="changelink">
         {% trans "Modify" %}</a></td>
-    <td width="12%">
+    <td style="width: 12%">
         <a href="/annuaire/{{ person.user.id }}/club_membership/{{ club_membership.id }}/delete/" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
-{% endfor %}
 </table>
+{% endfor %}
 <p><a href="/annuaire/{{ person.user.id }}/club_membership/add/" class="addlink">
    {% trans "Add" %}</a></p>
 
 
 <h2><a name="profexp"/>{% trans "Current professional experiences" %}</h2>
 
-<table>
 {% for position in ain7member.positions.all %}
+<table>
     {% if not position.end_date %}
         <tr><td>{% trans "since" %}
                 <b>{{ position.start_date|date:"d/m/Y"|default:"???" }}</b>&nbsp;:</td>
@@ -299,8 +299,8 @@
             <tr><td></td><td>{{ position.description }}</td></tr>
         {% endif %}
     {% endif %}
-{% endfor %}
 </table>
+{% endfor %}
 <p><a href="/emploi/{{ person.user.id }}/cv/edit/" class="changelink">
 {% trans "Modify" %}</a></p>
 
@@ -334,8 +334,6 @@
    {% endif %}
 
 </div>
-
-
 
 </div>
 
