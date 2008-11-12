@@ -24,8 +24,8 @@ class LanguageField(models.CharField):
 from django.forms.widgets import TextInput,flatatt
 from django.forms.util import smart_unicode
 from django.utils.translation import ugettext as _
-
 from django.utils.html import escape
+from ain7.ajax.views import ajaxed_fields
 
 class AutoCompleteField(TextInput):
 
@@ -61,12 +61,24 @@ class AutoCompleteField(TextInput):
 	    addlink += '</script>'
             addlink += '<a href="javascript:floatingPane.show(\'/manage/nationality/add/\',\'Add a new nationality\');" class="addlink">'+_('Add')+'</a>'
 
+        # si une valeur a été saisie, je remplis le champ
+        # avec la description de l'objet
+        if value != "-1" and value != None and value != "None":
+            for objClass, objName in ajaxed_fields().iteritems():
+                if objName == name:
+                    # TODO : ici il faut que je remplace ce str() par une
+                    # méthode qu'il faudra utiliser partout (genre str_field)
+                    valueTxt = str(objClass.objects.get(id=value))
         if value:
             value = smart_unicode(value)
             final_attrs['value'] = escape(value)
         if not self.attrs.has_key('id'):
             final_attrs['id'] = 'id_%s' % name
-        return (u'<input type="hidden" name="%(name)s" value="-1" id="%(id)s" />'
+        if value == "None":
+            # c'est vraiment bizarre : %(value)s avec value="-1" n'est pas
+            # équivalent à "-1"...
+            value = "-1"
+        return (u'<input type="hidden" name="%(name)s" value="%(value)s" id="%(id)s" />'
                   '<input type="text" name="text" id="%(id)s_text" size="40" autocomplete="off" value="%(valueTxt)s"/>'+addlink+'<div class="complete" id="box_%(name)s"></div>'
                   '<script type="text/javascript">'
                   'window.myAutoComplete = new AutoComplete($(\'%(id)s_text\'), window.location.protocol+"//"+window.location.host+"%(url)s", "displayValue", {maxHeight: 350, zIndex: 6, method: \'post\'});'
@@ -86,6 +98,7 @@ class AutoCompleteField(TextInput):
                                   'name'	: name,
                                   'id'	: final_attrs['id'],
                                   'url'	: self.url,
+                                  'value': value,
                                   'valueTxt': valueTxt,
                                   'options' : self.options}
 
