@@ -50,11 +50,11 @@ var FloatingPane = new Class({
 
 		// make this floating pane draggable if the property is set
 		if(this.draggable) {
-			new Drag.Base(this.container, {handler: header});
+			new Drag(this.container, {handler: header});
 			header.style.cursor = 'move';
 		}
 
-		this.titleContainer = new Element('span').setText(this.title).inject(header);
+		this.titleContainer = new Element('span').set('text', this.title).inject(header);
 
 		var closeImage = new Element('div', {
 			'class': 'close',
@@ -120,7 +120,7 @@ var FloatingPane = new Class({
 		this.filter.style.display = "block";
 		this.pleasewait.style.display = "block";
 		this.content.style.height = "0px";
-		this.titleContainer.setText(title || this.title);
+		this.titleContainer.set('text', title || this.title);
 		this.content.src = contentUrl;
 		this.center();
 	},

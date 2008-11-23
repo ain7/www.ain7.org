@@ -1,4 +1,6 @@
-var AutoComplete = Ajax.extend({
+var AutoComplete = new Class({
+
+	Extends: Request,
 
 	isFrozen: false,
 	currentSelection: -1,
@@ -32,19 +34,19 @@ var AutoComplete = Ajax.extend({
 		// connect the input field keyup event to this Ajax requester
 		this.input.addEvent('keyup', function(e) {
 			if(!this.isFrozen) {
-				switch(e.keyCode) {
-					case Event.keys.up:
-					case Event.keys.down:
-					case Event.keys.left:
-					case Event.keys.right:
-					case Event.keys.tab:
-					case Event.keys.esc:
-					case Event.keys.enter:
+				switch(e.code) {
+					case Event.Keys.up:
+					case Event.Keys.down:
+					case Event.Keys.left:
+					case Event.Keys.right:
+					case Event.Keys.tab:
+					case Event.Keys.esc:
+					case Event.Keys.enter:
 					break;
 					default: {
 						var data = {};
 						data[this.input.name] = this.input.value;
-						this.request(data);
+						this.send({url: url, data: data});
 					}
 				}
 			}
@@ -64,14 +66,14 @@ var AutoComplete = Ajax.extend({
 		// navigate in the result list with the up & down arrow
 		document.addEvent('keyup', function(e) {
 			if(!this.isFrozen) {
-				switch(e.keyCode) {
-					case Event.keys.up:
+				switch(e.code) {
+					case Event.Keys.up:
 						this._navigateOnResult(true);
 					break;
-					case Event.keys.down:
+					case Event.Keys.down:
 						this._navigateOnResult(false);
 					break;
-					case Event.keys.enter:
+					case Event.Keys.enter:
 						if(this.resultContainer.style.display == "block" && this.currentSelection >= 0) {
 							this._onItemSelect(this.resultList[this.currentSelection]);
 						}
