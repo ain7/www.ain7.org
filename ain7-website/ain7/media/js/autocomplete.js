@@ -18,7 +18,7 @@ var AutoComplete = new Class({
 
 		// the div to display the results
 		this.resultContainer = new Element('div', {
-			'id': 'autocompleteResultContainer',
+			'id': this.input.id + 'autocompleteResultContainer',
 			'class': 'autocompleteResultContainer',
 			'styles': {
 				'display': 'none',
@@ -138,7 +138,7 @@ var AutoComplete = new Class({
 		// display the result list
 		this.resultContainer.style.display = "block";
 
-		this.resultList = $$('#autocompleteResultContainer li');
+		this.resultList = $$('#' + this.input.id + 'autocompleteResultContainer li');
 		this.resultList.each(function(item, i) {
 			item.addEvent('mouseover', function() {
 				if(!this.isFrozen) {
