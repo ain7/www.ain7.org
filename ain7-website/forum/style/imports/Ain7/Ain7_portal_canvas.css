@@ -1,0 +1,164 @@
+/*
+ * style/imports/Ain7/Ain7_portal_canvas.css
+ *
+ * Copyright (C) 2007-2008 AIn7
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * 
+ * Design par Laurent Bives inspiré de travaux plus anciens de LanVacation
+ * http://www.oswd.org/design/preview/id/2876
+ *
+ */
+
+html, body #punwrap {
+	font-family: Tahoma, Arial, Sans-Serif;
+}
+
+.header {
+	background: #EEEEEE none repeat scroll 0 0;
+	color: #808080;
+	height: 65px;
+	margin: 3px 0 10px;
+	padding: 10px 0 0;
+}
+
+.top_info {
+	background: #EEEEEE none repeat scroll 0 0;
+	color: #808080;
+	float: right;
+	padding: 5px 0 4px;
+}
+
+.top_info_left {
+	float: left;
+	width: 200px;
+}
+
+.top_info_right {
+	border-left: 1px solid #EEEEEE;
+	float: right;
+	padding: 0 0 0 35px;
+}
+
+.bar {
+	background:#FF9148 none repeat scroll 0 0;
+	clear: both;
+	font-size: 11px;
+	line-height: 22px;
+	list-style-image: none;
+	list-style-position: outside;
+	list-style-type: none;
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.bar ul {
+	margin: 0;
+	padding: 0;
+}
+
+.bar li {
+	color: #FFEADC;
+	display: inline;
+	padding: 4px 12px;
+}
+
+.bar li.active {
+	color: #FFFFFF;
+	font-weight: bold;
+	padding: 5px 12px;
+}
+
+.bar ul.ligne1 li.active {
+	background: #E0691A url(images/bar.gif) no-repeat scroll center top;
+}
+
+.bar ul.ligne2 li.active {
+	background: #E0691A url(images/bar-up.gif) no-repeat scroll center bottom;
+}
+
+.bar ul.ligne3 li.active {
+	background: #E0691A url(images/bar-up.gif) no-repeat scroll center bottom;
+}
+
+.bar li.active a {
+	background: #E0691A none repeat scroll 0 0;
+}
+
+.bar li.active a:hover {
+	background: #E0691A none repeat scroll 0 0;
+	color: #FF9148;
+}
+
+.bar li a {
+	background: inherit inherit inherit inherit inherit;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+	text-decoration: none;
+}
+
+.bar li a:hover {
+	background: inherit inherit inherit inherit inherit;
+	color: #E0691A;
+}
+
+.logo h1 {
+	font-family: Arial, Sans-Serif;
+	font-size: 1.5em;
+	font-size-adjust: none;
+	font-stretch: normal;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	letter-spacing: -1px;
+	line-height: normal;
+	margin: 0;
+	padding: 7px 0 0 8px;
+}
+
+.logo h1 a {
+	text-decoration: none;
+	color: #E0691A;
+}
+
+.logo h1 a:hover {
+	background: inherit inherit inherit inherit inherit;
+	color: #FF6600;
+}
+
+.dark {
+	background: inherit inherit inherit inherit inherit;
+	color: #737373;
+	font-weight: bold;
+}
+
+.footer {
+	border-top: 1px solid #CCCCCC;
+	clear: both;
+	line-height: 1.6em;
+	font-size: 0.7em;
+	margin: 0;
+	padding: 10px 0;
+	text-align: center;
+}
+
+.footer a {
+	background: #FFFFFF none repeat scroll 0 0;
+	color: #808080;
+}
+
+.footer p {
+text-align: center;
+}
