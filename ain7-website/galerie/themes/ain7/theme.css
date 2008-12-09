@@ -227,11 +227,15 @@ img.gallery-photo {
 
 /* -- ExifInfo ---------------------------- */
 
-.block-exif-ExifInfo div {
-	font-size: 0.8em;
-	color: #999;
-	margin: 1em 0;
-}
+.block-exif-ExifInfo {display: none;}
+
+/*
+ *.block-exif-ExifInfo div {
+ *	font-size: 0.8em;
+ *	color: #999;
+ *	margin: 1em 0;
+ *}
+*/
 
 table.gbDataTable {
 	width: 100%;

@@ -13,3 +13,4 @@ Installation du thème AIn7 pour le forum fluxBB v1.2.x
 	./include/user/ain7_config.php
 	./include/user/ain7_header.php
 	./include/user/ain7_footer.php
+- adapter les urls dans ./include/user/ain7_config.php
