@@ -24,7 +24,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Permission
 from django.db.models import Q
 
-from ain7.annuaire.models import Person, Country, Promo, Track, PromoYear
+from ain7.annuaire.models import Person, Country, Track, PromoYear
 from ain7.emploi.models import ActivityField, Organization, Office
 from ain7.utils import ain7_render_to_response
 
@@ -33,12 +33,21 @@ def ajaxed_fields():
     and the names of these autocompletion methods."""
     return {Person: 'person',
             Country: 'nationality',
-            Promo: 'promo',
+            PromoYear: 'promoyear',
             Track: 'track',
             Organization: 'organization',
             ActivityField: 'activityfield',
             Permission: 'permission',
             Office: 'office'}
+
+def completion_list(objects):
+    """Builds and returns the completion list, from the query."""
+    elements = []
+    for o in objects:
+        elements.append({'id': o.id,
+            'displayValue': o.autocomplete_str(),
+            'value': o.autocomplete_str()})
+    return elements
 
 @login_required
 def person(request):
@@ -46,14 +55,8 @@ def person(request):
 
     if request.method == 'POST':
         input = request.POST['text']
-        persons = Person.objects.filter(complete_name__icontains=input)
-        for person in persons:
-            value = person.complete_name
-            if person.ain7member:
-                promo = person.ain7member.promos.all()[person.ain7member.promos.all().count()-1]
-                value = '<a href="javascript:showContactDetails(\'/annuaire/'+str(person.user.id)+'/frame/ \', \''+person.complete_name+'\');">'+person.complete_name+'</a>'
-                value += ' ('+str(promo)+')'
-            elements.append({'id': person.user.id, 'displayValue': person.complete_name, 'value': value})
+        elements = completion_list(
+            Person.objects.filter(complete_name__icontains=input))
 
     return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
@@ -63,21 +66,19 @@ def nationality(request):
 
     if request.method == 'POST':
         input = request.POST['text']
-        nationalities = Country.objects.filter(nationality__icontains=input)
-        for nationality in nationalities:
-            elements.append({'id': nationality.id, 'displayValue': nationality.nationality , 'value': nationality.nationality})
+        elements = completion_list(
+            Country.objects.filter(nationality__icontains=input))
 
     return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
 @login_required
-def promo(request):
+def promoyear(request):
     elements = []
 
     if request.method == 'POST':
         input = request.POST['text']
-        promos = PromoYear.objects.filter(year__icontains=input)
-        for promo in promos:
-            elements.append({'id': promo.id, 'displayValue': promo.year, 'value': promo.year})
+        elements = completion_list(
+            PromoYear.objects.filter(year__icontains=input))
 
     return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
@@ -87,9 +88,8 @@ def track(request):
 
     if request.method == 'POST':
         input = request.POST['text']
-        tracks = Track.objects.filter(name__icontains=input).order_by('name')
-        for track in tracks:
-            elements.append({'id':track.id, 'displayValue': track.name , 'value': track.name})
+        elements = completion_list(
+            Track.objects.filter(name__icontains=input).order_by('name'))
 
     return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
@@ -99,9 +99,8 @@ def organization(request):
 
     if request.method == 'POST':
         input = request.POST['text']
-        orgas = Organization.objects.filter(name__icontains=input).order_by('name')
-        for orga in orgas:
-            elements.append({'id': orga.id, 'displayValue': orga.name , 'value': orga.name})
+        elements = completion_list(Organization.objects.\
+            filter(name__icontains=input).order_by('name'))
 
     return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
@@ -111,9 +110,8 @@ def activityfield(request):
 
     if request.method == 'POST':
         input = request.POST['text']
-        activityfields = ActivityField.objects.filter(label__icontains=input)
-        for cf in activityfields:
-            elements.append({'id': cf.id, 'displayValue': cf.label , 'value': cf.label })
+        elements = completion_list(
+            ActivityField.objects.filter(label__icontains=input))
 
     return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
@@ -148,10 +146,8 @@ def office(request):
 
     if request.method == 'POST':
         input = request.POST['text']
-        offices = Office.objects.filter(Q(name__icontains=input) | Q(organization__name__icontains=input)).order_by('organization__name','name')
-
-        for office in offices:
-            elements.append({'id': office.id, 'displayValue': office.organization.name+" - "+office.name, 'value': office.organization.name+" - "+office.name})
+        elements = completion_list(
+            Office.objects.filter(Q(name__icontains=input) | Q(organization__name__icontains=input)).order_by('organization__name','name'))
 
     return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 

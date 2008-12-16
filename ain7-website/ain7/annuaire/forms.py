@@ -39,12 +39,11 @@ dateTimeWidget.dformat = '%d/%m/%Y %H:%M'
 class SearchPersonForm(forms.Form):
     last_name = forms.CharField(label=_('Last name'), max_length=50, required=False)
     first_name = forms.CharField(label=_('First name'), max_length=50, required=False)
-    promo = forms.IntegerField(label=_('Promo'), required=False, widget=AutoCompleteField(url='/ajax/promo/'))
+    promoyear = forms.IntegerField(label=_('Promo year'), required=False, widget=AutoCompleteField(url='/ajax/promoyear/'))
     track = forms.IntegerField(label=_('Track'), required=False, widget=AutoCompleteField(url='/ajax/track/'))
     organization = forms.IntegerField(label=_('organization').capitalize(), required=False,widget=AutoCompleteField(url='/ajax/organization/'))
 
     def criteria(self):
-        # criteres sur le nom et prenom, et sur l'organisation
         criteria={}
 
         if self.cleaned_data['last_name']:
@@ -60,11 +59,11 @@ class SearchPersonForm(forms.Form):
         # qui concordent avec l'annee de promotion et la filiere
         # saisis par l'utilisateur.
         promoCriteria={}
-        if self.cleaned_data['promo'] and self.cleaned_data['promo'] != -1:
-            promoCriteria['year'] = PromoYear.objects.get(id=self.cleaned_data['promo'])
+        if self.cleaned_data['promoyear'] and self.cleaned_data['promoyear'] != -1:
+            promoCriteria['year'] = PromoYear.objects.get(id=self.cleaned_data['promoyear'])
         if self.cleaned_data['track'] and self.cleaned_data['track'] != -1:
             promoCriteria['track'] = Track.objects.get(id=self.cleaned_data['track'])
-        # on ajoute ces promos aux critÃ¨res de recherche
+        # on ajoute ces promos aux criteres de recherche
         # si elle ne sont pas vides
         if len(promoCriteria)!=0:
             # Pour éviter http://groups.google.es/group/django-users/browse_thread/thread/32143d024b17dd00,
@@ -88,7 +87,7 @@ class NewMemberForm(forms.Form):
     nationality = forms.IntegerField(label=_('Nationality'), required=True, widget=AutoCompleteField(url='/ajax/nationality/',addable=True))
     birth_date = forms.DateTimeField(label=_('Date of birth'), required=True, widget=dateWidget)
     sex = forms.ChoiceField(label=_('Sex'), required=True, choices=Person.SEX)
-    promo = forms.IntegerField(label=_('Promo year'), required=True, widget=AutoCompleteField(url='/ajax/promo/'))
+    promoyear = forms.IntegerField(label=_('Promo year'), required=True, widget=AutoCompleteField(url='/ajax/promoyear/'))
     track = forms.IntegerField(label=_('Track'), required=True,  widget=AutoCompleteField(url='/ajax/track/'))
 
     def genlogin(self):
@@ -124,15 +123,15 @@ class NewMemberForm(forms.Form):
         else:
             return self.cleaned_data['nationality']
 
-    def clean_promo(self):
-        p = self.cleaned_data['promo']
+    def clean_promoyear(self):
+        p = self.cleaned_data['promoyear']
 
         try:
             PromoYear.objects.get(id=p)
         except PromoYear.DoesNotExist:
             raise ValidationError(_('The entered year of promotion does not exist.'))
         else:
-            return self.cleaned_data['promo']
+            return self.cleaned_data['promoyear']
 
     def clean_track(self):
         t = self.cleaned_data['track']
@@ -141,9 +140,9 @@ class NewMemberForm(forms.Form):
         except Track.DoesNotExist:
             raise ValidationError(_('The entered track does not exist.'))
 
-        if self.cleaned_data.has_key('promo'):
-            p = self.cleaned_data['promo']
-            if self.cleaned_data['promo'] != -1 and self.cleaned_data['track'] != -1 :
+        if self.cleaned_data.has_key('promoyear'):
+            p = self.cleaned_data['promoyear']
+            if self.cleaned_data['promoyear'] != -1 and self.cleaned_data['track'] != -1 :
                 try:
                     promo_year = PromoYear.objects.get(id=p)
                     promo = Promo.objects.get(year=promo_year,track=track)
@@ -188,7 +187,7 @@ class NewMemberForm(forms.Form):
         new_ain7member.save()
 
         track = Track.objects.get(id=self.cleaned_data['track'])
-        promo = PromoYear.objects.get(id=self.cleaned_data['promo'])
+        promoyear = PromoYear.objects.get(id=self.cleaned_data['promoyear'])
    
         new_ain7member.promos.add(Promo.objects.get(track=track,year=promo))
         new_ain7member.save()

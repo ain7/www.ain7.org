@@ -25,7 +25,7 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns('ain7.ajax.views',
     (r'^person/$', 'person'),
     (r'^nationality/$', 'nationality'),
-    (r'^promo/$', 'promo'),
+    (r'^promoyear/$', 'promoyear'),
     (r'^track/$', 'track'),
     (r'^organization/$', 'organization'),
     (r'^activityfield/$', 'activityfield'),

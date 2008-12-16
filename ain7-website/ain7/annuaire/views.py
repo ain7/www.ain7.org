@@ -93,23 +93,6 @@ def search(request):
             criteria = form.criteria()
             ain7members = form.search(criteria)
 
-            # TODO: hum... ca sert à quoi?!
-            # compute criteria to be displayed in the form
-            #promo_default = [ -1, ""]
-            #track_default = [ -1, ""]
-            #organization_default = [-1, ""]
-            #if form.cleaned_data['promo'] != -1:
-            #    promo_default = \
-            #        [form.cleaned_data['promo'], form.cleaned_data['promo']]
-            #if form.cleaned_data['track'] != -1:
-            #    track_default = \
-            #        [form.cleaned_data['track'],
-            #         get_object_or_404(Track,pk=form.cleaned_data['track'])]
-            #if form.cleaned_data['organization'] != -1:
-            #    organization_default = \
-            #        [form.cleaned_data['organization'],
-            #         get_object_or_404(Track,pk=form.cleaned_data['organization'])]
-
             # put the criteria in session: they must be accessed when
             # performing a CSV export, sending a mail...
             request.session['filter'] = criteria

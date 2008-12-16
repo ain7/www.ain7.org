@@ -29,17 +29,18 @@ from ain7.ajax.views import ajaxed_fields
 
 class AutoCompleteField(TextInput):
 
-    entities = { 
-                 'nationality': { 'url': '/ajax/nationality/', 'add_url': '/manage/nationality/add', 'add_title': _('Add a new nationality') },
-                 'office': { 'url': '/ajax/office/', 'add_url': '/manage/office/add', 'add_title': _('Add a new office') },
-                 'person': { 'url': '/ajax/person/' },
-                 'promo': { 'url': '/ajax/promo/' },
-                 'track': { 'url': '/ajax/track/' },
-                 'organization': { 'url': '/ajax/organization/' },
-                 'activityfield': { 'url': '/ajax/activityfield/' },
-                 'activitycode': { 'url': '/ajax/activitycode/' },
-                 'permission': { 'url': '/ajax/permission/' },
-               }
+    # ce dictionnaire me semble inutilisé
+#     entities = { 
+#                  'nationality': { 'url': '/ajax/nationality/', 'add_url': '/manage/nationality/add', 'add_title': _('Add a new nationality') },
+#                  'office': { 'url': '/ajax/office/', 'add_url': '/manage/office/add', 'add_title': _('Add a new office') },
+#                  'person': { 'url': '/ajax/person/' },
+#                  'promoyear': { 'url': '/ajax/promoyear/' },
+#                  'track': { 'url': '/ajax/track/' },
+#                  'organization': { 'url': '/ajax/organization/' },
+#                  'activityfield': { 'url': '/ajax/activityfield/' },
+#                  'activitycode': { 'url': '/ajax/activitycode/' },
+#                  'permission': { 'url': '/ajax/permission/' },
+#                }
 
     def __init__(self, url='', options='{ paramName: "text", autoSelect:true, afterUpdateElement:setSelected }', addable=False, attrs=None):
         self.url = url
@@ -63,21 +64,18 @@ class AutoCompleteField(TextInput):
 
         # si une valeur a été saisie, je remplis le champ
         # avec la description de l'objet
-        if value != "-1" and value != None and value != "None":
+        if value != "-1" and value != None:
             for objClass, objName in ajaxed_fields().iteritems():
                 if objName == name:
-                    # TODO : ici il faut que je remplace ce str() par une
-                    # méthode qu'il faudra utiliser partout (genre str_field)
-                    valueTxt = str(objClass.objects.get(id=value))
+                    obj = objClass.objects.get(id=value)
+                    valueTxt = obj.autocomplete_str()
         if value:
             value = smart_unicode(value)
             final_attrs['value'] = escape(value)
+        else:
+            value = "-1"
         if not self.attrs.has_key('id'):
             final_attrs['id'] = 'id_%s' % name
-        if value == "None":
-            # c'est vraiment bizarre : %(value)s avec value="-1" n'est pas
-            # équivalent à "-1"...
-            value = "-1"
         return (u'<input type="hidden" name="%(name)s" value="%(value)s" id="%(id)s" />'
                   '<input type="text" name="text" id="%(id)s_text" size="40" autocomplete="off" value="%(valueTxt)s"/>'+addlink+'<div class="complete" id="box_%(name)s"></div>'
                   '<script type="text/javascript">'
