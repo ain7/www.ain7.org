@@ -89,10 +89,14 @@
 			<a href="/sondages/">{% trans "Surveys history" %}</a>
 		</div>
 	</div>
-	{% for survey in surveys %}
+	{% for survey, has_already_voted in surveys %}
 		<div class="right_articles">
 			<p> {{ survey.question }} </p>
-			{% include "sondages/vote_include.html" %}
+			{% if has_already_voted %}
+			  {% include "sondages/results_include.html" %}
+                        {% else %}
+			  {% include "sondages/vote_include.html" %}
+                        {% endif %}
 			<div style="text-align: center">
 				<a href="/sondages/{{ survey.id }}/view/">{% trans "Results" %}</a>
 			</div>

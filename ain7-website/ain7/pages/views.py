@@ -32,7 +32,9 @@ from ain7.annuaire.models import AIn7Member
 
 def homepage(request):
     news = NewsItem.objects.all().order_by('-creation_date')[:2]
-    surveys = Survey.objects.filter(start_date__lte=datetime.datetime.now(), end_date__gte=datetime.datetime.now())[:2]
+    is_auth = request.user.is_authenticated()
+    surveys = [(s, (is_auth and s.has_been_voted_by(request.user.person)))\
+               for s in Survey.objects.all() if s.is_valid()][:2]
     return ain7_render_to_response(request, 'pages/homepage.html', 
                             {'news': news , 'surveys': surveys})
 

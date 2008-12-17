@@ -20,6 +20,8 @@
 #
 #
 
+import datetime
+
 from django.db import models
 from django.utils.translation import ugettext as _
 
@@ -44,6 +46,15 @@ class Survey(models.Model):
         for vote   in self.votes.all():   vote.delete()
         return super(Survey, self).delete()
         
+    def is_valid(self):
+        """Test pour les sondages affichés en page d'accueil."""
+        print self.choices.count()
+        return (self.start_date == None or
+                self.start_date <= datetime.date.today()) and \
+               (self.end_date == None or
+                self.end_date >= datetime.date.today()) and \
+               (self.choices.count() > 0)
+
     class Meta:
         verbose_name = _('survey')
 
