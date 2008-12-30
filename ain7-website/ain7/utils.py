@@ -63,6 +63,7 @@ def ain7_render_to_response(req, *args, **kwargs):
     args[1]['mootools_more_version'] = settings.MOOTOOLS_MORE_VERSION
     args[1]['debug_mode'] = settings.DEBUG
     args[1]['user_groups'] = user_groups
+    args[1]['request'] = req
     kwargs['context_instance'] = RequestContext(req)
     return render_to_response(*args, **kwargs)
 

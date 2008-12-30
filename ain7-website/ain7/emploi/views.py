@@ -261,7 +261,7 @@ def job_register(request):
             job_offer = f.save(request.user)
             request.user.message_set.create(
                 message=_('Job offer successfully created.'))
-            return HttpResponseRedirect(reverse(job_details, args=[j.id]))
+            return HttpResponseRedirect(reverse(job_details, args=[job_offer.id]))
         else:
             request.user.message_set.create(
                 message=_('Something was wrong in the form you filled. No modification done.'))

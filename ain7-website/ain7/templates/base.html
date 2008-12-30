@@ -51,7 +51,7 @@
 	</div>
 </form>
 {% else %}
-<p>{% trans "You are not logged-in" %} - <a href="/accounts/login/?next=/">{% trans "Login in" %}</a></p>
+<p>{% trans "You are not logged-in" %} - <a href="/accounts/login/?next={{ request.path }}">{% trans "Login in" %}</a></p>
 {% endif %}
 				</div>
 			</div>

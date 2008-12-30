@@ -189,7 +189,7 @@ class NewMemberForm(forms.Form):
         track = Track.objects.get(id=self.cleaned_data['track'])
         promoyear = PromoYear.objects.get(id=self.cleaned_data['promoyear'])
    
-        new_ain7member.promos.add(Promo.objects.get(track=track,year=promo))
+        new_ain7member.promos.add(Promo.objects.get(track=track,year=promoyear))
         new_ain7member.save()
 
         new_couriel = Email()

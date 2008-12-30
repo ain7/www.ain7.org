@@ -109,10 +109,12 @@
 <p><a href="/manage/users/{{ person.user.id }}/email/add/" class="addlink">
    {% trans "Add" %}</a></p>
 
+{% if person.ain7member %}
+
 <h2><a name="profexp"/>{% trans "Current professional experiences" %}</h2>
 
 <table>
-{% for position in ain7member.positions.all %}
+{% for position in person.ain7member.positions.all %}
     {% if not position.end_date %}
         <tr><td>{% trans "since" %}
                 <b>{{ position.start_date|date:"d/m/Y"|default:"???" }}</b>&nbsp;:</td>
@@ -127,6 +129,8 @@
 </table>
 <p><a href="/emploi/{{ person.user.id }}/cv/edit/" class="changelink">
 {% trans "Modify" %}</a></p>
+
+{% endif %}
 
 </div>
 </div>

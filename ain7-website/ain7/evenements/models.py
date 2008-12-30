@@ -47,8 +47,8 @@ class Event(LoggedClass):
 
     EVENT_STATUS = (
               (0,_('tentative')),
-              (0,_('confirmed')),
-              (0,_('cancel')),
+              (1,_('confirmed')),
+              (2,_('cancel')),
               )
 
     name = models.CharField(verbose_name=_('name'), max_length=20)

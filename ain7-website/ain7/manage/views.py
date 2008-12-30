@@ -393,7 +393,7 @@ def organization_edit(request, organization_id=None):
     if request.method == 'POST':
         form = OrganizationForm(request.POST.copy())
         if form.is_valid():
-            org = form.save(is_a_proposal=False, organization=organization)
+            org = form.save(request.user, is_a_proposal=False, organization=organization)
             if organization:
                 msg = _('Organization successfully modified')
             else:

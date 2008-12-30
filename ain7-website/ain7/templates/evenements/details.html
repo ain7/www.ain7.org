@@ -16,6 +16,7 @@
          {% if event.link %}
              <li>{% trans "Link" %}: <a href="{{ event.link }}">{{ event.link }}</a></li>
          {% endif %}
+         <li>{% trans "Status" %}: {{ event.get_status_display }}</li>
 	</ul>
         </td><td>
         {% if event.image %}
