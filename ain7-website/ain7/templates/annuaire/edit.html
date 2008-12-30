@@ -229,15 +229,15 @@
 <h2><a name="irc"/>{% trans "IRC accounts" %}</h2>
 
 {% for irc in person.ircs.all %}
-<table border="0" width="100%">
+<table style="border: 0; width: 100%">
     <tr valign="middle"><td>
        <img src="/site_media/images/irc.png" alt="{% trans "irc" %}"/>
        {{ irc.pseudo }} @ {{ irc.network }} {% trans "on" %} {{ irc.channels }}
        </td>
-    <td width="12%">
+    <td style="width: 12%">
         <a href="/annuaire/{{ person.user.id }}/irc/{{ irc.id }}/edit/" class="changelink">
         {% trans "Modify" %}</a></td>
-    <td width="12%">
+    <td style="width: 12%">
         <a href="/annuaire/{{ person.user.id }}/irc/{{ irc.id }}/delete/" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>

@@ -1,9 +1,9 @@
 <form action="/sondages/{{ survey.id }}/vote/" method="get">
+<div>
 	{% for choice in survey.choices.all %}
-		<input type="radio" name="choice" id="choice{{ choice.id }}" value="{{ choice.id }}" />
-		<label for="choice{{ choice.id }}">{{ choice.choice }}</label>
-		<br />
+		<input type="radio" name="choice" id="choice{{ choice.id }}" value="{{ choice.id }}"/>{{ choice.choice }}<br/>
 	{% endfor %}
+</div>
 	<div style="text-align: center">
 		<input type="submit" value="Voter" class="button" />
 	</div>

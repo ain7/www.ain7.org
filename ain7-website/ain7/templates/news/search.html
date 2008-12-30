@@ -19,7 +19,7 @@
 {% ifequal request.method 'POST' %}
 <h2>{% trans "Research result" %}</h2>
 {% if list_news %}
-<table width="100%">
+<table style="width: 100%">
 <tr>
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
 <td align="right">

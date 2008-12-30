@@ -21,10 +21,10 @@
 {% ifequal request.method 'POST' %}
 <h2>{% trans "Research result" %}</h2>
 {% if list_jobs %}
-<table width="100%">
+<table style="width: 100%">
 <tr>
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
-<td align="right">
+<td style="align: right">
 {% if is_paginated %}
 {% if has_previous %}<a href="{% url ain7.emploi.views.search %}?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
 {% if has_previous %}<a href="{% url ain7.emploi.views.search %}?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 

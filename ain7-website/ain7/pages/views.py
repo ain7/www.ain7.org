@@ -29,6 +29,7 @@ from ain7.news.models import NewsItem
 from ain7.sondages.models import Survey
 from ain7.utils import ain7_render_to_response
 from ain7.annuaire.models import AIn7Member
+from ain7.pages.forms import LostPasswordForm
 
 def homepage(request):
     news = NewsItem.objects.all().order_by('-creation_date')[:2]
@@ -37,6 +38,12 @@ def homepage(request):
                for s in Survey.objects.all() if s.is_valid()][:2]
     return ain7_render_to_response(request, 'pages/homepage.html', 
                             {'news': news , 'surveys': surveys})
+
+def lostpassword(request):
+
+    form = LostPasswordForm()
+
+    return ain7_render_to_response(request, 'pages/lostpassword.html', {'form': form})
 
 def apropos(request):
     return ain7_render_to_response(request, 'pages/apropos.html', {})

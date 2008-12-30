@@ -13,7 +13,7 @@
 <h2>{{ this_user.person.first_name }} {{ this_user.person.last_name }}</h2>
 
 {% if this_user.person.phone_numbers.all or this_user.person.emails.all or this_user.person.instant_messagings.all or this_user.person.ircs.all or this_user.person.web_sites.all %}
-<table width="100%">
+<table style="width: 100%">
 {% for phone_number in this_user.person.phone_numbers.all %}
 {% if not phone_number.is_confidential %}
     <tr><td><b>{{ phone_number.get_type_display }} :</b> {{ phone_number.number }}</td></tr>

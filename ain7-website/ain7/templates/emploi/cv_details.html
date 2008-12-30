@@ -11,7 +11,7 @@
 
 <h1>{{ person.first_name }} {{ person.last_name }}</h1>
 
-<table border="0" width="100%">
+<table style="border: 0; width: 100%">
 <tr>
 {% for address in person.addresses.all %}
     {% if not address.is_confidential %}
@@ -57,10 +57,10 @@
 {% if ain7member.positions.all %}
 <h2>{% trans "Professional experiences" %}</h2>
 
-<table width="100%">
+<table style="width: 100%">
 {% for position in ain7member.positions.all %}
     {% if not position.is_confidential %}
-        <tr><td width="25%"><b>{{ position.start_date|date:"d/m/Y"|default:"???" }} - 
+        <tr><td style="width: 25%"><b>{{ position.start_date|date:"d/m/Y"|default:"???" }} - 
             {{ position.end_date|date:"d/m/Y"|default:"..." }}</b></td>
             <td> <em>{{ position.fonction }}</em> {% trans "for" %} 
 		<a href="{% url ain7.emploi.views.organization_details position.office.organization.id %}">
@@ -81,9 +81,9 @@
 
 <h2>{% trans "Publications and patents" %}</h2>
 
-<table width="100%">
+<table style="width: 100%">
 {% for publicationItem in ain7member.publication.all %}
-    <tr><td width="25%"><b>{{ publicationItem.date|date:"d/m/Y" }}</b></td>
+    <tr><td style="width: 25%"><b>{{ publicationItem.date|date:"d/m/Y" }}</b></td>
         <td> <em>{{ publicationItem.title }}</em></td></tr>
     {% if publicationItem.details %}
         <tr><td></td><td>{{ publicationItem.details }}</td></tr>
@@ -96,9 +96,9 @@
 
 <h2>{% trans "Education" %}</h2>
 
-<table width="100%">
+<table style="width: 100%">
 {% for educationItem in ain7member.education.all %}
-    <tr><td width="25%"><b>{{ educationItem.start_date|date:"d/m/Y" }} - 
+    <tr><td style="width: 25%"><b>{{ educationItem.start_date|date:"d/m/Y" }} - 
         {{ educationItem.end_date|date:"d/m/Y"|default:"..." }}</b></td>
         <td> <em>{{ educationItem.school }}</em></td></tr>
     {% if educationItem.diploma %}
@@ -115,9 +115,9 @@
 
 <h2>{% trans "Leisure activities" %}</h2>
 
-<table width="100%">
+<table style="width: 100%">
 {% for leisureItem in ain7member.leisure.all %}
-    <tr><td width="25%"><b>{{ leisureItem.title }}</b></td>
+    <tr><td style="width: 25%"><b>{{ leisureItem.title }}</b></td>
         <td>
 	    {% if leisureItem.detail %}
                 {{ leisureItem.detail }}

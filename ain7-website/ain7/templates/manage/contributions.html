@@ -23,7 +23,7 @@
 
 <h2>{% trans "Results list"%}</h2>
 
-<table width="100%">
+<table style="width: 100%">
 <tr>
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
 <td align="right">
@@ -35,7 +35,7 @@
 {% endif %}
 </td>
 </table>
-<table width="100%">
+<table style="width: 100%">
     {% for contribution in contributions %}
         <tr><td><a href="/manage/users/{{ contribution.user.id }}/">{{ contribution.user }}</a></td><td>{{ contribution.key }}</td><td></td></tr>
     {% endfor %}

@@ -42,6 +42,22 @@ def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
+def login(request):
+    next_page=request.GET.get('next','/')
+    print next_page
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = auth.authenticate(username=username, password=password)
+        if user is not None:
+            auth.login(request, user)
+            return HttpResponseRedirect(request.POST.get('next','/'))
+        else:
+            return ain7_render_to_response(request, 'pages/login.html', {'error': True, 'next': next_page})
+    else:
+        return ain7_render_to_response(request, 'pages/login.html', {'error': False, 'next': next_page})
+
+
 def planet(request):
     return HttpResponseRedirect(settings.PLANET_URL)
 

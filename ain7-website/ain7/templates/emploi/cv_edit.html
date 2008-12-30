@@ -13,7 +13,7 @@
 
 <h1>{{ person.first_name }} {{ person.last_name }}</h1>
 
-<table border="0" width="100%">
+<table style="border: 0; width: 100%">
 <tr>
 {% for address in person.addresses.all %}
     {% if not address.is_confidential %}
@@ -28,8 +28,7 @@
 
 <td>
 {% if person.avatar %}
-    <img src="/site_media/{{ person.avatar.url }}" 
-     height="100" alt="{% trans "avatar" %}"/>
+    <img src="/site_media/{{ person.avatar.url }}" height="100" alt="{% trans "avatar" %}"/>
 {% endif %}
 </td>
 </tr>
@@ -65,15 +64,15 @@
 
 
 {% if ain7member.positions.all %}
-<table width="100%">
+<table style="width: 100%">
 {% for position in ain7member.positions.all %}
     {% if not position.is_confidential %}
-        <tr><td width="25%"><b>{{ position.start_date|date:"d/m/Y"|default:"???" }} - 
+        <tr><td style="width: 25%"><b>{{ position.start_date|date:"d/m/Y"|default:"???" }} - 
             {{ position.end_date|date:"d/m/Y"|default:"..." }}</b></td>
             <td> <em>{{ position.fonction }}</em> {% trans "for" %} 
                 {{ position.office }} ({{ position.office.organization }})</td>
-            <td width="12%"><a href="{% url ain7.emploi.views.position_edit person.user.id,position.id %}" class="changelink">{% trans "Modify" %}</a></td>
-            <td width="12%"><a href="{% url ain7.emploi.views.position_delete person.user.id position.id %}" class="deletelink"> {% trans "Delete" %}</a></td>
+            <td style="width: 12%"><a href="{% url ain7.emploi.views.position_edit person.user.id,position.id %}" class="changelink">{% trans "Modify" %}</a></td>
+            <td style="width: 12%"><a href="{% url ain7.emploi.views.position_delete person.user.id position.id %}" class="deletelink"> {% trans "Delete" %}</a></td>
         </tr>
         {% if position.description %}
             <tr><td></td><td>{{ position.description }}</td></tr>
@@ -90,12 +89,12 @@
 
 
 {% if ain7member.publication.all %}
-<table width="100%">
+<table style="width: 100%">
 {% for publicationItem in ain7member.publication.all %}
-    <tr><td width="25%"><b>{{ publicationItem.date|date:"d/m/Y"|default:"" }}</b></td>
+    <tr><td style="width: 25%"><b>{{ publicationItem.date|date:"d/m/Y"|default:"" }}</b></td>
         <td> <em>{{ publicationItem.title }}</em></td>
-        <td width="12%"><a href="{% url ain7.emploi.views.publication_edit person.user.id publicationItem.id %}" class="changelink"> {% trans "Modify" %}</a></td>
-        <td width="12%"><a href="{% url ain7.emploi.views.publication_delete person.user.id publicationItem.id %}" class="deletelink"> {% trans "Delete" %}</a></td>
+        <td style="width: 12%"><a href="{% url ain7.emploi.views.publication_edit person.user.id publicationItem.id %}" class="changelink"> {% trans "Modify" %}</a></td>
+        <td style="width: 12%"><a href="{% url ain7.emploi.views.publication_delete person.user.id publicationItem.id %}" class="deletelink"> {% trans "Delete" %}</a></td>
     </tr>
     {% if publicationItem.details %}
         <tr><td></td><td>{{ publicationItem.details }}</td></tr>
@@ -111,13 +110,13 @@
 
 
 {% if ain7member.education.all %}
-<table width="100%">
+<table style="width: 100%">
 {% for educationItem in ain7member.education.all %}
-    <tr><td width="25%"><b>{{ educationItem.start_date|date:"d/m/Y" }} - 
+    <tr><td style="width: 25%"><b>{{ educationItem.start_date|date:"d/m/Y" }} - 
         {{ educationItem.end_date|date:"d/m/Y"|default:"..." }}</b></td>
         <td> <em>{{ educationItem.school }}</em></td>
-        <td width="12%"><a href="{% url ain7.emploi.views.education_edit person.user.id educationItem.id %}" class="changelink"> {% trans "Modify" %}</a></td>
-        <td width="12%"><a href="{% url ain7.emploi.views.education_delete person.user.id educationItem.id %}" class="deletelink"> {% trans "Delete" %}</a></td>
+        <td style="width: 12%"><a href="{% url ain7.emploi.views.education_edit person.user.id educationItem.id %}" class="changelink"> {% trans "Modify" %}</a></td>
+        <td style="width: 12%"><a href="{% url ain7.emploi.views.education_delete person.user.id educationItem.id %}" class="deletelink"> {% trans "Delete" %}</a></td>
     </tr>
     {% if educationItem.diploma %}
         <tr><td></td><td>{{ educationItem.diploma }}</td></tr>
@@ -136,16 +135,16 @@
 
 
 {% if ain7member.leisure.all %}
-<table width="100%">
+<table style="width: 100%">
 {% for leisureItem in ain7member.leisure.all %}
-    <tr><td width="25%"><b>{{ leisureItem.title }}</b></td>
+    <tr><td style="width: 25%"><b>{{ leisureItem.title }}</b></td>
         <td>
 	    {% if leisureItem.detail %}
                 {{ leisureItem.detail }}
             {% endif %}
 	</td>
-        <td width="12%"><a href="{% url ain7.emploi.views.leisure_edit person.user.id leisureItem.id %}" class="changelink"> {% trans "Modify" %}</a></td>
-        <td width="12%"><a href="{% url ain7.emploi.views.leisure_delete person.user.id leisureItem.id %}" class="deletelink"> {% trans "Delete" %}</a></td>
+        <td style="width: 12%"><a href="{% url ain7.emploi.views.leisure_edit person.user.id leisureItem.id %}" class="changelink"> {% trans "Modify" %}</a></td>
+        <td style="width: 12%"><a href="{% url ain7.emploi.views.leisure_delete person.user.id leisureItem.id %}" class="deletelink"> {% trans "Delete" %}</a></td>
     </tr>
 {% endfor %}
 </table>

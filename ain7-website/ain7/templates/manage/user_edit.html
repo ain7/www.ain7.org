@@ -44,7 +44,7 @@
 
 <h2><a name="address"/>{% trans "Address" %}</h2>
 
-<table border="0" width="100%">
+<table style="border: 0; width: 100%">
 {% for address in person.addresses.all %}
     <tr><td><b>{% trans "Address" %} {{ address.type|lower }}&nbsp;:</b></td><td>
         {{ address.line1 }} {{ address.line2|default_if_none:"" }} -
@@ -52,10 +52,10 @@
         {% if address.is_confidential %} ({% trans "confidential" %})
         {% else %}                       ({% trans "not confidential" %})
         {% endif %}</td>
-    <td width="12%">
+    <td style="width: 12%">
         <a href="/manage/users/{{ person.user.id }}/address/{{ address.id }}/edit/" class="changelink">
         {% trans "Modify" %}</a></td>
-    <td width="12%">
+    <td style="width: 12%">
         <a href="/manage/users/{{ person.user.id }}/address/{{ address.id }}/delete/" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
@@ -67,16 +67,16 @@
 
 <h2><a name="phone"/>{% trans "Phone numbers" %}</h2>
 
-<table border="0" width="100%">
+<table style="border: 0; width: 100%">
 {% for phone_number in person.phone_numbers.all %}
    <tr><td><b>{{ phone_number.get_type_display }} :</b></td>
    <td>{{ phone_number.number }}
        {% if phone_number.is_confidential %} ({% trans "confidential" %})
         {% else %} ({% trans "not confidential" %}) {% endif %}</td>
-    <td width="12%">
+    <td style="width: 12%">
         <a href="/manage/users/{{ person.user.id }}/phone/{{ phone_number.id }}/edit/" class="changelink">
         {% trans "Modify" %}</a></td>
-    <td width="12%">
+    <td style="width: 12%">
         <a href="/manage/users/{{ person.user.id }}/phone/{{ phone_number.id }}/delete/" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
@@ -89,7 +89,7 @@
 <h2><a name="email"/>
 {% filter capfirst %}{% trans "email" %}{% endfilter %}</h2>
 
-<table border="0" width="100%">
+<table style="border: 0; width: 100%">
 {% for email in person.emails.all %}
 	    <tr><td><img src="/site_media/images/mail.png" alt="{% trans "email" %}"/><a href="mailto:{{ email.email }}">{{ email.email }}</a>
 	{% if email.is_confidential %} ({% trans "confidential" %})
@@ -97,10 +97,10 @@
 	{% endif %}
 
 </td>
-    <td width="12%">
+    <td style="width: 12%">
         <a href="/manage/users/{{ person.user.id }}/email/{{ email.id }}/edit/" class="changelink">
         {% trans "Modify" %}</a></td>
-    <td width="12%">
+    <td style="width: 12%">
         <a href="/manage/users/{{ person.user.id }}/email/{{ email.id }}/delete/" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
