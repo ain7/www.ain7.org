@@ -54,10 +54,15 @@ def galerie(request):
 # pour alléger les appels à render_to_response
 # http://www.djangosnippets.org/snippets/3/
 def ain7_render_to_response(req, *args, **kwargs):
+
+    user_groups = req.user.groups.all().values_list('name', flat=True)
+
     args[1]['portal_version'] = settings.VERSION
     args[1]['tinymce_version'] = settings.TINYMCE_VERSION
     args[1]['mootools_version'] = settings.MOOTOOLS_VERSION
     args[1]['mootools_more_version'] = settings.MOOTOOLS_MORE_VERSION
+    args[1]['debug_mode'] = settings.DEBUG
+    args[1]['user_groups'] = user_groups
     kwargs['context_instance'] = RequestContext(req)
     return render_to_response(*args, **kwargs)
 
@@ -71,6 +76,20 @@ def isAdmin(user):
         return False
     else:
         return False
+
+def check_access(request, user, groups):
+
+    user_groups = user.groups.values_list('name', flat=True)
+
+    if settings.AIN7_PORTAL_ADMIN in user_groups:
+        return None
+
+    for group in user_groups:
+       if group in groups:
+           return None
+
+    return ain7_render_to_response(request, 'pages/permission_denied.html', {})
+
 
 def ain7_generic_edit(request, obj, MyForm, formInitDict, formPage, formPageDict, saveDict, redirectPage, msgDone):
     """ Méthode utilisée pour éditer (ou créer) un objet de façon standard,

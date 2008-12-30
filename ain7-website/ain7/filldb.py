@@ -63,8 +63,14 @@ def filldb():
     # Merci d'y ajouter tous les champs que vous devez tester en dur.  #
 
     # Types
+    activityUnKnown = annuaire.Activity(activity=u"Inconnue")
+    activityUnKnown.save()
+
     activityKnown = annuaire.Activity(activity=u"Connue")
     activityKnown.save()
+
+    activityStudent = annuaire.Activity(activity=u"Étudiant")
+    activityStudent.save()
 
     activityRetired = annuaire.Activity(activity=u"Retraité")
     activityRetired.save()
@@ -326,7 +332,7 @@ def filldb():
     # AIn7Member
     lionel_ain7member = annuaire.AIn7Member()
     lionel_ain7member.person = lionel
-    lionel_ain7member.activity = activityRetired
+    lionel_ain7member.activity = activityKnown
     lionel_ain7member.member_type = memberTypeActif
     lionel_ain7member.person_type = personTypeEngineer
     lionel_ain7member.nick_name = "Yoyo"

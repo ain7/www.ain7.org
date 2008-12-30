@@ -39,7 +39,7 @@ from ain7.annuaire.models import *
 from ain7.annuaire.forms import *
 from ain7.emploi.models import Organization, Office
 from ain7.decorators import confirmation_required
-from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete
+from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
 from ain7.search_engine.models import *
 from ain7.search_engine.utils import *
 from ain7.search_engine.views import *
@@ -121,10 +121,14 @@ def search(request):
 @login_required
 def advanced_search(request):
 
-    filtr = annuaire_search_engine().unregistered_filters(request.user.person)
-    if filtr:
+    r = check_access(request, request.user, ['ain7-member','ain7-secretariat'])
+    if r:
+        return r
+
+    filter = annuaire_search_engine().unregistered_filters(request.user.person)
+    if filter:
         return ain7_render_to_response(request, 'annuaire/adv_search.html',
-            dict_for_filter(request, filtr.id))
+            dict_for_filter(request, filter.id))
     else:
         return ain7_render_to_response(request, 'annuaire/adv_search.html',
             dict_for_filter(request, None))
@@ -133,12 +137,20 @@ def advanced_search(request):
 @login_required
 def filter_details(request, filter_id):
 
+    r = check_access(request, request.user, ['ain7-member','ain7-secretariat'])
+    if r:
+        return r
+
     return ain7_render_to_response(request, 'annuaire/adv_search.html',
         dict_for_filter(request, filter_id))
 
 
 @login_required
 def dict_for_filter(request, filter_id):
+
+    r = check_access(request, request.user, ['ain7-member','ain7-secretariat'])
+    if r:
+        return r
 
     ain7members = False
     p = request.user.person
@@ -179,6 +191,10 @@ def dict_for_filter(request, filter_id):
 
 @login_required
 def filter_register(request):
+
+    r = check_access(request, request.user, ['ain7-member','ain7-secretariat'])
+    if r:
+        return r
 
     sf = annuaire_search_engine().unregistered_filters(request.user.person)
     if not sf:
@@ -222,6 +238,10 @@ def filter_register(request):
 @login_required
 def filter_edit(request, filter_id):
 
+    r = check_access(request, request.user, ['ain7-member','ain7-secretariat'])
+    if r:
+        return r
+
     filtr = get_object_or_404(SearchFilter, pk=filter_id)
     form = SearchFilterForm(instance=filtr)
 
@@ -251,6 +271,10 @@ def remove_criteria(request, filtr):
 @login_required
 def filter_reset(request, filter_id):
 
+    r = check_access(request, request.user, ['ain7-member','ain7-secretariat'])
+    if r:
+        return r
+
     filtr = get_object_or_404(SearchFilter, pk=filter_id)
     remove_criteria(request, filtr)
     if filtr.registered:
@@ -261,6 +285,10 @@ def filter_reset(request, filter_id):
 
 @login_required
 def filter_delete(request, filter_id):
+
+    r = check_access(request, request.user, ['ain7-member','ain7-secretariat'])
+    if r:
+        return r
 
     filtr = get_object_or_404(SearchFilter, pk=filter_id)
     try:
@@ -277,6 +305,10 @@ def filter_delete(request, filter_id):
 
 @login_required
 def filter_new(request):
+
+    r = check_access(request, request.user, ['ain7-member','ain7-secretariat'])
+    if r:
+        return r
 
     filtr = annuaire_search_engine().unregistered_filters(request.user.person)
     if not filtr:
@@ -322,6 +354,10 @@ def criterion_delete(request, filtr_id=None, crit_id=None, crit_type=None):
 @login_required
 def export_csv(request):
 
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
+
     if not request.session.has_key('filter'):
         request.user.message_set.create(message=_("You have to make a search before using csv export."))
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
@@ -334,6 +370,11 @@ def export_csv(request):
 
 @login_required
 def adv_export_csv(request, filter_id=None):
+
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
+
     se = annuaire_search_engine()
     if not filter_id and not se.unregistered_filters(request.user.person):
         request.user.message_set.create(message=
@@ -347,6 +388,10 @@ def adv_export_csv(request, filter_id=None):
 
 @login_required
 def sendmail(request):
+
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
 
     if not request.session.has_key('filter'):
         request.user.message_set.create(message=_("You have to make a search before using sendmail."))
@@ -372,6 +417,10 @@ def sendmail(request):
 @login_required
 def edit(request, user_id=None):
 
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
+
     p = get_object_or_404(Person, pk=user_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
     return ain7_render_to_response(request, 'annuaire/edit.html',
@@ -379,6 +428,10 @@ def edit(request, user_id=None):
 
 @login_required
 def person_edit(request, user_id=None):
+
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
 
     person = None
     if user_id:
@@ -393,6 +446,10 @@ def person_edit(request, user_id=None):
 
 @login_required
 def ain7member_edit(request, user_id=None):
+
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
 
     person = None
     ain7member = None
@@ -411,6 +468,10 @@ def ain7member_edit(request, user_id=None):
 @login_required
 def avatar_delete(request, user_id):
 
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
+
     person = Person.objects.get(user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
     ain7member.avatar = None
@@ -423,6 +484,10 @@ def avatar_delete(request, user_id):
 # Adresses
 @login_required
 def address_edit(request, user_id=None, address_id=None):
+
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
 
     person = get_object_or_404(Person, user=user_id)
     address = None
@@ -443,6 +508,10 @@ def address_edit(request, user_id=None, address_id=None):
 @login_required
 def address_delete(request, user_id=None, address_id=None):
 
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
+
     return ain7_generic_delete(request,
         get_object_or_404(Address, pk=address_id),
         '/annuaire/%s/edit/#address' % user_id,
@@ -451,6 +520,10 @@ def address_delete(request, user_id=None, address_id=None):
 # Numeros de telephone
 @login_required
 def phone_edit(request, user_id=None, phone_id=None):
+
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
 
     person = get_object_or_404(Person, user=user_id)
     phone = None
@@ -471,6 +544,10 @@ def phone_edit(request, user_id=None, phone_id=None):
 @login_required
 def phone_delete(request, user_id=None, phone_id=None):
 
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
+
     return ain7_generic_delete(request,
         get_object_or_404(PhoneNumber, pk=phone_id),
         '/annuaire/%s/edit/#phone' % user_id,
@@ -479,6 +556,10 @@ def phone_delete(request, user_id=None, phone_id=None):
 # Adresses de courriel
 @login_required
 def email_edit(request, user_id=None, email_id=None):
+
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
 
     person = get_object_or_404(Person, user=user_id)
     email = None
@@ -499,6 +580,10 @@ def email_edit(request, user_id=None, email_id=None):
 @login_required
 def email_delete(request, user_id=None, email_id=None):
 
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
+
     return ain7_generic_delete(request, get_object_or_404(Email, pk=email_id),
                                '/annuaire/%s/edit/#email' % user_id,
                                _('Email address successfully deleted.'))
@@ -506,6 +591,10 @@ def email_delete(request, user_id=None, email_id=None):
 # Comptes de messagerie instantanee
 @login_required
 def im_edit(request, user_id=None, im_id=None):
+
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
 
     person = get_object_or_404(Person, user=user_id)
     im = None
@@ -526,6 +615,10 @@ def im_edit(request, user_id=None, im_id=None):
 @login_required
 def im_delete(request, user_id=None, im_id=None):
 
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
+
     return ain7_generic_delete(request,
         get_object_or_404(InstantMessaging, pk=im_id),
         '/annuaire/%s/edit/#im' % user_id,
@@ -534,6 +627,10 @@ def im_delete(request, user_id=None, im_id=None):
 # Comptes IRC
 @login_required
 def irc_edit(request, user_id=None, irc_id=None):
+
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
 
     person = get_object_or_404(Person, user=user_id)
     irc = None
@@ -554,6 +651,10 @@ def irc_edit(request, user_id=None, irc_id=None):
 @login_required
 def irc_delete(request, user_id=None, irc_id=None):
 
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
+
     return ain7_generic_delete(request,
         get_object_or_404(IRC, pk=irc_id),
         '/annuaire/%s/edit/#irc' % user_id,
@@ -562,6 +663,10 @@ def irc_delete(request, user_id=None, irc_id=None):
 # Sites Internet
 @login_required
 def website_edit(request, user_id=None, website_id=None):
+
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
 
     person = get_object_or_404(Person, user=user_id)
     website = None
@@ -582,6 +687,10 @@ def website_edit(request, user_id=None, website_id=None):
 @login_required
 def website_delete(request, user_id=None, website_id=None):
 
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
+
     return ain7_generic_delete(request,
         get_object_or_404(WebSite, pk=website_id),
         '/annuaire/%s/edit/#website' % user_id,
@@ -591,6 +700,10 @@ def website_delete(request, user_id=None, website_id=None):
 
 @login_required
 def club_membership_edit(request, user_id=None, club_membership_id=None):
+
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -613,6 +726,10 @@ def club_membership_edit(request, user_id=None, club_membership_id=None):
 @login_required
 def club_membership_delete(request, user_id=None, club_membership_id=None):
 
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
+
     return ain7_generic_delete(request,
         get_object_or_404(ClubMembership, pk=club_membership_id),
         '/annuaire/%s/edit/#assoc' % user_id,
@@ -620,6 +737,10 @@ def club_membership_delete(request, user_id=None, club_membership_id=None):
 
 @login_required
 def subscriptions(request, user_id):
+
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
 
     p = get_object_or_404(Person, pk=user_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
@@ -631,6 +752,10 @@ def subscriptions(request, user_id):
 
 @login_required
 def subscription_edit(request, user_id=None, subscription_id=None):
+
+    r = check_access(request, request.user, ['ain7-secretariat'])
+    if r:
+        return r
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -652,6 +777,10 @@ def subscription_edit(request, user_id=None, subscription_id=None):
 @login_required
 def subscription_delete(request, user_id=None, subscription_id=None):
 
+    r = check_access(request, request.user, ['ain7-secretariat'])
+    if r:
+        return r
+
     return ain7_generic_delete(request,
         get_object_or_404(AIn7Subscription, pk=subscription_id),
         '/annuaire/%s/subscriptions/' % user_id,
@@ -659,6 +788,10 @@ def subscription_delete(request, user_id=None, subscription_id=None):
 
 @login_required
 def register(request, user_id=None):
+
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
 
     form = NewMemberForm()
 
@@ -678,6 +811,10 @@ def register(request, user_id=None):
 
 @login_required
 def vcard(request, user_id):
+
+    r = check_access(request, request.user, ('ain7-secretariat','ain7-member'))
+    if r:
+        return r
 
     p = get_object_or_404(Person, pk=user_id)
     ain7member = get_object_or_404(AIn7Member, person=p)

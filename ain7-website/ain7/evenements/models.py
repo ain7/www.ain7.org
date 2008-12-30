@@ -69,10 +69,6 @@ class Event(LoggedClass):
     pictures_gallery = models.CharField(verbose_name=_('Pictures gallery'), max_length=100, blank=True, null=True)
     objects = EventManager()
 
-    # Moderation
-    approved = models.BooleanField(default=False)
-    approved_by = models.ForeignKey(Person, related_name='events_approved', editable=False, null=True)
-
     def __unicode__(self):
         return self.name
 

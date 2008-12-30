@@ -126,7 +126,7 @@ msgstr "Date de naissance"
 
 #: annuaire/forms.py:90 manage/forms.py:104
 msgid "Sex"
-msgstr "sexe"
+msgstr "Sexe"
 
 #: annuaire/forms.py:91
 msgid "Promo year"

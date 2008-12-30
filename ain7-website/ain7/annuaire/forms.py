@@ -202,7 +202,7 @@ class NewMemberForm(forms.Form):
     
 
 class PersonForm(forms.ModelForm):
-    sex = forms.CharField(widget=forms.Select(choices=Person.SEX))
+    sex = forms.CharField(widget=forms.Select(choices=Person.SEX), label=_('Sex'))
     birth_date = forms.DateTimeField(label=_('start').capitalize(),
         widget=dateWidget, required=False)
     death_date = forms.DateTimeField(label=_('end').capitalize(),

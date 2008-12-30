@@ -21,9 +21,6 @@
    <li><b>{% trans "Nick name" %}&nbsp;:</b> {{ ain7member.nick_name }}</li>
    {% endif %}
    <li><b>{% trans "Promos" %}&nbsp;:</b> {% for promo in ain7member.promos.all %}{{ promo }}{% if not forloop.last %} - {% endif %}{% endfor %}</li>
-    {% if person.wiki_name %}
-   <li><b>{% trans "Wiki name" %}&nbsp;:</b> <a href="http://wiki.ain7.porcheron.info/{{ person.wiki_name }}">{{ person.wiki_name }}</a></li>
-   {% endif %}
    {% if ain7member.diplomas.all %}
    <li><b>{% filter capfirst %}{% trans "diplomas" %}{% endfilter %}&nbsp;:</b>
        {% for diploma in ain7member.diplomas.all %}{{ diploma }}
@@ -104,7 +101,7 @@
 
 <ul>
 {% for membership in ain7member.group_memberships.all %}
-        <li><a href="/groupes/{{ membership.group.id }}/">{{ membership.group.name }}</a></li>
+        <li><a href="/groupes/{{ membership.group.name }}/">{{ membership.group.name }}</a></li>
 {% endfor %}
 </ul>
 {% endif %}
@@ -151,9 +148,12 @@
 </ul>
 {% endif %}
 
+{% if person.notes %}
 <h2>{% trans "AIn7 Notes" %}</h2>
 
 {{ person.notes }}
+
+{% endif %}
 
 </div>
 
@@ -173,7 +173,7 @@
    <div class="right_articles">
     <ul>
     {% for group in person.user.groups.all %}
-	    <li><a href="/manage/roles/{{ group.id }}/">{{ group.name }}</a></li>
+	    <li><a href="/manage/roles/{{ group.name }}/">{{ group.name }}</a></li>
     {% endfor %}
     </ul>
     </div>

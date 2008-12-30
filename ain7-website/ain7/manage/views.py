@@ -800,7 +800,7 @@ def role_register(request):
                 request.user.message_set.create(
                     message=_("New role successfully created"))
                 return HttpResponseRedirect(
-                    '/manage/roles/%s/' % (new_role.id))
+                    '/manage/roles/%s/' % (new_role.name))
         else:
             request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
 

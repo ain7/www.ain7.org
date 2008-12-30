@@ -209,7 +209,7 @@ class PersonManager(models.Manager):
         in advanced search."""
         critsForAll  = [
             "last_name" , "first_name" , "complete_name" , "maiden_name" ,
-            "birth_date", "death_date" , "sex" , "country" , "wiki_name" ,
+            "birth_date", "death_date" , "sex" , "country" , 
             "notes" ]
         critsForAdmin = [
             "user" , "last_change_at" , "last_change_by" ]
@@ -239,8 +239,6 @@ class Person(LoggedClass):
     sex = models.CharField(verbose_name=_('sex'), max_length=1, choices=SEX)
     country = models.ForeignKey(Country, verbose_name=_('nationality'), blank=True, null=True)
 
-    wiki_name = models.CharField(verbose_name=_('Wiki name'), max_length=50, blank=True, null=True)
-
     notes = models.TextField(verbose_name=_('Notes'), blank=True, null=True)
 
     objects = PersonManager()
@@ -265,7 +263,7 @@ class Person(LoggedClass):
        if mail_list:
            mail = mail_list[0].email
 
-           msg = """From: AIn7 <ain7@ain7.info>
+           msg = """From: Association AIn7 <ain7@ain7.info>
 To: """+self.first_name+' '+self.last_name+' <'+mail+'>'+"""
 Subject: """+subject+"""
 Mime-Version: 1.0

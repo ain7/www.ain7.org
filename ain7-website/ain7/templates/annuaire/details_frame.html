@@ -29,9 +29,6 @@
    <li><b>{% trans "Nick name" %}&nbsp;:</b> {{ ain7member.nick_name }}</li>
    {% endif %}
    <li><b>{% trans "Promos" %}&nbsp;:</b> {% for promo in ain7member.promos.all %}{{ promo }}{% if not forloop.last %} - {% endif %}{% endfor %}</li>
-    {% if person.wiki_name %}
-   <li><b>{% trans "Wiki name" %}&nbsp;:</b> <a href="http://wiki.ain7.porcheron.info/{{ person.wiki_name }}">{{ person.wiki_name }}</a></li>
-   {% endif %}
    {% if ain7member.diplomas.all %}
    <li><b>{% filter capfirst %}{% trans "diplomas" %}{% endfilter %}&nbsp;:</b>
        {% for diploma in ain7member.diplomas.all %}{{ diploma }}
