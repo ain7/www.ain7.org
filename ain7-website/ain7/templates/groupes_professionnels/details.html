@@ -9,6 +9,10 @@
 
 <h3>{{ group.description }}</h3>
 
+<h4>{% trans "Description" %}</h4>
+
+{{ group.web_page|default_if_none:""|safe }}
+
 {% if group.current_memberships %}
 <h4>{% trans "Members list" %}</h4>
 <ul>
@@ -27,11 +31,6 @@
 </ul>
 {% endif %}
 
-
-<h4>{% trans "Description" %}</h4>
-
-{{ group.web_page|default_if_none:""|safe }}
-
 </div>
 
 <div class="right">
@@ -43,7 +42,7 @@
       <li><a href="{% url ain7.groupes_professionnels.views.subscribe group.name %}">{% trans "Subscribe someone" %}</a></li>
       <li><a href="{% url ain7.groupes_professionnels.views.unsubscribe group.name %}">{% trans "Unsubscribe someone" %}</a></li>
       {# TODO: gestion des droits : réservé aux secrétaires et superadmin #}
-      <li><a href="{% url ain7.groupes_professionnels.views.edit_roles group.id,"current" %}">{% trans "Edit roles of this group" %}</a></li>
+      <li><a href="{% url ain7.groupes_professionnels.views.edit_roles group.name,"current" %}">{% trans "Edit roles of this group" %}</a></li>
    </ul>
    </div>
 
