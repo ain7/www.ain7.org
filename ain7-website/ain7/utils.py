@@ -141,7 +141,7 @@ def ain7_generic_edit(request, obj, MyForm, formInitDict, formPage, formPageDict
                 f.cleaned_data[k] = v
             obj = f.save(**saveDict)
             if isinstance(obj, LoggedClass) and request.user:
-                obj.logged_save(request.user)
+                obj.logged_save(request.user.person)
             request.user.message_set.create(message=msgDone)
         else:
             pageDict = {'form': f}
@@ -162,15 +162,15 @@ def ain7_generic_delete(request, obj, redirectPage, msgDone):
 class LoggedClass(models.Model):
     """ Classe abstraite contenant les infos à enregistrer pour les modèles
     pour lesquels on veut connaître la date de création/modif et l'auteur."""
-    last_change_by = models.ForeignKey(User, verbose_name=_('modifier'), editable=False,
+    last_change_by = models.ForeignKey('annuaire.Person', verbose_name=_('modifier'), editable=False,
         related_name='last_changed_%(class)s', blank=True, null=True)
     last_change_at = models.DateTimeField(verbose_name=_('last changed at'), blank=True, editable=False)
 
     class Meta:
         abstract = True
         
-    def logged_save(self, user):
-        self.last_change_by = user
+    def logged_save(self, person):
+        self.last_change_by = person
         return self.save()
         
     def save(self):

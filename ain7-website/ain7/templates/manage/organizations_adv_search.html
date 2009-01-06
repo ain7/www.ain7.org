@@ -35,7 +35,7 @@
         <td>{{ criterion.displayedValue }}</td>
         <td><a href="/manage/organizations/adv_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/edit/field/" 
                 class="changelink">{% trans "Modify" %}</a></td>
-        <td><a href="{% url criterionField_delete filtr.id,criterion.id,"field" %}"
+        <td><a href="/manage/organizations/adv_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/delete/field/"
                 class="deletelink">{% trans "Delete" %}</a></td>
       </tr>
     {% endfor %}
@@ -59,7 +59,7 @@
         <td>{{ criterion.filterCriterion }}</td>
         <td><a href="/manage/organizations/adv_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/edit/filter/" 
                class="changelink">{% trans "Modify" %}</a></td>
-        <td><a href="{% url criterionFilter_delete filtr.id,criterion.id,"filter" %}"
+        <td><a href="/manage/organizations/adv_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/delete/filter/"
                class="deletelink">{% trans "Delete" %}</a></td>
       </tr>
     {% endfor %}
@@ -73,7 +73,7 @@
   <p>{% trans "No criterion. Please add one." %}</p>
 {% endif %}
 
-<a href="{% url ain7.manage.views.criterion_add filtr.id %}" 
+<a href="/manage/organizations/adv_search/filter/{{ filtr.id }}/criterion/add/" 
    class="addlink">{% trans "Add a criterion" %}</a>
 
 <div style="text-align: center">
@@ -132,7 +132,7 @@
 <ul>
     <li><a href="{% url ain7.manage.views.users_search %}">{% trans "Manage users" %}</a></li>
     <li><a href="/manage/groups/">{% trans "Manage groups" %}</a></li>
-    <li><a href="{% url ain7.manage.views.permissions %}">{% trans "Manage permissions" %}</a></li>
+    <li><a href="{% url ain7.manage.views.roles_search %}">{% trans "Manage roles" %}</a></li>
     <li><a href="{% url ain7.manage.views.organizations_search %}">{% trans "Manage organizations" %}</a></li>
     <li><a href="{% url ain7.manage.views.contributions %}">{% trans "Contributions" %}</a></li>
 </ul>

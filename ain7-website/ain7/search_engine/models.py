@@ -175,9 +175,11 @@ class SearchCriterionField(models.Model):
         clas = getClassFromName(self.fieldClass, se)
         qComp, qNeg = search_engine.utils.compInQ(
             clas, self.fieldName.encode('utf8'), self.comparatorName, se)
-        modelPrefix = params(se).criteria_models[clas]
-        crit = modelPrefix + self.fieldName.encode('utf8') + qComp
-        # if the criterion comes from a custom field, we use the specified query
+        if clas in params(se).criteria_models.keys():
+            modelPrefix = params(se).criteria_models[clas]
+            crit = modelPrefix + self.fieldName.encode('utf8') + qComp
+        
+        # if the criterion comes from a custom field we use the specified query
         for (fName,fModel,query,solver) in params(se).custom_fields:
             if self.fieldClass == str(fModel._meta):
                 crit = query

@@ -113,7 +113,7 @@ class EventForm(forms.ModelForm):
         if kwargs.has_key('contributor'):
             contributor = kwargs['contributor']
             event = super(EventForm, self).save()
-            event.logged_save(contributor.user)
+            event.logged_save(contributor)
             contrib_type = \
                 UserContributionType.objects.get(key=u'event_register')
             contrib = UserContribution(user=contributor, type=contrib_type)

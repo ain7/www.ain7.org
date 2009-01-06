@@ -9,24 +9,24 @@
 
 <h3>{% trans "Login" %}</h3>
                 {% if error %}
-                <p style="text-align: center; color: red;">Your username and password didn't match. Please try again.</p>
+                <p style="text-align: center; color: red;">{% trans "Your username and password didn't match. Please try again." %}</p>
                 {% endif %}
         <form method="post" action=".">
                 <table cellpadding="0" cellspacing="0" id="login-form">
                         <tr>&nbsp;</tr>
                         <tbody id="login-form-body">
                                 <tr>
-                                        <td><label for="username">Username:</label></td>
+                                        <td><label for="username">{% trans "Username" %}:</label></td>
                                         <td><input class="login-field" id="username" name="username" type="text"/></td>
                                 </tr>
                                 <tr>
-                                        <td><label for="password">Password:</label></td>
+                                        <td><label for="password">{% trans "Password" %}:</label></td>
                                         <td><input class="login-field" type="password" id="password" name="password"/></td>
                                 </tr>
                                 <tr><td colspan="2" style="height: 10px"></td></tr>
                                 <tr>
                                         <td colspan="2" style="text-align: center">
-                                                <input type="submit" class="button" value="login" />
+                                                <input type="submit" class="button" value="{% trans "login" %}" />
                                                 <input type="hidden" name="next" value="{{ next }}" />
                                                 <p style="text-align: center;"><a href="{% url ain7.pages.views.lostpassword %}">{% trans "Lost password ?" %}</a></p>
                                         </td>

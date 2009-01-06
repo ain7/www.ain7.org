@@ -72,7 +72,7 @@ class JobOfferForm(forms.Form):
         job_offer.save()
         # needs to have a primary key before a many-to-many can be used
         job_offer.track = self.cleaned_data['track']
-        job_offer.logged_save(user)
+        job_offer.logged_save(user.person)
         return job_offer
 
 
@@ -142,7 +142,7 @@ class OrganizationForm(forms.Form):
         org.long_description = self.cleaned_data['long_description']
         org.is_a_proposal = is_a_proposal
         org.is_valid = is_valid
-        org.logged_save(user)
+        org.logged_save(user.person)
         return org
 
 class OfficeForm(forms.ModelForm):

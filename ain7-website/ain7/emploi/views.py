@@ -328,11 +328,11 @@ def organization_add(request):
             modifiedOrg = f.save(request.user,is_a_proposal=True)
             orgprop = OrganizationProposal(original = None,
                 modified = modifiedOrg, author = p, action = 0)
-            orgprop.logged_save(request.user)
+            orgprop.logged_save(p)
             # create the notification
             notif = Notification(details="", organization_proposal=orgprop,
                 title=_('Proposal for adding an organization'))
-            notif.logged_save(request.user)
+            notif.logged_save(p)
             request.user.message_set.create(message=_('Your proposal for adding an organization has been sent to moderators.'))
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
@@ -411,11 +411,11 @@ def organization_edit_data(request, organization_id=None):
             modifiedOrg = f.save(request.user, is_a_proposal=True)
             orgprop = OrganizationProposal(original = org,
                 modified = modifiedOrg, author = p, action = 1)
-            orgprop.logged_save(request.user)
+            orgprop.logged_save(p)
             # create the notification
             notif = Notification(details="", organization_proposal=orgprop,
                 title=_('Proposal for modifying an organization'))
-            notif.logged_save(request.user)
+            notif.logged_save(p)
             request.user.message_set.create(message=_('Your proposal for modifying an organization has been sent to moderators.'))
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
@@ -432,11 +432,11 @@ def organization_delete(request, organization_id=None):
     p = get_object_or_404(Person, user=request.user.id)
     orgprop = OrganizationProposal(original = org,
         modified = None, author = p, action = 2)
-    orgprop.logged_save(request.user)
+    orgprop.logged_save(p)
     # create the notification
     notif = Notification(details="", organization_proposal=orgprop,
                          title=_('Proposal for deleting an organization'))
-    notif.logged_save(request.user)
+    notif.logged_save(p)
     request.user.message_set.create(message=_('Your proposal for deleting an organization has been sent to moderators.'))
     return HttpResponseRedirect(reverse(index))
 
@@ -461,14 +461,14 @@ def office_edit(request, office_id=None):
             f.cleaned_data['organization'] = office.organization
             # create the OfficeProposal
             modifiedOffice = f.save()
-            modifiedOffice.logged_save(request.user)
+            modifiedOffice.logged_save(p)
             officeProp = OfficeProposal(original = office.organization,
                 modified = modifiedOffice, author = p, action = 1)
-            officeProp.logged_save(request.user)
+            officeProp.logged_save(p)
             # create the notification
             notif = Notification(title = _('Proposal for modifying an office'),
                 details = "", office_proposal = officeProp)
-            notif.logged_save(request.user)
+            notif.logged_save(p)
             request.user.message_set.create(message=_('Your proposal for modifying an office has been sent to moderators.'))
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
@@ -485,11 +485,11 @@ def office_delete(request, office_id=None):
     officeProp = OfficeProposal(
         original = get_object_or_404(Office,pk=office_id),
         modified = None, author = p, action = 2)
-    officeProp.logged_save(request.user)
+    officeProp.logged_save(p)
     # create the notification
     notif = Notification(title = _('Proposal for removing an office'),
         details = "", office_proposal = officeProp)
-    notif.logged_save(request.user)
+    notif.logged_save(p)
     request.user.message_set.create(message=_('Your proposal for deleting an office has been sent to moderators.'))
     return HttpResponseRedirect(reverse(index))
 
@@ -514,14 +514,14 @@ def office_add(request, organization_id=None):
             f.cleaned_data['organization'] = org
             # create the OfficeProposal
             modifiedOffice = f.save()
-            modifiedOffice.logged_save(request.user)
+            modifiedOffice.logged_save(p)
             officeProp = OfficeProposal(original = None,
                 modified = modifiedOffice, author = p, action = 0)
-            officeProp.logged_save(request.user)
+            officeProp.logged_save(p)
             # create the notification
             notif = Notification(title = _('Proposal for adding an office'),
                 details = "", office_proposal = officeProp)
-            notif.logged_save(request.user)
+            notif.logged_save(p)
             request.user.message_set.create(message=_('Your proposal for adding an office has been sent to moderators.'))
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))

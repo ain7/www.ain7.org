@@ -70,7 +70,7 @@ class GroupProForm(forms.ModelForm):
 
     def save(self, user=None):
         groupPro =  super(GroupProForm, self).save()
-        groupPro.logged_save(user)
+        groupPro.logged_save(user.person)
         return groupPro
 
 class NewRoleForm(forms.Form):

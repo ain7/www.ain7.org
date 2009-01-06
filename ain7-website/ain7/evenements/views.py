@@ -71,7 +71,7 @@ def image_delete(request, event_id):
 
     event = get_object_or_404(Event, pk=event_id)
     event.image = None
-    event.logged_save(request.user)
+    event.logged_save(request.user.person)
 
     request.user.message_set.create(message=
         _('The image of this event has been successfully deleted.'))

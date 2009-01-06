@@ -58,7 +58,7 @@ def image_delete(request, news_id):
 
     news_item = get_object_or_404(NewsItem, pk=news_id)
     news_item.image = None
-    news_item.logged_save(request.user)
+    news_item.logged_save(request.user.person)
 
     request.user.message_set.create(message=
         _('The image of this news item has been successfully deleted.'))
