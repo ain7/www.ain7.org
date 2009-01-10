@@ -352,7 +352,7 @@ def organization_choose(request, action=None):
         def clean_organization(self):
             o = self.cleaned_data['organization']
 
-            if o == -1:
+            if o == None:
                 raise ValidationError(_('The organization is mandatory.'))
 
             try:

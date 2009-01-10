@@ -65,10 +65,10 @@ class SearchOrganizationForm(forms.Form):
         criteria = {'name__contains': self.cleaned_data['name'],
                     'is_a_proposal': False}
 #                     'location__contains': self.cleaned_data['location'],
-        if self.cleaned_data['activity_field']!="-1":
+        if self.cleaned_data['activity_field']!="":
             criteria['activity_field__exact'] = ActivityField.objects.get(
                 id=self.cleaned_data['activity_field'])
-        if self.cleaned_data['activity_code']!="-1":
+        if self.cleaned_data['activity_code']!="":
             criteria['activity_field__exact'] = ActivityField.objects.get(
                 id=self.cleaned_data['activity_code'])
         return criteria
@@ -84,7 +84,7 @@ class SearchContributionForm(forms.Form):
     def clean_user(self):
         u = self.cleaned_data['user']
 
-        if self.cleaned_data['user'] != -1:
+        if u:
             try:
                 Person.objects.get(id=u)
             except Person.DoesNotExist:
@@ -107,19 +107,6 @@ class NewPersonForm(forms.ModelForm):
         model = Person
         exclude = ('user', 'complete_name', 'maiden_name', 'death_date',
                    'wiki_name', 'notes')
-
-    def clean_nationality(self):
-        n = self.cleaned_data['nationality']
-
-        if n != -1:
-            try:
-                Country.objects.get(id=n)
-            except Country.DoesNotExist:
-                raise ValidationError(_('The entered nationality does not exist.'))
-            else:
-                return self.cleaned_data['nationality']
-        else:
-             return self.cleaned_data['nationality']
 
     def genlogin(self):
         login = (self.cleaned_data['first_name'][0]+self.cleaned_data['last_name']).lower()
@@ -155,7 +142,7 @@ class NewPersonForm(forms.ModelForm):
             new_person.birth_date = self.cleaned_data['birth_date']
             new_person.save()
 
-        if self.cleaned_data.has_key('country') and self.cleaned_data['country'] != -1:
+        if self.cleaned_data.has_key('country'):
             new_person.country = Country.objects.get(id=self.cleaned_data['country'])
             new_person.save()
 

@@ -246,7 +246,7 @@ def filldb():
     n7in2006 = annuaire.Promo(year=y2006, track=n7info)
     n7in2006.save()
 
-    n7in2003 = annuaire.Promo(year=y2006, track=n7info)
+    n7in2003 = annuaire.Promo(year=y2003, track=n7info)
     n7in2003.save()
 
     n7in2008 = annuaire.Promo(year=y2008, track=n7info)

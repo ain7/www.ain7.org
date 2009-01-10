@@ -52,16 +52,16 @@ class SearchPersonForm(forms.Form):
         if self.cleaned_data['first_name']:
             criteria['person__first_name__icontains'] = self.cleaned_data['first_name'].encode('utf8')
 
-        if self.cleaned_data['organization'] and self.cleaned_data['organization'] != -1:
+        if self.cleaned_data['organization']:
             criteria['positions__office__organization__id'] = self.cleaned_data['organization']
 
         # ici on commence par rechercher toutes les promos
         # qui concordent avec l'annee de promotion et la filiere
         # saisis par l'utilisateur.
         promoCriteria={}
-        if self.cleaned_data['promoyear'] and self.cleaned_data['promoyear'] != -1:
+        if self.cleaned_data['promoyear']:
             promoCriteria['year'] = PromoYear.objects.get(id=self.cleaned_data['promoyear'])
-        if self.cleaned_data['track'] and self.cleaned_data['track'] != -1:
+        if self.cleaned_data['track']:
             promoCriteria['track'] = Track.objects.get(id=self.cleaned_data['track'])
         # on ajoute ces promos aux criteres de recherche
         # si elle ne sont pas vides
@@ -142,7 +142,7 @@ class NewMemberForm(forms.Form):
 
         if self.cleaned_data.has_key('promoyear'):
             p = self.cleaned_data['promoyear']
-            if self.cleaned_data['promoyear'] != -1 and self.cleaned_data['track'] != -1 :
+            if self.cleaned_data['promoyear']  and self.cleaned_data['track']:
                 try:
                     promo_year = PromoYear.objects.get(id=p)
                     promo = Promo.objects.get(year=promo_year,track=track)

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-30 19:07+0100\n"
-"PO-Revision-Date: 2008-09-19 00:02+0200\n"
+"POT-Creation-Date: 2009-01-10 19:40+0100\n"
+"PO-Revision-Date: 2009-01-10 19:40+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -28,8 +28,8 @@ msgstr "Souhaitez-vous vraiment effectuer cette action ?"
 #: templates/annuaire/edit.html.py:266 templates/annuaire/edit.html:285
 #: templates/association/edit_board.html:101
 #: templates/association/edit_council.html:101
-#: templates/emploi/cv_edit.html:85 templates/emploi/cv_edit.html.py:106
-#: templates/emploi/cv_edit.html:131 templates/emploi/cv_edit.html.py:153
+#: templates/emploi/cv_edit.html:84 templates/emploi/cv_edit.html.py:105
+#: templates/emploi/cv_edit.html:130 templates/emploi/cv_edit.html.py:152
 #: templates/emploi/organization_edit.html:62
 #: templates/groupes_professionnels/edit_roles.html:101
 #: templates/groupes_regionaux/edit_roles.html:101
@@ -124,7 +124,7 @@ msgstr "Sexe"
 msgid "Invalid date of birth."
 msgstr "Date de naissance incorrecte"
 
-#: annuaire/forms.py:122 manage/forms.py:118
+#: annuaire/forms.py:122
 msgid "The entered nationality does not exist."
 msgstr "La nationalité saisie n'existe pas"
 
@@ -138,7 +138,7 @@ msgstr "La filière saisie n'existe pas."
 
 #: annuaire/forms.py:152
 msgid "There is no year of promotion and track associated."
-msgstr "L'association filière et année de promition inexistante."
+msgstr "L'association filière et année de promotion inexistante."
 
 #: annuaire/forms.py:206
 msgid "start"
@@ -293,7 +293,7 @@ msgstr "site internet"
 #: emploi/models.py:395 templates/annuaire/details.html:76
 #: templates/annuaire/details_frame.html:79 templates/annuaire/edit.html:187
 #: templates/annuaire/edit.html.py:191 templates/emploi/cv_details.html:47
-#: templates/emploi/cv_edit.html:49 templates/manage/user_details.html:25
+#: templates/emploi/cv_edit.html:48 templates/manage/user_details.html:25
 #: templates/manage/user_edit.html:90 templates/manage/user_edit.html.py:94
 msgid "email"
 msgstr "courriel"
@@ -392,7 +392,7 @@ msgstr "Surnom"
 #: annuaire/models.py:322 templates/annuaire/details.html:63
 #: templates/annuaire/details_frame.html:67 templates/annuaire/edit.html:47
 #: templates/annuaire/edit.html.py:50 templates/emploi/cv_details.html:30
-#: templates/emploi/cv_edit.html:32
+#: templates/emploi/cv_edit.html:31
 msgid "avatar"
 msgstr "avatar"
 
@@ -817,7 +817,7 @@ msgstr "Enregistrer une nouvelle personne"
 
 #: association/forms.py:36 association/forms.py:61
 #: groupes_professionnels/forms.py:77 groupes_regionaux/forms.py:44
-#: manage/forms.py:96
+#: manage/forms.py:96 templates/pages/login.html:19
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
@@ -926,7 +926,7 @@ msgid "all tracks"
 msgstr "toutes les filières"
 
 #: emploi/forms.py:114 manage/forms.py:50 manage/forms.py:58
-#: manage/forms.py:169
+#: manage/forms.py:156
 msgid "Name"
 msgstr "Nom"
 
@@ -969,9 +969,9 @@ msgstr "Créer"
 #: templates/annuaire/edit.html.py:175 templates/annuaire/edit.html:199
 #: templates/annuaire/edit.html.py:219 templates/annuaire/edit.html:239
 #: templates/annuaire/edit.html.py:258 templates/annuaire/edit.html:277
-#: templates/annuaire/edit.html.py:305 templates/emploi/cv_edit.html:61
-#: templates/emploi/cv_edit.html.py:75 templates/emploi/cv_edit.html:97
-#: templates/emploi/cv_edit.html.py:119 templates/emploi/cv_edit.html:147
+#: templates/annuaire/edit.html.py:305 templates/emploi/cv_edit.html:60
+#: templates/emploi/cv_edit.html.py:74 templates/emploi/cv_edit.html:96
+#: templates/emploi/cv_edit.html.py:118 templates/emploi/cv_edit.html:146
 #: templates/emploi/organization_edit.html:43
 #: templates/emploi/organization_edit.html:54 templates/manage/default.html:99
 #: templates/manage/organizations_adv_search.html:37
@@ -1090,7 +1090,7 @@ msgstr "Régie à l'extérieur"
 
 #: emploi/models.py:323 templates/annuaire/details.html:123
 #: templates/annuaire/details_frame.html:126 templates/annuaire/edit.html:295
-#: templates/emploi/cv_details.html:65 templates/emploi/cv_edit.html:73
+#: templates/emploi/cv_details.html:65 templates/emploi/cv_edit.html:72
 #: templates/manage/user_edit.html:121
 msgid "for"
 msgstr "au sein de"
@@ -1124,7 +1124,7 @@ msgstr "Publication et brevet"
 msgid "Reference"
 msgstr "Réference"
 
-#: emploi/models.py:388 templates/groupes_professionnels/details.html:31
+#: emploi/models.py:388 templates/groupes_professionnels/details.html:12
 msgid "Description"
 msgstr "Description"
 
@@ -1483,7 +1483,7 @@ msgstr "Vous vous êtes inscrit à cet événement avec succès."
 msgid "Event successfully added."
 msgstr "L'événement a été ajouté avec succès."
 
-#: evenements/views.py:189
+#: evenements/views.py:190
 msgid "This person is already subscribed to this event."
 msgstr "Cette personne est déjà inscrite à cet évènement."
 
@@ -1622,7 +1622,7 @@ msgstr "Type"
 msgid "The entered user does not exist."
 msgstr "L'utilisateur saisi n'existe pas."
 
-#: manage/forms.py:182
+#: manage/forms.py:169
 msgid "details"
 msgstr "détails"
 
@@ -2145,11 +2145,11 @@ msgstr "Filtre"
 #: templates/annuaire/edit.html:178 templates/annuaire/edit.html.py:202
 #: templates/annuaire/edit.html:222 templates/annuaire/edit.html.py:242
 #: templates/annuaire/edit.html:261 templates/annuaire/edit.html.py:280
-#: templates/annuaire/subscriptions.html:30
+#: templates/annuaire/subscriptions.html:31
 #: templates/association/edit_board.html:36
-#: templates/association/edit_council.html:36 templates/emploi/cv_edit.html:76
-#: templates/emploi/cv_edit.html.py:98 templates/emploi/cv_edit.html:120
-#: templates/emploi/cv_edit.html.py:148
+#: templates/association/edit_council.html:36 templates/emploi/cv_edit.html:75
+#: templates/emploi/cv_edit.html.py:97 templates/emploi/cv_edit.html:119
+#: templates/emploi/cv_edit.html.py:147
 #: templates/emploi/organization_edit.html:46
 #: templates/emploi/organization_edit.html:56
 #: templates/groupes_professionnels/edit_roles.html:36
@@ -2274,7 +2274,7 @@ msgstr "Aucun résultat ne correspond à votre recherche."
 #: templates/association/council.html:45 templates/emploi/job_details.html:53
 #: templates/evenements/details.html:45 templates/evenements/edit.html:34
 #: templates/evenements/index.html:40 templates/evenements/search.html:47
-#: templates/groupes_professionnels/details.html:39
+#: templates/groupes_professionnels/details.html:38
 #: templates/groupes_professionnels/edit.html:40
 #: templates/groupes_professionnels/edit_roles.html:110
 #: templates/groupes_regionaux/details.html:30
@@ -2484,7 +2484,7 @@ msgid "AIn7 activity"
 msgstr "Activité AIn7"
 
 #: templates/annuaire/details.html:115 templates/emploi/cv_details.html:58
-#: templates/emploi/cv_edit.html:64
+#: templates/emploi/cv_edit.html:63
 msgid "Professional experiences"
 msgstr "Expériences professionnelles"
 
@@ -2525,7 +2525,7 @@ msgstr "Participation à l'AIn7"
 
 #: templates/annuaire/details.html:185 templates/emploi/job_details.html:60
 #: templates/evenements/details.html:66
-#: templates/groupes_professionnels/details.html:50
+#: templates/groupes_professionnels/details.html:49
 #: templates/groupes_professionnels/edit.html:47
 #: templates/groupes_professionnels/edit_roles.html:133
 #: templates/groupes_professionnels/subscribe.html:25
@@ -2677,11 +2677,11 @@ msgstr "Ajouter une adhésion"
 msgid "Subscription date"
 msgstr "Date d'adhésion"
 
-#: templates/annuaire/subscriptions.html:24
+#: templates/annuaire/subscriptions.html:25
 msgid "euros"
 msgstr "euros"
 
-#: templates/annuaire/subscriptions.html:28
+#: templates/annuaire/subscriptions.html:29
 msgid "Edit"
 msgstr "Édition"
 
@@ -2821,15 +2821,15 @@ msgstr "Ajouter une entreprise"
 msgid "Delete an organization"
 msgstr "Supprimer une entreprise"
 
-#: templates/emploi/cv_details.html:82 templates/emploi/cv_edit.html:89
+#: templates/emploi/cv_details.html:82 templates/emploi/cv_edit.html:88
 msgid "Publications and patents"
 msgstr "Publications et brevets"
 
-#: templates/emploi/cv_details.html:97 templates/emploi/cv_edit.html:110
+#: templates/emploi/cv_details.html:97 templates/emploi/cv_edit.html:109
 msgid "Education"
 msgstr "Formation"
 
-#: templates/emploi/cv_details.html:116 templates/emploi/cv_edit.html:135
+#: templates/emploi/cv_details.html:116 templates/emploi/cv_edit.html:134
 msgid "Leisure activities"
 msgstr "Loisirs"
 
@@ -3018,7 +3018,7 @@ msgid "List participants"
 msgstr "Liste des participants"
 
 #: templates/evenements/details.html:51
-#: templates/groupes_professionnels/details.html:43
+#: templates/groupes_professionnels/details.html:42
 msgid "Subscribe someone"
 msgstr "Inscrire une personne"
 
@@ -3107,20 +3107,20 @@ msgstr "Aucun événement ne correspond à vos critères."
 msgid "This number of people includes the person you subscribe."
 msgstr "Ce nombre de personnes inclut la personne que vous incrivez."
 
-#: templates/groupes_professionnels/details.html:13
+#: templates/groupes_professionnels/details.html:17
 msgid "Members list"
 msgstr "Liste des membres"
 
-#: templates/groupes_professionnels/details.html:42
+#: templates/groupes_professionnels/details.html:41
 #: templates/groupes_professionnels/edit.html:43
 msgid "Edit these data."
 msgstr "Editer ces informations"
 
-#: templates/groupes_professionnels/details.html:44
+#: templates/groupes_professionnels/details.html:43
 msgid "Unsubscribe someone"
 msgstr "Désinscrire une personne"
 
-#: templates/groupes_professionnels/details.html:46
+#: templates/groupes_professionnels/details.html:45
 #: templates/groupes_regionaux/details.html:42
 msgid "Edit roles of this group"
 msgstr "Modifier les rôles de ce groupe"
@@ -3232,6 +3232,7 @@ msgstr "Gestion des utilisateurs"
 #: templates/manage/organization_details.html:114
 #: templates/manage/organization_edit.html:35
 #: templates/manage/organization_merge.html:39
+#: templates/manage/organizations_adv_search.html:135
 #: templates/manage/organizations_search.html:60
 #: templates/manage/proposal_register.html:31
 #: templates/manage/role_details.html:33 templates/manage/role_search.html:55
@@ -3447,10 +3448,6 @@ msgstr "Aucun établissement ne correspond à vos critères"
 msgid "Manage groups"
 msgstr "Gestion des groupes"
 
-#: templates/manage/organizations_adv_search.html:135
-msgid "Manage permissions"
-msgstr "Gestion des permissions"
-
 #: templates/manage/organizations_adv_search.html:188
 #: templates/manage/organizations_search.html:83
 msgid "organizations"
@@ -3614,25 +3611,41 @@ msgstr "par"
 msgid "Login"
 msgstr "Identifiant"
 
+#: templates/pages/login.html:12 templates/registration/login.html:8
+msgid "Your username and password didn't match. Please try again."
+msgstr "Votre identifiaction a échoué. Veuillez essayer à nouveau."
+
+#: templates/pages/login.html:23 templates/registration/login.html:25
+msgid "Password"
+msgstr "Mot de passe"
+
+#: templates/pages/login.html:29
+#, fuzzy
+msgid "login"
+msgstr "Identifiant"
+
 #: templates/pages/login.html:31
 msgid "Lost password ?"
 msgstr "Mot de passe perdu"
+
+#: templates/pages/lostpassword.html:10
+#, fuzzy
+msgid "Password recovery"
+msgstr "Mot de passe"
+
+#: templates/pages/lostpassword.html:15
+msgid ""
+"Please enter one of your e-mail. A link to reset your password will be sent "
+"to you."
+msgstr ""
 
 #: templates/pages/permission_denied.html:10
 msgid "Permission denied"
 msgstr "Accès refusé"
 
-#: templates/registration/login.html:8
-msgid "Your username and password didn't match. Please try again."
-msgstr "Votre identifiaction a échoué. Veuillez essayer à nouveau."
-
 #: templates/registration/login.html:13
 msgid "You need to be authentified to access to this part of the site."
 msgstr "Vous devez être authentifié pour accéder à cette partie du site."
-
-#: templates/registration/login.html:25
-msgid "Password"
-msgstr "Mot de passe"
 
 #: templates/sondages/details.html:11
 msgid "Go back to results"
@@ -3942,12 +3955,3 @@ msgid "Do you really want this person not to be responsible of this travel"
 msgstr ""
 "Souhaitez-vous vraiment que cette personne ne soit pas responsable de ce "
 "voyage ?"
-
-#~ msgid "Add a new nationality"
-#~ msgstr "Ajouter une nationalité"
-
-#~ msgid "Add a new office"
-#~ msgstr "Ajouter un établissement"
-
-#~ msgid "Wiki name"
-#~ msgstr "Nom du wiki"

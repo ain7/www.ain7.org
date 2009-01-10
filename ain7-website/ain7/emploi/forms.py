@@ -172,7 +172,7 @@ class PositionForm(forms.ModelForm):
     def clean_office(self):
         o = self.cleaned_data['office']
 
-        if o == -1:
+        if o==None:
             raise ValidationError(_('The office is mandatory.'))
         else:
             try:

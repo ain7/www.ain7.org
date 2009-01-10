@@ -179,21 +179,21 @@ def subscribe(request, event_id):
 
     if request.method == 'POST':
         f = SubscribeEventForm(request.POST)
-        person = Person.objects.get(id=request.POST['subscriber'])
-        # on vérifie que la personne n'est pas déjà inscrite
-        already_subscribed = False
-        for subscription in person.event_subscriptions.all():
-            if subscription.event == event:
-                already_subscribed = True
-        if already_subscribed:
-            request.user.message_set.create(message=_('This person is already subscribed to this event.'))
-            return ain7_render_to_response(request,
-                'evenements/subscribe.html',
-                {'event': event, 'form': SubscribeEventForm(),
-                 'back': request.META.get('HTTP_REFERER', '/'),
-                 'event_list': Event.objects.all(),
-                 'next_events': Event.objects.next_events()})
         if f.is_valid():
+            person = Person.objects.get(id=request.POST['subscriber'])
+            # on vérifie que la personne n'est pas déjà inscrite
+            already_subscribed = False
+            for subscription in person.event_subscriptions.all():
+                if subscription.event == event:
+                    already_subscribed = True
+            if already_subscribed:
+                request.user.message_set.create(message=_('This person is already subscribed to this event.'))
+                return ain7_render_to_response(request,
+                    'evenements/subscribe.html',
+                    {'event': event, 'form': SubscribeEventForm(),
+                     'back': request.META.get('HTTP_REFERER', '/'),
+                     'event_list': Event.objects.all(),
+                     'next_events': Event.objects.next_events()})
             subscription = f.save(event=event)
             p = subscription.subscriber
             request.user.message_set.create(
