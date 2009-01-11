@@ -167,18 +167,21 @@ def filldb():
     n7info.name = u"Informatique et Mathématiques Appliquées"
     n7info.initials = u"IN"
     n7info.school = n7
+    n7info.active = True
     n7info.save()
 
     n7hydro = annuaire.Track()
     n7hydro.name = u"Hydraulique et Mécanique des Fluides"
     n7hydro.initials = u"HY"
     n7hydro.school = n7
+    n7hydro.active = True
     n7hydro.save()
 
     n7tr = annuaire.Track()
     n7tr.name = u"Télécommunications et Réseaux"
     n7tr.initials = u"TR"
     n7tr.school = n7
+    n7tr.active = True
     n7tr.save()
 
     annuaire.Track(name=u"Electrotechnique", initials="", school=n7).save()

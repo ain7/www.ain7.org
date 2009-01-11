@@ -482,6 +482,49 @@ def avatar_delete(request, user_id):
         _('Your avatar has been successfully deleted.'))
     return HttpResponseRedirect('/annuaire/%s/edit/' % user_id)
 
+# Promos
+@login_required
+def promo_edit(request, person_id=None, promo_id=None):
+
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
+
+    person = get_object_or_404(Person, id=person_id)
+    ain7member = person.ain7member
+    form = PromoForm()
+    if request.method == 'POST':
+        form = PromoForm(request.POST)
+        if form.is_valid():
+            promo = form.search()
+            ain7member.promos.add(promo)
+            request.user.message_set.create(message=_('Promotion successfully added.'))
+        else:
+            return ain7_render_to_response(
+                request, 'annuaire/edit_form.html',
+                {'form': form, 'action_title': _('Adding a promotion for %s' % ain7member)})
+#             request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+        return HttpResponseRedirect(
+            '/annuaire/%s/edit/#promos' % person_id)
+    return ain7_render_to_response(
+        request, 'annuaire/edit_form.html',
+        {'form': form, 'action_title': _('Adding a promotion for %s' % ain7member)})
+
+@confirmation_required(lambda person_id=None, promo_id=None : str(get_object_or_404(Promo, pk=promo_id)), 'annuaire/base.html', _('Do you really want to remove the membership to the promotion'))
+@login_required
+def promo_delete(request, person_id=None, promo_id=None):
+
+    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
+    if r:
+        return r
+    person = get_object_or_404(Person, id=person_id)
+    ain7member = get_object_or_404(AIn7Member, person=person)
+    promo = get_object_or_404(Promo, id=promo_id)
+    ain7member.promos.remove(promo)
+    ain7member.save()
+    request.user.message_set.create(message="Membership to promotion %s successfully removed.")
+    return HttpResponseRedirect('/annuaire/%s/edit/#promos' % person_id)
+
 # Adresses
 @login_required
 def address_edit(request, user_id=None, address_id=None):

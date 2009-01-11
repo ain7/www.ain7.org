@@ -54,7 +54,7 @@ class JobOfferForm(forms.Form):
     contact_email = forms.EmailField(label=_('Contact email').capitalize(),
         required=False)
     track = forms.ModelMultipleChoiceField(label=_('track').capitalize(),
-        queryset=Track.objects.all(), required=False)
+        queryset=Track.objects.filter(active=True), required=False)
     
 
     def save(self, user, job_offer=None):

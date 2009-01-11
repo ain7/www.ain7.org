@@ -220,9 +220,10 @@ class PersonForm(forms.ModelForm):
 
 
 class AIn7MemberForm(forms.ModelForm):
+    receive_job_offers_for_tracks = forms.ModelMultipleChoiceField(queryset=Track.objects.filter(active=True))
     class Meta:
         model = AIn7Member
-        exclude = ('person')
+        exclude = ('person','promos')
 
 class EmailForm(forms.ModelForm):
     class Meta:
@@ -233,6 +234,46 @@ class PhoneNumberForm(forms.ModelForm):
     class Meta:
         model = PhoneNumber
         exclude = ('person')
+
+class PromoForm(forms.Form):
+    promoyear = forms.IntegerField(label=_('Promo year'), required=False, widget=AutoCompleteField(url='/ajax/promoyear/'))
+    track = forms.IntegerField(label=_('Track'), required=False, widget=AutoCompleteField(url='/ajax/track/'))
+
+    def clean_promoyear(self):
+        p = self.cleaned_data['promoyear']
+
+        try:
+            PromoYear.objects.get(id=p)
+        except PromoYear.DoesNotExist:
+            raise ValidationError(_('The entered year of promotion does not exist.'))
+        else:
+            return self.cleaned_data['promoyear']
+
+    def clean_track(self):
+        t = self.cleaned_data['track']
+        try:
+            track = Track.objects.get(id=t)
+        except Track.DoesNotExist:
+            raise ValidationError(_('The entered track does not exist.'))
+
+        if self.cleaned_data.has_key('promoyear'):
+            p = self.cleaned_data['promoyear']
+            if self.cleaned_data['promoyear'] and self.cleaned_data['track']:
+                try:
+                    promo_year = PromoYear.objects.get(id=p)
+                    promo = Promo.objects.get(year=promo_year,track=track)
+                except PromoYear.DoesNotExist:
+                    raise ValidationError(_('The entered year of promotion does not exist.'))
+                except Promo.DoesNotExist:
+                    raise ValidationError(_('There is no year of promotion and track associated.'))
+                else:
+                    return self.cleaned_data['track']
+
+    def search(self):
+        track = Track.objects.get(id=self.cleaned_data['track'])
+        promo_year = PromoYear.objects.get(id=self.cleaned_data['promoyear'])
+        promo = Promo.objects.get(year=promo_year,track=track)
+        return promo
 
 class AddressForm(forms.ModelForm):
     class Meta:
