@@ -4,11 +4,8 @@
 {% block stylesheet %}
 {% endblock %}
 
-{% block content %}
+{% block content-left %}
 
-<div id="content-main">
-
-<div class="left">
   <h3>{{ travel.label|escape }} - {{ travel.date|escape }} :
       {% trans "responsibles" %}</h3>
 
@@ -25,32 +22,17 @@
   <p>{% trans "No one is responsible of this travel" %}.</p>
 {% endif %}
 
-</div>
+{% endblock %} {# content-left #}
 
 
-<div class="right">
 
-  <h3>{% trans "Actions" %}</h3>
-  <div class="right_block">
-    <ul>
-      <li><a href="/voyages/{{ travel.id }}/responsibles/add/">
-          {% trans "Add a responsible" %}</a></li>
-    </ul>
-  </div>
+{% block actions %}
+<li><a href="/voyages/{{ travel.id }}/responsibles/add/">
+    {% trans "Add a responsible" %}</a></li>
+{% endblock %}
 
-  <h3>{% trans "Statistics" %}</h3>
-  <div class="right_block">
-    <ul>
-      <li>
-        {% if travel.nb_participants %}
-{% blocktrans count travel.nb_participants as counter %}1 person is subscribed to this travel{% plural %}{{ counter }} persons are subscribed to this travel{% endblocktrans %}
-        {% else %}
-          {% trans "There is currently no subscription for this travel" %}
-        {% endif %}
-      </li>
-    </ul>
-  </div>
 
+{% block navigation %}
   <h3>{% trans "Navigation" %}</h3>
   <div class="right_block">
     <ul>
@@ -58,9 +40,4 @@
           {% trans "Back to the page of this travel" %}</a></li>
     </ul>
   </div>
-
-</div>
-
-</div>
-
 {% endblock %}

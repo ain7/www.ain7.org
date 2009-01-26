@@ -1,11 +1,8 @@
 {% extends "voyages/base.html" %}
 {% load i18n ain7_tags %}
 
-{% block content %}
+{% block content-left %}
 
-<div id="content-main">
-
-  <div class="left">
     <h3>{{ travel.label|escape }}, {{ travel.date|escape }}</h3>
     <div class="left_box">
 
@@ -56,43 +53,19 @@
   {{ travel.report }}
 {% endif %}
 
-    </div>
-  </div>
+    </div> <!-- left_box -->
+{% endblock %}
 
-  <div class="right">
-    <h3>{% trans "Actions" %}</h3>
-      <div class="right_articles">
-        <ul>
-          <li><a href="/voyages/{{ travel.id }}/join/">
-              {% trans "Participate to this travel" %}</a></li>
-          <li><a href="/voyages/{{ travel.id }}/participants/">
-              {% trans "List participants" %}</a></li>
-          <li><a href="/voyages/{{ travel.id }}/responsibles/">
-              {% trans "Modify the responsibles" %}</a></li>
-          <li><a href="/voyages/{{ travel.id }}/delete/">
-              {% trans "Delete this travel" %}</a></li>
-          <li><a href="/voyages/{{ travel.id }}/edit/">
-              {% trans "Modify these data" %}</a></li>
-        </ul>
-      </div>
 
-      <h3>{% trans "Statistics" %}</h3>
-      <div class="right_block">
-        <ul>
-          <li>
-             {% if travel.nb_participants %}
-{% blocktrans count travel.nb_participants as counter %}1 person is subscribed to this travel{% plural %}{{ counter }} persons are subscribed to this travel{% endblocktrans %}
-             {% else %}
-               {% trans "There is currently no subscription for this travel" %}
-             {% endif %}
-          </li>
-        </ul>
-      </div>
-
-      <h3>{% trans "Card Informations"%}</h3>
-      {% show_last_change travel %}
-
-    </div>
-  </div>
-
+{% block actions %}
+<li><a href="/voyages/{{ travel.id }}/join/">
+    {% trans "Participate to this travel" %}</a></li>
+<li><a href="/voyages/{{ travel.id }}/participants/">
+    {% trans "List participants" %}</a></li>
+<li><a href="/voyages/{{ travel.id }}/responsibles/">
+    {% trans "Modify the responsibles" %}</a></li>
+<li><a href="/voyages/{{ travel.id }}/delete/">
+    {% trans "Delete this travel" %}</a></li>
+<li><a href="/voyages/{{ travel.id }}/edit/">
+    {% trans "Modify these data" %}</a></li>
 {% endblock %}

@@ -382,7 +382,7 @@ def organization_choose(request, action=None):
             if action == 'delete':
                 return HttpResponseRedirect(reverse(organization_delete,args=[org_id]))
         else:
-            return HttpResponseRedirect(reverse(organization_edit,args=[org_id]))
+            return HttpResponseRedirect(reverse(organization_choose,args=[action]))
 
 @login_required
 def organization_edit(request, organization_id=None):

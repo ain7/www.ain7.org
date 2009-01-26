@@ -1,11 +1,7 @@
 {% extends "emploi/base.html" %}
 {% load i18n %}
 
-{% block content-main %}
-
-<div class="left">
-
-<div class="left_box">
+{% block content-left %}
 
 <div id="cv">
 
@@ -55,7 +51,7 @@
 
 <div id="cv_title">{{ AIn7Member.cv_title }}</div>
 
-</div>
+</div> <!-- dataBlock -->
 <a href="{% url ain7.annuaire.views.edit person.user.id %}" class="changelink">
 {% trans "Modify" %}</a>
 
@@ -151,7 +147,5 @@
 {% endif %}
 <a href="{% url ain7.emploi.views.leisure_add person.user.id %}" class="addlink"> {% trans "Add" %}</a>
 
-</div>
-</div>
-</div>
+</div><!-- cv -->
 {% endblock %}

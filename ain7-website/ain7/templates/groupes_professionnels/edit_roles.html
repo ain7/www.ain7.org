@@ -1,11 +1,7 @@
 {% extends "groupes_professionnels/base.html" %}
 {% load i18n ain7_tags %}
 
-{% block content %}
-
-<div id="content-main">
-
-<div class="left">
+{% block content-left %}
 
 <h1>{{ group.description }}</h1>
 
@@ -103,38 +99,10 @@
 
 {% endfor %}
 
-</div>
+{% endblock %} {# content-left #}
 
-<div class="right">
 
-    <h3>{% trans "Actions" %}</h3>
-    <div class="right_block">
-        <ul>
-            <li><a href="/groupes_professionnels/{{ group.name }}/">{% trans "Page of this group" %}</a></li>
-            <li><a href="/groupes_professionnels/{{ group.name }}/edit/">{% trans "Edit group informations" %}</a></li>
-        </ul>
-    </div>
 
-    {% if group.active_events %}
-        <h3>{% trans "Events" %}</h3>
-        {% for event in group.active_events %}
-            <div class="right_articles">
-                <p><strong><a href="/evenements/{{ event.id }}/">{{ event.name|upper }}</a></strong></p>
-                <p>
-{% blocktrans with event.start|date:"d/m/Y" as start_date and event.end|date:"d/m/Y" as end_date and event.location as place %}From {{ start_date }} to {{ end_date }} at {{ place }}{% endblocktrans %}
-                </p>
-                {% if event.description %}
-                    <p><em>{{ event.description|safe|truncatewords:10 }}</em></p>
-                {% endif %}
-            </div>
-        {% endfor %}
-    {% endif %}
-
-    <h3>{% trans "Card Informations"%}</h3>
-    {% show_last_change group %}
-
-</div>
-
-</div>
-
+{% block extra-actions %}
+<li><a href="/groupes_professionnels/{{ group.name }}/">{% trans "Page of this group" %}</a></li>
 {% endblock %}

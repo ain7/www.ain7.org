@@ -2,3 +2,86 @@
 {% load i18n %}
 
 {% block barre-annuaire %}<li class="active">{% endblock %}
+
+{% block content %}
+
+<div id="content-main">
+
+<div class="left">
+
+{% block content-left %}
+{% endblock %}
+
+</div>
+
+
+<div class="right">
+
+   <h3>{% trans "Actions" %}</h3>
+   <div class="right_articles">
+    <ul>
+
+      {% block extra-actions %}{% endblock %}
+
+      {# filters #}
+
+      {% if filtr %}
+      <li><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/reset/">
+          {% trans "Reset this filter" %}</a></li>
+      {% if filtr.registered %}
+      <li><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/edit/">{% trans "Modify the name of this filter" %}</a></li>
+      <li><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/delete/">{% trans "Delete this filter" %}</a></li>
+      <li><a href="/annuaire/advanced_search/filter/new/">{% trans "New filter" %}</a></li>
+      {% else %}
+      <li><a href="/annuaire/advanced_search/filter/register/">{% trans "Save this filter" %}</a></li>
+      {% endif %}
+      {% endif %}
+
+      {# search results #}
+
+      {% if dosearch %}
+      {% block worksheet-export %}
+      <li><a href="/annuaire/csv/">{% trans "Worksheet export" %}</a></li>
+      {% endblock %}
+      <li><a href="/annuaire/sendmail/">{% trans "Send a mail" %}</a></li>
+      {% endif %}
+
+      {# permanent links #}
+
+      <li><a href="/annuaire/register/">{% trans "Register a member" %}</a></li>
+    </ul>
+   </div>
+
+   {% block extra-right-blocks %}{% endblock %}
+
+   {% block navigation %}
+   <h3>{% trans "Navigation" %}</h3>
+   <div class="right_articles">
+    <ul>
+      {% block extra-navigation %}{% endblock %}
+      <li><a href="/annuaire/advanced_search/">{% trans "Advanced Search" %}</a></li>
+    </ul>
+   </div>
+   {% endblock %}
+
+   {% if userFilters %}
+
+   <h3>{% trans "Registered filters" %}</h3>
+   <div class="right_articles">
+   <ul>
+       {% for filter in userFilters %}
+         <li>
+           <a href="/annuaire/advanced_search/filter/{{ filter.id }}/">
+             {{ filter }}</a>
+         </li>
+       {% endfor %}
+   </ul>
+   </div>
+
+   {% endif %}
+
+</div>
+
+</div>
+
+{% endblock %}

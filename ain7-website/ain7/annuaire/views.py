@@ -154,6 +154,7 @@ def dict_for_filter(request, filter_id):
         return r
 
     ain7members = False
+    dosearch = False
     p = request.user.person
     nb_results_by_page = 25
     paginator = Paginator(AIn7Member.objects.none(),nb_results_by_page)
@@ -168,6 +169,7 @@ def dict_for_filter(request, filter_id):
         ain7members = AIn7Member.objects.all()
         if filter_id:
             ain7members = sf.search()
+        dosearch = True
         paginator = Paginator(ain7members, nb_results_by_page)
 
         try:
@@ -187,7 +189,7 @@ def dict_for_filter(request, filter_id):
          'pages': paginator.num_pages,
          'first_result': (page - 1) * nb_results_by_page +1,
          'last_result': min((page) * nb_results_by_page, paginator.count),
-         'hits' : paginator.count}
+         'hits' : paginator.count, 'dosearch': dosearch}
 
 
 @login_required

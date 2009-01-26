@@ -5,7 +5,7 @@
        <li>{% trans "Update" %}&nbsp;: 
          {{ obj.last_change_at|date:"l j F Y (H:i)" }}
          {% if obj.last_change_by %}
-           {% trans "by" %} {{ obj.last_change_by }}</li>
+           {% trans "by" %} {{ obj.last_change_by }}
          {% endif %}
        </li>
      </ul>

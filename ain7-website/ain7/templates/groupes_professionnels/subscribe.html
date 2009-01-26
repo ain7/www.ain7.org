@@ -2,11 +2,10 @@
 {% load i18n ain7_tags %}
 
 {% block stylesheet %}{% endblock %}
-{% block content %}
 
-<div id="content-main">
 
-<div class="left">
+{% block content-left %}
+
 	<h3>{{ group.name }}</h3>
 
 <form method="post" action=".">
@@ -19,13 +18,5 @@
 </div>
 </form>
 
-</div>
-
-<div class="right">
-    <h3>{% trans "Card Informations"%}</h3>
-    {% show_last_change group %}
-</div>
-
-</div>
-
 {% endblock %}
+

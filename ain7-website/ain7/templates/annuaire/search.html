@@ -1,12 +1,8 @@
 {% extends "annuaire/base.html" %}
-
 {% load i18n %}
 
-{% block content %}
+{% block content-left %}
 
-<div id="content-main">
-
-<div class="left">
 <form action="." method="get">
 	<table class="form">
 		{{ form }}
@@ -48,44 +44,5 @@
 {% endif %}
 {% endif %}
 
-</div>
-
-<div class="right">
-
-   <h3>{% trans "Actions" %}</h3>
-   <div class="right_articles">
-    <ul>
-      <li><a href="/annuaire/csv/">{% trans "Worksheet export" %}</a></li>
-      <li><a href="/annuaire/sendmail/">{% trans "Send a mail" %}</a></li>
-      <li><a href="/annuaire/register/">{% trans "Register a member" %}</a></li>
-    </ul>
-   </div>
-
-   <h3>{% trans "Navigation" %}</h3>
-   <div class="right_articles">
-    <ul>
-      <li><a href="/annuaire/advanced_search/">{% trans "Advanced Search" %}</a></li>
-    </ul>
-   </div>
-
-   {% if userFilters %}
-
-   <h3>{% trans "Registered filters" %}</h3>
-   <div class="right_articles">
-   <ul>
-       {% for filter in userFilters %}
-         <li>
-           <a href="/annuaire/advanced_search/filter/{{ filter.id }}/">
-             {{ filter }}</a>
-         </li>
-       {% endfor %}
-   </ul>
-   </div>
-
-   {% endif %}
-
-</div>
-
-</div>
-
 {% endblock %}
+

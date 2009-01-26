@@ -7,9 +7,7 @@
 <script src="/site_media/js/textareas.js" type="text/javascript"></script>
 {% endblock %}
 
-{% block content %}
-
-<div id="content-main">
+{% block content-left %}
 
 <h3>
   {% ifequal action "add" %}{% trans "Creation of a new travel" %}
@@ -31,6 +29,18 @@
 </div>
 </form>
 
-</div>
+{% endblock %}
 
+
+{% block actions %}
+<li><a href="/voyages/{{ travel.id }}/join/">
+    {% trans "Participate to this travel" %}</a></li>
+<li><a href="/voyages/{{ travel.id }}/participants/">
+    {% trans "List participants" %}</a></li>
+<li><a href="/voyages/{{ travel.id }}/responsibles/">
+    {% trans "Modify the responsibles" %}</a></li>
+<li><a href="/voyages/{{ travel.id }}/delete/">
+    {% trans "Delete this travel" %}</a></li>
+<li><a href="/voyages/{{ travel.id }}/edit/">
+    {% trans "Modify these data" %}</a></li>
 {% endblock %}

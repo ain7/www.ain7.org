@@ -1,13 +1,7 @@
 {% extends "news/base.html" %}
 {% load i18n %}
 
-{% block content %}
-
-<div id="content-main">
-
-<div class="left">
-
-<div class="left_box">
+{% block content-left %}
 
 <h3>{% trans "Lastest news" %}</h3>
 {% if news %}
@@ -22,24 +16,5 @@
 {% else %}
 	<p>{% trans "No news !" %}</p>
 {% endif %}
-
-</div>
-
-</div>
-
-<div class="right">
-
-<h3>{% trans "Actions" %}</h3>
-<div class="right_articles">
-<ul>
-<li><a href="/actualites/add/">{% trans "Write a news" %}</a></li>
-<li><a href="/actualites/search/">{% trans "Search a news" %}</a></li>
-</ul>
-</div>
-
-</div>
-
-
-</div>
 
 {% endblock %}

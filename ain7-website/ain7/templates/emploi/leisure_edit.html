@@ -1,11 +1,7 @@
 {% extends "emploi/base.html" %}
 {% load i18n %}
 
-{% block content-main %}
-
-<div class="left">
-
-<div class="left_box">
+{% block content-left %}
 
 {% ifequal action "edit" %}
     <h2>{% trans "Modification of a leisure item" %}</h2>
@@ -21,7 +17,5 @@
 <input type="submit" class="button" value="{% trans "Save" %}" />
 </div>
 </form>
-</div>
-</div>
 
 {% endblock %}

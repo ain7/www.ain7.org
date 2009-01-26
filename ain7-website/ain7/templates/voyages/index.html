@@ -1,11 +1,8 @@
 {% extends "voyages/base.html" %}
 {% load i18n %}
 
-{% block content %}
+{% block content-left %}
 
-<div id="content-main">
-	
-  <div class="left">
     <h3>Notre but</h3>
     <div class="left_box">
 <p>Un des buts principaux de notre association, comme prévu aux statuts, est 
@@ -76,59 +73,10 @@ sont développées</p>
 
 <p><b>Le délégué aux voyages</b><br />
 <i>Jean Marcus (55)</i></p>
-    </div>	
-  </div>	
-  <div class="right">
-    <h3>{% trans "Actions" %}</h3>
-    <div class="right_articles">
-      <ul>
-        <li><a href="/voyages/add/">{% trans "Add a travel" %}</a></li>
-        <li><a href="/voyages/search/">{% trans "Search a travel" %}</a></li>
-      </ul>
-    </div>  
-    <h3>{% trans "Planned travels" %}</h3>
-    {% if next_travels %}
-      {% for travel in next_travels %}
-        <div class="right_articles">
-          <p style="text-align:center">
-	    <a href="/voyages/{{ travel.id}}/">
-            {{ travel.label|escape }}</a> - {{travel.date|escape }}
-          </p>
-          {% if travel.thumbnail %}
-          <p style="text-align:center">
-            <a href="/voyages/{{ travel.id}}/">
-            <img src="{{ travel.thumbnail.url }}" height="100"/></a>
-          </p>
-          {% endif %}
-        </div>
-      {% endfor %}
-    {% else %}
-      <div class="right_articles">
-        <p>{% trans "No planned travels." %}</p>
-      </div>
-    {% endif %}
-
-    <h3>{% trans "Previous travels" %}</h3>
-      <div class="right_articles">
-        {% if previous_travels %}
-          <ul>
-            {% for travel in previous_travels %}
-              <li><a href="/voyages/{{ travel.id }}/">{{ travel.label|escape }}
-                  </a> ({{ travel.date }})
-              </li>
-            {% endfor %}
-          </ul>
-        {% else %}
-          {% trans "No previous travels" %}
-        {% endif %}
-      </div>
-      <div class="right_articles">
-        <p style="text-align:center">
-          <a href="/voyages/list/">{% trans "List of travels" %}</a>
-        </p>
-      </div>
-  </div>
-</div>	
-
+</div>
 {% endblock %}
 
+{% block actions %}
+<li><a href="/voyages/add/">{% trans "Add a travel" %}</a></li>
+<li><a href="/voyages/search/">{% trans "Search a travel" %}</a></li>
+{% endblock %}

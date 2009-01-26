@@ -3,3 +3,29 @@
 
 {% block barre-actualites %}<li class="active">{% endblock %}
 
+{% block content %}
+
+<div id="content-main">
+
+<div class="left">
+{% block content-left %}{% endblock %}
+</div>
+
+<div class="right">
+
+<h3>{% trans "Actions" %}</h3>
+<div class="right_articles">
+<ul>
+{% block extra-actions %}{% endblock %}
+<li><a href="/actualites/add/">{% trans "Write a news" %}</a></li>
+<li><a href="/actualites/search/">{% trans "Search a news" %}</a></li>
+</ul>
+</div>
+
+{% block extra-menus %}{% endblock %}
+
+</div> <!-- right -->
+</div> <!-- content-main -->
+
+{% endblock %}
+

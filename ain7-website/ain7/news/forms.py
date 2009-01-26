@@ -39,10 +39,11 @@ class SearchNewsForm(forms.Form):
         required=False, widget=forms.TextInput(attrs={'size':'40'}))
 
     def search(self):
-        return NewsItem.objects.filter(
-            title__icontains=self.cleaned_data['title'],
-            creation_date=self.cleaned_data['date'],
-            description__icontains=self.cleaned_data['content'])
+        criteria = {'title__icontains': self.cleaned_data['title'],
+                    'description__icontains': self.cleaned_data['content']}
+        if self.cleaned_data['date']:
+            criteria['creation_date'] = self.cleaned_data['date']
+        return NewsItem.objects.filter(**criteria)
 
 class NewsForm(forms.ModelForm):
     class Meta:

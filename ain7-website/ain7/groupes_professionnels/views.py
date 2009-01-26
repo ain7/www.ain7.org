@@ -153,7 +153,7 @@ def build_roles_by_type(request, group=None, all_current=None,
 
 @login_required
 def edit_roles(request, group_id, all_current=None):
-    group = get_object_or_404(GroupPro, pk=group_id)
+    group = get_object_or_404(GroupPro, name=group_id)
     is_member = request.user.is_authenticated()\
                 and group.has_for_member(request.user.person)
     roles_by_type = build_roles_by_type(request, group, all_current,

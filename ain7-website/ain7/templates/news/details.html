@@ -2,11 +2,9 @@
 {% load i18n ain7_tags %}
 
 {% block stylesheet %}{% endblock %}
-{% block content %}
 
-<div id="content-main">
+{% block content-left %}
 
-<div class="left">
 	<h3>{{ news_item.title }}</h3>
 
 	<p>
@@ -17,23 +15,14 @@
         </p>
 	<p>{% trans "posted : " %} {{ news_item.creation_date|date:"l j F Y H:i" }}</p>
 	<p>{% trans "modified : " %} {{ news_item.last_change_at|date:"l j F Y H:i" }}</p>
+{% endblock %}
 
-</div>
 
-<div class="right">
+{% block extra-actions %}
+<li><a href="/actualites/{{ news_item.id }}/edit/">{% trans "Edit this news" %}</a></li>
+{% endblock %}
 
-	<h3>{% trans "Actions" %}</h3>
-	<div class="right_block">
-		<ul>
-			<li><a href="/actualites/{{ news_item.id }}/edit/">{% trans "Edit this news" %}</a></li>
-		</ul>
-	</div>
-
+{% block extra-menus %}
     <h3>{% trans "Card Informations"%}</h3>
     {%  show_last_change news_item %}
-
-</div>
-
-</div>
-
 {% endblock %}

@@ -3,21 +3,23 @@
 
 {% block barre-emploi %}<li class="active">{% endblock %}
 
+
 {% block content %}
+
 
 <div id="content-main">
 
-{% block content-main %}{% endblock %}
-
+<div class="left">
+{% block content-left %}{% endblock %}
 </div>
+
 
 <div class="right">
 
-{% block menu-right %}
-
-{% if ain7member %}
+{% block actions %}{% endblock %}
 
 {% block menu-cv %}
+{% if ain7member %}
 <h3>{% trans "Manage your CV" %}</h3>
 <div class="right_articles">
 <ul>
@@ -26,9 +28,9 @@
 <li><a href="{% url ain7.annuaire.views.ain7member_edit user.id %}">{% trans "Manage your CV visiblity" %}</a></li>
 </ul>
 </div>
+{% endif %}
 {% endblock %}
 
-{% endif %}
 
 {% block menu-offres %}
 <h3>{% trans "Manage Job Offers" %}</h3>
@@ -66,9 +68,10 @@
 </div>
 {% endblock %}
 
+{% block show_last_change %}{% endblock %}
+{% block statistics %}{% endblock %}
 
-{% endblock %}
-
-</div>
+</div> <!-- right -->
+</div> <!-- content-main -->
 
 {% endblock %}

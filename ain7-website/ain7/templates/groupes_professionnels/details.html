@@ -1,11 +1,7 @@
 {% extends "groupes_professionnels/base.html" %}
 {% load i18n ain7_tags %}
 
-{% block content %}
-
-<div id="content-main">
-
-<div class="left">
+{% block content-left %}
 
 <h3>{{ group.description }}</h3>
 
@@ -30,26 +26,5 @@
 {% endfor %}
 </ul>
 {% endif %}
-
-</div>
-
-<div class="right">
-
-   <h3>{% trans "Actions" %}</h3>
-   <div class="right_articles">
-   <ul>
-      <li><a href="{% url ain7.groupes_professionnels.views.edit group.name %}">{% trans "Edit these data." %}</a></li>
-      <li><a href="{% url ain7.groupes_professionnels.views.subscribe group.name %}">{% trans "Subscribe someone" %}</a></li>
-      <li><a href="{% url ain7.groupes_professionnels.views.unsubscribe group.name %}">{% trans "Unsubscribe someone" %}</a></li>
-      {# TODO: gestion des droits : réservé aux secrétaires et superadmin #}
-      <li><a href="{% url ain7.groupes_professionnels.views.edit_roles group.name,"current" %}">{% trans "Edit roles of this group" %}</a></li>
-   </ul>
-   </div>
-
-    <h3>{% trans "Card Informations"%}</h3>
-    {% show_last_change group %}
-
-</div>
-</div>
 
 {% endblock %}

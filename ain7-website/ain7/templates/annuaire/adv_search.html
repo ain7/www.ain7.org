@@ -2,11 +2,7 @@
 
 {% load i18n %}
 
-{% block content %}
-
-<div id="content-main">
-
-<div class="left">
+{% block content-left %}
 
 <form action="." method="post">
 <div>
@@ -76,9 +72,12 @@
 </div>
 </form>
 
-{% ifnotequal hits 0 %}
+
+{% if dosearch %}
 
 <h2>{% trans "Results list"%}</h2>
+
+{% ifnotequal hits 0 %}
 <table style="width: 100%">
 <tr>
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
@@ -106,31 +105,16 @@
     <p></p>
     <p>{% trans "No person matched your criteria." %}</p>
 {% endifnotequal %}
+{% endif %}
+{% endblock %}
 
-</div>
 
 
-<div class="right">
+{% block worksheet-export %}
+  <li><a href="{% url ain7.annuaire.views.adv_export_csv %}">{% trans "Worksheet export" %}</a></li>
+{% endblock %}
 
-   <h3>{% trans "Actions" %}</h3>
-   <div class="right_articles">
-    <ul>
-      {% if filtr %}
-      <li><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/reset/">
-          {% trans "Reset this filter" %}</a></li>
-      {% endif %}
-      {% if filtr.registered %}
-      <li><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/edit/">{% trans "Modify the name of this filter" %}</a></li>
-      <li><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/delete/">{% trans "Delete this filter" %}</a></li>
-      <li><a href="/annuaire/advanced_search/filter/new/">{% trans "New filter" %}</a></li>
-      {% else %}
-      <li><a href="/annuaire/advanced_search/filter/register/">{% trans "Save this filter" %}</a></li>
-      {% endif %}
-      <li><a href="{% url ain7.annuaire.views.adv_export_csv %}">{% trans "Worksheet export" %}</a></li>
-      <li><a href="/annuaire/sendmail/">{% trans "Send a mail" %}</a></li>
-    </ul>
-   </div>
-
+{% block navigation %}
    <h3>{% trans "Navigation" %}</h3>
    <div class="right_articles">
    <ul>
@@ -140,24 +124,5 @@
       {% endif %}
    </ul>
    </div>
-
-   <h3>{% trans "Registered filters" %}</h3>
-   <div class="right_articles">
-   {% if userFilters %}
-   <ul>
-       {% for filter in userFilters %}
-         <li>
-           <a href="/annuaire/advanced_search/filter/{{ filter.id }}/">
-             {{ filter }}</a>
-         </li>
-       {% endfor %}
-   </ul>
-   {% else %}
-     {% trans "No registered filter" %}
-   {% endif %}
-   </div>
-</div>
-
-</div>
-
 {% endblock %}
+

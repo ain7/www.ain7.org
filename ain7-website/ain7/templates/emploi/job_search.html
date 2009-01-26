@@ -1,11 +1,7 @@
 {% extends "emploi/base.html" %}
 {% load i18n %}
 
-{% block content-main %}
-
-<div class="left">
-
-<div class="left_box">
+{% block content-left %}
 
 <h2>{% trans "Job Offer Search" %}</h2>
 
@@ -43,8 +39,5 @@
     <p>{% trans "No job offer correspond to your research" %}</p>
 {% endif %}
 {% endifequal %}
-
-</div>
-</div>
 
 {% endblock %}

@@ -1,11 +1,8 @@
 {% extends "emploi/base.html" %}
 {% load i18n ain7_tags %}
 
-{% block content-main %}
 
-<!-- <div id="content-main"> -->
-
-<div class="left">
+{% block content-left %}
 
 <h2>{{ job.title }}</h2>
 
@@ -43,26 +40,29 @@
 
 {{ job.description|safe }}
 
-</div>
-
 {% endblock %}
 
 
-{% block menu-right %}
-
+{% block actions %}
    <h3>{% trans "Actions" %}</h3>
    <div class="right_articles">
     <ul>
       <li><a href="{% url ain7.emploi.views.job_edit job.id %}">{% trans "Edit this job offer" %}</a></li>
     </ul>
    </div>
+{% endblock %}
 
+{% block show_last_change %}
    <h3>{% trans "Card Informations"%}</h3>
    {% show_last_change job %}
+{% endblock %}
 
+
+{% block statistics %}
    <h3>{% trans "Statistics"%}</h3>
    <div class="right_articles">
-     <p>{% trans "This announce has been viewed" %} {{ job.nb_views }} {% trans "times" %}.</p>
+     <ul>
+     <li>{% trans "This announce has been viewed" %} {{ job.nb_views }} {% trans "times" %}.</li>
+     </ul>
    </div>
-
 {% endblock %}

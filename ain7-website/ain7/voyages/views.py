@@ -164,11 +164,17 @@ def subscribe(request, travel_id):
         f = SubscribeTravelForm()
         # TODO : AJAX pour sélectionner une personne plutôt qu'une liste
         return ain7_render_to_response(request, "voyages/join.html",
-                                {'form': f, 'travel': travel})
+            {'form': f, 'travel': travel,
+             'back': request.META.get('HTTP_REFERER', '/')})
 
     if request.method == 'POST':
         f = SubscribeTravelForm(request.POST.copy())
-        person = Person.objects.filter(pk=request.POST['subscriber'])[0]
+        persons = Person.objects.filter(pk=request.POST['subscriber'])
+        if not persons:
+            return ain7_render_to_response(request, "voyages/join.html",
+                {'form': f, 'travel': travel,
+                 'back': request.META.get('HTTP_REFERER', '/')})
+        person = persons[0]
         # on vérifie que la personne n'est pas déjà inscrite
         already_subscribed = False
         for subscription in person.travel_subscriptions.all():
@@ -181,10 +187,11 @@ def subscribe(request, travel_id):
         else:
             if f.is_valid():
                 f.cleaned_data['travel'] = travel
+                f.cleaned_data['subscriber'] = person
                 f.save()
                 request.user.message_set.create(message=_('You have successfully subscribed someone to this travel.'))
             else:
-                request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(f.errors))
+                request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
             return ain7_render_to_response(request,
                 'voyages/participants.html', {'travel': travel})
     return HttpResponseRedirect('/voyages/%s/' % (travel.id))
@@ -222,7 +229,6 @@ def responsibles_add(request, travel_id):
 
     if request.method == 'GET':
         f = TravelResponsibleForm()
-        # TODO : AJAX pour sélectionner une personne plutôt qu'une liste
         back = request.META.get('HTTP_REFERER', '/')
         return ain7_render_to_response(request, "voyages/join.html",
                                 {'form': f, 'travel': travel, 'back': back})
@@ -241,8 +247,8 @@ def responsibles_add(request, travel_id):
                 'voyages/responsibles.html', {'travel': travel})
         else:
             if f.is_valid():
-                f.cleaned_data['travel'] = travel
-                f.save()
+                tr = TravelResponsible(travel=travel, responsible=person)
+                tr.save()
                 request.user.message_set.create(message=_('You have successfully added someone to responsibles of this travel.'))
             else:
                 request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(f.errors))

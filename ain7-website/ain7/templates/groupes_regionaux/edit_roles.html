@@ -1,11 +1,7 @@
 {% extends "groupes_regionaux/base.html" %}
 {% load i18n ain7_tags %}
 
-{% block content %}
-
-<div id="content-main">
-
-<div class="left">
+{% block content-left %}
 
 <h1>{{ group.name }}</h1>
 
@@ -102,45 +98,6 @@
   {% endif %}
 
 {% endfor %}
-
-</div>
-
-<div class="right">
-
-    <h3>{% trans "Actions" %}</h3>
-    <div class="right_block">
-        <ul>
-            <li>
-            {% if not is_member %}
-                <a href="/groupes_regionaux/{{ group.id }}/join/">{% trans "Join the group" %}</a>
-            {% else %}
-                <a href="/groupes_regionaux/{{ group.id }}/quit/">{% trans "Quit the group" %}</a>
-            {% endif %}
-            </li>
-            <li><a href="/groupes_regionaux/{{ group.id }}/edit/">{% trans "Edit group informations" %}</a></li>
-        </ul>
-    </div>
-
-    {% if group.active_events %}
-        <h3>{% trans "Events" %}</h3>
-        {% for event in group.active_events %}
-            <div class="right_articles">
-                <p><strong><a href="/evenements/{{ event.id }}/">{{ event.name|upper }}</a></strong></p>
-                <p>
-{% blocktrans with event.start|date:"d/m/Y" as start_date and event.end|date:"d/m/Y" as end_date and event.location as place %}From {{ start_date }} to {{ end_date }} at {{ place }}{% endblocktrans %}
-                </p>
-                {% if event.description %}
-                    <p><em>{{ event.description|safe|truncatewords:10 }}</em></p>
-                {% endif %}
-            </div>
-        {% endfor %}
-    {% endif %}
-
-    <h3>{% trans "Card Informations"%}</h3>
-    {% show_last_change group %}
-
-</div>
-
-</div>
-
 {% endblock %}
+
+

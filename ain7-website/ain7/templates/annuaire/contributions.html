@@ -1,9 +1,7 @@
 {% extends "annuaire/base.html" %}
 {% load i18n %}
 
-{% block content %}
-
-<div id="content-main">
+{% block content-left %}
 
 <h2>{{ person.first_name }} {{ person.last_name }} {% trans "Contributions"%}</h2>
 
@@ -13,7 +11,5 @@
 <tr><td>{{ contrib.date.ctime }}</td><td>{{ contrib.type.name }}</td></tr>
 {% endfor %}
 </table>
-
-</div>
 
 {% endblock %}

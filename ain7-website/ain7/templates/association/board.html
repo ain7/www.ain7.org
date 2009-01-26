@@ -1,13 +1,7 @@
 {% extends "association/base.html" %}
 {% load i18n %}
 
-{% block content %}
-
-<!- Cette page devrait à terme être générée automatiquement, mais nous n'avons pas encore les données, donc... //->
-
-<div id="content-main">
-
-<div class="left">
+{% block content-left %}
 
 <h3>{% trans "Board" %}</h3>
 
@@ -26,22 +20,10 @@
 
 </div>
 
-<div class="right">
-    <h3>{% trans "Links" %}</h3>
-   <div class="right_articles">
-    <ul>
-      <li><a href="{% url ain7.association.views.index %}">
-          {% trans "Overview" %}</a></li>
-      <li><a href="{% url ain7.association.views.status %}">
-          {% trans "Status" %}</a></li>
-      <li><a href="{% url ain7.association.views.board %}">
-          {% trans "Board" %}</a></li>
-      <li><a href="{% url ain7.association.views.council %}">
-          {% trans "Council" %}</a></li>
-      <li><a href="{% url ain7.association.views.contact %}">
-          {% trans "Contact" %}</a></li>
-    </ul>
-   </div>
+{% endblock %}
+
+
+{% block actions %}
 
    <h3>{% trans "Actions" %}</h3>
    <div class="right_articles">
@@ -50,12 +32,4 @@
     </ul>
    </div>
 
-    <h3>{% trans "Statistics" %}</h3>
-   <div class="right_articles">
-    <ul>
-      <li>{% trans "Number of members" %}: {{ count_members }}</li>
-    </ul>
-   </div>
-</div>
-</div>
 {% endblock %}

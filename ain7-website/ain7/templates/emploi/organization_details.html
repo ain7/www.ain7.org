@@ -1,11 +1,7 @@
 {% extends "emploi/base.html" %}
 {% load i18n %}
 
-{% block content-main %}
-
-<div class="left">
-
-<div class="left_box">
+{% block content-left %}
 
 <h2>{{ organization.name }}</h2>
 
@@ -81,8 +77,5 @@
     </li>
 {% endfor %}
 </ul>
-
-</div>
-</div>
 
 {% endblock %}

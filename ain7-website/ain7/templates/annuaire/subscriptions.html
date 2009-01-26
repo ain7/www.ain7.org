@@ -1,9 +1,7 @@
 {% extends "annuaire/base.html" %}
 {% load i18n %}
 
-{% block content %}
-
-<div id="content-main">
+{% block content-left %}
 
 <h2>{{ person.first_name }} {{ person.last_name }} {% trans "subscriptions" %}</h2>
 
@@ -33,7 +31,5 @@
 </tr>
 {% endfor %}
 </table>
-
-</div>
 
 {% endblock %}

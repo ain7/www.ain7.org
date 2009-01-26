@@ -7,11 +7,9 @@
 <script src="/site_media/js/textareas.js" type="text/javascript"></script>
 {% endblock %}
 
-{% block content %}
 
-<div id="content-main">
+{% block content-left %}
 
-<div class="left">
     <h1>{{ group.name }}</h1>
 
 <form method="post" action=".">
@@ -24,34 +22,6 @@
 </div>
 </form>
 
-</div>
-
-<div class="right">
-
-    {% if group.active_events %}
-        <h3>{% trans "Events" %}</h3>
-        {% for event in group.active_events %}
-            <div class="right_articles">
-                <p><strong><a href="/evenements/{{ event.id }}/">{{ event.name|upper }}</a></strong></p>
-                <p>
-{% blocktrans with event.start|date:"d/m/Y" as start_date and event.end|date:"d/m/Y" as end_date and event.location as place %}From {{ start_date }} to {{ end_date }} at {{ place }}{% endblocktrans %}
-                </p>
-                {% if event.description %}
-                    <p><em>{{ event.description|truncatewords:10 }}</em></p>
-                {% endif %}
-            </div>
-        {% endfor %}
-    {% endif %}
-
-    <h3>{% trans "Card Informations"%}</h3>
-   <div class="right_articles">
-     <ul>
-       <li>{% trans "Update" %}&nbsp;: {{ group.modification_date|date:"l j F Y" }}</li>
-     </ul>
-   </div>
-
-</div>
-
-</div>
-
 {% endblock %}
+
+

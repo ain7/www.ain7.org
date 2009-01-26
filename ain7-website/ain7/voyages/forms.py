@@ -48,13 +48,13 @@ class SearchTravelForm(forms.Form):
 
     def search(self):
         criteria={
-            'label__contains':self.cleaned_data['label'],
-            'date__contains':self.cleaned_data['date']}
+            'label__icontains':self.cleaned_data['label'],
+            'date__icontains':self.cleaned_data['date']}
         # visited places are also searched in labels
         visited = self.cleaned_data['visited_places']
         q_visited = \
-            models.Q(visited_places__contains = visited) | \
-            models.Q(label__contains = visited)
+            models.Q(visited_places__icontains = visited) | \
+            models.Q(label__icontains = visited)
         if not self.cleaned_data['search_old_travel']:
             criteria['start_date__gte'] = datetime.now()
         return Travel.objects.filter(**criteria).filter(q_visited)
@@ -87,6 +87,7 @@ class JoinTravelForm(forms.ModelForm):
 
 
 class SubscribeTravelForm(forms.ModelForm):
+    subscriber = forms.IntegerField(label=_('Subscriber'), required=True, widget=AutoCompleteField(url='/ajax/person/'))
     
     class Meta:
         model = Subscription
@@ -94,6 +95,7 @@ class SubscribeTravelForm(forms.ModelForm):
 
 
 class TravelResponsibleForm(forms.ModelForm):
+    responsible = forms.IntegerField(label=_('Responsible'), required=True, widget=AutoCompleteField(url='/ajax/person/'))
     
     class Meta:
         model = TravelResponsible

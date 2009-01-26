@@ -5,6 +5,8 @@
 {% block content %}
 <div id="content-main">
 
+<div class="left">
+
 	<div id="edition">
 		<h1>{{ survey.question }}</h1>
 
@@ -45,4 +47,19 @@
 
 	</div>
 </div>
+
+<div class="right">
+
+	<h3>{% trans "Actions" %}</h3>
+	<div class="right_block">
+		<ul>
+			<li><a href="/sondages/create">{% trans "Create a new survey" %}</a></li>
+			<li><a href="/sondages/">{% trans "See all surveys" %}</a></li>
+		</ul>
+	</div>
+
+</div>
+</div>
+
 {% endblock %}
+

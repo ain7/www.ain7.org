@@ -7,11 +7,7 @@
 <script src="/site_media/js/textareas.js" type="text/javascript"></script>
 {% endblock %}
 
-{% block content-main %}
-
-<div class="left">
-
-<div class="left_box">
+{% block content-left %}
 
 <div class="dataBlock">
 
@@ -37,7 +33,7 @@
 {{ organization.field }}
 {% endif %}
 
-</div>
+</div> <!-- dataBlock -->
 
 <a href="{% url ain7.emploi.views.organization_edit_data organization.id %}" class="changelink">
   {% trans "Modify" %}</a>
@@ -60,8 +56,5 @@
 </ul>
 <a href="{% url ain7.emploi.views.office_add organization.id %}" class="addlink">
   {% trans "Add" %}</a>
-
-</div>
-</div>
 
 {% endblock %}

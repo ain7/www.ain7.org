@@ -1,9 +1,7 @@
 {% extends "groupes_professionnels/base.html" %}
 {% load i18n %}
 
-{% block content %}
-
-<div id="content-main">
+{% block content-left %}
 
 <h2>{% trans "Professionnal Groups" %}</h2>
 {% if groups %}
@@ -15,7 +13,5 @@
 {% else %}
     <p>{% trans "No group is defined." %}</p>
 {% endif %}
-
-</div>
 
 {% endblock %}

@@ -122,7 +122,7 @@ class OrganizationForm(forms.Form):
         label=_('Short Description'), max_length=50)
     long_description = forms.CharField(
         label=_('Long Description'), max_length=5000, required=False,
-        widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':95}))
+        widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':50}))
 
     def save(self, user, is_a_proposal=False, organization=None, is_valid=True):
         if organization:

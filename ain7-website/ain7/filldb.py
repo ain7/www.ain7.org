@@ -109,16 +109,16 @@ def filldb():
     maritalstatus_7.save()
 
     # Contributions
-    poll_contrib = annuaire.UserContributionType(key=u'poll_register',name=u'Registering a poll',points=10)
+    poll_contrib = annuaire.UserContributionType(key=u'poll_register',name=u'Création d\'un sondage',points=10)
     poll_contrib.save()
 
-    poll_vote_contrib = annuaire.UserContributionType(key=u'poll_vote',name=u'Poll vote',points=5)
+    poll_vote_contrib = annuaire.UserContributionType(key=u'poll_vote',name=u'Vote pour un sondage',points=5)
     poll_vote_contrib.save()
 
-    event_contrib = annuaire.UserContributionType(key=u'event_register',name=u'Register and event',points=20)
+    event_contrib = annuaire.UserContributionType(key=u'event_register',name=u'Ajout d\'un événement',points=20)
     event_contrib.save()
 
-    event_subscription_contrib = annuaire.UserContributionType(key=u'event_subcription',name=u'Subscribe to an event',points=5)
+    event_subscription_contrib = annuaire.UserContributionType(key=u'event_subcription',name=u'Inscription à un événement',points=5)
     event_subscription_contrib.save()
 
     annuaireSearchEngine = search_engine.SearchEngine()
@@ -980,7 +980,7 @@ def filldb():
 
 <p>Un noyau d'ingénieurs N7 animent le groupe, préparent les manifestations extérieures (N7à9, Manifestions de prestige…) et recherchent le cas échéant le financement de celles-ci.</p>
 
-<p>Il est un des interlocuteurs de l'ENSEEIHT du Département "Télécommunications & Réseaux".</p>
+<p>Il est un des interlocuteurs de l'ENSEEIHT du Département "Télécommunications &amp; Réseaux".</p>
 
 <p>Il a une couverture nationale.</p>
 
@@ -998,7 +998,7 @@ def filldb():
   <li>N7à9 du 5 juin 1997 " Les Métiers de France Télécom Mobiles"</li>
   <li>Table Ronde du 14 janvier 1999 "La Dérégulation des Télécoms, facteur de croissance"</li>
   <li>Colloque du 20 janvier 2000 : "La Future Génération des Ingénieurs Télécom", à l'ENSEEIHT</li>
-  <li>N7à9 du 18 mai 2000 : "Compte-Rendu du Colloque du 20 janvier 2000 à Toulouse"</i>
+  <li>N7à9 du 18 mai 2000 : "Compte-Rendu du Colloque du 20 janvier 2000 à Toulouse"</li>
 </ul>
 
 <b>PROGRAMME FUTUR</b>
@@ -1021,7 +1021,7 @@ Prochaines manifestations
   </ul>
 </ul>
 
-<p>en 2002, manifestation de prestige à l'occasion de la sortie de la première promotion de la Filière "Télécommunications & Réseaux". Programme de la manifestation en cours d'élaboration.</p>"""
+<p>en 2002, manifestation de prestige à l'occasion de la sortie de la première promotion de la Filière "Télécommunications &amp; Réseaux". Programme de la manifestation en cours d'élaboration.</p>"""
     ain7telecom.save()
 
     ain7ge = groupes_professionnels.GroupPro()

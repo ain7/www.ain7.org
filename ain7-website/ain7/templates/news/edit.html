@@ -1,12 +1,9 @@
 {% extends "news/base.html" %}
 {% load i18n %}
 
-{% block content %}
+{% block content-left %}
 
-<div id="content-main">
-
-<div class="left">
-	<h3>{{ news_item.title }}</h3>
+<h3>{{ news_item.title }}</h3>
 
 <form method="post" action="." enctype="multipart/form-data">
 
@@ -21,14 +18,5 @@
 </div>
 
 </form>
-
-</div>
-
-<div class="right">
-
-
-</div>
-
-</div>
 
 {% endblock %}

@@ -1,9 +1,7 @@
 {% extends "news/base.html" %}
 {% load i18n %}
 
-{% block content %}
-
-<div id="content-main">
+{% block content-left %}
 
 <h2>{% trans "News Search" %}</h2>
 
@@ -40,7 +38,5 @@
     <p>{% trans "No news item corresponds to your research." %}</p>
 {% endif %}
 {% endifequal %}
-
-</div>
 
 {% endblock %}

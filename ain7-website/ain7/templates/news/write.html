@@ -2,12 +2,11 @@
 {% load i18n %}
 
 {% block stylesheet %}{% endblock %}
-{% block content %}
 
-<div id="content-main">
 
-<div class="left">
-	<h3>{% trans "Write a news" %}</h3>
+{% block content-left %}
+
+<h3>{% trans "Write a news" %}</h3>
 
 <form method="post" action=".">
 <table>
@@ -20,12 +19,5 @@
 
 <p>{% trans "To associate an image to this news, modify it after its creation." %}</p>
 
-</div>
-
-<div class="right">
-
-</div>
-
-</div>
-
 {% endblock %}
+

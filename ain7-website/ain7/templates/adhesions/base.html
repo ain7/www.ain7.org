@@ -2,3 +2,42 @@
 {% load i18n %}
 
 {% block barre-adhesions %}<li class="active">{% endblock %}
+
+{% block content %}
+
+<div id="content-main">
+
+<div class="left">
+{% block content-main %}{% endblock %}
+</div>
+
+
+<div class="right">
+
+    <h3>{% trans "Links" %}</h3>
+   <div class="right_articles">
+    <ul>
+    {% block links %}{% endblock %}
+    </ul>
+   </div>
+
+   {% if count_members or count_subscribers %}
+   <h3>{% trans "Statistics" %}</h3>
+   <div class="right_articles">
+    <ul>
+      {% if count_members %}
+      <li>{% trans "Number of members" %}: {{ count_members }}</li>
+      {% endif %}
+      {% if count_subscribers %}
+      <li>{% trans "Number of subscribers" %}: {{ count_subscribers }}</li>
+      {% endif %}
+    </ul>
+   </div>
+   {% endif %}
+
+</div>
+
+</div>
+
+{% endblock %}
+

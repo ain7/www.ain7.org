@@ -21,7 +21,10 @@
 #
 
 from ain7.utils import ain7_render_to_response
+from ain7.annuaire.models import AIn7Member, AIn7Subscription
 
 def index(request): 
-    return ain7_render_to_response(request, 'adhesions/index.html', {})
+    return ain7_render_to_response(request, 'adhesions/index.html',
+        {'count_members': AIn7Member.objects.count(),
+         'count_subscribers': AIn7Subscription.objects.count()})
 
