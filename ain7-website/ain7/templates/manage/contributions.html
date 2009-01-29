@@ -2,11 +2,7 @@
 
 {% load i18n %}
 
-{% block content %}
-
-<div id="content-main">
-
-<div class="left">
+{% block content-left %}
 
 <form action="." method="post">
 <table class="form">
@@ -14,8 +10,8 @@
 </table>
 <div style="text-align: center">
    <input class="button" type="submit" value="{% trans "Search" %}" />
-</form>
 </div>
+</form>
 
 {% if persons %}
 
@@ -46,22 +42,5 @@
 
 {% endif %}
 
-</div>
+{% endblock %} {# content-left #}
 
-<div class="right">
-
-<h3>{% trans "Actions" %}</h3>
-<div class="right_articles">
-<ul>
-    <li><a href="/manage/users/">{% trans "Manage users" %}</a></li>
-    <li><a href="/manage/roles/">{% trans "Manage roles" %}</a></li>
-    <li><a href="/manage/organizations/">{% trans "Manage organizations" %}</a></li>
-    <li><a href="/manage/contributions/">{% trans "See contributions" %}</a></li>
-</ul>
-</div>
-
-</div>
-
-</div>
-
-{% endblock %}

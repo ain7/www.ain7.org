@@ -1,11 +1,10 @@
 {% extends "manage/base.html" %}
 {% load i18n %}
 
-{% block content %}
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
 
-<div id="content-main">
-
-<div class="left">
+{% block content-left %}
 
 <div class="left_box">
 
@@ -131,40 +130,12 @@
 {% trans "Modify" %}</a></p>
 
 {% endif %}
-
 </div>
 </div>
-</div>
+{% endblock %} {# content-left #}
 
 
-<div class="right">
-   <h3>{% trans "Navigation" %}</h3>
-   <div class="right_articles">
-    <ul>
+{% block extra-navigation %}
       <li><a href="/annuaire/advanced_search/">{% trans "Advanced Search" %}</a></li>
-    </ul>
-   </div>
+{% endblock %} {# extra-navigation #}
 
-   {% if userFilters %}
-
-   <h3>{% trans "Registered filters" %}</h3>
-   <div class="right_articles">
-   <ul>
-       {% for filter in userFilters %}
-         <li>
-           <a href="/annuaire/advanced_search/filter/{{ filter.id }}/">
-             {{ filter }}</a>
-         </li>
-       {% endfor %}
-   </ul>
-   </div>
-
-   {% endif %}
-
-</div>
-
-
-
-</div>
-
-{% endblock %}

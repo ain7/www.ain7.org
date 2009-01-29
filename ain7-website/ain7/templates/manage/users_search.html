@@ -2,17 +2,13 @@
 
 {% load i18n %}
 
-{% block content %}
-
-<div id="content-main">
-
-<div class="left">
+{% block content-left %}
 
 <form action="." method="post">
-<div style="tex-align: center">
 	<table class="form">
 		{{ form }}
 	</table>
+<div style="text-align: center">
 	<input class="button" type="submit" value="{% trans "Search" %}" />
 </div>
 </form>
@@ -45,31 +41,14 @@
     <p>{% trans "No person matched your criteria." %}</p>
 {% endif %}
 {% endifequal %}
+{% endblock %} {# content-left #}
 
-</div>
 
-
-<div class="right">
-
-<h3>{% trans "Navigation" %}</h3>
-<div class="right_articles">
-<ul>
-    <li><a href="/manage/users/">{% trans "Manage users" %}</a></li>
-    <li><a href="/manage/roles/">{% trans "Manage roles" %}</a></li>
-    <li><a href="/manage/organizations/">{% trans "Manage organizations" %}</a></li>
-    <li><a href="/manage/contributions/">{% trans "Contributions" %}</a></li>
-</ul>
-</div>
-
+{% block actions %}
 <h3>{% trans "Actions" %}</h3>
 <div class="right_articles">
 <ul>
     <li><a href="/manage/users/register/">{% trans "Register external user" %}</a></li>
 </ul>
 </div>
-
-</div>
-
-</div>
-
-{% endblock %}
+{% endblock %} {# actions #}

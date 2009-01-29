@@ -167,7 +167,7 @@ class NewRoleForm(forms.ModelForm):
 
 class NotificationForm(forms.ModelForm):
     details = forms.CharField(label=_('details'), required=True,
-        widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':90}))
+        widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':60}))
 
     class Meta:
         model = Notification

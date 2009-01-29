@@ -1,12 +1,11 @@
 {% extends "manage/base.html" %}
 
-{% load i18n %}
+{% load i18n ain7_tags %}
 
-{% block content %}
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
 
-<div id="content-main">
-
-<div class="left">
+{% block content-left %}
 
 <div class="left_box">
 
@@ -52,26 +51,23 @@
 {% endif %}
 
 {% if this_user.person.ain7member %}
-{% trans "This person is also an AIn7Member. You can check his complete profil" %} <a href="/annuaire/{{ this_user.id }}/"/>{% trans "here" %}</a>.
+{% trans "This person is also an AIn7Member. You can check his complete profil" %} <a href="/annuaire/{{ this_user.id }}/">{% trans "here" %}</a>.
 {% endif %}
-
+</div>
+{% endblock %} {# content-left #}
 </div>
 
-</div>
 
-<div class="right">
-
+{% block actions %}
 <h3>{% trans "Actions" %}</h3>
 <div class="right_articles">
 <ul>
-<li><a href="/manage/users/">{% trans "Manage users" %}</a></li>
-<li><a href="/manage/roles/">{% trans "Manage roles" %}</a></li>
-<li><a href="/manage/organizations/">{% trans "Manage organizations" %}</a></li>
-<li><a href="/manage/contributions/">{% trans "Contributions" %}</a></li>
 <li><a href="/manage/users/{{ this_user.id }}/edit/">{% trans "Edit those informations" %}</a></li>
 </ul>
 </div>
+{% endblock %} {# actions #}
 
+{% block extra-menu %}
 <h3>{% trans "Groups AIn7" %}</h3>
 <div class="right_articles">
 {% if this_user.groups.all %}
@@ -83,16 +79,7 @@
 {% endif %}
 </div>
 
-
 <h3>{% trans "Card Informations"%}</h3>
-<div class="right_articles">
-<ul>
-    <li>{% trans "Update" %}&nbsp;: {{ this_user.person.modification_date|date:"l j F Y" }}</li>
-</ul>
-</div>
+{% show_last_change this_user.person %}
 
-</div>
-
-</div>
-
-{% endblock %}
+{% endblock %}{# extra-menu #}

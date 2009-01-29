@@ -2,11 +2,10 @@
 
 {% load i18n %}
 
-{% block content %}
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
 
-<div id="content-main">
-
-<div class="left">
+{% block content-left %}
 
 <form action="." method="post">
 <div>
@@ -83,6 +82,7 @@
 </div>
 </form>
 
+
 {% ifnotequal hits 0 %}
 
 <h2>{% trans "Results list"%}</h2>
@@ -109,35 +109,24 @@
     {% endfor %}
   </ul>
 {% else %}
-    <p></p>
     <p>{% trans "No office matched your criteria." %}</p>
 {% endifnotequal %}
 
-</div>
+{% endblock %}{# content-left #}
 
 
-<div class="right">
 
-<h3>{% trans "Navigation" %}</h3>
-<div class="right_articles">
-<ul>
+
+{% block extra-navigation %}
     <li><a href="{% url ain7.manage.views.organizations_search %}">{% trans "Simple Search" %}</a></li>
     {% if filtr.registered %}
       <li><a href="{% url ain7.manage.views.organizations_adv_search %}">
           {% trans "Advanced Search (homepage)" %}</a></li>
     {% endif %}
-</ul>
-</div>
-<div class="right_articles">
-<ul>
-    <li><a href="{% url ain7.manage.views.users_search %}">{% trans "Manage users" %}</a></li>
-    <li><a href="/manage/groups/">{% trans "Manage groups" %}</a></li>
-    <li><a href="{% url ain7.manage.views.roles_search %}">{% trans "Manage roles" %}</a></li>
-    <li><a href="{% url ain7.manage.views.organizations_search %}">{% trans "Manage organizations" %}</a></li>
-    <li><a href="{% url ain7.manage.views.contributions %}">{% trans "Contributions" %}</a></li>
-</ul>
-</div>
+{% endblock %}
 
+
+{% block actions %}
 <h3>{% trans "Actions" %}</h3>
 <div class="right_articles">
 <ul>
@@ -165,7 +154,9 @@
     <li><a href="{% url ain7.manage.views.organization_edit %}">{% trans "Register organization" %}</a></li>
 </ul>
 </div>
+{% endblock %} {# actions #}
 
+{% block extra-menu %}
 <h3>{% trans "Registered filters" %}</h3>
 <div class="right_articles">
 {% if userFilters %}
@@ -189,8 +180,4 @@
     <li>{{ nb_offices }}&nbsp;{% trans "offices" %}</li>
 </ul>
 </div>
-</div>
-
-</div>
-
-{% endblock %}
+{% endblock %} {# extra-menu #}
