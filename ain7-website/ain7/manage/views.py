@@ -461,13 +461,6 @@ def organization_merge(request, organization_id=None):
 
     organization = get_object_or_404(Organization, pk=organization_id)
 
-    # comme on ne peut définir le queryset qu'à la déclaration du champ,
-    # je dois créer le formulaire ici
-    class OrganizationListForm(forms.Form):        
-        org = forms.ModelChoiceField(
-            label=_('organization'), required=True,
-            queryset=Organization.objects.valid_organizations().exclude(id=organization_id))
-
     # 1er passage : on demande la saisie d'une deuxième organisation
     if request.method == 'GET':
         f = OrganizationListForm()
@@ -479,13 +472,15 @@ def organization_merge(request, organization_id=None):
     if request.method == 'POST':
         f = OrganizationListForm(request.POST.copy())
         if f.is_valid():
-            organization2 = f.cleaned_data['org']
-            return HttpResponseRedirect('/manage/organizations/%s/merge/%s/' %
-                (organization2.id, organization_id))
-        else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
-            return HttpResponseRedirect('/manage/organizations/%s/merge/' %
-                organization_id)
+            organization2 = f.search()
+            if organization2:
+                if organization2 != organization:
+                    return HttpResponseRedirect('/manage/organizations/%s/merge/%s/' % (organization2.id, organization_id))
+                else:
+                    request.user.message_set.create(message=_('The two organizations are the same. No merging.'))
+        request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+        return HttpResponseRedirect('/manage/organizations/%s/merge/' %
+            organization_id)
         
 
 @confirmation_required(
@@ -638,13 +633,6 @@ def office_merge(request, office_id=None):
 
     office = get_object_or_404(Office, pk=office_id)
 
-    # comme on ne peut définir le queryset qu'à la déclaration du champ,
-    # je dois créer le formulaire ici
-    class OfficeListForm(forms.Form):        
-        bureau = forms.ModelChoiceField(
-            label=_('office'), required=True,
-            queryset=Office.objects.valid_offices().exclude(id=office_id))
-
     # 1er passage : on demande la saisie d'une deuxième organisation
     if request.method == 'GET':
         f = OfficeListForm()
@@ -655,19 +643,20 @@ def office_merge(request, office_id=None):
     if request.method == 'POST':
         f = OfficeListForm(request.POST.copy())
         if f.is_valid():
-            office2 = f.cleaned_data['bureau']
-            return HttpResponseRedirect('/manage/offices/%s/merge/%s/' %
-                (office2.id, office_id))
-        else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(f.errors))
-            return HttpResponseRedirect('/manage/offices/%s/merge/' %
-                office_id)
+            office2 = f.search()
+            if office2:
+                if office2 != office:
+                    return HttpResponseRedirect('/manage/offices/%s/merge/%s/' % (office2.id, office_id))
+                else:
+                    request.user.message_set.create(message=_('The two offices are the same. No merging.'))
+        request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(f.errors))
+        return HttpResponseRedirect('/manage/offices/%s/merge/' % office_id)
         
 
 @confirmation_required(
     lambda user_id=None, office1_id=None, office2_id=None:
-    str(get_object_or_404(Office, pk=office2_id)) + _(' replaced by ') + \
-    str(get_object_or_404(Office, pk=office1_id)),
+    unicode(get_object_or_404(Office, pk=office2_id)) + _(' replaced by ') + \
+    unicode(get_object_or_404(Office, pk=office1_id)),
     'manage/base.html',
     _('Do you REALLY want to have'))
 def office_do_merge(request, office1_id, office2_id):

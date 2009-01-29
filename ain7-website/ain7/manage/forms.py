@@ -27,7 +27,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.forms.util import ValidationError
 
 from ain7.annuaire.models import Person, Country, Email
-from ain7.emploi.models import ActivityField, Organization
+from ain7.emploi.models import ActivityField, Organization, Office
 from ain7.fields import AutoCompleteField
 from ain7.widgets import DateTimeWidget
 from ain7.manage.models import Notification
@@ -42,15 +42,18 @@ class SearchUserForm(forms.Form):
 
     def search(self):
         criteria={
-            'last_name__contains':self.cleaned_data['last_name'],\
-            'first_name__contains':self.cleaned_data['first_name']}
-        return Person.objects.filter(**criteria)
+            'last_name__icontains':self.cleaned_data['last_name'],\
+            'first_name__icontains':self.cleaned_data['first_name']}
+        if self.cleaned_data['organization']!="":
+            criteria['ain7member__positions__office__organization__exact'] = \
+                Organization.objects.get(id=self.cleaned_data['organization'])
+        return Person.objects.filter(**criteria).distinct()
 
 class SearchRoleForm(forms.Form):
     name = forms.CharField(label=_('Name'), max_length=50, required=False)
 
     def search(self):
-        criteria={'name__contains':self.cleaned_data['name']}
+        criteria={'name__icontains':self.cleaned_data['name']}
         return Group.objects.filter(**criteria).order_by('name')
 
 
@@ -179,3 +182,25 @@ class NewCountryForm(forms.ModelForm):
         model = Country
         exclude = ()
 
+
+class OrganizationListForm(forms.Form):        
+    organization = forms.CharField(label=_('organization').capitalize(), max_length=50, required=False, widget=AutoCompleteField(url='/ajax/organization/'))
+
+    def search(self):
+        result = None
+        if self.cleaned_data['organization']!="":
+            result = Organization.objects.filter(id=self.cleaned_data['organization']).distinct()
+            if result:
+                result = result[0]
+        return result
+
+class OfficeListForm(forms.Form):        
+    bureau = forms.CharField(label=_('office').capitalize(), required=True, widget=AutoCompleteField(url='/ajax/office/'))
+
+    def search(self):
+        result = None
+        if self.cleaned_data['bureau']!="":
+            result = Office.objects.filter(id=self.cleaned_data['bureau']).distinct()
+            if result:
+                result = result[0]
+        return result
