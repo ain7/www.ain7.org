@@ -37,6 +37,7 @@ from django.http import Http404
 
 from ain7.annuaire.models import *
 from ain7.annuaire.forms import *
+from ain7.adhesions.forms import Subscription
 from ain7.emploi.models import Organization, Office
 from ain7.decorators import confirmation_required
 from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
@@ -62,7 +63,7 @@ def contributions(request, user_id):
 def details(request, user_id):
     p = get_object_or_404(Person, pk=user_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
-    is_subscriber = AIn7Subscription.objects.filter(member=ain7member,year=datetime.datetime.now().year)
+    is_subscriber = Subscription.objects.filter(member=ain7member,year=datetime.datetime.now().year)
     return ain7_render_to_response(request, 'annuaire/details.html',
                             {'person': p, 'is_subscriber': is_subscriber, 'ain7member': ain7member})
 
@@ -780,57 +781,6 @@ def club_membership_delete(request, user_id=None, club_membership_id=None):
         get_object_or_404(ClubMembership, pk=club_membership_id),
         '/annuaire/%s/edit/#assoc' % user_id,
         _('Club membership successfully deleted.'))
-
-@login_required
-def subscriptions(request, user_id):
-
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
-        return r
-
-    p = get_object_or_404(Person, pk=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=p)
-
-    subscriptions_list = AIn7Subscription.objects.filter(member=ain7member).order_by('-date')
-
-    return ain7_render_to_response(request, 'annuaire/subscriptions.html',
-                            {'person': p, 'ain7member': ain7member, 'subscriptions_list': subscriptions_list})
-
-@login_required
-def subscription_edit(request, user_id=None, subscription_id=None):
-
-    r = check_access(request, request.user, ['ain7-secretariat'])
-    if r:
-        return r
-
-    person = get_object_or_404(Person, user=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=person)
-    subscription = None
-    title = _('Adding a subscription for')
-    msgDone = _('Subscription successfully added.')
-    if subscription_id:
-        subscription = get_object_or_404(AIn7Subscription, pk=subscription_id)
-        title = _('Modification of a subscription for')
-        msgDone = _('Subscription informations updated successfully.')
-    return ain7_generic_edit(
-        request, subscription, AIn7SubscriptionForm,
-        {'member': ain7member}, 'annuaire/edit_form.html',
-        {'action_title': title, 'person': person,
-         'back': request.META.get('HTTP_REFERER', '/')}, {},
-        '/annuaire/%s/subscriptions/' % user_id, msgDone)
-
-@confirmation_required(lambda user_id=None, subscription_id=None : str(get_object_or_404(AIn7Subscription, pk=subscription_id)), 'annuaire/base.html', _('Do you really want to delete this subscription'))
-@login_required
-def subscription_delete(request, user_id=None, subscription_id=None):
-
-    r = check_access(request, request.user, ['ain7-secretariat'])
-    if r:
-        return r
-
-    return ain7_generic_delete(request,
-        get_object_or_404(AIn7Subscription, pk=subscription_id),
-        '/annuaire/%s/subscriptions/' % user_id,
-        _('Subscription successfully deleted.'))
 
 @login_required
 def register(request, user_id=None):

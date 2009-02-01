@@ -368,12 +368,6 @@ class AIn7Member(LoggedClass):
     class Meta:
         verbose_name = _('AIn7 member')
 
-class AIn7Subscription(models.Model):
-    member = models.ForeignKey(AIn7Member, verbose_name=_('member'), related_name='subscriptions')
-    year = models.IntegerField(verbose_name=_('year'))
-    date = models.DateTimeField(verbose_name=_('date'))
-    amount = models.IntegerField(verbose_name=_('Amount'))
-
 # Phone number for a person
 class PhoneNumber(LoggedClass):
 

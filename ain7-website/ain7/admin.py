@@ -23,6 +23,7 @@
 from django.contrib import admin
 
 import ain7.manage.models as manage
+import ain7.adhesions.models as adhesions
 import ain7.annuaire.models as annuaire
 import ain7.emploi.models as emploi
 import ain7.evenements.models as evenements
@@ -32,6 +33,8 @@ import ain7.groupes_professionnels.models as groupes_professionnels
 import ain7.groupes_regionaux.models as groupes_regionaux
 
 admin.site.register(manage.Notification)
+
+admin.site.register(adhesions.Subscription)
 
 admin.site.register(annuaire.Country)
 admin.site.register(annuaire.PersonType)
@@ -47,7 +50,6 @@ admin.site.register(annuaire.PromoYear)
 admin.site.register(annuaire.Promo)
 admin.site.register(annuaire.Person)
 admin.site.register(annuaire.AIn7Member)
-admin.site.register(annuaire.AIn7Subscription)
 admin.site.register(annuaire.AddressType)
 admin.site.register(annuaire.Club)
 

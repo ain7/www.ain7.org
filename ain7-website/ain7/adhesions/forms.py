@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #
-# adhesions/models.py
+# annuaire/forms.py
 #
 #   Copyright (C) 2007-2008 AIn7
 #
@@ -20,27 +20,23 @@
 #
 #
 
-from django.db import models
+from django import forms
 from django.utils.translation import ugettext as _
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
+from django.forms.util import ValidationError
 
-from ain7.utils import LoggedClass
-from ain7.annuaire.models import AIn7Member
+from ain7.fields import AutoCompleteField
+from ain7.widgets import DateTimeWidget
+from ain7.adhesions.models import *
 
-class Subscription(LoggedClass):
+dateWidget = DateTimeWidget()
+dateWidget.dformat = '%d/%m/%Y'
+dateTimeWidget = DateTimeWidget()
+dateTimeWidget.dformat = '%d/%m/%Y %H:%M'
 
-    MODE = (
-            ('CASH', _('Cash')),
-            ('CHEQUE', _('Cheque')),
-            #('CARD', _('Card')),
-            )
+class SubscriptionForm(forms.ModelForm):
+    class Meta:
+        model = Subscription
+        exclude = ('member')
 
-    dues_amount = models.IntegerField(verbose_name=_('Dues amount'))
-    with_newspaper = models.BooleanField(verbose_name=_('Newspaper'), default=False)
-    newspaper_amount = models.IntegerField(verbose_name=_('Newspaper amount'), default=0)
-
-    year = models.IntegerField(verbose_name=_('year'))
-
-    member = models.ForeignKey(AIn7Member, verbose_name=_('member'), related_name='subscriptions')
-
-    def __unicode__(self):
-        return unicode(self.member) + ' ' + str(self.year)

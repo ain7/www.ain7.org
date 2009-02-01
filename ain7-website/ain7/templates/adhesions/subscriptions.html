@@ -1,4 +1,4 @@
-{% extends "annuaire/base.html" %}
+{% extends "adhesions/base.html" %}
 {% load i18n %}
 
 {% block content-left %}
@@ -12,15 +12,25 @@
 <table style="width: 100%">
 <tr>
   <th>{% trans "Year" %}</th>
-  <th>{% trans "Subscription date" %}</th>
   <th>{% trans "Amount" %}</th>
+  <th>{% trans "Canal n7" %}</th>
 </tr>
 {% for subscription in subscriptions_list %}
 <tr>
   <td align="center">{{ subscription.year }}</td>
-  <td align="center">{{ subscription.date|date:"l j F Y" }}</td>
   <td align="center">
-      {{ subscription.amount }}&nbsp;{% trans "euros" %}
+      {{ subscription.dues_amount }}&nbsp;{% trans "euros" %}
+  </td>
+  <td align="center">
+      {% if subscription.with_newspaper %}
+        {% ifnotequal subscription.newspaper_amount 0 %}
+          {{ subscription.newspaper_amount }}&nbsp;{% trans "euros" %}
+        {% else %}
+          {% trans "Free" %}
+        {% endifnotequal %}
+      {% else %}
+        {% trans "No" %}
+      {% endif %}
   </td>
   <td align="center">
       <a class="changelink" href="{{ subscription.id }}/edit/">

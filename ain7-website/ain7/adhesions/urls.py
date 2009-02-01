@@ -27,5 +27,10 @@ from ain7.adhesions.views import *
 urlpatterns = patterns('',
 
     (r'^$', index),
+    (r'^subscribe$', subscribe),
+    (r'^(?P<user_id>\d+)/subscriptions/$', subscriptions),
+    (r'^(?P<user_id>\d+)/subscriptions/(?P<subscription_id>\d+)/edit/$', subscription_edit),
+    (r'^(?P<user_id>\d+)/subscriptions/(?P<subscription_id>\d+)/delete/$', subscription_delete),
+    (r'^(?P<user_id>\d+)/subscriptions/add/$', subscription_edit),
 
 )

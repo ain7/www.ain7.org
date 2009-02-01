@@ -91,11 +91,6 @@ urlpatterns = patterns('',
     (r'^(?P<user_id>\d+)/irc/(?P<irc_id>\d+)/edit/$', irc_edit),
     (r'^(?P<user_id>\d+)/irc/(?P<irc_id>\d+)/delete/$', irc_delete),
     (r'^(?P<user_id>\d+)/irc/add/$', irc_edit),
-    # Subscriptions
-    (r'^(?P<user_id>\d+)/subscriptions/$', subscriptions),
-    (r'^(?P<user_id>\d+)/subscriptions/(?P<subscription_id>\d+)/edit/$', subscription_edit),
-    (r'^(?P<user_id>\d+)/subscriptions/(?P<subscription_id>\d+)/delete/$', subscription_delete),
-    (r'^(?P<user_id>\d+)/subscriptions/add/$', subscription_edit),
     # Sites Web
     (r'^(?P<user_id>\d+)/website/(?P<website_id>\d+)/edit/$', website_edit),
     (r'^(?P<user_id>\d+)/website/(?P<website_id>\d+)/delete/$', website_delete),

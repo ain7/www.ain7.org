@@ -301,10 +301,3 @@ class ClubMembershipForm(forms.ModelForm):
     class Meta:
         model = ClubMembership
         exclude = ('member')
-
-class AIn7SubscriptionForm(forms.ModelForm):
-    date = forms.DateTimeField(label=_('date').capitalize(),widget=dateTimeWidget)
-    class Meta:
-        model = AIn7Subscription
-        exclude = ('member')
-

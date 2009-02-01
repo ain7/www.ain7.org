@@ -8,16 +8,16 @@
 <div id="content-main">
 
 <div class="left">
-{% block content-main %}{% endblock %}
+{% block content-left %}{% endblock %}
 </div>
 
 
 <div class="right">
 
-    <h3>{% trans "Links" %}</h3>
+   <h3>{% trans "Actions" %}</h3>
    <div class="right_articles">
     <ul>
-    {% block links %}{% endblock %}
+    <li><a href="{% url ain7.adhesions.views.subscribe %}">{% trans "Subscribe" %}</a></li>
     </ul>
    </div>
 
