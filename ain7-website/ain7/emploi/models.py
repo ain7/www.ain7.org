@@ -39,7 +39,7 @@ ACTIONS = (
 class ActivityField(models.Model):
 
     field = models.CharField(verbose_name=_('field'), max_length=100)
-    code = models.CharField(verbose_name=_('code'), max_length=100)
+    code = models.CharField(verbose_name=_('code'), max_length=100, unique=True)
     keywords = models.CharField(verbose_name=_('keywords'), max_length=100)
     label = models.CharField(verbose_name=_('label'), max_length=100)
 

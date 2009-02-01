@@ -442,6 +442,15 @@ class Email(models.Model):
     def __unicode__(self):
         return self.email
 
+    def save(self):
+        # if we set "preferred" to True, then other are moved to False
+        if self.preferred_email==True:
+            for e in Email.objects.filter(person=self.person,preferred_email=True):
+                if e is not self:
+                    e.preferred_email = False
+                    e.save()
+        return super(Email, self).save()
+
     class Meta:
         verbose_name = _('email')
 

@@ -1,6 +1,9 @@
 {% extends "annuaire/base.html" %}
 {% load i18n %}
 
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
 {% block content-left %}
 
 <div class="left_box">
@@ -137,7 +140,7 @@
           <td style="width: 12%">
             <a href="/annuaire/{{ person.id }}/promo/{{ promo.id }}/delete/" class="deletelink">
               {% trans "Delete" %}</a></td>
-      <tr/>
+      </tr>
     {% endfor %}
   </table>
 {% else %}
@@ -196,9 +199,7 @@
 {% for email in person.emails.all %}
 <table style="border:0; width: 100%;">
 	    <tr><td><img src="/site_media/images/mail.png" alt="{% trans "email" %}"/><a href="mailto:{{ email.email }}">{{ email.email }}</a>
-	{% if email.is_confidential %} ({% trans "confidential" %})
-	{% else %}                     ({% trans "not confidential" %})
-	{% endif %}
+       ({% if email.is_confidential %}{% trans "confidential" %}{% else %}{% trans "not confidential" %}{% endif %}{% if email.preferred_email %}, {% trans "preferred" %}{% endif %})
 
 </td>
     <td style="width: 12%">
@@ -294,8 +295,8 @@
 
 <h2><a name="profexp"/>{% trans "Current professional experiences" %}</h2>
 
-{% for position in ain7member.positions.all %}
 <table>
+{% for position in ain7member.positions.all %}
     {% if not position.end_date %}
         <tr><td>{% trans "since" %}
                 <b>{{ position.start_date|date:"d/m/Y"|default:"???" }}</b>&nbsp;:</td>
@@ -306,8 +307,8 @@
             <tr><td></td><td>{{ position.description }}</td></tr>
         {% endif %}
     {% endif %}
-</table>
 {% endfor %}
+</table>
 <p><a href="/emploi/{{ person.user.id }}/cv/edit/" class="changelink">
 {% trans "Modify" %}</a></p>
 

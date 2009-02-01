@@ -61,7 +61,7 @@ class SearchOrganizationForm(forms.Form):
     name = forms.CharField(label=_('Name'), max_length=50, required=False)
 #     location = forms.CharField(
 #         label=_('Location'), max_length=50, required=False)
-    activity_field = forms.CharField(label=_('Activity field'), max_length=50, required=False,widget=AutoCompleteField(url='/ajax/activityfield/'))
+    activity_field = forms.CharField(label=_('Activity field'), max_length=50, required=False,widget=AutoCompleteField(url='/ajax/activity_field/'))
     activity_code = forms.CharField(label=_('Activity code'), max_length=50, required=False,widget=AutoCompleteField(url='/ajax/activitycode/'))
 
     def criteria(self):

@@ -47,8 +47,8 @@ class JobOfferForm(forms.Form):
     description = forms.CharField(label=_('description').capitalize(),
         max_length=500, required=False,
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':95}))
-    office = forms.ModelChoiceField(label=_('office').capitalize(),
-        queryset=Office.objects.valid_offices(), required=True)
+    office = forms.IntegerField(label=_('Office'), required=True,
+        widget=AutoCompleteField(url='/ajax/office/'))
     contact_name = forms.CharField(label=_('Contact name'), max_length=50,
         required=False, widget=forms.TextInput(attrs={'size':'40'}))
     contact_email = forms.EmailField(label=_('Contact email').capitalize(),
@@ -56,7 +56,19 @@ class JobOfferForm(forms.Form):
     track = forms.ModelMultipleChoiceField(label=_('track').capitalize(),
         queryset=Track.objects.filter(active=True), required=False)
     
-
+    def clean_office(self):
+        o = self.cleaned_data['office']
+        if o==None:
+            raise ValidationError(_('The office is mandatory.'))
+            return None
+        else:
+            office = None
+            try:
+                office = Office.objects.get(id=o)
+            except Office.DoesNotExist:
+                raise ValidationError(_('The entered office does not exist.'))
+            return office
+    
     def save(self, user, job_offer=None):
         if not job_offer:
             job_offer = JobOffer()
@@ -115,11 +127,10 @@ class OrganizationForm(forms.Form):
     size = forms.IntegerField(
         label=_('Size'), required=True,
         widget=forms.Select(choices=Organization.ORGANIZATION_SIZE))
-    activity_field = forms.CharField(
-        label=_('Activity field'), max_length=50, required=True,
-        widget=AutoCompleteField(url='/ajax/activityfield/'))
+    activity_field = forms.IntegerField(label=_('Activity field'),
+        required=True, widget=AutoCompleteField(url='/ajax/activity_field/'))
     short_description = forms.CharField(
-        label=_('Short Description'), max_length=50)
+        label=_('Short Description'), max_length=50, required=False)
     long_description = forms.CharField(
         label=_('Long Description'), max_length=5000, required=False,
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':50}))
@@ -137,7 +148,7 @@ class OrganizationForm(forms.Form):
 #                 field.value = self.cleaned_data[field.name]
         org.name = self.cleaned_data['name']
         org.size = self.cleaned_data['size']
-        org.activity_field = ActivityField.objects.get(id=self.cleaned_data['activity_field'])
+        org.activity_field = ActivityField.objects.get(pk=self.cleaned_data['activity_field'])
         org.short_description = self.cleaned_data['short_description']
         org.long_description = self.cleaned_data['long_description']
         org.is_a_proposal = is_a_proposal
@@ -167,7 +178,7 @@ class OfficeFormNoOrg(forms.ModelForm):
 class PositionForm(forms.ModelForm):
     start_date = forms.DateTimeField(label=_('start date').capitalize(),widget=dateWidget)
     end_date = forms.DateTimeField(label=_('end date').capitalize(), widget=dateWidget, required=False)
-    office = forms.IntegerField(label=_('Office'), required=False, widget=AutoCompleteField(url='/ajax/office/',addable=True))
+    office = forms.IntegerField(label=_('Office'), required=False, widget=AutoCompleteField(url='/ajax/office/'))
 
     def clean_office(self):
         o = self.cleaned_data['office']

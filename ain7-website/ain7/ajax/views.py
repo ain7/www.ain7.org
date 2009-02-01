@@ -36,7 +36,7 @@ def ajaxed_fields():
             PromoYear: 'promoyear',
             Track: 'track',
             Organization: 'organization',
-            ActivityField: 'activityfield',
+            ActivityField: 'activity_field',
             Permission: 'permission',
             Office: 'office'}
 
@@ -44,7 +44,7 @@ def completion_list(objects):
     """Builds and returns the completion list, from the query."""
     elements = []
     for o in objects:
-        elements.append({'id': o.id,
+        elements.append({'id': o.pk,
             'displayValue': o.autocomplete_str(),
             'value': o.autocomplete_str()})
     return elements
@@ -105,7 +105,7 @@ def organization(request):
     return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
 @login_required
-def activityfield(request):
+def activity_field(request):
     elements = []
 
     if request.method == 'POST':

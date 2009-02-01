@@ -253,7 +253,7 @@ def job_edit(request, emploi_id):
 @login_required
 def job_register(request):
 
-    f = JobOfferForm({})
+    f = JobOfferForm()
 
     if request.method == 'POST':
         f = JobOfferForm(request.POST)
@@ -398,7 +398,7 @@ def organization_edit_data(request, organization_id=None):
     if request.method == 'GET':
         f = OrganizationForm(
             {'name':org.name, 'size':org.size,
-             'activity_field':org.activity_field,
+             'activity_field':org.activity_field.pk,
              'short_description':org.short_description,
              'long_description':org.long_description})
         return ain7_render_to_response(request, 'emploi/office_create.html',

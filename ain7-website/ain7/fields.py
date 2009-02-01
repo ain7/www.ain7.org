@@ -67,7 +67,7 @@ class AutoCompleteField(TextInput):
         if value != "-1" and value != None:
             for objClass, objName in ajaxed_fields().iteritems():
                 if objName == name:
-                    obj = objClass.objects.get(id=value)
+                    obj = objClass.objects.get(pk=value)
                     valueTxt = obj.autocomplete_str()
         if value:
             value = smart_unicode(value)

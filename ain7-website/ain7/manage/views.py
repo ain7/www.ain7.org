@@ -382,7 +382,7 @@ def organization_edit(request, organization_id=None):
         organization = get_object_or_404(Organization, pk=organization_id)
         form = OrganizationForm(
             {'name': organization.name, 'size': organization.size,
-             'activity_field': organization.activity_field,
+             'activity_field': organization.activity_field.pk,
              'short_description': organization.short_description,
              'long_description': organization.long_description })
         action_title = _('Edit an organization')
@@ -401,7 +401,7 @@ def organization_edit(request, organization_id=None):
             request.user.message_set.create(message=msg)
             return HttpResponseRedirect('/manage/organizations/%s/' % org.id)
         else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No organization registered.')+str(form.errors))
+            request.user.message_set.create(message=_('Something was wrong in the form you filled. No organization registered.'))
 
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request,
@@ -508,7 +508,7 @@ def organization_register_proposal(request, proposal_id=None):
     form = OrganizationForm(
         {'name': proposal.modified.name,
          'size': proposal.modified.size,
-         'activity_field': str(proposal.modified.activity_field),
+         'activity_field': proposal.modified.activity_field.pk,
          'short_description': proposal.modified.short_description, 
          'long_description': proposal.modified.long_description })
 
@@ -543,14 +543,15 @@ def organization_edit_proposal(request, proposal_id=None):
     form = OrganizationForm(
         {'name': proposal.modified.name,
          'size': proposal.modified.size,
-         'activity_field': str(proposal.modified.activity_field),
+         'activity_field': proposal.modified.activity_field.pk,
          'short_description': proposal.modified.short_description, 
          'long_description': proposal.modified.long_description })
 
     if request.method == 'POST':
         form = OrganizationForm(request.POST)
         if form.is_valid():
-            organization = form.save(is_a_proposal=False,
+            organization = form.save(user=request.user,
+                                     is_a_proposal=False,
                                      organization=proposal.original)
             # on supprime la notification et la proposition
             notification = Notification.objects.get(
