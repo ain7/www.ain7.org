@@ -288,8 +288,31 @@ def filldb():
     lepaysdesschtroumpfs.save()
 
     # Regional group
-    idfgroup = groupes_regionaux.Group(name=u"Ile de France")
-    idfgroup.save()
+    gr1 = groupes_regionaux.Group(name=u"Alpes côte d'azur")
+    gr1.save()
+    gr2 = groupes_regionaux.Group(name=u"Centre")
+    gr2.save()
+    gr3 = groupes_regionaux.Group(name=u"Midi-Pyrénées")
+    gr3.save()
+    gr4 = groupes_regionaux.Group(name=u"Nord-Picardie")
+    gr4.save()
+    gr5 = groupes_regionaux.Group(name=u"Aquitaine")
+    gr5.save()
+    gr6 = groupes_regionaux.Group(name=u"Rhône-Alpes")
+    gr6.save()
+    gr7 = groupes_regionaux.Group(name=u"Est")
+    gr7.save()
+    gr8 = groupes_regionaux.Group(name=u"Ouest")
+    gr8.save()
+    gr9 = groupes_regionaux.Group(name=u"Marseille-Provence")
+    gr9.save()
+    gr10 = groupes_regionaux.Group(name=u"Normandie")
+    gr10.save()
+    gr11 = groupes_regionaux.Group(name=u"Région Parisienne")
+    gr11.save(3
+    gr12 = groupes_regionaux.Group(name=u"Langudoc-Roussillon")
+    gr12.save()
+
 
     # Groups / Roles
     ain7_admin = Group(name='ain7-admin')
@@ -1020,99 +1043,16 @@ Prochaines manifestations
 <p>en 2002, manifestation de prestige à l'occasion de la sortie de la première promotion de la Filière "Télécommunications &amp; Réseaux". Programme de la manifestation en cours d'élaboration.</p>"""
     ain7telecom.save()
 
-    ain7ge = groupes_professionnels.GroupPro()
-    ain7ge.name = "genie-electrique"
-    ain7ge.description = "Génie Electrique"
-    ain7ge.page_web = """<p>Quand les limites sont en cause…</p>
-
-<p>Joël L'HERMITTE (EN 59)</p>
-
-<p>Le compte rendu des activités explicite des soutiens qui convergent vers notre groupe : relations avec l'école, avec les élèves, avec l'étranger, création des affiliés, du prix de la vie associative, implication au CNISF, qualité de l'annuaire, messagerie électronique, ouverture de site web aux adhérents et aux groupes professionnels…. A nous d'exploiter ces moyens pour avoir la chance d'être saisis par la multitude croissante dont l'e.mail figure dans l'annuaire traditionnel.</p>
-
-<p>Nous affichons clairement qu'il faut être deux pour démarrer un groupe professionnel, l'un du pôle association étant membre du bureau, l'autre du pôle client étant l'animateur. L'administrateur dispose de la liaison avec la prise de décision administrative et de la cohérence dans la stratégie multi-agent du groupe professionnel. L'animateur est confronté à une cible hypothétique faite de systèmes dynamiques complexes et de paradoxes.</p>
-
-<ul>
-  <li>En 1999, nous avons rédigé une CHARTE qui fut acceptée par le bureau il y a un an.</li>
-  <li>En 2000, nous avons organisé une réunion sur le devenir des industries de l'énergie Électrique en étant pris en charge par le Groupe parisien.</li>
-  <li>En 2001, nous consolidons notre mode de fonctionnement à l'horizon 2003 avec un noyau participatif de dix personnes, une communication active, une représentation pertinente et une réflexion sur le financement… Nous garderons la Charte en position ouverte puisqu'il n'existe en la matière ni tradition, ni socle jamais remis en cause. Au titre de notre savoir Néo-associatif, nous posons le principe que la souplesse surclasse l'immuable et que les fondamentaux sont en réalité des fusibles placés au plus près de la critique. Notre développement hypothétique se reformule comme la nécessité de diffuser ce qui sera opératoire demain et que nous ne savons pas ou dont nous n'avons pas idée.</li>
-  <li>La tradition nous dit de faire de la science parce que c'est légitime et que la raison est garante de ce que nous n'avons pas idée. Nous avons commencé à diffuser le lieu de ce dont nous n'avons pas idée. Cette diffusion à l'intérieur de la base de connaissance que représente les anciens N7 afin de scruter et détecter le sillage de l'émergence.</li>
-</ul>
-
-<p><b>LA CHARTE</b></p>
-
-<p>Elle se veut être le reflet de l'association comme principe législateur des rapports humains et de l'intersubjectivité entre les diplômés N7, principe fondateur du groupe d'individus dans le but d'une activité commune, relativement à des règles garantissant la transparence. Il importe à chacun de connaître les limites de ce qu'il peut dire ou ne pas dire vis à vis de ses employeurs et partenaires. De ce fait, et par principe, notre prospective portera exclusivement sur le devenir des professions sans mettre les entreprises en cause dans le jeu des acteurs. Cette vision des choses permettra de constituer une bénéfice partagé malgré la prégnance de la concurrence. Ici sont liées les idées dont on parle, les idées dont on a rien à dire, tout ce dont nous n'avons idée. Le commencement est au milieu. La charte formalise la quête en quatre points :<p>
-
-<p><b>1. L'électricité dans un monde en devenir</b></p>
-
-<ul>
-  <li>A quelles évolution faut-il être attentif ?</li>
-  <li>Quand et où doivent elles avoir lieu et dans quelles conditions ?</li>
-  <li>Comment tirer partie des nouvelles possibilités ?</li>
-  <li>Comment réduire les risques qui ne sont pas négligeables ?</li>
-  <li>A quoi bon des mutations industrielles sans l'instrumentation de contrôle et commande ?</li>
-  <li>A quoi bon l'informatique sans l'électricité qui exécute l'action ?</li>
-</ul>
-
-<p>Aujourd'hui la compétence surclasse le métier et la plus importante source de productivité découle d'une action du savoir sur le savoir lui-même, à partir de ce questionnement.</p>
-
-<p><b>2. Le bouleversement des relations entre les partenaires</b></p>
-
-<ul>
-  <li>Comment évoluent les rapports de forces ?</li>
-  <li>Où en est la qualité globale puisque tout résultat du progrès est limité ?</li>
-  <li>Quelle adéquation entre les produits et leur usage ?</li>
-  <li>Quelle évolution des organisations et des professions ?</li>
-  <li>La loi, la règle, la norme, la sanction, quel impact du juridisme ?</li>
-</ul>
-
-<p>A l'encontre d'un développement acceptable ou souhaitable, l'idéologie nous détache du passé, brouille notre visibilité de l'avenir dans le présent, instaure l'incertitude et le risque dans notre quotidien.</p>
-
-<p><b>3. La course à l'innovation modifie ses règles</b></p>
-
-<ul>
-  <li>Quelles liaisons entre la formation, la recherche, le développement, le marché, le droit ?</li>
-  <li>La logique des projets et la logique des questions avec quatre valeurs de vérité : oui, non, peut-être, je ne sais pas, et la résolution des problèmes complexes ?</li>
-</ul>
-
-<p>Une liaison privilégiée sera établie avec le corps enseignant et la recherche à l'école dans le cadre de la connexion avec les professions par les sociétés savantes et les structures professionnelles lors de manifestations thématiques.</p>
-
-<p><b>4. Méthodologies pour aller plus sûrement et plus vite au but en acceptant la complexité.</b></p>
-
-<ul>
-  <li>La normalisation</li>
-  <li>Les brevets</li>
-  <li>Le savoir faire,</li>
-  <li>Les bases de connaissances</li>
-  <li>La qualité globale et ses nouveaux outils</li>
-  <li>Les nouveaux outils de la communication</li>
-  <li>etc…</li>
-</ul>
-
-<p>L'originalité est d'associer les différentes industries électriques dans leur sémiotique propre et leur chaînes de valeur. Deux points sont essentiels : la forte implication des experts avec les parties prenantes dès que le départ d'un projet et le besoin de méthodes pour ne pas déformer leur diagnostic tout en renforçant la cohérence et la vérité des résultats et des configurations obtenues.</p>
-
-<p><b>LA DEMARCHE</b></p>
-
-<p>La gestion étant mise en place, l'étude commence. Nous approchons des limites de notre savoir néo-associatif par le constat que les personnes que nous ciblons sont inaccessibles par l'écriture et qu'il ne peuvent pas être réduits à l'écriture. Nous atteignons les limites de la disponibilité, de la mobilité, de la sollicitation, de l'ouverture… Ces causes peuvent se comprendre comme conditions de possibilité ou comme objet de notre savoir. En d'autres termes, quel est le destin de notre groupe professionnel qui ne veut pas s'affranchir des limitations de la cible d'une part et qui d'autre part applique à chaque adhérent une stratégie multicarte ? Ce destin serait de tendre à rencontrer comme limite ce qu'il sera parvenu à élaborer, en tant que construction hypothétique, comme cause de lui-même. Autrement dit, nous ne pouvons déplacer le frein à notre proposition associative, sans déplacer corrélativement, l'origine, les conditions de possibilité, l'objet du groupe professionnel.</p>
-
-<p><b>DU COTE DE L'ADHERENT</b></p>
-
-<p>Les conditions de fonctionnement sont les conditions de limitation. L'adhérent est distant et l'écriture est une mise à distance. Le téléphone ne fait que réduire la distance. Tout notre espoir est dans les nouvelles technologies. Deux adhérents distincts ou le même adhérent à deux moments différents sont tous deux hypothétiques, ils définissent un espace logique pour toute proposition associative. Il y a un entre-deux et un changement d'état. L'effectivité s'inscrit en blanc. L'effectivité du groupe professionnel est l'union à la négativité associative. C'est la relativité effective de l'action dans ce cadre de contraintes. L'effectivité appelle son propre dépassement dans les instances à un niveau d'intelligence plus élaboré . La réalité est constitué dans l'unité de l'extérieur et de l'intérieur par le dépassement du dualisme de la chose en soi et de ce dont on n'a pas idée, où le réel n'est pas le simple paraître du fondement.</p>
-
-<p>Cette nécessité encore aveugle de ce dont on n'a pas idée est à poser dans la sphère logique et conceptuelle du groupe professionnel où elle s'auto déploiera, comme contenu rationnel de l'expérience que la conscience fait du monde par opposition à tout ce qui n'est qu'idéal abstrait relevant du sentiment ou de l'imaginaire.</p>
-
-<p><b>DU COTE DE L'ASSOCIATION</b></p>
-
-<p>Les entretiens de salon de l'année 2000 révèlent une participation d'une très haute qualité assortie d'un effectif très réduit. Cette pratique semble beaucoup plus dans l'ère du temps que les grandes messes. C'est aussi que pour démarrer le groupe professionnel il faut la subsitualité des effectifs (individus, propositions, fonctions) et la correspondance des structures de part et d'autre (invité, adhérent et association).</p>
-
-<p>A chaque fois, il faudra construire ce rapport des effectivités mises en correspondance à travers le groupe professionnel. C'est un rapport du réel à du réel, de part et d'autre. L'effectivité de l'association doit être en correspondance avec ce qui s'inscrit en blanc entre deux adhérents hypothétiques de manière à ce que les bords puissent être comparés, c'est à dire faire percevoir les limites aux causes.</p>
-
-<p>La limite est principe de clôture et principe de transgression, franchir cette limite est devenir réellement soi-même en se posant comme autre que soi.</p>"""
-    ain7ge.save()
-
+    ain7energie = groupes_professionnels.GroupPro()
+    ain7energie.name = "energie"
+    ain7energie.description = "Groupe Energie"
+    ain7energie.web_page = "Issu du groupe \"Génie Electrique\", ce groupe est en cours de reconstitution et doit démarrer des activités élargies au printemps 2009."
+    ain7energie.save()
 
     ain7aero = groupes_professionnels.GroupPro()
     ain7aero.name = "aero"
-    ain7aero.description = "Groupe Aéronautique"
+    ain7aero.description = "Groupe Aérospace"
+    ain7aero.web_page = "Ce groupe résidant à Toulouse, organise régulièrement des rencontres et bénéficie notamment de la présence de nombreux ingénieurs ENSEEIHT au sein du pôle de compétitivité \"Aerospace Valley\"."
     ain7aero.save()
 
     # L'association

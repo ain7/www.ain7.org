@@ -104,12 +104,10 @@ class Organization(LoggedClass):
     activity_field = models.ForeignKey(ActivityField, verbose_name=_('Activity field'), related_name='organizations')
     short_description = models.CharField(verbose_name=_('short description'), max_length=50, blank=True, null=True)
     long_description = models.TextField(verbose_name=_('long description'), blank=True, null=True)
-    is_a_proposal = models.BooleanField(
-        verbose_name=_('is a proposal'), default=False)
+    is_a_proposal = models.BooleanField(verbose_name=_('is a proposal'), default=False)
     # invalid organizations are out-of-date (closed) ones
     # we keep them as they are used for old positions, etc.
-    is_valid = models.BooleanField(
-        verbose_name=_('is valid'), default=True)
+    is_valid = models.BooleanField(verbose_name=_('is valid'), default=True)
     objects = OrganizationManager()
 
     def __unicode__(self):

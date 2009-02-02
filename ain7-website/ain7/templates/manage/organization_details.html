@@ -19,7 +19,15 @@
 {{ organization.long_description|safe }}
 {% endif %}
 
-<!--TODO: ajouter size + field-->
+{% if organization.size %}
+<p>{% trans "Size" %}: {{ organization.get_size_display }}</p>
+{% endif %}
+
+{% if organization.activity_field %}
+<p>{% trans "Activity field" %}: {{ organization.activity_field }}</p>
+{% endif %}
+
+
 <h2>{% trans "List of offices" %}</h2>
 {% if organization.offices.all %}
 <ul>
