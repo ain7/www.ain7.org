@@ -288,7 +288,7 @@ def filldb():
     lepaysdesschtroumpfs.save()
 
     # Regional group
-    gr1 = groupes_regionaux.Group(name=u"Alpes côte d'azur")
+    gr1 = groupes_regionaux.Group(name=u"Alpes Côte d'Azur")
     gr1.save()
     gr2 = groupes_regionaux.Group(name=u"Centre")
     gr2.save()
@@ -309,8 +309,8 @@ def filldb():
     gr10 = groupes_regionaux.Group(name=u"Normandie")
     gr10.save()
     gr11 = groupes_regionaux.Group(name=u"Région Parisienne")
-    gr11.save(3
-    gr12 = groupes_regionaux.Group(name=u"Langudoc-Roussillon")
+    gr11.save()
+    gr12 = groupes_regionaux.Group(name=u"Languedoc-Roussillon")
     gr12.save()
 
 
@@ -1453,12 +1453,12 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     travel6.prix = 2430
     travel6.save()
 
-    groupes_regionaux.GroupMembership(group=idfgroup, member=lionel).save()
-    groupes_regionaux.GroupRole(group=idfgroup, member=lionel, type=0).save()
-    groupes_regionaux.GroupMembership(group=idfgroup, member=alex).save()
-    groupes_regionaux.GroupRole(group=idfgroup, member=alex, type=2).save()
-    groupes_regionaux.GroupMembership(group=idfgroup, member=pierref).save()
-    groupes_regionaux.GroupMembership(group=idfgroup, member=olivier).save()
+    groupes_regionaux.GroupMembership(group=gr11, member=lionel).save()
+    groupes_regionaux.GroupRole(group=gr11, member=lionel, type=0).save()
+    groupes_regionaux.GroupMembership(group=gr11, member=alex).save()
+    groupes_regionaux.GroupRole(group=gr11, member=alex, type=2).save()
+    groupes_regionaux.GroupMembership(group=gr11, member=pierref).save()
+    groupes_regionaux.GroupMembership(group=gr11, member=olivier).save()
 
     utc = vobject.icalendar.utc
 
@@ -1473,7 +1473,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     evenement1.publication_end = datetime.now() + timedelta(30)
     evenement1.image = "data/anniversaire.jpg"
     evenement1.save()
-    evenement1.regional_groups.add(idfgroup)
+    evenement1.regional_groups.add(gr11)
     evenement1.save()
 
     evenement2 = evenements.Event()
@@ -1487,7 +1487,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     evenement2.publication_start = datetime.now()
     evenement2.publication_end = datetime.now() + timedelta(30)
     evenement2.save()
-    evenement2.regional_groups.add(idfgroup)
+    evenement2.regional_groups.add(gr11)
     evenement2.save()
 
     job1 = emploi.JobOffer()

@@ -148,7 +148,9 @@ def ain7_generic_edit(request, obj, MyForm, formInitDict, formPage, formPageDict
             pageDict.update(formPageDict)
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
             return ain7_render_to_response(request, formPage, pageDict)
-        redirect = Template(redirectPage).substitute(objid=obj.id)
+        redirect = redirectPage
+        if obj:
+            redirect = Template(redirectPage).substitute(objid=obj.id)
         return HttpResponseRedirect(redirect)
 
 def ain7_generic_delete(request, obj, redirectPage, msgDone):

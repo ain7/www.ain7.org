@@ -101,6 +101,7 @@ class EventForm(forms.ModelForm):
     
     class Meta:
         model = Event
+        exclude = ('organizers')
 
     def clean_publication_end(self):
         if self.cleaned_data.get('publication_start') and \
@@ -121,4 +122,15 @@ class EventForm(forms.ModelForm):
         else:
             event = super(EventForm, self).save()            
         return event
+
+class OrganizerForm(forms.Form):
+    organizer = forms.IntegerField(label='',
+        widget=AutoCompleteField(url='/ajax/person/'))
+
+    def save(self, *args, **kwargs):
+        if kwargs.has_key('contributor') and kwargs.has_key('event'):
+            event = kwargs['event']
+            event.organizers.add(self.cleaned_data['organizer'])
+            event.logged_save(kwargs['contributor'])
+        return
 

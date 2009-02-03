@@ -58,10 +58,12 @@ def edit(request, event_id):
 
     event = get_object_or_404(Event, pk=event_id)
     return ain7_generic_edit(
-        request, event, EventForm, {}, 'evenements/edit.html',
+        request, event, EventForm, {},
+        'evenements/edit.html',
         {'event': event, 'back': request.META.get('HTTP_REFERER', '/'),
          'event_list': Event.objects.all(),
-         'next_events': Event.objects.next_events()},
+         'next_events': Event.objects.next_events(),
+         'organizer_form': OrganizerForm()},
         {'contributor': request.user.person},
         '/evenements/%s/' % (event.id), _('Event successfully updated.'))
 
@@ -244,3 +246,24 @@ def validate(request, event_id):
     return ain7_render_to_response(request, 'evenements/validate.html',
                             {'event': event})
 
+@login_required
+def organizer_add(request, event_id):
+
+    event = get_object_or_404(Event, pk=event_id)
+    return ain7_generic_edit(
+        request, None, OrganizerForm, {}, 'evenements/organizer_add.html',
+        {'back': request.META.get('HTTP_REFERER', '/')},
+        {'contributor': request.user.person, 'event': event},
+        '/evenements/%s/edit/' % event.id, _('Organizer successfully added.'))
+
+@confirmation_required(lambda event_id=None, organizer_id=None : str(get_object_or_404(Person, pk=organizer_id)), 'evenements/base.html', _('Do you really want to remove this organizer'))
+@login_required
+def organizer_delete(request, event_id, organizer_id):
+
+    event = get_object_or_404(Event, pk=event_id)
+    organizer = get_object_or_404(Person, pk=organizer_id)
+    if organizer in event.organizers.all():
+        event.organizers.remove(organizer)
+        request.user.message_set.create(
+            message='Organizer successfully removed')
+    return HttpResponseRedirect('/evenements/%s/edit/' % event.id)

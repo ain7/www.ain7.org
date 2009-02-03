@@ -19,6 +19,21 @@
 <form method="post" action="." enctype="multipart/form-data">
 <table>
 {{ form }}
+{% for organizer in event.organizers.all %}
+  <tr>
+    <th>{% if forloop.first %}{% trans "Organizers" %}{% endif %}</th>
+    <td>{{ organizer }}&nbsp;
+        <a href="/evenements/{{ event.id }}/organizer/{{ organizer.id }}/delete/" class="deletelink">
+      {% trans "Delete" %}</a></td>
+  </tr>
+{% endfor %} 
+  <tr>
+    <th>{% if event.organizers.all|length_is:"0" %}
+          {% trans "Organizers" %}{% endif %}</th>
+    <td><a href="/evenements/{{ event.id }}/organizer/add/" class="addlink">
+      {% trans "Add an organizer" %}</a>
+    </td>
+  </tr>
 </table>
   {% if event.image %}
     <a href="/evenements/{{ event.id }}/image/delete/" class="deletelink">
