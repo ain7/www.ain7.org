@@ -1,0 +1,19 @@
+{% extends "evenements/base.html" %}
+{% load i18n %}
+
+{% block content-main %}
+
+<h3>{% trans "Choose an organizer to add" %}</h3>
+
+<form method="post" action="." enctype="multipart/form-data">
+<table>
+{{ form }}
+</table>
+<div style="text-align: center">
+<a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
+<input type="submit" class="button" value="{% trans "Register" %}" />
+</div>
+</form>
+{% endblock %}
+
+
