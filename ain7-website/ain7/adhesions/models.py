@@ -35,12 +35,12 @@ class Subscription(LoggedClass):
             )
 
     dues_amount = models.IntegerField(verbose_name=_('Dues amount'))
-    with_newspaper = models.BooleanField(verbose_name=_('Newspaper'), default=False)
-    newspaper_amount = models.IntegerField(verbose_name=_('Newspaper amount'), default=0)
+    newspaper_amount = models.IntegerField(verbose_name=_('Newspaper amount'), null=True, blank=True)
+    validated = models.BooleanField(verbose_name=_('validated'), default=False)
 
     year = models.IntegerField(verbose_name=_('year'))
 
     member = models.ForeignKey(AIn7Member, verbose_name=_('member'), related_name='subscriptions')
 
     def __unicode__(self):
-        return unicode(self.member) + ' ' + str(self.year)
+        return u'%s %s' % (self.member, self.year)

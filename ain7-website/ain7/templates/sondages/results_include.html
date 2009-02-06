@@ -7,9 +7,7 @@
          <div style="width: {{ choice.rate|floatformat:0 }}px;"></div>
       </div>
       <span>
-        {% blocktrans count choice.votes.count as counter %}
-          {{ counter }} vote{% plural %}{{ counter }} votes
-        {% endblocktrans %}
+        {% blocktrans count choice.votes.count as counter %}{{ counter }} vote{% plural %}{{ counter }} votes{% endblocktrans %}
         ({{choice.rate|floatformat:1 }}&nbsp;%)
      </span>
    </li>

@@ -38,5 +38,5 @@ dateTimeWidget.dformat = '%d/%m/%Y %H:%M'
 class SubscriptionForm(forms.ModelForm):
     class Meta:
         model = Subscription
-        exclude = ('member')
+        exclude = ('member', 'validated')
 

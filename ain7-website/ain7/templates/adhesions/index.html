@@ -6,8 +6,20 @@
 
 {% block content-left %}
 
-<h3>Adhésions!</h3>
+<h3>{{ subscriptions_list|length }} {% trans "last subscriptions" %}</h3>
 
+<table style="width: 100%">
+<tr>
+  <th>{% trans "Member" %}</th>
+  <th>{% trans "Year" %}</th>
+</tr>
+{% for subscription in subscriptions_list %}
+<tr>
+  <td align="center">{{ subscription.member.person.first_name }} {{ subscription.member.person.last_name }}</td>
+  <td align="center">{{ subscription.year }}</td>
+</tr>
+{% endfor %}
+</table>
 {% endblock %}
 
 

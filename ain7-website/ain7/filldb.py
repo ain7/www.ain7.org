@@ -452,31 +452,35 @@ def filldb():
     lionel_subscription1 = adhesions.Subscription()
     lionel_subscription1.member = lionel_ain7member
     lionel_subscription1.year = '2003'
-    lionel_subscription1.dues_amount = '50'
+    lionel_subscription1.dues_amount = 50
     lionel_subscription1.save()
 
     lionel_subscription2 = adhesions.Subscription()
     lionel_subscription2.member = lionel_ain7member
     lionel_subscription2.year = '2003'
-    lionel_subscription2.dues_amount = '50'
+    lionel_subscription2.dues_amount = 50
+    lionel_subscription2.newspaper_amount = 0
     lionel_subscription2.save()
 
     lionel_subscription3 = adhesions.Subscription()
     lionel_subscription3.member = lionel_ain7member
     lionel_subscription3.year = '2004'
     lionel_subscription3.dues_amount = '50'
+    lionel_subscription3.newspaper_amount = 15
     lionel_subscription3.save()
 
     lionel_subscription4 = adhesions.Subscription()
     lionel_subscription4.member = lionel_ain7member
     lionel_subscription4.year = '2005'
     lionel_subscription4.dues_amount = '50'
+    lionel_subscription4.newspaper_amount = 15
     lionel_subscription4.save()
 
     lionel_subscription5 = adhesions.Subscription()
     lionel_subscription5.member = lionel_ain7member
     lionel_subscription5.year = '2006'
     lionel_subscription5.dues_amount = '50'
+    lionel_subscription5.newspaper_amount = 15
     lionel_subscription5.save()
 
     pierref = annuaire.Person()

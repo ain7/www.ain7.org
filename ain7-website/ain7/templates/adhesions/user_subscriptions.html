@@ -1,0 +1,46 @@
+{% extends "adhesions/base.html" %}
+{% load i18n %}
+
+{% block content-left %}
+
+<h2>{{ person.first_name }} {{ person.last_name }} {% trans "subscriptions" %}</h2>
+
+<p>
+<a class="addlink" href="add/">{% trans "Add a subscription" %}</a>
+</p>
+
+<table style="width: 100%">
+<tr>
+  <th>{% trans "Year" %}</th>
+  <th>{% trans "Amount" %}</th>
+  <th>{% trans "Canal n7" %}</th>
+</tr>
+{% for subscription in subscriptions_list %}
+<tr>
+  <td align="center">{{ subscription.year }}</td>
+  <td align="center">
+      {{ subscription.dues_amount }}&nbsp;{% trans "euros" %}
+  </td>
+  <td align="center">
+      {% ifequal subscription.newspaper_amount None %}
+        {% trans "No" %}
+      {% else %}
+        {% ifequal subscription.newspaper_amount 0 %}
+          {% trans "Free" %}
+        {% else %}
+          {{ subscription.newspaper_amount }}&nbsp;{% trans "euros" %}
+        {% endifequal %}
+      {% endifequal %}
+  </td>
+  <td align="center">
+    {% if subscription.validated %}
+      {% trans "Validated" %}
+    {% else %}
+      {% trans "Not validated" %}
+    {% endif %}
+  </td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-03 23:35+0100\n"
+"POT-Creation-Date: 2009-02-06 01:20+0100\n"
 "PO-Revision-Date: 2009-02-03 23:35+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,12 +79,12 @@ msgid "Dues amount"
 msgstr "Montant de cotisation"
 
 #: adhesions/models.py:38
-msgid "Newspaper"
-msgstr "Canal N7"
-
-#: adhesions/models.py:39
 msgid "Newspaper amount"
 msgstr "Montant Canal N7"
+
+#: adhesions/models.py:39
+msgid "validated"
+msgstr "Validé"
 
 #: adhesions/models.py:41 annuaire/models.py:178
 msgid "year"
@@ -98,29 +98,33 @@ msgstr "année"
 msgid "member"
 msgstr "membre"
 
-#: adhesions/views.py:74
-msgid "Adding a subscription for"
-msgstr "Ajout d'une adhésion de"
-
-#: adhesions/views.py:75
-msgid "Subscription successfully added."
-msgstr "Adhésion ajoutée avec succès."
-
-#: adhesions/views.py:78
-msgid "Modification of a subscription for"
-msgstr "Modification d'une adhésion de"
-
-#: adhesions/views.py:79
-msgid "Subscription informations updated successfully."
-msgstr "Les informations d'adhésions ont été mises à jour"
+#: adhesions/views.py:76
+msgid "Do you really want to validate this subscription"
+msgstr "Souhaitez-vous vraiment supprimer cette adhésion  ?"
 
 #: adhesions/views.py:87
+msgid "Subscription successfully validated."
+msgstr "Adhésion ajoutée avec succès."
+
+#: adhesions/views.py:90
 msgid "Do you really want to delete this subscription"
 msgstr "Souhaitez-vous vraiment supprimer cette adhésion  ?"
 
-#: adhesions/views.py:98
+#: adhesions/views.py:100
 msgid "Subscription successfully deleted."
 msgstr "Adhésion effacée avec succès."
+
+#: adhesions/views.py:128
+msgid "You already subscribe this year."
+msgstr "Vous avez adhéré cette année."
+
+#: adhesions/views.py:131
+msgid "Adding a subscription for"
+msgstr "Ajout d'une adhésion de"
+
+#: adhesions/views.py:132
+msgid "Subscription successfully added."
+msgstr "Adhésion ajoutée avec succès."
 
 #: annuaire/forms.py:40 annuaire/forms.py:85 annuaire/models.py:233
 #: manage/forms.py:39 manage/forms.py:103 templates/annuaire/edit.html:25
@@ -357,7 +361,9 @@ msgstr "école"
 msgid "active"
 msgstr "actif"
 
-#: annuaire/models.py:187 templates/adhesions/subscriptions.html:14
+#: annuaire/models.py:187 templates/adhesions/index.html:14
+#: templates/adhesions/subscriptions.html:29
+#: templates/adhesions/user_subscriptions.html:14
 msgid "Year"
 msgstr "Année"
 
@@ -2074,7 +2080,8 @@ msgid "The association"
 msgstr "L'association"
 
 #: templates/base.html:76 templates/adhesions/base.html:20
-msgid "Subscribe"
+#: templates/adhesions/subscriptions.html:9
+msgid "Subscriptions"
 msgstr "Adhésions"
 
 #: templates/base.html:79
@@ -2171,7 +2178,19 @@ msgstr "Mentions légales"
 msgid "Actions"
 msgstr "Actions"
 
-#: templates/adhesions/base.html:25 templates/association/base.html:37
+#: templates/adhesions/base.html:21 templates/adhesions/subscriptions.html:7
+msgid "Subscriptions to validate"
+msgstr "Adhésions à valider"
+
+#: templates/adhesions/base.html:23
+msgid "Subscribe"
+msgstr "Adhérer"
+
+#: templates/adhesions/base.html:24
+msgid "My subscriptions"
+msgstr "Mes adhésions"
+
+#: templates/adhesions/base.html:30 templates/association/base.html:37
 #: templates/emploi/job_details.html:62 templates/evenements/base.html:21
 #: templates/evenements/details.html:57
 #: templates/evenements/participants.html:29
@@ -2183,11 +2202,11 @@ msgstr "Actions"
 msgid "Statistics"
 msgstr "Statistiques"
 
-#: templates/adhesions/base.html:29 templates/association/base.html:40
+#: templates/adhesions/base.html:34 templates/association/base.html:40
 msgid "Number of members"
 msgstr "Nombre de membres"
 
-#: templates/adhesions/base.html:32
+#: templates/adhesions/base.html:37
 msgid "Number of subscribers"
 msgstr "Nombre d'adhérents"
 
@@ -2249,44 +2268,117 @@ msgstr "Annuler"
 msgid "Save"
 msgstr "Valider"
 
-#: templates/adhesions/subscriptions.html:6
-msgid "subscriptions"
-msgstr "adhésions"
+#: templates/adhesions/index.html:9
+msgid "last subscriptions"
+msgstr "dernières adhésions"
 
-#: templates/adhesions/subscriptions.html:9
-msgid "Add a subscription"
-msgstr "Ajouter une adhésion"
+#: templates/adhesions/index.html:13 templates/adhesions/subscriptions.html:28
+msgid "Member"
+msgstr "Membre"
 
 #: templates/adhesions/subscriptions.html:15
+#: templates/annuaire/adv_search.html:83 templates/annuaire/search.html:21
+#: templates/emploi/job_search.html:22 templates/evenements/search.html:24
+#: templates/manage/contributions.html:24
+#: templates/manage/organizations_adv_search.html:91
+#: templates/manage/organizations_search.html:23
+#: templates/manage/role_search.html:23 templates/manage/users_search.html:23
+#: templates/news/search.html:22 templates/voyages/details.html:21
+#: templates/voyages/search.html:22
+msgid "of"
+msgstr "de"
+
+#: templates/adhesions/subscriptions.html:15
+#: templates/annuaire/adv_search.html:83 templates/annuaire/search.html:21
+#: templates/emploi/job_search.html:22 templates/evenements/search.html:24
+#: templates/manage/contributions.html:24
+#: templates/manage/organizations_adv_search.html:91
+#: templates/manage/organizations_search.html:23
+#: templates/manage/role_search.html:23 templates/manage/users_search.html:23
+#: templates/news/search.html:22 templates/voyages/search.html:22
+msgid "results"
+msgstr "résultats"
+
+#: templates/adhesions/subscriptions.html:18
+#: templates/annuaire/adv_search.html:86 templates/annuaire/search.html:24
+#: templates/emploi/job_search.html:25 templates/evenements/search.html:27
+#: templates/manage/contributions.html:27
+#: templates/manage/organizations_adv_search.html:94
+#: templates/manage/organizations_search.html:26
+#: templates/manage/role_search.html:26 templates/manage/users_search.html:26
+#: templates/news/search.html:25 templates/voyages/search.html:25
+msgid "First"
+msgstr "Début"
+
+#: templates/adhesions/subscriptions.html:19
+#: templates/annuaire/adv_search.html:87 templates/annuaire/search.html:25
+#: templates/emploi/job_search.html:26 templates/evenements/search.html:28
+#: templates/manage/contributions.html:28
+#: templates/manage/organizations_adv_search.html:95
+#: templates/manage/organizations_search.html:27
+#: templates/manage/role_search.html:27 templates/manage/users_search.html:27
+#: templates/news/search.html:26 templates/voyages/search.html:26
+msgid "Previous"
+msgstr "Précédent"
+
+#: templates/adhesions/subscriptions.html:20
+#: templates/annuaire/adv_search.html:88 templates/annuaire/search.html:26
+#: templates/emploi/job_search.html:27 templates/evenements/search.html:29
+#: templates/manage/contributions.html:29
+#: templates/manage/organizations_adv_search.html:96
+#: templates/manage/organizations_search.html:28
+#: templates/manage/role_search.html:28 templates/manage/users_search.html:28
+#: templates/news/search.html:27 templates/voyages/search.html:27
+msgid "Next"
+msgstr "Suivant"
+
+#: templates/adhesions/subscriptions.html:21
+#: templates/annuaire/adv_search.html:89 templates/annuaire/search.html:27
+#: templates/emploi/job_search.html:28 templates/evenements/search.html:30
+#: templates/manage/contributions.html:30
+#: templates/manage/organizations_adv_search.html:97
+#: templates/manage/organizations_search.html:29
+#: templates/manage/role_search.html:29 templates/manage/users_search.html:29
+#: templates/news/search.html:28 templates/voyages/search.html:28
+msgid "Last"
+msgstr "Fin"
+
+#: templates/adhesions/subscriptions.html:30
+#: templates/adhesions/user_subscriptions.html:15
 msgid "Amount"
 msgstr "Montant"
 
-#: templates/adhesions/subscriptions.html:16
+#: templates/adhesions/subscriptions.html:31
+#: templates/adhesions/user_subscriptions.html:16
 msgid "Canal n7"
 msgstr "Canal n7"
 
-#: templates/adhesions/subscriptions.html:22
-#: templates/adhesions/subscriptions.html:27
+#: templates/adhesions/subscriptions.html:38
+#: templates/adhesions/subscriptions.html:47
+#: templates/adhesions/user_subscriptions.html:22
+#: templates/adhesions/user_subscriptions.html:31
 msgid "euros"
 msgstr "euros"
 
-#: templates/adhesions/subscriptions.html:29
-msgid "Free"
-msgstr "Gratuit"
-
-#: templates/adhesions/subscriptions.html:32 templates/annuaire/edit.html:105
-#: templates/annuaire/edit.html.py:108 templates/annuaire/edit.html:122
-#: templates/manage/office_details.html:79
+#: templates/adhesions/subscriptions.html:42
+#: templates/adhesions/user_subscriptions.html:26
+#: templates/annuaire/edit.html:105 templates/annuaire/edit.html.py:108
+#: templates/annuaire/edit.html:122 templates/manage/office_details.html:79
 #: templates/manage/organization_details.html:104
 #: templates/pages/confirm.html:16
 msgid "No"
 msgstr "Non"
 
-#: templates/adhesions/subscriptions.html:37
-msgid "Edit"
-msgstr "Édition"
+#: templates/adhesions/subscriptions.html:45
+#: templates/adhesions/user_subscriptions.html:29
+msgid "Free"
+msgstr "Gratuit"
 
-#: templates/adhesions/subscriptions.html:39
+#: templates/adhesions/subscriptions.html:54 templates/news/write.html:16
+msgid "Validate"
+msgstr "Enregistrer"
+
+#: templates/adhesions/subscriptions.html:56
 #: templates/annuaire/adv_search.html:31 templates/annuaire/adv_search.html:53
 #: templates/annuaire/edit.html:52 templates/annuaire/edit.html.py:142
 #: templates/annuaire/edit.html:167 templates/annuaire/edit.html.py:188
@@ -2310,6 +2402,22 @@ msgstr "Édition"
 #: templates/voyages/responsibles.html:17
 msgid "Delete"
 msgstr "Supprimer"
+
+#: templates/adhesions/user_subscriptions.html:6
+msgid "subscriptions"
+msgstr "adhésions"
+
+#: templates/adhesions/user_subscriptions.html:9
+msgid "Add a subscription"
+msgstr "Ajouter une adhésion"
+
+#: templates/adhesions/user_subscriptions.html:37
+msgid "Validated"
+msgstr "Validé"
+
+#: templates/adhesions/user_subscriptions.html:39
+msgid "Not validated"
+msgstr "Non validé"
 
 #: templates/annuaire/adv_search.html:12
 #: templates/manage/organizations_adv_search.html:15
@@ -2354,67 +2462,6 @@ msgstr "Rechercher"
 #: templates/manage/role_search.html:18 templates/manage/users_search.html:18
 msgid "Results list"
 msgstr "Résultats de votre recherche"
-
-#: templates/annuaire/adv_search.html:83 templates/annuaire/search.html:21
-#: templates/emploi/job_search.html:22 templates/evenements/search.html:24
-#: templates/manage/contributions.html:24
-#: templates/manage/organizations_adv_search.html:91
-#: templates/manage/organizations_search.html:23
-#: templates/manage/role_search.html:23 templates/manage/users_search.html:23
-#: templates/news/search.html:22 templates/voyages/details.html:21
-#: templates/voyages/search.html:22
-msgid "of"
-msgstr "de"
-
-#: templates/annuaire/adv_search.html:83 templates/annuaire/search.html:21
-#: templates/emploi/job_search.html:22 templates/evenements/search.html:24
-#: templates/manage/contributions.html:24
-#: templates/manage/organizations_adv_search.html:91
-#: templates/manage/organizations_search.html:23
-#: templates/manage/role_search.html:23 templates/manage/users_search.html:23
-#: templates/news/search.html:22 templates/voyages/search.html:22
-msgid "results"
-msgstr "résultats"
-
-#: templates/annuaire/adv_search.html:86 templates/annuaire/search.html:24
-#: templates/emploi/job_search.html:25 templates/evenements/search.html:27
-#: templates/manage/contributions.html:27
-#: templates/manage/organizations_adv_search.html:94
-#: templates/manage/organizations_search.html:26
-#: templates/manage/role_search.html:26 templates/manage/users_search.html:26
-#: templates/news/search.html:25 templates/voyages/search.html:25
-msgid "First"
-msgstr "Début"
-
-#: templates/annuaire/adv_search.html:87 templates/annuaire/search.html:25
-#: templates/emploi/job_search.html:26 templates/evenements/search.html:28
-#: templates/manage/contributions.html:28
-#: templates/manage/organizations_adv_search.html:95
-#: templates/manage/organizations_search.html:27
-#: templates/manage/role_search.html:27 templates/manage/users_search.html:27
-#: templates/news/search.html:26 templates/voyages/search.html:26
-msgid "Previous"
-msgstr "Précédent"
-
-#: templates/annuaire/adv_search.html:88 templates/annuaire/search.html:26
-#: templates/emploi/job_search.html:27 templates/evenements/search.html:29
-#: templates/manage/contributions.html:29
-#: templates/manage/organizations_adv_search.html:96
-#: templates/manage/organizations_search.html:28
-#: templates/manage/role_search.html:28 templates/manage/users_search.html:28
-#: templates/news/search.html:27 templates/voyages/search.html:27
-msgid "Next"
-msgstr "Suivant"
-
-#: templates/annuaire/adv_search.html:89 templates/annuaire/search.html:27
-#: templates/emploi/job_search.html:28 templates/evenements/search.html:30
-#: templates/manage/contributions.html:30
-#: templates/manage/organizations_adv_search.html:97
-#: templates/manage/organizations_search.html:29
-#: templates/manage/role_search.html:29 templates/manage/users_search.html:29
-#: templates/news/search.html:28 templates/voyages/search.html:28
-msgid "Last"
-msgstr "Fin"
 
 #: templates/annuaire/adv_search.html:106 templates/annuaire/search.html:43
 #: templates/manage/users_search.html:41
@@ -3528,10 +3575,6 @@ msgstr "Rechercher"
 msgid "No news item corresponds to your research."
 msgstr "Aucune actualité ne correspond à vos critères."
 
-#: templates/news/write.html:16
-msgid "Validate"
-msgstr "Enregistrer"
-
 #: templates/news/write.html:20
 msgid "To associate an image to this news, modify it after its creation."
 msgstr ""
@@ -3580,7 +3623,6 @@ msgid "Password"
 msgstr "Mot de passe"
 
 #: templates/pages/login.html:29
-#, fuzzy
 msgid "login"
 msgstr "Identifiant"
 
@@ -3632,14 +3674,10 @@ msgstr "Voir tous les sondages"
 msgid "List of surveys"
 msgstr "Liste des sondages"
 
-#: templates/sondages/results_include.html:10
-#, fuzzy, python-format
-msgid ""
-"\n"
-"          %(counter)s vote"
-msgid_plural ""
-"%(counter)s votes\n"
-"        "
+#: templates/sondages/results_include.html:10 templates/sondages/view.html:26
+#, python-format
+msgid "%(counter)s vote"
+msgid_plural "%(counter)s votes"
 msgstr[0] "%(counter)s vote"
 msgstr[1] "%(counter)s votes"
 
@@ -3651,13 +3689,6 @@ msgstr "Clôture des votes le %(end_date)s"
 #: templates/sondages/view.html:18
 msgid "Number of votes"
 msgstr "Nombre de votes"
-
-#: templates/sondages/view.html:26
-#, python-format
-msgid "%(counter)s vote"
-msgid_plural "%(counter)s votes"
-msgstr[0] "%(counter)s vote"
-msgstr[1] "%(counter)s votes"
 
 #: templates/sondages/view.html:43
 msgid "Vote"
@@ -3920,3 +3951,26 @@ msgid "Do you really want this person not to be responsible of this travel"
 msgstr ""
 "Souhaitez-vous vraiment que cette personne ne soit pas responsable de ce "
 "voyage ?"
+
+#~ msgid ""
+#~ "\n"
+#~ "          %(counter)s vote\n"
+#~ "        "
+#~ msgid_plural ""
+#~ "\n"
+#~ "          %(counter)s votes\n"
+#~ "        "
+#~ msgstr[0] "%(counter)s vote"
+#~ msgstr[1] "%(counter)s votes"
+
+#~ msgid "Newspaper"
+#~ msgstr "Canal N7"
+
+#~ msgid "Modification of a subscription for"
+#~ msgstr "Modification d'une adhésion de"
+
+#~ msgid "Subscription informations updated successfully."
+#~ msgstr "Les informations d'adhésions ont été mises à jour"
+
+#~ msgid "Edit"
+#~ msgstr "Édition"
