@@ -43,10 +43,12 @@ def se_criterion_add(request, search_engine=None, filter_id=None,
 
     # build formFields: the form containing the list of fields to propose
     choiceList = []
-    for field,model in criteriaList(search_engine, request.user):
+    for field,model,printprefix in criteriaList(search_engine, request.user):
+        prefix = ""
+        if printprefix:
+            prefix = model._meta.verbose_name.capitalize() + ' : '
         choiceList.append((getModelName(model)+'.'+field.name,
-                           model._meta.verbose_name.capitalize() + ' : ' +
-                           field.verbose_name.capitalize()))
+                           prefix + field.verbose_name.capitalize()))
     formFields = ChooseFieldForm()
     formFields.fields['chosenField'].choices = choiceList
 

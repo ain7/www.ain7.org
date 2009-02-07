@@ -107,7 +107,7 @@ def getFieldFromName(fieldClass, fieldName, search_engine):
             if fieldName == manyToManyField.name:
                 field = manyToManyField
     # then we look for fields manually managed
-    for (fName, fModel, comps, solver) in params(search_engine).custom_fields:
+    for fName, fModel, comps, solver, p in params(search_engine).custom_fields:
         if fieldName == fName:
             field = getModelField(fModel, fName)
     return field
@@ -163,11 +163,11 @@ def criteriaList(search_engine, user):
             if field.name in model.objects.adv_search_fields(user)\
                 and (str(type(field)).find('OneToOneField')==-1)\
                 and not isinstance(field,models.FileField):
-                attrList.append((field,model))
+                attrList.append((field,model,True))
 
     # now we deal with custom fields
-    for (fName,fModel,query,solver) in params(search_engine).custom_fields:
-        attrList.append((getModelField(fModel, fName),fModel))
+    for (fName,fModel,query,solver,printprefix) in params(search_engine).custom_fields:
+        attrList.append((getModelField(fModel, fName),fModel,printprefix))
 
     # uncomment this if you want a sorted list of criteria
     #
@@ -190,8 +190,8 @@ def getValueFromField(field, obj, search_engine):
     if found:
         return getAttrWithInherit(fieldFullname, obj)
     # otherwise we look in custom_fields
-    for fieldName, clas, query, solver in params(search_engine).custom_fields:
-        if getModelField(clas,fieldName) is field:
+    for fName, clas, query, solver, p in params(search_engine).custom_fields:
+        if getModelField(clas,fName) is field:
             return solver(obj)
     return None
 

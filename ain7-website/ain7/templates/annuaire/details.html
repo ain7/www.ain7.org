@@ -164,7 +164,7 @@
 {% block extra-actions %}
       <li><a href="edit/">{% trans "Modify these data" %}</a></li>
       <li><a href="contributions/">{% trans "See contributions" %}</a></li>
-      <li><a href="{% url ain7.adhesions.views.subscriptions person.user.id %}">{% trans "Manage subscriptions" %}</a></li>
+      <li><a href="{% url ain7.adhesions.views.user_subscriptions person.user.id %}">{% trans "Manage subscriptions" %}</a></li>
       <li><a href="vcard/">{% trans "Download contact as vCard" %}</a></li>
 {% endblock %}
 

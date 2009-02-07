@@ -28,7 +28,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from ain7 import search_engine
 from ain7.annuaire.models import AIn7Member, Person, Address
-from ain7.emploi.models import Office, Organization
+from ain7.emploi.models import Office, Organization, Position
 
 # classes
 
@@ -75,15 +75,26 @@ def params(search_engine):
     def get_org(ain7member):
         return display_list(
             [ p.office.organization for p in ain7member.positions.all() ])
+    def get_office(ain7member):
+        return display_list(
+            [ p.office for p in ain7member.positions.all() ])
     def get_activity(ain7member):
         return display_list([ p.office.organization.activity_field
                          for p in ain7member.positions.all() ])
+    # custom_fields is made of the following components:
+    # 1. the name of the field in the model
+    # 2. the model from which we're considering a field
+    # 3. the query really used when querying the database
+    # 4. the query, given as a function
+    # 5. a Boolean indicating if we want to print the model in the
+    #    list of criteria proposed to the user
     aseParams.custom_fields = [
-    ('city',         Address, 'person__addresses__city',        get_city ),
-    ('country',      Address, 'person__addresses__country',     get_country ),
-    ('organization', Office , 'positions__office__organization',get_org ),
+    ('city',         Address, 'person__addresses__city',        get_city, True ),
+    ('country',      Address, 'person__addresses__country',     get_country, True ),
+    ('organization', Office,  'positions__office__organization',get_org, False ),
+    ('office', Position, 'positions__office', get_office, False ),
     ('activity_field', Organization,
-     'positions__office__organization__activity_field', get_activity),
+     'positions__office__organization__activity_field', get_activity, False),
     ]
     aseParams.baseClass = AIn7Member
 
@@ -180,7 +191,7 @@ class SearchCriterionField(models.Model):
             crit = modelPrefix + self.fieldName.encode('utf8') + qComp
         
         # if the criterion comes from a custom field we use the specified query
-        for (fName,fModel,query,solver) in params(se).custom_fields:
+        for (fName,fModel,query,solver, p) in params(se).custom_fields:
             if self.fieldClass == str(fModel._meta):
                 crit = query
         q = models.Q(**{crit: self.value})
@@ -203,7 +214,7 @@ def getClassFromName(className, search_engine):
     model = None
     for modl in params(search_engine).criteria_models:
         if getModelName(modl) == className: model = modl
-    for (fName, fModel, comps, solver) in params(search_engine).custom_fields:
+    for fName, fModel, comps, solver, p in params(search_engine).custom_fields:
         if getModelName(fModel) == className: model = fModel
     return model
 
