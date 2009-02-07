@@ -1,13 +1,16 @@
 {% extends "pages/base_pages.html" %}
 {% load i18n %}
 
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
 {% block content %}
 
 <div id="content-main">
 	
 <div class="left">
 
-<h3>{% trans "Login" %}</h3>
+<h3>{% trans "Log-in" %}</h3>
                 {% if error %}
                 <p style="text-align: center; color: red;">{% trans "Your username and password didn't match. Please try again." %}</p>
                 {% endif %}
@@ -26,7 +29,7 @@
                                 <tr><td colspan="2" style="height: 10px"></td></tr>
                                 <tr>
                                         <td colspan="2" style="text-align: center">
-                                                <input type="submit" class="button" value="{% trans "login" %}" />
+                                                <input type="submit" class="button" value="{% trans "Log-in" %}" />
                                                 <input type="hidden" name="next" value="{{ next }}" />
                                                 <p style="text-align: center;"><a href="{% url ain7.pages.views.lostpassword %}">{% trans "Lost password ?" %}</a></p>
                                         </td>

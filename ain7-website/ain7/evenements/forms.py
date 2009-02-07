@@ -27,6 +27,7 @@ from ain7.fields import AutoCompleteField
 from ain7.widgets import DateTimeWidget
 from ain7.evenements.models import *
 from ain7.annuaire.models import UserContribution, UserContributionType
+from ain7.utils import AIn7ModelForm
 
 dateTimeWidget = DateTimeWidget()
 dateTimeWidget.dformat = '%d/%m/%Y %H:%M'
@@ -88,7 +89,7 @@ class SearchEventForm(forms.Form):
             name__icontains=self.cleaned_data['name'],
             location__icontains=self.cleaned_data['location'])        
 
-class EventForm(forms.ModelForm):
+class EventForm(AIn7ModelForm):
     description = forms.CharField( label=_('description').capitalize(),
         required=False,
         widget=forms.widgets.Textarea(attrs={'rows':10, 'cols':40}))

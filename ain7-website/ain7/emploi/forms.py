@@ -29,16 +29,17 @@ from ain7.annuaire.models import Track
 from ain7.emploi.models import *
 from ain7.fields import AutoCompleteField
 from ain7.widgets import DateTimeWidget
+from ain7.utils import AIn7Form
 
 dateWidget = DateTimeWidget()
 dateWidget.dformat = '%d/%m/%Y'
 
-class JobOfferForm(forms.Form):
-    reference = forms.CharField(label=_('reference'), max_length=50,
+class JobOfferForm(AIn7Form):
+    reference = forms.CharField(label=_('reference').capitalize(), max_length=50,
         required=False, widget=forms.TextInput(attrs={'size':'40'}))
     title = forms.CharField(label=_('title').capitalize(), max_length=50,
-        required=False, widget=forms.TextInput(attrs={'size':'40'}))
-    experience = forms.CharField(label=_('experience'), max_length=50,
+        required=True, widget=forms.TextInput(attrs={'size':'40'}))
+    experience = forms.CharField(label=_('experience').capitalize(), max_length=50,
         required=False, widget=forms.TextInput(attrs={'size':'40'}))
     contract_type = forms.IntegerField(label=_('contract type'),
         required=False)
@@ -230,4 +231,20 @@ class PublicationItemForm(forms.ModelForm):
     class Meta:
         model = PublicationItem
         exclude = ('ain7member')
+
+class ChooseOrganizationForm(forms.Form):
+    organization = forms.IntegerField(label=_('Organization'), required=True,widget=AutoCompleteField(url='/ajax/organization/'))
+
+    def clean_organization(self):
+        o = self.cleaned_data['organization']
+
+        if o == None:
+            raise ValidationError(_('The organization is mandatory.'))
+
+        try:
+            Organization.objects.get(id=o)
+        except Organization.DoesNotExist:
+            raise ValidationError(_('The organization "%s" does not exist.') % o)
+        else:
+            return self.cleaned_data['organization']
 

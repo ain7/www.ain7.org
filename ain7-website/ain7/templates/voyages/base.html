@@ -71,8 +71,7 @@
         {% if previous_travels %}
           <ul>
             {% for travel in previous_travels %}
-              <li><a href="/voyages/{{ travel.id }}/">{{ travel.label|escape }}
-                  </a> ({{ travel.date }})
+              <li><a href="/voyages/{{ travel.id }}/">{{ travel.label|escape }}</a> ({{ travel.date }})
               </li>
             {% endfor %}
           </ul>

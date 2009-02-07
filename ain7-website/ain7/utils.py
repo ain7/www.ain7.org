@@ -187,3 +187,23 @@ def generic_show_last_change(logged_obj):
             "show_last_change should only be used with LoggedClass objects."
     return {'obj': logged_obj}
 
+class AIn7ModelForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(AIn7ModelForm, self).__init__(*args, **kwargs)
+        tag_required_fields(self)
+
+class AIn7Form(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super(AIn7Form, self).__init__(*args, **kwargs)
+        tag_required_fields(self)
+
+def tag_required_fields(form):
+    if isinstance(form,forms.BaseForm):
+        for fname, field in form.fields.iteritems():
+            # si on veut mettre le type de champ comme classe CSS :
+            # new_classes = set((type(field).__name__, type(field.widget).__name__, field.required and "Required" or "Optional"))
+            new_classes = set([field.required and "requiredField" or "optionalField"])
+            if 'class' in field.widget.attrs:
+                field.widget.attrs['class'] = " ".join(set(field.widget.attrs['class'].split()).union(new_classes))
+            else:
+                field.widget.attrs['class'] = " ".join(new_classes)

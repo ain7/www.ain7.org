@@ -51,7 +51,7 @@ class AutoCompleteField(TextInput):
         self.attrs = attrs
 
     def render(self, name, value=None, attrs=None):
-        final_attrs = self.build_attrs(attrs, name=name)
+        final_attrs = self.attrs
         valueTxt = ''
         addlink = ''
         if self.addable:
@@ -71,13 +71,10 @@ class AutoCompleteField(TextInput):
                     valueTxt = obj.autocomplete_str()
         if value:
             value = smart_unicode(value)
-            final_attrs['value'] = escape(value)
         else:
             value = "-1"
-        if not self.attrs.has_key('id'):
-            final_attrs['id'] = 'id_%s' % name
         return (u'<input type="hidden" name="%(name)s" value="%(value)s" id="%(id)s" />'
-                  '<input type="text" name="text" id="%(id)s_text" size="40" autocomplete="off" value="%(valueTxt)s"/>'+addlink+'<div class="complete" id="box_%(name)s"></div>'
+                  '<input type="text" name="text" id="%(id)s_text" size="40" autocomplete="off" value="%(valueTxt)s" %(attrs)s/>'+addlink+'<div class="complete" id="box_%(name)s"></div>'
                   '<script type="text/javascript">'
                   'window.myAutoComplete = new AutoComplete($(\'%(id)s_text\'), window.location.protocol+"//"+window.location.host+"%(url)s", "displayValue", {maxHeight: 350, zIndex: 6, method: \'post\'});'
                   'myAutoComplete.addEvent(\'onItemChoose\', function(item) {'
@@ -94,7 +91,7 @@ class AutoCompleteField(TextInput):
                   '}'
                   '</script>') % {'attrs'	: flatatt(final_attrs),
                                   'name'	: name,
-                                  'id'	: final_attrs['id'],
+                                  'id'	: 'id_%s' % name,
                                   'url'	: self.url,
                                   'value': value,
                                   'valueTxt': valueTxt,

@@ -27,6 +27,7 @@
       {% trans "Delete" %}</a></td>
   </tr>
 {% endfor %} 
+  {% if event %}
   <tr>
     <th>{% if event.organizers.all|length_is:"0" %}
           {% trans "Organizers" %}{% endif %}</th>
@@ -34,6 +35,7 @@
       {% trans "Add an organizer" %}</a>
     </td>
   </tr>
+  {% endif %}{# event #}
 </table>
   {% if event.image %}
     <a href="/evenements/{{ event.id }}/image/delete/" class="deletelink">

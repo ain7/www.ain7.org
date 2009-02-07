@@ -346,29 +346,13 @@ def organization_choose(request, action=None):
 
     person = get_object_or_404(Person, pk=request.user.id)
 
-    class ChooseOrganizationForm(forms.Form):
-        organization = forms.IntegerField(label=_('Organization'), required=True,widget=AutoCompleteField(url='/ajax/organization/'))
-
-        def clean_organization(self):
-            o = self.cleaned_data['organization']
-
-            if o == None:
-                raise ValidationError(_('The organization is mandatory.'))
-
-            try:
-                Organization.objects.get(id=o)
-            except Organization.DoesNotExist:
-                raise ValidationError(_('The organization "%s" does not exist.') % o)
-            else:
-                return self.cleaned_data['organization']
-
+    title = _('Choose an organization for which you want to propose modifications')
+    if action == 'delete':
+        title = _('Choose an organization to propose for deletion')
 
     if request.method == 'GET':
             
         form = ChooseOrganizationForm()
-        title = _('Choose an organization for which you want to propose modifications')
-        if action == 'delete':
-            title = _('Choose an organization to propose for deletion')
         return ain7_render_to_response(request,
             'emploi/office_create.html', {'form': form, 'title': title})
         
@@ -382,7 +366,8 @@ def organization_choose(request, action=None):
             if action == 'delete':
                 return HttpResponseRedirect(reverse(organization_delete,args=[org_id]))
         else:
-            return HttpResponseRedirect(reverse(organization_choose,args=[action]))
+            return ain7_render_to_response(request,
+                'emploi/office_create.html', {'form': form, 'title': title})
 
 @login_required
 def organization_edit(request, organization_id=None):
@@ -422,7 +407,7 @@ def organization_edit_data(request, organization_id=None):
             return ain7_render_to_response(request,
                 'emploi/office_create.html',
                 {'form': f, 'title': _('Proposition of organization modification')})
-        return HttpResponseRedirect(reverse(index))
+        return HttpResponseRedirect('/emploi/organization/%s/edit/' % org.id)
 
 @confirmation_required(lambda organization_id=None: str(get_object_or_404(Organization, pk=organization_id)), 'emploi/base.html', _('Do you really want to propose the deletion of this organization'))
 @login_required
