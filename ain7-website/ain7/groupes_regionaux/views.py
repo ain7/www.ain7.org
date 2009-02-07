@@ -177,7 +177,7 @@ def delete_role(request, group_id=None, role_id=None, all_current=None):
 
     return ain7_generic_delete(request,
         get_object_or_404(GroupRole, pk=role_id),
-        reverse(edit_roles, args=[group.id,all_current]),
+        reverse(edit_roles, args=[group_id,all_current]),
         _('Role successfully deleted.'))
 
 @login_required

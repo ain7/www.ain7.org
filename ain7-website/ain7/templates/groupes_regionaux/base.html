@@ -46,10 +46,11 @@
         {% endfor %}
     {% endif %} {# group.active_events #}
 
+    {% block extra-menu %}{% endblock %}
+
     <h3>{% trans "Card Informations"%}</h3>
     {%  show_last_change group %}
     {% endif %} {# group #}
-
 
     {% if groups %}
     <h3>{% trans "Statistics" %}</h3>

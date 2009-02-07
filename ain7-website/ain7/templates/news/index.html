@@ -11,8 +11,18 @@
 
 	{% for one_news in news %}
 			<div class="right_articles">
-				<p><img src="/site_media/images/gnome-news.png" alt="Image" title="Image" class="image" />
-     <strong><a href="/actualites/{{ one_news.id }}/">{{ one_news.title }}</a></strong><br />{{ one_news.short_description }}.</p>
+  <img src="/site_media/images/gnome-news.png" alt="Image" title="Image" class="image" />
+  <div class="news-header">
+    <div class="news-title">
+      <a href="/actualites/{{ one_news.id }}/">{{ one_news.title }}</a>
+    </div>
+    <div class="news-date">  
+      {{ one_news.creation_date|date:"l j F Y" }}
+    </div>
+  </div>
+  <div class="news-description">
+    {{ one_news.short_description|safe }}
+  </div>
 			</div>
 	{% endfor %}
 

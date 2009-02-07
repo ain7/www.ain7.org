@@ -232,9 +232,9 @@ def ical(request):
             ev.add('status').value = event.status
         if event.category:
             ev.add('category').value = event.description
-        ev.add('dtstamp').value = event.modification_date
+        ev.add('dtstamp').value = event.last_change_at
 
-    icalstream = cal.serialize().encode('utf-8')
+    icalstream = cal.serialize()
     response = HttpResponse(icalstream, mimetype='text/calendar')
     response['Filename'] = 'ain7.ics'  # IE needs this
     response['Content-Disposition'] = 'attachment; filename=ain7.ics'

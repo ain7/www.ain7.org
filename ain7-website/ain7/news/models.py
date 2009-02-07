@@ -39,7 +39,10 @@ class NewsItem(LoggedClass):
 
     def short_description(self):
         if len(self.description) > 100:
-            return self.description[:100] + " ..."
+            # we avoid to cut a word because this could produce non-valid html
+            # example: t&eamp;nu -> t&ea
+            wordlist = self.description[:100].split(" ")
+            return " ".join(wordlist[:-1]) + " ..."
         else:
             return self.description
         

@@ -1,6 +1,7 @@
 {% extends "news/base.html" %}
 {% load i18n ain7_tags %}
 
+{% block javascript %}{% endblock %}
 {% block stylesheet %}{% endblock %}
 
 {% block content-left %}
@@ -11,7 +12,7 @@
           {% if news_item.image %}
             <img src="{{ news_item.image.url }}" alt="Image" title="Image" class="image" width="60" />
           {% endif %}
-          {{ news_item.description }}
+          {{ news_item.description|safe }}
         </p>
 	<p>{% trans "posted : " %} {{ news_item.creation_date|date:"l j F Y H:i" }}</p>
 	<p>{% trans "modified : " %} {{ news_item.last_change_at|date:"l j F Y H:i" }}</p>

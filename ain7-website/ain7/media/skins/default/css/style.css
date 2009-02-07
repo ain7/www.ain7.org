@@ -503,6 +503,32 @@ ul.errorlist {
 	clear: left;
 }
 
+/* News
+   ---- */
+
+.news-header {
+    padding: 5px 5px 4px 5px;
+}
+
+.news-title {
+    width: 320px;
+    float: left;
+}
+
+.news-title a {
+    font-weight: bold;
+}
+
+.news-date {
+    width: 150px;
+    float: right;
+    padding: 0 15px 0 15px;
+    border-bottom: 1px solid #888;
+}
+
+.news-description {
+      clear: both;
+}
 
 /* Auto complete form input
    ------ */

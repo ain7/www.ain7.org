@@ -42,9 +42,17 @@ class SearchNewsForm(forms.Form):
         criteria = {'title__icontains': self.cleaned_data['title'],
                     'description__icontains': self.cleaned_data['content']}
         if self.cleaned_data['date']:
-            criteria['creation_date'] = self.cleaned_data['date']
+            inputdate = self.cleaned_data['date']
+            criteria['creation_date__year'] = inputdate.year
+            criteria['creation_date__month'] = inputdate.month
+            criteria['creation_date__day'] = inputdate.day
         return NewsItem.objects.filter(**criteria)
 
 class NewsForm(forms.ModelForm):
+    title = forms.CharField(label=_('title').capitalize(), max_length=100,
+        required=False, widget=forms.TextInput(attrs={'size':'50'}))
+    description = forms.CharField(label=_('description').capitalize(),
+        required=False,
+        widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':60}))
     class Meta:
         model = NewsItem
