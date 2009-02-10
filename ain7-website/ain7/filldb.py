@@ -130,6 +130,30 @@ def filldb():
     orgSearchEngine.name = "organization"
     orgSearchEngine.save()
 
+    subscription_conf1 = adhesions.SubscriptionConfiguration(type=0, dues_amount=75, newspaper_amount=15)
+    subscription_conf1.save()
+
+    subscription_conf2 = adhesions.SubscriptionConfiguration(type=1, dues_amount=50, newspaper_amount=15)
+    subscription_conf2.save()
+
+    subscription_conf3 = adhesions.SubscriptionConfiguration(type=2, dues_amount=50, newspaper_amount=15)
+    subscription_conf3.save()
+
+    subscription_conf4 = adhesions.SubscriptionConfiguration(type=3, dues_amount=160, newspaper_amount=15)
+    subscription_conf4.save()
+
+    subscription_conf5 = adhesions.SubscriptionConfiguration(type=4, dues_amount=30)
+    subscription_conf5.save()
+
+    subscription_conf6 = adhesions.SubscriptionConfiguration(type=5, dues_amount=15, duration=3)
+    subscription_conf6.save()
+
+    subscription_conf7 = adhesions.SubscriptionConfiguration(type=6, dues_amount=10, duration=2)
+    subscription_conf7.save()
+
+    subscription_conf8 = adhesions.SubscriptionConfiguration(type=7, dues_amount=5)
+    subscription_conf8.save()
+
     #                                                                  #
     ###################### End of fixed values #########################
 
@@ -451,36 +475,46 @@ def filldb():
 
     lionel_subscription1 = adhesions.Subscription()
     lionel_subscription1.member = lionel_ain7member
-    lionel_subscription1.year = '2003'
+    lionel_subscription1.start_year = 2003
+    lionel_subscription1.end_year = 2005
     lionel_subscription1.dues_amount = 50
+    lionel_subscription1.tender_type = 1
     lionel_subscription1.save()
 
     lionel_subscription2 = adhesions.Subscription()
     lionel_subscription2.member = lionel_ain7member
-    lionel_subscription2.year = '2003'
+    lionel_subscription2.start_year = 2003
+    lionel_subscription2.end_year = 2003
     lionel_subscription2.dues_amount = 50
     lionel_subscription2.newspaper_amount = 0
+    lionel_subscription2.tender_type = 1
     lionel_subscription2.save()
 
     lionel_subscription3 = adhesions.Subscription()
     lionel_subscription3.member = lionel_ain7member
-    lionel_subscription3.year = '2004'
+    lionel_subscription3.start_year = 2004
+    lionel_subscription3.end_year = 2004
     lionel_subscription3.dues_amount = '50'
     lionel_subscription3.newspaper_amount = 15
+    lionel_subscription3.tender_type = 0
     lionel_subscription3.save()
 
     lionel_subscription4 = adhesions.Subscription()
     lionel_subscription4.member = lionel_ain7member
-    lionel_subscription4.year = '2005'
+    lionel_subscription4.start_year = 2005
+    lionel_subscription4.end_year = 2005
     lionel_subscription4.dues_amount = '50'
     lionel_subscription4.newspaper_amount = 15
+    lionel_subscription4.tender_type = 0
     lionel_subscription4.save()
 
     lionel_subscription5 = adhesions.Subscription()
     lionel_subscription5.member = lionel_ain7member
-    lionel_subscription5.year = '2006'
+    lionel_subscription5.start_year = 2006
+    lionel_subscription5.end_year = 2007
     lionel_subscription5.dues_amount = '50'
     lionel_subscription5.newspaper_amount = 15
+    lionel_subscription5.tender_type = 0
     lionel_subscription5.save()
 
     pierref = annuaire.Person()

@@ -1,0 +1,88 @@
+{% extends "adhesions/base.html" %}
+{% load i18n %}
+
+{% block content-left %}
+
+<div class="left_box">
+
+<h2>{{ action_title }} {{ person }}</h2>
+
+<script type="text/javascript">
+function select_conf(id, dues_amount, newspaper_amount, toggle) {
+	var checkboxes = document.getElementsByName('newspaper');
+    for (var i = 0; i <  checkboxes.length; ++i) {
+        var checkbox = checkboxes[i];
+        checkbox.checked = (i == id) && (! toggle || checkbox.checked);
+        checkbox.disabled = (i != id);
+    }
+    
+    document.getElementById('id_dues_amount').value = dues_amount;
+    var newspaper_checkbox = document.getElementById('id_newspaper_' + id);
+    newspaper_amount = newspaper_checkbox ? (newspaper_checkbox.checked ? newspaper_amount : "") : 0;
+    document.getElementById('id_newspaper_amount').value = newspaper_amount;
+    document.getElementById('id_total_amount').value = dues_amount + newspaper_amount;
+    return;
+}
+</script>
+
+<form method="post" action="." enctype="multipart/form-data">
+<table>
+<tr>
+  <th>&nbsp;</th>
+  <th>{% trans "Cotisation" %}</th>
+  <th>{% trans "Newspaper subscription" %}</th>
+</tr>
+
+{% for configuration in configurations %}
+{% with configuration.type|stringformat:"s" as type %}
+<tr>
+<th align="left">
+  <label for="id_configuration_{{ type }}">
+    <input id="id_configuration_{{ type }}" value="{{ type }}" name="configuration" type="radio"
+           {% ifequal type form.data.configuration %}checked="checked"{% endifequal %}
+           onclick="select_conf({{ type }}, {{ configuration.dues_amount }}{% if configuration.newspaper_amount %}, {{ configuration.newspaper_amount }}{% endif %})" />
+    {{ configuration.get_type_display }}
+  </label>
+</th>
+<td align="center">{{ configuration.dues_amount }}&nbsp;{% trans "euros" %}</td>
+<td align="center">
+  {% if configuration.newspaper_amount %}
+    <label for="id_newspaper_{{ type }}">
+      <input name="newspaper" id="id_newspaper_{{ type }}" type="checkbox"
+             {% ifnotequal type form.data.configuration %}disabled="disabled"{% endifnotequal %}
+             {% ifequal type form.data.configuration %}{% if form.data.newspaper %}checked="checked"{% endif %}{% endifequal %}
+             onclick="select_conf({{ type }}, {{ configuration.dues_amount }}, {{ configuration.newspaper_amount }}, true)"/>&nbsp;
+      {{ configuration.newspaper_amount }}&nbsp;{% trans "euros" %}
+    </label>
+  {% else %}
+    {% trans "Free" %}
+  {% endif %}
+  {% ifequal type form.data.configuration %}
+  <script type="text/javascript">
+  function select_current() {
+	  select_conf({{ type }}, {{ configuration.dues_amount }}, {{ configuration.newspaper_amount }}, true)
+  }
+  </script>
+  {% endifequal %}
+</td>
+</tr>
+
+{% endwith %}
+{% endfor %}
+
+<tr><th><label for="id_total_amount">{% trans "Total amount" %}:</label></th><td><input readonly="readonly" name="total_amount" id="id_total_amount" type="text" />&nbsp;{% trans "euros" %}</td></tr>
+{{ form }}
+</table>
+<div style="text-align: center">
+<a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
+<input type="submit" class="button" value="{% trans "Save" %}" />
+</div>
+</form>
+{% if form.data.configuration %}
+<script type="text/javascript">
+select_current();
+</script>
+{% endif %}
+</div>
+
+{% endblock %}

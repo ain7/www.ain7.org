@@ -63,7 +63,7 @@ def contributions(request, user_id):
 def details(request, user_id):
     p = get_object_or_404(Person, pk=user_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
-    is_subscriber = Subscription.objects.filter(member=ain7member,year=datetime.datetime.now().year,validated=True)
+    is_subscriber = Subscription.objects.filter(member=ain7member).filter(validated=True).exclude(start_year__gt=datetime.date.today().year).exclude(end_year__lt=datetime.date.today().year)
     return ain7_render_to_response(request, 'annuaire/details.html',
                             {'person': p, 'is_subscriber': is_subscriber, 'ain7member': ain7member})
 

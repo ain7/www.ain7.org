@@ -20,6 +20,8 @@
 #
 #
 
+import datetime
+
 from django import forms
 from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404
@@ -27,16 +29,16 @@ from django.contrib.auth.models import User
 from django.forms.util import ValidationError
 
 from ain7.fields import AutoCompleteField
-from ain7.widgets import DateTimeWidget
 from ain7.adhesions.models import *
 
-dateWidget = DateTimeWidget()
-dateWidget.dformat = '%d/%m/%Y'
-dateTimeWidget = DateTimeWidget()
-dateTimeWidget.dformat = '%d/%m/%Y %H:%M'
-
 class SubscriptionForm(forms.ModelForm):
+    dues_amount = forms.IntegerField(widget=forms.HiddenInput())
+    newspaper_amount = forms.IntegerField(required=False, widget=forms.HiddenInput())
+    start_year = forms.IntegerField(initial=datetime.datetime.now().year, widget=forms.HiddenInput())
     class Meta:
         model = Subscription
-        exclude = ('member', 'validated')
+        exclude = ('member', 'validated', 'end_year')
 
+class ConfigurationForm(forms.ModelForm):
+    class Meta:
+        model = SubscriptionConfiguration

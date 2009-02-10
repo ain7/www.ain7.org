@@ -1,0 +1,47 @@
+{% extends "adhesions/base.html" %}
+{% load i18n %}
+
+{% block content-left %}
+
+<h2>{% trans "Configurations" %}</h2>
+
+<p>
+<a class="addlink" href="{% url configuration_add %}">{% trans "Add a configuration" %}</a>
+</p>
+
+<table style="width: 100%">
+<tr>
+  <th>{% trans "Type" %}</th>
+  <th>{% trans "Dues amount" %}</th>
+  <th>{% trans "Newspaper amount" %}</th>
+  <th>{% trans "Duration" %}</th>
+</tr>
+{% for configuration in configurations_list %}
+<tr>
+  <td align="center">{{ configuration.get_type_display }}</td>
+  <td align="center">
+      {{ configuration.dues_amount }}&nbsp;{% trans "euros" %}
+  </td>
+  <td align="center">
+      {% if configuration.newspaper_amount %}
+          {{ configuration.newspaper_amount }}&nbsp;{% trans "euros" %}
+      {% else %}
+        {% trans "Free" %}
+      {% endif %}
+  </td>
+  <td align="center">
+    {{ configuration.duration }}&nbsp;{% trans "year" %}{{ configuration.duration|pluralize }}
+  </td>
+  <td>
+    {% if not subscription.validated %}
+      <a class="changelink" href="{% url ain7.adhesions.views.configuration_edit configuration.id %}">
+      {% trans "Modify" %}</a>
+      <br />
+      <a class="deletelink" href="{% url ain7.adhesions.views.configuration_delete configuration.id %}">
+      {% trans "Delete" %}</a>
+    {% endif %}
+  </td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

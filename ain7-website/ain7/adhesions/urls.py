@@ -28,9 +28,14 @@ urlpatterns = patterns('',
 
     (r'^$', index),
     (r'^subscriptions/$', subscriptions),
+    (r'^subscriptions/to_validate$', subscriptions, {'to_validate': True}, 'to_validate_subscriptions'),
     (r'^subscriptions/(?P<subscription_id>\d+)/validate/$', subscription_validate),
     (r'^subscriptions/(?P<subscription_id>\d+)/delete/$', subscription_delete),
     (r'^(?P<user_id>\d+)/subscriptions/$', user_subscriptions),
     (r'^(?P<user_id>\d+)/subscriptions/add/$', subscription_add),
+    (r'^configurations/$', configurations),
+    (r'^configurations/(?P<configuration_id>\d+)/edit/$', configuration_edit),
+    (r'^configurations/(?P<configuration_id>\d+)/delete/$', configuration_delete),
+    (r'^configurations/add/$', configuration_edit, {}, 'configuration_add'),
 
 )

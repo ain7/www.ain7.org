@@ -15,10 +15,10 @@
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
 <td align="right">
 {% if is_paginated %}
-{% if has_previous %}<a href="?page=1{% if filter %}&filter{% endif %}">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="?page={{ previous_page }}{% if filter %}&filter{% endif %}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="?page={{ next_page }}{% if filter %}&filter{% endif %}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="?page={{ pages }}{% if filter %}&filter{% endif %}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% if has_previous %}<a href="?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
 {% endif %}
 </td>
 </tr>
@@ -29,11 +29,18 @@
   <th>{% trans "Year" %}</th>
   <th>{% trans "Amount" %}</th>
   <th>{% trans "Canal n7" %}</th>
+  <th>{% trans "Tender type" %}</th>
 </tr>
 {% for subscription in subscriptions_list %}
 <tr>
   <td align="center">{{ subscription.member.person.first_name }} {{ subscription.member.person.last_name }}</td>
-  <td align="center">{{ subscription.year }}</td>
+  <td align="center">
+    {% ifnotequal subscription.start_year subscription.end_year %}
+      {% blocktrans with subscription.start_year as start and subscription.end_year as end %}{{ start }} to {{ end }}{% endblocktrans %}
+    {% else %}
+      {{ subscription.start_year }}
+    {% endifnotequal %}
+  </td>
   <td align="center">
       {{ subscription.dues_amount }}&nbsp;{% trans "euros" %}
   </td>
@@ -47,6 +54,9 @@
           {{ subscription.newspaper_amount }}&nbsp;{% trans "euros" %}
         {% endifequal %}
       {% endifequal %}
+  </td>
+  <td align="center">
+    {{ subscription.get_tender_type_display }}
   </td>
   <td align="center">
     {% if not subscription.validated %}

@@ -20,6 +20,8 @@
 #
 #
 
+import datetime
+
 from django.db import models
 from django.utils.translation import ugettext as _
 
@@ -28,19 +30,47 @@ from ain7.annuaire.models import AIn7Member
 
 class Subscription(LoggedClass):
 
-    MODE = (
-            ('CASH', _('Cash')),
-            ('CHEQUE', _('Cheque')),
-            #('CARD', _('Card')),
-            )
+    TENDER_TYPE = (
+                   (0, _('Cash')),
+                   (1, _('Cheque')),
+                   #(2, _('Card')),
+                   )
 
     dues_amount = models.IntegerField(verbose_name=_('Dues amount'))
     newspaper_amount = models.IntegerField(verbose_name=_('Newspaper amount'), null=True, blank=True)
+    tender_type = models.IntegerField(verbose_name=_('Tender type'), choices=TENDER_TYPE)
     validated = models.BooleanField(verbose_name=_('validated'), default=False)
 
-    year = models.IntegerField(verbose_name=_('year'))
+    start_year = models.IntegerField(verbose_name=_('start year'))
+    end_year = models.IntegerField(verbose_name=_('end year'))
 
     member = models.ForeignKey(AIn7Member, verbose_name=_('member'), related_name='subscriptions')
 
     def __unicode__(self):
-        return u'%s %s' % (self.member, self.year)
+        return u'%s %s → %s' % (self.member, self.start_year, self.end_year)
+
+    class Meta:
+        verbose_name = _('Subscription')
+
+class SubscriptionConfiguration(models.Model):
+    TYPE = (
+            (0, _('Promotions before %(year)s') % {'year': datetime.date.today().year-5}),
+            (1, _('Promotions from %(start_year)s to %(end_year)s') % {'start_year': datetime.date.today().year-5, 'end_year': datetime.date.today().year-1}),
+            (2, _('Retired')),
+            (3, _('Donator')),
+            (4, _('Unemployed (with voucher)')),
+            (5, _('First year (for 3 years)')),
+            (6, _('Second year (for 2 years)')),
+            (7, _('Third year')),
+            )
+
+    type = models.IntegerField(verbose_name=_('Type'), unique=True, choices=TYPE)
+    dues_amount = models.IntegerField(verbose_name=_('Dues amount'))
+    newspaper_amount = models.IntegerField(verbose_name=_('Newspaper amount'), null=True, blank=True)
+    duration = models.IntegerField(verbose_name=_('Duration'), default=1)
+
+    def __unicode__(self):
+        return self.get_type_display()
+
+    class Meta:
+        verbose_name = _('Configuration')

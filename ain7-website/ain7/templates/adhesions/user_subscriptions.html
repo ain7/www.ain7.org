@@ -14,10 +14,17 @@
   <th>{% trans "Year" %}</th>
   <th>{% trans "Amount" %}</th>
   <th>{% trans "Canal n7" %}</th>
+  <th>{% trans "Tender type" %}</th>
 </tr>
 {% for subscription in subscriptions_list %}
 <tr>
-  <td align="center">{{ subscription.year }}</td>
+  <td align="center">
+    {% ifnotequal subscription.start_year subscription.end_year %}
+      {% blocktrans with subscription.start_year as start and subscription.end_year as end %}{{ start }} to {{ end }}{% endblocktrans %}
+    {% else %}
+      {{ subscription.start_year }}
+    {% endifnotequal %}
+  </td>
   <td align="center">
       {{ subscription.dues_amount }}&nbsp;{% trans "euros" %}
   </td>
@@ -31,6 +38,9 @@
           {{ subscription.newspaper_amount }}&nbsp;{% trans "euros" %}
         {% endifequal %}
       {% endifequal %}
+  </td>
+  <td align="center">
+    {% trans subscription.get_tender_type_display %}
   </td>
   <td align="center">
     {% if subscription.validated %}
