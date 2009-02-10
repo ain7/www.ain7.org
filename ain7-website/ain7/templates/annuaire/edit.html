@@ -71,13 +71,6 @@
        {% else %}
            {% trans "no child" %}.
        {% endif %}</li>
-    <li><b>{% filter capfirst %}{% trans "diplomas"%}{% endfilter %}&nbsp;:</b>
-        {% if ain7member.diplomas.all %}
-            {% for diploma in ain7member.diplomas.all %}{{ diploma }}
-                 {% if not forloop.last %} - {% endif %}{% endfor %}
-        {% else %}
-            {% trans "No diploma" %}
-        {% endif %}</li>
     <li><b>{% filter capfirst %}{% trans "decorations" %}{% endfilter %}
         &nbsp;:</b>
         {% if ain7member.decorations.all %}
@@ -156,9 +149,7 @@
     <tr><td><b>{% trans "Address" %} {{ address.type|lower }}&nbsp;:</b></td><td>
         {{ address.line1 }} {{ address.line2|default_if_none:"" }} -
         {{address.zip_code }} {{ address.city }} - {{ address.country.name }}
-        {% if address.is_confidential %} ({% trans "confidential" %})
-        {% else %}                       ({% trans "not confidential" %})
-        {% endif %}</td>
+        ({{ address.confidentiality_print }})</td>
     <td style="width: 12%">
         <a href="/annuaire/{{ person.user.id }}/address/{{ address.id }}/edit/" class="changelink">
         {% trans "Modify" %}</a></td>
@@ -178,8 +169,7 @@
 <table style="border: 0; width: 100%;">
    <tr><td><b>{{ phone_number.get_type_display }} :</b></td>
    <td>{{ phone_number.number }}
-       {% if phone_number.is_confidential %} ({% trans "confidential" %})
-        {% else %} ({% trans "not confidential" %}) {% endif %}</td>
+       ({{ phone_number.confidentiality_print }})</td>
     <td style="width: 12%">
         <a href="/annuaire/{{ person.user.id }}/phone/{{ phone_number.id }}/edit/" class="changelink">
         {% trans "Modify" %}</a></td>
@@ -199,7 +189,7 @@
 {% for email in person.emails.all %}
 <table style="border:0; width: 100%;">
 	    <tr><td><img src="/site_media/images/mail.png" alt="{% trans "email" %}"/><a href="mailto:{{ email.email }}">{{ email.email }}</a>
-       ({% if email.is_confidential %}{% trans "confidential" %}{% else %}{% trans "not confidential" %}{% endif %}{% if email.preferred_email %}, {% trans "preferred" %}{% endif %})
+       ({{ email.confidentiality_print }}{% if email.preferred_email %}, {% trans "preferred" %}{% endif %})
 
 </td>
     <td style="width: 12%">
@@ -221,7 +211,7 @@
     <tr valign="middle"><td>
        <img src="/site_media/images/{{ im.get_type_display|lower }}.png"
        alt="{% trans "Contact" %} {{im.get_im_display|lower }}"/>
-       {{ im.identifier }}</td>
+       {{ im.identifier }} ({{ im.confidentiality_print }})</td>
     <td style="width: 12%">
         <a href="/annuaire/{{ person.user.id }}/im/{{ im.id }}/edit/" class="changelink">
         {% trans "Modify" %}</a></td>
@@ -240,7 +230,7 @@
 <table style="border: 0; width: 100%">
     <tr valign="middle"><td>
        <img src="/site_media/images/irc.png" alt="{% trans "irc" %}"/>
-       {{ irc.pseudo }} @ {{ irc.network }} {% trans "on" %} {{ irc.channels }}
+       {{ irc.pseudo }} @ {{ irc.network }} {% trans "on" %} {{ irc.channels }} ({{ irc.confidentiality_print }})
        </td>
     <td style="width: 12%">
         <a href="/annuaire/{{ person.user.id }}/irc/{{ irc.id }}/edit/" class="changelink">
@@ -260,7 +250,7 @@
 <table style="border: 0; width: 100%;">
     <tr valign="middle"><td>
         <img src="/site_media/images/{{ website.get_type_display|lower }}.png" alt="{% trans "web site" %}"/>
-        <a href="{{ website.url }}">{{ website.url }}</a></td>
+        <a href="{{ website.url }}">{{ website.url }}</a> ({{ website.confidentiality_print }})</td>
     <td style="width: 12%">
         <a href="/annuaire/{{ person.user.id }}/website/{{ website.id }}/edit/" class="changelink">
         {% trans "Modify" %}</a></td>

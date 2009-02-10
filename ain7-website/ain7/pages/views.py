@@ -36,8 +36,16 @@ def homepage(request):
     is_auth = request.user.is_authenticated()
     surveys = [(s, (is_auth and s.has_been_voted_by(request.user.person)))\
                for s in Survey.objects.all() if s.is_valid()][:2]
+    today = datetime.datetime.today()
+    birthdays = []
+    if is_auth:
+        birthdays = [ m for m in AIn7Member.objects.filter(
+            person__birth_date__day=today.day,
+            person__birth_date__month=today.month,
+            person__death_date=None) ]
+        birthdays.sort(lambda x,y: cmp(x.person.last_name,y.person.last_name))
     return ain7_render_to_response(request, 'pages/homepage.html', 
-                            {'news': news , 'surveys': surveys})
+        {'news': news , 'surveys': surveys, 'birthdays': birthdays})
 
 def lostpassword(request):
 

@@ -125,6 +125,8 @@ class SearchJobForm(forms.Form):
 class OrganizationForm(forms.Form):
     name = forms.CharField(
         label=_('Name'), max_length=50, required=True)
+    employment_agency = forms.BooleanField(
+        label=_('employment agency').capitalize(), required=False)
     size = forms.IntegerField(
         label=_('Size'), required=True,
         widget=forms.Select(choices=Organization.ORGANIZATION_SIZE))
@@ -148,6 +150,7 @@ class OrganizationForm(forms.Form):
 #             else:
 #                 field.value = self.cleaned_data[field.name]
         org.name = self.cleaned_data['name']
+        org.employment_agency = self.cleaned_data['employment_agency']
         org.size = self.cleaned_data['size']
         org.activity_field = ActivityField.objects.get(pk=self.cleaned_data['activity_field'])
         org.short_description = self.cleaned_data['short_description']

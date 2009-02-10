@@ -24,10 +24,10 @@
    <li><b>{% trans "Nick name" %}&nbsp;:</b> {{ ain7member.nick_name }}</li>
    {% endif %}
    <li><b>{% trans "Promos" %}&nbsp;:</b> {% for promo in ain7member.promos.all %}{{ promo }}{% if not forloop.last %} - {% endif %}{% endfor %}</li>
-   {% if ain7member.diplomas.all %}
+   {% if ain7member.education.all %}
    <li><b>{% filter capfirst %}{% trans "diplomas" %}{% endfilter %}&nbsp;:</b>
-       {% for diploma in ain7member.diplomas.all %}{{ diploma }}
-           {% if not forloop.last %} - {% endif %}{% endfor %}</li>
+       {% for educ in ain7member.education.all %}{{ educ.diploma }}
+           {% if not forloop.last %} ; {% endif %}{% endfor %}</li>
    {% endif %}
    <li><b>{% trans "Birth date" %}&nbsp;:</b> {{ person.birth_date|date:"d/m/Y" }}</li>
    {% if person.death_date %}
@@ -63,7 +63,7 @@
 {% endif %}
 </td></tr>
 {% for phone_number in person.phone_numbers.all %}
-	{% if not phone_number.is_confidential %}
+	{% if not phone_number.website_confidential %}
     	<tr><td><b>{{ phone_number.get_type_display }} :</b> {{ phone_number.number }}</td></tr>
     {% endif %}
 {% endfor %}
@@ -71,7 +71,7 @@
 
 
 {% for email in person.emails.all %}
-	{% if not email.is_confidential %}
+	{% if not email.website_confidential %}
 	    <tr><td><img src="/site_media/images/mail.png" alt="{% trans "email" %}"/><a href="mailto:{{ email.email }}">{{ email.email }}</a></td></tr>
 	{% endif %}
 {% endfor %}
@@ -92,7 +92,7 @@
 
 <table>
 {% for address in person.addresses.all %}
-	{% if not address.is_confidential %}
+	{% if not address.website_confidential %}
 	    <tr><td><b>{% trans "Address" %} {{ address.type|lower }} :</b> {{ address.line1 }} {{ address.line2|default_if_none:"" }} - {{address.zip_code }} {{ address.city }} - {{ address.country.name }}</td></tr>
 	{% endif %}
 {% endfor %}
@@ -154,7 +154,7 @@
 {% if person.notes %}
 <h2>{% trans "AIn7 Notes" %}</h2>
 
-{{ person.notes }}
+{{ person.notes|safe }}
 
 {% endif %}
 

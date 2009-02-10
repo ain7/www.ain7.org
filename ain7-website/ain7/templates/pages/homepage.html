@@ -69,7 +69,7 @@
       {% if news_item.image %}
       <a href="/actualites/{{ news_item.id }}/"><img src="{{ news_item.image.url }}" alt="Image" title="Image" class="image" width="60" /></a>
       {% endif %}
-      <b><a href="/actualites/{{ news_item.id }}/">{{ news_item.title }}</a></b><br />{{ news_item.short_description }}.</p>
+      <b><a href="/actualites/{{ news_item.id }}/">{{ news_item.title }}</a></b><br />{{ news_item.short_description|safe }}</p>
 			</div>
     {% endfor %}
 
@@ -103,6 +103,16 @@
 			</div>
 		</div>
         {% endfor %}
+
+{% if user.is_authenticated %}
+	<h3>{% trans "Birthdays" %}</h3>
+		<div class="right_articles">
+			{% for member in birthdays %}
+			<a href="/annuaire/{{ member.pk }}/">{{ member }}</a>
+			{% if not forloop.last %} ; {% endif %}
+			{% endfor %}
+		</div>
+{% endif %}
 
 	</div>
 

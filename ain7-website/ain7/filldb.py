@@ -170,10 +170,6 @@ def filldb():
     england = annuaire.Country(name=u"Angleterre", nationality=u"Anglaise")
     england.save()
 
-    # Diplomas
-    bac = annuaire.Diploma(diploma=u"Baccalauréat", initials=u"Bac")
-    bac.save()
-
     # Decorations
     warCross = annuaire.Decoration(decoration=u"Croix de Guerre")
     warCross.save()
@@ -395,7 +391,6 @@ def filldb():
     lionel_ain7member.cv_title = "Ingénieur ENSEEIHT Informatique"
     lionel_ain7member.marital_status = maritalstatus_2
     lionel_ain7member.save() # un premier save avant les many2many
-    lionel_ain7member.diplomas.add(bac)
     lionel_ain7member.promos.add(n7in2003)
     lionel_ain7member.save()
 
@@ -417,7 +412,7 @@ def filldb():
     lionel_couriel2 = annuaire.Email()
     lionel_couriel2.person = lionel
     lionel_couriel2.email = "lionel@porcheron.info"
-    lionel_couriel2.is_confidential = True
+    lionel_couriel2.confidentiality = 2
     lionel_couriel2.save()
 
     lionel_messagerie1 = annuaire.InstantMessaging()

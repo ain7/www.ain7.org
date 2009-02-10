@@ -1,9 +1,16 @@
 {% extends "emploi/base.html" %}
 {% load i18n %}
 
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
 {% block content-left %}
 
 <h2>{{ organization.name }}</h2>
+
+{% if organization.employment_agency %}
+<p>{% filter capfirst %}{% trans "employment agency" %}{% endfilter %}</p>
+{% endif %}
 
 {% if organization.short_description %}
 <p>{{ organization.short_description }}</p>

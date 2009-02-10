@@ -29,10 +29,10 @@
    <li><b>{% trans "Nick name" %}&nbsp;:</b> {{ ain7member.nick_name }}</li>
    {% endif %}
    <li><b>{% trans "Promos" %}&nbsp;:</b> {% for promo in ain7member.promos.all %}{{ promo }}{% if not forloop.last %} - {% endif %}{% endfor %}</li>
-   {% if ain7member.diplomas.all %}
+   {% if ain7member.education.all %}
    <li><b>{% filter capfirst %}{% trans "diplomas" %}{% endfilter %}&nbsp;:</b>
-       {% for diploma in ain7member.diplomas.all %}{{ diploma }}
-           {% if not forloop.last %} - {% endif %}{% endfor %}</li>
+       {% for educ in ain7member.education.all %}{{ educ.diploma }}
+           {% if not forloop.last %} ; {% endif %}{% endfor %}</li>
    {% endif %}
    <li><b>{% trans "Birth date" %}&nbsp;:</b> {{ person.birth_date|date:"d/m/Y" }}</li>
    {% if person.death_date %}

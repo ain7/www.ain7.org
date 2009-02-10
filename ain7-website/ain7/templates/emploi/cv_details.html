@@ -104,7 +104,7 @@
         <tr><td></td><td>{{ educationItem.diploma }}</td></tr>
     {% endif %}
     {% if educationItem.details %}
-        <tr><td></td><td>{{ educationItem.details }}</td></tr>
+        <tr><td></td><td>{{ educationItem.details|safe }}</td></tr>
     {% endif %}
 {% endfor %}
 </table>

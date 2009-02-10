@@ -382,6 +382,7 @@ def organization_edit(request, organization_id=None):
         organization = get_object_or_404(Organization, pk=organization_id)
         form = OrganizationForm(
             {'name': organization.name, 'size': organization.size,
+             'employment_agency': organization.employment_agency,
              'activity_field': organization.activity_field.pk,
              'short_description': organization.short_description,
              'long_description': organization.long_description })
@@ -508,6 +509,7 @@ def organization_register_proposal(request, proposal_id=None):
     form = OrganizationForm(
         {'name': proposal.modified.name,
          'size': proposal.modified.size,
+         'employment_agency': proposal.modified.employment_agency,
          'activity_field': proposal.modified.activity_field.pk,
          'short_description': proposal.modified.short_description, 
          'long_description': proposal.modified.long_description })
@@ -543,6 +545,7 @@ def organization_edit_proposal(request, proposal_id=None):
     form = OrganizationForm(
         {'name': proposal.modified.name,
          'size': proposal.modified.size,
+         'employment_agency': proposal.modified.employment_agency,
          'activity_field': proposal.modified.activity_field.pk,
          'short_description': proposal.modified.short_description, 
          'long_description': proposal.modified.long_description })

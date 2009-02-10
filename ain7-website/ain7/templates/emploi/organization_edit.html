@@ -1,17 +1,20 @@
 {% extends "emploi/base.html" %}
 {% load i18n %}
 
-{% block javascript %}
-{{ block.super }}
-<script src="/site_media/js/tiny_mce/tiny_mce.js" type="text/javascript"></script>
-<script src="/site_media/js/textareas.js" type="text/javascript"></script>
-{% endblock %}
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
 
 {% block content-left %}
 
 <div class="dataBlock">
 
 <h2>{{ organization.name }}</h2>
+
+{% if organization.employment_agency %}
+<p>{% filter capfirst %}{% trans "employment agency" %}{% endfilter %}</p>
+{% else %}
+<p>{% trans "Not an employment agency" %}</p>
+{% endif %}
 
 {% if organization.short_description %}
 <p>{{ organization.short_description }}</p>

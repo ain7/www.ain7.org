@@ -816,7 +816,7 @@ def vcard(request, user_id):
     ain7member = get_object_or_404(AIn7Member, person=p)
 
     mail = None
-    mail_list = Email.objects.filter(person=p,preferred_email=True,is_confidential=False)
+    mail_list = Email.objects.filter(person=p,preferred_email=True,confidentiality__in=[1,3])
     if mail_list:
        mail = mail_list[0].email
 

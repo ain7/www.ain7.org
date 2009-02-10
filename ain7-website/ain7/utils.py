@@ -38,6 +38,17 @@ from django import template
 from ain7 import settings
 from ain7.widgets import DateTimeWidget
 
+CONFIDENTIALITY_LEVELS = (
+    (0, _('public')),
+    (1, _('published in directory only')),
+    (2, _('published in website only')),
+    )
+
+def ain7_website_confidential(obj):
+    if not isinstance(obj,models.Model):
+        raise NotImplementedError
+    return (obj.confidentiality==1)
+
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])

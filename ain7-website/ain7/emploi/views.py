@@ -383,6 +383,7 @@ def organization_edit_data(request, organization_id=None):
     if request.method == 'GET':
         f = OrganizationForm(
             {'name':org.name, 'size':org.size,
+             'employment_agency':org.employment_agency,
              'activity_field':org.activity_field.pk,
              'short_description':org.short_description,
              'long_description':org.long_description})

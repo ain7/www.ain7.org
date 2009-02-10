@@ -28,7 +28,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from ain7 import search_engine
 from ain7.annuaire.models import AIn7Member, Person, Address
-from ain7.emploi.models import Office, Organization, Position
+from ain7.emploi.models import Office, Organization, Position, EducationItem
 
 # classes
 
@@ -81,6 +81,9 @@ def params(search_engine):
     def get_activity(ain7member):
         return display_list([ p.office.organization.activity_field
                          for p in ain7member.positions.all() ])
+    def get_diploma(ain7member):
+        return display_list(
+            [ e.diploma for e in ain7member.education.all() ])
     # custom_fields is made of the following components:
     # 1. the name of the field in the model
     # 2. the model from which we're considering a field
@@ -95,6 +98,7 @@ def params(search_engine):
     ('office', Position, 'positions__office', get_office, False ),
     ('activity_field', Organization,
      'positions__office__organization__activity_field', get_activity, False),
+    ('diploma', EducationItem, 'education__diploma', get_diploma, False ),
     ]
     aseParams.baseClass = AIn7Member
 
@@ -193,7 +197,7 @@ class SearchCriterionField(models.Model):
         # if the criterion comes from a custom field we use the specified query
         for (fName,fModel,query,solver, p) in params(se).custom_fields:
             if self.fieldClass == str(fModel._meta):
-                crit = query
+                crit = query + qComp
         q = models.Q(**{crit: self.value})
         if qNeg: q = ~q
         return q

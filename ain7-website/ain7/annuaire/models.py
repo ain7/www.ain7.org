@@ -29,6 +29,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
 from ain7.utils import isAdmin, LoggedClass
+from ain7.utils import ain7_website_confidential, CONFIDENTIALITY_LEVELS
 
 # Country (used for adresses)
 class Country(models.Model):
@@ -90,18 +91,6 @@ class MaritalStatus(models.Model):
 
     class Meta:
         verbose_name = _('marital status')
-
-# Diploma received
-class Diploma(models.Model):
-
-    diploma = models.CharField(verbose_name=_('diploma'), max_length=100)
-    initials = models.CharField(verbose_name=_('initials'), max_length=10, blank=True, null=True)
-
-    def __unicode__(self):
-        return self.diploma
-
-    class Meta:
-        verbose_name = _('diploma')
 
 # Decoration received by people (war cross, etc.)
 class Decoration(models.Model):
@@ -292,8 +281,7 @@ class AIn7MemberManager(models.Manager):
         in advanced search."""
         critsForAll  = [
             "activity" , "marital_status" , "children_count" , "nick_name" ,
-            "promos"   , "diplomas"       , "decorations"    , "cv_title"  ,
-            "ceremonial_duties" ]
+            "promos"   , "decorations"    , "cv_title" , "ceremonial_duties" ]
         critsForAdmin = [
             "person" , "person_type" , "member_type" ,
             "display_cv_in_directory" , "display_cv_in_job_section" ,
@@ -323,7 +311,6 @@ class AIn7Member(LoggedClass):
 
     # School situation
     promos = models.ManyToManyField(Promo, verbose_name=_('Promos'), related_name='students', blank=True, null=True)
-    diplomas = models.ManyToManyField(Diploma, verbose_name=_('diplomas'), related_name='graduates', blank=True, null=True)
 
     # Civil situation
     decorations = models.ManyToManyField(Decoration, verbose_name=_('decorations'), blank=True, null=True)
@@ -381,7 +368,14 @@ class PhoneNumber(LoggedClass):
 
     number = models.CharField(verbose_name=_('number'), max_length=20)
     type = models.IntegerField(verbose_name=_('type'), choices=PHONE_NUMBER_TYPE, default=1)
-    is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
+    confidentiality = models.IntegerField(verbose_name=_('confidentiality'),
+        choices=CONFIDENTIALITY_LEVELS, default=0)
+
+    def website_confidential(self):
+        return ain7_website_confidential(self)
+
+    def confidentiality_print(self):
+        return CONFIDENTIALITY_LEVELS[self.confidentiality][1]
 
     def __unicode__(self):
         return self.number
@@ -412,8 +406,15 @@ class Address(LoggedClass):
     city = models.CharField(verbose_name=_('city'), max_length=50)
     country = models.ForeignKey(Country, verbose_name=_('country'))
     type = models.ForeignKey(AddressType, verbose_name=_('type'))
-    is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
+    confidentiality = models.IntegerField(verbose_name=_('confidentiality'),
+        choices=CONFIDENTIALITY_LEVELS, default=0)
     is_valid = models.BooleanField(verbose_name=_('is valid'), default=True)
+
+    def website_confidential(self):
+        return ain7_website_confidential(self)
+
+    def confidentiality_print(self):
+        return CONFIDENTIALITY_LEVELS[self.confidentiality][1]
 
     def __unicode__(self):
         addr  = self.line1 + " " + self.line2 + " - "
@@ -430,8 +431,16 @@ class Email(models.Model):
     person = models.ForeignKey(Person, related_name='emails')
 
     email = models.EmailField(verbose_name=_('email'))
-    is_confidential = models.BooleanField(verbose_name=_('confidential'), default=False)
+    confidentiality = models.IntegerField(verbose_name=_('confidentiality'),
+        choices=CONFIDENTIALITY_LEVELS, default=0)
     preferred_email = models.BooleanField(verbose_name=_('preferred'), default=False)
+
+    def website_confidential(self):
+        return ain7_website_confidential(self)
+
+    def confidentiality_print(self):
+        print self.confidentiality
+        return CONFIDENTIALITY_LEVELS[self.confidentiality][1]
 
     def __unicode__(self):
         return self.email
@@ -465,6 +474,14 @@ class InstantMessaging(models.Model):
 
     type = models.IntegerField(verbose_name=_('type'), choices=INSTANT_MESSAGING_TYPE)
     identifier = models.CharField(verbose_name=_('identifier'), max_length=40)
+    confidentiality = models.IntegerField(verbose_name=_('confidentiality'),
+        choices=CONFIDENTIALITY_LEVELS, default=0)
+
+    def website_confidential(self):
+        return ain7_website_confidential(self)
+
+    def confidentiality_print(self):
+        return CONFIDENTIALITY_LEVELS[self.confidentiality][1]
 
     def __unicode__(self):
         return self.identifier
@@ -492,8 +509,16 @@ class WebSite(models.Model):
 
     url = models.CharField(verbose_name=_('web site'), max_length=100)
     type = models.IntegerField(verbose_name=_('type'),choices=WEBSITE_TYPE)
+    confidentiality = models.IntegerField(verbose_name=_('confidentiality'),
+        choices=CONFIDENTIALITY_LEVELS, default=0)
 
     blog_is_agregated_on_planet = models.BooleanField(verbose_name=_('blog on planet'), default=False)
+
+    def website_confidential(self):
+        return ain7_website_confidential(self)
+
+    def confidentiality_print(self):
+        return CONFIDENTIALITY_LEVELS[self.confidentiality][1]
 
     def __unicode__(self):
         return self.url
@@ -514,6 +539,14 @@ class IRC(models.Model):
     network = models.CharField(verbose_name=_('network'), max_length=50)
     pseudo = models.CharField(verbose_name=_('pseudo'), max_length=20)
     channels = models.CharField(verbose_name=_('channels'), max_length=100)
+    confidentiality = models.IntegerField(verbose_name=_('confidentiality'),
+        choices=CONFIDENTIALITY_LEVELS, default=0)
+
+    def website_confidential(self):
+        return ain7_website_confidential(self)
+
+    def confidentiality_print(self):
+        return CONFIDENTIALITY_LEVELS[self.confidentiality][1]
 
     def __unicode__(self):
         return self.pseudo + "@" + self.channels

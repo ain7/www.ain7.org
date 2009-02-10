@@ -25,6 +25,18 @@
 {{ form.name }}</td>
 </tr>
 <tr>
+<td>{{ form.employment_agency.label_tag }}</td>
+<td class="original">
+  {% if original.employment_agency %}
+    {% trans "Yes" %}{% else %}{% trans "No" %}
+  {% endif %}
+</td>
+<td class="modified">
+{% if form.employment_agency.errors %}{{ form.employment_agency.errors }}{% endif %}
+  {{ form.employment_agency }}
+</td>
+</tr>
+<tr>
 <td>{{ form.size.label_tag }}</td>
 <td class="original">{{ original.print_size|default_if_none:"" }}</td>
 <td class="modified">
