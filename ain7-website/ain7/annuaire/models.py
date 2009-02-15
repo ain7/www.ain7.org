@@ -262,11 +262,11 @@ X-Generated-By: AIn7 Web Portal
 
 """+message+"""
 --
-Vous pouvez acceder a vos donnees sur le portail: http://www.ain7.com
-"""
+"""+_('You can access to your data on the portal: http://www.ain7.com/')
+
 
            server = smtplib.SMTP('localhost')
-           server.sendmail('ain7@ain7.info', mail, msg)
+           server.sendmail('ain7@ain7.info', mail, unicode(msg).encode('utf8'))
            server.quit()
 
 
@@ -452,6 +452,9 @@ class Email(models.Model):
                 if e is not self:
                     e.preferred_email = False
                     e.save()
+        else:
+            if Email.objects.filter(person=self.person,preferred_email=True).count() == 0:
+                self.preferred_email = True
         return super(Email, self).save()
 
     class Meta:

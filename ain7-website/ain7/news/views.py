@@ -68,7 +68,7 @@ def image_delete(request, news_id):
 def add(request):
 
     return ain7_generic_edit(
-        request, None, NewsForm, {}, 'news/write.html',
+        request, None, AddNewsForm, {'image': None}, 'news/write.html',
         {}, {}, '/actualites/', _('News successfully added.'))
 
 def search(request):

@@ -19,11 +19,12 @@
 <form method="post" action="." enctype="multipart/form-data">
 <table>
 {{ form }}
-{% for organizer in event.organizers.all %}
+{% for eventorg in event.event_organizers.all %}
   <tr>
     <th>{% if forloop.first %}{% trans "Organizers" %}{% endif %}</th>
-    <td>{{ organizer }}&nbsp;
-        <a href="/evenements/{{ event.id }}/organizer/{{ organizer.id }}/delete/" class="deletelink">
+    <td>{{ eventorg.organizer }}&nbsp;
+        ({% if eventorg.send_email_for_new_subscriptions %}{% trans "email sent when subscription" %}{% else %}{% trans "no email sent when subscription" %}{% endif %}&nbsp;<a class="changelink" href="/evenements/{{ event.id }}/organizer/{{ eventorg.organizer.id }}/swap_email_notif/">{% trans "change" %}</a>)&nbsp;
+        <a href="/evenements/{{ event.id }}/organizer/{{ eventorg.organizer.id }}/delete/" class="deletelink">
       {% trans "Delete" %}</a></td>
   </tr>
 {% endfor %} 
@@ -33,6 +34,12 @@
           {% trans "Organizers" %}{% endif %}</th>
     <td><a href="/evenements/{{ event.id }}/organizer/add/" class="addlink">
       {% trans "Add an organizer" %}</a>
+    </td>
+  </tr>
+  {% else %}
+  <tr>
+    <th>{% trans "Organizers" %}</th>
+    <td>{% trans "To add an organizer, edit this event once created." %}
     </td>
   </tr>
   {% endif %}{# event #}

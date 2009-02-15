@@ -64,7 +64,7 @@ class Event(LoggedClass):
     publication_start =  models.DateTimeField(verbose_name=_('publication start'))
     publication_end = models.DateTimeField(verbose_name=_('publication end'))
 
-    organizers = models.ManyToManyField(Person, verbose_name=_('organizers'),related_name='events', blank=True, null=True)
+    organizers = models.ManyToManyField(Person, verbose_name=_('organizers'),related_name='events', blank=True, null=True, through='EventOrganizer')
     regional_groups = models.ManyToManyField(Group, verbose_name=_('regional groups'), related_name='events', blank=True, null=True)
     pictures_gallery = models.CharField(verbose_name=_('Pictures gallery'), max_length=100, blank=True, null=True)
     objects = EventManager()
@@ -106,3 +106,28 @@ class EventSubscription(models.Model):
         verbose_name = _('event subscription')
         verbose_name_plural = _('event subscriptions')
 
+    def save(self):
+        es = super(EventSubscription, self).save()
+        # if some organizers want to get informed by email, do it
+        msg  = _('subscriber').capitalize()+' : '+unicode(self.subscriber) \
+               + ' (' + unicode(self.subscriber_number) + ' ' \
+               + _('subscribers in total') + ')\n\n' \
+               + _('notes').capitalize() + '\n' \
+               + self.note + '\n\n' \
+               + _('subscribed by') + ' ' + unicode(self.subscribed_by) + ' ' \
+               + _('the') + ' ' \
+               + self.subscription_date.strftime('%d/%m/%Y') + ' ' \
+               + _('at') + ' ' \
+               + self.subscription_date.strftime('%H:%M')
+        for event_organizer in self.event.event_organizers.all():
+            if event_organizer.send_email_for_new_subscriptions:
+                event_organizer.organizer.send_mail(
+                    subject=_('New subscription for')+' : '+unicode(self.event),
+                    message=msg)
+        return es
+
+class EventOrganizer(models.Model):
+    event = models.ForeignKey(Event, verbose_name=_('event'), related_name='event_organizers')
+    organizer = models.ForeignKey(Person, verbose_name=_('organizer'), related_name='organized_events')
+    send_email_for_new_subscriptions = models.BooleanField(default=False,
+            verbose_name=_('send email for new subscription'))

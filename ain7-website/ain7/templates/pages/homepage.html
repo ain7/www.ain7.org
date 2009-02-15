@@ -65,11 +65,14 @@
 	</div>
   {% for news_item in news %}
   <div class="right_articles">
-    <p>
+      <div>
       {% if news_item.image %}
       <a href="/actualites/{{ news_item.id }}/"><img src="{{ news_item.image.url }}" alt="Image" title="Image" class="image" width="60" /></a>
       {% endif %}
-      <b><a href="/actualites/{{ news_item.id }}/">{{ news_item.title }}</a></b><br />{{ news_item.short_description|safe }}</p>
+      <b><a href="/actualites/{{ news_item.id }}/">{{ news_item.title }}</a></b><br />{{ news_item.short_description|safe }}
+      </div>
+      <!-- in case the image has bigger height than text -->
+      <div style="clear: left;"></div>
 			</div>
     {% endfor %}
 

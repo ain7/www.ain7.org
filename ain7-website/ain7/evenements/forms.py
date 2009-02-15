@@ -50,6 +50,7 @@ class JoinEventForm(forms.Form):
         subscription.subscriber = kwargs['subscriber']
         subscription.event = kwargs['event']
         subscription.note = self.cleaned_data['note']
+        subscription.subscribed_by = kwargs['subscriber']
         subscription.save()
         contrib_type=UserContributionType.objects.get(key='event_subcription')
         contrib=UserContribution(user=kwargs['subscriber'], type=contrib_type)
@@ -75,6 +76,7 @@ class SubscribeEventForm(forms.Form):
             id=self.cleaned_data['subscriber'])
         subscription.event = kwargs['event']
         subscription.note = self.cleaned_data['note']
+        subscription.subscribed_by = kwargs['subscribed_by']
         subscription.save()
         return subscription
 
@@ -124,14 +126,25 @@ class EventForm(AIn7ModelForm):
             event = super(EventForm, self).save()            
         return event
 
-class OrganizerForm(forms.Form):
-    organizer = forms.IntegerField(label='',
+class EventOrganizerForm(forms.ModelForm):
+    organizer = forms.IntegerField(label=_('organizer').capitalize(),
         widget=AutoCompleteField(url='/ajax/person/'))
+    
+    class Meta:
+        model = EventOrganizer
+        exclude = ('event')
 
     def save(self, *args, **kwargs):
         if kwargs.has_key('contributor') and kwargs.has_key('event'):
             event = kwargs['event']
-            event.organizers.add(self.cleaned_data['organizer'])
+            eventOrg = EventOrganizer()
+            eventOrg.event = event
+            eventOrg.organizer = Person.objects.get(
+                id=self.cleaned_data['organizer'])
+            eventOrg.send_email_for_new_subscriptions = \
+                self.cleaned_data['send_email_for_new_subscriptions']
+            eventOrg.save()
             event.logged_save(kwargs['contributor'])
-        return
+            return eventOrg
+        return None
 

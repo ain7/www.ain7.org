@@ -285,6 +285,7 @@
 
 <h2><a name="profexp"/>{% trans "Current professional experiences" %}</h2>
 
+{% if ain7member.positions.all %}
 <table>
 {% for position in ain7member.positions.all %}
     {% if not position.end_date %}
@@ -299,6 +300,7 @@
     {% endif %}
 {% endfor %}
 </table>
+{% endif %}
 <p><a href="/emploi/{{ person.user.id }}/cv/edit/" class="changelink">
 {% trans "Modify" %}</a></p>
 

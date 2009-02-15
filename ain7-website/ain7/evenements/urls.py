@@ -40,5 +40,6 @@ urlpatterns = patterns('',
     (r'^(?P<event_id>\d+)/validate/$', validate),
     (r'^(?P<event_id>\d+)/organizer/add/$', organizer_add),
     (r'^(?P<event_id>\d+)/organizer/(?P<organizer_id>\d+)/delete/$', organizer_delete),
+    (r'^(?P<event_id>\d+)/organizer/(?P<organizer_id>\d+)/swap_email_notif/$', swap_email_notif),
 
 )

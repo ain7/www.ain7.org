@@ -62,8 +62,7 @@ def edit(request, event_id):
         'evenements/edit.html',
         {'event': event, 'back': request.META.get('HTTP_REFERER', '/'),
          'event_list': Event.objects.all(),
-         'next_events': Event.objects.next_events(),
-         'organizer_form': OrganizerForm()},
+         'next_events': Event.objects.next_events()},
         {'contributor': request.user.person},
         '/evenements/%s/' % (event.id), _('Event successfully updated.'))
 
@@ -105,7 +104,7 @@ def join(request, event_id):
         f = JoinEventForm(request.POST)
         if f.is_valid():
             f.save(subscriber=request.user.person, event=event)
-            request.user.message_set.create(message=_('You have been successfully subscribed to this event.'))
+            request.user.message_set.create(message=_('You have been successfully subscribed to this event.'))            
             return HttpResponseRedirect('/evenements/%s/' % (event.id))
         else:
             request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
@@ -132,7 +131,7 @@ def register(request):
          'event_list': Event.objects.all(),
          'next_events': Event.objects.next_events()},
         {'contributor': request.user.person},
-        '/evenements/$objid/', _('Event successfully added.'))
+        '/evenements/$objid/edit/', _('Event successfully added. You can now add organizers.'))
 
 def search(request):
 
@@ -196,7 +195,8 @@ def subscribe(request, event_id):
                      'back': request.META.get('HTTP_REFERER', '/'),
                      'event_list': Event.objects.all(),
                      'next_events': Event.objects.next_events()})
-            subscription = f.save(event=event)
+            subscription = f.save(event=event,
+                                  subscribed_by=request.user.person)
             p = subscription.subscriber
             request.user.message_set.create(
                 message=_('You have successfully subscribed')+
@@ -251,8 +251,11 @@ def organizer_add(request, event_id):
 
     event = get_object_or_404(Event, pk=event_id)
     return ain7_generic_edit(
-        request, None, OrganizerForm, {}, 'evenements/organizer_add.html',
-        {'back': request.META.get('HTTP_REFERER', '/')},
+        request, None, EventOrganizerForm, {},
+        'evenements/organizer_add.html',
+        {'back': request.META.get('HTTP_REFERER', '/'),
+         'event_list': Event.objects.all(),
+         'next_events': Event.objects.next_events()},
         {'contributor': request.user.person, 'event': event},
         '/evenements/%s/edit/' % event.id, _('Organizer successfully added.'))
 
@@ -262,8 +265,21 @@ def organizer_delete(request, event_id, organizer_id):
 
     event = get_object_or_404(Event, pk=event_id)
     organizer = get_object_or_404(Person, pk=organizer_id)
-    if organizer in event.organizers.all():
-        event.organizers.remove(organizer)
+    eventorg = event.event_organizers.get(organizer=organizer)
+    if eventorg:
+        eventorg.delete()
         request.user.message_set.create(
-            message='Organizer successfully removed')
+            message=_('Organizer successfully removed'))
+    return HttpResponseRedirect('/evenements/%s/edit/' % event_id)
+
+@login_required
+def swap_email_notif(request, event_id, organizer_id):
+
+    event = get_object_or_404(Event, pk=event_id)
+    organizer = get_object_or_404(Person, pk=organizer_id)
+    eventorg = event.event_organizers.get(organizer=organizer)
+    if eventorg:
+        eventorg.send_email_for_new_subscriptions = \
+            not(eventorg.send_email_for_new_subscriptions)
+        eventorg.save()
     return HttpResponseRedirect('/evenements/%s/edit/' % event.id)

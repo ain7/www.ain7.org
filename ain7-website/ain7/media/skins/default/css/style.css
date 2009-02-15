@@ -286,6 +286,7 @@ h3.notif {
 }
 
 .right_articles {
+    clear: left;
     background: #f5f5f5;
     color: #414141;
     padding: 8px;

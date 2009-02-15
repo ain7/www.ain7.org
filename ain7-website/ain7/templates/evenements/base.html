@@ -17,6 +17,17 @@
 
   {% block actions %}{% endblock %}
 
+  {% if event %}
+  <h3>{% trans "Navigation" %}</h3>
+  <div class="right_block">
+    <ul>
+      <li>
+        <a href="/evenements/{{ event.id }}/">{% trans "Event page" %}</a>
+      </li>
+    </ul>
+  </div>
+  {% endif %}{# event #}
+
   {% block statistics %}
     <h3>{% trans "Statistics" %}</h3>
     <div class="right_block">

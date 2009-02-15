@@ -56,3 +56,13 @@ class NewsForm(forms.ModelForm):
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':60}))
     class Meta:
         model = NewsItem
+
+class AddNewsForm(forms.ModelForm):
+    title = forms.CharField(label=_('title').capitalize(), max_length=100,
+        required=False, widget=forms.TextInput(attrs={'size':'50'}))
+    description = forms.CharField(label=_('description').capitalize(),
+        required=False,
+        widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':60}))
+    class Meta:
+        model = NewsItem
+        exclude=('image')
