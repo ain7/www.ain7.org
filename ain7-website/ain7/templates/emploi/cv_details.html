@@ -82,10 +82,10 @@
 
 <table style="width: 100%">
 {% for publicationItem in ain7member.publication.all %}
-    <tr><td style="width: 25%"><b>{{ publicationItem.date|date:"d/m/Y" }}</b></td>
+    <tr><td style="width: 25%"><b>{{ publicationItem.date|date:"Y" }}</b></td>
         <td> <em>{{ publicationItem.title }}</em></td></tr>
     {% if publicationItem.details %}
-        <tr><td></td><td>{{ publicationItem.details }}</td></tr>
+        <tr><td></td><td>{{ publicationItem.details|safe }}</td></tr>
     {% endif %}
 {% endfor %}
 </table>
@@ -97,8 +97,8 @@
 
 <table style="width: 100%">
 {% for educationItem in ain7member.education.all %}
-    <tr><td style="width: 25%"><b>{{ educationItem.start_date|date:"d/m/Y" }} - 
-        {{ educationItem.end_date|date:"d/m/Y"|default:"..." }}</b></td>
+    <tr><td style="width: 25%"><b>{{ educationItem.start_date|date:"Y" }} - 
+        {{ educationItem.end_date|date:"Y"|default:"..." }}</b></td>
         <td> <em>{{ educationItem.school }}</em></td></tr>
     {% if educationItem.diploma %}
         <tr><td></td><td>{{ educationItem.diploma }}</td></tr>

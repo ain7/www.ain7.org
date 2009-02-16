@@ -44,27 +44,27 @@ def details(request, group_id):
 def subscribe(request, group_id):
 
     group = get_object_or_404(GroupPro, name=group_id)
+    f =  SubscribeGroupProForm()
 
     if request.method == 'POST':
         f = SubscribeGroupProForm(request.POST)
-        person = Person.objects.get(user__id=request.POST['member'])
-        # on vérifie que la personne n'est pas déjà inscrite
-        already_subscribed = False
-        for subscription in person.group_memberships.all():
-            if subscription.group == group:
-                already_subscribed = True
-        if already_subscribed:
-            request.user.message_set.create(message=_('This person is already subscribed to this group.'))
-            return HttpResponseRedirect(reverse(details, args=[group.name]))
         if f.is_valid():
-            membership = f.save(group=group)
-            p = membership.member
-            request.user.message_set.create(
-                message=_('You have successfully subscribed')+
-                ' '+p.first_name+' '+p.last_name+' '+_('to this group.'))
-        return HttpResponseRedirect(reverse(details, args=[group.name]))
+            person = Person.objects.get(id=f.cleaned_data['member'])
+            # on vérifie que la personne n'est pas déjà inscrite
+            already_subscribed = False
+            for subscription in person.group_memberships.all():
+                if subscription.group == group:
+                    already_subscribed = True
+            if not already_subscribed:            
+                membership = f.save(group=group)
+                p = membership.member
+                request.user.message_set.create(
+                    message=_('You have successfully subscribed')+
+                    ' '+p.first_name+' '+p.last_name+' '+_('to this group.'))
+                return HttpResponseRedirect(reverse(details, args=[group.name]))
+            else:
+                request.user.message_set.create(message=_('This person is already subscribed to this group.'))
 
-    f =  SubscribeGroupProForm()
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'groupes_professionnels/subscribe.html',
         {'group': group, 'form': f, 'back': back,

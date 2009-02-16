@@ -90,13 +90,13 @@
 {% if ain7member.publication.all %}
 <table style="width: 100%">
 {% for publicationItem in ain7member.publication.all %}
-    <tr><td style="width: 25%"><b>{{ publicationItem.date|date:"d/m/Y"|default:"" }}</b></td>
+    <tr><td style="width: 25%"><b>{{ publicationItem.date|date:"Y"|default:"" }}</b></td>
         <td> <em>{{ publicationItem.title }}</em></td>
         <td style="width: 12%"><a href="{% url ain7.emploi.views.publication_edit person.user.id publicationItem.id %}" class="changelink"> {% trans "Modify" %}</a></td>
         <td style="width: 12%"><a href="{% url ain7.emploi.views.publication_delete person.user.id publicationItem.id %}" class="deletelink"> {% trans "Delete" %}</a></td>
     </tr>
     {% if publicationItem.details %}
-        <tr><td></td><td>{{ publicationItem.details }}</td></tr>
+        <tr><td></td><td>{{ publicationItem.details|safe }}</td></tr>
     {% endif %}
 {% endfor %}
 </table>
@@ -111,8 +111,8 @@
 {% if ain7member.education.all %}
 <table style="width: 100%">
 {% for educationItem in ain7member.education.all %}
-    <tr><td style="width: 25%"><b>{{ educationItem.start_date|date:"d/m/Y" }} - 
-        {{ educationItem.end_date|date:"d/m/Y"|default:"..." }}</b></td>
+    <tr><td style="width: 25%"><b>{{ educationItem.start_date|date:"Y" }} - 
+        {{ educationItem.end_date|date:"Y"|default:"..." }}</b></td>
         <td> <em>{{ educationItem.school }}</em></td>
         <td style="width: 12%"><a href="{% url ain7.emploi.views.education_edit person.user.id educationItem.id %}" class="changelink"> {% trans "Modify" %}</a></td>
         <td style="width: 12%"><a href="{% url ain7.emploi.views.education_delete person.user.id educationItem.id %}" class="deletelink"> {% trans "Delete" %}</a></td>

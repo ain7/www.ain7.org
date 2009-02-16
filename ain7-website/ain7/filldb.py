@@ -286,6 +286,9 @@ def filldb():
     infofield = emploi.ActivityField(field = u"Informatique", code=u"ZZ", label=u"Informatique")
     infofield.save()
 
+    telecomfield = emploi.ActivityField(field = u"Telecom", code=u"TC", label=u"Télécom")
+    telecomfield.save()
+
     babelstore = emploi.Organization(name=u"BABELSTORE", activity_field=infofield, size=2)
     babelstore.save()
 
@@ -1532,6 +1535,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     job1.experience = "1 à 2 ans"
     job1.contract_type = 0
     job1.is_opened = True
+    job1.checked_by_secretariat = True
     job1.office = anywareoffice
     job1.save()
     job1.track.add(n7info)
@@ -1546,6 +1550,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     job2.experience = "2 à 3 ans"
     job2.contract_type = 0
     job2.is_opened = True
+    job2.checked_by_secretariat = True
     job2.office = priceminister
     job2.save()
     job2.track.add(n7info)
@@ -1558,6 +1563,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     job3.experience = "1 à 2 ans"
     job3.contract_type = 1
     job3.is_opened = True
+    job3.checked_by_secretariat = True
     job3.office = anywareoffice
     job3.save()
     job3.track.add(n7info)
@@ -1570,6 +1576,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     job4.experience = "1 à 2 ans"
     job4.contract_type = 3
     job4.is_opened = False
+    job4.checked_by_secretariat = True
     job4.office = anywareoffice
     job4.save()
     job4.track.add(n7hydro)
@@ -1582,6 +1589,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     job5.experience = "0 à 3 ans"
     job5.contract_type = 3
     job5.is_opened = True
+    job5.checked_by_secretariat = True
     job5.office = lepaysdesschtroumpfs
     job5.save()
 

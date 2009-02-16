@@ -62,7 +62,7 @@
 	<br />
         {% trans "Job offers" %} :
           <ul>
-            {% for emploi in office.job_offers.all %}
+            {% for emploi in office.job_offers %}
             <li class="job">
               <a href="/emploi/job/{{ emploi.id }}/">{{ emploi.title }}</a> 
             </li>

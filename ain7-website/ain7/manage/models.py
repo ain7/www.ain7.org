@@ -24,7 +24,7 @@ from django.db import models
 from django.utils.translation import ugettext as _
 
 from ain7.utils import LoggedClass
-from ain7.emploi.models import ACTIONS, OrganizationProposal, OfficeProposal
+from ain7.emploi.models import ACTIONS, OrganizationProposal, OfficeProposal, JobOffer
 
 # A notification
 class Notification(LoggedClass):
@@ -43,6 +43,8 @@ class Notification(LoggedClass):
     office_proposal = models.ForeignKey(
         OfficeProposal, verbose_name=_('organization proposal'),
         blank=True, null=True)
+    job_proposal = models.ForeignKey( JobOffer, blank=True, null=True,
+        verbose_name = _('job offer proposal'), related_name='notification')
 
     def __unicode__(self):
         return self.title

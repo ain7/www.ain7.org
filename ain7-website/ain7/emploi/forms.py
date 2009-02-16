@@ -54,6 +54,8 @@ class JobOfferForm(AIn7Form):
         required=False, widget=forms.TextInput(attrs={'size':'40'}))
     contact_email = forms.EmailField(label=_('Contact email').capitalize(),
         required=False)
+    activity_field = forms.IntegerField(label=_('Activity field'),
+        required=False, widget=AutoCompleteField(url='/ajax/activity_field/'))
     track = forms.ModelMultipleChoiceField(label=_('track').capitalize(),
         queryset=Track.objects.filter(active=True), required=False)
     
@@ -70,6 +72,16 @@ class JobOfferForm(AIn7Form):
                 raise ValidationError(_('The entered office does not exist.'))
             return office
     
+    def clean_activity_field(self):
+        a = self.cleaned_data['activity_field']
+        if a!=None:
+            af = None
+            try:
+                af = ActivityField.objects.get(pk=a)
+            except ActivityField.DoesNotExist:
+                raise ValidationError(_('The entered activity field does not exist.'))
+            return af
+    
     def save(self, user, job_offer=None):
         if not job_offer:
             job_offer = JobOffer()
@@ -82,6 +94,7 @@ class JobOfferForm(AIn7Form):
         job_offer.office = self.cleaned_data['office']
         job_offer.contact_name = self.cleaned_data['contact_name']
         job_offer.contact_email = self.cleaned_data['contact_email']
+        job_offer.activity_field = self.cleaned_data['activity_field']
         job_offer.save()
         # needs to have a primary key before a many-to-many can be used
         job_offer.track = self.cleaned_data['track']
@@ -94,32 +107,41 @@ class SearchJobForm(forms.Form):
     allTracks = forms.BooleanField(label=_('all tracks'), required=False)
     track = forms.ModelMultipleChoiceField(
         label=_('track'), queryset=Track.objects.all(), required=False)
+    activity_field = forms.IntegerField(label=_('Activity field'),
+        required=False, widget=AutoCompleteField(url='/ajax/activity_field/'))
 
     def __init__(self, *args, **kwargs):
         super(SearchJobForm, self).__init__(*args, **kwargs)
 
-    def clean_track(self):
-        return self.cleaned_data['track']
-
     def search(self):
-        maxTrackId = Track.objects.latest('id').id + 1
         # si des filières sont sélectionnées mais pas le joker
         # on filtre par rapport à ces filières
         jobsMatchingTracks = []
         if (not self.cleaned_data['allTracks'])\
                and len(self.cleaned_data['track'])>0:
             for track in self.cleaned_data['track']:
-                jobsMatchingTracks.extend(track.jobs.all())
+                jobsMatchingTracks.extend(
+                    track.jobs.filter(checked_by_secretariat=True))
         else:
-            jobsMatchingTracks = JobOffer.objects.all()
+            jobsMatchingTracks = JobOffer.objects.filter(
+                checked_by_secretariat=True)
+        # on filtre par domaine d'activité
+        jobsMatchingActivity = []
+        if self.cleaned_data['activity_field']:
+            for job in jobsMatchingTracks:
+                if job.activity_field and \
+                    job.activity_field.pk==self.cleaned_data['activity_field']:
+                    jobsMatchingActivity.append(job)
+        else:
+            jobsMatchingActivity = jobsMatchingTracks
         # maintenant on filtre ces jobs par rapport au titre saisi
         matchingJobs = []
         if self.cleaned_data['title']:
-            for job in jobsMatchingTracks:
+            for job in jobsMatchingActivity:
                 if str(self.cleaned_data['title']) in job.title:
                     matchingJobs.append(job)
         else:
-            matchingJobs = jobsMatchingTracks
+            matchingJobs = jobsMatchingActivity
         return matchingJobs
 
 class OrganizationForm(forms.Form):
@@ -208,8 +230,10 @@ class PositionForm(forms.ModelForm):
         return self.cleaned_data['end_date']
 
 class EducationItemForm(forms.ModelForm):
-    start_date = forms.DateTimeField(label=_('start date').capitalize(),widget=dateWidget)
-    end_date = forms.DateTimeField(label=_('end date').capitalize(),widget=dateWidget)
+    start_date = forms.DateField(label=_('start year').capitalize(),
+        input_formats=['%Y'], widget=forms.DateTimeInput(format='%Y'))
+    end_date = forms.DateField(label=_('end year').capitalize(),
+        input_formats=['%Y'], widget=forms.DateTimeInput(format='%Y'))
 
     class Meta:
         model = EducationItem
@@ -229,7 +253,8 @@ class LeisureItemForm(forms.ModelForm):
         exclude = ('ain7member')
 
 class PublicationItemForm(forms.ModelForm):
-    date = forms.DateTimeField(label=_('date').capitalize(),widget=dateWidget)
+    date = forms.DateField(label=_('year').capitalize(),
+        input_formats=['%Y'], widget=forms.DateTimeInput(format='%Y'))
 
     class Meta:
         model = PublicationItem

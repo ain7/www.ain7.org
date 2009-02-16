@@ -82,6 +82,11 @@ urlpatterns = patterns('ain7.manage.views',
     (r'^offices/proposals/edit/(?P<proposal_id>\d+)/$','office_edit_proposal'),
     (r'^offices/proposals/delete/(?P<proposal_id>\d+)/$','office_delete_proposal'),
                        
+    # Jobs
+    (r'^jobs/proposals/$', 'jobs_proposals'),
+    (r'^jobs/proposals/(?P<job_id>\d+)/validate/$', 'job_validate'),
+    (r'^jobs/proposals/(?P<job_id>\d+)/delete/$', 'job_delete'),
+
     # Users
     (r'^users/$', 'users_search'),
     (r'^users/register/$', 'user_register'),

@@ -39,7 +39,7 @@ from ain7.decorators import confirmation_required
 from ain7.emploi.models import *
 from ain7.emploi.forms import *
 from ain7.manage.models import Notification
-from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete
+from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
 from ain7.fields import AutoCompleteField
 
 
@@ -216,6 +216,11 @@ def publication_add(request, user_id=None):
 def job_details(request,emploi_id):
 
     j = get_object_or_404(JobOffer, pk=emploi_id)
+    r = check_access(request, request.user, ['ain7-secretariat'])
+    if not j.checked_by_secretariat and r:
+        request.user.message_set.create(
+            message=_('This job offer has to be checked by the secretariat.'))
+        return HttpResponseRedirect('/emploi/')
     j.nb_views = j.nb_views + 1
     j.save()
     return ain7_render_to_response(
@@ -225,15 +230,24 @@ def job_details(request,emploi_id):
 def job_edit(request, emploi_id):
 
     j = get_object_or_404(JobOffer, pk=emploi_id)
+    r = check_access(request, request.user, ['ain7-secretariat'])
+    if not j.checked_by_secretariat and r:
+        request.user.message_set.create(
+            message=_('This job offer has to be checked by the secretariat.'))
+        return HttpResponseRedirect('/emploi/')
     tracks_id = []
     if j.track:
         tracks_id = [ t.id for t in j.track.all() ]
+    afid = None
+    if j.activity_field:
+        afid = j.activity_field.pk
     f = JobOfferForm(
         {'reference': j.reference, 'title': j.title,
          'experience': j.experience, 'contract_type': j.contract_type,
          'is_opened': j.is_opened, 'description': j.description,
          'office': j.office.id, 'contact_name': j.contact_name,
          'contact_email': j.contact_email,
+         'activity_field': afid,
          'track':  tracks_id})
 
     if request.method == 'POST':
@@ -243,9 +257,6 @@ def job_edit(request, emploi_id):
             request.user.message_set.create(
                 message=_('Job offer successfully modified.'))
             return HttpResponseRedirect(reverse(job_details, args=[j.id]))
-        else:
-            request.user.message_set.create(
-                message=_('Something was wrong in the form you filled. No modification done.'))
 
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'emploi/job_edit.html', {'form': f, 'job': j, 'back': back})
@@ -259,9 +270,14 @@ def job_register(request):
         f = JobOfferForm(request.POST)
         if f.is_valid():
             job_offer = f.save(request.user)
+            # create the notification
+            notif = Notification(details='',
+                title=_('Proposal for job offer'),
+                job_proposal = job_offer)
+            notif.logged_save(request.user.person)
             request.user.message_set.create(
-                message=_('Job offer successfully created.'))
-            return HttpResponseRedirect(reverse(job_details, args=[job_offer.id]))
+                message=_('Job offer successfully created. It will now be checked by the secretariat.'))
+            return HttpResponseRedirect('/emploi/')
         else:
             request.user.message_set.create(
                 message=_('Something was wrong in the form you filled. No modification done.'))

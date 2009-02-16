@@ -343,10 +343,10 @@ class AIn7Member(LoggedClass):
         jobs = []
         if self.receive_job_offers_for_tracks.all():
             for track in self.receive_job_offers_for_tracks.all():
-                jobs.extend(track.jobs.all())
+                jobs.extend(track.jobs.filter(checked_by_secretariat=True))
         else:
             for track in Track.objects.all():
-                jobs.extend(track.jobs.all())
+                jobs.extend(track.jobs.filter(checked_by_secretariat=True))
         return jobs
 
     def __unicode__(self):

@@ -28,10 +28,10 @@ from django import forms
 from django.http import HttpResponseRedirect, HttpResponse
 from django.utils.translation import ugettext as _
 
-from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete
+from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
 from ain7.decorators import confirmation_required
 from ain7.emploi.models import Organization, Office, ActivityField
-from ain7.emploi.models import OrganizationProposal, OfficeProposal
+from ain7.emploi.models import OrganizationProposal, OfficeProposal, JobOffer
 from ain7.emploi.forms import OrganizationForm, OfficeForm, OfficeFormNoOrg
 from ain7.manage.models import *
 from ain7.manage.forms import *
@@ -1048,4 +1048,54 @@ def nationality_add(request):
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'pages/frame_edit_form.html',
         {'action_title': _('Register new country'), 'back': back, 'form': form})
+
+@login_required
+def jobs_proposals(request):
+
+    r = check_access(request, request.user, ['ain7-secretariat'])
+    if r:
+        return r
+    return ain7_render_to_response(request, 'manage/job_proposals.html',
+        {'proposals': JobOffer.objects.filter(checked_by_secretariat=False)})
+
+@confirmation_required(lambda job_id=None: str(get_object_or_404(JobOffer, pk=job_id)), 'manage/base.html', _('Do you confirm the validation of this job proposal'))
+@login_required
+def job_validate(request, job_id=None):
+
+    r = check_access(request, request.user, ['ain7-secretariat'])
+    if r:
+        return r
+    job = get_object_or_404(JobOffer, pk=job_id)
+    # validate
+    job.checked_by_secretariat = True
+    job.save()
+    request.user.message_set.create(
+        message=_("Job proposal validated."))
+    # remove notification
+    notif = job.notification.all()
+    if notif:
+        notif[0].delete()
+        request.user.message_set.create(
+            message=_("Corresponding notification removed."))
+    return HttpResponseRedirect('/manage/jobs/proposals/')
+
+@confirmation_required(lambda job_id=None: str(get_object_or_404(JobOffer, pk=job_id)), 'manage/base.html', _('Do you really want to delete this job proposal'))
+@login_required
+def job_delete(request, job_id=None):
+
+    r = check_access(request, request.user, ['ain7-secretariat'])
+    if r:
+        return r
+    job = get_object_or_404(JobOffer, pk=job_id)
+    # remove notification
+    notif = job.notification.all()
+    if notif:
+        notif[0].delete()
+        request.user.message_set.create(
+            message=_("Corresponding notification removed."))
+    # validate
+    job.delete()
+    request.user.message_set.create(
+        message=_("Job proposal removed."))
+    return HttpResponseRedirect('/manage/jobs/proposals/')
 

@@ -191,7 +191,6 @@ class OfficeManager(models.Manager):
             crits.extend(critsForAdmin)
         return crits
 
-
 # A organization office informations
 class Office(LoggedClass):
 
@@ -247,7 +246,7 @@ class Office(LoggedClass):
         for position in office2.positions.all():
             position.office = self
             position.save() 
-        for joboffer in office2.job_offers.all():
+        for joboffer in JobOffer.objects.filter(office=office2):
             joboffer.office = self
             joboffer.save() 
         return office2.delete()
@@ -272,6 +271,9 @@ class Office(LoggedClass):
             if not ain7member in liste_N7_current:
                 liste_N7_past.append(ain7member)
         return liste_N7_past
+
+    def job_offers(self):
+        return JobOffer.objects.filter(office=self,checked_by_secretariat=True)
 
     class Meta:
         verbose_name = _('office')
@@ -388,11 +390,14 @@ class JobOffer(LoggedClass):
     experience = models.CharField(verbose_name=_('Experience'), max_length=50, blank=True, null=True)
     contract_type = models.IntegerField(verbose_name=_('Contract type'), choices=JOB_TYPES, blank=True, null=True)
     is_opened = models.BooleanField(verbose_name=_('Job offer is opened'), default=False)
-    office = models.ForeignKey(Office, related_name='job_offers',
-                               blank=True, null=True)
+    office = models.ForeignKey(Office, blank=True, null=True)
     contact_name = models.CharField(verbose_name=_('Contact name'), max_length=80, blank=True, null=True)
     contact_email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
     track = models.ManyToManyField(Track, verbose_name=_('Track'), related_name='jobs', blank=True, null=True)
+    activity_field = models.ForeignKey(ActivityField,
+        verbose_name=_('Activity field'), related_name='jobs', blank=True, null=True)
+    checked_by_secretariat = models.BooleanField(
+        verbose_name=_('checked by secretariat'), default=False)
     nb_views = models.IntegerField(verbose_name=_('Number of views'), default=0, editable=False)
 
     def __unicode__(self):

@@ -43,9 +43,19 @@ class SubscribeGroupProForm(forms.Form):
             Person.objects.get(user__id=self.cleaned_data['member'])
         membership.group = group
         membership.save()
-        print membership
         return membership
 
+    def clean_member(self):
+        m = self.cleaned_data['member']
+        if m==None:
+            raise ValidationError(_('This field is mandatory.'))
+        else:
+            try:
+                member = Person.objects.get(id=self.cleaned_data['member'])
+            except Person.DoesNotExist:
+                raise ValidationError(_('This person does not exist in the base.'))
+            return m
+    
 class UnsubscribeGroupProForm(forms.Form):
     member = forms.IntegerField(label=_('Person to unsubscribe'),
                                 widget=AutoCompleteField(url='/ajax/person/'))
