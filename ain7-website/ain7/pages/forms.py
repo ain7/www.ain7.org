@@ -21,8 +21,22 @@
 #
 
 from django import forms
+from django.utils.translation import ugettext as _
+
+from django.forms.util import ValidationError
+
+from ain7.annuaire.models import Email
 
 class LostPasswordForm(forms.Form):
     """ Form to request a new password (when you loose the first one) """
     email = forms.EmailField(required=True)
 
+    def clean_email(self):
+        e = self.cleaned_data['email']
+
+        try:
+            Email.objects.get(email=e)
+        except Email.DoesNotExist:
+            raise ValidationError(_('The entered email does not exist.'))
+        else:
+            return self.cleaned_data['email']

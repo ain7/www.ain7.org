@@ -97,6 +97,14 @@ TEMPLATE_DIRS = (
     detect_path()+'/templates',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'ain7.session_messages.context_processors.session_messages',
+)
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -116,6 +124,7 @@ INSTALLED_APPS = (
     'ain7.sondages',
     'ain7.voyages',
     'ain7.search_engine',
+    'ain7.session_messages',
 )
 
 # attributs non standards

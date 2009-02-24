@@ -754,6 +754,8 @@ def filldb():
     laurent.user = User.objects.create_user("laurent", "laurent07@gmail.com","laurent")
     laurent.user.is_staff = True
     laurent.user.is_superuser = True
+    laurent.user.groups.add(ain7_admin)
+    laurent.user.groups.add(ain7_devel)
     laurent.user.groups.add(ain7_membre)
     laurent.user.save()
     laurent.sex = 'M'

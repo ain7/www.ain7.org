@@ -1,0 +1,60 @@
+=======================
+Django Session Messages
+=======================
+
+An anonymous session messages application for Django projects, intended to
+fill the gap until the patch in ticket 4604 lands in Django trunk.
+
+
+Installation
+============
+
+Get the Subversion trunk version of the application::
+
+    svn checkout http://django-session-messages.googlecode.com/svn/trunk/ django_session_messages
+
+To install django-session-messages:
+
+    1. Put the ``session_messages`` folder somewhere on your Python path.
+    2. Put ``'session_messages'`` in your ``INSTALLED_APPS`` setting.
+    3. Put ``'session_messages.context_processors.session_messages'`` in
+    your TEMPLATE_CONTEXT_PROCESSORS setting.
+
+The third step will make a ``session_messages`` variable available in all of
+your templates, containing any messages that have been set for the current
+session.
+
+Creating messages
+=================
+
+To create a message for the current session, import the ``create_message``
+function from the ``session_messages`` module, and call it with a string
+argument::
+
+    create_message('Your comment has been saved.')
+
+Displaying messages
+===================
+
+The ``session_messages`` variable placed in your template context by the
+context processor is just a list of message strings.  You can easily loop
+through them and display them like so::
+
+    <ul class="messages">
+    {% for message in session_messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+
+Deleting messages
+=================
+
+Messages are transient - they are automatically deleted from the session
+when fetched for display in a template, so you don't need to delete them
+manually.
+
+If no template ever accesses the session_messages variable, messages will
+not be deleted.
+
+source: http://code.google.com/p/django-session-messages/
+autre solution non implémentée sur le portail: http://www.djangosnippets.org/snippets/1002/
