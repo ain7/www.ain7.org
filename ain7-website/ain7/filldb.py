@@ -674,6 +674,14 @@ def filldb():
     olivier_education1.end_date = date(2003,8,23)
     olivier_education1.save()
 
+    olivier_education2 = emploi.EducationItem()
+    olivier_education2.ain7member = olivier_ain7member
+    olivier_education2.school = "Université d'Artois"
+    olivier_education2.diploma = u"DEA Systèmes intelligents et applications"
+    olivier_education2.start_date = date(2003,9,1)
+    olivier_education2.end_date = date(2004,8,23)
+    olivier_education2.save()
+
     olivier_leisure1 = emploi.LeisureItem()
     olivier_leisure1.ain7member = olivier_ain7member
     olivier_leisure1.title = "Culture"
@@ -1576,7 +1584,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     job4.title = u"Ingénieur SI support produit"
     job4.description = u"""Intégré au sein de l'équipe « Formes de Vente » (15 personnes) et sous la direction d'un Responsable d'Equipe, vous garantissez le bon fonctionnement des produits à votre charge dans le système d'information."""
     job4.experience = "1 à 2 ans"
-    job4.contract_type = 3
+    job4.contract_type = 2
     job4.is_opened = False
     job4.checked_by_secretariat = True
     job4.office = anywareoffice
@@ -1589,7 +1597,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     job5.title = u"Ingénieurs développement JAVA/J2EE"
     job5.description = u"""Nous souhaitons renforcer notre pôle de compétences NTIC Java J2EE : De formation informatique Bac+4/5, vous êtes aujourd'hui un Ingénieur débutant ou expérimenté et vous bénéficiez d'une réelle maîtrise des environnements de développement NTIC."""
     job5.experience = "0 à 3 ans"
-    job5.contract_type = 3
+    job5.contract_type = 2
     job5.is_opened = True
     job5.checked_by_secretariat = True
     job5.office = lepaysdesschtroumpfs

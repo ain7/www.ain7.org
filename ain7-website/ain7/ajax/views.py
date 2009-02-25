@@ -25,7 +25,7 @@ from django.contrib.auth.models import Permission
 from django.db.models import Q
 
 from ain7.annuaire.models import Person, Country, Track, PromoYear
-from ain7.emploi.models import ActivityField, Organization, Office
+from ain7.emploi.models import ActivityField, Organization, Office, EducationItem
 from ain7.utils import ain7_render_to_response
 
 def ajaxed_fields():
@@ -39,6 +39,11 @@ def ajaxed_fields():
             ActivityField: 'activity_field',
             Permission: 'permission',
             Office: 'office'}
+
+def ajaxed_strings():
+    """Links strings for which an autocompletion using Ajax exists,
+    and the names of these autocompletion methods."""
+    return [ 'diploma' ]
 
 def completion_list(objects):
     """Builds and returns the completion list, from the query."""
@@ -152,4 +157,19 @@ def office(request):
             Office.objects.filter(Q(name__icontains=input) | Q(organization__name__icontains=input)).order_by('organization__name','name'))
 
     return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
+
+@login_required
+def diploma(request):
+    elements = []
+
+    if request.method == 'POST':
+        input = request.POST['text']
+        added_diplomas = []
+        for e in EducationItem.objects.filter(diploma__icontains=input):
+            d = e.diploma
+            if d not in added_diplomas:
+                added_diplomas.append(d)
+                elements.append( {'id': d, 'displayValue': d, 'value': d} )
+    return ain7_render_to_response(request, 'ajax/complete.html',
+        {'elements': elements})
 

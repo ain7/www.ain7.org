@@ -103,15 +103,28 @@ class JobOfferForm(AIn7Form):
 
 
 class SearchJobForm(forms.Form):
-    title = forms.CharField(label=_('title'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'40'}))
+    title = forms.CharField(label=_('title').capitalize(),max_length=50,
+        required=False, widget=forms.TextInput(attrs={'size':'40'}))
     allTracks = forms.BooleanField(label=_('all tracks'), required=False)
-    track = forms.ModelMultipleChoiceField(
-        label=_('track'), queryset=Track.objects.all(), required=False)
+    track = forms.ModelMultipleChoiceField(label=_('track').capitalize(),
+        queryset=Track.objects.all(), required=False)
     activity_field = forms.IntegerField(label=_('Activity field'),
         required=False, widget=AutoCompleteField(url='/ajax/activity_field/'))
+    experience = forms.CharField(label=_('experience').capitalize(),
+        max_length=50, required=False,
+        widget=forms.TextInput(attrs={'size':'40'}))
+    contract_type = forms.ChoiceField(label=_('Contract type'),
+        required=False, choices=[])
 
     def __init__(self, *args, **kwargs):
         super(SearchJobForm, self).__init__(*args, **kwargs)
+        contract_types = [(0, _('all').capitalize())]
+        for i,t in JobOffer.JOB_TYPES:
+            contract_types.append((i+1,t))
+        self.fields['contract_type'].choices = contract_types
+
+    def clean_contract_type(self):
+        return int(self.cleaned_data['contract_type'])
 
     def search(self):
         # si des filières sont sélectionnées mais pas le joker
@@ -136,12 +149,12 @@ class SearchJobForm(forms.Form):
             jobsMatchingActivity = jobsMatchingTracks
         # maintenant on filtre ces jobs par rapport au titre saisi
         matchingJobs = []
-        if self.cleaned_data['title']:
-            for job in jobsMatchingActivity:
-                if str(self.cleaned_data['title']) in job.title:
-                    matchingJobs.append(job)
-        else:
-            matchingJobs = jobsMatchingActivity
+        for job in jobsMatchingActivity:
+            if str(self.cleaned_data['title']) in job.title and \
+                str(self.cleaned_data['experience']) in job.experience and \
+                ( self.cleaned_data['contract_type']==0 or
+                  self.cleaned_data['contract_type']==job.contract_type+1 ):
+                matchingJobs.append(job)
         return matchingJobs
 
 class OrganizationForm(forms.Form):
@@ -233,7 +246,12 @@ class EducationItemForm(forms.ModelForm):
     start_date = forms.DateField(label=_('start year').capitalize(),
         input_formats=['%Y'], widget=forms.DateTimeInput(format='%Y'))
     end_date = forms.DateField(label=_('end year').capitalize(),
-        input_formats=['%Y'], widget=forms.DateTimeInput(format='%Y'))
+        input_formats=['%Y'], widget=forms.DateTimeInput(format='%Y'),
+        required=False)
+#     diploma = forms.IntegerField(label=_('diploma').capitalize(),
+#         widget=AutoCompleteField(url='/ajax/diploma/'), required=False)
+    diploma = forms.CharField(label=_('diploma').capitalize(),
+        widget=AutoCompleteField(url='/ajax/diploma/'), required=False)
 
     class Meta:
         model = EducationItem

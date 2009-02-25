@@ -25,7 +25,7 @@ from django.forms.widgets import TextInput,flatatt
 from django.forms.util import smart_unicode
 from django.utils.translation import ugettext as _
 from django.utils.html import escape
-from ain7.ajax.views import ajaxed_fields
+from ain7.ajax.views import ajaxed_fields, ajaxed_strings
 
 class AutoCompleteField(TextInput):
 
@@ -69,6 +69,8 @@ class AutoCompleteField(TextInput):
                 if objName == name:
                     obj = objClass.objects.get(pk=value)
                     valueTxt = obj.autocomplete_str()
+            if name in ajaxed_strings():
+                valueTxt = value
         if value:
             value = smart_unicode(value)
         else:
