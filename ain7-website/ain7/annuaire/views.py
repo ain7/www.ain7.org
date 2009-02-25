@@ -816,7 +816,7 @@ def vcard(request, user_id):
     ain7member = get_object_or_404(AIn7Member, person=p)
 
     mail = None
-    mail_list = Email.objects.filter(person=p,preferred_email=True,confidentiality__in=[1,3])
+    mail_list = Email.objects.filter(person=p,preferred_email=True,confidentiality__in=[0,2])
     if mail_list:
        mail = mail_list[0].email
 
@@ -824,18 +824,22 @@ def vcard(request, user_id):
     vcard.add('n').value = vobject.vcard.Name( family=p.last_name, given=p.first_name )
     vcard.add('fn').value = p.first_name+' '+p.last_name
     if mail:
-        vcard.add('mail').value = mail
-        vcard.add('mail').type_param = 'INTERNET'
+        email = vcard.add('email')
+        email.value = mail
+        email.type_param = 'INTERNET,PREF'
     for address in  Address.objects.filter(person=p):
         street = ''
         if address.line1:
             street = street + address.line1
         if address.line2:
             street = street + address.line2
-        vcard.add('adr').value = vobject.vcard.Address(street=street, city=address.city, region='', code=address.zip_code, country=address.country.name, box='', extended='')
-        vcard.add('adr').type_param = address.type.type
-    for tel in PhoneNumber.objects.filter(person=p):
-        vcard.add('tel').value = tel.number
+        adr = vcard.add('adr')
+        adr.value = vobject.vcard.Address(street=street, city=address.city, region='', code=address.zip_code, country=address.country.name, box='', extended='')
+        adr.type_param = address.type.type
+    for phone in PhoneNumber.objects.filter(person=p,confidentiality__in=[0,2]):
+        tel = vcard.add('tel')
+        tel.value = phone.number
+        tel.type_param = ['HOME', 'FAX', 'CELL'][phone.type-1]
 
     vcardstream = vcard.serialize()
 

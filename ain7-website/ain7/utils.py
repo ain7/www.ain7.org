@@ -80,6 +80,8 @@ def galerie(request):
 
 # pour alléger les appels à render_to_response
 # http://www.djangosnippets.org/snippets/3/
+# Serait pas mieux d'utiliser un ContextProcessor ?
+# http://docs.djangoproject.com/en/dev/ref/templates/api/#writing-your-own-context-processors
 def ain7_render_to_response(req, *args, **kwargs):
 
     user_groups = req.user.groups.all().values_list('name', flat=True)
