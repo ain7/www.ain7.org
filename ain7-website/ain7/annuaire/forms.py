@@ -203,9 +203,9 @@ class NewMemberForm(forms.Form):
 
 class PersonForm(forms.ModelForm):
     sex = forms.CharField(widget=forms.Select(choices=Person.SEX), label=_('Sex'))
-    birth_date = forms.DateTimeField(label=_('start').capitalize(),
+    birth_date = forms.DateTimeField(label=_('birth date').capitalize(),
         widget=dateWidget, required=False)
-    death_date = forms.DateTimeField(label=_('end').capitalize(),
+    death_date = forms.DateTimeField(label=_('death date').capitalize(),
         widget=dateWidget, required=False)
     class Meta:
         model = Person

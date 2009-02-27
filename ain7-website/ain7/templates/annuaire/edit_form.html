@@ -1,15 +1,11 @@
-{% extends "adhesions/base.html" %}
+{% extends "annuaire/base.html" %}
 {% load i18n %}
 
 {% block content-left %}
 
 <div class="left_box">
 
-{% ifequal action "edit" %}
-    <h2>{% trans "Modification of a configuration" %}</h2>
-{% else %}
-    <h2>{% trans "Creation of a configuration" %}</h2>
-{% endifequal %}
+<h2>{{ action_title }} {{ person }}</h2>
 
 <form method="post" action="." enctype="multipart/form-data">
 <table>
@@ -21,7 +17,6 @@
 </div>
 </form>
 
-</div>
 </div>
 
 {% endblock %}
