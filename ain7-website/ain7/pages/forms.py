@@ -37,6 +37,6 @@ class LostPasswordForm(forms.Form):
         try:
             Email.objects.get(email=e)
         except Email.DoesNotExist:
-            raise ValidationError(_('The entered email does not exist.'))
+            raise ValidationError(_('This should be the email address registered for your AIn7 account.'))
         else:
             return self.cleaned_data['email']

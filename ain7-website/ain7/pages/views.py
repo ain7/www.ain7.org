@@ -33,7 +33,6 @@ from ain7.utils import ain7_render_to_response
 from ain7.annuaire.models import AIn7Member
 from ain7.pages.forms import LostPasswordForm
 from ain7.annuaire.models import Person, Email
-from ain7.session_messages import create_message
 
 def homepage(request):
     news = NewsItem.objects.all().order_by('-creation_date')[:2]
@@ -61,7 +60,6 @@ def lostpassword(request):
         form = LostPasswordForm(request.POST)
         if form.is_valid():
             e = form.cleaned_data['email']
-            # A COMPLETER
             p = Email.objects.get(email=e).person
             new_random_password = User.objects.make_random_password(length=10, allowed_chars='abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789')
             p.user.set_password(new_random_password)
@@ -69,13 +67,12 @@ def lostpassword(request):
             p.send_mail(_('Login Service: Forgotten Password'), \
                         _('Hi,\n\nYou, or someone posing as you, has requested a new password for your AIn7 account.' + \
                           '\n\nYour password is now set to: ' + new_random_password + '\n\n'))
-            create_message(request, _('We have sent you an email with instructions to reset your password.'))
+            info = _('We have sent you an email with instructions to reset your password.')
             request.path = '/'
-            return ain7_render_to_response(request, 'pages/lostpassword.html', {})
+            return ain7_render_to_response(request, 'pages/lostpassword.html', {'info': info})
         else:
-            create_message(request, _('This should be the email address registered for your AIn7 account.'))
-            create_message(request, _('If you are claiming an existing account but don\'t know the email address that was used, contact an AIn7 administrator.'))
-            return ain7_render_to_response(request, 'pages/lostpassword.html', {'form': form})
+            info = _('If you are claiming an existing account but don\'t know the email address that was used, please contact an AIn7 administrator.')
+            return ain7_render_to_response(request, 'pages/lostpassword.html', {'form': form, 'info': info})
 
 def apropos(request):
     return ain7_render_to_response(request, 'pages/apropos.html', {})
