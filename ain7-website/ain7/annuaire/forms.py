@@ -220,7 +220,7 @@ class PersonForm(forms.ModelForm):
 
 
 class AIn7MemberForm(forms.ModelForm):
-    receive_job_offers_for_tracks = forms.ModelMultipleChoiceField(queryset=Track.objects.filter(active=True))
+    receive_job_offers_for_tracks = forms.ModelMultipleChoiceField(queryset=Track.objects.filter(active=True), required=False)
     class Meta:
         model = AIn7Member
         exclude = ('person','promos')

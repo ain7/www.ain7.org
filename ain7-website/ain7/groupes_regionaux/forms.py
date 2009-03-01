@@ -34,7 +34,8 @@ dateWidget.dformat = '%d/%m/%Y'
 
 class GroupForm(forms.ModelForm):
     description = forms.CharField(label=_('description').capitalize(),
-        widget = forms.widgets.Textarea(attrs={'rows':10, 'cols':90}))
+        widget = forms.widgets.Textarea(attrs={'rows':10, 'cols':90}),
+        required=False)
     
     class Meta:
         model = Group

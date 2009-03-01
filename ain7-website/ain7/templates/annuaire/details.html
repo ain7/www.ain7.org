@@ -27,7 +27,7 @@
    {% if ain7member.education.all %}
    <li><b>{% filter capfirst %}{% trans "diplomas" %}{% endfilter %}&nbsp;:</b>
        {% for educ in ain7member.education.all %}{{ educ.diploma }}
-           {% if not forloop.last %} ; {% endif %}{% endfor %}</li>
+           {% if educ.diploma and not forloop.last %} ; {% endif %}{% endfor %}</li>
    {% endif %}
    <li><b>{% trans "Birth date" %}&nbsp;:</b> {{ person.birth_date|date:"d/m/Y" }}</li>
    {% if person.death_date %}

@@ -517,7 +517,7 @@ def organization_register_proposal(request, proposal_id=None):
     if request.method == 'POST':
         form = OrganizationForm(request.POST)
         if form.is_valid():
-            organization = form.save(is_a_proposal=False)
+            organization = form.save(user=request.user,is_a_proposal=False)
             # on supprime la notification et la proposition
             notification = Notification.objects.get(
                 organization_proposal=proposal )

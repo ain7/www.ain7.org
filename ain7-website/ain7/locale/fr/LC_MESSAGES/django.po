@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-02-16 22:31+0100\n"
-"PO-Revision-Date: 2009-02-15 19:31+0100\n"
+"PO-Revision-Date: 2009-03-01 15:21+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3908,7 +3908,7 @@ msgstr "par"
 
 #: templates/pages/login.html:15 templates/registration/login.html:8
 msgid "Your username and password didn't match. Please try again."
-msgstr "Votre identifiaction a échoué. Veuillez essayer à nouveau."
+msgstr "Votre identification a échoué. Veuillez essayer à nouveau."
 
 #: templates/pages/login.html:26 templates/registration/login.html:25
 msgid "Password"
