@@ -26,6 +26,7 @@ from django.utils.translation import ugettext as _
 from ain7.fields import AutoCompleteField
 from ain7.widgets import DateTimeWidget
 from ain7.news.models import *
+from ain7.utils import AIn7ModelForm
 
 dateWidget = DateTimeWidget()
 dateWidget.dformat = '%d/%m/%Y'
@@ -48,20 +49,20 @@ class SearchNewsForm(forms.Form):
             criteria['creation_date__day'] = inputdate.day
         return NewsItem.objects.filter(**criteria)
 
-class NewsForm(forms.ModelForm):
+class NewsForm(AIn7ModelForm):
     title = forms.CharField(label=_('title').capitalize(), max_length=100,
-        required=False, widget=forms.TextInput(attrs={'size':'50'}))
+        required=True, widget=forms.TextInput(attrs={'size':'50'}))
     description = forms.CharField(label=_('description').capitalize(),
-        required=False,
+        required=True,
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':60}))
     class Meta:
         model = NewsItem
 
-class AddNewsForm(forms.ModelForm):
+class AddNewsForm(AIn7ModelForm):
     title = forms.CharField(label=_('title').capitalize(), max_length=100,
-        required=False, widget=forms.TextInput(attrs={'size':'50'}))
+        required=True, widget=forms.TextInput(attrs={'size':'50'}))
     description = forms.CharField(label=_('description').capitalize(),
-        required=False,
+        required=True,
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':60}))
     class Meta:
         model = NewsItem

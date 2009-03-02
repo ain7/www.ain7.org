@@ -20,3 +20,7 @@
 </form>
 
 {% endblock %}
+
+{% block extra-actions %}
+<li><a href="/actualites/{{ news_item.id }}/delete/">{% trans "Delete this news" %}</a></li>
+{% endblock %}

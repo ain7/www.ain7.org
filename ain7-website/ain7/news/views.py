@@ -71,6 +71,17 @@ def add(request):
         request, None, AddNewsForm, {'image': None}, 'news/write.html',
         {}, {}, '/actualites/', _('News successfully added.'))
 
+@confirmation_required(lambda news_id=None, object_id=None : '', 'base.html', _('Do you really want to delete this news'))
+@login_required
+def delete(request, news_id):
+
+    news_item = get_object_or_404(NewsItem, pk=news_id)
+    news_item.delete()
+
+    request.user.message_set.create(message=
+        _('The news has been successfully deleted.'))
+    return HttpResponseRedirect('/actualites/')
+
 def search(request):
 
     form = SearchNewsForm()
