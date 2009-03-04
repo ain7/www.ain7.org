@@ -2,7 +2,7 @@
 #
 # relations_ecoles_etudiants/urls.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -22,11 +22,8 @@
 
 from django.conf.urls.defaults import *
 
-from ain7.relations_ecole_etudiants.views import *
 
 urlpatterns = patterns('',
-
-    (r'^$', index),
-
+    (r'^$', 'index'),
 )
 

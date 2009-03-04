@@ -2,7 +2,7 @@
 #
 # groupes_regionaux/urls.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -22,19 +22,17 @@
 
 from django.conf.urls.defaults import *
 
-from ain7.groupes_regionaux.views import *
 
-urlpatterns = patterns('',
-
+urlpatterns = patterns('ain7.groupes_regionaux.views',
     # Groupes Regionaux
-    (r'^$', index),
-    (r'^(?P<group_id>\d+)/$', details),
-    (r'^(?P<group_id>\d+)/edit/$', edit),
-    (r'^(?P<group_id>\d+)/join/$', join),
-    (r'^(?P<group_id>\d+)/quit/$', quit),
-    (r'^(?P<group_id>\d+)/roles/edit/(?P<all_current>\w+)/$', edit_roles),
-    (r'^(?P<group_id>\d+)/roles/(?P<role_id>\d+)/changedates/(?P<all_current>\w+)/$', change_dates),
-    (r'^(?P<group_id>\d+)/roles/(?P<type>\d+)/add/(?P<all_current>\w+)/$', add_role),
-    (r'^(?P<group_id>\d+)/roles/(?P<role_id>\d+)/delete/(?P<all_current>\w+)/$', delete_role),
-
+    (r'^$', 'index'),
+    (r'^(?P<group_id>\d+)/$', 'details'),
+    (r'^(?P<group_id>\d+)/edit/$', 'edit'),
+    (r'^(?P<group_id>\d+)/join/$', 'join'),
+    (r'^(?P<group_id>\d+)/quit/$', 'quit'),
+    (r'^(?P<group_id>\d+)/roles/edit/(?P<all_current>\w+)/$', 'edit_roles'),
+    (r'^(?P<group_id>\d+)/roles/(?P<role_id>\d+)/changedates/(?P<all_current>\w+)/$', 'change_dates'),
+    (r'^(?P<group_id>\d+)/roles/(?P<type>\d+)/add/(?P<all_current>\w+)/$', 'add_role'),
+    (r'^(?P<group_id>\d+)/roles/(?P<role_id>\d+)/delete/(?P<all_current>\w+)/$', 'delete_role'),
 )
+

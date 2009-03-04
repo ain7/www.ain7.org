@@ -2,7 +2,7 @@
 #
 # evenements/forms.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -23,11 +23,12 @@
 from django import forms
 from django.utils.translation import ugettext as _
 
-from ain7.fields import AutoCompleteField
-from ain7.widgets import DateTimeWidget
-from ain7.evenements.models import *
 from ain7.annuaire.models import UserContribution, UserContributionType
+from ain7.evenements.models import EventOrganizer, EventSubscription, Event
+from ain7.fields import AutoCompleteField
 from ain7.utils import AIn7ModelForm
+from ain7.widgets import DateTimeWidget
+
 
 dateTimeWidget = DateTimeWidget()
 dateTimeWidget.dformat = '%d/%m/%Y %H:%M'

@@ -2,7 +2,7 @@
 #
 # manage/models.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -23,10 +23,10 @@
 from django.db import models
 from django.utils.translation import ugettext as _
 
-from ain7.utils import LoggedClass
 from ain7.emploi.models import ACTIONS, OrganizationProposal, OfficeProposal, JobOffer
+from ain7.utils import LoggedClass
 
-# A notification
+
 class Notification(LoggedClass):
 
     PROPOSAL_TYPE = (

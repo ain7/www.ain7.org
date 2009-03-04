@@ -2,7 +2,7 @@
 #
 # search_engine/forms.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -21,11 +21,12 @@
 #
 
 from django import forms
-from django.utils.translation import ugettext as _
 from django.forms.util import ValidationError
+from django.utils.translation import ugettext as _
 
-from ain7.widgets import DateTimeWidget
 from ain7.search_engine.models import *
+from ain7.widgets import DateTimeWidget
+
 
 dateWidget = DateTimeWidget()
 dateWidget.dformat = '%d/%m/%Y'

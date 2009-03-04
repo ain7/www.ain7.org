@@ -2,7 +2,7 @@
 #
 # adhesions/models.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -25,15 +25,15 @@ import datetime
 from django.db import models
 from django.utils.translation import ugettext as _
 
-from ain7.utils import LoggedClass
 from ain7.annuaire.models import AIn7Member
+from ain7.utils import LoggedClass
 
 class Subscription(LoggedClass):
 
     TENDER_TYPE = (
                    (0, _('Cash')),
                    (1, _('Cheque')),
-                   #(2, _('Card')),
+                   (2, _('Card')),
                    )
 
     dues_amount = models.IntegerField(verbose_name=_('Dues amount'))
@@ -74,3 +74,4 @@ class SubscriptionConfiguration(models.Model):
 
     class Meta:
         verbose_name = _('Configuration')
+

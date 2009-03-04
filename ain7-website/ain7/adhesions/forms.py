@@ -2,7 +2,7 @@
 #
 # annuaire/forms.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -23,13 +23,14 @@
 import datetime
 
 from django import forms
-from django.utils.translation import ugettext as _
-from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.forms.util import ValidationError
+from django.shortcuts import get_object_or_404
+from django.utils.translation import ugettext as _
 
+from ain7.adhesions.models import Subscription, SubscriptionConfiguration
 from ain7.fields import AutoCompleteField
-from ain7.adhesions.models import *
+
 
 class SubscriptionForm(forms.ModelForm):
     dues_amount = forms.IntegerField(widget=forms.HiddenInput())
@@ -42,3 +43,4 @@ class SubscriptionForm(forms.ModelForm):
 class ConfigurationForm(forms.ModelForm):
     class Meta:
         model = SubscriptionConfiguration
+

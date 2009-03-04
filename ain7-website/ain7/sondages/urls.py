@@ -22,24 +22,23 @@
 
 from django.conf.urls.defaults import *
 
-from ain7.sondages.views import *
 
 urlpatterns = patterns('',
 
     # Sondage
-    (r'^$', index),
-    (r'^(?P<survey_id>\d+)/vote/$', vote),
-    (r'^(?P<survey_id>\d+)/view/$', view),
+    (r'^$', 'index'),
+    (r'^(?P<survey_id>\d+)/vote/$', 'vote'),
+    (r'^(?P<survey_id>\d+)/view/$', 'view'),
 
     # Survey edition
-    (r'^create/$', create),
-    (r'^(?P<survey_id>\d+)/details/$', details),
-    (r'^(?P<survey_id>\d+)/edit/$', edit),
-    (r'^(?P<survey_id>\d+)/delete/$', delete),
+    (r'^create/$', 'create'),
+    (r'^(?P<survey_id>\d+)/details/$', 'details'),
+    (r'^(?P<survey_id>\d+)/edit/$', 'edit'),
+    (r'^(?P<survey_id>\d+)/delete/$', 'delete'),
 
     # Choice edition
-    (r'^(?P<survey_id>\d+)/choice/add/$', choice_add),
-    (r'^(?P<survey_id>\d+)/choice/(?P<choice_id>\d+)/edit/$', choice_edit),
-    (r'^(?P<survey_id>\d+)/choice/(?P<choice_id>\d+)/delete/$', choice_delete),
+    (r'^(?P<survey_id>\d+)/choice/add/$', 'choice_add'),
+    (r'^(?P<survey_id>\d+)/choice/(?P<choice_id>\d+)/edit/$', 'choice_edit'),
+    (r'^(?P<survey_id>\d+)/choice/(?P<choice_id>\d+)/delete/$', 'choice_delete'),
 
 )

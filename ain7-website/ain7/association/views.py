@@ -2,7 +2,7 @@
 #
 # association/views.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -21,16 +21,17 @@
 #
 
 from django.contrib.auth.decorators import login_required
-from django.utils.translation import ugettext as _
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect
+from django.utils.translation import ugettext as _
 
-from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete
-from ain7.decorators import confirmation_required
 from ain7.annuaire.models import AIn7Member
-from ain7.association.models import *
-from ain7.association.forms import *
+from ain7.association.models import CouncilRole
+from ain7.association.forms import ChangeDatesForm, NewCouncilRoleForm
+from ain7.decorators import confirmation_required
+from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete
+
 
 def count_members():
     nb_members = AIn7Member.objects.all().count()
@@ -40,7 +41,7 @@ def current_council_roles():
     return [ rol for rol in CouncilRole.objects.all() if rol.current() ]
 
 def current_board_roles():
-    return [ rol for rol in BoardRole.objects.all() if rol.current() ]
+    return [ rol for rol in CouncilRole.objects.filter(board_member=True) if rol.current() ]
 
 def index(request): 
     return ain7_render_to_response(request, 'association/index.html', {'count_members': count_members()}) 
@@ -185,69 +186,3 @@ def build_board_roles_by_type(request, all_current=None,
                               a_form, this_types_roles))
     return roles_by_type
 
-@login_required
-def edit_board(request, all_current=None):
-    roles_by_type = build_board_roles_by_type(request, all_current,
-                                              None, None, None, None)
-    return ain7_render_to_response(request,
-        'association/edit_board.html',
-        {'roles_by_type': roles_by_type, 'all_current': all_current,
-         'count_members': count_members(), 
-         'back': request.META.get('HTTP_REFERER', '/')})
-
-@login_required
-def add_board_role(request, role_type=None, all_current=None):
-
-    form = None
-    if request.method=='GET':
-        form = NewBoardRoleForm()
-    roles_by_type = build_board_roles_by_type(
-        request, all_current, role_type, form, None, None)
-    
-    if request.method == 'POST':
-        form = NewBoardRoleForm(request.POST)
-        if form.is_valid():
-            br = form.save(role_type)
-            return HttpResponseRedirect(reverse(edit_board, args=[all_current]))
-        else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
-            roles_by_type = build_board_roles_by_type(
-                request, all_current, role_type, form, None, None)
-    return ain7_render_to_response(request,
-        'association/edit_board.html',
-        {'roles_by_type': roles_by_type, 'all_current': all_current,
-         'count_members': count_members(), 
-         'back': request.META.get('HTTP_REFERER', '/')})
-
-@confirmation_required(lambda role_id=None, all_current=None: str(get_object_or_404(BoardRole, pk=role_id)), 'association/base.html', _('Do you really want to remove the role of this person (you can end a role by setting its end date)'))
-@login_required
-def delete_board_role(request, role_id=None, all_current=None):
-
-    return ain7_generic_delete(request,
-        get_object_or_404(BoardRole, pk=role_id),
-        reverse(edit_board, args=[all_current]),
-        _('Role successfully deleted.'))
-
-@login_required
-def change_board_dates(request, role_id=None, all_current=None):
-
-    role = get_object_or_404(BoardRole, pk=role_id)
-    roles_by_type = build_board_roles_by_type(
-        request, all_current, None, None, role,
-        ChangeDatesForm(initial={'start_date': role.start_date,
-                                 'end_date': role.end_date}))
-
-    if request.method == 'POST':
-        form = ChangeDatesForm(request.POST)
-        if form.is_valid():
-            form.save(role)
-            return HttpResponseRedirect(reverse(edit_board, args=[all_current]))
-        else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
-            roles_by_type = build_board_roles_by_type(
-                request, all_current, None, None, role, form)
-    return ain7_render_to_response(request,
-        'association/edit_board.html',
-        {'roles_by_type': roles_by_type, 'all_current': all_current,
-         'count_members': count_members(),          
-         'back': request.META.get('HTTP_REFERER', '/')})

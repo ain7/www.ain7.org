@@ -27,6 +27,7 @@ from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
 
+
 class Survey(models.Model):
     question = models.CharField(verbose_name=_('question'), max_length=200)
     start_date = models.DateField(verbose_name=_('start date'))

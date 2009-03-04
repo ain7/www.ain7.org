@@ -2,7 +2,7 @@
 #
 # adhesions/urls.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -22,20 +22,17 @@
 
 from django.conf.urls.defaults import *
 
-from ain7.adhesions.views import *
-
-urlpatterns = patterns('',
-
-    (r'^$', index),
-    (r'^subscriptions/$', subscriptions),
-    (r'^subscriptions/to_validate$', subscriptions, {'to_validate': True}, 'to_validate_subscriptions'),
-    (r'^subscriptions/(?P<subscription_id>\d+)/validate/$', subscription_validate),
-    (r'^subscriptions/(?P<subscription_id>\d+)/delete/$', subscription_delete),
-    (r'^(?P<user_id>\d+)/subscriptions/$', user_subscriptions),
-    (r'^(?P<user_id>\d+)/subscriptions/add/$', subscription_add),
-    (r'^configurations/$', configurations),
-    (r'^configurations/(?P<configuration_id>\d+)/edit/$', configuration_edit),
-    (r'^configurations/(?P<configuration_id>\d+)/delete/$', configuration_delete),
-    (r'^configurations/add/$', configuration_edit, {}, 'configuration_add'),
+urlpatterns = patterns('ain7.adhesions.views',
+    (r'^$', 'index'),
+    (r'^subscriptions/$', 'subscriptions'),
+    (r'^subscriptions/to_validate$', 'subscriptions', {'to_validate': True}, 'to_validate_subscriptions'),
+    (r'^subscriptions/(?P<subscription_id>\d+)/validate/$', 'subscription_validate'),
+    (r'^subscriptions/(?P<subscription_id>\d+)/delete/$', 'subscription_delete'),
+    (r'^(?P<user_id>\d+)/subscriptions/$', 'user_subscriptions'),
+    (r'^(?P<user_id>\d+)/subscriptions/add/$', 'subscription_add'),
+    (r'^configurations/$', 'configurations'),
+    (r'^configurations/(?P<configuration_id>\d+)/edit/$', 'configuration_edit'),
+    (r'^configurations/(?P<configuration_id>\d+)/delete/$', 'configuration_delete'),
+    (r'^configurations/add/$', 'configuration_edit', {}, 'configuration_add'),
 
 )

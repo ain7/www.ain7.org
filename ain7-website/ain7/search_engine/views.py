@@ -2,7 +2,7 @@
 #
 # search_engine/views.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -24,14 +24,15 @@ import csv
 
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from django.utils.translation import ugettext as _
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404
+from django.utils.translation import ugettext as _
 
+from ain7.ajax.views import ajaxed_fields
 from ain7.search_engine.forms import *
 from ain7.search_engine.utils import *
 from ain7.utils import ain7_render_to_response
-from ain7.ajax.views import ajaxed_fields
+
 
 @login_required
 def se_criterion_add(request, search_engine=None, filter_id=None,

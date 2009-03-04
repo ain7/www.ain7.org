@@ -2,7 +2,7 @@
 #
 # ajax/views.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -61,7 +61,7 @@ def person(request):
     if request.method == 'POST':
         input = request.POST['text']
         elements = completion_list(
-            Person.objects.filter(complete_name__icontains=input))
+            Person.objects.filter(complete_name__icontains=input).order_by('last_name','first_name'))
 
     return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
@@ -72,7 +72,7 @@ def nationality(request):
     if request.method == 'POST':
         input = request.POST['text']
         elements = completion_list(
-            Country.objects.filter(nationality__icontains=input))
+            Country.objects.filter(nationality__icontains=input).order_by('nationality'))
 
     return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
@@ -83,7 +83,7 @@ def promoyear(request):
     if request.method == 'POST':
         input = request.POST['text']
         elements = completion_list(
-            PromoYear.objects.filter(year__icontains=input))
+            PromoYear.objects.filter(year__icontains=input).order_by('year'))
 
     return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
@@ -94,7 +94,7 @@ def track(request):
     if request.method == 'POST':
         input = request.POST['text']
         elements = completion_list(
-            Track.objects.filter(name__icontains=input).order_by('name'))
+            Track.objects.filter(name__icontains=input).order_by('name').order_by('name'))
 
     return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
@@ -118,7 +118,7 @@ def activity_field(request):
     if request.method == 'POST':
         input = request.POST['text']
         elements = completion_list(
-            ActivityField.objects.filter(label__icontains=input))
+            ActivityField.objects.filter(label__icontains=input).order_by('label'))
 
     return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
@@ -128,22 +128,9 @@ def activitycode(request):
 
     if request.method == 'POST':
         input = request.POST['text']
-        activitycode = ActivityField.objects.filter(code__icontains=input)
+        activitycode = ActivityField.objects.filter(code__icontains=input).order_by('code')
         for cf in activitycode:
             elements.append({'id': cf.id, 'displayValue': cf.code , 'value': cf.code })
-
-    return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
-
-@login_required
-def permission(request):
-    elements = []
-
-    if request.method == 'POST':
-        input = request.POST['text']
-        perms = Permission.objects.filter(name__icontains=input)
-
-        for perm in perms:
-            elements.append({'id': perm.id, 'displayValue': perm.name, 'value': perm.name})
 
     return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
@@ -165,7 +152,7 @@ def diploma(request):
     if request.method == 'POST':
         input = request.POST['text']
         added_diplomas = []
-        for e in EducationItem.objects.filter(diploma__icontains=input):
+        for e in EducationItem.objects.filter(diploma__icontains=input).order_by('diploma'):
             d = e.diploma
             if d not in added_diplomas:
                 added_diplomas.append(d)

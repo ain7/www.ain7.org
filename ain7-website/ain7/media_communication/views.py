@@ -2,7 +2,7 @@
 #
 # media_communications/views.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 #
 
 from ain7.utils import ain7_render_to_response
+
 
 def index(request): 
     return ain7_render_to_response(request, 'media_communication/index.html', {})

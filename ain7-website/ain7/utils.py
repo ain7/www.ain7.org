@@ -2,7 +2,7 @@
 #
 # utils.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -23,20 +23,22 @@
 import datetime
 import smtplib
 import time
+
 from string import Template
 
+from django import forms
+from django import template
 from django.contrib import auth
 from django.contrib.auth.models import User, Group
+from django.db import models
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django import forms
-from django.db import models
 from django.utils.translation import ugettext as _
-from django import template
 
 from ain7 import settings
 from ain7.widgets import DateTimeWidget
+
 
 CONFIDENTIALITY_LEVELS = (
     (0, _('published in directory and website')),

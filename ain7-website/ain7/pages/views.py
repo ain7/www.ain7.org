@@ -2,7 +2,7 @@
 #
 # pages/views.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -23,16 +23,16 @@
 import datetime
 
 from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
-from django.http import HttpResponseRedirect, HttpResponse
 
+from ain7.annuaire.models import AIn7Member, Email, Person
 from ain7.news.models import NewsItem
+from ain7.pages.forms import LostPasswordForm
 from ain7.sondages.models import Survey
 from ain7.utils import ain7_render_to_response
-from ain7.annuaire.models import AIn7Member
-from ain7.pages.forms import LostPasswordForm
-from ain7.annuaire.models import Person, Email
+
 
 def homepage(request):
     news = NewsItem.objects.all().order_by('-creation_date')[:2]

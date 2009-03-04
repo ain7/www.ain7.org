@@ -2,7 +2,7 @@
 #
 # manage/urls.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -22,41 +22,39 @@
 
 from django.conf.urls.defaults import *
 
-from ain7.manage.views import *
 
 urlpatterns = patterns('ain7.manage.views',
     (r'^$', 'index'),
-                       
     # Organizations
     (r'^organizations/$', 'organizations_search'),
-    (r'^organizations/csv/$', export_csv),
+    (r'^organizations/csv/$', 'export_csv'),
     (r'^organizations/adv_search/$', 'organizations_adv_search'),
-    (r'^organizations/adv_search/csv/$', adv_export_csv),
-    (r'^organizations/adv_search/filter/new/$', filter_new),
-    (r'^organizations/adv_search/filter/register/$', filter_register),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/$', filter_details),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/edit/$', filter_edit),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/reset/$', filter_reset),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/delete/$', filter_delete),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d*)/swapOp/$', filter_swapOp),
+    (r'^organizations/adv_search/csv/$', 'adv_export_csv'),
+    (r'^organizations/adv_search/filter/new/$', 'filter_new'),
+    (r'^organizations/adv_search/filter/register/$', 'filter_register'),
+    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/$', 'filter_details'),
+    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/edit/$', 'filter_edit'),
+    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/reset/$', 'filter_reset'),
+    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/delete/$', 'filter_delete'),
+    (r'^organizations/adv_search/filter/(?P<filter_id>\d*)/swapOp/$', 'filter_swapOp'),
     (r'^organizations/adv_search/filter/(?P<filter_id>\d*)/criterion/add/$',
-     criterion_add),
+     'criterion_add'),
     (r'^organizations/adv_search/filter/(?P<filter_id>\d*)/criterion/add/field/$',
-     criterion_add, {'criterionType': 'field'}),
+     'criterion_add', {'criterionType': 'field'}),
     (r'^organizations/adv_search/filter/(?P<filter_id>\d*)/criterion/add/filter/$',
-     criterion_add, {'criterionType': 'filter'}),
+     'criterion_add', {'criterionType': 'filter'}),
     (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/edit/field/$',
-     criterionField_edit),
+     'criterionField_edit'),
     (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/edit/filter/$',
-     criterionFilter_edit),
+     'criterionFilter_edit'),
     (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/(?P<criterion_id>\d+)/edit/field/$',
-     criterionField_edit),
+     'criterionField_edit'),
     (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/(?P<criterion_id>\d+)/edit/filter/$',
-     criterionFilter_edit),
+     'criterionFilter_edit'),
     (r'^organizations/adv_search/filter/(?P<filtr_id>\d+)/criterion/(?P<crit_id>\d+)/delete/field/$',
-     criterion_delete, {'crit_type': 'field'}, "criterionField_delete"),
+     'criterion_delete', {'crit_type': 'field'}, "criterionField_delete"),
     (r'^organizations/adv_search/filter/(?P<filtr_id>\d+)/criterion/(?P<crit_id>\d+)/delete/filter/$',
-     criterion_delete, {'crit_type': 'filter'}, "criterionFilter_delete"),
+     'criterion_delete', {'crit_type': 'filter'}, "criterionFilter_delete"),
     (r'^organizations/register/$', 'organization_edit'),
     (r'^organizations/(?P<organization_id>\d+)/$', 'organization_details'),
     (r'^organizations/(?P<organization_id>\d+)/edit/$', 'organization_edit'),
@@ -109,7 +107,7 @@ urlpatterns = patterns('ain7.manage.views',
     #(r'^users/(?P<user_id>\d+)/vcard/$', 'user_vcard'),
                        
     # Roles
-    (r'^roles/$', 'roles_search'),
+    (r'^roles/$', 'roles_index'),
     (r'^roles/register/$', 'role_register'),
     (r'^roles/(?P<role_id>[A-Za-z0-9.\-_]+)/$', 'role_details'),
     (r'^roles/(?P<role_id>[A-Za-z0-9.\-_]+)/member/(?P<member_id>\d+)/delete/$', 'role_member_delete'),

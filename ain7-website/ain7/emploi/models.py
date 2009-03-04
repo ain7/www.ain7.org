@@ -2,7 +2,7 @@
 #
 # emploi/models.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -25,9 +25,10 @@ import datetime
 from django.db import models
 from django.utils.translation import ugettext as _
 
-from ain7.utils import LoggedClass, isAdmin
 from ain7.annuaire.models import Person, AIn7Member, Track
 from ain7.annuaire.models import Country
+from ain7.utils import LoggedClass, isAdmin
+
 
 ACTIONS = (
     (0, _('Create')),

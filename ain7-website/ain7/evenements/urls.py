@@ -2,7 +2,7 @@
 #
 # evenements/urls.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -22,24 +22,22 @@
 
 from django.conf.urls.defaults import *
 
-from ain7.evenements.views import *
 
-urlpatterns = patterns('',
-
+urlpatterns = patterns('ain7.evenements.views',
     # Evenements
-    (r'^$', index),
-    (r'^ical/$', ical),
-    (r'^register/$', register),
-    (r'^search/$', search),
-    (r'^(?P<event_id>\d+)/$', details),
-    (r'^(?P<event_id>\d+)/edit/$', edit),
-    (r'^(?P<event_id>\d+)/image/delete/$', image_delete),
-    (r'^(?P<event_id>\d+)/join/$', join),
-    (r'^(?P<event_id>\d+)/participants/$', participants),
-    (r'^(?P<event_id>\d+)/subscribe/$', subscribe),
-    (r'^(?P<event_id>\d+)/validate/$', validate),
-    (r'^(?P<event_id>\d+)/organizer/add/$', organizer_add),
-    (r'^(?P<event_id>\d+)/organizer/(?P<organizer_id>\d+)/delete/$', organizer_delete),
-    (r'^(?P<event_id>\d+)/organizer/(?P<organizer_id>\d+)/swap_email_notif/$', swap_email_notif),
+    (r'^$', 'index'),
+    (r'^ical/$', 'ical'),
+    (r'^register/$', 'register'),
+    (r'^search/$', 'search'),
+    (r'^(?P<event_id>\d+)/$', 'details'),
+    (r'^(?P<event_id>\d+)/edit/$', 'edit'),
+    (r'^(?P<event_id>\d+)/image/delete/$', 'image_delete'),
+    (r'^(?P<event_id>\d+)/join/$', 'join'),
+    (r'^(?P<event_id>\d+)/participants/$', 'participants'),
+    (r'^(?P<event_id>\d+)/subscribe/$', 'subscribe'),
+    (r'^(?P<event_id>\d+)/validate/$', 'validate'),
+    (r'^(?P<event_id>\d+)/organizer/add/$', 'organizer_add'),
+    (r'^(?P<event_id>\d+)/organizer/(?P<organizer_id>\d+)/delete/$', 'organizer_delete'),
+    (r'^(?P<event_id>\d+)/organizer/(?P<organizer_id>\d+)/swap_email_notif/$', 'swap_email_notif'),
 
 )

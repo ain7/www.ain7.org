@@ -2,7 +2,7 @@
 #
 # search_engine/models.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -22,15 +22,15 @@
 
 import datetime
 
-from django.db import models
-from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
+from django.db import models
 from django.shortcuts import get_object_or_404
+from django.utils.translation import ugettext as _
+
 from ain7 import search_engine
 from ain7.annuaire.models import AIn7Member, Person, Address
 from ain7.emploi.models import Office, Organization, Position, EducationItem
 
-# classes
 
 class Parameters:
     # we are looking for objects from this class:

@@ -2,7 +2,7 @@
 #
 # news/urls.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -22,17 +22,15 @@
 
 from django.conf.urls.defaults import *
 
-from ain7.news.views import *
 
 urlpatterns = patterns('',
-
     # Evenements
-    (r'^$', index),
-    (r'^add/$', add),
-    (r'^search/$', search),
-    (r'^(?P<news_id>\d+)/$', details),
-    (r'^(?P<news_id>\d+)/edit/$', edit),
-    (r'^(?P<news_id>\d+)/delete/$', delete),
-    (r'^(?P<news_id>\d+)/image/delete/$', image_delete),
+    (r'^$', 'index'),
+    (r'^add/$', 'add'),
+    (r'^search/$', 'search'),
+    (r'^(?P<news_id>\d+)/$', 'details'),
+    (r'^(?P<news_id>\d+)/edit/$', 'edit'),
+    (r'^(?P<news_id>\d+)/delete/$', 'delete'),
+    (r'^(?P<news_id>\d+)/image/delete/$', 'image_delete'),
 
 )

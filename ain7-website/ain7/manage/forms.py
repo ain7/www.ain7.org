@@ -2,7 +2,7 @@
 #
 # manage/forms.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -21,16 +21,17 @@
 #
 
 from django import forms
-from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from django.forms.util import ValidationError
+from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person, Country, Email
 from ain7.emploi.models import ActivityField, Organization, Office
 from ain7.fields import AutoCompleteField
-from ain7.widgets import DateTimeWidget
 from ain7.manage.models import Notification
+from ain7.widgets import DateTimeWidget
+
 
 dateWidget = DateTimeWidget()
 dateWidget.dformat = '%d/%m/%Y'

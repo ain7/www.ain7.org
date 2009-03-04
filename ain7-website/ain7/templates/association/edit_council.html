@@ -86,6 +86,13 @@
                 {% endif %}
                 {{ type_form.end_date|safe }}</td>
           <tr>
+          <tr>
+            <td>{{ type_form.board_member.label_tag }}</td>
+            <td>{% if type_form.board_member.errors %}
+                  {{ type_form.board_member.errors }}
+                {% endif %}
+                {{ type_form.board_member|safe }}</td>
+          <tr>
         </table>
         <div style="text-align: center">
           <a class="button" href="{{ back }}">{% trans "Cancel" %}</a>

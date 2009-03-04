@@ -2,7 +2,7 @@
 #
 # emploi/views.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -22,25 +22,25 @@
 
 from datetime import datetime
 
-from django.shortcuts import get_object_or_404
+from django import forms
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
-from django import forms
-from django.forms import widgets
-from django.template import RequestContext
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponseRedirect
-from django.utils.translation import ugettext as _
-from django.forms.util import ValidationError
 from django.core.urlresolvers import reverse
+from django.forms import widgets
+from django.forms.util import ValidationError
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from django.template import RequestContext
+from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person, AIn7Member, Track
 from ain7.decorators import confirmation_required
 from ain7.emploi.models import *
 from ain7.emploi.forms import *
+from ain7.fields import AutoCompleteField
 from ain7.manage.models import Notification
 from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
-from ain7.fields import AutoCompleteField
 
 
 @login_required

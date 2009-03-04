@@ -2,7 +2,7 @@
 #
 # media_communication/urls.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -22,14 +22,13 @@
 
 from django.conf.urls.defaults import *
 
-from ain7.media_communication.views import *
 
 urlpatterns = patterns('',
 
-    (r'^$', index),
-    (r'^canal_n7/$', canal_n7),
-    (r'^canal_n7/edito/$', canal_n7_edito),
-    (r'^website/$', website),
+    (r'^$', 'index'),
+    (r'^canal_n7/$', 'canal_n7'),
+    (r'^canal_n7/edito/$', 'canal_n7_edito'),
+    (r'^website/$', 'website'),
 
 )
 

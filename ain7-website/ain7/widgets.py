@@ -1,5 +1,25 @@
 # -*- coding: utf-8 -*-
 #
+# widgets.py
+#
+#   Copyright © 2007-2009 AIn7 Devel Team
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+#
+#
+
 #
 # Widget from http://www.djangosnippets.org/snippets/391/
 # widgets.py
@@ -14,11 +34,12 @@
 #<script type="text/javascript" src="{{ MEDIA_URL }}calendar/calendar-setup.js"></script>
 #<!-- /calendar -->
 
-#from django.utils.encoding import force_unicode
-from django.conf import settings
-from django import forms
 from datetime import datetime, date
 from time import strptime
+
+from django import forms
+from django.conf import settings
+
 
 # DATETIMEWIDGET
 calbtn = u"""<img src="%simages/calbutton.gif" alt="calendar" id="%s_btn" style="cursor: pointer; border: 1px solid #8888aa;" title="Select date and time"

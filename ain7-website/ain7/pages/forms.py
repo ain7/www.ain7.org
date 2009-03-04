@@ -2,7 +2,7 @@
 #
 # pages/forms.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -21,11 +21,11 @@
 #
 
 from django import forms
+from django.forms.util import ValidationError
 from django.utils.translation import ugettext as _
 
-from django.forms.util import ValidationError
-
 from ain7.annuaire.models import Email
+
 
 class LostPasswordForm(forms.Form):
     """ Form to request a new password (when you loose the first one) """

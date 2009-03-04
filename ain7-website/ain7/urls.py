@@ -2,7 +2,7 @@
 #
 # urls.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -91,9 +91,6 @@ urlpatterns = patterns('',
 
     # adhesions
     (r'^adhesions/',include('ain7.adhesions.urls')),
-
-    # communaute N7
-    #(r'^communaute_n7/',include('ain7.communaute_n7.urls')),
 
     # media & communication
     (r'^media_communication/',include('ain7.media_communication.urls')),

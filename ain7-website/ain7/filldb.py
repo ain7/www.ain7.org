@@ -2,7 +2,7 @@
 #
 # filldb.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -20,27 +20,28 @@
 #
 #
 
+import vobject
+import sys
+import os
+
 from datetime import date, datetime, timedelta
 
 from django.contrib.auth.models import User, Group
 from django.contrib.sites.models import Site
 
 import ain7.adhesions.models as adhesions
-import ain7.association.models as association
 import ain7.annuaire.models as annuaire
-import ain7.groupes_professionnels.models as groupes_professionnels
-import ain7.groupes_regionaux.models as groupes_regionaux
-import ain7.sondages.models as sondages
-import ain7.news.models as news
-import ain7.voyages.models as voyages
+import ain7.association.models as association
 import ain7.emploi.models as emploi
 import ain7.evenements.models as evenements
+import ain7.groupes_professionnels.models as groupes_professionnels
+import ain7.groupes_regionaux.models as groupes_regionaux
 import ain7.manage.models as manage
+import ain7.news.models as news
 import ain7.search_engine.models as search_engine
+import ain7.sondages.models as sondages
+import ain7.voyages.models as voyages
 
-import vobject
-import sys
-import os
 
 def filldb():
 
@@ -1105,19 +1106,13 @@ Prochaines manifestations
     councilRole0 = association.CouncilRole()
     councilRole0.member = lionel
     councilRole0.role = 0
+    councilRole0.board_member = True
     councilRole0.save()
     councilRole1 = association.CouncilRole()
     councilRole1.member = olivier
     councilRole1.role = 1
+    councilRole1.board_member = True
     councilRole1.save()
-    boardRole0 = association.BoardRole()
-    boardRole0.member = lionel
-    boardRole0.role = 0
-    boardRole0.save()
-    boardRole1 = association.BoardRole()
-    boardRole1.member = olivier
-    boardRole1.role = 1
-    boardRole1.save()
 
     sondage1 = sondages.Survey()
     sondage1.question = u"Quelle est votre couleur préférée ?"

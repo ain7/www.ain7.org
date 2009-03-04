@@ -2,7 +2,7 @@
 #
 # ajax/urls.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -30,7 +30,6 @@ urlpatterns = patterns('ain7.ajax.views',
     (r'^organization/$', 'organization'),
     (r'^activity_field/$', 'activity_field'),
     (r'^activitycode/$', 'activitycode'),
-    (r'^permission/$', 'permission'),
     (r'^office/$', 'office'),
     (r'^diploma/$', 'diploma'),
 )

@@ -2,7 +2,7 @@
 #
 # adhesions/views.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -24,16 +24,16 @@ import datetime
 
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.utils.translation import ugettext as _
-from django.core.urlresolvers import reverse
 
-from ain7.adhesions.models import *
-from ain7.adhesions.forms import *
-from ain7.annuaire.models import Person
+from ain7.adhesions.forms import ConfigurationForm, SubscriptionForm
+from ain7.adhesions.models import Subscription, SubscriptionConfiguration
+from ain7.annuaire.models import AIn7Member, Person
 from ain7.decorators import confirmation_required
 from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
-from ain7.annuaire.models import AIn7Member
+
 
 def index(request):
     count_subscribers = Subscription.objects.filter(validated=True).exclude(start_year__gt=datetime.date.today().year).exclude(end_year__lt=datetime.date.today().year).count()

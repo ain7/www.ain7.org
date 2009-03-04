@@ -1,0 +1,27 @@
+{% extends "manage/base.html" %}
+
+{% load i18n %}
+
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
+{% block content-left %}
+
+<h2>{% trans "Roles list"%}</h2>
+
+<ul>
+    {% for role in roles %}
+        <li class="role"><a href="/manage/roles/{{ role.name }}/">{{ role.name }}</a></li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
+
+{% block actions %}
+<h3>{% trans "Actions" %}</h3>
+<div class="right_articles">
+<ul>
+    <li><a href="/manage/roles/register/">{% trans "Register new role" %}</a></li>
+</ul>
+</div>
+{% endblock %} {# actions #}

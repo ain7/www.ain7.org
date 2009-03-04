@@ -2,7 +2,7 @@
 #
 # annuaire/views.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -38,12 +38,12 @@ from django.http import Http404
 from ain7.annuaire.models import *
 from ain7.annuaire.forms import *
 from ain7.adhesions.forms import Subscription
-from ain7.emploi.models import Organization, Office
 from ain7.decorators import confirmation_required
-from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
+from ain7.emploi.models import Organization, Office
 from ain7.search_engine.models import *
 from ain7.search_engine.utils import *
 from ain7.search_engine.views import *
+from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
 
 
 # Main functions

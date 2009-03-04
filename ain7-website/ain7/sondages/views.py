@@ -2,7 +2,7 @@
 #
 # sondages/views.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -20,18 +20,19 @@
 #
 #
 
-from django.shortcuts import get_object_or_404
+from django import forms
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.template import RequestContext
-from django import forms
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import UserContributionType, UserContribution
+from ain7.decorators import confirmation_required
 from ain7.sondages.models import Choice, Survey, Vote
 from ain7.sondages.forms import *
-from ain7.decorators import confirmation_required
 from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete
+
 
 def index(request):
     surveys = Survey.objects.all()

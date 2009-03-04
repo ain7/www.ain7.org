@@ -2,7 +2,7 @@
 #
 # voyages/urls.py
 #
-#   Copyright (C) 2007-2008 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -22,30 +22,26 @@
 
 from django.conf.urls.defaults import *
 
-from ain7.voyages.views import *
-
-urlpatterns = patterns('',
+urlpatterns = patterns('ain7.voyages.views',
 
     # Voyages
-    (r'^$', index),
-    (r'^search/$', search),
-    (r'^edit/$', edit),
-    (r'^add/$', add),
-    (r'^list/$', list),
-    (r'^(?P<travel_id>\d+)/$', details),
-    (r'^(?P<travel_id>\d+)/edit/$', edit),
-#     (r'^(?P<travel_id>\d+)/thumbnail/edit/$', thumbnail_edit),
-    (r'^(?P<travel_id>\d+)/thumbnail/delete/$', thumbnail_delete),
-    (r'^(?P<travel_id>\d+)/join/$', join),
-    (r'^(?P<travel_id>\d+)/search/$', search),
-    (r'^(?P<travel_id>\d+)/subscribe/$', subscribe),
-    (r'^(?P<travel_id>\d+)/unsubscribe/(?P<participant_id>\d+)/$',
-     unsubscribe),
-    (r'^(?P<travel_id>\d+)/participants/$', participants),
-    (r'^(?P<travel_id>\d+)/responsibles/$', responsibles),
-    (r'^(?P<travel_id>\d+)/responsibles/add/$', responsibles_add),
+    (r'^$', 'index'),
+    (r'^search/$', 'search'),
+    (r'^edit/$', 'edit'),
+    (r'^add/$', 'add'),
+    (r'^list/$', 'list'),
+    (r'^(?P<travel_id>\d+)/$', 'details'),
+    (r'^(?P<travel_id>\d+)/edit/$', 'edit'),
+    (r'^(?P<travel_id>\d+)/thumbnail/delete/$', 'thumbnail_delete'),
+    (r'^(?P<travel_id>\d+)/join/$', 'join'),
+    (r'^(?P<travel_id>\d+)/search/$', 'search'),
+    (r'^(?P<travel_id>\d+)/subscribe/$', 'subscribe'),
+    (r'^(?P<travel_id>\d+)/unsubscribe/(?P<participant_id>\d+)/$','unsubscribe'),
+    (r'^(?P<travel_id>\d+)/participants/$', 'participants'),
+    (r'^(?P<travel_id>\d+)/responsibles/$', 'responsibles'),
+    (r'^(?P<travel_id>\d+)/responsibles/add/$', 'responsibles_add'),
     (r'^(?P<travel_id>\d+)/responsibles/(?P<responsible_id>\d+)/delete/$',
-     responsibles_delete),
-    (r'^(?P<travel_id>\d+)/delete/$', delete),
+     'responsibles_delete'),
+    (r'^(?P<travel_id>\d+)/delete/$', 'delete'),
 
 )

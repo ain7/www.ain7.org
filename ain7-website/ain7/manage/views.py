@@ -20,12 +20,12 @@
 #
 #
 
-from django.shortcuts import get_object_or_404
+from django import forms
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group, User
 from django.core.paginator import Paginator, InvalidPage
-from django import forms
 from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
 from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
@@ -745,36 +745,12 @@ def office_delete_proposal(request, proposal_id=None):
         {'office': office, 'back': back, 'action': 'propose_deletion'})
 
 @login_required
-def roles_search(request):
+def roles_index(request):
 
-    form = SearchRoleForm()
-    nb_results_by_page = 25
-    roles = False
-    paginator = Paginator(Group.objects.none(),nb_results_by_page)
-    page = 1
+    roles = Group.objects.all()
 
-    if request.method == 'POST':
-        form = SearchRoleForm(request.POST)
-        if form.is_valid():
-            roles = form.search()
-            paginator = Paginator(roles, nb_results_by_page)
-            try:
-                page = int(request.GET.get('page', '1'))
-                roles = paginator.page(page).object_list
-            except InvalidPage:
-                raise http.Http404
-
-    return ain7_render_to_response(request, 'manage/role_search.html',
-        {'form': form, 'roles': roles,'paginator': paginator,
-         'is_paginated': paginator.num_pages > 1,
-         'has_next': paginator.page(page).has_next(),
-         'has_previous': paginator.page(page).has_previous(),
-         'current_page': page,
-         'next_page': page + 1,  'previous_page': page - 1,
-         'pages': paginator.num_pages,
-         'first_result': (page - 1) * nb_results_by_page +1,
-         'last_result': min((page) * nb_results_by_page, paginator.count),
-         'hits' : paginator.count, 'request': request})
+    return ain7_render_to_response(request, 'manage/role_index.html',
+        {'roles': roles, 'request': request})
 
 @login_required
 def role_register(request):
