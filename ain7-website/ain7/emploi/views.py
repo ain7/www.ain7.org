@@ -326,15 +326,31 @@ def organization_details(request, organization_id):
         'emploi/organization_details.html', {'organization': organization})
 
 @login_required
+def organization_check(request):
+
+    if request.method == 'GET':
+        form = ChooseOrganizationForm()
+        return ain7_render_to_response(request,
+            'emploi/organization_check.html',
+            {'form': form,
+             'back': request.META.get('HTTP_REFERER', '/')})
+        
+    if request.method == 'POST':
+        return HttpResponseRedirect(reverse(organization_add))
+
+@login_required
 def organization_add(request):
 
     p = get_object_or_404(Person, user=request.user.id)
+
+    header_msg = _('An organization (for instance EDF) is composed by offices (for instance EDF Cornouaille). If you just want to add an office, then <a href=\"%s\">modify the organization</a>.') % '/emploi/organization/edit/'
 
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
         f = OrganizationForm()
         return ain7_render_to_response(request, 'emploi/office_create.html',
-            {'form': f, 'title': _('Propose the creation of an organization')})
+            {'form': f, 'title': _('Creation of an organization'),
+             'header_msg': header_msg})
 
     # 2e passage : sauvegarde, notification et redirection
     if request.method == 'POST':
@@ -347,14 +363,15 @@ def organization_add(request):
             orgprop.logged_save(p)
             # create the notification
             notif = Notification(details="", organization_proposal=orgprop,
-                title=_('Proposal for adding an organization'))
+                title=_('Organization added'))
             notif.logged_save(p)
-            request.user.message_set.create(message=_('Your proposal for adding an organization has been sent to moderators.'))
+            request.user.message_set.create(message=_('Organization successfully created. To add an office to it, modify it.'))
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
             return ain7_render_to_response(request,
                 'emploi/office_create.html', {'form': f,
-                'title': _('Propose the creation of an organization')})
+                'title': _('Creation of an organization'),
+                'header_msg': header_msg})
         return HttpResponseRedirect(reverse(index))
 
 @login_required
@@ -456,7 +473,7 @@ def office_edit(request, office_id=None):
 
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
-        f = OfficeFormNoOrg(request.POST.copy(), instance = office)
+        f = OfficeFormNoOrg(request.POST.copy())
         if f.is_valid():
             f.cleaned_data['is_a_proposal'] = True
             f.cleaned_data['is_valid'] = True
@@ -464,7 +481,7 @@ def office_edit(request, office_id=None):
             # create the OfficeProposal
             modifiedOffice = f.save()
             modifiedOffice.logged_save(p)
-            officeProp = OfficeProposal(original = office.organization,
+            officeProp = OfficeProposal(original = office,
                 modified = modifiedOffice, author = p, action = 1)
             officeProp.logged_save(p)
             # create the notification
@@ -521,10 +538,10 @@ def office_add(request, organization_id=None):
                 modified = modifiedOffice, author = p, action = 0)
             officeProp.logged_save(p)
             # create the notification
-            notif = Notification(title = _('Proposal for adding an office'),
+            notif = Notification(title = _('Office added'),
                 details = "", office_proposal = officeProp)
             notif.logged_save(p)
-            request.user.message_set.create(message=_('Your proposal for adding an office has been sent to moderators.'))
+            request.user.message_set.create(message=_('Office successfully created.'))
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
             return ain7_render_to_response(request,

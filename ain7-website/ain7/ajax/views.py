@@ -106,7 +106,6 @@ def organization(request):
         input = request.POST['text']
         elements = completion_list(Organization.objects.\
             filter(name__icontains=input).\
-            filter(is_a_proposal=False).\
             order_by('name'))
 
     return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})

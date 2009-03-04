@@ -197,19 +197,31 @@ class OrganizationForm(forms.Form):
         return org
 
 class OfficeForm(forms.ModelForm):
-    organization = forms.ModelChoiceField(
-        label=_('organization'),
-        queryset=Organization.objects.valid_organizations(),required=True)
+    organization = forms.IntegerField(label=_('Organization'),
+        required=True,widget=AutoCompleteField(url='/ajax/organization/'))
     country = forms.ModelChoiceField(
-        label=_('country'), queryset=Country.objects.all(), required=False)
+        label=_('country').capitalize(),
+        queryset=Country.objects.all(), required=False)
 
+    def clean_organization(self):
+        o = self.cleaned_data['organization']
+        if o == None:
+            raise ValidationError(_('The organization is mandatory.'))
+        try:
+            o = Organization.objects.get(id=o)
+        except Organization.DoesNotExist:
+            raise ValidationError(_('The organization does not exist.'))
+        else:
+            return o
+        
     class Meta:
         model = Office
         exclude = ('old_id', 'is_a_proposal', 'is_valid')
 
 class OfficeFormNoOrg(forms.ModelForm):
     country = forms.ModelChoiceField(
-        label=_('country'), queryset=Country.objects.all(), required=False)
+        label=_('country').capitalize(),
+        queryset=Country.objects.all(), required=False)
 
     class Meta:
         model = Office

@@ -1,0 +1,20 @@
+{% extends "emploi/base.html" %}
+{% load i18n %}
+
+{% block content-left %}
+
+<p><strong>
+{% trans "Before registering a new organization, please check in the field below that it does not exist yet in the database." %}
+</strong></p>
+
+<form method="post" action=".">
+<table>
+{{ form }}
+</table>
+<div style="text-align: center">
+<a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
+<input type="submit" class="button" value="{% trans "Not in database" %}" />
+</div>
+</form>
+
+{% endblock content-left %}

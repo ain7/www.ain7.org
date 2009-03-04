@@ -125,7 +125,7 @@
 
                 <div class="messages">
                 {% for message in messages %}
-	            <p class="msg_info">{{ message }}</p>
+	            <p class="msg_info">{{ message|safe }}</p>
                 {% endfor %}
                 </div>
 

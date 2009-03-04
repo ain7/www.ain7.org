@@ -1,0 +1,33 @@
+{% extends "manage/base.html" %}
+
+{% load i18n %}
+
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
+{% block content-left %}
+
+<div class="left_box">
+
+<h3>{% trans "Jobs proposals" %}</h3>
+
+{% if proposals %}
+<ul>
+{% for job in proposals %}
+<li>
+  {{ job.title }}&nbsp;
+  <a href="/emploi/job/{{ job.id }}/edit/" class="changelink">{% trans "Check" %}</a>&nbsp;
+  <a href="/manage/jobs/proposals/{{ job.id }}/validate/" class="addlink">{% trans "Validate proposal" %}</a>&nbsp;
+  <a href="/manage/jobs/proposals/{{ job.id }}/delete/" class="deletelink">{% trans "Delete" %}</a>
+</li>
+{% endfor %}
+</ul>
+{% else %}
+  {% trans "There are currently no job offer proposals to validate." %}
+{% endif %} {# proposals #}
+</div>
+
+{% endblock %} {# content-left #}
+
+
+

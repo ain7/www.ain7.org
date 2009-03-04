@@ -19,35 +19,35 @@
 <tbody>
 <tr>
 <td>{{ form.name.label_tag }}</td>
-<td class="original">{{ original.name }}</td>
+<td class="original">{{ original.name|default_if_none:"" }}</td>
 <td class="modified">
 {% if form.name.errors %}{{ form.name.errors }}{% endif %}
 {{ form.name }}</td>
 </tr>
 <tr>
 <td>{{ form.line1.label_tag }}</td>
-<td class="original">{{ original.line1 }}</td>
+<td class="original">{{ original.line1|default_if_none:"" }}</td>
 <td class="modified">
-{% if form.line1.errors %}{{ form.line1.errors }}{% endif %}
+{% if form.line1.errors %}{{ form.line1.errors|default_if_none:"" }}{% endif %}
 {{ form.line1 }}</td>
 </tr>
 <tr>
 <td>{{ form.line2.label_tag }}</td>
-<td class="original">{{ original.line2 }}</td>
+<td class="original">{{ original.line2|default_if_none:"" }}</td>
 <td class="modified">
 {% if form.line2.errors %}{{ form.line2.errors }}{% endif %}
 {{ form.line2 }}</td>
 </tr>
 <tr>
 <td>{{ form.zip_code.label_tag }}</td>
-<td class="original">{{ original.zip_code }}</td>
+<td class="original">{{ original.zip_code|default_if_none:"" }}</td>
 <td class="modified">
 {% if form.zip_code.errors %}{{ form.zip_code.errors }}{% endif %}
 {{ form.zip_code }}</td>
 </tr>
 <tr>
 <td>{{ form.city.label_tag }}</td>
-<td class="original">{{ original.city }}</td>
+<td class="original">{{ original.city|default_if_none:"" }}</td>
 <td class="modified">
 {% if form.city.errors %}{{ form.city.errors }}{% endif %}
 {{ form.city }}</td>
@@ -61,14 +61,14 @@
 </tr>
 <tr>
 <td>{{ form.phone_number.label_tag }}</td>
-<td class="original">{{ original.phone_number }}</td>
+<td class="original">{{ original.phone_number|default_if_none:"" }}</td>
 <td class="modified">
 {% if form.phone_number.errors %}{{ form.phone_number.errors }}{% endif %}
 {{ form.phone_number }}</td>
 </tr>
 <tr>
 <td>{{ form.web_site.label_tag }}</td>
-<td class="original">{{ original.web_site }}</td>
+<td class="original">{{ original.web_site|default_if_none:"" }}</td>
 <td class="modified">
 {% if form.web_site.errors %}{{ form.web_site.errors }}{% endif %}
 {{ form.web_site }}</td>

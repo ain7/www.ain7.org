@@ -210,6 +210,16 @@ class PersonForm(forms.ModelForm):
     class Meta:
         model = Person
         exclude = ('user')
+    def __init__(self, *args, **kwargs):
+        super(PersonForm, self).__init__(*args, **kwargs)
+        # on convertit une liste de noms de pays en une liste de nationalités
+        nats = []
+        for i,c in self.fields['country'].choices:
+            if i:
+                nats.append((i,Country.objects.get(name=c).nationality))
+            else:
+                nats.append((i,c))
+        self.fields['country'].choices = nats
     def clean_death_date(self):
         if self.cleaned_data.get('birth_date') and \
             self.cleaned_data.get('death_date') and \

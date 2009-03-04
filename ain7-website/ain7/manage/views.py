@@ -398,7 +398,7 @@ def organization_edit(request, organization_id=None):
             if organization:
                 msg = _('Organization successfully modified')
             else:
-                msg = _('Organization successfully created')
+                msg = _('Organization successfully validated')
             request.user.message_set.create(message=msg)
             return HttpResponseRedirect('/manage/organizations/%s/' % org.id)
         else:
@@ -517,13 +517,24 @@ def organization_register_proposal(request, proposal_id=None):
     if request.method == 'POST':
         form = OrganizationForm(request.POST)
         if form.is_valid():
-            organization = form.save(user=request.user,is_a_proposal=False)
+            org = proposal.modified
+            org.name = form.cleaned_data['name']
+            org.employment_agency = form.cleaned_data['employment_agency']
+            org.size = form.cleaned_data['size']
+            org.activity_field = ActivityField.objects.get(
+                pk=form.cleaned_data['activity_field'])
+            org.short_description = form.cleaned_data['short_description']
+            org.long_description = form.cleaned_data['long_description']
+            org.is_a_proposal = False
+            org.is_valid = True
+            org.logged_save(request.user.person)
             # on supprime la notification et la proposition
             notification = Notification.objects.get(
                 organization_proposal=proposal )
-            notification.delete()
+            if notification:
+                notification.delete()
             proposal.delete()
-            request.user.message_set.create(message=_('Organization successfully created'))
+            request.user.message_set.create(message=_('Organization successfully validated'))
             return HttpResponseRedirect('/manage/')
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No organization registered.') + str(form.errors))
@@ -532,7 +543,7 @@ def organization_register_proposal(request, proposal_id=None):
 
     return ain7_render_to_response(request,
         'manage/proposal_register.html',
-        {'action_title': _('Proposal for adding an organization'),
+        {'action_title': _('Validate a new organization'),
          'form': form, 'back': back})
 
 @login_required
@@ -684,14 +695,25 @@ def office_register_proposal(request, proposal_id=None):
     if request.method == 'POST':
         form = OfficeForm(request.POST.copy(), instance=proposal.modified)
         if form.is_valid():
-            form.cleaned_data['is_a_proposal'] = False
-            form.cleaned_data['is_valid'] = True
+            office = proposal.modified
+            office.organization = form.cleaned_data['organization']
+            office.name = form.cleaned_data['name']
+            office.line1 = form.cleaned_data['line1']
+            office.line2 = form.cleaned_data['line2']
+            office.zip_code = form.cleaned_data['zip_code']
+            office.city = form.cleaned_data['city']
+            office.country = form.cleaned_data['country']
+            office.phone_number = form.cleaned_data['phone_number']
+            office.web_site = form.cleaned_data['web_site']
+            office.is_a_proposal = False
+            office.is_valid = True
             office = form.save()
             # on supprime la notification et la proposition
             notification = Notification.objects.get(office_proposal=proposal)
-            notification.delete()
+            if notification:
+                notification.delete()
             proposal.delete()
-            request.user.message_set.create(message=_('Office successfully created'))
+            request.user.message_set.create(message=_('Office successfully validated'))
             return HttpResponseRedirect('/manage/')
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.') + str(form.errors))
@@ -699,7 +721,7 @@ def office_register_proposal(request, proposal_id=None):
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request,
         'manage/proposal_register.html',
-        {'action_title': _('Proposal for adding an office'),
+        {'action_title': _('Validate a new office'),
          'form': form, 'back': back})
 
 @login_required
@@ -709,15 +731,28 @@ def office_edit_proposal(request, proposal_id=None):
         return HttpResponseRedirect('/manage/')
     
     proposal = get_object_or_404(OfficeProposal, pk=proposal_id)
-    form = OfficeFormNoOrg(instance=proposal.modified)
+    initDict = {'name': proposal.modified.name,
+                'line1': proposal.modified.line1,
+                'line2': proposal.modified.line2,
+                'zip_code': proposal.modified.zip_code,
+                'city': proposal.modified.city,
+                'country': proposal.modified.country,
+                'phone_number': proposal.modified.phone_number,
+                'web_site': proposal.modified.web_site }
+    form = OfficeFormNoOrg(initDict)
 
     if request.method == 'POST':
-        form = OfficeFormNoOrg(request.POST, instance=proposal.modified)
+        form = OfficeFormNoOrg(request.POST)
         if form.is_valid():
-            form.cleaned_data['is_a_proposal'] = False
-            form.cleaned_data['is_valid'] = True
-            form.cleaned_data['organization'] = proposal.original.organization
-            proposal.original = form.save()
+            proposal.original.name = form.cleaned_data['name']
+            proposal.original.line1 = form.cleaned_data['line1']
+            proposal.original.line2 = form.cleaned_data['line2']
+            proposal.original.zip_code = form.cleaned_data['zip_code']
+            proposal.original.city = form.cleaned_data['city']
+            proposal.original.country = form.cleaned_data['country']
+            proposal.original.phone_number = form.cleaned_data['phone_number']
+            proposal.original.web_site = form.cleaned_data['web_site']
+            proposal.original.save()
             # on supprime la notification et la proposition
             notification = Notification.objects.get( office_proposal=proposal )
             notification.delete()
@@ -908,10 +943,6 @@ def notification_edit(request, notif_id):
 def notification_delete(request, notif_id):
 
     notif = get_object_or_404(Notification, pk=notif_id)
-    if notif.organization_proposal:
-        notif.organization_proposal.delete()
-    if notif.office_proposal:
-        notif.office_proposal.delete()
     notif.delete()
     request.user.message_set.create(
         message=_("The notification has been successfully removed."))
