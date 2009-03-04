@@ -816,7 +816,7 @@ def vcard(request, user_id):
     ain7member = get_object_or_404(AIn7Member, person=p)
 
     mail = None
-    mail_list = Email.objects.filter(person=p,preferred_email=True,confidentiality__in=[0,2])
+    mail_list = Email.objects.filter(person=p,preferred_email=True,confidentiality__in=[0,1])
     if mail_list:
        mail = mail_list[0].email
 
@@ -826,8 +826,8 @@ def vcard(request, user_id):
     if mail:
         email = vcard.add('email')
         email.value = mail
-        email.type_param = 'INTERNET,PREF'
-    for address in  Address.objects.filter(person=p):
+        email.type_param = ['INTERNET','PREF']
+    for address in  Address.objects.filter(person=p,confidentiality__in=[0,1]):
         street = ''
         if address.line1:
             street = street + address.line1
@@ -836,7 +836,7 @@ def vcard(request, user_id):
         adr = vcard.add('adr')
         adr.value = vobject.vcard.Address(street=street, city=address.city, region='', code=address.zip_code, country=address.country.name, box='', extended='')
         adr.type_param = address.type.type
-    for phone in PhoneNumber.objects.filter(person=p,confidentiality__in=[0,2]):
+    for phone in PhoneNumber.objects.filter(person=p,confidentiality__in=[0,1]):
         tel = vcard.add('tel')
         tel.value = phone.number
         tel.type_param = ['HOME', 'FAX', 'CELL'][phone.type-1]

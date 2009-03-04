@@ -39,15 +39,16 @@ from ain7 import settings
 from ain7.widgets import DateTimeWidget
 
 CONFIDENTIALITY_LEVELS = (
-    (0, _('public')),
-    (1, _('published in directory only')),
-    (2, _('published in website only')),
+    (0, _('published in directory and website')),
+    (1, _('published in website only')),
+    (2, _('published in directory only')),
+    (3, _('private')),
     )
 
 def ain7_website_confidential(obj):
     if not isinstance(obj,models.Model):
         raise NotImplementedError
-    return (obj.confidentiality==1)
+    return (obj.confidentiality>1)
 
 def logout(request):
     auth.logout(request)
