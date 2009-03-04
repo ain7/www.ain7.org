@@ -350,7 +350,7 @@ class AIn7Member(LoggedClass):
         return jobs
 
     def __unicode__(self):
-        return str(self.person)
+        return unicode(self.person)
 
     class Meta:
         verbose_name = _('AIn7 member')
