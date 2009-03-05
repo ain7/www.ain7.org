@@ -36,8 +36,11 @@ class Subscription(LoggedClass):
                    (2, _('Card')),
                    )
 
-    dues_amount = models.IntegerField(verbose_name=_('Dues amount'))
-    newspaper_amount = models.IntegerField(verbose_name=_('Newspaper amount'), null=True, blank=True)
+    # For potential backward compatibility
+    old_id = models.IntegerField(verbose_name='old id', blank=True, null=True, unique=True)
+
+    dues_amount = models.FloatField(verbose_name=_('Dues amount'))
+    newspaper_amount = models.FloatField(verbose_name=_('Newspaper amount'), null=True, blank=True)
     tender_type = models.IntegerField(verbose_name=_('Tender type'), choices=TENDER_TYPE)
     validated = models.BooleanField(verbose_name=_('validated'), default=False)
 

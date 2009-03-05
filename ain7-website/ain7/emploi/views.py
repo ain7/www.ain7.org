@@ -143,6 +143,15 @@ def education_add(request, user_id=None):
         reverse(cv_edit, args=[user_id])+'#education',
         _('Education informations successfully added.'))
 
+@confirmation_required(lambda user_id=None, diploma_id=None: str(get_object_or_404(DiplomaItem, pk=diploma_id)), 'emploi/base.html', _('Do you really want to delete your diploma item'))
+@login_required
+def diploma_delete(request, user_id=None, diploma_id=None):
+
+    return ain7_generic_delete(request,
+        get_object_or_404(DiplomaItem, pk=diploma_id),
+        reverse(cv_edit, args=[user_id])+'#diploma',
+        _('Diploma informations deleted successfully.'))
+
 @login_required
 def leisure_edit(request, user_id=None, leisure_id=None):
 

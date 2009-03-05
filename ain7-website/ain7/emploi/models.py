@@ -195,6 +195,7 @@ class OfficeManager(models.Manager):
 # A organization office informations
 class Office(LoggedClass):
 
+    # For potential backward compatibility
     old_id = models.IntegerField(verbose_name='old id', blank=True, null=True, unique=True)
 
     organization = models.ForeignKey(Organization, verbose_name=_('organization'), related_name='offices')
@@ -346,6 +347,18 @@ class EducationItem(LoggedClass):
     class Meta:
         verbose_name = _('Education item')
         ordering = ['-start_date']
+
+# A diploma item in the CV of a person.
+class DiplomaItem(LoggedClass):
+
+    diploma = models.CharField(verbose_name=_('diploma'), max_length=150)
+    ain7member = models.ForeignKey(AIn7Member, related_name='diploma')
+
+    def __unicode__(self):
+        return self.diploma
+
+    class Meta:
+        verbose_name = _('Diploma item')
 
 # A leisure item in the CV of a person.
 # For instance: title="Culture" detail="Japanim"

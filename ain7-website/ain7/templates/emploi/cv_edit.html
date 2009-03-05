@@ -130,6 +130,20 @@
 <br />
 
 
+{% if ain7member.diploma.all %}
+<h2><a name="diploma"/>{% trans "Diploma" %}</h2>
+
+<table style="width: 100%">
+{% for diplomaItem in ain7member.diploma.all %}
+    <tr><td>{{ diplomaItem.diploma }}</td>
+        <td style="width: 12%"><a href="{% url ain7.emploi.views.diploma_delete person.user.id diplomaItem.id %}" class="deletelink"> {% trans "Delete" %}</a></td>
+    </tr>
+{% endfor %}
+</table>
+<br />
+{% endif %}
+
+
 <h2><a name="leisure"/>{% trans "Leisure activities" %}</h2>
 
 

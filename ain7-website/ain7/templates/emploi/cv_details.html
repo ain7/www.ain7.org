@@ -110,6 +110,17 @@
 </table>
 {% endif %}
 
+{% if ain7member.diploma.all %}
+
+<h2>{% trans "Diploma" %}</h2>
+
+<table style="width: 100%">
+{% for diplomaItem in ain7member.diploma.all %}
+    <tr><td>{{ diplomaItem.diploma }}</td></tr>
+{% endfor %}
+</table>
+{% endif %}
+
 {% if ain7member.leisure.all %}
 
 <h2>{% trans "Leisure activities" %}</h2>

@@ -25,7 +25,7 @@ from django.contrib.auth.models import Permission
 from django.db.models import Q
 
 from ain7.annuaire.models import Person, Country, Track, PromoYear
-from ain7.emploi.models import ActivityField, Organization, Office, EducationItem
+from ain7.emploi.models import ActivityField, Organization, Office, EducationItem, DiplomaItem
 from ain7.utils import ain7_render_to_response
 
 def ajaxed_fields():
@@ -150,12 +150,15 @@ def diploma(request):
 
     if request.method == 'POST':
         input = request.POST['text']
-        added_diplomas = []
-        for e in EducationItem.objects.filter(diploma__icontains=input).order_by('diploma'):
-            d = e.diploma
-            if d not in added_diplomas:
-                added_diplomas.append(d)
-                elements.append( {'id': d, 'displayValue': d, 'value': d} )
+        diplomas = []
+        for e in EducationItem.objects.filter(diploma__icontains=input):
+            diplomas.append(e.diploma)
+        for e in DiplomaItem.objects.filter(diploma__icontains=input):
+            diplomas.append(e.diploma)
+        diplomas = list(set(diplomas))
+        diplomas.sort()
+        for d in diplomas:
+            elements.append( {'id': d, 'displayValue': d, 'value': d} )
     return ain7_render_to_response(request, 'ajax/complete.html',
         {'elements': elements})
 
