@@ -29,8 +29,6 @@ from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
 from ain7.adhesions.models import Subscription, SubscriptionConfiguration
-from ain7.fields import AutoCompleteField
-
 
 class SubscriptionForm(forms.ModelForm):
     dues_amount = forms.IntegerField(widget=forms.HiddenInput())

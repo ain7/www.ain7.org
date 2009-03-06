@@ -38,7 +38,7 @@ from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_
 def index(request):
     count_subscribers = Subscription.objects.filter(validated=True).exclude(start_year__gt=datetime.date.today().year).exclude(end_year__lt=datetime.date.today().year).count()
     return ain7_render_to_response(request, 'adhesions/index.html',
-        {'subscriptions_list': Subscription.objects.filter(validated=True).order_by('-last_change_at')[:10],
+        {'subscriptions_list': Subscription.objects.filter(validated=True).order_by('-start_year', '-end_year')[:10],
          'count_members': AIn7Member.objects.count(),
          'count_subscribers': count_subscribers})
 
@@ -48,7 +48,7 @@ def subscriptions(request, to_validate=False):
     if r:
         return r
 
-    nb_results_by_page = 5
+    nb_results_by_page = 50
     subscriptions_list = Subscription.objects.order_by('validated', '-start_year', '-end_year')
 
     if to_validate:

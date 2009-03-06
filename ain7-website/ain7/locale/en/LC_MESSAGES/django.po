@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-05 21:40+0100\n"
+"POT-Creation-Date: 2009-03-06 00:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -88,88 +88,96 @@ msgstr ""
 msgid "Card"
 msgstr ""
 
-#: adhesions/models.py:42 adhesions/models.py:71
+#: adhesions/models.py:37
+msgid "Transfer"
+msgstr ""
+
+#: adhesions/models.py:38
+msgid "Other"
+msgstr ""
+
+#: adhesions/models.py:44 adhesions/models.py:73
 #: templates/adhesions/configurations.html:15
 msgid "Dues amount"
 msgstr ""
 
-#: adhesions/models.py:43 adhesions/models.py:72
+#: adhesions/models.py:45 adhesions/models.py:74
 #: templates/adhesions/configurations.html:16
 msgid "Newspaper amount"
 msgstr ""
 
-#: adhesions/models.py:44 templates/adhesions/subscriptions.html:32
+#: adhesions/models.py:46 templates/adhesions/subscriptions.html:32
 #: templates/adhesions/user_subscriptions.html:17
 msgid "Tender type"
 msgstr ""
 
-#: adhesions/models.py:45
+#: adhesions/models.py:47
 msgid "validated"
 msgstr ""
 
-#: adhesions/models.py:47 emploi/forms.py:259
+#: adhesions/models.py:49 emploi/forms.py:259
 msgid "start year"
 msgstr ""
 
-#: adhesions/models.py:48 emploi/forms.py:261
+#: adhesions/models.py:50 emploi/forms.py:261
 msgid "end year"
 msgstr ""
 
-#: adhesions/models.py:50 annuaire/models.py:301 annuaire/models.py:582
+#: adhesions/models.py:52 annuaire/models.py:301 annuaire/models.py:582
 #: association/models.py:43 groupes_professionnels/models.py:61
 #: groupes_professionnels/models.py:87 groupes_regionaux/models.py:72
 #: groupes_regionaux/models.py:96 templates/annuaire/edit.html:92
 msgid "member"
 msgstr ""
 
-#: adhesions/models.py:56
+#: adhesions/models.py:58
 msgid "Subscription"
 msgstr ""
 
-#: adhesions/models.py:60
+#: adhesions/models.py:62
 #, python-format
 msgid "Promotions before %(year)s"
 msgstr ""
 
-#: adhesions/models.py:61
+#: adhesions/models.py:63
 #, python-format
 msgid "Promotions from %(start_year)s to %(end_year)s"
 msgstr ""
 
-#: adhesions/models.py:62
+#: adhesions/models.py:64
 msgid "Retired"
 msgstr ""
 
-#: adhesions/models.py:63
+#: adhesions/models.py:65
 msgid "Donator"
 msgstr ""
 
-#: adhesions/models.py:64
+#: adhesions/models.py:66
 msgid "Unemployed (with voucher)"
 msgstr ""
 
-#: adhesions/models.py:65
+#: adhesions/models.py:67
 msgid "First year (for 3 years)"
 msgstr ""
 
-#: adhesions/models.py:66
+#: adhesions/models.py:68
 msgid "Second year (for 2 years)"
 msgstr ""
 
-#: adhesions/models.py:67
+#: adhesions/models.py:69
 msgid "Third year"
 msgstr ""
 
-#: adhesions/models.py:70 manage/forms.py:86
+#: adhesions/models.py:72 manage/forms.py:86
 #: templates/adhesions/configurations.html:14
 msgid "Type"
 msgstr ""
 
-#: adhesions/models.py:73 templates/adhesions/configurations.html:17
+#: adhesions/models.py:75 templates/adhesions/configurations.html:17
 msgid "Duration"
 msgstr ""
 
-#: adhesions/models.py:79
+#: adhesions/models.py:81
 msgid "Configuration"
 msgstr ""
 

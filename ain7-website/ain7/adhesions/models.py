@@ -34,6 +34,8 @@ class Subscription(LoggedClass):
                    (0, _('Cash')),
                    (1, _('Cheque')),
                    (2, _('Card')),
+                   (3, _('Transfer')),
+                   (4, _('Other')),
                    )
 
     # For potential backward compatibility
