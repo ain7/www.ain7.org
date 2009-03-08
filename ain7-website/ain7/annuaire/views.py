@@ -44,6 +44,7 @@ from ain7.search_engine.models import *
 from ain7.search_engine.utils import *
 from ain7.search_engine.views import *
 from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
+from ain7.settings import AIN7_PORTAL_ADMIN
 
 
 # Main functions
@@ -440,13 +441,26 @@ def person_edit(request, user_id=None):
     person = None
     if user_id:
         person = Person.objects.get(user=user_id)
-    return ain7_generic_edit(
-        request, person, PersonForm, {'user': person.user},
-        'annuaire/edit_form.html',
-        {'action_title': _("Modification of personal data for"),
-         'person': person, 'back': request.META.get('HTTP_REFERER', '/')}, {},
-        '/annuaire/%s/edit' % (person.user.id),
-        _("Modifications have been successfully saved."))
+    # si la personne n'est pas du secrétariat, pas de date de décès
+    user_groups = request.user.groups.values_list('name',flat=True)
+    if 'ain7-secretariat' in user_groups \
+        or AIN7_PORTAL_ADMIN in user_groups:
+        return ain7_generic_edit(
+            request, person, PersonForm, {'user': person.user},
+            'annuaire/edit_form.html',
+            {'action_title': _("Modification of personal data for"),
+             'person': person, 'back': request.META.get('HTTP_REFERER', '/')},
+            {}, '/annuaire/%s/edit' % (person.user.id),
+            _("Modifications have been successfully saved."))
+    else:
+        return ain7_generic_edit(
+            request, person, PersonFormNoDeath,
+            {'user': person.user,'death_date': person.death_date},
+            'annuaire/edit_form.html',
+            {'action_title': _("Modification of personal data for"),
+             'person': person, 'back': request.META.get('HTTP_REFERER', '/')}, {},
+            '/annuaire/%s/edit' % (person.user.id),
+            _("Modifications have been successfully saved."))
 
 @login_required
 def ain7member_edit(request, user_id=None):

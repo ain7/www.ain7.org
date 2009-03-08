@@ -228,7 +228,23 @@ class PersonForm(forms.ModelForm):
             raise forms.ValidationError(_('Birth date is later than death date'))
         return self.cleaned_data['death_date']
 
-
+class PersonFormNoDeath(forms.ModelForm):
+    sex = forms.CharField(widget=forms.Select(choices=Person.SEX), label=_('Sex'))
+    birth_date = forms.DateTimeField(label=_('birth date').capitalize(),
+        widget=dateWidget, required=False)
+    class Meta:
+        model = Person
+        exclude = ('user','death_date')
+    def __init__(self, *args, **kwargs):
+        super(PersonFormNoDeath, self).__init__(*args, **kwargs)
+        # on convertit une liste de noms de pays en une liste de nationalités
+        nats = []
+        for i,c in self.fields['country'].choices:
+            if i:
+                nats.append((i,Country.objects.get(name=c).nationality))
+            else:
+                nats.append((i,c))
+        self.fields['country'].choices = nats
 
 class AIn7MemberForm(forms.ModelForm):
     receive_job_offers_for_tracks = forms.ModelMultipleChoiceField(queryset=Track.objects.filter(active=True), required=False)
