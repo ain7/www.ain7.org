@@ -32,7 +32,11 @@
 <ul>
     {% for ain7member in ain7members %}
         <li class="person"><a href="/annuaire/{{ ain7member.person.user.id }}/">
-            {{ ain7member.person.last_name }} {{ ain7member.person.first_name }}</a>
+            {{ ain7member.person.last_name }} 
+            {% if ain7member.person.maiden_name %}
+              ({{ ain7member.person.maiden_name }})
+            {% endif %}
+            {{ ain7member.person.first_name }}</a>
             {% for promo in ain7member.promos.all %}
                {% if forloop.last %} ({{ promo }}){% endif %}
             {% endfor %}

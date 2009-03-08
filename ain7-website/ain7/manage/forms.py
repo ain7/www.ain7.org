@@ -21,6 +21,7 @@
 #
 
 from django import forms
+from django.db import models
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from django.forms.util import ValidationError
@@ -42,13 +43,13 @@ class SearchUserForm(forms.Form):
     organization = forms.CharField(label=_('organization').capitalize(), max_length=50, required=False,widget=AutoCompleteField(url='/ajax/organization/'))
 
     def search(self):
-        criteria={
-            'last_name__icontains':self.cleaned_data['last_name'],\
-            'first_name__icontains':self.cleaned_data['first_name']}
+        q  = models.Q(last_name__icontains=self.cleaned_data['last_name']) | \
+             models.Q(maiden_name__icontains=self.cleaned_data['last_name'])
+        q &= models.Q(first_name__icontains=self.cleaned_data['first_name'])
         if self.cleaned_data['organization']!="":
-            criteria['ain7member__positions__office__organization__exact'] = \
-                Organization.objects.get(id=self.cleaned_data['organization'])
-        return Person.objects.filter(**criteria).distinct()
+            q &= models.Q(ain7member__positions__office__organization__exact=\
+                Organization.objects.get(id=self.cleaned_data['organization']))
+        return Person.objects.filter(q).distinct()
 
 class SearchRoleForm(forms.Form):
     name = forms.CharField(label=_('Name'), max_length=50, required=False)

@@ -23,7 +23,7 @@
        &nbsp;:</b> {{ person.sex }}</li>
    <li><b>{% trans "First name" %}&nbsp;:</b> {{ person.first_name }}</li>
    <li><b>{% trans "Last name" %}&nbsp;:</b> {{ person.last_name }}</li>
-   {% if ain7member.maiden_name %}
+   {% if person.maiden_name %}
    <li><b>{% filter capfirst %}{% trans "maiden name" %}{% endfilter %}
        &nbsp;:</b> {{ person.maiden_name|default:"" }}</li>
    {% endif %}

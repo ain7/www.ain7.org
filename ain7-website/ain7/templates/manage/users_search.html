@@ -33,7 +33,11 @@
 <ul>
     {% for person in persons %}
         <li class="person"><a href="/manage/users/{{ person.user.id }}/">
-            {{ person.last_name }} {{ person.first_name }}</a>
+            {{ person.last_name }} 
+            {% if person.maiden_name %}
+              ({{ person.maiden_name }})
+            {% endif %}
+            {{ person.first_name }}</a>
 				</li>
     {% endfor %}
 </ul>

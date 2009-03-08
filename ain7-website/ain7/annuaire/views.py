@@ -367,7 +367,7 @@ def export_csv(request):
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
     criteria = request.session['filter']
-    ain7members = AIn7Member.objects.filter(**criteria).distinct()
+    ain7members = AIn7Member.objects.filter(criteria).distinct()
 
     return se_export_csv(request, ain7members, annuaire_search_engine(),
         'annuaire/edit_form.html')

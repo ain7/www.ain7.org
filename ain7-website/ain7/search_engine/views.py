@@ -296,7 +296,7 @@ def se_export_csv(request, objects_to_export=None, search_engine=None,
     Fields to be exported are slected by the user."""
 
     choiceList = []
-    for field,model in criteriaList(search_engine, request.user):
+    for field,model,printprefix in criteriaList(search_engine, request.user):
         choiceList.append((getModelName(model)+'.'+field.name,
                            model._meta.verbose_name.capitalize() + ' : ' +
                            field.verbose_name.capitalize()))

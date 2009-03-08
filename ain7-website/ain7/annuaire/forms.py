@@ -44,16 +44,17 @@ class SearchPersonForm(forms.Form):
     organization = forms.IntegerField(label=_('organization').capitalize(), required=False,widget=AutoCompleteField(url='/ajax/organization/'))
 
     def criteria(self):
-        criteria={}
-
+        q = models.Q()
         if self.cleaned_data['last_name']:
-            criteria['person__last_name__icontains'] = self.cleaned_data['last_name'].encode('utf8')
-
+            ln = self.cleaned_data['last_name']
+            q &= models.Q(person__last_name__icontains=ln) | \
+                models.Q(person__maiden_name__icontains=ln)
         if self.cleaned_data['first_name']:
-            criteria['person__first_name__icontains'] = self.cleaned_data['first_name'].encode('utf8')
-
+            q &= models.Q(person__first_name__icontains=
+                self.cleaned_data['first_name'])
         if self.cleaned_data['organization']:
-            criteria['positions__office__organization__id'] = self.cleaned_data['organization']
+            q &= models.Q(positions__office__organization__id=\
+                self.cleaned_data['organization'])
 
         # ici on commence par rechercher toutes les promos
         # qui concordent avec l'annee de promotion et la filiere
@@ -68,12 +69,12 @@ class SearchPersonForm(forms.Form):
         if len(promoCriteria)!=0:
             # Pour éviter http://groups.google.es/group/django-users/browse_thread/thread/32143d024b17dd00,
             # on convertit en liste
-            criteria['promos__in'] = [promo for promo in Promo.objects.filter(**promoCriteria)]
-
-        return criteria
+            q &= models.Q(promos__in=
+                [promo for promo in Promo.objects.filter(**promoCriteria)])
+        return q
 
     def search(self, criteria):
-        return AIn7Member.objects.filter(**criteria).distinct().order_by('person__last_name','person__first_name')
+        return AIn7Member.objects.filter(criteria).distinct().order_by('person__last_name','person__first_name')
 
 class SendmailForm(forms.Form):
     subject = forms.CharField(label=_('subject'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'40'}))

@@ -37,15 +37,6 @@
       {% endif %}
       {% endif %}
 
-      {# search results #}
-
-      {% if dosearch %}
-      {% block worksheet-export %}
-      <li><a href="/annuaire/csv/">{% trans "Worksheet export" %}</a></li>
-      {% endblock %}
-      <li><a href="/annuaire/sendmail/">{% trans "Send a mail" %}</a></li>
-      {% endif %}
-
       {# permanent links #}
 
       <li><a href="/annuaire/register/">{% trans "Register a member" %}</a></li>
@@ -53,6 +44,22 @@
    </div>
 
    {% block extra-right-blocks %}{% endblock %}
+
+   {% block export %}
+     {% if dosearch %}
+       <h3>{% trans "Export" %}</h3>
+       <div class="right_articles">
+       <ul>
+         {% block worksheet-export %}
+         <li><a href="/annuaire/csv/">{% trans "Worksheet export" %}</a></li>
+         {% endblock %}
+         <!--
+         <li><a href="/annuaire/sendmail/">{% trans "Send a mail" %}</a></li>
+         -->
+       </ul>
+       </div>
+     {% endif %}
+   {% endblock %}
 
    {% block navigation %}
    <h3>{% trans "Navigation" %}</h3>
