@@ -22,11 +22,12 @@
 
 import vobject
 
-from datetime import datetime
+import datetime
 
 from django import forms
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
+from django.core.mail import send_mail
 from django.db import models
 from django.forms import widgets
 from django.http import HttpResponseRedirect, HttpResponse
@@ -34,11 +35,12 @@ from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
-from ain7.annuaire.models import Person, UserContribution, UserContributionType
+from ain7.annuaire.models import Person, UserContribution, UserContributionType, Email
 from ain7.decorators import confirmation_required
 from ain7.evenements.models import Event, EventSubscription
 from ain7.evenements.forms import *
 from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete
+
 
 
 def index(request):
@@ -207,6 +209,46 @@ def subscribe(request, event_id):
             request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
             return ain7_render_to_response(request,
                 'evenements/subscribe.html',
+                {'event': event, 'form': f,
+                 'back': request.META.get('HTTP_REFERER', '/'),
+                 'event_list': Event.objects.all(),
+                 'next_events': Event.objects.next_events()})
+
+@login_required
+def contact(request, event_id):
+
+    event = get_object_or_404(Event, pk=event_id)
+
+    if request.method == 'GET':
+        p = request.user.person    
+        try:
+            email = Email.objects.get(person=p)
+        except Email.DoesNotExist:
+            f = ContactEventForm()
+        else:
+            f = ContactEventForm(initial={'sender': email})
+        return ain7_render_to_response(request, 'evenements/contact.html',
+            {'event': event, 'form': f,
+             'back': request.META.get('HTTP_REFERER', '/'),
+             'event_list': Event.objects.all(),
+             'next_events': Event.objects.next_events()})
+
+    if request.method == 'POST':
+        f = ContactEventForm(request.POST)
+        if f.is_valid():
+            # Préparer le message et envoi au contact
+            subject = '[ain7_event] ' + event.name
+            sender = f.cleaned_data['sender']
+            message = f.cleaned_data['message']
+            send_mail(subject, message, sender, [event.contact_email], fail_silently=False)
+                
+            request.user.message_set.create(
+                message=_('Your message has been sent to the event responsible.'))
+            return HttpResponseRedirect('/evenements/%s/' % (event.id))
+        else:
+            request.user.message_set.create(message=_("Something was wrong in the form you filled. No message sent."))
+            return ain7_render_to_response(request,
+                'evenements/contact.html',
                 {'event': event, 'form': f,
                  'back': request.META.get('HTTP_REFERER', '/'),
                  'event_list': Event.objects.all(),

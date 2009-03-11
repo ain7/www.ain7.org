@@ -26,9 +26,8 @@ from django.utils.translation import ugettext as _
 from ain7.annuaire.models import UserContribution, UserContributionType
 from ain7.evenements.models import EventOrganizer, EventSubscription, Event
 from ain7.fields import AutoCompleteField
-from ain7.utils import AIn7ModelForm
 from ain7.widgets import DateTimeWidget
-
+from ain7.utils import AIn7ModelForm, AIn7Form
 
 dateTimeWidget = DateTimeWidget()
 dateTimeWidget.dformat = '%d/%m/%Y %H:%M'
@@ -91,6 +90,12 @@ class SearchEventForm(forms.Form):
         return Event.objects.filter(
             name__icontains=self.cleaned_data['name'],
             location__icontains=self.cleaned_data['location'])        
+
+class ContactEventForm(AIn7Form):
+    message = forms.CharField( label=_('your message').capitalize(),
+        required=True,
+        widget=forms.widgets.Textarea(attrs={'rows':10, 'cols':40}))
+    sender = forms.EmailField( label=_('your email').capitalize(), required=True)
 
 class EventForm(AIn7ModelForm):
     description = forms.CharField( label=_('description').capitalize(),
