@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #
-# aja/models.py
+# ajax/models.py
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #

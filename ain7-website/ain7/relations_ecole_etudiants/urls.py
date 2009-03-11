@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #
-# relations_ecoles_etudiants/urls.py
+# relations_ecole_etudiants/urls.py
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -23,7 +23,7 @@
 from django.conf.urls.defaults import *
 
 
-urlpatterns = patterns('',
+urlpatterns = patterns('ain7.relations_ecole_etudiants.views',
     (r'^$', 'index'),
 )
 

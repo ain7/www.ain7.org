@@ -22,6 +22,7 @@
 
 import datetime
 
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger
 from django.core.urlresolvers import reverse

@@ -23,7 +23,7 @@
 from django.conf.urls.defaults import *
 
 
-urlpatterns = patterns('',
+urlpatterns = patterns('ain7.news.views',
     # Evenements
     (r'^$', 'index'),
     (r'^add/$', 'add'),

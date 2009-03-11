@@ -23,7 +23,7 @@
 from django.conf.urls.defaults import *
 
 
-urlpatterns = patterns('',
+urlpatterns = patterns('ain7.media_communication.views',
 
     (r'^$', 'index'),
     (r'^canal_n7/$', 'canal_n7'),
