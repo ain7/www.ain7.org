@@ -94,7 +94,7 @@ class SearchEventForm(forms.Form):
 class ContactEventForm(AIn7Form):
     message = forms.CharField( label=_('your message').capitalize(),
         required=True,
-        widget=forms.widgets.Textarea(attrs={'rows':10, 'cols':40}))
+        widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':65}))
     sender = forms.EmailField( label=_('your email').capitalize(), required=True)
 
 class EventForm(AIn7ModelForm):
