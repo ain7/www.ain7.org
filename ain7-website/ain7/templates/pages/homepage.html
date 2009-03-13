@@ -111,7 +111,7 @@
 	<h3>{% trans "Birthdays" %}</h3>
 		<div class="right_articles">
 			{% for member in birthdays %}
-			<a href="/annuaire/{{ member.pk }}/">{{ member }}</a>
+			<a href="/annuaire/{{ member.person.pk }}/">{{ member }}</a>
 			{% if not forloop.last %} ; {% endif %}
 			{% endfor %}
 		</div>
