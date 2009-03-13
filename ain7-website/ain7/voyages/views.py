@@ -40,9 +40,9 @@ from ain7.annuaire.models import Person
 
 def index(request):
     next_travels = Travel.objects.filter(
-        start_date__gte=datetime.now())
+        start_date__gte=datetime.now()).order_by('-start_date')
     prev_travels = Travel.objects.filter(
-        start_date__lt=datetime.now())[:5]
+        start_date__lt=datetime.now()).order_by('-start_date')[:5]
     return ain7_render_to_response(request, 'voyages/index.html',
         {'next_travels': next_travels, 'previous_travels': prev_travels})
 

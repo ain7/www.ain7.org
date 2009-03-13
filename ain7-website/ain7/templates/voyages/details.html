@@ -53,7 +53,7 @@
 
 {% if travel.is_past and travel.report %}
   <h2>{% filter capfirst %}{% trans "report" %}{% endfilter %}</h2>
-  {{ travel.report }}
+  {{ travel.report|safe }}
 {% endif %}
 
     </div> <!-- left_box -->
