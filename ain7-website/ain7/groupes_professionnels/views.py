@@ -38,13 +38,13 @@ def index(request):
     return ain7_render_to_response(request, 'groupes_professionnels/index.html', {'groups': groups})
 
 def details(request, group_id):
-    g = get_object_or_404(GroupPro, name=group_id)
+    g = get_object_or_404(GroupPro, pk=group_id)
     return ain7_render_to_response(request, 'groupes_professionnels/details.html', {'group': g})
 
 @login_required
 def subscribe(request, group_id):
 
-    group = get_object_or_404(GroupPro, name=group_id)
+    group = get_object_or_404(GroupPro, pk=group_id)
     f =  SubscribeGroupProForm()
 
     if request.method == 'POST':
@@ -62,7 +62,7 @@ def subscribe(request, group_id):
                 request.user.message_set.create(
                     message=_('You have successfully subscribed')+
                     ' '+p.first_name+' '+p.last_name+' '+_('to this group.'))
-                return HttpResponseRedirect(reverse(details, args=[group.name]))
+                return HttpResponseRedirect(reverse(details, args=[group.id]))
             else:
                 request.user.message_set.create(message=_('This person is already subscribed to this group.'))
 
@@ -74,7 +74,7 @@ def subscribe(request, group_id):
 @login_required
 def unsubscribe(request, group_id):
 
-    group = get_object_or_404(GroupPro, name=group_id)
+    group = get_object_or_404(GroupPro, pk=group_id)
 
     if request.method == 'POST':
         f = UnsubscribeGroupProForm(request.POST)
@@ -90,7 +90,7 @@ def unsubscribe(request, group_id):
         else:
             request.user.message_set.create(
                 message=_('Something was wrong in the form you filled. No modification done.'))
-        return HttpResponseRedirect(reverse(details, args=[group.name]))
+        return HttpResponseRedirect(reverse(details, args=[group.id]))
 
     f =  UnsubscribeGroupProForm()
     back = request.META.get('HTTP_REFERER', '/')
@@ -108,7 +108,7 @@ def edit(request, group_id=None):
         form = GroupProForm()
 
     else:
-        group = GroupPro.objects.get(name=group_id)
+        group = GroupPro.objects.get(pk=group_id)
         form = GroupProForm(instance=group)
 
         if request.method == 'POST':
@@ -117,7 +117,7 @@ def edit(request, group_id=None):
                  form.save(user=request.user)
                  request.user.message_set.create(
                      message=_("Modifications have been successfully saved."))
-                 return HttpResponseRedirect(reverse(details, args=[group.name]))
+                 return HttpResponseRedirect(reverse(details, args=[group.id]))
 
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'groupes_professionnels/edit.html', {'form': form, 'group': group, 'back': back})
@@ -154,7 +154,7 @@ def build_roles_by_type(request, group=None, all_current=None,
 
 @login_required
 def edit_roles(request, group_id, all_current=None):
-    group = get_object_or_404(GroupPro, name=group_id)
+    group = get_object_or_404(GroupPro, pk=group_id)
     is_member = request.user.is_authenticated()\
                 and group.has_for_member(request.user.person)
     roles_by_type = build_roles_by_type(request, group, all_current,

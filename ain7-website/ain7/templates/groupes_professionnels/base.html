@@ -18,11 +18,11 @@
    <div class="right_articles">
    <ul>
       {% block extra-actions %}{% endblock %}
-      <li><a href="{% url ain7.groupes_professionnels.views.edit group.name %}">{% trans "Edit these data." %}</a></li>
-      <li><a href="{% url ain7.groupes_professionnels.views.subscribe group.name %}">{% trans "Subscribe someone" %}</a></li>
-      <li><a href="{% url ain7.groupes_professionnels.views.unsubscribe group.name %}">{% trans "Unsubscribe someone" %}</a></li>
+      <li><a href="{% url ain7.groupes_professionnels.views.edit group.id %}">{% trans "Edit these data." %}</a></li>
+      <li><a href="{% url ain7.groupes_professionnels.views.subscribe group.id %}">{% trans "Subscribe someone" %}</a></li>
+      <li><a href="{% url ain7.groupes_professionnels.views.unsubscribe group.id %}">{% trans "Unsubscribe someone" %}</a></li>
       {# TODO: gestion des droits : réservé aux secrétaires et superadmin #}
-      <li><a href="{% url ain7.groupes_professionnels.views.edit_roles group.name,"current" %}">{% trans "Edit roles of this group" %}</a></li>
+      <li><a href="{% url ain7.groupes_professionnels.views.edit_roles group.id,"current" %}">{% trans "Edit roles of this group" %}</a></li>
    </ul>
    </div>
 
