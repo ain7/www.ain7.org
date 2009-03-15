@@ -23,7 +23,7 @@
 from django import forms
 from django.utils.translation import ugettext as _
 
-from ain7.annuaire.models import UserContribution, UserContributionType
+from ain7.annuaire.models import UserContribution, UserContributionType, Person
 from ain7.evenements.models import EventOrganizer, EventSubscription, Event
 from ain7.fields import AutoCompleteField
 from ain7.widgets import DateTimeWidget
