@@ -33,7 +33,7 @@ from ain7.adhesions.forms import ConfigurationForm, SubscriptionForm
 from ain7.adhesions.models import Subscription, SubscriptionConfiguration
 from ain7.annuaire.models import AIn7Member, Person
 from ain7.decorators import confirmation_required
-from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
+from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access, LoggedClass
 
 
 def index(request):

@@ -36,7 +36,7 @@ function select_conf(id, dues_amount, newspaper_amount, toggle) {
 {% for configuration in configurations %}
 {% with configuration.type|stringformat:"s" as type %}
 <tr>
-<th align="left">
+<th align="left" style="width:280px;">
   <label for="id_configuration_{{ type }}">
     <input id="id_configuration_{{ type }}" value="{{ type }}" name="configuration" type="radio"
            {% ifequal type form.data.configuration %}checked="checked"{% endifequal %}
@@ -70,7 +70,7 @@ function select_conf(id, dues_amount, newspaper_amount, toggle) {
 {% endwith %}
 {% endfor %}
 
-<tr><th><label for="id_total_amount">{% trans "Total amount" %}:</label></th><td><input readonly="readonly" name="total_amount" id="id_total_amount" type="text" />&nbsp;{% trans "euros" %}</td></tr>
+<tr><th><label for="id_total_amount">{% trans "Total amount" %}:</label></th><td colspan="2"><input readonly="readonly" name="total_amount" id="id_total_amount" type="text" />&nbsp;{% trans "euros" %}</td></tr>
 {{ form }}
 </table>
 <div style="text-align: center">
