@@ -43,6 +43,7 @@ def homepage(request):
     birthdays = []
     if is_auth:
         birthdays = [ m for m in AIn7Member.objects.filter(
+            person__birth_date__isnull=False,
             person__birth_date__day=today.day,
             person__birth_date__month=today.month,
             person__death_date=None) ]
