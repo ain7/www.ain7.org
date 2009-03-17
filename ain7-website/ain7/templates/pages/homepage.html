@@ -108,7 +108,7 @@
         {% endfor %}
 
 {% if user.is_authenticated %}
-	<h3>{% trans "Birthdays" %}</h3>
+	<h3>{% trans "Happy birthday!" %}</h3>
 		<div class="right_articles">
 			{% for member in birthdays %}
 			<a href="/annuaire/{{ member.person.pk }}/">{{ member }}</a>
