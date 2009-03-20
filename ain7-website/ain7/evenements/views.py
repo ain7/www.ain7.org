@@ -222,7 +222,7 @@ def contact(request, event_id):
     if request.method == 'GET':
         p = request.user.person    
         try:
-            email = Email.objects.get(person=p)
+            email = Email.objects.get(person=p, preferred_email=True)
         except Email.DoesNotExist:
             f = ContactEventForm()
         else:

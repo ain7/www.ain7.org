@@ -107,6 +107,7 @@
 		</div>
         {% endfor %}
 
+{% if birthdays %}
 {% if user.is_authenticated %}
 	<h3>{% trans "Happy birthday!" %}</h3>
 		<div class="right_articles">
@@ -115,6 +116,7 @@
 			{% if not forloop.last %} ; {% endif %}
 			{% endfor %}
 		</div>
+{% endif %}
 {% endif %}
 
 	</div>
