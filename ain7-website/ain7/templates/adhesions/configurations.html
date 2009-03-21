@@ -1,6 +1,9 @@
 {% extends "adhesions/base.html" %}
 {% load i18n %}
 
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
 {% block content-left %}
 
 <h2>{% trans "Configurations" %}</h2>
@@ -9,7 +12,8 @@
 <a class="addlink" href="{% url configuration_add %}">{% trans "Add a configuration" %}</a>
 </p>
 
-<table style="width: 100%">
+<div id="edition">
+<table style="width: 100%" class="datas">
 <tr>
   <th>{% trans "Type" %}</th>
   <th>{% trans "Dues amount" %}</th>
@@ -17,7 +21,7 @@
   <th>{% trans "Duration" %}</th>
 </tr>
 {% for configuration in configurations_list %}
-<tr>
+<tr class="{% cycle row1,row2 %}">
   <td align="center">{{ configuration.get_type_display }}</td>
   <td align="center">
       {{ configuration.dues_amount }}&nbsp;{% trans "euros" %}
@@ -44,4 +48,5 @@
 </tr>
 {% endfor %}
 </table>
+</div>
 {% endblock %}

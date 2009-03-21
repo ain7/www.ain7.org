@@ -272,6 +272,7 @@ X-Generated-By: AIn7 Web Portal
 
     class Meta:
         verbose_name = _('person')
+        ordering = ['last_name', 'first_name']
 
 # a Manager for the class AIn7Member
 class AIn7MemberManager(models.Manager):
@@ -354,6 +355,7 @@ class AIn7Member(LoggedClass):
 
     class Meta:
         verbose_name = _('AIn7 member')
+        ordering = ['person']
 
 # Phone number for a person
 class PhoneNumber(LoggedClass):

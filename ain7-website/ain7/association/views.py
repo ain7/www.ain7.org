@@ -103,9 +103,7 @@ def edit_council(request, all_current=None):
 @login_required
 def add_council_role(request, role_type=None, all_current=None):
 
-    form = None
-    if request.method=='GET':
-        form = NewCouncilRoleForm()
+    form = NewCouncilRoleForm()
     roles_by_type = build_council_roles_by_type(
         request, all_current, role_type, form, None, None)
     
@@ -116,6 +114,7 @@ def add_council_role(request, role_type=None, all_current=None):
             return HttpResponseRedirect(reverse(edit_council, args=[all_current]))
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+            # TODO : le champ username n'est pas renseigné ici (LP 346274)
             roles_by_type = build_council_roles_by_type(
                 request, all_current, role_type, form, None, None)
     return ain7_render_to_response(request,
@@ -158,6 +157,7 @@ def change_council_dates(request, role_id=None, all_current=None):
          'back': request.META.get('HTTP_REFERER', '/')})
 
 
+# TODO : this method seems useless now
 @login_required
 def build_board_roles_by_type(request, all_current=None,
     the_type=None, form_for_the_type=None,

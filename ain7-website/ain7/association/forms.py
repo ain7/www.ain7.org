@@ -49,13 +49,25 @@ class NewCouncilRoleForm(forms.Form):
             raise forms.ValidationError(_('Start date is later than end date'))
         return self.cleaned_data['end_date']
 
+    def clean_username(self):
+        pid = self.cleaned_data['username']
+        if pid==None:
+            raise ValidationError(_('This field is mandatory.'))
+            return None
+        else:
+            person = None
+            try:
+                person = Person.objects.get(id=pid)
+            except Person.DoesNotExist:
+                raise ValidationError(_('The entered person is not in the database.'))
+            return person
+    
     def save(self, role_type):
         cr = CouncilRole()
         cr.role = role_type
         cr.start_date = self.cleaned_data['start_date']
         cr.end_date = self.cleaned_data['end_date']
-        cr.member = get_object_or_404(Person,
-                                      pk=self.cleaned_data['username'])
+        cr.member = self.cleaned_data['username']
         cr.board_member = self.cleaned_data['board_member']
         cr.save()
         return cr

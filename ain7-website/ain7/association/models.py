@@ -57,4 +57,4 @@ class CouncilRole(models.Model):
     class Meta:
         verbose_name = _('council role')
         verbose_name_plural = _('council roles')
-
+        ordering = ['role', 'member']

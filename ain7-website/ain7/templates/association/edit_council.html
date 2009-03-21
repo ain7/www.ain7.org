@@ -39,14 +39,14 @@
                         {{ role_form.start_date.errors }}
                       {% endif %}
                       {{ role_form.start_date|safe }}</td>
-                <tr>
+                </tr>
                 <tr>
                   <td>{{ role_form.end_date.label_tag }}</td>
                   <td>{% if role_form.end_date.errors %}
                         {{ role_form.end_date.errors }}
                       {% endif %}
                       {{ role_form.end_date|safe }}</td>
-                <tr>
+                </tr>
               </table>
               <div style="text-align: center">
                 <a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
@@ -71,28 +71,28 @@
                   {{ type_form.username.errors }}
                 {% endif %}
                 {{ type_form.username|safe }}</td>
-          <tr>
+          </tr>
           <tr>
             <td>{{ type_form.start_date.label_tag }}</td>
             <td>{% if type_form.start_date.errors %}
                   {{ type_form.start_date.errors }}
                 {% endif %}
                 {{ type_form.start_date|safe }}</td>
-          <tr>
+          </tr>
           <tr>
             <td>{{ type_form.end_date.label_tag }}</td>
             <td>{% if type_form.end_date.errors %}
                   {{ type_form.end_date.errors }}
                 {% endif %}
                 {{ type_form.end_date|safe }}</td>
-          <tr>
+          </tr>
           <tr>
             <td>{{ type_form.board_member.label_tag }}</td>
             <td>{% if type_form.board_member.errors %}
                   {{ type_form.board_member.errors }}
                 {% endif %}
                 {{ type_form.board_member|safe }}</td>
-          <tr>
+          </tr>
         </table>
         <div style="text-align: center">
           <a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
@@ -105,7 +105,5 @@
   {% endif %}
 
 {% endfor %}
-
-</div>
 
 {% endblock %}

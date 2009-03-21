@@ -1,6 +1,9 @@
 {% extends "adhesions/base.html" %}
 {% load i18n %}
 
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
 {% block content-left %}
 
 {% if filter %}
@@ -23,7 +26,8 @@
 </td>
 </tr>
 </table>
-<table style="width: 100%">
+<div id="edition">
+<table style="width: 100%" class="datas">
 <tr>
   <th>{% trans "Member" %}</th>
   <th>{% trans "Year" %}</th>
@@ -32,7 +36,7 @@
   <th>{% trans "Tender type" %}</th>
 </tr>
 {% for subscription in subscriptions_list %}
-<tr>
+<tr class="{% cycle row1,row2 %}">
   <td align="center">{{ subscription.member.person.first_name }} {{ subscription.member.person.last_name }}</td>
   <td align="center">
     {% ifnotequal subscription.start_year subscription.end_year %}
@@ -61,7 +65,7 @@
   <td align="center">
     {% if not subscription.validated %}
       <a class="savelink" href="{% url ain7.adhesions.views.subscription_validate subscription.id %}">
-      {% trans "Validate" %}</a>&nbsp;
+      {% trans "Validate" %}</a><br/>
       <a class="deletelink" href="{% url ain7.adhesions.views.subscription_delete subscription.id %}">
       {% trans "Delete" %}</a>
     {% endif %}
@@ -69,5 +73,6 @@
 </tr>
 {% endfor %}
 </table>
+</div>
 {% endif %}
 {% endblock %}

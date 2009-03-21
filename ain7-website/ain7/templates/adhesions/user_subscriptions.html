@@ -1,6 +1,9 @@
 {% extends "adhesions/base.html" %}
 {% load i18n %}
 
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
 {% block content-left %}
 
 <h2>{{ person.first_name }} {{ person.last_name }} {% trans "subscriptions" %}</h2>
