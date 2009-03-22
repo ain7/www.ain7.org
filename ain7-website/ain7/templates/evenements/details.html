@@ -59,7 +59,17 @@
 	<h3>{% trans "Statistics" %}</h3>
 	<div class="right_block">
                 <ul>
-                        <li>{{ nbparticipants }} {% trans "persons are subscribed to this event" %}</li>
+                  <li>
+        {% ifequal nbparticipants 0 %}
+          {% trans "No one is subscribed to this event" %}
+        {% else %}
+          {% ifequal nbparticipants 1 %}
+            {% trans "One person subscribed to this event" %}
+          {% else %}
+            {{ nbparticipants }} {% trans "persons subscribed to this event" %}
+          {% endifequal %}
+        {% endifequal %}
+                  </li>
                 </ul>
         </div>
 {% endblock %}

@@ -1,6 +1,7 @@
 {% extends "evenements/base.html" %}
 {% load i18n %}
 
+{% block javascript %}{% endblock %}
 {% block stylesheet %}{% endblock %}
 
 {% block content-main %}
@@ -30,11 +31,15 @@
   <div class="right_block">
     <ul>
       <li>
-      {% blocktrans count nbparticipants as nbpart %}
-         1 person is subscribed to this event
-      {% plural %}
-         {{ nbpart }} people are subscribed to this event
-      {% endblocktrans %}
+        {% ifequal nbparticipants 0 %}
+          {% trans "No one is subscribed to this event" %}
+        {% else %}
+          {% ifequal nbparticipants 1 %}
+            {% trans "One person subscribed to this event" %}
+          {% else %}
+            {{ nbparticipants }} {% trans "persons subscribed to this event" %}
+          {% endifequal %}
+        {% endifequal %}
       </li>
     </ul>
   </div>
