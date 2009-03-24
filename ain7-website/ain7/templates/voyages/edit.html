@@ -27,6 +27,7 @@
 
 
 {% block actions %}
+{% if travel %}
 <li><a href="/voyages/{{ travel.id }}/join/">
     {% trans "Participate to this travel" %}</a></li>
 <li><a href="/voyages/{{ travel.id }}/participants/">
@@ -37,4 +38,17 @@
     {% trans "Delete this travel" %}</a></li>
 <li><a href="/voyages/{{ travel.id }}/edit/">
     {% trans "Modify these data" %}</a></li>
+{% else %}
+<li><a href="/voyages/add/">{% trans "Add a travel" %}</a></li>
+<li><a href="/voyages/search/">{% trans "Search a travel" %}</a></li>
+{% endif %}
 {% endblock %}
+
+{% block navigation %}
+      <h3>{% trans "Navigation"%}</h3>
+      <div class="right_articles">
+        <ul>
+          <li><a href="/voyages/list/">{% trans "List of travels" %}</a></li>
+        </ul>
+      </div>
+{% endblock navigation %}

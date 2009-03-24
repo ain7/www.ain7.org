@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-03-22 23:17+0100\n"
-"PO-Revision-Date: 2009-03-22 23:17+0100\n"
+"PO-Revision-Date: 2009-03-24 22:53+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2918,7 +2918,7 @@ msgstr "Fiche personnelle de"
 
 #: templates/annuaire/details.html:12 voyages/forms.py:91
 msgid "Subscriber"
-msgstr "Adhérant"
+msgstr "Adhérent"
 
 #: templates/annuaire/details.html:15 templates/annuaire/details_frame.html:20
 #: templates/annuaire/edit.html:18 templates/manage/user_edit.html:18

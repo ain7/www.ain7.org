@@ -176,7 +176,7 @@ class NotificationForm(forms.ModelForm):
 
     class Meta:
         model = Notification
-        exclude = ('organization_proposal', 'office_proposal')
+        exclude = ('organization_proposal', 'office_proposal', 'job_proposal')
 
 class NewCountryForm(forms.ModelForm):
 

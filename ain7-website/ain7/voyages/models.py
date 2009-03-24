@@ -74,7 +74,7 @@ class Travel(LoggedClass):
     
     class Meta:
         verbose_name = _('travel')
-        ordering = ['start_date', 'end_date']
+        ordering = ['-start_date', '-end_date']
 
 class Subscription(models.Model):
 

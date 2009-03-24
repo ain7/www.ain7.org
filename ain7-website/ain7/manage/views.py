@@ -917,7 +917,8 @@ def notification_add(request):
 
     return ain7_generic_edit(
         request, None, NotificationForm,
-        {'organization_proposal': None, 'office_proposal': None},
+        {'organization_proposal': None, 'office_proposal': None,
+         'job_proposal': None},
         'manage/notification.html',
         {'action_title': _('Add a new notification'),
          'back': request.META.get('HTTP_REFERER', '/')}, {},
@@ -929,7 +930,8 @@ def notification_edit(request, notif_id):
     return ain7_generic_edit(
         request, get_object_or_404(Notification, pk=notif_id),
         NotificationForm,
-        {'organization_proposal': None, 'office_proposal': None},
+        {'organization_proposal': None, 'office_proposal': None,
+         'job_proposal': None},
         'manage/notification.html',
         {'action_title': _("Modification of the notification"),
          'back': request.META.get('HTTP_REFERER', '/')}, {},

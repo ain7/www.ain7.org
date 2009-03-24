@@ -1,6 +1,9 @@
 {% extends "voyages/base.html" %}
 {% load i18n %}
 
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
 {% block content-left %}
 
     <h3>{% trans "List of travels" %}</h3>
@@ -10,11 +13,13 @@
         <table>
         {% for travel in travels %}
           <tr>
-            <td><a href="/voyages/{{ travel.id}}/">
+            <td style="text-align: right"><a href="/voyages/{{ travel.id }}/">
             {{ travel.label }}</a> - {{travel.date }}</td>
             {% if travel.thumbnail %}
-              <td style="text-align: center"><a href="/voyages/{{ travel.id}}/">
-              <img src="{{ travel.thumbnail }}" height="100"/></a></td>
+              <td style="text-align: center"><a href="/voyages/{{ travel.id }}/">
+              <img src="{{ travel.thumbnail.url }}" height="100"/></a></td>
+            {% else %}
+	      <td>&nbsp;</td>
             {% endif %}
           </tr>
         {% endfor %}
