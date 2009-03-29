@@ -98,7 +98,7 @@ class AutoCompleteField(TextInput):
         return (u'<input type="hidden" name="%(name)s" value="%(value)s" id="%(id)s" />'
                   '<input type="text" name="text" id="%(id)s_text" size="40" autocomplete="off" value="%(valueTxt)s" %(attrs)s/>'+addlink+'<div class="complete" id="box_%(name)s"></div>'
                   '<script type="text/javascript">'
-                  'window.myAutoComplete = new AutoComplete($(\'%(id)s_text\'), window.location.protocol+"//"+window.location.host+"%(url)s", "displayValue", {maxHeight: 350, zIndex: 6, method: \'post\'});'
+                  'window.myAutoComplete = new AutoComplete($(\'%(id)s_text\'), window.location.protocol+"//"+window.location.host+"%(url)s", "displayValue", {maxHeight: 350, zIndex: 6, method: \'post\'}, $(\'%(id)s\'));'
                   'myAutoComplete.addEvent(\'onItemChoose\', function(item) {'
                   '	document.getElementById(\'%(id)s\').value = item.getProperty(\'id\');'
 		  '});'

@@ -10,8 +10,9 @@ var AutoComplete = new Class({
 		zIndex: 1
 	},
 
-	initialize: function(input, url, displayValue, options) {
+	initialize: function(input, url, displayValue, options, hideninput) {
 		this.input = $(input);
+		this.hideninput = $(hideninput);
 		this.displayValue = displayValue;
 		this.setOptions(options);
 		this.parent(url);
@@ -40,18 +41,26 @@ var AutoComplete = new Class({
 					case Event.Keys.left:
 					case Event.Keys.right:
 					case Event.Keys.tab:
-					case Event.Keys.esc:
 					case Event.Keys.enter:
 					break;
+					case Event.Keys.esc:
+						this.resultContainer.style.display = "none";
+						break;
 					default: {
 						var data = {};
 						data[this.input.name] = this.input.value;
 						this.send({url: url, data: data});
+						this.hideninput.value = "-1";
 					}
 				}
 			}
 		}.bind(this));
 
+		this.input.addEvent('keydown', function(e) {
+			if(e.code == Event.Keys.tab) {
+				this.resultContainer.style.display = "none";
+			}
+		}.bind(this));
 		this.addEvent('onComplete', this._onResultReceived);
 
 		// close the result list when click elsewhere
