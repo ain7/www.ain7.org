@@ -58,7 +58,7 @@ class JoinEventForm(forms.Form):
         return subscription
 
 class SubscribeEventForm(forms.Form):
-    subscriber = forms.IntegerField(label=_('Person to subscribe'), widget=AutoCompleteField(url='/ajax/person/'))
+    subscriber = forms.IntegerField(label=_('Person to subscribe'), widget=AutoCompleteField(completed_obj_name='person'))
     subscriber_number = forms.IntegerField(label=_('Number of persons'))
     note = forms.CharField(label=_('Note, question, etc..'), max_length=200,
         required=False, widget=forms.TextInput(attrs={'size':'40'}))
@@ -134,7 +134,7 @@ class EventForm(AIn7ModelForm):
 
 class EventOrganizerForm(forms.ModelForm):
     organizer = forms.IntegerField(label=_('organizer').capitalize(),
-        widget=AutoCompleteField(url='/ajax/person/'))
+        widget=AutoCompleteField(completed_obj_name='person'))
     
     class Meta:
         model = EventOrganizer

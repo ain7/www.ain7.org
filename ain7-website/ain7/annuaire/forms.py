@@ -39,9 +39,9 @@ dateTimeWidget.dformat = '%d/%m/%Y %H:%M'
 class SearchPersonForm(forms.Form):
     last_name = forms.CharField(label=_('Last name'), max_length=50, required=False)
     first_name = forms.CharField(label=_('First name'), max_length=50, required=False)
-    promoyear = forms.IntegerField(label=_('Promo year'), required=False, widget=AutoCompleteField(url='/ajax/promoyear/'))
-    track = forms.IntegerField(label=_('Track'), required=False, widget=AutoCompleteField(url='/ajax/track/'))
-    organization = forms.IntegerField(label=_('organization').capitalize(), required=False,widget=AutoCompleteField(url='/ajax/organization/'))
+    promoyear = forms.IntegerField(label=_('Promo year'), required=False, widget=AutoCompleteField(completed_obj_name='promoyear'))
+    track = forms.IntegerField(label=_('Track'), required=False, widget=AutoCompleteField(completed_obj_name='track'))
+    organization = forms.IntegerField(label=_('organization').capitalize(), required=False,widget=AutoCompleteField(completed_obj_name='organization'))
 
     def criteria(self):
         q = models.Q()
@@ -85,11 +85,11 @@ class NewMemberForm(forms.Form):
     first_name = forms.CharField(label=_('First name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size':40}))
     last_name = forms.CharField(label=_('Last name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 40}))
     mail = forms.EmailField(label=_('Mail'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 40}))
-    nationality = forms.IntegerField(label=_('Nationality'), required=True, widget=AutoCompleteField(url='/ajax/nationality/',addable=True))
+    nationality = forms.IntegerField(label=_('Nationality'), required=True, widget=AutoCompleteField(completed_obj_name='nationality',addable=True))
     birth_date = forms.DateTimeField(label=_('Date of birth'), required=True, widget=dateWidget)
     sex = forms.ChoiceField(label=_('Sex'), required=True, choices=Person.SEX)
-    promoyear = forms.IntegerField(label=_('Promo year'), required=True, widget=AutoCompleteField(url='/ajax/promoyear/'))
-    track = forms.IntegerField(label=_('Track'), required=True,  widget=AutoCompleteField(url='/ajax/track/'))
+    promoyear = forms.IntegerField(label=_('Promo year'), required=True, widget=AutoCompleteField(completed_obj_name='promoyear'))
+    track = forms.IntegerField(label=_('Track'), required=True,  widget=AutoCompleteField(completed_obj_name='track'))
 
     def genlogin(self):
         login = (self.cleaned_data['first_name'][0]+self.cleaned_data['last_name']).lower()
@@ -263,8 +263,8 @@ class PhoneNumberForm(forms.ModelForm):
         exclude = ('person')
 
 class PromoForm(forms.Form):
-    promoyear = forms.IntegerField(label=_('Promo year'), required=False, widget=AutoCompleteField(url='/ajax/promoyear/'))
-    track = forms.IntegerField(label=_('Track'), required=False, widget=AutoCompleteField(url='/ajax/track/'))
+    promoyear = forms.IntegerField(label=_('Promo year'), required=False, widget=AutoCompleteField(completed_obj_name='promoyear'))
+    track = forms.IntegerField(label=_('Track'), required=False, widget=AutoCompleteField(completed_obj_name='track'))
 
     def clean_promoyear(self):
         p = self.cleaned_data['promoyear']

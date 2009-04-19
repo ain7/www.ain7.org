@@ -88,7 +88,7 @@ class JoinTravelForm(forms.ModelForm):
 
 
 class SubscribeTravelForm(forms.ModelForm):
-    subscriber = forms.IntegerField(label=_('Subscriber'), required=True, widget=AutoCompleteField(url='/ajax/person/'))
+    subscriber = forms.IntegerField(label=_('Subscriber'), required=True, widget=AutoCompleteField(completed_obj_name='person'))
     
     class Meta:
         model = Subscription
@@ -96,7 +96,7 @@ class SubscribeTravelForm(forms.ModelForm):
 
 
 class TravelResponsibleForm(forms.ModelForm):
-    responsible = forms.IntegerField(label=_('Responsible'), required=True, widget=AutoCompleteField(url='/ajax/person/'))
+    responsible = forms.IntegerField(label=_('Responsible'), required=True, widget=AutoCompleteField(completed_obj_name='person'))
     
     class Meta:
         model = TravelResponsible

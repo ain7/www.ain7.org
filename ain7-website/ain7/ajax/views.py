@@ -23,6 +23,8 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Permission
 from django.db.models import Q
+from django.http import Http404
+
 
 from ain7.annuaire.models import Person, Country, Track, PromoYear
 from ain7.emploi.models import ActivityField, Organization, Office, EducationItem, DiplomaItem
@@ -54,111 +56,88 @@ def completion_list(objects):
             'value': o.autocomplete_str()})
     return elements
 
-@login_required
-def person(request):
-    elements = []
+def ajax_search_method(name):
+    method = globals().get(name)
+    return method
 
+@login_required
+def ajax_request(request, completed_name, field_name):
+    # get the method for auto-completion of "name"
+    method = ajax_search_method(completed_name)
+    if method == None:
+        # ups... can't complet this... raise 404
+        raise Http404
+    elements = []
     if request.method == 'POST':
-        input = request.POST['text']
-        elements = completion_list(
-            Person.objects.filter(complete_name__icontains=input).order_by('last_name','first_name'))
+        input = request.POST[field_name + '_text']
+        elements = method(input)
 
     return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
-@login_required
-def nationality(request):
+
+def person(input):
+    elements = completion_list(
+        Person.objects.filter(complete_name__icontains=input).order_by('last_name','first_name'))
+
+    return elements
+
+def nationality(input):
+    elements = completion_list(
+        Country.objects.filter(nationality__icontains=input).order_by('nationality'))
+
+    return elements
+
+def promoyear(input):
+    elements = completion_list(
+        PromoYear.objects.filter(year__icontains=input).order_by('year'))
+
+    return elements
+
+def track(input):
+    elements = completion_list(
+        Track.objects.filter(name__icontains=input).order_by('name').order_by('name'))
+
+    return elements
+
+def organization(input):
+    elements = completion_list(Organization.objects.\
+        filter(name__icontains=input).\
+        order_by('name'))
+
+    return elements
+
+def activity_field(input):
+    elements = completion_list(
+        ActivityField.objects.filter(label__icontains=input).order_by('label'))
+
+    return elements
+
+def activitycode(input):
     elements = []
 
-    if request.method == 'POST':
-        input = request.POST['text']
-        elements = completion_list(
-            Country.objects.filter(nationality__icontains=input).order_by('nationality'))
+    activitycode = ActivityField.objects.filter(code__icontains=input).order_by('code')
+    for cf in activitycode:
+        elements.append({'id': cf.id, 'displayValue': cf.code , 'value': cf.code })
 
-    return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
+    return elements
 
-@login_required
-def promoyear(request):
+def office(input):
+    elements = completion_list(
+        Office.objects.filter(Q(name__icontains=input) | Q(organization__name__icontains=input)).order_by('organization__name','name'))
+
+    return elements
+
+def diploma(input):
     elements = []
 
-    if request.method == 'POST':
-        input = request.POST['text']
-        elements = completion_list(
-            PromoYear.objects.filter(year__icontains=input).order_by('year'))
+    diplomas = []
+    for e in EducationItem.objects.filter(diploma__icontains=input):
+        diplomas.append(e.diploma)
+    for e in DiplomaItem.objects.filter(diploma__icontains=input):
+        diplomas.append(e.diploma)
+    diplomas = list(set(diplomas))
+    diplomas.sort()
+    for d in diplomas:
+        elements.append( {'id': d, 'displayValue': d, 'value': d} )
 
-    return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
-
-@login_required
-def track(request):
-    elements = []
-
-    if request.method == 'POST':
-        input = request.POST['text']
-        elements = completion_list(
-            Track.objects.filter(name__icontains=input).order_by('name').order_by('name'))
-
-    return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
-
-@login_required
-def organization(request):
-    elements = []
-
-    if request.method == 'POST':
-        input = request.POST['text']
-        elements = completion_list(Organization.objects.\
-            filter(name__icontains=input).\
-            order_by('name'))
-
-    return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
-
-@login_required
-def activity_field(request):
-    elements = []
-
-    if request.method == 'POST':
-        input = request.POST['text']
-        elements = completion_list(
-            ActivityField.objects.filter(label__icontains=input).order_by('label'))
-
-    return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
-
-@login_required
-def activitycode(request):
-    elements = []
-
-    if request.method == 'POST':
-        input = request.POST['text']
-        activitycode = ActivityField.objects.filter(code__icontains=input).order_by('code')
-        for cf in activitycode:
-            elements.append({'id': cf.id, 'displayValue': cf.code , 'value': cf.code })
-
-    return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
-
-@login_required
-def office(request):
-    elements = []
-
-    if request.method == 'POST':
-        input = request.POST['text']
-        elements = completion_list(
-            Office.objects.filter(Q(name__icontains=input) | Q(organization__name__icontains=input)).order_by('organization__name','name'))
-
-    return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
-
-@login_required
-def diploma(request):
-    elements = []
-
-    if request.method == 'POST':
-        input = request.POST['text']
-        diplomas = []
-        for e in EducationItem.objects.filter(diploma__icontains=input):
-            diplomas.append(e.diploma)
-        for e in DiplomaItem.objects.filter(diploma__icontains=input):
-            diplomas.append(e.diploma)
-        diplomas = list(set(diplomas))
-        diplomas.sort()
-        for d in diplomas:
-            elements.append( {'id': d, 'displayValue': d, 'value': d} )
-    return ain7_render_to_response(request, 'ajax/complete.html',
-        {'elements': elements})
-
+    return elements

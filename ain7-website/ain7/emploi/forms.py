@@ -50,13 +50,13 @@ class JobOfferForm(AIn7Form):
         max_length=500, required=False,
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':95}))
     office = forms.IntegerField(label=_('Office'), required=True,
-        widget=AutoCompleteField(url='/ajax/office/'))
+        widget=AutoCompleteField(completed_obj_name='office'))
     contact_name = forms.CharField(label=_('Contact name'), max_length=50,
         required=False, widget=forms.TextInput(attrs={'size':'40'}))
     contact_email = forms.EmailField(label=_('Contact email').capitalize(),
         required=False)
     activity_field = forms.IntegerField(label=_('Activity field'),
-        required=False, widget=AutoCompleteField(url='/ajax/activity_field/'))
+        required=False, widget=AutoCompleteField(completed_obj_name='activity_field'))
     track = forms.ModelMultipleChoiceField(label=_('track').capitalize(),
         queryset=Track.objects.filter(active=True), required=False)
     
@@ -110,7 +110,7 @@ class SearchJobForm(forms.Form):
     track = forms.ModelMultipleChoiceField(label=_('track').capitalize(),
         queryset=Track.objects.all(), required=False)
     activity_field = forms.IntegerField(label=_('Activity field'),
-        required=False, widget=AutoCompleteField(url='/ajax/activity_field/'))
+        required=False, widget=AutoCompleteField(completed_obj_name='activity_field'))
     experience = forms.CharField(label=_('experience').capitalize(),
         max_length=50, required=False,
         widget=forms.TextInput(attrs={'size':'40'}))
@@ -167,7 +167,7 @@ class OrganizationForm(forms.Form):
         label=_('Size'), required=True,
         widget=forms.Select(choices=Organization.ORGANIZATION_SIZE))
     activity_field = forms.IntegerField(label=_('Activity field'),
-        required=True, widget=AutoCompleteField(url='/ajax/activity_field/'))
+        required=True, widget=AutoCompleteField(completed_obj_name='activity_field'))
     short_description = forms.CharField(
         label=_('Short Description'), max_length=50, required=False)
     long_description = forms.CharField(
@@ -198,7 +198,7 @@ class OrganizationForm(forms.Form):
 
 class OfficeForm(forms.ModelForm):
     organization = forms.IntegerField(label=_('Organization'),
-        required=True,widget=AutoCompleteField(url='/ajax/organization/'))
+        required=True,widget=AutoCompleteField(completed_obj_name='organization'))
     country = forms.ModelChoiceField(
         label=_('country').capitalize(),
         queryset=Country.objects.all(), required=False)
@@ -230,7 +230,7 @@ class OfficeFormNoOrg(forms.ModelForm):
 class PositionForm(forms.ModelForm):
     start_date = forms.DateTimeField(label=_('start date').capitalize(),widget=dateWidget)
     end_date = forms.DateTimeField(label=_('end date').capitalize(), widget=dateWidget, required=False)
-    office = forms.IntegerField(label=_('Office'), required=False, widget=AutoCompleteField(url='/ajax/office/'))
+    office = forms.IntegerField(label=_('Office'), required=False, widget=AutoCompleteField(completed_obj_name='office'))
 
     def clean_office(self):
         o = self.cleaned_data['office']
@@ -262,9 +262,9 @@ class EducationItemForm(forms.ModelForm):
         input_formats=['%Y'], widget=forms.DateTimeInput(format='%Y'),
         required=False)
 #     diploma = forms.IntegerField(label=_('diploma').capitalize(),
-#         widget=AutoCompleteField(url='/ajax/diploma/'), required=False)
+#         widget=AutoCompleteField(completed_obj_name='diploma'), required=False)
     diploma = forms.CharField(label=_('diploma').capitalize(),
-        widget=AutoCompleteField(url='/ajax/diploma/'), required=False)
+        widget=AutoCompleteField(completed_obj_name='diploma'), required=False)
 
     class Meta:
         model = EducationItem
@@ -292,7 +292,7 @@ class PublicationItemForm(forms.ModelForm):
         exclude = ('ain7member')
 
 class ChooseOrganizationForm(forms.Form):
-    organization = forms.IntegerField(label=_('Organization'), required=True,widget=AutoCompleteField(url='/ajax/organization/'))
+    organization = forms.IntegerField(label=_('Organization'), required=True,widget=AutoCompleteField(completed_obj_name='organization'))
 
     def clean_organization(self):
         o = self.cleaned_data['organization']

@@ -239,9 +239,8 @@ def findComparatorsForField(field):
     # ajaxed fields are supposed to be ForeignKeys or ManyToMany fields.
     ajax_dict = ajaxed_fields()
     if field.rel and field.rel.to in ajax_dict:
-        field_url = '/ajax/' + ajax_dict[field.rel.to] + '/'
         formField = forms.CharField(
-            label='', widget=AutoCompleteField(url=field_url))
+            label='', widget=AutoCompleteField(completed_obj_name=ajax_dict[field.rel.to]))
     return (choiceList,formField)
 
 def getDisplayedVal(value, fieldClass, fieldName, search_engine):

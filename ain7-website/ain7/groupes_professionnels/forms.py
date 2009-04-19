@@ -36,7 +36,7 @@ dateWidget = DateTimeWidget()
 dateWidget.dformat = '%d/%m/%Y'
 
 class SubscribeGroupProForm(forms.Form):
-    member = forms.IntegerField(label=_('Person to subscribe'), widget=AutoCompleteField(url='/ajax/person/'))
+    member = forms.IntegerField(label=_('Person to subscribe'), widget=AutoCompleteField(completed_obj_name='person'))
 
     def save(self, group=None):
         membership = Membership()
@@ -59,7 +59,7 @@ class SubscribeGroupProForm(forms.Form):
     
 class UnsubscribeGroupProForm(forms.Form):
     member = forms.IntegerField(label=_('Person to unsubscribe'),
-                                widget=AutoCompleteField(url='/ajax/person/'))
+                                widget=AutoCompleteField(completed_obj_name='person'))
 
     def unsubscribe(self, group=None):
         person = Person.objects.get(user__id=self.cleaned_data['member'])
@@ -86,7 +86,7 @@ class GroupProForm(forms.ModelForm):
 
 class NewRoleForm(forms.Form):
     username = forms.CharField(label=_('Username'), max_length=100,
-        required=True, widget=AutoCompleteField(url='/ajax/person/'))
+        required=True, widget=AutoCompleteField(completed_obj_name='person'))
     start_date = forms.DateTimeField(label=_('start date').capitalize(),
         widget=dateWidget, required=True)
     end_date = forms.DateTimeField(label=_('end date').capitalize(),

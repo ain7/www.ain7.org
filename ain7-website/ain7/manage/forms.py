@@ -40,7 +40,7 @@ dateWidget.dformat = '%d/%m/%Y'
 class SearchUserForm(forms.Form):
     last_name = forms.CharField(label=_('Last name'), max_length=50, required=False)
     first_name = forms.CharField(label=_('First name'), max_length=50, required=False)
-    organization = forms.CharField(label=_('organization').capitalize(), max_length=50, required=False,widget=AutoCompleteField(url='/ajax/organization/'))
+    organization = forms.CharField(label=_('organization').capitalize(), max_length=50, required=False,widget=AutoCompleteField(completed_obj_name='organization'))
 
     def search(self):
         q  = models.Q(last_name__icontains=self.cleaned_data['last_name']) | \
@@ -63,8 +63,8 @@ class SearchOrganizationForm(forms.Form):
     name = forms.CharField(label=_('Name'), max_length=50, required=False)
 #     location = forms.CharField(
 #         label=_('Location'), max_length=50, required=False)
-    activity_field = forms.CharField(label=_('Activity field'), max_length=50, required=False,widget=AutoCompleteField(url='/ajax/activity_field/'))
-    activity_code = forms.CharField(label=_('Activity code'), max_length=50, required=False,widget=AutoCompleteField(url='/ajax/activitycode/'))
+    activity_field = forms.CharField(label=_('Activity field'), max_length=50, required=False,widget=AutoCompleteField(completed_obj_name='activity_field'))
+    activity_code = forms.CharField(label=_('Activity code'), max_length=50, required=False,widget=AutoCompleteField(completed_obj_name='activitycode'))
 
     def criteria(self):
         criteria = {'name__contains': self.cleaned_data['name'],
@@ -83,7 +83,7 @@ class SearchOrganizationForm(forms.Form):
         
 
 class SearchContributionForm(forms.Form):
-    user = forms.IntegerField(label=_('user'), required=True, widget=AutoCompleteField(url='/ajax/person/'))
+    user = forms.IntegerField(label=_('user'), required=True, widget=AutoCompleteField(completed_obj_name='person'))
     type = forms.CharField(label=_('Type'), max_length=50, required=False)
 
     def clean_user(self):
@@ -98,13 +98,13 @@ class SearchContributionForm(forms.Form):
         return self.cleaned_data['user']
 
 class MemberRoleForm(forms.Form):
-    username = forms.CharField(label=_('Username'), max_length=100, required=True, widget=AutoCompleteField(url='/ajax/person/'))
+    username = forms.CharField(label=_('Username'), max_length=100, required=True, widget=AutoCompleteField(completed_obj_name='person'))
 
 class NewPersonForm(forms.ModelForm):
     first_name = forms.CharField(label=_('First name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size':40}))
     last_name = forms.CharField(label=_('Last name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 40}))
     mail = forms.EmailField(label=_('Mail'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 40}))
-    country = forms.IntegerField(label=_('Nationality'), required=False, widget=AutoCompleteField(url='/ajax/nationality/'))
+    country = forms.IntegerField(label=_('Nationality'), required=False, widget=AutoCompleteField(completed_obj_name='nationality'))
     birth_date = forms.DateTimeField(label=_('Date of birth'), required=False, widget=dateWidget)
     sex = forms.CharField(label=_('Sex'), required=False,  widget=forms.Select(choices=Person.SEX))
 
@@ -186,7 +186,7 @@ class NewCountryForm(forms.ModelForm):
 
 
 class OrganizationListForm(forms.Form):        
-    organization = forms.CharField(label=_('organization').capitalize(), max_length=50, required=False, widget=AutoCompleteField(url='/ajax/organization/'))
+    organization = forms.CharField(label=_('organization').capitalize(), max_length=50, required=False, widget=AutoCompleteField(completed_obj_name='organization'))
 
     def search(self):
         result = None
@@ -197,7 +197,7 @@ class OrganizationListForm(forms.Form):
         return result
 
 class OfficeListForm(forms.Form):        
-    bureau = forms.CharField(label=_('office').capitalize(), required=True, widget=AutoCompleteField(url='/ajax/office/'))
+    bureau = forms.CharField(label=_('office').capitalize(), required=True, widget=AutoCompleteField(completed_obj_name='office'))
 
     def search(self):
         result = None

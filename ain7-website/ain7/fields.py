@@ -45,7 +45,8 @@ from django.forms.widgets import TextInput,flatatt
 from django.forms.util import smart_unicode
 from django.utils.translation import ugettext as _
 from django.utils.html import escape
-from ain7.ajax.views import ajaxed_fields, ajaxed_strings
+from ain7.ajax.views import ajaxed_fields, ajaxed_strings, ajax_search_method, ajax_request
+from django.core.urlresolvers import reverse
 
 class AutoCompleteField(TextInput):
 
@@ -62,8 +63,8 @@ class AutoCompleteField(TextInput):
 #                  'permission': { 'url': '/ajax/permission/' },
 #                }
 
-    def __init__(self, url='', options='{ paramName: "text", autoSelect:true, afterUpdateElement:setSelected }', addable=False, attrs=None):
-        self.url = url
+    def __init__(self, completed_obj_name='', options='{ paramName: "text", autoSelect:true, afterUpdateElement:setSelected }', addable=False, attrs=None):
+        self.completed_obj_name = completed_obj_name
         self.addable = addable
         self.options = options
         if attrs is None:
@@ -74,6 +75,7 @@ class AutoCompleteField(TextInput):
         final_attrs = self.attrs
         valueTxt = ''
         addlink = ''
+        url = reverse(ajax_request, args=(self.completed_obj_name,name))
         if self.addable:
             addlink =  '<script type="text/javascript">'
             addlink += 'window.addEvent(\'domready\', function() {'
@@ -84,19 +86,19 @@ class AutoCompleteField(TextInput):
 
         # si une valeur a été saisie, je remplis le champ
         # avec la description de l'objet
-        if value != "-1" and value != None:
+        if value != "-1" and value != None and value != '':
             for objClass, objName in ajaxed_fields().iteritems():
-                if objName == name:
+                if objName == self.completed_obj_name:
                     obj = objClass.objects.get(pk=value)
                     valueTxt = obj.autocomplete_str()
-            if name in ajaxed_strings():
+            if self.completed_obj_name in ajaxed_strings():
                 valueTxt = value
         if value:
             value = smart_unicode(value)
         else:
             value = "-1"
         return (u'<input type="hidden" name="%(name)s" value="%(value)s" id="%(id)s" />'
-                  '<input type="text" name="text" id="%(id)s_text" size="40" autocomplete="off" value="%(valueTxt)s" %(attrs)s/>'+addlink+'<div class="complete" id="box_%(name)s"></div>'
+                  '<input type="text" name="%(name)s_text" id="%(id)s_text" size="40" autocomplete="off" value="%(valueTxt)s" %(attrs)s/>'+addlink+'<div class="complete" id="box_%(name)s"></div>'
                   '<script type="text/javascript">'
                   'window.myAutoComplete = new AutoComplete($(\'%(id)s_text\'), window.location.protocol+"//"+window.location.host+"%(url)s", "displayValue", {maxHeight: 350, zIndex: 6, method: \'post\'}, $(\'%(id)s\'));'
                   'myAutoComplete.addEvent(\'onItemChoose\', function(item) {'
@@ -114,7 +116,7 @@ class AutoCompleteField(TextInput):
                   '</script>') % {'attrs'	: flatatt(final_attrs),
                                   'name'	: name,
                                   'id'	: 'id_%s' % name,
-                                  'url'	: self.url,
+                                  'url'	: url,
                                   'value': value,
                                   'valueTxt': valueTxt,
                                   'options' : self.options}
@@ -130,5 +132,25 @@ class AutoCompleteField(TextInput):
         val = data.get(name, None)
         if val=="-1":
             val = None
+
+        value_text = data.get(name + "_text", None)
+        if val == None and value_text:
+            # used didn't selected something with autocomplet field
+            # but he/she typed something... check if he/she typed something
+            # which is unique (eg: "2003" was type for a year... the unique
+            #  answer is the year 2003 :) )
+
+            # But for ajaxed_strings... we simple use what used entered
+            if self.completed_obj_name in ajaxed_strings():
+                val = value_text
+            else:
+                # get the search method
+                method = ajax_search_method(self.completed_obj_name)
+                if method:
+                    result = method(value_text)
+                    if len(result) == 1:
+                        # yes! got one and only one answer. Use it
+                        val = result[0]['id']
+
         return val
 
