@@ -36,7 +36,7 @@ class SubscriptionForm(forms.ModelForm):
     start_year = forms.IntegerField(initial=datetime.datetime.now().year, widget=forms.HiddenInput())
     class Meta:
         model = Subscription
-        exclude = ('member', 'validated', 'end_year')
+        exclude = ('old_id', 'member', 'validated', 'end_year')
 
 class ConfigurationForm(forms.ModelForm):
     class Meta:
