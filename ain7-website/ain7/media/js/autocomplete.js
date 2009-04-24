@@ -17,6 +17,12 @@ var AutoComplete = new Class({
 		this.setOptions(options);
 		this.parent(url);
 
+                width = this.input.getStyle('width'); 
+                if (parseInt(width) < 0) 
+                { 
+                        // IE may return a negative width. 
+                        width = "250px"; 
+                } 
 		// the div to display the results
 		this.resultContainer = new Element('div', {
 			'id': this.input.id + 'autocompleteResultContainer',
@@ -25,7 +31,7 @@ var AutoComplete = new Class({
 				'display': 'none',
 				'position': 'absolute',
 				'zIndex': this.options.zIndex,
-				'width': this.input.getStyle('width'),
+				'width': width,
 				'height': this.options.resultListHeight
 			}
 		}).inject(document.body);
