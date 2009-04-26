@@ -41,7 +41,7 @@ from ain7.utils import ain7_render_to_response, check_access
 def homepage(request):
     """AIn7 homepage"""
     news = NewsItem.objects.filter(date__isnull=True).order_by('-creation_date')[:5]
-    events = NewsItem.objects.filter(date__gte=datetime.datetime.now())[:5]
+    events = NewsItem.objects.filter(date__gte=datetime.datetime.now()).order_by('date')[:5]
     is_auth = request.user.is_authenticated()
     surveys = [(s, (is_auth and s.has_been_voted_by(request.user.person)))\
                for s in Survey.objects.all() if s.is_valid()][:2]

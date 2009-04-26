@@ -70,7 +70,7 @@
 {% for event in events %}
   <div class="right_articles">
       <div>
-      <a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a> ({{ event.date|date:"l j F Y" }})<br/>
+      <a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a><br /> {{ event.date|date:"l j F Y" }}
       </div>
    </div>
 {% endfor %}
@@ -80,14 +80,26 @@
 </div>
 
 
-			<h3>{% trans "Links" %}</h3>
-			<div class="right_articles">
-				<p><a href="http://www.enseeiht.fr">ENSEEIHT</a></p>
-				<p><a href="http://www.bde.enseeiht.fr">Bureau des élèves</a></p>
-				<p><a href="http://www.inp-toulouse.fr">INP Toulouse</a></p>
-				<p><a href="http://www.cnisf.org">CNISF</a></p>
-				<p><a href="http://www.g9plus.org/">Le G9+</a></p>
-			</div>
+<h3>{% trans "AIn7 communities on the web" %}</h3>
+<div class="right_articles">
+
+<div class="snBox">
+<p>{% trans "Join your AIn7 communities on" %}</p>
+<p><a href="http://www.viadeo.com/communaute/macommunaute/?communityId=0022ezgr59190pqm" target="_blank"><img class="snIcon" src="/site_media/images/viadeo-icon.png"> Viadeo</a></p>
+<p><a href="http://www.linkedin.com/groups?gid=73525" target="_blank"><img class="snIcon" src="/site_media/images/linkedin-icon.png"> LinkedIn</a></p>
+<p><a href="http://www.facebook.com/home.php#/group.php?gid=9422764057" target="_blank"><img class="snIcon" src="/site_media/images/FB-icon.jpg"> Facebook</a></p>
+</div>
+</div>
+
+
+<h3>{% trans "Links" %}</h3>
+<div class="right_articles">
+	<p><a href="http://www.enseeiht.fr">ENSEEIHT</a></p>
+	<p><a href="http://www.bde.enseeiht.fr">Bureau Des Élèves</a></p>
+	<p><a href="http://www.inp-toulouse.fr">INP Toulouse</a></p>
+	<p><a href="http://www.cnisf.org">CNISF</a></p>
+	<p><a href="http://www.g9plus.org/">Le G9+</a></p>
+</div>
 
         {% if surveys %}
 	<h3>{% trans "Survey" %}</h3>
