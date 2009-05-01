@@ -1,7 +1,7 @@
 var AutoComplete = new Class({
 
 	Extends: Request,
-
+	
 	isFrozen: false,
 	currentSelection: -1,
 
@@ -17,15 +17,15 @@ var AutoComplete = new Class({
 		this.setOptions(options);
 		this.parent(url);
 
-                width = this.input.getStyle('width'); 
-                if (parseInt(width) < 0) 
-                { 
-                        // IE may return a negative width. 
-                        width = "250px"; 
-                } 
+		width = this.input.getStyle('width');
+		if (parseInt(width) < 0)
+		{
+			// IE may return a negative width.
+			width = "250px";
+		}
 		// the div to display the results
 		this.resultContainer = new Element('div', {
-			'id': this.input.id + 'autocompleteResultContainer',
+			'id': hideninput.id + 'autocompleteResultContainer',
 			'class': 'autocompleteResultContainer',
 			'styles': {
 				'display': 'none',
@@ -67,6 +67,8 @@ var AutoComplete = new Class({
 				this.resultContainer.style.display = "none";
 			}
 		}.bind(this));
+
+
 		this.addEvent('onComplete', this._onResultReceived);
 
 		// close the result list when click elsewhere
@@ -150,10 +152,16 @@ var AutoComplete = new Class({
 		}
 		this.resultContainer.innerHTML = result;
 
+		// if container wasn't shown, just call setResultContainerPosition
+		if (this.resultContainer.style.display  != "block")
+		{
+			this.setResultContainerPosition();
+		}
+
 		// display the result list
 		this.resultContainer.style.display = "block";
 
-		this.resultList = $$('#' + this.input.id + 'autocompleteResultContainer li');
+		this.resultList = $$('#' + this.hideninput.id + 'autocompleteResultContainer li');
 		this.resultList.each(function(item, i) {
 			item.addEvent('mouseover', function() {
 				if(!this.isFrozen) {
