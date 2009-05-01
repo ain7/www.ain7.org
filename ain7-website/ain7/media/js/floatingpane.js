@@ -27,7 +27,7 @@ var FloatingPane = new Class({
 				'backgroundColor': 'white',
 				'width': this.width
 			}
-		}).inject(document.body);
+		}).inject(document.body,'top');
 
 		this.filter = new Element('div', {
 			'styles': {
@@ -36,7 +36,7 @@ var FloatingPane = new Class({
 			 	'zIndex': this.zIndex,
 			 	'backgroundColor': "black"
 			}
-		}).setOpacity(this.opacity).inject(document.body);
+		}).setOpacity(this.opacity).inject(document.body,'top');
 
 
 		// Header

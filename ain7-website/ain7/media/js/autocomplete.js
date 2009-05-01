@@ -34,7 +34,7 @@ var AutoComplete = new Class({
 				'width': width,
 				'height': this.options.resultListHeight
 			}
-		}).inject(document.body);
+		}).inject(document.body,'top');
 		this.setResultContainerPosition();
 		this.options.update = this.resultContainer;
 
