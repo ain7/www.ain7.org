@@ -24,14 +24,16 @@ import datetime
 
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import AIn7Member, Email, Person
 from ain7.news.models import NewsItem
-from ain7.pages.forms import LostPasswordForm
+from ain7.pages.forms import LostPasswordForm, TextForm
+from ain7.pages.models import Text
 from ain7.sondages.models import Survey
-from ain7.utils import ain7_render_to_response
+from ain7.utils import ain7_render_to_response, check_access
 
 
 def homepage(request):
@@ -41,6 +43,8 @@ def homepage(request):
                for s in Survey.objects.all() if s.is_valid()][:2]
     today = datetime.datetime.today()
     birthdays = []
+    text1 = Text.objects.get(pk=1)
+    text2 = Text.objects.get(pk=2)
     if is_auth:
         birthdays = [ m for m in AIn7Member.objects.filter(
             person__birth_date__isnull=False,
@@ -49,7 +53,8 @@ def homepage(request):
             person__death_date=None) ]
         birthdays.sort(lambda x,y: cmp(x.person.last_name,y.person.last_name))
     return ain7_render_to_response(request, 'pages/homepage.html', 
-        {'news': news , 'surveys': surveys, 'birthdays': birthdays})
+        {'news': news , 'surveys': surveys, 'birthdays': birthdays, 
+         'text1': text1, 'text2': text2})
 
 def lostpassword(request):
 
@@ -116,4 +121,27 @@ def publications(request):
 
 def rss(request):
     return ain7_render_to_response(request, 'pages/rss.html', {})
+
+def edit(request, text_id):
+
+    r = check_access(request, request.user, ['ain7-member','ain7-secretariat', 'contributeur'])
+    if r:
+        return r
+
+    text = get_object_or_404(Text, pk=text_id)
+
+    form = TextForm(initial={'title': text.title, 'body': text.body})
+
+    if request.method == 'POST':
+        form = TextForm(request.POST)
+        if form.is_valid():
+           text.title = form.cleaned_data['title']
+           text.body = form.cleaned_data['body']
+           text.save()
+
+           request.user.message_set.create(message=_("Modifications saved."))
+           return HttpResponseRedirect('/')
+
+    return ain7_render_to_response(request, 'pages/text_edit.html', 
+                {'text_id': text_id, 'form': form})
 

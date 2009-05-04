@@ -32,7 +32,7 @@ from django.db import models
 from django.utils.translation import ugettext as _
 
 from ain7.decorators import confirmation_required
-from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete
+from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
 from ain7.voyages.models import Travel, Subscription, TravelResponsible
 from ain7.voyages.forms import *
 from ain7.annuaire.models import Person
@@ -48,6 +48,11 @@ def index(request):
 
 @login_required
 def add(request):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     return ain7_generic_edit(
         request, None, TravelForm, {}, 'voyages/edit.html',
         {'action': 'add', 'back': request.META.get('HTTP_REFERER', '/')},
@@ -60,6 +65,11 @@ def add(request):
     _('Do you REALLY want to delete this travel'))
 @login_required
 def delete(request, travel_id):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     return ain7_generic_delete(request,
         get_object_or_404(Travel, pk=travel_id),
         '/voyages/', _('Travel successfully deleted.'))
@@ -105,6 +115,11 @@ def search(request):
 
 @login_required
 def edit(request, travel_id=None):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     travel = Travel.objects.get(pk=travel_id)
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_generic_edit(
@@ -117,6 +132,10 @@ def edit(request, travel_id=None):
 @login_required
 def thumbnail_delete(request, travel_id):
 
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     travel = get_object_or_404(Travel, pk=travel_id)
     travel.thumbnail = None
     travel.logged_save(request.user.person)
@@ -127,6 +146,11 @@ def thumbnail_delete(request, travel_id):
 
 @login_required
 def join(request, travel_id):
+
+    r = check_access(request, request.user, ['ain7-member'])
+    if r:
+        return r
+
     travel = get_object_or_404(Travel, pk=travel_id)
     person = request.user.person
 
@@ -159,6 +183,10 @@ def join(request, travel_id):
 @login_required
 def subscribe(request, travel_id):
     travel = get_object_or_404(Travel, pk=travel_id)
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
 
     if request.method == 'GET':
         f = SubscribeTravelForm()
@@ -204,6 +232,11 @@ def subscribe(request, travel_id):
 
 @login_required
 def unsubscribe(request, travel_id, participant_id):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     travel = get_object_or_404(Travel, pk=travel_id)
     participant = get_object_or_404(Person, pk=participant_id)
     subscription = get_object_or_404(Subscription, travel=travel, subscriber=participant_id)
@@ -213,12 +246,22 @@ def unsubscribe(request, travel_id, participant_id):
 
 @login_required
 def participants(request, travel_id):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     travel = get_object_or_404(Travel, pk=travel_id)
     return ain7_render_to_response(request, 'voyages/participants.html',
         {'travel': travel})
 
 @login_required
 def responsibles(request, travel_id):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     travel = get_object_or_404(Travel, pk=travel_id)
     return ain7_render_to_response(request, 'voyages/responsibles.html',
         {'travel': travel})
@@ -226,6 +269,10 @@ def responsibles(request, travel_id):
 @login_required
 def responsibles_add(request, travel_id):
     travel = get_object_or_404(Travel, pk=travel_id)
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
 
     if request.method == 'GET':
         f = TravelResponsibleForm()
@@ -263,6 +310,11 @@ def responsibles_add(request, travel_id):
     _('Do you really want this person not to be responsible of this travel'))
 @login_required
 def responsibles_delete(request, travel_id, responsible_id):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     travel = get_object_or_404(Travel, pk=travel_id)
     responsible = get_object_or_404(Person, pk=responsible_id)
     travelResponsible = get_object_or_404(TravelResponsible,

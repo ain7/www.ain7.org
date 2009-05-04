@@ -21,12 +21,14 @@
 #
 
 from django.contrib.syndication.feeds import Feed
+from django.utils.translation import ugettext as _
+
 from ain7.evenements.models import Event
 
 class LatestEvents(Feed):
     title = "AIn7 RSS"
     link = "/evenements/"
-    description = "Evenements organises par l'AIn7 ou autour de l'AIn7"
+    description = _("Evenements organises par l'AIn7 ou autour de l'AIn7")
 
     def items(self):
         return Event.objects.order_by('-publication_start')[:5]
@@ -34,7 +36,7 @@ class LatestEvents(Feed):
 class LatestEntriesByCategory(Feed):
     title = "AIn7 RSS"
     link = "/evenements/"
-    description = "Evenements organises par l'AIn7 ou autour de l'AIn7"
+    description = _("Evenements organises par l'AIn7 ou autour de l'AIn7")
 
     def items(self):
         return Event.objects.order_by('-publication_start')[:5]

@@ -21,4 +21,13 @@
 #
 
 from django.db import models
+from django.utils.translation import ugettext as _
+
+from ain7.utils import LoggedClass
+
+
+class Text(LoggedClass):
+
+    title = models.CharField(verbose_name=_('title'), max_length=150)
+    body = models.TextField(verbose_name=_('body'), blank=True, null=True)
 

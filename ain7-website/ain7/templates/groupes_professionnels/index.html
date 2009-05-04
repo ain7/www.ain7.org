@@ -27,14 +27,4 @@
 <h4>Groupe Energie (renseignements : Maryse Lemmet - maryse.lemmet@orange.fr)</h4>
 <p>Issu du groupe "Génie Electrique", ce groupe est en cours de reconstitution et doit démarrer des activités élargies au printemps 2009.</p>
 
-{% if groups %}
-    <ul>
-    {% for group in groups %}
-        <li><a href="{% url ain7.groupes_professionnels.views.details group.id %}">{{ group.description }}</a></li>
-    {% endfor %}
-     </ul>
-{% else %}
-    <p>{% trans "No group is defined." %}</p>
-{% endif %}
-
 {% endblock %}

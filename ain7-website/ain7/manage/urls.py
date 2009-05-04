@@ -113,9 +113,6 @@ urlpatterns = patterns('ain7.manage.views',
     (r'^roles/(?P<role_id>[A-Za-z0-9.\-_]+)/member/(?P<member_id>\d+)/delete/$', 'role_member_delete'),
     (r'^roles/(?P<role_id>[A-Za-z0-9.\-_]+)/member/add/$', 'role_member_add'),
 
-    # Contributions
-    (r'^contributions/$', 'contributions'),
-                       
     # Notifications
     (r'^notification/add/$', 'notification_add'),
     (r'^notification/(?P<notif_id>\d+)/edit/$', 'notification_edit'),

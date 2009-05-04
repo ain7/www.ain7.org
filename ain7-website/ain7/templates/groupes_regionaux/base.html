@@ -25,9 +25,12 @@
                 <a href="{% url ain7.groupes_regionaux.views.quit group.id %}">{% trans "Quit the group" %}</a>
             {% endif %}
             </li>
+            {% if superadmin or ca_member or secretariat_member %}
             <li><a href="{% url ain7.groupes_regionaux.views.edit group.id %}">{% trans "Edit group informations" %}</a></li>
-            {# TODO: gestion des droits : réservé aux secrétaires et superadmin #}
+            {% endif %}
+            {% if superadmin or secretariat_member %}
             <li><a href="{% url ain7.groupes_regionaux.views.edit_roles group.id,"current" %}">{% trans "Edit roles of this group" %}</a></li>
+            {% endif %}
         </ul>
     </div>
 
@@ -59,6 +62,16 @@
             <li>{{ groups|length }} {% trans "regional groups" %}</li>
         </ul>
     </div>
+
+    <h3>{% trans "The regional groups" %}</h3>
+    <div class="right_block">
+        <ul>
+        {% for group in groups %}
+           <li><a href="{% url ain7.groupes_regionaux.views.details group.id %}">{{ group.name }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+
     {% endif %}
 
 </div> <!-- right -->

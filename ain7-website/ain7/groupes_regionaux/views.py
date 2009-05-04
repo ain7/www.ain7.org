@@ -31,7 +31,7 @@ from django.utils.translation import ugettext as _
 from ain7.decorators import confirmation_required
 from ain7.groupes_regionaux.models import Group, GroupMembership, GroupRole
 from ain7.groupes_regionaux.forms import *
-from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete
+from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
 
 
 def index(request):
@@ -49,6 +49,11 @@ def details(request, group_id):
 
 @login_required
 def edit(request, group_id):
+
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat','ain7-contributeur'])
+    if r:
+        return r
+
     group = get_object_or_404(Group, pk=group_id)
     is_member = request.user.is_authenticated()\
                 and group.has_for_member(request.user.person)
@@ -64,6 +69,10 @@ def edit(request, group_id):
 def join(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
     person = request.user.person
+
+    r = check_access(request, request.user, ['ain7-member'])
+    if r:
+        return r
 
     if not group.has_for_member(person):
         gm = GroupMembership()
@@ -83,6 +92,10 @@ def join(request, group_id):
 def quit(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
     person = request.user.person
+
+    r = check_access(request, request.user, ['ain7-member'])
+    if r:
+        return r
 
     if group.has_for_member(person):
         if group.has_for_office_member(person):
@@ -132,6 +145,11 @@ def build_roles_by_type(request, group=None, all_current=None,
 
 @login_required
 def edit_roles(request, group_id, all_current=None):
+
+    r = check_access(request, request.user, ['ain7-secretariat'])
+    if r:
+        return r
+
     group = get_object_or_404(Group, pk=group_id)
     is_member = request.user.is_authenticated()\
                 and group.has_for_member(request.user.person)
@@ -145,6 +163,10 @@ def edit_roles(request, group_id, all_current=None):
 
 @login_required
 def add_role(request, group_id=None, type=None, all_current=None):
+
+    r = check_access(request, request.user, ['ain7-secretariat'])
+    if r:
+        return r
 
     group = get_object_or_404(Group, pk=group_id)
     is_member = request.user.is_authenticated()\
@@ -175,6 +197,10 @@ def add_role(request, group_id=None, type=None, all_current=None):
 @login_required
 def delete_role(request, group_id=None, role_id=None, all_current=None):
 
+    r = check_access(request, request.user, ['ain7-secretariat'])
+    if r:
+        return r
+
     return ain7_generic_delete(request,
         get_object_or_404(GroupRole, pk=role_id),
         reverse(edit_roles, args=[group_id,all_current]),
@@ -182,6 +208,10 @@ def delete_role(request, group_id=None, role_id=None, all_current=None):
 
 @login_required
 def change_dates(request, group_id=None, role_id=None, all_current=None):
+
+    r = check_access(request, request.user, ['ain7-secretariat'])
+    if r:
+        return r
 
     group = get_object_or_404(Group, pk=group_id)
     is_member = request.user.is_authenticated()\

@@ -24,6 +24,7 @@
     {% block navigation %}{% endblock %}
 
     {% if travel %}
+    {% if superadmin or ca_member or secretariat_member or contributeur %}
       <h3>{% trans "Statistics" %}</h3>
       <div class="right_block">
         <ul>
@@ -36,6 +37,7 @@
           </li>
         </ul>
       </div>
+    {% endif %} 
 
       <h3>{% trans "Card Informations"%}</h3>
       {% show_last_change travel %}

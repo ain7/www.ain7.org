@@ -20,8 +20,10 @@
 
 
 {% block extra-actions %}
+{% if superadmin or ca_member or secretariat_member or contributeur %}
 <li><a href="/actualites/{{ news_item.id }}/edit/">{% trans "Edit this news" %}</a></li>
 <li><a href="/actualites/{{ news_item.id }}/delete/">{% trans "Delete this news" %}</a></li>
+{% endif %}
 {% endblock %}
 
 {% block extra-menus %}

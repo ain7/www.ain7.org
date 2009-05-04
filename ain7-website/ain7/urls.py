@@ -111,4 +111,7 @@ urlpatterns = patterns('',
     (r'^rss/$', 'ain7.pages.views.rss'),
     (r'^rss/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
 
+    # Edit text blocks
+    (r'^edit/(?P<text_id>.*)/$', 'ain7.pages.views.edit'),
+
 )

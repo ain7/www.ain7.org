@@ -38,13 +38,15 @@
       {% endif %}
 
       {# permanent links #}
-
+      {% if superadmin or ca_member or secretariat_member %}
       <li><a href="/annuaire/register/">{% trans "Register a member" %}</a></li>
+      {% endif %}
     </ul>
    </div>
 
    {% block extra-right-blocks %}{% endblock %}
 
+   {% if superadmin or ca_member or secretariat_member %}
    {% block export %}
      {% if dosearch %}
        <h3>{% trans "Export" %}</h3>
@@ -60,6 +62,7 @@
        </div>
      {% endif %}
    {% endblock %}
+   {% endif %}
 
    {% block navigation %}
    <h3>{% trans "Navigation" %}</h3>

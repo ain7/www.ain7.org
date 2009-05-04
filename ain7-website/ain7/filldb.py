@@ -37,6 +37,7 @@ import ain7.evenements.models as evenements
 import ain7.groupes_professionnels.models as groupes_professionnels
 import ain7.groupes_regionaux.models as groupes_regionaux
 import ain7.manage.models as manage
+import ain7.pages.models as pages
 import ain7.news.models as news
 import ain7.search_engine.models as search_engine
 import ain7.sondages.models as sondages
@@ -1607,3 +1608,51 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     notif1.title = "Un exemple de notification !"
     notif1.details = "Ceci est une exemple de notification..."
     notif1.save()
+
+    text1 = pages.Text()
+    text1.title = u"Le réseau AIN7 : une force collective et des atouts au service de chaque diplômé ENSEEIHT"
+    text1.body = u"""<img src="/site_media/images/logo_ain7.png" class="image" alt="Big Image" />
+<p>L'ENSEEIHT a fêté son centenaire en 2007. Naturellement issue des premières promotions 
+d'ingénieurs de l'école, l'AIN7 a, au fil des décennies, toujours œuvré au service de tous 
+les diplômés, elle a développé et entretient entre eux des liens professionnels et amicaux, 
+elle contribue à des actions en profondeur, au sein de l'Ecole et dans le monde des affaires, 
+pour améliorer et optimiser l'image et la notoriété de notre communauté.</p>
+<p>12 000 ingénieurs ont reçu, depuis l'origine, le diplôme d'ingénieur. Près de 10 000 sont 
+en activité… ceci dans tous les grands secteurs de l'Economie. Cela crée un potentiel de premier 
+plan et l'AIN7 se place en véritable catalyseur…</p>
+<p>En ce début de 21ème siècle, réseau est obligatoirement synonyme de web. Conscient de ce fait 
+incontournable, l'AIN7 prend en ce début 2009 plusieurs initiatives majeures :</p>
+<ul>
+<li>une présence renforcée sur les principaux réseaux communautaires professionnels : en particulier 
+Viadeo, qui va ouvrir une communauté officielle supportée par l'AIN7.</li>
+<li>notre nouveau site, visitez le régulièrement : il vous tiendra informé de toutes nos initiatives… 
+et n'oubliez pas, l'AIN7 c'est VOUS. Venez rejoindre le noyau de volontaires qui font vivre notre communauté, 
+et si vous ne trouvez pas dans nos activités, celle que vous attendez, pourquoi ne pas venir la susciter 
+en nous rejoignant ?</li>
+</ul>
+
+<p><b>Jean-François Perret<br/>
+Président AIN7</b></p>
+"""
+    text1.save()
+
+    text2 = pages.Text()
+    text2.title = u"L'ENSEEIHT"
+    text2.body = u"""<img src="/site_media/images/n7_small.png" class="image" alt="ENSEEIHT" />
+<p>L'ENSEEIHT (prononcer « N7 ») est l'École nationale supérieure d'électrotechnique, d'électronique, 
+d'informatique, d'hydraulique et des télécommunications. Elle appartient à l'Institut national polytechnique
+de Toulouse.</p>
+<p>École d'ingénieurs en convention avec l'École polytechnique, l'ENSEEIHT est actuellement structurée en cinq
+filières, comprenant chacune un département de formation et un laboratoire de recherche étroitement lié.</p>
+<p>Les cinq filières d'enseignement sont les suivantes :</p>
+<ul style="list-style-type: square; margin: 1ex; margin-left: 4ex">
+  <li>Génie électrique et automatique</li>
+  <li>Électronique et Traitement du signal</li>
+  <li>Informatique et Mathématiques appliquées</li>
+  <li>Hydraulique et Mécanique des fluides</li>
+  <li>Télécommunications et Réseaux</li>
+</ul>
+<p>L'ENSEEIHT fait partie du groupe des ENSI et est la plus importante ENSI en termes d'élèves diplomés chaque 
+année (près de 400).</p>
+"""
+    text2.save()

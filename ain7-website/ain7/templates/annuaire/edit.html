@@ -1,5 +1,5 @@
 {% extends "annuaire/base.html" %}
-{% load i18n %}
+{% load i18n ain7_tags %}
 
 {% block javascript %}{% endblock %}
 {% block stylesheet %}{% endblock %}
@@ -36,10 +36,11 @@
    <li><b>{% filter capfirst %}{% trans "nationality" %}{% endfilter %}
        &nbsp;:</b> {{ person.country.nationality }}</li>
 </ul>
-</div>
-
 <p><a href="/annuaire/{{ person.user.id }}/person/edit/" class="changelink">
 {% trans "Modify" %}</a></p>
+</div>
+
+<p>&nbsp;</p>
 
 <div class="dataBlock">
 <ul>
@@ -117,10 +118,9 @@
     <li><b>{% trans "CV title" %}</b>&nbsp;:
         {{ ain7member.cv_title}}</li>
 </ul>
-</div>
-
 <p><a href="/annuaire/{{ person.user.id }}/ain7member/edit/" class="changelink">
    {% trans "Modify" %}</a></p>
+</div>
 
 
 <h2><a name="promos"/>{% trans "Promos" %}</h2>
@@ -141,6 +141,27 @@
 {% endif %}
 <p><a href="/annuaire/{{ person.id }}/promo/add/" class="addlink">
    {% trans "Add" %}</a></p>
+
+<h2><a name="profexp"/>{% trans "Professional experiences" %}</h2>
+
+{% if ain7member.positions.all %}
+<table>
+{% for position in ain7member.positions.all %}
+    {% if not position.end_date %}
+        <tr><td>{% trans "since" %}
+                <b>{{ position.start_date|date:"d/m/Y"|default:"???" }}</b>&nbsp;:</td>
+            <td><em>{{ position.fonction }}</em> {% trans "for" %}
+                {{ position.office }}
+                (<a href="/emploi/organization/{{ position.office.organization.id }}/">{{ position.office.organization }}</a>)</td></tr>
+        {% if position.description %}
+            <tr><td></td><td>{{ position.description }}</td></tr>
+        {% endif %}
+    {% endif %}
+{% endfor %}
+</table>
+{% endif %}
+<p><a href="/emploi/{{ person.user.id }}/cv/edit/" class="changelink">
+{% trans "Modify" %}</a></p>
 
 <h2><a name="address"/>{% trans "Address" %}</h2>
 
@@ -283,27 +304,6 @@
    {% trans "Add" %}</a></p>
 
 
-<h2><a name="profexp"/>{% trans "Current professional experiences" %}</h2>
-
-{% if ain7member.positions.all %}
-<table>
-{% for position in ain7member.positions.all %}
-    {% if not position.end_date %}
-        <tr><td>{% trans "since" %}
-                <b>{{ position.start_date|date:"d/m/Y"|default:"???" }}</b>&nbsp;:</td>
-            <td><em>{{ position.fonction }}</em> {% trans "for" %}
-                {{ position.office }}
-                (<a href="/emploi/organization/{{ position.office.organization.id }}/">{{ position.office.organization }}</a>)</td></tr>
-        {% if position.description %}
-            <tr><td></td><td>{{ position.description }}</td></tr>
-        {% endif %}
-    {% endif %}
-{% endfor %}
-</table>
-{% endif %}
-<p><a href="/emploi/{{ person.user.id }}/cv/edit/" class="changelink">
-{% trans "Modify" %}</a></p>
-
 </div>
 </div>
 
@@ -312,4 +312,11 @@
 
 {% block extra-navigation %}
 <li><a href="/annuaire/{{ person.user.id }}/">{% trans "Back to personnal file" %}</a></li>
+{% endblock %}
+
+{% block extra-right-blocks %}
+
+    <h3>{% trans "Card Informations"%}</h3>
+    {% show_last_change ain7member %}
+
 {% endblock %}

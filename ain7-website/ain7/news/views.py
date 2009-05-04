@@ -31,7 +31,7 @@ from django.utils.translation import ugettext as _
 from ain7.decorators import confirmation_required
 from ain7.news.models import *
 from ain7.news.forms import *
-from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete
+from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
 
 
 def index(request):
@@ -46,6 +46,10 @@ def details(request, news_id):
 @login_required
 def edit(request, news_id):
 
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat','ain7-contributeur'])
+    if r:
+        return r
+
     news_item = get_object_or_404(NewsItem, pk=news_id)
     return ain7_generic_edit(
         request, news_item, NewsForm, {}, 'news/edit.html',
@@ -55,6 +59,10 @@ def edit(request, news_id):
 @confirmation_required(lambda news_id=None, object_id=None : '', 'base.html', _('Do you really want to delete the image of this news'))
 @login_required
 def image_delete(request, news_id):
+
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat','ain7-contributeur'])
+    if r:
+        return r
 
     news_item = get_object_or_404(NewsItem, pk=news_id)
     news_item.image = None
@@ -67,6 +75,10 @@ def image_delete(request, news_id):
 @login_required
 def add(request):
 
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat','ain7-contributeur'])
+    if r:
+        return r
+
     return ain7_generic_edit(
         request, None, AddNewsForm, {'image': None}, 'news/write.html',
         {}, {}, '/actualites/', _('News successfully added.'))
@@ -74,6 +86,10 @@ def add(request):
 @confirmation_required(lambda news_id=None, object_id=None : '', 'base.html', _('Do you really want to delete this news'))
 @login_required
 def delete(request, news_id):
+
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat','ain7-contributeur'])
+    if r:
+        return r
 
     news_item = get_object_or_404(NewsItem, pk=news_id)
     news_item.delete()

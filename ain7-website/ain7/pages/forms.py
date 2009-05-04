@@ -40,3 +40,8 @@ class LostPasswordForm(forms.Form):
             raise ValidationError(_('This should be the email address registered for your AIn7 account.'))
         else:
             return self.cleaned_data['email']
+
+class TextForm(forms.Form):
+    title = forms.CharField(label=_('title'), max_length=150, required=False, widget=forms.TextInput(attrs={'size':80}))
+    body = forms.CharField(label=_('body'),max_length=10000, required=False, widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':215}))
+

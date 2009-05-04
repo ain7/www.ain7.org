@@ -34,8 +34,9 @@
    <li><b>{% filter capfirst %}{% trans "death date" %}{% endfilter %}
        &nbsp;:</b> {{ person.death_date|date:"d/m/Y" }}</li>
    {% endif %}
+   {% if superadmin or ca_member or secretariat_member %}
    {% if ain7member.marital_status or ain7member.children_count %}
-   <li><b>{% trans "Family situation" %}&nbsp;:</b>
+   <li><img src="/site_media/images/private.png"><b>{% trans "Family situation" %}&nbsp;:</b>
        {% if ain7member.marital_status %}
            {{ ain7member.marital_status }}&nbsp;
        {% endif %}
@@ -43,6 +44,7 @@
            {{ ain7member.children_count }}&nbsp;{% trans "children" %}
        {% endif %}
    </li>
+   {% endif %}
    {% endif %}
    {% if ain7member.decorations.all %}
    <li><b>{% filter capfirst %}{% trans "decorations" %}{% endfilter %}
@@ -63,16 +65,16 @@
 {% endif %}
 </td></tr>
 {% for phone_number in person.phone_numbers.all %}
-	{% if not phone_number.website_confidential %}
-    	<tr><td><b>{{ phone_number.get_type_display }} :</b> {{ phone_number.number }}</td></tr>
+    {% if superadmin or ca_member or secretariat_member or not phone_number.website_confidential %}
+    	<tr><td>{% if phone_number.website_confidential %}<img src="/site_media/images/private.png">{% endif %}<b>{{ phone_number.get_type_display }} :</b> {{ phone_number.number }}</td></tr>
     {% endif %}
 {% endfor %}
 
 
 
 {% for email in person.emails.all %}
-	{% if not email.website_confidential %}
-	    <tr><td><img src="/site_media/images/mail.png" alt="{% trans "email" %}"/><a href="mailto:{{ email.email }}">{{ email.email }}</a></td></tr>
+	{% if superadmin or ca_member or secretariat_member or not  email.website_confidential %}
+	    <tr><td>{% if phone_number.website_confidential %}<img src="/site_media/images/private.png">{% endif %}<img src="/site_media/images/mail.png" alt="{% trans "email" %}"/><a href="mailto:{{ email.email }}">{{ email.email }}</a></td></tr>
 	{% endif %}
 {% endfor %}
 
@@ -92,8 +94,8 @@
 
 <table>
 {% for address in person.addresses.all %}
-	{% if not address.website_confidential %}
-	    <tr><td><b>{% trans "Address" %} {{ address.type|lower }} :</b> {{ address.line1 }} {{ address.line2|default_if_none:"" }} - {{address.zip_code }} {{ address.city }} - {{ address.country.name }}</td></tr>
+	{% if superadmin or ca_member or secretariat_member or not address.website_confidential %}
+	    <tr><td>{% if address.website_confidential %}<img src="/site_media/images/private.png">{% endif %}<b>{% trans "Address" %} {{ address.type|lower }} :</b> {{ address.line1 }} {{ address.line2|default_if_none:"" }} - {{address.zip_code }} {{ address.city }} - {{ address.country.name }}</td></tr>
 	{% endif %}
 {% endfor %}
 </table>
@@ -151,20 +153,21 @@
 </ul>
 {% endif %}
 
+{% if superadmin or secretariat_member %}
 {% if person.notes %}
-<h2>{% trans "AIn7 Notes" %}</h2>
-
+<h2><img src="/site_media/images/private.png">{% trans "AIn7 Notes" %}</h2>
 {{ person.notes|safe }}
-
+{% endif %}
 {% endif %}
 
 {% endblock %}
 
 
 {% block extra-actions %}
+      {% if superadmin or ca_member or secretariat_member %}
       <li><a href="edit/">{% trans "Modify these data" %}</a></li>
-      <li><a href="contributions/">{% trans "See contributions" %}</a></li>
       <li><a href="{% url ain7.adhesions.views.user_subscriptions person.user.id %}">{% trans "Manage subscriptions" %}</a></li>
+      {% endif %}
       <li><a href="vcard/">{% trans "Download contact as vCard" %}</a></li>
 {% endblock %}
 

@@ -47,14 +47,17 @@
 	<div class="right_block">
 		<ul>
 			<li><a href="/evenements/{{ event.id }}/join/">{% trans "Participate to this event" %}</a></li>
+			<li><a href="/evenements/{{ event.id }}/contact/">{% trans "Contact the event responsible" %}</a></li>
+                        {% if superadmin or ca_member or secretariat_member or contributeur %}
 			<li><a href="/evenements/{{ event.id }}/edit/">{% trans "Edit this event" %}</a></li>
 			<li><a href="/evenements/{{ event.id }}/participants/">{% trans "List participants" %}</a></li>
 			<li><a href="/evenements/{{ event.id }}/subscribe/">{% trans "Subscribe someone" %}</a></li>
-			<li><a href="/evenements/{{ event.id }}/contact/">{% trans "Contact the event responsible" %}</a></li>
+                        {% endif %}
 		</ul>
         </div>
 {% endblock %}
 
+{% if superadmin or ca_member or secretariat_member or contributeur %}
 {% block statistics %}
 	<h3>{% trans "Statistics" %}</h3>
 	<div class="right_block">
@@ -73,6 +76,7 @@
                 </ul>
         </div>
 {% endblock %}
+{% endif %}
 
 {% block additional-right-blocks %}
     <h3>{% trans "Card Informations"%}</h3>

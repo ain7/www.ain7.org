@@ -69,13 +69,6 @@ def details(request, user_id):
                             {'person': p, 'is_subscriber': is_subscriber, 'ain7member': ain7member})
 
 @login_required
-def details_frame(request, user_id):
-    p = get_object_or_404(Person, pk=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=p)
-    return ain7_render_to_response(request, 'annuaire/details_frame.html',
-                            {'person': p, 'ain7member': ain7member})
-
-@login_required
 def search(request):
 
     form = SearchPersonForm()
@@ -519,13 +512,13 @@ def promo_edit(request, person_id=None, promo_id=None):
         else:
             return ain7_render_to_response(
                 request, 'annuaire/edit_form.html',
-                {'form': form, 'action_title': _('Adding a promotion for %s' % ain7member)})
+                {'form': form, 'action_title': _(u'Adding a promotion for %s' % ain7member)})
 #             request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
         return HttpResponseRedirect(
             '/annuaire/%s/edit/#promos' % person_id)
     return ain7_render_to_response(
         request, 'annuaire/edit_form.html',
-        {'form': form, 'action_title': _('Adding a promotion for %s' % ain7member)})
+        {'form': form, 'action_title': _(u'Adding a promotion for %s' % ain7member)})
 
 @confirmation_required(lambda person_id=None, promo_id=None : str(get_object_or_404(Promo, pk=promo_id)), 'annuaire/base.html', _('Do you really want to remove the membership to the promotion'))
 @login_required

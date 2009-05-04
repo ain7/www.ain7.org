@@ -22,7 +22,7 @@
       {% for role, role_form in roles %}
         <li>
           {% if role_form %}<div class="formBlock">{% endif %}
-          {{ role.member }}&nbsp;
+          <a href="{% url ain7.annuaire.views.details role.member.id %}">{{ role.member }}</a>&nbsp;
           {% if not role_form %}
             ({{ role.start_date|date:"d/m/Y" }} - 
              {% if role.end_date %} {{ role.end_date|date:"d/m/Y" }})

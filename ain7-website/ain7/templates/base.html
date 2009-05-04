@@ -115,8 +115,10 @@
 {% block barre-galerie %}<li>{% endblock %}
     <a href="/galerie/" accesskey="h">{% trans "Gallery" %}</a></li>
 
+{% if superadmin or ca_member or secretariat_member %}
 {% block barre-manage %}<li>{% endblock %}
     <a href="/manage/" accesskey="h">{% trans "Management" %}</a></li>
+{% endif %}
 
 </ul>
 

@@ -47,11 +47,20 @@ def organization_search_engine():
 
 @login_required
 def index(request):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     return ain7_render_to_response(request, 'manage/default.html',
         {'notifications': Notification.objects.all()})
 
 @login_required
 def users_search(request):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
 
     form = SearchUserForm()
     nb_results_by_page = 25
@@ -85,12 +94,20 @@ def users_search(request):
 @login_required
 def user_details(request, user_id):
 
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     u = get_object_or_404(User, pk=user_id)
     return ain7_render_to_response(
         request, 'manage/user_details.html', {'this_user': u})
 
 @login_required
 def user_register(request):
+
+    r = check_access(request, request.user, ['ain7-secretariat'])
+    if r:
+        return r
 
     form = NewPersonForm()
 
@@ -111,6 +128,10 @@ def user_register(request):
 
 @login_required 
 def user_edit(request, user_id=None): 
+
+    r = check_access(request, request.user, ['ain7-secretariat'])
+    if r:
+        return r
  
     p = get_object_or_404(Person, pk=user_id) 
     return ain7_render_to_response(request, 'manage/user_edit.html', {'person': p}) 
@@ -118,6 +139,10 @@ def user_edit(request, user_id=None):
 @login_required
 def user_person_edit(request, user_id=None):
 
+    r = check_access(request, request.user, ['ain7-secretariat'])
+    if r:
+        return r
+ 
     person = None
     if user_id:
         person = Person.objects.get(user=user_id)
@@ -132,6 +157,10 @@ def user_person_edit(request, user_id=None):
 @login_required
 def organizations_search(request):
 
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+ 
     form = SearchOrganizationForm()
     nb_results_by_page = 25
     organizations = False
@@ -165,6 +194,11 @@ def organizations_search(request):
 
 @login_required
 def organizations_adv_search(request):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     filtr = organization_search_engine()\
             .unregistered_filters(request.user.person)
     if filtr:
@@ -178,6 +212,11 @@ def organizations_adv_search(request):
 
 @login_required
 def filter_details(request, filter_id):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     return ain7_render_to_response(request,
         'manage/organizations_adv_search.html',
         dict_for_filter(request, filter_id))
@@ -185,6 +224,10 @@ def filter_details(request, filter_id):
 
 @login_required
 def dict_for_filter(request, filter_id):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
 
     offices = False
     p = request.user.person
@@ -225,18 +268,32 @@ def dict_for_filter(request, filter_id):
 
 @login_required
 def filter_details(request, filter_id):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     return ain7_render_to_response(request,
         'manage/organizations_adv_search.html',
         dict_for_filter(request, filter_id))
 
 @login_required
 def filter_swapOp(request, filter_id=None):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     return se_filter_swapOp(request, filter_id,
                             reverse(filter_details, args =[ filter_id ]),
                             reverse(organizations_adv_search))
 
 @login_required
 def filter_register(request):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
 
     sf = organization_search_engine().\
          unregistered_filters(request.user.person)
@@ -281,6 +338,10 @@ def filter_register(request):
 @login_required
 def filter_edit(request, filter_id):
 
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     filtr = get_object_or_404(SearchFilter, pk=filter_id)
     form = SearchFilterForm(instance=filtr)
 
@@ -302,6 +363,11 @@ def filter_edit(request, filter_id):
 
 @login_required
 def remove_criteria(request, filtr):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     for crit in filtr.criteriaField.all():  crit.delete()
     for crit in filtr.criteriaFilter.all(): crit.delete()
     # TODO non recursivite + supprimer filtres sans criteres
@@ -309,6 +375,10 @@ def remove_criteria(request, filtr):
 
 @login_required
 def filter_reset(request, filter_id):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
 
     filtr = get_object_or_404(SearchFilter, pk=filter_id)
     remove_criteria(request, filtr)
@@ -320,6 +390,10 @@ def filter_reset(request, filter_id):
 
 @login_required
 def filter_delete(request, filter_id):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
 
     filtr = get_object_or_404(SearchFilter, pk=filter_id)
     try:
@@ -337,6 +411,10 @@ def filter_delete(request, filter_id):
 @login_required
 def filter_new(request):
 
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     filtr = organization_search_engine().unregistered_filters(request.user.person)
     if not filtr:
         return HttpResponseRedirect(reverse(organizations_adv_search))
@@ -349,6 +427,11 @@ def filter_new(request):
 
 @login_required
 def criterion_add(request, filter_id=None, criterionType=None):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     redirect = reverse(organizations_adv_search)
     if filter_id: redirect = reverse(filter_details, args=[ filter_id ])
     return se_criterion_add(request, organization_search_engine(),
@@ -357,6 +440,11 @@ def criterion_add(request, filter_id=None, criterionType=None):
 
 @login_required
 def criterionField_edit(request, filter_id=None, criterion_id=None):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     return se_criterionField_edit(request, organization_search_engine(),
         filter_id, criterion_id, reverse(filter_details, args=[filter_id]),
         reverse(organizations_adv_search),
@@ -364,18 +452,32 @@ def criterionField_edit(request, filter_id=None, criterion_id=None):
 
 @login_required
 def criterionFilter_edit(request, filter_id=None, criterion_id=None):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     return se_criterionFilter_edit(request, organization_search_engine(),
         filter_id, criterion_id, reverse(filter_details, args=[filter_id]),
         'manage/org_criterionFilter_edit.html')
 
 @login_required
 def criterion_delete(request, filtr_id=None, crit_id=None, crit_type=None):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     return se_criterion_delete(request, filtr_id, crit_id, crit_type,
         reverse(filter_details, args=[filtr_id]),
         reverse(organizations_adv_search))
 
 @login_required
 def organization_edit(request, organization_id=None):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
 
     organization = None
     if organization_id:
@@ -412,12 +514,21 @@ def organization_edit(request, organization_id=None):
 
 @login_required
 def organization_details(request, organization_id):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     c = get_object_or_404(Organization, pk=organization_id)
     return ain7_render_to_response(request, 'manage/organization_details.html',
                                    {'organization': c})
 
 @login_required
 def export_csv(request):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
 
     if not request.session.has_key('filter'):
         request.user.message_set.create(message=_("You have to make a search before using csv export."))
@@ -432,6 +543,11 @@ def export_csv(request):
 
 @login_required
 def adv_export_csv(request, filter_id=None):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     se = organization_search_engine()
     if not filter_id and not se.unregistered_filters(request.user.person):
         request.user.message_set.create(message=
@@ -450,6 +566,10 @@ def adv_export_csv(request, filter_id=None):
     _('Do you REALLY want to delete this organization'))
 def organization_delete(request, organization_id):
 
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     organization = get_object_or_404(Organization, pk=organization_id)
     organization.delete()
     request.user.message_set.create(
@@ -459,6 +579,10 @@ def organization_delete(request, organization_id):
 
 @login_required
 def organization_merge(request, organization_id=None):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
 
     organization = get_object_or_404(Organization, pk=organization_id)
 
@@ -492,6 +616,10 @@ def organization_merge(request, organization_id=None):
     _('Do you REALLY want to have'))
 def organization_do_merge(request, org1_id, org2_id):
 
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     org1 = get_object_or_404(Organization, pk=org1_id)
     org2 = get_object_or_404(Organization, pk=org2_id)
     org1.merge(org2)
@@ -501,6 +629,10 @@ def organization_do_merge(request, org1_id, org2_id):
 
 @login_required
 def organization_register_proposal(request, proposal_id=None):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
 
     if not proposal_id:
         return HttpResponseRedirect('/manage/')
@@ -549,6 +681,10 @@ def organization_register_proposal(request, proposal_id=None):
 @login_required
 def organization_edit_proposal(request, proposal_id=None):
 
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     if not proposal_id:
         return HttpResponseRedirect('/manage/')
     
@@ -586,6 +722,10 @@ def organization_edit_proposal(request, proposal_id=None):
 @login_required
 def organization_delete_proposal(request, proposal_id=None):
 
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     proposal = get_object_or_404(OrganizationProposal, pk=proposal_id)
     org = proposal.original
     back = request.META.get('HTTP_REFERER', '/')
@@ -601,6 +741,10 @@ def organization_delete_proposal(request, proposal_id=None):
 
 @login_required
 def office_edit(request, office_id=None, organization_id=None):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
 
     office = None
     if office_id:
@@ -623,6 +767,11 @@ def office_edit(request, office_id=None, organization_id=None):
 
 @login_required
 def office_details(request, office_id):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     office = get_object_or_404(Office, pk=office_id)
     return ain7_render_to_response(request, 'manage/office_details.html',
         {'office': office})
@@ -635,6 +784,10 @@ def office_details(request, office_id):
 @login_required
 def office_delete(request, office_id):
 
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     office = get_object_or_404(Office, pk=office_id)
     organization_id = office.organization.id
     return ain7_generic_delete(request,
@@ -645,6 +798,10 @@ def office_delete(request, office_id):
 
 @login_required
 def office_merge(request, office_id=None):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
 
     office = get_object_or_404(Office, pk=office_id)
 
@@ -676,6 +833,10 @@ def office_merge(request, office_id=None):
     _('Do you REALLY want to have'))
 def office_do_merge(request, office1_id, office2_id):
 
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     office1 = get_object_or_404(Office, pk=office1_id)
     office2 = get_object_or_404(Office, pk=office2_id)
     office1.merge(office2)
@@ -685,6 +846,10 @@ def office_do_merge(request, office1_id, office2_id):
 
 @login_required
 def office_register_proposal(request, proposal_id=None):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
 
     if not proposal_id:
         return HttpResponseRedirect('/manage/')
@@ -726,6 +891,10 @@ def office_register_proposal(request, proposal_id=None):
 
 @login_required
 def office_edit_proposal(request, proposal_id=None):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
 
     if not proposal_id:
         return HttpResponseRedirect('/manage/')
@@ -771,6 +940,10 @@ def office_edit_proposal(request, proposal_id=None):
 @login_required
 def office_delete_proposal(request, proposal_id=None):
 
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     proposal = get_object_or_404(OfficeProposal, pk=proposal_id)
     office = proposal.original
     back = request.META.get('HTTP_REFERER', '/')
@@ -782,6 +955,10 @@ def office_delete_proposal(request, proposal_id=None):
 @login_required
 def roles_index(request):
 
+    r = check_access(request, request.user, ['ain7-secretariat'])
+    if r:
+        return r
+
     roles = Group.objects.all()
 
     return ain7_render_to_response(request, 'manage/role_index.html',
@@ -789,6 +966,10 @@ def roles_index(request):
 
 @login_required
 def role_register(request):
+
+    r = check_access(request, request.user, ['ain7-secretariat'])
+    if r:
+        return r
 
     form = NewRoleForm()
 
@@ -815,11 +996,20 @@ def role_register(request):
 
 @login_required
 def role_details(request, role_id):
+
+    r = check_access(request, request.user, ['ain7-secretariat'])
+    if r:
+        return r
+
     g = get_object_or_404(Group, name=role_id)
     return ain7_render_to_response(request, 'manage/role_details.html', {'role': g})
 
 @login_required
 def role_member_add(request, role_id):
+
+    r = check_access(request, request.user, ['ain7-secretariat'])
+    if r:
+        return r
 
     g = get_object_or_404(Group, name=role_id)
 
@@ -842,6 +1032,11 @@ def role_member_add(request, role_id):
 
 @login_required
 def role_member_delete(request, role_id, member_id):
+
+    r = check_access(request, request.user, ['ain7-secretariat'])
+    if r:
+        return r
+
     group = get_object_or_404(Group, name=role_id)
     member = get_object_or_404(User, pk=member_id)
 
@@ -852,68 +1047,11 @@ def role_member_delete(request, role_id, member_id):
     return HttpResponseRedirect('/manage/roles/%s/' % role_id)
 
 @login_required
-def contributions(request):
-
-    form = SearchContributionForm()
-    nb_results_by_page = 25
-    contributions = False
-    paginator = Paginator(UserContribution.objects.none(),nb_results_by_page)
-    page = 1
-
-    if request.method == 'POST':
-        form = SearchContributionForm(request.POST)
-        if form.is_valid():
-
-            # criteres sur le nom et prenom
-            #criteria={'user__contains':form.cleaned_data['user'].encode('utf8')}
-            criteria={}
-
-            contributions = UserContribution.objects.filter(**criteria)
-            paginator = Paginator(contributions, nb_results_by_page)
-
-            try:
-                page = int(request.GET.get('page', '1'))
-                contributions = paginator.page(page).object_list
-
-            except InvalidPage:
-                raise http.Http404
-
-    return ain7_render_to_response(request, 'manage/contributions.html',
-                   {'form': form, 'contributions': contributions,
-                    'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
-                    'has_next': paginator.page(page).has_next(),
-                    'has_previous': paginator.page(page).has_previous(),
-                    'current_page': page,
-                    'next_page': page + 1,
-                    'previous_page': page - 1,
-                    'pages': paginator.num_pages,
-                    'first_result': (page - 1) * nb_results_by_page +1,
-                    'last_result': min((page) * nb_results_by_page, paginator.count),
-                    'hits' : paginator.count})
-
-@login_required
-def group_perm_add(request, group_id):
-    g = get_object_or_404(Group, pk=group_id)
-
-    form = PermRoleForm()
-
-    if request.method == 'POST':
-        form = PermRoleForm(request.POST)
-        if form.is_valid():
-            p = Permission.objects.filter(name=form.cleaned_data['perm'])[0]
-            g.permissions.add(p)
-            request.user.message_set.create(message=_('Permission added to group'))
-            return HttpResponseRedirect('/manage/groups/%s/' % group_id)
-        else:
-            request.user.message_set.create(message=_('Permission is not correct'))
-
-    back = request.META.get('HTTP_REFERER', '/')
-
-    return ain7_render_to_response(request, 'manage/groups_perm_add.html',
-                            {'form': form, 'group': g, 'back': back})
-
-@login_required
 def notification_add(request):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
 
     return ain7_generic_edit(
         request, None, NotificationForm,
@@ -926,6 +1064,10 @@ def notification_add(request):
 
 @login_required
 def notification_edit(request, notif_id):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
 
     return ain7_generic_edit(
         request, get_object_or_404(Notification, pk=notif_id),
@@ -944,6 +1086,10 @@ def notification_edit(request, notif_id):
     _('Do you REALLY want to delete the notification'))
 def notification_delete(request, notif_id):
 
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     notif = get_object_or_404(Notification, pk=notif_id)
     notif.delete()
     request.user.message_set.create(
@@ -953,6 +1099,10 @@ def notification_delete(request, notif_id):
 # Adresses
 @login_required
 def user_address_edit(request, user_id=None, address_id=None):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
 
     person = get_object_or_404(Person, user=user_id)
     address = None
@@ -973,6 +1123,10 @@ def user_address_edit(request, user_id=None, address_id=None):
 @login_required
 def user_address_delete(request, user_id=None, address_id=None):
 
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     return ain7_generic_delete(request,
         get_object_or_404(Address, pk=address_id),
         '/manage/users/%s/edit/#address' % user_id,
@@ -981,6 +1135,10 @@ def user_address_delete(request, user_id=None, address_id=None):
 # Numeros de telephone
 @login_required
 def user_phone_edit(request, user_id=None, phone_id=None):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
 
     person = get_object_or_404(Person, user=user_id)
     phone = None
@@ -1001,6 +1159,10 @@ def user_phone_edit(request, user_id=None, phone_id=None):
 @login_required
 def user_phone_delete(request, user_id=None, phone_id=None):
 
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     return ain7_generic_delete(request,
         get_object_or_404(PhoneNumber, pk=phone_id),
         '/manage/users/%s/edit/#phone' % user_id,
@@ -1009,6 +1171,10 @@ def user_phone_delete(request, user_id=None, phone_id=None):
 # Adresses de courriel
 @login_required
 def user_email_edit(request, user_id=None, email_id=None):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
 
     person = get_object_or_404(Person, user=user_id)
     email = None
@@ -1029,12 +1195,20 @@ def user_email_edit(request, user_id=None, email_id=None):
 @login_required
 def user_email_delete(request, user_id=None, email_id=None):
 
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
     return ain7_generic_delete(request, get_object_or_404(Email, pk=email_id),
                                '/manage/users/%s/edit/#email' % user_id,
                                _('Email address successfully deleted.'))
 
 @login_required
 def nationality_add(request):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
 
     form = NewCountryForm()
 
@@ -1060,6 +1234,10 @@ def nationality_add(request):
 
 @login_required
 def jobs_proposals(request):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
 
     r = check_access(request, request.user, ['ain7-secretariat'])
     if r:

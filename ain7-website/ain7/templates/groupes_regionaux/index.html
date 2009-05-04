@@ -59,14 +59,4 @@
 <p>Chaque année est organisée une assemblée générale du groupe avec élection d’un bureau composé au minimum d’un Président, d’un Trésorier et d’un Secrétaire.</p>
 
 
-{% if groups %}
-    <ul>
-    {% for group in groups %}
-           <li><a href="{% url ain7.groupes_regionaux.views.details group.id %}">{{ group.name }}</a></li>
-    {% endfor %}
-     </ul>
-{% else %}
-    <p>{% trans "No regional group." %}</p>
-{% endif %}
-
 {% endblock %}

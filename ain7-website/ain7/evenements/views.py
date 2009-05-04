@@ -39,7 +39,7 @@ from ain7.annuaire.models import Person, UserContribution, UserContributionType,
 from ain7.decorators import confirmation_required
 from ain7.evenements.models import Event, EventSubscription
 from ain7.evenements.forms import *
-from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete
+from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
 
 
 
@@ -59,6 +59,10 @@ def details(request, event_id):
 @login_required
 def edit(request, event_id):
 
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat','ain7-contributeur'])
+    if r:
+        return r
+
     event = get_object_or_404(Event, pk=event_id)
     return ain7_generic_edit(
         request, event, EventForm, {},
@@ -73,6 +77,10 @@ def edit(request, event_id):
 @login_required
 def image_delete(request, event_id):
 
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat','ain7-contributeur'])
+    if r:
+        return r
+
     event = get_object_or_404(Event, pk=event_id)
     event.image = None
     event.logged_save(request.user.person)
@@ -85,6 +93,10 @@ def image_delete(request, event_id):
 def join(request, event_id):
 
     event = get_object_or_404(Event, pk=event_id)
+
+    r = check_access(request, request.user, ['ain7-member','ain7-ca','ain7-secretariat','ain7-contributeur'])
+    if r:
+        return r
 
     if request.method == 'GET':
         # on vérifie que la personne n'est pas déjà inscrite
@@ -121,12 +133,20 @@ def join(request, event_id):
 @login_required
 def participants(request, event_id):
 
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat','ain7-contributeur'])
+    if r:
+        return r
+
     event = get_object_or_404(Event, pk=event_id)
     return ain7_render_to_response(request, 'evenements/participants.html',
         {'event': event, 'nbparticipants': event.nb_participants()})
 
 @login_required
 def register(request):
+
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat','ain7-contributeur'])
+    if r:
+        return r
 
     return ain7_generic_edit(
         request, None, EventForm, {}, 'evenements/edit.html',
@@ -171,6 +191,10 @@ def search(request):
 
 @login_required
 def subscribe(request, event_id):
+
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat','ain7-contributeur'])
+    if r:
+        return r
 
     event = get_object_or_404(Event, pk=event_id)
 
@@ -218,6 +242,10 @@ def subscribe(request, event_id):
 def contact(request, event_id):
 
     event = get_object_or_404(Event, pk=event_id)
+
+    r = check_access(request, request.user, ['ain7-member','ain7-ca','ain7-secretariat','ain7-contributeur'])
+    if r:
+        return r
 
     if request.method == 'GET':
         p = request.user.person    
@@ -284,13 +312,12 @@ def ical(request):
 
     return response
 
-def validate(request, event_id):
-    event = get_object_or_404(Event, pk=event_id)
-    return ain7_render_to_response(request, 'evenements/validate.html',
-                            {'event': event})
-
 @login_required
 def organizer_add(request, event_id):
+
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat','ain7-contributeur'])
+    if r:
+        return r
 
     event = get_object_or_404(Event, pk=event_id)
     return ain7_generic_edit(
@@ -306,6 +333,10 @@ def organizer_add(request, event_id):
 @login_required
 def organizer_delete(request, event_id, organizer_id):
 
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat','ain7-contributeur'])
+    if r:
+        return r
+
     event = get_object_or_404(Event, pk=event_id)
     organizer = get_object_or_404(Person, pk=organizer_id)
     eventorg = event.event_organizers.get(organizer=organizer)
@@ -317,6 +348,10 @@ def organizer_delete(request, event_id, organizer_id):
 
 @login_required
 def swap_email_notif(request, event_id, organizer_id):
+
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat','ain7-contributeur'])
+    if r:
+        return r
 
     event = get_object_or_404(Event, pk=event_id)
     organizer = get_object_or_404(Person, pk=organizer_id)
