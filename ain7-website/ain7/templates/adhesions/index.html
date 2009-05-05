@@ -15,7 +15,7 @@
 </tr>
 {% for subscription in subscriptions_list %}
 <tr>
-  <td align="center"><a href="{% url ain7.annuaire.views.details subscription.member.person.id %}">{{ subscription.member.person.first_name }} {{ subscription.member.person.last_name }}</a></td>
+  <td align="center"><a href="{% url ain7.annuaire.views.details subscription.member.person.id %}">{{ subscription.member.person.last_name }} {{ subscription.member.person.first_name }}</a></td>
   <td align="center">
     {% ifnotequal subscription.start_year subscription.end_year %}
       {% blocktrans with subscription.start_year as start and subscription.end_year as end %}{{ start }} to {{ end }}{% endblocktrans %}

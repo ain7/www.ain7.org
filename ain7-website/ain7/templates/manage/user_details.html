@@ -9,7 +9,7 @@
 
 <div class="left_box">
 
-<h2>{{ this_user.person.first_name }} {{ this_user.person.last_name }}</h2>
+<h2>{{ this_user.person.last_name }} {{ this_user.person.first_name }}</h2>
 
 {% if this_user.person.phone_numbers.all or this_user.person.emails.all or this_user.person.instant_messagings.all or this_user.person.ircs.all or this_user.person.web_sites.all %}
 <table style="width: 100%">

@@ -227,7 +227,7 @@ def subscribe(request, event_id):
             p = subscription.subscriber
             request.user.message_set.create(
                 message=_('You have successfully subscribed')+
-                ' '+p.first_name+' '+p.last_name+' '+_('to this event.'))
+                ' '+p.last_name+' '+p.first_name+' '+_('to this event.'))
             return HttpResponseRedirect('/evenements/%s/' % (event.id))
         else:
             request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))

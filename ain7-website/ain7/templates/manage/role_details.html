@@ -14,7 +14,7 @@
 <h3>{% trans "Content of the role" %}</h3>
 <ul>
 {% for user in role.user_set.all %}
-  <li><a href="/annuaire/{{ user.id }}/">{{ user.person.first_name }} {{ user.person.last_name }}</a> &nbsp; &nbsp; <a href="/manage/roles/{{ role.name }}/member/{{ user.id }}/delete/" class="deletelink">{% trans "Delete" %}</a></li>
+  <li><a href="/annuaire/{{ user.id }}/">{{ user.person.last_name }} {{ user.person.first_name }}</a> &nbsp; &nbsp; <a href="/manage/roles/{{ role.name }}/member/{{ user.id }}/delete/" class="deletelink">{% trans "Delete" %}</a></li>
 {% endfor %}
 </ul>
 <p><a href="/manage/roles/{{ role.name }}/member/add/" class="addlink">{% trans "Add" %}</a></p>

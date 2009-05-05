@@ -51,8 +51,10 @@
 {% block actions %}
 <h3>{% trans "Actions" %}</h3>
 <div class="right_articles">
+{% if superadmin or secretariat_member %}
 <ul>
     <li><a href="/manage/users/register/">{% trans "Register external user" %}</a></li>
+{% endif %}
 </ul>
 </div>
 {% endblock %} {# actions #}

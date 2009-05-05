@@ -156,6 +156,9 @@ def filldb():
     subscription_conf8 = adhesions.SubscriptionConfiguration(type=7, dues_amount=5)
     subscription_conf8.save()
 
+    subscription_conf9 = adhesions.SubscriptionConfiguration(type=9, dues_amount=160, newspaper_amount=15)
+    subscription_conf9.save()
+
     #                                                                  #
     ###################### End of fixed values #########################
 
