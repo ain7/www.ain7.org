@@ -27,6 +27,7 @@ from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
 from ain7.groupes_regionaux.models import Group
+from ain7.groupes_professionnels.models import GroupPro
 from ain7.utils import LoggedClass
 
 
@@ -62,11 +63,12 @@ class Event(LoggedClass):
     author = models.CharField(verbose_name=_('author'), max_length=20)
     contact_email = models.EmailField(verbose_name=_('contact email'), max_length=50)
     link = models.CharField(verbose_name=_('link'), max_length=60, blank=True, null=True)
-    publication_start =  models.DateTimeField(verbose_name=_('publication start'))
-    publication_end = models.DateTimeField(verbose_name=_('publication end'))
+    publication_start =  models.DateField(verbose_name=_('publication start'))
+    publication_end = models.DateField(verbose_name=_('publication end'))
 
     organizers = models.ManyToManyField(Person, verbose_name=_('organizers'),related_name='events', blank=True, null=True, through='EventOrganizer')
     regional_groups = models.ManyToManyField(Group, verbose_name=_('regional groups'), related_name='events', blank=True, null=True)
+    professional_groups = models.ManyToManyField(GroupPro, verbose_name=_('professional groups'), related_name='events', blank=True, null=True)
     pictures_gallery = models.CharField(verbose_name=_('Pictures gallery'), max_length=100, blank=True, null=True)
     objects = EventManager()
 

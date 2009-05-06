@@ -38,7 +38,7 @@ class GroupPro(LoggedClass):
     link = models.CharField(verbose_name=_('link'), max_length=100, blank=True, null=True)
 
     def __unicode__(self):
-        return self.name
+        return self.description
 
     def has_for_member(self, person):
         return self.memberships.filter(member=person)\
