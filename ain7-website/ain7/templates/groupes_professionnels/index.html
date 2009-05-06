@@ -6,25 +6,12 @@
 
 {% block content-left %}
 
-<h2>{% trans "Professionnal Groups" %}</h2>
+<h3>{{ text.title }}</h3>
 
-<h3>Rôle des groupes professionnels</h3>
-<p>Au fil des dernières années, l'AIN7 a suscité la création de groupes professionnels. Chaque Groupe Professionnel réunit les ingénieurs N7 qui travaillent dans le même domaine industriel.</p>
-<p>Il est animé par un noyau de quelques ingénieurs N7 qui contribue à l'animation et prépare les manifestations du groupe.</p>
-<p>Il a une couverture nationale.</p>
-<p>Il a vocation à être un des interlocuteurs de l'ENSEEIHT pour l'évolution de ses filières d'enseignement et une source privilégiée d'informations et de proposition.</p>
-<p>Il contribue dans son domaine à assurer la promotion de l'ENSEEIHT dans le cadre de l'AIN7 et en liaison avec la Direction de l'ENSEEIHT.</p>
-<p>Il a vocation d'entraide pour la recherche d'emplois.</p>
-<p>Il bénéficie de la logistique de l'AIN7 (mailing – Web – Groupes régionaux….)</p>
-<p>L'action des Groupes professionnels se fait en liaison avec celles des Correspondants d'Entreprises qui, dans leurs domaines, sont des invités permanents dans chaque groupe.</p>
-<p>La Communication des Groupes professionnels vers le monde extérieur se fait par le canal de l'AIN7.</p>
-<p>3 groupes professionnels sont actifs :</p>
-<h4>>Groupe TIC (animateur : Eric Nizard - eric.nizard@lic.fr)</h4>
-<p>Issu du groupe professionnel Telecom qui a été depuis 2000 le plus actif, ce groupe a désormais élargi ses activités à l'informatique et plus généralement aux métiers issus des technologies de l'information et de la communication.</p>
-<p>Le groupe TIC organise régulièrement des conférences à Paris, dans le cadre du Groupe Parisien. Il est par ailleurs, le correspondant AIN7 au sein de <a href="http://www.g9plus.org">l'Institut G9+</a> qui rassemble les représentants "TIC" de 17 grandes Associations d'Ingénieurs (X, Centrales, Mines, Supélec…) et de Management (HEC, ESCP, ESSEC,…).</p>
-<h4>Groupe Aerospace (animateur : Yann Guerin – yannguer@yahoo.fr)</h4>
-<p>Ce groupe résidant à Toulouse, organise régulièrement des rencontres et bénéficie notamment de la présence de nombreux ingénieurs ENSEEIHT au sein du pôle de compétitivité "Aerospace Valley".</p>
-<h4>Groupe Energie (renseignements : Maryse Lemmet - maryse.lemmet@orange.fr)</h4>
-<p>Issu du groupe "Génie Electrique", ce groupe est en cours de reconstitution et doit démarrer des activités élargies au printemps 2009.</p>
+{{ text.body|safe }}
+
+{% if superadmin or ca_member or secretariat_member or contributeur %}
+<p><a href="{% url pages.views.edit text.id %}">{% trans "Edit" %}</a></p>
+{% endif %}
 
 {% endblock %}

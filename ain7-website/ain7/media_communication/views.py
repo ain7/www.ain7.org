@@ -20,18 +20,32 @@
 #
 #
 
+from ain7.pages.models import Text
 from ain7.utils import ain7_render_to_response
 
 
-def index(request): 
-    return ain7_render_to_response(request, 'media_communication/index.html', {})
+def index(request):
+    text = Text.objects.get(pk=10)
+    return ain7_render_to_response(request, 
+            'media_communication/index.html', {'text': text})
 
-def canal_n7(request): 
-    return ain7_render_to_response(request, 'media_communication/canal_n7.html', {})
+def canal_n7(request):
+    text1 = Text.objects.get(pk=11)
+    text2 = Text.objects.get(pk=12)
+    text3 = Text.objects.get(pk=13)
+    text4 = Text.objects.get(pk=14)
+    return ain7_render_to_response(request, 'media_communication/canal_n7.html',
+                  {'text1': text1, 'text2': text2, 'text3': text3, 'text4': text4})
 
 def canal_n7_edito(request): 
-    return ain7_render_to_response(request, 'media_communication/canal_n7_edito.html', {})
+    text1 = Text.objects.get(pk=15)
+    text2 = Text.objects.get(pk=14)
+    return ain7_render_to_response(request, 
+                      'media_communication/canal_n7_edito.html', 
+                     {'text1': text1, 'text2': text2})
 
 def website(request): 
-    return ain7_render_to_response(request, 'media_communication/website.html', {})
+    text = Text.objects.get(pk=16)
+    return ain7_render_to_response(request, 
+                 'media_communication/website.html', {'text': text})
 

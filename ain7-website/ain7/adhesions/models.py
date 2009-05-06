@@ -67,6 +67,8 @@ class SubscriptionConfiguration(models.Model):
             (5, _('First year (for 3 years)')),
             (6, _('Second year (for 2 years)')),
             (7, _('Third year')),
+            (8, _('Couple')),
+            (9, _('Support')),
             )
 
     type = models.IntegerField(verbose_name=_('Type'), unique=True, choices=TYPE)

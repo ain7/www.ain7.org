@@ -30,6 +30,7 @@ from ain7.annuaire.models import AIn7Member
 from ain7.association.models import CouncilRole
 from ain7.association.forms import ChangeDatesForm, NewCouncilRoleForm
 from ain7.decorators import confirmation_required
+from ain7.pages.models import Text
 from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete
 
 
@@ -43,11 +44,15 @@ def current_council_roles():
 def current_board_roles():
     return [ rol for rol in CouncilRole.objects.filter(board_member=True) if rol.current() ]
 
-def index(request): 
-    return ain7_render_to_response(request, 'association/index.html', {'count_members': count_members()}) 
+def index(request):
+    text = Text.objects.get(pk=3) 
+    return ain7_render_to_response(request, 'association/index.html', 
+                {'count_members': count_members(), 'text': text}) 
  
 def status(request): 
-    return ain7_render_to_response(request, 'association/status.html', {'count_members': count_members()}) 
+    text = Text.objects.get(pk=4) 
+    return ain7_render_to_response(request, 'association/status.html', 
+                {'count_members': count_members(), 'text': text}) 
  
 def board(request): 
     return ain7_render_to_response(request, 'association/board.html',
@@ -59,8 +64,11 @@ def council(request):
         {'count_members': count_members(),
          'current_roles': current_council_roles() }) 
  
-def contact(request): 
-    return ain7_render_to_response(request, 'association/contact.html', {'count_members': count_members()}) 
+def contact(request):
+    text1 = Text.objects.get(pk=5) 
+    text2 = Text.objects.get(pk=6) 
+    return ain7_render_to_response(request, 'association/contact.html', 
+          {'count_members': count_members(), 'text1': text1, 'text2': text2}) 
 
 @login_required
 def build_council_roles_by_type(request, all_current=None,

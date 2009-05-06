@@ -10,39 +10,13 @@
 
 <div class="left">
 
-<h3>Les publications de l'AIn7</h3>
+<h3>{{ text.title }}</h3>
 
-<p>La Communication, Interne aux adhérents de l’AIN7, est réalisée par les 3 vecteurs suivants, en complément des moyens classiques (courrier, mail, téléphone, fax …)</p>
+{{ text.body|safe }}
 
-<p>En Projet:</p>
-<ul>
-<li>Newsletter</li>
-<li>Communauté AIN7/Viadeo</li>
-</ul>
-
-<p>Newsletter : répond à un besoin de diffuser des informations rapides et sous format électronique. 10 parutions annuelles envisagées.</p>
-<p>Communauté AIN7/Viadeo : dans le cadre d'un protocole d'accord en cours de négociation, le réseau Viadeo mettra à la disposition de l'AIN7 un espace communautaire privatif qui a vocation à devenir le forum privilégié de dialogue entre les N7.</p>
-
-<p>Communication</p>
-<p>Des supports de communication interactifs</p>
-<p><b>L'ANNUAIRE : PUBLICATION DE BASE DE L'ASSOCIATION</b></p>
-<p>C'est un moyen privilégié de communication entre tous les membres. Plus de 15000 adresses personnelles et professionnelles y sont répertoriées.</p>
-<p>Réalisé avec le plus grand soin, c'est un outil précieux à la fois pour l'activité professionnelle et les relations conviviales.</p>
-<p>Il est également apprécié des entreprises et des cabinets de recrutement et contribue à la notoriété de l'Association et des ingénieurs ENSEEIHT.</p>
-<p>Il est librement accessible sur le site AIN7 aux adhérents de l'AI.</p>
-
-
-<p><b>CANAL N7 : REVUE TRIMESTRIELLE A VOCATION SCIENTIFIQUE, TECHNIQUE INDUSTRIELLE ET SOCIETALE</b></p>
-<p>Constituant un lien régulier entre les membres de l'Association, elle est aussi diffusée, par abonnement, à des lecteurs extérieurs.</p>
-<p>Sa première partie est consacrée à des articles à vocation scientifique, technique et industrielle, mais aussi aux aspects socio-économiques, environnementaux, humains.</p>
-<p>La seconde partie est consacrée à la vie de la Communauté ENSEEIHT et en particulier de l'Association, avec des informations sur les activités du Conseil d'Administration, des différentes Commissions et Délégations, des Groupes régionaux et internationaux, ainsi que sur la vie de l'Ecole.</p>
-<p>Au printemps 2009, un nouveau format de Canal N7, plus moderne, facilitant la lecture, va apparaître. Nous attendions vos avis avec impatience.</p>
-
-<ul>
-<li><a href="{% url ain7.media_communication.views.canal_n7 %}">Canal N7</a>, la revue trimestrielle de l'association</li>
-<li><a href="{% url ain7.media_communication.views.website %}">Site internet</a>, lieu de recontre électronique de toutes les générations</li>
-<li><a href="/annuaire/">L'Annuaire</a>, l'annuaire de tous les anciens édité tous les ans au mois de juillet</li>
-</ul>
+{% if superadmin or ca_member or secretariat_member or contributeur %}
+<p><a href="{% url pages.views.edit text.id %}">{% trans "Edit" %}</a></p>
+{% endif %}
 
 </div>
 
@@ -51,8 +25,9 @@
    <h3>{% trans "Index" %}</h3>
    <div class="right_articles">
    <ul>
-       <li><a href="{% url ain7.media_communication.views.canal_n7 %}">Canal N7</a></li>
-       <li><a href="{% url ain7.media_communication.views.website %}">Site internet</a></li>
+      <li><a href="{% url ain7.media_communication.views.index %}">Media & Communication</a></li>
+      <li><a href="{% url ain7.media_communication.views.canal_n7 %}">Canal N7</a></li>
+      <li><a href="{% url ain7.media_communication.views.website %}">Site internet</a></li>
    </ul>
    </div>
 

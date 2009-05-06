@@ -30,12 +30,15 @@ from ain7.annuaire.models import Person
 from ain7.decorators import confirmation_required
 from ain7.groupes_professionnels.models import *
 from ain7.groupes_professionnels.forms import *
+from ain7.pages.models import Text
 from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
 
 
 def index(request):
+    text = Text.objects.get(pk=9)
     groups = GroupPro.objects.all().order_by('name')
-    return ain7_render_to_response(request, 'groupes_professionnels/index.html', {'groups': groups})
+    return ain7_render_to_response(request, 'groupes_professionnels/index.html',
+                    {'groups': groups, 'text': text})
 
 def details(request, group_id):
     g = get_object_or_404(GroupPro, pk=group_id)

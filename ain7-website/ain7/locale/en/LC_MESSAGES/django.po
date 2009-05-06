@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-05-05 08:47+0200\n"
+"POT-Creation-Date: 2009-05-06 23:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,13 +58,13 @@ msgid "private"
 msgstr ""
 
 #: utils.py:168 adhesions/views.py:154 annuaire/views.py:232
-#: annuaire/views.py:254 annuaire/views.py:808 association/views.py:116
-#: association/views.py:150 emploi/views.py:292 emploi/views.py:379
+#: annuaire/views.py:254 annuaire/views.py:808 association/views.py:124
+#: association/views.py:158 emploi/views.py:292 emploi/views.py:379
 #: emploi/views.py:449 emploi/views.py:502 emploi/views.py:555
 #: evenements/views.py:125 evenements/views.py:233
-#: groupes_professionnels/views.py:100 groupes_professionnels/views.py:208
-#: groupes_professionnels/views.py:252 groupes_regionaux/views.py:187
-#: groupes_regionaux/views.py:231 manage/views.py:123 manage/views.py:334
+#: groupes_professionnels/views.py:103 groupes_professionnels/views.py:211
+#: groupes_professionnels/views.py:255 groupes_regionaux/views.py:189
+#: groupes_regionaux/views.py:233 manage/views.py:123 manage/views.py:334
 #: manage/views.py:356 manage/views.py:606 manage/views.py:715
 #: manage/views.py:824 manage/views.py:884 manage/views.py:933
 #: manage/views.py:990 manage/views.py:1229 search_engine/views.py:335
@@ -100,12 +100,12 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
-#: adhesions/models.py:44 adhesions/models.py:73
+#: adhesions/models.py:44 adhesions/models.py:75
 #: templates/adhesions/configurations.html:19
 msgid "Dues amount"
 msgstr ""
 
-#: adhesions/models.py:45 adhesions/models.py:74
+#: adhesions/models.py:45 adhesions/models.py:76
 #: templates/adhesions/configurations.html:20
 msgid "Newspaper amount"
 msgstr ""
@@ -172,16 +172,24 @@ msgstr ""
 msgid "Third year"
 msgstr ""
 
-#: adhesions/models.py:72 manage/forms.py:87
+#: adhesions/models.py:70
+msgid "Couple"
+msgstr ""
+
+#: adhesions/models.py:71
+msgid "Support"
+msgstr ""
+
+#: adhesions/models.py:74 manage/forms.py:87
 #: templates/adhesions/configurations.html:18
 msgid "Type"
 msgstr ""
 
-#: adhesions/models.py:75 templates/adhesions/configurations.html:21
+#: adhesions/models.py:77 templates/adhesions/configurations.html:21
 msgid "Duration"
 msgstr ""
 
-#: adhesions/models.py:81
+#: adhesions/models.py:83
 msgid "Configuration"
 msgstr ""
 
@@ -705,7 +713,7 @@ msgstr ""
 
 #: annuaire/views.py:228 annuaire/views.py:252 annuaire/views.py:447
 #: annuaire/views.py:456 annuaire/views.py:476
-#: groupes_professionnels/views.py:131 manage/views.py:155 manage/views.py:330
+#: groupes_professionnels/views.py:134 manage/views.py:155 manage/views.py:330
 #: manage/views.py:354 manage/views.py:1080 search_engine/views.py:261
 #: voyages/views.py:129
 msgid "Modifications have been successfully saved."
@@ -993,15 +1001,15 @@ msgstr ""
 msgid "council roles"
 msgstr ""
 
-#: association/views.py:126 groupes_professionnels/views.py:217
-#: groupes_regionaux/views.py:196
+#: association/views.py:134 groupes_professionnels/views.py:220
+#: groupes_regionaux/views.py:198
 msgid ""
 "Do you really want to remove the role of this person (you can end a role by "
 "setting its end date)"
 msgstr ""
 
-#: association/views.py:133 groupes_professionnels/views.py:228
-#: groupes_regionaux/views.py:207
+#: association/views.py:141 groupes_professionnels/views.py:231
+#: groupes_regionaux/views.py:209
 msgid "Role successfully deleted."
 msgstr ""
 
@@ -1686,7 +1694,7 @@ msgstr ""
 msgid "This person is already subscribed to this event."
 msgstr ""
 
-#: evenements/views.py:229 groupes_professionnels/views.py:67
+#: evenements/views.py:229 groupes_professionnels/views.py:70
 msgid "You have successfully subscribed"
 msgstr ""
 
@@ -1754,19 +1762,19 @@ msgstr ""
 msgid "professional group roles"
 msgstr ""
 
-#: groupes_professionnels/views.py:68
+#: groupes_professionnels/views.py:71
 msgid "to this group."
 msgstr ""
 
-#: groupes_professionnels/views.py:71
+#: groupes_professionnels/views.py:74
 msgid "This person is already subscribed to this group."
 msgstr ""
 
-#: groupes_professionnels/views.py:94
+#: groupes_professionnels/views.py:97
 msgid "Subscription successfully removed."
 msgstr ""
 
-#: groupes_professionnels/views.py:97
+#: groupes_professionnels/views.py:100
 msgid "This person is not a member of this group. Nothing done."
 msgstr ""
 
@@ -1799,33 +1807,33 @@ msgstr ""
 msgid "regional group roles"
 msgstr ""
 
-#: groupes_regionaux/views.py:66
+#: groupes_regionaux/views.py:68
 msgid "Regional group informations updated successfully."
 msgstr ""
 
-#: groupes_regionaux/views.py:83
+#: groupes_regionaux/views.py:85
 msgid "You have been successfully added to this group."
 msgstr ""
 
-#: groupes_regionaux/views.py:85
+#: groupes_regionaux/views.py:87
 msgid "You are already a member of this group."
 msgstr ""
 
-#: groupes_regionaux/views.py:90
+#: groupes_regionaux/views.py:92
 msgid "Do you really want to quit the group"
 msgstr ""
 
-#: groupes_regionaux/views.py:102
+#: groupes_regionaux/views.py:104
 msgid ""
 "You are a member of the office of this group. You have to unsubscribe from "
 "every role in your group before leaving it."
 msgstr ""
 
-#: groupes_regionaux/views.py:110
+#: groupes_regionaux/views.py:112
 msgid "You have been successfully removed from this group."
 msgstr ""
 
-#: groupes_regionaux/views.py:112
+#: groupes_regionaux/views.py:114
 msgid "You are not a member of this group."
 msgstr ""
 
@@ -2083,7 +2091,7 @@ msgid ""
 "that was used, please contact an AIn7 administrator."
 msgstr ""
 
-#: pages/views.py:142
+#: pages/views.py:122
 msgid "Modifications saved."
 msgstr ""
 
@@ -2345,7 +2353,6 @@ msgid "School and Students Relationship"
 msgstr ""
 
 #: templates/base.html:104 templates/groupes_professionnels/base.html:37
-#: templates/groupes_professionnels/index.html:9
 msgid "Professionnal Groups"
 msgstr ""
 
@@ -2433,7 +2440,6 @@ msgstr ""
 #: templates/groupes_regionaux/base.html:59
 #: templates/manage/organizations_adv_search.html:176
 #: templates/manage/organizations_search.html:68
-#: templates/relations_ecole_etudiants/base.html:21
 #: templates/voyages/base.html:28
 msgid "Statistics"
 msgstr ""
@@ -2898,8 +2904,8 @@ msgstr ""
 #: templates/manage/office_merge.html:40
 #: templates/manage/organization_details.html:134
 #: templates/manage/user_details.html:82
-#: templates/media_communication/canal_n7.html:84
-#: templates/media_communication/canal_n7_edito.html:56
+#: templates/media_communication/canal_n7.html:59
+#: templates/media_communication/canal_n7_edito.html:42
 #: templates/news/details.html:30 templates/voyages/base.html:42
 msgid "Card Informations"
 msgstr ""
@@ -2969,7 +2975,7 @@ msgstr ""
 msgid "Send mail"
 msgstr ""
 
-#: templates/association/base.html:18 templates/pages/homepage.html:51
+#: templates/association/base.html:18 templates/pages/homepage.html:52
 #: templates/relations_ecole_etudiants/base.html:15
 msgid "Links"
 msgstr ""
@@ -2993,6 +2999,24 @@ msgstr ""
 
 #: templates/association/board.html:32 templates/association/council.html:32
 msgid "Change council roles"
+msgstr ""
+
+#: templates/association/contact.html:14 templates/association/contact.html:22
+#: templates/association/index.html:14 templates/association/status.html:14
+#: templates/groupes_professionnels/index.html:14
+#: templates/groupes_regionaux/index.html:14
+#: templates/media_communication/canal_n7.html:18
+#: templates/media_communication/canal_n7.html:26
+#: templates/media_communication/canal_n7.html:34
+#: templates/media_communication/canal_n7.html:55
+#: templates/media_communication/canal_n7_edito.html:18
+#: templates/media_communication/canal_n7_edito.html:38
+#: templates/media_communication/index.html:18
+#: templates/media_communication/website.html:18
+#: templates/pages/homepage.html:16 templates/pages/homepage.html.py:24
+#: templates/pages/international.html:17
+#: templates/relations_ecole_etudiants/index.html:13
+msgid "Edit"
 msgstr ""
 
 #: templates/association/edit_board.html:9
@@ -3476,7 +3500,6 @@ msgid "%(date)s at %(place)s"
 msgstr ""
 
 #: templates/groupes_regionaux/base.html:66
-#: templates/groupes_regionaux/index.html:9
 msgid "The regional groups"
 msgstr ""
 
@@ -3650,8 +3673,8 @@ msgid "Please choose this second office."
 msgstr ""
 
 #: templates/manage/office_merge.html:43
-#: templates/media_communication/canal_n7.html:87
-#: templates/media_communication/canal_n7_edito.html:59
+#: templates/media_communication/canal_n7.html:62
+#: templates/media_communication/canal_n7_edito.html:45
 #: templates/pages/last_change.html:5
 msgid "Update"
 msgstr ""
@@ -3792,28 +3815,11 @@ msgstr ""
 msgid "Register external user"
 msgstr ""
 
-#: templates/media_communication/canal_n7.html:57
-#: templates/media_communication/canal_n7_edito.html:29
-#: templates/media_communication/index.html:51
-#: templates/media_communication/website.html:29
+#: templates/media_communication/canal_n7.html:41
+#: templates/media_communication/canal_n7_edito.html:25
+#: templates/media_communication/index.html:25
+#: templates/media_communication/website.html:25
 msgid "Index"
-msgstr ""
-
-#: templates/media_communication/canal_n7.html:65
-#: templates/media_communication/canal_n7_edito.html:37
-msgid "Table of content"
-msgstr ""
-
-#: templates/media_communication/canal_n7_edito.html:13
-msgid "Editorial"
-msgstr ""
-
-#: templates/media_communication/website.html:13
-msgid "Web site"
-msgstr ""
-
-#: templates/media_communication/website.html:37
-msgid "Informations"
 msgstr ""
 
 #: templates/news/base.html:21 templates/news/write.html:9
@@ -3872,19 +3878,19 @@ msgstr ""
 msgid "All news"
 msgstr ""
 
-#: templates/pages/homepage.html:60 templates/sondages/details.html:15
+#: templates/pages/homepage.html:61 templates/sondages/details.html:15
 msgid "Survey"
 msgstr ""
 
-#: templates/pages/homepage.html:63
+#: templates/pages/homepage.html:64
 msgid "Surveys history"
 msgstr ""
 
-#: templates/pages/homepage.html:75
+#: templates/pages/homepage.html:76
 msgid "Results"
 msgstr ""
 
-#: templates/pages/homepage.html:82
+#: templates/pages/homepage.html:83
 msgid "Happy birthday!"
 msgstr ""
 
@@ -3940,10 +3946,6 @@ msgstr ""
 
 #: templates/registration/login.html:19
 msgid "Login"
-msgstr ""
-
-#: templates/relations_ecole_etudiants/index.html:8
-msgid "School-students relationship"
 msgstr ""
 
 #: templates/sondages/details.html:13

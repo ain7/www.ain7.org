@@ -10,45 +10,29 @@
 
 <div class="left">
 
-<h3>Présentation de canal N7</h3>
+<h3>{{ text1.title }}</h3>
 
-<p>Journal trimestriel de l'ASSOCIATION des INGENIEURS de l'ENSEEIHT.</p>
+{{ text1.body|safe }}
 
-<ul>
-<li><b>Régie Publicitaire :</b> MAZARINE Partenaires, Paris</li>
-<li><b>Contact :</b> Carole Néhmé c.nehme@mazarine.com</li>
-<li><b>Tél :</b> 01 58 05 49 17</li>
-<li><b>Commission paritaire</b> (en cours de renouvellement)</li>
-<li><b>Prix au numéro :</b> 9 €</li>
-<li><b>Abonnement extérieur :</b> 30,50 € (1an)</li>
-<li><b>Abonnement adhérents :</b> 12,20 €</li>
-</ul>
+{% if superadmin or ca_member or secretariat_member or contributor %}
+<p><a href="{% url pages.views.edit text1.id %}">{% trans "Edit" %}</a></p>
+{% endif %}
 
-<h3>L'équipe de la rédaction</h3>
+<h3>{{ text2.title }}</h3>
 
-<ul>
-{# TODO : rediriger les 2 liens vers les bons identifiants #}
-<li>Directeur de publication: <a href="/annuaire/1/">Michel Canon</a> (SET 1969)</li>
-<li>Rédacteur en chef : <a href="/annuaire/1/">Claude Thirriot</a> (1955)</li>
-<li>Secrétaire de rédaction : Sylvie Henric</li>
-</ul>
+{{ text2.body|safe }}
 
-<h3>Le magazine</h3>
+{% if superadmin or ca_member or secretariat_member or contributor %}
+<p><a href="{% url pages.views.edit text2.id %}">{% trans "Edit" %}</a></p>
+{% endif %}
 
-<p>Depuis Novembre 1986, le bulletin d’information de l’AIN7 est réellement devenu le journal de l’Association avec des articles à portée scientifique , socio- économique ou culturelle.</p>
+<h3>{{ text3.title }}</h3>
 
-<p>On y retrouve trois parties :</p>
-<ul>
-<li><b>Le Dossier :</b> partie rédactionnelle comprenant les articles techniques,</li>
-<li><b>Le Forum des lecteurs</b>,</li>
-<li><b>La Vie de l'Association</b>, incluant des informations sur les activités des groupes régionaux, de l'école et des élèves.</li>
-</ul>
+{{ text3.body|safe }}
 
-<p>De manière générale, chaque numéro est organisé autour d’un thème (…La Qualité, Sécurité et simulation, Communication, Biomécanique, Microsystèmes, Véhicules électriques, 3ième millénaire, Ingéniérie du sport, Télecoms,…..).</p>
-
-<p>La liste complète des numéros est disponible auprés du secrétariat de l’AIN7.</p>
-
-<p>Vous pourrez consulter le sommaire des derniers numéros en cliquant sur la photo du numéro correspondant.</p>
+{% if superadmin or ca_member or secretariat_member or contributor %}
+<p><a href="{% url pages.views.edit text3.id %}">{% trans "Edit" %}</a></p>
+{% endif %}
 
 </div>
 
@@ -57,28 +41,19 @@
    <h3>{% trans "Index" %}</h3> 
    <div class="right_articles">
    <ul> 
+      <li><a href="{% url ain7.media_communication.views.index %}">Media & Communication</a></li> 
       <li><a href="{% url ain7.media_communication.views.canal_n7 %}">Canal N7</a></li> 
       <li><a href="{% url ain7.media_communication.views.website %}">Site internet</a></li> 
    </ul> 
    </div>
 
-   <h3>{% trans "Table of content" %}</h3>
+   <h3>{{ text4.title }}</h3>
    <div class="right_articles">
-   <ul>
-      <li><a href="{% url ain7.media_communication.views.canal_n7_edito %}">Editorial</a></li>
-      <li>Le mot du président</li>
-      <li>Vestiges historiques</li>
-      <li>Naissance de FEST'INP, le nouveau gala des étudiants des trois écoles toulousaines de l'INPT</li>
-      <li>Le Fest'INP, une inauguration réussie !</li>
-      <li>Bureau du Développement Durable</li>
-      <li>La certification des compétences, un futur inéluctable</li>
-      <li>Forum des lecteurs</li>
-      <li>Quelques nouvelles de l'ENSEEIHT</li>
-      <li>Souvenir de Jean-Louis Amalric</li>
-      <li>Skype</li>
-      <li>Assemblée générale 2008</li>
-      <li>Commission voyage</li>
-   </ul>
+   {{ text4.body|safe }}
+
+   {% if superadmin or ca_member or secretariat_member or contributor %}
+     <p><a href="{% url pages.views.edit text4.id %}">{% trans "Edit" %}</a></p>
+   {% endif %}
    </div>
 
     <h3>{% trans "Card Informations"%}</h3>

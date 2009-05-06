@@ -31,13 +31,15 @@ from django.utils.translation import ugettext as _
 from ain7.decorators import confirmation_required
 from ain7.groupes_regionaux.models import Group, GroupMembership, GroupRole
 from ain7.groupes_regionaux.forms import *
+from ain7.pages.models import Text
 from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
 
 
 def index(request):
     groups = Group.objects.all().filter(is_active=True).order_by('name')
+    text = Text.objects.get(pk=7)
     return ain7_render_to_response(request, 'groupes_regionaux/index.html',
-                            {'groups': groups})
+                            {'groups': groups, 'text': text})
 
 def details(request, group_id):
     group = get_object_or_404(Group, pk=group_id)

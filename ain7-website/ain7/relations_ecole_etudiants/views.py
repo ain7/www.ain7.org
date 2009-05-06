@@ -20,9 +20,12 @@
 #
 #
 
+from ain7.pages.models import Text
 from ain7.utils import ain7_render_to_response
 
 
 def index(request): 
-    return ain7_render_to_response(request, 'relations_ecole_etudiants/index.html', {})
+    text = Text.objects.get(pk=8)
+    return ain7_render_to_response(request, 
+                'relations_ecole_etudiants/index.html', {'text': text})
 

@@ -91,33 +91,13 @@ def count_subscribers():
     nb_subscribers = AIn7Member.objects.all().count()
     return nb_subscribers
 
-def association(request):
-   # calcul du nombre d'AIn7Member
-    return ain7_render_to_response(request, 'pages/association.html', {'count_members': count_members(), 'count_subscribers': count_subscribers()})
-
-def status(request):
-    return ain7_render_to_response(request, 'pages/status.html', {'count_members': count_members(), 'count_subscribers': count_subscribers()})
-
-def board(request):
-    return ain7_render_to_response(request, 'pages/board.html', {'count_members': count_members(), 'count_subscribers': count_subscribers()})
-
-def council(request):
-    return ain7_render_to_response(request, 'pages/council.html', {'count_members': count_members(), 'count_subscribers': count_subscribers()})
-
-def contact(request):
-    return ain7_render_to_response(request, 'pages/contact.html', {'count_members': count_members(), 'count_subscribers': count_subscribers()})
-
-def canal_n7(request):
-    return ain7_render_to_response(request, 'pages/canal_n7.html', {})
-
 def international(request):
-    return ain7_render_to_response(request, 'pages/international.html', {})
+    text = Text.objects.get(pk=17)
+    return ain7_render_to_response(request, 'pages/international.html', 
+                       {'text': text})
 
 def mentions_legales(request):
     return ain7_render_to_response(request, 'pages/mentions_legales.html', {})
-
-def publications(request):
-    return ain7_render_to_response(request, 'pages/publications.html', {})
 
 def rss(request):
     return ain7_render_to_response(request, 'pages/rss.html', {})

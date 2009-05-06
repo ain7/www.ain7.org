@@ -8,32 +8,33 @@
 
 <div id="content-main">
 
-		<div class="left">
-			<h3>{{ text1.title }}</h3>
-			<div class="left_box">
-                         {{ text1.body|safe }}
-                         {% if superadmin or ca_member or secretariat_member %}
-                         <a href="{% url pages.views.edit text1.id %}">Edit</a>
-                         {% endif %}
-			</div>
+<div class="left">
+<h3>{{ text1.title }}</h3>
+<div class="left_box">
+{{ text1.body|safe }}
+{% if superadmin or ca_member or secretariat_member %}
+<p><a href="{% url pages.views.edit text1.id %}">{% trans "Edit" %}</a></p>
+{% endif %}
+</div>
 
-			<h3>{{ text2.title }}</h3>
-			<div class="left_box">
-                         {{ text2.body|safe }}
-                         {% if superadmin or ca_member or secretariat_member %}
-                         <a href="{% url pages.views.edit text2.id %}">Edit</a>
-                         {% endif %}
-			</div>
+<h3>{{ text2.title }}</h3>
+<div class="left_box">
+{{ text2.body|safe }}
+{% if superadmin or ca_member or secretariat_member %}
+<p><a href="{% url pages.views.edit text2.id %}">{% trans "Edit" %}</a></p>
+{% endif %}
+</div>
 
-		</div>
-		<div class="right">
-			<h3>{% trans "News" %}</h3>
- 	<div class="right_articles">
-		<div style="text-align: center">
-			<a href="/actualites/">{% trans "All news" %}</a>
-		</div>
-	</div>
-  {% for news_item in news %}
+</div>
+<div class="right">
+<h3>{% trans "News" %}</h3>
+<div class="right_articles">
+<div style="text-align: center">
+	<a href="/actualites/">{% trans "All news" %}</a>
+</div>
+</div>
+
+{% for news_item in news %}
   <div class="right_articles">
       <div>
       {% if news_item.image %}

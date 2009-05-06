@@ -100,10 +100,8 @@ urlpatterns = patterns('',
 
     # Pages particulieres au contenu pseudo statique
     (r'^apropos/$','ain7.pages.views.apropos'),
-    (r'^canal_n7/$','ain7.pages.views.canal_n7'),
     (r'^international/$','ain7.pages.views.international'),
     (r'^mentions_legales/$','ain7.pages.views.mentions_legales'),
-    (r'^publications/$','ain7.pages.views.publications'),
     (r'^lostpassword/$','ain7.pages.views.lostpassword'),
     (r'^$','ain7.pages.views.homepage'),
 
