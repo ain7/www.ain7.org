@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-05-06 23:45+0200\n"
+"POT-Creation-Date: 2009-05-07 00:26+0200\n"
 "PO-Revision-Date: 2009-03-24 22:53+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -357,7 +357,7 @@ msgid "end date"
 msgstr "Date de fin"
 
 #: annuaire/models.py:37 annuaire/models.py:121 annuaire/models.py:146
-#: emploi/models.py:103 emploi/models.py:203 evenements/models.py:55
+#: emploi/models.py:103 emploi/models.py:203 evenements/models.py:56
 #: groupes_professionnels/models.py:34 groupes_regionaux/models.py:35
 #: search_engine/models.py:128
 msgid "name"
@@ -399,7 +399,7 @@ msgstr "type de membre"
 msgid "activity"
 msgstr "activité"
 
-#: annuaire/models.py:87 evenements/models.py:60
+#: annuaire/models.py:87 evenements/models.py:61
 msgid "status"
 msgstr "statut"
 
@@ -560,9 +560,9 @@ msgstr "Promotions"
 msgid "decorations"
 msgstr "décorations"
 
-#: annuaire/models.py:321 templates/annuaire/edit.html:97
-msgid "Display my CV in the directory"
-msgstr "Afficher mon CV dans l'annuaire"
+#: annuaire/models.py:321
+msgid "Display my professional cursus in the directory"
+msgstr "Afficher mon parcours professionnel dans l'annuaire"
 
 #: annuaire/models.py:322 templates/annuaire/edit.html:100
 msgid "Display my CV in the job service section"
@@ -667,7 +667,7 @@ msgid "irc"
 msgstr "irc"
 
 #: annuaire/models.py:559 emploi/forms.py:49 emploi/models.py:323
-#: emploi/models.py:339 evenements/forms.py:98 evenements/models.py:57
+#: emploi/models.py:339 evenements/forms.py:98 evenements/models.py:58
 #: groupes_professionnels/models.py:35 groupes_regionaux/forms.py:37
 #: groupes_regionaux/models.py:36 news/forms.py:56 news/forms.py:65
 #: news/models.py:34 voyages/forms.py:65 voyages/models.py:52
@@ -1204,7 +1204,7 @@ msgstr "description longue"
 msgid "is a proposal"
 msgstr "est une proposition"
 
-#: emploi/models.py:153 emploi/models.py:289 evenements/models.py:62
+#: emploi/models.py:153 emploi/models.py:289 evenements/models.py:63
 msgid "author"
 msgstr "auteur"
 
@@ -1569,133 +1569,137 @@ msgstr "votre message"
 msgid "your email"
 msgstr "votre courriel"
 
-#: evenements/forms.py:101 evenements/models.py:56 news/models.py:36
+#: evenements/forms.py:101 evenements/models.py:57 news/models.py:36
 #: templates/evenements/details.html:14 templates/voyages/details.html:19
 #: voyages/forms.py:40 voyages/models.py:48
 msgid "date"
 msgstr "date"
 
-#: evenements/forms.py:104 evenements/models.py:65
+#: evenements/forms.py:104 evenements/models.py:66
 msgid "publication start"
 msgstr "début de publication"
 
-#: evenements/forms.py:106 evenements/models.py:66
+#: evenements/forms.py:106 evenements/models.py:67
 msgid "publication end"
 msgstr "fin de publication"
 
-#: evenements/forms.py:129 evenements/models.py:132
+#: evenements/forms.py:129 evenements/models.py:134
 msgid "organizer"
 msgstr "organisateur"
 
-#: evenements/models.py:43
+#: evenements/models.py:44
 msgid "conference"
 msgstr "conférence"
 
-#: evenements/models.py:44
+#: evenements/models.py:45
 msgid "feistivity"
 msgstr "festivité"
 
-#: evenements/models.py:45 templates/association/council.html:9
+#: evenements/models.py:46 templates/association/council.html:9
 #: templates/association/edit_council.html:6
 msgid "Administration Council"
 msgstr "Conseil d'administration"
 
-#: evenements/models.py:46
+#: evenements/models.py:47
 msgid "General Assembly"
 msgstr "Assemblée générale"
 
-#: evenements/models.py:50
+#: evenements/models.py:51
 msgid "tentative"
 msgstr "projet"
 
-#: evenements/models.py:51
+#: evenements/models.py:52
 msgid "confirmed"
 msgstr "confirmé"
 
-#: evenements/models.py:52
+#: evenements/models.py:53
 msgid "cancel"
 msgstr "annulé"
 
-#: evenements/models.py:58
+#: evenements/models.py:59
 msgid "place"
 msgstr "lieu"
 
-#: evenements/models.py:59
+#: evenements/models.py:60
 msgid "category"
 msgstr "catégorie"
 
-#: evenements/models.py:61 news/models.py:35
+#: evenements/models.py:62 news/models.py:35
 #: templates/evenements/details.html:25 templates/evenements/index.html:21
 msgid "image"
 msgstr "image"
 
-#: evenements/models.py:63
+#: evenements/models.py:64
 msgid "contact email"
 msgstr "email de contact"
 
-#: evenements/models.py:64 groupes_professionnels/models.py:38
+#: evenements/models.py:65 groupes_professionnels/models.py:38
 msgid "link"
 msgstr "lien"
 
-#: evenements/models.py:68
+#: evenements/models.py:69
 msgid "organizers"
 msgstr "Organisateurs"
 
-#: evenements/models.py:69 groupes_regionaux/models.py:64
+#: evenements/models.py:70 groupes_regionaux/models.py:64
 #: templates/groupes_regionaux/base.html:62
 msgid "regional groups"
 msgstr "groupes régionaux"
 
-#: evenements/models.py:70
+#: evenements/models.py:71
+msgid "professional groups"
+msgstr "groupes professionnel"
+
+#: evenements/models.py:72
 msgid "Pictures gallery"
 msgstr "Galerie photos"
 
-#: evenements/models.py:94 evenements/models.py:99 evenements/models.py:131
+#: evenements/models.py:96 evenements/models.py:101 evenements/models.py:133
 #: voyages/models.py:87
 msgid "event"
 msgstr "événement"
 
-#: evenements/models.py:98 evenements/models.py:113 voyages/models.py:86
+#: evenements/models.py:100 evenements/models.py:115 voyages/models.py:86
 msgid "subscriber"
 msgstr "participant"
 
-#: evenements/models.py:100 voyages/models.py:81
+#: evenements/models.py:102 voyages/models.py:81
 msgid "subscriber number"
 msgstr "nombre de participants"
 
-#: evenements/models.py:107
+#: evenements/models.py:109
 msgid "event subscription"
 msgstr "inscription"
 
-#: evenements/models.py:108
+#: evenements/models.py:110
 msgid "event subscriptions"
 msgstr "inscriptions"
 
-#: evenements/models.py:115
+#: evenements/models.py:117
 msgid "subscribers in total"
 msgstr "nouveaux inscrits"
 
-#: evenements/models.py:116
+#: evenements/models.py:118
 msgid "notes"
 msgstr "notes"
 
-#: evenements/models.py:118
+#: evenements/models.py:120
 msgid "subscribed by"
 msgstr "inscrit par"
 
-#: evenements/models.py:119
+#: evenements/models.py:121
 msgid "the"
 msgstr "le"
 
-#: evenements/models.py:121
+#: evenements/models.py:123
 msgid "at"
 msgstr "à"
 
-#: evenements/models.py:126
+#: evenements/models.py:128
 msgid "New subscription for"
 msgstr "Nouvelle inscription pour"
 
-#: evenements/models.py:134
+#: evenements/models.py:136
 msgid "send email for new subscription"
 msgstr "email en cas d'inscription"
 
@@ -2949,8 +2953,8 @@ msgstr "Participation à l'AIn7"
 #: templates/manage/office_merge.html:40
 #: templates/manage/organization_details.html:134
 #: templates/manage/user_details.html:82
-#: templates/media_communication/canal_n7.html:59
-#: templates/media_communication/canal_n7_edito.html:42
+#: templates/media_communication/canal_n7.html:60
+#: templates/media_communication/canal_n7_edito.html:43
 #: templates/news/details.html:30 templates/voyages/base.html:42
 msgid "Card Informations"
 msgstr "Informations générales"
@@ -2983,6 +2987,10 @@ msgstr "Pas de décoration"
 #: templates/annuaire/edit.html:89
 msgid "No ceremonial duty"
 msgstr "Pas de fonction honorifique"
+
+#: templates/annuaire/edit.html:97
+msgid "Display my CV in the directory"
+msgstr "Afficher mon CV dans l'annuaire"
 
 #: templates/annuaire/edit.html:99 templates/annuaire/edit.html.py:102
 #: templates/annuaire/edit.html:105 templates/manage/office_details.html:80
@@ -3053,9 +3061,9 @@ msgstr "Modifier le conseil d'administration"
 #: templates/media_communication/canal_n7.html:18
 #: templates/media_communication/canal_n7.html:26
 #: templates/media_communication/canal_n7.html:34
-#: templates/media_communication/canal_n7.html:55
+#: templates/media_communication/canal_n7.html:56
 #: templates/media_communication/canal_n7_edito.html:18
-#: templates/media_communication/canal_n7_edito.html:38
+#: templates/media_communication/canal_n7_edito.html:39
 #: templates/media_communication/index.html:18
 #: templates/media_communication/website.html:18
 #: templates/pages/homepage.html:16 templates/pages/homepage.html.py:24
@@ -3513,7 +3521,6 @@ msgid "Unsubscribe someone"
 msgstr "Désinscrire une personne"
 
 #: templates/groupes_professionnels/base.html:27
-#: templates/groupes_regionaux/base.html:32
 msgid "Edit roles of this group"
 msgstr "Modifier les rôles de ce groupe"
 
@@ -3553,6 +3560,10 @@ msgstr "Quitter le groupe."
 #: templates/groupes_regionaux/base.html:29
 msgid "Edit group informations"
 msgstr "Éditer les informations de groupe"
+
+#: templates/groupes_regionaux/base.html:32
+msgid "Edit group board"
+msgstr "Éditer le bureau du groupe"
 
 #: templates/groupes_regionaux/base.html:43
 #, python-format
@@ -3741,8 +3752,8 @@ msgid "Please choose this second office."
 msgstr "Choisissez le second établissement."
 
 #: templates/manage/office_merge.html:43
-#: templates/media_communication/canal_n7.html:62
-#: templates/media_communication/canal_n7_edito.html:45
+#: templates/media_communication/canal_n7.html:63
+#: templates/media_communication/canal_n7_edito.html:46
 #: templates/pages/last_change.html:5
 msgid "Update"
 msgstr "Mise à jour"
@@ -4234,8 +4245,8 @@ msgid "travel types"
 msgstr "types de voyage"
 
 #: voyages/models.py:48
-msgid "Example: June 2008"
-msgstr "Exemple : Juin 2008"
+msgid "Example: June 2009"
+msgstr "Exemple : Juin 2009"
 
 #: voyages/models.py:49
 msgid "term"
@@ -4326,4 +4337,3 @@ msgid "Do you really want this person not to be responsible of this travel"
 msgstr ""
 "Souhaitez-vous vraiment que cette personne ne soit pas responsable de ce "
 "voyage ?"
-

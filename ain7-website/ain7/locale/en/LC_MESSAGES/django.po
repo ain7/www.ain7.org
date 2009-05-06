@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-05-06 23:45+0200\n"
+"POT-Creation-Date: 2009-05-07 00:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -352,7 +352,7 @@ msgid "end date"
 msgstr ""
 
 #: annuaire/models.py:37 annuaire/models.py:121 annuaire/models.py:146
-#: emploi/models.py:103 emploi/models.py:203 evenements/models.py:55
+#: emploi/models.py:103 emploi/models.py:203 evenements/models.py:56
 #: groupes_professionnels/models.py:34 groupes_regionaux/models.py:35
 #: search_engine/models.py:128
 msgid "name"
@@ -394,7 +394,7 @@ msgstr ""
 msgid "activity"
 msgstr ""
 
-#: annuaire/models.py:87 evenements/models.py:60
+#: annuaire/models.py:87 evenements/models.py:61
 msgid "status"
 msgstr ""
 
@@ -554,8 +554,8 @@ msgstr ""
 msgid "decorations"
 msgstr ""
 
-#: annuaire/models.py:321 templates/annuaire/edit.html:97
-msgid "Display my CV in the directory"
+#: annuaire/models.py:321
+msgid "Display my professional cursus in the directory"
 msgstr ""
 
 #: annuaire/models.py:322 templates/annuaire/edit.html:100
@@ -661,7 +661,7 @@ msgid "irc"
 msgstr ""
 
 #: annuaire/models.py:559 emploi/forms.py:49 emploi/models.py:323
-#: emploi/models.py:339 evenements/forms.py:98 evenements/models.py:57
+#: emploi/models.py:339 evenements/forms.py:98 evenements/models.py:58
 #: groupes_professionnels/models.py:35 groupes_regionaux/forms.py:37
 #: groupes_regionaux/models.py:36 news/forms.py:56 news/forms.py:65
 #: news/models.py:34 voyages/forms.py:65 voyages/models.py:52
@@ -1193,7 +1193,7 @@ msgstr ""
 msgid "is a proposal"
 msgstr ""
 
-#: emploi/models.py:153 emploi/models.py:289 evenements/models.py:62
+#: emploi/models.py:153 emploi/models.py:289 evenements/models.py:63
 msgid "author"
 msgstr ""
 
@@ -1521,133 +1521,137 @@ msgstr ""
 msgid "your email"
 msgstr ""
 
-#: evenements/forms.py:101 evenements/models.py:56 news/models.py:36
+#: evenements/forms.py:101 evenements/models.py:57 news/models.py:36
 #: templates/evenements/details.html:14 templates/voyages/details.html:19
 #: voyages/forms.py:40 voyages/models.py:48
 msgid "date"
 msgstr ""
 
-#: evenements/forms.py:104 evenements/models.py:65
+#: evenements/forms.py:104 evenements/models.py:66
 msgid "publication start"
 msgstr ""
 
-#: evenements/forms.py:106 evenements/models.py:66
+#: evenements/forms.py:106 evenements/models.py:67
 msgid "publication end"
 msgstr ""
 
-#: evenements/forms.py:129 evenements/models.py:132
+#: evenements/forms.py:129 evenements/models.py:134
 msgid "organizer"
 msgstr ""
 
-#: evenements/models.py:43
+#: evenements/models.py:44
 msgid "conference"
 msgstr ""
 
-#: evenements/models.py:44
+#: evenements/models.py:45
 msgid "feistivity"
 msgstr ""
 
-#: evenements/models.py:45 templates/association/council.html:9
+#: evenements/models.py:46 templates/association/council.html:9
 #: templates/association/edit_council.html:6
 msgid "Administration Council"
 msgstr ""
 
-#: evenements/models.py:46
+#: evenements/models.py:47
 msgid "General Assembly"
 msgstr ""
 
-#: evenements/models.py:50
+#: evenements/models.py:51
 msgid "tentative"
 msgstr ""
 
-#: evenements/models.py:51
+#: evenements/models.py:52
 msgid "confirmed"
 msgstr ""
 
-#: evenements/models.py:52
+#: evenements/models.py:53
 msgid "cancel"
 msgstr ""
 
-#: evenements/models.py:58
+#: evenements/models.py:59
 msgid "place"
 msgstr ""
 
-#: evenements/models.py:59
+#: evenements/models.py:60
 msgid "category"
 msgstr ""
 
-#: evenements/models.py:61 news/models.py:35
+#: evenements/models.py:62 news/models.py:35
 #: templates/evenements/details.html:25 templates/evenements/index.html:21
 msgid "image"
 msgstr ""
 
-#: evenements/models.py:63
+#: evenements/models.py:64
 msgid "contact email"
 msgstr ""
 
-#: evenements/models.py:64 groupes_professionnels/models.py:38
+#: evenements/models.py:65 groupes_professionnels/models.py:38
 msgid "link"
 msgstr ""
 
-#: evenements/models.py:68
+#: evenements/models.py:69
 msgid "organizers"
 msgstr ""
 
-#: evenements/models.py:69 groupes_regionaux/models.py:64
+#: evenements/models.py:70 groupes_regionaux/models.py:64
 #: templates/groupes_regionaux/base.html:62
 msgid "regional groups"
 msgstr ""
 
-#: evenements/models.py:70
+#: evenements/models.py:71
+msgid "professional groups"
+msgstr ""
+
+#: evenements/models.py:72
 msgid "Pictures gallery"
 msgstr ""
 
-#: evenements/models.py:94 evenements/models.py:99 evenements/models.py:131
+#: evenements/models.py:96 evenements/models.py:101 evenements/models.py:133
 #: voyages/models.py:87
 msgid "event"
 msgstr ""
 
-#: evenements/models.py:98 evenements/models.py:113 voyages/models.py:86
+#: evenements/models.py:100 evenements/models.py:115 voyages/models.py:86
 msgid "subscriber"
 msgstr ""
 
-#: evenements/models.py:100 voyages/models.py:81
+#: evenements/models.py:102 voyages/models.py:81
 msgid "subscriber number"
 msgstr ""
 
-#: evenements/models.py:107
+#: evenements/models.py:109
 msgid "event subscription"
 msgstr ""
 
-#: evenements/models.py:108
+#: evenements/models.py:110
 msgid "event subscriptions"
 msgstr ""
 
-#: evenements/models.py:115
+#: evenements/models.py:117
 msgid "subscribers in total"
 msgstr ""
 
-#: evenements/models.py:116
+#: evenements/models.py:118
 msgid "notes"
 msgstr ""
 
-#: evenements/models.py:118
+#: evenements/models.py:120
 msgid "subscribed by"
 msgstr ""
 
-#: evenements/models.py:119
+#: evenements/models.py:121
 msgid "the"
 msgstr ""
 
-#: evenements/models.py:121
+#: evenements/models.py:123
 msgid "at"
 msgstr ""
 
-#: evenements/models.py:126
+#: evenements/models.py:128
 msgid "New subscription for"
 msgstr ""
 
-#: evenements/models.py:134
+#: evenements/models.py:136
 msgid "send email for new subscription"
 msgstr ""
 
@@ -2885,8 +2889,8 @@ msgstr ""
 #: templates/manage/office_merge.html:40
 #: templates/manage/organization_details.html:134
 #: templates/manage/user_details.html:82
-#: templates/media_communication/canal_n7.html:59
-#: templates/media_communication/canal_n7_edito.html:42
+#: templates/media_communication/canal_n7.html:60
+#: templates/media_communication/canal_n7_edito.html:43
 #: templates/news/details.html:30 templates/voyages/base.html:42
 msgid "Card Informations"
 msgstr ""
@@ -2918,6 +2922,10 @@ msgstr ""
 
 #: templates/annuaire/edit.html:89
 msgid "No ceremonial duty"
+msgstr ""
+
+#: templates/annuaire/edit.html:97
+msgid "Display my CV in the directory"
 msgstr ""
 
 #: templates/annuaire/edit.html:99 templates/annuaire/edit.html.py:102
@@ -2989,9 +2997,9 @@ msgstr ""
 #: templates/media_communication/canal_n7.html:18
 #: templates/media_communication/canal_n7.html:26
 #: templates/media_communication/canal_n7.html:34
-#: templates/media_communication/canal_n7.html:55
+#: templates/media_communication/canal_n7.html:56
 #: templates/media_communication/canal_n7_edito.html:18
-#: templates/media_communication/canal_n7_edito.html:38
+#: templates/media_communication/canal_n7_edito.html:39
 #: templates/media_communication/index.html:18
 #: templates/media_communication/website.html:18
 #: templates/pages/homepage.html:16 templates/pages/homepage.html.py:24
@@ -3435,7 +3443,6 @@ msgid "Unsubscribe someone"
 msgstr ""
 
 #: templates/groupes_professionnels/base.html:27
-#: templates/groupes_regionaux/base.html:32
 msgid "Edit roles of this group"
 msgstr ""
 
@@ -3473,6 +3480,10 @@ msgstr ""
 
 #: templates/groupes_regionaux/base.html:29
 msgid "Edit group informations"
+msgstr ""
+
+#: templates/groupes_regionaux/base.html:32
+msgid "Edit group board"
 msgstr ""
 
 #: templates/groupes_regionaux/base.html:43
@@ -3654,8 +3665,8 @@ msgid "Please choose this second office."
 msgstr ""
 
 #: templates/manage/office_merge.html:43
-#: templates/media_communication/canal_n7.html:62
-#: templates/media_communication/canal_n7_edito.html:45
+#: templates/media_communication/canal_n7.html:63
+#: templates/media_communication/canal_n7_edito.html:46
 #: templates/pages/last_change.html:5
 msgid "Update"
 msgstr ""
@@ -4136,7 +4147,7 @@ msgid "travel types"
 msgstr ""
 
 #: voyages/models.py:48
-msgid "Example: June 2008"
+msgid "Example: June 2009"
 msgstr ""
 
 #: voyages/models.py:49

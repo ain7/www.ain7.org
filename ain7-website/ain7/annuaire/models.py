@@ -318,8 +318,8 @@ class AIn7Member(LoggedClass):
     ceremonial_duties = models.ManyToManyField(CeremonialDuty, verbose_name=_('ceremonial duties'), blank=True, null=True)
 
     # Curriculum Vitae and Job Service
-    display_cv_in_directory = models.BooleanField(verbose_name=_('Display my CV in the directory'), default=False)
-    display_cv_in_job_section = models.BooleanField(verbose_name=_('Display my CV in the job service section'), default=True)
+    display_cv_in_directory = models.BooleanField(verbose_name=_('Display my professional cursus in the directory'), default=False)
+    display_cv_in_job_section = models.BooleanField(verbose_name=_('Display my CV in the job service section'), default=False)
     receive_job_offers = models.BooleanField(verbose_name=_('Receive job offers by email'), default=False)
     receive_job_offers_for_tracks = models.ManyToManyField(
         Track,
