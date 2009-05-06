@@ -330,13 +330,6 @@ class AIn7Member(LoggedClass):
     # Internal
     objects = AIn7MemberManager()
 
-    def karma(self):
-        karma = 0
-        list_contrib = UserContribution.objects.filter(user=self)
-        for contrib in list_contrib:
-            karma = karma + UserContributionType.objects.filter(key=contrib.type.key)[0].points
-        return karma
-
     def interesting_jobs(self):
         """Si la personne souhaite recevoir les offres de certaines filières,
         renvoie les offres pour ces filières.
@@ -594,14 +587,4 @@ class ClubMembership(models.Model):
         verbose_name = _('club membership')
         verbose_name_plural = _('club memberships')
         ordering = ['start_date']
-
-class UserContributionType(models.Model):
-     key = models.CharField(verbose_name=_('key'),max_length=20)
-     name = models.CharField(verbose_name=_('name'), max_length=50)
-     points = models.IntegerField(verbose_name=_('number of points'))
-
-class UserContribution(models.Model):
-     user = models.ForeignKey(Person, verbose_name=_('user'))
-     type = models.ForeignKey(UserContributionType, verbose_name=_('type'))
-     date = models.DateTimeField(verbose_name=_('date of contribution'), default=datetime.datetime.now, editable=False)
 

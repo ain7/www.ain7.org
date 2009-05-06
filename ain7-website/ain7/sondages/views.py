@@ -27,7 +27,6 @@ from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
-from ain7.annuaire.models import UserContributionType, UserContribution
 from ain7.decorators import confirmation_required
 from ain7.sondages.models import Choice, Survey, Vote
 from ain7.sondages.forms import *
@@ -65,9 +64,6 @@ def vote(request, survey_id):
             request.user.message_set.create(message=_('Your vote has been registered.'))
             vote = Vote(choice=choice, voter=voter, survey=survey)
             vote.save()
-            contrib_type = UserContributionType.objects.filter(key='poll_vote')[0]
-            contrib = UserContribution(user=voter, type=contrib_type)
-            contrib.save()
     else :
         # Already voted
         request.user.message_set.create(message=_('You have already vote for this survey.'))

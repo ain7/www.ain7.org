@@ -23,7 +23,7 @@
 from django import forms
 from django.utils.translation import ugettext as _
 
-from ain7.annuaire.models import UserContribution, UserContributionType, Person
+from ain7.annuaire.models import Person
 from ain7.evenements.models import EventOrganizer, EventSubscription, Event
 from ain7.fields import AutoCompleteField
 from ain7.widgets import DateTimeWidget
@@ -52,9 +52,6 @@ class JoinEventForm(forms.Form):
         subscription.note = self.cleaned_data['note']
         subscription.subscribed_by = kwargs['subscriber']
         subscription.save()
-        contrib_type=UserContributionType.objects.get(key='event_subcription')
-        contrib=UserContribution(user=kwargs['subscriber'], type=contrib_type)
-        contrib.save()
         return subscription
 
 class SubscribeEventForm(forms.Form):
@@ -124,10 +121,6 @@ class EventForm(AIn7ModelForm):
             contributor = kwargs['contributor']
             event = super(EventForm, self).save()
             event.logged_save(contributor)
-            contrib_type = \
-                UserContributionType.objects.get(key=u'event_register')
-            contrib = UserContribution(user=contributor, type=contrib_type)
-            contrib.save()
         else:
             event = super(EventForm, self).save()            
         return event

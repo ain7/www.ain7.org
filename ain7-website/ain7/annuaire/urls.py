@@ -69,8 +69,6 @@ urlpatterns = patterns('ain7.annuaire.views',
     (r'^(?P<user_id>\d+)/address/(?P<address_id>\d+)/edit/$', 'address_edit'),
     (r'^(?P<user_id>\d+)/address/(?P<address_id>\d+)/delete/$', 'address_delete'),
     (r'^(?P<user_id>\d+)/address/add/$', 'address_edit'),
-    # User contributions
-    (r'^(?P<user_id>\d+)/contributions/$', 'contributions'),
     # Phone numbers
     (r'^(?P<user_id>\d+)/phone/(?P<phone_id>\d+)/edit/$', 'phone_edit'),
     (r'^(?P<user_id>\d+)/phone/(?P<phone_id>\d+)/delete/$', 'phone_delete'),

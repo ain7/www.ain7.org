@@ -82,21 +82,6 @@ class SearchOrganizationForm(forms.Form):
         return Organization.objects.filter(**criteria).order_by('name')    
         
 
-class SearchContributionForm(forms.Form):
-    user = forms.IntegerField(label=_('user'), required=True, widget=AutoCompleteField(completed_obj_name='person'))
-    type = forms.CharField(label=_('Type'), max_length=50, required=False)
-
-    def clean_user(self):
-        u = self.cleaned_data['user']
-
-        if u:
-            try:
-                Person.objects.get(id=u)
-            except Person.DoesNotExist:
-                raise ValidationError(_('The entered user does not exist.'))
-
-        return self.cleaned_data['user']
-
 class MemberRoleForm(forms.Form):
     username = forms.CharField(label=_('Username'), max_length=100, required=True, widget=AutoCompleteField(completed_obj_name='person'))
 

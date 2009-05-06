@@ -36,7 +36,7 @@ from ain7.emploi.forms import OrganizationForm, OfficeForm, OfficeFormNoOrg
 from ain7.manage.models import *
 from ain7.manage.forms import *
 from ain7.annuaire.forms import PersonForm
-from ain7.annuaire.models import Person, UserContribution
+from ain7.annuaire.models import Person
 from ain7.search_engine.models import *
 from ain7.search_engine.utils import *
 from ain7.search_engine.views import *

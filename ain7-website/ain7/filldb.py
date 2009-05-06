@@ -111,19 +111,6 @@ def filldb():
     maritalstatus_7 = annuaire.MaritalStatus(status=u"Séparé(e)")
     maritalstatus_7.save()
 
-    # Contributions
-    poll_contrib = annuaire.UserContributionType(key=u'poll_register',name=u'Création d\'un sondage',points=10)
-    poll_contrib.save()
-
-    poll_vote_contrib = annuaire.UserContributionType(key=u'poll_vote',name=u'Vote pour un sondage',points=5)
-    poll_vote_contrib.save()
-
-    event_contrib = annuaire.UserContributionType(key=u'event_register',name=u'Ajout d\'un événement',points=20)
-    event_contrib.save()
-
-    event_subscription_contrib = annuaire.UserContributionType(key=u'event_subcription',name=u'Inscription à un événement',points=5)
-    event_subscription_contrib.save()
-
     annuaireSearchEngine = search_engine.SearchEngine()
     annuaireSearchEngine.name = "annuaire"
     annuaireSearchEngine.save()
@@ -2150,7 +2137,7 @@ Voilà.
     text13.save()
 
     text14 = pages.Text()
-    text14.title = u"Contenu"
+    text14.title = u"Au sommaire du dernier numéro"
     text14.body = u"""<ul>
       <li><a href="/media_communication/canal_n7/edito/">Editorial</a></li>
       <li>Le mot du président</li>

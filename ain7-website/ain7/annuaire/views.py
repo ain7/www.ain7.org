@@ -53,14 +53,6 @@ def annuaire_search_engine():
     return get_object_or_404(SearchEngine, name="annuaire")
 
 @login_required
-def contributions(request, user_id):
-    p = get_object_or_404(Person, pk=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=p)
-    list_contributions = UserContribution.objects.filter(user=p).order_by('-date')
-    return ain7_render_to_response(request, 'annuaire/contributions.html',
-                            {'person': p, 'ain7member': ain7member, 'list_contributions': list_contributions})
-
-@login_required
 def details(request, user_id):
     p = get_object_or_404(Person, pk=user_id)
     ain7member = get_object_or_404(AIn7Member, person=p)

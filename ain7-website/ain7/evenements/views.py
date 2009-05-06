@@ -35,7 +35,7 @@ from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
-from ain7.annuaire.models import Person, UserContribution, UserContributionType, Email
+from ain7.annuaire.models import Person, Email
 from ain7.decorators import confirmation_required
 from ain7.evenements.models import Event, EventSubscription
 from ain7.evenements.forms import *
