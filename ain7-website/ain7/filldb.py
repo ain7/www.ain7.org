@@ -2087,8 +2087,8 @@ Voilà.
 <p>Au printemps 2009, un nouveau format de Canal N7, plus moderne, facilitant la lecture, va apparaître. Nous attendions vos avis avec impatience.</p>
 
 <ul>
-<li><a href="{% url ain7.media_communication.views.canal_n7 %}">Canal N7</a>, la revue trimestrielle de l'association</li>
-<li><a href="{% url ain7.media_communication.views.website %}">Site internet</a>, lieu de recontre électronique de toutes les générations</li>
+<li><a href="/media_communication/canal_n7/">Canal N7</a>, la revue trimestrielle de l'association</li>
+<li><a href="/">Site internet</a>, lieu de recontre électronique de toutes les générations</li>
 <li><a href="/annuaire/">L'Annuaire</a>, l'annuaire de tous les anciens édité tous les ans au mois de juillet</li>
 </ul>
 """
