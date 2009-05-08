@@ -22,20 +22,21 @@
 
 from datetime import datetime
 
-from django.shortcuts import get_object_or_404
 from django import forms
+from django.db import models
 from django.forms import widgets
-from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
-from django.db import models
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
+from ain7.annuaire.models import Person
 from ain7.decorators import confirmation_required
+from ain7.pages.models import Text
 from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
 from ain7.voyages.models import Travel, Subscription, TravelResponsible
 from ain7.voyages.forms import *
-from ain7.annuaire.models import Person
 
 
 def index(request):
@@ -43,8 +44,9 @@ def index(request):
         start_date__gte=datetime.now()).order_by('-start_date')
     prev_travels = Travel.objects.filter(
         start_date__lt=datetime.now()).order_by('-start_date')[:5]
+    text = Text.objects.get(shortname='voyages')
     return ain7_render_to_response(request, 'voyages/index.html',
-        {'next_travels': next_travels, 'previous_travels': prev_travels})
+        {'next_travels': next_travels, 'previous_travels': prev_travels, 'text': text})
 
 @login_required
 def add(request):

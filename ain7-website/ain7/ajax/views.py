@@ -77,7 +77,7 @@ def ajax_request(request, completed_name, field_name):
 
 def person(input):
     elements = completion_list(
-        Person.objects.filter(complete_name__icontains=input).order_by('last_name','first_name'))
+        Person.objects.filter(complete_name__icontains=input).order_by('last_name','first_name'))[:15]
 
     return elements
 

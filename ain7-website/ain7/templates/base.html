@@ -144,5 +144,19 @@
 			   &copy; Copyright 2009 AIn7 - Version {{ portal_version  }}</p>
 		</div>
 	</div>
+<div>
+<!-- Piwik -->
+<a href="http://piwik.org" title="Web analytics" onclick="window.open(this.href);return(false);">
+<script type="text/javascript">
+document.write(unescape("%3Cscript src='" + {{ piwik_url }} + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+piwik_action_name = '';
+piwik_idsite = 1;
+piwik_url = pkBaseURL + "piwik.php";
+piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+</script>
+<object><noscript><p>Web analytics <img src="{{ piwik_url }}/piwik.php?idsite={{ piwik_site_id }}" style="border:0" alt=""/></p></noscript></object></a>
+<!-- End Piwik Tag -->
+</div>
 </body>
 </html>

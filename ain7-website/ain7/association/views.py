@@ -21,8 +21,8 @@
 #
 
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
@@ -45,12 +45,12 @@ def current_board_roles():
     return [ rol for rol in CouncilRole.objects.filter(board_member=True) if rol.current() ]
 
 def index(request):
-    text = Text.objects.get(pk=3) 
+    text = Text.objects.get(shortname='presentation_ain7') 
     return ain7_render_to_response(request, 'association/index.html', 
                 {'count_members': count_members(), 'text': text}) 
  
 def status(request): 
-    text = Text.objects.get(pk=4) 
+    text = Text.objects.get(shortname='status_ain7') 
     return ain7_render_to_response(request, 'association/status.html', 
                 {'count_members': count_members(), 'text': text}) 
  
@@ -65,8 +65,8 @@ def council(request):
          'current_roles': current_council_roles() }) 
  
 def contact(request):
-    text1 = Text.objects.get(pk=5) 
-    text2 = Text.objects.get(pk=6) 
+    text1 = Text.objects.get(shortname='secretariat_ain7') 
+    text2 = Text.objects.get(shortname='website_ain7')
     return ain7_render_to_response(request, 'association/contact.html', 
           {'count_members': count_members(), 'text1': text1, 'text2': text2}) 
 
@@ -163,34 +163,4 @@ def change_council_dates(request, role_id=None, all_current=None):
         {'roles_by_type': roles_by_type, 'all_current': all_current,
          'count_members': count_members(),          
          'back': request.META.get('HTTP_REFERER', '/')})
-
-
-# TODO : this method seems useless now
-@login_required
-def build_board_roles_by_type(request, all_current=None,
-    the_type=None, form_for_the_type=None,
-    the_role=None, form_for_the_role=None):
-    """Structure les données à passer à la page d'édition du bureau de l'AI.
-    all_current: 'current' n'affiche que les membres actuelles, 'all' tous
-    the_type, form_for_the_type: on peut envoyer un formulaire spécifique
-        à un type (exple: ajouter un secrétaire)
-    the_role, form_for_role: on peut envoyer un formulaire spécifique
-        à un role (exple: changer les dates d'un membre donné)"""
-    roles_by_type = []
-    for a_type, a_type_display in BoardRole.BOARD_ROLE:
-        a_form = None
-        if str(a_type)==the_type: a_form = form_for_the_type
-        if all_current == 'current':
-            roles = [ r for r in current_board_roles() if r.role==a_type]
-        else:
-            roles = BoardRole.objects.filter(role=a_type).order_by('-start_date')
-        this_types_roles = []
-        for role in roles:
-            if role == the_role:
-                this_types_roles.append((role, form_for_the_role))
-            else:
-                this_types_roles.append((role, None))
-        roles_by_type.append((a_type, a_type_display,
-                              a_form, this_types_roles))
-    return roles_by_type
 

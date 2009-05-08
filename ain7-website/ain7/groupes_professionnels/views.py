@@ -35,14 +35,15 @@ from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_
 
 
 def index(request):
-    text = Text.objects.get(pk=9)
+    text = Text.objects.get(shortname='groupes_professionnels')
     groups = GroupPro.objects.all().order_by('name')
     return ain7_render_to_response(request, 'groupes_professionnels/index.html',
                     {'groups': groups, 'text': text})
 
 def details(request, group_id):
     g = get_object_or_404(GroupPro, pk=group_id)
-    return ain7_render_to_response(request, 'groupes_professionnels/details.html', {'group': g})
+    return ain7_render_to_response(request, 
+                        'groupes_professionnels/details.html', {'group': g})
 
 @login_required
 def subscribe(request, group_id):
@@ -71,10 +72,12 @@ def subscribe(request, group_id):
                     ' '+p.first_name+' '+p.last_name+' '+_('to this group.'))
                 return HttpResponseRedirect(reverse(details, args=[group.id]))
             else:
-                request.user.message_set.create(message=_('This person is already subscribed to this group.'))
+                request.user.message_set.create(
+                message=_('This person is already subscribed to this group.'))
 
     back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request, 'groupes_professionnels/subscribe.html',
+    return ain7_render_to_response(request, 
+         'groupes_professionnels/subscribe.html',
         {'group': group, 'form': f, 'back': back,
          'group_list': GroupPro.objects.all()})
 
@@ -97,7 +100,7 @@ def unsubscribe(request, group_id):
                     message=_('Subscription successfully removed.'))
             else:
                 request.user.message_set.create(
-                    message=_('This person is not a member of this group. Nothing done.'))                
+               message=_('This person is not a member of this group. Nothing done.'))                
         else:
             request.user.message_set.create(
                 message=_('Something was wrong in the form you filled. No modification done.'))

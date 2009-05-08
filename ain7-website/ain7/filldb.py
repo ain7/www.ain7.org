@@ -46,6 +46,685 @@ import ain7.voyages.models as voyages
 
 def filldb():
 
+    text1 = pages.Text()
+    text1.shortname = "edito"
+    text1.title = u"Le réseau AIN7 : une force collective et des atouts au service de chaque diplômé ENSEEIHT"
+    text1.body = u"""<img src="/site_media/images/logo_ain7.png" class="image" alt="Big Image" />
+<p>L'ENSEEIHT a fêté son centenaire en 2007. Naturellement issue des premières promotions 
+d'ingénieurs de l'école, l'AIN7 a, au fil des décennies, toujours œuvré au service de tous 
+les diplômés, elle a développé et entretient entre eux des liens professionnels et amicaux, 
+elle contribue à des actions en profondeur, au sein de l'Ecole et dans le monde des affaires, 
+pour améliorer et optimiser l'image et la notoriété de notre communauté.</p>
+<p>12 000 ingénieurs ont reçu, depuis l'origine, le diplôme d'ingénieur. Près de 10 000 sont 
+en activité… ceci dans tous les grands secteurs de l'Economie. Cela crée un potentiel de premier 
+plan et l'AIN7 se place en véritable catalyseur…</p>
+<p>En ce début de 21ème siècle, réseau est obligatoirement synonyme de web. Conscient de ce fait 
+incontournable, l'AIN7 prend en ce début 2009 plusieurs initiatives majeures :</p>
+<ul>
+<li>une présence renforcée sur les principaux réseaux communautaires professionnels : en particulier 
+Viadeo, qui va ouvrir une communauté officielle supportée par l'AIN7.</li>
+<li>notre nouveau site, visitez le régulièrement : il vous tiendra informé de toutes nos initiatives… 
+et n'oubliez pas, l'AIN7 c'est VOUS. Venez rejoindre le noyau de volontaires qui font vivre notre communauté, 
+et si vous ne trouvez pas dans nos activités, celle que vous attendez, pourquoi ne pas venir la susciter 
+en nous rejoignant ?</li>
+</ul>
+
+<p><b>Jean-François Perret<br/>
+Président AIN7</b></p>
+"""
+    text1.save()
+
+    text2 = pages.Text()
+    text2.shortname = "enseeiht"
+    text2.title = u"L'ENSEEIHT"
+    text2.body = u"""<img src="/site_media/images/n7_small.png" class="image" alt="ENSEEIHT" />
+<p>L'ENSEEIHT (prononcer « N7 ») est l'École nationale supérieure d'électrotechnique, d'électronique, 
+d'informatique, d'hydraulique et des télécommunications. Elle appartient à l'Institut national polytechnique
+de Toulouse.</p>
+<p>École d'ingénieurs en convention avec l'École polytechnique, l'ENSEEIHT est actuellement structurée en cinq
+filières, comprenant chacune un département de formation et un laboratoire de recherche étroitement lié.</p>
+<p>Les cinq filières d'enseignement sont les suivantes :</p>
+<ul style="list-style-type: square; margin: 1ex; margin-left: 4ex">
+  <li>Génie électrique et automatique</li>
+  <li>Électronique et Traitement du signal</li>
+  <li>Informatique et Mathématiques appliquées</li>
+  <li>Hydraulique et Mécanique des fluides</li>
+  <li>Télécommunications et Réseaux</li>
+</ul>
+<p>L'ENSEEIHT fait partie du groupe des ENSI et est la plus importante ENSI en termes d'élèves diplomés chaque 
+année (près de 400).</p>
+"""
+    text2.save()
+
+    text3 = pages.Text()
+    text3.shortname = "presentation_ain7"
+    text3.title = u"L'AIn7..."
+    text3.body = u"""<h4>Des offres d'emploi</h4>
+<p>L'AIN7 gère un service Emplois-Carrières au bénéfice de l'Ecole et de ses membres :</p>
+<ul>
+<li>Mise à disposition des offres d'emploi et leur édition périodique,</li>
+<li>Tenue à jour d'un fichier des ingénieurs en recherche de situation,</li>
+<li>Réponse à des demandes ou des propositions urgentes.</li> 
+</ul>
+ 
+<h4>Une assistance personnalisée</h4>
+<p>Les ingénieurs qui le souhaitent peuvent réaliser un auto bilan à l'aide d'un document élaboré par l'Association, leur donnant ainsi la possibilité d'affiner leur projet professionnel. Ils peuvent également solliciter les conseils d'anciens qui disposent de compétences dans les domaines d'activité concernés. Par ailleurs, l'Association peut apporter son soutien à ceux qui doivent faire face à des situations économiques difficiles.</p>
+
+<h4>Des correspondants d'entreprise</h4>
+<p>L'Association anime un réseau de correspondants d'entreprise constitué d'anciens élèves qui exercent des responsabilités dans des entreprises où l'on recense un nombre significatif d'ingénieurs ENSEEIHT. Ils y sont les interlocuteurs privilégiés de l'Association, notamment pour faciliter les échanges d'information avec leur entreprise ainsi que l'accès et l'intégration des nouveaux embauchés. Ils peuvent contribuer également à favoriser l'organisation et l'accueil de stages pour les élèves et la conclusion de contrats de recherche avec les laboratoires de l'Ecole.</p>
+
+<h4>Des groupes professionnels</h4>
+<p>Leur vocation est de permettre des échanges entre les ingénieurs exerçant leur activité dans une même spécialité (TIC, Energie,…). Des rencontres et des colloques facilitent la confrontation de leurs expériences et de leurs points de vue avec ceux d'intervenants extérieurs. Plus généralement, l'Association est attentive à ce que la meilleure osmose se fasse entre ses membres et leur environnement socio-professionnel.</p>
+
+<p>L'Association est présente dans :</p>
+<p><b>LES ORGANISMES REPRÉSENTATIFS DE LA PROFESSION D'INGÉNIEUR</b></p>
+<p>L'Association est intégrée dans le tissu représentatif du monde des ingénieurs. Elle est membre du CNISF, Conseil National des Ingénieurs et Scientifiques de France, et participe aux travaux de ses Unions Régionales, les URIS. Cette présence au CNISF est particulièrement active depuis plusieurs années : un de nos camarades, Jean-Pierre Laborie a été Vice-Président du CNISF en charge des actions régionales… Actuellement, Jean-François Perret (Président de l'AI) et Isabelle Avenas (Présidente du Groupe Parisien) siègent au Conseil d'Administration du CNISF.</p>
+<p>L'Association est particulièrement attachée à la valorisation du titre d'ingénieur et à sa reconnaissance au sein de l'Union Européenne. Elle est également attentive au respect de la place des Grandes Ecoles d'Ingénieurs dans l'évolution du système éducatif français. Les ingénieurs ENSEEIHT figurent dans le Répertoire Français des Ingénieurs, géré par le CNISF et accessible sur <a href="http://cnisf.org">le site Internet du CNISF</a>.</p>
+
+<p><b>LES ENTREPRISES</b></p>
+<p>Avec une approche dynamique du monde professionnel, l'Association offre aux entreprises désireuses d'attirer et de recruter des ingénieurs ENSEEIHT la possibilité de se faire mieux connaître par :</p>
+<ul>
+<li>des espaces publicitaires: dans son Annuaire, dans sa revue trimestrielle, CANAL N7, sur son site Internet,</li>
+<li>des tables rondes réunissant professionnels, enseignants et élèves ingénieurs de l'Ecole,</li>
+<li>des visites et des forums de recrutement, en liaison avec l'Ecole.</li>
+</ul>
+
+<p><b>LES MÉDIAS</b></p>
+<p>Afin de développer l'image du diplôme, de l'Ecole et de ses ingénieurs, l'Association s'adresse, par l'intermédiaire de la presse spécialisée, à différents publics, acteurs directs ou prescripteurs, pour :</p>
+<ul>
+<li>actualiser l'information des élèves des classes préparatoires, de leurs parents et de leurs professeurs,</li>
+<li>faciliter la recherche d'emploi et l'évolution des carrières vers des responsabilités toujours plus attractives et valorisantes,</li>
+<li>délivrer aux responsables d'entreprises, directeurs des ressources humaines et aux cabinet spécialisés, les informations utiles pour leurs choix de recrutement.</li>
+</ul>
+
+<p>L'Association prête une attention soutenue à la vie de l'Ecole.</p>
+<p>Elle est représentée au Conseil d'Administration de l'Ecole par 2 représentants (actuellement Michel Canon et Pierre Hugot) ; un ingénieur ENSEEIHT, Bernard Leblanc, président le Conseil d'Administration où elle apporte son expertise de la connaissance des besoins des entreprises en matière de qualification des ingénieurs. Elle est partie prenante dans l'évolution des enseignements, en participant notamment à des commissions thématiques de ce Conseil.</p>
+<p>Elle organise des rencontres régulières avec les filières de l'Ecole et le Corps professoral, qui constituent un lieu d'échange et de meilleure compréhension réciproque. Cette dynamique va être renforcée en 2009 avec :</p>
+<ul>
+<li>Programme de participation de l'AIN7 à l'organisation d'informations sur les métiers d'ingénieurs à destination des élèves dans chaque filière</li>
+<li>Participation active aux "mini-forums" Etudiants/Entreprises</li>
+<li>Pour préparer leur recherche de stages ou d'un premier emploi, les élèves qui le souhaitent peuvent recourir à l'expérience de leurs aînés.</li>
+<li>Réseaux d'accueil des élèves stagiaires ou débutants en entreprises</li>
+<li>Afin de mener un dialogue sur son futur métier, chaque élève peut établir une relation interpersonnelle avec un de ses anciens.</li>
+</ul>
+<p>En outre, l'Association apporte son aide au Bureau des Elèves pour la recherche de partenaires associés aux manifestations et aux événements qu'organisent les étudiants : Festival N7, week-end d'intégration, tournois inter Grandes Ecoles, Junior-Entreprise, activités festives ou professionnelles,…</p>
+
+<p>L'Association favorise le renforcement des liens entre tous ses membres.</p>
+<p><b>AU PLAN NATIONAL</b></p>
+<p>Des manifestations de prestige sont organisées régulièrement à Toulouse et à Paris, permettant notamment la rencontre de personnalités du monde de l'entreprise. En particulier, le diner-débat annuel co-organisé au Sénat par l'AIN7 et l'Ecole rencontrent chaque année un grand succès.</p>
+
+<p><b>AU PLAN RÉGIONAL</b></p>
+<p>Les adhérents d'une même région sont conviés à diverses activités : rencontres autour d'un thème, conférences, visites techniques et culturelles, repas conviviaux. Les initiatives sont riches et variées.</p>
+
+<p><b>AU PLAN INTERNATIONAL</b></p>
+<p>La communication entre ceux qui exercent leurs responsabilités professionnelles dans la même zone géographique est facilitée, leur donnant ainsi la possibilité d'échanger leurs expériences. Dans les pays où l'on dénombre la présence de nombreux ingénieurs ENSEEIHT, par exemple aux Etats-Unis et au Canada, des rencontres sont organisées. Cependant, de plus en plus, le web devient l'élément privilégié d'échange de nos communautés expatriées. En 2009, le lancement de plusieurs initiatives "web" va renforcer ce lien.</p>
+<p>L'Association propose aussi des voyages qui sont autant d'occasions d'enrichir les relations entre les participants, dans un contexte particulièrement agréable et sympathique. La variété des destinations : Europe, Asie, Afrique, Amérique, le pittoresque des pays découverts sont autant d'atouts qui incitent ses membres à se retrouver et à partager émotions et souvenirs communs.</p>
+"""
+
+    text3.save()
+
+    text4 = pages.Text()
+    text4.shortname = "statuts_ain7"
+    text4.title = u"Statuts de l'association"
+    text4.body = u"""<h4>I - BUT ET COMPOSITION DE L'ASSOCIATION</h4>
+
+<h5>Article premier</h5>
+
+L'Association dite AIN7, ASSOCIATION des INGENIEURS de l'ECOLE NATIONALE SUPERIEURE d'ELECTROTECHNIQUE, d'ELECTRONIQUE, d'INFORMATIQUE et d'HYDRAULIQUE de TOULOUSE (ENSEEIHT-IET), fondée en 1912, a pour but :
+
+<ul>
+    <li>D'entretenir et de resserrer les liens d'amitié et de solidarité qui existaient à l'Ecole, et de relier les nouvelles promotions aux précédentes.</li>
+    <li>De faciliter aux anciens élèves l'accès aux situations auxquelles ils peuvent prétendre. Dans ce but, tous les Membres de l'Association s'engagent à signaler à l’Association les emplois vacants qu'ils peuvent connaître.</li>
+    <li>De procurer à ses Membres le moyen d'étendre leurs connaissances par les communications, travaux et documents qui seront présentés aux réunions et discutés s'il y a lieu.</li>
+    <li>De développer l'action sociale au moyen de prêts gratuits ou de dons aux Membres de l'Association et le cas échéant, à leurs père, mère, veuf, veuve ou enfants dans le besoin.</li>
+</ul>
+
+Sa durée est illimitée.
+
+Elle a son Siège à Toulouse, à l'ECOLE NATIONALE SUPERIEURE d'ELECTROTECHNIQUE, d'ELECTRONIQUE, d'INFORMATIQUE et d'HYDRAULIQUE.
+
+<h5>Article 2</h5>
+
+<p>Les moyens d'action de l'Association sont notamment : un annuaire, des moyens de diffusion d'information dont un journal périodique, l'animation de groupes régionaux et l'animation de manifestations visant à atteindre les objectifs visés à l'article 1.</p>
+
+<h5>Article 3</h5>
+
+<p>L'Association se compose de membres actifs, de membres associés, de membres affiliés et de membres d'honneur.</p>
+
+<ul>
+   <li>Sont MEMBRES ACTIFS les ingénieurs diplômés de l'IET, de l'ENSEEHT, de l'ENSEIHT ou de l'ENSEEIHT à jour de leur cotisation.</li>
+   <li>Sont MEMBRES ASSOCIES les diplômés à la suite d'une des formations suivies à l'IET, l'ENSEEHT, l'ENSEIHT ou l'ENSEEIHT autres que celles sanctionnées par le diplôme d'ingénieur de l'Ecole et dont la liste est établie par l'Assemblée Générale ordinaire. Les diplômés d'une section spéciale de l'Ecole sont membres associés s'ils sont à jour de leur cotisation.</li>
+   <li>Sont MEMBRES AFFILIES durant leur formation à l'ENSEEIHT, les étudiants préparant un diplôme qui leur permettra de devenir membre actif ou membre associé et payant la cotisation correspondante.</li>
+   <li>Un membre actif ou associé peut, de plus, porter le titre de "BIENFAITEUR" si, pour l'année en cours, il verse la cotisation correspondante.</li>
+   <li>Le montant des cotisations est fixé par l'Assemblée Générale.</li>
+</ul>
+
+<p>Le titre de MEMBRE d'HONNEUR peut être décerné par le Conseil d'Administration aux personnes qui rendent ou qui ont rendu des services signalés à l'Association. Ce titre confère aux personnes qui l'ont obtenu, le droit de faire partie de l'Assemblée Générale sans être tenues de payer une cotisation.</p>
+
+<h5>Article 4</h5>
+
+<p>La qualité de membre de l'Association se perd :</p>
+
+<ul>
+   <li>par la radiation prononcée pour motif grave par le Conseil d'Administration, sauf recours à l'Assemblée Générale. Le membre concerné est préalablement appelé à fournir ses explications ;</li>
+   <li>par le non-paiement de la cotisation (sauf pour ceux qui en sont dispensés).</li>
+</ul>
+
+<h4>II - ADMINISTRATION ET FONCTIONNEMENT</h4>
+
+<h5>Article 5</h5>
+
+<p>L'Association est administrée par un Conseil composé de 18 à 24 membres élus par l'Assemblée Générale au scrutin secret pour 2 ans.</p>
+
+<p>La composition de ce Conseil est la suivante :</p>
+
+<ul>
+    <li>18 à 22 membres élus parmi les membres actifs ;</li>
+    <li>au plus 2 membres élus parmi les membres associés.</li>
+</ul>
+
+<p>Les membres sortants sont immédiatement rééligibles. Le renouvellement des membres élus a lieu par ouverture de 11 postes de membres actifs et 1 poste de membre associé tous les ans.</p>
+
+<p>En cas de vacance provoquée par le départ d'un membre ou insuffisance de candidats conduisant à moins de 18 membres élus, le Conseil peut combler provisoirement chaque poste vacant par cooptation d'un nouveau membre actif ou associé. Son mandat prendra fin à l'époque où devrait normalement expirer le mandat du membre remplacé.</p>
+
+<p>Le Conseil élit à bulletin secret, tous les ans, parmi ses membres, un bureau composé au moins d'un Président, de deux vice-présidents, d'un secrétaire, d'un trésorier et d'un trésorier-adjoint. Un même membre ne peut être Président plus de trois années consécutives. Le Président est obligatoirement un membre actif.</p>
+
+<h5>Article 6</h5>
+
+<p>Le Conseil se réunit une fois au moins tous les six mois et chaque fois qu'il est convoqué par son Président ou sur la demande du quart de ses membres.</p>
+
+<p>La présence du tiers au moins des membres élus du Conseil d'Administration est nécessaire pour la validité des délibérations.</p>
+
+<p>Chaque administrateur peut se faire représenter à une séance du Conseil par un autre administrateur. Les mandataires doivent être porteurs lors de chaque séance du Conseil d'un mandat écrit et nominatif. Un administrateur ne peut représenter qu'un seul membre absent.</p>
+
+<p>Les Présidents de groupes régionaux dûment constitués peuvent participer au Conseil avec voix consultative.</p>
+
+<p>Le Conseil peut appeler les personnes de son choix à assister avec voix consultative de façon régulière ou exceptionnelle à ses réunions.</p>
+
+<p>Les agents rétribués de l'Association peuvent être appelés par le Président à assister avec voix consultative, aux séances de l'Assemblée Générale et du Conseil d'Administration.</p>
+
+<p>Il est tenu procès-verbal des séances.</p>
+
+<p>Les procès-verbaux sont signés par le Président et le Secrétaire. Ils sont établis sans blancs, ni ratures sur des feuilles numérotées et conservées au siège de l'Association.</p>
+
+<h5>Article 7</h5>
+
+<p>Les membres du Conseil d'Administration ne peuvent recevoir aucune rétribution en raison des fonctions qui leur sont confiées.</p>
+
+<p>Des remboursements de frais sont seuls possibles. Ils doivent faire l'objet d'une décision expresse du Conseil d'Administration, statuant hors de la présence des intéressés : des justificatifs doivent être produits qui font l'objet de vérification.</p>
+
+<h5>Article 8</h5>
+
+<p>L'Assemblée Générale de l'Association comprend : les membres actifs et les membres associés avec voix délibérative. Les membres d’honneur et les membres affiliés peuvent assister à l’Assemblée Générale.</p>
+
+<p>Elle se réunit au moins une fois par an et chaque fois qu'elle est convoquée par le Conseil d'Administration ou sur la demande au moins du quart de ses membres. Son ordre du jour est réglé par le Conseil d'Administration.</p>
+
+<p>Son bureau est celui du Conseil.</p>
+
+<p>Lors de l'Assemblée Générale, ses membres entendent les rapports sur la gestion du Conseil d'Administration, sur la situation financière de l'Association, approuvent les comptes de l'exercice clos, votent le budget de l'exercice suivant, délibèrent sur les questions mises à l'ordre du jour et pourvoient, s'il y a lieu, au renouvellement des membres du Conseil d'Administration.</p>
+
+<p>Le rapport annuel et les comptes sont communiqués chaque année aux membres actifs et aux membres associés de l'Association.</p>
+
+<p>Il est tenu procès verbal des séances. Les procès verbaux sont signés par le Président et le Secrétaire. Ils sont établis sans blancs ni ratures, sur des feuillets numérotés et conservés au siège de l'Association.</p>
+
+<p>Chaque membre présent ne peut détenir plus d'un pouvoir en sus du sien.</p>
+
+<p>En cas de partage des voix, celle du Président est prépondérante.</p>
+
+<p>Sauf application des dispositions de l'article 6, les agents rétribués, non-membres de l'Association n'ont pas accès à l'Assemblée Générale.</p>
+
+<h5>Article 9</h5>
+
+<p>Le Président représente l'Association dans tous les actes de la vie civile. Il ordonnance les dépenses. Il peut donner délégation dans des conditions qui sont fixées par le règlement intérieur.</p>
+
+<p>En cas de représentation en justice, le président ne peut être remplacé que par un mandataire agissant en vertu d'une procuration spéciale.</p>
+
+<p>Les représentants de l'Association doivent jouir du plein exercice de leurs droits civils.</p>
+
+<h5>Article 10</h5>
+
+<p>Les délibérations du Conseil d'Administration relatives aux acquisitions, échanges et aliénations d'immeubles nécessaires au but poursuivi par l'association, constitutions d'hypothèques sur les dits immeubles, baux excédant neuf années, aliénations de biens rentrant dans la dotation et emprunts doivent être approuvés par l'Assemblée Générale.</p>
+
+<h5>Article 11</h5>
+
+<p>Les délibérations du Conseil d'Administration relatives à l'acceptation des dons et legs ne sont valables qu'après approbation administrative donnée dans les conditions prévues par l'article 910 du code civil, l'article 7 de la loi du 4 février 1901 et le décret n°66-388 du 13 juin 1966 modifiés.</p>
+
+<p>Les délibérations de l'Assemblée Générale relatives aux aliénations de biens mobiliers et immobiliers dépendant de la dotation, à la constitution d'hypothèques et aux emprunts, ne sont valables qu'après approbation administrative.</p>
+
+<h5>Article 12</h5>
+
+<ul>
+   <li>Des groupes régionaux sans autonomie officielle peuvent être créés à l'initiative de membres habitant une même région. Un même territoire ne peut être couvert que par un seul groupe régional. Dix membres actifs ou associés sont nécessaires pour constituer un groupe régional.</li>
+   <li>La demande de création ou de modification de la couverture géographique d'un groupe régional doit être présentée:
+   <ul>
+       <li>en délimitant la région couverte par le groupe</li>
+       <li>en décrivant la composition de son bureau et le mode de désignation de son président.</li>
+   </ul>
+   </li>
+   <li>La création, la modification de la couverture géographique d'un groupe régional est votée par l'Assemblée Générale sur proposition du Conseil d'Administration de l'Association. Ce point doit figurer à l'ordre du jour de la convocation à l'Assemblée Générale ordinaire. La délibération doit être notifiée au Préfet dans le délai de huitaine.</li>
+   <li>La composition du bureau doit être adressée tous les ans au Conseil d'Administration. Le Président du groupe régional participe au Conseil d'Administration avec voix consultative.</li>
+   <li>Le groupe régional bénéficie du soutien logistique du secrétariat de l'Association. Il adresse au secrétaire du Conseil d'Administration copie de toutes les circulaires locales à l'attention des membres de son groupe.</li>
+   <li>La présence d'un trésorier au sein de son bureau est un préalable à l'engagement de dépenses par un groupe régional. Les dépenses du groupe régional sont soumises à l'approbation du Conseil d'Administration. Le trésorier du groupe fait parvenir au Conseil d'Administration en décembre de chaque année le budget prévisionnel de son groupe pour l'année suivante et en janvier le bilan de l'année écoulée. Il fournit au trésorier de l'Association tous les éléments nécessaires à la tenue de la comptabilité du groupe régional.</li>
+   <li>En cas de non respect de ces clauses, le Conseil d'Administration de l'Association peut proposer à l'Assemblée Générale la dissolution du groupe régional.</li>
+</ul>
+
+<h4>III - DOTATION, RESSOURCES ANNUELLES</h4>
+
+<h5>Article 13</h5>
+
+<p>La dotation comprend :</p>
+
+<ol>
+   <li>une somme de 3 000 F, constituée en valeurs nominatives placées conformément aux prescriptions de l'article suivant ;</li>
+   <li>les immeubles nécessaires au but recherché par l'Association ainsi que des bois, forêts ou terrains à boiser ;</li>
+   <li>les capitaux provenant des libéralités, à moins que l'emploi n'en ait été autorisé;</li>
+   <li>le dixième au moins annuellement capitalisé, du revenu net des biens de l'Association ;</li>
+   <li>la partie des excédents de ressources qui n'est pas nécessaire au fonctionnement de l'Association pour l'exercice suivant.</li>
+</ol>
+
+<h5>Article 14</h5>
+
+<p>Tous les capitaux mobilisés, y compris ceux de la dotation, sont placés en titres nominatifs, en titres pour lesquels est établi le bordereau de références nominatives prévu à l'article 55 de la Loi 87-416 du 17 juin 1987 sur l'épargne ou en valeurs admises par la Banque de France en garantie d'avance.</p>
+
+<h5>Article 15</h5>
+
+<p>Les recettes annuelles de l'Association se composent :</p>
+
+<ol>
+   <li>du revenu de ses biens à l'exception de la fraction prévue a l'alinéa 4 de l'article 13 ;</li>
+   <li>des cotisations et souscriptions de ses membres ;</li>
+   <li>des subventions de l'Etat, des Régions, des Départements, des Communes et des Etablissements Publics ;</li>
+   <li>du produit des libéralités dont l'emploi est autorisé au cours de l'exercice ;</li>
+   <li>des ressources créées à titre exceptionnel et, s'il y a lieu, avec l'agrément de l'autorité compétente ;</li>
+   <li>du produit des rétributions perçues pour service rendu.</li>
+</ol>
+
+<h5>Article 16</h5>
+
+<p>Il est tenu une comptabilité faisant apparaître essentiellement un compte de résultat, un bilan et une annexe.</p>
+
+<p>Chaque établissement de l'Association doit tenir une comptabilité distincte qui forme un chapitre spécial de la comptabilité d'ensemble de l'Association.</p>
+
+<p>Il est justifié, chaque année auprès du préfet du département, du Ministre de l'Intérieur et du Ministre chargé de l’Enseignement Supérieur, de l'emploi des fonds provenant de toutes les subventions accordées au cours de l'exercice écoulé.</p>
+
+<h4>IV - MODIFICATION DES STATUTS ET DISSOLUTION</h4>
+
+<h5>Article 17</h5>
+
+<p>Les statuts peuvent être modifiés par l'Assemblée Générale sur la proposition du conseil d'administration ou sur la proposition du dixième des membres dont se compose l'assemblée générale.</p>
+
+<p>Dans l'un et l'autre cas, les propositions de modifications sont inscrites à l'ordre du jour de la prochaine Assemblée Générale, lequel doit être envoyé à tous les membres de l'assemblée au moins 30 jours à l'avance.</p>
+
+<p>L'assemblée doit se composer du quart au moins, des membres en exercice. Si cette proportion n'est pas atteinte, l'assemblée est convoquée de nouveau, mais à quinze jours au moins d'intervalle, et cette fois, elle peut valablement délibérer, quel que soit le nombre des membres présents ou représentés.</p>
+
+<p>Dans tous les cas, les statuts ne peuvent être modifiés qu'à la majorité des deux tiers des membres présents ou représentés.</p>
+
+<h5>Article 18</h5>
+
+<p>L'Assemblée Générale, appelée à se prononcer sur la dissolution de l'Association et convoquée spécialement à cet effet, dans les conditions prévues à l'article précédent, doit comprendre, au moins la moitié plus un, des membres en exercice.</p>
+
+<p>Si cette proportion n'est pas atteinte, l'assemblée est convoquée de nouveau, mais à quinze jours au moins d'intervalle, et cette fois, elle peut valablement délibérer, quel que soit le nombre des membres présents ou représentés.</p>
+
+<p>Dans tous les cas, la dissolution ne peut être votée qu'à la majorité des deux tiers des membres présents ou représentés.</p>
+
+<h5>Article 19</h5>
+
+<p>En cas de dissolution, l'Assemblée Générale désigne un ou plusieurs commissaires, chargés de la liquidation des biens de l'association. Elle attribue l'actif net à un ou plusieurs établissements analogues, publics, reconnus d'utilité publique ou à des établissements visés à l'article 6, alinéa 2 de la Loi du 1er juillet 1901 modifiée.</p>
+
+<h5>Article 20</h5>
+
+<p>Les délibérations de l'Assemblée Générale prévues aux articles 17, 18 et 19 sont adressées sans délai, au Ministre de l'Intérieur et au Ministre chargé de l’Enseignement Supérieur.</p>
+
+<p>Elles ne sont valables qu'après l'approbation du Gouvernement.</p>
+
+<h4>V - SURVEILLANCE ET REGLEMENT INTERIEUR</h4>
+
+<h5>Article 21</h5>
+
+<p>Le Président doit faire connaître dans les trois mois, à la Préfecture du Département ou à la Sous-Préfecture de l'Arrondissement où l'Association a son siège social, tous les changements survenus dans l'administration ou la direction de l'Association.</p>
+
+<p>Les registres de l'Association et ses pièces de comptabilité sont présentées sans déplacement, sur toute réquisition du Ministre de l'Intérieur ou du Préfet, à eux-mêmes ou à leur délégué ou à tout fonctionnaire accrédité par eux.</p>
+
+<p>Le rapport annuel et les comptes - y compris ceux des groupes régionaux - sont adressés chaque année au Préfet du Département, au Ministre de l'Intérieur et au Ministre chargé de l’Enseignement Supérieur.</p>
+
+<h5>Article 22</h5>
+
+<p>Le Ministre de l'Intérieur et le Ministre chargé de l’Enseignement Supérieur ont le droit de faire visiter par leurs délégués les établissements fondés par l'Association et de se faire rendre compte de leur fonctionnement.</p>
+
+<h5>Article 23</h5>
+
+<p>Le règlement intérieur préparé par le Conseil d'Administration et adopté par l'Assemblée Générale est adressé à la préfecture du département. Il ne peut entrer en vigueur ni être modifié qu'après approbation du Ministre de l’Intérieur.</p>
+"""
+    text4.save()
+
+    text5 = pages.Text()
+    text5.shortname = "secretariat_ain7"
+    text5.title = u"Le secrétariat permanant"
+    text5.body = u"""<b>Coordonnées globales :</b>
+<p>
+A.I.N.7<br/>
+2 rue Charles Camichel, BP 7122,<br/>
+31071 Toulouse cedex 7</p>
+
+<p>Fax : 05 61 62 09 76</p>
+<p>Courriel : <a href="mailto:ain7@ain7.fr">ain7@ain7.fr</a></p>
+
+<b>Nos deux secrétaires :</b>
+<ul>
+<li>Sylvie Henric - <a href="mailto:sylvie.henric@ain7.fr">sylvie.henric@ain7.fr</a> - Tél : 05 61 58 82 88</li>
+<li>Frédérique Forestie - <a href="mailto:frederique.forestie@ain7.fr">frederique.forestie@ain7.fr</a> -  Tél : 05 61 58 82 13</li>
+</ul>
+"""
+    text5.save()
+
+    text6 = pages.Text()
+    text6.shortname = "website_ain7"
+    text6.title = u"A propos du site"
+    text6.body = u"""<p>Pour remonter un problème au sujet du site contactez le <a href="mailto:webmaster@ain7.fr">webmaster</a>.</p>
+<p>Pour de plus amples renseignements au sujet de ce site, n'hésitez pas à consulter la page <a href="/apropos/">a propos</a>.</p>
+"""
+    text6.save()
+
+    text7 = pages.Text()
+    text7.shortname = "groupes_regionaux"
+    text7.title = u"Les groupes régionaux"
+    text7.body = u"""<h4>Présentation</h4>
+
+<p>Le Groupe Régional est le représentant de l’association nationale dans la région. Il assure le relais des opérations de niveau national et développe les opérations de niveau régional.</p>
+<p>Pour réaliser ses missions, le groupe dispose du soutien de l’association nationale.</p>
+<ul>
+<li>soutien financier par l’octroi d’un budget en appui d’un plan d’actions validé en conseil,</li>
+<li> soutien matériel, par la mise à disposition du secrétariat, </li>
+<li>soutien en informations, par la diffusion des comptes-rendus du conseil, du bureau, flash-infos, programmes et convocations des autres groupes régionaux.</li>
+</ul>
+<p>En contrepartie le groupe a un devoir d’information du conseil d’administration, de transparence et de rigueur.</p>
+<p>Un groupe régional ne dispose pas de l’autonomie juridique ou financière : il s’agit par délégation de l’association nationale. Les Présidents des groupes régionaux sont invités aux réunions du conseil d’administration et donc associés aux débats d’orientation de la vie de l’association.</p>
+<p>Chaque groupe régional, en fonction de sa taille, du profil de ses adhérents (demandeurs d’emploi, actifs, retraités…), des partenariats qu’il peut établir (existence d’une maison des ingénieurs) choisit son plan d’action. Sont énumérés, ci-après, des thèmes d’actions qui pourraient être communs à tous les groupes.</p>
+
+<h4>Représentation</h4>
+<p>Le groupe régional assure le relais en région de l’association nationale.</p>
+<p>Le Président et le bureau du groupe informent le secrétariat de l’association nationale de leurs actions et communiquent un compte-rendu des réunions de bureau, manifestations et assemblés générales.</p>
+
+<h4>Adhésion</h4>
+<p>Le secrétariat de l’AIN7 adresse régulièrement aux groupes régionaux des listes à jour (membres actifs, associés et autres).</p>
+<p>Tout cotisant à l’association, ainsi que chaque élève de 3ième année est informé de l’existence et des coordonnées de son groupe régional.</p>
+<p>Chaque groupe a un devoir de développement du nombre des adhérents.</p>
+
+<h4>Finances</h4>
+<p>L’association nationale peut ouvrir un compte par groupe régional avec délégation au Président et au Trésorier du groupe. Le conseil d’administration arrête le budget annuel du groupe sur proposition du bureau.</p>
+
+<p>Le budget est destiné :</p>
+<ul>
+<li>au développement du groupe,</li>
+<li>à l’aide aux demandeurs d’emploi : participations aux opérations régionales, invitations aux manifestations,</li>
+<li>aux frais de fonctionnement.</li>
+</ul>
+
+<h4>Accueil solidarité</h4>
+<p>Le groupe est la structure d’accueil des ingénieurs en région :</p>
+<ul>
+<li>accueil des nouveaux diplômés,</li>
+<li>accueil des ingénieurs mutés,</li>
+<li>échange d’informations entre actifs,</li>
+<li>point de rencontre des retraités.</li>
+</ul>
+
+<h4>Emloi</h4>
+<p>Chaque groupe reçoit le fichier des demandeurs d’emploi et s’associe aux initiatives diverses régionales.</p>
+
+<h4>Animation manifestations</h4>
+<p>Le groupe a la responsabilité de l’aimation et de l’information régionales : organisation de rencontres, visites, manifestations.</p>
+
+<h4>Organisation statutaire</h4>
+<p>Chaque année est organisée une assemblée générale du groupe avec élection d’un bureau composé au minimum d’un Président, d’un Trésorier et d’un Secrétaire.</p>
+"""
+    text7.save()
+
+    text8 = pages.Text()
+    text8.shortname = "relations_ecole_etudiants"
+    text8.title = u"Relations école et étudiants"
+    text8.body = u"""Text à faire => Lionel
+Voilà.
+"""
+    text8.save()
+
+    text9 = pages.Text()
+    text9.shortname = "groupes_professionnels"
+    text9.title = u"Groupes professionnels"
+    text9.body = u"""<p>Au fil des dernières années, l'AIN7 a suscité la création de groupes professionnels. Chaque Groupe Professionnel réunit les ingénieurs N7 qui travaillent dans le même domaine industriel.</p>
+<p>Il est animé par un noyau de quelques ingénieurs N7 qui contribue à l'animation et prépare les manifestations du groupe.</p>
+<p>Il a une couverture nationale.</p>
+<p>Il a vocation à être un des interlocuteurs de l'ENSEEIHT pour l'évolution de ses filières d'enseignement et une source privilégiée d'informations et de proposition.</p>
+<p>Il contribue dans son domaine à assurer la promotion de l'ENSEEIHT dans le cadre de l'AIN7 et en liaison avec la Direction de l'ENSEEIHT.</p>
+<p>Il a vocation d'entraide pour la recherche d'emplois.</p>
+<p>Il bénéficie de la logistique de l'AIN7 (mailing – Web – Groupes régionaux….)</p>
+<p>L'action des Groupes professionnels se fait en liaison avec celles des Correspondants d'Entreprises qui, dans leurs domaines, sont des invités permanents dans chaque groupe.</p>
+<p>La Communication des Groupes professionnels vers le monde extérieur se fait par le canal de l'AIN7.</p>
+<p>3 groupes professionnels sont actifs :</p>
+<h4>Groupe TIC (animateur : Eric Nizard - eric.nizard@lic.fr)</h4>
+<p>Issu du groupe professionnel Telecom qui a été depuis 2000 le plus actif, ce groupe a désormais élargi ses activités à l'informatique et plus généralement aux métiers issus des technologies de l'information et de la communication.</p>
+<p>Le groupe TIC organise régulièrement des conférences à Paris, dans le cadre du Groupe Parisien. Il est par ailleurs, le correspondant AIN7 au sein de <a href="http://www.g9plus.org">l'Institut G9+</a> qui rassemble les représentants "TIC" de 17 grandes Associations d'Ingénieurs (X, Centrales, Mines, Supélec…) et de Management (HEC, ESCP, ESSEC,…).</p>
+<h4>Groupe Aerospace (animateur : Yann Guerin – yannguer@yahoo.fr)</h4>
+<p>Ce groupe résidant à Toulouse, organise régulièrement des rencontres et bénéficie notamment de la présence de nombreux ingénieurs ENSEEIHT au sein du pôle de compétitivité "Aerospace Valley".</p>
+<h4>Groupe Energie (renseignements : Maryse Lemmet - maryse.lemmet@orange.fr)</h4>
+<p>Issu du groupe "Génie Electrique", ce groupe est en cours de reconstitution et doit démarrer des activités élargies au printemps 2009.</p>
+"""
+    text9.save()
+
+    text10 = pages.Text()
+    text10.shortname = "publication_ain7"
+    text10.title = u"Les publications de l'AIn7"
+    text10.body = u"""<p>La Communication, Interne aux adhérents de l’AIN7, est réalisée par les 3 vecteurs suivants, en complément des moyens classiques (courrier, mail, téléphone, fax …)</p>
+
+<p>En Projet:</p>
+<ul>
+<li>Newsletter</li>
+<li>Communauté AIN7/Viadeo</li>
+</ul>
+
+<p>Newsletter : répond à un besoin de diffuser des informations rapides et sous format électronique. 10 parutions annuelles envisagées.</p>
+<p>Communauté AIN7/Viadeo : dans le cadre d'un protocole d'accord en cours de négociation, le réseau Viadeo mettra à la disposition de l'AIN7 un espace communautaire privatif qui a vocation à devenir le forum privilégié de dialogue entre les N7.</p>
+
+<p>Communication</p>
+<p>Des supports de communication interactifs</p>
+<p><b>L'ANNUAIRE : PUBLICATION DE BASE DE L'ASSOCIATION</b></p>
+<p>C'est un moyen privilégié de communication entre tous les membres. Plus de 15000 adresses personnelles et professionnelles y sont répertoriées.</p>
+<p>Réalisé avec le plus grand soin, c'est un outil précieux à la fois pour l'activité professionnelle et les relations conviviales.</p>
+<p>Il est également apprécié des entreprises et des cabinets de recrutement et contribue à la notoriété de l'Association et des ingénieurs ENSEEIHT.</p>
+<p>Il est librement accessible sur le site AIN7 aux adhérents de l'AI.</p>
+
+
+<p><b>CANAL N7 : REVUE TRIMESTRIELLE A VOCATION SCIENTIFIQUE, TECHNIQUE INDUSTRIELLE ET SOCIETALE</b></p>
+<p>Constituant un lien régulier entre les membres de l'Association, elle est aussi diffusée, par abonnement, à des lecteurs extérieurs.</p>
+<p>Sa première partie est consacrée à des articles à vocation scientifique, technique et industrielle, mais aussi aux aspects socio-économiques, environnementaux, humains.</p>
+<p>La seconde partie est consacrée à la vie de la Communauté ENSEEIHT et en particulier de l'Association, avec des informations sur les activités du Conseil d'Administration, des différentes Commissions et Délégations, des Groupes régionaux et internationaux, ainsi que sur la vie de l'Ecole.</p>
+<p>Au printemps 2009, un nouveau format de Canal N7, plus moderne, facilitant la lecture, va apparaître. Nous attendions vos avis avec impatience.</p>
+
+<ul>
+<li><a href="/media_communication/canal_n7/">Canal N7</a>, la revue trimestrielle de l'association</li>
+<li><a href="/">Site internet</a>, lieu de recontre électronique de toutes les générations</li>
+<li><a href="/annuaire/">L'Annuaire</a>, l'annuaire de tous les anciens édité tous les ans au mois de juillet</li>
+</ul>
+"""
+    text10.save()
+
+    text11 = pages.Text()
+    text11.shortname = "presentation_canal_n7"
+    text11.title = u"Présentation de canal N7"
+    text11.body = u"""<p>Journal trimestriel de l'ASSOCIATION des INGENIEURS de l'ENSEEIHT.</p>
+
+<ul>
+<li><b>Régie Publicitaire :</b> MAZARINE Partenaires, Paris</li>
+<li><b>Contact :</b> Carole Néhmé c.nehme@mazarine.com</li>
+<li><b>Tél :</b> 01 58 05 49 17</li>
+<li><b>Commission paritaire</b> (en cours de renouvellement)</li>
+<li><b>Prix au numéro :</b> 9 €</li>
+<li><b>Abonnement extérieur :</b> 30,50 € (1an)</li>
+<li><b>Abonnement adhérents :</b> 12,20 €</li>
+</ul>
+"""
+    text11.save()
+
+    text12 = pages.Text()
+    text12.shortname = "redaction_canal_n7"
+    text12.title = u"L'équipe de la rédaction"
+    text12.body = u"""<ul>
+<li>Directeur de publication: <a href="/annuaire/1/">Michel Canon</a> (SET 1969)</li>
+<li>Rédacteur en chef : <a href="/annuaire/1/">Claude Thirriot</a> (1955)</li>
+<li>Secrétaire de rédaction : Sylvie Henric</li>
+</ul>
+"""
+    text12.save()
+
+    text13 = pages.Text()
+    text13.shortname = "canal_n7"
+    text13.title = u"Le magazine"
+    text13.body = u"""<p>Depuis Novembre 1986, le bulletin d’information de l’AIN7 est réellement devenu le journal de l’Association avec des articles à portée scientifique , socio- économique ou culturelle.</p>
+
+<p>On y retrouve trois parties :</p>
+<ul>
+<li><b>Le Dossier :</b> partie rédactionnelle comprenant les articles techniques,</li>
+<li><b>Le Forum des lecteurs</b>,</li>
+<li><b>La Vie de l'Association</b>, incluant des informations sur les activités des groupes régionaux, de l'école et des élèves.</li>
+</ul>
+
+<p>De manière générale, chaque numéro est organisé autour d’un thème (…La Qualité, Sécurité et simulation, Communication, Biomécanique, Microsystèmes, Véhicules électriques, 3ième millénaire, Ingéniérie du sport, Télecoms,…..).</p>
+
+<p>La liste complète des numéros est disponible auprés du secrétariat de l’AIN7.</p>
+
+<p>Vous pourrez consulter le sommaire des derniers numéros en cliquant sur la photo du numéro correspondant.</p>
+"""
+    text13.save()
+
+    text14 = pages.Text()
+    text14.shortname = "sommaire_canal_n7"
+    text14.title = u"Au sommaire du dernier numéro"
+    text14.body = u"""<ul>
+      <li><a href="/media_communication/canal_n7/edito/">Editorial</a></li>
+      <li>Le mot du président</li>
+      <li>Vestiges historiques</li>
+      <li>Naissance de FEST'INP, le nouveau gala des étudiants des trois écoles toulousaines de l'INPT</li>
+      <li>Le Fest'INP, une inauguration réussie !</li>
+      <li>Bureau du Développement Durable</li>
+      <li>La certification des compétences, un futur inéluctable</li>
+      <li>Forum des lecteurs</li>
+      <li>Quelques nouvelles de l'ENSEEIHT</li>
+      <li>Souvenir de Jean-Louis Amalric</li>
+      <li>Skype</li>
+      <li>Assemblée générale 2008</li>
+      <li>Commission voyage</li>
+   </ul>
+"""
+    text14.save()
+
+    text15 = pages.Text()
+    text15.shortname = "edito_canal_n7"
+    text15.title = u"Éditorial"
+    text15.body = u"""<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Curabitur sit amet turpis non augue commodo tincidunt. Nulla commodo convallis neque. Donec elementum, justo ut dapibus dictum, nibh felis fringilla magna, ut rhoncus neque purus sed tortor. Donec sollicitudin. Cras lacus dolor, rhoncus vel, semper gravida, molestie quis, pede. Cras risus risus, mollis ac, sollicitudin sed, tempor ac, arcu. Aenean augue ipsum, convallis sit amet, luctus sit amet, scelerisque in, sem. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris quis metus ut leo congue varius. Duis euismod nisi varius justo rhoncus vestibulum.</p>
+
+<p>Nunc nulla. Vestibulum ante. Praesent fringilla vestibulum lorem. Duis vel dolor. Phasellus lobortis tincidunt dolor. Mauris et sapien sollicitudin odio tincidunt gravida. Etiam enim. Mauris ut metus id lacus dapibus consectetuer. Maecenas eu pede ut leo faucibus dictum. Praesent nec nisi at leo egestas euismod. Nunc varius erat vitae lacus. Nam leo risus, vehicula nec, molestie vel, rhoncus nec, libero. Cras velit.</p>
+
+<p>Curabitur sit amet arcu in leo scelerisque pellentesque. Sed lobortis, nunc sed gravida vehicula, nulla sem porta sapien, vel eleifend sapien leo ac justo. Donec pharetra, ante et mattis auctor, sapien ipsum luctus tellus, eu euismod leo tellus non tellus. Praesent urna. Aliquam bibendum odio. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum neque. Quisque tincidunt. Pellentesque in purus. Aliquam volutpat. Mauris id velit in purus congue convallis. Phasellus nec nisl. Quisque nisl. Praesent viverra. Pellentesque tristique. Sed sed justo a mi pulvinar cursus.</p>
+
+<p>Quisque vel tortor ac neque feugiat feugiat. Proin laoreet eleifend augue. Etiam ut nisi vitae sapien molestie vehicula. Aenean mattis purus eget velit. Nulla sapien tellus, venenatis quis, consequat vel, tincidunt eget, neque. Fusce egestas. Curabitur ipsum leo, dignissim ac, sodales nec, tincidunt vel, ipsum. Duis laoreet nunc eget quam. Proin ac dui convallis leo accumsan ultrices. Pellentesque a sapien sit amet lorem bibendum consectetuer. Fusce sodales, purus eget fringilla iaculis, felis orci mattis orci, vitae tristique mi risus at lectus. Cras nec lorem eu dolor consequat pellentesque. Morbi pulvinar pede quis mauris. Fusce sit amet augue.</p>
+
+<p>Cras faucibus vehicula nisl. Quisque in velit. Sed augue. Vestibulum eu orci et mi porttitor commodo. Mauris malesuada, elit ac sagittis pharetra, odio sapien commodo lectus, sit amet mollis odio mauris eget tortor. Donec facilisis bibendum diam. Morbi accumsan. Nullam massa orci, luctus nec, tristique posuere, eleifend sed, urna. Nunc felis lectus, suscipit id, auctor at, hendrerit vitae, massa. Suspendisse malesuada erat ac augue. Sed nibh.</p>
+"""
+    text15.save()
+
+    text16 = pages.Text()
+    text16.shortname = "website"
+    text16.title = u"Site Internet AIn7"
+    text16.body = u"""<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Curabitur sit amet turpis non augue commodo tincidunt. Nulla commodo convallis neque. Donec elementum, justo ut dapibus dictum, nibh felis fringilla magna, ut rhoncus neque purus sed tortor. Donec sollicitudin. Cras lacus dolor, rhoncus vel, semper gravida, molestie quis, pede. Cras risus risus, mollis ac, sollicitudin sed, tempor ac, arcu. Aenean augue ipsum, convallis sit amet, luctus sit amet, scelerisque in, sem. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris quis metus ut leo congue varius. Duis euismod nisi varius justo rhoncus vestibulum.</p>
+
+<p>Nunc nulla. Vestibulum ante. Praesent fringilla vestibulum lorem. Duis vel dolor. Phasellus lobortis tincidunt dolor. Mauris et sapien sollicitudin odio tincidunt gravida. Etiam enim. Mauris ut metus id lacus dapibus consectetuer. Maecenas eu pede ut leo faucibus dictum. Praesent nec nisi at leo egestas euismod. Nunc varius erat vitae lacus. Nam leo risus, vehicula nec, molestie vel, rhoncus nec, libero. Cras velit.</p>
+
+<p>Curabitur sit amet arcu in leo scelerisque pellentesque. Sed lobortis, nunc sed gravida vehicula, nulla sem porta sapien, vel eleifend sapien leo ac justo. Donec pharetra, ante et mattis auctor, sapien ipsum luctus tellus, eu euismod leo tellus non tellus. Praesent urna. Aliquam bibendum odio. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum neque. Quisque tincidunt. Pellentesque in purus. Aliquam volutpat. Mauris id velit in purus congue convallis. Phasellus nec nisl. Quisque nisl. Praesent viverra. Pellentesque tristique. Sed sed justo a mi pulvinar cursus.</p>
+
+<p>Quisque vel tortor ac neque feugiat feugiat. Proin laoreet eleifend augue. Etiam ut nisi vitae sapien molestie vehicula. Aenean mattis purus eget velit. Nulla sapien tellus, venenatis quis, consequat vel, tincidunt eget, neque. Fusce egestas. Curabitur ipsum leo, dignissim ac, sodales nec, tincidunt vel, ipsum. Duis laoreet nunc eget quam. Proin ac dui convallis leo accumsan ultrices. Pellentesque a sapien sit amet lorem bibendum consectetuer. Fusce sodales, purus eget fringilla iaculis, felis orci mattis orci, vitae tristique mi risus at lectus. Cras nec lorem eu dolor consequat pellentesque. Morbi pulvinar pede quis mauris. Fusce sit amet augue.</p>
+
+<p>Cras faucibus vehicula nisl. Quisque in velit. Sed augue. Vestibulum eu orci et mi porttitor commodo. Mauris malesuada, elit ac sagittis pharetra, odio sapien commodo lectus, sit amet mollis odio mauris eget tortor. Donec facilisis bibendum diam. Morbi accumsan. Nullam massa orci, luctus nec, tristique posuere, eleifend sed, urna. Nunc felis lectus, suscipit id, auctor at, hendrerit vitae, massa. Suspendisse malesuada erat ac augue. Sed nibh.</p>
+"""
+    text16.save()
+
+    text17 = pages.Text()
+    text17.shortname = "international"
+    text17.title = u"L'international à l'AIn7"
+    text17.body = u"""Texte à définir.
+"""
+    text17.save()
+
+    text18 = pages.Text()
+    text18.shortname = "voyages"
+    text18.title = u"Les voyages à l'AIn7"
+    text18.body = u"""<h4>Notre but</h4>
+<p>Un des buts principaux de notre association, comme prévu aux statuts, est
+"d'entretenir" et resserrer les liens d'amitié et de solidarité...</p>
+
+<p>C'est donc dans ce cadre que nous avons créé une activité voyage et je me
+permets de le rappeler aux adhérents de notre association.</p>
+
+<p>Non seulement je choisis, éventuellement avec le responsable des voyages
+Midi-Pyrénées, des destinations qui sont intéressantes du point de vue
+historique et culturelle, mais également je m'efforce au cours des voyages à
+retrouver l'ambiance qui était celle de notre école.</p>
+
+<p>Bien que je recherche un confort maximum pour nos camarades, j'essaye que
+cela ne soit pas au détriment de conditions financières difficilement
+acceptables par la majorité de nos camarades.</p>
+
+<p>Les voyages sont non seulement des sources d'enrichissement personnel, mais
+également permettent de constituer des relations durables par la suite entre
+les camarades qui se retrouvent après. C'est aussi une opportunité pour des
+relations d'affaire !</p>
+
+    <h4>Comment participer ?</h4>
+<p>Si tu es intéressé par la destination, tu remplis la demande de réservation
+que tu fais parvenir, soit au secrétariat, soit auprès du responsable du
+voyage.</p>
+
+<p>Lorsque le nombre de participants atteint le quota minimum pour lequel le
+prix de groupe a été défini, tu reçois, avec les conditions d'assurance, une
+confirmation en même temps que la demande de régler le premier acompte,
+libellé au nom de l'agence retenue.</p>
+
+<p>Six semaines avant le départ tu reçois un décompte personnel indiquant en
+particulier le solde à régler et le montant de l'assurance qui couvre en
+particulier l'annulation et les pertes de bagages. De plus lorsqu'il est
+nécessaire d'avoir un visa on te demande ton passeport pour l'obtenir.</p>
+
+<p>Lorsque l'ensemble des règlements est parvenu, tu reçois la convocation à
+l'aéroport, ainsi que tous les documents utiles pour le voyage. Les billets
+d'avion et les passeports avec les visas sont remis à l'aéroport.</p>
+
+    <h4>Conditions habituelles</h4>
+<p>Les prestations comprennent généralement :</p>
+
+<ul>
+  <li>L'hébergement en chambre double et en hôtel 1ère catégorie,</li>
+  <li>La pension complète comme indiquée dans le descriptif du voyage,</li>
+  <li>Les transports A/R à partir de France en compagnie régulière,</li>
+  <li>Les transports sur place,</li>
+  <li>Un accompagnateur local pendant le séjour ou le circuit,</li>
+  <li>Les visites mentionnées au programme</li>
+</ul>
+
+<p>Les prestations non comprises sont :</p>
+
+<ul>
+  <li>Les boissons et dépenses personnelles,</li>
+  <li>Les visas, pourboires et taxes d'aéroport et de sécurité,</li>
+  <li>L'assurance annulation/bagages (environ 2.5% du prix du voyage)</li>
+</ul>
+
+<p>Nota : avec chaque programme, les conditions des tours opérators retenus
+sont développées</p>
+
+<p><b>Le délégué aux voyages</b><br />
+<i>Jean Marcus (55)</i></p>
+"""
+    text18.save()
+
     if os.path.exists('filldbain7'):
         print "Import des donnees privees AIn7"
         execfile('filldbain7/base.py')
@@ -532,7 +1211,7 @@ def filldb():
     pierref_ain7member.member_type = memberTypeActif
     pierref_ain7member.person_type = personTypeStudent
     pierref_ain7member.nick_name = "PierreF"
-    pierref_ain7member.display_cv_in_directory = False
+    pierref_ain7member.display_cv_in_directory = True
     pierref_ain7member.display_cv_in_job_section = True
     pierref_ain7member.receive_job_offers = False
     pierref_ain7member.cv_title = u"Élève Ingénieur ENSEEIHT Informatique"
@@ -1602,593 +2281,3 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     notif1.details = "Ceci est une exemple de notification..."
     notif1.save()
 
-    text1 = pages.Text()
-    text1.title = u"Le réseau AIN7 : une force collective et des atouts au service de chaque diplômé ENSEEIHT"
-    text1.body = u"""<img src="/site_media/images/logo_ain7.png" class="image" alt="Big Image" />
-<p>L'ENSEEIHT a fêté son centenaire en 2007. Naturellement issue des premières promotions 
-d'ingénieurs de l'école, l'AIN7 a, au fil des décennies, toujours œuvré au service de tous 
-les diplômés, elle a développé et entretient entre eux des liens professionnels et amicaux, 
-elle contribue à des actions en profondeur, au sein de l'Ecole et dans le monde des affaires, 
-pour améliorer et optimiser l'image et la notoriété de notre communauté.</p>
-<p>12 000 ingénieurs ont reçu, depuis l'origine, le diplôme d'ingénieur. Près de 10 000 sont 
-en activité… ceci dans tous les grands secteurs de l'Economie. Cela crée un potentiel de premier 
-plan et l'AIN7 se place en véritable catalyseur…</p>
-<p>En ce début de 21ème siècle, réseau est obligatoirement synonyme de web. Conscient de ce fait 
-incontournable, l'AIN7 prend en ce début 2009 plusieurs initiatives majeures :</p>
-<ul>
-<li>une présence renforcée sur les principaux réseaux communautaires professionnels : en particulier 
-Viadeo, qui va ouvrir une communauté officielle supportée par l'AIN7.</li>
-<li>notre nouveau site, visitez le régulièrement : il vous tiendra informé de toutes nos initiatives… 
-et n'oubliez pas, l'AIN7 c'est VOUS. Venez rejoindre le noyau de volontaires qui font vivre notre communauté, 
-et si vous ne trouvez pas dans nos activités, celle que vous attendez, pourquoi ne pas venir la susciter 
-en nous rejoignant ?</li>
-</ul>
-
-<p><b>Jean-François Perret<br/>
-Président AIN7</b></p>
-"""
-    text1.save()
-
-    text2 = pages.Text()
-    text2.title = u"L'ENSEEIHT"
-    text2.body = u"""<img src="/site_media/images/n7_small.png" class="image" alt="ENSEEIHT" />
-<p>L'ENSEEIHT (prononcer « N7 ») est l'École nationale supérieure d'électrotechnique, d'électronique, 
-d'informatique, d'hydraulique et des télécommunications. Elle appartient à l'Institut national polytechnique
-de Toulouse.</p>
-<p>École d'ingénieurs en convention avec l'École polytechnique, l'ENSEEIHT est actuellement structurée en cinq
-filières, comprenant chacune un département de formation et un laboratoire de recherche étroitement lié.</p>
-<p>Les cinq filières d'enseignement sont les suivantes :</p>
-<ul style="list-style-type: square; margin: 1ex; margin-left: 4ex">
-  <li>Génie électrique et automatique</li>
-  <li>Électronique et Traitement du signal</li>
-  <li>Informatique et Mathématiques appliquées</li>
-  <li>Hydraulique et Mécanique des fluides</li>
-  <li>Télécommunications et Réseaux</li>
-</ul>
-<p>L'ENSEEIHT fait partie du groupe des ENSI et est la plus importante ENSI en termes d'élèves diplomés chaque 
-année (près de 400).</p>
-"""
-    text2.save()
-
-    text3 = pages.Text()
-    text3.title = u"L'AIn7..."
-    text3.body = u"""<h4>Des offres d'emploi</h4>
-<p>L'AIN7 gère un service Emplois-Carrières au bénéfice de l'Ecole et de ses membres :</p>
-<ul>
-<li>Mise à disposition des offres d'emploi et leur édition périodique,</li>
-<li>Tenue à jour d'un fichier des ingénieurs en recherche de situation,</li>
-<li>Réponse à des demandes ou des propositions urgentes.</li> 
-</ul>
- 
-<h4>Une assistance personnalisée</h4>
-<p>Les ingénieurs qui le souhaitent peuvent réaliser un auto bilan à l'aide d'un document élaboré par l'Association, leur donnant ainsi la possibilité d'affiner leur projet professionnel. Ils peuvent également solliciter les conseils d'anciens qui disposent de compétences dans les domaines d'activité concernés. Par ailleurs, l'Association peut apporter son soutien à ceux qui doivent faire face à des situations économiques difficiles.</p>
-
-<h4>Des correspondants d'entreprise</h4>
-<p>L'Association anime un réseau de correspondants d'entreprise constitué d'anciens élèves qui exercent des responsabilités dans des entreprises où l'on recense un nombre significatif d'ingénieurs ENSEEIHT. Ils y sont les interlocuteurs privilégiés de l'Association, notamment pour faciliter les échanges d'information avec leur entreprise ainsi que l'accès et l'intégration des nouveaux embauchés. Ils peuvent contribuer également à favoriser l'organisation et l'accueil de stages pour les élèves et la conclusion de contrats de recherche avec les laboratoires de l'Ecole.</p>
-
-<h4>Des groupes professionnels</h4>
-<p>Leur vocation est de permettre des échanges entre les ingénieurs exerçant leur activité dans une même spécialité (TIC, Energie,…). Des rencontres et des colloques facilitent la confrontation de leurs expériences et de leurs points de vue avec ceux d'intervenants extérieurs. Plus généralement, l'Association est attentive à ce que la meilleure osmose se fasse entre ses membres et leur environnement socio-professionnel.</p>
-
-<p>L'Association est présente dans :</p>
-<p><b>LES ORGANISMES REPRÉSENTATIFS DE LA PROFESSION D'INGÉNIEUR</b></p>
-<p>L'Association est intégrée dans le tissu représentatif du monde des ingénieurs. Elle est membre du CNISF, Conseil National des Ingénieurs et Scientifiques de France, et participe aux travaux de ses Unions Régionales, les URIS. Cette présence au CNISF est particulièrement active depuis plusieurs années : un de nos camarades, Jean-Pierre Laborie a été Vice-Président du CNISF en charge des actions régionales… Actuellement, Jean-François Perret (Président de l'AI) et Isabelle Avenas (Présidente du Groupe Parisien) siègent au Conseil d'Administration du CNISF.</p>
-<p>L'Association est particulièrement attachée à la valorisation du titre d'ingénieur et à sa reconnaissance au sein de l'Union Européenne. Elle est également attentive au respect de la place des Grandes Ecoles d'Ingénieurs dans l'évolution du système éducatif français. Les ingénieurs ENSEEIHT figurent dans le Répertoire Français des Ingénieurs, géré par le CNISF et accessible sur <a href="http://cnisf.org">le site Internet du CNISF</a>.</p>
-
-<p><b>LES ENTREPRISES</b></p>
-<p>Avec une approche dynamique du monde professionnel, l'Association offre aux entreprises désireuses d'attirer et de recruter des ingénieurs ENSEEIHT la possibilité de se faire mieux connaître par :</p>
-<ul>
-<li>des espaces publicitaires: dans son Annuaire, dans sa revue trimestrielle, CANAL N7, sur son site Internet,</li>
-<li>des tables rondes réunissant professionnels, enseignants et élèves ingénieurs de l'Ecole,</li>
-<li>des visites et des forums de recrutement, en liaison avec l'Ecole.</li>
-</ul>
-
-<p><b>LES MÉDIAS</b></p>
-<p>Afin de développer l'image du diplôme, de l'Ecole et de ses ingénieurs, l'Association s'adresse, par l'intermédiaire de la presse spécialisée, à différents publics, acteurs directs ou prescripteurs, pour :</p>
-<ul>
-<li>actualiser l'information des élèves des classes préparatoires, de leurs parents et de leurs professeurs,</li>
-<li>faciliter la recherche d'emploi et l'évolution des carrières vers des responsabilités toujours plus attractives et valorisantes,</li>
-<li>délivrer aux responsables d'entreprises, directeurs des ressources humaines et aux cabinet spécialisés, les informations utiles pour leurs choix de recrutement.</li>
-</ul>
-
-<p>L'Association prête une attention soutenue à la vie de l'Ecole.</p>
-<p>Elle est représentée au Conseil d'Administration de l'Ecole par 2 représentants (actuellement Michel Canon et Pierre Hugot) ; un ingénieur ENSEEIHT, Bernard Leblanc, président le Conseil d'Administration où elle apporte son expertise de la connaissance des besoins des entreprises en matière de qualification des ingénieurs. Elle est partie prenante dans l'évolution des enseignements, en participant notamment à des commissions thématiques de ce Conseil.</p>
-<p>Elle organise des rencontres régulières avec les filières de l'Ecole et le Corps professoral, qui constituent un lieu d'échange et de meilleure compréhension réciproque. Cette dynamique va être renforcée en 2009 avec :</p>
-<ul>
-<li>Programme de participation de l'AIN7 à l'organisation d'informations sur les métiers d'ingénieurs à destination des élèves dans chaque filière</li>
-<li>Participation active aux "mini-forums" Etudiants/Entreprises</li>
-<li>Pour préparer leur recherche de stages ou d'un premier emploi, les élèves qui le souhaitent peuvent recourir à l'expérience de leurs aînés.</li>
-<li>Réseaux d'accueil des élèves stagiaires ou débutants en entreprises</li>
-<li>Afin de mener un dialogue sur son futur métier, chaque élève peut établir une relation interpersonnelle avec un de ses anciens.</li>
-</ul>
-<p>En outre, l'Association apporte son aide au Bureau des Elèves pour la recherche de partenaires associés aux manifestations et aux événements qu'organisent les étudiants : Festival N7, week-end d'intégration, tournois inter Grandes Ecoles, Junior-Entreprise, activités festives ou professionnelles,…</p>
-
-<p>L'Association favorise le renforcement des liens entre tous ses membres.</p>
-<p><b>AU PLAN NATIONAL</b></p>
-<p>Des manifestations de prestige sont organisées régulièrement à Toulouse et à Paris, permettant notamment la rencontre de personnalités du monde de l'entreprise. En particulier, le diner-débat annuel co-organisé au Sénat par l'AIN7 et l'Ecole rencontrent chaque année un grand succès.</p>
-
-<p><b>AU PLAN RÉGIONAL</b></p>
-<p>Les adhérents d'une même région sont conviés à diverses activités : rencontres autour d'un thème, conférences, visites techniques et culturelles, repas conviviaux. Les initiatives sont riches et variées.</p>
-
-<p><b>AU PLAN INTERNATIONAL</b></p>
-<p>La communication entre ceux qui exercent leurs responsabilités professionnelles dans la même zone géographique est facilitée, leur donnant ainsi la possibilité d'échanger leurs expériences. Dans les pays où l'on dénombre la présence de nombreux ingénieurs ENSEEIHT, par exemple aux Etats-Unis et au Canada, des rencontres sont organisées. Cependant, de plus en plus, le web devient l'élément privilégié d'échange de nos communautés expatriées. En 2009, le lancement de plusieurs initiatives "web" va renforcer ce lien.</p>
-<p>L'Association propose aussi des voyages qui sont autant d'occasions d'enrichir les relations entre les participants, dans un contexte particulièrement agréable et sympathique. La variété des destinations : Europe, Asie, Afrique, Amérique, le pittoresque des pays découverts sont autant d'atouts qui incitent ses membres à se retrouver et à partager émotions et souvenirs communs.</p>
-"""
-
-    text3.save()
-
-    text4 = pages.Text()
-    text4.title = u"Statuts de l'association"
-    text4.body = u"""<h4>I - BUT ET COMPOSITION DE L'ASSOCIATION</h4>
-
-<h5>Article premier</h5>
-
-L'Association dite AIN7, ASSOCIATION des INGENIEURS de l'ECOLE NATIONALE SUPERIEURE d'ELECTROTECHNIQUE, d'ELECTRONIQUE, d'INFORMATIQUE et d'HYDRAULIQUE de TOULOUSE (ENSEEIHT-IET), fondée en 1912, a pour but :
-
-<ul>
-    <li>D'entretenir et de resserrer les liens d'amitié et de solidarité qui existaient à l'Ecole, et de relier les nouvelles promotions aux précédentes.</li>
-    <li>De faciliter aux anciens élèves l'accès aux situations auxquelles ils peuvent prétendre. Dans ce but, tous les Membres de l'Association s'engagent à signaler à l’Association les emplois vacants qu'ils peuvent connaître.</li>
-    <li>De procurer à ses Membres le moyen d'étendre leurs connaissances par les communications, travaux et documents qui seront présentés aux réunions et discutés s'il y a lieu.</li>
-    <li>De développer l'action sociale au moyen de prêts gratuits ou de dons aux Membres de l'Association et le cas échéant, à leurs père, mère, veuf, veuve ou enfants dans le besoin.</li>
-</ul>
-
-Sa durée est illimitée.
-
-Elle a son Siège à Toulouse, à l'ECOLE NATIONALE SUPERIEURE d'ELECTROTECHNIQUE, d'ELECTRONIQUE, d'INFORMATIQUE et d'HYDRAULIQUE.
-
-<h5>Article 2</h5>
-
-<p>Les moyens d'action de l'Association sont notamment : un annuaire, des moyens de diffusion d'information dont un journal périodique, l'animation de groupes régionaux et l'animation de manifestations visant à atteindre les objectifs visés à l'article 1.</p>
-
-<h5>Article 3</h5>
-
-<p>L'Association se compose de membres actifs, de membres associés, de membres affiliés et de membres d'honneur.</p>
-
-<ul>
-   <li>Sont MEMBRES ACTIFS les ingénieurs diplômés de l'IET, de l'ENSEEHT, de l'ENSEIHT ou de l'ENSEEIHT à jour de leur cotisation.</li>
-   <li>Sont MEMBRES ASSOCIES les diplômés à la suite d'une des formations suivies à l'IET, l'ENSEEHT, l'ENSEIHT ou l'ENSEEIHT autres que celles sanctionnées par le diplôme d'ingénieur de l'Ecole et dont la liste est établie par l'Assemblée Générale ordinaire. Les diplômés d'une section spéciale de l'Ecole sont membres associés s'ils sont à jour de leur cotisation.</li>
-   <li>Sont MEMBRES AFFILIES durant leur formation à l'ENSEEIHT, les étudiants préparant un diplôme qui leur permettra de devenir membre actif ou membre associé et payant la cotisation correspondante.</li>
-   <li>Un membre actif ou associé peut, de plus, porter le titre de "BIENFAITEUR" si, pour l'année en cours, il verse la cotisation correspondante.</li>
-   <li>Le montant des cotisations est fixé par l'Assemblée Générale.</li>
-</ul>
-
-<p>Le titre de MEMBRE d'HONNEUR peut être décerné par le Conseil d'Administration aux personnes qui rendent ou qui ont rendu des services signalés à l'Association. Ce titre confère aux personnes qui l'ont obtenu, le droit de faire partie de l'Assemblée Générale sans être tenues de payer une cotisation.</p>
-
-<h5>Article 4</h5>
-
-<p>La qualité de membre de l'Association se perd :</p>
-
-<ul>
-   <li>par la radiation prononcée pour motif grave par le Conseil d'Administration, sauf recours à l'Assemblée Générale. Le membre concerné est préalablement appelé à fournir ses explications ;</li>
-   <li>par le non-paiement de la cotisation (sauf pour ceux qui en sont dispensés).</li>
-</ul>
-
-<h4>II - ADMINISTRATION ET FONCTIONNEMENT</h4>
-
-<h5>Article 5</h5>
-
-<p>L'Association est administrée par un Conseil composé de 18 à 24 membres élus par l'Assemblée Générale au scrutin secret pour 2 ans.</p>
-
-<p>La composition de ce Conseil est la suivante :</p>
-
-<ul>
-    <li>18 à 22 membres élus parmi les membres actifs ;</li>
-    <li>au plus 2 membres élus parmi les membres associés.</li>
-</ul>
-
-<p>Les membres sortants sont immédiatement rééligibles. Le renouvellement des membres élus a lieu par ouverture de 11 postes de membres actifs et 1 poste de membre associé tous les ans.</p>
-
-<p>En cas de vacance provoquée par le départ d'un membre ou insuffisance de candidats conduisant à moins de 18 membres élus, le Conseil peut combler provisoirement chaque poste vacant par cooptation d'un nouveau membre actif ou associé. Son mandat prendra fin à l'époque où devrait normalement expirer le mandat du membre remplacé.</p>
-
-<p>Le Conseil élit à bulletin secret, tous les ans, parmi ses membres, un bureau composé au moins d'un Président, de deux vice-présidents, d'un secrétaire, d'un trésorier et d'un trésorier-adjoint. Un même membre ne peut être Président plus de trois années consécutives. Le Président est obligatoirement un membre actif.</p>
-
-<h5>Article 6</h5>
-
-<p>Le Conseil se réunit une fois au moins tous les six mois et chaque fois qu'il est convoqué par son Président ou sur la demande du quart de ses membres.</p>
-
-<p>La présence du tiers au moins des membres élus du Conseil d'Administration est nécessaire pour la validité des délibérations.</p>
-
-<p>Chaque administrateur peut se faire représenter à une séance du Conseil par un autre administrateur. Les mandataires doivent être porteurs lors de chaque séance du Conseil d'un mandat écrit et nominatif. Un administrateur ne peut représenter qu'un seul membre absent.</p>
-
-<p>Les Présidents de groupes régionaux dûment constitués peuvent participer au Conseil avec voix consultative.</p>
-
-<p>Le Conseil peut appeler les personnes de son choix à assister avec voix consultative de façon régulière ou exceptionnelle à ses réunions.</p>
-
-<p>Les agents rétribués de l'Association peuvent être appelés par le Président à assister avec voix consultative, aux séances de l'Assemblée Générale et du Conseil d'Administration.</p>
-
-<p>Il est tenu procès-verbal des séances.</p>
-
-<p>Les procès-verbaux sont signés par le Président et le Secrétaire. Ils sont établis sans blancs, ni ratures sur des feuilles numérotées et conservées au siège de l'Association.</p>
-
-<h5>Article 7</h5>
-
-<p>Les membres du Conseil d'Administration ne peuvent recevoir aucune rétribution en raison des fonctions qui leur sont confiées.</p>
-
-<p>Des remboursements de frais sont seuls possibles. Ils doivent faire l'objet d'une décision expresse du Conseil d'Administration, statuant hors de la présence des intéressés : des justificatifs doivent être produits qui font l'objet de vérification.</p>
-
-<h5>Article 8</h5>
-
-<p>L'Assemblée Générale de l'Association comprend : les membres actifs et les membres associés avec voix délibérative. Les membres d’honneur et les membres affiliés peuvent assister à l’Assemblée Générale.</p>
-
-<p>Elle se réunit au moins une fois par an et chaque fois qu'elle est convoquée par le Conseil d'Administration ou sur la demande au moins du quart de ses membres. Son ordre du jour est réglé par le Conseil d'Administration.</p>
-
-<p>Son bureau est celui du Conseil.</p>
-
-<p>Lors de l'Assemblée Générale, ses membres entendent les rapports sur la gestion du Conseil d'Administration, sur la situation financière de l'Association, approuvent les comptes de l'exercice clos, votent le budget de l'exercice suivant, délibèrent sur les questions mises à l'ordre du jour et pourvoient, s'il y a lieu, au renouvellement des membres du Conseil d'Administration.</p>
-
-<p>Le rapport annuel et les comptes sont communiqués chaque année aux membres actifs et aux membres associés de l'Association.</p>
-
-<p>Il est tenu procès verbal des séances. Les procès verbaux sont signés par le Président et le Secrétaire. Ils sont établis sans blancs ni ratures, sur des feuillets numérotés et conservés au siège de l'Association.</p>
-
-<p>Chaque membre présent ne peut détenir plus d'un pouvoir en sus du sien.</p>
-
-<p>En cas de partage des voix, celle du Président est prépondérante.</p>
-
-<p>Sauf application des dispositions de l'article 6, les agents rétribués, non-membres de l'Association n'ont pas accès à l'Assemblée Générale.</p>
-
-<h5>Article 9</h5>
-
-<p>Le Président représente l'Association dans tous les actes de la vie civile. Il ordonnance les dépenses. Il peut donner délégation dans des conditions qui sont fixées par le règlement intérieur.</p>
-
-<p>En cas de représentation en justice, le président ne peut être remplacé que par un mandataire agissant en vertu d'une procuration spéciale.</p>
-
-<p>Les représentants de l'Association doivent jouir du plein exercice de leurs droits civils.</p>
-
-<h5>Article 10</h5>
-
-<p>Les délibérations du Conseil d'Administration relatives aux acquisitions, échanges et aliénations d'immeubles nécessaires au but poursuivi par l'association, constitutions d'hypothèques sur les dits immeubles, baux excédant neuf années, aliénations de biens rentrant dans la dotation et emprunts doivent être approuvés par l'Assemblée Générale.</p>
-
-<h5>Article 11</h5>
-
-<p>Les délibérations du Conseil d'Administration relatives à l'acceptation des dons et legs ne sont valables qu'après approbation administrative donnée dans les conditions prévues par l'article 910 du code civil, l'article 7 de la loi du 4 février 1901 et le décret n°66-388 du 13 juin 1966 modifiés.</p>
-
-<p>Les délibérations de l'Assemblée Générale relatives aux aliénations de biens mobiliers et immobiliers dépendant de la dotation, à la constitution d'hypothèques et aux emprunts, ne sont valables qu'après approbation administrative.</p>
-
-<h5>Article 12</h5>
-
-<ul>
-   <li>Des groupes régionaux sans autonomie officielle peuvent être créés à l'initiative de membres habitant une même région. Un même territoire ne peut être couvert que par un seul groupe régional. Dix membres actifs ou associés sont nécessaires pour constituer un groupe régional.</li>
-   <li>La demande de création ou de modification de la couverture géographique d'un groupe régional doit être présentée:
-   <ul>
-       <li>en délimitant la région couverte par le groupe</li>
-       <li>en décrivant la composition de son bureau et le mode de désignation de son président.</li>
-   </ul>
-   </li>
-   <li>La création, la modification de la couverture géographique d'un groupe régional est votée par l'Assemblée Générale sur proposition du Conseil d'Administration de l'Association. Ce point doit figurer à l'ordre du jour de la convocation à l'Assemblée Générale ordinaire. La délibération doit être notifiée au Préfet dans le délai de huitaine.</li>
-   <li>La composition du bureau doit être adressée tous les ans au Conseil d'Administration. Le Président du groupe régional participe au Conseil d'Administration avec voix consultative.</li>
-   <li>Le groupe régional bénéficie du soutien logistique du secrétariat de l'Association. Il adresse au secrétaire du Conseil d'Administration copie de toutes les circulaires locales à l'attention des membres de son groupe.</li>
-   <li>La présence d'un trésorier au sein de son bureau est un préalable à l'engagement de dépenses par un groupe régional. Les dépenses du groupe régional sont soumises à l'approbation du Conseil d'Administration. Le trésorier du groupe fait parvenir au Conseil d'Administration en décembre de chaque année le budget prévisionnel de son groupe pour l'année suivante et en janvier le bilan de l'année écoulée. Il fournit au trésorier de l'Association tous les éléments nécessaires à la tenue de la comptabilité du groupe régional.</li>
-   <li>En cas de non respect de ces clauses, le Conseil d'Administration de l'Association peut proposer à l'Assemblée Générale la dissolution du groupe régional.</li>
-</ul>
-
-<h4>III - DOTATION, RESSOURCES ANNUELLES</h4>
-
-<h5>Article 13</h5>
-
-<p>La dotation comprend :</p>
-
-<ol>
-   <li>une somme de 3 000 F, constituée en valeurs nominatives placées conformément aux prescriptions de l'article suivant ;</li>
-   <li>les immeubles nécessaires au but recherché par l'Association ainsi que des bois, forêts ou terrains à boiser ;</li>
-   <li>les capitaux provenant des libéralités, à moins que l'emploi n'en ait été autorisé;</li>
-   <li>le dixième au moins annuellement capitalisé, du revenu net des biens de l'Association ;</li>
-   <li>la partie des excédents de ressources qui n'est pas nécessaire au fonctionnement de l'Association pour l'exercice suivant.</li>
-</ol>
-
-<h5>Article 14</h5>
-
-<p>Tous les capitaux mobilisés, y compris ceux de la dotation, sont placés en titres nominatifs, en titres pour lesquels est établi le bordereau de références nominatives prévu à l'article 55 de la Loi 87-416 du 17 juin 1987 sur l'épargne ou en valeurs admises par la Banque de France en garantie d'avance.</p>
-
-<h5>Article 15</h5>
-
-<p>Les recettes annuelles de l'Association se composent :</p>
-
-<ol>
-   <li>du revenu de ses biens à l'exception de la fraction prévue a l'alinéa 4 de l'article 13 ;</li>
-   <li>des cotisations et souscriptions de ses membres ;</li>
-   <li>des subventions de l'Etat, des Régions, des Départements, des Communes et des Etablissements Publics ;</li>
-   <li>du produit des libéralités dont l'emploi est autorisé au cours de l'exercice ;</li>
-   <li>des ressources créées à titre exceptionnel et, s'il y a lieu, avec l'agrément de l'autorité compétente ;</li>
-   <li>du produit des rétributions perçues pour service rendu.</li>
-</ol>
-
-<h5>Article 16</h5>
-
-<p>Il est tenu une comptabilité faisant apparaître essentiellement un compte de résultat, un bilan et une annexe.</p>
-
-<p>Chaque établissement de l'Association doit tenir une comptabilité distincte qui forme un chapitre spécial de la comptabilité d'ensemble de l'Association.</p>
-
-<p>Il est justifié, chaque année auprès du préfet du département, du Ministre de l'Intérieur et du Ministre chargé de l’Enseignement Supérieur, de l'emploi des fonds provenant de toutes les subventions accordées au cours de l'exercice écoulé.</p>
-
-<h4>IV - MODIFICATION DES STATUTS ET DISSOLUTION</h4>
-
-<h5>Article 17</h5>
-
-<p>Les statuts peuvent être modifiés par l'Assemblée Générale sur la proposition du conseil d'administration ou sur la proposition du dixième des membres dont se compose l'assemblée générale.</p>
-
-<p>Dans l'un et l'autre cas, les propositions de modifications sont inscrites à l'ordre du jour de la prochaine Assemblée Générale, lequel doit être envoyé à tous les membres de l'assemblée au moins 30 jours à l'avance.</p>
-
-<p>L'assemblée doit se composer du quart au moins, des membres en exercice. Si cette proportion n'est pas atteinte, l'assemblée est convoquée de nouveau, mais à quinze jours au moins d'intervalle, et cette fois, elle peut valablement délibérer, quel que soit le nombre des membres présents ou représentés.</p>
-
-<p>Dans tous les cas, les statuts ne peuvent être modifiés qu'à la majorité des deux tiers des membres présents ou représentés.</p>
-
-<h5>Article 18</h5>
-
-<p>L'Assemblée Générale, appelée à se prononcer sur la dissolution de l'Association et convoquée spécialement à cet effet, dans les conditions prévues à l'article précédent, doit comprendre, au moins la moitié plus un, des membres en exercice.</p>
-
-<p>Si cette proportion n'est pas atteinte, l'assemblée est convoquée de nouveau, mais à quinze jours au moins d'intervalle, et cette fois, elle peut valablement délibérer, quel que soit le nombre des membres présents ou représentés.</p>
-
-<p>Dans tous les cas, la dissolution ne peut être votée qu'à la majorité des deux tiers des membres présents ou représentés.</p>
-
-<h5>Article 19</h5>
-
-<p>En cas de dissolution, l'Assemblée Générale désigne un ou plusieurs commissaires, chargés de la liquidation des biens de l'association. Elle attribue l'actif net à un ou plusieurs établissements analogues, publics, reconnus d'utilité publique ou à des établissements visés à l'article 6, alinéa 2 de la Loi du 1er juillet 1901 modifiée.</p>
-
-<h5>Article 20</h5>
-
-<p>Les délibérations de l'Assemblée Générale prévues aux articles 17, 18 et 19 sont adressées sans délai, au Ministre de l'Intérieur et au Ministre chargé de l’Enseignement Supérieur.</p>
-
-<p>Elles ne sont valables qu'après l'approbation du Gouvernement.</p>
-
-<h4>V - SURVEILLANCE ET REGLEMENT INTERIEUR</h4>
-
-<h5>Article 21</h5>
-
-<p>Le Président doit faire connaître dans les trois mois, à la Préfecture du Département ou à la Sous-Préfecture de l'Arrondissement où l'Association a son siège social, tous les changements survenus dans l'administration ou la direction de l'Association.</p>
-
-<p>Les registres de l'Association et ses pièces de comptabilité sont présentées sans déplacement, sur toute réquisition du Ministre de l'Intérieur ou du Préfet, à eux-mêmes ou à leur délégué ou à tout fonctionnaire accrédité par eux.</p>
-
-<p>Le rapport annuel et les comptes - y compris ceux des groupes régionaux - sont adressés chaque année au Préfet du Département, au Ministre de l'Intérieur et au Ministre chargé de l’Enseignement Supérieur.</p>
-
-<h5>Article 22</h5>
-
-<p>Le Ministre de l'Intérieur et le Ministre chargé de l’Enseignement Supérieur ont le droit de faire visiter par leurs délégués les établissements fondés par l'Association et de se faire rendre compte de leur fonctionnement.</p>
-
-<h5>Article 23</h5>
-
-<p>Le règlement intérieur préparé par le Conseil d'Administration et adopté par l'Assemblée Générale est adressé à la préfecture du département. Il ne peut entrer en vigueur ni être modifié qu'après approbation du Ministre de l’Intérieur.</p>
-"""
-    text4.save()
-
-    text5 = pages.Text()
-    text5.title = u"Le secrétariat permanant"
-    text5.body = u"""<b>Coordonnées globales :</b>
-<p>
-A.I.N.7<br/>
-2 rue Charles Camichel, BP 7122,<br/>
-31071 Toulouse cedex 7</p>
-
-<p>Fax : 05 61 62 09 76</p>
-<p>Courriel : <a href="mailto:ain7@ain7.fr">ain7@ain7.fr</a></p>
-
-<b>Nos deux secrétaires :</b>
-<ul>
-<li>Sylvie Henric - <a href="mailto:sylvie.henric@ain7.fr">sylvie.henric@ain7.fr</a> - Tél : 05 61 58 82 88</li>
-<li>Frédérique Forestie - <a href="mailto:frederique.forestie@ain7.fr">frederique.forestie@ain7.fr</a> -  Tél : 05 61 58 82 13</li>
-</ul>
-"""
-    text5.save()
-
-    text6 = pages.Text()
-    text6.title = u"A propos du site"
-    text6.body = u"""<p>Pour remonter un problème au sujet du site contactez le <a href="mailto:webmaster@ain7.fr">webmaster</a>.</p>
-<p>Pour de plus amples renseignements au sujet de ce site, n'hésitez pas à consulter la page <a href="/apropos/">a propos</a>.</p>
-"""
-    text6.save()
-
-    text7 = pages.Text()
-    text7.title = u"Les groupes régionaux"
-    text7.body = u"""<h4>Présentation</h4>
-
-<p>Le Groupe Régional est le représentant de l’association nationale dans la région. Il assure le relais des opérations de niveau national et développe les opérations de niveau régional.</p>
-<p>Pour réaliser ses missions, le groupe dispose du soutien de l’association nationale.</p>
-<ul>
-<li>soutien financier par l’octroi d’un budget en appui d’un plan d’actions validé en conseil,</li>
-<li> soutien matériel, par la mise à disposition du secrétariat, </li>
-<li>soutien en informations, par la diffusion des comptes-rendus du conseil, du bureau, flash-infos, programmes et convocations des autres groupes régionaux.</li>
-</ul>
-<p>En contrepartie le groupe a un devoir d’information du conseil d’administration, de transparence et de rigueur.</p>
-<p>Un groupe régional ne dispose pas de l’autonomie juridique ou financière : il s’agit par délégation de l’association nationale. Les Présidents des groupes régionaux sont invités aux réunions du conseil d’administration et donc associés aux débats d’orientation de la vie de l’association.</p>
-<p>Chaque groupe régional, en fonction de sa taille, du profil de ses adhérents (demandeurs d’emploi, actifs, retraités…), des partenariats qu’il peut établir (existence d’une maison des ingénieurs) choisit son plan d’action. Sont énumérés, ci-après, des thèmes d’actions qui pourraient être communs à tous les groupes.</p>
-
-<h4>Représentation</h4>
-<p>Le groupe régional assure le relais en région de l’association nationale.</p>
-<p>Le Président et le bureau du groupe informent le secrétariat de l’association nationale de leurs actions et communiquent un compte-rendu des réunions de bureau, manifestations et assemblés générales.</p>
-
-<h4>Adhésion</h4>
-<p>Le secrétariat de l’AIN7 adresse régulièrement aux groupes régionaux des listes à jour (membres actifs, associés et autres).</p>
-<p>Tout cotisant à l’association, ainsi que chaque élève de 3ième année est informé de l’existence et des coordonnées de son groupe régional.</p>
-<p>Chaque groupe a un devoir de développement du nombre des adhérents.</p>
-
-<h4>Finances</h4>
-<p>L’association nationale peut ouvrir un compte par groupe régional avec délégation au Président et au Trésorier du groupe. Le conseil d’administration arrête le budget annuel du groupe sur proposition du bureau.</p>
-
-<p>Le budget est destiné :</p>
-<ul>
-<li>au développement du groupe,</li>
-<li>à l’aide aux demandeurs d’emploi : participations aux opérations régionales, invitations aux manifestations,</li>
-<li>aux frais de fonctionnement.</li>
-</ul>
-
-<h4>Accueil solidarité</h4>
-<p>Le groupe est la structure d’accueil des ingénieurs en région :</p>
-<ul>
-<li>accueil des nouveaux diplômés,</li>
-<li>accueil des ingénieurs mutés,</li>
-<li>échange d’informations entre actifs,</li>
-<li>point de rencontre des retraités.</li>
-</ul>
-
-<h4>Emloi</h4>
-<p>Chaque groupe reçoit le fichier des demandeurs d’emploi et s’associe aux initiatives diverses régionales.</p>
-
-<h4>Animation manifestations</h4>
-<p>Le groupe a la responsabilité de l’aimation et de l’information régionales : organisation de rencontres, visites, manifestations.</p>
-
-<h4>Organisation statutaire</h4>
-<p>Chaque année est organisée une assemblée générale du groupe avec élection d’un bureau composé au minimum d’un Président, d’un Trésorier et d’un Secrétaire.</p>
-"""
-    text7.save()
-
-    text8 = pages.Text()
-    text8.title = u"Relations école et étudiants"
-    text8.body = u"""Text à faire => Lionel
-Voilà.
-"""
-    text8.save()
-
-    text9 = pages.Text()
-    text9.title = u"Groupes professionnels"
-    text9.body = u"""<p>Au fil des dernières années, l'AIN7 a suscité la création de groupes professionnels. Chaque Groupe Professionnel réunit les ingénieurs N7 qui travaillent dans le même domaine industriel.</p>
-<p>Il est animé par un noyau de quelques ingénieurs N7 qui contribue à l'animation et prépare les manifestations du groupe.</p>
-<p>Il a une couverture nationale.</p>
-<p>Il a vocation à être un des interlocuteurs de l'ENSEEIHT pour l'évolution de ses filières d'enseignement et une source privilégiée d'informations et de proposition.</p>
-<p>Il contribue dans son domaine à assurer la promotion de l'ENSEEIHT dans le cadre de l'AIN7 et en liaison avec la Direction de l'ENSEEIHT.</p>
-<p>Il a vocation d'entraide pour la recherche d'emplois.</p>
-<p>Il bénéficie de la logistique de l'AIN7 (mailing – Web – Groupes régionaux….)</p>
-<p>L'action des Groupes professionnels se fait en liaison avec celles des Correspondants d'Entreprises qui, dans leurs domaines, sont des invités permanents dans chaque groupe.</p>
-<p>La Communication des Groupes professionnels vers le monde extérieur se fait par le canal de l'AIN7.</p>
-<p>3 groupes professionnels sont actifs :</p>
-<h4>Groupe TIC (animateur : Eric Nizard - eric.nizard@lic.fr)</h4>
-<p>Issu du groupe professionnel Telecom qui a été depuis 2000 le plus actif, ce groupe a désormais élargi ses activités à l'informatique et plus généralement aux métiers issus des technologies de l'information et de la communication.</p>
-<p>Le groupe TIC organise régulièrement des conférences à Paris, dans le cadre du Groupe Parisien. Il est par ailleurs, le correspondant AIN7 au sein de <a href="http://www.g9plus.org">l'Institut G9+</a> qui rassemble les représentants "TIC" de 17 grandes Associations d'Ingénieurs (X, Centrales, Mines, Supélec…) et de Management (HEC, ESCP, ESSEC,…).</p>
-<h4>Groupe Aerospace (animateur : Yann Guerin – yannguer@yahoo.fr)</h4>
-<p>Ce groupe résidant à Toulouse, organise régulièrement des rencontres et bénéficie notamment de la présence de nombreux ingénieurs ENSEEIHT au sein du pôle de compétitivité "Aerospace Valley".</p>
-<h4>Groupe Energie (renseignements : Maryse Lemmet - maryse.lemmet@orange.fr)</h4>
-<p>Issu du groupe "Génie Electrique", ce groupe est en cours de reconstitution et doit démarrer des activités élargies au printemps 2009.</p>
-"""
-    text9.save()
-
-    text10 = pages.Text()
-    text10.title = u"Les publications de l'AIn7"
-    text10.body = u"""<p>La Communication, Interne aux adhérents de l’AIN7, est réalisée par les 3 vecteurs suivants, en complément des moyens classiques (courrier, mail, téléphone, fax …)</p>
-
-<p>En Projet:</p>
-<ul>
-<li>Newsletter</li>
-<li>Communauté AIN7/Viadeo</li>
-</ul>
-
-<p>Newsletter : répond à un besoin de diffuser des informations rapides et sous format électronique. 10 parutions annuelles envisagées.</p>
-<p>Communauté AIN7/Viadeo : dans le cadre d'un protocole d'accord en cours de négociation, le réseau Viadeo mettra à la disposition de l'AIN7 un espace communautaire privatif qui a vocation à devenir le forum privilégié de dialogue entre les N7.</p>
-
-<p>Communication</p>
-<p>Des supports de communication interactifs</p>
-<p><b>L'ANNUAIRE : PUBLICATION DE BASE DE L'ASSOCIATION</b></p>
-<p>C'est un moyen privilégié de communication entre tous les membres. Plus de 15000 adresses personnelles et professionnelles y sont répertoriées.</p>
-<p>Réalisé avec le plus grand soin, c'est un outil précieux à la fois pour l'activité professionnelle et les relations conviviales.</p>
-<p>Il est également apprécié des entreprises et des cabinets de recrutement et contribue à la notoriété de l'Association et des ingénieurs ENSEEIHT.</p>
-<p>Il est librement accessible sur le site AIN7 aux adhérents de l'AI.</p>
-
-
-<p><b>CANAL N7 : REVUE TRIMESTRIELLE A VOCATION SCIENTIFIQUE, TECHNIQUE INDUSTRIELLE ET SOCIETALE</b></p>
-<p>Constituant un lien régulier entre les membres de l'Association, elle est aussi diffusée, par abonnement, à des lecteurs extérieurs.</p>
-<p>Sa première partie est consacrée à des articles à vocation scientifique, technique et industrielle, mais aussi aux aspects socio-économiques, environnementaux, humains.</p>
-<p>La seconde partie est consacrée à la vie de la Communauté ENSEEIHT et en particulier de l'Association, avec des informations sur les activités du Conseil d'Administration, des différentes Commissions et Délégations, des Groupes régionaux et internationaux, ainsi que sur la vie de l'Ecole.</p>
-<p>Au printemps 2009, un nouveau format de Canal N7, plus moderne, facilitant la lecture, va apparaître. Nous attendions vos avis avec impatience.</p>
-
-<ul>
-<li><a href="/media_communication/canal_n7/">Canal N7</a>, la revue trimestrielle de l'association</li>
-<li><a href="/">Site internet</a>, lieu de recontre électronique de toutes les générations</li>
-<li><a href="/annuaire/">L'Annuaire</a>, l'annuaire de tous les anciens édité tous les ans au mois de juillet</li>
-</ul>
-"""
-    text10.save()
-
-    text11 = pages.Text()
-    text11.title = u"Présentation de canal N7"
-    text11.body = u"""<p>Journal trimestriel de l'ASSOCIATION des INGENIEURS de l'ENSEEIHT.</p>
-
-<ul>
-<li><b>Régie Publicitaire :</b> MAZARINE Partenaires, Paris</li>
-<li><b>Contact :</b> Carole Néhmé c.nehme@mazarine.com</li>
-<li><b>Tél :</b> 01 58 05 49 17</li>
-<li><b>Commission paritaire</b> (en cours de renouvellement)</li>
-<li><b>Prix au numéro :</b> 9 €</li>
-<li><b>Abonnement extérieur :</b> 30,50 € (1an)</li>
-<li><b>Abonnement adhérents :</b> 12,20 €</li>
-</ul>
-"""
-    text11.save()
-
-    text12 = pages.Text()
-    text12.title = u"L'équipe de la rédaction"
-    text12.body = u"""<ul>
-<li>Directeur de publication: <a href="/annuaire/1/">Michel Canon</a> (SET 1969)</li>
-<li>Rédacteur en chef : <a href="/annuaire/1/">Claude Thirriot</a> (1955)</li>
-<li>Secrétaire de rédaction : Sylvie Henric</li>
-</ul>
-"""
-    text12.save()
-
-    text13 = pages.Text()
-    text13.title = u"Le magazine"
-    text13.body = u"""<p>Depuis Novembre 1986, le bulletin d’information de l’AIN7 est réellement devenu le journal de l’Association avec des articles à portée scientifique , socio- économique ou culturelle.</p>
-
-<p>On y retrouve trois parties :</p>
-<ul>
-<li><b>Le Dossier :</b> partie rédactionnelle comprenant les articles techniques,</li>
-<li><b>Le Forum des lecteurs</b>,</li>
-<li><b>La Vie de l'Association</b>, incluant des informations sur les activités des groupes régionaux, de l'école et des élèves.</li>
-</ul>
-
-<p>De manière générale, chaque numéro est organisé autour d’un thème (…La Qualité, Sécurité et simulation, Communication, Biomécanique, Microsystèmes, Véhicules électriques, 3ième millénaire, Ingéniérie du sport, Télecoms,…..).</p>
-
-<p>La liste complète des numéros est disponible auprés du secrétariat de l’AIN7.</p>
-
-<p>Vous pourrez consulter le sommaire des derniers numéros en cliquant sur la photo du numéro correspondant.</p>
-"""
-    text13.save()
-
-    text14 = pages.Text()
-    text14.title = u"Au sommaire du dernier numéro"
-    text14.body = u"""<ul>
-      <li><a href="/media_communication/canal_n7/edito/">Editorial</a></li>
-      <li>Le mot du président</li>
-      <li>Vestiges historiques</li>
-      <li>Naissance de FEST'INP, le nouveau gala des étudiants des trois écoles toulousaines de l'INPT</li>
-      <li>Le Fest'INP, une inauguration réussie !</li>
-      <li>Bureau du Développement Durable</li>
-      <li>La certification des compétences, un futur inéluctable</li>
-      <li>Forum des lecteurs</li>
-      <li>Quelques nouvelles de l'ENSEEIHT</li>
-      <li>Souvenir de Jean-Louis Amalric</li>
-      <li>Skype</li>
-      <li>Assemblée générale 2008</li>
-      <li>Commission voyage</li>
-   </ul>
-"""
-    text14.save()
-
-    text15 = pages.Text()
-    text15.title = u"Éditorial"
-    text15.body = u"""<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Curabitur sit amet turpis non augue commodo tincidunt. Nulla commodo convallis neque. Donec elementum, justo ut dapibus dictum, nibh felis fringilla magna, ut rhoncus neque purus sed tortor. Donec sollicitudin. Cras lacus dolor, rhoncus vel, semper gravida, molestie quis, pede. Cras risus risus, mollis ac, sollicitudin sed, tempor ac, arcu. Aenean augue ipsum, convallis sit amet, luctus sit amet, scelerisque in, sem. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris quis metus ut leo congue varius. Duis euismod nisi varius justo rhoncus vestibulum.</p>
-
-<p>Nunc nulla. Vestibulum ante. Praesent fringilla vestibulum lorem. Duis vel dolor. Phasellus lobortis tincidunt dolor. Mauris et sapien sollicitudin odio tincidunt gravida. Etiam enim. Mauris ut metus id lacus dapibus consectetuer. Maecenas eu pede ut leo faucibus dictum. Praesent nec nisi at leo egestas euismod. Nunc varius erat vitae lacus. Nam leo risus, vehicula nec, molestie vel, rhoncus nec, libero. Cras velit.</p>
-
-<p>Curabitur sit amet arcu in leo scelerisque pellentesque. Sed lobortis, nunc sed gravida vehicula, nulla sem porta sapien, vel eleifend sapien leo ac justo. Donec pharetra, ante et mattis auctor, sapien ipsum luctus tellus, eu euismod leo tellus non tellus. Praesent urna. Aliquam bibendum odio. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum neque. Quisque tincidunt. Pellentesque in purus. Aliquam volutpat. Mauris id velit in purus congue convallis. Phasellus nec nisl. Quisque nisl. Praesent viverra. Pellentesque tristique. Sed sed justo a mi pulvinar cursus.</p>
-
-<p>Quisque vel tortor ac neque feugiat feugiat. Proin laoreet eleifend augue. Etiam ut nisi vitae sapien molestie vehicula. Aenean mattis purus eget velit. Nulla sapien tellus, venenatis quis, consequat vel, tincidunt eget, neque. Fusce egestas. Curabitur ipsum leo, dignissim ac, sodales nec, tincidunt vel, ipsum. Duis laoreet nunc eget quam. Proin ac dui convallis leo accumsan ultrices. Pellentesque a sapien sit amet lorem bibendum consectetuer. Fusce sodales, purus eget fringilla iaculis, felis orci mattis orci, vitae tristique mi risus at lectus. Cras nec lorem eu dolor consequat pellentesque. Morbi pulvinar pede quis mauris. Fusce sit amet augue.</p>
-
-<p>Cras faucibus vehicula nisl. Quisque in velit. Sed augue. Vestibulum eu orci et mi porttitor commodo. Mauris malesuada, elit ac sagittis pharetra, odio sapien commodo lectus, sit amet mollis odio mauris eget tortor. Donec facilisis bibendum diam. Morbi accumsan. Nullam massa orci, luctus nec, tristique posuere, eleifend sed, urna. Nunc felis lectus, suscipit id, auctor at, hendrerit vitae, massa. Suspendisse malesuada erat ac augue. Sed nibh.</p>
-"""
-    text15.save()
-
-    text16 = pages.Text()
-    text16.title = u"Site Internet AIn7"
-    text16.body = u"""<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Curabitur sit amet turpis non augue commodo tincidunt. Nulla commodo convallis neque. Donec elementum, justo ut dapibus dictum, nibh felis fringilla magna, ut rhoncus neque purus sed tortor. Donec sollicitudin. Cras lacus dolor, rhoncus vel, semper gravida, molestie quis, pede. Cras risus risus, mollis ac, sollicitudin sed, tempor ac, arcu. Aenean augue ipsum, convallis sit amet, luctus sit amet, scelerisque in, sem. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris quis metus ut leo congue varius. Duis euismod nisi varius justo rhoncus vestibulum.</p>
-
-<p>Nunc nulla. Vestibulum ante. Praesent fringilla vestibulum lorem. Duis vel dolor. Phasellus lobortis tincidunt dolor. Mauris et sapien sollicitudin odio tincidunt gravida. Etiam enim. Mauris ut metus id lacus dapibus consectetuer. Maecenas eu pede ut leo faucibus dictum. Praesent nec nisi at leo egestas euismod. Nunc varius erat vitae lacus. Nam leo risus, vehicula nec, molestie vel, rhoncus nec, libero. Cras velit.</p>
-
-<p>Curabitur sit amet arcu in leo scelerisque pellentesque. Sed lobortis, nunc sed gravida vehicula, nulla sem porta sapien, vel eleifend sapien leo ac justo. Donec pharetra, ante et mattis auctor, sapien ipsum luctus tellus, eu euismod leo tellus non tellus. Praesent urna. Aliquam bibendum odio. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum neque. Quisque tincidunt. Pellentesque in purus. Aliquam volutpat. Mauris id velit in purus congue convallis. Phasellus nec nisl. Quisque nisl. Praesent viverra. Pellentesque tristique. Sed sed justo a mi pulvinar cursus.</p>
-
-<p>Quisque vel tortor ac neque feugiat feugiat. Proin laoreet eleifend augue. Etiam ut nisi vitae sapien molestie vehicula. Aenean mattis purus eget velit. Nulla sapien tellus, venenatis quis, consequat vel, tincidunt eget, neque. Fusce egestas. Curabitur ipsum leo, dignissim ac, sodales nec, tincidunt vel, ipsum. Duis laoreet nunc eget quam. Proin ac dui convallis leo accumsan ultrices. Pellentesque a sapien sit amet lorem bibendum consectetuer. Fusce sodales, purus eget fringilla iaculis, felis orci mattis orci, vitae tristique mi risus at lectus. Cras nec lorem eu dolor consequat pellentesque. Morbi pulvinar pede quis mauris. Fusce sit amet augue.</p>
-
-<p>Cras faucibus vehicula nisl. Quisque in velit. Sed augue. Vestibulum eu orci et mi porttitor commodo. Mauris malesuada, elit ac sagittis pharetra, odio sapien commodo lectus, sit amet mollis odio mauris eget tortor. Donec facilisis bibendum diam. Morbi accumsan. Nullam massa orci, luctus nec, tristique posuere, eleifend sed, urna. Nunc felis lectus, suscipit id, auctor at, hendrerit vitae, massa. Suspendisse malesuada erat ac augue. Sed nibh.</p>
-"""
-    text16.save()
-
-    text17 = pages.Text()
-    text17.title = u"L'international à l'AIn7"
-    text17.body = u"""Texte à définir.
-"""
-    text17.save()

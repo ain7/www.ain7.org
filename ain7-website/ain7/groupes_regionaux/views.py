@@ -37,7 +37,7 @@ from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_
 
 def index(request):
     groups = Group.objects.all().filter(is_active=True).order_by('name')
-    text = Text.objects.get(pk=7)
+    text = Text.objects.get(shortname='groupes_regionaux')
     return ain7_render_to_response(request, 'groupes_regionaux/index.html',
                             {'groups': groups, 'text': text})
 
@@ -52,7 +52,8 @@ def details(request, group_id):
 @login_required
 def edit(request, group_id):
 
-    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat','ain7-contributeur'])
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat',
+                      'ain7-contributeur'])
     if r:
         return r
 

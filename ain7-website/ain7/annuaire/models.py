@@ -119,7 +119,7 @@ class CeremonialDuty(models.Model):
 class School(models.Model):
 
     name = models.CharField(verbose_name=_('name'), max_length=500)
-    initials = models.CharField(verbose_name=_('initials'), max_length=10, blank=True, null=True)
+    initials = models.CharField(verbose_name=_('initials'), max_length=20, blank=True, null=True)
 
     line1 = models.CharField(verbose_name=_('line1'), max_length=50, blank=True, null=True)
     line2 = models.CharField(verbose_name=_('line2'), max_length=100, blank=True, null=True)
@@ -127,7 +127,7 @@ class School(models.Model):
     city = models.CharField(verbose_name=_('city'), max_length=50, blank=True, null=True)
     country = models.ForeignKey(Country, verbose_name=_('country'), blank=True, null=True)
 
-    phone_number = models.CharField(verbose_name=_('phone number'), max_length=20, blank=True, null=True)
+    phone_number = models.CharField(verbose_name=_('phone number'), max_length=30, blank=True, null=True)
     web_site = models.CharField(verbose_name=_('web site'), max_length=100, blank=True, null=True)
     email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
 
@@ -318,7 +318,7 @@ class AIn7Member(LoggedClass):
     ceremonial_duties = models.ManyToManyField(CeremonialDuty, verbose_name=_('ceremonial duties'), blank=True, null=True)
 
     # Curriculum Vitae and Job Service
-    display_cv_in_directory = models.BooleanField(verbose_name=_('Display my professional cursus in the directory'), default=False)
+    display_cv_in_directory = models.BooleanField(verbose_name=_('Display my professional cursus in the directory'), default=True)
     display_cv_in_job_section = models.BooleanField(verbose_name=_('Display my CV in the job service section'), default=False)
     receive_job_offers = models.BooleanField(verbose_name=_('Receive job offers by email'), default=False)
     receive_job_offers_for_tracks = models.ManyToManyField(
@@ -361,7 +361,7 @@ class PhoneNumber(LoggedClass):
 
     person = models.ForeignKey(Person, related_name='phone_numbers')
 
-    number = models.CharField(verbose_name=_('number'), max_length=20)
+    number = models.CharField(verbose_name=_('number'), max_length=30)
     type = models.IntegerField(verbose_name=_('type'), choices=PHONE_NUMBER_TYPE, default=1)
     confidentiality = models.IntegerField(verbose_name=_('confidentiality'),
         choices=CONFIDENTIALITY_LEVELS, default=0)

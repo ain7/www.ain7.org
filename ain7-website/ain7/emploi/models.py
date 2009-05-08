@@ -100,9 +100,10 @@ class Organization(LoggedClass):
                     (3, _('Large (500+)')),
                     )
 
-    name = models.CharField(verbose_name=_('name'), max_length=50)
+    name = models.CharField(verbose_name=_('name'), max_length=100)
     size = models.IntegerField(verbose_name=_('size'), choices=ORGANIZATION_SIZE, blank=True, null=True)
-    activity_field = models.ForeignKey(ActivityField, verbose_name=_('Activity field'), related_name='organizations')
+    # TODO: do not allow null=True, but mandatory for import right now
+    activity_field = models.ForeignKey(ActivityField, verbose_name=_('Activity field'), related_name='organizations', null=True, blank=True)
     short_description = models.CharField(verbose_name=_('short description'), max_length=50, blank=True, null=True)
     long_description = models.TextField(verbose_name=_('long description'), blank=True, null=True)
     employment_agency = models.BooleanField(verbose_name=_('employment agency'), default=False)
@@ -200,7 +201,7 @@ class Office(LoggedClass):
 
     organization = models.ForeignKey(Organization, verbose_name=_('organization'), related_name='offices')
 
-    name = models.CharField(verbose_name=_('name'), max_length=50)
+    name = models.CharField(verbose_name=_('name'), max_length=100)
 
     line1 = models.CharField(verbose_name=_('line1'), max_length=50, blank=True, null=True)
     line2 = models.CharField(verbose_name=_('line2'), max_length=100, blank=True, null=True)
@@ -311,8 +312,8 @@ class OfficeProposal(LoggedClass):
 class Position(LoggedClass):
 
     office = models.ForeignKey(Office, verbose_name=_('office'), related_name='positions')
-    fonction = models.CharField(verbose_name=_('fonction'), max_length=50)
-    service = models.CharField(verbose_name=_('service'), max_length=50, blank=True, null=True)
+    fonction = models.CharField(verbose_name=_('fonction'), max_length=80)
+    service = models.CharField(verbose_name=_('service'), max_length=80, blank=True, null=True)
     phone_number = models.CharField(verbose_name=_('phone number'), max_length=20, blank=True, null=True)
     email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
     start_date = models.DateField(verbose_name=_('start date'), blank=True, null=True)

@@ -43,8 +43,8 @@ def homepage(request):
                for s in Survey.objects.all() if s.is_valid()][:2]
     today = datetime.datetime.today()
     birthdays = []
-    text1 = Text.objects.get(pk=1)
-    text2 = Text.objects.get(pk=2)
+    text1 = Text.objects.get(shortname='edito')
+    text2 = Text.objects.get(shortname='enseeiht')
     if is_auth:
         birthdays = [ m for m in AIn7Member.objects.filter(
             person__birth_date__isnull=False,
@@ -66,7 +66,7 @@ def lostpassword(request):
         form = LostPasswordForm(request.POST)
         if form.is_valid():
             e = form.cleaned_data['email']
-            p = Email.objects.get(email=e).person
+            p = Email.objects.filter(email=e).person
             new_random_password = User.objects.make_random_password(length=10, allowed_chars='abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789')
             p.user.set_password(new_random_password)
             p.user.save() # appel explicite de .save pour changer le mot de passe de façon permanente
@@ -83,14 +83,6 @@ def lostpassword(request):
 def apropos(request):
     return ain7_render_to_response(request, 'pages/apropos.html', {})
 
-def count_members():
-    nb_members = AIn7Member.objects.all().count()
-    return nb_members
-
-def count_subscribers():
-    nb_subscribers = AIn7Member.objects.all().count()
-    return nb_subscribers
-
 def international(request):
     text = Text.objects.get(pk=17)
     return ain7_render_to_response(request, 'pages/international.html', 
@@ -104,7 +96,8 @@ def rss(request):
 
 def edit(request, text_id):
 
-    r = check_access(request, request.user, ['ain7-member','ain7-secretariat', 'contributeur'])
+    r = check_access(request, request.user, ['ain7-member', 
+                                       'ain7-secretariat', 'contributeur'])
     if r:
         return r
 
@@ -120,7 +113,7 @@ def edit(request, text_id):
            text.save()
 
            request.user.message_set.create(message=_("Modifications saved."))
-           return HttpResponseRedirect('/')
+           return HttpResponseRedirect(request.META.get('HTTP_REFERER', ''))
 
     return ain7_render_to_response(request, 'pages/text_edit.html', 
                 {'text_id': text_id, 'form': form})

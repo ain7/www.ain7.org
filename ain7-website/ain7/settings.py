@@ -124,6 +124,9 @@ PLANET_URL = 'http://planet.ain7.info/'
 FORUMS_URL = 'http://forums.ain7.info/'
 GALLERY_URL = 'http://gallery.ain7.info/'
 
+PIWIK_URL = 'http://localhost/piwik/'
+PIWIK_SITE_ID = '0'
+
 # Version
 BASE = '0.0.0'
 REVISION = os.popen('bzr revno 2> /dev/null').read().rstrip()
@@ -139,6 +142,6 @@ MOOTOOLS_MORE_VERSION = '1.2.2.1'
 
 AIN7_PORTAL_ADMIN = 'ain7-admin'
 
-if os.path.exists('settings.local.py'):
-    from ain7.settings.local import *
+if os.path.exists('settings_local.py'):
+    from settings_local import *
 

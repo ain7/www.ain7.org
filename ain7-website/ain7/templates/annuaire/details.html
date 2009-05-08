@@ -111,9 +111,10 @@
 </ul>
 {% endif %}
 
-{% if ain7member.display_cv_in_directory %}
+{% if ain7member.display_cv_in_directory or superadmin or ca_member or secretariat_member %}
 
-<h2>{% trans "Professional experiences" %}</h2>
+<h2>{% if ain7member.display_cv_in_directory %}<img src="/site_media/images/private.png"/>{% endif %}
+{% trans "Professional experiences" %}</h2>
 
 {% if ain7member.positions.all %}
 <table>

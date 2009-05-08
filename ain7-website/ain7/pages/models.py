@@ -28,6 +28,7 @@ from ain7.utils import LoggedClass
 
 class Text(LoggedClass):
 
+    shortname = models.CharField(verbose_name=_('shortname'), max_length=50)
     title = models.CharField(verbose_name=_('title'), max_length=150)
     body = models.TextField(verbose_name=_('body'), blank=True, null=True)
 
