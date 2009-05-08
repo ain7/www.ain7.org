@@ -726,15 +726,22 @@ sont développées</p>
     text18.save()
 
     if os.path.exists('filldbain7'):
-        print "Import des donnees privees AIn7"
+        import glob
+        print 'Import des donnees privees AIn7'
+        print '- import des données de base'
         execfile('filldbain7/base.py')
+        print '- import des sociétés'
         execfile('filldbain7/companies.py')
-        for root, dirs, files in os.walk('filldbain7'):
-           for filename in files:
-              if filename != 'base.py' and filename != 'companies.py':
-                 print filename
-                 execfile(root + '/' + filename)
+        filelist = glob.glob('filldbain7/*.py')
+        imported_files = 0
+        total_files = len(filelist)
+        for filename in filelist:
+            if filename != 'filldbain7/base.py' and filename != 'filldbain7/companies.py':
+                imported_files = imported_files +1
+                print '- import de l\'individu '+filename+' ('+str(imported_files)+'/'+str(total_files)+')'
+                execfile(filename)
         return
+
     else:
         print "Pas de donnes privees AIn7, importation des donnees de demo"
         pass
