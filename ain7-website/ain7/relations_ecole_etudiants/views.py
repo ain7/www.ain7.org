@@ -25,7 +25,7 @@ from ain7.utils import ain7_render_to_response
 
 
 def index(request): 
-    text = Text.objects.get(shortname='relations_ecole_etudiants')
+    text = Text.objects.get(textblock__shortname='relations_ecole_etudiants')
     return ain7_render_to_response(request, 
                 'relations_ecole_etudiants/index.html', {'text': text})
 

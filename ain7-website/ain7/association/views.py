@@ -45,12 +45,12 @@ def current_board_roles():
     return [ rol for rol in CouncilRole.objects.filter(board_member=True) if rol.current() ]
 
 def index(request):
-    text = Text.objects.get(shortname='presentation_ain7') 
+    text = Text.objects.get(textblock__shortname='presentation_ain7') 
     return ain7_render_to_response(request, 'association/index.html', 
                 {'count_members': count_members(), 'text': text}) 
  
 def status(request): 
-    text = Text.objects.get(shortname='status_ain7') 
+    text = Text.objects.get(textblock__shortname='status_ain7') 
     return ain7_render_to_response(request, 'association/status.html', 
                 {'count_members': count_members(), 'text': text}) 
  
@@ -65,8 +65,8 @@ def council(request):
          'current_roles': current_council_roles() }) 
  
 def contact(request):
-    text1 = Text.objects.get(shortname='secretariat_ain7') 
-    text2 = Text.objects.get(shortname='website_ain7')
+    text1 = Text.objects.get(textblock__shortname='secretariat_ain7') 
+    text2 = Text.objects.get(textblock__shortname='website_ain7')
     return ain7_render_to_response(request, 'association/contact.html', 
           {'count_members': count_members(), 'text1': text1, 'text2': text2}) 
 

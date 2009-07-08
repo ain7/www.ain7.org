@@ -43,8 +43,8 @@ def homepage(request):
                for s in Survey.objects.all() if s.is_valid()][:2]
     today = datetime.datetime.today()
     birthdays = []
-    text1 = Text.objects.get(shortname='edito')
-    text2 = Text.objects.get(shortname='enseeiht')
+    text1 = Text.objects.get(textblock__shortname='edito')
+    text2 = Text.objects.get(textblock__shortname='enseeiht')
     if is_auth:
         birthdays = [ m for m in AIn7Member.objects.filter(
             person__birth_date__isnull=False,
@@ -116,5 +116,5 @@ def edit(request, text_id):
            return HttpResponseRedirect(request.META.get('HTTP_REFERER', ''))
 
     return ain7_render_to_response(request, 'pages/text_edit.html', 
-                {'text_id': text_id, 'form': form})
+            {'text_id': text_id, 'form': form, 'back': request.META.get('HTTP_REFERER')})
 

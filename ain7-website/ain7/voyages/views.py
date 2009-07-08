@@ -44,7 +44,7 @@ def index(request):
         start_date__gte=datetime.now()).order_by('-start_date')
     prev_travels = Travel.objects.filter(
         start_date__lt=datetime.now()).order_by('-start_date')[:5]
-    text = Text.objects.get(shortname='voyages')
+    text = Text.objects.get(textblock__shortname='voyages')
     return ain7_render_to_response(request, 'voyages/index.html',
         {'next_travels': next_travels, 'previous_travels': prev_travels, 'text': text})
 

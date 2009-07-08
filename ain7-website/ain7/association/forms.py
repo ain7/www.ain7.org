@@ -69,6 +69,7 @@ class NewCouncilRoleForm(forms.Form):
         cr.end_date = self.cleaned_data['end_date']
         cr.member = self.cleaned_data['username']
         cr.board_member = self.cleaned_data['board_member']
+        cr.role = self.cleaned_data['role']
         cr.save()
         return cr
 

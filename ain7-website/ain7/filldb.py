@@ -43,11 +43,16 @@ import ain7.search_engine.models as search_engine
 import ain7.sondages.models as sondages
 import ain7.voyages.models as voyages
 
-
 def filldb():
 
+    textblock1 = pages.TextBlock()
+    textblock1.shortname = "edito"
+    textblock1.url = "/"
+    textblock1.save()
+
     text1 = pages.Text()
-    text1.shortname = "edito"
+    text1.textblock = textblock1
+    text1.lang = 'fr'
     text1.title = u"Le réseau AIN7 : une force collective et des atouts au service de chaque diplômé ENSEEIHT"
     text1.body = u"""<img src="/site_media/images/logo_ain7.png" class="image" alt="Big Image" />
 <p>L'ENSEEIHT a fêté son centenaire en 2007. Naturellement issue des premières promotions 
@@ -74,8 +79,14 @@ Président AIN7</b></p>
 """
     text1.save()
 
+    textblock2 = pages.TextBlock()
+    textblock2.shortname = "enseeiht"
+    textblock2.url = '/'
+    textblock2.save()
+
     text2 = pages.Text()
-    text2.shortname = "enseeiht"
+    text2.textblock = textblock2
+    text2.lang = 'fr'
     text2.title = u"L'ENSEEIHT"
     text2.body = u"""<img src="/site_media/images/n7_small.png" class="image" alt="ENSEEIHT" />
 <p>L'ENSEEIHT (prononcer « N7 ») est l'École nationale supérieure d'électrotechnique, d'électronique, 
@@ -96,8 +107,14 @@ année (près de 400).</p>
 """
     text2.save()
 
+    textblock3 = pages.TextBlock()
+    textblock3.shortname = "presentation_ain7"
+    textblock3.url = '/association/'
+    textblock3.save()
+
     text3 = pages.Text()
-    text3.shortname = "presentation_ain7"
+    text3.textblock = textblock3
+    text3.lang = 'fr'
     text3.title = u"L'AIn7..."
     text3.body = u"""<h4>Des offres d'emploi</h4>
 <p>L'AIN7 gère un service Emplois-Carrières au bénéfice de l'Ecole et de ses membres :</p>
@@ -163,8 +180,14 @@ année (près de 400).</p>
 
     text3.save()
 
+    textblock4 = pages.TextBlock()
+    textblock4.shortname = "statuts_ain7"
+    textblock4.url = '/association/status/'
+    textblock4.save()
+
     text4 = pages.Text()
-    text4.shortname = "statuts_ain7"
+    text4.textblock = textblock4
+    text4.lanbg = 'fr'
     text4.title = u"Statuts de l'association"
     text4.body = u"""<h4>I - BUT ET COMPOSITION DE L'ASSOCIATION</h4>
 
@@ -397,8 +420,14 @@ Elle a son Siège à Toulouse, à l'ECOLE NATIONALE SUPERIEURE d'ELECTROTECHNIQU
 """
     text4.save()
 
+    textblock5 = pages.TextBlock()
+    textblock5.shortname = "secretariat_ain7"
+    textblock5.url = '/association/contact/'
+    textblock5.save()
+
     text5 = pages.Text()
-    text5.shortname = "secretariat_ain7"
+    text5.textblock = textblock5
+    text5.lang = 'fr'
     text5.title = u"Le secrétariat permanant"
     text5.body = u"""<b>Coordonnées globales :</b>
 <p>
@@ -417,16 +446,28 @@ A.I.N.7<br/>
 """
     text5.save()
 
+    textblock6 = pages.TextBlock()
+    textblock6.shortname = "website_ain7"
+    textblock6.url = '/'
+    textblock6.save()
+
     text6 = pages.Text()
-    text6.shortname = "website_ain7"
+    text6.textblock = textblock6
+    text6.lang = 'fr'
     text6.title = u"A propos du site"
     text6.body = u"""<p>Pour remonter un problème au sujet du site contactez le <a href="mailto:webmaster@ain7.fr">webmaster</a>.</p>
 <p>Pour de plus amples renseignements au sujet de ce site, n'hésitez pas à consulter la page <a href="/apropos/">a propos</a>.</p>
 """
     text6.save()
 
+    textblock7 = pages.TextBlock()
+    textblock7.shortname = "groupes_regionaux"
+    textblock7.url = '/groupes_regionaux/'
+    textblock7.save()
+
     text7 = pages.Text()
-    text7.shortname = "groupes_regionaux"
+    text7.textblock = textblock7
+    text7.lang = 'fr'
     text7.title = u"Les groupes régionaux"
     text7.body = u"""<h4>Présentation</h4>
 
@@ -480,16 +521,28 @@ A.I.N.7<br/>
 """
     text7.save()
 
+    textblock8 = pages.TextBlock()
+    textblock8.shortname = "relations_ecole_etudiants"
+    textblock8.url = '/'
+    textblock8.save()
+
     text8 = pages.Text()
-    text8.shortname = "relations_ecole_etudiants"
+    text8.textblock = textblock8
+    text8.lang = 'fr'
     text8.title = u"Relations école et étudiants"
     text8.body = u"""Text à faire => Lionel
 Voilà.
 """
     text8.save()
 
+    textblock9 = pages.TextBlock()
+    textblock9.shortname = "groupes_professionnels"
+    textblock9.url = '/'
+    textblock9.save()
+
     text9 = pages.Text()
-    text9.shortname = "groupes_professionnels"
+    text9.textblock = textblock9
+    text9.lang = 'fr'
     text9.title = u"Groupes professionnels"
     text9.body = u"""<p>Au fil des dernières années, l'AIN7 a suscité la création de groupes professionnels. Chaque Groupe Professionnel réunit les ingénieurs N7 qui travaillent dans le même domaine industriel.</p>
 <p>Il est animé par un noyau de quelques ingénieurs N7 qui contribue à l'animation et prépare les manifestations du groupe.</p>
@@ -511,8 +564,14 @@ Voilà.
 """
     text9.save()
 
+    textblock10 = pages.TextBlock()
+    textblock10.shortname = "publication_ain7"
+    textblock10.url = '/'
+    textblock10.save()
+
     text10 = pages.Text()
-    text10.shortname = "publication_ain7"
+    text10.textblock = textblock10 
+    text10.lang = 'fr'
     text10.title = u"Les publications de l'AIn7"
     text10.body = u"""<p>La Communication, Interne aux adhérents de l’AIN7, est réalisée par les 3 vecteurs suivants, en complément des moyens classiques (courrier, mail, téléphone, fax …)</p>
 
@@ -548,8 +607,14 @@ Voilà.
 """
     text10.save()
 
+    textblock11 = pages.TextBlock()
+    textblock11.shortname = "presentation_canal_n7"
+    textblock11.url = '/'
+    textblock11.save()
+
     text11 = pages.Text()
-    text11.shortname = "presentation_canal_n7"
+    text11.textblock = textblock11
+    text11.lang = 'fr'
     text11.title = u"Présentation de canal N7"
     text11.body = u"""<p>Journal trimestriel de l'ASSOCIATION des INGENIEURS de l'ENSEEIHT.</p>
 
@@ -565,8 +630,14 @@ Voilà.
 """
     text11.save()
 
+    textblock12 = pages.TextBlock()
+    textblock12.shortname = "redaction_canal_n7"
+    textblock12.url = '/'
+    textblock12.save()
+
     text12 = pages.Text()
-    text12.shortname = "redaction_canal_n7"
+    text12.textblock = textblock12
+    text12.lang = 'fr'
     text12.title = u"L'équipe de la rédaction"
     text12.body = u"""<ul>
 <li>Directeur de publication: <a href="/annuaire/1/">Michel Canon</a> (SET 1969)</li>
@@ -576,8 +647,14 @@ Voilà.
 """
     text12.save()
 
+    textblock13 = pages.TextBlock()
+    textblock13.shortname = "canal_n7"
+    textblock13.url = '/'
+    textblock13.save()
+
     text13 = pages.Text()
-    text13.shortname = "canal_n7"
+    text13.textblock = textblock13
+    text13.lang = 'fr'
     text13.title = u"Le magazine"
     text13.body = u"""<p>Depuis Novembre 1986, le bulletin d’information de l’AIN7 est réellement devenu le journal de l’Association avec des articles à portée scientifique , socio- économique ou culturelle.</p>
 
@@ -596,8 +673,14 @@ Voilà.
 """
     text13.save()
 
+    textblock14 = pages.TextBlock()
+    textblock14.shortname = "sommaire_canal_n7"
+    textblock14.url = '/'
+    textblock14.save()
+
     text14 = pages.Text()
-    text14.shortname = "sommaire_canal_n7"
+    text14.textblock = textblock14
+    text14.lang = 'fr'
     text14.title = u"Au sommaire du dernier numéro"
     text14.body = u"""<ul>
       <li><a href="/media_communication/canal_n7/edito/">Editorial</a></li>
@@ -617,8 +700,14 @@ Voilà.
 """
     text14.save()
 
+    textblock15 = pages.TextBlock()
+    textblock15.shortname = "edito_canal_n7"
+    textblock15.url = '/'
+    textblock15.save()
+
     text15 = pages.Text()
-    text15.shortname = "edito_canal_n7"
+    text15.textblock = textblock15
+    text15.fr = 'fr'
     text15.title = u"Éditorial"
     text15.body = u"""<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Curabitur sit amet turpis non augue commodo tincidunt. Nulla commodo convallis neque. Donec elementum, justo ut dapibus dictum, nibh felis fringilla magna, ut rhoncus neque purus sed tortor. Donec sollicitudin. Cras lacus dolor, rhoncus vel, semper gravida, molestie quis, pede. Cras risus risus, mollis ac, sollicitudin sed, tempor ac, arcu. Aenean augue ipsum, convallis sit amet, luctus sit amet, scelerisque in, sem. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris quis metus ut leo congue varius. Duis euismod nisi varius justo rhoncus vestibulum.</p>
 
@@ -632,8 +721,14 @@ Voilà.
 """
     text15.save()
 
+    textblock16 = pages.TextBlock()
+    textblock16.shortname = 'website'
+    textblock16.url = '/'
+    textblock16.save()
+
     text16 = pages.Text()
-    text16.shortname = "website"
+    text16.textblock = textblock16
+    text16.lang = 'fr'
     text16.title = u"Site Internet AIn7"
     text16.body = u"""<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Curabitur sit amet turpis non augue commodo tincidunt. Nulla commodo convallis neque. Donec elementum, justo ut dapibus dictum, nibh felis fringilla magna, ut rhoncus neque purus sed tortor. Donec sollicitudin. Cras lacus dolor, rhoncus vel, semper gravida, molestie quis, pede. Cras risus risus, mollis ac, sollicitudin sed, tempor ac, arcu. Aenean augue ipsum, convallis sit amet, luctus sit amet, scelerisque in, sem. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris quis metus ut leo congue varius. Duis euismod nisi varius justo rhoncus vestibulum.</p>
 
@@ -647,15 +742,27 @@ Voilà.
 """
     text16.save()
 
+    textblock17 = pages.TextBlock()
+    textblock17.shortname = "international"
+    textblock17.url = '/'
+    textblock17.save()
+
     text17 = pages.Text()
-    text17.shortname = "international"
+    text17.textblock = textblock17
+    text17.lang = 'fr'
     text17.title = u"L'international à l'AIn7"
     text17.body = u"""Texte à définir.
 """
     text17.save()
 
+    textblock18 = pages.TextBlock()
+    textblock18.shortname = "voyages"
+    textblock18.url = '/voyages/'
+    textblock18.save()
+
     text18 = pages.Text()
-    text18.shortname = "voyages"
+    text18.textblock = textblock18
+    text18.lang = 'fr'
     text18.title = u"Les voyages à l'AIn7"
     text18.body = u"""<h4>Notre but</h4>
 <p>Un des buts principaux de notre association, comme prévu aux statuts, est
@@ -733,13 +840,17 @@ sont développées</p>
         print '- import des sociétés'
         execfile('filldbain7/companies.py')
         filelist = glob.glob('filldbain7/*.py')
+        filelist.sort()
+        if 'filldbain7/base.py' in filelist:
+            filelist.remove('filldbain7/base.py')
+        if 'filldbain7/companies.py' in filelist:
+            filelist.remove('filldbain7/companies.py')
         imported_files = 0
         total_files = len(filelist)
         for filename in filelist:
-            if filename != 'filldbain7/base.py' and filename != 'filldbain7/companies.py':
-                imported_files = imported_files +1
-                print '- import de l\'individu '+filename+' ('+str(imported_files)+'/'+str(total_files)+')'
-                execfile(filename)
+            imported_files = imported_files +1
+            print '- import de l\'individu '+filename+' ('+str(imported_files)+'/'+str(total_files)+')'
+            execfile(filename)
         return
 
     else:

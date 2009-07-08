@@ -312,7 +312,7 @@ class OfficeProposal(LoggedClass):
 class Position(LoggedClass):
 
     office = models.ForeignKey(Office, verbose_name=_('office'), related_name='positions')
-    fonction = models.CharField(verbose_name=_('fonction'), max_length=80)
+    fonction = models.CharField(verbose_name=_('fonction'), max_length=80, blank=True, null=True)
     service = models.CharField(verbose_name=_('service'), max_length=80, blank=True, null=True)
     phone_number = models.CharField(verbose_name=_('phone number'), max_length=20, blank=True, null=True)
     email = models.EmailField(verbose_name=_('email'), blank=True, null=True)

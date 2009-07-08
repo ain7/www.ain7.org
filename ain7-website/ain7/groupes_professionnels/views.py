@@ -35,7 +35,7 @@ from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_
 
 
 def index(request):
-    text = Text.objects.get(shortname='groupes_professionnels')
+    text = Text.objects.get(textblock__shortname='groupes_professionnels')
     groups = GroupPro.objects.all().order_by('name')
     return ain7_render_to_response(request, 'groupes_professionnels/index.html',
                     {'groups': groups, 'text': text})

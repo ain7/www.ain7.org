@@ -26,9 +26,14 @@ from django.utils.translation import ugettext as _
 from ain7.utils import LoggedClass
 
 
+class TextBlock(LoggedClass):
+    shortname = models.CharField(verbose_name=_('shortname'), max_length=50)
+    url = models.CharField(verbose_name=_('url'), max_length=100, blank=True, null=True)
+
 class Text(LoggedClass):
 
-    shortname = models.CharField(verbose_name=_('shortname'), max_length=50)
+    textblock = models.ForeignKey(TextBlock)
+    lang = models.CharField(verbose_name=_('lang'), default='fr', max_length=10)
     title = models.CharField(verbose_name=_('title'), max_length=150)
     body = models.TextField(verbose_name=_('body'), blank=True, null=True)
 
