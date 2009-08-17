@@ -46,10 +46,8 @@
 <ul>
    <li><b>{% filter capfirst %}{% trans "avatar" %}{% endfilter %}</b>&nbsp;:
        {% if ain7member.avatar %}
-	   <img src="{{ ain7member.avatar.url }}" height="100"
-           alt="{% trans "avatar" %}" />
-	   <a href="/annuaire/{{ person.user.id }}/avatar/delete/" 
-           class="deletelink">
+	   <img src="{{ ain7member.avatar.url }}" height="100" alt="{% trans "avatar" %}" />
+	   <a href="/annuaire/{{ person.user.id }}/avatar/delete/" class="deletelink">
            {% trans "Delete" %}</a>
        {% else %}
            {% trans "No avatar" %}
@@ -230,8 +228,7 @@
 {% for im in person.instant_messagings.all %}
 <table style="border: 0; width: 100%">
     <tr valign="middle"><td>
-       <img src="/site_media/images/{{ im.get_type_display|lower }}.png"
-       alt="{% trans "Contact" %} {{im.get_im_display|lower }}"/>
+       <img src="/site_media/images/{{ im.get_type_display|lower }}.png" alt="{% trans "Contact" %} {{im.get_im_display|lower }}"/>
        {{ im.identifier }} ({{ im.confidentiality_print }})</td>
     <td style="width: 12%">
         <a href="/annuaire/{{ person.user.id }}/im/{{ im.id }}/edit/" class="changelink">

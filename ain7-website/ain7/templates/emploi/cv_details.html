@@ -25,8 +25,7 @@
 
 <td>
 {% if person.avatar %}
-    <img src="/site_media/{{ person.avatar.url }}" 
-     height="100" alt="{% trans "avatar" %}"/>
+    <img src="/site_media/{{ person.avatar.url }}" height="100" alt="{% trans "avatar" %}"/>
 {% endif %}
 </td>
 </tr>
@@ -42,8 +41,7 @@
 
 {% for email in person.emails.all %}
 	{% if not email.is_confidential %}
-            <img src="/site_media/images/mail.png" 
-            alt="{% trans "email" %}"/>
+            <img src="/site_media/images/mail.png" alt="{% trans "email" %}"/>
             <a href="mailto:{{ email.email }}">{{ email.email }}</a><br />
 	{% endif %}
 {% endfor %}

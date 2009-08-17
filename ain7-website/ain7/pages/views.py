@@ -66,13 +66,15 @@ def lostpassword(request):
         form = LostPasswordForm(request.POST)
         if form.is_valid():
             e = form.cleaned_data['email']
-            p = Email.objects.filter(email=e).person
+            p = Email.objects.filter(email=e)[0].person
             new_random_password = User.objects.make_random_password(length=10, allowed_chars='abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789')
             p.user.set_password(new_random_password)
             p.user.save() # appel explicite de .save pour changer le mot de passe de façon permanente
             p.send_mail(_('Login Service: Forgotten Password'), \
-                        _('Hi,\n\nYou, or someone posing as you, has requested a new password for your AIn7 account.' + \
-                          '\n\nYour password is now set to: ' + new_random_password + '\n\n'))
+                        _('Hi,\n\nYou, or someone posing as you, has requested a new password for your AIn7 account.\n\n' + \
+                          'Login: '+p.user.username+'\n' +\
+                          'Password: ' + new_random_password + '\n\n' + \
+                          'http://ain7.com'))
             info = _('We have sent you an email with instructions to reset your password.')
             request.path = '/'
             return ain7_render_to_response(request, 'pages/lostpassword.html', {'info': info})

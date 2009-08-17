@@ -58,7 +58,7 @@ def add(request):
     return ain7_generic_edit(
         request, None, TravelForm, {}, 'voyages/edit.html',
         {'action': 'add', 'back': request.META.get('HTTP_REFERER', '/')},
-        {}, '/voyages/', _('The travel has been successfully created.'))
+        {}, '/voyages/list/', _('The travel has been successfully created.'))
 
 @confirmation_required(
     lambda user_id=None,
@@ -83,7 +83,7 @@ def details(request,travel_id):
 
 def list(request):
     return ain7_render_to_response(request, 'voyages/list.html',
-                            {'travels': Travel.objects.filter(start_date__gte=datetime.now())})
+                            {'travels': Travel.objects.exclude(end_date__lte=datetime.now())})
 
 def all(request):
     return ain7_render_to_response(request, 'voyages/list.html',

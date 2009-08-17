@@ -6,38 +6,33 @@
 
 {% block content-left %}
 
-    <h3>{{ travel.label|escape }}, {{ travel.date|escape }}</h3>
+    <h3>{{ travel.label|escape }}</h3>
     <div class="left_box">
 
 <table style="width: 100%">
+  {% if travel.start_date and travel.end_date %}
   <tr>
-    <td><i>{% filter capfirst %}{% trans "visited places" %}{% endfilter %}</i>
-    </td>
-    <td>{{ travel.visited_places|escape }}</td>
-  </tr>
-  <tr>
-    <td><i>{% filter capfirst %}{% trans "date" %}{% endfilter %}</i></td>
+    <td><i>{% filter capfirst %}{% trans "date" %}{% endfilter %}:</i></td>
     <td>{% trans "from" %} {{ travel.start_date|date:"d/m/Y" }}
         {% trans "to" %} {{ travel.end_date|date:"d/m/Y" }}
-        {% if travel.term %}
-          ({{ travel.type|escape }}
-           {% trans "of" %} {{ travel.term }} {% trans "days" %}).
-        {% else %}
-          ({{ travel.type|escape }}).
-        {% endif %}
+        ({{ travel.type|escape }}).
     </td>
   </tr>
+  {% endif %}
+  {% if travel.price %}
   <tr>
-    <td><i>{% filter capfirst %}{% trans "price" %}{% endfilter %}</i></td>
+    <td><i>{% filter capfirst %}{% trans "price" %}{% endfilter %}:</i></td>
     <td>{% if travel.price %}{{ travel.price }} €
         {% else %}{% trans "undefined" %}{% endif %}</td>
   </tr>
+  {% endif %}
+  {% if travel.travel_responsibles.all %}
   <tr>
     <td><i>{% filter capfirst %}{% trans "responsible(s)" %}{% endfilter %}</i>
     </td>
-    <td>{% if travel.travel_responsibles %}  {{ travel.travel_responsibles.all|join:", " }}
-        {% else %}{% trans "undefined" %}{% endif %}</td>
+    <td>{{ travel.travel_responsibles.all|join:", " }}</td>
   </tr>
+  {% endif %}
 </table>
 
 {% if travel.thumbnail %}

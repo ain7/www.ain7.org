@@ -1968,12 +1968,9 @@ Prochaines manifestations
 
     travel2 = voyages.Travel()
     travel2.label = "Japon"
-    travel2.date = "Octobre 2007"
     travel2.start_date = date(2007,10,15)
     travel2.end_date = date(2007,10,27)
-    travel2.term = 13
     travel2.type = looptravel
-    travel2.visited_places = "Tokyo, Atami, Kyoto, Hiroshima, Nara, Osazka"
     travel2.thumbnail = "data/japon.jpg"
     travel2.prix = 3890
     travel2.description = \
@@ -2248,19 +2245,15 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     travel3.date = u"Février 2008"
     travel3.start_date = date(2008,2,7)
     travel3.end_date = date(2008,2,20)
-    travel3.term = 14
     travel3.type = loopandboattravel
-    travel3.visited_places = "Ragoon, Pagan, Sagain, Mandalay"
     travel3.thumbnail = "data/birmanie.jpg"
     travel3.prix = 3550
     travel3.save()
 
     travel4 = voyages.Travel()
     travel4.label = u"Mongolie / Pékin"
-    travel4.date = "Juin 2008"
     travel4.start_date = date(2008,6,8)
     travel4.end_date = date(2008,6,23)
-    travel4.term = 15
     travel4.type = looptravel
     travel4.thumbnail = "data/mongolie.jpg"
     travel4.prix = 2760
@@ -2268,12 +2261,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
 
     travel5 = voyages.Travel()
     travel5.label = "Inde - Penjab & Himachal Pradesh"
-    travel5.date = "Octobre 2008"
-    travel5.start_date = date(2008,10,27)
-    travel5.end_date = date(2008,11,12)
-    travel5.term = 17
     travel5.type = looptravel
-    travel5.visited_places = "Delhi, Amristar, Dharamsala, Manali, Simla"
     travel5.thumbnail = "data/delhi.jpg"
     travel5.prix = 1900
     travel5.save()
@@ -2287,8 +2275,415 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     travel6.type = looptravel
     travel6.visited_places = "de Mexico à Cancun"
     travel6.thumbnail = "data/mexique.jpg"
-    travel6.prix = 2430
+    travel6.price = 2430
     travel6.save()
+
+    travel7 = voyages.Travel()
+    travel7.label = "Circuit au Chili: Atacama et Patagonie (12 Jours / 9 Nuits - janvier 2010)"
+    travel7.type = looptravel
+    travel7.price = 3600
+    travel7.description = """
+<p>Ce voyage est une invite à découvrir le grandiose.  Le grandiose d’une terre traversée par une flèche rocheuse nommée Cordillère des Andes dont les sommets frisent ceux de l’Himalaya.  Le grandiose des déserts salins d’altitude, des volcans et geysers perchés à plus de 4000 mètres, des glaciers monumentaux, proches cousins de ceux de l’Antarctique …  Et vous constaterez qu’entre les deux bouts de ce territoire chilien de plus de 4000 km de long, en Atacama et Patagonie, la vie végétale et animale s’évertue avec la même obstination à s’installer dans des endroits parfaitement impossibles !  Cela dit, en remontant aux sources des civilisations andines, il vous restera à faire à peu près le même constat pour la vie humaine.</p>
+ 
+<h4>1ER JOUR – Mercredi : PARIS  Q  SANTIAGO DU CHILI</h4>
+
+<p>Décollage à destination de Santiago du Chili sur vol régulier.</p>
+
+<h4>2EME JOUR – Jeudi : SANTIAGO DU CHILI</h4>
+
+<img src="/site_media/data/chili_santiago.gif" alt="chili_santiago">
+<p>Découverte de Santiago, capitale chilienne, fondée en 1541 par le conquistador Pedro de Valdivia. Dominée par la Cordillère et parsemée d’espaces verts, la ville s’enorgueillit de sa vie culturelle. Nous verrons le centre historique avec l'église San Francisco, le palais Cousiño Macul, le Palais de la Moneda, l’imposant hôtel de la Monnaie devenu palais présidentiel et l’un des plus beaux fleurons de l’architecture civile coloniale en Amérique du Sud, la Place d’Armes et ses arcades, véritable cœur de la ville autour de laquelle se regroupent la cathédrale, l’ancien Congrès et le musée d’art précolombien possédant de nombreuses poteries, et textiles provenant du Chili, Pérou et Equateur. Pause au marché central pour un déjeuner de poissons et de fruits de mer, dans une ambiance très animée.</p>
+
+<p>Dans l'après-midi, continuation vers le parc national métropolitain pour monter au cerro San Cristobal (la colline Saint Christophe) qui offre un panorama exceptionnel sur la ville et sur la cordillère des Andes, dont l’Aconcagua, le plus haut sommet du continent américain en Argentine avec 6962 m.</p>
+
+<p>Cette première prise de contact avec la ville se terminera par la visite des quartiers résidentiels et d'un fabrique de bijoux en lapiz lazuli du quartier Bellavista.</p>
+
+<h4>3EME JOUR – Vendredi : EXCURSION VINA DEL MAR  ET  VALPARAISO</h4>
+
+<p>Valparaíso, à 120 km à l'ouest, en passant par la vallée fruitière de Curacaví et viticole de Casablanca. Arrivée à Valparaíso, ville d’aventuriers, étape des navigateurs Cap Horniers. Ses antiques funiculaires continuent de monter à l’assaut des 45 collines qui entourent la ville, les maisons sur pilotis accrochées au flanc de ces « cerros »  donnent des couleurs pimpantes à cette ville. Visite de la maison de Pablo Neruda, grand poète et prix Nobel chilien. Puis, tour panoramique de ses principales avenues (Francia, Brasil, etc..), ses principales places (de la Victoria, Simon Bolivar, Sotomayor) et de ses monuments (Marché central, "casa Matriz", l'université catholique, le Congrès, le musée naval).</p>
+
+<p>Déjeuner dans un restaurant en bord de mer.</p>
+
+<p>L'après midi, route vers les stations balnéaires de Viña de Mar et Reñaca en passant par l'horloge fleurie, le Casino, la place Vergara, le parc de la Quinta Vergara possédant un nombre impressionnant d'arbres et de plantes de tous les continents et accueillant aussi le festival international de la chanson. Nous terminerons la visite par les plages et retour vers Santiago.</p>
+
+<h4>4EME  JOUR – Samedi : SANTIAGO  Q  CALAMA  /  MINE DE CHUQUICAMATA / SAN PEDRO DE ATACAMA</h4>
+
+<img src="/site_media/data/atacama.jpg" alt="atacama">
+<p>Transfert à l'aéroport pour prendre un vol domestique vers Calama. A l'arrivée, accueil et transfert en ville pour le déjeuner. En début d'après-midi, visite de Chuquicamata à 15 km de Calama, la plus grande mine de cuivre à ciel ouvert au monde. Les chiffres parlent d’eux-mêmes : le puit creusé fait 5 kilomètres de long et 3 de large, sur 900 mètres de profondeur. La seule mine de Chuquicamata extrait 600 000 tonnes de roches par jour, dont seulement un tiers est exploitable. Après un long processus, on peut seulement récupérer 10 kg de cuivre par tonne de roche. Un travail exécuté à l’aide de machines monstrueuses, qui semblent pourtant bien minuscules, vues du haut de ce cratère. Les tracteurs remorques servant à l’extraction du précieux métal pèsent 370 tonnes à vide et possèdent des roues de plus de 3 mètres de diamètre.</p>
+
+<p>Actuellement, l'exploitation de la mine est assurée par Codelco, entreprise détenue à 100% par l'État chilien.</p>
+
+<p>Route vers San Pedro de Atacama en traversant la Cordillère de Domeyko et la Cordillère de Sel. Installation à l'hôtel.</p>
+
+<p>En fin d'après-midi, nous partirons vers la Cordillère de Sel pour observer le coucher de soleil dans la fantomatique vallée de la lune avec en toile de fond, la silhouette majestueuse du volcan Licancabur (5916 m d’altitude). A la lueur changeante du crépuscule, le ballet de ses ocres vives est un spectacle de toute beauté.</p>
+
+<p>Retour à San Pedro de Atacama, dîner au restaurant La Estaka et nuit à l'hôtel.</p>
+
+<h4>5EME JOUR – Dimanche : SAN PEDRO / SALAR DE ATACAMA / TOCONAO / CHAXA / SAN PEDRO</h4>
+
+<img src="/site_media/data/salar_atacama.jpg" alt="salar_atacama">
+<p>Après le petit déjeuner, départ vers le parc national Los Flamencos et visite des grands marais salants du désert d'Atacama. Sur la route, nous découvrirons Toconao, village entièrement construit en tuf volcanique, avec l'église San Lucas et son campanile, ses rues étroites et ses nombreux vergers puis visite des lagunes de Chaxa, où se trouve une importante colonie de flamands roses. Nous nous dirigerons ensuite vers le village de Socaire (3.200 m) puis vers les lagunes Miscanti et Miñiques à 4.200 m.</p>
+
+<p>Nous prendrons ici le déjeuner pique-nique avec une vue imprenable sur ces deux lagunes aux couleurs d'un bleu intense et aux bordures blanches ou viennent nicher de nombreux oiseaux, contrastant avec le rouge des montagnes et le jaune des Coirones (paille typique de l'altiplano).</p>
+
+<p>Retour à San Pedro et visite du village, haut lieu de la culture “atacameña”. Au détour de ses ruelles en terre battue, la jolie place centrale accueille une étonnante église en adobe blanc construite au 17ème siècle et le musée archéologique fondé dans les années 50 par le Père Le Paige, missionnaire et archéologue belge. Sa magnifique collection retrace toute l’histoire de cette région depuis l’implantation des atacameños, il y a environ 11.000 ans.</p>
+
+<p>Dîner au restaurant Ckuna et logement.</p>
+  
+<h4>6EME JOUR – Lundi : SAN PEDRO / GEYSERS DU TATIO / VILLAGES INDIGENES / CALAMA</h4>
+
+<p>Départ vers les geysers du Tatio (4320 m, le point le plus haut du voyage) pour observer les phénomènes géothermiques. C’est à ce moment de la journée quand la différence de température entre le sol gelé et l’eau, qui sort, est la plus importante que les fumerolles générées par les jets de vapeur y sont les plus spectaculaires ! Les éruptions bouillonnantes chargées de sédiments ont créé à travers les âges de superbes reliefs moirés sur la roche.</p>
+
+<p>Petit déjeuner sur place et possibilité se baigner dans les piscines naturelles d'eau thermale à 30°à Puritama.</p>
+
+<p>Retour vers Calama en visitant le village indigène de Caspana entouré de cultures en terrasses et Chiuchiu, qui abrite la plus ancienne église du Chili (1675), pur édifice de culture atacamène. Déjeuner au restaurant Typique.</p>
+
+<p>L'après-midi, visite du cañon de Loa pour observer les géoglyphes, puis du pukara de Lasana (village forteresse) datant du 12ème siècle. Vous croiserez sur la route vigognes, lamas, alpagas et guanacos, dont la laine est très appréciée.  Continuation vers Calama.</p>
+
+<h4>7EME JOUR – Mardi : SAN PEDRO / CALAMA  /  SANTIAGO   Q   PUNTA ARENAS</h4>
+
+<p>Transfert à l’aéroport et envol pour Punta Arenas, via Santiago.</p>
+
+<p>Déjeuner à bord.</p>
+
+<p>A l'arrivée à Punta Arenas, accueil et installation à l’hôtel. Dîner et nuit à l’hôtel.</p>
+  
+<h4>8EME JOUR – Mercredi : PUNTA ARENAS  / PUERTO NATALES</h4>
+
+<img src="/site_media/data/tores_del_paine.jpg" alt="tores_del_paine">
+<p>Transfert à Puerto Natales, mais avant cela, arrêt au point de vue panoramique pour admirer une très belle vue sur Punta Arenas, capitale de Magallanes, la province la plus méridionale du pays et sur le détroit de Magellan. C’est un endroit évocateur des grandes expéditions maritimes, dont celle de Magellan qui en octobre 1520 découvre ce canal naturel reliant les océans Atlantique et Pacifique. Traversant le détroit, Magellan aperçoit à bâbord des colonnes de fumée (en fait, des feux de camp allumés par les indigènes) et baptise cette terre mystérieuse "tierra del humo", terre de fumée. Charles Quint préfèrera l’appellation "Terre de Feu". En 1578, le corsaire anglais Francis Drake, repoussé vers le sud par une formidable tempête, sera le premier navigateur à  doubler le Cap Horn…</p>
+
+<p>Promenade dans le centre historique de Punta Arenas jusqu’au monument dédié à Magellan.</p>
+
+<p>Le Musée Régional Salésien, un des plus importants musées de Patagonie,  abrite une remarquable collection d’objets ethnographiques et anthropologiques appartenant aux différentes cultures indigènes locales, ainsi que des souvenirs évoquant les expéditions des pères salésiens en Patagonie. Visite aussi du musée Brawn Menendez. Déjeuner au restaurant Ganaderos.</p>
+
+<p>Arrivée à Puerto Natales, port tranquille le long du fjord Ultima Esperanza, réputé pour ses restaurants spécialisés dans le saumon et les fruits de mer comme la centolla, une araignée de mer d’une taille impressionnante.</p>
+
+ 
+<h4>9EME JOUR – Jeudi : EXCURSION GLACIERS BALMACEDA ET SERRANO</h4>
+
+<img src="/site_media/data/glacier_serrano_2.jpg" alt="glacier_serrano_2">
+<p>Nous nous rendrons directement au port local vers 8h30 pour embarquer sur le bateau "21 de Mayo" et commencer la navigation dans le fjord de la "Ultima Esperanza" en direction du nord ouest avec comme destination le glacier Balmaceda et Serrano. Nous naviguerons durant 3 heures et pourrons observer, entre autres, les cygnes à col noir et les colonies de loups de mer. Arrivée en fin de matinée au port de "Puerto Toro" après avoir observé à distance le glacier suspendu de Balmaceda, puis marche d'une demi heure (1 km) à travers la forêt native de Lengas d'où nous pourrons observer le magnifique glacier Serrano.</p>
+
+  
+<h4>10EME JOUR – Vendredi :  PARC NATIONAL TORRES DEL PAINE</h4>
+
+<p>Journée d'excursion à la découverte du spectaculaire Parc National Torres del Paine, d'une beauté austère et sauvage. Nous nous arrêterons d'abord à la grotte du Milodon, cavité de plus de 200 mètres de profondeur et de 30 mètres de haut, où l'explorateur Eberhard retrouva les restes d'un herbivore préhistorique de 12000 ans d'âge.</p>
+
+<p>Le parc national est à l’extrémité sud de la chaîne andine, renferme certains des plus beaux paysages de la pointe australe. Créé en 1959, il fut agrandi à sa taille actuelle (181000 ha) au début des années 1970.</p>
+
+<p>L’Unesco l’a déclaré « Réserve de la Biosphère » en 1978. Il se caractérise aussi par une grande variété d’altitudes (du niveau de la mer jusqu’à 3000m) qui permet l’existence d’une faune et d’une flore très diversifiées et cet après midi, nous découvrirons en bus et à pieds, ses fjords, steppes, forêts de conifères, fougères géantes, arbres torturés par le vent, glaciers géants, lacs et cascades. Dans ces solitudes vivent de nombreuses variétés d’oiseaux et mammifères : aigles, condors, ibis, flamants roses, nandous, guanacos, pudus, renards, loups, pumas et chats sauvages.</p>
+
+<p>Déjeuner au bord du lago del Grey, avec vue sur le glacier éponyme, puis courte randonnée vers le point de vue. Durant l’excursion, vous apercevrez aussi les Cuernos del Paine ou cornes du Paine, pointes de granite gris saupoudrées de neige et coiffées d’une éternelle couronne de nuages.</p>
+
+<p>Par temps clair, les fameuses Torres del Paine, trois tours déchiquetées de granite bleu et gris (le mot Paine signifie bleu foncé en langue Tehuelche), offrent un spectacle encore plus extraordinaire.</p>
+
+<p>Passage par la lagune Amarga, puis continuation avec les lacs Nordenskjold, Pehoe, Toro et les chutes Grande et Chico. Retour en soirée à Puerto Natales.</p>
+
+<h4>11EME JOUR – Samedi : PUERTO NATALES  /  PUNTA ARENAS   Q  SANTIAGO  Q  PARIS</h4>
+
+<p>Départ vers l'aéroport de Punta Arenas (environ 4h de route) en traversant de vastes pampas desséchées que se partagent quelques immenses estancias de 50 000 hectares, dont les terres sont  couvertes à perte de vue de moutons. L’espace vital moyen d’un mouton en Patagonie est de 2 hectares…</p>
+
+<p>Envol pour Santiago, correspondance en fin d'après-midi sur vol régulier à destination de Paris.</p>
+ 
+<h4>Jour 12 – Dimanche : PARIS<h4>
+
+<h3>EXTENSION EN PATAGONIE CHILIENNE</h3>
+
+<p>CROISIERE A BORD DU SKORPIOS III (7 Jours / 6 Nuits)</p>
+
+<h4>11EME JOUR – Samedi : PUERTO NATALES  /  CANAUX PATAGONIQUES</h4>
+
+<p>Matinée et déjeuner libres pour la détente. Vers 17h, transfert à l'embarcadère et installation à bord du Skorpios III. Cocktail de bienvenue et dîner à bord.</p>
+
+<p>A 19h, appareillage et navigation dans les canaux Patagoniques, directement reliés à l'océan Pacifique : détroit de Kirke, canal Morla, fjord Union.</p>
+
+<h4>12EME JOUR – Dimanche : CANAL SARMIENTO / CANAL PITT / CANAL CONCEPCION / FJORD ANTRIM</h4>
+
+<img src="/site_media/data/skorpios_a.jpg" alt="skorpios_a">
+<p>Navigation à travers le canal Sarmiento, le canal Pitt, le canal Concepcion.</p>
+
+<p>Vers 19h, arrivée au fjord Antrim, Nous aurons la possibilité de faire des excursions en bateau à moteur à l’intérieur du fiord.</p>
+
+<h4>13EME JOUR – Lundi : GLACIER PIO XI / FJORD EYRE / CANAL GRAPPLER / PUERTO EDEN / PASO INDIO / PASO DEL ABISMO</h4>
+
+<img src="/site_media/data/patagonie_glacier.jpg" alt="patagonie_glacier">
+<p>Visite du glacier Pío XI, navigation le long du front du glacier, le plus vaste de toute l'Amérique du Sud, avec une superficie de 1263 km2, faisant partie du parc National Bernardo O'Higgins, le plus grand du pays. Vers 12h30, reprise de la navigation dans le fjord Eyre et le Canal Grappler. A 16h30, débarquement à Puerto Eden pour une excursion de 2 heures à terre. Visite du village situé sur l’île Wellington, où vivent encore les derniers descendants des indiens Kaweskar ou Alacalufes.</p>
+
+<p>Ce village n’a pas de rues, juste des passerelles reliant les maisons les unes aux autres. Promenade jusqu'au point de vue. Départ de Puerto Eden à 18h30. Navigation à travers le Paso del Indio et Paso del Abismo</p>
+
+<h4>14EME JOUR – Mardi : GLACIER AMALIA / FJORD ET GLACIER CALVO / FJORD PEEL</h4>
+
+<img src="/site_media/data/skorpios_d.jpg" alt="skorpios_d">
+<p>Visite du glacier Amalia, situé dans la zone centrale des glaciers du Sud. Vers 11h, continuation de la navigation à travers le fiord Calvo, où nous pourrons voir quatre glaciers, de différentes formes et couleurs. Excursion à bord du brise-glace “Capitán Constantino”. Le bateau s’approchera du glacier Constantino, seulement si les conditions météo le permettent. A 15h, approche des glaciers Alipio et Fernando toujours sur le brise-glace. Retour à bord du Skorpios III et navigation à travers le fiord Peel.</p>
+ 
+<h4>15EME JOUR – Mercredi : FJORD LAS MONTANAS / DETROIT DE KIRKE / FJORD ULTIMA ESPERANZA</h4>
+
+<p>Visite du fjord Montanas, où nous pourrons voir cinq petits glaciers, qui dégringolent des collines pour se jeter dans la mer. Promenade au glacier Bernal. Vers 16h, départ du fjord Montanas pour une navigation dans le détroit de Kirke. Mouillage pour la nuit dans le fjord Utima Esperanza. Dîner du capitaine.</p>
+
+<h4>16EME JOUR – Jeudi : FJORD ULTIMA ESPERANZA / PUERTO NATALES / PUNTA ARENAS / SANTIAGO</h4>
+
+<img src="/site_media/data/skorpios_c.gif" alt="skorpios_c">
+<p>Navigation dans le fjord Ultima Esperanza, 8h30, arrivée au Terminal Skorpios à Puerto Natales.</p>
+
+<p>A 9h débarquement des passagers et  transfert en bus à l’aéroport de Punta Arenas (4h de route). Assistance à l'enregistrement et envol pour Santiago.</p>
+
+<h4>17EME JOUR – Vendredi : SANTIAGO DU CHILI  / PARIS</h4>
+
+<p>Matinée et déjeuner libres. Dans l'après-midi, transfert à l’aéroport international de Santiago, Embarquement à destination de Paris sur vol régulier.</p>
+
+<h4>18EME JOUR – Samedi : PARIS</h4>
+
+1) CIRCUIT AU CHILI /12 Jours - 9 Nuits
+
+Prix par personne en double : 3600€
+Supplément chambre individuelle : 450€
+
+ 2) EXTENSION  PATAGONIE CHILIENNE
+Prix par personne en chambre double (pont  acropolis) : 2360€
+"""
+    travel7.save()
+
+    travel8 = voyages.Travel()
+    travel8.label = "Circuit en Arménie: au pied du mont Ararat"
+    travel8.type = looptravel
+    travel8.price = 1400
+    travel8.description = """
+
+<img src="/site_media/data/khor_ararat.jpg" alt="khor_ararat">
+
+<p>Terre aux frontières de l’Occident et de l’Orient…</p>
+
+<p>Au cœur du Caucase, l’Arménie constitua lors de la désintégration des empires hellénistiques, un empire puissant, mais vassal de Rome.</p>
+
+<p>Selon la légende, c’est sur les flancs du Mont Ararat que se serait échoué l’Arche de Noé…</p>
+
+<p>En 301, adoption du christianisme comme religion officielle ce qui fait de l’Arménie le premier « Etat chrétien ». On y édifia dans un élan de foi, églises et monastères, aux décorations et formes, qui demeurent inégalées.</p>
+
+<h4>1ER JOUR  -  Lundi 17 mai : PARIS / EREVAN</h4>
+
+<p>Destination de Erevan sur vol régulier Armavia. A l'arrivée à l'aéroport de Zvarnots, transfert à l’hôtel Metropol</p>
+
+<p>4 étoiles normes locales (www.metropol.am). Installation, dîner et nuit à l’hôtel.</p>
+ 
+<h4>2EME JOUR  –  Mardi 18 mai : EREVAN</h4>
+ 
+<p>Départ pour un tour panoramique de la capitale, l’une des villes les plus anciennes du monde. Une inscription cunéiforme gravée sur pierre sur ordre du roi Argishti I en 782 av. J.C. indique que le roi Argishti construisit cette forteresse et la nomma Erebouni. Ce toponyme est l’origine étymologique du nom d’Erevan. Construite sur 5 collines, Erevan est une ville rose, non seulement par la couleur du tuf (pierre d'origine volcanique) rose et ocre recouvrant les façades, ornées de motifs inspirés de l'architecture médiévale, mais aussi lorsque le soleil levant illumine les sommets enneigés du mont Ararat à l’ouest Le centre, quant à lui, est essentiellement composé de longues avenues ombragées aboutissant sur de grandes places bordées de constructions monumentales de type soviétique. Les urbanistes ont dû se plier aux exigences de la nature et composer avec le relief. Effectivement, la ville est étagée entre 950 et 1200 mètres d'altitude, et s'adosse aux gorges du fleuve Hrazdan.</p>
+
+<p>Découverte de la Citadelle d’Erébouni, qui fut élevée en 782 par le roi d’Ourartou Arghichti 1er et son intéressant musée.</p>
+
+<p>Déjeuner dans un restaurant typique.</p>
+
+<p>L'après–midi, visite de l’Institut des manuscrits anciens de Maténadaran, véritable sanctuaire de la culture arménienne, qui abrite depuis 1959 une bibliothèque où l’on recense plus de 16 000 manuscrits anciens.</p>
+
+<p>Puis, le Musée d’Histoire, qui renferme environ 160 000 pièces provenant des fouilles archéologiques effectuées un peu partout dans le pays, qui couvrent une période de 3000 ans d’histoire. De la préhistoire au Moyen Age en passant par l’Ourartou et l’Antiquité, vous pourrez mieux comprendre la formidable civilisation arménienne.  Dîner au restaurant et nuit à l’hôtel.</p>
+
+<img src="/site_media/data/erevan_1.jpg" alt="erevan_1">
+
+<h4>3EME JOUR  –  Mercredi 19 mai : EREVAN / REGION DU SUD / EREVAN  (220 km)</h4>
+
+<p>Petit déjeuner à votre hôtel.</p>
+
+<p>Route vers Artachat en traversant la plaine de l'Ararat, grenier à fruits et légumes de l'Arménie. Visite du monastère de Khor Virap (Fosse Profonde), entouré de fortifications et lieu cher aux Arméniens. Durant 13 ans, Grégoire l'Illuminateur fut emprisonné dans une fosse entre 287 et 300 après J.C., avant de convertir le roi d'Arménie en 301. D’ici s’offre un panorama splendide vers le mont Ararat, aujourd'hui en Turquie, culminant à 5165 m, qui est le symbole national de l'Arménie.</p>
+
+<p>Déjeuner pique nique.</p>
+
+<p>Poursuite vers la région de Vayots Dzor. Découverte de l’église du village d’Aréni, construite en 1321.</p>
+
+<p>Arrêt pour une dégustation de vins de la région.</p>
+
+<p>Poursuite vers Noravank pour la visite du complexe monastique des Xe – XIVe siècle, situé au fond d’un canyon.</p>
+
+<p>Retour à Erevan. Dîner et nuit à l’hôtel.</p>
+
+<h4>4EME JOUR –  Jeudi 20 mai : EREVAN / REGION DU NORD</h4>
+
+<img src="/site_media/data/lac_sevan.jpg" alt="lac_sevan">
+<p>Petit déjeuner à votre hôtel.</p>
+
+<p>Départ pour Alaverdi, située au nord de l’Arménie, en direction de la frontière avec la Géorgie. Visite de la basilique du 6e siècle dans le village d'Odzoune. Puis du monastère de Haghpat 10ème et 13ème  siècles ; ce dernier, situé sur un haut plateau entouré de précipices et de remparts fortifiés, est inscrit au Patrimoine Mondiale de l'Unesco avec le monastère de Sanahin. Ces deux monastères byzantins situés dans la région de Tumanyian, datent de la période de prospérité de la dynastie de Kiurikian et furent d'importants centres de diffusion de la culture.</p>
+
+<p>Déjeuner dans un restaurant local. L'après-midi, visite du complexe monastique de Sanahin Xe-XIIIe s. C'est là que se trouvait au XIe s. une ancienne académie où étaient enseignés la théologie et les beaux-arts.</p>
+
+<h4>Dîner et nuit à l’hôtel Dzoraguet</h4>
+
+<h4>5EME JOUR  –  Vendredi 21 mai : LAC SEVAN / REGION DE GOCHAVANK/ EREVAN (270 km)</h4>
+ 
+<p>Départ pour Alaverdi, située au nord de l’Arménie, en direction de la frontière avec la Géorgie. Visite de la basilique du 6e siècle dans le village d'Odzoune. Puis du monastère de Haghpat 10ème et 13ème  siècles ; ce dernier, situé sur un haut plateau entouré de précipices et de remparts fortifiés, est inscrit au Patrimoine Mondiale de l'Unesco avec le monastère de Sanahin. Ces deux monastères byzantins situés dans la région de Tumanyian, datent de la période de prospérité de la dynastie de Kiurikian et furent d'importants centres de diffusion de la culture.</p>
+
+<p>Déjeuner dans un restaurant local. L'après-midi, visite du complexe monastique de Sanahin Xe-XIIIe s. C'est là que se trouvait au XIe s. une ancienne académie où étaient enseignés la théologie et les beaux-arts.</p>
+
+<p>Retour à Erevan en fin de journée. Dîner au restaurant et nuit à l’hôtel.</p>
+
+<h4>6EME JOUR  –  Samedi 22 mai : EREVAN / GARNI / KEGHART / EREVAN (90 km)</h4>
+
+<img src="/site_media/data/moravank.jpg" alt="moravank">
+<p>Petit déjeuner à votre hôtel.</p>
+
+<p>Ce matin, visite du musée Paradjanov, cinéaste et peintre du XXe s., honoré comme une gloire nationale en Arménie (1924-1990). Montée au monument commémoratif du Génocide Arménien de 1915, situé dans le parc de Tsitsernakaberd (Forteresse des Hirondelles).</p>
+
+<p>Déjeuner dans un restaurant local.</p>
+
+<p>Départ vers le village de Garni à une trentaine de km d’Erevan. Visite du temple païen gréco-romain du Ier siècle, considéré comme l’un des joyaux de l’architecture hellénistique, et des thermes romains du IIIe s. situés dans l’enceinte de l’ancienne forteresse de Garni. Puis, continuation vers le monastère rupestre de Sourp Keghart (Sainte Lance) dont le nom provient de la relique du fer de la lance romaine ayant percé le flanc du Christ qui y était conservée. Visite de ce haut lieu de pèlerinage composé d’églises, de cellules monacales, d’un mausolée et de chapelles troglodytiques.</p>
+
+<p>Retour à Erevan. Dîner au restaurant et nuit à l'hôtel.</p>
+
+<h4>7EME JOUR – Dimanche 23 mai : EREVAN / ETCHMIADZINE / SARDARABAD /  TVARNOTS / EREVAN (env. 140km)</h4>
+
+<img src="/site_media/data/gochavank.jpg" alt="gochavank">
+<p>Ce matin, départ  vers Etchmiadzine, centre de pèlerinage des Arméniens, l’ancienne capitale du roi Tiridate, berceau du christianisme en Arménie et, de nos jours, siège du Patriarcat de l’Eglise arménienne.</p>
+
+<p>Visite de l'église de Sainte Hripsimée (678), qui porte le nom de la sainte, martyrisée et mise à mort, avec ses quarante suivantes, pour s’être refusée au roi Tiridate III, qui n’avait pas encore été "illuminé" par Saint Grégoire. L’église, pur joyau de l’architecture arménienne, qui possède de remarquables qualités de sobriété, d’harmonie et d’une perfection de réalisation sans pareil, servit de modèle à toute une lignée d’édifices religieux.</p>
+
+<p>Découverte de la cathédrale d'Etchmiadzine, dont le nom signifie "Descente du Fils unique", fondée en 303 par Saint Grégoire Illuminateur. L’ensemble comprend la cathédrale, deux palais catholicossaux, et un séminaire-université construit au siècle dernier qui a formé des générations de prêtres, théologiens et intellectuels arméniens. La cathédrale est le plus ancien édifice chrétien arménien. Sa première construction date de 303, mais elle a été par la suite reconstruite en 484. Au cours des siècles suivants, l'édifice a été maintes fois remanié, et seuls les murs nord, sud et ouest datent du IVe siècle. Elle possède de beaux témoignages de la sculpture arménienne chrétienne, avec par exemple, un bas-relief représentant saint Paul et sainte Thècle et a en sa possession trois reliques : celle de la lance de la Passion, la main de saint Grégoire, et du bois de l'arche de Noé.</p>
+
+<p>Vous assisterez à la messe  de Pentecôte. Déjeuner dans un restaurant local.</p>
+
+<p>Sur la route du retour, visite des ruines de la grandiose cathédrale de Zvarnots construite au 7ème siècle. Temps libre pour découvrir le marché à Erevan.</p>
+
+<p>Dîner d’adieu dans un restaurant typique avec spectacle folklorique. Nuit à l’hôtel.</p>
+
+<h4>8EME JOUR  –  Lundi 24 mai : EREVAN / PARIS</h4>
+
+<p>Tôt le matin, transfert à l’aéroport. Assistance aux formalités d’enregistrement et embarquement sur vol régulier Armavia à destination de Paris.</p>
+
+<h4>CONDITIONS</h4>
+<ul>
+<li>Prix par personne en chambre double : 1400€/ personne</li>
+<li>Supplément single : 300€</li>
+</ul>
+
+<h4>CES PRIX COMPRENNENT:</h4>
+<li>Le transport aérien Paris / Yerevan / Paris sur vols réguliers de la compagnie Armavia</li>
+<li>Le circuit en autocar climatisé</li>
+<li>L’hébergement en chambre double à l’hôtel Metropol 4 étoiles sup. normes locales (www.metropol.am)  à Erevan & Tufenkian Dzoraguet à Lori</li>
+<li>La pension complète du dîner du jour 1 au petit déjeuner du jour 8</li>
+<li>Une boisson non alcoolisée, eau minérale, pendant les repas</li>
+<li>Toutes les excursions, visites et droits d’entrée aux sites comme indiqués au programme</li>
+<li>Les services d’un guide accompagnateur local parlant français durant tout le circuit</li>
+</ul>
+"""
+    travel8.save()
+
+    travel9 = voyages.Travel()
+    travel9.label = "Circuit au Nepal en octobre 2010"
+    travel9.type = looptravel
+    travel9.price = 2500
+    travel9.description = """
+<p>Enclavé entre l'Inde et la Chine, abritant les grandes religions d'Asie et foyer du mythique Mont Everest, le Népal fascine !</p>
+
+<p>Traditions et spiritualité se fondent dans le quotidien du peuple Népalais dont leur humilité et leur sens de l'accueil ne sauraient vous laisser indifférents.</p>
+
+<p>Bénéficiant d'une bio-diversité exceptionnelle, vous pourrez procéder tant à l'ascension de la chaîne Himalayenne, dont le célèbre tour des Annapurnas, qu'à un safari à dos d'éléphant dans les forêts sub-tropicales habitées par le Tigre du Bengale, les rhinocéros unicornes et les crocodiles.<p>
+
+<p>Venez découvrir une culture édifiante et des paysages remarquables sous la protection divine de la déesse vivante Kumari...</p>
+
+<h4>Jour 01 : PARIS / KATHMANDU</h4>
+
+<p>Décollage sur vol régulier QATAR AIRWAYS à destination de KATHMANDOU, via Doha.</p>
+
+<h4>JOUR 02 : KATHMANDU - Patan – Bouddanath – Swayambunath - KATHMANDU</h4>
+ 
+<img src="/site_media/data/katmandou.jpg" alt="katmandou">
+<p>Départ pour une excursion à Patan, ancienne capitale du Népal, appelée autrefois Latitpur, ville musée par excellence. Durbar Square de Patan constitue le point central des visites. La place est remplie d’anciens palais, temples et chapelles, remarquables pour leurs sculptures exquises. Le Durbar Square comprend trois cours principales : le Central Mul Chowk, Sundari Chowk, et Keshar Narayan Chowk. Au centre de Sundari Chowk se trouve un chef-d’oeuvre d’architecture de pierre, le Royal Bath, appelé Tushahity.</p>
+
+<p>Visite du temple Krishna Mandir, Construit au 17è siècle, le temple de Lord Krishna tient une position éminente dans le complexe architectural de Patan : on le tient pour le premier exemple d’architecture de style Shikhara au Népal; entièrement construit en pierre, il est le seul temple du Népal a avoir 21 tourelles. Visite du village de réfugiés Tibétains.</p>
+
+<p>Votre visite se poursuivra avec le stupa de Bouddhanath ou Bodnath, à 8 km à l’Est de Kathmandou. Ce stupa, ancien et colossal,  un des plus grands du monde, est devenu  le centre mondial du bouddhisme tibétain.</p>
+
+<p>Votre journée se terminera par la visite du stupa de Swayambunath. Retour à Kathmandou.</p>
+
+<h4>JOUR 03 : KATHMANDU – Pashupatinath – Bhadgaon – KATHMANDU</h4>
+
+<img src="/site_media/data/pasupatha.jpg" alt="pasupatha">
+<p>Visite du temple de Pashupatinath, situé à 5 km à l’Est de Kathmandou. Le temple du Seigneur Shiva, Pashupatinath, avec son toit d’or à deux niveaux et sa porte d’argent, est considéré comme l’un des temples les plus sacrés pour les hindous. Bien que seuls les hindous soient autorisés à pénétrer dans le sanctuaire, les visiteurs peuvent observer à loisirs le temple et les activités qui se déroulent dans la cour depuis la rive orientale de la rivière Bagmati. Puis, visite de Bhaktapur (ou Bhadgaon), la “Cité des Dévôts” qui a conservé son charme médiéval et offre aux visiteurs des merveilles culturelles et artistiques. Le Durbar Square continue de refléter la gloire passée des souverains Malla. La poterie et le tissage sont les activités traditionnelles de la ville.</p>
+
+<p>Visiterez du temple Changu Narayan. Situé au point culminant d’une longue arête descendant bas dans la vallée, ce temple aurait été construit par le roi Hari Dutta en 323, et serait donc le plus vieux temple de la vallée. Le site a été inscrit par l’UNESCO au patrimoine mondial en 1979. Retour à Kathmandou. Nuit à Kathmandou.</p>
+
+<h4>JOUR 04 : KATHMANDU – Nagarkot – Thimi - KATHMANDU</h4>
+
+<p>A l’aube, excursion à Nagarkot, lieu de villégiature fort prisé. Situé à 32 km à l’Est de Kathmandou et à une altitude de 2175 m, il offre un panorama sur les principaux sommets de l’Est de l’Himalaya népalais, y compris sur le Sagarmatha (Mt Everest) - par temps clair. Nagarkot est réputé pour ses levers et ses couchers de soleil.</p>
+
+<p>Petit déjeuner à Nagarkot. Puis, visite d’un village de potiers habité par le peuple Newari à Thimi, non loin de Bhakatapur. Après-midi libre à Kathmandu. Nuit à Kathmandu.</p>
+
+<h4>JOUR 05 : KATHMANDU – CHITWAN (165 km / 5h)</h4>
+
+<img src="/site_media/data/chitwan.jpg" alt="chitwan">
+<p>Route vers le Parc National de Chitwan, l’un des meilleurs parcs nationaux d’Asie, renommé pour sa forte concentration de faune sauvage et permettant d’observer les animaux dans leur habitat naturel. Chitwan, dont le nom signifie “coeur de la jungle”, est parmi les derniers vestiges de la vaste étendue sylvestre et herbeuse qui courait jadis ininterrompue, de la rivière Indus dans l’actuel Pakistan, jusqu’à l’actuelle frontière birmane. Le principal intérêt ici est le Chitwan National Park, une des plus grande zones forestières de l’Asie, foisonnant d’espèces sauvages telles que le rarissime rhinocéros unicorne, plusieurs variétés de daims, l’ours jongleur, le léopard, le sanglier, le dauphin d’eau douce, le crocodile, plus de 350 espèces d’oiseaux, ainsi que l’insaisissable tigre royal du Bengale. Le parc est inscrit sur la liste du patrimoine naturel mondial par l’UNESCO. A votre arrivée, temps libre pour vous familiariser aux lieux.</p>
+
+<h4>JOUR  06 : CHITWAN</h4>
+
+<p>Journée dédiée à l’exploration du Parc National de Chitwan en jeep et à dos d’éléphant.</p>
+
+<p>Dans la soirée, un spectacle de danse Tharu vous sera proposé. Nuit à Chitwan.</p>
+
+<h4>JOUR 07 : CHITWAN - TANSEN</h4>
+
+<img src="/site_media/data/mariage.jpg" alt="sculpture">
+<p>Après le petit déjeuner, route vers Tansen, situé à une altitude de 1343 m. Tansen est le lieu de villégiature estivale le plus populaire de l’Ouest du Népal, en raison de sa situation et de son climat. Il offre la vue la plus étendue sur le principal centre d’intérêt du pays, l’Himalaya, du Dhaulagiri à l’Ouest jusqu’au Gaurishankar au Nord- Est. Pauses successives afin d’admirer la vue panoramique sur les mont Dhaulagiri et Gaurishankar. Nuit à Tansen.</p>
+
+<h4>JOUR 08 : TANSEN – POKHARA (180 km / 6h)</h4>
+
+<p>Après le petit-déjeuner, en route vers Pokhara, cité enchanteresse nichée dans une vallée tranquille à 827 m d’altitude. Pokhara est le point de départ des treks et des descentes en rafting parmi les plus populaires du Népal. La sérénité du lac Phewa et la munificence du sommet en queue de poisson du Mt Machchapuchhre en toile de fond créent une atmosphère de paix et de magie. La vallée est couverte d’épaisses forêts égayées de rivières bouillonnantes et de lacs cristallins, et offre ses vues mondialement célèbres sur l’Himalaya. Pokhara offre un splendide panorama sur les Mts Dhaulagiri, Manaslu, Machchapuchhre et cinq sommets de l’Annapurna, entre autres. A votre arrivée, croisière sur le lac Phewa.</p>
+
+<h4>JOUR 09 : POKHARA – Sarangkot - POKHARA</h4>
+
+<img src="/site_media/data/patan.jpg" alt="sculpture">
+<p>Excursion a Sarangkot (1592 m), qui offrant une vue magnifique sur le lac Phewa et les montagnes au lever et au coucher du soleil.</p>
+
+<p>Dans l’après-midi, flânez autour du lac Phewa.</p>
+
+<h4>JOUR 10 : POKHARA – KATHMANDU</h4>
+
+<p>Petit déjeuner à l'hôtel. Journée de route vers Kathmandu (200 km – environ 6h). Déjeuner dans un restaurant local.</p>
+
+<p>Arrivée en fin d'après-midi à Kathmandu, installation,</p>
+
+<h4>JOUR 11 : KATHMANDU – Chobar - KATHMANDU</h4>
+
+<p>Excursion à Chobar, située à 9 km au Sud-Ouest de Kathmandou ; Ce site est surtout connu pour les gorges de la rivière Bagmati, celle-là même, qui passe à Pashupatinath, que franchit un inattendu pont suspendu métallique tout droit importé en pièces détachées d'Ecosse au début du siècle. De là vous découvrirez une belle vue sur un temple voisin, le Jal Vinayaka, dédié au dieu Ganesh.</p>
+
+<p>Depuis le petit temple bouddhiste d’Adinath Lokeshvara, très pittoresque, situé au sommet d’une colline, vous profiterez d'une vue panoramique sur les pics enneigés.</p>
+
+<p>La visite se poursuit avec le temple de Dakshinkali, l’une des plus importantes déesses de l’hindouisme. Les pèlerins se rendent au temple pour prier et offrir des sacrifices d’animaux à la déesse.</p>
+
+<p>Retour a Kathmandu. Nuit à Kathmandu.</p>
+ 
+<h4>JOUR  12 : KATHMANDU - Dhulikhel – KATHMANDU</h4>
+
+<img src="/site_media/data/sculpture.jpg" alt="sculpture">
+<p>Excursion à Dhulikhel. Cette ancienne cité offre à la fois une atmosphère traditionnelle et des points de vue spectaculaires. Jadis étape importante sur la route commerciale vers le Tibet, Dhulikhel a connu un passé prestigieux, comme en témoignent les adorables maisons des rues commerçantes et les fines sculptures sur bois des temples. Le climat agréable, même en été est un des points forts de Dhulikhel.</p>
+
+<p>La journée de visite se terminera à Panauti, ville newar prospère, avec ses beaux temples et ses intéressantes maisons anciennes. Située à 35 km au sud-est de Katmandou, Panauti est une petite cité newar de moins de 10.000 habitants. Au XIIIe siècle, Panauti était le siège d’une principauté indépendante, dont quelques vestiges du palais princier demeurent visibles au centre de la ville. A la fin du XVIIIe siècle, Panauti a été intégrée dans le nouveau royaume unifié du Népal, fondé par Prithvi Narayan Shah.</p>
+
+<p>Après Katmandou, Patan et Bhaktapur, les trois anciennes capitales de la vallée de Katmandou, Panauti, qui recèle une série de monuments religieux bouddhistes et hindouistes, peut être considérée comme la principale cité médiévale de la région de Katmandou.</p>
+
+<h4>JOUR  13 : KATHMANDU / PARIS</h4>
+
+Petit déjeuner, temps libre jusqu’au transfert vers l’aéroport international. Embarquement sur vol régulier Qatar Airways à destination de Paris, via Doha.
+
+<h4>CONDITIONS</h4>
+<ul>
+<li>Prix/ personne en chambre double : 2500€</li>
+<li>Supplément single : 275€</li>
+</ul>
+
+<p>Les prix compennent:</p>
+<ul>
+<li>Le transport aérien Paris / Kathmandu / Paris sur vols réguliers Qatar Airways, via Doha</li>
+<li>Le circuit en autocar de tourisme</li>
+<li>L'hébergement en hôtel 4 étoiles à Kathmandou et en hôtels 3 étoiles aux autres étapes</li>
+<li>La pension complète du déjeuner du 2ème jour au petit déjeuner du 13ème jour</li>
+<li>Le guide accompagnateur francophone de Kathmandou à Kathmandou,</li>
+<li>Tous les droits d’entrée sur les sites culturels</li>
+<li>Le safari en 4X4 à Chitwan</li>
+<li>Le safari a dos d’éléphant à Chitwan</li>
+<li>Le spectacle folklorique à  Chitwan,</li>
+<li>Les taxes locales</li>
+<li>L'assistance du correspondant local à Kathmandou </li>
+</ul>
+"""
+    travel9.save()
 
     groupes_regionaux.GroupMembership(group=gr11, member=lionel).save()
     groupes_regionaux.GroupRole(group=gr11, member=lionel, type=0).save()

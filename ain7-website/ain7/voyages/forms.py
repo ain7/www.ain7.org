@@ -67,8 +67,8 @@ class TravelForm(forms.ModelForm):
         widget=forms.widgets.Textarea(attrs={'rows':10, 'cols':90}))
 #    report = forms.CharField(label=_('report').capitalize(),required=False, 
 #        widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':90}))
-    start_date = forms.DateTimeField(label=_('start date').capitalize(),widget=dateWidget)
-    end_date = forms.DateTimeField(label=_('end date').capitalize(),widget=dateWidget)
+    start_date = forms.DateTimeField(label=_('start date').capitalize(),widget=dateWidget, required=False)
+    end_date = forms.DateTimeField(label=_('end date').capitalize(),widget=dateWidget, required=False)
     
     def clean_end_date(self):
         if self.cleaned_data.get('start_date') and \
