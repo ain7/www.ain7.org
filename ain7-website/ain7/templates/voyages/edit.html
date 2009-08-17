@@ -14,8 +14,7 @@
         {{ form }}
     </table>
 {% if travel.thumbnail %}
-  <a href="/voyages/{{ travel.id }}/thumbnail/delete/" class="deletelink">
-  {% trans "Delete the thumbnail of this travel." %}</a>
+  <p><a href="/voyages/{{ travel.id }}/thumbnail/delete/" class="deletelink">{% trans "Delete the thumbnail of this travel." %}</a></p>
 {% endif %}
 <div style="text-align: center">
 <a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
@@ -48,7 +47,7 @@
       <h3>{% trans "Navigation"%}</h3>
       <div class="right_articles">
         <ul>
-          <li><a href="/voyages/list/">{% trans "List of travels" %}</a></li>
+          <li><a href="/voyages/all/">{% trans "List all Travels" %}</a></li>
         </ul>
       </div>
 {% endblock navigation %}

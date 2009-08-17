@@ -113,7 +113,7 @@ def edit(request, text_id):
            text.save()
 
            request.user.message_set.create(message=_("Modifications saved."))
-           return HttpResponseRedirect(request.META.get('HTTP_REFERER', ''))
+           return HttpResponseRedirect(text.textblock.url)
 
     return ain7_render_to_response(request, 'pages/text_edit.html', 
             {'text_id': text_id, 'form': form, 'back': request.META.get('HTTP_REFERER')})

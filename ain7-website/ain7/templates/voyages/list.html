@@ -13,14 +13,14 @@
         <table>
         {% for travel in travels %}
           <tr>
-            <td style="text-align: right"><a href="/voyages/{{ travel.id }}/">
-            {{ travel.label }}</a> - {{travel.date }}</td>
             {% if travel.thumbnail %}
               <td style="text-align: center"><a href="/voyages/{{ travel.id }}/">
-              <img src="{{ travel.thumbnail.url }}" height="100"/></a></td>
+              <img src="{{ travel.thumbnail.url }}" height="100" alt="{{ travel.label }}"/></a></td>
             {% else %}
 	      <td>&nbsp;</td>
             {% endif %}
+            <td style="text-align: left"><a href="/voyages/{{ travel.id }}/">
+            {{ travel.label }}</a> ({{ travel.start_date }}-{{ travel.end_date }})</td>
           </tr>
         {% endfor %}
         </table>

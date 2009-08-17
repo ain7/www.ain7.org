@@ -62,10 +62,11 @@ class SearchTravelForm(forms.Form):
 
 
 class TravelForm(forms.ModelForm):
+    label = forms.CharField(label=_('label'), widget=forms.TextInput(attrs={'size': 50}))
     description = forms.CharField(label=_('description').capitalize(),required=False,
         widget=forms.widgets.Textarea(attrs={'rows':10, 'cols':90}))
-    report = forms.CharField(label=_('report').capitalize(),required=False, 
-        widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':90}))
+#    report = forms.CharField(label=_('report').capitalize(),required=False, 
+#        widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':90}))
     start_date = forms.DateTimeField(label=_('start date').capitalize(),widget=dateWidget)
     end_date = forms.DateTimeField(label=_('end date').capitalize(),widget=dateWidget)
     

@@ -2,7 +2,7 @@
 #
 # voyages/views.py
 #
-#   Copyright (C) 2007-2009 AIn7
+#   Copyright © 2007-2009 AIn7
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -82,6 +82,10 @@ def details(request,travel_id):
         {'travel': t})
 
 def list(request):
+    return ain7_render_to_response(request, 'voyages/list.html',
+                            {'travels': Travel.objects.filter(start_date__gte=datetime.now())})
+
+def all(request):
     return ain7_render_to_response(request, 'voyages/list.html',
                             {'travels': Travel.objects.all()})
 

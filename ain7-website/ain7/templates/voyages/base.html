@@ -46,20 +46,21 @@
     {% if next_travels %}
     <h3>{% trans "Planned travels" %}</h3>
     {% if next_travels %}
+      <div class="right_articles">
+      <ul>
       {% for travel in next_travels %}
-        <div class="right_articles">
-          <p style="text-align:center">
-	    <a href="/voyages/{{ travel.id}}/">
-            {{ travel.label|escape }}</a> - {{travel.date|escape }}
-          </p>
+        <li>
+	    <a href="/voyages/{{ travel.id}}/">{{ travel.label|escape }}</a>
           {% if travel.thumbnail %}
           <p style="text-align:center">
             <a href="/voyages/{{ travel.id}}/">
-            <img src="{{ travel.thumbnail.url }}" height="100"/></a>
+            <img src="{{ travel.thumbnail.url }}" height="100" alt="{{ travel.label }}"/></a>
           </p>
           {% endif %}
-        </div>
+        </li>
       {% endfor %}
+      </ul>
+      </div>
     {% else %}
       <div class="right_articles">
         <p>{% trans "No planned travels." %}</p>
@@ -73,8 +74,7 @@
         {% if previous_travels %}
           <ul>
             {% for travel in previous_travels %}
-              <li><a href="/voyages/{{ travel.id }}/">{{ travel.label|escape }}</a> ({{ travel.date }})
-              </li>
+              <li><a href="/voyages/{{ travel.id }}/">{{ travel.label|escape }}</a></li>
             {% endfor %}
           </ul>
         {% else %}
@@ -84,7 +84,7 @@
 
       <div class="right_articles">
         <p style="text-align:center">
-          <a href="/voyages/list/">{% trans "List of travels" %}</a>
+          <a href="/voyages/all/">{% trans "All Travels" %}</a>
         </p>
       </div>
       {% endif %} {# previous_travels #}

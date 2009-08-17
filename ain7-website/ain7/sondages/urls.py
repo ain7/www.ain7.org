@@ -2,7 +2,7 @@
 #
 # sondages/urls.py
 #
-#   Copyright (C) 2007-2009 AIn7
+#   Copyright © 2007-2009 AIn7
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by

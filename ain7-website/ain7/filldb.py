@@ -523,7 +523,7 @@ A.I.N.7<br/>
 
     textblock8 = pages.TextBlock()
     textblock8.shortname = "relations_ecole_etudiants"
-    textblock8.url = '/'
+    textblock8.url = '/relations_ecole_etudiants/'
     textblock8.save()
 
     text8 = pages.Text()
@@ -537,7 +537,7 @@ Voilà.
 
     textblock9 = pages.TextBlock()
     textblock9.shortname = "groupes_professionnels"
-    textblock9.url = '/'
+    textblock9.url = '/groupes_professionnels/'
     textblock9.save()
 
     text9 = pages.Text()
@@ -566,7 +566,7 @@ Voilà.
 
     textblock10 = pages.TextBlock()
     textblock10.shortname = "publication_ain7"
-    textblock10.url = '/'
+    textblock10.url = '/media_communication/'
     textblock10.save()
 
     text10 = pages.Text()
@@ -632,7 +632,7 @@ Voilà.
 
     textblock12 = pages.TextBlock()
     textblock12.shortname = "redaction_canal_n7"
-    textblock12.url = '/'
+    textblock12.url = '/media_communication/canal_n7/'
     textblock12.save()
 
     text12 = pages.Text()
@@ -649,7 +649,7 @@ Voilà.
 
     textblock13 = pages.TextBlock()
     textblock13.shortname = "canal_n7"
-    textblock13.url = '/'
+    textblock13.url = '/media_communication/canal_n7/'
     textblock13.save()
 
     text13 = pages.Text()
@@ -675,7 +675,7 @@ Voilà.
 
     textblock14 = pages.TextBlock()
     textblock14.shortname = "sommaire_canal_n7"
-    textblock14.url = '/'
+    textblock14.url = '/media_communication/canal_n7/'
     textblock14.save()
 
     text14 = pages.Text()
@@ -702,7 +702,7 @@ Voilà.
 
     textblock15 = pages.TextBlock()
     textblock15.shortname = "edito_canal_n7"
-    textblock15.url = '/'
+    textblock15.url = '/media_communication/canal_n7/edito/'
     textblock15.save()
 
     text15 = pages.Text()
@@ -723,7 +723,7 @@ Voilà.
 
     textblock16 = pages.TextBlock()
     textblock16.shortname = 'website'
-    textblock16.url = '/'
+    textblock16.url = '/media_communication/website/'
     textblock16.save()
 
     text16 = pages.Text()
@@ -744,7 +744,7 @@ Voilà.
 
     textblock17 = pages.TextBlock()
     textblock17.shortname = "international"
-    textblock17.url = '/'
+    textblock17.url = '/international/'
     textblock17.save()
 
     text17 = pages.Text()
