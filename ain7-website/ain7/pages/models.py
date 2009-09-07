@@ -20,7 +20,10 @@
 #
 #
 
+import datetime
+
 from django.db import models
+from django.db.models import permalink
 from django.utils.translation import ugettext as _
 
 from ain7.utils import LoggedClass
@@ -36,4 +39,23 @@ class Text(LoggedClass):
     lang = models.CharField(verbose_name=_('lang'), default='fr', max_length=10)
     title = models.CharField(verbose_name=_('title'), max_length=150)
     body = models.TextField(verbose_name=_('body'), blank=True, null=True)
+
+class LostPassword(models.Model):
+    person = models.ForeignKey('annuaire.Person')
+    key = models.CharField(max_length=50, unique=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return u'Lost password for %s dated of %s' % (self.person, self.created.date())
+
+    @permalink
+    def get_absolute_url(self):
+        """ return the URL used to change the password """
+        return ('ain7.pages.views.changepassword', (self.key,))
+
+    def is_expired(self):
+        """
+            Return True is lostpassword is expired (ie have more than 1 hour)
+        """
+        return (datetime.datetime.now() - self.created) > datetime.timedelta(hours=1)
 

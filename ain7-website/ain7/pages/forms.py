@@ -45,3 +45,19 @@ class TextForm(forms.Form):
     title = forms.CharField(label=_('title'), max_length=150, required=False, widget=forms.TextInput(attrs={'size':80}))
     body = forms.CharField(label=_('body'),max_length=10000, required=False, widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':215}))
 
+class ChangePasswordForm(forms.Form):
+    """ Change password when lost old one """
+    password = forms.CharField(label=_('New password:'),max_length=50,
+                         required=True, widget=forms.PasswordInput())
+    password_check = forms.CharField(label=_('Confirm password:'),max_length=50,
+                         required=True, widget=forms.PasswordInput())
+
+    def clean(self):
+        cleaned_data = self.cleaned_data
+
+        if cleaned_data.get('password') and cleaned_data.get('password_check'):
+            if not cleaned_data.get('password') == cleaned_data.get('password_check'):
+                raise ValidationError(_("Password doesn't match"))
+            # TODO: check that password is strong enough ?
+
+        return cleaned_data

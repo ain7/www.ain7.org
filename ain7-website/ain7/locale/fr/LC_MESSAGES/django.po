@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-18 00:25+0200\n"
+"POT-Creation-Date: 2009-09-07 23:23+0200\n"
 "PO-Revision-Date: 2009-03-24 22:53+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -272,7 +272,7 @@ msgstr "entreprise"
 msgid "subject"
 msgstr "sujet"
 
-#: annuaire/forms.py:81 pages/forms.py:46 pages/models.py:38
+#: annuaire/forms.py:81 pages/forms.py:46 pages/models.py:41
 msgid "body"
 msgstr "corps"
 
@@ -1009,7 +1009,7 @@ msgid "reference"
 msgstr "réference"
 
 #: emploi/forms.py:41 emploi/forms.py:107 manage/models.py:37 news/forms.py:54
-#: news/forms.py:63 news/models.py:33 pages/forms.py:45 pages/models.py:37
+#: news/forms.py:63 news/models.py:33 pages/forms.py:45 pages/models.py:40
 msgid "title"
 msgstr "titre"
 
@@ -2108,41 +2108,61 @@ msgstr "L'actualité a été supprimée avec succès."
 msgid "This should be the email address registered for your AIn7 account."
 msgstr "Il devrait s'agir de l'adresse email utilisée pour votre compte AIn7."
 
-#: pages/models.py:30
+#: pages/forms.py:60
+msgid "Password doesn't match"
+msgstr "Les mot de passe de corresponde pas"
+
+#: pages/models.py:33
 msgid "shortname"
 msgstr "identifiant"
 
-#: pages/models.py:31
+#: pages/models.py:34
 msgid "url"
 msgstr ""
 
-#: pages/models.py:36
+#: pages/models.py:39
 msgid "lang"
 msgstr "langue"
 
-#: pages/views.py:73
+#: pages/views.py:76
 msgid "Login Service: Forgotten Password"
 msgstr "Identifiaction : mot de passe perdu"
 
-#: pages/views.py:74
+#: pages/views.py:77
+#, python-format
 msgid ""
 "Hi,\n"
 "\n"
 "You, or someone posing as you, has requested a new password for your AIn7 "
-"account."
+"account.\n"
+"\n"
+"To change your password to a new one, please follow this link:\n"
+" %s\n"
+"\n"
+"Note: if you did not make this request, you can safely ignore this email.\n"
+"-- \n"
+"http://ain7.com"
 msgstr ""
 "Bonjour,\n"
 "\n"
 "Vous, ou quelqu'un d'autre, avez demandé la réintialisation du mot de passe "
-"de votre compte AIn7."
+"de votre compte AIn7.\n"
+"\n"
+"Pour définir votre nouveau mot de passe, veuillez suivre ce lien:\n"
+" %s\n"
+"\n"
+"Notez: Si vous ne souhaitez pas changer de mot de passe, vous pouvez sans "
+"risqueignorer ce courriel.\n"
+"-- \n"
+"http://ain7.com"
 
-#: pages/views.py:76
+#: pages/views.py:87
 msgid "We have sent you an email with instructions to reset your password."
 msgstr ""
 "Nous vous avons envoyé un email contenant les instructions pour "
 "réinitialiser votre mot de passe."
 
-#: pages/views.py:80
+#: pages/views.py:91
 msgid ""
 "If you are claiming an existing account but don't know the email address "
 "that was used, please contact an AIn7 administrator."
@@ -2150,7 +2170,15 @@ msgstr ""
 "Si vous possédez un compte AIn7 mais ne savez pas quelle adresse email y est "
 "utilisée, veuillez contacter l'administrateur du site."
 
-#: pages/views.py:115
+#: pages/views.py:101
+msgid "Page expired, please request a new key"
+msgstr "La page a expiré, veuillez faire une nouvelle demande"
+
+#: pages/views.py:111
+msgid "Successfully changed password"
+msgstr "Mot de passe mis à jour"
+
+#: pages/views.py:149
 msgid "Modifications saved."
 msgstr "Les modifications ont été correctement enregistrées."
 
@@ -2728,6 +2756,7 @@ msgid "No"
 msgstr "Non"
 
 #: templates/adhesions/subscriptions.html:68 templates/news/write.html:16
+#: templates/pages/changepassword.html:25
 msgid "Validate"
 msgstr "Enregistrer"
 
@@ -3975,6 +4004,22 @@ msgid "To associate an image to this news, modify it after its creation."
 msgstr ""
 "Pour associer une image à cette actualité, modifiez-la après l'avoir créée."
 
+#: templates/pages/changepassword.html:10 templates/pages/lostpassword.html:10
+msgid "Password recovery"
+msgstr "Récupération du mot de passe"
+
+#: templates/pages/changepassword.html:20
+msgid "Enter your new password twice."
+msgstr "Entrez votre nouveau mot de passe deux fois"
+
+#: templates/pages/changepassword.html:33
+msgid "Password updated, try to"
+msgstr "Mot de passe mis à jour, essayez de"
+
+#: templates/pages/changepassword.html:33
+msgid "log in"
+msgstr "vous identifier"
+
 #: templates/pages/frame_message.html:29
 msgid "Ok"
 msgstr "Ok"
@@ -4015,10 +4060,6 @@ msgstr "Mot de passe"
 msgid "Lost password ?"
 msgstr "Mot de passe perdu"
 
-#: templates/pages/lostpassword.html:10
-msgid "Password recovery"
-msgstr "Récupération du mot de passe"
-
 #: templates/pages/lostpassword.html:20
 msgid ""
 "Enter your e-mail address, and we will send you instructions on how to reset "
@@ -4032,12 +4073,8 @@ msgid "Request change"
 msgstr "Réinitaliser"
 
 #: templates/pages/lostpassword.html:33
-msgid "Check your email and try to"
-msgstr "Vérifiez votre email et essayez de"
-
-#: templates/pages/lostpassword.html:33
-msgid "log in"
-msgstr "vous identifier"
+msgid "Check your email"
+msgstr "Verifiez votre courriel"
 
 #: templates/pages/permission_denied.html:10
 msgid "Permission denied"
@@ -4353,6 +4390,20 @@ msgid "Do you really want this person not to be responsible of this travel"
 msgstr ""
 "Souhaitez-vous vraiment que cette personne ne soit pas responsable de ce "
 "voyage ?"
+
+#~ msgid ""
+#~ "Hi,\n"
+#~ "\n"
+#~ "You, or someone posing as you, has requested a new password for your AIn7 "
+#~ "account."
+#~ msgstr ""
+#~ "Bonjour,\n"
+#~ "\n"
+#~ "Vous, ou quelqu'un d'autre, avez demandé la réintialisation du mot de "
+#~ "passe de votre compte AIn7."
+
+#~ msgid "Check your email and try to"
+#~ msgstr "Vérifiez votre email et essayez de"
 
 #~ msgid "days"
 #~ msgstr "jours"
