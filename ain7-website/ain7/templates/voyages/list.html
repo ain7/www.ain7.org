@@ -20,7 +20,11 @@
 	      <td>&nbsp;</td>
             {% endif %}
             <td style="text-align: left"><a href="/voyages/{{ travel.id }}/">
-            {{ travel.label }}</a> ({{ travel.start_date }}-{{ travel.end_date }})</td>
+            {{ travel.label }}</a> 
+           {% if travel.start_date and travel.end_date %}
+           ({{ travel.start_date }}-{{ travel.end_date }})
+           {% endif %}
+            </td>
           </tr>
         {% endfor %}
         </table>

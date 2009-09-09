@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-07 23:23+0200\n"
+"POT-Creation-Date: 2009-09-08 15:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2054,6 +2054,14 @@ msgstr ""
 msgid "This should be the email address registered for your AIn7 account."
 msgstr ""
 
+#: pages/forms.py:50
+msgid "New password:"
+msgstr ""
+
+#: pages/forms.py:52
+msgid "Confirm password:"
+msgstr ""
+
 #: pages/forms.py:60
 msgid "Password doesn't match"
 msgstr ""
@@ -2410,6 +2418,10 @@ msgstr ""
 
 #: templates/base.html:140
 msgid "Terms of use"
+msgstr ""
+
+#: templates/base.html:144
+msgid "Unless specific mention, all Texts are under licence"
 msgstr ""
 
 #: templates/adhesions/base.html:17 templates/annuaire/base.html:20

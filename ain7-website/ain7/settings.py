@@ -128,7 +128,7 @@ PIWIK_URL = 'http://localhost/piwik/'
 PIWIK_SITE_ID = '0'
 
 # Version
-BASE = '0.0.0'
+BASE = '1.0.0'
 REVISION = os.popen('bzr revno 2> /dev/null').read().rstrip()
 
 VERSION = BASE

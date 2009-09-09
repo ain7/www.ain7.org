@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-07 23:23+0200\n"
+"POT-Creation-Date: 2009-09-08 15:04+0200\n"
 "PO-Revision-Date: 2009-03-24 22:53+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2108,6 +2108,14 @@ msgstr "L'actualité a été supprimée avec succès."
 msgid "This should be the email address registered for your AIn7 account."
 msgstr "Il devrait s'agir de l'adresse email utilisée pour votre compte AIn7."
 
+#: pages/forms.py:50
+msgid "New password:"
+msgstr "Nouveau mot de passe:"
+
+#: pages/forms.py:52
+msgid "Confirm password:"
+msgstr "Confirmer le mot de passe:"
+
 #: pages/forms.py:60
 msgid "Password doesn't match"
 msgstr "Les mot de passe de corresponde pas"
@@ -2481,6 +2489,10 @@ msgstr "A propos"
 #: templates/base.html:140
 msgid "Terms of use"
 msgstr "Mentions légales"
+
+#: templates/base.html:144
+msgid "Unless specific mention, all Texts are under licence"
+msgstr "Sauf mention spécifique, tous les textes sont sous license"
 
 #: templates/adhesions/base.html:17 templates/annuaire/base.html:20
 #: templates/association/board.html:29 templates/association/council.html:29
@@ -3989,7 +4001,7 @@ msgstr "A la une"
 
 #: templates/news/index.html:30
 msgid "No news !"
-msgstr "Pas d'acutalité"
+msgstr "Pas d'actualité"
 
 #: templates/news/search.html:6
 msgid "News Search"
@@ -4391,19 +4403,5 @@ msgstr ""
 "Souhaitez-vous vraiment que cette personne ne soit pas responsable de ce "
 "voyage ?"
 
-#~ msgid ""
-#~ "Hi,\n"
-#~ "\n"
-#~ "You, or someone posing as you, has requested a new password for your AIn7 "
-#~ "account."
-#~ msgstr ""
-#~ "Bonjour,\n"
-#~ "\n"
-#~ "Vous, ou quelqu'un d'autre, avez demandé la réintialisation du mot de "
-#~ "passe de votre compte AIn7."
-
-#~ msgid "Check your email and try to"
-#~ msgstr "Vérifiez votre email et essayez de"
-
-#~ msgid "days"
-#~ msgstr "jours"
+#~ msgid "licence"
+#~ msgstr "license"

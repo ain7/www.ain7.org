@@ -447,7 +447,7 @@ A.I.N.7<br/>
     text5.save()
 
     textblock6 = pages.TextBlock()
-    textblock6.shortname = "website_ain7"
+    textblock6.shortname = "web_ain7"
     textblock6.url = '/'
     textblock6.save()
 

@@ -118,8 +118,13 @@ def apropos(request):
     return ain7_render_to_response(request, 'pages/apropos.html', {})
 
 def international(request):
-    text = Text.objects.get(pk=17)
+    text = Text.objects.get(textblock__shortname='international')
     return ain7_render_to_response(request, 'pages/international.html', 
+                       {'text': text})
+
+def web(request):
+    text = Text.objects.get(textblock__shortname='web_ain7')
+    return ain7_render_to_response(request, 'pages/web.html', 
                        {'text': text})
 
 def mentions_legales(request):
@@ -130,7 +135,7 @@ def rss(request):
 
 def edit(request, text_id):
 
-    r = check_access(request, request.user, ['ain7-member', 
+    r = check_access(request, request.user, ['ain7-member', 'ain7-ca', 
                                        'ain7-secretariat', 'contributeur'])
     if r:
         return r

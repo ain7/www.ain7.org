@@ -72,8 +72,7 @@
 {% block barre-association %}<li>{% endblock %}
     <a href="/association/" accesskey="o">{% trans "The association"%}</a></li>
 
-{% block barre-adhesions %}<li>{% endblock %}
-    <a href="/adhesions/" accesskey="o">{% trans "Subscriptions"%}</a></li>
+{# {% block barre-adhesions %}<li>{% endblock %} <a href="/adhesions/" accesskey="o">{% trans "Subscriptions"%}</a></li> #}
 
 {% block barre-annuaire %}<li>{% endblock %}
     <a href="/annuaire/" accesskey="a">{% trans "Directory"%}</a></li>
@@ -106,8 +105,8 @@
 {% block barre-media_communication %}<li>{% endblock %}
     <a href="/media_communication/" accesskey="p">{% trans "Media &amp; Communication" %}</a></li>
 
-{% block barre-international %}<li>{% endblock %}
-    <a href="/international/" accesskey="i">{% trans "International" %}</a></li>
+{% block barre-web %}<li>{% endblock %}
+    <a href="/web/" accesskey="i">{% trans "Web" %}</a></li>
 
 {% block barre-voyages %}<li>{% endblock %}
     <a href="/voyages/" accesskey="v">{% trans "Travels" %}</a></li>
@@ -141,7 +140,7 @@
          <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>
              {% trans "and"%}
          <a href="http://validator.w3.org/check?uri=referer">XHTML</a><br />
-			   &copy; Copyright 2009 AIn7 - Version {{ portal_version  }}</p>
+			   &copy; Copyright 2009 AIn7 - Version {{ portal_version  }} - {% trans "Unless specific mention, all Texts are under licence" %} <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.fr">CC by-sa 3.0</a>.</p>
 		</div>
 	</div>
 <div>
@@ -155,7 +154,7 @@ piwik_idsite = 1;
 piwik_url = pkBaseURL + "piwik.php";
 piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 </script>
-<object><noscript><p>Web analytics <img src="{{ piwik_url }}/piwik.php?idsite={{ piwik_site_id }}" style="border:0" alt=""/></p></noscript></object></a>
+<object><noscript><p>Web analytics <img src="{{ piwik_url }}piwik.php?idsite={{ piwik_site_id }}" style="border:0" alt=""/></p></noscript></object></a>
 <!-- End Piwik Tag -->
 </div>
 </body>
