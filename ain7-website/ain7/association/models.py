@@ -35,7 +35,10 @@ class CouncilRole(models.Model):
                        (1, _('Vice president')),
                        (2, _('Secretary')),
                        (3, _('Treasurer')),
-                       (4, _('Council Member')),
+                       (4, _('Secretary Assistant')),
+                       (5, _('Treasurer Assistant')),
+                       (10, _('Council Member')),
+                       (15, _('Regional Group Representative')),
                     )
 
     role = models.IntegerField(verbose_name=_('type'), choices=COUNCIL_ROLE)
