@@ -12,7 +12,7 @@
 <h3>{{ text1.title }}</h3>
 <div class="left_box">
 {{ text1.body|safe }}
-{% if superadmin or ca_member or secretariat_member %}
+{% if superadmin or ca_member or secretariat_member or contributeur %}
 <p><a href="{% url pages.views.edit text1.id %}">{% trans "Edit" %}</a></p>
 {% endif %}
 </div>
@@ -20,7 +20,7 @@
 <h3>{{ text2.title }}</h3>
 <div class="left_box">
 {{ text2.body|safe }}
-{% if superadmin or ca_member or secretariat_member %}
+{% if superadmin or ca_member or secretariat_member or contributeur %}
 <p><a href="{% url pages.views.edit text2.id %}">{% trans "Edit" %}</a></p>
 {% endif %}
 </div>
@@ -29,24 +29,40 @@
 <div class="right">
 <h3>{% trans "News" %}</h3>
 <div class="right_articles">
-<div style="text-align: center">
-	<a href="/actualites/">{% trans "All news" %}</a>
-</div>
-</div>
 
 {% for news_item in news %}
   <div class="right_articles">
       <div>
       {% if news_item.image %}
-      <a href="/actualites/{{ news_item.id }}/"><img src="{{ news_item.image.url }}" alt="Image" title="Image" class="image" width="60" /></a>
+      <a href="/actualites/{{ news_item.id }}/"><img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" title="{{ news_item.title }}" class="image" width="60" /></a>
       {% endif %}
       <b><a href="/actualites/{{ news_item.id }}/">{{ news_item.title }}</a></b><br />{{ news_item.short_description|safe }}
       </div>
       <!-- in case the image has bigger height than text -->
       <div style="clear: left;"></div>
-			</div>
-    {% endfor %}
+   </div>
+{% endfor %}
+<div style="text-align: center">
+	<a href="/actualites/">{% trans "All news" %}</a>
+</div>
+</div>
+</div>
 
+<div class="right">
+<h3>{% trans "Events Forecast" %}</h3>
+<div class="right_articles">
+
+{% for event in events %}
+  <div class="right_articles">
+      <div>
+      <a href="/evenements/{{ event.id }}/">{{ event.name }}</a></b><br />
+      </div>
+   </div>
+{% endfor %}
+<div style="text-align: center">
+	<a href="/evenements/">{% trans "All events" %}</a>
+</div>
+</div>
 
 
 			<h3>{% trans "Links" %}</h3>
@@ -58,12 +74,9 @@
 				<p><a href="http://www.g9plus.org/">Le G9+</a></p>
 			</div>
 
+        {% if surveys %}
 	<h3>{% trans "Survey" %}</h3>
 	<div class="right_articles">
-		<div style="text-align: center">
-			<a href="/sondages/">{% trans "Surveys history" %}</a>
-		</div>
-	</div>
 	{% for survey, has_already_voted in surveys %}
 		<div class="right_articles">
 			<p> {{ survey.question }} </p>
@@ -77,6 +90,11 @@
 			</div>
 		</div>
         {% endfor %}
+	<div style="text-align: center">
+    	    <a href="/sondages/">{% trans "Surveys history" %}</a>
+	</div>
+	</div>
+        {% endif %}
 
 {% if birthdays %}
 {% if user.is_authenticated %}

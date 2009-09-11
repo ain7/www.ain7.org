@@ -10,8 +10,7 @@
 
 <div id="cv">
 
-<h1>{% trans "Personal file" %}
-    {{ person.last_name }} {{ person.first_name }}</h1>
+<h1>{{ person.first_name }} {{ person.last_name }}</h1>
 
 <a href="/annuaire/{{ person.user.id }}/">{% trans "Back to personnal file" %}</a>
 

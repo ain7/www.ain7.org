@@ -30,6 +30,7 @@ from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import AIn7Member, Email, Person
 from ain7.news.models import NewsItem
+from ain7.evenements.models import Event
 from ain7.pages.forms import LostPasswordForm, TextForm, ChangePasswordForm
 from ain7.pages.models import Text, LostPassword
 from ain7.sondages.models import Survey
@@ -37,7 +38,8 @@ from ain7.utils import ain7_render_to_response, check_access
 
 
 def homepage(request):
-    news = NewsItem.objects.all().order_by('-creation_date')[:2]
+    news = NewsItem.objects.all().order_by('-creation_date')[:5]
+    events = Event.objects.filter(date__gte=datetime.datetime.now())[:5]
     is_auth = request.user.is_authenticated()
     surveys = [(s, (is_auth and s.has_been_voted_by(request.user.person)))\
                for s in Survey.objects.all() if s.is_valid()][:2]
@@ -53,8 +55,8 @@ def homepage(request):
             person__death_date=None) ]
         birthdays.sort(lambda x,y: cmp(x.person.last_name,y.person.last_name))
     return ain7_render_to_response(request, 'pages/homepage.html', 
-        {'news': news , 'surveys': surveys, 'birthdays': birthdays, 
-         'text1': text1, 'text2': text2})
+        {'news': news , 'events': events, 'surveys': surveys, 
+         'birthdays': birthdays, 'text1': text1, 'text2': text2})
 
 def lostpassword(request):
 
@@ -73,17 +75,20 @@ def lostpassword(request):
             lostpw.save()
 
             url = 'http://%s%s' % (request.get_host(), lostpw.get_absolute_url())
-            person.send_mail(_('Login Service: Forgotten Password'), \
-                        _("""Hi,
+            person.send_mail(_('Password reset of your AIn7 account'), \
+                        _("""Hi %(firstname)s,
 
-You, or someone posing as you, has requested a new password for your AIn7 account.
+You, or someone posing as you, has requested a new password for your
+AIn7 account.
 
-To change your password to a new one, please follow this link:
- %s
+Your login is: %(login)s
+To reset your password, please follow this link:
+%(url)s
 
-Note: if you did not make this request, you can safely ignore this email.
+Note: if you did not make this request, you can safely ignore this
+email.
 -- 
-http://ain7.com""") % url)
+http://ain7.com""") % { 'firstname': person.first_name, 'url': url, 'login': person.user.username} )
             info = _('We have sent you an email with instructions to reset your password.')
             request.path = '/'
             return ain7_render_to_response(request, 'pages/lostpassword.html', {'info': info})
@@ -115,7 +120,8 @@ def changepassword(request, key):
 
 
 def apropos(request):
-    return ain7_render_to_response(request, 'pages/apropos.html', {})
+    text = Text.objects.get(textblock__shortname='apropos')
+    return ain7_render_to_response(request, 'pages/apropos.html', {'text': text})
 
 def international(request):
     text = Text.objects.get(textblock__shortname='international')
@@ -128,15 +134,17 @@ def web(request):
                        {'text': text})
 
 def mentions_legales(request):
-    return ain7_render_to_response(request, 'pages/mentions_legales.html', {})
+    text = Text.objects.get(textblock__shortname='mentions_legales')
+    return ain7_render_to_response(request, 'pages/mentions_legales.html', {'text': text})
 
 def rss(request):
-    return ain7_render_to_response(request, 'pages/rss.html', {})
+    text = Text.objects.get(textblock__shortname='rss')
+    return ain7_render_to_response(request, 'pages/rss.html', {'text': text})
 
 def edit(request, text_id):
 
     r = check_access(request, request.user, ['ain7-member', 'ain7-ca', 
-                                       'ain7-secretariat', 'contributeur'])
+                                       'ain7-secretariat', 'ain7-contributeur'])
     if r:
         return r
 

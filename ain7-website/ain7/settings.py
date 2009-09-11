@@ -86,6 +86,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.doc.XViewMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    'ain7.middleware.forcelocale.ForceDefaultLanguageMiddleware',
 )
 
 ROOT_URLCONF = 'ain7.urls'
@@ -128,7 +129,7 @@ PIWIK_URL = 'http://localhost/piwik/'
 PIWIK_SITE_ID = '0'
 
 # Version
-BASE = '1.0.0'
+BASE = '1.0.1'
 REVISION = os.popen('bzr revno 2> /dev/null').read().rstrip()
 
 VERSION = BASE

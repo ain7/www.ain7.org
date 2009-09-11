@@ -56,26 +56,16 @@
         </div>
 {% endblock %}
 
+{% ifnotequal nbparticipants 0 %}
 {% if superadmin or ca_member or secretariat_member or contributeur %}
 {% block statistics %}
 	<h3>{% trans "Statistics" %}</h3>
 	<div class="right_block">
-                <ul>
-                  <li>
-        {% ifequal nbparticipants 0 %}
-          {% trans "No one is subscribed to this event" %}
-        {% else %}
-          {% ifequal nbparticipants 1 %}
-            {% trans "One person subscribed to this event" %}
-          {% else %}
             {{ nbparticipants }} {% trans "persons subscribed to this event" %}
-          {% endifequal %}
-        {% endifequal %}
-                  </li>
-                </ul>
         </div>
 {% endblock %}
 {% endif %}
+{% endifnotequal %}
 
 {% block additional-right-blocks %}
     <h3>{% trans "Card Informations"%}</h3>

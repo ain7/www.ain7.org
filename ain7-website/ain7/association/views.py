@@ -50,7 +50,7 @@ def index(request):
                 {'count_members': count_members(), 'text': text}) 
  
 def status(request): 
-    text = Text.objects.get(textblock__shortname='status_ain7') 
+    text = Text.objects.get(textblock__shortname='statuts_ain7') 
     return ain7_render_to_response(request, 'association/status.html', 
                 {'count_members': count_members(), 'text': text}) 
  
@@ -65,10 +65,9 @@ def council(request):
          'current_roles': current_council_roles() }) 
  
 def contact(request):
-    text1 = Text.objects.get(textblock__shortname='secretariat_ain7') 
-    text2 = Text.objects.get(textblock__shortname='website_ain7')
+    text = Text.objects.get(textblock__shortname='contact_ain7') 
     return ain7_render_to_response(request, 'association/contact.html', 
-          {'count_members': count_members(), 'text1': text1, 'text2': text2}) 
+          {'count_members': count_members(), 'text': text}) 
 
 @login_required
 def build_council_roles_by_type(request, all_current=None,

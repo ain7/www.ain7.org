@@ -252,7 +252,7 @@ class Person(LoggedClass):
        if mail_list:
            mail = mail_list[0].email
 
-           msg = """From: Association AIn7 <ain7@ain7.info>
+           msg = """From: Association AIn7 <ain7@ain7.com>
 To: """+self.first_name+' '+self.last_name+' <'+mail+'>'+"""
 Subject: """+subject+"""
 Mime-Version: 1.0
@@ -260,13 +260,11 @@ Content-Type: text/plain; charset="utf-8"
 Date:  """+time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime())+"""
 X-Generated-By: AIn7 Web Portal
 
-"""+message+"""
---
-"""+_('You can access to your data on the portal: http://www.ain7.com/')
+"""+message
 
 
            server = smtplib.SMTP('localhost')
-           server.sendmail('ain7@ain7.info', mail, unicode(msg).encode('utf8'))
+           server.sendmail('ain7@ain7.com', mail, unicode(msg).encode('utf8'))
            server.quit()
 
 

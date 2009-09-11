@@ -421,7 +421,7 @@ Elle a son Siège à Toulouse, à l'ECOLE NATIONALE SUPERIEURE d'ELECTROTECHNIQU
     text4.save()
 
     textblock5 = pages.TextBlock()
-    textblock5.shortname = "secretariat_ain7"
+    textblock5.shortname = "contact_ain7"
     textblock5.url = '/association/contact/'
     textblock5.save()
 
@@ -431,17 +431,17 @@ Elle a son Siège à Toulouse, à l'ECOLE NATIONALE SUPERIEURE d'ELECTROTECHNIQU
     text5.title = u"Le secrétariat permanant"
     text5.body = u"""<b>Coordonnées globales :</b>
 <p>
-A.I.N.7<br/>
+AIn7<br/>
 2 rue Charles Camichel, BP 7122,<br/>
 31071 Toulouse cedex 7</p>
 
 <p>Fax : 05 61 62 09 76</p>
-<p>Courriel : <a href="mailto:ain7@ain7.fr">ain7@ain7.fr</a></p>
+<p>Courriel : <a href="mailto:ain7@ain7.com">ain7@ain7.com</a></p>
 
 <b>Nos deux secrétaires :</b>
 <ul>
-<li>Sylvie Henric - <a href="mailto:sylvie.henric@ain7.fr">sylvie.henric@ain7.fr</a> - Tél : 05 61 58 82 88</li>
-<li>Frédérique Forestie - <a href="mailto:frederique.forestie@ain7.fr">frederique.forestie@ain7.fr</a> -  Tél : 05 61 58 82 13</li>
+<li>Sylvie Henric - <a href="mailto:sylvie.henric@ain7.fr">sylvie.henric@ain7.com</a> - Tél : 05 61 58 82 88</li>
+<li>Frédérique Forestie - <a href="mailto:frederique.forestie@ain7.fr">frederique.forestie@ain7.com</a> -  Tél : 05 61 58 82 13</li>
 </ul>
 """
     text5.save()
@@ -831,6 +831,51 @@ sont développées</p>
 <i>Jean Marcus (55)</i></p>
 """
     text18.save()
+
+    textblock19 = pages.TextBlock()
+    textblock19.shortname = "apropos"
+    textblock19.url = '/apropos/'
+    textblock19.save()
+
+    text19 = pages.Text()
+    text19.textblock = textblock19
+    text19.lang = 'fr'
+    text19.title = u"A propos du site de l'AIn7"
+    text19.body = u"""Ce site est le site de l'AIn7. Il a été conçu bénévolement par des étudiants de l'ENSEEIHT et des anciens ingénieurs de l'ENSEEIHT qui se sont reproupés au sein d'une <a href="https://launchpad.net/~ain7-deval">équipe</a>. Si vous souhaitez contribuer (et nous vous y encourageons), n'hésitez pas à nous contacter et à rejoindre l'équipe.
+
+Ce site est opensource et le code est disponible dans le <a href="https://code.beta.launchpad.net/~ain7-devel/ain7-portal/ain7-portal.dev">dépôt bazaar</a> de l'équipe associée au projet.
+
+Nous vous encourageons à rapporter les bugs que vous rencontrez (<a href="https://launchpad.net/ain7-portal">sur Launchpad</a>) ainsi qu'à contribuer au code !
+
+Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter le <a href="mailto:webmaster@ain7.com">webmaster</a>.
+"""
+    text19.save()
+
+    textblock20 = pages.TextBlock()
+    textblock20.shortname = "mentions_legales"
+    textblock20.url = '/mentions_legales/'
+    textblock20.save()
+
+    text20 = pages.Text()
+    text20.textblock = textblock20
+    text20.lang = 'fr'
+    text20.title = u"Mentions légales d'utilisation de ain7.com"
+    text20.body = u"""Donner ici les mentions légales.
+"""
+    text20.save()
+
+    textblock21 = pages.TextBlock()
+    textblock21.shortname = "rss"
+    textblock21.url = '/rss/'
+    textblock21.save()
+
+    text21 = pages.Text()
+    text21.textblock = textblock21
+    text21.lang = 'fr'
+    text21.title = u"Flux RSS"
+    text21.body = u"""Description des flux rss
+"""
+    text21.save()
 
     if os.path.exists('filldbain7'):
         import glob

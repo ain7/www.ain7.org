@@ -1,4 +1,5 @@
 {% extends "pages/base_pages.html" %}
+{% load i18n %}
 
 {% block content %}
 
@@ -6,9 +7,13 @@
 	
 <div class="left">
 
-<h3>Mentions légales du site</h3>
+<h3>{{ text.title }}</h3>
 
-<p>Donner ici les mentions légales.</p>
+{{ text.body|safe }}
+
+{% if superadmin or ca_member or secretariat_member or contributeur %}
+<p><a href="{% url pages.views.edit text.id %}">{% trans "Edit" %}</a></p>
+{% endif %}
 
 </div>
 

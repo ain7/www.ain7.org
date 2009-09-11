@@ -1,27 +1,19 @@
 {% extends "pages/base_pages.html" %}
+{% load i18n %}
 
 {% block content %}
 
 <div id="content-main">
 
 <div class="left">
-<h3>A propos de ce site</h3>
 
-<p>Ce site est le site de l'AIn7. Il a été conçu bénévolement par des étudiants de l'ENSEEIHT
-et des anciens ingénieurs de l'ENSEEIHT qui se sont reproupés au sein
-<a href="https://launchpad.net/~ain7-devel">d'une équipe</a>. Si vous souhaitez contribuer
-(et nous vous y encourageons), n'hésitez pas à nous contacter et à rejoindre l'équipe.</p>
+<h3>{{ text.title }}</h3>
 
-<p>Ce site est opensource et le code est disponible dans le 
-<a href="https://code.beta.launchpad.net/~ain7-devel/ain7-portal/ain7-portal.dev">dépôt bazaar</a>
-de l'équipe associée au projet.
+{{ text.body|safe }}
 
-<p>Nous vous encourageons à rapporter les bugs que vous rencontrez 
-(sur <a href="https://launchpad.net/ain7-portal">Launchpad</a>) 
-ainsi qu'à contribuer au code !</p>
-
-<p>Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter le
-<a href="mailto:webmaster@ain7.com">webmaster</a>.</p>
+{% if superadmin or ca_member or secretariat_member or contributeur %}
+<p><a href="{% url pages.views.edit text.id %}">{% trans "Edit" %}</a></p>
+{% endif %}
 
 </div>
 

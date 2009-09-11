@@ -6,7 +6,7 @@
 
 {% block content-left %}
 
-<h1>{% trans "Personal file" %} {{ person.last_name }} {{ person.first_name }}</h1>
+<h1>{{ person.first_name }} {{ person.last_name }}</h1>
 
 {% if is_subscriber %}
 <b>{% trans "Subscriber" %} {% now "Y" %}</b>
