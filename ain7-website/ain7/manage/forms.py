@@ -67,7 +67,7 @@ class SearchOrganizationForm(forms.Form):
     activity_code = forms.CharField(label=_('Activity code'), max_length=50, required=False,widget=AutoCompleteField(completed_obj_name='activitycode'))
 
     def criteria(self):
-        criteria = {'name__contains': self.cleaned_data['name'],
+        criteria = {'name__icontains': self.cleaned_data['name'],
                     'is_a_proposal': False}
 #                     'location__contains': self.cleaned_data['location'],
         if self.cleaned_data['activity_field']!="":

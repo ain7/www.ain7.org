@@ -37,8 +37,6 @@ dateWidget.dformat = '%d/%m/%Y'
 class SearchTravelForm(forms.Form):
     label = forms.CharField(label=_('label').capitalize(),
         max_length=50, required=False)
-    date = forms.CharField(label=_('date').capitalize(),
-        max_length=50, required=False)
     visited_places = forms.CharField(label=_('visited places').capitalize(),
         max_length=50, required=False)
     search_old_travel = forms.BooleanField(
@@ -49,16 +47,12 @@ class SearchTravelForm(forms.Form):
 
     def search(self):
         criteria={
-            'label__icontains':self.cleaned_data['label'],
-            'date__icontains':self.cleaned_data['date']}
-        # visited places are also searched in labels
-        visited = self.cleaned_data['visited_places']
-        q_visited = \
-            models.Q(visited_places__icontains = visited) | \
-            models.Q(label__icontains = visited)
+            'label__icontains': self.cleaned_data['label'],
+            'label__icontains': self.cleaned_data['visited_places']}
+
         if not self.cleaned_data['search_old_travel']:
             criteria['start_date__gte'] = datetime.now()
-        return Travel.objects.filter(**criteria).filter(q_visited)
+        return Travel.objects.filter(**criteria)
 
 
 class TravelForm(forms.ModelForm):

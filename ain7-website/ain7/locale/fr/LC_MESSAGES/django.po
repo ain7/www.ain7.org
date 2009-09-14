@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-12 01:08+0200\n"
+"POT-Creation-Date: 2009-09-14 23:08+0200\n"
 "PO-Revision-Date: 2009-03-24 22:53+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -662,7 +662,7 @@ msgid "irc"
 msgstr "irc"
 
 #: annuaire/models.py:557 emploi/forms.py:49 emploi/models.py:324
-#: emploi/models.py:340 evenements/forms.py:98 evenements/models.py:58
+#: emploi/models.py:340 evenements/forms.py:100 evenements/models.py:58
 #: groupes_professionnels/models.py:35 groupes_regionaux/forms.py:37
 #: groupes_regionaux/models.py:36 news/forms.py:56 news/forms.py:65
 #: news/models.py:34 voyages/forms.py:66 voyages/models.py:49
@@ -942,7 +942,7 @@ msgid "board member"
 msgstr "membre du bureau"
 
 #: association/forms.py:49 association/forms.py:85 emploi/forms.py:255
-#: emploi/forms.py:277 evenements/forms.py:116
+#: emploi/forms.py:277 evenements/forms.py:118
 #: groupes_professionnels/forms.py:99 groupes_professionnels/forms.py:123
 #: groupes_regionaux/forms.py:57 groupes_regionaux/forms.py:81
 #: sondages/forms.py:47 voyages/forms.py:77
@@ -1081,8 +1081,8 @@ msgstr "Type de Contrat"
 msgid "all"
 msgstr "tous"
 
-#: emploi/forms.py:163 manage/forms.py:55 manage/forms.py:63
-#: manage/forms.py:146
+#: emploi/forms.py:163 evenements/forms.py:98 manage/forms.py:55
+#: manage/forms.py:63 manage/forms.py:146
 msgid "Name"
 msgstr "Nom"
 
@@ -1572,21 +1572,21 @@ msgstr "votre message"
 msgid "your email"
 msgstr "votre courriel"
 
-#: evenements/forms.py:101 evenements/models.py:57 news/models.py:36
+#: evenements/forms.py:103 evenements/models.py:57 news/models.py:36
 #: templates/evenements/details.html:14 templates/voyages/details.html:15
 #: voyages/forms.py:40
 msgid "date"
 msgstr "date"
 
-#: evenements/forms.py:104 evenements/models.py:66
+#: evenements/forms.py:106 evenements/models.py:66
 msgid "publication start"
 msgstr "début de publication"
 
-#: evenements/forms.py:106 evenements/models.py:67
+#: evenements/forms.py:108 evenements/models.py:67
 msgid "publication end"
 msgstr "fin de publication"
 
-#: evenements/forms.py:129 evenements/models.py:134
+#: evenements/forms.py:131 evenements/models.py:134
 msgid "organizer"
 msgstr "organisateur"
 
@@ -2155,6 +2155,8 @@ msgid ""
 "To reset your password, please follow this link:\n"
 "%(url)s\n"
 "\n"
+"This link will be valid 4h.\n"
+"\n"
 "Note: if you did not make this request, you can safely ignore this\n"
 "email.\n"
 "-- \n"
@@ -2167,20 +2169,22 @@ msgstr ""
 "\n"
 "Votre login est : %(login)s\n"
 "Pour redéfinir votre mot de passe, veuillez suivre ce lien:\n"
-" %(url)s\n"
+"%(url)s\n"
+"\n"
+"Ce lien restera valide 4h\n"
 "\n"
 "Notez: Si vous ne souhaitez pas changer de mot de passe, vous pouvez\n"
 "sans risque ignorer ce courriel.\n"
 "-- \n"
 "http://ain7.com"
 
-#: pages/views.py:92
+#: pages/views.py:94
 msgid "We have sent you an email with instructions to reset your password."
 msgstr ""
 "Nous vous avons envoyé un email contenant les instructions pour "
 "réinitialiser votre mot de passe."
 
-#: pages/views.py:96
+#: pages/views.py:98
 msgid ""
 "If you are claiming an existing account but don't know the email address "
 "that was used, please contact an AIn7 administrator."
@@ -2188,15 +2192,15 @@ msgstr ""
 "Si vous possédez un compte AIn7 mais ne savez pas quelle adresse email y est "
 "utilisée, veuillez contacter l'administrateur du site."
 
-#: pages/views.py:106
+#: pages/views.py:108
 msgid "Page expired, please request a new key"
 msgstr "La page a expiré, veuillez faire une nouvelle demande"
 
-#: pages/views.py:116
+#: pages/views.py:118
 msgid "Successfully changed password"
 msgstr "Mot de passe mis à jour"
 
-#: pages/views.py:162
+#: pages/views.py:164
 msgid "Modifications saved."
 msgstr "Les modifications ont été correctement enregistrées."
 
@@ -2383,13 +2387,17 @@ msgstr "Le choix a été supprimé avec succès."
 msgid "Page not found"
 msgstr "Page introuvable"
 
-#: templates/404.html:17
+#: templates/404.html:15
+msgid ""
+"Please check your URL, if you clicked on a dead link please contact your "
+"administrator"
+msgstr ""
+"Merci de vérifier votre URL. Si vous avez suivi un lien, merci decontacter "
+"l'administrateur"
+
+#: templates/404.html:16
 msgid "Back to home page"
 msgstr "Retour à la page d'accueil"
-
-#: templates/404.html:19
-msgid "Back to login page"
-msgstr "Retour vers la page d'identification"
 
 #: templates/base.html:5 templates/pages/frame_edit_form.html:5
 #: templates/pages/frame_message.html:5
@@ -4413,3 +4421,6 @@ msgid "Do you really want this person not to be responsible of this travel"
 msgstr ""
 "Souhaitez-vous vraiment que cette personne ne soit pas responsable de ce "
 "voyage ?"
+
+#~ msgid "Back to login page"
+#~ msgstr "Retour vers la page d'identification"

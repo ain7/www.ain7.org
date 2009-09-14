@@ -85,6 +85,8 @@ Your login is: %(login)s
 To reset your password, please follow this link:
 %(url)s
 
+This link will be valid 4h.
+
 Note: if you did not make this request, you can safely ignore this
 email.
 -- 

@@ -95,6 +95,8 @@ class ContactEventForm(AIn7Form):
     sender = forms.EmailField( label=_('your email').capitalize(), required=True)
 
 class EventForm(AIn7ModelForm):
+    name = forms.CharField(label=_('Name'), max_length=60,
+        widget=forms.TextInput(attrs={'size':'60'}))
     description = forms.CharField( label=_('description').capitalize(),
         required=False,
         widget=forms.widgets.Textarea(attrs={'rows':10, 'cols':40}))

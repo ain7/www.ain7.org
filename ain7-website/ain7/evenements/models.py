@@ -53,7 +53,7 @@ class Event(LoggedClass):
               (2,_('cancel')),
               )
 
-    name = models.CharField(verbose_name=_('name'), max_length=20)
+    name = models.CharField(verbose_name=_('name'), max_length=60)
     date = models.DateTimeField(verbose_name=_('date'))
     description = models.TextField(verbose_name=_('description'), blank=True, null=True)
     location = models.CharField(verbose_name=_('place'), max_length=60)
