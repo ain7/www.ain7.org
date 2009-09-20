@@ -153,7 +153,7 @@ def thumbnail_delete(request, travel_id):
 @login_required
 def join(request, travel_id):
 
-    r = check_access(request, request.user, ['ain7-member'])
+    r = check_access(request, request.user, ['ain7-membre'])
     if r:
         return r
 

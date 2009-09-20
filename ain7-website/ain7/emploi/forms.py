@@ -37,22 +37,22 @@ dateWidget.dformat = '%d/%m/%Y'
 
 class JobOfferForm(AIn7Form):
     reference = forms.CharField(label=_('reference').capitalize(), max_length=50,
-        required=False, widget=forms.TextInput(attrs={'size':'40'}))
+        required=False, widget=forms.TextInput(attrs={'size':'55'}))
     title = forms.CharField(label=_('title').capitalize(), max_length=50,
-        required=True, widget=forms.TextInput(attrs={'size':'40'}))
+        required=True, widget=forms.TextInput(attrs={'size':'55'}))
     experience = forms.CharField(label=_('experience').capitalize(), max_length=50,
-        required=False, widget=forms.TextInput(attrs={'size':'40'}))
+        required=False, widget=forms.TextInput(attrs={'size':'55'}))
     contract_type = forms.IntegerField(label=_('contract type'),
         required=False)
     contract_type.widget = forms.Select(choices=JobOffer.JOB_TYPES)
     is_opened = forms.BooleanField(label=_('is opened'),required=False)
     description = forms.CharField(label=_('description').capitalize(),
-        max_length=500, required=False,
-        widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':95}))
+        required=False,
+        widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':80}))
     office = forms.IntegerField(label=_('Office'), required=True,
         widget=AutoCompleteField(completed_obj_name='office'))
     contact_name = forms.CharField(label=_('Contact name'), max_length=50,
-        required=False, widget=forms.TextInput(attrs={'size':'40'}))
+        required=False, widget=forms.TextInput(attrs={'size':'55'}))
     contact_email = forms.EmailField(label=_('Contact email').capitalize(),
         required=False)
     activity_field = forms.IntegerField(label=_('Activity field'),
@@ -167,7 +167,7 @@ class OrganizationForm(forms.Form):
         label=_('Size'), required=True,
         widget=forms.Select(choices=Organization.ORGANIZATION_SIZE))
     activity_field = forms.IntegerField(label=_('Activity field'),
-        required=True, widget=AutoCompleteField(completed_obj_name='activity_field'))
+        required=False, widget=AutoCompleteField(completed_obj_name='activity_field'))
     short_description = forms.CharField(
         label=_('Short Description'), max_length=50, required=False)
     long_description = forms.CharField(

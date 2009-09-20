@@ -93,7 +93,7 @@ urlpatterns = patterns('',
     (r'^media_communication/',include('ain7.media_communication.urls')),
 
     # relations école étudiants
-    (r'^relations_ecole_etudiants/',include('ain7.relations_ecole_etudiants.urls')),
+    (r'^relations_ecole_etudiants/', 'ain7.pages.views.relations_ecole_etudiants'),
 
     # Pages particulieres au contenu pseudo statique
     (r'^apropos/$','ain7.pages.views.apropos'),

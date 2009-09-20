@@ -94,7 +94,7 @@ def join(request, event_id):
 
     event = get_object_or_404(Event, pk=event_id)
 
-    r = check_access(request, request.user, ['ain7-member','ain7-ca','ain7-secretariat','ain7-contributeur'])
+    r = check_access(request, request.user, ['ain7-membre','ain7-ca','ain7-secretariat','ain7-contributeur'])
     if r:
         return r
 
@@ -243,7 +243,7 @@ def contact(request, event_id):
 
     event = get_object_or_404(Event, pk=event_id)
 
-    r = check_access(request, request.user, ['ain7-member','ain7-ca','ain7-secretariat','ain7-contributeur'])
+    r = check_access(request, request.user, ['ain7-membre','ain7-ca','ain7-secretariat','ain7-contributeur'])
     if r:
         return r
 

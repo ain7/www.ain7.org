@@ -87,6 +87,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.doc.XViewMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'ain7.middleware.forcelocale.ForceDefaultLanguageMiddleware',
+    'ain7.middleware.useractivity.UserActivityMiddleware',
 )
 
 ROOT_URLCONF = 'ain7.urls'

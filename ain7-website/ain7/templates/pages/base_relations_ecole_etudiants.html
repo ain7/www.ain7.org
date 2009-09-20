@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block barre-relation_ecole_etudiants %}<li class="active">{% endblock %}
+
+{% block content %}
+
+<div id="content-main">
+
+<div class="left">
+{% block content-left %}{% endblock %}
+</div>
+
+<div class="right">
+    <h3>{% trans "Links" %}</h3>
+   <div class="right_articles">
+    <ul>
+      <li><a href="http://www.enseeiht.fr">Le site de l'école</a></li>
+      <li><a href="http://www.bde.enseeiht.fr">Le site des étudiants</a></li>
+    </ul>
+   </div>
+</div>
+
+</div>
+
+{% endblock %}
+

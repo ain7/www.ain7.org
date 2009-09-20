@@ -98,6 +98,7 @@ class Organization(LoggedClass):
                     (1, _('Small (1-9)')),
                     (2, _('Medium (10-499)')),
                     (3, _('Large (500+)')),
+                    (10, _('Unknown')),
                     )
 
     name = models.CharField(verbose_name=_('name'), max_length=100)
@@ -400,7 +401,7 @@ class JobOffer(LoggedClass):
     )
 
     reference = models.CharField(verbose_name=_('Reference'), max_length=50, blank=True, null=True)
-    title = models.CharField(verbose_name=_('Title'), max_length=100)
+    title = models.CharField(verbose_name=_('Title'), max_length=200)
     description = models.TextField(verbose_name=_('Description'), blank=True, null=True)
     experience = models.CharField(verbose_name=_('Experience'), max_length=50, blank=True, null=True)
     contract_type = models.IntegerField(verbose_name=_('Contract type'), choices=JOB_TYPES, blank=True, null=True)

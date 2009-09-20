@@ -1,0 +1,16 @@
+{% extends "pages/base_relations_ecole_etudiants.html" %}
+{% load i18n %}
+
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
+{% block content-left %}
+<h3>{{ text.title }}</h3>
+
+{{ text.body|safe }}
+
+{% if superadmin or ca_member or secretariat_member or contributeur %}
+<p><a href="{% url pages.views.edit text.id %}">{% trans "Edit" %}</a></p>
+{% endif %}
+
+{% endblock %}

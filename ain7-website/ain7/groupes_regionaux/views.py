@@ -73,7 +73,7 @@ def join(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
     person = request.user.person
 
-    r = check_access(request, request.user, ['ain7-member'])
+    r = check_access(request, request.user, ['ain7-membre'])
     if r:
         return r
 
@@ -96,7 +96,7 @@ def quit(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
     person = request.user.person
 
-    r = check_access(request, request.user, ['ain7-member'])
+    r = check_access(request, request.user, ['ain7-membre'])
     if r:
         return r
 

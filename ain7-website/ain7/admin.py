@@ -51,6 +51,7 @@ admin.site.register(annuaire.Person)
 admin.site.register(annuaire.AIn7Member)
 admin.site.register(annuaire.AddressType)
 admin.site.register(annuaire.Club)
+admin.site.register(annuaire.UserActivity)
 
 admin.site.register(emploi.ActivityField)
 admin.site.register(emploi.Organization)

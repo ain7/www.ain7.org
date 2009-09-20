@@ -139,13 +139,18 @@ def mentions_legales(request):
     text = Text.objects.get(textblock__shortname='mentions_legales')
     return ain7_render_to_response(request, 'pages/mentions_legales.html', {'text': text})
 
+def relations_ecole_etudiants(request): 
+    text = Text.objects.get(textblock__shortname='relations_ecole_etudiants')
+    return ain7_render_to_response(request, 
+                'pages/relations_ecole_etudiants.html', {'text': text})
+
 def rss(request):
     text = Text.objects.get(textblock__shortname='rss')
     return ain7_render_to_response(request, 'pages/rss.html', {'text': text})
 
 def edit(request, text_id):
 
-    r = check_access(request, request.user, ['ain7-member', 'ain7-ca', 
+    r = check_access(request, request.user, ['ain7-membre', 'ain7-ca', 
                                        'ain7-secretariat', 'ain7-contributeur'])
     if r:
         return r

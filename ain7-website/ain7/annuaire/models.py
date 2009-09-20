@@ -586,3 +586,15 @@ class ClubMembership(models.Model):
         verbose_name_plural = _('club memberships')
         ordering = ['start_date']
 
+class UserActivity(models.Model):
+
+    person = models.ForeignKey(Person, null=False)
+    date = models.DateTimeField(verbose_name=_('start date'), null=False)
+    client_host = models.CharField(max_length=256, blank=True, null=True)
+    browser_info = models.TextField(null=True,blank=True)
+
+    class Meta:
+        verbose_name = _('user activity')
+        verbose_name_plural = _('users activities')
+        ordering = ['date']
+

@@ -56,9 +56,14 @@ def annuaire_search_engine():
 def details(request, user_id):
     p = get_object_or_404(Person, pk=user_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
+    is_myself = int(request.user.id) == int(user_id)
+    last_activity = None
+    user_activities = UserActivity.objects.filter(person=p)
+    if len(user_activities) > 0:
+        last_activity = user_activities.reverse()[0]
     is_subscriber = Subscription.objects.filter(member=ain7member).filter(validated=True).exclude(start_year__gt=datetime.date.today().year).exclude(end_year__lt=datetime.date.today().year)
     return ain7_render_to_response(request, 'annuaire/details.html',
-                            {'person': p, 'is_subscriber': is_subscriber, 'ain7member': ain7member})
+                            {'person': p, 'is_subscriber': is_subscriber, 'ain7member': ain7member, 'is_myself': is_myself, 'last_activity': last_activity})
 
 @login_required
 def search(request):
@@ -109,7 +114,7 @@ def search(request):
 @login_required
 def advanced_search(request):
 
-    r = check_access(request, request.user, ['ain7-member','ain7-secretariat'])
+    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
     if r:
         return r
 
@@ -125,7 +130,7 @@ def advanced_search(request):
 @login_required
 def filter_details(request, filter_id):
 
-    r = check_access(request, request.user, ['ain7-member','ain7-secretariat'])
+    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
     if r:
         return r
 
@@ -136,7 +141,7 @@ def filter_details(request, filter_id):
 @login_required
 def dict_for_filter(request, filter_id):
 
-    r = check_access(request, request.user, ['ain7-member','ain7-secretariat'])
+    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
     if r:
         return r
 
@@ -182,7 +187,7 @@ def dict_for_filter(request, filter_id):
 @login_required
 def filter_register(request):
 
-    r = check_access(request, request.user, ['ain7-member','ain7-secretariat'])
+    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
     if r:
         return r
 
@@ -228,7 +233,7 @@ def filter_register(request):
 @login_required
 def filter_edit(request, filter_id):
 
-    r = check_access(request, request.user, ['ain7-member','ain7-secretariat'])
+    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
     if r:
         return r
 
@@ -261,7 +266,7 @@ def remove_criteria(request, filtr):
 @login_required
 def filter_reset(request, filter_id):
 
-    r = check_access(request, request.user, ['ain7-member','ain7-secretariat'])
+    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
     if r:
         return r
 
@@ -276,7 +281,7 @@ def filter_reset(request, filter_id):
 @login_required
 def filter_delete(request, filter_id):
 
-    r = check_access(request, request.user, ['ain7-member','ain7-secretariat'])
+    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
     if r:
         return r
 
@@ -296,7 +301,7 @@ def filter_delete(request, filter_id):
 @login_required
 def filter_new(request):
 
-    r = check_access(request, request.user, ['ain7-member','ain7-secretariat'])
+    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
     if r:
         return r
 
@@ -407,20 +412,24 @@ def sendmail(request):
 @login_required
 def edit(request, user_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
+
     r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
+    if r and not is_myself:
         return r
 
     p = get_object_or_404(Person, pk=user_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
     return ain7_render_to_response(request, 'annuaire/edit.html',
-                            {'person': p, 'ain7member': ain7member})
+            {'person': p, 'ain7member': ain7member, 'is_myself': is_myself})
 
 @login_required
 def person_edit(request, user_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
+
     r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
+    if r and not is_myself:
         return r
 
     person = None
@@ -450,8 +459,10 @@ def person_edit(request, user_id=None):
 @login_required
 def ain7member_edit(request, user_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
+
     r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
+    if r and not is_myself:
         return r
 
     person = None
@@ -471,8 +482,10 @@ def ain7member_edit(request, user_id=None):
 @login_required
 def avatar_delete(request, user_id):
 
+    is_myself = int(request.user.id) == int(user_id)
+
     r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
+    if r and not is_myself:
         return r
 
     person = Person.objects.get(user=user_id)
@@ -488,8 +501,10 @@ def avatar_delete(request, user_id):
 @login_required
 def promo_edit(request, person_id=None, promo_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
+
     r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
+    if r and not is_myself:
         return r
 
     person = get_object_or_404(Person, id=person_id)
@@ -516,8 +531,10 @@ def promo_edit(request, person_id=None, promo_id=None):
 @login_required
 def promo_delete(request, person_id=None, promo_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
+
     r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
+    if r and not is_myself:
         return r
     person = get_object_or_404(Person, id=person_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -531,8 +548,10 @@ def promo_delete(request, person_id=None, promo_id=None):
 @login_required
 def address_edit(request, user_id=None, address_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
+
     r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
+    if r and not is_myself:
         return r
 
     person = get_object_or_404(Person, user=user_id)
@@ -554,8 +573,9 @@ def address_edit(request, user_id=None, address_id=None):
 @login_required
 def address_delete(request, user_id=None, address_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
     r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
+    if r and not is_myself:
         return r
 
     return ain7_generic_delete(request,
@@ -567,8 +587,9 @@ def address_delete(request, user_id=None, address_id=None):
 @login_required
 def phone_edit(request, user_id=None, phone_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
     r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
+    if r and not is_myself:
         return r
 
     person = get_object_or_404(Person, user=user_id)
@@ -590,8 +611,9 @@ def phone_edit(request, user_id=None, phone_id=None):
 @login_required
 def phone_delete(request, user_id=None, phone_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
     r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
+    if r and not is_myself:
         return r
 
     return ain7_generic_delete(request,
@@ -603,8 +625,9 @@ def phone_delete(request, user_id=None, phone_id=None):
 @login_required
 def email_edit(request, user_id=None, email_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
     r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
+    if r and not is_myself:
         return r
 
     person = get_object_or_404(Person, user=user_id)
@@ -626,8 +649,9 @@ def email_edit(request, user_id=None, email_id=None):
 @login_required
 def email_delete(request, user_id=None, email_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
     r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
+    if r and not is_myself:
         return r
 
     return ain7_generic_delete(request, get_object_or_404(Email, pk=email_id),
@@ -638,8 +662,9 @@ def email_delete(request, user_id=None, email_id=None):
 @login_required
 def im_edit(request, user_id=None, im_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
     r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
+    if r and not is_myself:
         return r
 
     person = get_object_or_404(Person, user=user_id)
@@ -661,8 +686,9 @@ def im_edit(request, user_id=None, im_id=None):
 @login_required
 def im_delete(request, user_id=None, im_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
     r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
+    if r and not is_myself:
         return r
 
     return ain7_generic_delete(request,
@@ -674,8 +700,9 @@ def im_delete(request, user_id=None, im_id=None):
 @login_required
 def irc_edit(request, user_id=None, irc_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
     r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
+    if r and not is_myself:
         return r
 
     person = get_object_or_404(Person, user=user_id)
@@ -697,8 +724,9 @@ def irc_edit(request, user_id=None, irc_id=None):
 @login_required
 def irc_delete(request, user_id=None, irc_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
     r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
+    if r and not is_myself:
         return r
 
     return ain7_generic_delete(request,
@@ -710,8 +738,9 @@ def irc_delete(request, user_id=None, irc_id=None):
 @login_required
 def website_edit(request, user_id=None, website_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
     r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
+    if r and not is_myself:
         return r
 
     person = get_object_or_404(Person, user=user_id)
@@ -733,8 +762,9 @@ def website_edit(request, user_id=None, website_id=None):
 @login_required
 def website_delete(request, user_id=None, website_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
     r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
+    if r and not is_myself:
         return r
 
     return ain7_generic_delete(request,
@@ -747,8 +777,9 @@ def website_delete(request, user_id=None, website_id=None):
 @login_required
 def club_membership_edit(request, user_id=None, club_membership_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
     r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
+    if r and not is_myself:
         return r
 
     person = get_object_or_404(Person, user=user_id)
@@ -772,8 +803,9 @@ def club_membership_edit(request, user_id=None, club_membership_id=None):
 @login_required
 def club_membership_delete(request, user_id=None, club_membership_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
     r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
+    if r and not is_myself:
         return r
 
     return ain7_generic_delete(request,
@@ -807,7 +839,7 @@ def register(request, user_id=None):
 @login_required
 def vcard(request, user_id):
 
-    r = check_access(request, request.user, ('ain7-secretariat','ain7-member'))
+    r = check_access(request, request.user, ('ain7-secretariat','ain7-membre'))
     if r:
         return r
 
@@ -847,11 +879,4 @@ def vcard(request, user_id):
     response['Content-Disposition'] = 'attachment; filename='+p.user.username+'.vcf'
 
     return response
-
-def findParamsForFieldName(fieldName):
-    for fieldNam, comps, formField in FIELD_PARAMS:
-        if fieldNam==fieldName:
-            return (fieldName, comps, formField)
-    raise NotImplementedError
-    return None
 

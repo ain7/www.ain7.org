@@ -128,7 +128,6 @@ def check_access(request, user, groups):
 
     return ain7_render_to_response(request, 'pages/permission_denied.html', {})
 
-
 def ain7_generic_edit(request, obj, MyForm, formInitDict, formPage, formPageDict, saveDict, redirectPage, msgDone):
     """ Méthode utilisée pour éditer (ou créer) un objet de façon standard,
     c'est-à-dire via un formulaire de type ModelForms.
