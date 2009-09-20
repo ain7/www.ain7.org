@@ -86,6 +86,10 @@ def search(request):
             criteria = form.criteria()
             ain7members = form.search(criteria)
 
+            if len(ain7members) == 1:
+                request.user.message_set.create(message=_("Only one result matched your criteria"))
+                return HttpResponseRedirect('/annuaire/%s/' % (ain7members[0].id))
+
             # put the criteria in session: they must be accessed when
             # performing a CSV export, sending a mail...
             request.session['filter'] = criteria
@@ -531,12 +535,12 @@ def promo_edit(request, person_id=None, promo_id=None):
 @login_required
 def promo_delete(request, person_id=None, promo_id=None):
 
-    is_myself = int(request.user.id) == int(user_id)
+    person = get_object_or_404(Person, id=person_id)
+    is_myself = int(request.user.id) == int(person.user.id)
 
     r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
     if r and not is_myself:
         return r
-    person = get_object_or_404(Person, id=person_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
     promo = get_object_or_404(Promo, id=promo_id)
     ain7member.promos.remove(promo)

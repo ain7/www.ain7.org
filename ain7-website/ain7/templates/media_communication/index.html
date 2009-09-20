@@ -1,5 +1,5 @@
 {% extends "media_communication/base.html" %}
-{% load i18n %}
+{% load i18n ain7_tags %}
 
 {% block javascript %}{% endblock %}
 {% block stylesheet %}{% endblock %}
@@ -30,6 +30,9 @@
       <li><a href="{% url ain7.annuaire.views.search %}">Annuaire</a></li>
    </ul>
    </div>
+
+   <h3>{% trans "Card informations" %}</h3>
+   {% show_last_change text %}
 
 
 </div>

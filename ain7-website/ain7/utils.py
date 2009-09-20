@@ -71,10 +71,6 @@ def login(request):
     else:
         return ain7_render_to_response(request, 'pages/login.html', {'error': False, 'next': next_page})
 
-
-def planet(request):
-    return HttpResponseRedirect(settings.PLANET_URL)
-
 def forums(request):
     return HttpResponseRedirect(settings.FORUMS_URL)
 

@@ -237,12 +237,9 @@ class Person(LoggedClass):
 
     def autocomplete_str(self):
         value = self.complete_name
-        if AIn7Member.objects.filter(person=self).count() > 0:
+        if AIn7Member.objects.filter(person=self).count() > 0 and \
+                self.ain7member.promos and len(self.ain7member.promos.all()) > 0:
             promo = self.ain7member.promos.all()[self.ain7member.promos.all().count()-1]
-#             value = '<a href="javascript:showContactDetails(\'/annuaire/'
-#             value += str(self.user.id) + '/frame/ \', \''
-#             value += self.complete_name+ '\');">'
-#             value += self.complete_name+'</a>'
             value += ' ('+str(promo)+')'
         return value
 

@@ -1,5 +1,5 @@
 {% extends "media_communication/base.html" %}
-{% load i18n %}
+{% load i18n ain7_tags %}
 
 {% block javascript %}{% endblock %}
 {% block stylesheet %}{% endblock %}
@@ -56,12 +56,8 @@
    {% endif %}
    </div>
 
-    <h3>{% trans "Card Informations"%}</h3>
-   <div class="right_articles">
-     <ul>
-       <li>{% trans "Update" %}&nbsp;: {{ group.modification_date|date:"l j F Y" }}</li>
-     </ul>
-   </div>
+   <h3>{% trans "Card Informations"%}</h3>
+   {% show_last_change text4 %}
 
 </div>
 

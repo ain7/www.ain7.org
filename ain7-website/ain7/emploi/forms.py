@@ -292,7 +292,7 @@ class PublicationItemForm(forms.ModelForm):
         exclude = ('ain7member')
 
 class ChooseOrganizationForm(forms.Form):
-    organization = forms.IntegerField(label=_('Organization'), required=True,widget=AutoCompleteField(completed_obj_name='organization'))
+    organization = forms.IntegerField(label=_('Organization'), required=False, widget=AutoCompleteField(completed_obj_name='organization'))
 
     def clean_organization(self):
         o = self.cleaned_data['organization']

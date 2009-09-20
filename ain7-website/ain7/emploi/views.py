@@ -60,6 +60,12 @@ def index(request):
 @login_required
 def cv_details(request, user_id):
 
+    is_myself = int(request.user.id) == int(user_id)
+
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat'])
+    if r and not is_myself:
+        return r
+
     p = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
     return ain7_render_to_response(request, 'emploi/cv_details.html',
@@ -68,6 +74,12 @@ def cv_details(request, user_id):
 @login_required
 def cv_edit(request, user_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
+
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat'])
+    if r and not is_myself:
+        return r
+
     p = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
     return ain7_render_to_response(request, 'emploi/cv_edit.html',
@@ -75,6 +87,11 @@ def cv_edit(request, user_id=None):
 
 @login_required
 def position_edit(request, user_id=None, position_id=None):
+
+    is_myself = int(request.user.id) == int(user_id)
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat'])
+    if r and not is_myself:
+        return r
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -90,6 +107,11 @@ def position_edit(request, user_id=None, position_id=None):
 @login_required
 def position_delete(request, user_id=None, position_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat'])
+    if r and not is_myself:
+        return r
+
     return ain7_generic_delete(request,
         get_object_or_404(Position, pk=position_id),
         reverse(cv_edit, args=[user_id])+'#prof_exp',
@@ -97,6 +119,11 @@ def position_delete(request, user_id=None, position_id=None):
 
 @login_required
 def position_add(request, user_id=None):
+
+    is_myself = int(request.user.id) == int(user_id)
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat'])
+    if r and not is_myself:
+        return r
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -110,6 +137,11 @@ def position_add(request, user_id=None):
 
 @login_required
 def education_edit(request, user_id=None, education_id=None):
+
+    is_myself = int(request.user.id) == int(user_id)
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat'])
+    if r and not is_myself:
+        return r
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -125,6 +157,11 @@ def education_edit(request, user_id=None, education_id=None):
 @login_required
 def education_delete(request, user_id=None, education_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat'])
+    if r and not is_myself:
+        return r
+
     return ain7_generic_delete(request,
         get_object_or_404(EducationItem, pk=education_id),
         reverse(cv_edit, args=[user_id])+'#education',
@@ -132,6 +169,11 @@ def education_delete(request, user_id=None, education_id=None):
 
 @login_required
 def education_add(request, user_id=None):
+
+    is_myself = int(request.user.id) == int(user_id)
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat'])
+    if r and not is_myself:
+        return r
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -147,6 +189,11 @@ def education_add(request, user_id=None):
 @login_required
 def diploma_delete(request, user_id=None, diploma_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat'])
+    if r and not is_myself:
+        return r
+
     return ain7_generic_delete(request,
         get_object_or_404(DiplomaItem, pk=diploma_id),
         reverse(cv_edit, args=[user_id])+'#diploma',
@@ -154,6 +201,11 @@ def diploma_delete(request, user_id=None, diploma_id=None):
 
 @login_required
 def leisure_edit(request, user_id=None, leisure_id=None):
+
+    is_myself = int(request.user.id) == int(user_id)
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat'])
+    if r and not is_myself:
+        return r
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -169,6 +221,11 @@ def leisure_edit(request, user_id=None, leisure_id=None):
 @login_required
 def leisure_delete(request, user_id=None, leisure_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat'])
+    if r and not is_myself:
+        return r
+
     return ain7_generic_delete(request,
         get_object_or_404(LeisureItem, pk=leisure_id),
         reverse(cv_edit, args=[user_id])+'#leisure',
@@ -176,6 +233,11 @@ def leisure_delete(request, user_id=None, leisure_id=None):
 
 @login_required
 def leisure_add(request, user_id=None):
+
+    is_myself = int(request.user.id) == int(user_id)
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat'])
+    if r and not is_myself:
+        return r
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -189,6 +251,11 @@ def leisure_add(request, user_id=None):
 
 @login_required
 def publication_edit(request, user_id=None, publication_id=None):
+
+    is_myself = int(request.user.id) == int(user_id)
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat'])
+    if r and not is_myself:
+        return r
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -204,6 +271,11 @@ def publication_edit(request, user_id=None, publication_id=None):
 @login_required
 def publication_delete(request, user_id=None, publication_id=None):
 
+    is_myself = int(request.user.id) == int(user_id)
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat'])
+    if r and not is_myself:
+        return r
+
     return ain7_generic_delete(request,
         get_object_or_404(PublicationItem,pk=publication_id),
         reverse(cv_edit, args=[user_id])+'#publications',
@@ -211,6 +283,11 @@ def publication_delete(request, user_id=None, publication_id=None):
 
 @login_required
 def publication_add(request, user_id=None):
+
+    is_myself = int(request.user.id) == int(user_id)
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat'])
+    if r and not is_myself:
+        return r
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -223,6 +300,10 @@ def publication_add(request, user_id=None):
 
 @login_required
 def job_details(request,emploi_id):
+
+    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
+    if r:
+        return r
 
     j = get_object_or_404(JobOffer, pk=emploi_id)
     r = check_access(request, request.user, ['ain7-secretariat'])
@@ -237,6 +318,10 @@ def job_details(request,emploi_id):
 
 @login_required
 def job_edit(request, emploi_id):
+
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat'])
+    if r:
+        return r
 
     j = get_object_or_404(JobOffer, pk=emploi_id)
     r = check_access(request, request.user, ['ain7-secretariat'])
@@ -273,6 +358,10 @@ def job_edit(request, emploi_id):
 @login_required
 def job_register(request):
 
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat'])
+    if r:
+        return r
+
     f = JobOfferForm()
 
     if request.method == 'POST':
@@ -296,6 +385,10 @@ def job_register(request):
 
 @login_required
 def job_search(request):
+
+    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
+    if r:
+        return r
 
     form = SearchJobForm()
     nb_results_by_page = 25
@@ -330,12 +423,20 @@ def job_search(request):
 @login_required
 def organization_details(request, organization_id):
 
+    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
+    if r:
+        return r
+
     organization = get_object_or_404(Organization, pk=organization_id)
     return ain7_render_to_response(request,
         'emploi/organization_details.html', {'organization': organization})
 
 @login_required
 def organization_check(request):
+
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat'])
+    if r:
+        return r
 
     if request.method == 'GET':
         form = ChooseOrganizationForm()
@@ -349,6 +450,10 @@ def organization_check(request):
 
 @login_required
 def organization_add(request):
+
+    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
+    if r:
+        return r
 
     p = get_object_or_404(Person, user=request.user.id)
 
@@ -386,6 +491,10 @@ def organization_add(request):
 @login_required
 def organization_choose(request, action=None):
 
+    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
+    if r:
+        return r
+
     person = get_object_or_404(Person, pk=request.user.id)
 
     title = _('Choose an organization for which you want to propose modifications')
@@ -413,12 +522,22 @@ def organization_choose(request, action=None):
 
 @login_required
 def organization_edit(request, organization_id=None):
+
+    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
+    if r:
+        return r
+
     org = get_object_or_404(Organization, pk=organization_id)
     return ain7_render_to_response(request,
         'emploi/organization_edit.html', {'organization': org})
 
 @login_required
 def organization_edit_data(request, organization_id=None):
+
+    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
+    if r:
+        return r
+
     org = get_object_or_404(Organization, pk=organization_id)
     p = get_object_or_404(Person, user=request.user.id)
 
@@ -456,6 +575,10 @@ def organization_edit_data(request, organization_id=None):
 @login_required
 def organization_delete(request, organization_id=None):
 
+    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
+    if r:
+        return r
+
     org = get_object_or_404(Organization, pk=organization_id)
     p = get_object_or_404(Person, user=request.user.id)
     orgprop = OrganizationProposal(original = org,
@@ -470,6 +593,10 @@ def organization_delete(request, organization_id=None):
 
 @login_required
 def office_edit(request, office_id=None):
+
+    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
+    if r:
+        return r
 
     office = get_object_or_404(Office, pk=office_id)
     p = get_object_or_404(Person, user=request.user.id)
@@ -509,6 +636,10 @@ def office_edit(request, office_id=None):
 @login_required
 def office_delete(request, office_id=None):
 
+    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
+    if r:
+        return r
+
     p = get_object_or_404(Person, user=request.user.id)
     officeProp = OfficeProposal(
         original = get_object_or_404(Office,pk=office_id),
@@ -523,6 +654,10 @@ def office_delete(request, office_id=None):
 
 @login_required
 def office_add(request, organization_id=None):
+
+    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
+    if r:
+        return r
 
     org = get_object_or_404(Organization, pk=organization_id)
     p = get_object_or_404(Person, user=request.user.id)
@@ -557,3 +692,4 @@ def office_add(request, organization_id=None):
                 'emploi/office_create.html',
                 {'form': f, 'title': _('Create an office')})
         return HttpResponseRedirect(reverse(index))
+

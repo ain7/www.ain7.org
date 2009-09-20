@@ -877,6 +877,19 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 """
     text21.save()
 
+    textblock22 = pages.TextBlock()
+    textblock22.shortname = "activites_ain7"
+    textblock22.url = '/association/activites/'
+    textblock22.save()
+
+    text22 = pages.Text()
+    text22.textblock = textblock22
+    text22.lang = 'fr'
+    text22.title = u"Activités AIn7"
+    text22.body = u"""Description activités AIn7
+"""
+    text22.save()
+
     if os.path.exists('filldbain7'):
         import glob
         print 'Import des donnees privees AIn7'

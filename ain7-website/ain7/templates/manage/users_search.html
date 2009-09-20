@@ -4,7 +4,7 @@
 
 {% block content-left %}
 
-<form action="." method="post">
+<form action="." method="get">
 	<table class="form">
 		{{ form }}
 	</table>
@@ -13,20 +13,21 @@
 </div>
 </form>
 
-{% ifequal request.method 'POST' %}
+{% if persons %}
+
+{% ifnotequal persons|length 0 %}
 
 <h2>{% trans "Results list"%}</h2>
 
-{% if persons %}
 <table style="width: 100%">
 <tr>
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
 <td align="right">
 {% if is_paginated %}
-{% if has_previous %}<a href="/manage/users/?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="/manage/users/?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="/manage/users/?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="/manage/users/?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% if has_previous %}<a href="/manage/users/?last_name={{ request.GET.last_name }}&first_name={{ request.GET.first_name }}&organization={{ request.GET.organization }}&page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="/manage/users/?last_name={{ request.GET.last_name }}&first_name={{ request.GET.first_name }}&organization={{ request.GET.organization }}&page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="/manage/users/?last_name={{ request.GET.last_name }}&first_name={{ request.GET.first_name }}&organization={{ request.GET.organization }}&page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="/manage/users/?last_name={{ request.GET.last_name }}&first_name={{ request.GET.first_name }}&organization={{ request.GET.organization }}&page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
 {% endif %}
 </td>
 </table>
@@ -43,8 +44,8 @@
 </ul>
 {% else %}
     <p>{% trans "No person matched your criteria." %}</p>
+{% endifnotequal %}
 {% endif %}
-{% endifequal %}
 {% endblock %} {# content-left #}
 
 

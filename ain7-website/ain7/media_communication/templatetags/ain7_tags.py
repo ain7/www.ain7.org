@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #
-# association/urls.py
+# media_communications/templatetags/ain7_tags.py
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -20,19 +20,11 @@
 #
 #
 
-from django.conf.urls.defaults import *
+from django import template
 
+from ain7.utils import generic_show_last_change
 
-urlpatterns = patterns('ain7.association.views',
-    (r'^$', 'index'),
-    (r'^board/$', 'board'),
-    (r'^council/$', 'council'),
-    (r'^council/edit/(?P<all_current>\w+)/$', 'edit_council'),
-    (r'^council/(?P<role_id>\d+)/changedates/(?P<all_current>\w+)/$', 'change_council_dates'),
-    (r'^council/(?P<role_type>\d+)/add/(?P<all_current>\w+)/$', 'add_council_role'),
-    (r'^council/(?P<role_id>\d+)/delete/(?P<all_current>\w+)/$', 'delete_council_role'),
-    (r'^contact/$', 'contact'),
-    (r'^status/$', 'status'),
-    (r'^activites/$', 'activites'),
-
-)
+register = template.Library()
+@register.inclusion_tag('pages/last_change.html')
+def show_last_change(obj):
+    return generic_show_last_change(obj)

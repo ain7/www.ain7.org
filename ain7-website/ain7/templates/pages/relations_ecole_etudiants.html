@@ -1,14 +1,25 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n ain7_tags %}
 
 {% block barre-relation_ecole_etudiants %}<li class="active">{% endblock %}
+
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
 
 {% block content %}
 
 <div id="content-main">
 
 <div class="left">
-{% block content-left %}{% endblock %}
+
+<h3>{{ text.title }}</h3>
+
+{{ text.body|safe }}
+
+{% if superadmin or ca_member or secretariat_member or contributeur %}
+<p><a href="{% url pages.views.edit text.id %}">{% trans "Edit" %}</a></p>
+{% endif %}
+
 </div>
 
 <div class="right">
@@ -19,9 +30,10 @@
       <li><a href="http://www.bde.enseeiht.fr">Le site des étudiants</a></li>
     </ul>
    </div>
-</div>
+
+   <h3>{% trans "Card Informations"%}</h3>
+   {% show_last_change text %}
 
 </div>
 
 {% endblock %}
-

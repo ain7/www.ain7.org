@@ -42,6 +42,10 @@
     {% endfor %}
      </ul>
     </div>
+    {% if text %}
+    <h3>{% trans "Card Informations"%}</h3>
+    {% show_last_change text %}
+    {% endif %}
     {% endif %}
 
 </div> {# right #}

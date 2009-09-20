@@ -1,10 +1,11 @@
-{% extends "relations_ecole_etudiants/base.html" %}
+{% extends "association/base.html" %}
 {% load i18n %}
 
 {% block javascript %}{% endblock %}
 {% block stylesheet %}{% endblock %}
 
 {% block content-left %}
+
 <h3>{{ text.title }}</h3>
 
 {{ text.body|safe }}
@@ -14,3 +15,4 @@
 {% endif %}
 
 {% endblock %}
+

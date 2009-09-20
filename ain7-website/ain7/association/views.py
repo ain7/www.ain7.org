@@ -69,6 +69,11 @@ def contact(request):
     return ain7_render_to_response(request, 'association/contact.html', 
           {'count_members': count_members(), 'text': text}) 
 
+def activites(request):
+    text = Text.objects.get(textblock__shortname='activites_ain7') 
+    return ain7_render_to_response(request, 'association/activites.html', 
+          {'count_members': count_members(), 'text': text}) 
+
 @login_required
 def build_council_roles_by_type(request, all_current=None,
     the_type=None, form_for_the_type=None,

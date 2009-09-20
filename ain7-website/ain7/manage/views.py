@@ -68,8 +68,9 @@ def users_search(request):
     paginator = Paginator(Group.objects.none(),nb_results_by_page)
     page = 1
 
-    if request.method == 'POST':
-        form = SearchUserForm(request.POST)
+    if request.GET.has_key('last_name') or request.GET.has_key('first_name') or \
+       request.GET.has_key('organization'):
+        form = SearchUserForm(request.GET)
         if form.is_valid():
             persons = form.search()
             paginator = Paginator(persons, nb_results_by_page)
@@ -166,8 +167,9 @@ def organizations_search(request):
     organizations = False
     paginator = Paginator(Organization.objects.none(),nb_results_by_page)
     page = 1
-    if request.method == 'POST':
-        form = SearchOrganizationForm(request.POST)
+    if request.GET.has_key('name') or request.GET.has_key('activity_field') or \
+       request.GET.has_key('activity_code'):
+        form = SearchOrganizationForm(request.GET)
         if form.is_valid():
             criteria = form.criteria()
             organizations = form.search(criteria)
