@@ -122,7 +122,6 @@ INSTALLED_APPS = (
 
 # attributs non standards
 SKIN = 'default'
-PLANET_URL = 'http://planet.ain7.info/'
 FORUMS_URL = 'http://forums.ain7.info/'
 GALLERY_URL = 'http://gallery.ain7.info/'
 
@@ -130,7 +129,7 @@ PIWIK_URL = 'http://localhost/piwik/'
 PIWIK_SITE_ID = '0'
 
 # Version
-BASE = '1.0.1'
+BASE = '1.0.2'
 REVISION = os.popen('bzr revno 2> /dev/null').read().rstrip()
 
 VERSION = BASE
