@@ -55,7 +55,7 @@
 {% for event in events %}
   <div class="right_articles">
       <div>
-      <a href="/evenements/{{ event.id }}/">{{ event.name }}</a><br/>
+      <a href="/evenements/{{ event.id }}/">{{ event.name }}</a> ({{ event.date|date:"l j F Y" }})<br/>
       </div>
    </div>
 {% endfor %}
