@@ -120,8 +120,8 @@
 </div>
 
 
-<h2><a name="promos"/>{% trans "Promos" %}</h2>
-
+<h2><a name="promos"></a>{% trans "Promos" %}</h2>
+<div class="dataBlock">
 {% if ain7member.promos.all %}
   <table style="border: 0; width: 100%;">
     {% for promo in ain7member.promos.all %}
@@ -138,9 +138,11 @@
 {% endif %}
 <p><a href="/annuaire/{{ person.id }}/promo/add/" class="addlink">
    {% trans "Add" %}</a></p>
+</div>
 
-<h2><a name="profexp"/>{% trans "Professional experiences" %}</h2>
+<h2><a name="profexp"></a>{% trans "Professional experiences" %}</h2>
 
+<div class="dataBlock">
 {% if ain7member.positions.all %}
 <table>
 {% for position in ain7member.positions.all %}
@@ -159,9 +161,11 @@
 {% endif %}
 <p><a href="/emploi/{{ person.user.id }}/cv/edit/" class="changelink">
 {% trans "Modify" %}</a></p>
+</div>
 
-<h2><a name="address"/>{% trans "Address" %}</h2>
+<h2><a name="address"></a>{% trans "Address" %}</h2>
 
+<div class="dataBlock">
 {% for address in person.addresses.all %}
 <table style="border: 0; width: 100%;">
     <tr><td><b>{% trans "Address" %} {{ address.type|lower }}&nbsp;:</b></td><td>
@@ -179,10 +183,11 @@
 {% endfor %}
 <p><a href="/annuaire/{{ person.user.id }}/address/add/" class="addlink">
    {% trans "Add" %}</a></p>
+</div>
 
+<h2><a name="phone"></a>{% trans "Phone numbers" %}</h2>
 
-<h2><a name="phone"/>{% trans "Phone numbers" %}</h2>
-
+<div class="dataBlock">
 {% for phone_number in person.phone_numbers.all %}
 <table style="border: 0; width: 100%;">
    <tr><td><b>{{ phone_number.get_type_display }} :</b></td>
@@ -199,14 +204,14 @@
 {% endfor %}
 <p><a href="/annuaire/{{ person.user.id }}/phone/add/" class="addlink">
    {% trans "Add" %}</a></p>
+</div>
 
+<h2><a name="email"></a>{% filter capfirst %}{% trans "email" %}{% endfilter %}</h2>
 
-<h2><a name="email"/>
-{% filter capfirst %}{% trans "email" %}{% endfilter %}</h2>
-
+<div class="dataBlock">
 {% for email in person.emails.all %}
 <table style="border:0; width: 100%;">
-	    <tr><td><img src="/site_media/images/mail.png" alt="{% trans "email" %}"/><a href="mailto:{{ email.email }}">{{ email.email }}</a>
+	    <tr><td><img src="/site_media/images/mail.png" alt="{% trans "email" %}" width="24" height="24"/><a href="mailto:{{ email.email }}">{{ email.email }}</a>
        ({{ email.confidentiality_print }}{% if email.preferred_email %}, {% trans "preferred" %}{% endif %})
 
 </td>
@@ -221,13 +226,15 @@
 {% endfor %}
 <p><a href="/annuaire/{{ person.user.id }}/email/add/" class="addlink">
    {% trans "Add" %}</a></p>
+</div>
 
-<h2><a name="im"/>{% trans "Instant messaging accounts" %}</h2>
+<h2><a name="im"></a>{% trans "Instant messaging accounts" %}</h2>
 
+<div class="dataBlock">
 {% for im in person.instant_messagings.all %}
 <table style="border: 0; width: 100%">
     <tr valign="middle"><td>
-       <img src="/site_media/images/{{ im.get_type_display|lower }}.png" alt="{% trans "Contact" %} {{im.get_im_display|lower }}"/>
+       <img src="/site_media/images/{{ im.get_type_display|lower }}.png" alt="{% trans "Contact" %} {{im.get_im_display|lower }}" width="24" height="24"/>
        {{ im.identifier }} ({{ im.confidentiality_print }})</td>
     <td style="width: 12%">
         <a href="/annuaire/{{ person.user.id }}/im/{{ im.id }}/edit/" class="changelink">
@@ -240,13 +247,15 @@
 {% endfor %}
 <p><a href="/annuaire/{{ person.user.id }}/im/add/" class="addlink">
    {% trans "Add" %}</a></p>
+</div>
 
-<h2><a name="irc"/>{% trans "IRC accounts" %}</h2>
+<h2><a name="irc"></a>{% trans "IRC accounts" %}</h2>
 
+<div class="dataBlock">
 {% for irc in person.ircs.all %}
 <table style="border: 0; width: 100%">
     <tr valign="middle"><td>
-       <img src="/site_media/images/irc.png" alt="{% trans "irc" %}"/>
+       <img src="/site_media/images/irc.png" alt="{% trans "irc" %}" width="24" height="24"/>
        {{ irc.pseudo }} @ {{ irc.network }} {% trans "on" %} {{ irc.channels }} ({{ irc.confidentiality_print }})
        </td>
     <td style="width: 12%">
@@ -260,13 +269,15 @@
 {% endfor %}
 <p><a href="/annuaire/{{ person.user.id }}/irc/add/" class="addlink">
    {% trans "Add" %}</a></p>
+</div>
 
-<h2><a name="website"/>{% trans "Web sites" %}</h2>
+<h2><a name="website"></a>{% trans "Web sites" %}</h2>
 
+<div class="dataBlock">
 {% for website in person.web_sites.all %}
 <table style="border: 0; width: 100%;">
     <tr valign="middle"><td>
-        <img src="/site_media/images/{{ website.get_type_display|lower }}.png" alt="{% trans "web site" %}"/>
+        <img src="/site_media/images/{{ website.get_type_display|lower }}.png" alt="{% trans "web site" %}" width="24" height="24" />
         <a href="{{ website.url }}">{{ website.url }}</a> ({{ website.confidentiality_print }})</td>
     <td style="width: 12%">
         <a href="/annuaire/{{ person.user.id }}/website/{{ website.id }}/edit/" class="changelink">
@@ -279,14 +290,18 @@
 {% endfor %}
 <p><a href="/annuaire/{{ person.user.id }}/website/add/" class="addlink">
    {% trans "Add" %}</a></p>
+</div>
 
-<h2><a name="assoc"/>{% trans "N7 associative activities" %}</h2>
+<h2><a name="assoc"></a>{% trans "N7 associative activities" %}</h2>
 
+<div class="dataBlock">
 {% for club_membership in ain7member.club_memberships.all %}
 <table style="border: 0; width: 100%;">
-    <tr><td>{{ club_membership.club.name }}
+    <tr><td>{% if club_membership.club.web_site %}<a href="{{ club_membership.club.web_site}}">{% endif %}
+                 {{ club_membership.club.name }}
+            {% if club_membership.club.web_site %}</a>{% endif %}
     {% if club_membership.start_date and club_membership.end_date %}(<i>{{ club_membership.start_date|date:"Y" }} - {{ club_membership.end_date|date:"Y" }}</i>){% endif %}</td>
-    <td>{{ club_membership.fonction }}</td>
+    <td>{% if club_membership.fonction %}{{ club_membership.fonction }}{% endif %}</td>
     <td style="width: 12%">
         <a href="/annuaire/{{ person.user.id }}/club_membership/{{ club_membership.id }}/edit/" class="changelink">
         {% trans "Modify" %}</a></td>
@@ -298,7 +313,7 @@
 {% endfor %}
 <p><a href="/annuaire/{{ person.user.id }}/club_membership/add/" class="addlink">
    {% trans "Add" %}</a></p>
-
+</div>
 
 </div>
 </div>

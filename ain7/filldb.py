@@ -1726,7 +1726,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     tvn7 = annuaire.Club()
     tvn7.name = "TVn7"
     tvn7.description = u"Le club vidéo de l'N7"
-    tvn7.web_site = "http://www.tvn7.fr.st"
+    tvn7.web_site = "http://www.tvn7.fr"
     tvn7.email = "tvn7@lists.bde.enseeiht.fr"
     tvn7.creation_date = date(1992,01,01)
     tvn7.school = n7

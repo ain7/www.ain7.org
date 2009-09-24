@@ -13,7 +13,7 @@
 </h1>
 
 {% if is_subscriber %}
-<b>{% trans "Subscriber" %} {% now "Y" %} <img src="/site_media/images/star.png" alt="adherent"/></b>
+<b>{% trans "Subscriber" %} {% now "Y" %} <img src="/site_media/images/star.png" alt="adherent" width="24" height="24" /></b>
 {% endif %}
 
 <h2>{% trans "Personal data" %}</h2>
@@ -40,7 +40,7 @@
    {% endif %}
    {% if superadmin or ca_member or secretariat_member or is_myself %}
    {% if ain7member.marital_status or ain7member.children_count %}
-   <li><img src="/site_media/images/private.png" alt="private"/><b>{% trans "Family situation" %}&nbsp;:</b>
+   <li><img src="/site_media/images/private.png" alt="private" width="14" height="14" /><b>{% trans "Family situation" %}&nbsp;:</b>
        {% if ain7member.marital_status %}
            {{ ain7member.marital_status }}&nbsp;
        {% endif %}
@@ -70,7 +70,7 @@
 </td></tr>
 {% for phone_number in person.phone_numbers.all %}
     {% if superadmin or ca_member or secretariat_member or is_myself or not phone_number.website_confidential %}
-    	<tr><td>{% if phone_number.website_confidential %}<img src="/site_media/images/private.png" alt="private"/>{% endif %}<b>{{ phone_number.get_type_display }} :</b> {{ phone_number.number }}</td></tr>
+    	<tr><td>{% if phone_number.website_confidential %}<img src="/site_media/images/private.png" alt="private" width="14" height="14"/>{% endif %}<b>{{ phone_number.get_type_display }} :</b> {{ phone_number.number }}</td></tr>
     {% endif %}
 {% endfor %}
 
@@ -78,20 +78,20 @@
 
 {% for email in person.emails.all %}
 	{% if superadmin or ca_member or secretariat_member or is_myself or not  email.website_confidential %}
-	    <tr><td>{% if phone_number.website_confidential %}<img src="/site_media/images/private.png" alt="private"/>{% endif %}<img src="/site_media/images/mail.png" alt="{% trans "email" %}"/><a href="mailto:{{ email.email }}">{{ email.email }}</a></td></tr>
+	    <tr><td>{% if phone_number.website_confidential %}<img src="/site_media/images/private.png" alt="private" width="14" height="14"/>{% endif %}<img src="/site_media/images/mail.png" alt="{% trans "email" %}" width="24" height="24"/><a href="mailto:{{ email.email }}">{{ email.email }}</a></td></tr>
 	{% endif %}
 {% endfor %}
 
 {% for im in person.instant_messagings.all %}
-    <tr><td><img src="/site_media/images/{{ im.get_type_display|lower }}.png" alt="{% trans "Contact" %} {{im.get_im_display|lower }}"/> {{ im.identifier }}</td></tr>
+    <tr><td><img src="/site_media/images/{{ im.get_type_display|lower }}.png" alt="{% trans "Contact" %} {{im.get_im_display|lower }}" width="24" height="24"/> {{ im.identifier }}</td></tr>
 {% endfor %}
 
 {% for irc in person.ircs.all %}
-    <tr valign="middle"><td><img src="/site_media/images/irc.png" alt="{% trans "irc" %}"/> {{ irc.pseudo }} @ {{ irc.network }} {% trans "on" %} {{ irc.channels }}</td></tr>
+    <tr valign="middle"><td><img src="/site_media/images/irc.png" alt="{% trans "irc" %}" width="24" height="24"/> {{ irc.pseudo }} @ {{ irc.network }} {% trans "on" %} {{ irc.channels }}</td></tr>
 {% endfor %}
 
 {% for web_site in person.web_sites.all %}
-    <tr valign="middle"><td><img src="/site_media/images/{{ web_site.get_type_display|lower }}.png" alt="{% trans "web site" %}"/><a href="{{ web_site.url }}">{{ web_site.url }}</a></td></tr>
+    <tr valign="middle"><td><img src="/site_media/images/{{ web_site.get_type_display|lower }}.png" alt="{% trans "web site" %}" width="24" height="24"/><a href="{{ web_site.url }}">{{ web_site.url }}</a></td></tr>
 {% endfor %}
 
 </table>
@@ -99,7 +99,7 @@
 <table>
 {% for address in person.addresses.all %}
 	{% if superadmin or ca_member or secretariat_member or is_myself or not address.website_confidential %}
-	    <tr><td>{% if address.website_confidential %}<img src="/site_media/images/private.png" alt="private"/>{% endif %}<b>{% trans "Address" %} {{ address.type|lower }} :</b> {{ address.line1 }} {{ address.line2|default_if_none:"" }} - {{address.zip_code }} {{ address.city }} - {{ address.country.name }}</td></tr>
+	    <tr><td>{% if address.website_confidential %}<img src="/site_media/images/private.png" alt="private" width="14" height="14"/>{% endif %}<b>{% trans "Address" %} {{ address.type|lower }} :</b> {{ address.line1 }} {{ address.line2|default_if_none:"" }} - {{address.zip_code }} {{ address.city }} - {{ address.country.name }}</td></tr>
 	{% endif %}
 {% endfor %}
 </table>
@@ -117,7 +117,7 @@
 
 {% if ain7member.display_cv_in_directory or superadmin or ca_member or is_myself or secretariat_member %}
 
-<h2>{% if not ain7member.display_cv_in_directory %}<img src="/site_media/images/private.png" alt="private"/>{% endif %}
+<h2>{% if not ain7member.display_cv_in_directory %}<img src="/site_media/images/private.png" alt="private" width="14" height="14"/>{% endif %}
 {% trans "Professional experiences" %}</h2>
 
 {% if ain7member.positions.all %}
@@ -160,7 +160,7 @@
 
 {% if superadmin or secretariat_member %}
 {% if person.notes %}
-<h2><img src="/site_media/images/private.png" alt="private"/>{% trans "AIn7 Notes" %}</h2>
+<h2><img src="/site_media/images/private.png" alt="private" width="14" height="14"/>{% trans "AIn7 Notes" %}</h2>
 {{ person.notes|safe }}
 {% endif %}
 {% endif %}

@@ -67,56 +67,56 @@
 <ul class="ligne1">
 
 {% block barre-home %}<li>{% endblock %}
-    <a href="/" accesskey="h">{% trans "Home"%}</a></li>
+    <a href="{% url ain7.pages.views.homepage %}" accesskey="h">{% trans "Home"%}</a></li>
 
 {% block barre-association %}<li>{% endblock %}
-    <a href="/association/" accesskey="o">{% trans "The association"%}</a></li>
+    <a href="{% url ain7.association.views.index %}" accesskey="o">{% trans "The association"%}</a></li>
 
 {# {% block barre-adhesions %}<li>{% endblock %} <a href="/adhesions/" accesskey="o">{% trans "Subscriptions"%}</a></li> #}
 
 {% block barre-annuaire %}<li>{% endblock %}
-    <a href="/annuaire/" accesskey="a">{% trans "Directory"%}</a></li>
+    <a href="{% url ain7.annuaire.views.search %}" accesskey="a">{% trans "Directory"%}</a></li>
 
 {% block barre-evenements %}<li>{% endblock %}
-    <a href="/evenements/" accesskey="e">{% trans "Events"%}</a></li>
+    <a href="{% url ain7.evenements.views.index %}" accesskey="e">{% trans "Events"%}</a></li>
 
 {% block barre-emploi %}<li>{% endblock %}
-    <a href="/emploi/" accesskey="s">{% trans "Job service"%}</a></li>
+    <a href="{% url ain7.emploi.views.index %}" accesskey="s">{% trans "Job service"%}</a></li>
 
 {% block barre-actualites %}<li>{% endblock %}
-    <a href="/actualites/" accesskey="c">{% trans "News"%}</a></li>
+    <a href="{% url ain7.news.views.index %}" accesskey="c">{% trans "News"%}</a></li>
 
 {% block barre-groupes_regionaux %}<li>{% endblock %}
-    <a href="/groupes_regionaux/" accesskey="r">{% trans "Regional Groups "%}</a></li>
+    <a href="{% url ain7.groupes_regionaux.views.index %}" accesskey="r">{% trans "Regional Groups "%}</a></li>
 
 {% block barre-forums %}<li>{% endblock %}
-    <a href="/forums/" accesskey="f">{% trans "Forums"%}</a></li>
+    <a href="{% url ain7.pages.views.forums %}" accesskey="f">{% trans "Forums"%}</a></li>
 
 </ul>
 
 <ul class="ligne2">
 
 {% block barre-relation_ecole_etudiants %}<li>{% endblock %}
-    <a href="/relations_ecole_etudiants/" accesskey="r">{% trans "School and Students Relationship" %}</a></li>
+    <a href="{% url ain7.pages.views.relations_ecole_etudiants %}" accesskey="r">{% trans "School and Students Relationship" %}</a></li>
 
 {% block barre-groupes %}<li>{% endblock %}
-    <a href="/groupes_professionnels/" accesskey="g">{% trans "Professionnal Groups"%}</a></li>
+    <a href="{% url ain7.groupes_professionnels.views.index %}" accesskey="g">{% trans "Professionnal Groups"%}</a></li>
 
 {% block barre-media_communication %}<li>{% endblock %}
-    <a href="/media_communication/" accesskey="p">{% trans "Media &amp; Communication" %}</a></li>
+    <a href="{% url ain7.media_communication.views.index %}" accesskey="p">{% trans "Media &amp; Communication" %}</a></li>
 
 {% block barre-web %}<li>{% endblock %}
-    <a href="/web/" accesskey="i">{% trans "Web" %}</a></li>
+    <a href="{% url ain7.pages.views.web %}" accesskey="i">{% trans "Web" %}</a></li>
 
 {% block barre-voyages %}<li>{% endblock %}
-    <a href="/voyages/" accesskey="v">{% trans "Travels" %}</a></li>
+    <a href="{% url ain7.voyages.views.index %}" accesskey="v">{% trans "Travels" %}</a></li>
 
 {% block barre-galerie %}<li>{% endblock %}
-    <a href="/galerie/" accesskey="h">{% trans "Gallery" %}</a></li>
+    <a href="{% url ain7.pages.views.galerie %}" accesskey="h">{% trans "Gallery" %}</a></li>
 
 {% if superadmin or ca_member or secretariat_member %}
 {% block barre-manage %}<li>{% endblock %}
-    <a href="/manage/" accesskey="h">{% trans "Management" %}</a></li>
+    <a href="{% url ain7.manage.views.index %}" accesskey="h">{% trans "Management" %}</a></li>
 {% endif %}
 
 </ul>

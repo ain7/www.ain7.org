@@ -38,8 +38,8 @@ import ain7.admin
 
 urlpatterns = patterns('',
 
-    (r'^accounts/login/$', 'ain7.utils.login'),
-    (r'^accounts/logout/$', 'ain7.utils.logout'),
+    (r'^accounts/login/$', 'ain7.pages.views.login'),
+    (r'^accounts/logout/$', 'ain7.pages.views.logout'),
 
     # servir le contenu statique pendant le dev
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.abspath(os.path.dirname(__file__))+'/media'}),
@@ -78,10 +78,10 @@ urlpatterns = patterns('',
     (r'^voyages/', include('ain7.voyages.urls')),
 
     # forums
-    (r'^forums/', 'ain7.utils.forums'),
+    (r'^forums/', 'ain7.pages.views.forums'),
 
     # galerie
-    (r'^galerie/', 'ain7.utils.galerie'),
+    (r'^galerie/', 'ain7.pages.views.galerie'),
 
     # association
     (r'^association/',include('ain7.association.urls')),
@@ -97,7 +97,6 @@ urlpatterns = patterns('',
 
     # Pages particulieres au contenu pseudo statique
     (r'^apropos/$','ain7.pages.views.apropos'),
-    (r'^international/$','ain7.pages.views.international'),
     (r'^web/$','ain7.pages.views.web'),
     (r'^mentions_legales/$','ain7.pages.views.mentions_legales'),
     (r'^lostpassword/$','ain7.pages.views.lostpassword'),

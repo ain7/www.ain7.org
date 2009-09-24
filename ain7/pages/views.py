@@ -22,12 +22,14 @@
 
 import datetime
 
+from django.contrib import auth
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
+from ain7 import settings
 from ain7.annuaire.models import AIn7Member, Email, Person
 from ain7.news.models import NewsItem
 from ain7.evenements.models import Event
@@ -125,11 +127,6 @@ def apropos(request):
     text = Text.objects.get(textblock__shortname='apropos')
     return ain7_render_to_response(request, 'pages/apropos.html', {'text': text})
 
-def international(request):
-    text = Text.objects.get(textblock__shortname='international')
-    return ain7_render_to_response(request, 'pages/international.html', 
-                       {'text': text})
-
 def web(request):
     text = Text.objects.get(textblock__shortname='web_ain7')
     return ain7_render_to_response(request, 'pages/web.html', 
@@ -147,6 +144,31 @@ def relations_ecole_etudiants(request):
 def rss(request):
     text = Text.objects.get(textblock__shortname='rss')
     return ain7_render_to_response(request, 'pages/rss.html', {'text': text})
+
+def forums(request):
+    return HttpResponseRedirect(settings.FORUMS_URL)
+    
+def galerie(request):
+    return HttpResponseRedirect(settings.GALLERY_URL)
+
+def logout(request):
+    auth.logout(request)
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+def login(request):
+    next_page=request.GET.get('next','/')
+    print next_page
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = auth.authenticate(username=username, password=password)
+        if user is not None:
+            auth.login(request, user)
+            return HttpResponseRedirect(request.POST.get('next','/'))
+        else:
+            return ain7_render_to_response(request, 'pages/login.html', {'error': True, 'next': next_page})
+    else:
+        return ain7_render_to_response(request, 'pages/login.html', {'error': False, 'next': next_page})
 
 def edit(request, text_id):
 

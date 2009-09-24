@@ -52,31 +52,6 @@ def ain7_website_confidential(obj):
         raise NotImplementedError
     return (obj.confidentiality>1)
 
-def logout(request):
-    auth.logout(request)
-    return HttpResponseRedirect(request.META['HTTP_REFERER'])
-
-def login(request):
-    next_page=request.GET.get('next','/')
-    print next_page
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = auth.authenticate(username=username, password=password)
-        if user is not None:
-            auth.login(request, user)
-            return HttpResponseRedirect(request.POST.get('next','/'))
-        else:
-            return ain7_render_to_response(request, 'pages/login.html', {'error': True, 'next': next_page})
-    else:
-        return ain7_render_to_response(request, 'pages/login.html', {'error': False, 'next': next_page})
-
-def forums(request):
-    return HttpResponseRedirect(settings.FORUMS_URL)
-
-def galerie(request):
-    return HttpResponseRedirect(settings.GALLERY_URL)
-
 # pour alléger les appels à render_to_response
 # http://www.djangosnippets.org/snippets/3/
 # Serait pas mieux d'utiliser un ContextProcessor ?
