@@ -64,7 +64,7 @@ define ('AIN7_HEADER_CONST',
 
     <ul class="ligne2">
         <li><a href="' . $ain7_path . 'relations_ecole_etudiants/" accesskey="r">Relations école et étudiants</a></li>
-        <li><a href="' . $ain7_path . 'roupes_professionnels/" accesskey="g">Groupes Professionnels</a></li>
+        <li><a href="' . $ain7_path . 'groupes_professionnels/" accesskey="g">Groupes Professionnels</a></li>
         <li><a href="' . $ain7_path . 'media_communication/" accesskey="p">Média & Communication</a></li>
         <li><a href="' . $ain7_path . 'international/" accesskey="i">L\'international</a></li>
         <li><a href="' . $ain7_path . 'voyages/" accesskey="v">Voyages</a></li>

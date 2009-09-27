@@ -123,16 +123,19 @@
 {% if ain7member.positions.all %}
 <table>
 {% for position in ain7member.positions.all %}
-    {% if not position.end_date %}
-        <tr><td>{% trans "since" %}
-                <b>{{ position.start_date|date:"d/m/Y" }}</b>&nbsp;:</td>
+
+        <tr>
+          {% if not position.end_date %}
+              <td>{% trans "since" %} <b>{{ position.start_date|date:"Y" }}</b>&nbsp;:</td>
+          {% else %}
+              <td><b>{{ position.start_date|date:"Y" }}-{{ position.end_date|date:"Y" }}</b>:</td>
+          {% endif %}
             <td><em>{% if position.fonction %}{{ position.fonction }}{% endif %}</em>
                 {{ position.office }}
                 (<a href="/emploi/organization/{{ position.office.organization.id }}/">{{ position.office.organization }}</a>)</td></tr>
         {% if position.description %}
             <tr><td></td><td>{{ position.description }}</td></tr>
         {% endif %}
-    {% endif %}
 {% endfor %}
 </table>
 {% endif %}
@@ -173,7 +176,7 @@
       <li><a href="{% url ain7.annuaire.views.change_credentials person.user.id %}">{% trans "Change credentials" %}</a></li>
       <li><a href="{% url ain7.adhesions.views.user_subscriptions person.user.id %}">{% trans "Manage subscriptions" %}</a></li>
       {% endif %}
-      {% if is_myself %}
+      {% if superadmin or secretariat_member %}
       <li><a href="{% url ain7.annuaire.views.send_new_credentials person.user.id %}">{% trans "Send new credentials" %}</a></li>
       {% endif %}
       <li><a href="vcard/">{% trans "Download contact as vCard" %}</a></li>

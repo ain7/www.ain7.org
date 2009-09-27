@@ -120,7 +120,7 @@ def change_credentials(request, user_id):
     is_myself = int(request.user.id) == int(user_id)
 
     if not is_myself:
-        return HttpResponseRedirect('/annuaire/'+str(p.id)+'/')
+        return HttpResponseRedirect('/annuaire/'+str(user_id)+'/')
 
     p = get_object_or_404(Person, pk=user_id)
     ain7member = get_object_or_404(AIn7Member, person=p)
