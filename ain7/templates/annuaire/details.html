@@ -169,8 +169,12 @@
 
 {% block extra-actions %}
       {% if superadmin or ca_member or secretariat_member or is_myself %}
-      <li><a href="edit/">{% trans "Modify these data" %}</a></li>
+      <li><a href="{% url ain7.annuaire.views.edit person.user.id %}">{% trans "Modify these data" %}</a></li>
+      <li><a href="{% url ain7.annuaire.views.change_credentials person.user.id %}">{% trans "Change credentials" %}</a></li>
       <li><a href="{% url ain7.adhesions.views.user_subscriptions person.user.id %}">{% trans "Manage subscriptions" %}</a></li>
+      {% endif %}
+      {% if is_myself %}
+      <li><a href="{% url ain7.annuaire.views.send_new_credentials person.user.id %}">{% trans "Send new credentials" %}</a></li>
       {% endif %}
       <li><a href="vcard/">{% trans "Download contact as vCard" %}</a></li>
 {% endblock %}

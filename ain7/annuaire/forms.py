@@ -328,3 +328,24 @@ class ClubMembershipForm(forms.ModelForm):
     class Meta:
         model = ClubMembership
         exclude = ('member')
+
+class ChangePasswordForm(forms.Form):
+    """ Change password and/or login"""
+    login = forms.CharField(label=_('Login:'),max_length=50, required=True)
+    password = forms.CharField(label=_('Password:'),max_length=50,
+                         required=True, widget=forms.PasswordInput())
+    new_password1 = forms.CharField(label=_('New password:'),max_length=50,
+                         required=True, widget=forms.PasswordInput())
+    new_password2 = forms.CharField(label=_('Confirm password:'),max_length=50,
+                         required=True, widget=forms.PasswordInput())
+
+    def clean(self):
+        cleaned_data = self.cleaned_data
+
+        if cleaned_data.get('new_password1') and cleaned_data.get('new_password2'):
+            if not cleaned_data.get('new_password1') == cleaned_data.get('new_password2'):
+                raise ValidationError(_("Password doesn't match"))
+            # TODO: check that password is strong enough ?
+
+        return cleaned_data
+

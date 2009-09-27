@@ -24,6 +24,7 @@ import vobject
 import time
 import datetime
 
+from django.contrib import auth
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
@@ -114,6 +115,61 @@ def search(request):
          'last_result': min((page) * nb_results_by_page, paginator.count),
          'hits' : paginator.count, 'dosearch': dosearch})
 
+@login_required
+def change_credentials(request, user_id):
+    is_myself = int(request.user.id) == int(user_id)
+
+    if not is_myself:
+        return HttpResponseRedirect('/annuaire/'+str(p.id)+'/')
+
+    p = get_object_or_404(Person, pk=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=p)
+
+    if request.method == 'POST':
+        form = ChangePasswordForm(request.POST)
+        if form.is_valid():
+            user = auth.authenticate(username=p.user.username, 
+                          password=form.cleaned_data['password'])
+            if user is not None:
+                p.user.username = form.cleaned_data['login']
+                p.user.set_password(form.cleaned_data['new_password1'])
+                p.user.save()
+                request.user.message_set.create(message=_("Credentials updated"))
+                return HttpResponseRedirect('/annuaire/'+str(p.id)+'/')
+            else:
+                request.user.message_set.create(message=_("Wrong authentication"))
+
+    f = ChangePasswordForm(initial={'login': p.user.username})
+    return ain7_render_to_response(request, 'annuaire/credentials.html',
+            {'form': f, 'person': p, 'ain7member': ain7member, 'is_myself': is_myself})
+
+@login_required
+def send_new_credentials(request, user_id):
+
+    r = check_access(request, request.user, ['ain7-secretariat'])
+    if r:
+        return r
+
+    p = get_object_or_404(Person, pk=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=p)
+
+    password = User.objects.make_random_password(8)
+
+    p.send_mail(_('Password reset of your AIn7 account'), \
+    _("""Hi %(firstname)s,
+
+Someone of the AIn7 Team has requested a new password for your
+AIn7 account.
+
+Your new credentials are:
+Login: %(login)s
+Password: %(password)s
+
+-- 
+http://ain7.com""") % { 'firstname': p.first_name, 'login': p.user.username, 'password': password } )
+
+    request.user.message_set.create(message=_("New credentials have been sent"))
+    return HttpResponseRedirect('/annuaire/'+str(p.id)+'/')
 
 @login_required
 def advanced_search(request):

@@ -198,3 +198,12 @@ def tag_required_fields(form):
                 field.widget.attrs['class'] = " ".join(set(field.widget.attrs['class'].split()).union(new_classes))
             else:
                 field.widget.attrs['class'] = " ".join(new_classes)
+
+FORBIDDEN_CHARS = ['\'','"',' ','_','(',')','%',':',',',';','.','!','?',';','&','#','~','{','[','|','`','\\','^','/',']','=','+','*','%','<','>']
+
+def simplify_string(str):
+   new_str = str
+   for c in FORBIDDEN_CHARS:
+       new_str = new_str.replace(c,'-')
+   return new_str
+
