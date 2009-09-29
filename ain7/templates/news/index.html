@@ -11,7 +11,7 @@
 
 	{% for one_news in news %}
 			<div class="right_articles">
-  {% if one_news.image.url %}
+  {% if one_news.image %}
   <img src="{{ one_news.image.url }}" alt="{{ one_news.title }}" title="{{ one_news.title }}" class="image" />
   {% else %}
   <img src="/site_media/images/gnome-news.png" alt="{{ one_news.title }}" title="{{ one_news.title }}" class="image" />
