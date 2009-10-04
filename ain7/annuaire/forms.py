@@ -41,7 +41,7 @@ class SearchPersonForm(forms.Form):
     first_name = forms.CharField(label=_('First name'), max_length=50, required=False)
     promoyear = forms.IntegerField(label=_('Promo year'), required=False, widget=AutoCompleteField(completed_obj_name='promoyear'))
     track = forms.IntegerField(label=_('Track'), required=False, widget=AutoCompleteField(completed_obj_name='track'))
-    organization = forms.IntegerField(label=_('organization').capitalize(), required=False,widget=AutoCompleteField(completed_obj_name='organization'))
+    organization = forms.CharField(label=_('organization').capitalize(), max_length=50, required=False)
 
     def criteria(self):
         q = models.Q()
@@ -53,8 +53,10 @@ class SearchPersonForm(forms.Form):
             q &= models.Q(person__first_name__icontains=
                 self.cleaned_data['first_name'])
         if self.cleaned_data['organization']:
-            q &= models.Q(positions__office__organization__id=\
-                self.cleaned_data['organization'])
+            q &= models.Q(positions__office__organization__name__icontains=\
+                self.cleaned_data['organization']) | \
+                 models.Q(positions__office__name__icontains=\
+                 self.cleaned_data['organization'])
 
         # ici on commence par rechercher toutes les promos
         # qui concordent avec l'annee de promotion et la filiere
@@ -71,6 +73,7 @@ class SearchPersonForm(forms.Form):
             # on convertit en liste
             q &= models.Q(promos__in=
                 [promo for promo in Promo.objects.filter(**promoCriteria)])
+
         return q
 
     def search(self, criteria):

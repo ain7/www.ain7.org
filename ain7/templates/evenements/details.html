@@ -6,18 +6,20 @@
 
 {% block content-main %}
 
-	<h3>{{ event.name }}</h3>
+	<h2>{{ event.name }}</h2>
 
 	<table border="0" width="100%">
         <tr><td>
 	<ul>
-         <li>{% trans "date" %}: {{ event.date|date:"d/m/Y H:i" }}</li>
-         <li>{% trans "Contact" %}: <a href="mailto:{{ event.contact_email }}"> {{ event.author }}</a></li>
-         <li>{% trans "Location" %}: {{ event.location }}</li>
-         {% if event.link %}
+        <li>{% trans "Date" %}: {{ event.date|date:"d/m/Y H:i" }}</li>
+        <li>{% trans "Contact" %}: <a href="mailto:{{ event.contact_email }}"> {{ event.author }}</a></li>
+        <li>{% trans "Location" %}: {{ event.location }}</li>
+        {% if event.link %}
              <li>{% trans "Link" %}: <a href="{{ event.link }}">{{ event.link }}</a></li>
-         {% endif %}
-         <li>{% trans "Status" %}: {{ event.get_status_display|default_if_none:"" }}</li>
+        {% endif %}
+        {% if event.status %}
+        <li>{% trans "Status" %}: {{ event.get_status_display }}</li>
+        {% endif %}
 	</ul>
         </td><td>
         {% if event.image %}

@@ -218,6 +218,9 @@ class Person(LoggedClass):
     # User inheritance
     user = models.OneToOneField(User, verbose_name=_('user'))
 
+    # from the old DB
+    old_id = models.IntegerField(verbose_name='old id', blank=True, null=True)
+
     # Civility
     last_name = models.CharField(verbose_name=_('Last name'), max_length=50)
     first_name = models.CharField(verbose_name=_('First name'), max_length=50)
