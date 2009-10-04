@@ -22,6 +22,7 @@
 
 import datetime
 
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext as _
 
@@ -58,6 +59,9 @@ class Group(LoggedClass):
             if not role.end_date or role.end_date > datetime.datetime.now():
                 has_role = True
         return has_role
+
+    def get_absolute_url(self):
+        return reverse('ain7.groupes_regionaux.views.details', args=[self.id])
 
     class Meta:
         verbose_name = _('regional group')

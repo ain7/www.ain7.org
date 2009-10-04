@@ -22,6 +22,7 @@
 
 import datetime
 
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext as _
 
@@ -37,6 +38,9 @@ class NewsItem(LoggedClass):
 
     def __unicode__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('ain7.news.views.details', args=[self.id])
 
     def short_description(self):
         if len(self.description) > 100:

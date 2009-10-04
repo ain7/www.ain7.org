@@ -58,9 +58,9 @@
 {% trans "Modify" %}</a>
 
 
-<h2><a name="prof_exp"/>{% trans "Professional experiences" %}</h2>
+<h2><a name="prof_exp"></a>{% trans "Professional experiences" %}</h2>
 
-
+<div class="dataBlock">
 {% if ain7member.positions.all %}
 <table style="width: 100%">
 {% for position in ain7member.positions.all %}
@@ -81,11 +81,12 @@
 {% endif %}
 <a href="{% url ain7.emploi.views.position_add person.user.id %}" class="addlink"> {% trans "Add" %}</a>
 <br />
+</div>
 
 
-<h2><a name="publications"/>{% trans "Publications and patents" %}</h2>
+<h2><a name="publications"></a>{% trans "Publications and patents" %}</h2>
 
-
+<div class="dataBlock">
 {% if ain7member.publication.all %}
 <table style="width: 100%">
 {% for publicationItem in ain7member.publication.all %}
@@ -102,11 +103,11 @@
 {% endif %}
 <a href="{% url ain7.emploi.views.publication_add person.user.id %}" class="addlink"> {% trans "Add" %}</a>
 <br />
+</div>
 
+<h2><a name="education"></a>{% trans "Education" %}</h2>
 
-<h2><a name="education"/>{% trans "Education" %}</h2>
-
-
+<div class="dataBlock">
 {% if ain7member.education.all %}
 <table style="width: 100%">
 {% for educationItem in ain7member.education.all %}
@@ -127,11 +128,13 @@
 {% endif %}
 <a href="{% url ain7.emploi.views.education_add person.user.id %}" class="addlink"> {% trans "Add" %}</a>
 <br />
+</div>
 
 
 {% if ain7member.diploma.all %}
-<h2><a name="diploma"/>{% trans "Diploma" %}</h2>
+<h2><a name="diploma"></a>{% trans "Diploma" %}</h2>
 
+<div class="dataBlock">
 <table style="width: 100%">
 {% for diplomaItem in ain7member.diploma.all %}
     <tr><td>{{ diplomaItem.diploma }}</td>
@@ -139,13 +142,14 @@
     </tr>
 {% endfor %}
 </table>
+</div>
 <br />
 {% endif %}
 
 
-<h2><a name="leisure"/>{% trans "Leisure activities" %}</h2>
+<h2><a name="leisure"></a>{% trans "Leisure activities" %}</h2>
 
-
+<div class="dataBlock">
 {% if ain7member.leisure.all %}
 <table style="width: 100%">
 {% for leisureItem in ain7member.leisure.all %}
@@ -162,6 +166,7 @@
 </table>
 {% endif %}
 <a href="{% url ain7.emploi.views.leisure_add person.user.id %}" class="addlink"> {% trans "Add" %}</a>
+</div>
 
 </div><!-- cv -->
 {% endblock %}

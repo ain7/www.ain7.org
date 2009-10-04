@@ -22,6 +22,7 @@
 
 import datetime
 
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext as _
 
@@ -51,6 +52,9 @@ class GroupPro(LoggedClass):
 
     def current_roles(self):
         return [ rol for rol in self.roles.all() if rol.current() ]
+
+    def get_absolute_url(self):
+        return reverse('ain7.groupes_professionnels.views.details', args=[self.id])
 
     class Meta:
         verbose_name=_('group')

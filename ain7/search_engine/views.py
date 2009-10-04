@@ -333,7 +333,7 @@ def se_export_csv(request, objects_to_export=None, search_engine=None,
             return response
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
-            return ain7_render_to_response(request, editForm,
+            return ain7_render_to_response(request,
                 {'form': form, 'back': request.META.get('HTTP_REFERER', '/'),
                 'action_title': _("Choose fields to export")})
 

@@ -22,6 +22,7 @@
 
 import datetime
 
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext as _
 
@@ -81,9 +82,8 @@ class Event(LoggedClass):
                 self.pictures_gallery = 'http://'+self.pictures_gallery
         return super(Event, self).save()
 
-    # TODO: ca sert à quoi ?
     def get_absolute_url(self):
-        return '/evenements/'+str(self.id)+'/'
+        return reverse('ain7.evenements.views.details', args=[self.id])
 
     def nb_participants(self):
         """Renvoie le nombre de participants à l'événement."""

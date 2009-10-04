@@ -10,9 +10,10 @@
 <body>
 
     <div id="login-content">
-    <h2>Oooooops</h2>
+    <h2>Oooooops {% if exception_code %} #{{ exception_code }} {% endif %}</h2>
 
-    <p>An error happened! Please retry later, if the error persists, please contact the administrator.<br/>
+    <p>{% trans "An error happened! Please retry later, if the error persists, please contact the administrator." %}<br/>
+    <p>{% trans "You can note the error number to ask administrator what goes wrong." %}<br/>
     <a href="{% url ain7.pages.views.homepage %}">Back to home page</a><br/>
     </p>
     </div>

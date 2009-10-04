@@ -1288,3 +1288,41 @@ def job_delete(request, job_id=None):
         message=_("Job proposal removed."))
     return HttpResponseRedirect('/manage/jobs/proposals/')
 
+def errors_index(request):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
+    nb_results_by_page = 25 
+    errors = PortalError.objects.all()
+    paginator = Paginator(errors, nb_results_by_page)
+    try:
+         page = int(request.GET.get('page', '1'))
+         errors = paginator.page(page).object_list
+    except InvalidPage:
+         raise http.Http404
+
+    return ain7_render_to_response(request, 'manage/errors_index.html',
+        {'errors': errors, 'request': request,
+         'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
+         'has_next': paginator.page(page).has_next(),
+         'has_previous': paginator.page(page).has_previous(),
+         'current_page': page,
+         'next_page': page + 1, 'previous_page': page - 1,
+         'pages': paginator.num_pages,
+         'first_result': (page - 1) * nb_results_by_page +1,
+         'last_result': min((page) * nb_results_by_page, paginator.count),
+         'hits' : paginator.count})
+
+@login_required
+def error_details(request, error_id):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
+    e = get_object_or_404(PortalError, pk=error_id)
+    return ain7_render_to_response(
+        request, 'manage/error_details.html', {'error': e})
+

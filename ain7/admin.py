@@ -33,6 +33,7 @@ import ain7.groupes_professionnels.models as groupes_professionnels
 import ain7.groupes_regionaux.models as groupes_regionaux
 
 admin.site.register(manage.Notification)
+admin.site.register(manage.PortalError)
 
 admin.site.register(adhesions.Subscription)
 

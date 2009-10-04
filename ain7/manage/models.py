@@ -22,6 +22,7 @@
 
 from django.db import models
 from django.utils.translation import ugettext as _
+from django.contrib.auth.models import User
 
 from ain7.emploi.models import ACTIONS, OrganizationProposal, OfficeProposal, JobOffer
 from ain7.utils import LoggedClass
@@ -51,4 +52,17 @@ class Notification(LoggedClass):
 
     class Meta:
         verbose_name = _('notification')
+
+class PortalError(models.Model):
+
+     title = models.CharField(verbose_name=_('title'), max_length=200, null=True, blank=True)
+     user = models.ForeignKey(User, verbose_name=_('user'), blank=True, null=True)
+     date = models.DateTimeField(verbose_name=_('Date'))
+     url = models.CharField(verbose_name=_('url'), max_length=500)
+     referer = models.CharField(verbose_name=_('Referrer'), max_length=200, null=True, blank=True)
+     browser_info = models.CharField(verbose_name=_('Browser info'), max_length=200, null=True, blank=True)
+     client_address = models.CharField(verbose_name=_('Client address'), max_length=200, null=True, blank=True)
+     exception = models.TextField(verbose_name=_('Exception'))
+     comment = models.TextField(verbose_name=_('Comment'), null=True, blank=True)
+     issue = models.CharField(verbose_name=_('Issue'), max_length=20, null=True, blank=True)
 

@@ -325,7 +325,10 @@ class Position(LoggedClass):
     description = models.TextField(verbose_name=_('description'), blank=True, null=True)
 
     def __unicode__(self):
-        description  = self.fonction + " " + _("for") + " " + unicode(self.office)
+        description = ''
+        if self.fonction:
+            description += self.fonction
+        description += " " + unicode(self.office)
         description += " (" + unicode(self.office.organization) +")"
         return description
 

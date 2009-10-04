@@ -32,6 +32,7 @@ EFAULT_CHARSET = 'utf-8'
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+SERVER_EMAIL = 'AIn7 Web Portal <noreply@ain7.com>'
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
     ('Lionel Porcheron', 'lionel@porcheron.info'),
@@ -88,6 +89,7 @@ MIDDLEWARE_CLASSES = (
     'ain7.middleware.forcelocale.ForceDefaultLanguageMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'ain7.middleware.useractivity.UserActivityMiddleware',
+    'ain7.middleware.portalexceptions.PortalException',
 )
 
 ROOT_URLCONF = 'ain7.urls'
@@ -104,6 +106,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'django.contrib.sitemaps',
     'django.contrib.admin',
     'ain7.adhesions',
     'ain7.annuaire',

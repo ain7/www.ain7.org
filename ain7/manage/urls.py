@@ -103,8 +103,6 @@ urlpatterns = patterns('ain7.manage.views',
     (r'^users/(?P<user_id>\d+)/email/(?P<email_id>\d+)/edit/$', 'user_email_edit'),
     (r'^users/(?P<user_id>\d+)/email/(?P<email_id>\d+)/delete/$', 'user_email_delete'),
     (r'^users/(?P<user_id>\d+)/email/add/$', 'user_email_edit'),
-    # vCard
-    #(r'^users/(?P<user_id>\d+)/vcard/$', 'user_vcard'),
                        
     # Roles
     (r'^roles/$', 'roles_index'),
@@ -121,7 +119,9 @@ urlpatterns = patterns('ain7.manage.views',
     # Nationality
     (r'^nationality/add/$', 'nationality_add'),
 
-    # Office
-    #(r'^office/add/$', 'office_add'),
+    # Errors
+    (r'^errors/$', 'errors_index'),
+    (r'^errors/(?P<error_id>\d+)/$', 'error_details'),
+
 )
 

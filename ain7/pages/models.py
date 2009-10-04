@@ -33,6 +33,9 @@ class TextBlock(LoggedClass):
     shortname = models.CharField(verbose_name=_('shortname'), max_length=50)
     url = models.CharField(verbose_name=_('url'), max_length=100, blank=True, null=True)
 
+    def get_absolute_url(self):
+         return self.url
+
 class Text(LoggedClass):
 
     textblock = models.ForeignKey(TextBlock)

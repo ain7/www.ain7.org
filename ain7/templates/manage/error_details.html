@@ -1,0 +1,29 @@
+{% extends "manage/base.html" %}
+
+{% load i18n ain7_tags %}
+
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
+{% block content-left %}
+
+<div class="left_box">
+
+<h2>Error #{{ error.id }}</h2>
+
+<table border="0">
+<tr><td>User:</td><td><a href="{% url ain7.annuaire.views.details error.user.id %}">{{ error.user.person }}</a></td></tr>
+<tr><td>Date:</td><td>{{ error.date|date:"l j F Y H:i" }}</td></tr>
+<tr><td>Request: </td><td>{{ error.request }}</td></tr>
+<tr><td>Referer: </td><td>{{ error.referer }}</td></tr>
+<tr><td>Browser: </td><td>{{ error.browser_info }}</td></tr>
+<tr><td>Client address: </td><td>{{ error.client_address }}</td></tr>
+<tr><td>Title:</td><td>{{ error.title }}</td></tr>
+<tr>Referrer:</td><td> </td></tr>
+</table>
+{{ error.exception }}
+
+</div>
+
+
+{% endblock %}

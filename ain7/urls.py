@@ -26,10 +26,21 @@ from django.conf.urls.defaults import *
 from django.contrib import admin
 
 from ain7.feeds import LatestEvents, LatestEntriesByCategory
+from ain7.sitemaps import EventsSitemap, TextsSitemap, NewsSitemap, GroupesProSitemap
+from ain7.sitemaps import GroupesRegionauxSitemap, TravelsSitemap
 
 feeds = {
     'events': LatestEvents,
     'categories': LatestEntriesByCategory,
+}
+
+sitemaps = {
+    'events': EventsSitemap,
+    'news': NewsSitemap,
+    'groupespro': GroupesProSitemap,
+    'groupesregionaux': GroupesRegionauxSitemap,
+    'voyages': TravelsSitemap,
+    'texts': TextsSitemap,
 }
 
 # Add (nearly) all object to the django admin, so we can edit them with django admin.
@@ -109,5 +120,8 @@ urlpatterns = patterns('',
 
     # Edit text blocks
     (r'^edit/(?P<text_id>.*)/$', 'ain7.pages.views.edit'),
+
+    # sitemaps
+    (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps})
 
 )

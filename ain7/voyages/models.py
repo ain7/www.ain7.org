@@ -22,6 +22,7 @@
 
 import datetime
 
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext as _
 
@@ -69,6 +70,9 @@ class Travel(LoggedClass):
         else:
             return 0
     
+    def get_absolute_url(self):
+        return reverse('ain7.voyages.views.details', args=[self.id])
+
     class Meta:
         verbose_name = _('travel')
         ordering = ['-start_date', '-end_date']
