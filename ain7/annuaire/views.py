@@ -561,7 +561,7 @@ def avatar_delete(request, user_id):
 @login_required
 def promo_edit(request, person_id=None, promo_id=None):
 
-    is_myself = int(request.user.id) == int(user_id)
+    is_myself = int(request.user.id) == int(person_id)
 
     r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
     if r and not is_myself:

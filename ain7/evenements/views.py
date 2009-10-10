@@ -294,7 +294,7 @@ def ical(request):
     for event in list_events:
         ev = cal.add('vevent')
         ev.add('summary').value = event.name
-        if event.localtion:
+        if event.location:
             ev.add('location').value = event.location
         if event.date:
             ev.add('dtstart').value = event.date

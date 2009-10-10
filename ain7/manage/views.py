@@ -1324,5 +1324,5 @@ def error_details(request, error_id):
 
     e = get_object_or_404(PortalError, pk=error_id)
     return ain7_render_to_response(
-        request, 'manage/error_details.html', {'error': e})
+        request, 'manage/error_details.html', {'error': e.replace('\n','<br/>')})
 

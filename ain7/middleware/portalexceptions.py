@@ -51,7 +51,8 @@ class PortalException:
         exc_info = sys.exc_info()
 
         e = PortalError()
-        e.user = request.user
+        if request.user and request.user.is_authenticated():
+            e.user = request.user
         e.date = datetime.datetime.now()
         e.url = request.path
         e.title = str(exception)
