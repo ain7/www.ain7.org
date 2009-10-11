@@ -8,9 +8,9 @@
 <h3>{% trans "Board Members" %}</h3>
 
 {% ifequal all_current "all" %}
-  {% trans "All members (including past ones) of the board are displayed. Click" %} <a href="/groupes_professionnels/{{ group.id }}/roles/edit/current/">{% trans "here" %}</a> {% trans "to display only current ones." %}
+  {% trans "All members (including past ones) of the board are displayed. Click" %} <a href="{% url ain7.groupes_professionnels.views.edit_roles group.name 'current' %}">{% trans "here" %}</a> {% trans "to display only current ones." %}
 {% else %}
-  {% trans "Only current members of the board are displayed. Click" %} <a href="/groupes_professionnels/{{ group.id }}/roles/edit/all/">{% trans "here" %}</a> {% trans "to display past members too." %}
+  {% trans "Only current members of the board are displayed. Click" %} <a href="{% url ain7.groupes_professionnels.views.edit_roles group.name 'all' %}">{% trans "here" %}</a> {% trans "to display past members too." %}
 {% endifequal %}
 
 {% for type, type_display, type_form, roles in roles_by_type %}
@@ -28,8 +28,8 @@
              {% if role.end_date %} {{ role.end_date|date:"d/m/Y" }})
              {% else %} ...)
              {% endif %}&nbsp;<br/>
-            <a href="/groupes_professionnels/{{ group.id }}/roles/{{ role.id }}/changedates/{{ all_current }}/" class="changelink">{% trans "Modify dates" %}</a>&nbsp;
-            <a href="/groupes_professionnels/{{ group.id }}/roles/{{ role.id }}/delete/{{ all_current }}/" class="deletelink">{% trans "Delete" %}</a>&nbsp;
+            <a href="{% url ain7.groupes_professionnels.views.change_dates group.name role.id all_current %}" class="changelink">{% trans "Modify dates" %}</a>&nbsp;
+            <a href="{% url ain7.groupes_professionnels.views.delete_role group.name role.id all_current %}" class="deletelink">{% trans "Delete" %}</a>&nbsp;
           {% else %}
             <form method="post" action=".">
               <table>
@@ -94,15 +94,10 @@
       </form>
     </div>
   {% else %}
-    <a href="/groupes_professionnels/{{ group.id }}/roles/{{ type }}/add/{{ all_current }}/" class="addlink">{% trans "Add" %}</a>
+    <a href="{% url ain7.groupes_professionnels.views.add_role group.name type all_current %}" class="addlink">{% trans "Add" %}</a>
   {% endif %}
 
 {% endfor %}
 
 {% endblock %} {# content-left #}
 
-
-
-{% block extra-actions %}
-<li><a href="/groupes_professionnels/{{ group.id }}/">{% trans "Page of this group" %}</a></li>
-{% endblock %}

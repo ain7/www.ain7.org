@@ -21,6 +21,7 @@
 #
 
 import datetime
+import re
 
 from django import forms
 from django.shortcuts import get_object_or_404
@@ -72,10 +73,20 @@ class UnsubscribeGroupProForm(forms.Form):
         membership.save()
 
 class GroupProForm(forms.ModelForm):
+    name = forms.CharField(label=_('name').capitalize(),
+        widget = forms.TextInput(attrs={'size': 40}), 
+        required=False)
     web_page = forms.CharField(label=_('web page').capitalize(),
         widget = forms.widgets.Textarea(attrs={'rows':10, 'cols':90}),
         required=False)
-    
+
+    def clean_name(self):
+        if not re.match(r'^[a-z0-9\-_]+$', self.cleaned_data['name']):
+            raise forms.ValidationError(_('Please only use alphanumeric characters'))
+        if GroupPro.objects.filter(name=self.cleaned_data['name']).count() > 1:
+            raise forms.ValidationError(_('A group with this name already exists'))
+        return self.cleaned_data['name']
+
     class Meta:
         model = GroupPro
 
@@ -127,3 +138,4 @@ class ChangeDatesForm(forms.Form):
         role.start_date = self.cleaned_data['start_date']
         role.end_date = self.cleaned_data['end_date']
         return role.save()
+

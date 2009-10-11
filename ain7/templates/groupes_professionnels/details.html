@@ -14,7 +14,7 @@
 <h4>{% trans "Members list" %}</h4>
 <ul>
     {% for membership in group.current_memberships %}
-    <li><a href="{% url ain7.annuaire.views.details membership.member.user.id %}/">{{ membership.member }}</a>
+    <li><a href="{% url ain7.annuaire.views.details membership.member.user.id %}">{{ membership.member }}</a>
         {% for promo in membership.member.ain7member.promos.all %}
             {% if forloop.last %} ({{ promo }}){% endif %}
         {% endfor %}

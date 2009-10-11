@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-11 18:45+0200\n"
+"POT-Creation-Date: 2009-10-11 21:46+0200\n"
 "PO-Revision-Date: 2009-03-24 22:53+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -64,8 +64,8 @@ msgstr "privé"
 #: association/views.py:162 emploi/views.py:381 emploi/views.py:484
 #: emploi/views.py:568 emploi/views.py:629 emploi/views.py:690
 #: evenements/views.py:125 evenements/views.py:233
-#: groupes_professionnels/views.py:106 groupes_professionnels/views.py:214
-#: groupes_professionnels/views.py:258 groupes_regionaux/views.py:190
+#: groupes_professionnels/views.py:107 groupes_professionnels/views.py:215
+#: groupes_professionnels/views.py:259 groupes_regionaux/views.py:190
 #: groupes_regionaux/views.py:234 manage/views.py:124 manage/views.py:336
 #: manage/views.py:358 manage/views.py:608 manage/views.py:717
 #: manage/views.py:826 manage/views.py:886 manage/views.py:935
@@ -334,7 +334,7 @@ msgstr "La date de naissance est postérieure à la date de décès."
 #: annuaire/forms.py:329 annuaire/models.py:578 annuaire/models.py:592
 #: association/forms.py:39 association/forms.py:76 association/models.py:46
 #: emploi/forms.py:235 emploi/models.py:320 emploi/models.py:345
-#: groupes_professionnels/forms.py:90 groupes_professionnels/forms.py:114
+#: groupes_professionnels/forms.py:101 groupes_professionnels/forms.py:125
 #: groupes_professionnels/models.py:67 groupes_professionnels/models.py:87
 #: groupes_regionaux/forms.py:48 groupes_regionaux/forms.py:72
 #: groupes_regionaux/models.py:72 groupes_regionaux/models.py:96
@@ -346,7 +346,7 @@ msgstr "Date de début"
 #: annuaire/forms.py:330 annuaire/models.py:563 annuaire/models.py:579
 #: association/forms.py:41 association/forms.py:78 association/models.py:48
 #: emploi/forms.py:236 emploi/models.py:321 emploi/models.py:346
-#: groupes_professionnels/forms.py:92 groupes_professionnels/forms.py:116
+#: groupes_professionnels/forms.py:103 groupes_professionnels/forms.py:127
 #: groupes_professionnels/models.py:68 groupes_professionnels/models.py:88
 #: groupes_regionaux/forms.py:50 groupes_regionaux/forms.py:74
 #: groupes_regionaux/models.py:73 groupes_regionaux/models.py:97
@@ -377,8 +377,8 @@ msgstr "Les mot de passe de corresponde pas"
 
 #: annuaire/models.py:37 annuaire/models.py:121 annuaire/models.py:146
 #: emploi/models.py:104 emploi/models.py:205 evenements/models.py:57
-#: groupes_professionnels/models.py:35 groupes_regionaux/models.py:36
-#: search_engine/models.py:128
+#: groupes_professionnels/forms.py:76 groupes_professionnels/models.py:35
+#: groupes_regionaux/models.py:36 search_engine/models.py:128
 msgid "name"
 msgstr "nom"
 
@@ -772,7 +772,7 @@ msgstr "L'un de vos filtres a déjà ce nom."
 
 #: annuaire/views.py:285 annuaire/views.py:309 annuaire/views.py:508
 #: annuaire/views.py:517 annuaire/views.py:539
-#: groupes_professionnels/views.py:137 manage/views.py:156 manage/views.py:332
+#: groupes_professionnels/views.py:138 manage/views.py:156 manage/views.py:332
 #: manage/views.py:356 manage/views.py:1082 search_engine/views.py:261
 #: voyages/views.py:135
 msgid "Modifications have been successfully saved."
@@ -1004,7 +1004,7 @@ msgstr "Utilisateur créé avec succès"
 msgid "Register new user"
 msgstr "Enregistrer une nouvelle personne"
 
-#: association/forms.py:37 groupes_professionnels/forms.py:88
+#: association/forms.py:37 groupes_professionnels/forms.py:99
 #: groupes_regionaux/forms.py:46 manage/forms.py:86
 #: templates/pages/login.html:22
 msgid "Username"
@@ -1016,13 +1016,13 @@ msgstr "membre du bureau"
 
 #: association/forms.py:49 association/forms.py:85 emploi/forms.py:259
 #: emploi/forms.py:281 evenements/forms.py:118
-#: groupes_professionnels/forms.py:99 groupes_professionnels/forms.py:123
+#: groupes_professionnels/forms.py:110 groupes_professionnels/forms.py:134
 #: groupes_regionaux/forms.py:57 groupes_regionaux/forms.py:81
 #: sondages/forms.py:47 voyages/forms.py:71
 msgid "Start date is later than end date"
 msgstr "La date de début est postérieure à la date de fin."
 
-#: association/forms.py:55 groupes_professionnels/forms.py:52
+#: association/forms.py:55 groupes_professionnels/forms.py:53
 msgid "This field is mandatory."
 msgstr "Ce champ est obligatoire."
 
@@ -1070,7 +1070,7 @@ msgstr "Rôle au conseil d'administration"
 msgid "council roles"
 msgstr "Rôles au conseil d'administration"
 
-#: association/views.py:138 groupes_professionnels/views.py:223
+#: association/views.py:138 groupes_professionnels/views.py:224
 #: groupes_regionaux/views.py:199
 msgid ""
 "Do you really want to remove the role of this person (you can end a role by "
@@ -1079,7 +1079,7 @@ msgstr ""
 "Souhaitez-vous vraiment supprimer le rôle de cette personne (vous pouvez y "
 "mettre fin en précisant la date de fin)"
 
-#: association/views.py:145 groupes_professionnels/views.py:234
+#: association/views.py:145 groupes_professionnels/views.py:235
 #: groupes_regionaux/views.py:210
 msgid "Role successfully deleted."
 msgstr "Le rôle a été supprimé avec succès."
@@ -1182,7 +1182,6 @@ msgid "Long Description"
 msgstr "Description longue"
 
 #: emploi/forms.py:179
-#, fuzzy
 msgid "Activity Field does not exist."
 msgstr "Le domaine d'activité saisi n'existe pas"
 
@@ -1622,7 +1621,7 @@ msgstr "Note, question, etc."
 msgid "This number includes yourself, so it should be at least 1."
 msgstr "Ce nombre vous inclut, il doit donc valoir au moins 1."
 
-#: evenements/forms.py:58 groupes_professionnels/forms.py:39
+#: evenements/forms.py:58 groupes_professionnels/forms.py:40
 msgid "Person to subscribe"
 msgstr "Personne à inscrire"
 
@@ -1839,17 +1838,25 @@ msgstr "Souhaitez-vous vraiment supprimer cet organisateur ?"
 msgid "Organizer successfully removed"
 msgstr "Organisateur supprimé avec succès"
 
-#: groupes_professionnels/forms.py:57
+#: groupes_professionnels/forms.py:58
 msgid "This person does not exist in the base."
 msgstr "Cette personne n'existe pas dans la base."
 
-#: groupes_professionnels/forms.py:61
+#: groupes_professionnels/forms.py:62
 msgid "Person to unsubscribe"
 msgstr "Personne à désinscrire"
 
-#: groupes_professionnels/forms.py:75 groupes_professionnels/models.py:38
+#: groupes_professionnels/forms.py:79 groupes_professionnels/models.py:38
 msgid "web page"
 msgstr "page web"
+
+#: groupes_professionnels/forms.py:85
+msgid "Please only use alphanumeric characters"
+msgstr "Merci de n'utiliser que des caractères alphanumériques"
+
+#: groupes_professionnels/forms.py:87
+msgid "A group with this name already exists"
+msgstr "Un groupe possédant ce nom existe déjà"
 
 #: groupes_professionnels/models.py:60 groupes_professionnels/models.py:64
 msgid "group"
@@ -1887,11 +1894,11 @@ msgstr "à ce groupe."
 msgid "This person is already subscribed to this group."
 msgstr "Cette personne est déjà inscrite à ce groupe."
 
-#: groupes_professionnels/views.py:100
+#: groupes_professionnels/views.py:101
 msgid "Subscription successfully removed."
 msgstr "Adhésion effacée avec succès."
 
-#: groupes_professionnels/views.py:103
+#: groupes_professionnels/views.py:104
 msgid "This person is not a member of this group. Nothing done."
 msgstr "Cette personne n'est pas membre de ce groupe. Aucune action effectuée"
 
@@ -1996,7 +2003,7 @@ msgstr "Referrer"
 
 #: manage/models.py:63
 msgid "Browser info"
-msgstr ""
+msgstr "Navigateur"
 
 #: manage/models.py:64
 msgid "Client address"
@@ -2559,7 +2566,7 @@ msgstr "Forums"
 msgid "School and Students Relationship"
 msgstr "Relations école et étudiants"
 
-#: templates/base.html:103 templates/groupes_professionnels/base.html:37
+#: templates/base.html:103 templates/groupes_professionnels/base.html:38
 msgid "Professionnal Groups"
 msgstr "Groupes professionnels"
 
@@ -2676,7 +2683,7 @@ msgstr "Nombre d'adhérents"
 #: templates/groupes_professionnels/edit.html:13
 #: templates/groupes_professionnels/edit_roles.html:52
 #: templates/groupes_professionnels/edit_roles.html:91
-#: templates/groupes_professionnels/subscribe.html:15
+#: templates/groupes_professionnels/subscribe.html:14
 #: templates/groupes_regionaux/edit.html:14
 #: templates/groupes_regionaux/edit_roles.html:52
 #: templates/groupes_regionaux/edit_roles.html:91
@@ -3146,8 +3153,8 @@ msgstr "Participation à l'AIn7"
 
 #: templates/annuaire/details.html:196 templates/annuaire/edit.html:330
 #: templates/emploi/job_details.html:63 templates/evenements/details.html:73
-#: templates/groupes_professionnels/base.html:32
-#: templates/groupes_professionnels/base.html:46
+#: templates/groupes_professionnels/base.html:33
+#: templates/groupes_professionnels/base.html:47
 #: templates/groupes_regionaux/base.html:54
 #: templates/manage/office_details.html:109
 #: templates/manage/office_merge.html:40
@@ -3241,7 +3248,7 @@ msgstr "Envoyer le message"
 #: templates/association/activites.html:14
 #: templates/association/contact.html:14 templates/association/index.html:14
 #: templates/association/status.html:14
-#: templates/groupes_professionnels/index.html:14
+#: templates/groupes_professionnels/index.html:15
 #: templates/groupes_regionaux/index.html:14
 #: templates/media_communication/canal_n7.html:18
 #: templates/media_communication/canal_n7.html:26
@@ -3451,7 +3458,7 @@ msgstr "Enregistrer une offre d'emploi"
 #: templates/evenements/join.html:17
 #: templates/evenements/organizer_add.html:14
 #: templates/evenements/subscribe.html:15
-#: templates/groupes_professionnels/subscribe.html:16
+#: templates/groupes_professionnels/subscribe.html:15
 #: templates/manage/organization_edit.html:13
 #: templates/manage/proposal_register.html:15 templates/news/edit.html:17
 #: templates/voyages/join.html:13
@@ -3700,19 +3707,23 @@ msgstr "Aucun événement ne correspond à vos critères."
 msgid "This number of people includes the person you subscribe."
 msgstr "Ce nombre de personnes inclut la personne que vous incrivez."
 
-#: templates/groupes_professionnels/base.html:22
-msgid "Edit these data."
-msgstr "Editer ces informations"
+#: templates/groupes_professionnels/base.html:20
+msgid "Page of this group"
+msgstr "Page de ce groupe"
 
 #: templates/groupes_professionnels/base.html:23
+msgid "Edit these data"
+msgstr "Editer ces informations"
+
+#: templates/groupes_professionnels/base.html:24
 msgid "Subscribe someone"
 msgstr "Inscrire une personne"
 
-#: templates/groupes_professionnels/base.html:24
+#: templates/groupes_professionnels/base.html:25
 msgid "Unsubscribe someone"
 msgstr "Désinscrire une personne"
 
-#: templates/groupes_professionnels/base.html:27
+#: templates/groupes_professionnels/base.html:28
 msgid "Edit roles of this group"
 msgstr "Modifier les rôles de ce groupe"
 
@@ -3736,10 +3747,6 @@ msgstr ""
 #: templates/groupes_regionaux/edit_roles.html:13
 msgid "Only current members of the board are displayed. Click"
 msgstr "Seuls les membres actuels du bureau sont affichés. Cliquez"
-
-#: templates/groupes_professionnels/edit_roles.html:107
-msgid "Page of this group"
-msgstr "Page de ce groupe"
 
 #: templates/groupes_regionaux/base.html:23
 msgid "Join the group"
