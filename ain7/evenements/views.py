@@ -302,7 +302,7 @@ def ical(request):
         if event.description:
             ev.add('description').value = event.description
         if event.status:
-            ev.add('status').value = event.status
+            ev.add('status').value = event.get_status_display()
         if event.category:
             ev.add('category').value = event.description
         ev.add('dtstamp').value = event.last_change_at

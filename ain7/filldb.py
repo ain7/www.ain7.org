@@ -1145,7 +1145,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     priceminister = emploi.Office(name=u"PriceMinister", organization=babelstore)
     priceminister.save()
 
-    anyware = emploi.Organization(name=u"Anyware Technologies", activity_field=infofield)
+    anyware = emploi.Organization(name=u"Anyware Technologies", activity_field=infofield, size=2)
     anyware.save()
 
     anywareoffice = emploi.Office(name=u"Toulouse Labège", organization=anyware)

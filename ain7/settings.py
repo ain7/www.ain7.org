@@ -27,7 +27,7 @@ def detect_path():
 
 # Django settings for ain7 project.
 
-EFAULT_CHARSET = 'utf-8'
+DEFAULT_CHARSET = 'utf-8'
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -146,6 +146,6 @@ MOOTOOLS_MORE_VERSION = '1.2.2.1'
 
 AIN7_PORTAL_ADMIN = 'ain7-admin'
 
-if os.path.exists('settings_local.py'):
+if os.path.exists('ain7/settings_local.py'):
     from settings_local import *
 

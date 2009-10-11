@@ -2,7 +2,7 @@
 #
 # manage/views.py
 #
-#   Copyright © 2007-2009 AIn7
+#   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -1290,12 +1290,12 @@ def job_delete(request, job_id=None):
 
 def errors_index(request):
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
     if r:
         return r
 
-    nb_results_by_page = 25 
-    errors = PortalError.objects.all()
+    nb_results_by_page = 5 
+    errors = PortalError.objects.all().order_by('-date')
     paginator = Paginator(errors, nb_results_by_page)
     try:
          page = int(request.GET.get('page', '1'))
@@ -1318,11 +1318,11 @@ def errors_index(request):
 @login_required
 def error_details(request, error_id):
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
     if r:
         return r
 
     e = get_object_or_404(PortalError, pk=error_id)
     return ain7_render_to_response(
-        request, 'manage/error_details.html', {'error': e.replace('\n','<br/>')})
+        request, 'manage/error_details.html', {'error': e})
 

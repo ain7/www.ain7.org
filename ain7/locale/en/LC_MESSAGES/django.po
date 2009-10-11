@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-11 00:57+0200\n"
+"POT-Creation-Date: 2009-10-11 18:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -118,11 +118,11 @@ msgstr ""
 msgid "validated"
 msgstr ""
 
-#: adhesions/models.py:49 emploi/forms.py:259
+#: adhesions/models.py:49 emploi/forms.py:263
 msgid "start year"
 msgstr ""
 
-#: adhesions/models.py:50 emploi/forms.py:261
+#: adhesions/models.py:50 emploi/forms.py:265
 msgid "end year"
 msgstr ""
 
@@ -328,7 +328,7 @@ msgstr ""
 
 #: annuaire/forms.py:329 annuaire/models.py:578 annuaire/models.py:592
 #: association/forms.py:39 association/forms.py:76 association/models.py:46
-#: emploi/forms.py:231 emploi/models.py:320 emploi/models.py:345
+#: emploi/forms.py:235 emploi/models.py:320 emploi/models.py:345
 #: groupes_professionnels/forms.py:90 groupes_professionnels/forms.py:114
 #: groupes_professionnels/models.py:67 groupes_professionnels/models.py:87
 #: groupes_regionaux/forms.py:48 groupes_regionaux/forms.py:72
@@ -340,7 +340,7 @@ msgstr ""
 
 #: annuaire/forms.py:330 annuaire/models.py:563 annuaire/models.py:579
 #: association/forms.py:41 association/forms.py:78 association/models.py:48
-#: emploi/forms.py:232 emploi/models.py:321 emploi/models.py:346
+#: emploi/forms.py:236 emploi/models.py:321 emploi/models.py:346
 #: groupes_professionnels/forms.py:92 groupes_professionnels/forms.py:116
 #: groupes_professionnels/models.py:68 groupes_professionnels/models.py:88
 #: groupes_regionaux/forms.py:50 groupes_regionaux/forms.py:74
@@ -383,7 +383,7 @@ msgid "nationality"
 msgstr ""
 
 #: annuaire/models.py:47 annuaire/models.py:48 annuaire/models.py:128
-#: annuaire/models.py:400 emploi/forms.py:203 emploi/forms.py:223
+#: annuaire/models.py:400 emploi/forms.py:207 emploi/forms.py:227
 #: emploi/models.py:211
 msgid "country"
 msgstr ""
@@ -485,7 +485,7 @@ msgstr ""
 msgid "active"
 msgstr ""
 
-#: annuaire/models.py:167 emploi/forms.py:287
+#: annuaire/models.py:167 emploi/forms.py:291
 #: templates/adhesions/configurations.html:37
 msgid "year"
 msgstr ""
@@ -996,8 +996,8 @@ msgstr ""
 msgid "board member"
 msgstr ""
 
-#: association/forms.py:49 association/forms.py:85 emploi/forms.py:255
-#: emploi/forms.py:277 evenements/forms.py:118
+#: association/forms.py:49 association/forms.py:85 emploi/forms.py:259
+#: emploi/forms.py:281 evenements/forms.py:118
 #: groupes_professionnels/forms.py:99 groupes_professionnels/forms.py:123
 #: groupes_regionaux/forms.py:57 groupes_regionaux/forms.py:81
 #: sondages/forms.py:47 voyages/forms.py:71
@@ -1086,7 +1086,7 @@ msgstr ""
 msgid "is opened"
 msgstr ""
 
-#: emploi/forms.py:52 emploi/forms.py:233
+#: emploi/forms.py:52 emploi/forms.py:237
 msgid "Office"
 msgstr ""
 
@@ -1111,11 +1111,11 @@ msgstr ""
 msgid "track"
 msgstr ""
 
-#: emploi/forms.py:66 emploi/forms.py:239
+#: emploi/forms.py:66 emploi/forms.py:243
 msgid "The office is mandatory."
 msgstr ""
 
-#: emploi/forms.py:73 emploi/forms.py:244
+#: emploi/forms.py:73 emploi/forms.py:248
 msgid "The entered office does not exist."
 msgstr ""
 
@@ -1161,23 +1161,27 @@ msgstr ""
 msgid "Long Description"
 msgstr ""
 
-#: emploi/forms.py:200 emploi/forms.py:295
+#: emploi/forms.py:179
+msgid "Activity Field does not exist."
+msgstr ""
+
+#: emploi/forms.py:204 emploi/forms.py:299
 msgid "Organization"
 msgstr ""
 
-#: emploi/forms.py:209 emploi/forms.py:301
+#: emploi/forms.py:213 emploi/forms.py:305
 msgid "The organization is mandatory."
 msgstr ""
 
-#: emploi/forms.py:213
+#: emploi/forms.py:217
 msgid "The organization does not exist."
 msgstr ""
 
-#: emploi/forms.py:266 emploi/models.py:343 emploi/models.py:359
+#: emploi/forms.py:270 emploi/models.py:343 emploi/models.py:359
 msgid "diploma"
 msgstr ""
 
-#: emploi/forms.py:306
+#: emploi/forms.py:310
 #, python-format
 msgid "The organization \"%s\" does not exist."
 msgstr ""
@@ -2709,7 +2713,7 @@ msgstr ""
 #: templates/adhesions/subscriptions.html:18
 #: templates/annuaire/adv_search.html:86 templates/annuaire/search.html:31
 #: templates/emploi/job_search.html:22 templates/evenements/search.html:24
-#: templates/manage/errors_index.html:13
+#: templates/manage/errors_index.html:16
 #: templates/manage/organizations_adv_search.html:91
 #: templates/manage/organizations_search.html:26
 #: templates/manage/users_search.html:24 templates/news/search.html:22
@@ -2720,7 +2724,7 @@ msgstr ""
 #: templates/adhesions/subscriptions.html:18
 #: templates/annuaire/adv_search.html:86 templates/annuaire/search.html:31
 #: templates/emploi/job_search.html:22 templates/evenements/search.html:24
-#: templates/manage/errors_index.html:13
+#: templates/manage/errors_index.html:16
 #: templates/manage/organizations_adv_search.html:91
 #: templates/manage/organizations_search.html:26
 #: templates/manage/users_search.html:24 templates/news/search.html:22
@@ -2731,7 +2735,7 @@ msgstr ""
 #: templates/adhesions/subscriptions.html:21
 #: templates/annuaire/adv_search.html:89 templates/annuaire/search.html:34
 #: templates/emploi/job_search.html:25 templates/evenements/search.html:27
-#: templates/manage/errors_index.html:16
+#: templates/manage/errors_index.html:19
 #: templates/manage/organizations_adv_search.html:94
 #: templates/manage/organizations_search.html:29
 #: templates/manage/users_search.html:27 templates/news/search.html:25
@@ -2742,7 +2746,7 @@ msgstr ""
 #: templates/adhesions/subscriptions.html:22
 #: templates/annuaire/adv_search.html:90 templates/annuaire/search.html:35
 #: templates/emploi/job_search.html:26 templates/evenements/search.html:28
-#: templates/manage/errors_index.html:17
+#: templates/manage/errors_index.html:20
 #: templates/manage/organizations_adv_search.html:95
 #: templates/manage/organizations_search.html:30
 #: templates/manage/users_search.html:28 templates/news/search.html:26
@@ -2753,7 +2757,7 @@ msgstr ""
 #: templates/adhesions/subscriptions.html:23
 #: templates/annuaire/adv_search.html:91 templates/annuaire/search.html:36
 #: templates/emploi/job_search.html:27 templates/evenements/search.html:29
-#: templates/manage/errors_index.html:18
+#: templates/manage/errors_index.html:21
 #: templates/manage/organizations_adv_search.html:96
 #: templates/manage/organizations_search.html:31
 #: templates/manage/users_search.html:29 templates/news/search.html:27
@@ -2764,7 +2768,7 @@ msgstr ""
 #: templates/adhesions/subscriptions.html:24
 #: templates/annuaire/adv_search.html:92 templates/annuaire/search.html:37
 #: templates/emploi/job_search.html:28 templates/evenements/search.html:30
-#: templates/manage/errors_index.html:19
+#: templates/manage/errors_index.html:22
 #: templates/manage/organizations_adv_search.html:97
 #: templates/manage/organizations_search.html:32
 #: templates/manage/users_search.html:30 templates/news/search.html:28
@@ -3676,7 +3680,7 @@ msgstr ""
 msgid "Jobs proposals"
 msgstr ""
 
-#: templates/manage/base.html:28 templates/manage/errors_index.html:9
+#: templates/manage/base.html:28 templates/manage/errors_index.html:12
 msgid "Errors"
 msgstr ""
 
@@ -3772,6 +3776,42 @@ msgstr ""
 
 #: templates/manage/default.html:142
 msgid "Add a notification"
+msgstr ""
+
+#: templates/manage/error_details.html:15
+msgid "User:"
+msgstr ""
+
+#: templates/manage/error_details.html:16
+msgid "Date:"
+msgstr ""
+
+#: templates/manage/error_details.html:17
+msgid "Request:"
+msgstr ""
+
+#: templates/manage/error_details.html:18
+msgid "Referer:"
+msgstr ""
+
+#: templates/manage/error_details.html:19
+msgid "Browser:"
+msgstr ""
+
+#: templates/manage/error_details.html:20
+msgid "Client address:"
+msgstr ""
+
+#: templates/manage/error_details.html:21
+msgid "Title:"
+msgstr ""
+
+#: templates/manage/error_details.html:22
+msgid "Referrer:"
+msgstr ""
+
+#: templates/manage/error_details.html:24
+msgid "Error:"
 msgstr ""
 
 #: templates/manage/job_proposals.html:19

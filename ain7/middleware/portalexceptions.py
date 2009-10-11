@@ -56,10 +56,13 @@ class PortalException:
         e.date = datetime.datetime.now()
         e.url = request.path
         e.title = str(exception)
-        e.referer = request.META['HTTP_REFERER']
-        e.browser_info = request.META['HTTP_USER_AGENT']
-        e.client_address = request.META['REMOTE_HOST']
-        e.exception = str(traceback.format_exception(*exc_info))
+        if request.META.has_key('HTTP_REFERER'):
+            e.referer = request.META['HTTP_REFERER']
+        if request.META.has_key('HTTP_USER_AGENT'):
+            e.browser_info = request.META['HTTP_USER_AGENT']
+        if request.META.has_key('REMOTE_ADDR'):
+            e.client_address = request.META['REMOTE_ADDR']
+        e.exception = ''.join(traceback.format_exception(*exc_info))
         try:
             e.save()
         except Exception, ee:

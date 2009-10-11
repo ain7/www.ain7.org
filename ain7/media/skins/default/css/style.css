@@ -337,26 +337,26 @@ h3.notif {
    ------ */
 
 .backlink:before, .backlink:hover:before {
-	content: "« "
+    content: "« "
 }
 
 .addlink, .addlink:hover {
-	background: transparent url(../images/icon_addlink.gif) left center no-repeat;
-	padding-left: 12px;
+    background: transparent url(../images/icon_addlink.gif) left center no-repeat;
+    padding-left: 12px;
 }
 .changelink, .changelink:hover {
-	background: transparent url(../images/icon_changelink.gif) left center no-repeat;
-	padding-left: 12px;
+    background: transparent url(../images/icon_changelink.gif) left center no-repeat;
+    padding-left: 12px;
 }
 
 .deletelink, .deletelink:hover {
-	background: transparent url(../images/icon_deletelink.gif) left center no-repeat;
-	padding-left: 12px;
+    background: transparent url(../images/icon_deletelink.gif) left center no-repeat;
+    padding-left: 12px;
 }
 
 .savelink, .savelink:hover {
-	background: transparent url(../images/icon_savelink.gif) left center no-repeat;
-	padding-left: 12px;
+    background: transparent url(../images/icon_savelink.gif) left center no-repeat;
+    padding-left: 12px;
 }
 
 /* CV
@@ -395,113 +395,113 @@ h3.notif {
 }
 
 #edition div.datas {
-	border: dashed 1px #000000;
+    border: dashed 1px #000000;
 }
 
 #edition table.datas {
-	width: 100%;
-	border-collapse: collapse;
+    width: 100%;
+    border-collapse: collapse;
 }
 
 #edition table.datas tr {
-	border-bottom: 1px solid #EEEEEE;
+    border-bottom: 1px solid #EEEEEE;
 }
 
 #edition table.datas tr.row2 {
-	background: #F5F5F5;
+    background: #F5F5F5;
 }
 
 #edition table.datas tr:hover {
-	background: #FFFFCC;
+    background: #FFFFCC;
 }
 
 #edition table.datas td.action {
-	width: 12%;
+     width: 12%;
 }
 
 /* Forms
    ------ */
 
 table.form th {
-	vertical-align: bottom;
-	text-align: left;
+    vertical-align: bottom;
+    text-align: left;
 }
 
 table.form tr {
-	border-bottom: 1px solid #EEEEEE;
+    border-bottom: 1px solid #EEEEEE;
 }
 
 ul.errorlist {
-	margin: 0 !important;
-	padding: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 .errorlist li {
-	background: transparent url(../images/icon_alert.gif) 5px .3em no-repeat;
-	display: block;
-	padding: 4px 5px 4px 25px;
-	margin: 0 0 3px 0;
-	color: #FF0000;
+    background: transparent url(../images/icon_alert.gif) 5px .3em no-repeat;
+    display: block;
+    padding: 4px 5px 4px 25px;
+    margin: 0 0 3px 0;
+    color: #FF0000;
 }
 
 .requiredField {
-	background: #FDD;
+    background: #FDD;
 }
 
 /* Confirmation form
    ------ */
 
 .confirm {
-	padding: 1.2em 0 1em 0;
-	text-align: center;
+    padding: 1.2em 0 1em 0;
+    text-align: center;
 }
 
 .confirm p {
-	padding: 0.5em 0;
-	text-align: center;
+    padding: 0.5em 0;
+    text-align: center;
 }
 
 .confirm p em {
-	font: 1.2em Arial, Sans-Serif;
+    font: 1.2em Arial, Sans-Serif;
 }
 
 .confirm p strong {
-	font: bold 1.5em Arial, Sans-Serif;
+    font: bold 1.5em Arial, Sans-Serif;
 }
 
 .confirm ul {
-	list-style: none;
-	padding: 0;
+    list-style: none;
+    padding: 0;
 }
 
 .confirm ul li {
-	display: inline;
+    display: inline;
 }
 
 /* Survey results
    ------ */
 
 .result {
-	text-align: left;
-	border-collapse: collapse;
+    text-align: left;
+    border-collapse: collapse;
 }
 
 .result p {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .rate {
-	background-color: #EEEEEE;
-	height: 10px;
-	width: 100px;
-	float: left;
-	margin-right: 1em;
+    background-color: #EEEEEE;
+    height: 10px;
+    width: 100px;
+    float: left;
+    margin-right: 1em;
 }
 
 .rate div {
-	background-color: #FF9148;
-	height: 10px;
-	clear: left;
+    background-color: #FF9148;
+    height: 10px;
+    clear: left;
 }
 
 /* News
@@ -529,49 +529,48 @@ ul.errorlist {
 }
 
 .news-description {
-      clear: both;
+    clear: both;
 }
 
 /* Auto complete form input
    ------ */
 
 div.complete {
-	position: absolute;
-	background-color: white;
-	border: 1px solid #EEEEEE;
-	margin: 0;
-	padding: 0;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #EEEEEE;
+    margin: 0;
+    padding: 0;
 }
 
 div.complete ul {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
 div.complete ul li.selected {
-	background-color: #FFFFCC;
+    background-color: #FFFFCC;
 }
 
 div.complete ul li {
-	list-style-type: none;
-	display: block;
-	margin: 0;
-/*	padding: 2px; */
-	cursor: pointer;
+    list-style-type: none;
+    display: block;
+    margin: 0;
+    cursor: pointer;
 }
 
 /* Icons for main items (taken from Tango)
    ------ */
 
 .job {
-        list-style-image : url(../images/icon_job.png);
-        list-style-position: outside;
+    list-style-image : url(../images/icon_job.png);
+    list-style-position: outside;
 }
 
 .person {
-        list-style-image : url(../images/icon_person.png);
-        list-style-position: outside;
+    list-style-image : url(../images/icon_person.png);
+    list-style-position: outside;
 }
 
 /* For distinction between original object and proposed modification
@@ -582,3 +581,8 @@ div.complete ul li {
 }
 
 .modified {}
+
+div.code {
+    font-size: small;
+    background: #ffff88;
+}

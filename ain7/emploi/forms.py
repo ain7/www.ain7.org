@@ -174,6 +174,10 @@ class OrganizationForm(forms.Form):
         label=_('Long Description'), max_length=5000, required=False,
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':50}))
 
+    def clean_activity_field(self):
+        if ActivityField.objects.filter(pk=self.cleaned_data['activity_field']).count() != 1:
+            raise ValidationError(_('Activity Field does not exist.'))
+
     def save(self, user, is_a_proposal=False, organization=None, is_valid=True):
         if organization:
             org = organization
