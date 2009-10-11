@@ -1294,7 +1294,7 @@ def errors_index(request):
     if r:
         return r
 
-    nb_results_by_page = 5 
+    nb_results_by_page = 25 
     errors = PortalError.objects.all().order_by('-date')
     paginator = Paginator(errors, nb_results_by_page)
     try:
