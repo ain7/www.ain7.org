@@ -31,7 +31,7 @@ from ain7.decorators import confirmation_required
 from ain7.groupes_professionnels.models import *
 from ain7.groupes_professionnels.forms import *
 from ain7.pages.models import Text
-from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
+from ain7.utils import ain7_render_to_response, ain7_generic_delete, check_access
 
 
 def index(request):
@@ -117,26 +117,22 @@ def unsubscribe(request, group_name):
 
 
 @login_required
-def edit(request, group_name=None):
+def edit(request, group_name):
 
     r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat', 'ain7-contributeur'])
     if r:
         return r
 
-    if group_name is None:
-        form = GroupProForm()
+    group = GroupPro.objects.get(name=group_name)
+    form = GroupProForm(instance=group)
 
-    else:
-        group = GroupPro.objects.get(name=group_name)
-        form = GroupProForm(instance=group)
-
-        if request.method == 'POST':
-             form = GroupProForm(request.POST, instance=group)
-             if form.is_valid():
-                 form.save(user=request.user)
-                 request.user.message_set.create(
-                     message=_("Modifications have been successfully saved."))
-                 return HttpResponseRedirect(reverse(details, args=[group.name]))
+    if request.method == 'POST':
+         form = GroupProForm(request.POST, instance=group)
+         if form.is_valid():
+             form.save(user=request.user)
+             request.user.message_set.create(
+                 message=_("Modifications have been successfully saved."))
+             return HttpResponseRedirect(reverse(details, args=[group.name]))
 
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'groupes_professionnels/edit.html', {'form': form, 'group': group, 'back': back})

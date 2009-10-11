@@ -33,6 +33,7 @@ from ain7.utils import LoggedClass
 class Group(LoggedClass):
 
     is_active = models.BooleanField(verbose_name=_('active'), default=True)
+    shortname = models.CharField(verbose_name=_('name'), max_length=50, unique=True)
     name = models.CharField(verbose_name=_('name'), max_length=50)
     description = models.TextField(verbose_name=_('description'), blank=True, null=True)
 
@@ -52,7 +53,7 @@ class Group(LoggedClass):
             .filter(start_date__lte=datetime.datetime.now())\
             .count() != 0
 
-    def has_for_office_member(self, person):
+    def has_for_board_member(self, person):
         has_role = False
         for role in self.roles.filter(member=person)\
             .filter(start_date__lte=datetime.datetime.now()):

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-11 21:46+0200\n"
+"POT-Creation-Date: 2009-10-11 22:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -62,8 +62,8 @@ msgstr ""
 #: emploi/views.py:568 emploi/views.py:629 emploi/views.py:690
 #: evenements/views.py:125 evenements/views.py:233
 #: groupes_professionnels/views.py:107 groupes_professionnels/views.py:215
-#: groupes_professionnels/views.py:259 groupes_regionaux/views.py:190
-#: groupes_regionaux/views.py:234 manage/views.py:124 manage/views.py:336
+#: groupes_professionnels/views.py:259 groupes_regionaux/views.py:191
+#: groupes_regionaux/views.py:235 manage/views.py:124 manage/views.py:336
 #: manage/views.py:358 manage/views.py:608 manage/views.py:717
 #: manage/views.py:826 manage/views.py:886 manage/views.py:935
 #: manage/views.py:992 manage/views.py:1231 search_engine/views.py:335
@@ -128,8 +128,8 @@ msgstr ""
 
 #: adhesions/models.py:52 annuaire/models.py:300 annuaire/models.py:575
 #: association/models.py:45 groupes_professionnels/models.py:65
-#: groupes_professionnels/models.py:91 groupes_regionaux/models.py:76
-#: groupes_regionaux/models.py:100 templates/annuaire/edit.html:90
+#: groupes_professionnels/models.py:91 groupes_regionaux/models.py:77
+#: groupes_regionaux/models.py:101 templates/annuaire/edit.html:90
 msgid "member"
 msgstr ""
 
@@ -331,8 +331,8 @@ msgstr ""
 #: emploi/forms.py:235 emploi/models.py:320 emploi/models.py:345
 #: groupes_professionnels/forms.py:101 groupes_professionnels/forms.py:125
 #: groupes_professionnels/models.py:67 groupes_professionnels/models.py:87
-#: groupes_regionaux/forms.py:48 groupes_regionaux/forms.py:72
-#: groupes_regionaux/models.py:72 groupes_regionaux/models.py:96
+#: groupes_regionaux/forms.py:60 groupes_regionaux/forms.py:84
+#: groupes_regionaux/models.py:73 groupes_regionaux/models.py:97
 #: sondages/forms.py:35 sondages/models.py:33
 #: templates/sondages/details.html:24 voyages/forms.py:64 voyages/models.py:47
 msgid "start date"
@@ -343,8 +343,8 @@ msgstr ""
 #: emploi/forms.py:236 emploi/models.py:321 emploi/models.py:346
 #: groupes_professionnels/forms.py:103 groupes_professionnels/forms.py:127
 #: groupes_professionnels/models.py:68 groupes_professionnels/models.py:88
-#: groupes_regionaux/forms.py:50 groupes_regionaux/forms.py:74
-#: groupes_regionaux/models.py:73 groupes_regionaux/models.py:97
+#: groupes_regionaux/forms.py:62 groupes_regionaux/forms.py:86
+#: groupes_regionaux/models.py:74 groupes_regionaux/models.py:98
 #: sondages/forms.py:37 sondages/models.py:34
 #: templates/sondages/details.html:28 voyages/forms.py:65 voyages/models.py:48
 msgid "end date"
@@ -373,7 +373,8 @@ msgstr ""
 #: annuaire/models.py:37 annuaire/models.py:121 annuaire/models.py:146
 #: emploi/models.py:104 emploi/models.py:205 evenements/models.py:57
 #: groupes_professionnels/forms.py:76 groupes_professionnels/models.py:35
-#: groupes_regionaux/models.py:36 search_engine/models.py:128
+#: groupes_regionaux/models.py:36 groupes_regionaux/models.py:37
+#: search_engine/models.py:128
 msgid "name"
 msgstr ""
 
@@ -391,7 +392,7 @@ msgstr ""
 #: annuaire/models.py:53 annuaire/models.py:65 annuaire/models.py:299
 #: annuaire/models.py:363 annuaire/models.py:382 annuaire/models.py:401
 #: annuaire/models.py:471 annuaire/models.py:507 association/models.py:44
-#: groupes_professionnels/models.py:86 groupes_regionaux/models.py:95
+#: groupes_professionnels/models.py:86 groupes_regionaux/models.py:96
 #: templates/annuaire/edit.html:88 voyages/models.py:35 voyages/models.py:49
 msgid "type"
 msgstr ""
@@ -677,8 +678,8 @@ msgstr ""
 
 #: annuaire/models.py:557 emploi/forms.py:49 emploi/models.py:325
 #: emploi/models.py:344 evenements/forms.py:100 evenements/models.py:59
-#: groupes_professionnels/models.py:36 groupes_regionaux/forms.py:37
-#: groupes_regionaux/models.py:37 news/forms.py:56 news/forms.py:65
+#: groupes_professionnels/models.py:36 groupes_regionaux/forms.py:42
+#: groupes_regionaux/models.py:38 news/forms.py:56 news/forms.py:65
 #: news/models.py:35 voyages/forms.py:60 voyages/models.py:50
 msgid "description"
 msgstr ""
@@ -987,7 +988,7 @@ msgid "Register new user"
 msgstr ""
 
 #: association/forms.py:37 groupes_professionnels/forms.py:99
-#: groupes_regionaux/forms.py:46 manage/forms.py:86
+#: groupes_regionaux/forms.py:58 manage/forms.py:86
 #: templates/pages/login.html:22
 msgid "Username"
 msgstr ""
@@ -999,7 +1000,7 @@ msgstr ""
 #: association/forms.py:49 association/forms.py:85 emploi/forms.py:259
 #: emploi/forms.py:281 evenements/forms.py:118
 #: groupes_professionnels/forms.py:110 groupes_professionnels/forms.py:134
-#: groupes_regionaux/forms.py:57 groupes_regionaux/forms.py:81
+#: groupes_regionaux/forms.py:69 groupes_regionaux/forms.py:93
 #: sondages/forms.py:47 voyages/forms.py:71
 msgid "Start date is later than end date"
 msgstr ""
@@ -1012,19 +1013,19 @@ msgstr ""
 msgid "The entered person is not in the database."
 msgstr ""
 
-#: association/models.py:34 groupes_regionaux/models.py:86
+#: association/models.py:34 groupes_regionaux/models.py:87
 msgid "President"
 msgstr ""
 
-#: association/models.py:35 groupes_regionaux/models.py:87
+#: association/models.py:35 groupes_regionaux/models.py:88
 msgid "Vice president"
 msgstr ""
 
-#: association/models.py:36 groupes_regionaux/models.py:88
+#: association/models.py:36 groupes_regionaux/models.py:89
 msgid "Secretary"
 msgstr ""
 
-#: association/models.py:37 groupes_regionaux/models.py:89
+#: association/models.py:37 groupes_regionaux/models.py:90
 msgid "Treasurer"
 msgstr ""
 
@@ -1053,14 +1054,14 @@ msgid "council roles"
 msgstr ""
 
 #: association/views.py:138 groupes_professionnels/views.py:224
-#: groupes_regionaux/views.py:199
+#: groupes_regionaux/views.py:200
 msgid ""
 "Do you really want to remove the role of this person (you can end a role by "
 "setting its end date)"
 msgstr ""
 
 #: association/views.py:145 groupes_professionnels/views.py:235
-#: groupes_regionaux/views.py:210
+#: groupes_regionaux/views.py:211
 msgid "Role successfully deleted."
 msgstr ""
 
@@ -1662,8 +1663,8 @@ msgstr ""
 msgid "organizers"
 msgstr ""
 
-#: evenements/models.py:71 groupes_regionaux/models.py:68
-#: templates/groupes_regionaux/base.html:62
+#: evenements/models.py:71 groupes_regionaux/models.py:69
+#: templates/groupes_regionaux/base.html:63
 msgid "regional groups"
 msgstr ""
 
@@ -1792,11 +1793,11 @@ msgstr ""
 msgid "web page"
 msgstr ""
 
-#: groupes_professionnels/forms.py:85
+#: groupes_professionnels/forms.py:85 groupes_regionaux/forms.py:48
 msgid "Please only use alphanumeric characters"
 msgstr ""
 
-#: groupes_professionnels/forms.py:87
+#: groupes_professionnels/forms.py:87 groupes_regionaux/forms.py:50
 msgid "A group with this name already exists"
 msgstr ""
 
@@ -1844,66 +1845,70 @@ msgstr ""
 msgid "This person is not a member of this group. Nothing done."
 msgstr ""
 
-#: groupes_regionaux/models.py:67 groupes_regionaux/models.py:75
-#: groupes_regionaux/models.py:99
+#: groupes_regionaux/forms.py:39
+msgid "short name"
+msgstr ""
+
+#: groupes_regionaux/models.py:68 groupes_regionaux/models.py:76
+#: groupes_regionaux/models.py:100
 msgid "regional group"
 msgstr ""
 
-#: groupes_regionaux/models.py:80
+#: groupes_regionaux/models.py:81
 msgid "regional group membership"
 msgstr ""
 
-#: groupes_regionaux/models.py:81
+#: groupes_regionaux/models.py:82
 msgid "regional group memberships"
 msgstr ""
 
-#: groupes_regionaux/models.py:90
+#: groupes_regionaux/models.py:91
 msgid "Under treasurer"
 msgstr ""
 
-#: groupes_regionaux/models.py:91
+#: groupes_regionaux/models.py:92
 msgid "Emploi manager"
 msgstr ""
 
-#: groupes_regionaux/models.py:92
+#: groupes_regionaux/models.py:93
 msgid "Office member"
 msgstr ""
 
-#: groupes_regionaux/models.py:110
+#: groupes_regionaux/models.py:111
 msgid "regional group role"
 msgstr ""
 
-#: groupes_regionaux/models.py:111
+#: groupes_regionaux/models.py:112
 msgid "regional group roles"
 msgstr ""
 
-#: groupes_regionaux/views.py:69
+#: groupes_regionaux/views.py:70
 msgid "Regional group informations updated successfully."
 msgstr ""
 
-#: groupes_regionaux/views.py:86
+#: groupes_regionaux/views.py:87
 msgid "You have been successfully added to this group."
 msgstr ""
 
-#: groupes_regionaux/views.py:88
+#: groupes_regionaux/views.py:89
 msgid "You are already a member of this group."
 msgstr ""
 
-#: groupes_regionaux/views.py:93
+#: groupes_regionaux/views.py:94
 msgid "Do you really want to quit the group"
 msgstr ""
 
-#: groupes_regionaux/views.py:105
+#: groupes_regionaux/views.py:106
 msgid ""
 "You are a member of the office of this group. You have to unsubscribe from "
 "every role in your group before leaving it."
 msgstr ""
 
-#: groupes_regionaux/views.py:113
+#: groupes_regionaux/views.py:114
 msgid "You have been successfully removed from this group."
 msgstr ""
 
-#: groupes_regionaux/views.py:115
+#: groupes_regionaux/views.py:116
 msgid "You are not a member of this group."
 msgstr ""
 
@@ -2454,7 +2459,7 @@ msgstr ""
 msgid "Directory"
 msgstr ""
 
-#: templates/base.html:81 templates/groupes_regionaux/base.html:38
+#: templates/base.html:81 templates/groupes_regionaux/base.html:39
 msgid "Events"
 msgstr ""
 
@@ -2567,7 +2572,7 @@ msgstr ""
 #: templates/emploi/job_details.html:69 templates/evenements/base.html:32
 #: templates/evenements/details.html:64
 #: templates/evenements/participants.html:30
-#: templates/groupes_regionaux/base.html:59
+#: templates/groupes_regionaux/base.html:60
 #: templates/manage/organizations_adv_search.html:176
 #: templates/manage/organizations_search.html:71
 #: templates/voyages/base.html:28
@@ -3065,7 +3070,7 @@ msgstr ""
 #: templates/emploi/job_details.html:63 templates/evenements/details.html:73
 #: templates/groupes_professionnels/base.html:33
 #: templates/groupes_professionnels/base.html:47
-#: templates/groupes_regionaux/base.html:54
+#: templates/groupes_regionaux/base.html:55
 #: templates/manage/office_details.html:109
 #: templates/manage/office_merge.html:40
 #: templates/manage/organization_details.html:134
@@ -3604,6 +3609,7 @@ msgid "This number of people includes the person you subscribe."
 msgstr ""
 
 #: templates/groupes_professionnels/base.html:20
+#: templates/groupes_regionaux/base.html:21
 msgid "Page of this group"
 msgstr ""
 
@@ -3643,28 +3649,28 @@ msgstr ""
 msgid "Only current members of the board are displayed. Click"
 msgstr ""
 
-#: templates/groupes_regionaux/base.html:23
+#: templates/groupes_regionaux/base.html:24
 msgid "Join the group"
 msgstr ""
 
-#: templates/groupes_regionaux/base.html:25
+#: templates/groupes_regionaux/base.html:26
 msgid "Quit the group"
 msgstr ""
 
-#: templates/groupes_regionaux/base.html:29
+#: templates/groupes_regionaux/base.html:30
 msgid "Edit group informations"
 msgstr ""
 
-#: templates/groupes_regionaux/base.html:32
+#: templates/groupes_regionaux/base.html:33
 msgid "Edit group board"
 msgstr ""
 
-#: templates/groupes_regionaux/base.html:43
+#: templates/groupes_regionaux/base.html:44
 #, python-format
 msgid "%(date)s at %(place)s"
 msgstr ""
 
-#: templates/groupes_regionaux/base.html:66
+#: templates/groupes_regionaux/base.html:67
 msgid "The regional groups"
 msgstr ""
 

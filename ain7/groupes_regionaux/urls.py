@@ -26,13 +26,13 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns('ain7.groupes_regionaux.views',
     # Groupes Regionaux
     (r'^$', 'index'),
-    (r'^(?P<group_id>\d+)/$', 'details'),
-    (r'^(?P<group_id>\d+)/edit/$', 'edit'),
-    (r'^(?P<group_id>\d+)/join/$', 'join'),
-    (r'^(?P<group_id>\d+)/quit/$', 'quit'),
-    (r'^(?P<group_id>\d+)/roles/edit/(?P<all_current>\w+)/$', 'edit_roles'),
-    (r'^(?P<group_id>\d+)/roles/(?P<role_id>\d+)/changedates/(?P<all_current>\w+)/$', 'change_dates'),
-    (r'^(?P<group_id>\d+)/roles/(?P<type>\d+)/add/(?P<all_current>\w+)/$', 'add_role'),
-    (r'^(?P<group_id>\d+)/roles/(?P<role_id>\d+)/delete/(?P<all_current>\w+)/$', 'delete_role'),
+    (r'^(?P<group_shortname>\w+)/$', 'details'),
+    (r'^(?P<group_shortname>\w+)/edit/$', 'edit'),
+    (r'^(?P<group_shortname>\w+)/join/$', 'join'),
+    (r'^(?P<group_shortname>\w+)/quit/$', 'quit'),
+    (r'^(?P<group_shortname>\w+)/roles/edit/(?P<all_current>\w+)/$', 'edit_roles'),
+    (r'^(?P<group_shortname>\w+)/roles/(?P<role_id>\d+)/changedates/(?P<all_current>\w+)/$', 'change_dates'),
+    (r'^(?P<group_shortname>\w+)/roles/(?P<type>\d+)/add/(?P<all_current>\w+)/$', 'add_role'),
+    (r'^(?P<group_shortname>\w+)/roles/(?P<role_id>\d+)/delete/(?P<all_current>\w+)/$', 'delete_role'),
 )
 

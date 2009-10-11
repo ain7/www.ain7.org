@@ -41,8 +41,8 @@ def index(request):
     return ain7_render_to_response(request, 'groupes_regionaux/index.html',
                             {'groups': groups, 'text': text})
 
-def details(request, group_id):
-    group = get_object_or_404(Group, pk=group_id)
+def details(request, group_shortname):
+    group = get_object_or_404(Group, shortname=group_shortname)
     is_member = request.user.is_authenticated()\
                 and group.has_for_member(request.user.person)
 
@@ -50,27 +50,34 @@ def details(request, group_id):
                             {'group': group, 'is_member': is_member})
 
 @login_required
-def edit(request, group_id):
+def edit(request, group_shortname):
 
     r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat',
                       'ain7-contributeur'])
     if r:
         return r
 
-    group = get_object_or_404(Group, pk=group_id)
+    group = get_object_or_404(Group, shortname=group_shortname)
     is_member = request.user.is_authenticated()\
                 and group.has_for_member(request.user.person)
-    return ain7_generic_edit(
-        request, get_object_or_404(Group, pk=group_id), GroupForm,
-        {'group': group}, 'groupes_regionaux/edit.html',
-        {'group': group, 'is_member': is_member,
-         'back': request.META.get('HTTP_REFERER', '/')}, {},
-         reverse(details, args=[group.id]),
-        _('Regional group informations updated successfully.'))
+
+    form = GroupForm(instance=group)
+
+    if request.method == 'POST':
+         form = GroupForm(request.POST, instance=group)
+         if form.is_valid():
+             form.save()
+             request.user.message_set.create(
+                 message=_("Modifications have been successfully saved."))
+             return HttpResponseRedirect(reverse(details, args=[group.shortname]))
+
+    back = request.META.get('HTTP_REFERER', '/')
+    return ain7_render_to_response(request, 'groupes_regionaux/edit.html', 
+         {'form': form, 'group': group, 'back': back, 'is_member': is_member})
 
 @login_required
-def join(request, group_id):
-    group = get_object_or_404(Group, pk=group_id)
+def join(request, group_shortname):
+    group = get_object_or_404(Group, shortname=group_shortname)
     person = request.user.person
 
     r = check_access(request, request.user, ['ain7-membre'])
@@ -87,13 +94,13 @@ def join(request, group_id):
     else:
         request.user.message_set.create(message=_("You are already a member of this group."))
 
-    return HttpResponseRedirect(reverse(details, args=[group.id]))
+    return HttpResponseRedirect(reverse(details, args=[group.shortname]))
 
-@confirmation_required(lambda group_id: str(get_object_or_404(Group, pk=group_id)),
+@confirmation_required(lambda group_shortname: str(get_object_or_404(Group, shortname=group_shortname)),
                        'groupes_regionaux/base.html', _('Do you really want to quit the group'))
 @login_required
-def quit(request, group_id):
-    group = get_object_or_404(Group, pk=group_id)
+def quit(request, group_shortname):
+    group = get_object_or_404(Group, shortname=group_shortname)
     person = request.user.person
 
     r = check_access(request, request.user, ['ain7-membre'])
@@ -101,7 +108,7 @@ def quit(request, group_id):
         return r
 
     if group.has_for_member(person):
-        if group.has_for_office_member(person):
+        if group.has_for_board_member(person):
             request.user.message_set.create(message=_("You are a member of the office of this group. You have to unsubscribe from every role in your group before leaving it."))
         else:
             membership = GroupMembership.objects\
@@ -114,7 +121,7 @@ def quit(request, group_id):
     else:
         request.user.message_set.create(message=_("You are not a member of this group."))
 
-    return HttpResponseRedirect(reverse(details, args=[group.id]))
+    return HttpResponseRedirect(reverse(details, args=[group.shortname]))
 
 @login_required
 def build_roles_by_type(request, group=None, all_current=None,
@@ -147,13 +154,13 @@ def build_roles_by_type(request, group=None, all_current=None,
     return roles_by_type
 
 @login_required
-def edit_roles(request, group_id, all_current=None):
+def edit_roles(request, group_shortname, all_current=None):
 
     r = check_access(request, request.user, ['ain7-secretariat'])
     if r:
         return r
 
-    group = get_object_or_404(Group, pk=group_id)
+    group = get_object_or_404(Group, shortname=group_shortname)
     is_member = request.user.is_authenticated()\
                 and group.has_for_member(request.user.person)
     roles_by_type = build_roles_by_type(request, group, all_current,
@@ -165,13 +172,13 @@ def edit_roles(request, group_id, all_current=None):
          'back': request.META.get('HTTP_REFERER', '/')})
 
 @login_required
-def add_role(request, group_id=None, type=None, all_current=None):
+def add_role(request, group_shortname=None, type=None, all_current=None):
 
     r = check_access(request, request.user, ['ain7-secretariat'])
     if r:
         return r
 
-    group = get_object_or_404(Group, pk=group_id)
+    group = get_object_or_404(Group, shortname=group_shortname)
     is_member = request.user.is_authenticated()\
                 and group.has_for_member(request.user.person)
     
@@ -185,7 +192,7 @@ def add_role(request, group_id=None, type=None, all_current=None):
         form = NewRoleForm(request.POST)
         if form.is_valid():
             gr = form.save(group, type)
-            return HttpResponseRedirect(reverse(edit_roles, args=[group.id,all_current]))
+            return HttpResponseRedirect(reverse(edit_roles, args=[group.shortname,all_current]))
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
             roles_by_type = build_roles_by_type(
@@ -196,9 +203,9 @@ def add_role(request, group_id=None, type=None, all_current=None):
          'roles_by_type': roles_by_type, 'all_current': all_current,
          'back': request.META.get('HTTP_REFERER', '/')})
 
-@confirmation_required(lambda group_id=None, role_id=None, all_current=None: str(get_object_or_404(GroupRole, pk=role_id)), 'groupes_regionaux/base.html', _('Do you really want to remove the role of this person (you can end a role by setting its end date)'))
+@confirmation_required(lambda group_shortname=None, role_id=None, all_current=None: str(get_object_or_404(GroupRole, pk=role_id)), 'groupes_regionaux/base.html', _('Do you really want to remove the role of this person (you can end a role by setting its end date)'))
 @login_required
-def delete_role(request, group_id=None, role_id=None, all_current=None):
+def delete_role(request, group_shortname=None, role_id=None, all_current=None):
 
     r = check_access(request, request.user, ['ain7-secretariat'])
     if r:
@@ -206,17 +213,17 @@ def delete_role(request, group_id=None, role_id=None, all_current=None):
 
     return ain7_generic_delete(request,
         get_object_or_404(GroupRole, pk=role_id),
-        reverse(edit_roles, args=[group_id,all_current]),
+        reverse(edit_roles, args=[group_shortname, all_current]),
         _('Role successfully deleted.'))
 
 @login_required
-def change_dates(request, group_id=None, role_id=None, all_current=None):
+def change_dates(request, group_shortname=None, role_id=None, all_current=None):
 
     r = check_access(request, request.user, ['ain7-secretariat'])
     if r:
         return r
 
-    group = get_object_or_404(Group, pk=group_id)
+    group = get_object_or_404(Group, shortname=group_shortname)
     is_member = request.user.is_authenticated()\
                 and group.has_for_member(request.user.person)
     role = get_object_or_404(GroupRole, pk=role_id)
@@ -229,7 +236,7 @@ def change_dates(request, group_id=None, role_id=None, all_current=None):
         form = ChangeDatesForm(request.POST)
         if form.is_valid():
             form.save(role)
-            return HttpResponseRedirect(reverse(edit_roles, args=[group.id,all_current]))
+            return HttpResponseRedirect(reverse(edit_roles, args=[group.shortname, all_current]))
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
             roles_by_type = build_roles_by_type(
@@ -239,3 +246,4 @@ def change_dates(request, group_id=None, role_id=None, all_current=None):
         {'group': group, 'is_member': is_member,
          'roles_by_type': roles_by_type, 'all_current': all_current,
          'back': request.META.get('HTTP_REFERER', '/')})
+

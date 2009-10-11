@@ -20,6 +20,8 @@
 #
 #
 
+import re
+
 from django import forms
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
@@ -34,10 +36,20 @@ dateWidget = DateTimeWidget()
 dateWidget.dformat = '%d/%m/%Y'
 
 class GroupForm(forms.ModelForm):
+    shortname = forms.CharField(label=_('short name').capitalize(),
+        widget = forms.TextInput(attrs={'size': 40}), 
+        required=False)
     description = forms.CharField(label=_('description').capitalize(),
         widget = forms.widgets.Textarea(attrs={'rows':10, 'cols':90}),
         required=False)
-    
+
+    def clean_shortname(self):
+        if not re.match(r'^[a-z0-9\-_]+$', self.cleaned_data['shortname']):
+            raise forms.ValidationError(_('Please only use alphanumeric characters'))
+        if Group.objects.filter(shortname=self.cleaned_data['shortname']).count() > 1:
+            raise forms.ValidationError(_('A group with this name already exists'))
+        return self.cleaned_data['shortname']
+   
     class Meta:
         model = Group
         exclude = ('group')
