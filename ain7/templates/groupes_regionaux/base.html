@@ -30,7 +30,7 @@
             <li><a href="{% url ain7.groupes_regionaux.views.edit group.shortname %}">{% trans "Edit group informations" %}</a></li>
             {% endif %}
             {% if superadmin or secretariat_member %}
-            <li><a href="{% url ain7.groupes_regionaux.views.edit_roles group.shortname 'current' %}">{% trans "Edit group board" %}</a></li>
+            <li><a href="{% url ain7.groupes_regionaux.views.edit_roles group.shortname "current" %}">{% trans "Edit group board" %}</a></li>
             {% endif %}
         </ul>
     </div>
