@@ -132,12 +132,17 @@ PIWIK_URL = 'http://localhost/piwik/'
 PIWIK_SITE_ID = '0'
 
 # Version
-BASE = '1.0.4'
-REVISION = os.popen('bzr revno 2> /dev/null').read().rstrip()
+BASE = '1.0.5'
+REVISION = ''
 
-VERSION = BASE
-if REVISION:
-    VERSION += 'r'+REVISION
+try:
+   from bzrlib.branch import Branch
+   bzr_branch = Branch.open(detect_path()+'/../')
+   REVISION = 'r'+str(bzr_branch.revno())
+except:
+   pass
+
+VERSION = BASE+REVISION
 
 TINYMCE_VERSION = '2.1.3'
 
