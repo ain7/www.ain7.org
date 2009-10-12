@@ -177,6 +177,7 @@ class OrganizationForm(forms.Form):
     def clean_activity_field(self):
         if ActivityField.objects.filter(pk=self.cleaned_data['activity_field']).count() != 1:
             raise ValidationError(_('Activity Field does not exist.'))
+        return self.cleaned_data['activity_field']
 
     def save(self, user, is_a_proposal=False, organization=None, is_valid=True):
         if organization:
