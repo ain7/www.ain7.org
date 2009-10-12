@@ -196,7 +196,7 @@ class SearchCriterionField(models.Model):
         
         # if the criterion comes from a custom field we use the specified query
         for (fName,fModel,query,solver, p) in params(se).custom_fields:
-            if self.fieldClass == str(fModel._meta):
+            if self.fieldClass == str(fModel._meta) and self.fieldName==fName:
                 crit = query + qComp
         q = models.Q(**{crit: self.value})
         if qNeg: q = ~q
