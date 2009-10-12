@@ -34,6 +34,7 @@ class SubscriptionForm(forms.ModelForm):
     dues_amount = forms.IntegerField(widget=forms.HiddenInput())
     newspaper_amount = forms.IntegerField(required=False, widget=forms.HiddenInput())
     start_year = forms.IntegerField(initial=datetime.datetime.now().year, widget=forms.HiddenInput())
+
     class Meta:
         model = Subscription
         exclude = ('old_id', 'member', 'validated', 'end_year')

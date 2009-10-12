@@ -141,11 +141,16 @@ def subscription_add(request, user_id=None):
         f = SubscriptionForm(request.POST.copy(), request.FILES)
         if f.is_valid():
             configuration = SubscriptionConfiguration.objects.get(type=f.data['configuration'])
-            formInitDict = {'member': ain7member,
-                            'end_year': f.cleaned_data['start_year'] + configuration.duration - 1}
-            for k,v in formInitDict.iteritems():
-                f.cleaned_data[k] = v
-            subscription = f.save()
+
+            subscription = Subscription()
+            subscription.dues_amount = f.cleaned_data['dues_amount']
+            subscription.newspaper_amount = f.cleaned_data['newspaper_amount']
+            subscription.tender_type = f.cleaned_data['tender_type']
+            subscription.start_year = f.cleaned_data['start_year']
+            subscription.end_year = f.cleaned_data['start_year'] + configuration.duration - 1
+            subscription.member = ain7member
+            subscription.save()
+
             if isinstance(subscription, LoggedClass) and request.user:
                 subscription.logged_save(request.user.person)
             request.user.message_set.create(message=_('Subscription successfully added.'))
