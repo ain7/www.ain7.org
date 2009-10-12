@@ -1,7 +1,7 @@
 //MooTools More, <http://mootools.net/more>. Copyright (c) 2006-2009 Aaron Newton <http://clientcide.com/>, Valerio Proietti <http://mad4milk.net> & the MooTools team <http://mootools.net/developers>, MIT Style License.
 
 MooTools.More = {
-	'version': '1.2.2.1'
+	'version': '1.2.3.1'
 };
 
 /*
@@ -41,11 +41,11 @@ var Drag = new Class({
 
 	initialize: function(){
 		var params = Array.link(arguments, {'options': Object.type, 'element': $defined});
-		this.element = $(params.element);
+		this.element = document.id(params.element);
 		this.document = this.element.getDocument();
 		this.setOptions(params.options || {});
 		var htype = $type(this.options.handle);
-		this.handles = ((htype == 'array' || htype == 'collection') ? $$(this.options.handle) : $(this.options.handle)) || this.element;
+		this.handles = ((htype == 'array' || htype == 'collection') ? $$(this.options.handle) : document.id(this.options.handle)) || this.element;
 		this.mouse = {'now': {}, 'pos': {}};
 		this.value = {'start': {}, 'now': {}};
 
@@ -122,7 +122,7 @@ var Drag = new Class({
 					this.value.now[z] = this.limit[z][0];
 				}
 			}
-			if (this.options.grid[z]) this.value.now[z] -= ((this.value.now[z] - this.limit[z][0]) % this.options.grid[z]);
+			if (this.options.grid[z]) this.value.now[z] -= ((this.value.now[z] - (this.limit[z][0]||0)) % this.options.grid[z]);
 			if (this.options.style) this.element.setStyle(this.options.modifiers[z], this.value.now[z] + this.options.unit);
 			else this.element[this.options.modifiers[z]] = this.value.now[z];
 		}
@@ -190,8 +190,8 @@ Drag.Move = new Class({
 	initialize: function(element, options){
 		this.parent(element, options);
 		this.droppables = $$(this.options.droppables);
-		this.container = $(this.options.container);
-		if (this.container && $type(this.container) != 'element') this.container = $(this.container.getDocument().body);
+		this.container = document.id(this.options.container);
+		if (this.container && $type(this.container) != 'element') this.container = document.id(this.container.getDocument().body);
 
 		var position = this.element.getStyle('position');
 		if (position=='static') position = 'absolute';
