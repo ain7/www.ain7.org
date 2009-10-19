@@ -34,7 +34,7 @@ from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
-from ain7.annuaire.models import Person, AIn7Member, Track
+from ain7.annuaire.models import Person, AIn7Member, Track, Country
 from ain7.decorators import confirmation_required
 from ain7.emploi.models import *
 from ain7.emploi.forms import *
@@ -611,11 +611,21 @@ def office_edit(request, office_id=None):
     if request.method == 'POST':
         f = OfficeFormNoOrg(request.POST.copy())
         if f.is_valid():
-            f.cleaned_data['is_a_proposal'] = True
-            f.cleaned_data['is_valid'] = True
-            f.cleaned_data['organization'] = office.organization
+            modifiedOffice = Office()
+            modifiedOffice.organization = office.organization
+            modifiedOffice.name = f.cleaned_data['name']
+            modifiedOffice.line1 = f.cleaned_data['line1']
+            modifiedOffice.line2 = f.cleaned_data['line2']
+            modifiedOffice.zip_code = f.cleaned_data['zip_code']
+            modifiedOffice.city = f.cleaned_data['city']
+            modifiedOffice.phone_number = f.cleaned_data['phone_number']
+            modifiedOffice.web_site = f.cleaned_data['web_site']
+            modifiedOffice.country = office.country #Country.objects.get(f.cleaned_data['country'])
+            modifiedOffice.is_a_proposal = True
+            modifiedOffice.is_valid = True
+            modifiedOffice.save()
             # create the OfficeProposal
-            modifiedOffice = f.save()
+            #modifiedOffice = f.save()
             modifiedOffice.logged_save(p)
             officeProp = OfficeProposal(original = office,
                 modified = modifiedOffice, author = p, action = 1)

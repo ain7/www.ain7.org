@@ -153,7 +153,10 @@ def galerie(request):
 
 def logout(request):
     auth.logout(request)
-    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    if request.META['HTTP_REFERER']:
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    else:
+        return HttpResponseRedirect('/')
 
 def login(request):
     next_page=request.GET.get('next','/')
