@@ -574,7 +574,7 @@ class ClubMembership(models.Model):
     club = models.ForeignKey(Club, verbose_name=_('club'), related_name='memberships')
     member = models.ForeignKey(AIn7Member, verbose_name=_('member'), related_name='club_memberships')
 
-    fonction = models.CharField(verbose_name=_('fonction'), max_length=50, null=True)
+    fonction = models.CharField(verbose_name=_('fonction'), max_length=50, blank=True, null=True)
     start_date = models.DateField(verbose_name=_('start date'), blank=True, null=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
 
