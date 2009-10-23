@@ -32,6 +32,5 @@
 	$ain7_forum = 'http://forum.dev.ain7.info/';
 	$ain7_galerie = 'http://galerie.dev.ain7.info';
 	$ain7_planet = 'http://planet.ain7.info/';
-	$ain7_version = '0.0.1';
-
+	$ain7_version = '1.0.0';
 ?>

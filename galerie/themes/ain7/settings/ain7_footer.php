@@ -39,7 +39,7 @@ define ('AIN7_FOOTER_CONST',
 		<a href="' . $ain7_path . 'apropos/">A propos</a> |
 		<a href="' . $ain7_path . 'mentions_legales/">Mentions legales</a> |
 		<a href="http://jigsaw.w3.org/css-validator/check/referer/">XHTML</a><br />
-		&copy; Copyright 2008 AIn7 - Version ' . $ain7_version . '</p>
+		&copy; Copyright ' . date('Y') . ' AIn7 - Version ' . $ain7_version . '</p>
 </div> <!-- fin pied de page portail AIn7 -->');
 
 ?>
