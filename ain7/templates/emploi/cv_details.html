@@ -67,7 +67,7 @@
             <tr><td></td><td>{{ position.service }}</td></tr>
         {% endif %}
         {% if position.description %}
-            <tr><td></td><td>{{ position.description }}</td></tr>
+            <tr><td></td><td>{{ position.description|safe }}</td></tr>
         {% endif %}
     {% endif %}
 {% endfor %}
@@ -128,7 +128,7 @@
     <tr><td style="width: 25%"><b>{{ leisureItem.title }}</b></td>
         <td>
 	    {% if leisureItem.detail %}
-                {{ leisureItem.detail }}
+                {{ leisureItem.detail|safe }}
             {% endif %}
 	</td>
     </tr>

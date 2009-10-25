@@ -9,7 +9,12 @@
 <div id="content-main">
 
 <div class="left">
-<h3>{{ text1.title }}</h3>
+<h3>
+{{ text1.title }}
+{% if superadmin or ca_member or secretariat_member or contributeur %}
+<a href="{% url pages.views.edit text1.id %}" class="changelink">&nbsp;</a>
+{% endif %}
+</h3>
 <div class="left_box">
 {{ text1.body|safe }}
 {% if superadmin or ca_member or secretariat_member or contributeur %}
@@ -17,7 +22,12 @@
 {% endif %}
 </div>
 
-<h3>{{ text2.title }}</h3>
+<h3>
+{{ text2.title }} 
+{% if superadmin or ca_member or secretariat_member or contributeur %}
+<a href="{% url pages.views.edit text2.id %}" class="changelink">&nbsp;</a>
+{% endif %}
+</h3>
 <div class="left_box">
 {{ text2.body|safe }}
 {% if superadmin or ca_member or secretariat_member or contributeur %}
@@ -36,7 +46,7 @@
       {% if news_item.image %}
       <a href="/actualites/{{ news_item.id }}/"><img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" title="{{ news_item.title }}" class="image" width="60" /></a>
       {% endif %}
-      <b><a href="/actualites/{{ news_item.id }}/">{{ news_item.title }}</a></b><br />{{ news_item.short_description|safe }}
+      <b><a href="/actualites/{{ news_item.id }}/">{{ news_item.title }}</a></b><br />{{ news_item.short_description|striptags }}
       </div>
       <!-- in case the image has bigger height than text -->
       <div style="clear: left;"></div>

@@ -77,7 +77,7 @@ def search(request):
     page = 1
 
     if request.GET.has_key('first_name') or request.GET.has_key('last_name') or \
-       request.GET.has_key('organization') or request.GET.has_key('promo') or request.GET.has_key('track'):
+       request.GET.has_key('organization') or request.GET.has_key('promoyear') or request.GET.has_key('track'):
         form = SearchPersonForm(request.GET)
         if form.is_valid():
 

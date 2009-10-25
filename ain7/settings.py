@@ -40,11 +40,11 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASE_ENGINE = 'sqlite3'           # 'postgresql', 'mysql', 'sqlite3' or 'ado_mssql'.
-DATABASE_NAME = detect_path()+'/data/ain7.db'      # Or path to database file if using sqlite3.
-DATABASE_USER = ''             # Not used with sqlite3.
-DATABASE_PASSWORD = ''         # Not used with sqlite3.
-DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
+DATABASE_ENGINE = 'mysql'           # 'postgresql', 'mysql', 'sqlite3' or 'ado_mssql'.
+DATABASE_NAME = 'ain7_portal'      # Or path to database file if using sqlite3.
+DATABASE_USER = 'ain7_portal'             # Not used with sqlite3.
+DATABASE_PASSWORD = 'ain7_portal'         # Not used with sqlite3.
+DATABASE_HOST = '192.168.1.206'             # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
 # Local time zone for this installation. All choices can be found here:

@@ -49,13 +49,13 @@ def index(request):
     p = Person.objects.get(user=request.user.id)
     try:
          ain7member = AIn7Member.objects.get(person=p)
-         list_emplois =  ain7member.interesting_jobs()
     except AIn7Member.DoesNotExist:
          ain7member = None
          list_emplois = None
+    liste_emplois = JobOffer.objects.all()[:20]
     return ain7_render_to_response(request, 'emploi/index.html',
         {'ain7member': ain7member,
-         'liste_emplois': list_emplois})
+         'liste_emplois': liste_emplois})
 
 @login_required
 def cv_details(request, user_id):

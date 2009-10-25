@@ -8,32 +8,7 @@
 
 <div class="left_box">
 
-{# ### this user is a physical person ### #}
-
-{# if the user has preferred tracks for job offers, #}
-{# we only display job offers for these tracks      #}
-
-{% if ain7member %}
-
-{% if ain7member.receive_job_offers_for_tracks.all %}
-
-<h3>
-    {% if ain7member.receive_job_offers_for_tracks.all|length_is:"1" %}
-         {% trans "Job offers list for track" %}
-    {% else %}
-         {% trans "Job offers list for tracks" %}
-    {% endif %}
-    {% for track in ain7member.receive_job_offers_for_tracks.all %}
-        {{ track }}
-        {% if not forloop.last %} - {% endif %}
-    {% endfor %}
-</h3>
-
-{% else %}
-
-<h3>{% trans "Job offers list" %}</h3>
-
-{% endif %}
+<h2>{% trans "Last jobs offers:" %}</h2>
 
 {% if liste_emplois %}
     <ul>
@@ -45,8 +20,6 @@
      </ul>
 {% else %}
     <p>{% trans "No job offer." %}</p>
-{% endif %}
-
 {% endif %}
 
 </div>

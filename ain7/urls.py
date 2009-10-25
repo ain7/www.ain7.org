@@ -25,13 +25,13 @@ import os.path
 from django.conf.urls.defaults import *
 from django.contrib import admin
 
-from ain7.feeds import LatestEvents, LatestEntriesByCategory
+from ain7.feeds import LatestsEvents, LatestsNews
 from ain7.sitemaps import EventsSitemap, TextsSitemap, NewsSitemap, GroupesProSitemap
 from ain7.sitemaps import GroupesRegionauxSitemap, TravelsSitemap
 
 feeds = {
-    'events': LatestEvents,
-    'categories': LatestEntriesByCategory,
+    'events': LatestsEvents,
+    'news': LatestsNews,
 }
 
 sitemaps = {
