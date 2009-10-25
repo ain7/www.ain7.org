@@ -2852,3 +2852,12 @@ Petit déjeuner, temps libre jusqu’au transfert vers l’aéroport internation
     notif1.details = "Ceci est une exemple de notification..."
     notif1.save()
 
+    p1 = manage.Payment()
+    p1.amount = 15
+    p1.type = 1
+    p1.registered = datetime.now()
+    p1.person = lionel
+    p1.save()
+
+
+

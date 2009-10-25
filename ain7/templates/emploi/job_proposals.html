@@ -1,4 +1,4 @@
-{% extends "manage/base.html" %}
+{% extends "emploi/base.html" %}
 
 {% load i18n %}
 
@@ -9,16 +9,16 @@
 
 <div class="left_box">
 
-<h3>{% trans "Jobs proposals" %}</h3>
+<h2>{% trans "Jobs proposals" %}</h2>
 
 {% if proposals %}
 <ul>
 {% for job in proposals %}
 <li>
   {{ job.title }}&nbsp;
-  <a href="/emploi/job/{{ job.id }}/edit/" class="changelink">{% trans "Check" %}</a>&nbsp;
-  <a href="/manage/jobs/proposals/{{ job.id }}/validate/" class="addlink">{% trans "Validate proposal" %}</a>&nbsp;
-  <a href="/manage/jobs/proposals/{{ job.id }}/delete/" class="deletelink">{% trans "Delete" %}</a>
+  <a href="{% url ain7.emploi.views.job_validate job.id %}" class="savelink">{% trans "Validate proposal" %}</a>&nbsp;
+  <a href="{% url ain7.emploi.views.job_edit job.id %}" class="changelink">{% trans "Check" %}</a>&nbsp;
+  <a href="{% url ain7.emploi.views.job_delete job.id %}" class="deletelink">{% trans "Delete" %}</a>
 </li>
 {% endfor %}
 </ul>

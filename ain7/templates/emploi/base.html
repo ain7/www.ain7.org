@@ -38,6 +38,7 @@
 <ul>
 {% if superadmin or ca_member or secretariat_member %}
 <li><a href="{% url ain7.emploi.views.job_register %}">{% trans "Register a job offer" %}</a></li>
+<li><a href="{% url ain7.emploi.views.jobs_proposals %}">{% trans "Jobs proposals" %}</a></li>
 {% endif %}
 <li><a href="{% url ain7.emploi.views.job_search %}">{% trans "Search a job offer" %}</a></li>
 </ul>

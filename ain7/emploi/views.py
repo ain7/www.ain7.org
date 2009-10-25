@@ -421,6 +421,60 @@ def job_search(request):
          'hits' : paginator.count })
 
 @login_required
+def jobs_proposals(request):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
+    r = check_access(request, request.user, ['ain7-secretariat'])
+    if r:
+        return r
+    return ain7_render_to_response(request, 'emploi/job_proposals.html',
+        {'proposals': JobOffer.objects.filter(checked_by_secretariat=False)})
+
+@confirmation_required(lambda job_id=None: str(get_object_or_404(JobOffer, pk=job_id)), 'emploi/base.html', _('Do you confirm the validation of this job proposal'))
+@login_required
+def job_validate(request, job_id=None):
+
+    r = check_access(request, request.user, ['ain7-secretariat'])
+    if r:
+        return r
+    job = get_object_or_404(JobOffer, pk=job_id)
+    # validate
+    job.checked_by_secretariat = True
+    job.save()
+    request.user.message_set.create(
+        message=_("Job proposal validated."))
+    # remove notification
+    notif = job.notification.all()
+    if notif:
+        notif[0].delete()
+        request.user.message_set.create(
+            message=_("Corresponding notification removed."))
+    return HttpResponseRedirect('/emploi/job/proposals/')
+
+@confirmation_required(lambda job_id=None: str(get_object_or_404(JobOffer, pk=job_id)), 'emploi/base.html', _('Do you really want to delete this job proposal'))
+@login_required
+def job_delete(request, job_id=None):
+
+    r = check_access(request, request.user, ['ain7-secretariat'])
+    if r:
+        return r
+    job = get_object_or_404(JobOffer, pk=job_id)
+    # remove notification
+    notif = job.notification.all()
+    if notif:
+        notif[0].delete()
+        request.user.message_set.create(
+            message=_("Corresponding notification removed."))
+    # validate
+    job.delete()
+    request.user.message_set.create(
+        message=_("Job proposal removed."))
+    return HttpResponseRedirect('/emploi/job/proposals/')
+
+@login_required
 def organization_details(request, organization_id):
 
     r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])

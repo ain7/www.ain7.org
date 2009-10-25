@@ -1235,59 +1235,6 @@ def nationality_add(request):
         {'action_title': _('Register new country'), 'back': back, 'form': form})
 
 @login_required
-def jobs_proposals(request):
-
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
-
-    r = check_access(request, request.user, ['ain7-secretariat'])
-    if r:
-        return r
-    return ain7_render_to_response(request, 'manage/job_proposals.html',
-        {'proposals': JobOffer.objects.filter(checked_by_secretariat=False)})
-
-@confirmation_required(lambda job_id=None: str(get_object_or_404(JobOffer, pk=job_id)), 'manage/base.html', _('Do you confirm the validation of this job proposal'))
-@login_required
-def job_validate(request, job_id=None):
-
-    r = check_access(request, request.user, ['ain7-secretariat'])
-    if r:
-        return r
-    job = get_object_or_404(JobOffer, pk=job_id)
-    # validate
-    job.checked_by_secretariat = True
-    job.save()
-    request.user.message_set.create(
-        message=_("Job proposal validated."))
-    # remove notification
-    notif = job.notification.all()
-    if notif:
-        notif[0].delete()
-        request.user.message_set.create(
-            message=_("Corresponding notification removed."))
-    return HttpResponseRedirect('/manage/jobs/proposals/')
-
-@confirmation_required(lambda job_id=None: str(get_object_or_404(JobOffer, pk=job_id)), 'manage/base.html', _('Do you really want to delete this job proposal'))
-@login_required
-def job_delete(request, job_id=None):
-
-    r = check_access(request, request.user, ['ain7-secretariat'])
-    if r:
-        return r
-    job = get_object_or_404(JobOffer, pk=job_id)
-    # remove notification
-    notif = job.notification.all()
-    if notif:
-        notif[0].delete()
-        request.user.message_set.create(
-            message=_("Corresponding notification removed."))
-    # validate
-    job.delete()
-    request.user.message_set.create(
-        message=_("Job proposal removed."))
-    return HttpResponseRedirect('/manage/jobs/proposals/')
-
 def errors_index(request):
 
     r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
@@ -1325,4 +1272,16 @@ def error_details(request, error_id):
     e = get_object_or_404(PortalError, pk=error_id)
     return ain7_render_to_response(
         request, 'manage/error_details.html', {'error': e})
+
+@login_required
+def payment_index(request):
+
+    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
+    if r:
+        return r
+
+    payments_list = Payment.objects.all()
+
+    return ain7_render_to_response(
+        request, 'manage/payments_index.html', {'payment_list': payments_list})
 
