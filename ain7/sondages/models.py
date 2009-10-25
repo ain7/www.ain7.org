@@ -49,7 +49,6 @@ class Survey(models.Model):
         
     def is_valid(self):
         """Test pour les sondages affichés en page d'accueil."""
-        print self.choices.count()
         return (self.start_date == None or
                 self.start_date <= datetime.date.today()) and \
                (self.end_date == None or

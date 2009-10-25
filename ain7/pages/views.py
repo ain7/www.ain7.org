@@ -160,7 +160,6 @@ def logout(request):
 
 def login(request):
     next_page=request.GET.get('next','/')
-    print next_page
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']

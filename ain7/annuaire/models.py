@@ -432,7 +432,6 @@ class Email(models.Model):
         return ain7_website_confidential(self)
 
     def confidentiality_print(self):
-        print self.confidentiality
         return CONFIDENTIALITY_LEVELS[self.confidentiality][1]
 
     def __unicode__(self):

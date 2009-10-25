@@ -39,8 +39,6 @@ def index(request):
     return ain7_render_to_response(request, 'news/index.html', {'news': news })
 
 def details(request, news_slug):
-
-    print news_slug
     news_item = get_object_or_404(NewsItem, slug=news_slug)
     return ain7_render_to_response(request, 'news/details.html',
                             {'news_item': news_item})
