@@ -18,14 +18,14 @@
   {% endif %}
   <div class="news-header">
     <div class="news-title">
-      <a href="/actualites/{{ one_news.id }}/">{{ one_news.title }}</a>
+      <a href="{% url ain7.news.views.details one_news.slug %}">{{ one_news.title }}</a>
     </div>
     <div class="news-date">  
       {{ one_news.creation_date|date:"l j F Y" }}
     </div>
   </div>
   <div class="news-description">
-    {{ one_news.short_description|safe }}
+    {{ one_news.short_body|safe }}
   </div>
 			</div>
 	{% endfor %}

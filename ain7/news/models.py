@@ -22,8 +22,11 @@
 
 import datetime
 
+import django.contrib.admin as admin
+
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.template import defaultfilters
 from django.utils.translation import ugettext as _
 
 from ain7.utils import LoggedClass
@@ -32,7 +35,8 @@ from ain7.utils import LoggedClass
 class NewsItem(LoggedClass):
 
     title = models.CharField(verbose_name=_('title'), max_length=100)
-    description = models.TextField(verbose_name=_('description'))
+    body = models.TextField(verbose_name=_('body'))
+    slug = models.SlugField(max_length=100)
     image = models.ImageField(verbose_name=_('image'), upload_to='data', null=True, blank=True)
     creation_date = models.DateTimeField(verbose_name=_('date'), default=datetime.datetime.today, editable=False)
 
@@ -40,16 +44,21 @@ class NewsItem(LoggedClass):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('ain7.news.views.details', args=[self.id])
+        return reverse('ain7.news.views.details', args=[self.slug])
 
-    def short_description(self):
-        if len(self.description) > 100:
+    def short_body(self):
+        if len(self.body) > 100:
             # we avoid to cut a word because this could produce non-valid html
             # example: t&eamp;nu -> t&ea
-            wordlist = self.description[:100].split(" ")
+            wordlist = self.body[:100].split(" ")
             return " ".join(wordlist[:-1]) + " ..."
         else:
-            return self.description
-        
+            return self.body
+
+    def save(self):
+        self.slug = defaultfilters.slugify(self.title)
+        super(NewsItem, self).save()
+
     class Meta:
         verbose_name = _('news item')
+

@@ -28,9 +28,9 @@ urlpatterns = patterns('ain7.news.views',
     (r'^$', 'index'),
     (r'^add/$', 'add'),
     (r'^search/$', 'search'),
-    (r'^(?P<news_id>\d+)/$', 'details'),
-    (r'^(?P<news_id>\d+)/edit/$', 'edit'),
-    (r'^(?P<news_id>\d+)/delete/$', 'delete'),
-    (r'^(?P<news_id>\d+)/image/delete/$', 'image_delete'),
+    (r'^(?P<news_slug>[\w\-]+)/$', 'details'),
+    (r'^(?P<news_slug>[\w\-]+)/edit/$', 'edit'),
+    (r'^(?P<news_slug>[\w\-]+)/delete/$', 'delete'),
+    (r'^(?P<news_slug>[\w\-]+)/image/delete/$', 'image_delete'),
 
 )

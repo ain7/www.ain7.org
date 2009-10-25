@@ -77,14 +77,14 @@
 {% block barre-annuaire %}<li>{% endblock %}
     <a href="{% url ain7.annuaire.views.search %}" accesskey="a">{% trans "Directory"%}</a></li>
 
+{% block barre-actualites %}<li>{% endblock %}
+    <a href="{% url ain7.news.views.index %}" accesskey="c">{% trans "News"%}</a></li>
+
 {% block barre-evenements %}<li>{% endblock %}
     <a href="{% url ain7.evenements.views.index %}" accesskey="e">{% trans "Events"%}</a></li>
 
 {% block barre-emploi %}<li>{% endblock %}
     <a href="{% url ain7.emploi.views.index %}" accesskey="s">{% trans "Job service"%}</a></li>
-
-{% block barre-actualites %}<li>{% endblock %}
-    <a href="{% url ain7.news.views.index %}" accesskey="c">{% trans "News"%}</a></li>
 
 {% block barre-groupes_regionaux %}<li>{% endblock %}
     <a href="{% url ain7.groupes_regionaux.views.index %}" accesskey="r">{% trans "Regional Groups "%}</a></li>

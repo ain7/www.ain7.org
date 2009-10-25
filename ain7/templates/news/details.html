@@ -12,7 +12,7 @@
           {% if news_item.image %}
             <img src="{{ news_item.image.url }}" alt="Image" title="Image" class="image" width="60" />
           {% endif %}
-          {{ news_item.description|safe }}
+          {{ news_item.body|safe }}
         </p>
 	<p>{% trans "posted : " %} {{ news_item.creation_date|date:"l j F Y H:i" }}</p>
 	<p>{% trans "modified : " %} {{ news_item.last_change_at|date:"l j F Y H:i" }}</p>
@@ -21,8 +21,8 @@
 
 {% block extra-actions %}
 {% if superadmin or ca_member or secretariat_member or contributeur %}
-<li><a href="/actualites/{{ news_item.id }}/edit/">{% trans "Edit this news" %}</a></li>
-<li><a href="/actualites/{{ news_item.id }}/delete/">{% trans "Delete this news" %}</a></li>
+<li><a href="{% url ain7.news.views.edit news_item.slug %}">{% trans "Edit this news" %}</a></li>
+<li><a href="{% url ain7.news.views.delete news_item.slug %}">{% trans "Delete this news" %}</a></li>
 {% endif %}
 {% endblock %}
 

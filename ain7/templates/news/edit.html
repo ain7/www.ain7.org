@@ -12,7 +12,7 @@
 </table>
 
 <div style="text-align: center">
-<a href="/actualites/{{ news_item.id }}/image/delete/" class="deletelink">
+<a href="{% url ain7.news.views.image_delete news_item.slug %}" class="deletelink">
 {% trans "Delete the image for this news item." %}</a><br />
 <input type="submit" class="button" value="{% trans "Register" %}" />
 </div>
@@ -22,5 +22,5 @@
 {% endblock %}
 
 {% block extra-actions %}
-<li><a href="/actualites/{{ news_item.id }}/delete/">{% trans "Delete this news" %}</a></li>
+<li><a href="{% url ain7.news.views.delete news_item.slug %}">{% trans "Delete this news" %}</a></li>
 {% endblock %}

@@ -1991,14 +1991,14 @@ Prochaines manifestations
 
     news1 = news.NewsItem()
     news1.title = "Nouveau portail Web"
-    news1.description = u"""L'AIn7 travaille actuellement sur l'élaboration d'un
+    news1.body = u"""L'AIn7 travaille actuellement sur l'élaboration d'un
     nouveau portail. N'hésitez pas à apporter vos idées et vos commentaires."""
     news1.image = "data/www.jpg"
     news1.save()
 
     news2 = news.NewsItem()
     news2.title = "100 ans !"
-    news2.description = u"""L'n7 fête cette année ces 100 ans et va  tout au
+    news2.body = u"""L'n7 fête cette année ces 100 ans et va  tout au
     long de l'année 2007 célébrer à travers différentes manifestations cet anniversaire"""
     news2.image = "data/Gala_N7.jpg"
     news2.save()

@@ -42,7 +42,7 @@ class SearchNewsForm(forms.Form):
 
     def search(self):
         criteria = {'title__icontains': self.cleaned_data['title'],
-                    'description__icontains': self.cleaned_data['content']}
+                    'body__icontains': self.cleaned_data['content']}
         if self.cleaned_data['date']:
             inputdate = self.cleaned_data['date']
             criteria['creation_date__year'] = inputdate.year
@@ -53,19 +53,20 @@ class SearchNewsForm(forms.Form):
 class NewsForm(AIn7ModelForm):
     title = forms.CharField(label=_('title').capitalize(), max_length=100,
         required=True, widget=forms.TextInput(attrs={'size':'50'}))
-    description = forms.CharField(label=_('description').capitalize(),
+    body = forms.CharField(label=_('body').capitalize(),
         required=True,
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':60}))
     class Meta:
         model = NewsItem
+        exclude=('slug')
 
 class AddNewsForm(AIn7ModelForm):
     title = forms.CharField(label=_('title').capitalize(), max_length=100,
         required=True, widget=forms.TextInput(attrs={'size':'50'}))
-    description = forms.CharField(label=_('description').capitalize(),
+    body = forms.CharField(label=_('body').capitalize(),
         required=True,
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':60}))
     class Meta:
         model = NewsItem
-        exclude=('image')
+        exclude=('image', 'slug')
 

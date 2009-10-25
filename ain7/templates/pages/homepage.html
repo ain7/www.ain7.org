@@ -12,26 +12,26 @@
 <h3>
 {{ text1.title }}
 {% if superadmin or ca_member or secretariat_member or contributeur %}
-<a href="{% url pages.views.edit text1.id %}" class="changelink">&nbsp;</a>
+<a href="{% url ain7.pages.views.edit text1.id %}" class="changelink">&nbsp;</a>
 {% endif %}
 </h3>
 <div class="left_box">
 {{ text1.body|safe }}
 {% if superadmin or ca_member or secretariat_member or contributeur %}
-<p><a href="{% url pages.views.edit text1.id %}">{% trans "Edit" %}</a></p>
+<p><a href="{% url ain7.pages.views.edit text1.id %}">{% trans "Edit" %}</a></p>
 {% endif %}
 </div>
 
 <h3>
 {{ text2.title }} 
 {% if superadmin or ca_member or secretariat_member or contributeur %}
-<a href="{% url pages.views.edit text2.id %}" class="changelink">&nbsp;</a>
+<a href="{% url ain7.pages.views.edit text2.id %}" class="changelink">&nbsp;</a>
 {% endif %}
 </h3>
 <div class="left_box">
 {{ text2.body|safe }}
 {% if superadmin or ca_member or secretariat_member or contributeur %}
-<p><a href="{% url pages.views.edit text2.id %}">{% trans "Edit" %}</a></p>
+<p><a href="{% url ain7.pages.views.edit text2.id %}">{% trans "Edit" %}</a></p>
 {% endif %}
 </div>
 
@@ -44,9 +44,9 @@
   <div class="right_articles">
       <div>
       {% if news_item.image %}
-      <a href="/actualites/{{ news_item.id }}/"><img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" title="{{ news_item.title }}" class="image" width="60" /></a>
+      <a href="{% url ain7.news.views.details news_item.slug %}/"><img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" title="{{ news_item.title }}" class="image" width="60" /></a>
       {% endif %}
-      <b><a href="/actualites/{{ news_item.id }}/">{{ news_item.title }}</a></b><br />{{ news_item.short_description|striptags }}
+      <b><a href="{% url ain7.news.views.details news_item.slug %}">{{ news_item.title }}</a></b><br />{{ news_item.short_body|striptags }}
       </div>
       <!-- in case the image has bigger height than text -->
       <div style="clear: left;"></div>

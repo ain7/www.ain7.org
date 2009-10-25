@@ -38,39 +38,41 @@ def index(request):
     news = NewsItem.objects.all().order_by('-creation_date')[:20]
     return ain7_render_to_response(request, 'news/index.html', {'news': news })
 
-def details(request, news_id):
-    news_item = get_object_or_404(NewsItem, pk=news_id)
+def details(request, news_slug):
+
+    print news_slug
+    news_item = get_object_or_404(NewsItem, slug=news_slug)
     return ain7_render_to_response(request, 'news/details.html',
                             {'news_item': news_item})
 
 @login_required
-def edit(request, news_id):
+def edit(request, news_slug):
 
     r = check_access(request, request.user, ['ain7-ca','ain7-secretariat','ain7-contributeur'])
     if r:
         return r
 
-    news_item = get_object_or_404(NewsItem, pk=news_id)
+    news_item = get_object_or_404(NewsItem, slug=news_slug)
     return ain7_generic_edit(
         request, news_item, NewsForm, {}, 'news/edit.html',
-        {'news_item':news_item}, {}, '/actualites/%s/' % (news_id),
+        {'news_item':news_item}, {}, '/actualites/%s/' % (news_slug),
         _('News successfully updated.'))
 
-@confirmation_required(lambda news_id=None, object_id=None : '', 'base.html', _('Do you really want to delete the image of this news'))
+@confirmation_required(lambda news_slug=None, object_id=None : '', 'base.html', _('Do you really want to delete the image of this news'))
 @login_required
-def image_delete(request, news_id):
+def image_delete(request, news_slug):
 
     r = check_access(request, request.user, ['ain7-ca','ain7-secretariat','ain7-contributeur'])
     if r:
         return r
 
-    news_item = get_object_or_404(NewsItem, pk=news_id)
+    news_item = get_object_or_404(NewsItem, slug=news_slug)
     news_item.image = None
     news_item.logged_save(request.user.person)
 
     request.user.message_set.create(message=
         _('The image of this news item has been successfully deleted.'))
-    return HttpResponseRedirect('/actualites/%s/edit/' % news_id)
+    return HttpResponseRedirect('/actualites/%s/edit/' % news_slug)
 
 @login_required
 def add(request):
@@ -83,15 +85,15 @@ def add(request):
         request, None, AddNewsForm, {'image': None}, 'news/write.html',
         {}, {}, '/actualites/', _('News successfully added.'))
 
-@confirmation_required(lambda news_id=None, object_id=None : '', 'base.html', _('Do you really want to delete this news'))
+@confirmation_required(lambda news_slug=None, object_id=None : '', 'base.html', _('Do you really want to delete this news'))
 @login_required
-def delete(request, news_id):
+def delete(request, news_slug):
 
     r = check_access(request, request.user, ['ain7-ca','ain7-secretariat','ain7-contributeur'])
     if r:
         return r
 
-    news_item = get_object_or_404(NewsItem, pk=news_id)
+    news_item = get_object_or_404(NewsItem, slug=news_slug)
     news_item.delete()
 
     request.user.message_set.create(message=
