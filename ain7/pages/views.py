@@ -28,7 +28,6 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
-from django.http import HttpResponseRedirect, HttpResponse
 
 from ain7 import settings
 from ain7.annuaire.models import AIn7Member, Email, Person
@@ -37,18 +36,8 @@ from ain7.evenements.models import Event
 from ain7.pages.forms import LostPasswordForm, TextForm, ChangePasswordForm
 from ain7.pages.models import Text, LostPassword
 from ain7.sondages.models import Survey
-<<<<<<< TREE
-from ain7.utils import ain7_render_to_response
-<<<<<<< TREE
-from ain7.annuaire.models import AIn7Member
-from ain7.pages.forms import LostPasswordForm
-from ain7.annuaire.models import Person, Email
-=======
-=======
 from ain7.utils import ain7_render_to_response, check_access
->>>>>>> MERGE-SOURCE
 
->>>>>>> MERGE-SOURCE
 
 def homepage(request):
     news = NewsItem.objects.all().order_by('-creation_date')[:5]
@@ -75,19 +64,6 @@ def lostpassword(request):
 
     messages = request.session.setdefault('messages', [])
     form = LostPasswordForm()
-<<<<<<< TREE
-    if request.method == 'GET':
-        return ain7_render_to_response(request, 'pages/lostpassword.html', {'form': form})
-    if request.method == 'POST':
-        form = LostPasswordForm(request.POST)
-        if form.is_valid():
-            e = form.cleaned_data['email']
-            # A COMPLETER
-            page = 'pages/apropos.html'
-            return ain7_render_to_response(request, page, {})
-        else:
-            return ain7_render_to_response(request, 'pages/lostpassword.html', {'form': form})
-=======
     if request.method == 'GET':
         return ain7_render_to_response(request, 'pages/lostpassword.html', {'form': form})
     if request.method == 'POST':
@@ -123,7 +99,6 @@ http://ain7.com""") % { 'firstname': person.first_name, 'url': url, 'login': per
         else:
             info = _('If you are claiming an existing account but don\'t know the email address that was used, please contact an AIn7 administrator.')
             return ain7_render_to_response(request, 'pages/lostpassword.html', {'form': form, 'info': info})
->>>>>>> MERGE-SOURCE
 
 def changepassword(request, key):
     form = ChangePasswordForm()
