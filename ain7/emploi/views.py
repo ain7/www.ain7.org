@@ -391,14 +391,17 @@ def job_search(request):
         return r
 
     form = SearchJobForm()
-    nb_results_by_page = 25
+    nb_results_by_page = 2 #5
     list_jobs = False
     paginator = Paginator(JobOffer.objects.none(),nb_results_by_page)
+    dosearch = False
     page = 1
 
-    if request.method == 'POST':
-        form = SearchJobForm(request.POST)
+    if request.GET.has_key('title') or request.GET.has_key('activity_field') or \
+       request.GET.has_key('experience') or request.GET.has_key('contract_type'):
+        form = SearchJobForm(request.GET)
         if form.is_valid():
+            dosearch = True
             list_jobs = form.search()
             paginator = Paginator(list_jobs, nb_results_by_page)
             try:
@@ -409,6 +412,7 @@ def job_search(request):
 
     return ain7_render_to_response(request, 'emploi/job_search.html',
         {'form': form, 'list_jobs': list_jobs,
+         'dosearch': dosearch,
          'request': request,
          'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
          'has_next': paginator.page(page).has_next(),

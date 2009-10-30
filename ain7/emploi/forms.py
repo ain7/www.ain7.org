@@ -106,9 +106,6 @@ class JobOfferForm(AIn7Form):
 class SearchJobForm(forms.Form):
     title = forms.CharField(label=_('title').capitalize(),max_length=50,
         required=False, widget=forms.TextInput(attrs={'size':'40'}))
-    allTracks = forms.BooleanField(label=_('all tracks'), required=False)
-    track = forms.ModelMultipleChoiceField(label=_('track').capitalize(),
-        queryset=Track.objects.all(), required=False)
     activity_field = forms.IntegerField(label=_('Activity field'),
         required=False, widget=AutoCompleteField(completed_obj_name='activity_field'))
     experience = forms.CharField(label=_('experience').capitalize(),
@@ -128,35 +125,17 @@ class SearchJobForm(forms.Form):
         return int(self.cleaned_data['contract_type'])
 
     def search(self):
-        # si des filières sont sélectionnées mais pas le joker
-        # on filtre par rapport à ces filières
-        jobsMatchingTracks = []
-        if (not self.cleaned_data['allTracks'])\
-               and len(self.cleaned_data['track'])>0:
-            for track in self.cleaned_data['track']:
-                jobsMatchingTracks.extend(
-                    track.jobs.filter(checked_by_secretariat=True))
-        else:
-            jobsMatchingTracks = JobOffer.objects.filter(
-                checked_by_secretariat=True)
-        # on filtre par domaine d'activité
-        jobsMatchingActivity = []
+        q = models.Q()
+        if self.cleaned_data['title']:
+            q &= models.Q(title__icontains=self.cleaned_data['title'])
         if self.cleaned_data['activity_field']:
-            for job in jobsMatchingTracks:
-                if job.activity_field and \
-                    job.activity_field.pk==self.cleaned_data['activity_field']:
-                    jobsMatchingActivity.append(job)
-        else:
-            jobsMatchingActivity = jobsMatchingTracks
-        # maintenant on filtre ces jobs par rapport au titre saisi
-        matchingJobs = []
-        for job in jobsMatchingActivity:
-            if str(self.cleaned_data['title']) in job.title and \
-                str(self.cleaned_data['experience']) in job.experience and \
-                ( self.cleaned_data['contract_type']==0 or
-                  self.cleaned_data['contract_type']==job.contract_type+1 ):
-                matchingJobs.append(job)
-        return matchingJobs
+            q &= models.Q(activity_field=self.cleaned_data['activity_field'])
+        if self.cleaned_data['experience']:
+            q &= models.Q(experience__icontains=self.cleaned_data['experience'])
+        if self.cleaned_data['contract_type']:
+            q &= models.Q(contract_type=self.cleaned_data['contract_type'])
+
+        return JobOffer.objects.filter(q)
 
 class OrganizationForm(forms.Form):
     name = forms.CharField(

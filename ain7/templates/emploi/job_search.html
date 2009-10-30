@@ -5,7 +5,7 @@
 
 <h2>{% trans "Job Offer Search" %}</h2>
 
-<form action="." method="post">
+<form action="." method="get">
     <table style="border: 0; text-align: left">
        {{ form }}
     </table>
@@ -14,7 +14,7 @@
 </div>
 </form>
 
-{% ifequal request.method 'POST' %}
+{% if dosearch %}
 <h2>{% trans "Research result" %}</h2>
 {% if list_jobs %}
 <table style="width: 100%">
@@ -22,10 +22,10 @@
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
 <td style="align: right">
 {% if is_paginated %}
-{% if has_previous %}<a href="{% url ain7.emploi.views.search %}?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="{% url ain7.emploi.views.search %}?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="{% url ain7.emploi.views.search %}?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="{% url ain7.emploi.views.search %}?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% if has_previous %}<a href="{% url ain7.emploi.views.job_search %}?page=1&title={{ request.GET.title }}&activity_field={{ request.GET.activity_field }}&experience={{ request.GET.experience }}&contract_type={{ request.GET.contract_type }}">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="{% url ain7.emploi.views.job_search %}?page={{ previous_page }}&title={{ request.GET.title }}&activity_field={{ request.GET.activity_field }}&experience={{ request.GET.experience }}&contract_type={{ request.GET.contract_type }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="{% url ain7.emploi.views.job_search %}?page={{ next_page }}&title={{ request.GET.title }}&activity_field={{ request.GET.activity_field }}&experience={{ request.GET.experience }}&contract_type={{ request.GET.contract_type }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="{% url ain7.emploi.views.job_search %}?page={{ pages }}&title={{ request.GET.title }}&activity_field={{ request.GET.activity_field }}&experience={{ request.GET.experience }}&contract_type={{ request.GET.contract_type }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
 {% endif %}
 </td>
 </table>
@@ -38,6 +38,6 @@
 {% else %}
     <p>{% trans "No job offer correspond to your research" %}</p>
 {% endif %}
-{% endifequal %}
+{% endif %}
 
 {% endblock %}
