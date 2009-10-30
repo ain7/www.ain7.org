@@ -21,16 +21,35 @@
 #
 
 from django import forms
+<<<<<<< TREE
+from django.utils.translation import ugettext as _
+
+from django.forms.util import ValidationError
+
+from ain7.annuaire.models import Email
+=======
 from django.forms.util import ValidationError
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Email
 
+>>>>>>> MERGE-SOURCE
 
 class LostPasswordForm(forms.Form):
     """ Form to request a new password (when you loose the first one) """
     email = forms.EmailField(required=True)
 
+<<<<<<< TREE
+    def clean_email(self):
+        e = self.cleaned_data['email']
+
+        try:
+            Email.objects.get(email=e)
+        except Email.DoesNotExist:
+            raise ValidationError(_('The entered email does not exist. Please contact an AIN7 representative.'))
+        else:
+            return self.cleaned_data['email']
+=======
     def clean_email(self):
         e = self.cleaned_data['email']
 
@@ -40,6 +59,9 @@ class LostPasswordForm(forms.Form):
             raise ValidationError(_('This should be the email address registered for your AIn7 account.'))
         else:
             return self.cleaned_data['email']
+<<<<<<< TREE
+>>>>>>> MERGE-SOURCE
+=======
 
 class TextForm(forms.Form):
     title = forms.CharField(label=_('title'), max_length=150, required=False, widget=forms.TextInput(attrs={'size':80}))
@@ -61,3 +83,4 @@ class ChangePasswordForm(forms.Form):
             # TODO: check that password is strong enough ?
 
         return cleaned_data
+>>>>>>> MERGE-SOURCE

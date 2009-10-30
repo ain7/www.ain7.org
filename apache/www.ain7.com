@@ -1,7 +1,7 @@
 <VirtualHost *:80>
     ServerAdmin webmaster@ain7.com
     ServerName www.ain7.com
-    ServerAlias ain7.com www.ain7.com ain7.org ain7.enseeiht.fr www.ain7.net www.ain7.info www.ain7.org ain7.enseeiht.fr
+    ServerAlias ain7.com www.ain7.com ain7.org ain7.enseeiht.fr www.ain7.net www.ain7.info www.ain7.org
     AddDefaultCharset UTF-8
         
     # Redirect all to ain7.com
