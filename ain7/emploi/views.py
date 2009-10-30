@@ -391,7 +391,7 @@ def job_search(request):
         return r
 
     form = SearchJobForm()
-    nb_results_by_page = 2 #5
+    nb_results_by_page = 25
     list_jobs = False
     paginator = Paginator(JobOffer.objects.none(),nb_results_by_page)
     dosearch = False
