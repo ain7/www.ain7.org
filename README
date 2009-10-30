@@ -8,11 +8,11 @@ ain7/
 apache/
  - Configuration apache utilisée pour le domaine ain7.com
 forum/
- - coming soon !
+ - Thème Fluxbb pour l'AIn7
+galerie/
+ - Thème Gallery2 pour l'AIn7
 media/
  - Contenu statique (css, images)
-planet/
- - Configuration du planet
 scripts/
  - Scripts utilises par les differents applications
 wiki/
