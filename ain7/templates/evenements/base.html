@@ -22,7 +22,7 @@
   <div class="right_block">
     <ul>
       <li>
-        <a href="/evenements/{{ event.id }}/">{% trans "Event page" %}</a>
+        <a href="{% url ain7.evenements.views.details event.id %}">{% trans "Event page" %}</a>
       </li>
     </ul>
   </div>

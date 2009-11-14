@@ -142,7 +142,7 @@ def participants(request, event_id):
         {'event': event, 'nbparticipants': event.nb_participants()})
 
 @login_required
-def register(request):
+def add(request):
 
     r = check_access(request, request.user, ['ain7-ca','ain7-secretariat','ain7-contributeur'])
     if r:

@@ -24,16 +24,16 @@
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
 <td align="right">
 {% if is_paginated %}
-{% if has_previous %}<a href="/evenements/search/?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="/evenements/search/?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="/evenements/search/?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="/evenements/search/?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% if has_previous %}<a href="{% url ain7.evenements.views.search %}?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="{% url ain7.evenements.views.search %}?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="{% url ain7.evenements.views.search %}?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="{% url ain7.evenements.views.search %}?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
 {% endif %}
 </td>
 </table>
 <ul>
     {% for event in list_events %}
-        <li><a href="/evenements/{{ event.id }}/">{{ event.name }}</a> ({{ event.date|date:"d/m/Y H:i" }} - {{ event.location }})</li>
+        <li><a href="{% url ain7.evenements.views.details event.id %}">{{ event.name }}</a> ({{ event.date|date:"d/m/Y H:i" }} - {{ event.location }})</li>
     {% endfor %}
 </ul>
 {% else %}
@@ -47,10 +47,11 @@
 <h3>{% trans "Actions" %}</h3>
 <div class="right_articles">
 <ul>
-<li><a href="/evenements/register/">{% trans "Register an event" %}</a></li>
-<li><a href="/evenements/search/">{% trans "Search an event" %}</a></li>
-<li><a href="/evenements/ical/">{% trans "Subscribe iCal" %}</a></li>
+{% if superadmin or ca_member or secretariat_member or contributeur %}
+<li><a href="{% url ain7.evenements.views.add %}">{% trans "Register an event" %}</a></li>
+{% endif %}
+<li><a href="{% url ain7.evenements.views.search %}">{% trans "Search an event" %}</a></li>
+<li><a href="{% url ain7.evenements.views.ical %}">{% trans "Subscribe iCal" %}</a></li>
 </ul>
 </div>
 {% endblock %}
-

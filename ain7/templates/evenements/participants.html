@@ -11,7 +11,7 @@
 <ul>
   {% for subscription in event.subscriptions.all %}
     <li>
-      <a href="/annuaire/{{ subscription.subscriber.user.id }}/">
+      <a href="{% url ain7.annuaire.views.details subscription.subscriber.user.id %}">
         {{ subscription.subscriber }}</a>: 
       {% blocktrans count subscription.subscriber_number as nbsub %}
          1 person

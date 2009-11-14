@@ -17,8 +17,8 @@
   <tr>
     <th>{% if forloop.first %}{% trans "Organizers" %}{% endif %}</th>
     <td>{{ eventorg.organizer }}&nbsp;
-        ({% if eventorg.send_email_for_new_subscriptions %}{% trans "email sent when subscription" %}{% else %}{% trans "no email sent when subscription" %}{% endif %}&nbsp;<a class="changelink" href="/evenements/{{ event.id }}/organizer/{{ eventorg.organizer.id }}/swap_email_notif/">{% trans "change" %}</a>)&nbsp;
-        <a href="/evenements/{{ event.id }}/organizer/{{ eventorg.organizer.id }}/delete/" class="deletelink">
+        ({% if eventorg.send_email_for_new_subscriptions %}{% trans "email sent when subscription" %}{% else %}{% trans "no email sent when subscription" %}{% endif %}&nbsp;<a class="changelink" href="{% url ain7.evenements.views.swap_email_notif event.id eventorg.organizer.id %}">{% trans "change" %}</a>)&nbsp;
+        <a href="{% url ain7.evenements.views.organizer_delete event.id eventorg.organizer.id %}" class="deletelink">
       {% trans "Delete" %}</a></td>
   </tr>
 {% endfor %} 
@@ -26,7 +26,7 @@
   <tr>
     <th>{% if event.organizers.all|length_is:"0" %}
           {% trans "Organizers" %}{% endif %}</th>
-    <td><a href="/evenements/{{ event.id }}/organizer/add/" class="addlink">
+    <td><a href="{% url ain7.evenements.views.organizer_add event.id %}" class="addlink">
       {% trans "Add an organizer" %}</a>
     </td>
   </tr>
@@ -39,7 +39,7 @@
   {% endif %}{# event #}
 </table>
   {% if event.image %}
-    <a href="/evenements/{{ event.id }}/image/delete/" class="deletelink">
+    <a href="{% url ain7.evenements.views.image_delete event.id %}" class="deletelink">
       {% trans "Delete the image of this event." %}</a><br />
   {% endif %}
 <div style="text-align: center">
@@ -49,15 +49,15 @@
 </form>
 {% endblock %}
 
-
 {% block actions %}
-        <h3>{% trans "Actions" %}</h3>
-        <div class="right_articles">
-        <ul>
-             <li><a href="/evenements/register/">{% trans "Register an event" %}</a></li>
-             <li><a href="/evenements/search/">{% trans "Search an event" %}</a></li>
-             <li><a href="/evenements/ical/">{% trans "Subscribe iCal" %}</a></li>
-        </ul>
-        </div>
+<h3>{% trans "Actions" %}</h3>
+<div class="right_articles">
+<ul>
+{% if superadmin or ca_member or secretariat_member or contributeur %}
+<li><a href="{% url ain7.evenements.views.add %}">{% trans "Register an event" %}</a></li>
+{% endif %}
+<li><a href="{% url ain7.evenements.views.search %}">{% trans "Search an event" %}</a></li>
+<li><a href="{% url ain7.evenements.views.ical %}">{% trans "Subscribe iCal" %}</a></li>
+</ul>
+</div>
 {% endblock %}
-

@@ -14,13 +14,13 @@
 	  <tr>
            <td align="center">
              {% if event.image %}
-               <a href="/evenements/{{ event.id }}/">
+               <a href="{% url ain7.evenements.views.details event.id %}/">
 	          <img src="{{ event.image.url }}" height="100" alt="{{ event.name }}"/>
                </a>
              {% endif %}
            </td>
            <td>
-	      <strong><a href="/evenements/{{ event.id }}/">
+	      <strong><a href="{% url ain7.evenements.views.details event.id %}">
                      <h2>{{ event.name }}</h2></a>
              </strong><br />
              {% if event.description %}{{ event.description|safe }}{% endif %}
@@ -41,10 +41,10 @@
 <div class="right_articles">
 <ul>
 {% if superadmin or ca_member or secretariat_member or contributeur %}
-<li><a href="/evenements/register/">{% trans "Register an event" %}</a></li>
+<li><a href="{% url ain7.evenements.views.add %}">{% trans "Register an event" %}</a></li>
 {% endif %}
-<li><a href="/evenements/search/">{% trans "Search an event" %}</a></li>
-<li><a href="/evenements/ical/">{% trans "Subscribe iCal" %}</a></li>
+<li><a href="{% url ain7.evenements.views.search %}">{% trans "Search an event" %}</a></li>
+<li><a href="{% url ain7.evenements.views.ical %}">{% trans "Subscribe iCal" %}</a></li>
 </ul>
 </div>
 {% endblock %}
