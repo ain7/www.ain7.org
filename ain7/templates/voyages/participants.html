@@ -12,11 +12,11 @@
     {% for subscription in travel.subscriptions.all %}
       <ul>
         <li class="person">
-          <a href="/annuaire/{{ subscription.subscriber.user.id }}/">
+          <a href="{% url ain7.annuaire.views.details subscription.subscriber.user.id %}">
           {{ subscription.subscriber|escape }}</a> :
         {{ subscription.subscriber_number }} 
         {% trans "person" %}{{ subscription.subscriber_number|pluralize }}
-        (<a href="/voyages/{{ travel.id }}/unsubscribe/{{ subscription.subscriber.user.id}}" class="deletelink">
+        (<a href="{% url ain7.voyages.views.unsubscribe travel.id subscription.subscriber.user.id %}" class="deletelink">
           {% trans "Unsubscribe" %}</a>)</li>
       </ul>
     {% endfor %}
@@ -27,7 +27,7 @@
 
 
 {% block actions %}
-<li><a href="/voyages/{{ travel.id }}/subscribe/">
+<li><a href="{% url ain7.voyages.views.subscribe travel.id %}">
     {% trans "Subscribe someone to this travel" %}</a></li>
 {% endblock %}
 
@@ -36,7 +36,7 @@
   <h3>{% trans "Navigation" %}</h3>
   <div class="right_block">
     <ul>
-      <li><a href="/voyages/{{ travel.id }}/">
+      <li><a href="{% url ain7.voyages.views.details travel.id %}">
           {% trans "Back to the page of this travel" %}</a></li>
     </ul>
   </div>
