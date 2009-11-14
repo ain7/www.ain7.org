@@ -11,7 +11,7 @@
 
 <ul>
     {% for role in roles %}
-        <li class="role"><a href="{% url ain7.manage.views.role_details role.name %}/">{{ role.name }}</a></li>
+        <li class="role"><a href="{% url ain7.manage.views.role_details role.name %}">{{ role.name }}</a></li>
     {% endfor %}
 </ul>
 

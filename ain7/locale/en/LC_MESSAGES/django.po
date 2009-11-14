@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-31 00:01+0100\n"
+"POT-Creation-Date: 2009-11-14 10:02+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,19 +87,19 @@ msgstr ""
 msgid "Cash"
 msgstr ""
 
-#: adhesions/models.py:35 manage/models.py:74
+#: adhesions/models.py:35
 msgid "Cheque"
 msgstr ""
 
-#: adhesions/models.py:36 manage/models.py:75
+#: adhesions/models.py:36 manage/models.py:76
 msgid "Card"
 msgstr ""
 
-#: adhesions/models.py:37 manage/models.py:76
+#: adhesions/models.py:37
 msgid "Transfer"
 msgstr ""
 
-#: adhesions/models.py:38 manage/models.py:77
+#: adhesions/models.py:38 manage/models.py:79
 msgid "Other"
 msgstr ""
 
@@ -118,7 +118,7 @@ msgstr ""
 msgid "Tender type"
 msgstr ""
 
-#: adhesions/models.py:47 manage/models.py:87
+#: adhesions/models.py:47 manage/models.py:89
 msgid "validated"
 msgstr ""
 
@@ -183,7 +183,7 @@ msgstr ""
 msgid "Support"
 msgstr ""
 
-#: adhesions/models.py:74 manage/models.py:81
+#: adhesions/models.py:74 manage/models.py:83
 #: templates/adhesions/configurations.html:18
 msgid "Type"
 msgstr ""
@@ -1204,7 +1204,7 @@ msgstr ""
 #: templates/emploi/cv_edit.html:162
 #: templates/emploi/organization_edit.html:42
 #: templates/emploi/organization_edit.html:53
-#: templates/manage/default.html:121
+#: templates/manage/default.html:120
 #: templates/manage/organizations_adv_search.html:36
 #: templates/manage/organizations_adv_search.html:60
 #: templates/manage/user_edit.html:42 templates/manage/user_edit.html.py:56
@@ -1981,23 +1981,39 @@ msgstr ""
 msgid "Issue"
 msgstr ""
 
-#: manage/models.py:80
-msgid "amount"
+#: manage/models.py:74
+msgid "Check CE"
+msgstr ""
+
+#: manage/models.py:75
+msgid "Check CCP"
+msgstr ""
+
+#: manage/models.py:77
+msgid "Transfer CE"
+msgstr ""
+
+#: manage/models.py:78
+msgid "Transfer CCP"
 msgstr ""
 
 #: manage/models.py:82
-msgid "Bank"
-msgstr ""
-
-#: manage/models.py:83
-msgid "Check number"
+msgid "amount"
 msgstr ""
 
 #: manage/models.py:84
-msgid "registration date"
+msgid "Bank"
 msgstr ""
 
 #: manage/models.py:85
+msgid "Check number"
+msgstr ""
+
+#: manage/models.py:86
+msgid "registration date"
+msgstr ""
+
+#: manage/models.py:87
 msgid "deposit date"
 msgstr ""
 
@@ -2553,7 +2569,7 @@ msgstr ""
 #: templates/evenements/edit.html:54 templates/evenements/index.html:40
 #: templates/evenements/search.html:47
 #: templates/groupes_professionnels/base.html:17
-#: templates/groupes_regionaux/base.html:18 templates/manage/default.html:139
+#: templates/groupes_regionaux/base.html:18 templates/manage/default.html:138
 #: templates/manage/office_details.html:91
 #: templates/manage/office_merge.html:30
 #: templates/manage/organization_details.html:121
@@ -2700,7 +2716,7 @@ msgstr ""
 #: templates/evenements/edit.html:22
 #: templates/groupes_professionnels/edit_roles.html:32
 #: templates/groupes_regionaux/edit_roles.html:32
-#: templates/manage/default.html:123
+#: templates/manage/default.html:122
 #: templates/manage/organizations_adv_search.html:38
 #: templates/manage/organizations_adv_search.html:62
 #: templates/manage/role_details.html:17 templates/manage/user_edit.html:59
@@ -3250,7 +3266,7 @@ msgstr ""
 #: templates/groupes_professionnels/edit_roles.html:13
 #: templates/groupes_regionaux/edit_roles.html:11
 #: templates/groupes_regionaux/edit_roles.html:13
-#: templates/manage/default.html:112 templates/manage/default.html.py:115
+#: templates/manage/default.html:111 templates/manage/default.html.py:114
 #: templates/manage/user_details.html:54
 msgid "here"
 msgstr ""
@@ -3814,19 +3830,19 @@ msgstr ""
 msgid "proposed the deletion of the office"
 msgstr ""
 
-#: templates/manage/default.html:110
+#: templates/manage/default.html:109
 msgid "A job offer "
 msgstr ""
 
-#: templates/manage/default.html:110
+#: templates/manage/default.html:109
 msgid " has been proposed. To publish it, check the data"
 msgstr ""
 
-#: templates/manage/default.html:113
+#: templates/manage/default.html:112
 msgid "or directly validate it"
 msgstr ""
 
-#: templates/manage/default.html:142
+#: templates/manage/default.html:141
 msgid "Add a notification"
 msgstr ""
 

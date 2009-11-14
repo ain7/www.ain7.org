@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-31 00:01+0100\n"
+"POT-Creation-Date: 2009-11-14 10:02+0100\n"
 "PO-Revision-Date: 2009-03-24 22:53+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,19 +92,19 @@ msgstr "Modifié pour la dernière fois à"
 msgid "Cash"
 msgstr "Espèce"
 
-#: adhesions/models.py:35 manage/models.py:74
+#: adhesions/models.py:35
 msgid "Cheque"
 msgstr "Chèque"
 
-#: adhesions/models.py:36 manage/models.py:75
+#: adhesions/models.py:36 manage/models.py:76
 msgid "Card"
 msgstr "Carte bancaire"
 
-#: adhesions/models.py:37 manage/models.py:76
+#: adhesions/models.py:37
 msgid "Transfer"
 msgstr "Virement"
 
-#: adhesions/models.py:38 manage/models.py:77
+#: adhesions/models.py:38 manage/models.py:79
 msgid "Other"
 msgstr "Autre"
 
@@ -123,7 +123,7 @@ msgstr "Montant Canal N7"
 msgid "Tender type"
 msgstr "Mode de paiement"
 
-#: adhesions/models.py:47 manage/models.py:87
+#: adhesions/models.py:47 manage/models.py:89
 msgid "validated"
 msgstr "Validé"
 
@@ -188,7 +188,7 @@ msgstr "Couple"
 msgid "Support"
 msgstr "Soutien"
 
-#: adhesions/models.py:74 manage/models.py:81
+#: adhesions/models.py:74 manage/models.py:83
 #: templates/adhesions/configurations.html:18
 msgid "Type"
 msgstr "Type"
@@ -1224,7 +1224,7 @@ msgstr "Créer"
 #: templates/emploi/cv_edit.html:162
 #: templates/emploi/organization_edit.html:42
 #: templates/emploi/organization_edit.html:53
-#: templates/manage/default.html:121
+#: templates/manage/default.html:120
 #: templates/manage/organizations_adv_search.html:36
 #: templates/manage/organizations_adv_search.html:60
 #: templates/manage/user_edit.html:42 templates/manage/user_edit.html.py:56
@@ -2041,23 +2041,39 @@ msgstr "commentaire"
 msgid "Issue"
 msgstr "Issue"
 
-#: manage/models.py:80
+#: manage/models.py:74
+msgid "Check CE"
+msgstr "Chèque CE"
+
+#: manage/models.py:75
+msgid "Check CCP"
+msgstr "Chèque CCP"
+
+#: manage/models.py:77
+msgid "Transfer CE"
+msgstr "Virement CE"
+
+#: manage/models.py:78
+msgid "Transfer CCP"
+msgstr "Virement CCP"
+
+#: manage/models.py:82
 msgid "amount"
 msgstr "montant"
 
-#: manage/models.py:82
+#: manage/models.py:84
 msgid "Bank"
 msgstr "Banque"
 
-#: manage/models.py:83
+#: manage/models.py:85
 msgid "Check number"
 msgstr "Numéro de chèque"
 
-#: manage/models.py:84
+#: manage/models.py:86
 msgid "registration date"
 msgstr "Date d'enregistrement"
 
-#: manage/models.py:85
+#: manage/models.py:87
 msgid "deposit date"
 msgstr "date de dépôt"
 
@@ -2639,7 +2655,7 @@ msgstr "Sauf mention spécifique, tous les textes sont sous licence"
 #: templates/evenements/edit.html:54 templates/evenements/index.html:40
 #: templates/evenements/search.html:47
 #: templates/groupes_professionnels/base.html:17
-#: templates/groupes_regionaux/base.html:18 templates/manage/default.html:139
+#: templates/groupes_regionaux/base.html:18 templates/manage/default.html:138
 #: templates/manage/office_details.html:91
 #: templates/manage/office_merge.html:30
 #: templates/manage/organization_details.html:121
@@ -2786,7 +2802,7 @@ msgstr "Gratuit"
 #: templates/evenements/edit.html:22
 #: templates/groupes_professionnels/edit_roles.html:32
 #: templates/groupes_regionaux/edit_roles.html:32
-#: templates/manage/default.html:123
+#: templates/manage/default.html:122
 #: templates/manage/organizations_adv_search.html:38
 #: templates/manage/organizations_adv_search.html:62
 #: templates/manage/role_details.html:17 templates/manage/user_edit.html:59
@@ -3338,7 +3354,7 @@ msgstr "Tous les membres (y compris les anciens) sont affichés. Cliquez"
 #: templates/groupes_professionnels/edit_roles.html:13
 #: templates/groupes_regionaux/edit_roles.html:11
 #: templates/groupes_regionaux/edit_roles.html:13
-#: templates/manage/default.html:112 templates/manage/default.html.py:115
+#: templates/manage/default.html:111 templates/manage/default.html.py:114
 #: templates/manage/user_details.html:54
 msgid "here"
 msgstr "ici"
@@ -3837,7 +3853,7 @@ msgstr "Erreurs"
 
 #: templates/manage/base.html:28 templates/manage/payments_index.html:10
 msgid "Payments"
-msgstr ""
+msgstr "Paiements"
 
 #: templates/manage/default.html:12
 msgid "AIn7 Management"
@@ -3919,19 +3935,19 @@ msgstr "a proposé la modification d'un établissement"
 msgid "proposed the deletion of the office"
 msgstr "a proposé la suppression d'un établissement "
 
-#: templates/manage/default.html:110
+#: templates/manage/default.html:109
 msgid "A job offer "
 msgstr "Une offre d'emploi "
 
-#: templates/manage/default.html:110
+#: templates/manage/default.html:109
 msgid " has been proposed. To publish it, check the data"
 msgstr " a été proposée. Pour la publier, vérifiez les données"
 
-#: templates/manage/default.html:113
+#: templates/manage/default.html:112
 msgid "or directly validate it"
 msgstr "ou validez-la directement"
 
-#: templates/manage/default.html:142
+#: templates/manage/default.html:141
 msgid "Add a notification"
 msgstr "Ajouter une notification"
 
@@ -4631,6 +4647,3 @@ msgid "Do you really want this person not to be responsible of this travel"
 msgstr ""
 "Souhaitez-vous vraiment que cette personne ne soit pas responsable de ce "
 "voyage ?"
-
-#~ msgid "all tracks"
-#~ msgstr "toutes les filières"
