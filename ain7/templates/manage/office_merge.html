@@ -30,11 +30,11 @@
 <h3>{% trans "Actions" %}</h3>
 <div class="right_articles">
 <ul>
-<li><a href="/manage/offices/register/{{ office.organization.id}}/">
+<li><a href="{% url ain7.manage.views.office_edit office.organization.id %}">
 {% trans "Register a new office" %}</a></li>
 </ul>
 </div>
-{% endblock %} {# actions %}
+{% endblock %}
 
 {% block extra-menu %}
 <h3>{% trans "Card Informations"%}</h3>
@@ -43,4 +43,4 @@
   <li>{% trans "Update" %}&nbsp;: {{ organization.modification_date|date:"l j F Y" }}</li>
 </ul>
 </div>
-{% endblock %} {# extra-menu #}
+{% endblock %}

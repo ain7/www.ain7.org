@@ -27,8 +27,8 @@ urlpatterns = patterns('ain7.sondages.views',
 
     # Sondage
     (r'^$', 'index'),
+    (r'^(?P<survey_id>\d+)/$', 'view'),
     (r'^(?P<survey_id>\d+)/vote/$', 'vote'),
-    (r'^(?P<survey_id>\d+)/view/$', 'view'),
 
     # Survey edition
     (r'^create/$', 'create'),

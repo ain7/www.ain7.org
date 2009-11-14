@@ -13,7 +13,7 @@
 <h1>{% trans "Personal file" %}
     {{ person.last_name }} {{ person.first_name }}</h1>
 
-<a href="/manage/users/{{ person.user.id }}/">{% trans "Back to personnal file" %}</a>
+<a href="{% url ain7.manage.views.user_details person.user.id %}">{% trans "Back to personnal file" %}</a>
 
 <h2>{% trans "Personal data" %}</h2>
 
@@ -38,7 +38,7 @@
 </ul>
 </div>
 
-<p><a href="/manage/users/{{ person.user.id }}/person/edit/" class="changelink">
+<p><a href="{% url ain7.manage.views.user_person_edit person.user.id %}" class="changelink">
 {% trans "Modify" %}</a></p>
 
 <h2><a name="address"/>{% trans "Address" %}</h2>
@@ -52,15 +52,15 @@
         {% else %}                       ({% trans "not confidential" %})
         {% endif %}</td>
     <td style="width: 12%">
-        <a href="/manage/users/{{ person.user.id }}/address/{{ address.id }}/edit/" class="changelink">
+        <a href="{% url ain7.manage.views.user_address_edit person.user.id address.id %}" class="changelink">
         {% trans "Modify" %}</a></td>
     <td style="width: 12%">
-        <a href="/manage/users/{{ person.user.id }}/address/{{ address.id }}/delete/" class="deletelink">
+        <a href="{% url ain7.manage.views.user_address_delete person.user.id address.id %}" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
 {% endfor %}
 </table>
-<p><a href="/manage/users/{{ person.user.id }}/address/add/" class="addlink">
+<p><a href="{% url ain7.manage.views.user_address_edit person.user.id %}" class="addlink">
    {% trans "Add" %}</a></p>
 
 
@@ -73,15 +73,15 @@
        {% if phone_number.is_confidential %} ({% trans "confidential" %})
         {% else %} ({% trans "not confidential" %}) {% endif %}</td>
     <td style="width: 12%">
-        <a href="/manage/users/{{ person.user.id }}/phone/{{ phone_number.id }}/edit/" class="changelink">
+        <a href="{% url ain7.manage.views.user_phone_edit person.user.id phone_number.id %}" class="changelink">
         {% trans "Modify" %}</a></td>
     <td style="width: 12%">
-        <a href="/manage/users/{{ person.user.id }}/phone/{{ phone_number.id }}/delete/" class="deletelink">
+        <a href="{% url ain7.manage.views.user_phone_delete person.user.id phone_number.id %}" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
 {% endfor %}
 </table>
-<p><a href="/manage/users/{{ person.user.id }}/phone/add/" class="addlink">
+<p><a href="{% url ain7.manage.views.user_phone_edit person.user.id %}" class="addlink">
    {% trans "Add" %}</a></p>
 
 
@@ -97,15 +97,15 @@
 
 </td>
     <td style="width: 12%">
-        <a href="/manage/users/{{ person.user.id }}/email/{{ email.id }}/edit/" class="changelink">
+        <a href="{% url ain7.manage.views.user_email_edit person.user.id email.id %}" class="changelink">
         {% trans "Modify" %}</a></td>
     <td style="width: 12%">
-        <a href="/manage/users/{{ person.user.id }}/email/{{ email.id }}/delete/" class="deletelink">
+        <a href="{% url ain7.manage.views.user_email_delete person.user.id email.id %}" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
 {% endfor %}
 </table>
-<p><a href="/manage/users/{{ person.user.id }}/email/add/" class="addlink">
+<p><a href="{% url ain7.manage.views.user_email_edit person.user.id %}" class="addlink">
    {% trans "Add" %}</a></p>
 
 {% if person.ain7member %}
@@ -119,14 +119,14 @@
                 <b>{{ position.start_date|date:"d/m/Y"|default:"???" }}</b>&nbsp;:</td>
             <td><em>{{ position.fonction }}</em> {% trans "for" %}
                 {{ position.office }}
-                (<a href="/emploi/organization/{{ position.office.organization.id }}/">{{ position.office.organization }}</a>)</td></tr>
+                (<a href="{% url ain7.emploi.views.organization_details position.office.organization.id %}/">{{ position.office.organization }}</a>)</td></tr>
         {% if position.description %}
             <tr><td></td><td>{{ position.description }}</td></tr>
         {% endif %}
     {% endif %}
 {% endfor %}
 </table>
-<p><a href="/emploi/{{ person.user.id }}/cv/edit/" class="changelink">
+<p><a href="{% url ain7.emploi.views.cv_edit person.user.id %}" class="changelink">
 {% trans "Modify" %}</a></p>
 
 {% endif %}
@@ -136,6 +136,5 @@
 
 
 {% block extra-navigation %}
-      <li><a href="/annuaire/advanced_search/">{% trans "Advanced Search" %}</a></li>
+      <li><a href="{% url ain7.annuaire.views.advanced_search %}">{% trans "Advanced Search" %}</a></li>
 {% endblock %} {# extra-navigation #}
-

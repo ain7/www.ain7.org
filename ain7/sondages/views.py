@@ -67,7 +67,7 @@ def vote(request, survey_id):
     else :
         # Already voted
         request.user.message_set.create(message=_('You have already vote for this survey.'))
-    return HttpResponseRedirect('/sondages/%s/view' % (survey.id))
+    return HttpResponseRedirect('/sondages/%s/' % (survey.id))
 
 @login_required
 def create(request):

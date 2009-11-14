@@ -51,7 +51,7 @@
 {% endif %}
 
 {% if this_user.person.ain7member %}
-{% trans "This person is also an AIn7Member. You can check his complete profil" %} <a href="/annuaire/{{ this_user.id }}/">{% trans "here" %}</a>.
+{% trans "This person is also an AIn7Member. You can check his complete profil" %} <a href="{% url ain7.annuaire.views.details this_user.id %}">{% trans "here" %}</a>.
 {% endif %}
 </div>
 {% endblock %} {# content-left #}
@@ -62,7 +62,7 @@
 <h3>{% trans "Actions" %}</h3>
 <div class="right_articles">
 <ul>
-<li><a href="/manage/users/{{ this_user.id }}/edit/">{% trans "Edit those informations" %}</a></li>
+<li><a href="{% url ain7.manage.views.user_edit this_user.id %}">{% trans "Edit those informations" %}</a></li>
 </ul>
 </div>
 {% endblock %} {# actions #}
@@ -73,7 +73,7 @@
 {% if this_user.groups.all %}
 <ul>
 {% for group in this_user.groups.all %}
-    <li><a href="/manage/roles/{{ group.name }}/">{{ group.name }}</a></li>
+    <li><a href="{% url ain7.manage.views.role_details group.name %}/">{{ group.name }}</a></li>
 {% endfor %}
 </ul>
 {% endif %}

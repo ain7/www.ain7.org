@@ -46,14 +46,14 @@
       {% if news_item.image %}
       <a href="{% url ain7.news.views.details news_item.slug %}/"><img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" title="{{ news_item.title }}" class="image" width="60" /></a>
       {% endif %}
-      <b><a href="{% url ain7.news.views.details news_item.slug %}">{{ news_item.title }}</a></b><br />{{ news_item.short_body|striptags }}
+      <b><a href="{% url ain7.news.views.details news_item.slug %}">{{ news_item.title }}</a></b><br />{{ news_item.short_body|safe }}
       </div>
       <!-- in case the image has bigger height than text -->
       <div style="clear: left;"></div>
    </div>
 {% endfor %}
 <div style="text-align: center">
-	<a href="/actualites/">{% trans "All news" %}</a>
+	<a href="{% url ain7.news.views.index %}">{% trans "All news" %}</a>
 </div>
 </div>
 </div>
@@ -65,12 +65,12 @@
 {% for event in events %}
   <div class="right_articles">
       <div>
-      <a href="/evenements/{{ event.id }}/">{{ event.name }}</a> ({{ event.date|date:"l j F Y" }})<br/>
+      <a href="{% url ain7.evenements.views.details event.id %}">{{ event.name }}</a> ({{ event.date|date:"l j F Y" }})<br/>
       </div>
    </div>
 {% endfor %}
 <div style="text-align: center">
-	<a href="/evenements/">{% trans "All events" %}</a>
+	<a href="{% url ain7.evenements.views.index %}">{% trans "All events" %}</a>
 </div>
 </div>
 
@@ -96,12 +96,12 @@
 			  {% include "sondages/vote_include.html" %}
                         {% endif %}
 			<div style="text-align: center">
-				<a href="/sondages/{{ survey.id }}/view/">{% trans "Results" %}</a>
+				<a href="{% url ain7.sondages.views.view survey.id %}">{% trans "Results" %}</a>
 			</div>
 		</div>
         {% endfor %}
 	<div style="text-align: center">
-    	    <a href="/sondages/">{% trans "Surveys history" %}</a>
+    	    <a href="{% url ain7.sondages.views.index %}">{% trans "Surveys history" %}</a>
 	</div>
 	</div>
         {% endif %}
@@ -111,7 +111,7 @@
 	<h3>{% trans "Happy birthday!" %}</h3>
 		<div class="right_articles">
 			{% for member in birthdays %}
-			<a href="/annuaire/{{ member.person.pk }}/">{{ member }}</a>
+			<a href="{% url ain7.annuaire.views.details member.person.pk %}">{{ member }}</a>
 			{% if not forloop.last %} ; {% endif %}
 			{% endfor %}
 		</div>

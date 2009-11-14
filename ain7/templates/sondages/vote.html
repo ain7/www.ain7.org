@@ -7,5 +7,5 @@
 {% endblock %}
 
 {% block action %}
-	<li><a href="/sondages/{{ survey.id }}/view/">{% trans "See results" %}</a></li>
+	<li><a href="{% url ain7.sondages.views.view survey.id %}">{% trans "See results" %}</a></li>
 {% endblock action %}

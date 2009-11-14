@@ -13,8 +13,8 @@
 <h2>{% trans "You can find several RSS feed on AIn7 portal:" %}</h2>
 
 <ul>
-<li><a href="/rss/events/">{% trans "Latest events" %}</a></li>
-<li><a href="/rss/news/">{% trans "Latest news" %}</a></li>
+<li><a href="{% url django.contrib.syndication.views.feed "events" %}">{% trans "Latest events" %}</a></li>
+<li><a href="{% url django.contrib.syndication.views.feed "news" %}">{% trans "Latest news" %}</a></li>
 </ul>
 
 </div>	

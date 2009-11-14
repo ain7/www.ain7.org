@@ -12,7 +12,7 @@
 <h2>Error #{{ error.id }}</h2>
 
 <table border="0">
-<tr><td><b>{% trans "User:" %}</b> </td><td><a href="{% url ain7.annuaire.views.details error.user.id %}">{{ error.user.person }}</a></td></tr>
+<tr><td><b>{% trans "User:" %}</b> </td><td><a href="{% if error.user.person %}{% url ain7.annuaire.views.details error.user.id %}">{{ error.user.person }}{% endif %}</a></td></tr>
 <tr><td><b>{% trans "Date:" %}</b> </td><td>{{ error.date|date:"l j F Y H:i" }}</td></tr>
 <tr><td><b>{% trans "Request:" %}</b> </td><td>{% if error.url %}{{ error.url }}{% endif %}</td></tr>
 <tr><td><b>{% trans "Referer:" %}</b> </td><td>{% if error.referer %}{{ error.referer }}{% endif %}</td></tr>

@@ -24,16 +24,16 @@
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
 <td align="right">
 {% if is_paginated %}
-{% if has_previous %}<a href="/manage/users/?last_name={{ request.GET.last_name }}&first_name={{ request.GET.first_name }}&organization={{ request.GET.organization }}&page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="/manage/users/?last_name={{ request.GET.last_name }}&first_name={{ request.GET.first_name }}&organization={{ request.GET.organization }}&page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="/manage/users/?last_name={{ request.GET.last_name }}&first_name={{ request.GET.first_name }}&organization={{ request.GET.organization }}&page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="/manage/users/?last_name={{ request.GET.last_name }}&first_name={{ request.GET.first_name }}&organization={{ request.GET.organization }}&page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% if has_previous %}<a href="{% url ain7.manage.views.users_search %}?last_name={{ request.GET.last_name }}&first_name={{ request.GET.first_name }}&organization={{ request.GET.organization }}&page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="{% url ain7.manage.views.users_search %}?last_name={{ request.GET.last_name }}&first_name={{ request.GET.first_name }}&organization={{ request.GET.organization }}&page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="{% url ain7.manage.views.users_search %}?last_name={{ request.GET.last_name }}&first_name={{ request.GET.first_name }}&organization={{ request.GET.organization }}&page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="{% url ain7.manage.views.users_search %}?last_name={{ request.GET.last_name }}&first_name={{ request.GET.first_name }}&organization={{ request.GET.organization }}&page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
 {% endif %}
 </td>
 </table>
 <ul>
     {% for person in persons %}
-        <li class="person"><a href="/manage/users/{{ person.user.id }}/">
+        <li class="person"><a href="{% url ain7.manage.views.user_details person.user.id %}">
             {{ person.last_name }} 
             {% if person.maiden_name %}
               ({{ person.maiden_name }})
@@ -54,7 +54,7 @@
 <div class="right_articles">
 {% if superadmin or secretariat_member %}
 <ul>
-    <li><a href="/manage/users/register/">{% trans "Register external user" %}</a></li>
+    <li><a href="{% url ain7.manage.views.user_register %}">{% trans "Register external user" %}</a></li>
 {% endif %}
 </ul>
 </div>

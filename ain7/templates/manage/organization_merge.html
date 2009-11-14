@@ -30,9 +30,9 @@
 <h3>{% trans "Actions" %}</h3>
 <div class="right_articles">
 <ul>
-<li><a href="/manage/organizations/register/">{% trans "Register a new organization" %}</a></li>
-<li><a href="/manage/organizations/{{ organization.id }}/edit/">{% trans "Edit this organization" %}</a></li>
-<li><a href="/manage/organizations/{{ organization.id }}/delete/">{% trans "Delete this organization" %}</a></li>
+<li><a href="{% url ain7.manage.views.organizations_edit %}">{% trans "Register a new organization" %}</a></li>
+<li><a href="{% url ain7.manage.views.organization_edit organization.id %}">{% trans "Edit this organization" %}</a></li>
+<li><a href="{% url ain7.manage.views.organization_delete organization.id %}">{% trans "Delete this organization" %}</a></li>
 </ul>
 </div>
 {% endblock %}{# actions #}

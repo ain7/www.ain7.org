@@ -1,4 +1,4 @@
-<form action="/sondages/{{ survey.id }}/vote/" method="get">
+<form action="{% url ain7.sondages.views.vote survey.id %}" method="get">
 <div>
 	{% for choice in survey.choices.all %}
 		<input type="radio" name="choice" id="choice{{ choice.id }}" value="{{ choice.id }}"/>{{ choice.choice }}<br/>

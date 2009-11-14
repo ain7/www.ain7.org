@@ -71,10 +71,12 @@ class Payment(models.Model):
 
     TYPE = (
         (0, _('Cash')),
-        (1, _('Cheque')),
-        (2, _('Card')),
-        (3, _('Transfer')),
-        (4, _('Other')),
+        (1, _('Check CE')),
+        (2, _('Check CCP')),
+        (3, _('Card')),
+        (4, _('Transfer CE')),
+        (5, _('Transfer CCP')),
+        (6, _('Other')),
     )
 
     amount = models.FloatField(verbose_name=_('amount'))

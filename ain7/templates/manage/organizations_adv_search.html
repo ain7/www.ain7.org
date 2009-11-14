@@ -32,9 +32,9 @@
         <td>{{ criterion.fieldVerboseName|capfirst }}</td>
         <td>{{ criterion.comparatorVerboseName }}</td>
         <td>{{ criterion.displayedValue }}</td>
-        <td><a href="/manage/organizations/adv_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/edit/field/" 
+        <td><a href="{% url ain7.manage.views.criterionField_edit filtr.id criterion.id %}" 
                 class="changelink">{% trans "Modify" %}</a></td>
-        <td><a href="/manage/organizations/adv_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/delete/field/"
+        <td><a href="{% url ain7.manage.views.criterion_delete filtr.id criterion.id %}"
                 class="deletelink">{% trans "Delete" %}</a></td>
       </tr>
     {% endfor %}
@@ -56,9 +56,9 @@
         </td>
         <td>&nbsp;</td>
         <td>{{ criterion.filterCriterion }}</td>
-        <td><a href="/manage/organizations/adv_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/edit/filter/" 
+        <td><a href="{% url ain7.manage.views.criterionFilter_edit filtr.id criterion.id %}" 
                class="changelink">{% trans "Modify" %}</a></td>
-        <td><a href="/manage/organizations/adv_search/filter/{{ filtr.id }}/criterion/{{ criterion.id }}/delete/filter/"
+        <td><a href="{% url ain7.manage.views.criterion_delete filtr.id criterion.id %}"
                class="deletelink">{% trans "Delete" %}</a></td>
       </tr>
     {% endfor %}
@@ -72,7 +72,7 @@
   <p>{% trans "No criterion. Please add one." %}</p>
 {% endif %}
 
-<a href="/manage/organizations/adv_search/filter/{{ filtr.id }}/criterion/add/" 
+<a href="{% url ain7.manage.views.criterion_add filtr.id %}" 
    class="addlink">{% trans "Add a criterion" %}</a>
 
 <div style="text-align: center">
@@ -91,10 +91,10 @@
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
 <td align="right">
 {% if is_paginated %}
-{% if has_previous %}<a href="/manage/organizations/adv_search/?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="/manage/organizations/adv_search/?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="/manage/organizations/adv_search/?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="/manage/organizations/adv_search/?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% if has_previous %}<a href="{% url ain7.manage.views.organizations_adv_search %}?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="{% url ain7.manage.views.organizations_adv_search %}?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="{% url ain7.manage.views.organizations_adv_search %}?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="{% url ain7.manage.views.organizations_adv_search %}?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
 {% endif %}
 </td>
 </table>
@@ -180,4 +180,4 @@
     <li>{{ nb_offices }}&nbsp;{% trans "offices" %}</li>
 </ul>
 </div>
-{% endblock %} {# extra-menu #}
+{% endblock %}
