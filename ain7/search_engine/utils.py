@@ -28,11 +28,10 @@ from django.db import models
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
-from ain7.ajax.views import ajaxed_fields
+from ain7.ajax.views import ajax_resolve
 from ain7.fields import AutoCompleteField
 from ain7.search_engine.models import *
 from ain7.widgets import DateTimeWidget
-
 
 # for each type of attribute, we define the comparators and the
 # type of field to display in the form
@@ -237,10 +236,14 @@ def findComparatorsForField(field):
             label='', choices=field.__dict__['_choices'])
     # if it's an ajaxed field, we use autocompletion.
     # ajaxed fields are supposed to be ForeignKeys or ManyToMany fields.
-    ajax_dict = ajaxed_fields()
-    if field.rel and field.rel.to in ajax_dict:
+    if field.rel and field.rel.to in ajax_resolve().keys():
+        # sometimes we have several choices for the completed_obj_name
+        # for instance for Country it can be 'nationality' or 'country'
+        # here, we choose the first in ajax_resolve (may not match)
+        field_name, completed_name = ajax_resolve()[field.rel.to][0]
         formField = forms.CharField(
-            label='', widget=AutoCompleteField(completed_obj_name=ajax_dict[field.rel.to]))
+            label='', widget=AutoCompleteField(
+                completed_obj_name=completed_name))
     return (choiceList,formField)
 
 def getDisplayedVal(value, fieldClass, fieldName, search_engine):
@@ -267,9 +270,12 @@ def getDisplayedVal(value, fieldClass, fieldName, search_engine):
             if str(k)==value: displayedVal = v                
     # if it's an ajaxed field, we store the id,
     # as ajaxed fields are supposed to be ForeignKeys or ManyToManyFields
-    if field.rel and field.rel.to in ajaxed_fields():
+    if field.rel and field.rel.to in ajax_resolve().keys():
         obj = get_object_or_404(field.rel.to, pk=value)
         displayedVal = str(obj)
+        # some exceptions, where the displayed value does not come from str()
+        if fieldClass == Person and fieldName == 'country':
+            displayedVal = obj.nationality
     return displayedVal
 
 def getCompVerboseName(field, compCode):

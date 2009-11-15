@@ -45,23 +45,10 @@ from django.forms.widgets import TextInput,flatatt
 from django.forms.util import smart_unicode
 from django.utils.translation import ugettext as _
 from django.utils.html import escape
-from ain7.ajax.views import ajaxed_fields, ajaxed_strings, ajax_search_method, ajax_request
+from ain7.ajax.views import ajaxed_strings, ajax_get_elements, ajax_request, ajax_field_value
 from django.core.urlresolvers import reverse
 
 class AutoCompleteField(TextInput):
-
-    # ce dictionnaire me semble inutilisé
-#     entities = { 
-#                  'nationality': { 'url': '/ajax/nationality/', 'add_url': '/manage/nationality/add', 'add_title': _('Add a new nationality') },
-#                  'office': { 'url': '/ajax/office/', 'add_url': '/manage/office/add', 'add_title': _('Add a new office') },
-#                  'person': { 'url': '/ajax/person/' },
-#                  'promoyear': { 'url': '/ajax/promoyear/' },
-#                  'track': { 'url': '/ajax/track/' },
-#                  'organization': { 'url': '/ajax/organization/' },
-#                  'activityfield': { 'url': '/ajax/activityfield/' },
-#                  'activitycode': { 'url': '/ajax/activitycode/' },
-#                  'permission': { 'url': '/ajax/permission/' },
-#                }
 
     def __init__(self, completed_obj_name='', options='{ paramName: "text", autoSelect:true, afterUpdateElement:setSelected }', addable=False, attrs=None):
         self.completed_obj_name = completed_obj_name
@@ -87,10 +74,7 @@ class AutoCompleteField(TextInput):
         # si une valeur a été saisie, je remplis le champ
         # avec la description de l'objet
         if value != "-1" and value != None and value != '':
-            for objClass, objName in ajaxed_fields().iteritems():
-                if objName == self.completed_obj_name:
-                    obj = objClass.objects.get(pk=value)
-                    valueTxt = obj.autocomplete_str()
+            valueTxt = ajax_field_value(self.completed_obj_name, value)
             if self.completed_obj_name in ajaxed_strings():
                 valueTxt = value
         if value:
@@ -145,12 +129,10 @@ class AutoCompleteField(TextInput):
                 val = value_text
             else:
                 # get the search method
-                method = ajax_search_method(self.completed_obj_name)
-                if method:
-                    result = method(value_text)
-                    if len(result) == 1:
-                        # yes! got one and only one answer. Use it
-                        val = result[0]['id']
+                result = ajax_get_elements(self.completed_obj_name, value_text)
+                if len(result) == 1:
+                    # yes! got one and only one answer. Use it
+                    val = result[0]['id']
 
         return val
 

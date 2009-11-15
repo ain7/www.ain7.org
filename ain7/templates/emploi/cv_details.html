@@ -49,7 +49,7 @@
 </tr>
 </table>
 
-<div id="cv_title">{{ ain7member.cv_title }}</div>
+<div id="cv_title">{{ ain7member.cv_title|default_if_none:"" }}</div>
 
 {% if ain7member.positions.all %}
 <h2>{% trans "Professional experiences" %}</h2>

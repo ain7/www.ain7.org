@@ -113,7 +113,7 @@
             {% trans "No" %}</li>
         {% endif %}
     <li><b>{% trans "CV title" %}</b>&nbsp;:
-        {{ ain7member.cv_title}}</li>
+        {{ ain7member.cv_title|default_if_none:"" }}</li>
 </ul>
 <p><a href="/annuaire/{{ person.user.id }}/ain7member/edit/" class="changelink">
    {% trans "Modify" %}</a></p>

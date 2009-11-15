@@ -47,9 +47,6 @@ class ActivityField(models.Model):
     def __unicode__(self):
         return self.field
 
-    def autocomplete_str(self):
-        return self.label
-
     class Meta:
         verbose_name = _('Activity field')
 
@@ -115,9 +112,6 @@ class Organization(LoggedClass):
     objects = OrganizationManager()
 
     def __unicode__(self):
-        return self.name
-
-    def autocomplete_str(self):
         return self.name
 
     def print_size(self):
@@ -223,9 +217,6 @@ class Office(LoggedClass):
 
     def __unicode__(self):
         return self.name
-
-    def autocomplete_str(self):
-        return self.organization.name + " - " + self.name
 
     def save(self):
         if self.web_site and \

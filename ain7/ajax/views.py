@@ -30,104 +30,68 @@ from ain7.annuaire.models import Person, Country, Track, PromoYear
 from ain7.emploi.models import ActivityField, Organization, Office, EducationItem, DiplomaItem
 from ain7.utils import ain7_render_to_response
 
-def ajaxed_fields():
-    """Links fields for which an autocompletion using Ajax exists,
-    and the names of these autocompletion methods."""
-    return {Person: 'person',
-            Country: 'nationality',
-            PromoYear: 'promoyear',
-            Track: 'track',
-            Organization: 'organization',
-            ActivityField: 'activity_field',
-            Permission: 'permission',
-            Office: 'office'}
+def ajax_resolve():
+    """Maps Ajax URLs to model fields.
+    These mappings are groupped by models.
+    For each model, the first element of its list is
+    the default one for completion."""
+    return {Person:  [ ('complete_name', 'person') ],
+            Country: [ ('name','country'), ('nationality', 'nationality') ],
+            PromoYear:     [ ('year','promoyear') ],
+            Track:         [ ('name','track') ],
+            Organization:  [ ('name','organization') ],
+            Office:        [ ('name','office') ],
+            ActivityField: [ ('label','activity_field'), ('code','activitycode') ],
+            }
 
 def ajaxed_strings():
-    """Links strings for which an autocompletion using Ajax exists,
+    """Lists strings for which an autocompletion using Ajax exists,
     and the names of these autocompletion methods."""
     return [ 'diploma' ]
 
-def completion_list(objects):
-    """Builds and returns the completion list, from the query."""
-    elements = []
-    for o in objects:
-        elements.append({'id': o.pk,
-            'displayValue': o.autocomplete_str(),
-            'value': o.autocomplete_str()})
-    return elements
+def ajax_get_model_field(completed_name):
+    """Given an Ajax URL, returns the corresponding model and field name."""
+    model = None
+    field_name = None
+    for modl, pairs in ajax_resolve().iteritems():
+        for fname, cname in pairs:
+            if completed_name == cname:
+                field_name = fname
+                model = modl
+    return model, field_name
 
-def ajax_search_method(name):
-    method = globals().get(name)
-    return method
+def ajax_field_value(url, model_pk):
+    """Returns the value of an ajaxed field, given the completed name (url)
+    and the id."""
+    model, field_name = ajax_get_model_field(url)
+    model_inst = model.objects.get(pk=model_pk)
+    return getattr(model_inst, field_name)
 
 @login_required
 def ajax_request(request, completed_name, field_name):
-    # get the method for auto-completion of "name"
-    method = ajax_search_method(completed_name)
-    if method == None:
-        # ups... can't complet this... raise 404
-        raise Http404
     elements = []
     if request.method == 'POST':
         input = request.POST[field_name + '_text']
-        elements = method(input)
+        elements = ajax_get_elements(completed_name, input)
 
     return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
-
-def person(input):
-    elements = None
-    if len(Person.objects.filter(complete_name__icontains=input)) < 25:
-        elements = completion_list(
-            Person.objects.filter(complete_name__icontains=input).order_by('last_name','first_name'))
-
-    return elements
-
-def nationality(input):
-    elements = completion_list(
-        Country.objects.filter(nationality__icontains=input).order_by('nationality'))
-
-    return elements
-
-def promoyear(input):
-    elements = completion_list(
-        PromoYear.objects.filter(year__icontains=input).order_by('year'))
-
-    return elements
-
-def track(input):
-    elements = completion_list(
-        Track.objects.filter(name__icontains=input).order_by('name').order_by('name'))
-
-    return elements
-
-def organization(input):
-    elements = completion_list(Organization.objects.\
-        filter(name__icontains=input).\
-        order_by('name'))
-
-    return elements
-
-def activity_field(input):
-    elements = completion_list(
-        ActivityField.objects.filter(label__icontains=input).order_by('label'))
-
-    return elements
-
-def activitycode(input):
+def ajax_get_elements(completed_name, input):
+    """Given a completed_name, and some input of the user, returns
+    the set of matching objects."""
     elements = []
-
-    activitycode = ActivityField.objects.filter(code__icontains=input).order_by('code')
-    for cf in activitycode:
-        elements.append({'id': cf.id, 'displayValue': cf.code , 'value': cf.code })
-
-    return elements
-
-def office(input):
-    elements = completion_list(
-        Office.objects.filter(Q(name__icontains=input) | Q(organization__name__icontains=input)).order_by('organization__name','name'))
-
-    return elements
+    model, field_name = ajax_get_model_field(completed_name)
+    criteria = Q(**{field_name+'__icontains': input})
+    # for offices, we also look into the name of the organization
+    if completed_name=='office':
+        criteria |= Q(**{'organization__name__icontains': input})
+    selected = model.objects.filter(criteria).order_by(field_name)
+    for sel in selected:
+        elements.append({
+            'id': sel.id,
+            'displayValue': getattr(sel,field_name) ,
+            'value': getattr(sel,field_name) })
+    return elements[:25]
 
 def diploma(input):
     elements = []

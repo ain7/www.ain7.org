@@ -28,7 +28,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
-from ain7.ajax.views import ajaxed_fields
+#from ain7.ajax.views import ajaxed_fields
 from ain7.search_engine.forms import *
 from ain7.search_engine.utils import *
 from ain7.utils import ain7_render_to_response
@@ -133,6 +133,7 @@ def se_criterionField_edit(request, search_engine=None, filter_id=None,
         cCode = crit.comparatorName
         value = crit.value
     searchField = getFieldFromName(fModel, fName, search_engine)
+    field_verbose_name = getModelField(fModel,fName).verbose_name
     comps,valueField = findComparatorsForField(searchField)
 
     # the form with 2 fields : comparator and value
@@ -149,7 +150,7 @@ def se_criterionField_edit(request, search_engine=None, filter_id=None,
             # It "should" be possible to only redefine the queryset here...
             if (isinstance(searchField,models.fields.related.ForeignKey)\
             or  isinstance(searchField,models.fields.related.ManyToManyField))\
-            and not searchField.rel.to in ajaxed_fields():
+            and not searchField.rel.to in ajax_resolve().keys():
                 fieldsDict['value'] = forms.ModelChoiceField(
                     label='', empty_label=None,
                     queryset=searchField.rel.to.objects.all())
@@ -184,7 +185,7 @@ def se_criterionField_edit(request, search_engine=None, filter_id=None,
                 displayedVal = str(val)
                 val = str(val.id)
             filtr = get_object_or_404(SearchFilter, pk=filter_id)
-            fVName = searchField.verbose_name
+            fVName = field_verbose_name
             compVName = getCompVerboseName(searchField, cCode)
             crit = None
             # if we're adding a new criterion
@@ -208,7 +209,7 @@ def se_criterionField_edit(request, search_engine=None, filter_id=None,
             else:
                 return HttpResponseRedirect(unregisteredRedirect)
     return ain7_render_to_response(request, criterionEditTemplate,
-        {'form': form, 'chosenField': searchField.verbose_name,
+        {'form': form, 'chosenField': field_verbose_name,
          'action_title': msg})
 
 @login_required

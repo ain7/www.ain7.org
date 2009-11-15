@@ -211,43 +211,46 @@ class PersonForm(forms.ModelForm):
         widget=dateWidget, required=False)
     death_date = forms.DateTimeField(label=_('death date').capitalize(),
         widget=dateWidget, required=False)
+    country = forms.IntegerField(label=_('nationality'), required=False, widget=AutoCompleteField(completed_obj_name='nationality'))
     class Meta:
         model = Person
         exclude = ('user')
     def __init__(self, *args, **kwargs):
         super(PersonForm, self).__init__(*args, **kwargs)
-        # on convertit une liste de noms de pays en une liste de nationalités
-        nats = []
-        for i,c in self.fields['country'].choices:
-            if i:
-                nats.append((i,Country.objects.get(name=c).nationality))
-            else:
-                nats.append((i,c))
-        self.fields['country'].choices = nats
     def clean_death_date(self):
         if self.cleaned_data.get('birth_date') and \
             self.cleaned_data.get('death_date') and \
             self.cleaned_data['birth_date']>self.cleaned_data['death_date']:
             raise forms.ValidationError(_('Birth date is later than death date'))
         return self.cleaned_data['death_date']
+    def clean_country(self):
+        c = self.cleaned_data['country']
+        try:
+            Country.objects.get(id=c)
+        except Country.DoesNotExist:
+            raise ValidationError(_('The entered nationality does not exist.'))
+        else:
+            return Country.objects.get(id=c)
+
 
 class PersonFormNoDeath(forms.ModelForm):
     sex = forms.CharField(widget=forms.Select(choices=Person.SEX), label=_('Sex'))
     birth_date = forms.DateTimeField(label=_('birth date').capitalize(),
         widget=dateWidget, required=False)
+    country = forms.IntegerField(label=_('nationality'), required=False, widget=AutoCompleteField(completed_obj_name='nationality'))
     class Meta:
         model = Person
         exclude = ('user','death_date')
     def __init__(self, *args, **kwargs):
         super(PersonFormNoDeath, self).__init__(*args, **kwargs)
-        # on convertit une liste de noms de pays en une liste de nationalités
-        nats = []
-        for i,c in self.fields['country'].choices:
-            if i:
-                nats.append((i,Country.objects.get(name=c).nationality))
-            else:
-                nats.append((i,c))
-        self.fields['country'].choices = nats
+    def clean_country(self):
+        c = self.cleaned_data['country']
+        try:
+            Country.objects.get(id=c)
+        except Country.DoesNotExist:
+            raise ValidationError(_('The entered nationality does not exist.'))
+        else:
+            return Country.objects.get(id=c)
 
 class AIn7MemberForm(forms.ModelForm):
     receive_job_offers_for_tracks = forms.ModelMultipleChoiceField(queryset=Track.objects.filter(active=True), required=False)
@@ -306,9 +309,17 @@ class PromoForm(forms.Form):
         return promo
 
 class AddressForm(forms.ModelForm):
+    country = forms.IntegerField(label=_('country').capitalize(), required=False, widget=AutoCompleteField(completed_obj_name='country'))
     class Meta:
         model = Address
         exclude = ('person')
+    def clean_country(self):
+        c = self.cleaned_data['country']
+        try:
+            return Country.objects.get(id=c)
+        except Country.DoesNotExist:
+            raise ValidationError(_('The entered country does not exist.'))
+            return None
 
 class InstantMessagingForm(forms.ModelForm):
     class Meta:

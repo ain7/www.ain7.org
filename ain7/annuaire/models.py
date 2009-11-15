@@ -40,9 +40,6 @@ class Country(models.Model):
     def __unicode__(self):
         return self.name
 
-    def autocomplete_str(self):
-        return self.nationality
-
     class Meta:
         verbose_name = _('country')
         verbose_name_plural = _('country')
@@ -157,9 +154,6 @@ class Track(models.Model):
         else:
             return self.name
 
-    def autocomplete_str(self):
-        return self.name
-
     class Meta:
         verbose_name = _('Track')
 
@@ -167,9 +161,6 @@ class PromoYear(models.Model):
     year = models.IntegerField(verbose_name=_('year'))
 
     def __unicode__(self):
-        return str(self.year)
-
-    def autocomplete_str(self):
         return str(self.year)
 
     class Meta:
@@ -237,14 +228,6 @@ class Person(LoggedClass):
 
     def __unicode__(self):
         return self.first_name + " " + self.last_name
-
-    def autocomplete_str(self):
-        value = self.complete_name
-        if AIn7Member.objects.filter(person=self).count() > 0 and \
-                self.ain7member.promos and len(self.ain7member.promos.all()) > 0:
-            promo = self.ain7member.promos.all()[self.ain7member.promos.all().count()-1]
-            value += ' ('+str(promo)+')'
-        return value
 
     def send_mail(self, subject, message):
 
