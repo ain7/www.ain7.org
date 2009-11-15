@@ -874,7 +874,7 @@ def club_membership_delete(request, user_id=None, club_membership_id=None):
         _('Club membership successfully deleted.'))
 
 @login_required
-def register(request, user_id=None):
+def add(request, user_id=None):
 
     r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
     if r:

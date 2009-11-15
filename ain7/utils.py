@@ -66,7 +66,6 @@ def ain7_render_to_response(req, *args, **kwargs):
     args[1]['mootools_more_version'] = settings.MOOTOOLS_MORE_VERSION
     args[1]['piwik_url'] = settings.PIWIK_URL
     args[1]['piwik_site_id'] = settings.PIWIK_SITE_ID
-    args[1]['debug_mode'] = settings.DEBUG
     args[1]['request'] = req
     args[1]['superadmin'] = settings.AIN7_PORTAL_ADMIN in user_groups
     args[1]['ca_member'] = 'ain7-ca' in user_groups

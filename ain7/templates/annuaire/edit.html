@@ -12,7 +12,7 @@
 
 <h1>{{ person.first_name }} {{ person.last_name }}</h1>
 
-<a href="/annuaire/{{ person.user.id }}/">{% trans "Back to personnal file" %}</a>
+<a href="{% url ain7.annuaire.views.details person.user.id %}">{% trans "Back to personnal file" %}</a>
 
 <h2>{% trans "Personal data" %}</h2>
 
@@ -35,7 +35,7 @@
    <li><b>{% filter capfirst %}{% trans "nationality" %}{% endfilter %}
        &nbsp;:</b> {{ person.country.nationality }}</li>
 </ul>
-<p><a href="/annuaire/{{ person.user.id }}/person/edit/" class="changelink">
+<p><a href="{% url ain7.annuaire.views.person_edit person.user.id %}" class="changelink">
 {% trans "Modify" %}</a></p>
 </div>
 
@@ -46,7 +46,7 @@
    <li><b>{% filter capfirst %}{% trans "avatar" %}{% endfilter %}</b>&nbsp;:
        {% if ain7member.avatar %}
 	   <img src="{{ ain7member.avatar.url }}" height="100" alt="{% trans "avatar" %}" />
-	   <a href="/annuaire/{{ person.user.id }}/avatar/delete/" class="deletelink">
+	   <a href="{% url ain7.annuaire.views.avatar_delete person.user.id %}" class="deletelink">
            {% trans "Delete" %}</a>
        {% else %}
            {% trans "No avatar" %}
@@ -115,7 +115,7 @@
     <li><b>{% trans "CV title" %}</b>&nbsp;:
         {{ ain7member.cv_title|default_if_none:"" }}</li>
 </ul>
-<p><a href="/annuaire/{{ person.user.id }}/ain7member/edit/" class="changelink">
+<p><a href="{% url ain7.annuaire.views.ain7member_edit person.user.id %}" class="changelink">
    {% trans "Modify" %}</a></p>
 </div>
 
@@ -128,7 +128,7 @@
       <tr>
         <td>{{ promo }}</td>
           <td style="width: 12%">
-            <a href="/annuaire/{{ person.id }}/promo/{{ promo.id }}/delete/" class="deletelink">
+            <a href="{% url ain7.annuaire.views.promo_delete person.id promo.id %}" class="deletelink">
               {% trans "Delete" %}</a></td>
       </tr>
     {% endfor %}
@@ -136,7 +136,7 @@
 {% else %}
     <p>{% trans "No promotion" %}</p>
 {% endif %}
-<p><a href="/annuaire/{{ person.id }}/promo/add/" class="addlink">
+<p><a href="{% url ain7.annuaire.views.promo_edit person.id %}" class="addlink">
    {% trans "Add" %}</a></p>
 </div>
 
@@ -147,11 +147,11 @@
 <table>
 {% for position in ain7member.positions.all %}
     {% if not position.end_date %}
-        <tr><td>{% trans "since" %}
+        <tr><td>{% if position.start_date %}{% trans "since" %}{% endif %}
                 <b>{{ position.start_date|date:"d/m/Y"|default:"???" }}</b>&nbsp;:</td>
             <td><em>{{ position.fonction }}</em> {% trans "for" %}
                 {{ position.office }}
-                (<a href="/emploi/organization/{{ position.office.organization.id }}/">{{ position.office.organization }}</a>)</td></tr>
+                (<a href="{% url ain7.emploi.views.organization_details position.office.organization.id %}">{{ position.office.organization }}</a>)</td></tr>
         {% if position.description %}
             <tr><td></td><td>{{ position.description }}</td></tr>
         {% endif %}
@@ -159,7 +159,7 @@
 {% endfor %}
 </table>
 {% endif %}
-<p><a href="/emploi/{{ person.user.id }}/cv/edit/" class="changelink">
+<p><a href="{% url ain7.emploi.views.cv_edit person.user.id %}" class="changelink">
 {% trans "Modify" %}</a></p>
 </div>
 
@@ -173,15 +173,15 @@
         {{address.zip_code }} {{ address.city }} - {{ address.country.name }}
         ({{ address.confidentiality_print }})</td>
     <td style="width: 12%">
-        <a href="/annuaire/{{ person.user.id }}/address/{{ address.id }}/edit/" class="changelink">
+        <a href="{% url ain7.annuaire.views.address_edit person.user.id address.id %}" class="changelink">
         {% trans "Modify" %}</a></td>
     <td style="width: 12%">
-        <a href="/annuaire/{{ person.user.id }}/address/{{ address.id }}/delete/" class="deletelink">
+        <a href="{% url ain7.annuaire.views.address_delete person.user.id address.id %}" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
 </table>
 {% endfor %}
-<p><a href="/annuaire/{{ person.user.id }}/address/add/" class="addlink">
+<p><a href="{% url ain7.annuaire.views.address_edit person.user.id %}" class="addlink">
    {% trans "Add" %}</a></p>
 </div>
 
@@ -194,15 +194,15 @@
    <td>{{ phone_number.number }}
        ({{ phone_number.confidentiality_print }})</td>
     <td style="width: 12%">
-        <a href="/annuaire/{{ person.user.id }}/phone/{{ phone_number.id }}/edit/" class="changelink">
+        <a href="{% url ain7.annuaire.views.phone_edit person.user.id phone_number.id %}" class="changelink">
         {% trans "Modify" %}</a></td>
     <td style="width: 12%">
-        <a href="/annuaire/{{ person.user.id }}/phone/{{ phone_number.id }}/delete/" class="deletelink">
+        <a href="{% url ain7.annuaire.views.phone_delete person.user.id phone_number.id %}" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
 </table>
 {% endfor %}
-<p><a href="/annuaire/{{ person.user.id }}/phone/add/" class="addlink">
+<p><a href="{% url ain7.annuaire.views.phone_edit person.user.id %}" class="addlink">
    {% trans "Add" %}</a></p>
 </div>
 
@@ -216,15 +216,15 @@
 
 </td>
     <td style="width: 12%">
-        <a href="/annuaire/{{ person.user.id }}/email/{{ email.id }}/edit/" class="changelink">
+        <a href="{% url ain7.annuaire.views.email_edit person.user.id email.id %}" class="changelink">
         {% trans "Modify" %}</a></td>
     <td style="width: 12%">
-        <a href="/annuaire/{{ person.user.id }}/email/{{ email.id }}/delete/" class="deletelink">
+        <a href="{% url ain7.annuaire.views.email_delete person.user.id email.id %}" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
 </table>
 {% endfor %}
-<p><a href="/annuaire/{{ person.user.id }}/email/add/" class="addlink">
+<p><a href="{% url ain7.annuaire.views.email_edit person.user.id %}" class="addlink">
    {% trans "Add" %}</a></p>
 </div>
 
@@ -237,15 +237,15 @@
        <img src="/site_media/images/{{ im.get_type_display|lower }}.png" alt="{% trans "Contact" %} {{im.get_im_display|lower }}" width="24" height="24"/>
        {{ im.identifier }} ({{ im.confidentiality_print }})</td>
     <td style="width: 12%">
-        <a href="/annuaire/{{ person.user.id }}/im/{{ im.id }}/edit/" class="changelink">
+        <a href="{% url ain7.annuaire.views.im_edit person.user.id im.id %}" class="changelink">
         {% trans "Modify" %}</a></td>
     <td style="width: 12%">
-        <a href="/annuaire/{{ person.user.id }}/im/{{ im.id }}/delete/" class="deletelink">
+        <a href="{% url ain7.annuaire.views.im_delete person.user.id im.id %}" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
 </table>
 {% endfor %}
-<p><a href="/annuaire/{{ person.user.id }}/im/add/" class="addlink">
+<p><a href="{% url ain7.annuaire.views.im_edit person.user.id %}" class="addlink">
    {% trans "Add" %}</a></p>
 </div>
 
@@ -259,15 +259,15 @@
        {{ irc.pseudo }} @ {{ irc.network }} {% trans "on" %} {{ irc.channels }} ({{ irc.confidentiality_print }})
        </td>
     <td style="width: 12%">
-        <a href="/annuaire/{{ person.user.id }}/irc/{{ irc.id }}/edit/" class="changelink">
+        <a href="{% url ain7.annuaire.views.irc_edit person.user.id irc.id %}" class="changelink">
         {% trans "Modify" %}</a></td>
     <td style="width: 12%">
-        <a href="/annuaire/{{ person.user.id }}/irc/{{ irc.id }}/delete/" class="deletelink">
+        <a href="{% url ain7.annuaire.views.irc_delete person.user.id irc.id %}" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
 </table>
 {% endfor %}
-<p><a href="/annuaire/{{ person.user.id }}/irc/add/" class="addlink">
+<p><a href="{% url ain7.annuaire.views.irc_edit person.user.id %}" class="addlink">
    {% trans "Add" %}</a></p>
 </div>
 
@@ -280,15 +280,15 @@
         <img src="/site_media/images/{{ website.get_type_display|lower }}.png" alt="{% trans "web site" %}" width="24" height="24" />
         <a href="{{ website.url }}">{{ website.url }}</a> ({{ website.confidentiality_print }})</td>
     <td style="width: 12%">
-        <a href="/annuaire/{{ person.user.id }}/website/{{ website.id }}/edit/" class="changelink">
+        <a href="{% url ain7.annuaire.views.website_edit person.user.id website.id %}" class="changelink">
         {% trans "Modify" %}</a></td>
     <td style="width: 12%">
-        <a href="/annuaire/{{ person.user.id }}/website/{{ website.id }}/delete/" class="deletelink">
+        <a href="{% url ain7.annuaire.views.website_delete person.user.id website.id %}" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
 </table>
 {% endfor %}
-<p><a href="/annuaire/{{ person.user.id }}/website/add/" class="addlink">
+<p><a href="{% url ain7.annuaire.views.website_edit person.user.id %}" class="addlink">
    {% trans "Add" %}</a></p>
 </div>
 
@@ -303,15 +303,15 @@
     {% if club_membership.start_date and club_membership.end_date %}(<i>{{ club_membership.start_date|date:"Y" }} - {{ club_membership.end_date|date:"Y" }}</i>){% endif %}</td>
     <td>{% if club_membership.fonction %}{{ club_membership.fonction }}{% endif %}</td>
     <td style="width: 12%">
-        <a href="/annuaire/{{ person.user.id }}/club_membership/{{ club_membership.id }}/edit/" class="changelink">
+        <a href="{% url ain7.annuaire.views.club_membership_edit person.user.id club_membership.id %}" class="changelink">
         {% trans "Modify" %}</a></td>
     <td style="width: 12%">
-        <a href="/annuaire/{{ person.user.id }}/club_membership/{{ club_membership.id }}/delete/" class="deletelink">
+        <a href="{% url ain7.annuaire.views.club_membership_delete person.user.id club_membership.id %}" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
 </table>
 {% endfor %}
-<p><a href="/annuaire/{{ person.user.id }}/club_membership/add/" class="addlink">
+<p><a href="{% url ain7.annuaire.views.club_membership_edit person.user.id %}" class="addlink">
    {% trans "Add" %}</a></p>
 </div>
 
@@ -322,7 +322,7 @@
 
 
 {% block extra-navigation %}
-<li><a href="/annuaire/{{ person.user.id }}/">{% trans "Back to personnal file" %}</a></li>
+<li><a href="{% url ain7.annuaire.views.details person.user.id %}">{% trans "Back to personnal file" %}</a></li>
 {% endblock %}
 
 {% block extra-right-blocks %}

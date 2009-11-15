@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# feeds.py
+"""
+ ain7/feeds.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -27,18 +28,30 @@ from ain7.evenements.models import Event
 from ain7.news.models import NewsItem
 
 class LatestsEvents(Feed):
+    """
+    Return latest events from AIn7
+    """
     title = "AIn7 Events RSS"
     link = "/evenements/"
     description = _("AIn7 organized events")
 
     def items(self):
+        """
+        Item of Events RSS stream
+        """
         return Event.objects.order_by('-publication_start')[:20]
 
 class LatestsNews(Feed):
+    """
+    Return latest news from AIn7
+    """
     title = "AIn7 News RSS"
     link = "/actualites/"
     description = _("AIn7 news")
 
     def items(self):
+        """
+        Item of News RSS stream
+        """
         return NewsItem.objects.order_by('-creation_date')[:20]
 

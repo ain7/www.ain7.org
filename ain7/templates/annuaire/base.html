@@ -26,20 +26,20 @@
       {# filters #}
 
       {% if filtr %}
-      <li><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/reset/">
+      <li><a href="{% url ain7.annuaire.views.filter_reset filtr.id %}">
           {% trans "Reset this filter" %}</a></li>
       {% if filtr.registered %}
-      <li><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/edit/">{% trans "Modify the name of this filter" %}</a></li>
-      <li><a href="/annuaire/advanced_search/filter/{{ filtr.id }}/delete/">{% trans "Delete this filter" %}</a></li>
-      <li><a href="/annuaire/advanced_search/filter/new/">{% trans "New filter" %}</a></li>
+      <li><a href="{% url ain7.annuaire.views.filter_edit filtr.id %}">{% trans "Modify the name of this filter" %}</a></li>
+      <li><a href="{% url ain7.annuaire.views.filter_delete filtr.id %}">{% trans "Delete this filter" %}</a></li>
+      <li><a href="{% url ain7.annuaire.views.filter_new %}">{% trans "New filter" %}</a></li>
       {% else %}
-      <li><a href="/annuaire/advanced_search/filter/register/">{% trans "Save this filter" %}</a></li>
+      <li><a href="{% url ain7.annuaire.views.filter_register %}">{% trans "Save this filter" %}</a></li>
       {% endif %}
       {% endif %}
 
       {# permanent links #}
       {% if superadmin or ca_member or secretariat_member %}
-      <li><a href="/annuaire/register/">{% trans "Register a new member" %}</a></li>
+      <li><a href="{% url ain7.annuaire.views.add %}">{% trans "Register a new member" %}</a></li>
       {% endif %}
     </ul>
    </div>
@@ -53,11 +53,9 @@
        <div class="right_articles">
        <ul>
          {% block worksheet-export %}
-         <li><a href="/annuaire/csv/">{% trans "Worksheet export" %}</a></li>
+         <li><a href="{% url ain7.annuaire.views.export_csv %}">{% trans "Worksheet export" %}</a></li>
          {% endblock %}
-         <!--
-         <li><a href="/annuaire/sendmail/">{% trans "Send a mail" %}</a></li>
-         -->
+         {# <li><a href="{% url ain7.annuaire.views.sendmail %}">{% trans "Send a mail" %}</a></li> #}
        </ul>
        </div>
      {% endif %}
@@ -69,7 +67,7 @@
    <div class="right_articles">
     <ul>
       {% block extra-navigation %}{% endblock %}
-      <li><a href="/annuaire/advanced_search/">{% trans "Advanced Search" %}</a></li>
+      <li><a href="{% url ain7.annuaire.views.advanced_search %}">{% trans "Advanced Search" %}</a></li>
     </ul>
    </div>
    {% endblock %}
@@ -81,8 +79,7 @@
    <ul>
        {% for filter in userFilters %}
          <li>
-           <a href="/annuaire/advanced_search/filter/{{ filter.id }}/">
-             {{ filter }}</a>
+           <a href="{% url ain7.annuaire.views.filter_details filter.id %}">{{ filter }}</a>
          </li>
        {% endfor %}
    </ul>

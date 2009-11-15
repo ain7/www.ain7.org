@@ -68,7 +68,7 @@ class AutoCompleteField(TextInput):
             addlink += 'window.addEvent(\'domready\', function() {'
             addlink += 'window.floatingPane = new FloatingPane({title: "Adding", height: 400, width: 600, opacity: 0.75, draggable: true});'
             addlink += '});'
-	    addlink += '</script>'
+            addlink += '</script>'
             addlink += '<a href="javascript:floatingPane.show(\'/manage/nationality/add/\',\'Add a new nationality\');" class="addlink">'+_('Add')+'</a>'
 
         # si une valeur a été saisie, je remplis le champ

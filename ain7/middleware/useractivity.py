@@ -48,7 +48,9 @@ class UserActivityMiddleware(object):
                 ua = UserActivity()
                 ua.person = person
                 ua.date = now
-                ua.client_address = request.META['REMOTE_HOST']
-                ua.browser_info = request.META['HTTP_USER_AGENT']
+                if request.META.has_key('REMOTE_HOST'):
+                    ua.client_address = request.META['REMOTE_HOST']
+                if request.META.has_key('HTTP_USER_AGENT'):
+                    ua.browser_info = request.META['HTTP_USER_AGENT']
                 ua.save()
 

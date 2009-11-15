@@ -112,7 +112,7 @@
 		<div class="right_articles">
 			{% for member in birthdays %}
 			<a href="{% url ain7.annuaire.views.details member.person.pk %}">{{ member }}</a>
-			{% if not forloop.last %} ; {% endif %}
+			{% if not forloop.last %} - {% endif %}
 			{% endfor %}
 		</div>
 {% endif %}

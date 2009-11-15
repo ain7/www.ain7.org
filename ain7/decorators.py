@@ -1,7 +1,7 @@
 # -*- coding: utf-8
-#
-# decorators.py
-#
+"""
+ ain7/decorators.py
+"""
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
@@ -20,32 +20,33 @@
 #
 #
 
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect
-from django.template import RequestContext
-from django import forms
 from django.utils.translation import ugettext as _
 
 from ain7.utils import ain7_render_to_response
 
-def confirmation_required(get_description, section='base.html', message=_('Are you sure you want to do this action?')):
+def confirmation_required(get_description, section='base.html', 
+           message=_('Are you sure you want to do this action?')):
     """
     Decorator for views that need confirmation.
     """
 
     def _dec(view_func):
+        """
+        Decorator than redirect to a simple with a yes/no question
+        """
         def _checkconfirm(request, *args, **kwargs):
+            """
+            Main decorator function for asking confirmation
+            """
             if request.method != 'POST':
                 description = get_description(*args, **kwargs)
                 back = request.META.get('HTTP_REFERER', '/')
                 return ain7_render_to_response(request, 'pages/confirm.html',
-                                        {'description': description, 'section': section,
-                                         'message': message, 'back': back})
+                             {'description': description, 'section': section,
+                              'message': message, 'back': back})
             else:
                 # Go to the decorated view
                 return view_func(request, *args, **kwargs)
-        _checkconfirm.__doc__ = view_func.__doc__
-        _checkconfirm.__dict__ = view_func.__dict__
 
         return _checkconfirm
     return _dec
