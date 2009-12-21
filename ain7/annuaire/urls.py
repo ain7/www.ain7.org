@@ -26,7 +26,6 @@ urlpatterns = patterns('ain7.annuaire.views',
     # Annuaire
     (r'^$', 'search'),
     (r'^csv/$', 'export_csv'),
-    (r'^sendmail/$', 'sendmail'),
     (r'^add/$', 'add'),
     (r'^(?P<user_id>\d+)/$', 'details'),
     # Advanced search

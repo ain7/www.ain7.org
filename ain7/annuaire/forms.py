@@ -79,11 +79,6 @@ class SearchPersonForm(forms.Form):
     def search(self, criteria):
         return AIn7Member.objects.filter(criteria).distinct().order_by('person__last_name','person__first_name')
 
-class SendmailForm(forms.Form):
-    subject = forms.CharField(label=_('subject'),max_length=50, required=False, widget=forms.TextInput(attrs={'size':'40'}))
-    body = forms.CharField(label=_('body'),max_length=500, required=False, widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':95}))
-    send_test = forms.BooleanField(label=_('Send me a test'), required=False)
-
 class NewMemberForm(forms.Form):
     first_name = forms.CharField(label=_('First name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size':40}))
     last_name = forms.CharField(label=_('Last name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 40}))

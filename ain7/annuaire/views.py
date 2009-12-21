@@ -442,34 +442,6 @@ def adv_export_csv(request, filter_id=None):
     return se_export_csv(request, sf.search(), se, 'annuaire/edit_form.html')
 
 @login_required
-def sendmail(request):
-
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
-        return r
-
-    if not request.session.has_key('filter'):
-        request.user.message_set.create(message=_("You have to make a search before using sendmail."))
-        return HttpResponseRedirect(request.META['HTTP_REFERER'])
-
-    criteria = request.session['filter']
-    ain7members = AIn7Member.objects.filter(**criteria).distinct()
-
-    f= SendmailForm()
-
-    if request.method == 'POST':
-        f = SendmailForm(request.POST)
-        if f.is_valid():
-            if f.cleaned_data['send_test']:
-                request.user.person.send_mail(f.cleaned_data['subject'].encode('utf8'),f.cleaned_data['body'].encode('utf8'))
-            else:
-                for member in ain7members:
-                    member.person.send_mail(f.cleaned_data['subject'].encode('utf8'),f.cleaned_data['body'].encode('utf8'))
-
-    return ain7_render_to_response(request, 'annuaire/sendmail.html',
-                            {'form': f})
-
-@login_required
 def edit(request, user_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
