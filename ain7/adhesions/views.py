@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# adhesions/views.py
+"""
+ ain7:adhesions/views.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -33,28 +34,36 @@ from ain7.adhesions.forms import ConfigurationForm, SubscriptionForm
 from ain7.adhesions.models import Subscription, SubscriptionConfiguration
 from ain7.annuaire.models import AIn7Member, Person
 from ain7.decorators import confirmation_required
-from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access, LoggedClass
+from ain7.utils import ain7_render_to_response, ain7_generic_edit
+from ain7.utils import ain7_generic_delete, check_access, LoggedClass
 
 
 def index(request):
-    count_subscribers = Subscription.objects.filter(validated=True).exclude(start_year__gt=datetime.date.today().year).exclude(end_year__lt=datetime.date.today().year).count()
+    """index adhesions"""
+    count_subscribers = Subscription.objects.filter(validated=True).exclude(\
+        start_year__gt=datetime.date.today().year).exclude(\
+        end_year__lt=datetime.date.today().year).count()
     return ain7_render_to_response(request, 'adhesions/index.html',
-        {'subscriptions_list': Subscription.objects.filter(validated=True).order_by('-start_year', '-end_year')[:10],
+        {'subscriptions_list': Subscription.objects.filter(validated=True).\
+            order_by('-start_year', '-end_year')[:10],
          'count_members': AIn7Member.objects.count(),
          'count_subscribers': count_subscribers})
 
 @login_required
 def subscriptions(request, to_validate=False):
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
-        return r
+    """list subscriptions"""
+    access = check_access(request, request.user,
+        ['ain7-secretariat','ain7-ca'])
+    if access:
+        return access
 
     nb_results_by_page = 50
-    subscriptions_list = Subscription.objects.order_by('validated', '-start_year', '-end_year')
+    subscriptions_list = Subscription.objects.order_by(\
+         'validated', '-start_year', '-end_year')
 
     if to_validate:
         subscriptions_list = subscriptions_list.filter(validated=False)
-    paginator = Paginator(subscriptions_list,nb_results_by_page)
+    paginator = Paginator(subscriptions_list, nb_results_by_page)
 
     try:
         page = int(request.GET.get('page', '1'))
@@ -73,26 +82,35 @@ def subscriptions(request, to_validate=False):
          'last_result': min((page) * nb_results_by_page, paginator.count),
          'hits': paginator.count})
 
-@confirmation_required(lambda user_id=None, subscription_id=None : str(get_object_or_404(Subscription, pk=subscription_id)), 'adhesions/base.html', _('Do you really want to validate this subscription'))
+@confirmation_required(lambda user_id=None, subscription_id=None : 
+     str(get_object_or_404(Subscription, pk=subscription_id)), 
+     'adhesions/base.html', 
+    _('Do you really want to validate this subscription'))
 @login_required
 def subscription_validate(request, subscription_id=None):
-    r = check_access(request, request.user, ['ain7-secretariat'])
-    if r and unicode(request.user.id) != user_id:
-        return r
+    """validate subscription"""
+    access = check_access(request, request.user, ['ain7-secretariat'])
+    if access and unicode(request.user.id) != user_id:
+        return access
 
     subscription = get_object_or_404(Subscription, pk=subscription_id)
-    subscription.validated=True
+    subscription.validated = True
     subscription.logged_save(request.user.person)
 
-    request.user.message_set.create(message=_('Subscription successfully validated.'))
+    request.user.message_set.create(\
+         message=_('Subscription successfully validated.'))
     return HttpResponseRedirect(reverse(subscriptions))
 
-@confirmation_required(lambda user_id=None, subscription_id=None : str(get_object_or_404(Subscription, pk=subscription_id)), 'adhesions/base.html', _('Do you really want to delete this subscription'))
+@confirmation_required(lambda user_id=None, subscription_id=None :
+    str(get_object_or_404(Subscription, pk=subscription_id)),
+    'adhesions/base.html', 
+    _('Do you really want to delete this subscription'))
 @login_required
 def subscription_delete(request, subscription_id=None):
-    r = check_access(request, request.user, ['ain7-secretariat'])
-    if r:
-        return r
+    """delete subscription"""
+    access = check_access(request, request.user, ['ain7-secretariat'])
+    if access:
+        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(Subscription, pk=subscription_id),
@@ -101,102 +119,131 @@ def subscription_delete(request, subscription_id=None):
 
 @login_required
 def user_subscriptions(request, user_id):
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
-        return r
+    """show user subscriptions"""
+    access = check_access(request, request.user,
+        ['ain7-secretariat','ain7-ca'])
+    if access:
+        return access
 
-    p = get_object_or_404(Person, pk=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=p)
+    person = get_object_or_404(Person, pk=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=person)
 
-    subscriptions_list = Subscription.objects.filter(member=ain7member).order_by('-start_year')
+    subscriptions_list = Subscription.objects.filter(member=ain7member).\
+        order_by('-start_year')
 
-    return ain7_render_to_response(request, 'adhesions/user_subscriptions.html',
-                            {'person': p, 'ain7member': ain7member, 'subscriptions_list': subscriptions_list})
+    return ain7_render_to_response(request, 
+        'adhesions/user_subscriptions.html',
+        {'person': person, 'ain7member': ain7member, 
+         'subscriptions_list': subscriptions_list})
 
 @login_required
 def subscription_add(request, user_id=None):
-    r = check_access(request, request.user, ['ain7-secretariat'])
-    if r and unicode(request.user.id) != user_id:
-        return r
+    """add user subscription"""
+    access = check_access(request, request.user, ['ain7-secretariat'])
+    if access and unicode(request.user.id) != user_id:
+        return access
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
 
     title = _('Adding a subscription for')
 
-    pageDict = {'action_title': title, 'person': person,
-                'configurations': SubscriptionConfiguration.objects.all().order_by('type'),
-                'back': request.META.get('HTTP_REFERER', '/')}
+    page_dict = {'action_title': title, 'person': person,
+        'configurations': SubscriptionConfiguration.objects.all().\
+             order_by('type'),
+        'back': request.META.get('HTTP_REFERER', '/')}
 
     # 1er passage : on propose un formulaire avec les données actuelles
     if request.method == 'GET':
-        if Subscription.objects.filter(member=ain7member).exclude(start_year__gt=datetime.date.today().year).exclude(end_year__lt=datetime.date.today().year):
-            request.user.message_set.create(message=_('You already have an active subscription.'))
-        f = SubscriptionForm()
-        pageDict.update({'form': f})
-        return ain7_render_to_response(request, 'adhesions/subscribe.html', pageDict)
+        if Subscription.objects.filter(member=ain7member).\
+            exclude(start_year__gt=datetime.date.today().year).\
+            exclude(end_year__lt=datetime.date.today().year):
+            request.user.message_set.create(\
+            message=_('You already have an active subscription.'))
+        form = SubscriptionForm()
+        page_dict.update({'form': form})
+        return ain7_render_to_response(request, 
+            'adhesions/subscribe.html', page_dict)
 
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
-        f = SubscriptionForm(request.POST.copy(), request.FILES)
-        if f.is_valid():
-            configuration = SubscriptionConfiguration.objects.get(type=f.data['configuration'])
+        form = SubscriptionForm(request.POST.copy(), request.FILES)
+        if form.is_valid():
+            configuration = SubscriptionConfiguration.objects.get(\
+                type=form.data['configuration'])
 
             subscription = Subscription()
-            subscription.dues_amount = f.cleaned_data['dues_amount']
-            subscription.newspaper_amount = f.cleaned_data['newspaper_amount']
-            subscription.tender_type = f.cleaned_data['tender_type']
-            subscription.start_year = f.cleaned_data['start_year']
-            subscription.end_year = f.cleaned_data['start_year'] + configuration.duration - 1
+            subscription.dues_amount = form.cleaned_data['dues_amount']
+            subscription.newspaper_amount = \
+                form.cleaned_data['newspaper_amount']
+            subscription.tender_type = form.cleaned_data['tender_type']
+            subscription.start_year = form.cleaned_data['start_year']
+            subscription.end_year = form.cleaned_data['start_year'] + \
+                configuration.duration - 1
             subscription.member = ain7member
             subscription.save()
 
             if isinstance(subscription, LoggedClass) and request.user:
                 subscription.logged_save(request.user.person)
-            request.user.message_set.create(message=_('Subscription successfully added.'))
+            request.user.message_set.create(message=
+                 _('Subscription successfully added.'))
         else:
-            pageDict.update({'form': f})
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
-            return ain7_render_to_response(request, 'adhesions/subscribe.html', pageDict)
+            page_dict.update({'form': form})
+            request.user.message_set.create(message=_('Something was wrong in\
+ the form you filled. No modification done.'))
+            return ain7_render_to_response(request, 'adhesions/subscribe.html',
+                page_dict)
         redirect = reverse(user_subscriptions, kwargs={'user_id': user_id})
         return HttpResponseRedirect(redirect)
 
 @login_required
 def configurations(request):
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
-        return r
+    """configure subscriptions"""
+    access = check_access(request, request.user,
+        ['ain7-secretariat','ain7-ca'])
+    if access:
+        return access
 
     return ain7_render_to_response(request, 'adhesions/configurations.html',
-                                   {'configurations_list': SubscriptionConfiguration.objects.all().order_by('type')})
+        {'configurations_list': 
+         SubscriptionConfiguration.objects.all().order_by('type')})
 
 @login_required
 def configuration_edit(request, configuration_id=None):
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
-        return r
+    """edit subscription configuration"""
+    access = check_access(request, request.user, 
+        ['ain7-secretariat','ain7-ca'])
+    if access:
+        return access
 
     configuration = None
     action = 'create'
-    msgDone = _('Configuration successfully added.')
+    msg_done = _('Configuration successfully added.')
     if configuration_id:
-        configuration = get_object_or_404(SubscriptionConfiguration, pk=configuration_id)
+        configuration = get_object_or_404(SubscriptionConfiguration,
+            pk=configuration_id)
         action = 'edit'
-        msgDone = _('Configuration informations updated successfully.')
+        msg_done = _('Configuration informations updated successfully.')
     return ain7_generic_edit(
         request, configuration, ConfigurationForm, {},
         'adhesions/configuration_edit.html',
         {'action': 'create', 'back': request.META.get('HTTP_REFERER', '/')}, {},
-         reverse(configurations), msgDone)
+         reverse(configurations), msg_done)
 
-@confirmation_required(lambda user_id=None, configuration_id=None : str(get_object_or_404(SubscriptionConfiguration, pk=configuration_id)), 'adhesions/base.html', _('Do you really want to delete this configuration'))
+@confirmation_required(lambda user_id=None, configuration_id=None:
+    str(get_object_or_404(SubscriptionConfiguration, pk=configuration_id)),
+    'adhesions/base.html', _('Do you really want to delete this configuration'))
 @login_required
 def configuration_delete(request, configuration_id=None):
+    """delete subscription configuration"""
 
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-secretariat', 'ain7-ca'])
+    if access:
+        return access
 
-    return ain7_generic_delete(request, get_object_or_404(SubscriptionConfiguration, pk=configuration_id),
-                               reverse(configurations),
-                               _('Configuration successfully deleted.'))
+    return ain7_generic_delete(request, 
+         get_object_or_404(SubscriptionConfiguration, pk=configuration_id),
+         reverse(configurations),
+         _('Configuration successfully deleted.'))
+

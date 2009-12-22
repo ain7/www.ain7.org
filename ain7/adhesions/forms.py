@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# annuaire/forms.py
+"""
+ ain7/adhesions/forms.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -23,23 +24,27 @@
 import datetime
 
 from django import forms
-from django.contrib.auth.models import User
-from django.forms.util import ValidationError
-from django.shortcuts import get_object_or_404
-from django.utils.translation import ugettext as _
 
 from ain7.adhesions.models import Subscription, SubscriptionConfiguration
 
+
 class SubscriptionForm(forms.ModelForm):
+    """AIn7Member Subscription Form"""
     dues_amount = forms.IntegerField(widget=forms.HiddenInput())
-    newspaper_amount = forms.IntegerField(required=False, widget=forms.HiddenInput())
-    start_year = forms.IntegerField(initial=datetime.datetime.now().year, widget=forms.HiddenInput())
+    newspaper_amount = forms.IntegerField(required=False,
+        widget=forms.HiddenInput())
+    start_year = forms.IntegerField(initial=datetime.datetime.now().year, 
+        widget=forms.HiddenInput())
 
     class Meta:
+        """Meta SubscriptionForm"""
         model = Subscription
         exclude = ('old_id', 'member', 'validated', 'end_year')
 
 class ConfigurationForm(forms.ModelForm):
+    """Subscription Configuration Form"""
+
     class Meta:
+        """Meta ConfigurationForm"""
         model = SubscriptionConfiguration
 

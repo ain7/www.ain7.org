@@ -1,7 +1,7 @@
 # -*- coding: utf-8
-#
-# adhesions/models.py
-#
+"""
+ ain7/adhesions/models.py
+"""
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
@@ -29,6 +29,9 @@ from ain7.annuaire.models import AIn7Member
 from ain7.utils import LoggedClass
 
 class Subscription(LoggedClass):
+    """
+    AIn7Member Subscription
+    """
 
     TENDER_TYPE = (
                    (0, _('Cash')),
@@ -39,46 +42,63 @@ class Subscription(LoggedClass):
                    )
 
     # For potential backward compatibility
-    old_id = models.IntegerField(verbose_name='old id', blank=True, null=True, unique=True)
+    old_id = models.IntegerField(verbose_name='old id', blank=True, null=True,
+        unique=True)
 
     dues_amount = models.FloatField(verbose_name=_('Dues amount'))
-    newspaper_amount = models.FloatField(verbose_name=_('Newspaper amount'), null=True, blank=True)
-    tender_type = models.IntegerField(verbose_name=_('Tender type'), choices=TENDER_TYPE)
+    newspaper_amount = models.FloatField(verbose_name=_('Newspaper amount'), 
+        null=True, blank=True)
+    tender_type = models.IntegerField(verbose_name=_('Tender type'), 
+        choices=TENDER_TYPE)
     validated = models.BooleanField(verbose_name=_('validated'), default=False)
 
     start_year = models.IntegerField(verbose_name=_('start year'))
     end_year = models.IntegerField(verbose_name=_('end year'))
 
-    member = models.ForeignKey(AIn7Member, verbose_name=_('member'), related_name='subscriptions')
+    member = models.ForeignKey(AIn7Member, verbose_name=_('member'), 
+        related_name='subscriptions')
 
     def __unicode__(self):
+        """unicode string for subscription object"""
         return u'%s %s → %s' % (self.member, self.start_year, self.end_year)
 
     class Meta:
+        """Meta"""
         verbose_name = _('Subscription')
 
 class SubscriptionConfiguration(models.Model):
+    """
+    AIn7Member Subscription Configuration
+    """
+
     TYPE = (
-            (0, _('Promotions before %(year)s') % {'year': datetime.date.today().year-5}),
-            (1, _('Promotions from %(start_year)s to %(end_year)s') % {'start_year': datetime.date.today().year-5, 'end_year': datetime.date.today().year-1}),
+            (0, _('Promotions before %(year)s') % \
+                 {'year': datetime.date.today().year-5}),
+            (1, _('Promotions from %(start_year)s to %(end_year)s') % \
+                 {'start_year': datetime.date.today().year-5, \
+                 'end_year': datetime.date.today().year-1}),
             (2, _('Retired')),
             (3, _('Donator')),
             (4, _('Unemployed (with voucher)')),
-            (5, _('First year (for 3 years)')),
-            (6, _('Second year (for 2 years)')),
-            (7, _('Third year')),
+            (5, _('Student, for three years')),
+            (6, _('Student, for two years')),
+            (7, _('Student, for one year')),
             (8, _('Couple')),
             (9, _('Support')),
             )
 
-    type = models.IntegerField(verbose_name=_('Type'), unique=True, choices=TYPE)
+    type = models.IntegerField(verbose_name=_('Type'), unique=True, 
+        choices=TYPE)
     dues_amount = models.IntegerField(verbose_name=_('Dues amount'))
-    newspaper_amount = models.IntegerField(verbose_name=_('Newspaper amount'), null=True, blank=True)
+    newspaper_amount = models.IntegerField(verbose_name=_('Newspaper amount'),
+         null=True, blank=True)
     duration = models.IntegerField(verbose_name=_('Duration'), default=1)
 
     def __unicode__(self):
+        """unicode string for subscriptionconfiguration object"""
         return self.get_type_display()
 
     class Meta:
+        """Meta"""
         verbose_name = _('Configuration')
 
