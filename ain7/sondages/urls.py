@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# sondages/urls.py
+"""
+ ain7/sondages/urls.py
+"""
 #
 #   Copyright © 2007-2009 AIn7
 #
@@ -20,7 +21,7 @@
 #
 #
 
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import patterns
 
 
 urlpatterns = patterns('ain7.sondages.views',
@@ -39,6 +40,7 @@ urlpatterns = patterns('ain7.sondages.views',
     # Choice edition
     (r'^(?P<survey_id>\d+)/choice/add/$', 'choice_add'),
     (r'^(?P<survey_id>\d+)/choice/(?P<choice_id>\d+)/edit/$', 'choice_edit'),
-    (r'^(?P<survey_id>\d+)/choice/(?P<choice_id>\d+)/delete/$', 'choice_delete'),
+    (r'^(?P<survey_id>\d+)/choice/(?P<choice_id>\d+)/delete/$', 
+        'choice_delete'),
 
 )

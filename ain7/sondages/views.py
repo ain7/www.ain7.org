@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# sondages/views.py
+"""
+ ain7/sondages/views.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -20,20 +21,20 @@
 #
 #
 
-from django import forms
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
 from ain7.decorators import confirmation_required
 from ain7.sondages.models import Choice, Survey, Vote
 from ain7.sondages.forms import *
-from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete
+from ain7.utils import ain7_render_to_response
+from ain7.utils import ain7_generic_edit, ain7_generic_delete
 
 
 def index(request):
+    """index page"""
     surveys = Survey.objects.all()
 
     return ain7_render_to_response(request, 'sondages/index.html',
@@ -41,6 +42,7 @@ def index(request):
 
 
 def view(request, survey_id):
+    """view survey"""
     survey = get_object_or_404(Survey, pk=survey_id)
     already_vote = request.user.is_authenticated()\
                     and survey.has_been_voted_by(request.user.person)
@@ -50,6 +52,7 @@ def view(request, survey_id):
 
 @login_required
 def vote(request, survey_id):
+    """survey vote"""
     survey = get_object_or_404(Survey, pk=survey_id)
     voter = request.user.person
     if not survey.has_been_voted_by(voter):
@@ -61,16 +64,19 @@ def vote(request, survey_id):
                                      {'survey': survey})
         else:
             # Create vote
-            request.user.message_set.create(message=_('Your vote has been registered.'))
-            vote = Vote(choice=choice, voter=voter, survey=survey)
-            vote.save()
+            request.user.message_set.create(
+                message=_('Your vote has been registered.'))
+            user_vote = Vote(choice=choice, voter=voter, survey=survey)
+            user_vote.save()
     else :
         # Already voted
-        request.user.message_set.create(message=_('You have already vote for this survey.'))
+        request.user.message_set.create(message=
+            _('You have already vote for this survey.'))
     return HttpResponseRedirect('/sondages/%s/' % (survey.id))
 
 @login_required
 def create(request):
+    """create new survey"""
     return ain7_generic_edit(
         request, None, SurveyForm, {}, 'sondages/form.html',
         {'title': _('Survey creation')}, {}, '/sondages/$objid/details/',
@@ -78,28 +84,33 @@ def create(request):
 
 @login_required
 def details(request, survey_id):
+    """survey details"""
     survey = get_object_or_404(Survey, pk=survey_id)
     return ain7_render_to_response(request, 'sondages/details.html',
                             {'survey': survey})
 
 @login_required
 def edit(request, survey_id):
+    """survey edit"""
     survey = get_object_or_404(Survey, pk=survey_id)
     return ain7_generic_edit(
         request, survey, SurveyForm, {}, 'sondages/form.html',
         {'title': _('Survey edition')},  {},
         '/sondages/%s/details/' % survey_id, _('Survey succesfully updated.'))
 
-@confirmation_required(lambda survey_id: str(get_object_or_404(Survey, pk=survey_id)),
-                       'sondages/base.html', _('Do you really want to delete this survey?'))
+@confirmation_required(lambda survey_id: str(get_object_or_404(Survey,
+      pk=survey_id)),
+      'sondages/base.html', _('Do you really want to delete this survey?'))
 @login_required
 def delete(request, survey_id):
+    """survey delete"""
     return ain7_generic_delete(request,
         get_object_or_404(Survey, pk=survey_id), '/sondages/',
         _('Survey successfully deleted.'))
 
 @login_required
 def choice_add(request, survey_id):
+    """add choice"""
     survey = get_object_or_404(Survey, pk=survey_id)
     return ain7_generic_edit(
         request, None, ChoiceForm, {'survey': survey}, 'sondages/form.html',
@@ -108,6 +119,7 @@ def choice_add(request, survey_id):
 
 @login_required
 def choice_edit(request, survey_id, choice_id):
+    """edit choice"""
     survey = get_object_or_404(Survey, pk=survey_id)
     choice = get_object_or_404(Choice, pk=choice_id)
     return ain7_generic_edit(
@@ -115,9 +127,12 @@ def choice_edit(request, survey_id, choice_id):
         {'title': _('Choice edition')}, {},
         '/sondages/%s/details/' % survey_id, _('Choice succesfully updated.'))
 
-@confirmation_required(lambda survey_id, choice_id: str(get_object_or_404(Choice, pk=choice_id)),'sondages/base.html', _('Do you really want to delete the choice'))
+@confirmation_required(lambda survey_id, choice_id: 
+     str(get_object_or_404(Choice, pk=choice_id)), 'sondages/base.html', 
+     _('Do you really want to delete the choice'))
 @login_required
 def choice_delete(request, survey_id, choice_id):
+    """choice delete"""
     return ain7_generic_delete(request,
         get_object_or_404(Choice, pk=choice_id),
         '/sondages/%s/details/' % survey_id, _('Choice successfully deleted.'))

@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# sondages/forms.py
+"""
+ ain7/sondages/forms.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -23,8 +24,7 @@
 from django import forms
 from django.utils.translation import ugettext as _
 
-from ain7.fields import AutoCompleteField
-from ain7.sondages.models import *
+from ain7.sondages.models import Survey, Choice
 from ain7.widgets import DateTimeWidget
 
 
@@ -32,22 +32,29 @@ dateWidget = DateTimeWidget()
 dateWidget.dformat = '%d/%m/%Y'
 
 class SurveyForm(forms.ModelForm):
+    """survey form"""
     start_date = forms.DateTimeField(label=_('start date'), required=True,
-                                     widget=dateWidget)
+        widget=dateWidget)
     end_date = forms.DateTimeField(label=_('end date'), required=True,
-                                   widget=dateWidget)
+        widget=dateWidget)
 
     class Meta:
+        """survey form meta"""
         model = Survey
 
     def clean_end_date(self):
+        """check date in survey form"""
         if self.cleaned_data.get('start_date') and \
             self.cleaned_data.get('end_date') and \
-            self.cleaned_data['start_date']>self.cleaned_data['end_date']:
+            self.cleaned_data['start_date'] > self.cleaned_data['end_date']:
             raise forms.ValidationError(_('Start date is later than end date'))
         return self.cleaned_data['end_date']
 
 class ChoiceForm(forms.ModelForm):
+    """choice form"""
+
     class Meta:
+        """meta choice form"""
         model = Choice
         exclude = ('survey')
+

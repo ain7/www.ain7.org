@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# sondages/models.py
+"""
+ ain7/sondages/models.py
+"""
 #
 #   Copyright © 2007-2009 AIn7
 #
@@ -29,26 +30,33 @@ from ain7.annuaire.models import Person
 
 
 class Survey(models.Model):
+    """survey"""
     question = models.CharField(verbose_name=_('question'), max_length=200)
     start_date = models.DateField(verbose_name=_('start date'))
     end_date = models.DateField(verbose_name=_('end date'))
 
     def __unicode__(self):
+        """survey unicode"""
         return self.question
 
     def has_been_voted_by(self, voter):
+        """survey has been voted by someone"""
         return Vote.objects.filter(survey=self, voter=voter).count() != 0
 
     def nb_vote(self):
+        """number of votes"""
         return Vote.objects.filter(survey=self).count()
 
     def delete(self):
-        for choice in self.choices.all(): choice.delete()
-        for vote   in self.votes.all():   vote.delete()
+        """delete survey"""
+        for choice in self.choices.all():
+            choice.delete()
+        for vote in self.votes.all():
+            vote.delete()
         return super(Survey, self).delete()
         
     def is_valid(self):
-        """Test pour les sondages affichés en page d'accueil."""
+        """Test for survey that have to be displayed on index"""
         return (self.start_date == None or
                 self.start_date <= datetime.date.today()) and \
                (self.end_date == None or
@@ -56,17 +64,22 @@ class Survey(models.Model):
                (self.choices.count() > 0)
 
     class Meta:
+        """survey meta"""
         verbose_name = _('survey')
 
 class Choice(models.Model):
+    """survey choice"""
     choice = models.CharField(verbose_name=_('choice'), max_length=200)
 
-    survey = models.ForeignKey(Survey, verbose_name=_('survey'), related_name='choices')
+    survey = models.ForeignKey(Survey, verbose_name=_('survey'),
+        related_name='choices')
 
     def __unicode__(self):
+        """survey choice unicode method"""
         return self.choice
 
     def rate(self):
+        """survey choice rate method"""
         total = self.survey.nb_vote()
         if total == 0:
             return 0
@@ -74,13 +87,20 @@ class Choice(models.Model):
             return (self.votes.count() * 100.0) / total
 
     class Meta:
+        """survey choice meta"""
         verbose_name = _('choice')
         verbose_name_plural = _('choices')
 
 class Vote(models.Model):
-    voter = models.ForeignKey(Person, verbose_name=_('voter'), related_name='votes')
-    choice = models.ForeignKey(Choice, verbose_name=_('choice'), related_name='votes')
-    survey = models.ForeignKey(Survey, verbose_name=_('survey'), related_name='votes')
+    """survey vote"""
+    voter = models.ForeignKey(Person, verbose_name=_('voter'),
+        related_name='votes')
+    choice = models.ForeignKey(Choice, verbose_name=_('choice'),
+        related_name='votes')
+    survey = models.ForeignKey(Survey, verbose_name=_('survey'),
+        related_name='votes')
 
     class Meta:
+        """vote meta"""
         verbose_name = _('vote')
+
