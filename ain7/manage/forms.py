@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# manage/forms.py
+"""
+ ain7/manage/forms.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -22,9 +23,7 @@
 
 from django import forms
 from django.db import models
-from django.contrib.auth.models import User, Group, Permission
-from django.contrib.contenttypes.models import ContentType
-from django.forms.util import ValidationError
+from django.contrib.auth.models import User, Group
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person, Country, Email
@@ -38,80 +37,114 @@ dateWidget = DateTimeWidget()
 dateWidget.dformat = '%d/%m/%Y'
 
 class SearchUserForm(forms.Form):
-    last_name = forms.CharField(label=_('Last name'), max_length=50, required=False)
-    first_name = forms.CharField(label=_('First name'), max_length=50, required=False)
-    organization = forms.CharField(label=_('organization').capitalize(), max_length=50, required=False,widget=AutoCompleteField(completed_obj_name='organization'))
+    """user search form"""
+    last_name = forms.CharField(label=_('Last name'), max_length=50,
+        required=False)
+    first_name = forms.CharField(label=_('First name'), max_length=50,
+        required=False)
+    organization = forms.CharField(label=_('organization').capitalize(), 
+        max_length=50, required=False,
+        widget=AutoCompleteField(completed_obj_name='organization'))
 
     def search(self):
-        q  = models.Q(last_name__icontains=self.cleaned_data['last_name']) | \
-             models.Q(maiden_name__icontains=self.cleaned_data['last_name'])
-        q &= models.Q(first_name__icontains=self.cleaned_data['first_name'])
-        if self.cleaned_data['organization']!="":
-            q &= models.Q(ain7member__positions__office__organization__exact=\
+        """search method for a user"""
+        querry = models.Q(\
+            last_name__icontains=self.cleaned_data['last_name']) | \
+            models.Q(maiden_name__icontains=self.cleaned_data['last_name'])
+        querry &= models.Q(\
+            first_name__icontains=self.cleaned_data['first_name'])
+        if self.cleaned_data['organization'] != "":
+            querry &= models.Q(\
+                ain7member__positions__office__organization__exact=\
                 Organization.objects.get(id=self.cleaned_data['organization']))
-        return Person.objects.filter(q).distinct()
+        return Person.objects.filter(querry).distinct()
 
 class SearchRoleForm(forms.Form):
+    """role search form"""
     name = forms.CharField(label=_('Name'), max_length=50, required=False)
 
     def search(self):
-        criteria={'name__icontains':self.cleaned_data['name']}
+        """search method for a role"""
+        criteria = {'name__icontains':self.cleaned_data['name']}
         return Group.objects.filter(**criteria).order_by('name')
 
 
 class SearchOrganizationForm(forms.Form):
+    """organization search form"""
     name = forms.CharField(label=_('Name'), max_length=50, required=False)
 #     location = forms.CharField(
 #         label=_('Location'), max_length=50, required=False)
-    activity_field = forms.CharField(label=_('Activity field'), max_length=50, required=False,widget=AutoCompleteField(completed_obj_name='activity_field'))
-    activity_code = forms.CharField(label=_('Activity code'), max_length=50, required=False,widget=AutoCompleteField(completed_obj_name='activitycode'))
+    activity_field = forms.CharField(label=_('Activity field'), max_length=50,
+        required=False,
+        widget=AutoCompleteField(completed_obj_name='activity_field'))
+    activity_code = forms.CharField(label=_('Activity code'), max_length=50, 
+        required=False,
+        widget=AutoCompleteField(completed_obj_name='activitycode'))
 
     def criteria(self):
+        """defines criterias for an organization"""
         criteria = {'name__icontains': self.cleaned_data['name'],
-                    'is_a_proposal': False}
+            'is_a_proposal': False}
 #                     'location__contains': self.cleaned_data['location'],
-        if self.cleaned_data['activity_field']!="":
+        if self.cleaned_data['activity_field'] != "":
             criteria['activity_field__exact'] = ActivityField.objects.get(
                 id=self.cleaned_data['activity_field'])
-        if self.cleaned_data['activity_code']!="":
+        if self.cleaned_data['activity_code'] != "":
             criteria['activity_field__exact'] = ActivityField.objects.get(
                 id=self.cleaned_data['activity_code'])
         return criteria
 
     def search(self, criteria):
+        """search method for an organization"""
         return Organization.objects.filter(**criteria).order_by('name')    
         
 
 class MemberRoleForm(forms.Form):
-    username = forms.CharField(label=_('Username'), max_length=100, required=True, widget=AutoCompleteField(completed_obj_name='person'))
+    """add a new member to a role form"""
+    username = forms.CharField(label=_('Username'), max_length=100,
+        required=True, 
+        widget=AutoCompleteField(completed_obj_name='person'))
 
 class NewPersonForm(forms.ModelForm):
-    first_name = forms.CharField(label=_('First name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size':40}))
-    last_name = forms.CharField(label=_('Last name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 40}))
-    mail = forms.EmailField(label=_('Mail'),max_length=50, required=True, widget=forms.TextInput(attrs={'size': 40}))
-    country = forms.IntegerField(label=_('Nationality'), required=False, widget=AutoCompleteField(completed_obj_name='nationality'))
-    birth_date = forms.DateTimeField(label=_('Date of birth'), required=False, widget=dateWidget)
-    sex = forms.CharField(label=_('Sex'), required=False,  widget=forms.Select(choices=Person.SEX))
+    """new person form"""
+    first_name = forms.CharField(label=_('First name'), max_length=50,
+        required=True, widget=forms.TextInput(attrs={'size':40}))
+    last_name = forms.CharField(label=_('Last name'), max_length=50, 
+        required=True, widget=forms.TextInput(attrs={'size': 40}))
+    mail = forms.EmailField(label=_('Mail'), max_length=50, required=True,
+        widget=forms.TextInput(attrs={'size': 40}))
+    country = forms.IntegerField(label=_('Nationality'), required=False, 
+        widget=AutoCompleteField(completed_obj_name='nationality'))
+    birth_date = forms.DateTimeField(label=_('Date of birth'), required=False,
+        widget=dateWidget)
+    sex = forms.CharField(label=_('Sex'), required=False,  
+        widget=forms.Select(choices=Person.SEX))
 
     class Meta:
+        """NewPersonForm meta informations"""
         model = Person
         exclude = ('user', 'complete_name', 'maiden_name', 'death_date',
                    'wiki_name', 'notes')
 
     def genlogin(self):
-        login = (self.cleaned_data['first_name'][0]+self.cleaned_data['last_name']).lower()
+        """login generation method"""
+        login = (self.cleaned_data['first_name'][0] + \
+            self.cleaned_data['last_name']).lower()
 
         tries = 0
         while (User.objects.filter(username=login).count() > 0):
             tries = tries + 1
             if tries < len(self.cleaned_data['first_name']):
-                login = (self.cleaned_data['first_name'][0:tries]+self.cleaned_data['last_name']).lower()
+                login = (self.cleaned_data['first_name'][0:tries] + \
+                    self.cleaned_data['last_name']).lower()
             else:
-                login = (self.cleaned_data['first_name'][0]+self.cleaned_data['last_name']+str(tries)).lower()
+                login = (self.cleaned_data['first_name'][0] + \
+                    self.cleaned_data['last_name']+str(tries)).lower()
 
         return login
 
     def save(self):
+        """save new user method"""
         login = self.genlogin()
         mail = self.cleaned_data['mail']
         new_user = User.objects.create_user(login, mail, 'password')
@@ -133,7 +166,8 @@ class NewPersonForm(forms.ModelForm):
             new_person.save()
 
         if self.cleaned_data.has_key('country'):
-            new_person.country = Country.objects.get(id=self.cleaned_data['country'])
+            new_person.country = Country.objects.get( \
+                id=self.cleaned_data['country'])
             new_person.save()
 
         new_couriel = Email(person = new_person,
@@ -143,51 +177,69 @@ class NewPersonForm(forms.ModelForm):
         return new_person
 
 class NewRoleForm(forms.ModelForm):
-    name = forms.CharField(label=_('Name'),max_length=50, required=True, widget=forms.TextInput(attrs={'size':40}))
+    """define new role form"""
+    name = forms.CharField(label=_('Name'), max_length=50, required=True, 
+        widget=forms.TextInput(attrs={'size':40}))
 
     class Meta:
+        """NewRoleForm meta information"""
         model = Group
         exclude = ('permissions')
 
     def save(self):
+        """new role save method"""
         new_role = Group(name = self.cleaned_data['name'])
         new_role.save()
         
         return new_role
 
 class NotificationForm(forms.ModelForm):
+    """notification form"""
     details = forms.CharField(label=_('details'), required=True,
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':60}))
 
     class Meta:
+        """NotificationForm meta information"""
         model = Notification
         exclude = ('organization_proposal', 'office_proposal', 'job_proposal')
 
 class NewCountryForm(forms.ModelForm):
+    """new country form"""
 
     class Meta:
+        "NewCountryForm meta information"""
         model = Country
         exclude = ()
 
 
-class OrganizationListForm(forms.Form):        
-    organization = forms.CharField(label=_('organization').capitalize(), max_length=50, required=False, widget=AutoCompleteField(completed_obj_name='organization'))
+class OrganizationListForm(forms.Form):
+    """organization list form"""
+    organization = forms.CharField(label=_('organization').capitalize(),
+        max_length=50, required=False, 
+        widget=AutoCompleteField(completed_obj_name='organization'))
 
     def search(self):
+        """search organization method"""
         result = None
-        if self.cleaned_data['organization']!="":
-            result = Organization.objects.filter(id=self.cleaned_data['organization']).distinct()
+        if self.cleaned_data['organization'] != "":
+            result = Organization.objects.filter(\
+                id=self.cleaned_data['organization']).distinct()
             if result:
                 result = result[0]
         return result
 
 class OfficeListForm(forms.Form):        
-    bureau = forms.CharField(label=_('office').capitalize(), required=True, widget=AutoCompleteField(completed_obj_name='office'))
+    """office list form"""
+    bureau = forms.CharField(label=_('office').capitalize(), required=True,
+         widget=AutoCompleteField(completed_obj_name='office'))
 
     def search(self):
+        """search office method"""
         result = None
-        if self.cleaned_data['bureau']!="":
-            result = Office.objects.filter(id=self.cleaned_data['bureau']).distinct()
+        if self.cleaned_data['bureau'] != "":
+            result = Office.objects.filter(\
+                id=self.cleaned_data['bureau']).distinct()
             if result:
                 result = result[0]
         return result
+

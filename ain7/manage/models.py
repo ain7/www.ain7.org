@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# manage/models.py
+"""
+ ain7/manage/models.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -25,11 +26,12 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 
 from ain7.annuaire.models import Person
-from ain7.emploi.models import ACTIONS, OrganizationProposal, OfficeProposal, JobOffer
+from ain7.emploi.models import OrganizationProposal, OfficeProposal, JobOffer
 from ain7.utils import LoggedClass
 
 
 class Notification(LoggedClass):
+    """notification"""
 
     PROPOSAL_TYPE = (
         (0, _('organization')),
@@ -49,25 +51,35 @@ class Notification(LoggedClass):
         verbose_name = _('job offer proposal'), related_name='notification')
 
     def __unicode__(self):
+        """notification unicode method"""
         return self.title
 
     class Meta:
+        """notification meta information"""
         verbose_name = _('notification')
 
 class PortalError(models.Model):
+    """portal error"""
 
-    title = models.CharField(verbose_name=_('title'), max_length=200, null=True, blank=True)
-    user = models.ForeignKey(User, verbose_name=_('user'), blank=True, null=True)
+    title = models.CharField(verbose_name=_('title'), max_length=200, 
+        null=True, blank=True)
+    user = models.ForeignKey(User, verbose_name=_('user'), 
+        blank=True, null=True)
     date = models.DateTimeField(verbose_name=_('Date'))
     url = models.CharField(verbose_name=_('url'), max_length=500)
-    referer = models.CharField(verbose_name=_('Referrer'), max_length=200, null=True, blank=True)
-    browser_info = models.CharField(verbose_name=_('Browser info'), max_length=200, null=True, blank=True)
-    client_address = models.CharField(verbose_name=_('Client address'), max_length=200, null=True, blank=True)
+    referer = models.CharField(verbose_name=_('Referrer'), max_length=200,
+        null=True, blank=True)
+    browser_info = models.CharField(verbose_name=_('Browser info'), 
+        max_length=200, null=True, blank=True)
+    client_address = models.CharField(verbose_name=_('Client address'), 
+        max_length=200, null=True, blank=True)
     exception = models.TextField(verbose_name=_('Exception'))
     comment = models.TextField(verbose_name=_('Comment'), null=True, blank=True)
-    issue = models.CharField(verbose_name=_('Issue'), max_length=20, null=True, blank=True)
+    issue = models.CharField(verbose_name=_('Issue'), max_length=20, 
+        null=True, blank=True)
 
 class Payment(models.Model):
+    """payment"""
 
     TYPE = (
         (0, _('Cash')),
@@ -81,10 +93,14 @@ class Payment(models.Model):
 
     amount = models.FloatField(verbose_name=_('amount'))
     type = models.IntegerField(verbose_name=_('Type'), choices=TYPE)
-    bank = models.CharField(verbose_name=_('Bank'), max_length=200, null=True, blank=True)
-    check_number = models.CharField(verbose_name=_('Check number'), max_length=200, null=True, blank=True)
-    registered = models.DateTimeField(verbose_name=_('registration date'), editable=False)
-    deposited = models.DateTimeField(verbose_name=_('deposit date'), editable=False, null=True, blank=True)
+    bank = models.CharField(verbose_name=_('Bank'), max_length=200, 
+        null=True, blank=True)
+    check_number = models.CharField(verbose_name=_('Check number'),
+        max_length=200, null=True, blank=True)
+    registered = models.DateTimeField(verbose_name=_('registration date'),
+        editable=False)
+    deposited = models.DateTimeField(verbose_name=_('deposit date'), 
+        editable=False, null=True, blank=True)
     person = models.ForeignKey(Person, blank=True, null=True)
     validated = models.BooleanField(verbose_name=_('validated'), default=False)
 

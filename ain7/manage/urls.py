@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# manage/urls.py
+"""
+ ain7/manage/urls.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -20,8 +21,7 @@
 #
 #
 
-from django.conf.urls.defaults import *
-
+from django.conf.urls.defaults import patterns
 
 urlpatterns = patterns('ain7.manage.views',
     (r'^$', 'index'),
@@ -32,33 +32,47 @@ urlpatterns = patterns('ain7.manage.views',
     (r'^organizations/adv_search/csv/$', 'adv_export_csv'),
     (r'^organizations/adv_search/filter/new/$', 'filter_new'),
     (r'^organizations/adv_search/filter/register/$', 'filter_register'),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/$', 'filter_details'),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/edit/$', 'filter_edit'),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/reset/$', 'filter_reset'),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/delete/$', 'filter_delete'),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d*)/swapOp/$', 'filter_swapOp'),
+    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/$', 
+        'filter_details'),
+    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/edit/$', 
+        'filter_edit'),
+    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/reset/$', 
+        'filter_reset'),
+    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/delete/$', 
+        'filter_delete'),
+    (r'^organizations/adv_search/filter/(?P<filter_id>\d*)/swapOp/$', 
+        'filter_swap_op'),
     (r'^organizations/adv_search/filter/(?P<filter_id>\d*)/criterion/add/$',
-     'criterion_add'),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d*)/criterion/add/field/$',
+        'criterion_add'),
+    (r'^organizations/adv_search/filter/(?P<filter_id>\d*)/criterion/\
+add/field/$',
      'criterion_add', {'criterionType': 'field'}),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d*)/criterion/add/filter/$',
+    (r'^organizations/adv_search/filter/(?P<filter_id>\d*)/criterion/add/\
+filter/$',
      'criterion_add', {'criterionType': 'filter'}),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/edit/field/$',
-     'criterionField_edit'),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/edit/filter/$',
-     'criterionFilter_edit'),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/(?P<criterion_id>\d+)/edit/field/$',
-     'criterionField_edit'),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/(?P<criterion_id>\d+)/edit/filter/$',
-     'criterionFilter_edit'),
-    (r'^organizations/adv_search/filter/(?P<filtr_id>\d+)/criterion/(?P<crit_id>\d+)/delete/field/$',
+    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/edit/\
+field/$',
+     'criterion_field_edit'),
+    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/edit/\
+filter/$',
+     'criterion_filter_edit'),
+    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/\
+(?P<criterion_id>\d+)/edit/field/$',
+     'criterion_field_edit'),
+    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/\
+(?P<criterion_id>\d+)/edit/filter/$',
+     'criterion_filter_edit'),
+    (r'^organizations/adv_search/filter/(?P<filtr_id>\d+)/criterion/\
+(?P<crit_id>\d+)/delete/field/$',
      'criterion_delete', {'crit_type': 'field'}, "criterionField_delete"),
-    (r'^organizations/adv_search/filter/(?P<filtr_id>\d+)/criterion/(?P<crit_id>\d+)/delete/filter/$',
+    (r'^organizations/adv_search/filter/(?P<filtr_id>\d+)/criterion/\
+(?P<crit_id>\d+)/delete/filter/$',
      'criterion_delete', {'crit_type': 'filter'}, "criterionFilter_delete"),
     (r'^organizations/register/$', 'organization_edit'),
     (r'^organizations/(?P<organization_id>\d+)/$', 'organization_details'),
     (r'^organizations/(?P<organization_id>\d+)/edit/$', 'organization_edit'),
-    (r'^organizations/(?P<organization_id>\d+)/delete/$', 'organization_delete'),
+    (r'^organizations/(?P<organization_id>\d+)/delete/$', \
+        'organization_delete'),
     (r'^organizations/(?P<organization_id>\d+)/merge/$', 'organization_merge'),
     (r'^organizations/(?P<org1_id>\d+)/merge/(?P<org2_id>\d+)/$',
      'organization_do_merge'),
@@ -75,10 +89,14 @@ urlpatterns = patterns('ain7.manage.views',
     (r'^offices/(?P<office_id>\d+)/edit/$', 'office_edit'),
     (r'^offices/(?P<office_id>\d+)/delete/$', 'office_delete'),
     (r'^offices/(?P<office_id>\d+)/merge/$', 'office_merge'),
-    (r'^offices/(?P<office1_id>\d+)/merge/(?P<office2_id>\d+)/$','office_do_merge'),
-    (r'^offices/proposals/register/(?P<proposal_id>\d+)/$','office_register_proposal'),
-    (r'^offices/proposals/edit/(?P<proposal_id>\d+)/$','office_edit_proposal'),
-    (r'^offices/proposals/delete/(?P<proposal_id>\d+)/$','office_delete_proposal'),
+    (r'^offices/(?P<office1_id>\d+)/merge/(?P<office2_id>\d+)/$', \
+         'office_do_merge'),
+    (r'^offices/proposals/register/(?P<proposal_id>\d+)/$', \
+         'office_register_proposal'),
+    (r'^offices/proposals/edit/(?P<proposal_id>\d+)/$', \
+         'office_edit_proposal'),
+    (r'^offices/proposals/delete/(?P<proposal_id>\d+)/$', \
+         'office_delete_proposal'),
                        
     # Users
     (r'^users/$', 'users_search'),
@@ -87,23 +105,30 @@ urlpatterns = patterns('ain7.manage.views',
     (r'^users/(?P<user_id>\d+)/edit/$', 'user_edit'),
     (r'^users/(?P<user_id>\d+)/person/edit/$', 'user_person_edit'),
     # Adresses
-    (r'^users/(?P<user_id>\d+)/address/(?P<address_id>\d+)/edit/$', 'user_address_edit'),
-    (r'^users/(?P<user_id>\d+)/address/(?P<address_id>\d+)/delete/$', 'user_address_delete'),
+    (r'^users/(?P<user_id>\d+)/address/(?P<address_id>\d+)/edit/$', \
+         'user_address_edit'),
+    (r'^users/(?P<user_id>\d+)/address/(?P<address_id>\d+)/delete/$', \
+         'user_address_delete'),
     (r'^users/(?P<user_id>\d+)/address/add/$', 'user_address_edit'),
     # Phone numbers
-    (r'^users/(?P<user_id>\d+)/phone/(?P<phone_id>\d+)/edit/$', 'user_phone_edit'),
-    (r'^users/(?P<user_id>\d+)/phone/(?P<phone_id>\d+)/delete/$', 'user_phone_delete'),
+    (r'^users/(?P<user_id>\d+)/phone/(?P<phone_id>\d+)/edit/$', \
+         'user_phone_edit'),
+    (r'^users/(?P<user_id>\d+)/phone/(?P<phone_id>\d+)/delete/$', \
+         'user_phone_delete'),
     (r'^users/(?P<user_id>\d+)/phone/add/$', 'user_phone_edit'),
     # Email
-    (r'^users/(?P<user_id>\d+)/email/(?P<email_id>\d+)/edit/$', 'user_email_edit'),
-    (r'^users/(?P<user_id>\d+)/email/(?P<email_id>\d+)/delete/$', 'user_email_delete'),
+    (r'^users/(?P<user_id>\d+)/email/(?P<email_id>\d+)/edit/$', \
+         'user_email_edit'),
+    (r'^users/(?P<user_id>\d+)/email/(?P<email_id>\d+)/delete/$', \
+         'user_email_delete'),
     (r'^users/(?P<user_id>\d+)/email/add/$', 'user_email_edit'),
                        
     # Roles
     (r'^roles/$', 'roles_index'),
     (r'^roles/register/$', 'role_register'),
     (r'^roles/(?P<role_id>[A-Za-z0-9.\-_]+)/$', 'role_details'),
-    (r'^roles/(?P<role_id>[A-Za-z0-9.\-_]+)/member/(?P<member_id>\d+)/delete/$', 'role_member_delete'),
+    (r'^roles/(?P<role_id>[A-Za-z0-9.\-_]+)/member/(?P<member_id>\d+)/delete/$'\
+         , 'role_member_delete'),
     (r'^roles/(?P<role_id>[A-Za-z0-9.\-_]+)/member/add/$', 'role_member_add'),
 
     # Notifications
@@ -120,6 +145,7 @@ urlpatterns = patterns('ain7.manage.views',
 
     # Payment
     (r'^payments/$', 'payment_index'),
+    (r'^payments/add/$', 'payment_add'),
 
 )
 

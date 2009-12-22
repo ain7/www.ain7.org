@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# manage/views.py
+"""
+  ain7/manage/views.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -20,22 +21,23 @@
 #
 #
 
-from django import forms
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group, User
 from django.core.paginator import Paginator, InvalidPage
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
-from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
+from ain7.utils import ain7_render_to_response, ain7_generic_edit
+from ain7.utils import ain7_generic_delete, check_access
 from ain7.decorators import confirmation_required
 from ain7.emploi.models import Organization, Office, ActivityField
-from ain7.emploi.models import OrganizationProposal, OfficeProposal, JobOffer
+from ain7.emploi.models import OrganizationProposal, OfficeProposal
 from ain7.emploi.forms import OrganizationForm, OfficeForm, OfficeFormNoOrg
 from ain7.manage.models import *
 from ain7.manage.forms import *
-from ain7.annuaire.forms import PersonForm, PhoneNumberForm, AddressForm, EmailForm
+from ain7.annuaire.forms import PersonForm, PhoneNumberForm
+from ain7.annuaire.forms import AddressForm, EmailForm
 from ain7.annuaire.models import Person
 from ain7.search_engine.models import *
 from ain7.search_engine.utils import *
@@ -43,32 +45,38 @@ from ain7.search_engine.views import *
 
 
 def organization_search_engine():
+    """organization search"""
     return get_object_or_404(SearchEngine, name="organization")
 
 @login_required
 def index(request):
+    """index management"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+                          ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     return ain7_render_to_response(request, 'manage/default.html',
         {'notifications': Notification.objects.all()})
 
 @login_required
 def users_search(request):
+    """search users"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     form = SearchUserForm()
     nb_results_by_page = 25
     persons = False
-    paginator = Paginator(Group.objects.none(),nb_results_by_page)
+    paginator = Paginator(Group.objects.none(), nb_results_by_page)
     page = 1
 
-    if request.GET.has_key('last_name') or request.GET.has_key('first_name') or \
+    if request.GET.has_key('last_name') or \
+       request.GET.has_key('first_name') or \
        request.GET.has_key('organization'):
         form = SearchUserForm(request.GET)
         if form.is_valid():
@@ -94,21 +102,24 @@ def users_search(request):
 
 @login_required
 def user_details(request, user_id):
+    """user details"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
-    u = get_object_or_404(User, pk=user_id)
+    user = get_object_or_404(User, pk=user_id)
     return ain7_render_to_response(
-        request, 'manage/user_details.html', {'this_user': u})
+        request, 'manage/user_details.html', {'this_user': user})
 
 @login_required
 def user_register(request):
+    """new user registration"""
 
-    r = check_access(request, request.user, ['ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user, ['ain7-secretariat'])
+    if access:
+        return access
 
     form = NewPersonForm()
 
@@ -121,7 +132,8 @@ def user_register(request):
             return HttpResponseRedirect(
                 '/manage/users/%s/' % (new_person.user.id))
         else:
-            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+            request.user.message_set.create(message=_("Something was wrong in\
+ the form you filled. No modification done."))
 
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'manage/edit_form.html',
@@ -129,20 +141,23 @@ def user_register(request):
 
 @login_required 
 def user_edit(request, user_id=None): 
+    """edit user"""
 
-    r = check_access(request, request.user, ['ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user, ['ain7-secretariat'])
+    if access:
+        return access
  
-    p = get_object_or_404(Person, pk=user_id) 
-    return ain7_render_to_response(request, 'manage/user_edit.html', {'person': p}) 
+    person = get_object_or_404(Person, pk=user_id) 
+    return ain7_render_to_response(request, 'manage/user_edit.html',
+                                   {'person': person}) 
 
 @login_required
 def user_person_edit(request, user_id=None):
+    """edit person"""
 
-    r = check_access(request, request.user, ['ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user, ['ain7-secretariat'])
+    if access:
+        return access
  
     person = None
     if user_id:
@@ -151,23 +166,27 @@ def user_person_edit(request, user_id=None):
         request, person, PersonForm, {'user': person.user},
         'manage/edit_form.html',
         {'action_title': _("Modification of personal data for"),
-         'person': person, 'back': request.META.get('HTTP_REFERER', '/')}, {},
+         'person': person, 
+         'back': request.META.get('HTTP_REFERER', '/')}, {},
         '/manage/users/%s/edit/' % (person.user.id),
         _("Modifications have been successfully saved."))
 
 @login_required
 def organizations_search(request):
+    """organization search"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
  
     form = SearchOrganizationForm()
     nb_results_by_page = 25
     organizations = False
-    paginator = Paginator(Organization.objects.none(),nb_results_by_page)
+    paginator = Paginator(Organization.objects.none(), nb_results_by_page)
     page = 1
-    if request.GET.has_key('name') or request.GET.has_key('activity_field') or \
+    if request.GET.has_key('name') or \
+       request.GET.has_key('activity_field') or \
        request.GET.has_key('activity_code'):
         form = SearchOrganizationForm(request.GET)
         if form.is_valid():
@@ -196,10 +215,12 @@ def organizations_search(request):
 
 @login_required
 def organizations_adv_search(request):
+    """organization advanced search"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     filtr = organization_search_engine()\
             .unregistered_filters(request.user.person)
@@ -213,38 +234,28 @@ def organizations_adv_search(request):
             dict_for_filter(request, None))
 
 @login_required
-def filter_details(request, filter_id):
-
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
-
-    return ain7_render_to_response(request,
-        'manage/organizations_adv_search.html',
-        dict_for_filter(request, filter_id))
-
-
-@login_required
 def dict_for_filter(request, filter_id):
+    """dictionnary for search filter"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     offices = False
-    p = request.user.person
+    person = request.user.person
     nb_results_by_page = 25
-    paginator = Paginator(Office.objects.none(),nb_results_by_page)
+    paginator = Paginator(Office.objects.none(), nb_results_by_page)
     page = 1
-    sf = None
+    search_filter = None
     if filter_id:
-        sf = get_object_or_404(SearchFilter, pk=filter_id)
+        search_filter = get_object_or_404(SearchFilter, pk=filter_id)
         
     if request.method == 'POST':
 
         offices = Office.objects.all()
         if filter_id:
-            offices = sf.search()
+            offices = search_filter.search()
         paginator = Paginator(offices, nb_results_by_page)
 
         try:
@@ -254,10 +265,10 @@ def dict_for_filter(request, filter_id):
             raise http.Http404
 
     return {'offices': offices,
-         'filtr': sf,
+         'filtr': search_filter,
          'nb_org': Organization.objects.valid_organizations().count(),
          'nb_offices': Office.objects.valid_offices().count(),
-         'userFilters': organization_search_engine().registered_filters(p),
+         'userFilters': organization_search_engine().registered_filters(person),
          'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
          'has_next': paginator.page(page).has_next(),
          'has_previous': paginator.page(page).has_previous(),
@@ -270,36 +281,42 @@ def dict_for_filter(request, filter_id):
 
 @login_required
 def filter_details(request, filter_id):
+    """filter details"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     return ain7_render_to_response(request,
         'manage/organizations_adv_search.html',
         dict_for_filter(request, filter_id))
 
 @login_required
-def filter_swapOp(request, filter_id=None):
+def filter_swap_op(request, filter_id=None):
+    """change filter operator"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
-    return se_filter_swapOp(request, filter_id,
+    return se_filter_swap_op(request, filter_id,
                             reverse(filter_details, args =[ filter_id ]),
                             reverse(organizations_adv_search))
 
 @login_required
 def filter_register(request):
+    """register new filter"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
-    sf = organization_search_engine().\
+    search_filter = organization_search_engine().\
          unregistered_filters(request.user.person)
-    if not sf:
+    if not search_filter:
         return HttpResponseRedirect(reverse(organizations_adv_search))
 
     form = SearchFilterForm()
@@ -312,37 +329,41 @@ def filter_register(request):
     else:
         form = SearchFilterForm(request.POST)
         if form.is_valid():
-            fName = form.cleaned_data['name']
+            f_name = form.cleaned_data['name']
             # First we check that the user does not have
             # a filter with the same name
-            sameName = organization_search_engine().\
+            same_name = organization_search_engine().\
                 registered_filters(request.user.person).\
-                filter(name=fName).count()
-            if sameName>0:
-                request.user.message_set.create(message=_("One of your filters already has this name."))
+                filter(name=f_name).count()
+            if same_name > 0:
+                request.user.message_set.create(message=_("One of your\
+                         filters already has this name."))
                 return HttpResponseRedirect(reverse(organizations_adv_search))
 
             # Set the registered flag to True
-            sf.registered = True
-            sf.name = fName
-            sf.save()
+            search_filter.registered = True
+            search_filter.name = f_name
+            search_filter.save()
 
             # Redirect to filter page
             request.user.message_set.create(
                 message=_("Modifications have been successfully saved."))
             return HttpResponseRedirect(
-                reverse(filter_details, args=[ sf.id ]))
+                reverse(filter_details, args=[ search_filter.id ]))
         else:
-            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+            request.user.message_set.create(message=_("Something was wrong in\
+ the form you filled. No modification done."))
         return HttpResponseRedirect(reverse(organizations_adv_search))
 
 
 @login_required
 def filter_edit(request, filter_id):
+    """edit search filter"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     filtr = get_object_or_404(SearchFilter, pk=filter_id)
     form = SearchFilterForm(instance=filtr)
@@ -353,9 +374,11 @@ def filter_edit(request, filter_id):
             form.cleaned_data['user'] = filtr.user
             form.cleaned_data['operator'] = filtr.operator
             form.save()
-            request.user.message_set.create(message=_("Modifications have been successfully saved."))
+            request.user.message_set.create(message=_("Modifications have been\
+ successfully saved."))
         else:
-            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+            request.user.message_set.create(message=_("Something was wrong in\
+ the form you filled. No modification done."))
         return HttpResponseRedirect(
             reverse(filter_details, args=[ filter_id ]))
     return ain7_render_to_response(
@@ -365,22 +388,28 @@ def filter_edit(request, filter_id):
 
 @login_required
 def remove_criteria(request, filtr):
+    """remove search criteria"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
-    for crit in filtr.criteriaField.all():  crit.delete()
-    for crit in filtr.criteriaFilter.all(): crit.delete()
+    for crit in filtr.criteriaField.all():
+        crit.delete()
+    for crit in filtr.criteriaFilter.all():
+        crit.delete()
     # TODO non recursivite + supprimer filtres sans criteres
     return
 
 @login_required
 def filter_reset(request, filter_id):
+    """reset search filter"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     filtr = get_object_or_404(SearchFilter, pk=filter_id)
     remove_criteria(request, filtr)
@@ -392,10 +421,12 @@ def filter_reset(request, filter_id):
 
 @login_required
 def filter_delete(request, filter_id):
+    """delete search filter"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     filtr = get_object_or_404(SearchFilter, pk=filter_id)
     try:
@@ -407,68 +438,80 @@ def filter_delete(request, filter_id):
             message=_("Your filter has been successfully deleted."))
     except KeyError:
         request.user.message_set.create(
-            message=_("Something went wrong. The filter has not been deleted."))    
+            message=_("Something went wrong. The filter has not been deleted."))
     return HttpResponseRedirect(reverse(organizations_adv_search))
 
 @login_required
 def filter_new(request):
+    """new search filter"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
-    filtr = organization_search_engine().unregistered_filters(request.user.person)
-    if not filtr:
+    filter = organization_search_engine().unregistered_filters(\
+        request.user.person)
+    if not filter:
         return HttpResponseRedirect(reverse(organizations_adv_search))
-    remove_criteria(request, filtr)
-    if filtr.registered:
+    remove_criteria(request, filter)
+    if filter.registered:
         return HttpResponseRedirect(
-            reverse(filter_details, args=[ filter_id ]))
+            reverse(filter_details, args=[ filter.id ]))
     else:
         return HttpResponseRedirect(reverse(organizations_adv_search))
 
 @login_required
-def criterion_add(request, filter_id=None, criterionType=None):
+def criterion_add(request, filter_id=None, criterion_type=None):
+    """add criterion to a search filter"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     redirect = reverse(organizations_adv_search)
-    if filter_id: redirect = reverse(filter_details, args=[ filter_id ])
+    if filter_id:
+        redirect = reverse(filter_details, args=[ filter_id ])
     return se_criterion_add(request, organization_search_engine(),
-        filter_id, criterionType, criterionField_edit,
+        filter_id, criterion_type, criterion_field_edit,
         redirect, 'manage/org_criterion_add.html')
 
 @login_required
-def criterionField_edit(request, filter_id=None, criterion_id=None):
+def criterion_field_edit(request, filter_id=None, criterion_id=None):
+    """criterion edit in a search filter"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
-    return se_criterionField_edit(request, organization_search_engine(),
+    return se_criterion_field_edit(request, organization_search_engine(),
         filter_id, criterion_id, reverse(filter_details, args=[filter_id]),
         reverse(organizations_adv_search),
         'manage/org_criterion_edit.html')
 
 @login_required
-def criterionFilter_edit(request, filter_id=None, criterion_id=None):
+def criterion_filter_edit(request, filter_id=None, criterion_id=None):
+    """criterion edit in a search filter"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
-    return se_criterionFilter_edit(request, organization_search_engine(),
+    return se_criterion_filter_edit(request, organization_search_engine(),
         filter_id, criterion_id, reverse(filter_details, args=[filter_id]),
         'manage/org_criterionFilter_edit.html')
 
 @login_required
 def criterion_delete(request, filtr_id=None, crit_id=None, crit_type=None):
+    """criterion delete in a search filter"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     return se_criterion_delete(request, filtr_id, crit_id, crit_type,
         reverse(filter_details, args=[filtr_id]),
@@ -476,10 +519,12 @@ def criterion_delete(request, filtr_id=None, crit_id=None, crit_type=None):
 
 @login_required
 def organization_edit(request, organization_id=None):
+    """edit organization"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     organization = None
     if organization_id:
@@ -498,7 +543,8 @@ def organization_edit(request, organization_id=None):
     if request.method == 'POST':
         form = OrganizationForm(request.POST.copy())
         if form.is_valid():
-            org = form.save(request.user, is_a_proposal=False, organization=organization)
+            org = form.save(request.user, is_a_proposal=False, \
+                            organization=organization)
             if organization:
                 msg = _('Organization successfully modified')
             else:
@@ -506,7 +552,8 @@ def organization_edit(request, organization_id=None):
             request.user.message_set.create(message=msg)
             return HttpResponseRedirect('/manage/organizations/%s/' % org.id)
         else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No organization registered.'))
+            request.user.message_set.create(message=_('Something was wrong in\
+ the form you filled. No organization registered.'))
 
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request,
@@ -516,24 +563,29 @@ def organization_edit(request, organization_id=None):
 
 @login_required
 def organization_details(request, organization_id):
+    """organization details"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
-    c = get_object_or_404(Organization, pk=organization_id)
+    organization = get_object_or_404(Organization, pk=organization_id)
     return ain7_render_to_response(request, 'manage/organization_details.html',
-                                   {'organization': c})
+        {'organization': organization})
 
 @login_required
 def export_csv(request):
+    """csv export"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     if not request.session.has_key('filter'):
-        request.user.message_set.create(message=_("You have to make a search before using csv export."))
+        request.user.message_set.create(message=_("You have to make a search\
+ before using csv export."))
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
     criteria = request.session['filter']
@@ -545,32 +597,38 @@ def export_csv(request):
 
 @login_required
 def adv_export_csv(request, filter_id=None):
+    """advanced csv export"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
-    se = organization_search_engine()
+    search_engine = organization_search_engine()
     if not filter_id and not se.unregistered_filters(request.user.person):
         request.user.message_set.create(message=
             _("You have to make a search before using csv export."))
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
     if filter_id:
-        sf = get_object_or_404(SearchFilter, id=filter_id)
+        search_filter = get_object_or_404(SearchFilter, id=filter_id)
     else:
-        sf = se.unregistered_filters(request.user.person)
-    return se_export_csv(request, sf.search(), se, 'manage/edit_form.html')
+        search_filter = se.unregistered_filters(request.user.person)
+    return se_export_csv(request, search_filter.search(), search_engine,
+        'manage/edit_form.html')
 
 @confirmation_required(
-    lambda user_id=None,
-    organization_id=None: str(get_object_or_404(Organization, pk=organization_id)),
+    lambda user_id = None,
+    organization_id = None: str(get_object_or_404(Organization,
+                                 pk=organization_id)),
     'manage/base.html',
     _('Do you REALLY want to delete this organization'))
 def organization_delete(request, organization_id):
+    """delete organization"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     organization = get_object_or_404(Organization, pk=organization_id)
     organization.delete()
@@ -581,46 +639,54 @@ def organization_delete(request, organization_id):
 
 @login_required
 def organization_merge(request, organization_id=None):
+    """merge organizations"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+                          ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     organization = get_object_or_404(Organization, pk=organization_id)
 
     # 1er passage : on demande la saisie d'une deuxième organisation
     if request.method == 'GET':
-        f = OrganizationListForm()
+        form = OrganizationListForm()
         return ain7_render_to_response(
             request, 'manage/organization_merge.html',
-            {'form': f, 'organization': organization})
+            {'form': form, 'organization': organization})
 
     # 2e passage : sauvegarde, notification et redirection
     if request.method == 'POST':
-        f = OrganizationListForm(request.POST.copy())
-        if f.is_valid():
-            organization2 = f.search()
+        form = OrganizationListForm(request.POST.copy())
+        if form.is_valid():
+            organization2 = form.search()
             if organization2:
                 if organization2 != organization:
-                    return HttpResponseRedirect('/manage/organizations/%s/merge/%s/' % (organization2.id, organization_id))
+                    return HttpResponseRedirect(
+                    '/manage/organizations/%s/merge/%s/' % 
+                    (organization2.id, organization_id))
                 else:
-                    request.user.message_set.create(message=_('The two organizations are the same. No merging.'))
-        request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+                    request.user.message_set.create(message=_('The two \
+                            organizations are the same. No merging.'))
+        request.user.message_set.create(message=_('Something was wrong in the\
+ form you filled. No modification done.'))
         return HttpResponseRedirect('/manage/organizations/%s/merge/' %
             organization_id)
         
 
 @confirmation_required(
-    lambda user_id=None, org1_id=None, org2_id=None:
+    lambda user_id = None, org1_id = None, org2_id = None:
     str(get_object_or_404(Organization, pk=org2_id)) + _(' replaced by ') + \
     str(get_object_or_404(Organization, pk=org1_id)),
     'manage/base.html',
     _('Do you REALLY want to have'))
 def organization_do_merge(request, org1_id, org2_id):
+    """organization effective merge"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user, 
+                          ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     org1 = get_object_or_404(Organization, pk=org1_id)
     org2 = get_object_or_404(Organization, pk=org2_id)
@@ -631,10 +697,12 @@ def organization_do_merge(request, org1_id, org2_id):
 
 @login_required
 def organization_register_proposal(request, proposal_id=None):
+    """register an organization proposal"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     if not proposal_id:
         return HttpResponseRedirect('/manage/')
@@ -644,8 +712,16 @@ def organization_register_proposal(request, proposal_id=None):
         {'name': proposal.modified.name,
          'size': proposal.modified.size,
          'employment_agency': proposal.modified.employment_agency,
-         'activity_field': proposal.modified.activity_field.pk,
          'short_description': proposal.modified.short_description, 
+         'long_description': proposal.modified.long_description })
+    
+    if proposal.modified.activity_field:
+        form = OrganizationForm(
+        {'name': proposal.modified.name,
+         'size': proposal.modified.size,
+         'employment_agency': proposal.modified.employment_agency,
+         'short_description': proposal.modified.short_description, 
+         'activity_field': proposal.modified.activity_field.pk,
          'long_description': proposal.modified.long_description })
 
     if request.method == 'POST':
@@ -655,8 +731,9 @@ def organization_register_proposal(request, proposal_id=None):
             org.name = form.cleaned_data['name']
             org.employment_agency = form.cleaned_data['employment_agency']
             org.size = form.cleaned_data['size']
-            org.activity_field = ActivityField.objects.get(
-                pk=form.cleaned_data['activity_field'])
+            if form.cleaned_data['activity_field']:
+                org.activity_field = ActivityField.objects.get(
+                     pk=form.cleaned_data['activity_field'])
             org.short_description = form.cleaned_data['short_description']
             org.long_description = form.cleaned_data['long_description']
             org.is_a_proposal = False
@@ -668,10 +745,13 @@ def organization_register_proposal(request, proposal_id=None):
             if notification:
                 notification.delete()
             proposal.delete()
-            request.user.message_set.create(message=_('Organization successfully validated'))
+            request.user.message_set.create(
+                    message=_('Organization successfully validated'))
             return HttpResponseRedirect('/manage/')
         else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No organization registered.') + str(form.errors))
+            request.user.message_set.create(message=_('Something was wrong in\
+ the form you filled. No organization registered.') \
+                    + str(form.errors))
 
     back = request.META.get('HTTP_REFERER', '/')
 
@@ -682,10 +762,12 @@ def organization_register_proposal(request, proposal_id=None):
 
 @login_required
 def organization_edit_proposal(request, proposal_id=None):
+    """edit organization proposal"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     if not proposal_id:
         return HttpResponseRedirect('/manage/')
@@ -711,10 +793,12 @@ def organization_edit_proposal(request, proposal_id=None):
             notification.delete()
             proposal.modified.really_delete()
             proposal.delete()
-            request.user.message_set.create(message=_('Organization successfully modified'))
+            request.user.message_set.create(message=_('Organization\
+ successfully modified'))
             return HttpResponseRedirect('/manage/')
         else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+            request.user.message_set.create(message=_('Something was wrong\
+ in the form you filled. No modification done.'))
             
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request,
@@ -723,10 +807,12 @@ def organization_edit_proposal(request, proposal_id=None):
 
 @login_required
 def organization_delete_proposal(request, proposal_id=None):
+    """organization proposal delete"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+                          ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     proposal = get_object_or_404(OrganizationProposal, pk=proposal_id)
     org = proposal.original
@@ -743,12 +829,13 @@ def organization_delete_proposal(request, proposal_id=None):
 
 @login_required
 def office_edit(request, office_id=None, organization_id=None):
+    """edit office"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+                          ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
-    office = None
     if office_id:
         return ain7_generic_edit(
             request, get_object_or_404(Office, pk=office_id),
@@ -769,10 +856,12 @@ def office_edit(request, office_id=None, organization_id=None):
 
 @login_required
 def office_details(request, office_id):
+    """office details"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+                          ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     office = get_object_or_404(Office, pk=office_id)
     return ain7_render_to_response(request, 'manage/office_details.html',
@@ -781,14 +870,16 @@ def office_details(request, office_id):
 
 @confirmation_required(
     lambda user_id=None,
-    office_id=None: str(get_object_or_404(Office, pk=office_id)),
+    office_id = None: str(get_object_or_404(Office, pk = office_id)),
     'manage/base.html', _('Do you REALLY want to delete this office'))
 @login_required
 def office_delete(request, office_id):
+    """office delete"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     office = get_object_or_404(Office, pk=office_id)
     organization_id = office.organization.id
@@ -800,44 +891,51 @@ def office_delete(request, office_id):
 
 @login_required
 def office_merge(request, office_id=None):
+    """merge offices"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+                          ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     office = get_object_or_404(Office, pk=office_id)
 
     # 1er passage : on demande la saisie d'une deuxième organisation
     if request.method == 'GET':
-        f = OfficeListForm()
+        form = OfficeListForm()
         return ain7_render_to_response(
-            request, 'manage/office_merge.html', {'form':f, 'office':office})
+            request, 'manage/office_merge.html',
+            {'form':form, 'office':office})
 
     # 2e passage : sauvegarde, notification et redirection
     if request.method == 'POST':
-        f = OfficeListForm(request.POST.copy())
-        if f.is_valid():
-            office2 = f.search()
+        form = OfficeListForm(request.POST.copy())
+        if form.is_valid():
+            office2 = form.search()
             if office2:
                 if office2 != office:
-                    return HttpResponseRedirect('/manage/offices/%s/merge/%s/' % (office2.id, office_id))
+                    return HttpResponseRedirect('/manage/offices/%s/merge/%s/'
+                            % (office2.id, office_id))
                 else:
-                    request.user.message_set.create(message=_('The two offices are the same. No merging.'))
-        request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.')+str(f.errors))
+                    request.user.message_set.create(message=_('The two offices\
+ are the same. No merging.'))
+        request.user.message_set.create(message=_('Something was wrong in the\
+ form you filled. No modification done.')+str(form.errors))
         return HttpResponseRedirect('/manage/offices/%s/merge/' % office_id)
-        
 
 @confirmation_required(
-    lambda user_id=None, office1_id=None, office2_id=None:
+    lambda user_id = None, office1_id = None, office2_id = None:
     unicode(get_object_or_404(Office, pk=office2_id)) + _(' replaced by ') + \
     unicode(get_object_or_404(Office, pk=office1_id)),
     'manage/base.html',
     _('Do you REALLY want to have'))
 def office_do_merge(request, office1_id, office2_id):
+    """merge offices"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user, 
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     office1 = get_object_or_404(Office, pk=office1_id)
     office2 = get_object_or_404(Office, pk=office2_id)
@@ -848,10 +946,12 @@ def office_do_merge(request, office1_id, office2_id):
 
 @login_required
 def office_register_proposal(request, proposal_id=None):
+    """register office proposal"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user, 
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     if not proposal_id:
         return HttpResponseRedirect('/manage/')
@@ -880,10 +980,12 @@ def office_register_proposal(request, proposal_id=None):
             if notification:
                 notification.delete()
             proposal.delete()
-            request.user.message_set.create(message=_('Office successfully validated'))
+            request.user.message_set.create(message=_('Office successfully\
+ validated'))
             return HttpResponseRedirect('/manage/')
         else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.') + str(form.errors))
+            request.user.message_set.create(message=_('Something was wrong in\
+ the form you filled. No modification done.') + str(form.errors))
 
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request,
@@ -893,16 +995,18 @@ def office_register_proposal(request, proposal_id=None):
 
 @login_required
 def office_edit_proposal(request, proposal_id=None):
+    """office edit proposal"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user, 
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     if not proposal_id:
         return HttpResponseRedirect('/manage/')
     
     proposal = get_object_or_404(OfficeProposal, pk=proposal_id)
-    initDict = {'name': proposal.modified.name,
+    init_dict = {'name': proposal.modified.name,
                 'line1': proposal.modified.line1,
                 'line2': proposal.modified.line2,
                 'zip_code': proposal.modified.zip_code,
@@ -910,7 +1014,7 @@ def office_edit_proposal(request, proposal_id=None):
                 'country': proposal.modified.country,
                 'phone_number': proposal.modified.phone_number,
                 'web_site': proposal.modified.web_site }
-    form = OfficeFormNoOrg(initDict)
+    form = OfficeFormNoOrg(init_dict)
 
     if request.method == 'POST':
         form = OfficeFormNoOrg(request.POST)
@@ -929,10 +1033,12 @@ def office_edit_proposal(request, proposal_id=None):
             notification.delete()
             proposal.modified.really_delete()
             proposal.delete()
-            request.user.message_set.create(message=_('Office successfully modified'))
+            request.user.message_set.create(message=_('Office successfully\
+ modified'))
             return HttpResponseRedirect('/manage/')
         else:
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+            request.user.message_set.create(message=_('Something was wrong in\
+ the form you filled. No modification done.'))
             
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request,
@@ -941,10 +1047,12 @@ def office_edit_proposal(request, proposal_id=None):
 
 @login_required
 def office_delete_proposal(request, proposal_id=None):
+    """office delete proposal"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     proposal = get_object_or_404(OfficeProposal, pk=proposal_id)
     office = proposal.original
@@ -956,10 +1064,11 @@ def office_delete_proposal(request, proposal_id=None):
 
 @login_required
 def roles_index(request):
+    """roles index"""
 
-    r = check_access(request, request.user, ['ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user, ['ain7-secretariat'])
+    if access:
+        return access
 
     roles = Group.objects.all()
 
@@ -968,10 +1077,11 @@ def roles_index(request):
 
 @login_required
 def role_register(request):
+    """new role register"""
 
-    r = check_access(request, request.user, ['ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user, ['ain7-secretariat'])
+    if access:
+        return access
 
     form = NewRoleForm()
 
@@ -979,8 +1089,10 @@ def role_register(request):
         form = NewRoleForm(request.POST)
         if form.is_valid():
 
-            if not Group.objects.filter(name=form.cleaned_data['name']).count() == 0:
-                request.user.message_set.create(message=_("Several roles have the same name. Please choose another one"))
+            if not Group.objects.filter(\
+                name=form.cleaned_data['name']).count() == 0:
+                request.user.message_set.create(message=_("Several roles have\
+ the same name. Please choose another one"))
 
             else:
                 new_role = form.save()
@@ -989,7 +1101,8 @@ def role_register(request):
                 return HttpResponseRedirect(
                     '/manage/roles/%s/' % (new_role.name))
         else:
-            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+            request.user.message_set.create(message=_("Something was wrong in\
+ the form you filled. No modification done."))
 
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'manage/edit_form.html',
@@ -998,30 +1111,33 @@ def role_register(request):
 
 @login_required
 def role_details(request, role_id):
+    """role details"""
 
-    r = check_access(request, request.user, ['ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user, ['ain7-secretariat'])
+    if access:
+        return access
 
-    g = get_object_or_404(Group, name=role_id)
-    return ain7_render_to_response(request, 'manage/role_details.html', {'role': g})
+    group = get_object_or_404(Group, name=role_id)
+    return ain7_render_to_response(request, 'manage/role_details.html',
+                                   {'role': group})
 
 @login_required
 def role_member_add(request, role_id):
+    """add a new member to the role"""
 
-    r = check_access(request, request.user, ['ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user, ['ain7-secretariat'])
+    if access:
+        return access
 
-    g = get_object_or_404(Group, name=role_id)
+    group = get_object_or_404(Group, name=role_id)
 
     form = MemberRoleForm()
 
     if request.method == 'POST':
         form = MemberRoleForm(request.POST)
         if form.is_valid():
-            u = User.objects.get(id=form.cleaned_data['username'])
-            u.groups.add(g)
+            user = User.objects.get(id=form.cleaned_data['username'])
+            user.groups.add(group)
             request.user.message_set.create(message=_('User added to role'))
             return HttpResponseRedirect('/manage/roles/%s/' % role_id)
         else:
@@ -1030,14 +1146,15 @@ def role_member_add(request, role_id):
     back = request.META.get('HTTP_REFERER', '/')
 
     return ain7_render_to_response(request, 'manage/role_user_add.html',
-                            {'form': form, 'role': g, 'back': back})
+                            {'form': form, 'role': group, 'back': back})
 
 @login_required
 def role_member_delete(request, role_id, member_id):
+    """delete member role"""
 
-    r = check_access(request, request.user, ['ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user, ['ain7-secretariat'])
+    if access:
+        return access
 
     group = get_object_or_404(Group, name=role_id)
     member = get_object_or_404(User, pk=member_id)
@@ -1050,10 +1167,12 @@ def role_member_delete(request, role_id, member_id):
 
 @login_required
 def notification_add(request):
+    """add a notification"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user, 
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     return ain7_generic_edit(
         request, None, NotificationForm,
@@ -1066,10 +1185,12 @@ def notification_add(request):
 
 @login_required
 def notification_edit(request, notif_id):
+    """edit notification"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     return ain7_generic_edit(
         request, get_object_or_404(Notification, pk=notif_id),
@@ -1082,15 +1203,17 @@ def notification_edit(request, notif_id):
         '/manage/', _("Modifications have been successfully saved."))
 
 @confirmation_required(
-    lambda user_id=None,
-    notif_id=None: str(get_object_or_404(Notification, pk=notif_id)),
+    lambda user_id = None,
+    notif_id = None: str(get_object_or_404(Notification, pk = notif_id)),
     'manage/base.html',
     _('Do you REALLY want to delete the notification'))
 def notification_delete(request, notif_id):
+    """delete notification"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     notif = get_object_or_404(Notification, pk=notif_id)
     notif.delete()
@@ -1101,33 +1224,39 @@ def notification_delete(request, notif_id):
 # Adresses
 @login_required
 def user_address_edit(request, user_id=None, address_id=None):
+    """edit user address"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     person = get_object_or_404(Person, user=user_id)
     address = None
     title = _('Creation of an address for')
-    msgDone = _('Address successfully added.')
+    msg_done = _('Address successfully added.')
     if address_id:
         address = get_object_or_404(Address, pk=address_id)
         title = _('Modification of an address for')
-        msgDone = _('Address informations updated successfully.')
+        msg_done = _('Address informations updated successfully.')
     return ain7_generic_edit(
         request, address, AddressForm, {'person': person},
         'manage/edit_form.html',
         {'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')}, {},
-        '/manage/users/%s/edit/#address' % user_id, msgDone)
+        '/manage/users/%s/edit/#address' % user_id, msg_done)
 
-@confirmation_required(lambda user_id=None, address_id=None : str(get_object_or_404(Address, pk=address_id)), 'manage/base.html', _('Do you really want to delete your address'))
+@confirmation_required(lambda user_id=None, address_id=None : 
+    str(get_object_or_404(Address, pk=address_id)), 
+    'manage/base.html', _('Do you really want to delete your address'))
 @login_required
 def user_address_delete(request, user_id=None, address_id=None):
+    """delete user address"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user, 
+                          ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(Address, pk=address_id),
@@ -1137,33 +1266,39 @@ def user_address_delete(request, user_id=None, address_id=None):
 # Numeros de telephone
 @login_required
 def user_phone_edit(request, user_id=None, phone_id=None):
+    """user phone edit"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user, 
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     person = get_object_or_404(Person, user=user_id)
     phone = None
     title = _('Creation of a phone number for')
-    msgDone = _('Phone number added successfully.')
+    msg_done = _('Phone number added successfully.')
     if phone_id:
         phone = get_object_or_404(PhoneNumber, pk=phone_id)
         title = _('Modification of a phone number for')
-        msgDone = _('Phone number informations updated successfully.')
+        msg_done = _('Phone number informations updated successfully.')
     return ain7_generic_edit(
         request, phone, PhoneNumberForm, {'person': person},
         'manage/edit_form.html',
         {'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')}, {},
-        '/manage/users/%s/edit/#phone' % user_id, msgDone)
+        '/manage/users/%s/edit/#phone' % user_id, msg_done)
 
-@confirmation_required(lambda user_id=None, phone_id=None : str(get_object_or_404(PhoneNumber, pk=phone_id)), 'manage/base.html', _('Do you really want to delete your phone number'))
+@confirmation_required(lambda user_id=None, phone_id=None : 
+     str(get_object_or_404(PhoneNumber, pk=phone_id)), 'manage/base.html', 
+     _('Do you really want to delete your phone number'))
 @login_required
 def user_phone_delete(request, user_id=None, phone_id=None):
+    """user phone delete"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(PhoneNumber, pk=phone_id),
@@ -1173,19 +1308,21 @@ def user_phone_delete(request, user_id=None, phone_id=None):
 # Adresses de courriel
 @login_required
 def user_email_edit(request, user_id=None, email_id=None):
+    """user email edit"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     person = get_object_or_404(Person, user=user_id)
     email = None
     title = _('Creation of an email address for')
-    msgDone = _('Email address successfully added.')
+    msg_done = _('Email address successfully added.')
     if email_id:
         email = get_object_or_404(Email, pk=email_id)
         title = _('Modification of an email address for')
-        msgDone = _('Email informations updated successfully.')
+        msg_done = _('Email informations updated successfully.')
     return ain7_generic_edit(
         request, email, EmailForm, {'person': person},
         'manage/edit_form.html',
@@ -1193,13 +1330,17 @@ def user_email_edit(request, user_id=None, email_id=None):
          'back': request.META.get('HTTP_REFERER', '/')}, {},
         '/manage/users/%s/edit/#email' % user_id, msgDone)
 
-@confirmation_required(lambda user_id=None, email_id=None : str(get_object_or_404(Email, pk=email_id)), 'manage/base.html', _('Do you really want to delete your email address'))
+@confirmation_required(lambda user_id=None, email_id=None : 
+    str(get_object_or_404(Email, pk=email_id)), 'manage/base.html', 
+    _('Do you really want to delete your email address'))
 @login_required
 def user_email_delete(request, user_id=None, email_id=None):
+    """user email delete"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     return ain7_generic_delete(request, get_object_or_404(Email, pk=email_id),
                                '/manage/users/%s/edit/#email' % user_id,
@@ -1207,10 +1348,12 @@ def user_email_delete(request, user_id=None, email_id=None):
 
 @login_required
 def nationality_add(request):
+    """add nationality"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user, 
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     form = NewCountryForm()
 
@@ -1218,17 +1361,21 @@ def nationality_add(request):
         form = NewCountryForm(request.POST)
         if form.is_valid():
 
-            if not Country.objects.filter(name=form.cleaned_data['name']).count() == 0:
-                request.user.message_set.create(message=_("Several countries have the same name. Please choose another one"))
+            if not Country.objects.filter(\
+                name=form.cleaned_data['name']).count() == 0:
+                request.user.message_set.create(message=_("Several countries\
+ have the same name. Please choose another one"))
 
             else:
                 new_role = form.save()
                 request.user.message_set.create(
                     message=_("New country successfully created"))
-                return ain7_render_to_response(request, 'pages/frame_message.html', {})
+                return ain7_render_to_response(request, 
+                       'pages/frame_message.html', {})
 
         else:
-            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+            request.user.message_set.create(message=_("Something was wrong in\
+ the form you filled. No modification done."))
 
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'pages/frame_edit_form.html',
@@ -1236,19 +1383,21 @@ def nationality_add(request):
 
 @login_required
 def errors_index(request):
+    """errors index"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
-    if r:
-        return r
+    access = check_access(request, request.user, 
+        ['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
+    if access:
+        return access
 
     nb_results_by_page = 25 
     errors = PortalError.objects.all().order_by('-date')
     paginator = Paginator(errors, nb_results_by_page)
     try:
-         page = int(request.GET.get('page', '1'))
-         errors = paginator.page(page).object_list
+        page = int(request.GET.get('page', '1'))
+        errors = paginator.page(page).object_list
     except InvalidPage:
-         raise http.Http404
+        raise http.Http404
 
     return ain7_render_to_response(request, 'manage/errors_index.html',
         {'errors': errors, 'request': request,
@@ -1264,21 +1413,39 @@ def errors_index(request):
 
 @login_required
 def error_details(request, error_id):
+    """error details"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
+    if access:
+        return access
 
-    e = get_object_or_404(PortalError, pk=error_id)
+    error = get_object_or_404(PortalError, pk=error_id)
     return ain7_render_to_response(
-        request, 'manage/error_details.html', {'error': e})
+        request, 'manage/error_details.html', {'error': error})
 
 @login_required
 def payment_index(request):
+    """payment index"""
 
-    r = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+                          ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
+
+    payments_list = Payment.objects.all()
+
+    return ain7_render_to_response(
+        request, 'manage/payments_index.html', {'payment_list': payments_list})
+
+@login_required
+def payment_add(request):
+    """payment add"""
+
+    access = check_access(request, request.user, 
+                          ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
 
     payments_list = Payment.objects.all()
 
