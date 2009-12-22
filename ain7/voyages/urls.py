@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# voyages/urls.py
+"""
+ ain7/voyages/urls.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -20,7 +21,7 @@
 #
 #
 
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import patterns
 
 urlpatterns = patterns('ain7.voyages.views',
 
@@ -37,7 +38,8 @@ urlpatterns = patterns('ain7.voyages.views',
     (r'^(?P<travel_id>\d+)/join/$', 'join'),
     (r'^(?P<travel_id>\d+)/search/$', 'search'),
     (r'^(?P<travel_id>\d+)/subscribe/$', 'subscribe'),
-    (r'^(?P<travel_id>\d+)/unsubscribe/(?P<participant_id>\d+)/$','unsubscribe'),
+    (r'^(?P<travel_id>\d+)/unsubscribe/(?P<participant_id>\d+)/$',
+        'unsubscribe'),
     (r'^(?P<travel_id>\d+)/participants/$', 'participants'),
     (r'^(?P<travel_id>\d+)/responsibles/$', 'responsibles'),
     (r'^(?P<travel_id>\d+)/responsibles/add/$', 'responsibles_add'),
