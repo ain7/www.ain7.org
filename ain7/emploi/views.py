@@ -492,7 +492,7 @@ def organization_details(request, organization_id):
 @login_required
 def organization_check(request):
 
-    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat'])
+    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat','ain7-membre'])
     if r:
         return r
 
@@ -538,6 +538,7 @@ def organization_add(request):
                 title=_('Organization added'))
             notif.logged_save(p)
             request.user.message_set.create(message=_('Organization successfully created. To add an office to it, modify it.'))
+            return HttpResponseRedirect(reverse(organization_details, args=[orgprop.id]))
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
             return ain7_render_to_response(request,

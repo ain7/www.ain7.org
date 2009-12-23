@@ -154,7 +154,7 @@ class OrganizationForm(forms.Form):
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':50}))
 
     def clean_activity_field(self):
-        if ActivityField.objects.filter(pk=self.cleaned_data['activity_field']).count() != 1:
+        if self.cleaned_data['activity_field'] and ActivityField.objects.filter(pk=self.cleaned_data['activity_field']).count() != 1:
             raise ValidationError(_('Activity Field does not exist.'))
         return self.cleaned_data['activity_field']
 
@@ -172,7 +172,8 @@ class OrganizationForm(forms.Form):
         org.name = self.cleaned_data['name']
         org.employment_agency = self.cleaned_data['employment_agency']
         org.size = self.cleaned_data['size']
-        org.activity_field = ActivityField.objects.get(pk=self.cleaned_data['activity_field'])
+        if self.cleaned_data['activity_field']:
+            org.activity_field = ActivityField.objects.get(pk=self.cleaned_data['activity_field'])
         org.short_description = self.cleaned_data['short_description']
         org.long_description = self.cleaned_data['long_description']
         org.is_a_proposal = is_a_proposal
