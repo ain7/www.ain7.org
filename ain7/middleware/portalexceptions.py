@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# middleware/portalexceptions.py
+"""
+ ain7/middleware/portalexceptions.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -26,7 +27,6 @@ import traceback
 
 from django import http
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.core.exceptions import MiddlewareNotUsed
 from django.shortcuts import render_to_response
 
@@ -39,34 +39,35 @@ class PortalException:
     """
 
     def __init__(self):
+        """init portal exception"""
         if hasattr(settings,'DEBUG') and settings.DEBUG:
             raise MiddlewareNotUsed("MiddleWare only used in production mode")
 
     def process_exception(self, request, exception):
+        """process the exception and log in database the request"""
 
         if isinstance(exception, http.Http404):
             return # do nothing, let standard processing happen
 
-
         exc_info = sys.exc_info()
 
-        e = PortalError()
+        exception = PortalError()
         if request.user and request.user.is_authenticated():
-            e.user = request.user
-        e.date = datetime.datetime.now()
-        e.url = request.path
-        e.title = str(exception)
+            exception.user = request.user
+        exception.date = datetime.datetime.now()
+        exception.url = request.path
+        exception.title = str(exception)
         if request.META.has_key('HTTP_REFERER'):
-            e.referer = request.META['HTTP_REFERER']
+            exception.referer = request.META['HTTP_REFERER']
         if request.META.has_key('HTTP_USER_AGENT'):
-            e.browser_info = request.META['HTTP_USER_AGENT']
+            exception.browser_info = request.META['HTTP_USER_AGENT']
         if request.META.has_key('REMOTE_ADDR'):
-            e.client_address = request.META['REMOTE_ADDR']
-        e.exception = ''.join(traceback.format_exception(*exc_info))
+            exception.client_address = request.META['REMOTE_ADDR']
+        exception.exception = ''.join(traceback.format_exception(*exc_info))
         try:
-            e.save()
-        except Exception, ee:
-            print ee
+            exception.save()
+        except Exception, exc:
+            print exc
 
-        return render_to_response('500.html', {'exception_code': e.pk})
+        return render_to_response('500.html', {'exception_code': exception.pk})
 
