@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# groupes_professionnels/models.py
+"""
+ ain7/groupes_professionnels/models.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -31,52 +32,74 @@ from ain7.utils import LoggedClass
 
 
 class GroupPro(LoggedClass):
+    """group professionnal"""
 
-    name = models.CharField(verbose_name=_('name'), max_length=30, unique=True, blank=False)
-    description = models.CharField(verbose_name=_('description'), max_length=200, blank=True, null=True)
-    contact = models.EmailField(verbose_name=_('Contact email'), max_length=100, blank=True, null=True)
-    web_page = models.TextField(verbose_name=_('web page'), blank=True, null=True)
-    link = models.CharField(verbose_name=_('link'), max_length=100, blank=True, null=True)
+    name = models.CharField(verbose_name=_('name'), max_length=30,
+        unique=True, blank=False)
+    description = models.CharField(verbose_name=_('description'),
+        max_length=200, blank=True, null=True)
+    contact = models.EmailField(verbose_name=_('Contact email'), 
+        max_length=100, blank=True, null=True)
+    web_page = models.TextField(verbose_name=_('web page'), blank=True,
+        null=True)
+    link = models.CharField(verbose_name=_('link'), max_length=100,
+        blank=True, null=True)
 
     def __unicode__(self):
+        """professionnal group unicode"""
         return self.description
 
     def has_for_member(self, person):
+        """professionnal group membership test"""
         return self.memberships.filter(member=person)\
-            .exclude(end_date__isnull=False, end_date__lte=datetime.datetime.now())\
+            .exclude(end_date__isnull=False,\
+            end_date__lte=datetime.datetime.now())\
             .filter(start_date__lte=datetime.datetime.now())\
             .count() != 0
 
     def current_memberships(self):
+        """professionnal group current members"""
         return [ ms for ms in self.memberships.all() if ms.current() ]
 
     def current_roles(self):
+        """professionnal group current roles"""
         return [ rol for rol in self.roles.all() if rol.current() ]
 
     def get_absolute_url(self):
-        return reverse('ain7.groupes_professionnels.views.details', args=[self.id])
+        """professionnal group url"""
+        return reverse('ain7.groupes_professionnels.views.details',
+             args=[self.id])
 
     class Meta:
-        verbose_name=_('group')
+        """professionnal group meta"""
+        verbose_name = _('group')
 
 class Membership(models.Model):
+    """group membership"""
 
-    group = models.ForeignKey(GroupPro, verbose_name=_('group'), related_name='memberships')
-    member = models.ForeignKey(Person, verbose_name=_('member'), related_name='group_memberships')
+    group = models.ForeignKey(GroupPro, verbose_name=_('group'),
+        related_name='memberships')
+    member = models.ForeignKey(Person, verbose_name=_('member'),
+        related_name='group_memberships')
 
-    start_date = models.DateField(verbose_name=_('start date'), default=datetime.datetime.now, blank=True, null=True)
-    end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
+    start_date = models.DateField(verbose_name=_('start date'), 
+        default=datetime.datetime.now, blank=True, null=True)
+    end_date = models.DateField(verbose_name=_('end date'), blank=True,
+        null=True)
 
     def current(self):
+        """return if membership is active or not"""
         return self.start_date <= datetime.datetime.now().date() and \
             not(self.end_date and \
                 self.end_date <= datetime.datetime.now().date())
 
     class Meta:
+        """membership meta informations"""
         verbose_name = _('membership')
 
 
 class GroupProRole(models.Model):
+    """professionnal group roles"""
 
     ROLE_TYPE = (
                        (0, _('Responsible')),
@@ -84,24 +107,32 @@ class GroupProRole(models.Model):
                        )
 
     type = models.IntegerField(verbose_name=_('type'), choices=ROLE_TYPE)
-    start_date = models.DateField(verbose_name=_('start date'), default=datetime.datetime.now, blank=True, null=True)
-    end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
+    start_date = models.DateField(verbose_name=_('start date'),
+        default=datetime.datetime.now, blank=True, null=True)
+    end_date = models.DateField(verbose_name=_('end date'), blank=True,
+        null=True)
 
-    group = models.ForeignKey(GroupPro, verbose_name=_('professional group'), related_name='roles')
-    member = models.ForeignKey(Person, verbose_name=_('member'), related_name='professional_group_roles')
+    group = models.ForeignKey(GroupPro, verbose_name=_('professional group'),
+        related_name='roles')
+    member = models.ForeignKey(Person, verbose_name=_('member'),
+        related_name='professional_group_roles')
 
     def __unicode__(self):
+        """professsionnal group role unicode"""
         typ = None
         for type, typename in self.ROLE_TYPE:
-            if type==self.type: typ = typename
+            if type == self.type:
+                typ = typename
         return typ
 
     def current(self):
+        """professionnal group role is active"""
         return self.start_date <= datetime.datetime.now().date() and \
             not(self.end_date and \
                 self.end_date <= datetime.datetime.now().date())
 
     class Meta:
+        """professionnal group role meta"""
         ordering = ['type', 'start_date', 'end_date']
         verbose_name = _('professional group role')
         verbose_name_plural = _('professional group roles')
