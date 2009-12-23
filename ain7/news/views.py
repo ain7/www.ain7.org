@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# news/views.py
+"""
+ ain7/news/views.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -20,35 +21,37 @@
 #
 #
 
-from django import forms
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
 from ain7.decorators import confirmation_required
-from ain7.news.models import *
-from ain7.news.forms import *
-from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
+from ain7.news.models import NewsItem
+from ain7.news.forms import SearchNewsForm, NewsForm, AddNewsForm
+from ain7.utils import ain7_render_to_response, ain7_generic_edit, check_access
 
 
 def index(request):
+    """news index page"""
     news = NewsItem.objects.all().order_by('-creation_date')[:20]
     return ain7_render_to_response(request, 'news/index.html', {'news': news })
 
 def details(request, news_slug):
+    """news details"""
     news_item = get_object_or_404(NewsItem, slug=news_slug)
     return ain7_render_to_response(request, 'news/details.html',
                             {'news_item': news_item})
 
 @login_required
 def edit(request, news_slug):
+    """news edit"""
 
-    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat','ain7-contributeur'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+       ['ain7-ca','ain7-secretariat','ain7-contributeur'])
+    if access:
+        return access
 
     news_item = get_object_or_404(NewsItem, slug=news_slug)
     return ain7_generic_edit(
@@ -56,13 +59,17 @@ def edit(request, news_slug):
         {'news_item':news_item}, {}, '/actualites/%s/' % (news_slug),
         _('News successfully updated.'))
 
-@confirmation_required(lambda news_slug=None, object_id=None : '', 'base.html', _('Do you really want to delete the image of this news'))
+@confirmation_required(lambda news_slug=None, object_id=None: '', 
+     'base.html', 
+     _('Do you really want to delete the image of this news'))
 @login_required
 def image_delete(request, news_slug):
+    """news image delete"""
 
-    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat','ain7-contributeur'])
-    if r:
-        return r
+    access = check_access(request, request.user, 
+        ['ain7-ca','ain7-secretariat','ain7-contributeur'])
+    if access:
+        return access
 
     news_item = get_object_or_404(NewsItem, slug=news_slug)
     news_item.image = None
@@ -74,22 +81,28 @@ def image_delete(request, news_slug):
 
 @login_required
 def add(request):
+    """news add"""
 
-    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat','ain7-contributeur'])
-    if r:
-        return r
+    access = check_access(request, request.user, 
+        ['ain7-ca','ain7-secretariat','ain7-contributeur'])
+    if access:
+        return access
 
     return ain7_generic_edit(
         request, None, AddNewsForm, {'image': None}, 'news/write.html',
         {}, {}, '/actualites/', _('News successfully added.'))
 
-@confirmation_required(lambda news_slug=None, object_id=None : '', 'base.html', _('Do you really want to delete this news'))
+@confirmation_required(lambda news_slug=None, object_id=None: '', 
+    'base.html', 
+    _('Do you really want to delete this news'))
 @login_required
 def delete(request, news_slug):
+    """news delete"""
 
-    r = check_access(request, request.user, ['ain7-ca','ain7-secretariat','ain7-contributeur'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat', 'ain7-contributeur'])
+    if access:
+        return access
 
     news_item = get_object_or_404(NewsItem, slug=news_slug)
     news_item.delete()
@@ -99,18 +112,19 @@ def delete(request, news_slug):
     return HttpResponseRedirect('/actualites/')
 
 def search(request):
+    """news search"""
 
     form = SearchNewsForm()
     nb_results_by_page = 25
     list_news = False
-    paginator = Paginator(NewsItem.objects.none(),nb_results_by_page)
+    paginator = Paginator(NewsItem.objects.none(), nb_results_by_page)
     page = 1
 
     if request.method == 'POST':
         form = SearchNewsForm(request.POST)
         if form.is_valid():
             list_news = form.search()
-            paginator = Paginator(list_news,nb_results_by_page)
+            paginator = Paginator(list_news, nb_results_by_page)
 
             try:
                 page = int(request.GET.get('page', '1'))
@@ -131,3 +145,4 @@ def search(request):
          'first_result': (page - 1) * nb_results_by_page +1,
          'last_result': min((page) * nb_results_by_page, paginator.count),
          'hits' : paginator.count})
+

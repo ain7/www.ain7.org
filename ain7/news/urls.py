@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# news/urls.py
+"""
+ ain7/news/urls.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -20,7 +21,7 @@
 #
 #
 
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import patterns
 
 
 urlpatterns = patterns('ain7.news.views',

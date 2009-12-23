@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# news/models.py
+"""
+ ain7/news/models.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -22,8 +23,6 @@
 
 import datetime
 
-import django.contrib.admin as admin
-
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.template import defaultfilters
@@ -33,20 +32,26 @@ from ain7.utils import LoggedClass
 
 
 class NewsItem(LoggedClass):
+    """news item"""
 
     title = models.CharField(verbose_name=_('title'), max_length=100)
     body = models.TextField(verbose_name=_('body'))
     slug = models.SlugField(max_length=100)
-    image = models.ImageField(verbose_name=_('image'), upload_to='data', null=True, blank=True)
-    creation_date = models.DateTimeField(verbose_name=_('date'), default=datetime.datetime.today, editable=False)
+    image = models.ImageField(verbose_name=_('image'), upload_to='data',
+        null=True, blank=True)
+    creation_date = models.DateTimeField(verbose_name=_('date'), 
+        default=datetime.datetime.today, editable=False)
 
     def __unicode__(self):
+        """news item unicode method"""
         return self.title
 
     def get_absolute_url(self):
+        """news item url"""
         return reverse('ain7.news.views.details', args=[self.slug])
 
     def short_body(self):
+        """news item short body"""
         if len(self.body) > 100:
             # we avoid to cut a word because this could produce non-valid html
             # example: t&eamp;nu -> t&ea
@@ -56,9 +61,11 @@ class NewsItem(LoggedClass):
             return self.body
 
     def save(self):
+        """news item save method"""
         self.slug = defaultfilters.slugify(self.title)
         super(NewsItem, self).save()
 
     class Meta:
+        """news item meta information"""
         verbose_name = _('news item')
 

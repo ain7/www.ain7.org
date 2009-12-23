@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# news/forms.py
+"""
+ ain7/news/forms.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -23,8 +24,7 @@
 from django import forms
 from django.utils.translation import ugettext as _
 
-from ain7.fields import AutoCompleteField
-from ain7.news.models import *
+from ain7.news.models import NewsItem
 from ain7.utils import AIn7ModelForm
 from ain7.widgets import DateTimeWidget
 
@@ -33,6 +33,7 @@ dateWidget = DateTimeWidget()
 dateWidget.dformat = '%d/%m/%Y'
 
 class SearchNewsForm(forms.Form):
+    """search news form"""
     title = forms.CharField(label=_('News title'), max_length=50,
         required=False, widget=forms.TextInput(attrs={'size':'40'}))
     date = forms.DateField(label=_('Date'), required=False,
@@ -41,6 +42,7 @@ class SearchNewsForm(forms.Form):
         required=False, widget=forms.TextInput(attrs={'size':'40'}))
 
     def search(self):
+        """search news method"""
         criteria = {'title__icontains': self.cleaned_data['title'],
                     'body__icontains': self.cleaned_data['content']}
         if self.cleaned_data['date']:
@@ -51,22 +53,28 @@ class SearchNewsForm(forms.Form):
         return NewsItem.objects.filter(**criteria)
 
 class NewsForm(AIn7ModelForm):
+    """news form"""
     title = forms.CharField(label=_('title').capitalize(), max_length=100,
         required=True, widget=forms.TextInput(attrs={'size':'50'}))
     body = forms.CharField(label=_('body').capitalize(),
         required=True,
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':60}))
+
     class Meta:
+        """news form meta"""
         model = NewsItem
-        exclude=('slug')
+        exclude = ('slug')
 
 class AddNewsForm(AIn7ModelForm):
+    """new news form"""
     title = forms.CharField(label=_('title').capitalize(), max_length=100,
         required=True, widget=forms.TextInput(attrs={'size':'50'}))
     body = forms.CharField(label=_('body').capitalize(),
         required=True,
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':60}))
+
     class Meta:
+        """meta add news form"""
         model = NewsItem
-        exclude=('image', 'slug')
+        exclude = ('image', 'slug')
 
