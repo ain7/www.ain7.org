@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# pages/views.py
+"""
+ ain7/pages/views.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -24,13 +25,12 @@ import datetime
 
 from django.contrib import auth
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
 from ain7 import settings
-from ain7.annuaire.models import AIn7Member, Email, Person
+from ain7.annuaire.models import AIn7Member, Email
 from ain7.news.models import NewsItem
 from ain7.evenements.models import Event
 from ain7.pages.forms import LostPasswordForm, TextForm, ChangePasswordForm
@@ -40,6 +40,7 @@ from ain7.utils import ain7_render_to_response, check_access
 
 
 def homepage(request):
+    """AIn7 homepage"""
     news = NewsItem.objects.all().order_by('-creation_date')[:5]
     events = Event.objects.filter(date__gte=datetime.datetime.now())[:5]
     is_auth = request.user.is_authenticated()
@@ -55,17 +56,19 @@ def homepage(request):
             person__birth_date__day=today.day,
             person__birth_date__month=today.month,
             person__death_date=None) ]
-        birthdays.sort(lambda x,y: cmp(x.person.last_name,y.person.last_name))
+        birthdays.sort(lambda x, y: cmp(x.person.last_name, y.person.last_name))
     return ain7_render_to_response(request, 'pages/homepage.html', 
         {'news': news , 'events': events, 'surveys': surveys, 
          'birthdays': birthdays, 'text1': text1, 'text2': text2})
 
 def lostpassword(request):
+    """lostpassword page"""
 
     messages = request.session.setdefault('messages', [])
     form = LostPasswordForm()
     if request.method == 'GET':
-        return ain7_render_to_response(request, 'pages/lostpassword.html', {'form': form})
+        return ain7_render_to_response(request, 'pages/lostpassword.html',
+            {'form': form})
     if request.method == 'POST':
         form = LostPasswordForm(request.POST)
         if form.is_valid():
@@ -76,7 +79,8 @@ def lostpassword(request):
             lostpw.person = person
             lostpw.save()
 
-            url = 'http://%s%s' % (request.get_host(), lostpw.get_absolute_url())
+            url = 'http://%s%s' % \
+                (request.get_host(), lostpw.get_absolute_url())
             person.send_mail(_('Password reset of your AIn7 account'), \
                         _("""Hi %(firstname)s,
 
@@ -92,15 +96,21 @@ This link will be valid 4h.
 Note: if you did not make this request, you can safely ignore this
 email.
 -- 
-http://ain7.com""") % { 'firstname': person.first_name, 'url': url, 'login': person.user.username} )
-            info = _('We have sent you an email with instructions to reset your password.')
+http://ain7.com""") % { 'firstname': person.first_name, 'url': url,
+    'login': person.user.username} )
+            info = _('We have sent you an email with instructions to reset\
+ your password.')
             request.path = '/'
-            return ain7_render_to_response(request, 'pages/lostpassword.html', {'info': info})
+            return ain7_render_to_response(request, 'pages/lostpassword.html',
+                {'info': info})
         else:
-            info = _('If you are claiming an existing account but don\'t know the email address that was used, please contact an AIn7 administrator.')
-            return ain7_render_to_response(request, 'pages/lostpassword.html', {'form': form, 'info': info})
+            info = _('If you are claiming an existing account but don\'t know\
+ the email address that was used, please contact an AIn7 administrator.')
+            return ain7_render_to_response(request, 'pages/lostpassword.html',
+                {'form': form, 'info': info})
 
 def changepassword(request, key):
+    """changepassword page"""
     form = ChangePasswordForm()
 
     lostpw = get_object_or_404(LostPassword, key=key)
@@ -108,7 +118,8 @@ def changepassword(request, key):
     if lostpw.is_expired():
         lostpw.delete()
         info = _('Page expired, please request a new key')
-        return ain7_render_to_response(request, 'pages/changepassword.html', {'info': info})
+        return ain7_render_to_response(request, 'pages/changepassword.html',
+            {'info': info})
 
     if request.POST:
         form = ChangePasswordForm(request.POST)
@@ -116,42 +127,53 @@ def changepassword(request, key):
             person = lostpw.person
             lostpw.delete()
             person.user.set_password(form.cleaned_data['password'])
-            person.user.save() # appel explicite de .save pour changer le mot de passe de façon permanente
+            person.user.save()
             info = _('Successfully changed password')
-            return ain7_render_to_response(request, 'pages/changepassword.html', {'person': person, 'info': info})
+            return ain7_render_to_response(request, 'pages/changepassword.html',
+                {'person': person, 'info': info})
 
-    return ain7_render_to_response(request, 'pages/changepassword.html', {'form': form, 'person': lostpw.person})
-
+    return ain7_render_to_response(request, 'pages/changepassword.html', 
+        {'form': form, 'person': lostpw.person})
 
 def apropos(request):
+    """about page"""
     text = Text.objects.get(textblock__shortname='apropos')
-    return ain7_render_to_response(request, 'pages/apropos.html', {'text': text})
+    return ain7_render_to_response(request, 'pages/apropos.html',
+        {'text': text})
 
 def web(request):
+    """web presentation page"""
     text = Text.objects.get(textblock__shortname='web_ain7')
     return ain7_render_to_response(request, 'pages/web.html', 
                        {'text': text})
 
 def mentions_legales(request):
+    """legal mentions"""
     text = Text.objects.get(textblock__shortname='mentions_legales')
-    return ain7_render_to_response(request, 'pages/mentions_legales.html', {'text': text})
+    return ain7_render_to_response(request, 'pages/mentions_legales.html',
+        {'text': text})
 
 def relations_ecole_etudiants(request): 
+    """school and students relashionchip"""
     text = Text.objects.get(textblock__shortname='relations_ecole_etudiants')
     return ain7_render_to_response(request, 
                 'pages/relations_ecole_etudiants.html', {'text': text})
 
 def rss(request):
+    """rss feeds"""
     text = Text.objects.get(textblock__shortname='rss')
     return ain7_render_to_response(request, 'pages/rss.html', {'text': text})
 
 def forums(request):
+    """forums link"""
     return HttpResponseRedirect(settings.FORUMS_URL)
     
 def galerie(request):
+    """gallery link"""
     return HttpResponseRedirect(settings.GALLERY_URL)
 
 def logout(request):
+    """logout page"""
     auth.logout(request)
     if request.META['HTTP_REFERER']:
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
@@ -159,7 +181,8 @@ def logout(request):
         return HttpResponseRedirect('/')
 
 def login(request):
-    next_page=request.GET.get('next','/')
+    """login page"""
+    next_page = request.GET.get('next','/')
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -168,16 +191,19 @@ def login(request):
             auth.login(request, user)
             return HttpResponseRedirect(request.POST.get('next','/'))
         else:
-            return ain7_render_to_response(request, 'pages/login.html', {'error': True, 'next': next_page})
+            return ain7_render_to_response(request, 'pages/login.html',
+                {'error': True, 'next': next_page})
     else:
-        return ain7_render_to_response(request, 'pages/login.html', {'error': False, 'next': next_page})
+        return ain7_render_to_response(request, 'pages/login.html',
+            {'error': False, 'next': next_page})
 
 def edit(request, text_id):
+    """edit text block"""
 
-    r = check_access(request, request.user, ['ain7-membre', 'ain7-ca', 
-                                       'ain7-secretariat', 'ain7-contributeur'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-membre', 'ain7-ca', 'ain7-secretariat', 'ain7-contributeur'])
+    if access:
+        return access
 
     text = get_object_or_404(Text, pk=text_id)
 
@@ -186,13 +212,14 @@ def edit(request, text_id):
     if request.method == 'POST':
         form = TextForm(request.POST)
         if form.is_valid():
-           text.title = form.cleaned_data['title']
-           text.body = form.cleaned_data['body']
-           text.save()
+            text.title = form.cleaned_data['title']
+            text.body = form.cleaned_data['body']
+            text.save()
 
-           request.user.message_set.create(message=_("Modifications saved."))
-           return HttpResponseRedirect(text.textblock.url)
+            request.user.message_set.create(message=_("Modifications saved."))
+            return HttpResponseRedirect(text.textblock.url)
 
     return ain7_render_to_response(request, 'pages/text_edit.html', 
-            {'text_id': text_id, 'form': form, 'back': request.META.get('HTTP_REFERER')})
+        {'text_id': text_id, 'form': form,
+         'back': request.META.get('HTTP_REFERER')})
 

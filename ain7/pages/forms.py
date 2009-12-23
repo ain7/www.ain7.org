@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# pages/forms.py
+"""
+ ain7/pages/forms.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -32,32 +33,40 @@ class LostPasswordForm(forms.Form):
     email = forms.EmailField(required=True)
 
     def clean_email(self):
-        e = self.cleaned_data['email']
+        """check e-mail submitted in the database"""
+        email = self.cleaned_data['email']
 
         try:
-            Email.objects.get(email=e)
+            Email.objects.get(email=email)
         except Email.DoesNotExist:
-            raise ValidationError(_('This should be the email address registered for your AIn7 account.'))
+            raise ValidationError(_('This should be the email address\
+ registered for your AIn7 account.'))
         else:
             return self.cleaned_data['email']
 
 class TextForm(forms.Form):
-    title = forms.CharField(label=_('title'), max_length=150, required=False, widget=forms.TextInput(attrs={'size':80}))
-    body = forms.CharField(label=_('body'),max_length=10000, required=False, widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':215}))
+    """Text Generic Form"""
+    title = forms.CharField(label=_('title'), max_length=150, required=False,
+        widget=forms.TextInput(attrs={'size':80}))
+    body = forms.CharField(label=_('body'), max_length=10000, required=False, 
+        widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':215}))
 
 class ChangePasswordForm(forms.Form):
     """ Change password when lost old one """
-    password = forms.CharField(label=_('New password:'),max_length=50,
-                         required=True, widget=forms.PasswordInput())
-    password_check = forms.CharField(label=_('Confirm password:'),max_length=50,
-                         required=True, widget=forms.PasswordInput())
+    password = forms.CharField(label=_('New password:'), max_length=50,
+        required=True, widget=forms.PasswordInput())
+    password_check = forms.CharField(label=_('Confirm password:'),
+        max_length=50, required=True, widget=forms.PasswordInput())
 
     def clean(self):
+        """check the form submitted with new password"""
         cleaned_data = self.cleaned_data
 
         if cleaned_data.get('password') and cleaned_data.get('password_check'):
-            if not cleaned_data.get('password') == cleaned_data.get('password_check'):
+            if not cleaned_data.get('password') == \
+                cleaned_data.get('password_check'):
                 raise ValidationError(_("Password doesn't match"))
             # TODO: check that password is strong enough ?
 
         return cleaned_data
+

@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# pages/models.py
+"""
+ ain7/pages/models.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -30,13 +31,17 @@ from ain7.utils import LoggedClass
 
 
 class TextBlock(LoggedClass):
+    """Text Block"""
     shortname = models.CharField(verbose_name=_('shortname'), max_length=50)
-    url = models.CharField(verbose_name=_('url'), max_length=100, blank=True, null=True)
+    url = models.CharField(verbose_name=_('url'), max_length=100,
+        blank=True, null=True)
 
     def get_absolute_url(self):
-         return self.url
+        """text block url"""
+        return self.url
 
 class Text(LoggedClass):
+    """Text"""
 
     textblock = models.ForeignKey(TextBlock)
     lang = models.CharField(verbose_name=_('lang'), default='fr', max_length=10)
@@ -44,12 +49,14 @@ class Text(LoggedClass):
     body = models.TextField(verbose_name=_('body'), blank=True, null=True)
 
 class LostPassword(models.Model):
+    """store lost password information"""
     person = models.ForeignKey('annuaire.Person')
     key = models.CharField(max_length=50, unique=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
-        return u'Lost password for %s dated of %s' % (self.person, self.created.date())
+        return u'Lost password for %s dated of %s' % \
+            (self.person, self.created.date())
 
     @permalink
     def get_absolute_url(self):
@@ -60,5 +67,6 @@ class LostPassword(models.Model):
         """
             Return True is lostpassword is expired (ie have more than 4 hour)
         """
-        return (datetime.datetime.now() - self.created) > datetime.timedelta(hours=4)
+        return (datetime.datetime.now() - self.created) > \
+            datetime.timedelta(hours=4)
 
