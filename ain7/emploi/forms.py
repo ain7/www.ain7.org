@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# emploi/forms.py
+"""
+ ain7/emploi/forms.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -21,7 +22,6 @@
 #
 
 from django import forms
-from django.forms import widgets
 from django.forms.util import ValidationError
 from django.utils.translation import ugettext as _
 
@@ -32,20 +32,23 @@ from ain7.utils import AIn7Form
 from ain7.widgets import DateTimeWidget
 
 
-dateWidget = DateTimeWidget()
-dateWidget.dformat = '%d/%m/%Y'
+DATE_WIDGET = DateTimeWidget()
+DATE_WIDGET.dformat = '%d/%m/%Y'
 
 class JobOfferForm(AIn7Form):
-    reference = forms.CharField(label=_('reference').capitalize(), max_length=50,
-        required=False, widget=forms.TextInput(attrs={'size':'55'}))
+    """ Job Offer Form"""
+    reference = forms.CharField(label=_('reference').capitalize(), 
+        max_length=50, required=False, 
+        widget=forms.TextInput(attrs={'size':'55'}))
     title = forms.CharField(label=_('title').capitalize(), max_length=50,
         required=True, widget=forms.TextInput(attrs={'size':'55'}))
-    experience = forms.CharField(label=_('experience').capitalize(), max_length=50,
-        required=False, widget=forms.TextInput(attrs={'size':'55'}))
+    experience = forms.CharField(label=_('experience').capitalize(),
+        max_length=50, required=False,
+        widget=forms.TextInput(attrs={'size':'55'}))
     contract_type = forms.IntegerField(label=_('contract type'),
         required=False)
     contract_type.widget = forms.Select(choices=JobOffer.JOB_TYPES)
-    is_opened = forms.BooleanField(label=_('is opened'),required=False)
+    is_opened = forms.BooleanField(label=_('is opened'), required=False)
     description = forms.CharField(label=_('description').capitalize(),
         required=False,
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':80}))
@@ -56,34 +59,39 @@ class JobOfferForm(AIn7Form):
     contact_email = forms.EmailField(label=_('Contact email').capitalize(),
         required=False)
     activity_field = forms.IntegerField(label=_('Activity field'),
-        required=False, widget=AutoCompleteField(completed_obj_name='activity_field'))
+        required=False,
+        widget=AutoCompleteField(completed_obj_name='activity_field'))
     track = forms.ModelMultipleChoiceField(label=_('track').capitalize(),
         queryset=Track.objects.filter(active=True), required=False)
     
     def clean_office(self):
-        o = self.cleaned_data['office']
-        if o==None:
+        """clean office for job offer"""
+        org = self.cleaned_data['office']
+        if org == None:
             raise ValidationError(_('The office is mandatory.'))
             return None
         else:
             office = None
             try:
-                office = Office.objects.get(id=o)
+                office = Office.objects.get(id=org)
             except Office.DoesNotExist:
                 raise ValidationError(_('The entered office does not exist.'))
             return office
     
     def clean_activity_field(self):
-        a = self.cleaned_data['activity_field']
-        if a!=None:
-            af = None
+        """clean activity field"""
+        activity = self.cleaned_data['activity_field']
+        if activity != None:
+            activity_field = None
             try:
-                af = ActivityField.objects.get(pk=a)
+                activity_field = ActivityField.objects.get(pk=activity)
             except ActivityField.DoesNotExist:
-                raise ValidationError(_('The entered activity field does not exist.'))
-            return af
+                raise ValidationError(
+                    _('The entered activity field does not exist.'))
+            return activity_field
     
     def save(self, user, job_offer=None):
+        """save job offer"""
         if not job_offer:
             job_offer = JobOffer()
         job_offer.reference = self.cleaned_data['reference']
@@ -104,10 +112,12 @@ class JobOfferForm(AIn7Form):
 
 
 class SearchJobForm(forms.Form):
-    title = forms.CharField(label=_('title').capitalize(),max_length=50,
+    """search job form"""
+    title = forms.CharField(label=_('title').capitalize(), max_length=50,
         required=False, widget=forms.TextInput(attrs={'size':'40'}))
     activity_field = forms.IntegerField(label=_('Activity field'),
-        required=False, widget=AutoCompleteField(completed_obj_name='activity_field'))
+        required=False,
+         widget=AutoCompleteField(completed_obj_name='activity_field'))
     experience = forms.CharField(label=_('experience').capitalize(),
         max_length=50, required=False,
         widget=forms.TextInput(attrs={'size':'40'}))
@@ -115,29 +125,36 @@ class SearchJobForm(forms.Form):
         required=False, choices=[])
 
     def __init__(self, *args, **kwargs):
+        """init search job form"""
         super(SearchJobForm, self).__init__(*args, **kwargs)
         contract_types = [(0, _('all').capitalize())]
-        for i,t in JobOffer.JOB_TYPES:
-            contract_types.append((i+1,t))
+        for i, type in JobOffer.JOB_TYPES:
+            contract_types.append((i+1, type))
         self.fields['contract_type'].choices = contract_types
 
     def clean_contract_type(self):
+        """clean contract type"""
         return int(self.cleaned_data['contract_type'])
 
     def search(self):
-        q = models.Q()
+        """search job form"""
+        querry = models.Q()
         if self.cleaned_data['title']:
-            q &= models.Q(title__icontains=self.cleaned_data['title'])
+            querry &= models.Q(title__icontains=self.cleaned_data['title'])
         if self.cleaned_data['activity_field']:
-            q &= models.Q(activity_field=self.cleaned_data['activity_field'])
+            querry &= models.Q(activity_field=\
+                self.cleaned_data['activity_field'])
         if self.cleaned_data['experience']:
-            q &= models.Q(experience__icontains=self.cleaned_data['experience'])
+            querry &= models.Q(experience__icontains=\
+                self.cleaned_data['experience'])
         if self.cleaned_data['contract_type']:
-            q &= models.Q(contract_type=self.cleaned_data['contract_type'])
+            querry &= models.Q(contract_type=self.cleaned_data['contract_type'])
 
-        return JobOffer.objects.filter(q)
+        return JobOffer.objects.filter(querry)
 
 class OrganizationForm(forms.Form):
+    """organization form"""
+
     name = forms.CharField(
         label=_('Name'), max_length=50, required=True)
     employment_agency = forms.BooleanField(
@@ -146,7 +163,8 @@ class OrganizationForm(forms.Form):
         label=_('Size'), required=True,
         widget=forms.Select(choices=Organization.ORGANIZATION_SIZE))
     activity_field = forms.IntegerField(label=_('Activity field'),
-        required=False, widget=AutoCompleteField(completed_obj_name='activity_field'))
+        required=False,
+        widget=AutoCompleteField(completed_obj_name='activity_field'))
     short_description = forms.CharField(
         label=_('Short Description'), max_length=50, required=False)
     long_description = forms.CharField(
@@ -154,11 +172,15 @@ class OrganizationForm(forms.Form):
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':50}))
 
     def clean_activity_field(self):
-        if self.cleaned_data['activity_field'] and ActivityField.objects.filter(pk=self.cleaned_data['activity_field']).count() != 1:
+        """clean activity field in organization"""
+        if self.cleaned_data['activity_field'] and \
+            ActivityField.objects.filter(\
+            pk=self.cleaned_data['activity_field']).count() != 1:
             raise ValidationError(_('Activity Field does not exist.'))
         return self.cleaned_data['activity_field']
 
     def save(self, user, is_a_proposal=False, organization=None, is_valid=True):
+        """save organization"""
         if organization:
             org = organization
         else:
@@ -173,7 +195,8 @@ class OrganizationForm(forms.Form):
         org.employment_agency = self.cleaned_data['employment_agency']
         org.size = self.cleaned_data['size']
         if self.cleaned_data['activity_field']:
-            org.activity_field = ActivityField.objects.get(pk=self.cleaned_data['activity_field'])
+            org.activity_field = ActivityField.objects.get(\
+                pk=self.cleaned_data['activity_field'])
         org.short_description = self.cleaned_data['short_description']
         org.long_description = self.cleaned_data['long_description']
         org.is_a_proposal = is_a_proposal
@@ -182,45 +205,57 @@ class OrganizationForm(forms.Form):
         return org
 
 class OfficeForm(forms.ModelForm):
+    """office form"""
     organization = forms.IntegerField(label=_('Organization'),
-        required=True,widget=AutoCompleteField(completed_obj_name='organization'))
+        required=True,widget=AutoCompleteField(\
+            completed_obj_name='organization'))
     country = forms.ModelChoiceField(
         label=_('country').capitalize(),
         queryset=Country.objects.all(), required=False)
 
     def clean_organization(self):
-        o = self.cleaned_data['organization']
-        if o == None:
+        """check organization in office"""
+        org = self.cleaned_data['organization']
+        if org == None:
             raise ValidationError(_('The organization is mandatory.'))
         try:
-            o = Organization.objects.get(id=o)
+            org = Organization.objects.get(id=org)
         except Organization.DoesNotExist:
             raise ValidationError(_('The organization does not exist.'))
         else:
-            return o
+            return org
         
     class Meta:
+        """meta office form"""
         model = Office
         exclude = ('old_id', 'is_a_proposal', 'is_valid')
 
 class OfficeFormNoOrg(forms.ModelForm):
+    """Office Form No Org ?"""
     country = forms.ModelChoiceField(
         label=_('country').capitalize(),
         queryset=Country.objects.all(), required=False)
 
     class Meta:
+        """Office Form Meta"""
         model = Office
         exclude = ('old_id', 'is_a_proposal', 'is_valid', 'organization')
 
 class PositionForm(forms.ModelForm):
-    start_date = forms.DateTimeField(label=_('start date').capitalize(),widget=dateWidget)
-    end_date = forms.DateTimeField(label=_('end date').capitalize(), widget=dateWidget, required=False)
-    office = forms.IntegerField(label=_('Office'), required=False, widget=AutoCompleteField(completed_obj_name='office'))
+    """Position Form"""
+
+    start_date = forms.DateTimeField(label=_('start date').capitalize(),
+        widget=DATE_WIDGET)
+    end_date = forms.DateTimeField(label=_('end date').capitalize(),
+        widget=DATE_WIDGET, required=False)
+    office = forms.IntegerField(label=_('Office'), required=False, 
+        widget=AutoCompleteField(completed_obj_name='office'))
 
     def clean_office(self):
-        o = self.cleaned_data['office']
+        """clean office in position form"""
+        off = self.cleaned_data['office']
 
-        if o==None:
+        if off == None:
             raise ValidationError(_('The office is mandatory.'))
         else:
             try:
@@ -230,10 +265,12 @@ class PositionForm(forms.ModelForm):
             return office
     
     class Meta:
+        """position form meta"""
         model = Position
         exclude = ('ain7member')
 
     def clean_end_date(self):
+        """clean end date for position form"""
         if self.cleaned_data.get('start_date') and \
             self.cleaned_data.get('end_date') and \
             self.cleaned_data['start_date']>self.cleaned_data['end_date']:
@@ -241,21 +278,23 @@ class PositionForm(forms.ModelForm):
         return self.cleaned_data['end_date']
 
 class EducationItemForm(forms.ModelForm):
+    """Education Item form"""
+
     start_date = forms.DateField(label=_('start year').capitalize(),
         input_formats=['%Y'], widget=forms.DateTimeInput(format='%Y'))
     end_date = forms.DateField(label=_('end year').capitalize(),
         input_formats=['%Y'], widget=forms.DateTimeInput(format='%Y'),
         required=False)
-#     diploma = forms.IntegerField(label=_('diploma').capitalize(),
-#         widget=AutoCompleteField(completed_obj_name='diploma'), required=False)
     diploma = forms.CharField(label=_('diploma').capitalize(),
         widget=AutoCompleteField(completed_obj_name='diploma'), required=False)
 
     class Meta:
+        """education item meta"""
         model = EducationItem
         exclude = ('ain7member')
 
     def clean_end_date(self):
+        """clean end date education item"""
         if self.cleaned_data.get('start_date') and \
             self.cleaned_data.get('end_date') and \
             self.cleaned_data['start_date']>self.cleaned_data['end_date']:
@@ -263,32 +302,41 @@ class EducationItemForm(forms.ModelForm):
         return self.cleaned_data['end_date']
 
 class LeisureItemForm(forms.ModelForm):
-    
+    """leisure item form"""
+
     class Meta:
+        """leisure item form meta"""
         model = LeisureItem
         exclude = ('ain7member')
 
 class PublicationItemForm(forms.ModelForm):
+    """publication item form"""
     date = forms.DateField(label=_('year').capitalize(),
         input_formats=['%Y'], widget=forms.DateTimeInput(format='%Y'))
 
     class Meta:
+        """publication item meta"""
         model = PublicationItem
         exclude = ('ain7member')
 
 class ChooseOrganizationForm(forms.Form):
-    organization = forms.IntegerField(label=_('Organization'), required=False, widget=AutoCompleteField(completed_obj_name='organization'))
+    """choose organization form"""
+
+    organization = forms.IntegerField(label=_('Organization'), required=False,
+        widget=AutoCompleteField(completed_obj_name='organization'))
 
     def clean_organization(self):
-        o = self.cleaned_data['organization']
+        """clean organization"""
+        org = self.cleaned_data['organization']
 
-        if o == None:
+        if org == None:
             raise ValidationError(_('The organization is mandatory.'))
 
         try:
-            Organization.objects.get(id=o)
+            Organization.objects.get(id=org)
         except Organization.DoesNotExist:
-            raise ValidationError(_('The organization "%s" does not exist.') % o)
+            raise ValidationError(\
+                _('The organization "%s" does not exist.') % org)
         else:
             return self.cleaned_data['organization']
 
