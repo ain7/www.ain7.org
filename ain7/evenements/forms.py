@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-#
-# evenements/forms.py
+"""
+ ain7/evenements/forms.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -29,22 +30,25 @@ from ain7.fields import AutoCompleteField
 from ain7.widgets import DateTimeWidget
 from ain7.utils import AIn7ModelForm, AIn7Form
 
-dateTimeWidget = DateTimeWidget()
-dateTimeWidget.dformat = '%d/%m/%Y %H:%M'
+DATE_TIME_WIDGET = DateTimeWidget()
+DATE_TIME_WIDGET.dformat = '%d/%m/%Y %H:%M'
 
 class JoinEventForm(forms.Form):
+    """Join Event Form"""
     subscriber_number = forms.IntegerField(label=_('Number of persons'),
                                            required=True)
     note = forms.CharField(label=_('Note, question, etc..'), max_length=200,
         required=False, widget=forms.TextInput(attrs={'size':'40'}))
 
     def clean_subscriber_number(self, *args, **kwargs):
-        """On vérifie qu'il y a au moins une personne."""
-        if self.cleaned_data['subscriber_number']<1:
-            raise forms.ValidationError(_('This number includes yourself, so it should be at least 1.'))
+        """check we have at least one member"""
+        if self.cleaned_data['subscriber_number'] < 1:
+            raise forms.ValidationError(_('This number includes yourself, so it\
+ should be at least 1.'))
         return self.cleaned_data['subscriber_number']
 
     def save(self, *args, **kwargs):
+        """save event participation"""
         subscription = EventSubscription()
         subscription.subscriber_number = self.cleaned_data['subscriber_number']
         subscription.subscriber = kwargs['subscriber']
@@ -55,18 +59,22 @@ class JoinEventForm(forms.Form):
         return subscription
 
 class SubscribeEventForm(forms.Form):
-    subscriber = forms.IntegerField(label=_('Person to subscribe'), widget=AutoCompleteField(completed_obj_name='person'))
+    """subscribe event form"""
+    subscriber = forms.IntegerField(label=_('Person to subscribe'),
+        widget=AutoCompleteField(completed_obj_name='person'))
     subscriber_number = forms.IntegerField(label=_('Number of persons'))
     note = forms.CharField(label=_('Note, question, etc..'), max_length=200,
         required=False, widget=forms.TextInput(attrs={'size':'40'}))
 
     def clean_subscriber_number(self, *args, **kwargs):
         """On vérifie qu'il y a au moins une personne."""
-        if self.cleaned_data['subscriber_number']<1:
-            raise forms.ValidationError(_('This number includes the person you subscribe, so it should be at least 1.'))
+        if self.cleaned_data['subscriber_number'] < 1:
+            raise forms.ValidationError(_('This number includes the person you\
+ subscribe, so it should be at least 1.'))
         return self.cleaned_data['subscriber_number']
 
     def save(self, *args, **kwargs):
+        """subscribe event save"""
         subscription = EventSubscription()
         subscription.subscriber_number = self.cleaned_data['subscriber_number']
         subscription.subscriber = Person.objects.get(
@@ -78,47 +86,56 @@ class SubscribeEventForm(forms.Form):
         return subscription
 
 class SearchEventForm(forms.Form):
+    """search event form"""
     name = forms.CharField(label=_('Event name'), max_length=50,
         required=False, widget=forms.TextInput(attrs={'size':'40'}))
     location = forms.CharField(label=_('Location'), max_length=50,
         required=False, widget=forms.TextInput(attrs={'size':'40'}))
 
     def search(self):
+        """search event method"""
         return Event.objects.filter(
             name__icontains=self.cleaned_data['name'],
             location__icontains=self.cleaned_data['location'])        
 
 class ContactEventForm(AIn7Form):
+    """contact event form"""
     message = forms.CharField( label=_('your message').capitalize(),
         required=True,
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':65}))
-    sender = forms.EmailField( label=_('your email').capitalize(), required=True)
+    sender = forms.EmailField( label=_('your email').capitalize(),
+        required=True)
 
 class EventForm(AIn7ModelForm):
+    """event form"""
     name = forms.CharField(label=_('Name'), max_length=60,
         widget=forms.TextInput(attrs={'size':'60'}))
     description = forms.CharField( label=_('description').capitalize(),
         required=False,
         widget=forms.widgets.Textarea(attrs={'rows':10, 'cols':40}))
     date = forms.DateTimeField(label=_('date').capitalize(),
-        widget=dateTimeWidget)
+        widget=DATE_TIME_WIDGET)
     publication_start = forms.DateTimeField(
-        label=_('publication start').capitalize(), widget=dateTimeWidget)
+        label=_('publication start').capitalize(), widget=DATE_TIME_WIDGET)
     publication_end = forms.DateTimeField(
-        label=_('publication end').capitalize(), widget=dateTimeWidget)
+        label=_('publication end').capitalize(), widget=DATE_TIME_WIDGET)
     
     class Meta:
+        """event form meta"""
         model = Event
         exclude = ('organizers')
 
     def clean_publication_end(self):
+        """check end publication date"""
         if self.cleaned_data.get('publication_start') and \
             self.cleaned_data.get('publication_end') and \
-            self.cleaned_data['publication_start']>self.cleaned_data['publication_end']:
+            self.cleaned_data['publication_start'] > \
+            self.cleaned_data['publication_end']:
             raise forms.ValidationError(_('Start date is later than end date'))
         return self.cleaned_data['publication_end']
 
     def save(self, *args, **kwargs):
+        """save event"""
         if kwargs.has_key('contributor'):
             contributor = kwargs['contributor']
             event = super(EventForm, self).save()
@@ -128,24 +145,27 @@ class EventForm(AIn7ModelForm):
         return event
 
 class EventOrganizerForm(forms.ModelForm):
+    """event organizer form"""
     organizer = forms.IntegerField(label=_('organizer').capitalize(),
         widget=AutoCompleteField(completed_obj_name='person'))
     
     class Meta:
+        """event organizer form meta"""
         model = EventOrganizer
         exclude = ('event')
 
     def save(self, *args, **kwargs):
+        """event organizer form save"""
         if kwargs.has_key('contributor') and kwargs.has_key('event'):
             event = kwargs['event']
-            eventOrg = EventOrganizer()
-            eventOrg.event = event
-            eventOrg.organizer = Person.objects.get(
+            event_org = EventOrganizer()
+            event_org.event = event
+            event_org.organizer = Person.objects.get(
                 id=self.cleaned_data['organizer'])
-            eventOrg.send_email_for_new_subscriptions = \
+            event_org.send_email_for_new_subscriptions = \
                 self.cleaned_data['send_email_for_new_subscriptions']
-            eventOrg.save()
+            event_org.save()
             event.logged_save(kwargs['contributor'])
-            return eventOrg
+            return event_org
         return None
 

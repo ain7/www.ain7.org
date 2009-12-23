@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# evenements/models.py
+"""
+ ain7/evenements/models.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -34,12 +35,14 @@ from ain7.utils import LoggedClass
 
 # a Manager for the class Event
 class EventManager(models.Manager):
+    """event manager"""
 
     def next_events(self):
         """Returns all future events."""
         return self.filter(date__gte=datetime.datetime.now())
 
 class Event(LoggedClass):
+    """event"""
 
     EVENT_CATEGORY = (
               (0,_('conference')),
@@ -56,61 +59,85 @@ class Event(LoggedClass):
 
     name = models.CharField(verbose_name=_('name'), max_length=60)
     date = models.DateTimeField(verbose_name=_('date'))
-    description = models.TextField(verbose_name=_('description'), blank=True, null=True)
+    description = models.TextField(verbose_name=_('description'),
+        blank=True, null=True)
     location = models.CharField(verbose_name=_('place'), max_length=60)
-    category = models.IntegerField(verbose_name=_('category'), choices=EVENT_CATEGORY, null=True, blank=True)
-    status = models.IntegerField(verbose_name=_('status'), choices=EVENT_STATUS, null=True, blank=True)
-    image = models.ImageField(verbose_name=_('image'), upload_to='data', null=True, blank=True)
+    category = models.IntegerField(verbose_name=_('category'),
+        choices=EVENT_CATEGORY, null=True, blank=True)
+    status = models.IntegerField(verbose_name=_('status'), choices=EVENT_STATUS,
+        null=True, blank=True)
+    image = models.ImageField(verbose_name=_('image'), upload_to='data',
+        null=True, blank=True)
     author = models.CharField(verbose_name=_('author'), max_length=20)
-    contact_email = models.EmailField(verbose_name=_('contact email'), max_length=50)
-    link = models.CharField(verbose_name=_('link'), max_length=60, blank=True, null=True)
+    contact_email = models.EmailField(verbose_name=_('contact email'),
+        max_length=50)
+    link = models.CharField(verbose_name=_('link'), max_length=60, blank=True,
+        null=True)
     publication_start =  models.DateField(verbose_name=_('publication start'))
     publication_end = models.DateField(verbose_name=_('publication end'))
 
-    organizers = models.ManyToManyField(Person, verbose_name=_('organizers'),related_name='events', blank=True, null=True, through='EventOrganizer')
-    regional_groups = models.ManyToManyField(Group, verbose_name=_('regional groups'), related_name='events', blank=True, null=True)
-    professional_groups = models.ManyToManyField(GroupPro, verbose_name=_('professional groups'), related_name='events', blank=True, null=True)
-    pictures_gallery = models.CharField(verbose_name=_('Pictures gallery'), max_length=100, blank=True, null=True)
+    organizers = models.ManyToManyField(Person, verbose_name=_('organizers'), 
+         related_name='events', blank=True, null=True, through='EventOrganizer')
+    regional_groups = models.ManyToManyField(Group,
+         verbose_name=_('regional groups'), related_name='events',
+         blank=True, null=True)
+    professional_groups = models.ManyToManyField(GroupPro,
+         verbose_name=_('professional groups'), related_name='events',
+         blank=True, null=True)
+    pictures_gallery = models.CharField(verbose_name=_('Pictures gallery'),
+         max_length=100, blank=True, null=True)
     objects = EventManager()
 
     def __unicode__(self):
+        """event unicode"""
         return self.name
 
     def save(self):
+        """save event"""
         if self.pictures_gallery:
             if not self.pictures_gallery.startswith('http://'):
                 self.pictures_gallery = 'http://'+self.pictures_gallery
         return super(Event, self).save()
 
     def get_absolute_url(self):
+        """event url"""
         return reverse('ain7.evenements.views.details', args=[self.id])
 
     def nb_participants(self):
         """Renvoie le nombre de participants à l'événement."""
         nbpart = 0
-        for sub in self.subscriptions.all(): nbpart += sub.subscriber_number
+        for sub in self.subscriptions.all():
+             nbpart += sub.subscriber_number
         return nbpart
 
     class Meta:
+        """event meta"""
         ordering = ['date', 'publication_start', 'publication_end']
         verbose_name = _('event')
 
 class EventSubscription(models.Model):
+    """Event Subscription"""
 
-    subscriber = models.ForeignKey(Person, verbose_name=_('subscriber'), related_name='event_subscriptions')
-    event = models.ForeignKey(Event, verbose_name=_('event'), related_name='subscriptions')
+    subscriber = models.ForeignKey(Person, verbose_name=_('subscriber'),
+        related_name='event_subscriptions')
+    event = models.ForeignKey(Event, verbose_name=_('event'),
+        related_name='subscriptions')
     subscriber_number = models.IntegerField(verbose_name=_('subscriber number'))
     note = models.TextField(null=True, blank=True)
 
-    subscription_date = models.DateTimeField(default=datetime.datetime.now, editable=False)
-    subscribed_by = models.ForeignKey(Person, related_name='subscriptions_done', editable=False, null=True)
+    subscription_date = models.DateTimeField(default=datetime.datetime.now,
+        editable=False)
+    subscribed_by = models.ForeignKey(Person, related_name='subscriptions_done',
+        editable=False, null=True)
 
     class Meta:
+        """event subscription meta"""
         verbose_name = _('event subscription')
         verbose_name_plural = _('event subscriptions')
 
     def save(self):
-        es = super(EventSubscription, self).save()
+        """event subscription save"""
+        evt_sub = super(EventSubscription, self).save()
         # if some organizers want to get informed by email, do it
         msg  = _('subscriber').capitalize()+' : '+unicode(self.subscriber) \
                + ' (' + unicode(self.subscriber_number) + ' ' \
@@ -127,10 +154,15 @@ class EventSubscription(models.Model):
                 event_organizer.organizer.send_mail(
                     subject=_('New subscription for')+' : '+unicode(self.event),
                     message=msg)
-        return es
+        return evt_sub
 
 class EventOrganizer(models.Model):
-    event = models.ForeignKey(Event, verbose_name=_('event'), related_name='event_organizers')
-    organizer = models.ForeignKey(Person, verbose_name=_('organizer'), related_name='organized_events')
+    """event organizer"""
+
+    event = models.ForeignKey(Event, verbose_name=_('event'),
+        related_name='event_organizers')
+    organizer = models.ForeignKey(Person, verbose_name=_('organizer'),
+        related_name='organized_events')
     send_email_for_new_subscriptions = models.BooleanField(default=False,
             verbose_name=_('send email for new subscription'))
+
