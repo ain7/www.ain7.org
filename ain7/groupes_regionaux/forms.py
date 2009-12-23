@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-#
-# groupes_regionaux/forms.py
+"""
+ ain7/groupes_regionaux/forms.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -32,10 +33,11 @@ from ain7.groupes_regionaux.models import Group, GroupRole
 from ain7.widgets import DateTimeWidget
 
 
-dateWidget = DateTimeWidget()
-dateWidget.dformat = '%d/%m/%Y'
+DATE_WIDGET = DateTimeWidget()
+DATE_WIDGET.dformat = '%d/%m/%Y'
 
 class GroupForm(forms.ModelForm):
+    """New Group Form"""
     shortname = forms.CharField(label=_('short name').capitalize(),
         widget = forms.TextInput(attrs={'size': 40}), 
         required=False)
@@ -45,48 +47,57 @@ class GroupForm(forms.ModelForm):
 
     def clean_shortname(self):
         if not re.match(r'^[a-z0-9\-_]+$', self.cleaned_data['shortname']):
-            raise forms.ValidationError(_('Please only use alphanumeric characters'))
-        if Group.objects.filter(shortname=self.cleaned_data['shortname']).count() > 1:
-            raise forms.ValidationError(_('A group with this name already exists'))
+            raise forms.ValidationError(\
+                 _('Please only use alphanumeric characters'))
+        if Group.objects.filter(\
+            shortname=self.cleaned_data['shortname']).count() > 1:
+            raise forms.ValidationError(\
+                 _('A group with this name already exists'))
         return self.cleaned_data['shortname']
    
     class Meta:
+        """Meta Group Form Information"""
         model = Group
         exclude = ('group')
 
 class NewRoleForm(forms.Form):
+    """New role form"""
     username = forms.CharField(label=_('Username'), max_length=100,
         required=True, widget=AutoCompleteField(completed_obj_name='person'))
     start_date = forms.DateTimeField(label=_('start date').capitalize(),
-        widget=dateWidget, required=True)
+        widget=DATE_WIDGET, required=True)
     end_date = forms.DateTimeField(label=_('end date').capitalize(),
-        widget=dateWidget, required=False)
+        widget=DATE_WIDGET, required=False)
 
     def clean_end_date(self):
+        """check end date for new role"""
         if self.cleaned_data.get('start_date') and \
             self.cleaned_data.get('end_date') and \
-            self.cleaned_data['start_date']>self.cleaned_data['end_date']:
+            self.cleaned_data['start_date'] > self.cleaned_data['end_date']:
             raise forms.ValidationError(_('Start date is later than end date'))
         return self.cleaned_data['end_date']
 
     def save(self, group, type):
-        gr = GroupRole()
-        gr.type = type
-        gr.start_date = self.cleaned_data['start_date']
-        gr.end_date = self.cleaned_data['end_date']
-        gr.group = group
-        gr.member = get_object_or_404(Person,
+        """save new role method"""
+        role = GroupRole()
+        role.type = type
+        role.start_date = self.cleaned_data['start_date']
+        role.end_date = self.cleaned_data['end_date']
+        role.group = group
+        role.member = get_object_or_404(Person,
                                       pk=self.cleaned_data['username'])
-        gr.save()
-        return gr
+        role.save()
+        return role
 
 class ChangeDatesForm(forms.Form):
+    """change dates form"""
     start_date = forms.DateTimeField(label=_('start date').capitalize(),
-        widget=dateWidget, required=True)
+        widget=DATE_WIDGET, required=True)
     end_date = forms.DateTimeField(label=_('end date').capitalize(),
-        widget=dateWidget, required=False)
+        widget=DATE_WIDGET, required=False)
 
     def clean_end_date(self):
+        """check end date method"""
         if self.cleaned_data.get('start_date') and \
             self.cleaned_data.get('end_date') and \
             self.cleaned_data['start_date']>self.cleaned_data['end_date']:
@@ -94,6 +105,8 @@ class ChangeDatesForm(forms.Form):
         return self.cleaned_data['end_date']
 
     def save(self, role):
+        """save dates for a role"""
         role.start_date = self.cleaned_data['start_date']
         role.end_date = self.cleaned_data['end_date']
         return role.save()
+

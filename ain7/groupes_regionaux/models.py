@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# groupes_regionaux/models.py
+"""
+ ain7/groupes_regionaux/models.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -31,29 +32,41 @@ from ain7.utils import LoggedClass
 
 
 class Group(LoggedClass):
+    """Regional Group"""
 
     is_active = models.BooleanField(verbose_name=_('active'), default=True)
-    shortname = models.CharField(verbose_name=_('name'), max_length=50, unique=True)
+    shortname = models.CharField(verbose_name=_('name'), max_length=50,
+        unique=True)
     name = models.CharField(verbose_name=_('name'), max_length=50)
-    description = models.TextField(verbose_name=_('description'), blank=True, null=True)
+    description = models.TextField(verbose_name=_('description'), blank=True,
+        null=True)
 
     def __unicode__(self):
+        """unicode string for a regional group"""
         return self.name
 
     def office_memberships(self):
-        return self.roles.exclude(end_date__isnull=False, end_date__lte=datetime.datetime.now())\
-                                .filter(start_date__lte=datetime.datetime.now())
+        """board membership"""
+        return self.roles.exclude(end_date__isnull=False, 
+            end_date__lte=datetime.datetime.now())\
+            .filter(start_date__lte=datetime.datetime.now())
 
     def active_events(self):
-        return self.events.filter(publication_start__lte=datetime.datetime.now(), publication_end__gte=datetime.datetime.now())
+        """current events for a regional group"""
+        return self.events.filter(publication_start__lte=\
+            datetime.datetime.now(), publication_end__gte=\
+            datetime.datetime.now())
 
     def has_for_member(self, person):
+        """check membership for a regional group"""
         return self.memberships.filter(member=person)\
-            .exclude(end_date__isnull=False, end_date__lte=datetime.datetime.now())\
+            .exclude(end_date__isnull=False, end_date__lte=\
+            datetime.datetime.now())\
             .filter(start_date__lte=datetime.datetime.now())\
             .count() != 0
 
     def has_for_board_member(self, person):
+        """check board member for a regional group"""
         has_role = False
         for role in self.roles.filter(member=person)\
             .filter(start_date__lte=datetime.datetime.now()):
@@ -62,26 +75,34 @@ class Group(LoggedClass):
         return has_role
 
     def get_absolute_url(self):
+        """absolute url for regional group"""
         return reverse('ain7.groupes_regionaux.views.details', args=[self.id])
 
     class Meta:
+        """regional group meta"""
         verbose_name = _('regional group')
         verbose_name_plural = _('regional groups')
 
 class GroupMembership(models.Model):
+    """group membership"""
 
-    start_date = models.DateField(verbose_name=_('start date'), default=datetime.datetime.now, blank=True, null=True)
+    start_date = models.DateField(verbose_name=_('start date'),
+        default=datetime.datetime.now, blank=True, null=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
 
-    group = models.ForeignKey(Group, verbose_name=_('regional group'), related_name='memberships')
-    member = models.ForeignKey(Person, verbose_name=_('member'), related_name='regional_group_memberships')
+    group = models.ForeignKey(Group, verbose_name=_('regional group'),
+        related_name='memberships')
+    member = models.ForeignKey(Person, verbose_name=_('member'),
+        related_name='regional_group_memberships')
 
     class Meta:
+        """group membership meta information"""
         ordering = ['start_date', 'end_date']
         verbose_name = _('regional group membership')
         verbose_name_plural = _('regional group memberships')
 
 class GroupRole(models.Model):
+    """Group role"""
 
     ROLE_TYPE = (
                        (0, _('President')),
@@ -94,19 +115,25 @@ class GroupRole(models.Model):
                        )
 
     type = models.IntegerField(verbose_name=_('type'), choices=ROLE_TYPE)
-    start_date = models.DateField(verbose_name=_('start date'), default=datetime.datetime.now, blank=True, null=True)
+    start_date = models.DateField(verbose_name=_('start date'),
+        default=datetime.datetime.now, blank=True, null=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
 
-    group = models.ForeignKey(Group, verbose_name=_('regional group'), related_name='roles')
-    member = models.ForeignKey(Person, verbose_name=_('member'), related_name='regional_group_roles')
+    group = models.ForeignKey(Group, verbose_name=_('regional group'),
+        related_name='roles')
+    member = models.ForeignKey(Person, verbose_name=_('member'),
+        related_name='regional_group_roles')
 
     def __unicode__(self):
+        """regional group role unicode"""
         typ = None
         for type, typename in self.ROLE_TYPE:
-            if type==self.type: typ = typename
+            if type == self.type:
+                typ = typename
         return typ + ' : ' + str(self.member)
 
     class Meta:
+        """regional group role meta"""
         ordering = ['type', 'start_date', 'end_date']
         verbose_name = _('regional group role')
         verbose_name_plural = _('regional group roles')
