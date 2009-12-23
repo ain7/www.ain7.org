@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# media_communication/models.py
+"""
+ ain7/media_communication/models.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -19,6 +20,4 @@
 #   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 #
-
-from django.db import models
 

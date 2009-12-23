@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# middleware/useractivity.py
+"""
+ ain7/middleware/useractivity.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -30,8 +31,13 @@ import datetime
 from ain7.annuaire.models import Person, UserActivity
 
 class UserActivityMiddleware(object):
+    """
+    User activity middleware. We track when a user was last active in the
+    site and store this information in the database. 
+    """
 
     def process_request(self, request):
+        """process request"""
         if request.user.is_authenticated():
             try:
                 person = Person.objects.get(user=request.user)
@@ -42,15 +48,17 @@ class UserActivityMiddleware(object):
             now = datetime.datetime.now()
             time_delta = datetime.timedelta(hours=4)
 
-            user_activities = UserActivity.objects.filter(person=person).reverse()
+            user_activities = UserActivity.objects.filter(person=person)\
+                .reverse()
 
-            if len(user_activities) < 1 or now - user_activities[0].date > time_delta:
-                ua = UserActivity()
-                ua.person = person
-                ua.date = now
+            if len(user_activities) < 1 or now - user_activities[0].date \
+                > time_delta:
+                user_activity = UserActivity()
+                user_activity.person = person
+                user_activity.date = now
                 if request.META.has_key('REMOTE_HOST'):
-                    ua.client_address = request.META['REMOTE_HOST']
+                    user_activity.client_address = request.META['REMOTE_HOST']
                 if request.META.has_key('HTTP_USER_AGENT'):
-                    ua.browser_info = request.META['HTTP_USER_AGENT']
-                ua.save()
+                    user_activity.browser_info = request.META['HTTP_USER_AGENT']
+                user_activity.save()
 

@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# media_communication/urls.py
+"""
+ ain7/media_communication/urls.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -20,7 +21,7 @@
 #
 #
 
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import patterns
 
 
 urlpatterns = patterns('ain7.media_communication.views',
@@ -28,7 +29,6 @@ urlpatterns = patterns('ain7.media_communication.views',
     (r'^$', 'index'),
     (r'^canal_n7/$', 'canal_n7'),
     (r'^canal_n7/edito/$', 'canal_n7_edito'),
-    (r'^website/$', 'website'),
 
 )
 
