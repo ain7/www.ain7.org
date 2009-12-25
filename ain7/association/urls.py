@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# association/urls.py
+"""
+ ain7/association/urls.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -20,7 +21,7 @@
 #
 #
 
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import patterns
 
 
 urlpatterns = patterns('ain7.association.views',
@@ -28,9 +29,12 @@ urlpatterns = patterns('ain7.association.views',
     (r'^board/$', 'board'),
     (r'^council/$', 'council'),
     (r'^council/edit/(?P<all_current>\w+)/$', 'edit_council'),
-    (r'^council/(?P<role_id>\d+)/changedates/(?P<all_current>\w+)/$', 'change_council_dates'),
-    (r'^council/(?P<role_type>\d+)/add/(?P<all_current>\w+)/$', 'add_council_role'),
-    (r'^council/(?P<role_id>\d+)/delete/(?P<all_current>\w+)/$', 'delete_council_role'),
+    (r'^council/(?P<role_id>\d+)/changedates/(?P<all_current>\w+)/$',
+        'change_council_dates'),
+    (r'^council/(?P<role_type>\d+)/add/(?P<all_current>\w+)/$',
+        'add_council_role'),
+    (r'^council/(?P<role_id>\d+)/delete/(?P<all_current>\w+)/$',
+        'delete_council_role'),
     (r'^contact/$', 'contact'),
     (r'^status/$', 'status'),
     (r'^activites/$', 'activites'),

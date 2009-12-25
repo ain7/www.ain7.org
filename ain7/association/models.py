@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# association/models.py
+"""
+ ain7/association/models.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -29,6 +30,7 @@ from ain7.annuaire.models import Person
 
 
 class CouncilRole(models.Model):
+    """Council Role"""
 
     COUNCIL_ROLE = (
                        (0, _('President')),
@@ -42,21 +44,27 @@ class CouncilRole(models.Model):
                     )
 
     role = models.IntegerField(verbose_name=_('type'), choices=COUNCIL_ROLE)
-    member = models.ForeignKey(Person, verbose_name=_('member'), related_name='council_roles')
+    member = models.ForeignKey(Person, verbose_name=_('member'),
+        related_name='council_roles')
     start_date = models.DateField(verbose_name=_('start date'),
         default=datetime.datetime.now, blank=True, null=True)
-    end_date = models.DateField(verbose_name=_('end date'), blank=True, null=True)
+    end_date = models.DateField(verbose_name=_('end date'),
+        blank=True, null=True)
     board_member = models.BooleanField()
 
     def __unicode__(self):
-        return [ nam for role, nam in self.COUNCIL_ROLE if role==self.role ][0]
+        """council role unicode"""
+        return [ nam for role, nam in self.COUNCIL_ROLE if role == self.role ][0]
 
     def current(self):
+        """is role a current role"""
         return self.start_date <= datetime.datetime.now().date() and \
             not(self.end_date and \
                 self.end_date <= datetime.datetime.now().date())
 
     class Meta:
+        """council meta"""
         verbose_name = _('council role')
         verbose_name_plural = _('council roles')
         ordering = ['role', 'member']
+

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-#
-# associations/forms.py
+"""
+ ain7/associations/forms.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -21,7 +22,6 @@
 #
 
 from django import forms
-from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
@@ -30,19 +30,22 @@ from ain7.fields import AutoCompleteField
 from ain7.widgets import DateTimeWidget
 
 
-dateWidget = DateTimeWidget()
-dateWidget.dformat = '%d/%m/%Y'
+DATE_WIDGET = DateTimeWidget()
+DATE_WIDGET.dformat = '%d/%m/%Y'
 
 class NewCouncilRoleForm(forms.Form):
+    """Council Role Form"""
     username = forms.CharField(label=_('Username'), max_length=100,
         required=True, widget=AutoCompleteField(completed_obj_name='person'))
     start_date = forms.DateTimeField(label=_('start date').capitalize(),
-        widget=dateWidget, required=True)
+        widget=DATE_WIDGET, required=True)
     end_date = forms.DateTimeField(label=_('end date').capitalize(),
-        widget=dateWidget, required=False)
-    board_member = forms.BooleanField(label=_('board member').capitalize(), required=False)
+        widget=DATE_WIDGET, required=False)
+    board_member = forms.BooleanField(label=_('board member').capitalize(),
+        required=False)
 
     def clean_end_date(self):
+        """check end date"""
         if self.cleaned_data.get('start_date') and \
             self.cleaned_data.get('end_date') and \
             self.cleaned_data['start_date']>self.cleaned_data['end_date']:
@@ -50,8 +53,9 @@ class NewCouncilRoleForm(forms.Form):
         return self.cleaned_data['end_date']
 
     def clean_username(self):
+        """check username"""
         pid = self.cleaned_data['username']
-        if pid==None:
+        if pid == None:
             raise ValidationError(_('This field is mandatory.'))
             return None
         else:
@@ -59,26 +63,30 @@ class NewCouncilRoleForm(forms.Form):
             try:
                 person = Person.objects.get(id=pid)
             except Person.DoesNotExist:
-                raise ValidationError(_('The entered person is not in the database.'))
+                raise ValidationError(_('The entered person is not in\
+ the database.'))
             return person
     
     def save(self, role_type):
-        cr = CouncilRole()
-        cr.role = role_type
-        cr.start_date = self.cleaned_data['start_date']
-        cr.end_date = self.cleaned_data['end_date']
-        cr.member = self.cleaned_data['username']
-        cr.board_member = self.cleaned_data['board_member']
-        cr.save()
-        return cr
+        """save council role"""
+        c_role = CouncilRole()
+        c_role.role = role_type
+        c_role.start_date = self.cleaned_data['start_date']
+        c_role.end_date = self.cleaned_data['end_date']
+        c_role.member = self.cleaned_data['username']
+        c_role.board_member = self.cleaned_data['board_member']
+        c_role.save()
+        return c_role
 
 class ChangeDatesForm(forms.Form):
+    """change dates form"""
     start_date = forms.DateTimeField(label=_('start date').capitalize(),
-        widget=dateWidget, required=True)
+        widget=DATE_WIDGET, required=True)
     end_date = forms.DateTimeField(label=_('end date').capitalize(),
-        widget=dateWidget, required=False)
+        widget=DATE_WIDGET, required=False)
 
     def clean_end_date(self):
+        """check end date"""
         if self.cleaned_data.get('start_date') and \
             self.cleaned_data.get('end_date') and \
             self.cleaned_data['start_date']>self.cleaned_data['end_date']:
@@ -86,6 +94,7 @@ class ChangeDatesForm(forms.Form):
         return self.cleaned_data['end_date']
 
     def save(self, role):
+        """save new dates"""
         role.start_date = self.cleaned_data['start_date']
         role.end_date = self.cleaned_data['end_date']
         return role.save()
