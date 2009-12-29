@@ -40,6 +40,9 @@ from ain7 import settings
 from ain7.widgets import DateTimeWidget
 
 
+# the separator used in CSV exports, when a cell contains a list of values
+CSV_INNERSEP = '|'
+
 CONFIDENTIALITY_LEVELS = (
     (0, _('published in directory and website')),
     (1, _('published in website only')),

@@ -32,6 +32,7 @@ from ain7.ajax.views import ajax_resolve
 from ain7.fields import AutoCompleteField
 from ain7.search_engine.models import *
 from ain7.widgets import DateTimeWidget
+from ain7.utils import CSV_INNERSEP
 
 # for each type of attribute, we define the comparators and the
 # type of field to display in the form
@@ -114,7 +115,7 @@ def getFieldFromName(fieldClass, fieldName, search_engine):
 def getModelField(fModel, fName):
     """ Given a model and the name of one of its fields, returns this field."""
     field = None
-    for f in fModel._meta.fields:
+    for f in fModel._meta.fields + fModel._meta.many_to_many:
         if f.name == fName:
             field = f
     return field
@@ -199,7 +200,14 @@ def getAttrWithInherit(fieldName, obj):
     For instance, if fieldName is 'person__last_name' on an AIn7Member object,
     we recursively call with fieldName 'last_name' on obj.person, etc."""
     if fieldName.find('__')==-1:
-        return unicode(obj.__getattribute__(fieldName)).encode('utf8')
+        field = type(obj)._meta.get_field_by_name(fieldName)[0]
+        if isinstance(field,models.ManyToManyField):
+            rels = ''
+            for rel in getattr(obj,fieldName).all():
+                rels += str(rel) + CSV_INNERSEP
+            return rels.rstrip(CSV_INNERSEP)
+        else:
+            return unicode(obj.__getattribute__(fieldName)).encode('utf8')
     else:
         pointPos  = fieldName.index('__')
         nextClass, remaining = fieldName[:pointPos], fieldName[pointPos+2:]
