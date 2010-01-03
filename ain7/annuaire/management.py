@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# annuaire/management.py
+"""
+ ain7/annuaire/management.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -26,10 +27,11 @@ from django.db.models import signals
 from ain7.annuaire import models as annuaire_app
 
 def filldb(app, created_models, verbosity, **kwargs):
+    """filling the database with demo datas"""
     from ain7 import filldb
     if annuaire_app.Person in created_models:
         msg = "\nYou just installed AIn7 portal, which means you don't have " \
-                "any data defined.\nWould you like to fill your db now? (yes/no): "
+            "any data defined.\nWould you like to fill your db now? (yes/no): "
         confirm = raw_input(msg)
         while 1:
             if confirm not in ('yes', 'no'):
@@ -39,4 +41,4 @@ def filldb(app, created_models, verbosity, **kwargs):
                 filldb.filldb()
             break
 
-signals.post_syncdb.connect(filldb,sender=annuaire_app)
+signals.post_syncdb.connect(filldb, sender=annuaire_app)

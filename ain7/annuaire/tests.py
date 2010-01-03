@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# annuaire/tests.py
+"""
+ ain7/annuaire/tests.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -24,9 +25,11 @@ import unittest
 from ajax.views import ajax_resolve
 
 
-# Tests relative to ajax (which is not an app, so these tests are put here)
-
 class AjaxResolveTestCase(unittest.TestCase):
+    """
+    Tests relative to ajax (which is not an app, so these
+    tests are put here)
+    """
     
     def testMapping(self):
         """Tests whether all fields listed in ajax_resolve exist in models."""

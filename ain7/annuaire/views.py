@@ -1,6 +1,7 @@
 # -*- coding: utf-8
-#
-# annuaire/views.py
+"""
+ ain7/annuaire/views.py
+"""
 #
 #   Copyright © 2007-2009 AIn7 Devel Team
 #
@@ -21,7 +22,6 @@
 #
 
 import vobject
-import time
 import datetime
 
 from django.contrib import auth
@@ -29,10 +29,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
-from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
-from django import forms
-from django.db import models
 from django.utils.translation import ugettext as _
 from django.http import Http404
 
@@ -40,11 +37,11 @@ from ain7.annuaire.models import *
 from ain7.annuaire.forms import *
 from ain7.adhesions.forms import Subscription
 from ain7.decorators import confirmation_required
-from ain7.emploi.models import Organization, Office
 from ain7.search_engine.models import *
 from ain7.search_engine.utils import *
 from ain7.search_engine.views import *
-from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
+from ain7.utils import ain7_render_to_response, ain7_generic_edit
+from ain7.utils import ain7_generic_delete, check_access
 from ain7.settings import AIN7_PORTAL_ADMIN
 
 
@@ -55,16 +52,20 @@ def annuaire_search_engine():
 
 @login_required
 def details(request, user_id):
-    p = get_object_or_404(Person, pk=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=p)
+    person = get_object_or_404(Person, pk=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=person)
     is_myself = int(request.user.id) == int(user_id)
     last_activity = None
-    user_activities = UserActivity.objects.filter(person=p)
+    user_activities = UserActivity.objects.filter(person=person)
     if len(user_activities) > 0:
         last_activity = user_activities.reverse()[0]
-    is_subscriber = Subscription.objects.filter(member=ain7member).filter(validated=True).exclude(start_year__gt=datetime.date.today().year).exclude(end_year__lt=datetime.date.today().year)
+    is_subscriber = Subscription.objects.filter(member=ain7member).\
+        filter(validated=True).exclude(start_year__gt=datetime.date.today().\
+        year).exclude(end_year__lt=datetime.date.today().year)
     return ain7_render_to_response(request, 'annuaire/details.html',
-                            {'person': p, 'is_subscriber': is_subscriber, 'ain7member': ain7member, 'is_myself': is_myself, 'last_activity': last_activity})
+        {'person': person, 'is_subscriber': is_subscriber,
+         'ain7member': ain7member, 'is_myself': is_myself, 
+         'last_activity': last_activity})
 
 @login_required
 def search(request):
@@ -73,11 +74,12 @@ def search(request):
     dosearch = False
     ain7members = False
     nb_results_by_page = 25
-    paginator = Paginator(AIn7Member.objects.none(),nb_results_by_page)
+    paginator = Paginator(AIn7Member.objects.none(), nb_results_by_page)
     page = 1
 
-    if request.GET.has_key('first_name') or request.GET.has_key('last_name') or \
-       request.GET.has_key('organization') or request.GET.has_key('promoyear') or request.GET.has_key('track'):
+    if request.GET.has_key('first_name') or request.GET.has_key('last_name') \
+       or request.GET.has_key('organization') or \
+       request.GET.has_key('promoyear') or request.GET.has_key('track'):
         form = SearchPersonForm(request.GET)
         if form.is_valid():
 
@@ -88,8 +90,10 @@ def search(request):
             ain7members = form.search(criteria)
 
             if len(ain7members) == 1:
-                request.user.message_set.create(message=_("Only one result matched your criteria"))
-                return HttpResponseRedirect('/annuaire/%s/' % (ain7members[0].id))
+                request.user.message_set.create(\
+                     message=_("Only one result matched your criteria"))
+                return HttpResponseRedirect('/annuaire/%s/' % \
+                    (ain7members[0].id))
 
             # put the criteria in session: they must be accessed when
             # performing a CSV export, sending a mail...
@@ -122,40 +126,42 @@ def change_credentials(request, user_id):
     if not is_myself:
         return HttpResponseRedirect('/annuaire/'+str(user_id)+'/')
 
-    p = get_object_or_404(Person, pk=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=p)
+    person = get_object_or_404(Person, pk=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=person)
 
     if request.method == 'POST':
         form = ChangePasswordForm(request.POST)
         if form.is_valid():
-            user = auth.authenticate(username=p.user.username, 
+            user = auth.authenticate(username=person.user.username,
                           password=form.cleaned_data['password'])
             if user is not None:
-                p.user.username = form.cleaned_data['login']
-                p.user.set_password(form.cleaned_data['new_password1'])
-                p.user.save()
-                request.user.message_set.create(message=_("Credentials updated"))
-                return HttpResponseRedirect('/annuaire/'+str(p.id)+'/')
+                person.user.username = form.cleaned_data['login']
+                person.user.set_password(form.cleaned_data['new_password1'])
+                person.user.save()
+                request.user.message_set.create(\
+                    message=_("Credentials updated"))
+                return HttpResponseRedirect('/annuaire/'+str(person.id)+'/')
             else:
                 request.user.message_set.create(message=_("Wrong authentication"))
 
-    f = ChangePasswordForm(initial={'login': p.user.username})
+    form = ChangePasswordForm(initial={'login': person.user.username})
     return ain7_render_to_response(request, 'annuaire/credentials.html',
-            {'form': f, 'person': p, 'ain7member': ain7member, 'is_myself': is_myself})
+        {'form': form, 'person': person, 'ain7member': ain7member,
+         'is_myself': is_myself})
 
 @login_required
 def send_new_credentials(request, user_id):
 
-    r = check_access(request, request.user, ['ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user, ['ain7-secretariat'])
+    if access:
+        return access
 
-    p = get_object_or_404(Person, pk=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=p)
+    person = get_object_or_404(Person, pk=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=person)
 
     password = User.objects.make_random_password(8)
 
-    p.send_mail(_('Password reset of your AIn7 account'), \
+    person.send_mail(_('Password reset of your AIn7 account'), \
     _("""Hi %(firstname)s,
 
 Someone of the AIn7 Team has requested a new password for your
@@ -166,17 +172,19 @@ Login: %(login)s
 Password: %(password)s
 
 -- 
-http://ain7.com""") % { 'firstname': p.first_name, 'login': p.user.username, 'password': password } )
+http://ain7.com""") % { 'firstname': person.first_name, 
+ 'login': person.user.username, 'password': password } )
 
     request.user.message_set.create(message=_("New credentials have been sent"))
-    return HttpResponseRedirect('/annuaire/'+str(p.id)+'/')
+    return HttpResponseRedirect('/annuaire/'+str(person.id)+'/')
 
 @login_required
 def advanced_search(request):
 
-    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-membre','ain7-secretariat'])
+    if access:
+        return access
 
     filter = annuaire_search_engine().unregistered_filters(request.user.person)
     if filter:
@@ -190,9 +198,10 @@ def advanced_search(request):
 @login_required
 def filter_details(request, filter_id):
 
-    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-membre','ain7-secretariat'])
+    if access:
+        return access
 
     return ain7_render_to_response(request, 'annuaire/adv_search.html',
         dict_for_filter(request, filter_id))
@@ -201,26 +210,27 @@ def filter_details(request, filter_id):
 @login_required
 def dict_for_filter(request, filter_id):
 
-    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-membre','ain7-secretariat'])
+    if access:
+        return access
 
     ain7members = False
     dosearch = False
-    p = request.user.person
+    person = request.user.person
     nb_results_by_page = 25
-    paginator = Paginator(AIn7Member.objects.none(),nb_results_by_page)
+    paginator = Paginator(AIn7Member.objects.none(), nb_results_by_page)
     page = 1
-    sf = None
+    search_filter = None
     if filter_id:
-        sf = get_object_or_404(SearchFilter, pk=filter_id)
+        search_filter = get_object_or_404(SearchFilter, pk=filter_id)
         
 
     if request.method == 'POST':
 
         ain7members = AIn7Member.objects.all()
         if filter_id:
-            ain7members = sf.search()
+            ain7members = search_filter.search()
         dosearch = True
         paginator = Paginator(ain7members, nb_results_by_page)
 
@@ -231,8 +241,8 @@ def dict_for_filter(request, filter_id):
             raise http.Http404
 
     return {'ain7members': ain7members,
-         'filtr': sf,
-         'userFilters': annuaire_search_engine().registered_filters(p),
+         'filtr': search_filter,
+         'userFilters': annuaire_search_engine().registered_filters(person),
          'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
          'has_next': paginator.page(page).has_next(),
          'has_previous': paginator.page(page).has_previous(),
@@ -247,12 +257,14 @@ def dict_for_filter(request, filter_id):
 @login_required
 def filter_register(request):
 
-    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-membre','ain7-secretariat'])
+    if access:
+        return access
 
-    sf = annuaire_search_engine().unregistered_filters(request.user.person)
-    if not sf:
+    search_filter = annuaire_search_engine().unregistered_filters(\
+        request.user.person)
+    if not search_filter:
         return HttpResponseRedirect('/annuaire/advanced_search/')
 
     form = SearchFilterForm()
@@ -268,34 +280,37 @@ def filter_register(request):
             fName = form.cleaned_data['name']
             # First we check that the user does not have
             # a filter with the same name
-            sameName = annuaire_search_engine().\
+            same_name = annuaire_search_engine().\
                 registered_filters(request.user.person).\
                 filter(name=fName).count()
-            if sameName>0:
-                request.user.message_set.create(message=_("One of your filters already has this name."))
+            if same_name > 0:
+                request.user.message_set.create(message=_("One of your filters\
+ already has this name."))
                 return HttpResponseRedirect('/annuaire/advanced_search/')
 
             # Set the registered flag to True
-            sf.registered = True
-            sf.name = fName
-            sf.save()
+            search_filter.registered = True
+            search_filter.name = fName
+            search_filter.save()
 
             # Redirect to filter page
             request.user.message_set.create(
                 message=_("Modifications have been successfully saved."))
             return HttpResponseRedirect(
-                '/annuaire/advanced_search/filter/%s/' % sf.id)
+                '/annuaire/advanced_search/filter/%s/' % search_filter.id)
         else:
-            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+            request.user.message_set.create(message=_("Something was wrong in\
+ the form you filled. No modification done."))
         return HttpResponseRedirect('/annuaire/advanced_search/')
 
 
 @login_required
 def filter_edit(request, filter_id):
 
-    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-membre','ain7-secretariat'])
+    if access:
+        return access
 
     filtr = get_object_or_404(SearchFilter, pk=filter_id)
     form = SearchFilterForm(instance=filtr)
@@ -306,9 +321,11 @@ def filter_edit(request, filter_id):
             form.cleaned_data['user'] = filtr.user
             form.cleaned_data['operator'] = filtr.operator
             form.save()
-            request.user.message_set.create(message=_("Modifications have been successfully saved."))
+            request.user.message_set.create(message=_("Modifications have been\
+ successfully saved."))
         else:
-            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+            request.user.message_set.create(message=_("Something was wrong in\
+ the form you filled. No modification done."))
         return HttpResponseRedirect(
             '/annuaire/advanced_search/filter/%s/' % filter_id)
     return ain7_render_to_response(
@@ -326,9 +343,10 @@ def remove_criteria(request, filtr):
 @login_required
 def filter_reset(request, filter_id):
 
-    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-membre','ain7-secretariat'])
+    if access:
+        return access
 
     filtr = get_object_or_404(SearchFilter, pk=filter_id)
     remove_criteria(request, filtr)
@@ -341,9 +359,10 @@ def filter_reset(request, filter_id):
 @login_required
 def filter_delete(request, filter_id):
 
-    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-membre','ain7-secretariat'])
+    if access:
+        return access
 
     filtr = get_object_or_404(SearchFilter, pk=filter_id)
     try:
@@ -355,38 +374,39 @@ def filter_delete(request, filter_id):
             message=_("Your filter has been successfully deleted."))
     except KeyError:
         request.user.message_set.create(
-            message=_("Something went wrong. The filter has not been deleted."))    
+            message=_("Something went wrong. The filter has not been deleted.")) 
     return HttpResponseRedirect('/annuaire/advanced_search/')
 
 @login_required
 def filter_new(request):
 
-    r = check_access(request, request.user, ['ain7-membre','ain7-secretariat'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-membre','ain7-secretariat'])
+    if access:
+        return access
 
-    filtr = annuaire_search_engine().unregistered_filters(request.user.person)
-    if not filtr:
+    filter = annuaire_search_engine().unregistered_filters(request.user.person)
+    if not filter:
         return HttpResponseRedirect('/annuaire/advanced_search/')
-    remove_criteria(request, filtr)
-    if filtr.registered:
+    remove_criteria(request, filter)
+    if filter.registered:
         return HttpResponseRedirect(
-            '/annuaire/advanced_search/filter/%s/' % filter_id)
+            '/annuaire/advanced_search/filter/%s/' % filter.id)
     else:
         return HttpResponseRedirect('/annuaire/advanced_search/')
 
 @login_required
-def filter_swapOp(request, filter_id=None):
-    return se_filter_swapOp(request, filter_id,
+def filter_swap_op(request, filter_id=None):
+    return se_filter_swap_op(request, filter_id,
                             reverse(filter_details, args =[ filter_id ]),
                             reverse(advanced_search))
 
 @login_required
-def criterion_add(request, filter_id=None, criterionType=None):
+def criterion_add(request, filter_id=None, criterion_type=None):
     redirect = reverse(advanced_search)
     if filter_id: redirect = reverse(filter_details, args=[ filter_id ])
     return se_criterion_add(request, annuaire_search_engine(),
-        filter_id, criterionType, criterionField_edit,
+        filter_id, criterion_type, criterionField_edit,
         redirect, 'annuaire/criterion_add.html')
 
 @login_required
@@ -409,12 +429,14 @@ def criterion_delete(request, filtr_id=None, crit_id=None, crit_type=None):
 @login_required
 def export_csv(request):
 
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-secretariat','ain7-ca'])
+    if access:
+        return access
 
     if not request.session.has_key('filter'):
-        request.user.message_set.create(message=_("You have to make a search before using csv export."))
+        request.user.message_set.create(message=_("You have to make a search\
+ before using csv export."))
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
     criteria = request.session['filter']
@@ -426,9 +448,10 @@ def export_csv(request):
 @login_required
 def adv_export_csv(request, filter_id=None):
 
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-secretariat', 'ain7-ca'])
+    if access:
+        return access
 
     se = annuaire_search_engine()
     if not filter_id and not se.unregistered_filters(request.user.person):
@@ -436,39 +459,42 @@ def adv_export_csv(request, filter_id=None):
             _("You have to make a search before using csv export."))
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
     if filter_id:
-        sf = get_object_or_404(SearchFilter, id=filter_id)
+        search_filter = get_object_or_404(SearchFilter, id=filter_id)
     else:
-        sf = se.unregistered_filters(request.user.person)
-    return se_export_csv(request, sf.search(), se, 'annuaire/edit_form.html')
+        search_filter = se.unregistered_filters(request.user.person)
+    return se_export_csv(request, search_filter.search(), se, 
+        'annuaire/edit_form.html')
 
 @login_required
 def edit(request, user_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
 
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r and not is_myself:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-secretariat', 'ain7-ca'])
+    if access and not is_myself:
+        return access
 
-    p = get_object_or_404(Person, pk=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=p)
+    person = get_object_or_404(Person, pk=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=person)
     return ain7_render_to_response(request, 'annuaire/edit.html',
-            {'person': p, 'ain7member': ain7member, 'is_myself': is_myself})
+        {'person': person, 'ain7member': ain7member, 'is_myself': is_myself})
 
 @login_required
 def person_edit(request, user_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
 
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r and not is_myself:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-secretariat','ain7-ca'])
+    if access and not is_myself:
+        return access
 
     person = None
     if user_id:
         person = Person.objects.get(user=user_id)
     # si la personne n'est pas du secrétariat, pas de date de décès
-    user_groups = request.user.groups.values_list('name',flat=True)
+    user_groups = request.user.groups.values_list('name', flat=True)
     if 'ain7-secretariat' in user_groups \
         or AIN7_PORTAL_ADMIN in user_groups:
         return ain7_generic_edit(
@@ -484,8 +510,8 @@ def person_edit(request, user_id=None):
             {'user': person.user,'death_date': person.death_date},
             'annuaire/edit_form.html',
             {'action_title': _("Modification of personal data for"),
-             'person': person, 'back': request.META.get('HTTP_REFERER', '/')}, {},
-            '/annuaire/%s/edit' % (person.user.id),
+             'person': person, 'back': request.META.get('HTTP_REFERER', '/')},
+             {}, '/annuaire/%s/edit' % (person.user.id),
             _("Modifications have been successfully saved."))
 
 @login_required
@@ -493,9 +519,10 @@ def ain7member_edit(request, user_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
 
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r and not is_myself:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-secretariat','ain7-ca'])
+    if access and not is_myself:
+        return access
 
     person = None
     ain7member = None
@@ -510,15 +537,17 @@ def ain7member_edit(request, user_id=None):
         '/annuaire/%s/edit' % (person.user.id),
         _("Modifications have been successfully saved."))
 
-@confirmation_required(lambda user_id=None, object_id=None : '', 'annuaire/base.html', _('Do you really want to delete your avatar'))
+@confirmation_required(lambda user_id=None, object_id=None : '',
+     'annuaire/base.html', _('Do you really want to delete your avatar'))
 @login_required
 def avatar_delete(request, user_id):
 
     is_myself = int(request.user.id) == int(user_id)
 
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r and not is_myself:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-secretariat','ain7-ca'])
+    if access and not is_myself:
+        return access
 
     person = Person.objects.get(user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -535,9 +564,10 @@ def promo_edit(request, person_id=None, promo_id=None):
 
     is_myself = int(request.user.id) == int(person_id)
 
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r and not is_myself:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-secretariat', 'ain7-ca'])
+    if access and not is_myself:
+        return access
 
     person = get_object_or_404(Person, id=person_id)
     ain7member = person.ain7member
@@ -551,29 +581,36 @@ def promo_edit(request, person_id=None, promo_id=None):
         else:
             return ain7_render_to_response(
                 request, 'annuaire/edit_form.html',
-                {'form': form, 'action_title': _(u'Adding a promotion for %s' % ain7member)})
+                {'form': form, 
+                 'action_title': _(u'Adding a promotion for %s' % ain7member)})
 #             request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
         return HttpResponseRedirect(
             '/annuaire/%s/edit/#promos' % person_id)
     return ain7_render_to_response(
         request, 'annuaire/edit_form.html',
-        {'form': form, 'action_title': _(u'Adding a promotion for %s' % ain7member)})
+        {'form': form, 'action_title': 
+         _(u'Adding a promotion for %s' % ain7member)})
 
-@confirmation_required(lambda person_id=None, promo_id=None : str(get_object_or_404(Promo, pk=promo_id)), 'annuaire/base.html', _('Do you really want to remove the membership to the promotion'))
+@confirmation_required(lambda person_id=None, promo_id=None :
+     str(get_object_or_404(Promo, pk=promo_id)), 
+     'annuaire/base.html', 
+     _('Do you really want to remove the membership to the promotion'))
 @login_required
 def promo_delete(request, person_id=None, promo_id=None):
 
     person = get_object_or_404(Person, id=person_id)
     is_myself = int(request.user.id) == int(person.user.id)
 
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r and not is_myself:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-secretariat', 'ain7-ca'])
+    if access and not is_myself:
+        return access
     ain7member = get_object_or_404(AIn7Member, person=person)
     promo = get_object_or_404(Promo, id=promo_id)
     ain7member.promos.remove(promo)
     ain7member.save()
-    request.user.message_set.create(message="Membership to promotion %s successfully removed.")
+    request.user.message_set.create(message="Membership to promotion %s\
+ successfully removed.")
     return HttpResponseRedirect('/annuaire/%s/edit/#promos' % person_id)
 
 # Adresses
@@ -582,33 +619,37 @@ def address_edit(request, user_id=None, address_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
 
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r and not is_myself:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-secretariat', 'ain7-ca'])
+    if access and not is_myself:
+        return access
 
     person = get_object_or_404(Person, user=user_id)
     address = None
     title = _('Creation of an address for')
-    msgDone = _('Address successfully added.')
+    msg_done = _('Address successfully added.')
     if address_id:
         address = get_object_or_404(Address, pk=address_id)
         title = _('Modification of an address for')
-        msgDone = _('Address informations updated successfully.')
+        msg_done = _('Address informations updated successfully.')
     return ain7_generic_edit(
         request, address, AddressForm, {'person': person},
         'annuaire/edit_form.html',
         {'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')}, {},
-        '/annuaire/%s/edit/#address' % user_id, msgDone)
+        '/annuaire/%s/edit/#address' % user_id, msg_done)
 
-@confirmation_required(lambda user_id=None, address_id=None : str(get_object_or_404(Address, pk=address_id)), 'annuaire/base.html', _('Do you really want to delete your address'))
+@confirmation_required(lambda user_id=None, address_id=None :
+    str(get_object_or_404(Address, pk=address_id)), 'annuaire/base.html', 
+    _('Do you really want to delete your address'))
 @login_required
 def address_delete(request, user_id=None, address_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r and not is_myself:
-        return r
+    access = check_access(request, request.user, 
+        ['ain7-secretariat', 'ain7-ca'])
+    if access and not is_myself:
+        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(Address, pk=address_id),
@@ -620,33 +661,37 @@ def address_delete(request, user_id=None, address_id=None):
 def phone_edit(request, user_id=None, phone_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r and not is_myself:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-secretariat', 'ain7-ca'])
+    if access and not is_myself:
+        return access
 
     person = get_object_or_404(Person, user=user_id)
     phone = None
     title = _('Creation of a phone number for')
-    msgDone = _('Phone number added successfully.')
+    msg_done = _('Phone number added successfully.')
     if phone_id:
         phone = get_object_or_404(PhoneNumber, pk=phone_id)
         title = _('Modification of a phone number for')
-        msgDone = _('Phone number informations updated successfully.')
+        msg_done = _('Phone number informations updated successfully.')
     return ain7_generic_edit(
         request, phone, PhoneNumberForm, {'person': person},
         'annuaire/edit_form.html',
         {'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')}, {},
-        '/annuaire/%s/edit/#phone' % user_id, msgDone)
+        '/annuaire/%s/edit/#phone' % user_id, msg_done)
 
-@confirmation_required(lambda user_id=None, phone_id=None : str(get_object_or_404(PhoneNumber, pk=phone_id)), 'annuaire/base.html', _('Do you really want to delete your phone number'))
+@confirmation_required(lambda user_id=None, phone_id=None :
+    str(get_object_or_404(PhoneNumber, pk=phone_id)), 'annuaire/base.html', 
+    _('Do you really want to delete your phone number'))
 @login_required
 def phone_delete(request, user_id=None, phone_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r and not is_myself:
-        return r
+    access = check_access(request, request.user, 
+        ['ain7-secretariat', 'ain7-ca'])
+    if access and not is_myself:
+        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(PhoneNumber, pk=phone_id),
@@ -658,33 +703,37 @@ def phone_delete(request, user_id=None, phone_id=None):
 def email_edit(request, user_id=None, email_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r and not is_myself:
-        return r
+    access = check_access(request, request.user, 
+        ['ain7-secretariat', 'ain7-ca'])
+    if access and not is_myself:
+        return access
 
     person = get_object_or_404(Person, user=user_id)
     email = None
     title = _('Creation of an email address for')
-    msgDone = _('Email address successfully added.')
+    msg_done = _('Email address successfully added.')
     if email_id:
         email = get_object_or_404(Email, pk=email_id)
         title = _('Modification of an email address for')
-        msgDone = _('Email informations updated successfully.')
+        msg_done = _('Email informations updated successfully.')
     return ain7_generic_edit(
         request, email, EmailForm, {'person': person},
         'annuaire/edit_form.html',
         {'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')}, {},
-        '/annuaire/%s/edit/#email' % user_id, msgDone)
+         '/annuaire/%s/edit/#email' % user_id, msg_done)
 
-@confirmation_required(lambda user_id=None, email_id=None : str(get_object_or_404(Email, pk=email_id)), 'annuaire/base.html', _('Do you really want to delete your email address'))
+@confirmation_required(lambda user_id=None, email_id=None:
+    str(get_object_or_404(Email, pk=email_id)), 'annuaire/base.html', 
+    _('Do you really want to delete your email address'))
 @login_required
 def email_delete(request, user_id=None, email_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r and not is_myself:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-secretariat', 'ain7-ca'])
+    if access and not is_myself:
+        return access
 
     return ain7_generic_delete(request, get_object_or_404(Email, pk=email_id),
                                '/annuaire/%s/edit/#email' % user_id,
@@ -695,33 +744,37 @@ def email_delete(request, user_id=None, email_id=None):
 def im_edit(request, user_id=None, im_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r and not is_myself:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-secretariat', 'ain7-ca'])
+    if access and not is_myself:
+        return access
 
     person = get_object_or_404(Person, user=user_id)
-    im = None
+    ime = None
     title = _('Creation of an instant messaging account for')
-    msgDone = _('Instant messaging account successfully added.')
+    msg_done = _('Instant messaging account successfully added.')
     if im_id:
-        im = get_object_or_404(InstantMessaging, pk=im_id)
+        ime = get_object_or_404(InstantMessaging, pk=im_id)
         title = _('Modification of an instant messaging account for')
-        msgDone = _('Instant messaging informations updated successfully.')
+        msg_done = _('Instant messaging informations updated successfully.')
     return ain7_generic_edit(
-        request, im, InstantMessagingForm, {'person': person},
+        request, ime, InstantMessagingForm, {'person': person},
         'annuaire/edit_form.html',
         {'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')}, {},
-        '/annuaire/%s/edit/#im' % user_id, msgDone)
+        '/annuaire/%s/edit/#im' % user_id, msg_done)
 
-@confirmation_required(lambda user_id=None, im_id=None : str(get_object_or_404(InstantMessaging, pk=im_id)), 'annuaire/base.html', _('Do you really want to delete your instant messaging account'))
+@confirmation_required(lambda user_id=None, im_id=None :
+    str(get_object_or_404(InstantMessaging, pk=im_id)), 'annuaire/base.html',
+    _('Do you really want to delete your instant messaging account'))
 @login_required
 def im_delete(request, user_id=None, im_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r and not is_myself:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-secretariat', 'ain7-ca'])
+    if access and not is_myself:
+        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(InstantMessaging, pk=im_id),
@@ -733,33 +786,37 @@ def im_delete(request, user_id=None, im_id=None):
 def irc_edit(request, user_id=None, irc_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r and not is_myself:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-secretariat', 'ain7-ca'])
+    if access and not is_myself:
+        return access
 
     person = get_object_or_404(Person, user=user_id)
     irc = None
     title = _('Creation of an IRC account for')
-    msgDone = _('IRC account successfully added.')
+    msg_done = _('IRC account successfully added.')
     if irc_id:
         irc = get_object_or_404(IRC, pk=irc_id)
         title = _('Modification of an IRC account for')
-        msgDone = _('IRC account informations updated successfully.')
+        msg_done = _('IRC account informations updated successfully.')
     return ain7_generic_edit(
         request, irc, IRCForm, {'person': person},
         'annuaire/edit_form.html',
         {'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')}, {},
-        '/annuaire/%s/edit/#irc' % user_id, msgDone)
+        '/annuaire/%s/edit/#irc' % user_id, msg_done)
 
-@confirmation_required(lambda user_id=None, irc_id=None : str(get_object_or_404(IRC, pk=irc_id)), 'annuaire/base.html', _('Do you really want to delete your IRC account'))
+@confirmation_required(lambda user_id=None, irc_id=None:
+    str(get_object_or_404(IRC, pk=irc_id)), 'annuaire/base.html',
+    _('Do you really want to delete your IRC account'))
 @login_required
 def irc_delete(request, user_id=None, irc_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r and not is_myself:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-secretariat', 'ain7-ca'])
+    if access and not is_myself:
+        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(IRC, pk=irc_id),
@@ -771,33 +828,37 @@ def irc_delete(request, user_id=None, irc_id=None):
 def website_edit(request, user_id=None, website_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r and not is_myself:
-        return r
+    access = check_access(request, request.user, 
+        ['ain7-secretariat', 'ain7-ca'])
+    if access and not is_myself:
+        return access
 
     person = get_object_or_404(Person, user=user_id)
     website = None
     title = _('Creation of a website for')
-    msgDone = _('Website successfully added.')
+    msg_done = _('Website successfully added.')
     if website_id:
         website = get_object_or_404(WebSite, pk=website_id)
         title = _('Modification of a website for')
-        msgDone = _('Website informations updated successfully.')
+        msg_done = _('Website informations updated successfully.')
     return ain7_generic_edit(
         request, website, WebSiteForm, {'person': person},
         'annuaire/edit_form.html',
         {'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')}, {},
-        '/annuaire/%s/edit/#website' % user_id, msgDone)
+        '/annuaire/%s/edit/#website' % user_id, msg_done)
 
-@confirmation_required(lambda user_id=None, website_id=None : str(get_object_or_404(WebSite, pk=website_id)), 'annuaire/base.html', _('Do you really want to delete your website'))
+@confirmation_required(lambda user_id=None, website_id=None:
+    str(get_object_or_404(WebSite, pk=website_id)), 'annuaire/base.html',
+    _('Do you really want to delete your website'))
 @login_required
 def website_delete(request, user_id=None, website_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r and not is_myself:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-secretariat', 'ain7-ca'])
+    if access and not is_myself:
+        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(WebSite, pk=website_id),
@@ -810,35 +871,40 @@ def website_delete(request, user_id=None, website_id=None):
 def club_membership_edit(request, user_id=None, club_membership_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r and not is_myself:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-secretariat', 'ain7-ca'])
+    if access and not is_myself:
+        return access
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
     club_membership = None
     title = _('Creation of a club membership for')
-    msgDone = _('Club membership successfully added.')
+    msg_done = _('Club membership successfully added.')
     if club_membership_id:
         club_membership = get_object_or_404(ClubMembership,
                                             pk=club_membership_id)
         title = _('Modification of a club membership for')
-        msgDone = _('Club membership informations updated successfully.')
+        msg_done = _('Club membership informations updated successfully.')
     return ain7_generic_edit(
         request, club_membership, ClubMembershipForm,
         {'member': ain7member}, 'annuaire/edit_form.html',
         {'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')}, {},
-        '/annuaire/%s/edit/#assoc' % user_id, msgDone)
+        '/annuaire/%s/edit/#assoc' % user_id, msg_done)
 
-@confirmation_required(lambda user_id=None, club_membership_id=None : str(get_object_or_404(ClubMembership, pk=club_membership_id)), 'annuaire/base.html', _('Do you really want to delete your club membership'))
+@confirmation_required(lambda user_id=None, club_membership_id=None:
+    str(get_object_or_404(ClubMembership, pk=club_membership_id)),
+    'annuaire/base.html', 
+    _('Do you really want to delete your club membership'))
 @login_required
 def club_membership_delete(request, user_id=None, club_membership_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r and not is_myself:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-secretariat', 'ain7-ca'])
+    if access and not is_myself:
+        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(ClubMembership, pk=club_membership_id),
@@ -848,9 +914,10 @@ def club_membership_delete(request, user_id=None, club_membership_id=None):
 @login_required
 def add(request, user_id=None):
 
-    r = check_access(request, request.user, ['ain7-secretariat','ain7-ca'])
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-secretariat', 'ain7-ca'])
+    if access:
+        return access
 
     form = NewMemberForm()
 
@@ -858,10 +925,13 @@ def add(request, user_id=None):
         form = NewMemberForm(request.POST)
         if form.is_valid():
             new_person = form.save()
-            request.user.message_set.create(message=_("New user successfully created"))
-            return HttpResponseRedirect('/annuaire/%s/edit/' % (new_person.user.id))
+            request.user.message_set.create(message=\
+                _("New user successfully created"))
+            return HttpResponseRedirect('/annuaire/%s/edit/' % \
+                (new_person.user.id))
         else:
-            request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
+            request.user.message_set.create(message=_("Something was wrong in\
+ the form you filled. No modification done."))
 
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request,
@@ -871,35 +941,41 @@ def add(request, user_id=None):
 @login_required
 def vcard(request, user_id):
 
-    r = check_access(request, request.user, ('ain7-secretariat','ain7-membre'))
-    if r:
-        return r
+    access = check_access(request, request.user,
+        ['ain7-secretariat', 'ain7-membre'])
+    if access:
+        return access
 
-    p = get_object_or_404(Person, pk=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=p)
+    person = get_object_or_404(Person, pk=user_id)
 
     mail = None
-    mail_list = Email.objects.filter(person=p,preferred_email=True,confidentiality__in=[0,1])
+    mail_list = Email.objects.filter(person=p, preferred_email=True, \
+        confidentiality__in=[0,1])
     if mail_list:
-       mail = mail_list[0].email
+        mail = mail_list[0].email
 
     vcard = vobject.vCard()
-    vcard.add('n').value = vobject.vcard.Name( family=p.last_name, given=p.first_name )
-    vcard.add('fn').value = p.first_name+' '+p.last_name
+    vcard.add('n').value = vobject.vcard.Name( family=person.last_name, \
+        given=person.first_name )
+    vcard.add('fn').value = person.first_name+' '+person.last_name
     if mail:
         email = vcard.add('email')
         email.value = mail
-        email.type_param = ['INTERNET','PREF']
-    for address in  Address.objects.filter(person=p,confidentiality__in=[0,1]):
+        email.type_param = ['INTERNET', 'PREF']
+    for address in  Address.objects.filter(person=person, \
+        confidentiality__in=[0,1]):
         street = ''
         if address.line1:
             street = street + address.line1
         if address.line2:
             street = street + address.line2
         adr = vcard.add('adr')
-        adr.value = vobject.vcard.Address(street=street, city=address.city, region='', code=address.zip_code, country=address.country.name, box='', extended='')
+        adr.value = vobject.vcard.Address(street=street, city=address.city, \
+            region='', code=address.zip_code, country=address.country.name, \
+            box='', extended='')
         adr.type_param = address.type.type
-    for phone in PhoneNumber.objects.filter(person=p,confidentiality__in=[0,1]):
+    for phone in PhoneNumber.objects.filter(person=person, \
+        confidentiality__in=[0,1]):
         tel = vcard.add('tel')
         tel.value = phone.number
         tel.type_param = ['HOME', 'FAX', 'CELL'][phone.type-1]
@@ -907,8 +983,9 @@ def vcard(request, user_id):
     vcardstream = vcard.serialize()
 
     response = HttpResponse(vcardstream, mimetype='text/x-vcard')
-    response['Filename'] = p.user.username+'.vcf'  # IE needs this
-    response['Content-Disposition'] = 'attachment; filename='+p.user.username+'.vcf'
+    response['Filename'] = person.user.username+'.vcf'  # IE needs this
+    response['Content-Disposition'] = 'attachment; filename=' + \
+        person.user.username+'.vcf'
 
     return response
 
