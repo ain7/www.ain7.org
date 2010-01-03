@@ -9,25 +9,30 @@
 <div class="left_box">
 
 {% if events %}
-	<table border="0">
-	{% for event in events %}
-	  <tr>
-           <td align="center">
-             {% if event.image %}
-               <a href="{% url ain7.evenements.views.details event.id %}/">
-	          <img src="{{ event.image.url }}" height="100" alt="{{ event.name }}"/>
-               </a>
-             {% endif %}
-           </td>
-           <td>
-	      <strong><a href="{% url ain7.evenements.views.details event.id %}">
-                     <h2>{{ event.name }}</h2></a>
-             </strong><br />
-             {% if event.description %}{{ event.description|safe }}{% endif %}
-	    </td>
-         </tr>
-	{% endfor %}
-	</table>
+{% for event in events %}
+<div class="right_articles">
+  <div class="news-header">
+    <div class="news-title">
+      <a href="{% url ain7.evenements.views.details event.id %}">{{ event.name }}</a>
+    </div>
+    <div class="news-date">
+      {% trans "Published on" %} {{ event.last_change_at|date:"l j F Y" }} {% trans "by" %}
+      <a href="{% url ain7.annuaire.views.details event.last_change_by.id %}">{{ event.last_change_by }}</a>
+    </div>
+  </div>
+  {% if event.image %}
+  <img src="{{ event.image.url }}" alt="{{ event.name }}" title="{{ event.name }}" class="image" />
+  {% endif %}
+  <ul>
+  <li>{% trans "Date" %}: {{ event.date|date:"d/m/Y H:i" }}</li>
+  <li>{% trans "Location" %}: {{ event.location }}</li>
+  </ul>
+  <div class="news-description">
+    {{ event.description|safe }}
+  </div>
+</div>
+
+{% endfor %}
 {% else %}
 	<p>{% trans "No planned event." %}</p>
 {% endif %}

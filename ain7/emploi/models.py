@@ -247,7 +247,10 @@ class Office(LoggedClass):
 
     def __unicode__(self):
 	"""office unicode"""
-        return self.name
+        if self.organization.name == self.name:
+            return ''
+        else:
+            return self.name
 
     def save(self):
         """office save"""
@@ -353,7 +356,7 @@ class Position(LoggedClass):
         blank=True, null=True)
     service = models.CharField(verbose_name=_('service'), max_length=80,
         blank=True, null=True)
-    phone_number = models.CharField(verbose_name=_('phone number'),
+    phone_number = models.CharField(verbose_name=_('phone'),
         max_length=20, blank=True, null=True)
     email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
     start_date = models.DateField(verbose_name=_('start date'),
@@ -478,8 +481,6 @@ class JobOffer(LoggedClass):
         max_length=80, blank=True, null=True)
     contact_email = models.EmailField(verbose_name=_('email'), blank=True,
         null=True)
-    track = models.ManyToManyField(Track, verbose_name=_('Track'),
-        related_name='jobs', blank=True, null=True)
     activity_field = models.ForeignKey(ActivityField,
         verbose_name=_('Activity field'), related_name='jobs',
         blank=True, null=True)

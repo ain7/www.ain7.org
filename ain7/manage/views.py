@@ -337,7 +337,7 @@ def filter_register(request):
                 filter(name=f_name).count()
             if same_name > 0:
                 request.user.message_set.create(message=_("One of your\
-                         filters already has this name."))
+ filters already has this name."))
                 return HttpResponseRedirect(reverse(organizations_adv_search))
 
             # Set the registered flag to True
@@ -666,8 +666,8 @@ def organization_merge(request, organization_id=None):
                     '/manage/organizations/%s/merge/%s/' % 
                     (organization2.id, organization_id))
                 else:
-                    request.user.message_set.create(message=_('The two \
-                            organizations are the same. No merging.'))
+                    request.user.message_set.create(message=_('The two\
+ organizations are the same. No merging.'))
         request.user.message_set.create(message=_('Something was wrong in the\
  form you filled. No modification done.'))
         return HttpResponseRedirect('/manage/organizations/%s/merge/' %

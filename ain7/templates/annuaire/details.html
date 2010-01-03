@@ -32,7 +32,9 @@
        {% for educ in ain7member.education.all %}{{ educ.diploma }}
            {% if educ.diploma and not forloop.last %} ; {% endif %}{% endfor %}</li>
    {% endif %}
+   {% if person.birth_date %}
    <li><b>{% trans "Birth date" %}&nbsp;:</b> {{ person.birth_date|date:"d/m/Y" }}</li>
+   {% endif %}
    {% if person.death_date %}
    <li><b>{% filter capfirst %}{% trans "death date" %}{% endfilter %}
        &nbsp;:</b> {{ person.death_date|date:"d/m/Y" }}</li>
@@ -119,28 +121,29 @@
 {% endfor %}
 </table>
 
+{% if ain7member.positions.all %}
+
 {% if ain7member.display_cv_in_directory or superadmin or ca_member or is_myself or secretariat_member %}
 
 <h2>{% if not ain7member.display_cv_in_directory %}<img src="/site_media/images/private.png" alt="private" width="14" height="14"/>{% endif %}
 {% trans "Professional experiences" %}</h2>
 
-{% if ain7member.positions.all %}
-<table>
+<ul>
 {% for position in ain7member.positions.all %}
-
-        <tr>
-          {% if not position.end_date %}
-              <td>{% trans "since" %} <b>{{ position.start_date|date:"Y" }}</b>&nbsp;:</td>
-          {% else %}
-              <td><b>{{ position.start_date|date:"Y" }}-{{ position.end_date|date:"Y" }}</b>:</td>
-          {% endif %}
-            <td><em>{% if position.fonction %}{{ position.fonction }}{% endif %}</em>,
-                <a href="{% url ain7.emploi.views.organization_details position.office.organization.id %}">{{ position.office.organization }}</a></td></tr>
+<li>
+    {% if position.start_date and not position.end_date %}
+       {% trans "since" %} <b>{{ position.start_date|date:"Y" }}</b>&nbsp;:
+          {% else %}{% if position.start_date and position.end_date %}
+             <b>{{ position.start_date|date:"Y" }}-{{ position.end_date|date:"Y" }}</b>:
+          {% endif %}{% endif %}
+            {% if position.fonction %}<em>{{ position.fonction }}</em>, {% endif %}
+                <a href="{% url ain7.emploi.views.organization_details position.office.organization.id %}">{{ position.office.organization }}</a>
         {% if position.description %}
-            <tr><td></td><td>{{ position.description }}</td></tr>
+            {{ position.description }}
         {% endif %}
+</li>
 {% endfor %}
-</table>
+</ul>
 {% endif %}
 {% endif %}
 
@@ -173,6 +176,12 @@
 
 {% endblock %}
 
+{% if superadmin or secretariat_member %}
+{% block extra-admin %}
+      <li><a href="{% url ain7.annuaire.views.send_new_credentials person.user.id %}">{% trans "Send new credentials" %}</a></li>
+{% endblock %}
+{% endif %}
+
 {% block extra-actions %}
       {% if superadmin or ca_member or secretariat_member or is_myself %}
       <li><a href="{% url ain7.annuaire.views.edit person.user.id %}">{% trans "Modify these data" %}</a></li>
@@ -181,15 +190,12 @@
       {% if is_myself %}
       <li><a href="{% url ain7.annuaire.views.change_credentials person.user.id %}">{% trans "Change credentials" %}</a></li>
       {% endif %}
-      {% if superadmin or secretariat_member %}
-      <li><a href="{% url ain7.annuaire.views.send_new_credentials person.user.id %}">{% trans "Send new credentials" %}</a></li>
-      {% endif %}
       <li><a href="{% url ain7.annuaire.views.vcard person.user.id %}">{% trans "Download contact as vCard" %}</a></li>
 {% endblock %}
 
 
 {% block extra-right-blocks %}
-   <h3>{% trans "AIn7 enrolment" %}</h3>
+   <h3>{% trans "Groups" %}</h3>
    <div class="right_articles">
     <ul>
     {% for group in person.user.groups.all %}
@@ -201,8 +207,8 @@
     <h3>{% trans "Card Informations"%}</h3>
     {% show_last_change ain7member %}
 
-   <div class="right_articles">
     {% if last_activity %}
+    <div class="right_articles">
     {% trans "Last connexion:" %} {{ last_activity.date|date:"l j F Y (H:i)" }}
     {% endif %}
    </div>

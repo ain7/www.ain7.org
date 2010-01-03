@@ -14,8 +14,6 @@
           {% endif %}
           {{ news_item.body|safe }}
         </p>
-	<p>{% trans "posted : " %} {{ news_item.creation_date|date:"l j F Y H:i" }}</p>
-	<p>{% trans "modified : " %} {{ news_item.last_change_at|date:"l j F Y H:i" }}</p>
 {% endblock %}
 
 

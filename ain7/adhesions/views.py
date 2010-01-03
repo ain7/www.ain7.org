@@ -45,7 +45,7 @@ def index(request):
         end_year__lt=datetime.date.today().year).count()
     return ain7_render_to_response(request, 'adhesions/index.html',
         {'subscriptions_list': Subscription.objects.filter(validated=True).\
-            order_by('-start_year', '-end_year')[:10],
+            order_by('-start_year', '-end_year')[:20],
          'count_members': AIn7Member.objects.count(),
          'count_subscribers': count_subscribers})
 

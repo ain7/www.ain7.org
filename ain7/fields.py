@@ -82,7 +82,7 @@ class AutoCompleteField(TextInput):
         else:
             value = "-1"
         return (u'<input type="hidden" name="%(name)s" value="%(value)s" id="%(id)s" />'
-                  '<input type="text" name="%(name)s_text" id="%(id)s_text" size="40" autocomplete="off" value="%(valueTxt)s" %(attrs)s/>'+addlink+'<div class="complete" id="box_%(name)s"></div>'
+                  '<input type="text" name="%(name)s_text" id="%(id)s_text" size="60" autocomplete="off" value="%(valueTxt)s" %(attrs)s/>'+addlink+'<div class="complete" id="box_%(name)s"></div>'
                   '<script type="text/javascript">'
                   'window.myAutoComplete = new AutoComplete($(\'%(id)s_text\'), window.location.protocol+"//"+window.location.host+"%(url)s", "displayValue", {maxHeight: 350, zIndex: 6, method: \'post\'}, $(\'%(id)s\'));'
                   'myAutoComplete.addEvent(\'onItemChoose\', function(item) {'

@@ -6,26 +6,27 @@
 
 {% block content-left %}
 
-<h3>{% trans "Lastest news" %}</h3>
 {% if news %}
 
-	{% for one_news in news %}
-			<div class="right_articles">
-  {% if one_news.image %}
-  <img src="{{ one_news.image.url }}" alt="{{ one_news.title }}" title="{{ one_news.title }}" class="image" />
-  {% else %}
-  <img src="/site_media/images/gnome-news.png" alt="{{ one_news.title }}" title="{{ one_news.title }}" class="image" />
-  {% endif %}
+{% for one_news in news %}
+<div class="right_articles">
   <div class="news-header">
     <div class="news-title">
       <a href="{% url ain7.news.views.details one_news.slug %}">{{ one_news.title }}</a>
     </div>
     <div class="news-date">  
-      {{ one_news.creation_date|date:"l j F Y" }}
+      {% trans "Published on" %} {{ one_news.creation_date|date:"l j F Y" }}
+      {% if one_news.last_change_by %}
+      {% trans "by" %}
+      <a href="{% url ain7.annuaire.views.details one_news.last_change_by.id %}">{{ one_news.last_change_by }}</a>
+      {% endif %}
     </div>
   </div>
+  {% if one_news.image %}
+  <img src="{{ one_news.image.url }}" alt="{{ one_news.title }}" title="{{ one_news.title }}" class="image" />
+  {% endif %}
   <div class="news-description">
-    {{ one_news.short_body|safe }}
+    {{ one_news.body|safe }}
   </div>
 			</div>
 	{% endfor %}

@@ -17,9 +17,19 @@
 
 <div class="right">
 
-   <h3>{% trans "Actions" %}</h3>
+   <h3 class="administration">{% trans "Administration" %}</h3>
    <div class="right_articles">
-    <ul>
+   <ul>
+      {% if superadmin or ca_member or secretariat_member %}
+      <li><a href="{% url ain7.annuaire.views.add %}">{% trans "Register a new member" %}</a></li>
+      {% endif %}
+      {% block extra-admin %}{% endblock %}
+   </ul>
+   </div>
+ 
+   <h3>{% trans "Navigation" %}</h3>
+   <div class="right_articles">
+   <ul>
 
       {% block extra-actions %}{% endblock %}
 
@@ -36,12 +46,9 @@
       <li><a href="{% url ain7.annuaire.views.filter_register %}">{% trans "Save this filter" %}</a></li>
       {% endif %}
       {% endif %}
+      <li><a href="{% url ain7.annuaire.views.advanced_search %}">{% trans "Advanced Search" %}</a></li>
 
-      {# permanent links #}
-      {% if superadmin or ca_member or secretariat_member %}
-      <li><a href="{% url ain7.annuaire.views.add %}">{% trans "Register a new member" %}</a></li>
-      {% endif %}
-    </ul>
+   </ul>
    </div>
 
    {% block extra-right-blocks %}{% endblock %}
@@ -60,16 +67,6 @@
      {% endif %}
    {% endblock %}
    {% endif %}
-
-   {% block navigation %}
-   <h3>{% trans "Navigation" %}</h3>
-   <div class="right_articles">
-    <ul>
-      {% block extra-navigation %}{% endblock %}
-      <li><a href="{% url ain7.annuaire.views.advanced_search %}">{% trans "Advanced Search" %}</a></li>
-    </ul>
-   </div>
-   {% endblock %}
 
    {% if userFilters %}
 

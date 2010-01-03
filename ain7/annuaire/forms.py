@@ -103,9 +103,9 @@ class NewMemberForm(forms.Form):
         required=True, widget=forms.TextInput(attrs={'size': 40}))
     mail = forms.EmailField(label=_('Mail'), max_length=50, required=True,
         widget=forms.TextInput(attrs={'size': 40}))
-    nationality = forms.IntegerField(label=_('Nationality'), required=True,
+    nationality = forms.IntegerField(label=_('Nationality'), required=False,
         widget=AutoCompleteField(completed_obj_name='nationality',addable=True))
-    birth_date = forms.DateTimeField(label=_('Date of birth'), required=True,
+    birth_date = forms.DateTimeField(label=_('Date of birth'), required=False,
         widget=DATE_WIDGET)
     sex = forms.ChoiceField(label=_('Sex'), required=True, choices=Person.SEX)
     promoyear = forms.IntegerField(label=_('Promo year'), required=True,
@@ -263,7 +263,7 @@ class PersonForm(forms.ModelForm):
             self.cleaned_data.get('death_date') and \
             self.cleaned_data['birth_date']>self.cleaned_data['death_date']:
             raise forms.ValidationError(_('Birth date is later than\
-                death date'))
+ death date'))
         return self.cleaned_data['death_date']
 
     def clean_country(self):

@@ -369,9 +369,6 @@ def job_edit(request, emploi_id):
         request.user.message_set.create(
             message=_('This job offer has to be checked by the secretariat.'))
         return HttpResponseRedirect('/emploi/')
-    tracks_id = []
-    if job.track:
-        tracks_id = [ t.id for t in job.track.all() ]
     afid = None
     if job.activity_field:
         afid = job.activity_field.pk
@@ -381,8 +378,7 @@ def job_edit(request, emploi_id):
          'is_opened': job.is_opened, 'description': job.description,
          'office': job.office.id, 'contact_name': job.contact_name,
          'contact_email': job.contact_email,
-         'activity_field': afid,
-         'track':  tracks_id})
+         'activity_field': afid })
 
     if request.method == 'POST':
         form = JobOfferForm(request.POST)

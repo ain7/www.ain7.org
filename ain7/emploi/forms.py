@@ -39,12 +39,12 @@ class JobOfferForm(AIn7Form):
     """ Job Offer Form"""
     reference = forms.CharField(label=_('reference').capitalize(), 
         max_length=50, required=False, 
-        widget=forms.TextInput(attrs={'size':'55'}))
-    title = forms.CharField(label=_('title').capitalize(), max_length=50,
-        required=True, widget=forms.TextInput(attrs={'size':'55'}))
+        widget=forms.TextInput(attrs={'size':'60'}))
+    title = forms.CharField(label=_('title').capitalize(), max_length=200,
+        required=True, widget=forms.TextInput(attrs={'size':'60'}))
     experience = forms.CharField(label=_('experience').capitalize(),
         max_length=50, required=False,
-        widget=forms.TextInput(attrs={'size':'55'}))
+        widget=forms.TextInput(attrs={'size':'60'}))
     contract_type = forms.IntegerField(label=_('contract type'),
         required=False)
     contract_type.widget = forms.Select(choices=JobOffer.JOB_TYPES)
@@ -55,14 +55,12 @@ class JobOfferForm(AIn7Form):
     office = forms.IntegerField(label=_('Office'), required=True,
         widget=AutoCompleteField(completed_obj_name='office'))
     contact_name = forms.CharField(label=_('Contact name'), max_length=50,
-        required=False, widget=forms.TextInput(attrs={'size':'55'}))
+        required=False, widget=forms.TextInput(attrs={'size':'60'}))
     contact_email = forms.EmailField(label=_('Contact email').capitalize(),
-        required=False)
+        required=False, widget=forms.TextInput(attrs={'size':'60'}))
     activity_field = forms.IntegerField(label=_('Activity field'),
         required=False,
         widget=AutoCompleteField(completed_obj_name='activity_field'))
-    track = forms.ModelMultipleChoiceField(label=_('track').capitalize(),
-        queryset=Track.objects.filter(active=True), required=False)
     
     def clean_office(self):
         """clean office for job offer"""
@@ -106,7 +104,6 @@ class JobOfferForm(AIn7Form):
         job_offer.activity_field = self.cleaned_data['activity_field']
         job_offer.save()
         # needs to have a primary key before a many-to-many can be used
-        job_offer.track = self.cleaned_data['track']
         job_offer.logged_save(user.person)
         return job_offer
 
@@ -150,7 +147,7 @@ class SearchJobForm(forms.Form):
         if self.cleaned_data['contract_type']:
             querry &= models.Q(contract_type=self.cleaned_data['contract_type'])
 
-        return JobOffer.objects.filter(querry)
+        return JobOffer.objects.filter(querry).order_by('-id')
 
 class OrganizationForm(forms.Form):
     """organization form"""
