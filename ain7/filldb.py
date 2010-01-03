@@ -2792,8 +2792,6 @@ Petit déjeuner, temps libre jusqu’au transfert vers l’aéroport internation
     job1.checked_by_secretariat = True
     job1.office = anywareoffice
     job1.save()
-    job1.track.add(n7info)
-    job1.save()
 
     job2 = emploi.JobOffer()
     job2.reference = "XYZ271"
@@ -2807,8 +2805,6 @@ Petit déjeuner, temps libre jusqu’au transfert vers l’aéroport internation
     job2.checked_by_secretariat = True
     job2.office = priceminister
     job2.save()
-    job2.track.add(n7info)
-    job2.save()
 
     job3 = emploi.JobOffer()
     job3.reference = "XYZ272"
@@ -2820,8 +2816,6 @@ Petit déjeuner, temps libre jusqu’au transfert vers l’aéroport internation
     job3.checked_by_secretariat = True
     job3.office = anywareoffice
     job3.save()
-    job3.track.add(n7info)
-    job3.save()
 
     job4 = emploi.JobOffer()
     job4.reference = "XYZ273"
@@ -2832,8 +2826,6 @@ Petit déjeuner, temps libre jusqu’au transfert vers l’aéroport internation
     job4.is_opened = False
     job4.checked_by_secretariat = True
     job4.office = anywareoffice
-    job4.save()
-    job4.track.add(n7hydro)
     job4.save()
 
     job5 = emploi.JobOffer()
