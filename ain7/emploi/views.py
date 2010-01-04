@@ -843,7 +843,7 @@ def office_add(request, organization_id=None):
             modified_office = form.save()
             modified_office.logged_save(person)
             office_prop = OfficeProposal(original = None,
-                modified = modifiedOffice, author = person, action = 0)
+                modified = modified_office, author = person, action = 0)
             office_prop.logged_save(person)
             # create the notification
             notif = Notification(title = _('Office added'),

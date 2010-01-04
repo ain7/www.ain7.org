@@ -949,7 +949,7 @@ def vcard(request, user_id):
     person = get_object_or_404(Person, pk=user_id)
 
     mail = None
-    mail_list = Email.objects.filter(person=p, preferred_email=True, \
+    mail_list = Email.objects.filter(person=person, preferred_email=True, \
         confidentiality__in=[0,1])
     if mail_list:
         mail = mail_list[0].email
