@@ -74,9 +74,10 @@ class AutoCompleteField(TextInput):
         # si une valeur a été saisie, je remplis le champ
         # avec la description de l'objet
         if value != "-1" and value != None and value != '':
-            valueTxt = ajax_field_value(self.completed_obj_name, value)
             if self.completed_obj_name in ajaxed_strings():
                 valueTxt = value
+            else:
+                valueTxt = ajax_field_value(self.completed_obj_name, value)
         if value:
             value = smart_unicode(value)
         else:

@@ -72,7 +72,13 @@ def ajax_request(request, completed_name, field_name):
     elements = []
     if request.method == 'POST':
         input = request.POST[field_name + '_text']
-        elements = ajax_get_elements(completed_name, input)
+        if completed_name in ajaxed_strings():
+            method = globals().get(completed_name)
+            if method == None:
+                raise Http404
+            elements = method(input)
+        else:
+            elements = ajax_get_elements(completed_name, input)
 
     return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
 
