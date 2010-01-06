@@ -46,10 +46,10 @@ urlpatterns = patterns('ain7.manage.views',
         'criterion_add'),
     (r'^organizations/adv_search/filter/(?P<filter_id>\d*)/criterion/\
 add/field/$',
-     'criterion_add', {'criterionType': 'field'}),
+     'criterion_add', {'criterion_type': 'field'}),
     (r'^organizations/adv_search/filter/(?P<filter_id>\d*)/criterion/add/\
 filter/$',
-     'criterion_add', {'criterionType': 'filter'}),
+     'criterion_add', {'criterion_type': 'filter'}),
     (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/edit/\
 field/$',
      'criterion_field_edit'),

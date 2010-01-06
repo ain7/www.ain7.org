@@ -87,7 +87,7 @@
     <a href="{% url ain7.emploi.views.index %}" accesskey="s">{% trans "Job service"%}</a></li>
 
 {% block barre-groupes_regionaux %}<li>{% endblock %}
-    <a href="{% url ain7.groupes_regionaux.views.index %}" accesskey="r">{% trans "Regional Groups "%}</a></li>
+    <a href="{% url ain7.groupes_regionaux.views.index %}" accesskey="p">{% trans "Regional Groups "%}</a></li>
 
 {#{% block barre-forums %}<li>{% endblock %}#}
 {#    <a href="{% url ain7.pages.views.forums %}" accesskey="f">{% trans "Forums"%}</a></li>#}
@@ -103,7 +103,7 @@
     <a href="{% url ain7.groupes_professionnels.views.index %}" accesskey="g">{% trans "Professionnal Groups"%}</a></li>
 
 {% block barre-media_communication %}<li>{% endblock %}
-    <a href="{% url ain7.media_communication.views.index %}" accesskey="p">{% trans "Media &amp; Communication" %}</a></li>
+    <a href="{% url ain7.media_communication.views.index %}" accesskey="m">{% trans "Media &amp; Communication" %}</a></li>
 
 {% block barre-web %}<li>{% endblock %}
     <a href="{% url ain7.pages.views.web %}" accesskey="i">{% trans "Web" %}</a></li>
@@ -112,11 +112,11 @@
     <a href="{% url ain7.voyages.views.index %}" accesskey="v">{% trans "Travels" %}</a></li>
 
 {% block barre-galerie %}<li>{% endblock %}
-    <a href="{% url ain7.pages.views.galerie %}" accesskey="h">{% trans "Gallery" %}</a></li>
+    <a href="{% url ain7.pages.views.galerie %}" accesskey="l">{% trans "Gallery" %}</a></li>
 
 {% if superadmin or ca_member or secretariat_member %}
 {% block barre-manage %}<li>{% endblock %}
-    <a href="{% url ain7.manage.views.index %}" accesskey="h">{% trans "Management" %}</a></li>
+    <a href="{% url ain7.manage.views.index %}" accesskey="n">{% trans "Management" %}</a></li>
 {% endif %}
 
 </ul>

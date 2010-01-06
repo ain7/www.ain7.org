@@ -1,5 +1,5 @@
 # -*- coding: utf-8
-""""
+"""
  ain7/adhesions/urls.py
 """
 #
