@@ -39,7 +39,7 @@
         {% trans "proposed the modification of the organization" %}
         <em>{{ notification.organization_proposal.original }}</em>. 
         {% trans "Please visit" %} 
-        <a href="{% url ain7.manage.views.office_edit_proposal notification.organization_proposal.id %}">{% trans "this page" %}</a> 
+        <a href="{% url ain7.manage.views.organization_edit_proposal notification.organization_proposal.id %}">{% trans "this page" %}</a> 
         {% trans "to check for correctness and possibly confirm." %}
         <br />
         <a href="{% url ain7.manage.views.notification_delete notification.id %}" 
@@ -50,7 +50,7 @@
         {% trans "proposed the deletion of the organization" %}
         <em>{{ notification.organization_proposal.original }}</em>. 
         {% trans "Please visit" %} 
-        <a href="i{% url ain7.manage.views.office_delete_proposal notification.organization_proposal.id %}">{% trans "this page" %}</a> 
+        <a href="{% url ain7.manage.views.organization_delete_proposal notification.organization_proposal.id %}">{% trans "this page" %}</a> 
         {% trans "to possibly confirm." %}
         <br />
         <a href="{% url ain7.manage.views.notification_delete notification.id %}" 

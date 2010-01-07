@@ -529,10 +529,13 @@ def organization_edit(request, organization_id=None):
     organization = None
     if organization_id:
         organization = get_object_or_404(Organization, pk=organization_id)
+        activity_field = organization.activity_field
+        if activity_field:
+            activity_field = organization.activity_field.pk
         form = OrganizationForm(
             {'name': organization.name, 'size': organization.size,
              'employment_agency': organization.employment_agency,
-             'activity_field': organization.activity_field.pk,
+             'activity_field': activity_field,
              'short_description': organization.short_description,
              'long_description': organization.long_description })
         action_title = _('Edit an organization')
@@ -773,11 +776,14 @@ def organization_edit_proposal(request, proposal_id=None):
         return HttpResponseRedirect('/manage/')
     
     proposal = get_object_or_404(OrganizationProposal, pk=proposal_id)
+    activity_field = proposal.modified.activity_field
+    if activity_field:
+        activity_field = proposal.modified.activity_field.pk
     form = OrganizationForm(
         {'name': proposal.modified.name,
          'size': proposal.modified.size,
          'employment_agency': proposal.modified.employment_agency,
-         'activity_field': proposal.modified.activity_field.pk,
+         'activity_field': activity_field,
          'short_description': proposal.modified.short_description, 
          'long_description': proposal.modified.long_description })
 

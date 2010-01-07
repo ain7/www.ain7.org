@@ -675,10 +675,13 @@ def organization_edit_data(request, organization_id=None):
     person = get_object_or_404(Person, user=request.user.id)
 
     if request.method == 'GET':
+        activity_field = None
+        if org.activity_field:
+            activity_field = org.activity_field.pk
         form = OrganizationForm(
             {'name':org.name, 'size':org.size,
              'employment_agency':org.employment_agency,
-             'activity_field':org.activity_field.pk,
+             'activity_field': activity_field,
              'short_description':org.short_description,
              'long_description':org.long_description})
         return ain7_render_to_response(request, 'emploi/office_create.html',

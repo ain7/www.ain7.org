@@ -45,7 +45,7 @@
 </tr>
 <tr>
 <td>{{ form.activity_field.label_tag }}</td>
-<td class="original">{{ original.activity_field }}</td>
+<td class="original">{{ original.activity_field|default_if_none:"" }}</td>
 <td class="modified">
 {% if form.activity_field.errors %}{{ form.activity_field.errors }}{% endif %}
 {{ form.activity_field|safe }}</td>

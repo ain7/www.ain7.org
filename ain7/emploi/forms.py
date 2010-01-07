@@ -79,14 +79,15 @@ class JobOfferForm(AIn7Form):
     def clean_activity_field(self):
         """clean activity field"""
         activity = self.cleaned_data['activity_field']
-        if activity != None:
-            activity_field = None
-            try:
-                activity_field = ActivityField.objects.get(pk=activity)
-            except ActivityField.DoesNotExist:
-                raise ValidationError(
-                    _('The entered activity field does not exist.'))
-            return activity_field
+        if activity is None:
+            return None
+        activity_field = None
+        try:
+            activity_field = ActivityField.objects.get(pk=activity)
+        except ActivityField.DoesNotExist:
+            raise ValidationError(
+                _('The entered activity field does not exist.'))
+        return activity_field
     
     def save(self, user, job_offer=None):
         """save job offer"""
@@ -169,13 +170,18 @@ class OrganizationForm(forms.Form):
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':50}))
 
     def clean_activity_field(self):
-        """clean activity field in organization"""
-        if self.cleaned_data['activity_field'] and \
-            ActivityField.objects.filter(\
-            pk=self.cleaned_data['activity_field']).count() != 1:
-            raise ValidationError(_('Activity Field does not exist.'))
-        return self.cleaned_data['activity_field']
-
+        """clean activity field"""
+        activity = self.cleaned_data['activity_field']
+        if activity is None:
+            return None
+        activity_field = None
+        try:
+            activity_field = ActivityField.objects.get(pk=activity)
+        except ActivityField.DoesNotExist:
+            raise ValidationError(
+                _('The entered activity field does not exist.'))
+        return activity_field
+    
     def save(self, user, is_a_proposal=False, organization=None, is_valid=True):
         """save organization"""
         if organization:
@@ -191,9 +197,7 @@ class OrganizationForm(forms.Form):
         org.name = self.cleaned_data['name']
         org.employment_agency = self.cleaned_data['employment_agency']
         org.size = self.cleaned_data['size']
-        if self.cleaned_data['activity_field']:
-            org.activity_field = ActivityField.objects.get(\
-                pk=self.cleaned_data['activity_field'])
+        org.activity_field = self.cleaned_data['activity_field']
         org.short_description = self.cleaned_data['short_description']
         org.long_description = self.cleaned_data['long_description']
         org.is_a_proposal = is_a_proposal
