@@ -1431,7 +1431,7 @@ def error_details(request, error_id):
         request, 'manage/error_details.html', {'error': error})
 
 @login_required
-def payment_index(request):
+def payments_index(request):
     """payment index"""
 
     access = check_access(request, request.user,
@@ -1444,7 +1444,7 @@ def payment_index(request):
     paginator = Paginator(payments, nb_results_by_page)
     try:
         page = int(request.GET.get('page', '1'))
-        errors = paginator.page(page).object_list
+        payments = paginator.page(page).object_list
     except InvalidPage:
         raise http.Http404
 
@@ -1540,7 +1540,7 @@ def payments_deposit(request, deposit_id):
         return access
 
     deposits = Payment.objects.filter(type=deposit_id, deposited__isnull=True,\
-        validated=True)
+        validated=True).order_by('id')
 
     try:
         last_deposit_id = Payment.objects.filter(type=deposit_id, \

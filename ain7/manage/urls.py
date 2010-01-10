@@ -144,7 +144,7 @@ filter/$',
     (r'^errors/(?P<error_id>\d+)/$', 'error_details'),
 
     # Payment
-    (r'^payments/$', 'payment_index'),
+    (r'^payments/$', 'payments_index'),
     (r'^payments/add/$', 'payment_add'),
     (r'^payments/(?P<payment_id>\d+)/$', 'payment_details'),
     (r'^payments/(?P<payment_id>\d+)/edit/$', 'payment_edit'),
