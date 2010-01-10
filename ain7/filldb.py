@@ -2788,9 +2788,11 @@ Petit déjeuner, temps libre jusqu’au transfert vers l’aéroport internation
     job1.description = u"""Pour l'un de nos clients Grand Compte, nous recherchons des Ingénieurs d'études Java/J2ee, sous la conduite d'un Chef de projet, vous aurez en charge la réalisation des études techniques et fonctionnelles, le développement des applications."""
     job1.experience = "1 à 2 ans"
     job1.contract_type = 0
-    job1.is_opened = True
+    job1.obsolete = False
     job1.checked_by_secretariat = True
     job1.office = anywareoffice
+    job1.created_by = lionel
+    job1.modified_by = lionel
     job1.save()
 
     job2 = emploi.JobOffer()
@@ -2801,9 +2803,11 @@ Petit déjeuner, temps libre jusqu’au transfert vers l’aéroport internation
     -Développement de nouvelles fonctionnalités."""
     job2.experience = "2 à 3 ans"
     job2.contract_type = 0
-    job2.is_opened = True
+    job2.obsolete = False
     job2.checked_by_secretariat = True
     job2.office = priceminister
+    job2.created_by = lionel
+    job2.modified_by = lionel
     job2.save()
 
     job3 = emploi.JobOffer()
@@ -2812,9 +2816,11 @@ Petit déjeuner, temps libre jusqu’au transfert vers l’aéroport internation
     job3.description = u"""Dans le cadre de nos projets réalisés pour nos clients grands comptes, sous la conduite d'un Chef de projet, vous serez chargé de réaliser des études techniques et fonctionnelles, de développer des applications, d'élaborer les plans d'intégration."""
     job3.experience = "1 à 2 ans"
     job3.contract_type = 1
-    job3.is_opened = True
+    job3.obsolete = False
     job3.checked_by_secretariat = True
     job3.office = anywareoffice
+    job3.created_by = lionel
+    job3.modified_by = lionel
     job3.save()
 
     job4 = emploi.JobOffer()
@@ -2823,9 +2829,11 @@ Petit déjeuner, temps libre jusqu’au transfert vers l’aéroport internation
     job4.description = u"""Intégré au sein de l'équipe « Formes de Vente » (15 personnes) et sous la direction d'un Responsable d'Equipe, vous garantissez le bon fonctionnement des produits à votre charge dans le système d'information."""
     job4.experience = "1 à 2 ans"
     job4.contract_type = 2
-    job4.is_opened = False
+    job4.obsolete = False
     job4.checked_by_secretariat = True
     job4.office = anywareoffice
+    job4.created_by = lionel
+    job4.modified_by = lionel
     job4.save()
 
     job5 = emploi.JobOffer()
@@ -2834,9 +2842,11 @@ Petit déjeuner, temps libre jusqu’au transfert vers l’aéroport internation
     job5.description = u"""Nous souhaitons renforcer notre pôle de compétences NTIC Java J2EE : De formation informatique Bac+4/5, vous êtes aujourd'hui un Ingénieur débutant ou expérimenté et vous bénéficiez d'une réelle maîtrise des environnements de développement NTIC."""
     job5.experience = "0 à 3 ans"
     job5.contract_type = 2
-    job5.is_opened = True
+    job5.obsolete = False
     job5.checked_by_secretariat = True
     job5.office = lepaysdesschtroumpfs
+    job5.created_by = lionel
+    job5.modified_by = lionel
     job5.save()
 
     notif1 = manage.Notification()

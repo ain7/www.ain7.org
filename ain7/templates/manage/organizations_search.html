@@ -26,10 +26,10 @@
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
 <td align="right">
 {% if is_paginated %}
-{% if has_previous %}<a href="{% url ain7.manage.views.organizations %}?name={{ request.GET.name }}&activity_code={{ request.GET.activity_code }}&activity_field={{ request.GET.activity_field }}&page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="{% url ain7.manage.views.organizations %}?name={{ request.GET.name }}&activity_code={{ request.GET.activity_code }}&activity_field={{ request.GET.activity_field }}&page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="{% url ain7.manage.views.organizations %}?name={{ request.GET.name }}&activity_code={{ request.GET.activity_code }}&activity_field={{ request.GET.activity_field }}&page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="{% url ain7.manage.views.organizations %}?name={{ request.GET.name }}&activity_code={{ request.GET.activity_code }}&activity_field={{ request.GET.activity_field }}&page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% if has_previous %}<a href="{% url ain7.manage.views.organizations_search %}?name={{ request.GET.name }}&activity_code={{ request.GET.activity_code }}&activity_field={{ request.GET.activity_field }}&page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="{% url ain7.manage.views.organizations_search %}?name={{ request.GET.name }}&activity_code={{ request.GET.activity_code }}&activity_field={{ request.GET.activity_field }}&page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="{% url ain7.manage.views.organizations_search %}?name={{ request.GET.name }}&activity_code={{ request.GET.activity_code }}&activity_field={{ request.GET.activity_field }}&page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="{% url ain7.manage.views.organizations_search %}?name={{ request.GET.name }}&activity_code={{ request.GET.activity_code }}&activity_field={{ request.GET.activity_field }}&page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
 {% endif %}
 </td>
 </table>

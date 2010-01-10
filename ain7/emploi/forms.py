@@ -3,7 +3,7 @@
  ain7/emploi/forms.py
 """
 #
-#   Copyright © 2007-2009 AIn7 Devel Team
+#   Copyright © 2007-2010 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -42,18 +42,17 @@ class JobOfferForm(AIn7Form):
         widget=forms.TextInput(attrs={'size':'60'}))
     title = forms.CharField(label=_('title').capitalize(), max_length=200,
         required=True, widget=forms.TextInput(attrs={'size':'60'}))
+    office = forms.IntegerField(label=_('Office'), required=True,
+        widget=AutoCompleteField(completed_obj_name='office'))
     experience = forms.CharField(label=_('experience').capitalize(),
         max_length=50, required=False,
         widget=forms.TextInput(attrs={'size':'60'}))
     contract_type = forms.IntegerField(label=_('contract type'),
         required=False)
     contract_type.widget = forms.Select(choices=JobOffer.JOB_TYPES)
-    is_opened = forms.BooleanField(label=_('is opened'), required=False)
     description = forms.CharField(label=_('description').capitalize(),
         required=False,
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':80}))
-    office = forms.IntegerField(label=_('Office'), required=True,
-        widget=AutoCompleteField(completed_obj_name='office'))
     contact_name = forms.CharField(label=_('Contact name'), max_length=50,
         required=False, widget=forms.TextInput(attrs={'size':'60'}))
     contact_email = forms.EmailField(label=_('Contact email').capitalize(),
@@ -61,6 +60,7 @@ class JobOfferForm(AIn7Form):
     activity_field = forms.IntegerField(label=_('Activity field'),
         required=False,
         widget=AutoCompleteField(completed_obj_name='activity_field'))
+    obsolete = forms.BooleanField(label=_('obsolete'), required=False)
     
     def clean_office(self):
         """clean office for job offer"""
@@ -93,16 +93,23 @@ class JobOfferForm(AIn7Form):
         """save job offer"""
         if not job_offer:
             job_offer = JobOffer()
+            job_offer.created_by = user.person
+
+            user_groups = user.groups.all().values_list('name', flat=True)
+            if 'ain7-secretariat' in user_groups or \
+               'ain7-admin' in user_groups:
+                 job_offer.checked_by_secretariat = True
+
         job_offer.reference = self.cleaned_data['reference']
         job_offer.title = self.cleaned_data['title']
         job_offer.experience = self.cleaned_data['experience']
         job_offer.contract_type = self.cleaned_data['contract_type']
-        job_offer.is_opened = self.cleaned_data['is_opened']
         job_offer.description = self.cleaned_data['description']
         job_offer.office = self.cleaned_data['office']
         job_offer.contact_name = self.cleaned_data['contact_name']
         job_offer.contact_email = self.cleaned_data['contact_email']
         job_offer.activity_field = self.cleaned_data['activity_field']
+        job_offer.obsolete = self.cleaned_data['obsolete']
         job_offer.save()
         # needs to have a primary key before a many-to-many can be used
         job_offer.logged_save(user.person)
@@ -188,12 +195,6 @@ class OrganizationForm(forms.Form):
             org = organization
         else:
             org = Organization()
-        # TODO : automatiser avec qqchose comme ça:
-#         for field in org._meta.fields:
-#             if field.name=='is_a_proposal':
-#                 field.value = is_a_proposal
-#             else:
-#                 field.value = self.cleaned_data[field.name]
         org.name = self.cleaned_data['name']
         org.employment_agency = self.cleaned_data['employment_agency']
         org.size = self.cleaned_data['size']
@@ -212,7 +213,7 @@ class OfficeForm(forms.ModelForm):
             completed_obj_name='organization'))
     country = forms.ModelChoiceField(
         label=_('country').capitalize(),
-        queryset=Country.objects.all(), required=False)
+        queryset=Country.objects.all().order_by('name'), required=False)
 
     def clean_organization(self):
         """check organization in office"""
@@ -235,7 +236,7 @@ class OfficeFormNoOrg(forms.ModelForm):
     """Office Form No Org ?"""
     country = forms.ModelChoiceField(
         label=_('country').capitalize(),
-        queryset=Country.objects.all(), required=False)
+        queryset=Country.objects.all().order_by('name'), required=False)
 
     class Meta:
         """Office Form Meta"""

@@ -3,7 +3,7 @@
  ain7/emploi/models.py
 """
 #
-#   Copyright © 2007-2009 AIn7 Devel Team
+#   Copyright © 2007-2010 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ import datetime
 from django.db import models
 from django.utils.translation import ugettext as _
 
-from ain7.annuaire.models import Person, AIn7Member, Track
+from ain7.annuaire.models import Person, AIn7Member
 from ain7.annuaire.models import Country
 from ain7.utils import LoggedClass, isAdmin
 
@@ -184,7 +184,7 @@ class OrganizationProposal(LoggedClass):
         for (actnum, actname) in ACTIONS:
             if actnum == self.action:
                 act = actname
-        return act + _(" the organization ") + self.modified.name
+        return act + ' ' + _('the organization') + ' ' + self.modified.name
 
     class Meta:
         """organization proposal meta"""
@@ -246,7 +246,7 @@ class Office(LoggedClass):
     objects = OfficeManager()
 
     def __unicode__(self):
-	"""office unicode"""
+        """office unicode"""
         if self.organization.name == self.name:
             return ''
         else:
@@ -338,7 +338,7 @@ class OfficeProposal(LoggedClass):
         for (actnum, actname) in ACTIONS:
             if actnum == self.action:
                 act = actname
-        return act + _(" the office ") + self.modified.name
+        return act +' ' +  _('the office') + ' ' + self.modified.name
 
     class Meta:
         """office proposal meta"""
@@ -474,8 +474,6 @@ class JobOffer(LoggedClass):
         blank=True, null=True)
     contract_type = models.IntegerField(verbose_name=_('Contract type'),
         choices=JOB_TYPES, blank=True, null=True)
-    is_opened = models.BooleanField(verbose_name=_('Job offer is opened'),
-        default=False)
     office = models.ForeignKey(Office, blank=True, null=True)
     contact_name = models.CharField(verbose_name=_('Contact name'),
         max_length=80, blank=True, null=True)
@@ -488,9 +486,42 @@ class JobOffer(LoggedClass):
         verbose_name=_('checked by secretariat'), default=False)
     nb_views = models.IntegerField(verbose_name=_('Number of views'),
         default=0, editable=False)
+    obsolete = models.BooleanField(verbose_name=_('Job offer is obsolete'),
+        default=False)
+
+    created_at = models.DateTimeField(editable=False)
+    created_by = models.ForeignKey(Person, verbose_name=_('author'),
+        related_name='job_offers_created', null=True)
+
+    modified_at = models.DateTimeField(editable=False)
+    modified_by = models.ForeignKey(Person, verbose_name=_('author'),
+        related_name='job_offers_modified', null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.created_at:
+            self.created_at = datetime.datetime.now()
+        self.modified_at = datetime.datetime.now()
+        return super(JobOffer, self).save(*args, **kwargs)
 
     def __unicode__(self):
         """job offer unicode"""
         return self.reference + " " + self.title + " ("+\
              unicode(self.office) + ")"
+
+class JobOfferView(models.Model):
+    """job offer view"""
+
+    job_offer = models.ForeignKey(JobOffer)
+    person = models.ForeignKey(Person)
+    timestamp = models.DateTimeField()
+
+    def save(self, *args, **kwargs):
+        """custom save method to save consultation timestamp"""
+        if not self.timestamp:
+            self.timestamp = datetime.datetime.now()
+        return super(JobOfferView, self).save(*args, **kwargs)
+
+    def __unicode__(self):
+        """job offer view unicode"""
+        return self.job_offer + _('viewed by') + self.person + _('at') + self.timestamp
 

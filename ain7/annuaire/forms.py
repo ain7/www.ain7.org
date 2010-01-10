@@ -137,7 +137,7 @@ class NewMemberForm(forms.Form):
         now = datetime.datetime.now()
 
         if (now < bdate):
-            raise ValidationError(_('Invalid date of birth.'))
+            raise ValidationError(_('Invalid date of birth'))
 
         return self.cleaned_data['birth_date']
 
@@ -263,7 +263,7 @@ class PersonForm(forms.ModelForm):
             self.cleaned_data.get('death_date') and \
             self.cleaned_data['birth_date']>self.cleaned_data['death_date']:
             raise forms.ValidationError(_('Birth date is later than\
- death date'))
+ death date.'))
         return self.cleaned_data['death_date']
 
     def clean_country(self):
@@ -453,7 +453,7 @@ class ChangePasswordForm(forms.Form):
             cleaned_data.get('new_password2'):
             if not cleaned_data.get('new_password1') == \
                 cleaned_data.get('new_password2'):
-                raise ValidationError(_("Password doesn't match"))
+                raise ValidationError(_("Password doesn't match."))
             # TODO: check that password is strong enough ?
 
         return cleaned_data

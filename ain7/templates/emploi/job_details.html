@@ -12,13 +12,12 @@
 <li><b>{% filter capfirst%}{% trans "organization" %}{% endfilter %}&nbsp;:</b>
     <a href="{% url ain7.emploi.views.organization_details job.office.organization.id %}">{{ job.office.organization }}</a>, {{ job.office }}
 </li>
+<li><b>{% trans "Contract Type" %}&nbsp;:</b> {{ job.get_contract_type_display }}</li>
+<li><b>{% trans "Experience" %}&nbsp;:</b> {{ job.experience }}</li>
+<li><b>{% trans "Reference" %}&nbsp;:</b> {{ job.reference }}</li>
 {% if job.contact %}
 <li><b>{% trans "Contact" %}&nbsp;:</b><a href="{% url ain7.annuaire.views.details job.contact.user.id %}">{{ job.contact }}</a></li>
 {% endif %}
-<li><b>{% trans "Reference" %}&nbsp;:</b> {{ job.reference }}</li>
-<li><b>{% trans "Title" %}&nbsp;:</b> {{ job.title }}</li>
-<li><b>{% trans "Experience" %}&nbsp;:</b> {{ job.experience }}</li>
-<li><b>{% trans "Contract Type" %}&nbsp;:</b> {{ job.get_contract_type_display }}</li>
 {% if job.track.all %}
 <li><b>{% trans "Tracks" %}&nbsp;:</b> 
     {% for track in job.track.all %}
@@ -43,6 +42,9 @@
       {% if job.contact_email %}</a>{% endif %}
     </li>
 {% endif %}
+<li><b>{% trans "Registered" %}&nbsp;:</b> {{ job.created_at|date:"l j F Y H:m" }}
+{% if job.created_by %}{% trans "by" %} {{ job.created_by }}{% endif %}
+</li>
 </ul>
 
 {{ job.description|safe }}
@@ -69,7 +71,7 @@
    <h3>{% trans "Statistics"%}</h3>
    <div class="right_articles">
      <ul>
-     <li>{% trans "This announce has been viewed" %} {{ job.nb_views }} {% trans "times" %}.</li>
+     <li>{% trans "This announce has been viewed" %} {{ views }} {% trans "times" %}.</li>
      </ul>
    </div>
 {% endblock %}

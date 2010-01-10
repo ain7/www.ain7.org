@@ -91,7 +91,7 @@ def search(request):
 
             if len(ain7members) == 1:
                 request.user.message_set.create(\
-                     message=_("Only one result matched your criteria"))
+                     message=_("Only one result matched your criteria."))
                 return HttpResponseRedirect('/annuaire/%s/' % \
                     (ain7members[0].id))
 
@@ -139,7 +139,7 @@ def change_credentials(request, user_id):
                 person.user.set_password(form.cleaned_data['new_password1'])
                 person.user.save()
                 request.user.message_set.create(\
-                    message=_("Credentials updated"))
+                    message=_("Credentials updated."))
                 return HttpResponseRedirect('/annuaire/'+str(person.id)+'/')
             else:
                 request.user.message_set.create(message=_("Wrong authentication"))

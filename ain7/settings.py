@@ -1,8 +1,9 @@
 # -*- coding: utf-8
+"""
+ ain7/settings.py
+"""
 #
-# settings.py
-#
-#   Copyright © 2007-2009 AIn7 Devel Team
+#   Copyright © 2007-2010 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -35,7 +36,6 @@ TEMPLATE_DEBUG = DEBUG
 SERVER_EMAIL = 'AIn7 Web Portal <noreply@ain7.com>'
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
-    ('Lionel Porcheron', 'lionel@porcheron.info'),
 )
 
 MANAGERS = ADMINS
@@ -132,7 +132,7 @@ PIWIK_URL = 'http://localhost/piwik/'
 PIWIK_SITE_ID = '0'
 
 # Version
-BASE = '1.0.9'
+BASE = '1.0.10'
 REVISION = ''
 
 try:
@@ -151,6 +151,8 @@ MOOTOOLS_MORE_VERSION = '1.2.4.2'
 
 AIN7_PORTAL_ADMIN = 'ain7-admin'
 
-if os.path.exists('ain7/settings_local.py'):
+try:
     from settings_local import *
+except ImportError:
+    pass
 

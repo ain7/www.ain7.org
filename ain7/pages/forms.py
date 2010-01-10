@@ -65,7 +65,7 @@ class ChangePasswordForm(forms.Form):
         if cleaned_data.get('password') and cleaned_data.get('password_check'):
             if not cleaned_data.get('password') == \
                 cleaned_data.get('password_check'):
-                raise ValidationError(_("Password doesn't match"))
+                raise ValidationError(_("Password doesn't match."))
             # TODO: check that password is strong enough ?
 
         return cleaned_data

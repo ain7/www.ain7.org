@@ -3,7 +3,7 @@
  ain7/emploi/views.py
 """
 #
-#   Copyright © 2007-2009 AIn7 Devel Team
+#   Copyright © 2007-2010 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -47,7 +47,8 @@ def index(request):
     except AIn7Member.DoesNotExist:
         ain7member = None
         list_emplois = None
-    liste_emplois = JobOffer.objects.all()[:20]
+    liste_emplois = JobOffer.objects.filter(checked_by_secretariat=True, \
+        obsolete=False).order_by('-id')[:20]
     return ain7_render_to_response(request, 'emploi/index.html',
         {'ain7member': ain7member,
          'liste_emplois': liste_emplois})
@@ -343,16 +344,21 @@ def job_details(request, emploi_id):
     if access:
         return access
 
-    job = get_object_or_404(JobOffer, pk=emploi_id)
+    job_offer = get_object_or_404(JobOffer, pk=emploi_id)
     role = check_access(request, request.user, ['ain7-secretariat'])
-    if not job.checked_by_secretariat and role:
+    if not job_offer.checked_by_secretariat and role:
         request.user.message_set.create(
             message=_('This job offer has to be checked by the secretariat.'))
         return HttpResponseRedirect('/emploi/')
-    job.nb_views = job.nb_views + 1
-    job.save()
+
+    views = JobOfferView.objects.filter(job_offer=job_offer).count()
+
+    job_offer_view = JobOfferView()
+    job_offer_view.job_offer = job_offer
+    job_offer_view.person = request.user.person
+    job_offer_view.save()
     return ain7_render_to_response(
-        request, 'emploi/job_details.html', {'job': job })
+        request, 'emploi/job_details.html', {'job': job_offer, 'views': views })
 
 @login_required
 def job_edit(request, emploi_id):
@@ -375,7 +381,7 @@ def job_edit(request, emploi_id):
     form = JobOfferForm(
         {'reference': job.reference, 'title': job.title,
          'experience': job.experience, 'contract_type': job.contract_type,
-         'is_opened': job.is_opened, 'description': job.description,
+         'obsolete': job.obsolete, 'description': job.description,
          'office': job.office.id, 'contact_name': job.contact_name,
          'contact_email': job.contact_email,
          'activity_field': afid })
@@ -582,7 +588,7 @@ def organization_add(request):
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
         form = OrganizationForm()
-        return ain7_render_to_response(request, 'emploi/office_create.html',
+        return ain7_render_to_response(request, 'emploi/office_edit.html',
             {'form': form, 'title': _('Creation of an organization'),
              'header_msg': header_msg})
 
@@ -607,7 +613,7 @@ def organization_add(request):
             request.user.message_set.create(message=_('Something was wrong\
  in the form you filled. No modification done.'))
             return ain7_render_to_response(request,
-                'emploi/office_create.html', {'form': form,
+                'emploi/office_edit.html', {'form': form,
                 'title': _('Creation of an organization'),
                 'header_msg': header_msg})
         return HttpResponseRedirect(reverse(index))
@@ -632,7 +638,7 @@ def organization_choose(request, action=None):
             
         form = ChooseOrganizationForm()
         return ain7_render_to_response(request,
-            'emploi/office_create.html', {'form': form, 'title': title})
+            'emploi/office_edit.html', {'form': form, 'title': title})
         
     if request.method == 'POST':
         
@@ -647,7 +653,7 @@ def organization_choose(request, action=None):
                     args=[org_id]))
         else:
             return ain7_render_to_response(request,
-                'emploi/office_create.html', {'form': form, 'title': title})
+                'emploi/office_edit.html', {'form': form, 'title': title})
 
 @login_required
 def organization_edit(request, organization_id=None):
@@ -684,7 +690,7 @@ def organization_edit_data(request, organization_id=None):
              'activity_field': activity_field,
              'short_description':org.short_description,
              'long_description':org.long_description})
-        return ain7_render_to_response(request, 'emploi/office_create.html',
+        return ain7_render_to_response(request, 'emploi/office_edit.html',
             {'form': form, 
              'title':_('Proposition of organization modification')})
 
@@ -706,7 +712,7 @@ def organization_edit_data(request, organization_id=None):
             request.user.message_set.create(message=_('Something was wrong\
  in the form you filled. No modification done.'))
             return ain7_render_to_response(request,
-                'emploi/office_create.html',
+                'emploi/office_edit.html',
                 {'form': form,
                  'title': _('Proposition of organization modification')})
         return HttpResponseRedirect('/emploi/organization/%s/edit/' % org.id)
@@ -752,7 +758,7 @@ def office_edit(request, office_id=None):
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
         form = OfficeFormNoOrg(instance = office)
-        return ain7_render_to_response(request, 'emploi/office_create.html',
+        return ain7_render_to_response(request, 'emploi/office_edit.html',
             {'form': form, 'title': _('Modify an office')})
 
     # 2e passage : sauvegarde et redirection
@@ -788,7 +794,7 @@ def office_edit(request, office_id=None):
             request.user.message_set.create(message=_('Something was wrong in\
  the form you filled. No modification done.'))
             return ain7_render_to_response(request,
-                'emploi/office_create.html',
+                'emploi/office_edit.html',
                 {'form': form, 'title': _('Modify an office')})
         return HttpResponseRedirect(reverse(index))
 
@@ -832,7 +838,7 @@ def office_add(request, organization_id=None):
     # 1er passage : on propose un formulaire vide
     if request.method == 'GET':
         form = OfficeFormNoOrg()
-        return ain7_render_to_response(request, 'emploi/office_create.html',
+        return ain7_render_to_response(request, 'emploi/office_edit.html',
             {'form': form, 'title': _('Create an office')})
 
     # 2e passage : sauvegarde et redirection
@@ -858,7 +864,7 @@ def office_add(request, organization_id=None):
             request.user.message_set.create(message=_('Something was wrong in\
  the form you filled. No modification done.'))
             return ain7_render_to_response(request,
-                'emploi/office_create.html',
+                'emploi/office_edit.html',
                 {'form': form, 'title': _('Create an office')})
         return HttpResponseRedirect(reverse(index))
 

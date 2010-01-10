@@ -98,7 +98,7 @@ def subscription_validate(request, subscription_id=None):
     subscription.logged_save(request.user.person)
 
     request.user.message_set.create(\
-         message=_('Subscription successfully validated.'))
+         message=_('Subscription successfully validated'))
     return HttpResponseRedirect(reverse(subscriptions))
 
 @confirmation_required(lambda user_id=None, subscription_id=None :
@@ -115,7 +115,7 @@ def subscription_delete(request, subscription_id=None):
     return ain7_generic_delete(request,
         get_object_or_404(Subscription, pk=subscription_id),
         reverse(subscriptions),
-        _('Subscription successfully deleted.'))
+        _('Subscription successfully deleted'))
 
 @login_required
 def user_subscriptions(request, user_id):
@@ -186,7 +186,7 @@ def subscription_add(request, user_id=None):
             if isinstance(subscription, LoggedClass) and request.user:
                 subscription.logged_save(request.user.person)
             request.user.message_set.create(message=
-                 _('Subscription successfully added.'))
+                 _('Subscription successfully added'))
         else:
             page_dict.update({'form': form})
             request.user.message_set.create(message=_('Something was wrong in\
