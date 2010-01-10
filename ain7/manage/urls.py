@@ -3,7 +3,7 @@
  ain7/manage/urls.py
 """
 #
-#   Copyright © 2007-2009 AIn7 Devel Team
+#   Copyright © 2007-2010 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -146,6 +146,12 @@ filter/$',
     # Payment
     (r'^payments/$', 'payment_index'),
     (r'^payments/add/$', 'payment_add'),
+    (r'^payments/(?P<payment_id>\d+)/$', 'payment_details'),
+    (r'^payments/(?P<payment_id>\d+)/edit/$', 'payment_edit'),
+    (r'^payments/deposit/$', 'payments_deposit_index'),
+    (r'^payments/deposit/(?P<deposit_id>\d+)/$', 'payments_deposit'),
+    (r'^payments/deposit/(?P<deposit_id>\d+)/deposited/\
+(?P<last_deposit_id>\d+)/$', 'payments_mark_deposited'),
 
 )
 

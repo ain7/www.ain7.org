@@ -1,0 +1,16 @@
+{% extends "manage/base.html" %}
+
+{% load i18n %}
+
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
+{% block content-left %}
+
+<h2>{% trans "Payments"%}</h2>
+
+<ul>
+<li><a href="{% url ain7.manage.views.payments_deposit 1%}">Chèques CE</a></li>
+</ul>
+
+{% endblock %}

@@ -33,6 +33,7 @@ from django.utils.translation import ugettext as _
 from ain7.adhesions.forms import ConfigurationForm, SubscriptionForm
 from ain7.adhesions.models import Subscription, SubscriptionConfiguration
 from ain7.annuaire.models import AIn7Member, Person
+from ain7.manage.models import Payment
 from ain7.decorators import confirmation_required
 from ain7.utils import ain7_render_to_response, ain7_generic_edit
 from ain7.utils import ain7_generic_delete, check_access, LoggedClass
@@ -181,7 +182,15 @@ def subscription_add(request, user_id=None):
             subscription.end_year = form.cleaned_data['start_year'] + \
                 configuration.duration - 1
             subscription.member = ain7member
+
+            payment = Payment()
+            payment.amount = form.cleaned_data['dues_amount']
+            payment.type = form.cleaned_data['tender_type']
+            payment.person = ain7member.person
+            payment.date = datetime.date.today()
+
             subscription.save()
+            payment.save()
 
             if isinstance(subscription, LoggedClass) and request.user:
                 subscription.logged_save(request.user.person)

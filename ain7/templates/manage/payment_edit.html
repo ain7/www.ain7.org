@@ -1,0 +1,18 @@
+{% extends "manage/base.html" %}
+{% load i18n %}
+
+{% block content-left %}
+
+<h2>{% trans "by" %} {{ payment.person }} {% if payment.date %}{% trans "the" %} {{payment.date|date:"l j F Y" }}{% endif %}</h2>
+
+<form method="post" action=".">
+<table>
+{{ form }}
+</table>
+<div style="text-align: center">
+<a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
+<input type="submit" class="button" value="{% trans "Save" %}" />
+</div>
+</form>
+
+{% endblock %}

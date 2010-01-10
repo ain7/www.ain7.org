@@ -51,23 +51,23 @@ class PortalException:
 
         exc_info = sys.exc_info()
 
-        exception = PortalError()
+        error = PortalError()
         if request.user and request.user.is_authenticated():
             exception.user = request.user
-        exception.date = datetime.datetime.now()
-        exception.url = request.path
-        exception.title = str(exception)
+        error.date = datetime.datetime.now()
+        error.url = request.path
+        error.title = str(exception)
         if request.META.has_key('HTTP_REFERER'):
-            exception.referer = request.META['HTTP_REFERER']
+            error.referer = request.META['HTTP_REFERER']
         if request.META.has_key('HTTP_USER_AGENT'):
-            exception.browser_info = request.META['HTTP_USER_AGENT']
+            error.browser_info = request.META['HTTP_USER_AGENT']
         if request.META.has_key('REMOTE_ADDR'):
-            exception.client_address = request.META['REMOTE_ADDR']
-        exception.exception = ''.join(traceback.format_exception(*exc_info))
+            error.client_address = request.META['REMOTE_ADDR']
+        error.exception = ''.join(traceback.format_exception(*exc_info))
         try:
-            exception.save()
+            error.save()
         except Exception, exc:
             print exc
 
-        return render_to_response('500.html', {'exception_code': exception.pk})
+        return render_to_response('500.html', {'exception_code': error.pk})
 

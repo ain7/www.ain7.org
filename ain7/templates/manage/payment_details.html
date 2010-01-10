@@ -1,0 +1,27 @@
+{% extends "manage/base.html" %}
+
+{% load i18n ain7_tags %}
+
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
+{% block content-left %}
+
+<div class="left_box">
+
+<h2>{% trans "Payment" %} #{{ payment.id }}&nbsp;<a href="{% url ain7.manage.views.payment_edit payment.id %}" class="changelink"></a></h2>
+
+<ul>
+<li><b>{% trans "Person:" %}</b> {% if payment.person %}<a href="{% url ain7.annuaire.views.details payment.person.user.id %}">{{ payment.person }}</a>{% endif %}</li>
+<li><b>{% trans "Date:" %}</b> {{ payment.date|date:"l j F Y" }}</li>
+<li><b>{% trans "Amount:" %}</b> {{ payment.amount }}</li>
+<li><b>{% trans "Type:" %}</b> {{ payment.get_type_display }}</li>
+<li><b>{% trans "Validated:" %}</b> {{ payment.validated }}</li>
+{% if payment.deposited %}
+<li><b>{% trans "Deposited:" %}</b> {{ payment.deposited|date:"l j F Y" }}</li>
+{% endif %}
+</ul>
+
+</div>
+
+{% endblock %}

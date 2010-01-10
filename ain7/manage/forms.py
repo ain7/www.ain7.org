@@ -3,7 +3,7 @@
  ain7/manage/forms.py
 """
 #
-#   Copyright © 2007-2009 AIn7 Devel Team
+#   Copyright © 2007-2010 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -27,14 +27,14 @@ from django.contrib.auth.models import User, Group
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person, Country, Email
-from ain7.emploi.models import ActivityField, Organization, Office
+from ain7.emploi.models import ActivityField, Office, Organization
 from ain7.fields import AutoCompleteField
-from ain7.manage.models import Notification
+from ain7.manage.models import Notification, Payment
 from ain7.widgets import DateTimeWidget
 
 
-dateWidget = DateTimeWidget()
-dateWidget.dformat = '%d/%m/%Y'
+DATE_WIDGET = DateTimeWidget()
+DATE_WIDGET.dformat = '%d/%m/%Y'
 
 class SearchUserForm(forms.Form):
     """user search form"""
@@ -116,7 +116,7 @@ class NewPersonForm(forms.ModelForm):
     country = forms.IntegerField(label=_('Nationality'), required=False, 
         widget=AutoCompleteField(completed_obj_name='nationality'))
     birth_date = forms.DateTimeField(label=_('Date of birth'), required=False,
-        widget=dateWidget)
+        widget=DATE_WIDGET)
     sex = forms.CharField(label=_('Sex'), required=False,  
         widget=forms.Select(choices=Person.SEX))
 
@@ -242,4 +242,16 @@ class OfficeListForm(forms.Form):
             if result:
                 result = result[0]
         return result
+
+class PaymentForm(forms.ModelForm):
+    """payment form"""
+    date = forms.DateTimeField(label=_('Payment Date'), required=False,
+        widget=DATE_WIDGET)
+    deposited = forms.DateTimeField(label=_('Deposit Date'), required=False,
+        widget=DATE_WIDGET)
+
+    class Meta:
+        """Payment meta information"""
+        model = Payment
+        exclude = ()
 

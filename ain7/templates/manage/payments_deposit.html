@@ -1,0 +1,26 @@
+{% extends "manage/base.html" %}
+
+{% load i18n %}
+
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
+{% block content-left %}
+
+<h2>{% trans "Payments"%}</h2>
+
+<table border="1" width="100%">
+<tr><th>{% trans "Bank" %}</th><th>{% trans "Account holder" %}</th><th>{% trans "Amount" %}</th><th></th></tr>
+{% for deposit in deposits %}
+<tr>
+<td>{{ deposit.bank }}</td><td>{{ deposit.person }}</td><td>{{ deposit.amount }}</td>
+<td><a href="{% url ain7.manage.views.payment_edit deposit.id %}" class="changelink"></a></td>
+</tr>
+{% endfor %}
+</table>
+
+<div>
+<a href="{% url ain7.manage.views.payments_mark_deposited deposit_id last_deposit_id %}">{% trans "Mark as deposited" %}</a>
+</div>
+
+{% endblock %}

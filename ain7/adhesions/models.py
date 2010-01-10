@@ -2,7 +2,7 @@
 """
  ain7/adhesions/models.py
 """
-#   Copyright © 2007-2009 AIn7 Devel Team
+#   Copyright © 2007-2010 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@ from django.db import models
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import AIn7Member
+from ain7.manage.models import Payment
 from ain7.utils import LoggedClass
 
 class Subscription(LoggedClass):
@@ -40,10 +41,15 @@ class Subscription(LoggedClass):
                    (3, _('Transfer')),
                    (4, _('Other')),
                    )
-
     # For potential backward compatibility
     old_id = models.IntegerField(verbose_name='old id', blank=True, null=True,
         unique=True)
+
+    member = models.ForeignKey(AIn7Member, verbose_name=_('member'), 
+        related_name='subscriptions')
+
+    payment = models.ForeignKey(Payment, verbose_name=_('payment'), null=True,
+        related_name='subscriptions')
 
     dues_amount = models.FloatField(verbose_name=_('Dues amount'))
     newspaper_amount = models.FloatField(verbose_name=_('Newspaper amount'), 
@@ -54,9 +60,6 @@ class Subscription(LoggedClass):
 
     start_year = models.IntegerField(verbose_name=_('start year'))
     end_year = models.IntegerField(verbose_name=_('end year'))
-
-    member = models.ForeignKey(AIn7Member, verbose_name=_('member'), 
-        related_name='subscriptions')
 
     def __unicode__(self):
         """unicode string for subscription object"""

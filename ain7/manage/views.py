@@ -3,7 +3,7 @@
   ain7/manage/views.py
 """
 #
-#   Copyright © 2007-2009 AIn7 Devel Team
+#   Copyright © 2007-2010 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -1439,10 +1439,26 @@ def payment_index(request):
     if access:
         return access
 
-    payments_list = Payment.objects.all()
+    nb_results_by_page = 25 
+    payments = Payment.objects.all().order_by('-id')
+    paginator = Paginator(payments, nb_results_by_page)
+    try:
+        page = int(request.GET.get('page', '1'))
+        errors = paginator.page(page).object_list
+    except InvalidPage:
+        raise http.Http404
 
-    return ain7_render_to_response(
-        request, 'manage/payments_index.html', {'payment_list': payments_list})
+    return ain7_render_to_response(request, 'manage/payments_index.html',
+        {'payments': payments,
+         'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
+         'has_next': paginator.page(page).has_next(),
+         'has_previous': paginator.page(page).has_previous(),
+         'current_page': page,
+         'next_page': page + 1, 'previous_page': page - 1,
+         'pages': paginator.num_pages,
+         'first_result': (page - 1) * nb_results_by_page +1,
+         'last_result': min((page) * nb_results_by_page, paginator.count),
+         'hits' : paginator.count})
 
 @login_required
 def payment_add(request):
@@ -1457,4 +1473,101 @@ def payment_add(request):
 
     return ain7_render_to_response(
         request, 'manage/payments_index.html', {'payment_list': payments_list})
+
+@login_required
+def payment_details(request, payment_id):
+    """payment details"""
+
+    access = check_access(request, request.user, 
+                          ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
+
+    payment = get_object_or_404(Payment, pk=payment_id)
+
+    return ain7_render_to_response(
+        request, 'manage/payment_details.html', {'payment': payment})
+
+@login_required
+def payment_edit(request, payment_id):
+    """payment edit"""
+
+    access = check_access(request, request.user, 
+                          ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
+
+    payment = get_object_or_404(Payment, pk=payment_id)
+
+    form = PaymentForm(instance=payment)
+
+    if request.method == 'POST':
+        form = PaymentForm(request.POST.copy(), instance=payment)
+        if form.is_valid():
+            form.save()
+            request.user.message_set.create(message=_('Payment successfully\
+ updated'))
+            return HttpResponseRedirect(reverse(payment_details, args=[payment.id]))
+        else:
+            request.user.message_set.create(message=_('Something was wrong in\
+ the form you filled. No modification done.') + str(form.errors))
+
+    back = request.META.get('HTTP_REFERER', '/')
+
+    return ain7_render_to_response(
+        request, 'manage/payment_edit.html', {'payment': payment,
+            'form': form, 'back': back})
+
+@login_required
+def payments_deposit_index(request):
+    """payment deposit index"""
+
+    access = check_access(request, request.user, 
+                          ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
+
+    return ain7_render_to_response(
+        request, 'manage/payments_deposit_index.html', {})
+
+@login_required
+def payments_deposit(request, deposit_id):
+    """payment deposit"""
+
+    access = check_access(request, request.user, 
+                          ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
+
+    deposits = Payment.objects.filter(type=deposit_id, deposited__isnull=True,\
+        validated=True)
+
+    try:
+        last_deposit_id = Payment.objects.filter(type=deposit_id, \
+            deposited__isnull=True, validated=True).latest('id').id
+    except Payment.DoesNotExist:
+        request.user.message_set.create(message=_('No payment to deposit'))
+        return HttpResponseRedirect(reverse(payments_deposit_index))
+
+    return ain7_render_to_response(
+        request, 'manage/payments_deposit.html', 
+        {'deposits': deposits, 'deposit_id': int(deposit_id),
+         'last_deposit_id': last_deposit_id })
+
+@login_required
+def payments_mark_deposited(request, deposit_id, last_deposit_id):
+    """payment mark deposited"""
+
+    access = check_access(request, request.user, 
+                          ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
+
+    for deposit in Payment.objects.filter(type=deposit_id,\
+        deposited__isnull=True, validated=True):
+        deposit.deposited = datetime.datetime.now()
+        deposit.save()
+
+    request.user.message_set.create(message=_('Payments marked as deposited'))
+    return HttpResponseRedirect(reverse(payments_deposit_index))
 

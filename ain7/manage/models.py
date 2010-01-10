@@ -3,7 +3,7 @@
  ain7/manage/models.py
 """
 #
-#   Copyright © 2007-2009 AIn7 Devel Team
+#   Copyright © 2007-2010 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -20,6 +20,8 @@
 #   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 #
+
+import datetime
 
 from django.db import models
 from django.utils.translation import ugettext as _
@@ -91,16 +93,41 @@ class Payment(models.Model):
         (6, _('Other')),
     )
 
+    person = models.ForeignKey(Person, blank=True, null=True)
     amount = models.FloatField(verbose_name=_('amount'))
     type = models.IntegerField(verbose_name=_('Type'), choices=TYPE)
+
     bank = models.CharField(verbose_name=_('Bank'), max_length=200, 
         null=True, blank=True)
     check_number = models.CharField(verbose_name=_('Check number'),
         max_length=200, null=True, blank=True)
-    registered = models.DateTimeField(verbose_name=_('registration date'),
-        editable=False)
-    deposited = models.DateTimeField(verbose_name=_('deposit date'), 
-        editable=False, null=True, blank=True)
-    person = models.ForeignKey(Person, blank=True, null=True)
+    date = models.DateField(verbose_name=_('payment date'), null=True)
     validated = models.BooleanField(verbose_name=_('validated'), default=False)
+    deposited = models.DateTimeField(verbose_name=_('deposit date'), 
+        null=True, blank=True)
+
+    created_at = models.DateTimeField(verbose_name=_('registration date'),
+        editable=False)
+    created_by = models.ForeignKey(Person, null=True, editable=False,
+        related_name='payment_added')
+    modified_at = models.DateTimeField(verbose_name=_('modification date'),
+        editable=False)
+    modified_by = models.ForeignKey(Person, null=True, editable=False,
+        related_name='payment_modified')
+
+    class Meta:
+        """payment meta informations"""
+        verbose_name = _('payment')
+        ordering = ['id']
+
+    def save(self, *args, **kwargs):
+        """custom save method to save creation timesamp"""
+        if not self.created_at:
+            self.created_at = datetime.datetime.now()
+        self.modified_at = datetime.datetime.now()
+        return super(Payment, self).save(*args, **kwargs)
+
+    def __unicode__(self):
+        """payment unicode"""
+        return _('payment from') + ' ' + self.person.complete_name
 
