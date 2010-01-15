@@ -22,14 +22,35 @@
 {% if has_next %}<a href="{% url ain7.manage.views.errors_index %}?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
 {% endif %}
 </td>
+</tr>
 </table>
 <ul>
-    {% for error in errors %}
-        <li><a href="{% url ain7.manage.views.error_details error.id %}">#{{ error.id }}</a> {{ error.title }}</li>
-    {% endfor %}
+  {% for error in errors %}
+    <li>
+      <a href="{% url ain7.manage.views.error_details error.id %}">
+        #{{ error.id }}</a>
+      <a href="{% url ain7.manage.views.error_swap error.id %}">
+        {% if error.fixed %}
+          <img src="/site_media/images/dialog-warning.png" alt="ko"/> 
+        {% else %} 
+          <img src="/site_media/skins/default/images/icon_savelink.gif" alt="ok"/> 
+        {% endif %}
+      </a>
+      {{ error.title }}
+      <a href="{% url ain7.manage.views.error_edit error.id %}" class="changelink">{% trans "Edit" %}</a>
+    </li>
+  {% endfor %}
 </ul>
 
 {% endif %}
 
 {% endblock %} {# content-left #}
 
+{% block extra-menu %}
+<h3>{% trans "Actions" %}</h3>
+<div class="right_articles">
+<ul>
+<li><a href="{% url ain7.manage.views.errors_edit_range %}">{% trans "Edit a range of errors" %}</a></li>
+</ul>
+</div>
+{% endblock %} {# extra-menu #}

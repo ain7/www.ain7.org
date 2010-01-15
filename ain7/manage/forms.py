@@ -22,6 +22,7 @@
 #
 
 from django import forms
+from django.forms.util import ValidationError
 from django.db import models
 from django.contrib.auth.models import User, Group
 from django.utils.translation import ugettext as _
@@ -29,7 +30,7 @@ from django.utils.translation import ugettext as _
 from ain7.annuaire.models import Person, Country, Email
 from ain7.emploi.models import ActivityField, Office, Organization
 from ain7.fields import AutoCompleteField
-from ain7.manage.models import Notification, Payment
+from ain7.manage.models import Notification, Payment, PortalError
 from ain7.widgets import DateTimeWidget
 
 
@@ -255,3 +256,42 @@ class PaymentForm(forms.ModelForm):
         model = Payment
         exclude = ()
 
+class PortalErrorForm(forms.ModelForm):
+    """error form"""
+
+    class Meta:
+        """PortalError meta information"""
+        model = PortalError
+        fields = ('comment', 'fixed')
+
+class ErrorRangeForm(forms.Form):
+    """error range form"""
+
+    range_from = forms.IntegerField(label=_('from')+' #', required=True)
+    range_to   = forms.IntegerField(label=_('to')  +' #', required=True)
+    comment = forms.CharField(label=_('Comment (added)'), required=False,
+        widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':80}))
+    fixed = forms.BooleanField(label=_('fixed').capitalize(), required=False)
+
+    def clean(self):
+        range_from = self.cleaned_data['range_from']
+        range_to   = self.cleaned_data['range_to']
+        if range_to < range_from:
+            raise ValidationError(_('End of range precedes its beginning.'))
+            return None
+        for index in range(range_from, range_to+1):
+            if not PortalError.objects.filter(pk=index):
+                raise ValidationError(_('Error #%s does not exist.') % index)
+                return None
+        return self.cleaned_data
+
+    def save(self):
+        """save this form"""
+        range_from = self.cleaned_data['range_from']
+        range_to   = self.cleaned_data['range_to']
+        for index in range(range_from, range_to+1):
+            error = PortalError.objects.get(pk=index)
+            error.fixed    = self.cleaned_data['fixed']
+            error.comment += self.cleaned_data['comment']
+            error.save()
+        return

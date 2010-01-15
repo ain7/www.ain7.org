@@ -2861,5 +2861,21 @@ Petit déjeuner, temps libre jusqu’au transfert vers l’aéroport internation
     p1.person = lionel
     p1.save()
 
+    error1 = manage.PortalError()
+    error1.title = "La grosse erreur qui fait mal"
+    error1.date = datetime.now()
+    error1.save()
 
+    error2 = manage.PortalError()
+    error2.title = "Encore une vilaine erreur"
+    error2.user = olivier.user
+    error2.date = datetime.now()
+    error2.url = "http://www.google.com/"
+    error2.referer = "referer"
+    error2.browser_info = "firefox 4"
+    error2.client_address = "127.0.0.1"
+    error2.exception = "BoomException"
+    error2.comment = "Ouille!"
+    error2.issue = "issue"
+    error2.save()
 

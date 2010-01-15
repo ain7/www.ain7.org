@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-10 18:33+0100\n"
-"PO-Revision-Date: 2009-03-24 22:53+0100\n"
+"POT-Creation-Date: 2010-01-15 22:50+0100\n"
+"PO-Revision-Date: 2010-01-15 22:50+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: AIn7 French Translators <ain7-devel@lists.ain7.com>\n"
 "MIME-Version: 1.0\n"
@@ -73,7 +73,7 @@ msgstr "privé"
 #: groupes_regionaux/views.py:272 manage/views.py:135 manage/views.py:354
 #: manage/views.py:380 manage/views.py:674 manage/views.py:806
 #: manage/views.py:928 manage/views.py:993 manage/views.py:1046
-#: manage/views.py:1110 manage/views.py:1383 manage/views.py:1512
+#: manage/views.py:1110 manage/views.py:1383 manage/views.py:1570
 #: search_engine/views.py:336 voyages/views.py:204 voyages/views.py:253
 #: voyages/views.py:346
 msgid "Something was wrong in the form you filled. No modification done."
@@ -89,7 +89,7 @@ msgstr "Auteur de la dernière modification"
 msgid "last changed at"
 msgstr "Modifié pour la dernière fois à"
 
-#: adhesions/models.py:38 manage/models.py:87
+#: adhesions/models.py:38 manage/models.py:88
 msgid "Cash"
 msgstr "Espèce"
 
@@ -97,7 +97,7 @@ msgstr "Espèce"
 msgid "Cheque"
 msgstr "Chèque"
 
-#: adhesions/models.py:40 manage/models.py:90
+#: adhesions/models.py:40 manage/models.py:91
 msgid "Card"
 msgstr "Carte bancaire"
 
@@ -105,7 +105,7 @@ msgstr "Carte bancaire"
 msgid "Transfer"
 msgstr "Virement"
 
-#: adhesions/models.py:42 manage/models.py:93
+#: adhesions/models.py:42 manage/models.py:94
 msgid "Other"
 msgstr "Autre"
 
@@ -116,7 +116,7 @@ msgstr "Autre"
 msgid "member"
 msgstr "membre"
 
-#: adhesions/models.py:51
+#: adhesions/models.py:51 manage/models.py:121
 msgid "payment"
 msgstr "Paiement"
 
@@ -135,7 +135,7 @@ msgstr "Montant Canal N7"
 msgid "Tender type"
 msgstr "Mode de paiement"
 
-#: adhesions/models.py:59 manage/models.py:105
+#: adhesions/models.py:59 manage/models.py:106
 msgid "validated"
 msgstr "Validé"
 
@@ -193,7 +193,7 @@ msgstr "Couple"
 msgid "Support"
 msgstr "Soutien"
 
-#: adhesions/models.py:93 manage/models.py:98
+#: adhesions/models.py:93 manage/models.py:99
 #: templates/adhesions/configurations.html:18
 msgid "Type"
 msgstr "Type"
@@ -251,13 +251,13 @@ msgid "Configuration successfully deleted."
 msgstr "La configuration sélectionnée a été supprimée avec succès."
 
 #: annuaire/forms.py:43 annuaire/forms.py:102 annuaire/models.py:258
-#: manage/forms.py:41 manage/forms.py:112 templates/annuaire/edit.html:24
+#: manage/forms.py:42 manage/forms.py:113 templates/annuaire/edit.html:24
 #: templates/manage/user_edit.html:25
 msgid "Last name"
 msgstr "Nom"
 
 #: annuaire/forms.py:45 annuaire/forms.py:100 annuaire/models.py:259
-#: manage/forms.py:43 manage/forms.py:110 templates/annuaire/edit.html:23
+#: manage/forms.py:44 manage/forms.py:111 templates/annuaire/edit.html:23
 #: templates/manage/user_edit.html:24
 msgid "First name"
 msgstr "Prénom"
@@ -272,25 +272,25 @@ msgid "Track"
 msgstr "Filière"
 
 #: annuaire/forms.py:51 emploi/models.py:160 emploi/models.py:222
-#: manage/forms.py:45 manage/forms.py:217 manage/models.py:39
+#: manage/forms.py:46 manage/forms.py:218 manage/models.py:39
 #: templates/emploi/job_details.html:12
 msgid "organization"
 msgstr "entreprise"
 
-#: annuaire/forms.py:104 manage/forms.py:114
+#: annuaire/forms.py:104 manage/forms.py:115
 msgid "Mail"
 msgstr "Mail"
 
-#: annuaire/forms.py:106 manage/forms.py:116
+#: annuaire/forms.py:106 manage/forms.py:117
 msgid "Nationality"
 msgstr "Nationalité"
 
-#: annuaire/forms.py:108 manage/forms.py:118
+#: annuaire/forms.py:108 manage/forms.py:119
 msgid "Date of birth"
 msgstr "Date de naissance"
 
 #: annuaire/forms.py:110 annuaire/forms.py:243 annuaire/forms.py:282
-#: manage/forms.py:120
+#: manage/forms.py:121
 msgid "Sex"
 msgstr "Sexe"
 
@@ -1003,7 +1003,7 @@ msgid "Register new user"
 msgstr "Enregistrer une nouvelle personne"
 
 #: association/forms.py:38 groupes_professionnels/forms.py:116
-#: groupes_regionaux/forms.py:65 manage/forms.py:104
+#: groupes_regionaux/forms.py:65 manage/forms.py:105
 #: templates/pages/login.html:22
 msgid "Username"
 msgstr "Nom d'utilisateur"
@@ -1114,7 +1114,7 @@ msgstr "email de contact"
 
 #: emploi/forms.py:60 emploi/forms.py:123 emploi/forms.py:170
 #: emploi/models.py:54 emploi/models.py:111 emploi/models.py:483
-#: manage/forms.py:77 templates/emploi/job_details.html:30
+#: manage/forms.py:78 templates/emploi/job_details.html:30
 #: templates/emploi/organization_details.html:28
 #: templates/emploi/organization_edit.html:28
 #: templates/manage/organization_details.html:31
@@ -1145,8 +1145,8 @@ msgstr "Type de Contrat"
 msgid "all"
 msgstr "tous"
 
-#: emploi/forms.py:164 evenements/forms.py:111 manage/forms.py:64
-#: manage/forms.py:74 manage/forms.py:181
+#: emploi/forms.py:164 evenements/forms.py:111 manage/forms.py:65
+#: manage/forms.py:75 manage/forms.py:182
 msgid "Name"
 msgstr "Nom"
 
@@ -1300,7 +1300,7 @@ msgstr "l'entreprise"
 msgid "organization modification proposal"
 msgstr "proposition de modification d'une entreprise"
 
-#: emploi/models.py:315 emploi/models.py:353 manage/forms.py:233
+#: emploi/models.py:315 emploi/models.py:353 manage/forms.py:234
 #: manage/models.py:40
 msgid "office"
 msgstr "établissement"
@@ -1351,6 +1351,7 @@ msgid "Diploma item"
 msgstr "Diplôme"
 
 #: emploi/models.py:430 emploi/models.py:446 emploi/models.py:470
+#: templates/manage/error_details.html:30
 msgid "Title"
 msgstr "Titre"
 
@@ -1983,21 +1984,46 @@ msgstr "Vous avez quitté ce groupe avec succès."
 msgid "You are not a member of this group."
 msgstr "Vous n'êtes pas membre de ce groupe."
 
-#: manage/forms.py:80
+#: manage/forms.py:81
 msgid "Activity code"
 msgstr "Code APE"
 
-#: manage/forms.py:198
+#: manage/forms.py:199
 msgid "details"
 msgstr "détails"
 
-#: manage/forms.py:248
+#: manage/forms.py:249
 msgid "Payment Date"
 msgstr "Date de paiement"
 
-#: manage/forms.py:250
+#: manage/forms.py:251
 msgid "Deposit Date"
 msgstr "Date de dépôt"
+
+#: manage/forms.py:270 templates/voyages/details.html:16
+msgid "from"
+msgstr "du"
+
+#: manage/forms.py:271 templates/voyages/details.html:17
+msgid "to"
+msgstr "au"
+
+#: manage/forms.py:272
+msgid "Comment (added)"
+msgstr "Commentaire (ajouté)"
+
+#: manage/forms.py:274 manage/models.py:82
+msgid "fixed"
+msgstr "corrigé"
+
+#: manage/forms.py:280
+msgid "End of range precedes its beginning."
+msgstr "La fin de plage dépasse son début."
+
+#: manage/forms.py:284
+#, python-format
+msgid "Error #%s does not exist."
+msgstr "L'erreur #%s n'existe pas."
 
 #: manage/models.py:47 manage/models.py:50
 msgid "organization proposal"
@@ -2012,7 +2038,7 @@ msgid "notification"
 msgstr "notification"
 
 #: manage/models.py:70 news/forms.py:39 templates/evenements/details.html:14
-#: templates/evenements/index.html:27
+#: templates/evenements/index.html:27 templates/manage/error_details.html:25
 msgid "Date"
 msgstr "Date"
 
@@ -2028,7 +2054,7 @@ msgstr "Referrer"
 msgid "Browser info"
 msgstr "Navigateur"
 
-#: manage/models.py:76
+#: manage/models.py:76 templates/manage/error_details.html:29
 msgid "Client address"
 msgstr "Adresse du client"
 
@@ -2036,7 +2062,7 @@ msgstr "Adresse du client"
 msgid "Exception"
 msgstr "Exception"
 
-#: manage/models.py:79
+#: manage/models.py:79 templates/manage/error_details.html:46
 msgid "Comment"
 msgstr "commentaire"
 
@@ -2044,51 +2070,51 @@ msgstr "commentaire"
 msgid "Issue"
 msgstr "Issue"
 
-#: manage/models.py:88
+#: manage/models.py:89
 msgid "Check CE"
 msgstr "Chèque CE"
 
-#: manage/models.py:89
+#: manage/models.py:90
 msgid "Check CCP"
 msgstr "Chèque CCP"
 
-#: manage/models.py:91
+#: manage/models.py:92
 msgid "Transfer CE"
 msgstr "Virement CE"
 
-#: manage/models.py:92
+#: manage/models.py:93
 msgid "Transfer CCP"
 msgstr "Virement CCP"
 
-#: manage/models.py:97
+#: manage/models.py:98
 msgid "amount"
 msgstr "montant"
 
-#: manage/models.py:100 templates/manage/payments_deposit.html:13
+#: manage/models.py:101 templates/manage/payments_deposit.html:13
 msgid "Bank"
 msgstr "Banque"
 
-#: manage/models.py:102
+#: manage/models.py:103
 msgid "Check number"
 msgstr "Numéro de chèque"
 
-#: manage/models.py:104
+#: manage/models.py:105
 msgid "payment date"
 msgstr "Date de paiement"
 
-#: manage/models.py:106
+#: manage/models.py:107
 msgid "deposit date"
 msgstr "date de dépôt"
 
-#: manage/models.py:109
+#: manage/models.py:110
 msgid "registration date"
 msgstr "Date d'enregistrement"
 
-#: manage/models.py:113
+#: manage/models.py:114
 msgid "modification date"
 msgstr "date de modification"
 
-#: manage/models.py:127
+#: manage/models.py:133
 msgid "payment from"
 msgstr "paiement de la part de"
 
@@ -2237,9 +2263,18 @@ msgstr "Nouveau pays créé avec succès"
 msgid "Register new country"
 msgstr "Enregistrer un nouveau pays"
 
-#: manage/views.py:1508
+#: manage/views.py:1566
 msgid "Payment successfully updated"
 msgstr "Paiment mis à jour"
+
+#: manage/views.py:1607
+#, fuzzy
+msgid "No payment to deposit"
+msgstr "Date de paiement"
+
+#: manage/views.py:1629
+msgid "Payments marked as deposited"
+msgstr ""
 
 #: news/forms.py:37
 msgid "News title"
@@ -2675,6 +2710,7 @@ msgstr "Sauf mention spécifique, tous les textes sont sous licence"
 #: templates/evenements/index.html:45 templates/evenements/search.html:52
 #: templates/groupes_professionnels/base.html:17
 #: templates/groupes_regionaux/base.html:18 templates/manage/default.html:138
+#: templates/manage/errors_index.html:50
 #: templates/manage/office_details.html:91
 #: templates/manage/office_merge.html:30
 #: templates/manage/organization_details.html:121
@@ -2948,7 +2984,8 @@ msgstr "Canal n7"
 #: templates/adhesions/subscriptions.html:53
 #: templates/adhesions/user_subscriptions.html:36
 #: templates/annuaire/edit.html:96 templates/annuaire/edit.html.py:99
-#: templates/annuaire/edit.html:113 templates/manage/office_details.html:79
+#: templates/annuaire/edit.html:113 templates/manage/error_details.html:32
+#: templates/manage/office_details.html:79
 #: templates/manage/organization_details.html:108
 #: templates/manage/proposal_edit_organization.html:31
 #: templates/pages/confirm.html:19
@@ -3272,7 +3309,8 @@ msgid "Display my CV in the directory"
 msgstr "Afficher mon CV dans l'annuaire"
 
 #: templates/annuaire/edit.html:96 templates/annuaire/edit.html.py:99
-#: templates/annuaire/edit.html:102 templates/manage/office_details.html:80
+#: templates/annuaire/edit.html:102 templates/manage/error_details.html:32
+#: templates/manage/office_details.html:80
 #: templates/manage/organization_details.html:109
 #: templates/manage/proposal_edit_organization.html:31
 #: templates/pages/confirm.html:20
@@ -3312,6 +3350,9 @@ msgstr "Sites internet"
 #: templates/association/status.html:14
 #: templates/groupes_professionnels/index.html:15
 #: templates/groupes_regionaux/index.html:14
+#: templates/manage/error_details.html:34
+#: templates/manage/error_details.html:48
+#: templates/manage/errors_index.html:40
 #: templates/media_communication/canal_n7.html:18
 #: templates/media_communication/canal_n7.html:26
 #: templates/media_communication/canal_n7.html:34
@@ -3985,42 +4026,34 @@ msgstr "ou validez-la directement"
 msgid "Add a notification"
 msgstr "Ajouter une notification"
 
-#: templates/manage/error_details.html:15
-msgid "User:"
-msgstr "Utilisateur :"
+#: templates/manage/error_details.html:12
+#: templates/manage/error_details.html:37
+msgid "Error"
+msgstr "Erreur"
 
 #: templates/manage/error_details.html:16
-#: templates/manage/payment_details.html:16
-msgid "Date:"
-msgstr "Date :"
+msgid "User"
+msgstr "Utilisateur"
 
-#: templates/manage/error_details.html:17
-msgid "Request:"
-msgstr "Requête :"
+#: templates/manage/error_details.html:26
+msgid "Request"
+msgstr "Requête"
 
-#: templates/manage/error_details.html:18
-msgid "Referer:"
-msgstr "Referrer :"
+#: templates/manage/error_details.html:27
+msgid "Referer"
+msgstr "Referrer"
 
-#: templates/manage/error_details.html:19
-msgid "Browser:"
-msgstr "Navigateur :"
+#: templates/manage/error_details.html:28
+msgid "Browser"
+msgstr "Navigateur"
 
-#: templates/manage/error_details.html:20
-msgid "Client address:"
-msgstr "Adresse du client :"
+#: templates/manage/error_details.html:31
+msgid "Fixed"
+msgstr "Corrigé"
 
-#: templates/manage/error_details.html:21
-msgid "Title:"
-msgstr "Titre :"
-
-#: templates/manage/error_details.html:22
-msgid "Referrer:"
-msgstr "Referrer :"
-
-#: templates/manage/error_details.html:24
-msgid "Error:"
-msgstr "Erreur :"
+#: templates/manage/errors_index.html:53
+msgid "Edit a range of errors"
+msgstr "Modifier une plage d'erreurs"
 
 #: templates/manage/office_details.html:14
 msgid "Office of the organization:"
@@ -4163,6 +4196,10 @@ msgstr "Paiement"
 msgid "Person:"
 msgstr "Personne :"
 
+#: templates/manage/payment_details.html:16
+msgid "Date:"
+msgstr "Date :"
+
 #: templates/manage/payment_details.html:17
 msgid "Amount:"
 msgstr "Montant :"
@@ -4171,9 +4208,22 @@ msgstr "Montant :"
 msgid "Type:"
 msgstr "Type :"
 
+#: templates/manage/payment_details.html:19
+msgid "Validated:"
+msgstr "Validé"
+
+#: templates/manage/payment_details.html:21
+#, fuzzy
+msgid "Deposited:"
+msgstr "Date de dépôt"
+
 #: templates/manage/payments_deposit.html:13
 msgid "Account holder"
 msgstr "Titulaire du compte"
+
+#: templates/manage/payments_deposit.html:23
+msgid "Mark as deposited"
+msgstr ""
 
 #: templates/manage/proposal_edit_office.html:8
 msgid "Proposal of office modification"
@@ -4465,14 +4515,6 @@ msgstr "Aucun voyage précédent"
 msgid "All Travels"
 msgstr "Tous les voyages"
 
-#: templates/voyages/details.html:16
-msgid "from"
-msgstr "du"
-
-#: templates/voyages/details.html:17
-msgid "to"
-msgstr "au"
-
 #: templates/voyages/details.html:24 voyages/models.py:59
 msgid "price"
 msgstr "prix"
@@ -4683,3 +4725,7 @@ msgid "Do you really want this person not to be responsible of this travel"
 msgstr ""
 "Souhaitez-vous vraiment que cette personne ne soit pas responsable de ce "
 "voyage ?"
+
+#, fuzzy
+#~ msgid "yes"
+#~ msgstr "Oui"

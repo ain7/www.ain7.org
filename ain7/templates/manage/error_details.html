@@ -9,19 +9,32 @@
 
 <div class="left_box">
 
-<h2>Error #{{ error.id }}</h2>
+<h2>{% trans "Error" %} #{{ error.id }}</h2>
 
 <table border="0">
-<tr><td><b>{% trans "User:" %}</b> </td><td><a href="{% if error.user.person %}{% url ain7.annuaire.views.details error.user.id %}">{{ error.user.person }}{% endif %}</a></td></tr>
-<tr><td><b>{% trans "Date:" %}</b> </td><td>{{ error.date|date:"l j F Y H:i" }}</td></tr>
-<tr><td><b>{% trans "Request:" %}</b> </td><td>{% if error.url %}{{ error.url }}{% endif %}</td></tr>
-<tr><td><b>{% trans "Referer:" %}</b> </td><td>{% if error.referer %}{{ error.referer }}{% endif %}</td></tr>
-<tr><td><b>{% trans "Browser:" %}</b> </td><td>{% if error.browser_info %}{{ error.browser_info }}{% endif %}</td></tr>
-<tr><td><b>{% trans "Client address:" %}</b> </td><td>{% if error.client_address %}{{ error.client_address }}{% endif %}</td></tr>
-<tr><td><b>{% trans "Title:" %}</b> </td><td>{% if error.title %}{{ error.title }}{% endif %}</td></tr>
-<tr><b>{% trans "Referrer:" %}</b></td><td> </td></tr>
+<tr>
+  <td><b>{% trans "User" %}:</b> </td>
+  <td>
+    {% if error.user and error.user.person %}
+      <a href="{% url ain7.annuaire.views.details error.user.id %}">
+        {{ error.user.person }}
+      </a>
+    {% endif %}
+  </td>
+</tr>
+<tr><td><b>{% trans "Date" %}:</b> </td><td>{{ error.date|date:"l j F Y H:i" }}</td></tr>
+<tr><td><b>{% trans "Request" %}:</b> </td><td>{% if error.url %}{{ error.url }}{% endif %}</td></tr>
+<tr><td><b>{% trans "Referer" %}:</b> </td><td>{% if error.referer %}{{ error.referer }}{% endif %}</td></tr>
+<tr><td><b>{% trans "Browser" %}:</b> </td><td>{% if error.browser_info %}{{ error.browser_info }}{% endif %}</td></tr>
+<tr><td><b>{% trans "Client address" %}:</b> </td><td>{% if error.client_address %}{{ error.client_address }}{% endif %}</td></tr>
+<tr><td><b>{% trans "Title" %}:</b> </td><td>{% if error.title %}{{ error.title }}{% endif %}</td></tr>
+<tr><td><b>{% trans "Fixed" %}:</b></td><td>
+  {% if error.fixed %} {% trans "Yes" %} {% else %} {% trans "No" %}{% endif %}
+<a href="{% url ain7.manage.views.error_edit error.pk %}" class="changelink">
+  {% trans "Edit" %}</a>
+</td></tr>
 </table>
-<b>{% trans "Error:" %}</b><br />
+<b>{% trans "Error" %}:</b><br />
 <div class="code">
 <pre>
 {% if error.exception %}
@@ -29,6 +42,14 @@
 {% endif %}
 </pre>
 </div>
+
+<b>{% trans "Comment" %}:</b>
+<a href="{% url ain7.manage.views.error_edit error.pk %}" class="changelink">
+  {% trans "Edit" %}</a>
+<br />
+{% if error.comment %}
+{{ error.comment|safe }}
+{% endif %}
 
 </div>
 

@@ -79,6 +79,7 @@ class PortalError(models.Model):
     comment = models.TextField(verbose_name=_('Comment'), null=True, blank=True)
     issue = models.CharField(verbose_name=_('Issue'), max_length=20, 
         null=True, blank=True)
+    fixed = models.BooleanField(verbose_name=_('fixed'), default=False)
 
 class Payment(models.Model):
     """payment"""

@@ -53,7 +53,7 @@ class PortalException:
 
         error = PortalError()
         if request.user and request.user.is_authenticated():
-            exception.user = request.user
+            error.user = request.user
         error.date = datetime.datetime.now()
         error.url = request.path
         error.title = str(exception)
