@@ -397,7 +397,7 @@ def filter_new(request):
 
 @login_required
 def filter_swap_op(request, filter_id=None):
-    return se_filter_swap_op(request, filter_id,
+    return se_filter_swapOp(request, filter_id,
                             reverse(filter_details, args =[ filter_id ]),
                             reverse(advanced_search))
 
