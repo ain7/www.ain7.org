@@ -136,7 +136,7 @@ class NewMemberForm(forms.Form):
 
         now = datetime.datetime.now()
 
-        if (now < bdate):
+        if (bdate and (now < bdate)):
             raise ValidationError(_('Invalid date of birth'))
 
         return self.cleaned_data['birth_date']

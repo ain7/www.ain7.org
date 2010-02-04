@@ -734,9 +734,7 @@ def organization_register_proposal(request, proposal_id=None):
             org.name = form.cleaned_data['name']
             org.employment_agency = form.cleaned_data['employment_agency']
             org.size = form.cleaned_data['size']
-            if form.cleaned_data['activity_field']:
-                org.activity_field = ActivityField.objects.get(
-                     pk=form.cleaned_data['activity_field'])
+            org.activity_field = form.cleaned_data['activity_field']
             org.short_description = form.cleaned_data['short_description']
             org.long_description = form.cleaned_data['long_description']
             org.is_a_proposal = False
