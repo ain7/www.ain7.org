@@ -1417,19 +1417,6 @@ def errors_index(request):
 
 @login_required
 def error_details(request, error_id):
-    """error details"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
-    if access:
-        return access
-
-    error = get_object_or_404(PortalError, pk=error_id)
-    return ain7_render_to_response(
-        request, 'manage/error_details.html', {'error': error})
-
-@login_required
-def error_edit(request, error_id):
     """error edition"""
 
     access = check_access(request, request.user,
@@ -1448,8 +1435,8 @@ def error_edit(request, error_id):
                 reverse(error_details, args=[error.id]))
 
     return ain7_render_to_response(
-        request, 'manage/edit_form.html',
-        {'form': form, 'back': request.META.get('HTTP_REFERER', '/')})
+        request, 'manage/error_details.html',
+        {'error': error, 'form': form, 'back': request.META.get('HTTP_REFERER', '/')})
 
 @login_required
 def errors_edit_range(request):

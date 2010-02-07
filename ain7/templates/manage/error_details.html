@@ -26,12 +26,8 @@
 <tr><td><b>{% trans "Request" %}:</b> </td><td>{% if error.url %}{{ error.url }}{% endif %}</td></tr>
 <tr><td><b>{% trans "Referer" %}:</b> </td><td>{% if error.referer %}{{ error.referer }}{% endif %}</td></tr>
 <tr><td><b>{% trans "Browser" %}:</b> </td><td>{% if error.browser_info %}{{ error.browser_info }}{% endif %}</td></tr>
-<tr><td><b>{% trans "Client address" %}:</b> </td><td>{% if error.client_address %}{{ error.client_address }}{% endif %}</td></tr>
+<tr><td><b>{% trans "IP Address" %}:</b> </td><td>{% if error.client_address %}{{ error.client_address }}{% endif %}</td></tr>
 <tr><td><b>{% trans "Title" %}:</b> </td><td>{% if error.title %}{{ error.title }}{% endif %}</td></tr>
-<tr><td><b>{% trans "Fixed" %}:</b></td><td>
-  {% if error.fixed %} {% trans "Yes" %} {% else %} {% trans "No" %}{% endif %}
-<a href="{% url ain7.manage.views.error_edit error.pk %}" class="changelink">
-  {% trans "Edit" %}</a>
 </td></tr>
 </table>
 <b>{% trans "Error" %}:</b><br />
@@ -43,13 +39,14 @@
 </pre>
 </div>
 
-<b>{% trans "Comment" %}:</b>
-<a href="{% url ain7.manage.views.error_edit error.pk %}" class="changelink">
-  {% trans "Edit" %}</a>
-<br />
-{% if error.comment %}
-{{ error.comment|safe }}
-{% endif %}
+<form method="post" action=".">
+<table>
+{{ form }}
+</table>
+<div style="text-align: center">
+<input type="submit" class="button" value="{% trans "Save" %}" />
+</div>
+</form>
 
 </div>
 

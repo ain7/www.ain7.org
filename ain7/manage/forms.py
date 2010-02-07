@@ -262,7 +262,7 @@ class PortalErrorForm(forms.ModelForm):
     class Meta:
         """PortalError meta information"""
         model = PortalError
-        fields = ('comment', 'fixed')
+        fields = ('fixed', 'comment', 'issue')
 
 class ErrorRangeForm(forms.Form):
     """error range form"""

@@ -30,14 +30,11 @@
       <a href="{% url ain7.manage.views.error_details error.id %}">
         #{{ error.id }}</a>
       <a href="{% url ain7.manage.views.error_swap error.id %}">
-        {% if error.fixed %}
-          <img src="/site_media/images/dialog-warning.png" alt="ko"/> 
-        {% else %} 
-          <img src="/site_media/skins/default/images/icon_savelink.gif" alt="ok"/> 
-        {% endif %}
       </a>
       {{ error.title }}
-      <a href="{% url ain7.manage.views.error_edit error.id %}" class="changelink">{% trans "Edit" %}</a>
+        {% if error.fixed %}
+          <img src="/site_media/skins/default/images/icon_savelink.gif" alt="ok"/> 
+        {% endif %}
     </li>
   {% endfor %}
 </ul>

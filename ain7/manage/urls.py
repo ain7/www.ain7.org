@@ -142,7 +142,6 @@ filter/$',
     # Errors
     (r'^errors/$', 'errors_index'),
     (r'^errors/(?P<error_id>\d+)/$', 'error_details'),
-    (r'^errors/(?P<error_id>\d+)/edit/$', 'error_edit'),
     (r'^errors/edit_range/$', 'errors_edit_range'),
     (r'^errors/(?P<error_id>\d+)/swap/$', 'error_swap'),
 
