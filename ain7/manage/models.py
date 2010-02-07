@@ -106,6 +106,8 @@ class Payment(models.Model):
     validated = models.BooleanField(verbose_name=_('validated'), default=False)
     deposited = models.DateTimeField(verbose_name=_('deposit date'), 
         null=True, blank=True)
+    secret_key = models.CharField(verbose_name=_('secret key'), max_length=50,
+        null=True, blank=True)
 
     created_at = models.DateTimeField(verbose_name=_('registration date'),
         editable=False)
@@ -121,14 +123,17 @@ class Payment(models.Model):
         verbose_name = _('payment')
         ordering = ['id']
 
-    def save(self, *args, **kwargs):
+    def save(self):
         """custom save method to save creation timesamp"""
         if not self.created_at:
             self.created_at = datetime.datetime.now()
         self.modified_at = datetime.datetime.now()
-        return super(Payment, self).save(*args, **kwargs)
+        return super(Payment, self).save()
 
     def __unicode__(self):
         """payment unicode"""
-        return _('payment from') + ' ' + self.person.complete_name
+        uni = _('payment of ') + str(self.amount)
+        if self.person:
+            uni += _(' from ') + ' ' + self.person.complete_name
+        return uni
 

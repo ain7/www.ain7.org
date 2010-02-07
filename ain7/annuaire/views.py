@@ -45,8 +45,6 @@ from ain7.utils import ain7_generic_delete, check_access
 from ain7.settings import AIN7_PORTAL_ADMIN
 
 
-# Main functions
-
 def annuaire_search_engine():
     return get_object_or_404(SearchEngine, name="annuaire")
 
@@ -476,12 +474,16 @@ def edit(request, user_id=None):
         return access
 
     person = get_object_or_404(Person, pk=user_id)
+    personprivate = get_object_or_404(PersonPrivate, person=person)
     ain7member = get_object_or_404(AIn7Member, person=person)
+
     return ain7_render_to_response(request, 'annuaire/edit.html',
-        {'person': person, 'ain7member': ain7member, 'is_myself': is_myself})
+        {'person': person, 'ain7member': ain7member, 
+         'personprivate': personprivate,
+         'is_myself': is_myself})
 
 @login_required
-def person_edit(request, user_id=None):
+def person_edit(request, user_id):
 
     is_myself = int(request.user.id) == int(user_id)
 
@@ -490,32 +492,70 @@ def person_edit(request, user_id=None):
     if access and not is_myself:
         return access
 
-    person = None
-    if user_id:
-        person = Person.objects.get(user=user_id)
-    # si la personne n'est pas du secrétariat, pas de date de décès
-    user_groups = request.user.groups.values_list('name', flat=True)
-    if 'ain7-secretariat' in user_groups \
-        or AIN7_PORTAL_ADMIN in user_groups:
-        return ain7_generic_edit(
-            request, person, PersonForm, {'user': person.user},
-            'annuaire/edit_form.html',
-            {'action_title': _("Modification of personal data for"),
-             'person': person, 'back': request.META.get('HTTP_REFERER', '/')},
-            {}, '/annuaire/%s/edit' % (person.user.id),
-            _("Modifications have been successfully saved."))
-    else:
-        return ain7_generic_edit(
-            request, person, PersonFormNoDeath,
-            {'user': person.user,'death_date': person.death_date},
-            'annuaire/edit_form.html',
-            {'action_title': _("Modification of personal data for"),
-             'person': person, 'back': request.META.get('HTTP_REFERER', '/')},
-             {}, '/annuaire/%s/edit' % (person.user.id),
-            _("Modifications have been successfully saved."))
+    person = Person.objects.get(user=user_id)
+    form = PersonForm(instance=person)
+
+    if request.method == 'POST':
+        form = PersonForm(request.POST, instance=person)
+        if form.is_valid():
+            form.save()
+            request.user.message_set.create(message=_('Modifications have been\
+ successfully saved.'))
+
+        return HttpResponseRedirect(
+            '/annuaire/%s/edit/' % user_id)
+
+    return ain7_render_to_response(
+        request, 'annuaire/edit_form.html',
+        {'form': form, 'action_title': _("Modification of personal data for"),
+         'back': request.META.get('HTTP_REFERER', '/')})
+
+#    return ain7_generic_edit(
+#        request, person, PersonForm,
+#        {'user': person.user},
+#         'annuaire/edit_form.html',
+#        {'action_title': _("Modification of personal data for"),
+#         'person': person, 'back': request.META.get('HTTP_REFERER', '/')},
+#        {}, '/annuaire/%s/edit' % (person.user.id),
+#        _("Modifications have been successfully saved."))
 
 @login_required
-def ain7member_edit(request, user_id=None):
+def personprivate_edit(request, user_id):
+
+    access = check_access(request, request.user,
+        ['ain7-secretariat','ain7-ca'])
+    if access:
+        return access
+
+    personprivate = PersonPrivate.objects.get(person=user_id)
+    form = PersonPrivateForm(instance=personprivate)
+
+    if request.method == 'POST':
+        form = PersonPrivateForm(request.POST, instance=personprivate)
+        if form.is_valid():
+            form.save()
+            request.user.message_set.create(message=_('Modifications have been\
+ successfully saved.'))
+
+        return HttpResponseRedirect(
+            '/annuaire/%s/edit/' % user_id)
+
+    return ain7_render_to_response(
+        request, 'annuaire/edit_form.html',
+        {'form': form, 'action_title': _("Modification of personal data for"),
+         'back': request.META.get('HTTP_REFERER', '/')})
+
+#    return ain7_generic_edit(
+#        request, person, PersonPrivateForm,
+#        {'user': request.user, 'person_private': person_private},
+#         'annuaire/edit_form.html',
+#        {'action_title': _("Modification of personal data for"),
+#         'person': person, 'back': request.META.get('HTTP_REFERER', '/')},
+#        {}, '/annuaire/%s/edit' % (request.user.id),
+#        _("Modifications have been successfully saved."))
+
+@login_required
+def ain7member_edit(request, user_id):
 
     is_myself = int(request.user.id) == int(user_id)
 
@@ -524,11 +564,9 @@ def ain7member_edit(request, user_id=None):
     if access and not is_myself:
         return access
 
-    person = None
-    ain7member = None
-    if user_id:
-        person = get_object_or_404(Person, user=user_id)
-        ain7member = get_object_or_404(AIn7Member, person=person)
+    person = get_object_or_404(Person, user=user_id)
+    ain7member = get_object_or_404(AIn7Member, person=person)
+
     return ain7_generic_edit(
         request, ain7member, AIn7MemberForm, {'person': person},
         'annuaire/edit_form.html',

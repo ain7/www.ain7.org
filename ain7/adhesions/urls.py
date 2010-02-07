@@ -3,7 +3,7 @@
  ain7/adhesions/urls.py
 """
 #
-#   Copyright © 2007-2009 AIn7 Devel Team
+#   Copyright © 2007-2010 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -40,5 +40,6 @@ urlpatterns = patterns('ain7.adhesions.views',
     (r'^configurations/(?P<configuration_id>\d+)/delete/$', \
         'configuration_delete'),
     (r'^configurations/add/$', 'configuration_edit', {}, 'configuration_add'),
+    (r'^feedback/$', 'payment_validate'),
 
 )

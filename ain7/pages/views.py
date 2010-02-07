@@ -3,7 +3,7 @@
  ain7/pages/views.py
 """
 #
-#   Copyright © 2007-2009 AIn7 Devel Team
+#   Copyright © 2007-2010 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ def homepage(request):
             person__birth_date__isnull=False,
             person__birth_date__day=today.day,
             person__birth_date__month=today.month,
-            person__death_date=None) ]
+            person__personprivate__death_date=None) ]
         birthdays.sort(lambda x, y: cmp(x.person.last_name, y.person.last_name))
     return ain7_render_to_response(request, 'pages/homepage.html', 
         {'news': news , 'events': events, 'surveys': surveys, 
@@ -175,7 +175,7 @@ def galerie(request):
 def logout(request):
     """logout page"""
     auth.logout(request)
-    if request.META['HTTP_REFERER']:
+    if request.META.has_key('HTTP_REFERER'):
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
     else:
         return HttpResponseRedirect('/')

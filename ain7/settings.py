@@ -151,6 +151,10 @@ MOOTOOLS_MORE_VERSION = '1.2.4.2'
 
 AIN7_PORTAL_ADMIN = 'ain7-admin'
 
+SPPLUS_CLENT = '58 6d fc 9c 34 91 9b 86 3f fd 64 63 c9 13 4a 26 ba 29 74 1e c7 e9 80 79'
+SPPLUS_LIB_PATH = '/dev/null'
+AIN7_SIRET = '0000000000000001-001'
+
 try:
     from settings_local import *
 except ImportError:

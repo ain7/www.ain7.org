@@ -1,8 +1,9 @@
 # -*- coding: utf-8
+"""
+ ain7/utils.py
+"""
 #
-# utils.py
-#
-#   Copyright © 2007-2009 AIn7 Devel Team
+#   Copyright © 2007-2010 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -21,15 +22,11 @@
 #
 
 import datetime
-import smtplib
-import time
 
 from string import Template
 
 from django import forms
-from django import template
-from django.contrib import auth
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
 from django.db import models
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -37,7 +34,6 @@ from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
 from ain7 import settings
-from ain7.widgets import DateTimeWidget
 
 
 # the separator used in CSV exports, when a cell contains a list of values
@@ -51,7 +47,7 @@ CONFIDENTIALITY_LEVELS = (
     )
 
 def ain7_website_confidential(obj):
-    if not isinstance(obj,models.Model):
+    if not isinstance(obj, models.Model):
         raise NotImplementedError
     return (obj.confidentiality>1)
 
@@ -96,12 +92,13 @@ def check_access(request, user, groups):
         return None
 
     for group in user_groups:
-       if group in groups:
-           return None
+        if group in groups:
+            return None
 
     return ain7_render_to_response(request, 'pages/permission_denied.html', {})
 
-def ain7_generic_edit(request, obj, MyForm, formInitDict, formPage, formPageDict, saveDict, redirectPage, msgDone):
+def ain7_generic_edit(request, obj, MyForm, formInitDict, formPage, \
+    formPageDict, saveDict, redirectPage, msgDone):
     """ Méthode utilisée pour éditer (ou créer) un objet de façon standard,
     c'est-à-dire via un formulaire de type ModelForms.
     obj : objet à éditer. S'il s'agit de None, on est en mode création.
@@ -130,7 +127,7 @@ def ain7_generic_edit(request, obj, MyForm, formInitDict, formPage, formPageDict
         else:
             f = MyForm(request.POST.copy(), request.FILES)
         if f.is_valid():
-            for k,v in formInitDict.iteritems():
+            for k, v in formInitDict.iteritems():
                 f.cleaned_data[k] = v
             obj = f.save(**saveDict)
             if isinstance(obj, LoggedClass) and request.user:
@@ -139,7 +136,8 @@ def ain7_generic_edit(request, obj, MyForm, formInitDict, formPage, formPageDict
         else:
             pageDict = {'form': f}
             pageDict.update(formPageDict)
-            request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
+            request.user.message_set.create(message=\
+                _('Something was wrong in the form you filled. No modification done.'))
             return ain7_render_to_response(request, formPage, pageDict)
         redirect = redirectPage
         if obj:
@@ -157,9 +155,11 @@ def ain7_generic_delete(request, obj, redirectPage, msgDone):
 class LoggedClass(models.Model):
     """ Classe abstraite contenant les infos à enregistrer pour les modèles
     pour lesquels on veut connaître la date de création/modif et l'auteur."""
-    last_change_by = models.ForeignKey('annuaire.Person', verbose_name=_('modifier'), editable=False,
+    last_change_by = models.ForeignKey('annuaire.Person',
+        verbose_name=_('modifier'), editable=False,
         related_name='last_changed_%(class)s', blank=True, null=True)
-    last_change_at = models.DateTimeField(verbose_name=_('last changed at'), blank=True, editable=False)
+    last_change_at = models.DateTimeField(verbose_name=_('last changed at'),
+        blank=True, editable=False)
 
     class Meta:
         abstract = True
@@ -176,7 +176,7 @@ def generic_show_last_change(logged_obj):
     """ Utilisé pour le rendu du tag show_last_change.
     Peut être utilisé sur tout objet dont le modèle hérite de LoggedClass."""
     if not isinstance(logged_obj, LoggedClass):
-        raise django.template.TemplateSyntaxError,\
+        raise django.template.TemplateSyntaxError, \
             "show_last_change should only be used with LoggedClass objects."
     return {'obj': logged_obj}
 
@@ -191,21 +191,15 @@ class AIn7Form(forms.Form):
         tag_required_fields(self)
 
 def tag_required_fields(form):
-    if isinstance(form,forms.BaseForm):
+    if isinstance(form, forms.BaseForm):
         for fname, field in form.fields.iteritems():
             # si on veut mettre le type de champ comme classe CSS :
             # new_classes = set((type(field).__name__, type(field.widget).__name__, field.required and "Required" or "Optional"))
             new_classes = set([field.required and "requiredField" or "optionalField"])
             if 'class' in field.widget.attrs:
-                field.widget.attrs['class'] = " ".join(set(field.widget.attrs['class'].split()).union(new_classes))
+                field.widget.attrs['class'] = \
+                   " ".join(set(field.widget.attrs['class'].split()).\
+                   union(new_classes))
             else:
                 field.widget.attrs['class'] = " ".join(new_classes)
-
-FORBIDDEN_CHARS = ['\'','"',' ','_','(',')','%',':',',',';','.','!','?',';','&','#','~','{','[','|','`','\\','^','/',']','=','+','*','%','<','>']
-
-def simplify_string(str):
-   new_str = str
-   for c in FORBIDDEN_CHARS:
-       new_str = new_str.replace(c,'-')
-   return new_str
 

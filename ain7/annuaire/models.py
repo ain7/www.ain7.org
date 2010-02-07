@@ -3,7 +3,7 @@
  ain7/annuaire/models.py
 """
 #
-#   Copyright © 2007-2009 AIn7 Devel Team
+#   Copyright © 2007-2010 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -294,7 +294,6 @@ X-Generated-By: AIn7 Web Portal
 
 """+message
 
-
             server = smtplib.SMTP('localhost')
             server.sendmail('ain7@ain7.com', mail, unicode(msg).encode('utf8'))
             server.quit()
@@ -304,6 +303,24 @@ X-Generated-By: AIn7 Web Portal
         """person meta"""
         verbose_name = _('person')
         ordering = ['last_name', 'first_name']
+
+class PersonPrivate(LoggedClass):
+    """private data for a person"""
+
+    person = models.OneToOneField(Person, verbose_name=_('person'))
+    death_date = models.DateField(verbose_name=_('death date'), blank=True,
+        null=True)
+    notes = models.TextField(verbose_name=_('Notes'), blank=True, null=True)
+
+    def __unicode__(self):
+        """AIn7 member unicode"""
+        return unicode(self.person)
+
+    class Meta:
+        """Person Private Data"""
+        verbose_name = _('Person Private Data')
+        ordering = ['person']
+
 
 class AIn7MemberManager(models.Manager):
     """a Manager for the class AIn7Member"""
@@ -317,7 +334,7 @@ class AIn7MemberManager(models.Manager):
         crits_for_admin = [
             "person" , "person_type" , "member_type" ,
             "display_cv_in_directory" , "display_cv_in_job_section" ,
-            "receive_job_offers" , "receive_job_offers_for_tracks" ]
+            "receive_job_offers" ]
         crits = crits_for_all
         if isAdmin(user):
             crits.extend(crits_for_admin)
@@ -365,10 +382,6 @@ class AIn7Member(LoggedClass):
         default=False)
     receive_job_offers = models.BooleanField(
          verbose_name=_('Receive job offers by email'), default=False)
-    receive_job_offers_for_tracks = models.ManyToManyField(
-        Track,
-        verbose_name=_('Tracks for which you would like to receive job offers'),
-        blank=True, null=True)
     cv_title = models.CharField(verbose_name=_('CV title'), max_length=100,
         blank=True, null=True)
     
@@ -382,12 +395,8 @@ class AIn7Member(LoggedClass):
         Sinon, renvoie toutes les offres.
         """
         jobs = []
-        if self.receive_job_offers_for_tracks.all():
-            for track in self.receive_job_offers_for_tracks.all():
-                jobs.extend(track.jobs.filter(checked_by_secretariat=True))
-        else:
-            for track in Track.objects.all():
-                jobs.extend(track.jobs.filter(checked_by_secretariat=True))
+        for track in Track.objects.all():
+            jobs.extend(track.jobs.filter(checked_by_secretariat=True))
         return jobs
 
     def __unicode__(self):

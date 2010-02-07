@@ -1441,7 +1441,6 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     olivier_ain7member.marital_status = maritalstatus_2
     olivier_ain7member.save()
     olivier_ain7member.promos.add(n7in2003)
-    olivier_ain7member.receive_job_offers_for_tracks.add(n7info)
     olivier_ain7member.save()
 
     olivier_adresse = annuaire.Address()

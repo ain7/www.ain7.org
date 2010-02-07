@@ -3,7 +3,7 @@
  ain7:adhesions/views.py
 """
 #
-#   Copyright © 2007-2009 AIn7 Devel Team
+#   Copyright © 2007-2010 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ def index(request):
         end_year__lt=datetime.date.today().year).count()
     return ain7_render_to_response(request, 'adhesions/index.html',
         {'subscriptions_list': Subscription.objects.filter(validated=True).\
-            order_by('-start_year', '-end_year')[:20],
+            order_by('-start_year', '-end_year', '-id')[:20],
          'count_members': AIn7Member.objects.count(),
          'count_subscribers': count_subscribers})
 
@@ -184,13 +184,54 @@ def subscription_add(request, user_id=None):
             subscription.member = ain7member
 
             payment = Payment()
-            payment.amount = form.cleaned_data['dues_amount']
+            payment.amount = form.cleaned_data['dues_amount'] + \
+                form.cleaned_data['newspaper_amount']
             payment.type = form.cleaned_data['tender_type']
             payment.person = ain7member.person
             payment.date = datetime.date.today()
-
-            subscription.save()
             payment.save()
+
+            subscription.payment = payment
+            subscription.save()
+
+            request.user.person.send_mail(_(u'AIn7 Subscription registered'), \
+_(u"""Hi %(firstname)s,
+
+We have registered your subscription for the next year to the association AIn7.
+
+We remind you that you have an access to the website and can update your
+personal informations. On the website, you can find the directory,
+next events, news in the N7 world, employment. If you have lost your 
+password, you can recover at http://ain7.com/lostpassword/ .
+
+All the AIn7 Team would like to thanks you for you support. See you on
+the website or at one of our events.
+
+Cheers,
+
+AIn7 Team
+
+""") % { 'firstname': request.user.person.first_name })
+
+            if payment.type == 2:
+
+                import ctypes
+                from django.contrib.auth.models import User
+                from ain7.settings import AIN7_SIRET, SPPLUS_CLENT, SPPLUS_LIB_PATH
+
+                ctest = ctypes.CDLL(SPPLUS_LIB_PATH)
+                clent = SPPLUS_CLENT
+                secret_key =  User.objects.make_random_password(50)
+
+                payment.secret_key = secret_key
+                payment.save()
+
+                data = 'https://www.spplus.net/paiement/init.do?montant='+str(payment.amount)+'&taxe=0&validite=31%2f12%2f2099&langue=FR&siret='+AIN7_SIRET+'&devise=978&reference='+str(payment.id)+'&arg2='+secret_key
+
+                result = ctypes.c_char_p(ctest.signeURLPaiement(ctypes.c_char_p(clent), ctypes.c_char_p(data)))
+                spplusurl = result.value
+                ctest.free(result)
+                return HttpResponseRedirect(spplusurl)
 
             if isinstance(subscription, LoggedClass) and request.user:
                 subscription.logged_save(request.user.person)
@@ -255,4 +296,28 @@ def configuration_delete(request, configuration_id=None):
          get_object_or_404(SubscriptionConfiguration, pk=configuration_id),
          reverse(configurations),
          _('Configuration successfully deleted.'))
+
+def payment_validate(request):
+
+    if request.method == 'GET':
+        if request.GET.has_key('reference'):
+            reference = request.GET['reference']
+        if request.GET.has_key('montant'):
+            montant = request.GET['montant']
+        if request.GET.has_key('etat'):
+            etat = request.GET['etat']
+        if request.GET.has_key('arg2'):
+            arg2 = request.GET['arg2']
+
+        pay = Payment.objects.get(id=reference, amount=montant, secret_key=arg2)
+        if etat == '1':
+            pay.validated = True
+            pay.save()
+
+            if pay.subscriptions.count() == 1:
+               sub = pay.subscriptions.order_by('id')[0]
+               sub.validated = True
+               sub.save()
+
+    return  HttpResponseRedirect('/')
 

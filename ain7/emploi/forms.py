@@ -143,7 +143,7 @@ class SearchJobForm(forms.Form):
 
     def search(self):
         """search job form"""
-        querry = models.Q()
+        querry = models.Q(obsolete=False)
         if self.cleaned_data['title']:
             querry &= models.Q(title__icontains=self.cleaned_data['title'])
         if self.cleaned_data['activity_field']:

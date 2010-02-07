@@ -3,7 +3,7 @@
  ain7/annuaire/forms.py
 """
 #
-#   Copyright © 2007-2009 AIn7 Devel Team
+#   Copyright © 2007-2010 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -236,47 +236,7 @@ class NewMemberForm(forms.Form):
 
         return new_person
     
-
 class PersonForm(forms.ModelForm):
-    """new person form"""
-    sex = forms.CharField(widget=forms.Select(choices=Person.SEX),
-        label=_('Sex'))
-    birth_date = forms.DateTimeField(label=_('birth date').capitalize(),
-        widget=DATE_WIDGET, required=False)
-    death_date = forms.DateTimeField(label=_('death date').capitalize(),
-        widget=DATE_WIDGET, required=False)
-    country = forms.IntegerField(label=_('nationality'), required=False,
-        widget=AutoCompleteField(completed_obj_name='nationality'))
-
-    class Meta:
-        """person form meta"""
-        model = Person
-        exclude = ('user')
-
-    def __init__(self, *args, **kwargs):
-        """person form init"""
-        super(PersonForm, self).__init__(*args, **kwargs)
-
-    def clean_death_date(self):
-        """check death date"""
-        if self.cleaned_data.get('birth_date') and \
-            self.cleaned_data.get('death_date') and \
-            self.cleaned_data['birth_date']>self.cleaned_data['death_date']:
-            raise forms.ValidationError(_('Birth date is later than\
- death date.'))
-        return self.cleaned_data['death_date']
-
-    def clean_country(self):
-        """check country"""
-        country_id = self.cleaned_data['country']
-        try:
-            Country.objects.get(id=country_id)
-        except Country.DoesNotExist:
-            raise ValidationError(_('The entered nationality does not exist.'))
-        else:
-            return Country.objects.get(id=country_id)
-
-class PersonFormNoDeath(forms.ModelForm):
     """person form with no death date"""
     sex = forms.CharField(widget=forms.Select(choices=Person.SEX),
         label=_('Sex'))
@@ -288,11 +248,7 @@ class PersonFormNoDeath(forms.ModelForm):
     class Meta:
         """person form with no death date meta"""
         model = Person
-        exclude = ('user','death_date')
-
-    def __init__(self, *args, **kwargs):
-        """person form no death init"""
-        super(PersonFormNoDeath, self).__init__(*args, **kwargs)
+        exclude = ('user','old_id')
 
     def clean_country(self):
         """person form no deatch clean_country"""
@@ -304,10 +260,28 @@ class PersonFormNoDeath(forms.ModelForm):
         else:
             return Country.objects.get(id=country_id)
 
+class PersonPrivateForm(forms.ModelForm):
+    """person private form"""
+    death_date = forms.DateTimeField(label=_('death date').capitalize(),
+        widget=DATE_WIDGET, required=False)
+
+    class Meta:
+        """person form meta"""
+        model = PersonPrivate
+        exclude = ('person')
+
+    def clean_death_date(self):
+        """check death date"""
+        if self.cleaned_data.get('birth_date') and \
+            self.cleaned_data.get('death_date') and \
+            self.cleaned_data['birth_date']>self.cleaned_data['death_date']:
+            raise forms.ValidationError(_('Birth date is later than\
+ death date.'))
+        return self.cleaned_data['death_date']
+
+
 class AIn7MemberForm(forms.ModelForm):
     """AIn7Member Form"""
-    receive_job_offers_for_tracks = forms.ModelMultipleChoiceField(\
-        queryset=Track.objects.filter(active=True), required=False)
 
     class Meta:
         """AIn7 Member form meta"""

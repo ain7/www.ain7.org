@@ -3,7 +3,7 @@
  ain7/annuaire/urls.py
 """
 #
-#   Copyright © 2007-2009 AIn7 Devel Team
+#   Copyright © 2007-2010 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -66,6 +66,7 @@ urlpatterns = patterns('ain7.annuaire.views',
     (r'^(?P<user_id>\d+)/credentials/$', 'change_credentials'),
     (r'^(?P<user_id>\d+)/sendcredentials/$', 'send_new_credentials'),
     (r'^(?P<user_id>\d+)/person/edit/$', 'person_edit'),
+    (r'^(?P<user_id>\d+)/personprivate/edit/$', 'personprivate_edit'),
     (r'^(?P<user_id>\d+)/ain7member/edit/$', 'ain7member_edit'),
     (r'^(?P<user_id>\d+)/avatar/delete/$', 'avatar_delete'),
     # Promos

@@ -29,6 +29,7 @@ from ain7.annuaire.models import AIn7Member
 from ain7.manage.models import Payment
 from ain7.utils import LoggedClass
 
+
 class Subscription(LoggedClass):
     """
     AIn7Member Subscription
@@ -68,6 +69,7 @@ class Subscription(LoggedClass):
     class Meta:
         """Meta"""
         verbose_name = _('Subscription')
+        ordering = ['id']
 
 class SubscriptionConfiguration(models.Model):
     """

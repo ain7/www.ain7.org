@@ -100,15 +100,6 @@
     <li><b>{% trans "Receive job offers by email" %}</b>&nbsp;:
         {% if ain7member.receive_job_offers %}
             {% trans "Yes" %}</li>
-                <li><b>{% trans "Tracks for which you would like to receive job offers" %}</b>&nbsp;:
-                {% if ain7member.receive_job_offers_for_tracks.all %}
-                    {% for track in ain7member.receive_job_offers_for_tracks.all %}
-                         {{ track }}
-                         {% if not forloop.last %} - {% endif %}
-                    {% endfor %}
-                {% else %}
-                    {% trans "No track" %}
-                {% endif %}</li>
 	{% else %}
             {% trans "No" %}</li>
         {% endif %}
@@ -119,6 +110,20 @@
    {% trans "Modify" %}</a></p>
 </div>
 
+<p>&nbsp;</p>
+
+{% if ca_member %}
+<div class="dataBlock">
+<ul>
+   <li><b>{% filter capfirst %}{% trans "death date" %}{% endfilter %}
+       &nbsp;:</b> {{ personprivate.death_date|date:"d/m/Y" }}</li>
+   <li><b>{% filter capfirst %}{% trans "notes" %}{% endfilter %}
+       &nbsp;:</b> {{ personprivate.notes }}</li>
+</ul>
+<p><a href="{% url ain7.annuaire.views.personprivate_edit person.user.id %}" class="changelink">
+{% trans "Modify" %}</a></p>
+</div>
+{% endif %}
 
 <h2><a name="promos"></a>{% trans "Promos" %}</h2>
 <div class="dataBlock">
@@ -148,10 +153,10 @@
 {% for position in ain7member.positions.all %}
     {% if not position.end_date %}
         <tr><td>{% if position.start_date %}{% trans "since" %}{% endif %}
-                <b>{{ position.start_date|date:"d/m/Y"|default:"???" }}</b>&nbsp;:</td>
-            <td><em>{{ position.fonction }}</em> {% trans "for" %}
+                <b>{{ position.start_date|date:"d/m/Y" }}</b>&nbsp;:</td>
+            <td><em>{{ position.fonction }}</em>,
                 {{ position.office }}
-                (<a href="{% url ain7.emploi.views.organization_details position.office.organization.id %}">{{ position.office.organization }}</a>)</td></tr>
+                <a href="{% url ain7.emploi.views.organization_details position.office.organization.id %}">{{ position.office.organization }}</a></td></tr>
         {% if position.description %}
             <tr><td></td><td>{{ position.description }}</td></tr>
         {% endif %}
