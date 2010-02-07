@@ -61,12 +61,6 @@ def status(request):
     return ain7_render_to_response(request, 'association/status.html', 
                 {'count_members': count_members(), 'text': text}) 
  
-def board(request):
-    """board presentation page"""
-    return ain7_render_to_response(request, 'association/board.html',
-        {'count_members': count_members(),
-         'current_roles': current_board_roles() }) 
- 
 def council(request):
     """council presentation page"""
     return ain7_render_to_response(request, 'association/council.html',

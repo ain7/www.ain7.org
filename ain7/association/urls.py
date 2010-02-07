@@ -26,7 +26,6 @@ from django.conf.urls.defaults import patterns
 
 urlpatterns = patterns('ain7.association.views',
     (r'^$', 'index'),
-    (r'^board/$', 'board'),
     (r'^council/$', 'council'),
     (r'^council/edit/(?P<all_current>\w+)/$', 'edit_council'),
     (r'^council/(?P<role_id>\d+)/changedates/(?P<all_current>\w+)/$',
