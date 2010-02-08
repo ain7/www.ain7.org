@@ -312,12 +312,12 @@ def payment_validate(request):
         pay = Payment.objects.get(id=reference, amount=montant, secret_key=arg2)
         if etat == '1':
             pay.validated = True
-            pay.save()
+            #pay.save()
 
             if pay.subscriptions.count() == 1:
                sub = pay.subscriptions.order_by('id')[0]
                sub.validated = True
-               sub.save()
+               #sub.save()
 
     return  HttpResponseRedirect('/')
 

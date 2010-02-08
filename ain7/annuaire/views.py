@@ -3,7 +3,7 @@
  ain7/annuaire/views.py
 """
 #
-#   Copyright © 2007-2009 AIn7 Devel Team
+#   Copyright © 2007-2010 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -91,7 +91,7 @@ def search(request):
                 request.user.message_set.create(\
                      message=_("Only one result matched your criteria."))
                 return HttpResponseRedirect('/annuaire/%s/' % \
-                    (ain7members[0].id))
+                    (ain7members[0].person.id))
 
             # put the criteria in session: they must be accessed when
             # performing a CSV export, sending a mail...

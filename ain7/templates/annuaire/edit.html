@@ -118,7 +118,7 @@
    <li><b>{% filter capfirst %}{% trans "death date" %}{% endfilter %}
        &nbsp;:</b> {{ personprivate.death_date|date:"d/m/Y" }}</li>
    <li><b>{% filter capfirst %}{% trans "notes" %}{% endfilter %}
-       &nbsp;:</b> {{ personprivate.notes }}</li>
+       &nbsp;:</b> {% if personprivate.notes %}{{ personprivate.notes|safe }}{% endif %}</li>
 </ul>
 <p><a href="{% url ain7.annuaire.views.personprivate_edit person.user.id %}" class="changelink">
 {% trans "Modify" %}</a></p>
