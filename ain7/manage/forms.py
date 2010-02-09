@@ -292,6 +292,8 @@ class ErrorRangeForm(forms.Form):
         for index in range(range_from, range_to+1):
             error = PortalError.objects.get(pk=index)
             error.fixed    = self.cleaned_data['fixed']
+            if not error.comment:
+                error.comment = ''
             error.comment += self.cleaned_data['comment']
             error.save()
         return
