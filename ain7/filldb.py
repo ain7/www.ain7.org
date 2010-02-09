@@ -1365,6 +1365,10 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     lionel_subscription5.tender_type = 0
     lionel_subscription5.save()
 
+    lionel_private = annuaire.PersonPrivate()
+    lionel_private.person = lionel
+    lionel_private.save()
+
     pierref = annuaire.Person()
     pierref.user = User.objects.create_user("pierref", "pierre.fersing@inp-net.eu.org","pierref")
     pierref.user.is_staff = True
@@ -1380,6 +1384,10 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     pierref.birth_date = date(1985,11,05)
     pierref.country = france
     pierref.save()
+
+    pierref_private = annuaire.PersonPrivate()
+    pierref_private.person = pierref
+    pierref_private.save()
 
     pierref_ain7member = annuaire.AIn7Member()
     pierref_ain7member.person = pierref
@@ -1428,6 +1436,10 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     olivier.country = france
     olivier.notes = u"Je ne sais pas à quoi sert ce champ mais je fais confiance à Alex!"
     olivier.save()
+
+    olivier_private = annuaire.PersonPrivate()
+    olivier_private.person = olivier
+    olivier_private.save()
 
     olivier_ain7member = annuaire.AIn7Member()
     olivier_ain7member.person = olivier
@@ -1564,6 +1576,10 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     alex.country = france
     alex.save()
 
+    alex_private = annuaire.PersonPrivate()
+    alex_private.person = alex
+    alex_private.save()
+
     alex_ain7member = annuaire.AIn7Member()
     alex_ain7member.person = alex
     alex_ain7member.activity = activityKnown
@@ -1628,6 +1644,10 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     laurent.country = france
     laurent.save()
 
+    laurent_private = annuaire.PersonPrivate()
+    laurent_private.person = laurent
+    laurent_private.save()
+
     laurent_ain7member = annuaire.AIn7Member()
     laurent_ain7member.person = laurent
     laurent_ain7member.activity = activityKnown
@@ -1681,6 +1701,10 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     gui.birth_date = date(1980,06,9)
     gui.country = france
     gui.save()
+
+    gui_private = annuaire.PersonPrivate()
+    gui_private.person = gui
+    gui_private.save()
 
     gui_ain7member = annuaire.AIn7Member()
     gui_ain7member.person = gui
