@@ -347,11 +347,6 @@ class AIn7Member(LoggedClass):
 
     person = models.OneToOneField(Person, verbose_name=_('person'))
 
-    person_type = models.ForeignKey(PersonType, verbose_name=_('type'))
-    member_type = models.ForeignKey(MemberType, verbose_name=_('member'))
-    activity = models.ForeignKey(Activity, verbose_name=_('activity'),
-        blank=True, null=True)
-
     # Family situation
     marital_status = models.ForeignKey(MaritalStatus,
         verbose_name=_('marital status'), blank=True, null=True)
