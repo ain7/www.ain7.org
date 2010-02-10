@@ -151,16 +151,14 @@
 {% if ain7member.positions.all %}
 <table>
 {% for position in ain7member.positions.all %}
-    {% if not position.end_date %}
-        <tr><td>{% if position.start_date %}{% trans "since" %}{% endif %}
-                <b>{{ position.start_date|date:"d/m/Y" }}</b>&nbsp;:</td>
+        <tr><td>
+                <b>{{ position.start_date|date:"d/m/Y" }} - {{ position.end_date|date:"d/m/Y"|default:"..." }}</b>&nbsp;:</td>
             <td><em>{{ position.fonction }}</em>,
                 {{ position.office }}
                 <a href="{% url ain7.emploi.views.organization_details position.office.organization.id %}">{{ position.office.organization }}</a></td></tr>
         {% if position.description %}
             <tr><td></td><td>{{ position.description }}</td></tr>
         {% endif %}
-    {% endif %}
 {% endfor %}
 </table>
 {% endif %}

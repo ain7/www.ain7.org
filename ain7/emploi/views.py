@@ -608,7 +608,7 @@ def organization_add(request):
             request.user.message_set.create(message=_('Organization\
  successfully created. To add an office to it, modify it.'))
             return HttpResponseRedirect(reverse(organization_details,
-                args=[orgprop.id]))
+                args=[modified_org.id]))
         else:
             request.user.message_set.create(message=_('Something was wrong\
  in the form you filled. No modification done.'))
