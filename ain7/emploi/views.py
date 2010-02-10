@@ -413,13 +413,18 @@ def job_register(request):
         form = JobOfferForm(request.POST)
         if form.is_valid():
             job_offer = form.save(request.user)
-            # create the notification
-            notif = Notification(details='',
-                title=_('Proposal for job offer'),
-                job_proposal = job_offer)
-            notif.logged_save(request.user.person)
-            request.user.message_set.create(
-                message=_('Job offer successfully created. It will now be\
+
+            user_groups = request.user.groups.all().values_list('name', flat=True)
+            if not 'ain7-secretariat' in user_groups and \
+               not 'ain7-admin' in user_groups:
+
+                # create the notification
+                notif = Notification(details='',
+                    title=_('Proposal for job offer'),
+                    job_proposal = job_offer)
+                notif.logged_save(request.user.person)
+                request.user.message_set.create(
+                    message=_('Job offer successfully created. It will now be\
  checked by the secretariat.'))
             return HttpResponseRedirect('/emploi/')
         else:

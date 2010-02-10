@@ -263,13 +263,9 @@ class Person(LoggedClass):
         max_length=100, blank=True, null=True)
     birth_date = models.DateField(verbose_name=_('Birth date'), blank=True,
         null=True)
-    death_date = models.DateField(verbose_name=_('death date'), blank=True,
-        null=True)
     sex = models.CharField(verbose_name=_('sex'), max_length=1, choices=SEX)
     country = models.ForeignKey(Country, verbose_name=_('nationality'),
         blank=True, null=True)
-
-    notes = models.TextField(verbose_name=_('Notes'), blank=True, null=True)
 
     objects = PersonManager()
 
@@ -308,6 +304,12 @@ class PersonPrivate(LoggedClass):
     """private data for a person"""
 
     person = models.OneToOneField(Person, verbose_name=_('person'))
+
+    # Administration
+    person_type = models.ForeignKey(PersonType, verbose_name=_('type'))
+    member_type = models.ForeignKey(MemberType, verbose_name=_('member'))
+    activity = models.ForeignKey(Activity, verbose_name=_('activity'),
+        blank=True, null=True)
     death_date = models.DateField(verbose_name=_('death date'), blank=True,
         null=True)
     notes = models.TextField(verbose_name=_('Notes'), blank=True, null=True)
@@ -345,7 +347,6 @@ class AIn7Member(LoggedClass):
 
     person = models.OneToOneField(Person, verbose_name=_('person'))
 
-    # Administration
     person_type = models.ForeignKey(PersonType, verbose_name=_('type'))
     member_type = models.ForeignKey(MemberType, verbose_name=_('member'))
     activity = models.ForeignKey(Activity, verbose_name=_('activity'),

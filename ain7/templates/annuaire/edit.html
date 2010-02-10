@@ -28,9 +28,9 @@
    {% endif %}
    <li><b>{% trans "Birth date" %}&nbsp;:</b>
        {{ person.birth_date|date:"d/m/Y" }}</li>
-   {% if person.death_date %}
+   {% if personprivate.death_date %}
    <li><b>{% filter capfirst %}{% trans "death date" %}{% endfilter %}
-       &nbsp;:</b> {{ person.death_date|date:"d/m/Y" }}</li>
+       &nbsp;:</b> {{ personprivate.death_date|date:"d/m/Y" }}</li>
    {% endif %}
    <li><b>{% filter capfirst %}{% trans "nationality" %}{% endfilter %}
        &nbsp;:</b> {{ person.country.nationality }}</li>
@@ -85,12 +85,6 @@
         {% else %}
             {% trans "No ceremonial duty" %}
         {% endif %}</li>
-    <li><b>{% filter capfirst %}{% trans "type" %}{% endfilter %}</b>&nbsp;:
-        {{ ain7member.person_type }}</li>
-    <li><b>{% filter capfirst %}{% trans "member" %}{% endfilter %}</b>&nbsp;:
-        {{ ain7member.member_type }}</li>
-    <li><b>{% filter capfirst %}{% trans "activity" %}{% endfilter %}</b>&nbsp;:
-        {{ ain7member.activity }}</li>
     <li><b>{% trans "Display my CV in the directory" %}</b>&nbsp;:
         {% if ain7member.display_cv_in_directory %}
             {% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</li>
@@ -115,8 +109,16 @@
 {% if ca_member %}
 <div class="dataBlock">
 <ul>
+    <li><b>{% filter capfirst %}{% trans "type" %}{% endfilter %}</b>&nbsp;:
+        {{ personprivate.person_type }}</li>
+    <li><b>{% filter capfirst %}{% trans "member" %}{% endfilter %}</b>&nbsp;:
+        {{ personprivate.member_type }}</li>
+    <li><b>{% filter capfirst %}{% trans "activity" %}{% endfilter %}</b>&nbsp;:
+        {{ personprivate.activity }}</li>
+   {% if personprivate.death_date %}
    <li><b>{% filter capfirst %}{% trans "death date" %}{% endfilter %}
        &nbsp;:</b> {{ personprivate.death_date|date:"d/m/Y" }}</li>
+   {% endif %}
    <li><b>{% filter capfirst %}{% trans "notes" %}{% endfilter %}
        &nbsp;:</b> {% if personprivate.notes %}{{ personprivate.notes|safe }}{% endif %}</li>
 </ul>

@@ -1332,7 +1332,7 @@ def user_email_edit(request, user_id=None, email_id=None):
         'manage/edit_form.html',
         {'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')}, {},
-        '/manage/users/%s/edit/#email' % user_id, msgDone)
+        '/manage/users/%s/edit/#email' % user_id, msg_done)
 
 @confirmation_required(lambda user_id=None, email_id=None : 
     str(get_object_or_404(Email, pk=email_id)), 'manage/base.html', 

@@ -194,7 +194,7 @@ def subscription_add(request, user_id=None):
             subscription.payment = payment
             subscription.save()
 
-            request.user.person.send_mail(_(u'AIn7 Subscription registered'), \
+            person.send_mail(_(u'AIn7 Subscription registered'), \
 _(u"""Hi %(firstname)s,
 
 We have registered your subscription for the next year to the association AIn7.
