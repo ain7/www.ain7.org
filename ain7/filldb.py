@@ -1232,9 +1232,6 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     # AIn7Member
     lionel_ain7member = annuaire.AIn7Member()
     lionel_ain7member.person = lionel
-    lionel_ain7member.activity = activityKnown
-    lionel_ain7member.member_type = memberTypeActif
-    lionel_ain7member.person_type = personTypeEngineer
     lionel_ain7member.nick_name = "Yoyo"
     lionel_ain7member.blog = "http://www.porcheron.info"
     lionel_ain7member.blog_agrege_sur_le_planet = True
@@ -1367,6 +1364,9 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 
     lionel_private = annuaire.PersonPrivate()
     lionel_private.person = lionel
+    lionel_private.activity = activityKnown
+    lionel_private.member_type = memberTypeActif
+    lionel_private.person_type = personTypeEngineer
     lionel_private.save()
 
     pierref = annuaire.Person()
@@ -1387,13 +1387,13 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 
     pierref_private = annuaire.PersonPrivate()
     pierref_private.person = pierref
+    pierref_private.activity = activityKnown
+    pierref_private.member_type = memberTypeActif
+    pierref_private.person_type = personTypeStudent
     pierref_private.save()
 
     pierref_ain7member = annuaire.AIn7Member()
     pierref_ain7member.person = pierref
-    pierref_ain7member.activity = activityKnown
-    pierref_ain7member.member_type = memberTypeActif
-    pierref_ain7member.person_type = personTypeStudent
     pierref_ain7member.nick_name = "PierreF"
     pierref_ain7member.display_cv_in_directory = True
     pierref_ain7member.display_cv_in_job_section = True
@@ -1439,13 +1439,13 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 
     olivier_private = annuaire.PersonPrivate()
     olivier_private.person = olivier
+    olivier_private.activity = activityKnown
+    olivier_private.member_type = memberTypeActif
+    olivier_private.person_type = personTypeEngineer
     olivier_private.save()
 
     olivier_ain7member = annuaire.AIn7Member()
     olivier_ain7member.person = olivier
-    olivier_ain7member.activity = activityKnown
-    olivier_ain7member.member_type = memberTypeActif
-    olivier_ain7member.person_type = personTypeEngineer
     olivier_ain7member.display_cv_in_directory = True
     olivier_ain7member.display_cv_in_job_section = True
     olivier_ain7member.receive_job_offers = True
@@ -1578,13 +1578,13 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 
     alex_private = annuaire.PersonPrivate()
     alex_private.person = alex
+    alex_private.activity = activityKnown
+    alex_private.member_type = memberTypeActif
+    alex_private.person_type = personTypeEngineer
     alex_private.save()
 
     alex_ain7member = annuaire.AIn7Member()
     alex_ain7member.person = alex
-    alex_ain7member.activity = activityKnown
-    alex_ain7member.member_type = memberTypeActif
-    alex_ain7member.person_type = personTypeEngineer
     alex_ain7member.nick_name = "Alex"
     alex_ain7member.display_cv_in_directory = False
     alex_ain7member.display_cv_in_job_section = False
@@ -1646,13 +1646,13 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 
     laurent_private = annuaire.PersonPrivate()
     laurent_private.person = laurent
+    laurent_private.activity = activityKnown
+    laurent_private.member_type = memberTypeActif
+    laurent_private.person_type = personTypeEngineer
     laurent_private.save()
 
     laurent_ain7member = annuaire.AIn7Member()
     laurent_ain7member.person = laurent
-    laurent_ain7member.activity = activityKnown
-    laurent_ain7member.member_type = memberTypeActif
-    laurent_ain7member.person_type = personTypeEngineer
     laurent_ain7member.nick_name = "Lau"
     laurent_ain7member.display_cv_in_directory = False
     laurent_ain7member.display_cv_in_job_section = False
@@ -1704,13 +1704,13 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 
     gui_private = annuaire.PersonPrivate()
     gui_private.person = gui
+    gui_private.activity = activityKnown
+    gui_private.member_type = memberTypeActif
+    gui_private.person_type = personTypeEngineer
     gui_private.save()
 
     gui_ain7member = annuaire.AIn7Member()
     gui_ain7member.person = gui
-    gui_ain7member.activity = activityKnown
-    gui_ain7member.member_type = memberTypeActif
-    gui_ain7member.person_type = personTypeEngineer
     gui_ain7member.nick_name = "Gui"
     gui_ain7member.display_cv_in_directory = False
     gui_ain7member.display_cv_in_job_section = False
