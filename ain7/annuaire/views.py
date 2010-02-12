@@ -49,19 +49,34 @@ def annuaire_search_engine():
     return get_object_or_404(SearchEngine, name="annuaire")
 
 @login_required
+def home(request, user_name):
+    person_id = Person.objects.get(user__username=user_name).id
+    user_id = get_object_or_404(Person, pk=person_id).id
+    return details(request, user_id)
+
+@login_required
 def details(request, user_id):
-    person = get_object_or_404(Person, pk=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=person)
-    is_myself = int(request.user.id) == int(user_id)
+
+    is_subscriber = False
+    ain7member = None
     last_activity = None
-    user_activities = UserActivity.objects.filter(person=person)
-    if len(user_activities) > 0:
-        last_activity = user_activities.reverse()[0]
-    is_subscriber = Subscription.objects.filter(member=ain7member).\
-        filter(validated=True).exclude(start_year__gt=datetime.date.today().\
-        year).exclude(end_year__lt=datetime.date.today().year)
+    is_myself = int(request.user.id) == int(user_id)
+
+    person = get_object_or_404(Person, pk=user_id)
+    personprivate = get_object_or_404(PersonPrivate, person=person)
+
+    if AIn7Member.objects.filter(person=person).count() > 0:
+        ain7member = get_object_or_404(AIn7Member, person=person)
+	is_subscriber = Subscription.objects.filter(member=ain7member).\
+	    filter(validated=True).exclude(start_year__gt=datetime.date.\
+            today().year).exclude(end_year__lt=datetime.date.today().year)
+
+    if UserActivity.objects.filter(person=person):
+        last_activity = UserActivity.objects.filter(person=person).latest('id')
+
     return ain7_render_to_response(request, 'annuaire/details.html',
-        {'person': person, 'is_subscriber': is_subscriber,
+        {'person': person, 'personprivate': personprivate, 
+         'is_subscriber': is_subscriber,
          'ain7member': ain7member, 'is_myself': is_myself, 
          'last_activity': last_activity})
 
@@ -467,6 +482,7 @@ def adv_export_csv(request, filter_id=None):
 def edit(request, user_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
+    ain7member = None
 
     access = check_access(request, request.user,
         ['ain7-secretariat', 'ain7-ca'])
@@ -475,7 +491,9 @@ def edit(request, user_id=None):
 
     person = get_object_or_404(Person, pk=user_id)
     personprivate = get_object_or_404(PersonPrivate, person=person)
-    ain7member = get_object_or_404(AIn7Member, person=person)
+
+    if AIn7Member.objects.filter(person=person).count() > 0:
+        ain7member = get_object_or_404(AIn7Member, person=person)
 
     return ain7_render_to_response(request, 'annuaire/edit.html',
         {'person': person, 'ain7member': ain7member, 
@@ -509,15 +527,6 @@ def person_edit(request, user_id):
         request, 'annuaire/edit_form.html',
         {'form': form, 'action_title': _("Modification of personal data for"),
          'back': request.META.get('HTTP_REFERER', '/')})
-
-#    return ain7_generic_edit(
-#        request, person, PersonForm,
-#        {'user': person.user},
-#         'annuaire/edit_form.html',
-#        {'action_title': _("Modification of personal data for"),
-#         'person': person, 'back': request.META.get('HTTP_REFERER', '/')},
-#        {}, '/annuaire/%s/edit' % (person.user.id),
-#        _("Modifications have been successfully saved."))
 
 @login_required
 def personprivate_edit(request, user_id):

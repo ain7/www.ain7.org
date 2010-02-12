@@ -41,6 +41,8 @@
 
 <p>&nbsp;</p>
 
+{% if ain7member %}
+
 <div class="dataBlock">
 <ul>
    <li><b>{% filter capfirst %}{% trans "avatar" %}{% endfilter %}</b>&nbsp;:
@@ -104,6 +106,8 @@
    {% trans "Modify" %}</a></p>
 </div>
 
+{% endif %}
+
 <p>&nbsp;</p>
 
 {% if ca_member %}
@@ -127,6 +131,8 @@
 </div>
 {% endif %}
 
+{% if ain7member %}
+
 <h2><a name="promos"></a>{% trans "Promos" %}</h2>
 <div class="dataBlock">
 {% if ain7member.promos.all %}
@@ -146,6 +152,8 @@
 <p><a href="{% url ain7.annuaire.views.promo_edit person.id %}" class="addlink">
    {% trans "Add" %}</a></p>
 </div>
+
+{% if ain7member %}
 
 <h2><a name="profexp"></a>{% trans "Professional experiences" %}</h2>
 
@@ -167,6 +175,10 @@
 <p><a href="{% url ain7.emploi.views.cv_edit person.user.id %}" class="changelink">
 {% trans "Modify" %}</a></p>
 </div>
+
+{% endif %}
+
+{% endif %}
 
 <h2><a name="address"></a>{% trans "Address" %}</h2>
 
@@ -297,6 +309,8 @@
    {% trans "Add" %}</a></p>
 </div>
 
+{% if ain7member %}
+
 <h2><a name="assoc"></a>{% trans "N7 associative activities" %}</h2>
 
 <div class="dataBlock">
@@ -320,6 +334,8 @@
    {% trans "Add" %}</a></p>
 </div>
 
+{% endif %}
+
 </div>
 </div>
 
@@ -333,6 +349,6 @@
 {% block extra-right-blocks %}
 
     <h3>{% trans "Card Informations"%}</h3>
-    {% show_last_change ain7member %}
+    {% show_last_change person %}
 
 {% endblock %}

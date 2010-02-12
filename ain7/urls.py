@@ -49,6 +49,8 @@ import ain7.admin
 
 urlpatterns = patterns('',
 
+    (r'^~(?P<user_name>\w+)/$', 'ain7.annuaire.views.home'),
+
     (r'^accounts/login/$', 'ain7.pages.views.login'),
     (r'^accounts/logout/$', 'ain7.pages.views.logout'),
 

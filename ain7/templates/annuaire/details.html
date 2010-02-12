@@ -26,7 +26,9 @@
    {% if ain7member.nick_name %}
    <li><b>{% trans "Nick name" %}&nbsp;:</b> {{ ain7member.nick_name }}</li>
    {% endif %}
+   {% if ain7member.promos %}
    <li><b>{% trans "Promos" %}&nbsp;:</b> {% for promo in ain7member.promos.all %}{{ promo }}{% if not forloop.last %} - {% endif %}{% endfor %}</li>
+   {% endif %}
    {% if ain7member.education.all %}
    <li><b>{% filter capfirst %}{% trans "diplomas" %}{% endfilter %}&nbsp;:</b>
        {% for educ in ain7member.education.all %}{{ educ.diploma }}
@@ -35,9 +37,9 @@
    {% if person.birth_date %}
    <li><b>{% trans "Birth date" %}&nbsp;:</b> {{ person.birth_date|date:"d/m/Y" }}</li>
    {% endif %}
-   {% if person.death_date %}
+   {% if personprivate.death_date %}
    <li><b>{% filter capfirst %}{% trans "death date" %}{% endfilter %}
-       &nbsp;:</b> {{ person.death_date|date:"d/m/Y" }}</li>
+       &nbsp;:</b> {{ personprivate.death_date|date:"d/m/Y" }}</li>
    {% endif %}
    {% if superadmin or ca_member or secretariat_member or is_myself %}
    {% if ain7member.marital_status or ain7member.children_count %}
@@ -205,7 +207,7 @@
     </div>
 
     <h3>{% trans "Card Informations"%}</h3>
-    {% show_last_change ain7member %}
+    {% show_last_change person %}
 
     {% if last_activity %}
     <div class="right_articles">
