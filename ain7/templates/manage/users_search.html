@@ -37,7 +37,7 @@
 </table>
 <ul>
     {% for person in persons %}
-        <li class="person"><a href="{% url ain7.manage.views.user_details person.user.id %}">
+        <li class="person"><a href="{% url ain7.annuaire.views.details person.user.id %}">
             {{ person.last_name }} 
             {% if person.maiden_name %}
               ({{ person.maiden_name }})

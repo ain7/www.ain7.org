@@ -101,28 +101,7 @@ filter/$',
     # Users
     (r'^users/$', 'users_search'),
     (r'^users/register/$', 'user_register'),
-    (r'^users/(?P<user_id>\d+)/$', 'user_details'),
-    (r'^users/(?P<user_id>\d+)/edit/$', 'user_edit'),
-    (r'^users/(?P<user_id>\d+)/person/edit/$', 'user_person_edit'),
-    # Adresses
-    (r'^users/(?P<user_id>\d+)/address/(?P<address_id>\d+)/edit/$', \
-         'user_address_edit'),
-    (r'^users/(?P<user_id>\d+)/address/(?P<address_id>\d+)/delete/$', \
-         'user_address_delete'),
-    (r'^users/(?P<user_id>\d+)/address/add/$', 'user_address_edit'),
-    # Phone numbers
-    (r'^users/(?P<user_id>\d+)/phone/(?P<phone_id>\d+)/edit/$', \
-         'user_phone_edit'),
-    (r'^users/(?P<user_id>\d+)/phone/(?P<phone_id>\d+)/delete/$', \
-         'user_phone_delete'),
-    (r'^users/(?P<user_id>\d+)/phone/add/$', 'user_phone_edit'),
-    # Email
-    (r'^users/(?P<user_id>\d+)/email/(?P<email_id>\d+)/edit/$', \
-         'user_email_edit'),
-    (r'^users/(?P<user_id>\d+)/email/(?P<email_id>\d+)/delete/$', \
-         'user_email_delete'),
-    (r'^users/(?P<user_id>\d+)/email/add/$', 'user_email_edit'),
-                       
+
     # Roles
     (r'^roles/$', 'roles_index'),
     (r'^roles/register/$', 'role_register'),

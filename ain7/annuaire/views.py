@@ -50,8 +50,8 @@ def annuaire_search_engine():
 
 @login_required
 def home(request, user_name):
-    person_id = Person.objects.get(user__username=user_name).id
-    user_id = get_object_or_404(Person, pk=person_id).id
+    user = get_object_or_404(User, username=user_name)
+    user_id = Person.objects.get(user=user).id
     return details(request, user_id)
 
 @login_required
