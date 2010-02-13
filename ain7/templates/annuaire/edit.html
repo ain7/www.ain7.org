@@ -245,6 +245,27 @@
    {% trans "Add" %}</a></p>
 </div>
 
+<h2><a name="website"></a>{% trans "Web sites" %}</h2>
+
+<div class="dataBlock">
+{% for website in person.web_sites.all %}
+<table style="border: 0; width: 100%;">
+    <tr valign="middle"><td>
+        <img src="/site_media/images/{{ website.get_type_display|lower }}.png" alt="{% trans "web site" %}" width="24" height="24" />
+        <a href="{{ website.url }}">{{ website.url }}</a> ({{ website.confidentiality_print }})</td>
+    <td style="width: 12%">
+        <a href="{% url ain7.annuaire.views.website_edit person.user.id website.id %}" class="changelink">
+        {% trans "Modify" %}</a></td>
+    <td style="width: 12%">
+        <a href="{% url ain7.annuaire.views.website_delete person.user.id website.id %}" class="deletelink">
+        {% trans "Delete" %}</a></td>
+    </tr>
+</table>
+{% endfor %}
+<p><a href="{% url ain7.annuaire.views.website_edit person.user.id %}" class="addlink">
+   {% trans "Add" %}</a></p>
+</div>
+
 <h2><a name="im"></a>{% trans "Instant messaging accounts" %}</h2>
 
 <div class="dataBlock">
@@ -285,27 +306,6 @@
 </table>
 {% endfor %}
 <p><a href="{% url ain7.annuaire.views.irc_edit person.user.id %}" class="addlink">
-   {% trans "Add" %}</a></p>
-</div>
-
-<h2><a name="website"></a>{% trans "Web sites" %}</h2>
-
-<div class="dataBlock">
-{% for website in person.web_sites.all %}
-<table style="border: 0; width: 100%;">
-    <tr valign="middle"><td>
-        <img src="/site_media/images/{{ website.get_type_display|lower }}.png" alt="{% trans "web site" %}" width="24" height="24" />
-        <a href="{{ website.url }}">{{ website.url }}</a> ({{ website.confidentiality_print }})</td>
-    <td style="width: 12%">
-        <a href="{% url ain7.annuaire.views.website_edit person.user.id website.id %}" class="changelink">
-        {% trans "Modify" %}</a></td>
-    <td style="width: 12%">
-        <a href="{% url ain7.annuaire.views.website_delete person.user.id website.id %}" class="deletelink">
-        {% trans "Delete" %}</a></td>
-    </tr>
-</table>
-{% endfor %}
-<p><a href="{% url ain7.annuaire.views.website_edit person.user.id %}" class="addlink">
    {% trans "Add" %}</a></p>
 </div>
 

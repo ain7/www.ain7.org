@@ -294,7 +294,6 @@ class EmailForm(forms.ModelForm):
     class Meta:
         """email form meta"""
         model = Email
-        exclude = ('person')
 
 class PhoneNumberForm(forms.ModelForm):
     """phone number form"""
@@ -302,7 +301,6 @@ class PhoneNumberForm(forms.ModelForm):
     class Meta:
         """phone number form meta"""
         model = PhoneNumber
-        exclude = ('person')
 
 class PromoForm(forms.Form):
     """promo form"""
@@ -362,7 +360,6 @@ class AddressForm(forms.ModelForm):
     class Meta:
         """address form meta"""
         model = Address
-        exclude = ('person')
 
     def clean_country(self):
         """check country"""
@@ -379,7 +376,6 @@ class InstantMessagingForm(forms.ModelForm):
     class Meta:
         """instant messaging form meta"""
         model = InstantMessaging
-        exclude = ('person')
 
 class IRCForm(forms.ModelForm):
     """IRC form"""
@@ -387,7 +383,6 @@ class IRCForm(forms.ModelForm):
     class Meta:
         """IRC form meta"""
         model = IRC
-        exclude = ('person')
 
 class WebSiteForm(forms.ModelForm):
     """web site form"""
@@ -395,7 +390,6 @@ class WebSiteForm(forms.ModelForm):
     class Meta:
         """web site form meta"""
         model = WebSite
-        exclude = ('person')
 
 class ClubMembershipForm(forms.ModelForm):
     "club membership form"""
@@ -407,7 +401,6 @@ class ClubMembershipForm(forms.ModelForm):
     class Meta:
         """club membership form meta"""
         model = ClubMembership
-        exclude = ('member')
 
 class ChangePasswordForm(forms.Form):
     """ Change password and/or login"""

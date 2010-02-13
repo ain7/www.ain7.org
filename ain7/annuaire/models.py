@@ -413,7 +413,7 @@ class PhoneNumber(LoggedClass):
                          (3, _('Mobile')),
                          )
 
-    person = models.ForeignKey(Person, related_name='phone_numbers')
+    person = models.ForeignKey(Person, related_name='phone_numbers', editable=False)
 
     number = models.CharField(verbose_name=_('number'), max_length=30)
     type = models.IntegerField(verbose_name=_('type'),
@@ -454,7 +454,7 @@ class AddressType(models.Model):
 class Address(LoggedClass):
     """A person address"""
 
-    person = models.ForeignKey(Person, related_name='addresses')
+    person = models.ForeignKey(Person, related_name='addresses', editable=False)
 
     line1 = models.CharField(verbose_name=_('address line1'), max_length=50)
     line2 = models.CharField(verbose_name=_('address line2'), max_length=100,
@@ -489,7 +489,7 @@ class Address(LoggedClass):
 class Email(models.Model):
     """e-mail address for a person"""
 
-    person = models.ForeignKey(Person, related_name='emails')
+    person = models.ForeignKey(Person, related_name='emails', editable=False)
 
     email = models.EmailField(verbose_name=_('email'))
     confidentiality = models.IntegerField(verbose_name=_('confidentiality'),
@@ -540,7 +540,8 @@ class InstantMessaging(models.Model):
                               (7,'Skype'),
                               )
 
-    person = models.ForeignKey(Person, related_name='instant_messagings')
+    person = models.ForeignKey(Person, related_name='instant_messagings',
+         editable=False)
 
     type = models.IntegerField(verbose_name=_('type'), 
         choices=INSTANT_MESSAGING_TYPE)
@@ -580,7 +581,8 @@ class WebSite(models.Model):
                     (100,'Other'),
                    )
 
-    person = models.ForeignKey(Person, related_name='web_sites')
+    person = models.ForeignKey(Person, related_name='web_sites',
+        editable=False)
 
     url = models.CharField(verbose_name=_('web site'), max_length=100)
     type = models.IntegerField(verbose_name=_('type'), choices=WEBSITE_TYPE)
@@ -615,7 +617,7 @@ class WebSite(models.Model):
 class IRC(models.Model):
     """IRC contact for a person"""
 
-    person = models.ForeignKey(Person, related_name='ircs')
+    person = models.ForeignKey(Person, related_name='ircs', editable=False)
 
     network = models.CharField(verbose_name=_('network'), max_length=50)
     pseudo = models.CharField(verbose_name=_('pseudo'), max_length=20)
@@ -671,7 +673,7 @@ class ClubMembership(models.Model):
     club = models.ForeignKey(Club, verbose_name=_('club'),
         related_name='memberships')
     member = models.ForeignKey(AIn7Member, verbose_name=_('member'),
-        related_name='club_memberships')
+        related_name='club_memberships', editable=False)
 
     fonction = models.CharField(verbose_name=_('fonction'), max_length=50,
         blank=True, null=True)

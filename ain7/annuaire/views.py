@@ -40,9 +40,8 @@ from ain7.decorators import confirmation_required
 from ain7.search_engine.models import *
 from ain7.search_engine.utils import *
 from ain7.search_engine.views import *
-from ain7.utils import ain7_render_to_response, ain7_generic_edit
+from ain7.utils import ain7_render_to_response
 from ain7.utils import ain7_generic_delete, check_access
-from ain7.settings import AIN7_PORTAL_ADMIN
 
 
 def annuaire_search_engine():
@@ -68,7 +67,7 @@ def details(request, user_id):
     if AIn7Member.objects.filter(person=person).count() > 0:
         ain7member = get_object_or_404(AIn7Member, person=person)
 	is_subscriber = Subscription.objects.filter(member=ain7member).\
-	    filter(validated=True).exclude(start_year__gt=datetime.date.\
+            filter(validated=True).exclude(start_year__gt=datetime.date.\
             today().year).exclude(end_year__lt=datetime.date.today().year)
 
     if UserActivity.objects.filter(person=person):
@@ -155,7 +154,8 @@ def change_credentials(request, user_id):
                     message=_("Credentials updated."))
                 return HttpResponseRedirect('/annuaire/'+str(person.id)+'/')
             else:
-                request.user.message_set.create(message=_("Wrong authentication"))
+                request.user.message_set.create(message=\
+                    _("Wrong authentication"))
 
     form = ChangePasswordForm(initial={'login': person.user.username})
     return ain7_render_to_response(request, 'annuaire/credentials.html',
@@ -387,7 +387,8 @@ def filter_delete(request, filter_id):
             message=_("Your filter has been successfully deleted."))
     except KeyError:
         request.user.message_set.create(
-            message=_("Something went wrong. The filter has not been deleted.")) 
+            message=\
+                _("Something went wrong. The filter has not been deleted."))
     return HttpResponseRedirect('/annuaire/advanced_search/')
 
 @login_required
@@ -554,15 +555,6 @@ def personprivate_edit(request, user_id):
         {'form': form, 'action_title': _("Modification of personal data for"),
          'back': request.META.get('HTTP_REFERER', '/')})
 
-#    return ain7_generic_edit(
-#        request, person, PersonPrivateForm,
-#        {'user': request.user, 'person_private': person_private},
-#         'annuaire/edit_form.html',
-#        {'action_title': _("Modification of personal data for"),
-#         'person': person, 'back': request.META.get('HTTP_REFERER', '/')},
-#        {}, '/annuaire/%s/edit' % (request.user.id),
-#        _("Modifications have been successfully saved."))
-
 @login_required
 def ain7member_edit(request, user_id):
 
@@ -575,14 +567,22 @@ def ain7member_edit(request, user_id):
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
+    form = AIn7MemberForm(instance=ain7member)
 
-    return ain7_generic_edit(
-        request, ain7member, AIn7MemberForm, {'person': person},
-        'annuaire/edit_form.html',
-        {'action_title': _("Modification of personal data for"),
-         'person': person, 'back': request.META.get('HTTP_REFERER', '/')}, {},
-        '/annuaire/%s/edit' % (person.user.id),
-        _("Modifications have been successfully saved."))
+    if request.method == 'POST':
+        form = AIn7MemberForm(request.POST, instance=ain7member)
+        if form.is_valid():
+            form.save()
+            request.user.message_set.create(message=_('Modifications have been\
+ successfully saved.'))
+
+        return HttpResponseRedirect(
+            '/annuaire/%s/edit/' % user_id)
+
+    return ain7_render_to_response(
+        request, 'annuaire/edit_form.html',
+        {'form': form, 'action_title': _("Modification of personal data for"),
+         'back': request.META.get('HTTP_REFERER', '/')})
 
 @confirmation_required(lambda user_id=None, object_id=None : '',
      'annuaire/base.html', _('Do you really want to delete your avatar'))
@@ -624,13 +624,13 @@ def promo_edit(request, person_id=None, promo_id=None):
         if form.is_valid():
             promo = form.search()
             ain7member.promos.add(promo)
-            request.user.message_set.create(message=_('Promotion successfully added.'))
+            request.user.message_set.create(message=\
+                _('Promotion successfully added.'))
         else:
             return ain7_render_to_response(
                 request, 'annuaire/edit_form.html',
                 {'form': form, 
                  'action_title': _(u'Adding a promotion for %s' % ain7member)})
-#             request.user.message_set.create(message=_("Something was wrong in the form you filled. No modification done."))
         return HttpResponseRedirect(
             '/annuaire/%s/edit/#promos' % person_id)
     return ain7_render_to_response(
@@ -674,17 +674,31 @@ def address_edit(request, user_id=None, address_id=None):
     person = get_object_or_404(Person, user=user_id)
     address = None
     title = _('Creation of an address for')
-    msg_done = _('Address successfully added.')
+    form = AddressForm()
+
     if address_id:
         address = get_object_or_404(Address, pk=address_id)
+        form = AddressForm(instance=address)
+
         title = _('Modification of an address for')
-        msg_done = _('Address informations updated successfully.')
-    return ain7_generic_edit(
-        request, address, AddressForm, {'person': person},
-        'annuaire/edit_form.html',
-        {'action_title': title, 'person': person,
-         'back': request.META.get('HTTP_REFERER', '/')}, {},
-        '/annuaire/%s/edit/#address' % user_id, msg_done)
+
+    if request.method == 'POST':
+        form = AddressForm(request.POST, instance=address)
+        if form.is_valid():
+            adr = form.save(commit=False)
+            adr.person = person
+            adr.save()
+
+            request.user.message_set.create(message=\
+                _('Address successfully saved'))
+
+            return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
+                 kwargs={'user_id': user_id}))
+
+    return ain7_render_to_response(
+        request, 'annuaire/edit_form.html',
+        {'form': form, 'action_title': title, 'person': person,
+         'back': request.META.get('HTTP_REFERER', '/')})
 
 @confirmation_required(lambda user_id=None, address_id=None :
     str(get_object_or_404(Address, pk=address_id)), 'annuaire/base.html', 
@@ -708,6 +722,7 @@ def address_delete(request, user_id=None, address_id=None):
 def phone_edit(request, user_id=None, phone_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
+
     access = check_access(request, request.user,
         ['ain7-secretariat', 'ain7-ca'])
     if access and not is_myself:
@@ -716,17 +731,31 @@ def phone_edit(request, user_id=None, phone_id=None):
     person = get_object_or_404(Person, user=user_id)
     phone = None
     title = _('Creation of a phone number for')
-    msg_done = _('Phone number added successfully.')
+    form = PhoneNumberForm()
+
     if phone_id:
         phone = get_object_or_404(PhoneNumber, pk=phone_id)
+        form = PhoneNumberForm(instance=phone)
+
         title = _('Modification of a phone number for')
-        msg_done = _('Phone number informations updated successfully.')
-    return ain7_generic_edit(
-        request, phone, PhoneNumberForm, {'person': person},
-        'annuaire/edit_form.html',
-        {'action_title': title, 'person': person,
-         'back': request.META.get('HTTP_REFERER', '/')}, {},
-        '/annuaire/%s/edit/#phone' % user_id, msg_done)
+
+    if request.method == 'POST':
+        form = PhoneNumberForm(request.POST, instance=phone)
+        if form.is_valid():
+            phon = form.save(commit=False)
+            phon.person = person
+            phon.save()
+
+            request.user.message_set.create(message=\
+                _('Phone number successfully saved'))
+
+            return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
+                kwargs={'user_id': user_id}))
+
+    return ain7_render_to_response(
+        request, 'annuaire/edit_form.html',
+        {'form': form, 'action_title': title, 'person': person,
+         'back': request.META.get('HTTP_REFERER', '/')})
 
 @confirmation_required(lambda user_id=None, phone_id=None :
     str(get_object_or_404(PhoneNumber, pk=phone_id)), 'annuaire/base.html', 
@@ -750,6 +779,7 @@ def phone_delete(request, user_id=None, phone_id=None):
 def email_edit(request, user_id=None, email_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
+
     access = check_access(request, request.user, 
         ['ain7-secretariat', 'ain7-ca'])
     if access and not is_myself:
@@ -758,17 +788,31 @@ def email_edit(request, user_id=None, email_id=None):
     person = get_object_or_404(Person, user=user_id)
     email = None
     title = _('Creation of an email address for')
-    msg_done = _('Email address successfully added.')
+    form = EmailForm()
+
     if email_id:
         email = get_object_or_404(Email, pk=email_id)
+        form = EmailForm(instance=email)
+
         title = _('Modification of an email address for')
-        msg_done = _('Email informations updated successfully.')
-    return ain7_generic_edit(
-        request, email, EmailForm, {'person': person},
-        'annuaire/edit_form.html',
-        {'action_title': title, 'person': person,
-         'back': request.META.get('HTTP_REFERER', '/')}, {},
-         '/annuaire/%s/edit/#email' % user_id, msg_done)
+
+    if request.method == 'POST':
+        form = EmailForm(request.POST, instance=email)
+        if form.is_valid():
+            mail = form.save(commit=False)
+            mail.person = person
+            mail.save()
+
+            request.user.message_set.create(message=\
+                _('Email successfully saved'))
+
+            return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
+                kwargs={'user_id': user_id}))
+
+    return ain7_render_to_response(
+        request, 'annuaire/edit_form.html',
+        {'form': form, 'action_title': title, 'person': person,
+         'back': request.META.get('HTTP_REFERER', '/')})
 
 @confirmation_required(lambda user_id=None, email_id=None:
     str(get_object_or_404(Email, pk=email_id)), 'annuaire/base.html', 
@@ -791,6 +835,7 @@ def email_delete(request, user_id=None, email_id=None):
 def im_edit(request, user_id=None, im_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
+
     access = check_access(request, request.user,
         ['ain7-secretariat', 'ain7-ca'])
     if access and not is_myself:
@@ -799,17 +844,31 @@ def im_edit(request, user_id=None, im_id=None):
     person = get_object_or_404(Person, user=user_id)
     ime = None
     title = _('Creation of an instant messaging account for')
-    msg_done = _('Instant messaging account successfully added.')
+    form = InstantMessagingForm()
+
     if im_id:
         ime = get_object_or_404(InstantMessaging, pk=im_id)
+        form = InstantMessagingForm(instance=ime)
+
         title = _('Modification of an instant messaging account for')
-        msg_done = _('Instant messaging informations updated successfully.')
-    return ain7_generic_edit(
-        request, ime, InstantMessagingForm, {'person': person},
-        'annuaire/edit_form.html',
-        {'action_title': title, 'person': person,
-         'back': request.META.get('HTTP_REFERER', '/')}, {},
-        '/annuaire/%s/edit/#im' % user_id, msg_done)
+
+    if request.method == 'POST':
+        form = InstantMessagingForm(request.POST, instance=ime)
+        if form.is_valid():
+            inm = form.save(commit=False)
+            inm.person = person
+            inm.save()
+
+            request.user.message_set.create(message=\
+                _('Instant messaging successfully saved'))
+
+            return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
+                kwargs={'user_id': user_id}))
+
+    return ain7_render_to_response(
+        request, 'annuaire/edit_form.html',
+        {'form': form, 'action_title': title, 'person': person,
+         'back': request.META.get('HTTP_REFERER', '/')})
 
 @confirmation_required(lambda user_id=None, im_id=None :
     str(get_object_or_404(InstantMessaging, pk=im_id)), 'annuaire/base.html',
@@ -841,17 +900,31 @@ def irc_edit(request, user_id=None, irc_id=None):
     person = get_object_or_404(Person, user=user_id)
     irc = None
     title = _('Creation of an IRC account for')
-    msg_done = _('IRC account successfully added.')
+    form = IRCForm()
+
     if irc_id:
         irc = get_object_or_404(IRC, pk=irc_id)
+        form = IRCForm(instance=irc)
+
         title = _('Modification of an IRC account for')
-        msg_done = _('IRC account informations updated successfully.')
-    return ain7_generic_edit(
-        request, irc, IRCForm, {'person': person},
-        'annuaire/edit_form.html',
-        {'action_title': title, 'person': person,
-         'back': request.META.get('HTTP_REFERER', '/')}, {},
-        '/annuaire/%s/edit/#irc' % user_id, msg_done)
+
+    if request.method == 'POST':
+        form = IRCForm(request.POST, instance=irc)
+        if form.is_valid():
+            this_irc = form.save(commit=False)
+            this_irc.person = person
+            this_irc.save()
+
+            request.user.message_set.create(message=\
+                _('irc contact successfully saved'))
+
+            return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
+                kwargs={'user_id': user_id}))
+
+    return ain7_render_to_response(
+        request, 'annuaire/edit_form.html',
+        {'form': form, 'action_title': title, 'person': person,
+         'back': request.META.get('HTTP_REFERER', '/')})
 
 @confirmation_required(lambda user_id=None, irc_id=None:
     str(get_object_or_404(IRC, pk=irc_id)), 'annuaire/base.html',
@@ -875,6 +948,7 @@ def irc_delete(request, user_id=None, irc_id=None):
 def website_edit(request, user_id=None, website_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
+
     access = check_access(request, request.user, 
         ['ain7-secretariat', 'ain7-ca'])
     if access and not is_myself:
@@ -883,17 +957,31 @@ def website_edit(request, user_id=None, website_id=None):
     person = get_object_or_404(Person, user=user_id)
     website = None
     title = _('Creation of a website for')
-    msg_done = _('Website successfully added.')
+    form = WebSiteForm()
+
     if website_id:
         website = get_object_or_404(WebSite, pk=website_id)
+        form = WebSiteForm(instance=website)
+
         title = _('Modification of a website for')
-        msg_done = _('Website informations updated successfully.')
-    return ain7_generic_edit(
-        request, website, WebSiteForm, {'person': person},
-        'annuaire/edit_form.html',
-        {'action_title': title, 'person': person,
-         'back': request.META.get('HTTP_REFERER', '/')}, {},
-        '/annuaire/%s/edit/#website' % user_id, msg_done)
+
+    if request.method == 'POST':
+        form = WebSiteForm(request.POST, instance=website)
+        if form.is_valid():
+            web = form.save(commit=False)
+            web.person = person
+            web.save()
+
+            request.user.message_set.create(message=\
+                _('website successfully saved'))
+
+            return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
+                kwargs={'user_id': user_id}))
+
+    return ain7_render_to_response(
+        request, 'annuaire/edit_form.html',
+        {'form': form, 'action_title': title, 'person': person,
+         'back': request.META.get('HTTP_REFERER', '/')})
 
 @confirmation_required(lambda user_id=None, website_id=None:
     str(get_object_or_404(WebSite, pk=website_id)), 'annuaire/base.html',
@@ -918,6 +1006,7 @@ def website_delete(request, user_id=None, website_id=None):
 def club_membership_edit(request, user_id=None, club_membership_id=None):
 
     is_myself = int(request.user.id) == int(user_id)
+
     access = check_access(request, request.user,
         ['ain7-secretariat', 'ain7-ca'])
     if access and not is_myself:
@@ -927,18 +1016,32 @@ def club_membership_edit(request, user_id=None, club_membership_id=None):
     ain7member = get_object_or_404(AIn7Member, person=person)
     club_membership = None
     title = _('Creation of a club membership for')
-    msg_done = _('Club membership successfully added.')
+    form = ClubMembershipForm()
+ 
     if club_membership_id:
         club_membership = get_object_or_404(ClubMembership,
-                                            pk=club_membership_id)
+            pk=club_membership_id)
+        form = ClubMembershipForm(instance=club_membership)
+
         title = _('Modification of a club membership for')
-        msg_done = _('Club membership informations updated successfully.')
-    return ain7_generic_edit(
-        request, club_membership, ClubMembershipForm,
-        {'member': ain7member}, 'annuaire/edit_form.html',
-        {'action_title': title, 'person': person,
-         'back': request.META.get('HTTP_REFERER', '/')}, {},
-        '/annuaire/%s/edit/#assoc' % user_id, msg_done)
+
+    if request.method == 'POST':
+        form = ClubMembershipForm(request.POST, instance=club_membership)
+        if form.is_valid():
+            membership = form.save(commit=False)
+            membership.member = ain7member
+            membership.save()
+
+            request.user.message_set.create(message=\
+                _('Club membership successfully saved'))
+
+            return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
+                kwargs={'user_id': user_id}))
+
+    return ain7_render_to_response(
+        request, 'annuaire/edit_form.html',
+        {'form': form, 'action_title': title, 'person': person,
+         'back': request.META.get('HTTP_REFERER', '/')})
 
 @confirmation_required(lambda user_id=None, club_membership_id=None:
     str(get_object_or_404(ClubMembership, pk=club_membership_id)),
@@ -960,6 +1063,7 @@ def club_membership_delete(request, user_id=None, club_membership_id=None):
 
 @login_required
 def add(request, user_id=None):
+    """ add a new person"""
 
     access = check_access(request, request.user,
         ['ain7-secretariat', 'ain7-ca'])
