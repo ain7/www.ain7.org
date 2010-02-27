@@ -254,7 +254,7 @@ class PaymentForm(forms.ModelForm):
     class Meta:
         """Payment meta information"""
         model = Payment
-        exclude = ()
+        exclude = ('mean', 'person')
 
 class PortalErrorForm(forms.ModelForm):
     """error form"""

@@ -677,6 +677,12 @@ class ClubMembership(models.Model):
 
     fonction = models.CharField(verbose_name=_('fonction'), max_length=50,
         blank=True, null=True)
+    begin = models.IntegerField(verbose_name=_('start date'), blank=True,
+        null=True)
+    end = models.IntegerField(verbose_name=_('end date'), blank=True,
+        null=True)
+
+    # TODO: remove once migrated
     start_date = models.DateField(verbose_name=_('start date'), blank=True,
         null=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True,

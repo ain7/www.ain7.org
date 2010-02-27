@@ -110,7 +110,7 @@
 
 <p>&nbsp;</p>
 
-{% if ca_member %}
+{% if ca_member or secretariat_member or superadmin %}
 <div class="dataBlock">
 <ul>
     <li><b>{% filter capfirst %}{% trans "type" %}{% endfilter %}</b>&nbsp;:
@@ -162,7 +162,7 @@
 <table>
 {% for position in ain7member.positions.all %}
         <tr><td>
-                <b>{{ position.start_date|date:"d/m/Y" }} - {{ position.end_date|date:"d/m/Y"|default:"..." }}</b>&nbsp;:</td>
+                <b>{{ position.begin }} - {{ position.end }}</b>&nbsp;:</td>
             <td><em>{{ position.fonction }}</em>,
                 {{ position.office }}
                 <a href="{% url ain7.emploi.views.organization_details position.office.organization.id %}">{{ position.office.organization }}</a></td></tr>
@@ -319,7 +319,7 @@
     <tr><td>{% if club_membership.club.web_site %}<a href="{{ club_membership.club.web_site}}">{% endif %}
                  {{ club_membership.club.name }}
             {% if club_membership.club.web_site %}</a>{% endif %}
-    {% if club_membership.start_date and club_membership.end_date %}(<i>{{ club_membership.start_date|date:"Y" }} - {{ club_membership.end_date|date:"Y" }}</i>){% endif %}</td>
+    {% if club_membership.begin and club_membership.end %}(<i>{{ club_membership.begin }} - {{ club_membership.end }}</i>){% endif %}</td>
     <td>{% if club_membership.fonction %}{{ club_membership.fonction }}{% endif %}</td>
     <td style="width: 12%">
         <a href="{% url ain7.annuaire.views.club_membership_edit person.user.id club_membership.id %}" class="changelink">

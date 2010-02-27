@@ -81,20 +81,34 @@ class PortalError(models.Model):
         null=True, blank=True)
     fixed = models.BooleanField(verbose_name=_('fixed'), default=False)
 
+class PaymentMean(models.Model):
+    """means of payment"""
+
+    name = models.CharField(verbose_name=_('name'), max_length=200,
+        null=True, blank=True)
+    public = models.BooleanField(verbose_name=_('public'), default=False)
+    obsolete = models.BooleanField(verbose_name=_('obsolete'), default=False)
+
+    def __unicode__(self):
+        """return unicode representation of means of payment"""
+        return name
+
 class Payment(models.Model):
     """payment"""
 
     TYPE = (
-        (0, _('Cash')),
-        (1, _('Check CE')),
-        (2, _('Check CCP')),
-        (3, _('Card')),
-        (4, _('Transfer CE')),
-        (5, _('Transfer CCP')),
-        (6, _('Other')),
+        (1, _('Cash')),
+        (2, _('Check CE')),
+        (3, _('Check CCP')),
+        (4, _('Card')),
+        (5, _('Transfer CE')),
+        (6, _('Transfer CCP')),
+        (7, _('Other')),
     )
 
     person = models.ForeignKey(Person, blank=True, null=True)
+    mean = models.ForeignKey(PaymentMean, blank=True, null=True)
+
     amount = models.FloatField(verbose_name=_('amount'))
     type = models.IntegerField(verbose_name=_('Type'), choices=TYPE)
 
@@ -105,8 +119,6 @@ class Payment(models.Model):
     date = models.DateField(verbose_name=_('payment date'), null=True)
     validated = models.BooleanField(verbose_name=_('validated'), default=False)
     deposited = models.DateTimeField(verbose_name=_('deposit date'), 
-        null=True, blank=True)
-    secret_key = models.CharField(verbose_name=_('secret key'), max_length=50,
         null=True, blank=True)
 
     created_at = models.DateTimeField(verbose_name=_('registration date'),
@@ -136,4 +148,31 @@ class Payment(models.Model):
         if self.person:
             uni += _(' from ') + ' ' + self.person.complete_name
         return uni
+
+    def validate(self):
+
+        if self.subscriptions.count() == 1:
+	     sub = self.subscriptions.order_by('id')[0]
+             sub.validated = True
+             sub.save()
+
+             self.validated = True
+
+             self.person.send_mail(_(u'AIn7 Subscription validated'), \
+	_(u"""Hi %(firstname)s,
+
+We have validated your subscription for the next year to the association AIn7.
+
+We remind you that you have an access to the website and can update your
+personal informations. On the website, you can find the directory,
+next events, news in the N7 world, employment.
+
+All the AIn7 Team would like to thanks you for you support. See you on
+the website or at one of our events.
+
+Cheers,
+
+AIn7 Team
+
+""") % { 'firstname': self.person.first_name })
 

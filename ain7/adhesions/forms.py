@@ -39,7 +39,7 @@ class SubscriptionForm(forms.ModelForm):
     class Meta:
         """Meta SubscriptionForm"""
         model = Subscription
-        exclude = ('old_id', 'member', 'validated', 'end_year', 'payment')
+        exclude = ('old_id', 'member', 'validated', 'end_year', 'payment', 'date')
 
 class ConfigurationForm(forms.ModelForm):
     """Subscription Configuration Form"""

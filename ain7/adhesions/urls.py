@@ -41,5 +41,6 @@ urlpatterns = patterns('ain7.adhesions.views',
         'configuration_delete'),
     (r'^configurations/add/$', 'configuration_edit', {}, 'configuration_add'),
     (r'^feedback/$', 'payment_validate'),
+    (r'^notification/$', 'notification'),
 
 )

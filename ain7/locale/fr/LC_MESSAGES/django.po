@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-07 19:19+0100\n"
+"POT-Creation-Date: 2010-02-27 18:01+0100\n"
 "PO-Revision-Date: 2010-01-15 22:50+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: AIn7 French Translators <ain7-devel@lists.ain7.com>\n"
@@ -30,20 +30,18 @@ msgstr "Événements organisés par l'AIn7"
 msgid "AIn7 news"
 msgstr "Actualité AIn7"
 
-#: fields.py:72 templates/annuaire/edit.html:145
-#: templates/annuaire/edit.html.py:190 templates/annuaire/edit.html:211
-#: templates/annuaire/edit.html.py:233 templates/annuaire/edit.html:254
-#: templates/annuaire/edit.html.py:276 templates/annuaire/edit.html:297
-#: templates/annuaire/edit.html.py:320
+#: fields.py:72 templates/annuaire/edit.html:153
+#: templates/annuaire/edit.html.py:202 templates/annuaire/edit.html:223
+#: templates/annuaire/edit.html.py:245 templates/annuaire/edit.html:266
+#: templates/annuaire/edit.html.py:287 templates/annuaire/edit.html:309
+#: templates/annuaire/edit.html.py:334
 #: templates/association/edit_council.html:118
 #: templates/emploi/cv_edit.html:82 templates/emploi/cv_edit.html.py:104
 #: templates/emploi/cv_edit.html:129 templates/emploi/cv_edit.html.py:168
-#: templates/emploi/organization_edit.html:61
+#: templates/emploi/organization_edit.html:69
 #: templates/groupes_professionnels/edit_roles.html:97
 #: templates/groupes_regionaux/edit_roles.html:97
-#: templates/manage/role_details.html:20 templates/manage/user_edit.html:64
-#: templates/manage/user_edit.html.py:85 templates/manage/user_edit.html:109
-#: templates/sondages/details.html:46
+#: templates/manage/role_details.html:20 templates/sondages/details.html:46
 msgid "Add"
 msgstr "Ajouter"
 
@@ -63,17 +61,17 @@ msgstr "publié uniquement dans l'annuaire papier"
 msgid "private"
 msgstr "privé"
 
-#: utils.py:140 adhesions/views.py:242 annuaire/views.py:300
-#: annuaire/views.py:325 annuaire/views.py:971 association/views.py:137
-#: association/views.py:176 emploi/views.py:427 emploi/views.py:613
-#: emploi/views.py:712 emploi/views.py:794 emploi/views.py:864
+#: utils.py:140 adhesions/views.py:242 annuaire/views.py:315
+#: annuaire/views.py:340 annuaire/views.py:1084 association/views.py:137
+#: association/views.py:176 emploi/views.py:432 emploi/views.py:618
+#: emploi/views.py:717 emploi/views.py:799 emploi/views.py:869
 #: evenements/views.py:134 evenements/views.py:253
 #: groupes_professionnels/views.py:117 groupes_professionnels/views.py:229
 #: groupes_professionnels/views.py:281 groupes_regionaux/views.py:221
-#: groupes_regionaux/views.py:272 manage/views.py:135 manage/views.py:354
-#: manage/views.py:380 manage/views.py:674 manage/views.py:804
-#: manage/views.py:926 manage/views.py:991 manage/views.py:1044
-#: manage/views.py:1108 manage/views.py:1381 manage/views.py:1568
+#: groupes_regionaux/views.py:272 manage/views.py:122 manage/views.py:309
+#: manage/views.py:335 manage/views.py:629 manage/views.py:759
+#: manage/views.py:881 manage/views.py:946 manage/views.py:999
+#: manage/views.py:1063 manage/views.py:1211 manage/views.py:1385
 #: search_engine/views.py:336 voyages/views.py:204 voyages/views.py:253
 #: voyages/views.py:346
 msgid "Something was wrong in the form you filled. No modification done."
@@ -89,7 +87,7 @@ msgstr "Auteur de la dernière modification"
 msgid "last changed at"
 msgstr "Modifié pour la dernière fois à"
 
-#: adhesions/models.py:39 manage/models.py:88
+#: adhesions/models.py:39 manage/models.py:100
 msgid "Cash"
 msgstr "Espèce"
 
@@ -97,7 +95,7 @@ msgstr "Espèce"
 msgid "Cheque"
 msgstr "Chèque"
 
-#: adhesions/models.py:41 manage/models.py:91
+#: adhesions/models.py:41 manage/models.py:103
 msgid "Card"
 msgstr "Carte bancaire"
 
@@ -105,27 +103,27 @@ msgstr "Carte bancaire"
 msgid "Transfer"
 msgstr "Virement"
 
-#: adhesions/models.py:43 manage/models.py:94
+#: adhesions/models.py:43 manage/models.py:106
 msgid "Other"
 msgstr "Autre"
 
-#: adhesions/models.py:49 annuaire/models.py:350 annuaire/models.py:677
+#: adhesions/models.py:49 annuaire/models.py:310 annuaire/models.py:675
 #: association/models.py:47 groupes_professionnels/models.py:82
 #: groupes_professionnels/models.py:117 groupes_regionaux/models.py:95
-#: groupes_regionaux/models.py:124 templates/annuaire/edit.html:90
+#: groupes_regionaux/models.py:124 templates/annuaire/edit.html:118
 msgid "member"
 msgstr "membre"
 
-#: adhesions/models.py:52 manage/models.py:123
+#: adhesions/models.py:52 manage/models.py:135
 msgid "payment"
 msgstr "Paiement"
 
-#: adhesions/models.py:55 adhesions/models.py:97
+#: adhesions/models.py:55 adhesions/models.py:100
 #: templates/adhesions/configurations.html:19
 msgid "Dues amount"
 msgstr "Montant de cotisation"
 
-#: adhesions/models.py:56 adhesions/models.py:98
+#: adhesions/models.py:56 adhesions/models.py:101
 #: templates/adhesions/configurations.html:20
 msgid "Newspaper amount"
 msgstr "Montant Canal N7"
@@ -135,74 +133,78 @@ msgstr "Montant Canal N7"
 msgid "Tender type"
 msgstr "Mode de paiement"
 
-#: adhesions/models.py:60 manage/models.py:106
+#: adhesions/models.py:60 manage/models.py:120
 msgid "validated"
 msgstr "Validé"
 
-#: adhesions/models.py:62 emploi/forms.py:285
+#: adhesions/models.py:62
+msgid "subscription date"
+msgstr "date d'adhésion"
+
+#: adhesions/models.py:65 emploi/forms.py:285
 msgid "start year"
 msgstr "début (année)"
 
-#: adhesions/models.py:63 emploi/forms.py:287
+#: adhesions/models.py:66 emploi/forms.py:287
 msgid "end year"
 msgstr "fin (année)"
 
-#: adhesions/models.py:71
+#: adhesions/models.py:74
 msgid "Subscription"
 msgstr "Adhésions"
 
-#: adhesions/models.py:80
+#: adhesions/models.py:83
 #, python-format
 msgid "Promotions before %(year)s"
 msgstr "Promotions antérieures à %(year)s"
 
-#: adhesions/models.py:82
+#: adhesions/models.py:85
 #, python-format
 msgid "Promotions from %(start_year)s to %(end_year)s"
 msgstr "Promotions %(start_year)s à %(end_year)s"
 
-#: adhesions/models.py:85
+#: adhesions/models.py:88
 msgid "Retired"
 msgstr "Retraité"
 
-#: adhesions/models.py:86
+#: adhesions/models.py:89
 msgid "Donator"
 msgstr "Bienfaiteur"
 
-#: adhesions/models.py:87
+#: adhesions/models.py:90
 msgid "Unemployed (with voucher)"
 msgstr "Sans emploi (sur justificatif)"
 
-#: adhesions/models.py:88
+#: adhesions/models.py:91
 msgid "Student, for three years"
 msgstr "Étudiante, trois ans"
 
-#: adhesions/models.py:89
+#: adhesions/models.py:92
 msgid "Student, for two years"
 msgstr "Étudiante, deux ans"
 
-#: adhesions/models.py:90
+#: adhesions/models.py:93
 msgid "Student, for one year"
 msgstr "Étudiante, un an"
 
-#: adhesions/models.py:91
+#: adhesions/models.py:94
 msgid "Couple"
 msgstr "Couple"
 
-#: adhesions/models.py:92
+#: adhesions/models.py:95
 msgid "Support"
 msgstr "Soutien"
 
-#: adhesions/models.py:95 manage/models.py:99
+#: adhesions/models.py:98 manage/models.py:113
 #: templates/adhesions/configurations.html:18
 msgid "Type"
 msgstr "Type"
 
-#: adhesions/models.py:100 templates/adhesions/configurations.html:21
+#: adhesions/models.py:103 templates/adhesions/configurations.html:21
 msgid "Duration"
 msgstr "Durée"
 
-#: adhesions/models.py:108
+#: adhesions/models.py:111
 msgid "Configuration"
 msgstr "Configuration"
 
@@ -230,22 +232,23 @@ msgstr "Ajout d'une adhésion pour"
 msgid "You already have an active subscription."
 msgstr "Vous avez déjà une adhésion active."
 
-#: adhesions/views.py:197
+#: adhesions/views.py:198
 msgid "AIn7 Subscription registered"
 msgstr "Votre adhésions à l'AIn7 a été enregistrée"
 
-#: adhesions/views.py:198
+#: adhesions/views.py:199
 #, python-format
 msgid ""
 "Hi %(firstname)s,\n"
 "\n"
 "We have registered your subscription for the next year to the association "
 "AIn7.\n"
+"Your subscription will be validated as soon as we have received your "
+"payment.\n"
 "\n"
 "We remind you that you have an access to the website and can update your\n"
 "personal informations. On the website, you can find the directory,\n"
-"next events, news in the N7 world, employment. If you have lost your \n"
-"password, you can recover at http://ain7.com/lostpassword/ .\n"
+"next events, news in the N7 world, employment.\n"
 "\n"
 "All the AIn7 Team would like to thanks you for you support. See you on\n"
 "the website or at one of our events.\n"
@@ -258,14 +261,12 @@ msgstr ""
 "Bonjour %(firstname)s,\n"
 "\n"
 "Nous venons d'enregistrer votre adhésion pour l'année à venir à l'AIn7.\n"
+"Votre adhésion sera validée à la réception de votre paiement.\n"
 "\n"
 "Nous vous rappelons que vous disposez d'un accès personnel sur le site web\n"
 "de l'association qui vous permet de mettre à jour vos données dans \n"
 "l'annuaire. Vous pouvez retrouver sur le site l'annuaire des anciens\n"
 "de l'ENSEEIHT, les événements de l'AIn7, l'actualité dans le monde de l'N7.\n"
-"\n"
-"Si vous avez égaré votre mot de passe, vous pouvez le récupérer en vous\n"
-"rendant sur http://ain7.com/lostpassword/\n"
 "\n"
 "Toute l'équipe de l'AIn7 vous remercie pour votre soutien. En espérant\n"
 "vous rencontrer sur le site ou lors de l'un de nos prochains événements\n"
@@ -297,21 +298,19 @@ msgstr "La configuration sélectionnée a été supprimée avec succès."
 
 #: annuaire/forms.py:43 annuaire/forms.py:102 annuaire/models.py:258
 #: manage/forms.py:42 manage/forms.py:113 templates/annuaire/edit.html:24
-#: templates/manage/user_edit.html:25
 msgid "Last name"
 msgstr "Nom"
 
 #: annuaire/forms.py:45 annuaire/forms.py:100 annuaire/models.py:259
 #: manage/forms.py:44 manage/forms.py:111 templates/annuaire/edit.html:23
-#: templates/manage/user_edit.html:24
 msgid "First name"
 msgstr "Prénom"
 
-#: annuaire/forms.py:47 annuaire/forms.py:111 annuaire/forms.py:309
+#: annuaire/forms.py:47 annuaire/forms.py:111 annuaire/forms.py:307
 msgid "Promo year"
 msgstr "Année de promotion"
 
-#: annuaire/forms.py:49 annuaire/forms.py:113 annuaire/forms.py:311
+#: annuaire/forms.py:49 annuaire/forms.py:113 annuaire/forms.py:309
 #: annuaire/models.py:195 annuaire/models.py:213
 msgid "Track"
 msgstr "Filière"
@@ -346,16 +345,16 @@ msgstr "Date de naissance incorrecte"
 msgid "The entered nationality does not exist."
 msgstr "La nationalité saisie n'existe pas."
 
-#: annuaire/forms.py:162 annuaire/forms.py:182 annuaire/forms.py:321
-#: annuaire/forms.py:341
+#: annuaire/forms.py:162 annuaire/forms.py:182 annuaire/forms.py:319
+#: annuaire/forms.py:339
 msgid "The entered year of promotion does not exist."
 msgstr "L'année de promotion saisie n'existe pas."
 
-#: annuaire/forms.py:173 annuaire/forms.py:332
+#: annuaire/forms.py:173 annuaire/forms.py:330
 msgid "The entered track does not exist."
 msgstr "La filière saisie n'existe pas."
 
-#: annuaire/forms.py:185 annuaire/forms.py:344
+#: annuaire/forms.py:185 annuaire/forms.py:342
 msgid "There is no year of promotion and track associated."
 msgstr "L'association filière et année de promotion inexistante."
 
@@ -363,14 +362,14 @@ msgstr "L'association filière et année de promotion inexistante."
 msgid "birth date"
 msgstr "date de naissance"
 
-#: annuaire/forms.py:245 annuaire/models.py:38 annuaire/models.py:269
-#: templates/annuaire/edit.html:35 templates/manage/user_edit.html:36
+#: annuaire/forms.py:245 annuaire/models.py:38 annuaire/models.py:267
+#: templates/annuaire/edit.html:35
 msgid "nationality"
 msgstr "nationalité"
 
-#: annuaire/forms.py:265 annuaire/models.py:266 annuaire/models.py:311
-#: templates/annuaire/details.html:39 templates/annuaire/edit.html:32
-#: templates/annuaire/edit.html.py:118 templates/manage/user_edit.html:33
+#: annuaire/forms.py:265 annuaire/models.py:313
+#: templates/annuaire/details.html:41 templates/annuaire/edit.html:32
+#: templates/annuaire/edit.html.py:123
 msgid "death date"
 msgstr "date de décès"
 
@@ -378,19 +377,20 @@ msgstr "date de décès"
 msgid "Birth date is later than death date."
 msgstr "La date de naissance est postérieure à la date de décès."
 
-#: annuaire/forms.py:358 annuaire/models.py:46 annuaire/models.py:47
-#: annuaire/models.py:153 annuaire/models.py:468 emploi/forms.py:215
+#: annuaire/forms.py:356 annuaire/models.py:46 annuaire/models.py:47
+#: annuaire/models.py:153 annuaire/models.py:464 emploi/forms.py:215
 #: emploi/forms.py:238 emploi/models.py:234
 msgid "country"
 msgstr "pays"
 
-#: annuaire/forms.py:373
+#: annuaire/forms.py:370
 msgid "The entered country does not exist."
 msgstr "Le pays saisi n'existe pas."
 
-#: annuaire/forms.py:402 annuaire/models.py:682 annuaire/models.py:701
-#: association/forms.py:40 association/forms.py:83 association/models.py:49
-#: emploi/forms.py:249 emploi/models.py:362 emploi/models.py:395
+#: annuaire/forms.py:396 annuaire/models.py:680 annuaire/models.py:686
+#: annuaire/models.py:705 association/forms.py:40 association/forms.py:83
+#: association/models.py:49 emploi/forms.py:249 emploi/models.py:366
+#: emploi/models.py:371 emploi/models.py:401
 #: groupes_professionnels/forms.py:118 groupes_professionnels/forms.py:145
 #: groupes_professionnels/models.py:85 groupes_professionnels/models.py:110
 #: groupes_regionaux/forms.py:67 groupes_regionaux/forms.py:94
@@ -400,9 +400,10 @@ msgstr "Le pays saisi n'existe pas."
 msgid "start date"
 msgstr "Date de début"
 
-#: annuaire/forms.py:404 annuaire/models.py:661 annuaire/models.py:684
-#: association/forms.py:42 association/forms.py:85 association/models.py:51
-#: emploi/forms.py:251 emploi/models.py:364 emploi/models.py:396
+#: annuaire/forms.py:398 annuaire/models.py:659 annuaire/models.py:682
+#: annuaire/models.py:688 association/forms.py:42 association/forms.py:85
+#: association/models.py:51 emploi/forms.py:251 emploi/models.py:368
+#: emploi/models.py:373 emploi/models.py:402
 #: groupes_professionnels/forms.py:120 groupes_professionnels/forms.py:147
 #: groupes_professionnels/models.py:87 groupes_professionnels/models.py:112
 #: groupes_regionaux/forms.py:69 groupes_regionaux/forms.py:96
@@ -412,23 +413,23 @@ msgstr "Date de début"
 msgid "end date"
 msgstr "Date de fin"
 
-#: annuaire/forms.py:414
+#: annuaire/forms.py:407
 msgid "Login:"
 msgstr "Identifiant:"
 
-#: annuaire/forms.py:415
+#: annuaire/forms.py:408
 msgid "Password:"
 msgstr "Mot de passe:"
 
-#: annuaire/forms.py:417 pages/forms.py:56
+#: annuaire/forms.py:410 pages/forms.py:56
 msgid "New password:"
 msgstr "Nouveau mot de passe:"
 
-#: annuaire/forms.py:419 pages/forms.py:58
+#: annuaire/forms.py:412 pages/forms.py:58
 msgid "Confirm password:"
 msgstr "Confirmer le mot de passe:"
 
-#: annuaire/forms.py:430 pages/forms.py:68
+#: annuaire/forms.py:423 pages/forms.py:68
 msgid "Password doesn't match."
 msgstr "Les mot de passe ne correspondent pas."
 
@@ -436,15 +437,15 @@ msgstr "Les mot de passe ne correspondent pas."
 #: emploi/models.py:106 emploi/models.py:224 evenements/models.py:60
 #: groupes_professionnels/forms.py:86 groupes_professionnels/models.py:37
 #: groupes_regionaux/models.py:38 groupes_regionaux/models.py:40
-#: search_engine/models.py:128
+#: manage/models.py:87 search_engine/models.py:128
 msgid "name"
 msgstr "nom"
 
-#: annuaire/models.py:52 annuaire/models.py:68 annuaire/models.py:349
-#: annuaire/models.py:423 annuaire/models.py:447 annuaire/models.py:469
-#: annuaire/models.py:549 annuaire/models.py:590 association/models.py:46
+#: annuaire/models.py:52 annuaire/models.py:68 annuaire/models.py:309
+#: annuaire/models.py:419 annuaire/models.py:443 annuaire/models.py:465
+#: annuaire/models.py:546 annuaire/models.py:588 association/models.py:46
 #: groupes_professionnels/models.py:109 groupes_regionaux/models.py:117
-#: templates/annuaire/edit.html:88 voyages/models.py:37 voyages/models.py:56
+#: templates/annuaire/edit.html:116 voyages/models.py:37 voyages/models.py:56
 msgid "type"
 msgstr "type"
 
@@ -460,8 +461,8 @@ msgstr "types de personne"
 msgid "member type"
 msgstr "type de membre"
 
-#: annuaire/models.py:84 annuaire/models.py:92 annuaire/models.py:351
-#: templates/annuaire/edit.html:92
+#: annuaire/models.py:84 annuaire/models.py:92 annuaire/models.py:311
+#: templates/annuaire/edit.html:120
 msgid "activity"
 msgstr "activité"
 
@@ -469,7 +470,7 @@ msgstr "activité"
 msgid "status"
 msgstr "statut"
 
-#: annuaire/models.py:108 annuaire/models.py:356
+#: annuaire/models.py:108 annuaire/models.py:352
 msgid "marital status"
 msgstr "statut marital"
 
@@ -481,8 +482,8 @@ msgstr "décoration"
 msgid "ceremonial duty"
 msgstr "fonction honorifique"
 
-#: annuaire/models.py:136 annuaire/models.py:374
-#: templates/annuaire/details.html:61 templates/annuaire/edit.html:80
+#: annuaire/models.py:136 annuaire/models.py:370
+#: templates/annuaire/details.html:63 templates/annuaire/edit.html:82
 msgid "ceremonial duties"
 msgstr "fonctions honorifiques"
 
@@ -498,37 +499,35 @@ msgstr "ligne 1"
 msgid "line2"
 msgstr "ligne 2"
 
-#: annuaire/models.py:149 annuaire/models.py:466 emploi/models.py:230
+#: annuaire/models.py:149 annuaire/models.py:462 emploi/models.py:230
 msgid "zip code"
 msgstr "code postal"
 
-#: annuaire/models.py:151 annuaire/models.py:467 emploi/models.py:232
+#: annuaire/models.py:151 annuaire/models.py:463 emploi/models.py:232
 msgid "city"
 msgstr "ville"
 
-#: annuaire/models.py:156 annuaire/models.py:442 emploi/models.py:236
+#: annuaire/models.py:156 annuaire/models.py:438 emploi/models.py:236
 msgid "phone number"
 msgstr "numéro de téléphone"
 
-#: annuaire/models.py:158 annuaire/models.py:589 annuaire/models.py:617
-#: annuaire/models.py:652 emploi/models.py:238
-#: templates/annuaire/details.html:106 templates/annuaire/edit.html:285
-#: templates/manage/user_details.html:37
+#: annuaire/models.py:158 annuaire/models.py:587 annuaire/models.py:615
+#: annuaire/models.py:650 emploi/models.py:238
+#: templates/annuaire/details.html:108 templates/annuaire/edit.html:254
 msgid "web site"
 msgstr "site internet"
 
-#: annuaire/models.py:160 annuaire/models.py:179 annuaire/models.py:498
-#: annuaire/models.py:532 annuaire/models.py:654 emploi/models.py:361
-#: emploi/models.py:480 templates/annuaire/details.html:87
-#: templates/annuaire/details.html.py:93 templates/annuaire/edit.html:214
-#: templates/annuaire/edit.html.py:219 templates/emploi/cv_details.html:44
-#: templates/emploi/cv_edit.html:46 templates/manage/user_details.html:24
-#: templates/manage/user_edit.html:89 templates/manage/user_edit.html.py:93
+#: annuaire/models.py:160 annuaire/models.py:179 annuaire/models.py:494
+#: annuaire/models.py:528 annuaire/models.py:652 emploi/models.py:363
+#: emploi/models.py:486 templates/annuaire/details.html:89
+#: templates/annuaire/details.html.py:95 templates/annuaire/edit.html:226
+#: templates/annuaire/edit.html.py:231 templates/emploi/cv_details.html:44
+#: templates/emploi/cv_edit.html:46
 msgid "email"
 msgstr "courriel"
 
-#: annuaire/models.py:171 annuaire/models.py:183 annuaire/models.py:656
-#: emploi/models.py:390
+#: annuaire/models.py:171 annuaire/models.py:183 annuaire/models.py:654
+#: emploi/models.py:396
 msgid "school"
 msgstr "école"
 
@@ -572,212 +571,209 @@ msgid "Complete name"
 msgstr "Nom complet"
 
 #: annuaire/models.py:262 templates/annuaire/details.html:23
-#: templates/annuaire/edit.html:26 templates/manage/user_edit.html:27
+#: templates/annuaire/edit.html:26
 msgid "maiden name"
 msgstr "nom de jeune fille"
 
-#: annuaire/models.py:264 templates/annuaire/details.html:36
-#: templates/annuaire/edit.html:29 templates/manage/user_edit.html:30
+#: annuaire/models.py:264 templates/annuaire/details.html:38
+#: templates/annuaire/edit.html:29
 msgid "Birth date"
 msgstr "Date de naissance"
 
-#: annuaire/models.py:268 templates/annuaire/edit.html:21
-#: templates/manage/user_edit.html:22
+#: annuaire/models.py:266 templates/annuaire/edit.html:21
 msgid "sex"
 msgstr "sexe"
 
-#: annuaire/models.py:272 annuaire/models.py:313 manage/models.py:44
-msgid "Notes"
-msgstr "Notes"
-
-#: annuaire/models.py:304 annuaire/models.py:310 annuaire/models.py:346
+#: annuaire/models.py:300 annuaire/models.py:306 annuaire/models.py:348
 #: templates/voyages/participants.html:18
 msgid "person"
 msgstr "personne"
 
-#: annuaire/models.py:321
+#: annuaire/models.py:315 manage/models.py:44
+msgid "Notes"
+msgstr "Notes"
+
+#: annuaire/models.py:323
 msgid "Person Private Data"
 msgstr "Données personnelles"
 
-#: annuaire/models.py:357
+#: annuaire/models.py:353
 msgid "children number"
 msgstr "nombre d'enfants"
 
-#: annuaire/models.py:361 templates/annuaire/details.html:27
-#: templates/annuaire/edit.html:55
+#: annuaire/models.py:357 templates/annuaire/details.html:27
+#: templates/annuaire/edit.html:57
 msgid "Nick name"
 msgstr "Surnom"
 
-#: annuaire/models.py:363 templates/annuaire/details.html:69
-#: templates/annuaire/edit.html:46 templates/annuaire/edit.html.py:48
+#: annuaire/models.py:359 templates/annuaire/details.html:71
+#: templates/annuaire/edit.html:48 templates/annuaire/edit.html.py:50
 #: templates/emploi/cv_details.html:28 templates/emploi/cv_edit.html:30
 msgid "avatar"
 msgstr "avatar"
 
-#: annuaire/models.py:367 templates/annuaire/details.html:29
-#: templates/annuaire/edit.html:128
+#: annuaire/models.py:363 templates/annuaire/details.html:30
+#: templates/annuaire/edit.html:136
 msgid "Promos"
 msgstr "Promotions"
 
-#: annuaire/models.py:372 templates/annuaire/details.html:55
-#: templates/annuaire/edit.html:72
+#: annuaire/models.py:368 templates/annuaire/details.html:57
+#: templates/annuaire/edit.html:74
 msgid "decorations"
 msgstr "décorations"
 
-#: annuaire/models.py:378
+#: annuaire/models.py:374
 msgid "Display my professional cursus in the directory"
 msgstr "Afficher mon parcours professionnel dans l'annuaire"
 
-#: annuaire/models.py:381 templates/annuaire/edit.html:97
+#: annuaire/models.py:377 templates/annuaire/edit.html:93
 msgid "Display my CV in the job service section"
 msgstr "Rendre mon CV accessible dans le service emploi"
 
-#: annuaire/models.py:384 templates/annuaire/edit.html:100
+#: annuaire/models.py:380 templates/annuaire/edit.html:96
 msgid "Receive job offers by email"
 msgstr "Recevoir les offres d'emploi par courriel"
 
-#: annuaire/models.py:385 templates/annuaire/edit.html:106
+#: annuaire/models.py:381 templates/annuaire/edit.html:102
 msgid "CV title"
 msgstr "Titre du CV"
 
-#: annuaire/models.py:408
+#: annuaire/models.py:404
 msgid "AIn7 member"
 msgstr "Membre AIn7"
 
-#: annuaire/models.py:415
+#: annuaire/models.py:411
 msgid "Fix"
 msgstr "Tél. fixe"
 
-#: annuaire/models.py:416
+#: annuaire/models.py:412
 msgid "Fax"
 msgstr "Fax"
 
-#: annuaire/models.py:417
+#: annuaire/models.py:413
 msgid "Mobile"
 msgstr "Tél. portable"
 
-#: annuaire/models.py:422
+#: annuaire/models.py:418
 msgid "number"
 msgstr "nombre"
 
-#: annuaire/models.py:425 annuaire/models.py:470 annuaire/models.py:499
-#: annuaire/models.py:552 annuaire/models.py:591 annuaire/models.py:627
+#: annuaire/models.py:421 annuaire/models.py:466 annuaire/models.py:495
+#: annuaire/models.py:549 annuaire/models.py:589 annuaire/models.py:625
 msgid "confidentiality"
 msgstr "confidentialité"
 
-#: annuaire/models.py:455
+#: annuaire/models.py:451
 msgid "address type"
 msgstr "type d'adresse"
 
-#: annuaire/models.py:456
+#: annuaire/models.py:452
 msgid "address types"
 msgstr "types d'adresse"
 
-#: annuaire/models.py:463
+#: annuaire/models.py:459
 msgid "address line1"
 msgstr "adresse ligne 1"
 
-#: annuaire/models.py:464
+#: annuaire/models.py:460
 msgid "address line2"
 msgstr "adresse ligne 2"
 
-#: annuaire/models.py:472 emploi/models.py:123 emploi/models.py:243
+#: annuaire/models.py:468 emploi/models.py:123 emploi/models.py:243
 msgid "is valid"
 msgstr "est valide"
 
-#: annuaire/models.py:491 templates/annuaire/details.html:114
-#: templates/annuaire/edit.html:171 templates/annuaire/edit.html.py:176
+#: annuaire/models.py:487 templates/annuaire/details.html:116
+#: templates/annuaire/edit.html:183 templates/annuaire/edit.html.py:188
 #: templates/emploi/cv_details.html:18 templates/emploi/cv_edit.html:20
-#: templates/manage/user_details.html:47 templates/manage/user_edit.html:44
-#: templates/manage/user_edit.html.py:48
 msgid "Address"
 msgstr "Adresse"
 
-#: annuaire/models.py:501 templates/annuaire/edit.html:220
+#: annuaire/models.py:497 templates/annuaire/edit.html:232
 msgid "preferred"
 msgstr "favori"
 
-#: annuaire/models.py:551
+#: annuaire/models.py:548
 msgid "identifier"
 msgstr "identifiant"
 
-#: annuaire/models.py:569
+#: annuaire/models.py:566
 msgid "instant_messaging"
 msgstr "messagerie instantanée"
 
-#: annuaire/models.py:595
+#: annuaire/models.py:593
 msgid "blog on planet"
 msgstr "Blog agrégé sur le Planet"
 
-#: annuaire/models.py:624
+#: annuaire/models.py:622
 msgid "network"
 msgstr "réseau"
 
-#: annuaire/models.py:625
+#: annuaire/models.py:623
 msgid "pseudo"
 msgstr "pseudo"
 
-#: annuaire/models.py:626
+#: annuaire/models.py:624
 msgid "channels"
 msgstr "canaux"
 
-#: annuaire/models.py:644 templates/annuaire/details.html:102
-#: templates/annuaire/edit.html:263 templates/manage/user_details.html:33
+#: annuaire/models.py:642 templates/annuaire/details.html:104
+#: templates/annuaire/edit.html:296
 msgid "irc"
 msgstr "irc"
 
-#: annuaire/models.py:650 emploi/forms.py:53 emploi/models.py:370
-#: emploi/models.py:393 evenements/forms.py:113 evenements/models.py:62
+#: annuaire/models.py:648 emploi/forms.py:53 emploi/models.py:376
+#: emploi/models.py:399 evenements/forms.py:113 evenements/models.py:62
 #: groupes_professionnels/models.py:39 groupes_regionaux/forms.py:44
 #: groupes_regionaux/models.py:41 voyages/forms.py:66 voyages/models.py:57
 msgid "description"
 msgstr "description"
 
-#: annuaire/models.py:658
+#: annuaire/models.py:656
 msgid "icon"
 msgstr "icône"
 
-#: annuaire/models.py:670 annuaire/models.py:675
+#: annuaire/models.py:668 annuaire/models.py:673
 msgid "club"
 msgstr "club"
 
-#: annuaire/models.py:680 emploi/models.py:355
+#: annuaire/models.py:678 emploi/models.py:357
 msgid "fonction"
 msgstr "fonction"
 
-#: annuaire/models.py:693
+#: annuaire/models.py:697
 msgid "club membership"
 msgstr "adhésion club"
 
-#: annuaire/models.py:694
+#: annuaire/models.py:698
 msgid "club memberships"
 msgstr "adhésions clubs"
 
-#: annuaire/models.py:707
+#: annuaire/models.py:711
 msgid "user activity"
 msgstr "activité utilisateur"
 
-#: annuaire/models.py:708
+#: annuaire/models.py:712
 msgid "users activities"
 msgstr "activités des utilisateurs"
 
-#: annuaire/views.py:92
+#: annuaire/views.py:106
 msgid "Only one result matched your criteria."
 msgstr "Un seul résultat correspond à votre recherche."
 
-#: annuaire/views.py:140
+#: annuaire/views.py:154
 msgid "Credentials updated."
 msgstr "Vos identifiants ont été mis à jour."
 
-#: annuaire/views.py:143
+#: annuaire/views.py:158
 msgid "Wrong authentication"
 msgstr "Le mot de passe saisi est incorrect."
 
-#: annuaire/views.py:162 pages/views.py:84
+#: annuaire/views.py:177 pages/views.py:84
 msgid "Password reset of your AIn7 account"
 msgstr "Réinitialisation de votre mot de passe AIn7"
 
-#: annuaire/views.py:163
+#: annuaire/views.py:178
 #, python-format
 msgid ""
 "Hi %(firstname)s,\n"
@@ -803,245 +799,213 @@ msgstr ""
 "-- \n"
 "http://ain7.com"
 
-#: annuaire/views.py:176
+#: annuaire/views.py:191
 msgid "New credentials have been sent"
 msgstr "Les nouveaux identifiants ont été envoyés"
 
-#: annuaire/views.py:274 manage/views.py:328
+#: annuaire/views.py:289 manage/views.py:283
 msgid "Enter parameters of your filter"
 msgstr "Paramètres de votre filtre"
 
-#: annuaire/views.py:285 manage/views.py:339
+#: annuaire/views.py:300 manage/views.py:294
 msgid "One of your filters already has this name."
 msgstr "L'un de vos filtres a déjà ce nom."
 
-#: annuaire/views.py:296 annuaire/views.py:322 annuaire/views.py:502
-#: annuaire/views.py:537 annuaire/views.py:576
+#: annuaire/views.py:311 annuaire/views.py:337 annuaire/views.py:521
+#: annuaire/views.py:547 annuaire/views.py:576
 #: groupes_professionnels/views.py:147 groupes_regionaux/views.py:76
-#: manage/views.py:172 manage/views.py:350 manage/views.py:377
-#: manage/views.py:1207 search_engine/views.py:262 voyages/views.py:146
+#: manage/views.py:305 manage/views.py:332 manage/views.py:1162
+#: search_engine/views.py:262 voyages/views.py:146
 msgid "Modifications have been successfully saved."
 msgstr "Les modifications ont été correctement enregistrées."
 
-#: annuaire/views.py:331 manage/views.py:386
+#: annuaire/views.py:346 manage/views.py:341
 msgid "Modification of the filter"
 msgstr "Modification du filtre"
 
-#: annuaire/views.py:372 manage/views.py:438
+#: annuaire/views.py:387 manage/views.py:393
 msgid "Your filter has been successfully deleted."
 msgstr "Votre filtre a été supprimé avec succès."
 
-#: annuaire/views.py:375 manage/views.py:441
+#: annuaire/views.py:391 manage/views.py:396
 msgid "Something went wrong. The filter has not been deleted."
 msgstr "Des erreurs se sont produites. Le filtre n'a pas été supprimé."
 
-#: annuaire/views.py:436 annuaire/views.py:457 manage/views.py:590
-#: manage/views.py:613
+#: annuaire/views.py:452 annuaire/views.py:473 manage/views.py:545
+#: manage/views.py:568
 msgid "You have to make a search before using csv export."
 msgstr "Vous devez effectuer une recherche avant d'utiliser l'export CSV"
 
-#: annuaire/views.py:510 annuaire/views.py:545 annuaire/views.py:573
-#: manage/views.py:168
+#: annuaire/views.py:529 annuaire/views.py:555 annuaire/views.py:584
 msgid "Modification of personal data for"
 msgstr "Modification des données personnelles de"
 
-#: annuaire/views.py:579
+#: annuaire/views.py:588
 msgid "Do you really want to delete your avatar"
 msgstr "Souhaitez-vous vraiment supprimer votre avatar"
 
-#: annuaire/views.py:596
+#: annuaire/views.py:605
 msgid "Your avatar has been successfully deleted."
 msgstr "Votre avatar a été supprimé avec succès"
 
-#: annuaire/views.py:618
+#: annuaire/views.py:628
 msgid "Promotion successfully added."
 msgstr "La promotion a été ajoutée avec succès."
 
-#: annuaire/views.py:623 annuaire/views.py:630
+#: annuaire/views.py:633 annuaire/views.py:639
 #, python-format
 msgid "Adding a promotion for %s"
 msgstr "Ajout d'une promotion pour %s"
 
-#: annuaire/views.py:635
+#: annuaire/views.py:644
 msgid "Do you really want to remove the membership to the promotion"
 msgstr "Souhaitez-vous vraiment supprimer l'appartenance à la promotion"
 
-#: annuaire/views.py:667 manage/views.py:1240
+#: annuaire/views.py:676
 msgid "Creation of an address for"
 msgstr "Ajout d'une adresse de"
 
-#: annuaire/views.py:668 manage/views.py:1241
-msgid "Address successfully added."
-msgstr "L'adresse a été ajoutée avec succès."
-
-#: annuaire/views.py:671 manage/views.py:1244
+#: annuaire/views.py:683
 msgid "Modification of an address for"
 msgstr "Modification d'une adresse de"
 
-#: annuaire/views.py:672 manage/views.py:1245
-msgid "Address informations updated successfully."
-msgstr "Votre adresse a été correctement enregistrée."
+#: annuaire/views.py:693
+msgid "Address successfully saved"
+msgstr "L'adresse a été sauvegardée avec succès."
 
-#: annuaire/views.py:682 manage/views.py:1255
+#: annuaire/views.py:705
 msgid "Do you really want to delete your address"
 msgstr "Souhaitez-vous vraiment supprimer l'adresse"
 
-#: annuaire/views.py:695 manage/views.py:1268
+#: annuaire/views.py:718
 msgid "Address successfully deleted."
 msgstr "L'adresse a été supprimée avec succès."
 
-#: annuaire/views.py:709 manage/views.py:1282
+#: annuaire/views.py:733
 msgid "Creation of a phone number for"
 msgstr "Ajout d'un numéro de téléphone de"
 
-#: annuaire/views.py:710 manage/views.py:1283
-msgid "Phone number added successfully."
-msgstr "Le numéro de téléphone a été ajouté avec succès."
-
-#: annuaire/views.py:713 manage/views.py:1286
+#: annuaire/views.py:740
 msgid "Modification of a phone number for"
 msgstr "Modification d'un numéro de téléphone de"
 
-#: annuaire/views.py:714 manage/views.py:1287
-msgid "Phone number informations updated successfully."
-msgstr "Votre numéro de téléphone a été correctement enregistré."
+#: annuaire/views.py:750
+msgid "Phone number successfully saved"
+msgstr "Le numéro de téléphone a été sauvegardé avec succès."
 
-#: annuaire/views.py:724 manage/views.py:1297
+#: annuaire/views.py:762
 msgid "Do you really want to delete your phone number"
 msgstr "Souhaitez-vous vraiment supprimer le numéro de téléphone ?"
 
-#: annuaire/views.py:737 manage/views.py:1310
+#: annuaire/views.py:775
 msgid "Phone number successfully deleted."
 msgstr "Le numéro de téléphone a été supprimé avec succès."
 
-#: annuaire/views.py:751 manage/views.py:1324
+#: annuaire/views.py:790
 msgid "Creation of an email address for"
 msgstr "Ajout d'une adresse de courriel de"
 
-#: annuaire/views.py:752 manage/views.py:1325
-msgid "Email address successfully added."
-msgstr "L'adresse de courriel a été ajoutée avec succès."
-
-#: annuaire/views.py:755 manage/views.py:1328
+#: annuaire/views.py:797
 msgid "Modification of an email address for"
 msgstr "Modification d'une adresse de courriel de"
 
-#: annuaire/views.py:756 manage/views.py:1329
-msgid "Email informations updated successfully."
-msgstr "Votre adresse de courriel a été mise à jour avec succès."
+#: annuaire/views.py:807
+msgid "Email successfully saved"
+msgstr "L'adresse de courriel a été sauvegardée avec succès."
 
-#: annuaire/views.py:766 manage/views.py:1339
+#: annuaire/views.py:819
 msgid "Do you really want to delete your email address"
 msgstr "Souhaitez-vous vraiment supprimer l'adresse mail"
 
-#: annuaire/views.py:778 manage/views.py:1351
+#: annuaire/views.py:831
 msgid "Email address successfully deleted."
 msgstr "L'adresse de courriel a été supprimée avec succès."
 
-#: annuaire/views.py:792
+#: annuaire/views.py:846
 msgid "Creation of an instant messaging account for"
 msgstr "Ajout d'un compte de messagerie instantanée de"
 
-#: annuaire/views.py:793
-msgid "Instant messaging account successfully added."
-msgstr "Le compte de messagerie instantanée a été ajouté avec succès."
-
-#: annuaire/views.py:796
+#: annuaire/views.py:853
 msgid "Modification of an instant messaging account for"
 msgstr "Modification d'un compte de messagerie instantanée de"
 
-#: annuaire/views.py:797
-msgid "Instant messaging informations updated successfully."
-msgstr "Votre compte de messagerie instantanée a été correctement enregistré."
+#: annuaire/views.py:863
+msgid "Instant messaging successfully saved"
+msgstr "Le compte de messagerie instantanée a été sauvegardé avec succès."
 
-#: annuaire/views.py:807
+#: annuaire/views.py:875
 msgid "Do you really want to delete your instant messaging account"
 msgstr "Souhaitez-vous vraiment supprimer ce compte de messagerie instantanée"
 
-#: annuaire/views.py:820
+#: annuaire/views.py:888
 msgid "Instant messaging account successfully deleted."
 msgstr "Votre compte de messagerie instantanée a été correctement supprimé."
 
-#: annuaire/views.py:834
+#: annuaire/views.py:902
 msgid "Creation of an IRC account for"
 msgstr "Ajout d'un compte IRC de"
 
-#: annuaire/views.py:835
-msgid "IRC account successfully added."
-msgstr "Le compte IRC a été ajouté avec succès."
-
-#: annuaire/views.py:838
+#: annuaire/views.py:909
 msgid "Modification of an IRC account for"
 msgstr "Modification d'un compte IRC de"
 
-#: annuaire/views.py:839
-msgid "IRC account informations updated successfully."
-msgstr "Votre compte IRC a été mis à jour avec succès."
+#: annuaire/views.py:919
+msgid "irc contact successfully saved"
+msgstr "Le compte IRC a été sauvegardé avec succès."
 
-#: annuaire/views.py:849
+#: annuaire/views.py:931
 msgid "Do you really want to delete your IRC account"
 msgstr "Souhaitez-vous vraiment supprimer ce compte IRC"
 
-#: annuaire/views.py:862
+#: annuaire/views.py:944
 msgid "IRC account successfully deleted."
 msgstr "Le compte IRC a été supprimé avec succès."
 
-#: annuaire/views.py:876
+#: annuaire/views.py:959
 msgid "Creation of a website for"
 msgstr "Ajout d'un site web de"
 
-#: annuaire/views.py:877
-msgid "Website successfully added."
-msgstr "Le site web a été ajouté avec succès."
-
-#: annuaire/views.py:880
+#: annuaire/views.py:966
 msgid "Modification of a website for"
 msgstr "Modification du site web de"
 
-#: annuaire/views.py:881
-msgid "Website informations updated successfully."
-msgstr ""
-"Les informations concernant le site web ont été correctement enregistrées."
+#: annuaire/views.py:976
+msgid "website successfully saved"
+msgstr "Le site web a été sauvegardé avec succès."
 
-#: annuaire/views.py:891
+#: annuaire/views.py:988
 msgid "Do you really want to delete your website"
 msgstr "Souhaitez-vous vraiment supprimer ce site web"
 
-#: annuaire/views.py:904
+#: annuaire/views.py:1001
 msgid "Website successfully deleted."
 msgstr "Le site web a été supprimé avec succès."
 
-#: annuaire/views.py:920
+#: annuaire/views.py:1018
 msgid "Creation of a club membership for"
 msgstr "Ajout de l'appartenance à un club de"
 
-#: annuaire/views.py:921
-msgid "Club membership successfully added."
-msgstr "L'appartenance au club a été ajoutée avec succès."
-
-#: annuaire/views.py:925
+#: annuaire/views.py:1026
 msgid "Modification of a club membership for"
 msgstr "Modification de l'appartenance à un club de"
 
-#: annuaire/views.py:926
-msgid "Club membership informations updated successfully."
-msgstr ""
-"Les informations concernant l'appartenance à un club ont été correctement "
-"enregistrées."
+#: annuaire/views.py:1036
+msgid "Club membership successfully saved"
+msgstr "L'appartenance au club a été sauvegardée avec succès."
 
-#: annuaire/views.py:937
+#: annuaire/views.py:1049
 msgid "Do you really want to delete your club membership"
 msgstr "Souhaitez-vous vraiment supprimer l'appartenance à ce club"
 
-#: annuaire/views.py:950
+#: annuaire/views.py:1062
 msgid "Club membership successfully deleted."
 msgstr "L'appartenance au club a été supprimée avec succès."
 
-#: annuaire/views.py:967 manage/views.py:131
+#: annuaire/views.py:1080 manage/views.py:118
 msgid "New user successfully created"
 msgstr "Utilisateur créé avec succès"
 
-#: annuaire/views.py:977 manage/views.py:140
+#: annuaire/views.py:1090 manage/views.py:127
 msgid "Register new user"
 msgstr "Enregistrer une nouvelle personne"
 
@@ -1147,7 +1111,7 @@ msgstr "expérience"
 msgid "contract type"
 msgstr "Type de Contrat"
 
-#: emploi/forms.py:56 emploi/models.py:478
+#: emploi/forms.py:56 emploi/models.py:484
 msgid "Contact name"
 msgstr "Nom du contact"
 
@@ -1156,15 +1120,15 @@ msgid "Contact email"
 msgstr "email de contact"
 
 #: emploi/forms.py:60 emploi/forms.py:123 emploi/forms.py:170
-#: emploi/models.py:54 emploi/models.py:111 emploi/models.py:483
+#: emploi/models.py:54 emploi/models.py:111 emploi/models.py:489
 #: manage/forms.py:78 templates/emploi/job_details.html:30
 #: templates/emploi/organization_details.html:28
-#: templates/emploi/organization_edit.html:28
+#: templates/emploi/organization_edit.html:36
 #: templates/manage/organization_details.html:31
 msgid "Activity field"
 msgstr "Domaine d'activité"
 
-#: emploi/forms.py:63
+#: emploi/forms.py:63 manage/models.py:90
 msgid "obsolete"
 msgstr "obsolete"
 
@@ -1180,7 +1144,7 @@ msgstr "L'établissement saisi n'existe pas."
 msgid "The entered activity field does not exist."
 msgstr "Le domaine d'activité saisi n'existe pas."
 
-#: emploi/forms.py:129 emploi/models.py:475
+#: emploi/forms.py:129 emploi/models.py:481
 msgid "Contract type"
 msgstr "Type de Contrat"
 
@@ -1195,13 +1159,13 @@ msgstr "Nom"
 
 #: emploi/forms.py:166 emploi/models.py:117
 #: templates/emploi/organization_details.html:12
-#: templates/emploi/organization_edit.html:14
+#: templates/emploi/organization_edit.html:22
 #: templates/manage/organization_details.html:15
 msgid "employment agency"
 msgstr "cabinet de recrutement"
 
 #: emploi/forms.py:168 templates/emploi/organization_details.html:24
-#: templates/emploi/organization_edit.html:32
+#: templates/emploi/organization_edit.html:40
 #: templates/manage/organization_details.html:27
 msgid "Size"
 msgstr "Taille"
@@ -1226,7 +1190,7 @@ msgstr "L'entreprise est obligatoire"
 msgid "The organization does not exist."
 msgstr "L'entreprise n'existe pas."
 
-#: emploi/forms.py:290 emploi/models.py:391 emploi/models.py:412
+#: emploi/forms.py:290 emploi/models.py:397 emploi/models.py:418
 msgid "diploma"
 msgstr "diplôme"
 
@@ -1241,23 +1205,20 @@ msgstr "Créer"
 
 #: emploi/models.py:36 templates/adhesions/configurations.html:42
 #: templates/annuaire/adv_search.html:33 templates/annuaire/adv_search.html:55
-#: templates/annuaire/edit.html:39 templates/annuaire/edit.html.py:110
-#: templates/annuaire/edit.html:124 templates/annuaire/edit.html.py:168
-#: templates/annuaire/edit.html:182 templates/annuaire/edit.html.py:203
-#: templates/annuaire/edit.html:225 templates/annuaire/edit.html.py:246
-#: templates/annuaire/edit.html:268 templates/annuaire/edit.html.py:289
-#: templates/annuaire/edit.html:312 templates/emploi/cv_edit.html:58
+#: templates/annuaire/edit.html:39 templates/annuaire/edit.html.py:106
+#: templates/annuaire/edit.html:130 templates/annuaire/edit.html.py:176
+#: templates/annuaire/edit.html:194 templates/annuaire/edit.html.py:215
+#: templates/annuaire/edit.html:237 templates/annuaire/edit.html.py:258
+#: templates/annuaire/edit.html:279 templates/annuaire/edit.html.py:301
+#: templates/annuaire/edit.html:326 templates/emploi/cv_edit.html:58
 #: templates/emploi/cv_edit.html.py:72 templates/emploi/cv_edit.html:95
 #: templates/emploi/cv_edit.html.py:117 templates/emploi/cv_edit.html:162
-#: templates/emploi/organization_edit.html:42
-#: templates/emploi/organization_edit.html:53
+#: templates/emploi/organization_edit.html:50
+#: templates/emploi/organization_edit.html:61
 #: templates/manage/default.html:120
 #: templates/manage/organizations_adv_search.html:36
 #: templates/manage/organizations_adv_search.html:60
-#: templates/manage/user_edit.html:42 templates/manage/user_edit.html.py:56
-#: templates/manage/user_edit.html:77 templates/manage/user_edit.html:101
-#: templates/manage/user_edit.html:130 templates/sondages/details.html:33
-#: templates/sondages/details.html.py:41
+#: templates/sondages/details.html:33 templates/sondages/details.html.py:41
 msgid "Modify"
 msgstr "Modifier"
 
@@ -1318,8 +1279,8 @@ msgstr "description longue"
 msgid "is a proposal"
 msgstr "est une proposition"
 
-#: emploi/models.py:169 emploi/models.py:325 emploi/models.py:493
-#: emploi/models.py:497 evenements/models.py:71
+#: emploi/models.py:169 emploi/models.py:325 emploi/models.py:499
+#: emploi/models.py:503 evenements/models.py:71
 msgid "author"
 msgstr "auteur"
 
@@ -1343,7 +1304,7 @@ msgstr "l'entreprise"
 msgid "organization modification proposal"
 msgstr "proposition de modification d'une entreprise"
 
-#: emploi/models.py:315 emploi/models.py:353 manage/forms.py:234
+#: emploi/models.py:315 emploi/models.py:354 manage/forms.py:234
 #: manage/models.py:40
 msgid "office"
 msgstr "établissement"
@@ -1369,76 +1330,76 @@ msgstr "l'établissement"
 msgid "office modification proposal"
 msgstr "proposition de modification d'un établissement"
 
-#: emploi/models.py:357
+#: emploi/models.py:359
 msgid "service"
 msgstr "service"
 
-#: emploi/models.py:359
+#: emploi/models.py:361
 msgid "phone"
 msgstr "téléphone"
 
-#: emploi/models.py:366
+#: emploi/models.py:364
 msgid "regie outside"
 msgstr "Régie à l'extérieur"
 
-#: emploi/models.py:384
+#: emploi/models.py:390
 msgid "position"
 msgstr "expérience professionnelle"
 
-#: emploi/models.py:406
+#: emploi/models.py:412
 msgid "Education item"
 msgstr "Entrée du CV partie \"Formation\""
 
-#: emploi/models.py:421
+#: emploi/models.py:427
 msgid "Diploma item"
 msgstr "Diplôme"
 
-#: emploi/models.py:430 emploi/models.py:446 emploi/models.py:470
+#: emploi/models.py:436 emploi/models.py:452 emploi/models.py:476
 #: templates/manage/error_details.html:30
 msgid "Title"
 msgstr "Titre"
 
-#: emploi/models.py:431 emploi/models.py:447
+#: emploi/models.py:437 emploi/models.py:453
 msgid "Detail"
 msgstr "Détail"
 
-#: emploi/models.py:440
+#: emploi/models.py:446
 msgid "Leisure item"
 msgstr "Loisirs"
 
-#: emploi/models.py:457
+#: emploi/models.py:463
 msgid "Publication and patent"
 msgstr "Publication et brevet"
 
-#: emploi/models.py:468 templates/emploi/job_details.html:17
+#: emploi/models.py:474 templates/emploi/job_details.html:17
 msgid "Reference"
 msgstr "Réference"
 
-#: emploi/models.py:471
+#: emploi/models.py:477
 msgid "Description"
 msgstr "Description"
 
-#: emploi/models.py:473 templates/emploi/job_details.html:16
+#: emploi/models.py:479 templates/emploi/job_details.html:16
 msgid "Experience"
 msgstr "Experience"
 
-#: emploi/models.py:486
+#: emploi/models.py:492
 msgid "checked by secretariat"
 msgstr "vérifié par le secrétariat"
 
-#: emploi/models.py:487
+#: emploi/models.py:493
 msgid "Number of views"
 msgstr "Nombre de visionnages"
 
-#: emploi/models.py:489
+#: emploi/models.py:495
 msgid "Job offer is obsolete"
 msgstr "L'offre d'emploi est obsolete"
 
-#: emploi/models.py:526
+#: emploi/models.py:532
 msgid "viewed by"
 msgstr "consulté par"
 
-#: emploi/models.py:526 evenements/models.py:150
+#: emploi/models.py:532 evenements/models.py:150
 msgid "at"
 msgstr "à"
 
@@ -1537,38 +1498,38 @@ msgstr "Cette offre d'emploi doit être vérifiée par le secrétariat."
 msgid "Job offer successfully modified."
 msgstr "Offre d'emploi modifiée avec succès"
 
-#: emploi/views.py:418
+#: emploi/views.py:423
 msgid "Proposal for job offer"
 msgstr "Proposition d'offre d'emploi"
 
-#: emploi/views.py:422
+#: emploi/views.py:427
 msgid ""
 "Job offer successfully created. It will now be checked by the secretariat."
 msgstr ""
 "Offre d'emploi créée avec succès. Une validation va être effectuée par le "
 "secrétariat."
 
-#: emploi/views.py:496
+#: emploi/views.py:501
 msgid "Do you confirm the validation of this job proposal"
 msgstr "Confirmez-vous la validation de cette offre d'emploi"
 
-#: emploi/views.py:509
+#: emploi/views.py:514
 msgid "Job proposal validated."
 msgstr "Offre d'emploi validée."
 
-#: emploi/views.py:515 emploi/views.py:534
+#: emploi/views.py:520 emploi/views.py:539
 msgid "Corresponding notification removed."
 msgstr "Notification correspondante supprimée."
 
-#: emploi/views.py:520
+#: emploi/views.py:525
 msgid "Do you really want to delete this job proposal"
 msgstr "Souhaitez-vous vraiment supprimer cette proposition d'offre d'emploi ?"
 
-#: emploi/views.py:538
+#: emploi/views.py:543
 msgid "Job proposal removed."
 msgstr "Proposition d'offre d'emploi supprimée."
 
-#: emploi/views.py:584
+#: emploi/views.py:589
 #, python-format
 msgid ""
 "An organization (for instance EDF) is composed by offices (for instance EDF "
@@ -1579,95 +1540,95 @@ msgstr ""
 "eDF Cornouaille). Si vous souhaitez simplement ajouter un établissement, <a "
 "href=\"%s\">modifiez l'entreprise</a>."
 
-#: emploi/views.py:592 emploi/views.py:617
+#: emploi/views.py:597 emploi/views.py:622
 msgid "Creation of an organization"
 msgstr "Ajout d'une entreprise"
 
-#: emploi/views.py:606
+#: emploi/views.py:611
 msgid "Organization added"
 msgstr "Entreprise ajoutée"
 
-#: emploi/views.py:608
+#: emploi/views.py:613
 msgid "Organization successfully created. To add an office to it, modify it."
 msgstr ""
 "Entreprise créée avec succès. Pour lui ajouter un établissement, modifiez-la."
 
-#: emploi/views.py:632
+#: emploi/views.py:637
 msgid "Choose an organization for which you want to propose modifications"
 msgstr ""
 "Choisissez l'entreprise pour laquelle vous souhaitez proposer des "
 "modifications"
 
-#: emploi/views.py:635
+#: emploi/views.py:640
 msgid "Choose an organization to propose for deletion"
 msgstr "Choisissez une entreprise dont vous souhaitez proposer la suppression"
 
-#: emploi/views.py:695 emploi/views.py:717
+#: emploi/views.py:700 emploi/views.py:722
 msgid "Proposition of organization modification"
 msgstr "Proposer la modification d'une entreprise"
 
-#: emploi/views.py:707
+#: emploi/views.py:712
 msgid "Proposal for modifying an organization"
 msgstr "Proposition de modification d'une entreprise"
 
-#: emploi/views.py:709
+#: emploi/views.py:714
 msgid ""
 "Your proposal for modifying an organization has been sent to moderators."
 msgstr ""
 "Votre proposition de modification d'une entreprise a été soumise aux "
 "modérateurs."
 
-#: emploi/views.py:723
+#: emploi/views.py:728
 msgid "Do you really want to propose the deletion of this organization"
 msgstr "Souhaitez-vous vraiment proposer la suppression de cette entreprise"
 
-#: emploi/views.py:740
+#: emploi/views.py:745
 msgid "Proposal for deleting an organization"
 msgstr "Proposition de suppression d'une entreprise"
 
-#: emploi/views.py:742
+#: emploi/views.py:747
 msgid "Your proposal for deleting an organization has been sent to moderators."
 msgstr ""
 "Votre proposition de suppression d'une entreprise a été soumise aux "
 "modérateurs."
 
-#: emploi/views.py:762 emploi/views.py:798
+#: emploi/views.py:767 emploi/views.py:803
 msgid "Modify an office"
 msgstr "Modifier un établissement"
 
-#: emploi/views.py:788
+#: emploi/views.py:793
 msgid "Proposal for modifying an office"
 msgstr "Proposition de modification d'un établissement"
 
-#: emploi/views.py:791
+#: emploi/views.py:796
 msgid "Your proposal for modifying an office has been sent to moderators."
 msgstr ""
 "Votre proposition de modification d'un établissement a été soumise aux "
 "modérateurs."
 
-#: emploi/views.py:803
+#: emploi/views.py:808
 msgid "Do you really want to propose the office for removal"
 msgstr "Souhaitez-vous vraiment proposer la suppression de cet établissement"
 
-#: emploi/views.py:819
+#: emploi/views.py:824
 msgid "Proposal for removing an office"
 msgstr "Proposition de suppression d'un établissement"
 
-#: emploi/views.py:822
+#: emploi/views.py:827
 msgid "Your proposal for deleting an office has been sent to moderators."
 msgstr ""
 "Votre proposition de suppression d'un établissement a été soumise aux "
 "modérateurs."
 
-#: emploi/views.py:842 emploi/views.py:868
+#: emploi/views.py:847 emploi/views.py:873
 msgid "Create an office"
 msgstr "Ajouter un établissement pour une société"
 
-#: emploi/views.py:858
+#: emploi/views.py:863
 msgid "Office added"
 msgstr "Établissement ajouté"
 
-#: emploi/views.py:862
+#: emploi/views.py:867
 msgid "Office successfully created."
 msgstr "Etablissement créé avec succès."
 
@@ -1820,7 +1781,7 @@ msgstr "inscriptions"
 msgid "subscribers in total"
 msgstr "nouveaux inscrits"
 
-#: evenements/models.py:145 templates/annuaire/edit.html:120
+#: evenements/models.py:145 templates/annuaire/edit.html:126
 msgid "notes"
 msgstr "notes"
 
@@ -2097,7 +2058,7 @@ msgstr "Referrer"
 msgid "Browser info"
 msgstr "Navigateur"
 
-#: manage/models.py:76 templates/manage/error_details.html:29
+#: manage/models.py:76
 msgid "Client address"
 msgstr "Adresse du client"
 
@@ -2105,7 +2066,7 @@ msgstr "Adresse du client"
 msgid "Exception"
 msgstr "Exception"
 
-#: manage/models.py:79 templates/manage/error_details.html:46
+#: manage/models.py:79
 msgid "Comment"
 msgstr "commentaire"
 
@@ -2114,215 +2075,256 @@ msgid "Issue"
 msgstr "Issue"
 
 #: manage/models.py:89
+msgid "public"
+msgstr ""
+
+#: manage/models.py:101
 msgid "Check CE"
 msgstr "Chèque CE"
 
-#: manage/models.py:90
+#: manage/models.py:102
 msgid "Check CCP"
 msgstr "Chèque CCP"
 
-#: manage/models.py:92
+#: manage/models.py:104
 msgid "Transfer CE"
 msgstr "Virement CE"
 
-#: manage/models.py:93
+#: manage/models.py:105
 msgid "Transfer CCP"
 msgstr "Virement CCP"
 
-#: manage/models.py:98
+#: manage/models.py:112
 msgid "amount"
 msgstr "montant"
 
-#: manage/models.py:101 templates/manage/payments_deposit.html:13
+#: manage/models.py:115 templates/manage/payments_deposit.html:13
 msgid "Bank"
 msgstr "Banque"
 
-#: manage/models.py:103
+#: manage/models.py:117 templates/manage/payments_deposit.html:13
 msgid "Check number"
 msgstr "Numéro de chèque"
 
-#: manage/models.py:105
+#: manage/models.py:119
 msgid "payment date"
 msgstr "Date de paiement"
 
-#: manage/models.py:107
+#: manage/models.py:121
 msgid "deposit date"
 msgstr "date de dépôt"
 
-#: manage/models.py:109
-msgid "secret key"
-msgstr "clé secrète"
-
-#: manage/models.py:112
+#: manage/models.py:124
 msgid "registration date"
 msgstr "Date d'enregistrement"
 
-#: manage/models.py:116
+#: manage/models.py:128
 msgid "modification date"
 msgstr "date de modification"
 
-#: manage/models.py:135
+#: manage/models.py:147
 msgid "payment of "
 msgstr "paiement de "
 
-#: manage/models.py:137
+#: manage/models.py:149
 msgid " from "
 msgstr " de la part de"
 
-#: manage/views.py:541
+#: manage/models.py:161
+msgid "AIn7 Subscription validated"
+msgstr "Votre adhésions à l'AIn7 a été validée"
+
+#: manage/models.py:162
+#, python-format
+msgid ""
+"Hi %(firstname)s,\n"
+"\n"
+"We have validated your subscription for the next year to the association "
+"AIn7.\n"
+"\n"
+"We remind you that you have an access to the website and can update your\n"
+"personal informations. On the website, you can find the directory,\n"
+"next events, news in the N7 world, employment.\n"
+"\n"
+"All the AIn7 Team would like to thanks you for you support. See you on\n"
+"the website or at one of our events.\n"
+"\n"
+"Cheers,\n"
+"\n"
+"AIn7 Team\n"
+"\n"
+msgstr ""
+"Bonjour %(firstname)s,\n"
+"\n"
+"Nous venons de valider votre adhésion pour l'année à venir à l'AIn7.\n"
+"\n"
+"Nous vous rappelons que vous disposez d'un accès personnel sur le site web\n"
+"de l'association qui vous permet de mettre à jour vos données dans \n"
+"l'annuaire. Vous pouvez retrouver sur le site l'annuaire des anciens\n"
+"de l'ENSEEIHT, les événements de l'AIn7, l'actualité dans le monde de l'N7.\n"
+"\n"
+"Toute l'équipe de l'AIn7 vous remercie pour votre soutien. En espérant\n"
+"vous rencontrer sur le site ou lors de l'un de nos prochains événements\n"
+"\n"
+"Amicalement,\n"
+"\n"
+"L'équipe de l'AIn7\n"
+"\n"
+
+#: manage/views.py:496
 msgid "Edit an organization"
 msgstr "Modifier une entreprise"
 
-#: manage/views.py:544
+#: manage/views.py:499
 msgid "Register an organization"
 msgstr "Ajouter une entreprise"
 
-#: manage/views.py:552 manage/views.py:800
+#: manage/views.py:507 manage/views.py:755
 msgid "Organization successfully modified"
 msgstr "Entreprise modifiée avec succès."
 
-#: manage/views.py:554 manage/views.py:750
+#: manage/views.py:509 manage/views.py:705
 msgid "Organization successfully validated"
 msgstr "Entreprise validée avec succès."
 
-#: manage/views.py:558 manage/views.py:753
+#: manage/views.py:513 manage/views.py:708
 msgid "Something was wrong in the form you filled. No organization registered."
 msgstr ""
 "Certains champs ont été incorrectement remplis. Aucune entreprise créée."
 
-#: manage/views.py:627
+#: manage/views.py:582
 msgid "Do you REALLY want to delete this organization"
 msgstr "Souhaitez-vous VRAIMENT supprimer cette entreprise ?"
 
-#: manage/views.py:639 manage/views.py:829
+#: manage/views.py:594 manage/views.py:784
 msgid "Organization successfully removed"
 msgstr "Entreprise supprimée avec succès."
 
-#: manage/views.py:672
+#: manage/views.py:627
 msgid "The two organizations are the same. No merging."
 msgstr "Les deux établissements sont identiques. Pas de fusion."
 
-#: manage/views.py:682 manage/views.py:932
+#: manage/views.py:637 manage/views.py:887
 msgid " replaced by "
 msgstr " soit remplacé par "
 
-#: manage/views.py:685 manage/views.py:935
+#: manage/views.py:640 manage/views.py:890
 msgid "Do you REALLY want to have"
 msgstr "Souhaitez-vous VRAIMENT que"
 
-#: manage/views.py:698
+#: manage/views.py:653
 msgid "Organizations successfully merged"
 msgstr "Entreprises fusionnées avec succès."
 
-#: manage/views.py:761
+#: manage/views.py:716
 msgid "Validate a new organization"
 msgstr "Valider une nouvelle entreprise"
 
-#: manage/views.py:848
+#: manage/views.py:803
 msgid "Edit an office"
 msgstr "Modifier un établissement"
 
-#: manage/views.py:851 manage/views.py:1040
+#: manage/views.py:806 manage/views.py:995
 msgid "Office successfully modified"
 msgstr "Etablissement modifié avec succès"
 
-#: manage/views.py:857
+#: manage/views.py:812
 msgid "Register an office"
 msgstr "Ajouter un établissement"
 
-#: manage/views.py:859
+#: manage/views.py:814
 msgid "Office successfully created"
 msgstr "Etablissement créé avec succès"
 
-#: manage/views.py:878
+#: manage/views.py:833
 msgid "Do you REALLY want to delete this office"
 msgstr "Souhaitez-vous VRAIMENT supprimer cet établissement ?"
 
-#: manage/views.py:893
+#: manage/views.py:848
 msgid "Office successfully removed"
 msgstr "Etablissement supprimé avec succès"
 
-#: manage/views.py:924
+#: manage/views.py:879
 msgid "The two offices are the same. No merging."
 msgstr "Les deux établissements sont identiques. Pas de fusion."
 
-#: manage/views.py:947
+#: manage/views.py:902
 msgid "Offices successfully merged"
 msgstr "Etablissement fusionné avec succès"
 
-#: manage/views.py:987
+#: manage/views.py:942
 msgid "Office successfully validated"
 msgstr "Etablissement créé avec succès"
 
-#: manage/views.py:997
+#: manage/views.py:952
 msgid "Validate a new office"
 msgstr "Valider un nouvel établissement"
 
-#: manage/views.py:1098
+#: manage/views.py:1053
 msgid "Several roles have the same name. Please choose another one"
 msgstr "Plusieurs rôles ont le même nom. Merci de choisir un autre nom."
 
-#: manage/views.py:1104
+#: manage/views.py:1059
 msgid "New role successfully created"
 msgstr "Nouveau rôle créé avec succès"
 
-#: manage/views.py:1113 templates/manage/role_index.html:24
+#: manage/views.py:1068 templates/manage/role_index.html:24
 msgid "Register new role"
 msgstr "Enregistrer un nouveau rôle"
 
-#: manage/views.py:1145
+#: manage/views.py:1100
 msgid "User added to role"
 msgstr "Utilisateur ajouté au rôle"
 
-#: manage/views.py:1148
+#: manage/views.py:1103
 msgid "User is not correct"
 msgstr "Utilisateur incorrect"
 
-#: manage/views.py:1168
+#: manage/views.py:1123
 msgid "Member removed from role"
 msgstr "Membre du rôle supprimé"
 
-#: manage/views.py:1186
+#: manage/views.py:1141
 msgid "Add a new notification"
 msgstr "Ajouter une notification"
 
-#: manage/views.py:1188
+#: manage/views.py:1143
 msgid "Notification successfully created"
 msgstr "La notification a été créée avec succès."
 
-#: manage/views.py:1205
+#: manage/views.py:1160
 msgid "Modification of the notification"
 msgstr "Modifier une notification"
 
-#: manage/views.py:1213
+#: manage/views.py:1168
 msgid "Do you REALLY want to delete the notification"
 msgstr "Souhaitez-vous VRAIMENT supprimer cette notification ?"
 
-#: manage/views.py:1225
+#: manage/views.py:1180
 msgid "The notification has been successfully removed."
 msgstr "La notification a été supprimée avec succès."
 
-#: manage/views.py:1370
+#: manage/views.py:1200
 msgid "Several countries have the same name. Please choose another one"
 msgstr "Plusieurs cays ont le même nom. Merci de choisir un autre nom."
 
-#: manage/views.py:1376
+#: manage/views.py:1206
 msgid "New country successfully created"
 msgstr "Nouveau pays créé avec succès"
 
-#: manage/views.py:1386
+#: manage/views.py:1216
 msgid "Register new country"
 msgstr "Enregistrer un nouveau pays"
 
-#: manage/views.py:1564
+#: manage/views.py:1381
 msgid "Payment successfully updated"
 msgstr "Paiment mis à jour"
 
-#: manage/views.py:1605
+#: manage/views.py:1422
 msgid "No payment to deposit"
 msgstr "Pas de paiement en attente de dépot"
 
-#: manage/views.py:1627
+#: manage/views.py:1444
 msgid "Payments marked as deposited"
 msgstr ""
 
@@ -2683,10 +2685,6 @@ msgstr "Accueil"
 msgid "The association"
 msgstr "L'association"
 
-#: templates/base.html:75 templates/adhesions/subscriptions.html:12
-msgid "Subscriptions"
-msgstr "Adhésions"
-
 #: templates/base.html:78
 msgid "Directory"
 msgstr "Annuaire"
@@ -2739,10 +2737,10 @@ msgstr "Gestion"
 msgid "RSS"
 msgstr "Flux RSS"
 
-#: templates/base.html:136 templates/annuaire/details.html:98
-#: templates/annuaire/edit.html:242 templates/association/base.html:28
+#: templates/base.html:136 templates/annuaire/details.html:100
+#: templates/annuaire/edit.html:275 templates/association/base.html:28
 #: templates/emploi/job_details.html:19 templates/emploi/job_details.html:33
-#: templates/evenements/details.html:15 templates/manage/user_details.html:29
+#: templates/evenements/details.html:15
 msgid "Contact"
 msgstr "Contact"
 
@@ -2758,13 +2756,13 @@ msgstr "Mentions légales"
 msgid "Unless specific mention, all Texts are under license"
 msgstr "Sauf mention spécifique, tous les textes sont sous licence"
 
-#: templates/adhesions/base.html:17 templates/association/board.html:29
-#: templates/association/council.html:29 templates/emploi/job_details.html:56
-#: templates/evenements/details.html:47 templates/evenements/edit.html:53
-#: templates/evenements/index.html:45 templates/evenements/search.html:52
+#: templates/adhesions/base.html:17 templates/association/council.html:29
+#: templates/emploi/job_details.html:56 templates/evenements/details.html:47
+#: templates/evenements/edit.html:53 templates/evenements/index.html:45
+#: templates/evenements/search.html:52
 #: templates/groupes_professionnels/base.html:17
 #: templates/groupes_regionaux/base.html:18 templates/manage/default.html:138
-#: templates/manage/errors_index.html:50
+#: templates/manage/errors_index.html:47
 #: templates/manage/office_details.html:91
 #: templates/manage/office_merge.html:30
 #: templates/manage/organization_details.html:121
@@ -2773,10 +2771,10 @@ msgstr "Sauf mention spécifique, tous les textes sont sous licence"
 #: templates/manage/organizations_adv_search.html:130
 #: templates/manage/organizations_search.html:60
 #: templates/manage/proposal_register.html:22
-#: templates/manage/role_index.html:21 templates/manage/user_details.html:62
-#: templates/manage/users_search.html:57 templates/news/base.html:16
-#: templates/sondages/details.html:53 templates/sondages/index.html:21
-#: templates/sondages/view.html:38 templates/voyages/base.html:17
+#: templates/manage/role_index.html:21 templates/manage/users_search.html:57
+#: templates/news/base.html:16 templates/sondages/details.html:53
+#: templates/sondages/index.html:21 templates/sondages/view.html:38
+#: templates/voyages/base.html:17
 msgid "Actions"
 msgstr "Actions"
 
@@ -2820,7 +2818,7 @@ msgstr "Nombre d'adhérents"
 #: templates/association/edit_council.html:66
 #: templates/association/edit_council.html:112
 #: templates/emploi/job_edit.html:13 templates/emploi/job_register.html:13
-#: templates/emploi/organization_check.html:20
+#: templates/emploi/organization_check.html:25
 #: templates/evenements/contact.html:27 templates/evenements/edit.html:46
 #: templates/evenements/join.html:16
 #: templates/evenements/organizer_add.html:13
@@ -2853,7 +2851,7 @@ msgstr "Annuler"
 #: templates/association/edit_council.html:67
 #: templates/association/edit_council.html:113
 #: templates/emploi/education_edit.html:17 templates/emploi/job_edit.html:14
-#: templates/emploi/leisure_edit.html:17 templates/emploi/office_edit.html:27
+#: templates/emploi/leisure_edit.html:17 templates/emploi/office_edit.html:28
 #: templates/emploi/position_edit.html:17
 #: templates/emploi/publication_edit.html:17
 #: templates/groupes_professionnels/edit.html:14
@@ -2862,7 +2860,8 @@ msgstr "Annuler"
 #: templates/groupes_regionaux/edit.html:15
 #: templates/groupes_regionaux/edit_roles.html:53
 #: templates/groupes_regionaux/edit_roles.html:92
-#: templates/manage/edit_form.html:14 templates/manage/notification.html:14
+#: templates/manage/edit_form.html:14 templates/manage/error_details.html:47
+#: templates/manage/notification.html:14
 #: templates/manage/org_criterionFilter_edit.html:17
 #: templates/manage/org_criterion_add.html:34
 #: templates/manage/org_criterion_edit.html:18
@@ -2899,25 +2898,24 @@ msgstr "Gratuit"
 #: templates/adhesions/configurations.html:45
 #: templates/adhesions/subscriptions.html:70
 #: templates/annuaire/adv_search.html:34 templates/annuaire/adv_search.html:56
-#: templates/annuaire/edit.html:50 templates/annuaire/edit.html.py:137
-#: templates/annuaire/edit.html:185 templates/annuaire/edit.html.py:206
-#: templates/annuaire/edit.html:228 templates/annuaire/edit.html.py:249
-#: templates/annuaire/edit.html:271 templates/annuaire/edit.html.py:292
-#: templates/annuaire/edit.html:315 templates/association/edit_council.html:46
+#: templates/annuaire/edit.html:52 templates/annuaire/edit.html.py:145
+#: templates/annuaire/edit.html:197 templates/annuaire/edit.html.py:218
+#: templates/annuaire/edit.html:240 templates/annuaire/edit.html.py:261
+#: templates/annuaire/edit.html:282 templates/annuaire/edit.html.py:304
+#: templates/annuaire/edit.html:329 templates/association/edit_council.html:46
 #: templates/emploi/cv_edit.html:73 templates/emploi/cv_edit.html.py:96
 #: templates/emploi/cv_edit.html:118 templates/emploi/cv_edit.html.py:141
 #: templates/emploi/cv_edit.html:163 templates/emploi/job_proposals.html:21
-#: templates/emploi/organization_edit.html:45
-#: templates/emploi/organization_edit.html:55
+#: templates/emploi/organization_edit.html:53
+#: templates/emploi/organization_edit.html:63
 #: templates/evenements/edit.html:22
 #: templates/groupes_professionnels/edit_roles.html:32
 #: templates/groupes_regionaux/edit_roles.html:32
 #: templates/manage/default.html:122
 #: templates/manage/organizations_adv_search.html:38
 #: templates/manage/organizations_adv_search.html:62
-#: templates/manage/role_details.html:17 templates/manage/user_edit.html:59
-#: templates/manage/user_edit.html.py:80 templates/manage/user_edit.html:104
-#: templates/sondages/details.html:16 templates/sondages/details.html.py:42
+#: templates/manage/role_details.html:17 templates/sondages/details.html:16
+#: templates/sondages/details.html.py:42
 #: templates/voyages/responsibles.html:17
 msgid "Delete"
 msgstr "Supprimer"
@@ -2947,6 +2945,10 @@ msgstr "Abonnement Canal N7"
 #: templates/adhesions/subscribe.html:76
 msgid "Total amount"
 msgstr "Montant total"
+
+#: templates/adhesions/subscriptions.html:12
+msgid "Subscriptions"
+msgstr "Adhésions"
 
 #: templates/adhesions/subscriptions.html:18
 #: templates/annuaire/adv_search.html:86 templates/annuaire/search.html:31
@@ -3033,9 +3035,8 @@ msgstr "Canal n7"
 
 #: templates/adhesions/subscriptions.html:53
 #: templates/adhesions/user_subscriptions.html:36
-#: templates/annuaire/edit.html:96 templates/annuaire/edit.html.py:99
-#: templates/annuaire/edit.html:104 templates/manage/error_details.html:32
-#: templates/manage/office_details.html:79
+#: templates/annuaire/edit.html:92 templates/annuaire/edit.html.py:95
+#: templates/annuaire/edit.html:100 templates/manage/office_details.html:79
 #: templates/manage/organization_details.html:108
 #: templates/manage/proposal_edit_organization.html:31
 #: templates/pages/confirm.html:19
@@ -3170,7 +3171,6 @@ msgstr "Enregistrer ce filtre"
 
 #: templates/annuaire/base.html:49
 #: templates/manage/organizations_search.html:55
-#: templates/manage/user_edit.html:139
 msgid "Advanced Search"
 msgstr "Recherche avancée"
 
@@ -3232,75 +3232,73 @@ msgstr ""
 msgid "Subscriber"
 msgstr "Adhérent"
 
-#: templates/annuaire/details.html:31
+#: templates/annuaire/details.html:33
 msgid "diplomas"
 msgstr "diplômes"
 
-#: templates/annuaire/details.html:44 templates/annuaire/edit.html:61
+#: templates/annuaire/details.html:46 templates/annuaire/edit.html:63
 msgid "Family situation"
 msgstr "Situation familiale"
 
-#: templates/annuaire/details.html:49 templates/annuaire/edit.html:68
+#: templates/annuaire/details.html:51 templates/annuaire/edit.html:70
 msgid "children"
 msgstr "enfants"
 
-#: templates/annuaire/details.html:79
+#: templates/annuaire/details.html:81
 msgid "Professional Phone:"
 msgstr "Tél. professionnel :"
 
-#: templates/annuaire/details.html:102 templates/annuaire/edit.html:264
-#: templates/manage/user_details.html:33
+#: templates/annuaire/details.html:104 templates/annuaire/edit.html:297
 msgid "on"
 msgstr "sur"
 
-#: templates/annuaire/details.html:119
+#: templates/annuaire/details.html:121
 msgid "Professionnal Address:"
 msgstr "Adresse professionnelle :"
 
-#: templates/annuaire/details.html:129 templates/annuaire/edit.html:148
+#: templates/annuaire/details.html:131 templates/annuaire/edit.html:158
 #: templates/emploi/cv_details.html:55 templates/emploi/cv_edit.html:61
 msgid "Professional experiences"
 msgstr "Expériences professionnelles"
 
-#: templates/annuaire/details.html:135 templates/annuaire/edit.html:155
-#: templates/manage/user_edit.html:118
+#: templates/annuaire/details.html:137
 msgid "since"
 msgstr "depuis"
 
-#: templates/annuaire/details.html:152 templates/annuaire/edit.html:300
+#: templates/annuaire/details.html:154 templates/annuaire/edit.html:314
 msgid "N7 associative activities"
 msgstr "Vie associative à l'N7"
 
-#: templates/annuaire/details.html:172
+#: templates/annuaire/details.html:174
 msgid "AIn7 Notes"
 msgstr "Notes AIn7"
 
-#: templates/annuaire/details.html:181
+#: templates/annuaire/details.html:183
 msgid "Send new credentials"
 msgstr "Envoyez de nouveaux identifiants"
 
-#: templates/annuaire/details.html:187 templates/voyages/details.html:62
+#: templates/annuaire/details.html:189 templates/voyages/details.html:62
 #: templates/voyages/edit.html:35 templates/voyages/join.html:25
 msgid "Modify these data"
 msgstr "Modifier ces informations"
 
-#: templates/annuaire/details.html:188
+#: templates/annuaire/details.html:190
 msgid "Subscriptions History"
 msgstr "Historique des adhésions"
 
-#: templates/annuaire/details.html:191
+#: templates/annuaire/details.html:193
 msgid "Change credentials"
 msgstr "Modifier vos identifiants"
 
-#: templates/annuaire/details.html:193
+#: templates/annuaire/details.html:195
 msgid "Download contact as vCard"
 msgstr "Télécharger la vCard du contact"
 
-#: templates/annuaire/details.html:198
+#: templates/annuaire/details.html:200
 msgid "Groups"
 msgstr "Groupes"
 
-#: templates/annuaire/details.html:207 templates/annuaire/edit.html:335
+#: templates/annuaire/details.html:209 templates/annuaire/edit.html:351
 #: templates/emploi/job_details.html:65 templates/evenements/details.html:73
 #: templates/groupes_professionnels/base.html:33
 #: templates/groupes_professionnels/base.html:47
@@ -3308,7 +3306,6 @@ msgstr "Groupes"
 #: templates/manage/office_details.html:109
 #: templates/manage/office_merge.html:40
 #: templates/manage/organization_details.html:134
-#: templates/manage/user_details.html:82
 #: templates/media_communication/canal_n7.html:59
 #: templates/media_communication/canal_n7_edito.html:42
 #: templates/news/details.html:28
@@ -3317,84 +3314,79 @@ msgstr "Groupes"
 msgid "Card Informations"
 msgstr "Informations générales"
 
-#: templates/annuaire/details.html:212
+#: templates/annuaire/details.html:214
 msgid "Last connexion:"
 msgstr "Dernière connexion :"
 
-#: templates/annuaire/edit.html:15 templates/annuaire/edit.html.py:330
-#: templates/manage/user_edit.html:16
+#: templates/annuaire/edit.html:15 templates/annuaire/edit.html.py:346
 msgid "Back to personnal file"
 msgstr "Retour vers la fiche personnelle"
 
-#: templates/annuaire/edit.html:17 templates/manage/user_edit.html:18
+#: templates/annuaire/edit.html:17
 msgid "Personal data"
 msgstr "Données personnelles"
 
-#: templates/annuaire/edit.html:52
+#: templates/annuaire/edit.html:54
 msgid "No avatar"
 msgstr "Pas d'avatar"
 
-#: templates/annuaire/edit.html:59
+#: templates/annuaire/edit.html:61
 msgid "No nickname"
 msgstr "Pas de surnom"
 
-#: templates/annuaire/edit.html:65
+#: templates/annuaire/edit.html:67
 msgid "not available"
 msgstr "non disponible"
 
-#: templates/annuaire/edit.html:70
+#: templates/annuaire/edit.html:72
 msgid "no child"
 msgstr "pas d'enfants"
 
-#: templates/annuaire/edit.html:78
+#: templates/annuaire/edit.html:80
 msgid "No decoration"
 msgstr "Pas de décoration"
 
-#: templates/annuaire/edit.html:86
+#: templates/annuaire/edit.html:88
 msgid "No ceremonial duty"
 msgstr "Pas de fonction honorifique"
 
-#: templates/annuaire/edit.html:94
+#: templates/annuaire/edit.html:90
 msgid "Display my CV in the directory"
 msgstr "Afficher mon CV dans l'annuaire"
 
-#: templates/annuaire/edit.html:96 templates/annuaire/edit.html.py:99
-#: templates/annuaire/edit.html:102 templates/manage/error_details.html:32
-#: templates/manage/office_details.html:80
+#: templates/annuaire/edit.html:92 templates/annuaire/edit.html.py:95
+#: templates/annuaire/edit.html:98 templates/manage/office_details.html:80
 #: templates/manage/organization_details.html:109
 #: templates/manage/proposal_edit_organization.html:31
 #: templates/pages/confirm.html:20
 msgid "Yes"
 msgstr "Oui"
 
-#: templates/annuaire/edit.html:142
+#: templates/annuaire/edit.html:150
 msgid "No promotion"
 msgstr "Pas de promotion"
 
-#: templates/annuaire/edit.html:193 templates/manage/user_edit.html:67
+#: templates/annuaire/edit.html:205
 msgid "Phone numbers"
 msgstr "Numéros de téléphone"
 
-#: templates/annuaire/edit.html:236
+#: templates/annuaire/edit.html:248
+msgid "Web sites"
+msgstr "Sites internet"
+
+#: templates/annuaire/edit.html:269
 msgid "Instant messaging accounts"
 msgstr "Comptes de messagerie instantanée"
 
-#: templates/annuaire/edit.html:257
+#: templates/annuaire/edit.html:290
 msgid "IRC accounts"
 msgstr "Comptes IRC"
-
-#: templates/annuaire/edit.html:279
-msgid "Web sites"
-msgstr "Sites internet"
 
 #: templates/association/activites.html:14
 #: templates/association/contact.html:14 templates/association/index.html:14
 #: templates/association/status.html:14
 #: templates/groupes_professionnels/index.html:15
 #: templates/groupes_regionaux/index.html:14
-#: templates/manage/error_details.html:34
-#: templates/manage/error_details.html:48
-#: templates/manage/errors_index.html:40
 #: templates/media_communication/canal_n7.html:18
 #: templates/media_communication/canal_n7.html:26
 #: templates/media_communication/canal_n7.html:34
@@ -3432,11 +3424,7 @@ msgstr "Conseil d'administration"
 msgid "Activities"
 msgstr "Activités"
 
-#: templates/association/board.html:9
-msgid "Board"
-msgstr "Bureau"
-
-#: templates/association/board.html:32 templates/association/council.html:32
+#: templates/association/council.html:32
 msgid "Change council roles"
 msgstr "Modifier le conseil d'administration"
 
@@ -3451,7 +3439,6 @@ msgstr "Tous les membres (y compris les anciens) sont affichés. Cliquez"
 #: templates/groupes_regionaux/edit_roles.html:11
 #: templates/groupes_regionaux/edit_roles.html:13
 #: templates/manage/default.html:111 templates/manage/default.html.py:114
-#: templates/manage/user_details.html:54
 msgid "here"
 msgstr "ici"
 
@@ -3650,7 +3637,7 @@ msgstr "Modification de loisirs"
 msgid "Creation of a leisure item"
 msgstr "Ajout de loisirs"
 
-#: templates/emploi/organization_check.html:12
+#: templates/emploi/organization_check.html:17
 msgid ""
 "Before registering a new organization, please check in the field below that "
 "it does not exist yet in the database."
@@ -3658,12 +3645,12 @@ msgstr ""
 "Avant d'ajouter une entreprise, veuillez vérifier dans le champ ci-dessous "
 "qu'elle n'existe pas déjà dans la base."
 
-#: templates/emploi/organization_check.html:21
+#: templates/emploi/organization_check.html:26
 msgid "Not in database"
 msgstr "Absent de la base"
 
 #: templates/emploi/organization_details.html:32
-#: templates/emploi/organization_edit.html:47
+#: templates/emploi/organization_edit.html:55
 #: templates/manage/organization_details.html:35
 msgid "List of offices"
 msgstr "Liste des établissements"
@@ -3686,7 +3673,7 @@ msgstr "Ingénieurs N7 actuellement employés"
 msgid "Past N7 employees"
 msgstr "Ingénieurs N7 employés par le passé"
 
-#: templates/emploi/organization_edit.html:16
+#: templates/emploi/organization_edit.html:24
 msgid "Not an employment agency"
 msgstr "N'est pas un cabinet de recrutement"
 
@@ -4069,7 +4056,7 @@ msgid "Add a notification"
 msgstr "Ajouter une notification"
 
 #: templates/manage/error_details.html:12
-#: templates/manage/error_details.html:37
+#: templates/manage/error_details.html:33
 msgid "Error"
 msgstr "Erreur"
 
@@ -4089,11 +4076,11 @@ msgstr "Referrer"
 msgid "Browser"
 msgstr "Navigateur"
 
-#: templates/manage/error_details.html:31
-msgid "Fixed"
-msgstr "Corrigé"
+#: templates/manage/error_details.html:29
+msgid "IP Address"
+msgstr "Adresse IP"
 
-#: templates/manage/errors_index.html:53
+#: templates/manage/errors_index.html:50
 msgid "Edit a range of errors"
 msgstr "Modifier une plage d'erreurs"
 
@@ -4296,42 +4283,6 @@ msgstr "Contenu du rôle"
 #: templates/manage/role_index.html:10
 msgid "Roles list"
 msgstr "Liste des rôles"
-
-#: templates/manage/user_details.html:54
-msgid "This person is also an AIn7Member. You can check his complete profil"
-msgstr ""
-"Cette personne est également un membre de l'AIn7. Vous pouvez consulter son "
-"profil complet"
-
-#: templates/manage/user_details.html:65
-msgid "Edit those informations"
-msgstr "Modifier ces informations"
-
-#: templates/manage/user_details.html:71
-msgid "Groups AIn7"
-msgstr "Groupes AIn7"
-
-#: templates/manage/user_edit.html:13
-msgid "Personal file"
-msgstr "Fiche personnelle de"
-
-#: templates/manage/user_edit.html:51 templates/manage/user_edit.html.py:73
-#: templates/manage/user_edit.html:94
-msgid "confidential"
-msgstr "confidentiel"
-
-#: templates/manage/user_edit.html:52 templates/manage/user_edit.html.py:74
-#: templates/manage/user_edit.html:95
-msgid "not confidential"
-msgstr "non confidentiel"
-
-#: templates/manage/user_edit.html:113
-msgid "Current professional experiences"
-msgstr "Expériences professionnelles actuelles"
-
-#: templates/manage/user_edit.html:120
-msgid "for"
-msgstr "au sein de"
 
 #: templates/manage/users_search.html:61
 msgid "Register external user"
@@ -4770,3 +4721,4 @@ msgid "Do you really want this person not to be responsible of this travel"
 msgstr ""
 "Souhaitez-vous vraiment que cette personne ne soit pas responsable de ce "
 "voyage ?"
+

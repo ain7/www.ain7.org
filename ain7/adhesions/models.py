@@ -36,11 +36,11 @@ class Subscription(LoggedClass):
     """
 
     TENDER_TYPE = (
-                   (0, _('Cash')),
-                   (1, _('Cheque')),
-                   (2, _('Card')),
-                   (3, _('Transfer')),
-                   (4, _('Other')),
+                   (1, _('Cash')),
+                   (2, _('Cheque')),
+                   (4, _('Card')),
+                   (5, _('Transfer')),
+                   (6, _('Other')),
                    )
     # For potential backward compatibility
     old_id = models.IntegerField(verbose_name='old id', blank=True, null=True,
@@ -58,6 +58,9 @@ class Subscription(LoggedClass):
     tender_type = models.IntegerField(verbose_name=_('Tender type'), 
         choices=TENDER_TYPE)
     validated = models.BooleanField(verbose_name=_('validated'), default=False)
+
+    date = models.DateTimeField(verbose_name=_('subscription date'),
+        null=True, blank=True)
 
     start_year = models.IntegerField(verbose_name=_('start year'))
     end_year = models.IntegerField(verbose_name=_('end year'))

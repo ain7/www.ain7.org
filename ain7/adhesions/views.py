@@ -194,15 +194,16 @@ def subscription_add(request, user_id=None):
             subscription.payment = payment
             subscription.save()
 
-            person.send_mail(_(u'AIn7 Subscription registered'), \
+            if person == request.user.person:
+                person.send_mail(_(u'AIn7 Subscription registered'), \
 _(u"""Hi %(firstname)s,
 
 We have registered your subscription for the next year to the association AIn7.
+Your subscription will be validated as soon as we have received your payment.
 
 We remind you that you have an access to the website and can update your
 personal informations. On the website, you can find the directory,
-next events, news in the N7 world, employment. If you have lost your 
-password, you can recover at http://ain7.com/lostpassword/ .
+next events, news in the N7 world, employment.
 
 All the AIn7 Team would like to thanks you for you support. See you on
 the website or at one of our events.
@@ -211,27 +212,26 @@ Cheers,
 
 AIn7 Team
 
-""") % { 'firstname': request.user.person.first_name })
+""") % { 'firstname': person.first_name })
 
-            if payment.type == 2:
 
-                import ctypes
-                from django.contrib.auth.models import User
-                from ain7.settings import AIN7_SIRET, SPPLUS_CLENT, SPPLUS_LIB_PATH
+            if payment.type == 4:
 
-                ctest = ctypes.CDLL(SPPLUS_LIB_PATH)
-                clent = SPPLUS_CLENT
-                secret_key =  User.objects.make_random_password(50)
+                import subprocess
+                from django.conf import settings
 
-                payment.secret_key = secret_key
-                payment.save()
+                data = "siret=%(siret)s&montant=%(amount)s.00&taxe=0.00&validite=31/12/2099&langue=FR&devise=978&version=1&reference=%(reference)s" % { 'siret': settings.AIN7_SIRET, 'amount': payment.amount, 'reference': payment.id}
+                
+                proc = subprocess.Popen('REQUEST_METHOD=GET QUERY_STRING=\''+data+'\' '+settings.SPPLUS_EXE, shell=True, stdout=subprocess.PIPE)
+                spplusurl = proc.communicate()[0].replace('Location: ','')
+                print spplusurl
 
-                data = 'https://www.spplus.net/paiement/init.do?montant='+str(payment.amount)+'&taxe=0&validite=31%2f12%2f2099&langue=FR&siret='+AIN7_SIRET+'&devise=978&reference='+str(payment.id)+'&arg2='+secret_key
+                #return HttpResponseRedirect(spplusurl)
 
-                result = ctypes.c_char_p(ctest.signeURLPaiement(ctypes.c_char_p(clent), ctypes.c_char_p(data)))
-                spplusurl = result.value
-                ctest.free(result)
-                return HttpResponseRedirect(spplusurl)
+            if payment.type == 2 or payment.type == 5:
+
+                 return ain7_render_to_response(request, 'adhesions/informations.html',
+        {'payment': payment })
 
             if isinstance(subscription, LoggedClass) and request.user:
                 subscription.logged_save(request.user.person)
@@ -306,10 +306,8 @@ def payment_validate(request):
             montant = request.GET['montant']
         if request.GET.has_key('etat'):
             etat = request.GET['etat']
-        if request.GET.has_key('arg2'):
-            arg2 = request.GET['arg2']
 
-        pay = Payment.objects.get(id=reference, amount=montant, secret_key=arg2)
+        pay = Payment.objects.get(id=reference, amount=montant)
         if etat == '1':
             pay.validated = True
             #pay.save()
@@ -319,5 +317,33 @@ def payment_validate(request):
                sub.validated = True
                #sub.save()
 
+    return  HttpResponseRedirect('/')
+
+def notification(request):
+
+    import re
+    import subprocess
+    import base64
+
+    from django.conf import settings
+
+    if not settings.DEBUG and not settings.REMOTE_ADDR in settings.SPPLUS_IP:
+        return  HttpResponseRedirect('/')
+
+    print request.get_full_path()
+
+    if request.method == 'GET':
+        if request.GET.has_key('etat'):
+            etat = request.GET['etat']
+        if request.GET.has_key('montant'):
+            montant = request.GET['montant']
+        if request.GET.has_key('reference'):
+            reference = request.GET['reference']
+
+        if etat == '4':
+            pay = Payment.objects.get(id=reference, amount=montant)
+            pay.validate()
+
+    return ain7_render_to_response(request, 'adhesions/notification.html', {})
     return  HttpResponseRedirect('/')
 

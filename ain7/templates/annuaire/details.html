@@ -133,10 +133,10 @@
 <ul>
 {% for position in ain7member.positions.all %}
 <li>
-    {% if position.start_date and not position.end_date %}
-       {% trans "since" %} <b>{{ position.start_date|date:"Y" }}</b>&nbsp;:
-          {% else %}{% if position.start_date and position.end_date %}
-             <b>{{ position.start_date|date:"Y" }}-{{ position.end_date|date:"Y" }}</b>:
+    {% if position.begin and not position.end %}
+       {% trans "since" %} <b>{{ position.begin }}</b>&nbsp;:
+          {% else %}{% if position.begin and position.end %}
+             <b>{{ position.begin }}-{{ position.end }}</b>:
           {% endif %}{% endif %}
             {% if position.fonction %}<em>{{ position.fonction }}</em>, {% endif %}
                 <a href="{% url ain7.emploi.views.organization_details position.office.organization.id %}">{{ position.office.organization }}</a>
@@ -161,8 +161,8 @@
     {% else %}
         {{ club_membership.club.name }}
     {% endif %}
-    {% if club_membership.start_date and club_membership.end_date %}
-    (<i>{{ club_membership.start_date|date:"Y" }} - {{ club_membership.end_date|date:"Y" }}</i>)
+    {% if club_membership.begin and club_membership.end %}
+    (<i>{{ club_membership.begin }} - {{ club_membership.end }}</i>)
     {% endif %}
     </li>
 {% endfor %}
@@ -170,7 +170,7 @@
 {% endif %}
 
 {% if superadmin or secretariat_member %}
-{% if person.notes %}
+{% if personprivate.notes %}
 <h2><img src="/site_media/images/private.png" alt="private" width="14" height="14"/>{% trans "AIn7 Notes" %}</h2>
 {{ person.notes|safe }}
 {% endif %}

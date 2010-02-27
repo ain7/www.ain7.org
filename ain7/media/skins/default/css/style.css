@@ -99,6 +99,10 @@ a.button, a.button:hover {
     font: bold 1.5em Arial, Sans-Serif;
 }
 
+input[type=text] {
+    width: 300px;
+} 
+
 /* layout
    ------ */
 

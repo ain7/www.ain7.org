@@ -350,8 +350,10 @@ class Position(LoggedClass):
     A position occupied by a person.
     """
 
+    ain7member = models.ForeignKey(AIn7Member, related_name='positions')
     office = models.ForeignKey(Office, verbose_name=_('office'),
         related_name='positions')
+
     fonction = models.CharField(verbose_name=_('fonction'), max_length=80,
         blank=True, null=True)
     service = models.CharField(verbose_name=_('service'), max_length=80,
@@ -359,14 +361,18 @@ class Position(LoggedClass):
     phone_number = models.CharField(verbose_name=_('phone'),
         max_length=20, blank=True, null=True)
     email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
+    is_regie = models.BooleanField(verbose_name=_('regie outside'),
+        default=False)
+    begin = models.IntegerField(verbose_name=_('start date'),
+        blank=True, null=True)
+    end = models.IntegerField(verbose_name=_('end date'), blank=True,
+        null=True)
+    #TODO: remove this once it has been migrated
     start_date = models.DateField(verbose_name=_('start date'),
         blank=True, null=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True,
         null=True)
-    is_regie = models.BooleanField(verbose_name=_('regie outside'),
-        default=False)
 
-    ain7member = models.ForeignKey(AIn7Member, related_name='positions')
     description = models.TextField(verbose_name=_('description'), blank=True,
         null=True)
 
