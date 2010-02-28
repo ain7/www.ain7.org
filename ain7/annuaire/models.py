@@ -682,12 +682,6 @@ class ClubMembership(models.Model):
     end = models.IntegerField(verbose_name=_('end date'), blank=True,
         null=True)
 
-    # TODO: remove once migrated
-    start_date = models.DateField(verbose_name=_('start date'), blank=True,
-        null=True)
-    end_date = models.DateField(verbose_name=_('end date'), blank=True,
-        null=True)
-
     def __unicode__(self):
         """club membership unicode"""
         return str(self.club) + " " + self.fonction

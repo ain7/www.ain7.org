@@ -226,7 +226,7 @@ AIn7 Team
 
 """) % { 'firstname': person.first_name })
 
-            spplusurl = None
+            spplusurl = ''
 
             if payment.type == 4:
 
@@ -306,8 +306,6 @@ def notification(request):
     if not settings.DEBUG and not settings.REMOTE_ADDR in settings.SPPLUS_IP:
         return  HttpResponseRedirect('/')
 
-    print request.get_full_path()
-
     if request.method == 'GET':
         if request.GET.has_key('etat'):
             etat = request.GET['etat']
@@ -317,7 +315,7 @@ def notification(request):
             reference = request.GET['reference']
 
         if etat == '1':
-            pay = Payment.objects.get(id=reference, amount=montant)
+            pay = Payment.objects.get(id=reference)
             pay.validated = True
             pay.save()
 

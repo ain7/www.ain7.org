@@ -4,11 +4,11 @@
 {% block javascript %}{% endblock %}
 {% block stylesheet %}{% endblock %}
 
-{% if spplusurl %}
+{% ifequal payment.type 4 %}
 {% block metaextra %}
 <meta http-equiv="refresh" content="5;url={{ spplusurl }}">
 {% endblock %}
-{% endif %}
+{% endifequal %}
 
 {% block content-left %}
 
@@ -29,7 +29,7 @@
 <p>&nbsp;</p>
 <p>Si vous n'êtes pas redirigé, merci de <a href="{{ spplusurl }}">cliquer ici</a>.</p>
 <p>&nbsp;</p>
-<div align="center"><img src="media/images/logo_SPPLUS_100.gif"/></div>
+<div align="center"><img src="/media/images/logo_SPPLUS_100.gif"/></div>
 
 {% endifequal %}
 
