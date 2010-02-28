@@ -27,7 +27,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.utils.translation import ugettext as _
 
 from ain7.adhesions.forms import ConfigurationForm, SubscriptionForm
@@ -36,7 +36,7 @@ from ain7.annuaire.models import AIn7Member, Person
 from ain7.manage.models import Payment
 from ain7.decorators import confirmation_required
 from ain7.utils import ain7_render_to_response, ain7_generic_edit
-from ain7.utils import ain7_generic_delete, check_access, LoggedClass
+from ain7.utils import ain7_generic_delete, check_access
 
 
 def index(request):
@@ -44,9 +44,18 @@ def index(request):
     count_subscribers = Subscription.objects.filter(validated=True).exclude(\
         start_year__gt=datetime.date.today().year).exclude(\
         end_year__lt=datetime.date.today().year).count()
+
+    user_groups = request.user.groups.all().values_list('name', flat=True)
+
+    if not 'ain7-secretariat' in user_groups and \
+        not 'ain7-admin' in user_groups and \
+        not 'ain7-ca' in user_groups:
+        return HttpResponseRedirect('/adhesions/'+str(request.user.id)+ \
+            '/subscriptions/add/')
+
     return ain7_render_to_response(request, 'adhesions/index.html',
         {'subscriptions_list': Subscription.objects.filter(validated=True).\
-            order_by('-start_year', '-end_year', '-id')[:20],
+            order_by('-id')[:20],
          'count_members': AIn7Member.objects.count(),
          'count_subscribers': count_subscribers})
 
@@ -90,8 +99,9 @@ def subscriptions(request, to_validate=False):
 @login_required
 def subscription_validate(request, subscription_id=None):
     """validate subscription"""
+
     access = check_access(request, request.user, ['ain7-secretariat'])
-    if access and unicode(request.user.id) != user_id:
+    if access:
         return access
 
     subscription = get_object_or_404(Subscription, pk=subscription_id)
@@ -109,6 +119,7 @@ def subscription_validate(request, subscription_id=None):
 @login_required
 def subscription_delete(request, subscription_id=None):
     """delete subscription"""
+
     access = check_access(request, request.user, ['ain7-secretariat'])
     if access:
         return access
@@ -121,9 +132,12 @@ def subscription_delete(request, subscription_id=None):
 @login_required
 def user_subscriptions(request, user_id):
     """show user subscriptions"""
+
     access = check_access(request, request.user,
         ['ain7-secretariat','ain7-ca'])
-    if access:
+    is_myself = int(request.user.id) == int(user_id)
+
+    if access and not is_myself:
         return access
 
     person = get_object_or_404(Person, pk=user_id)
@@ -181,6 +195,7 @@ def subscription_add(request, user_id=None):
             subscription.start_year = form.cleaned_data['start_year']
             subscription.end_year = form.cleaned_data['start_year'] + \
                 configuration.duration - 1
+            subscription.date = datetime.date.today()
             subscription.member = ain7member
 
             payment = Payment()
@@ -195,15 +210,12 @@ def subscription_add(request, user_id=None):
             subscription.save()
 
             if person == request.user.person:
-                person.send_mail(_(u'AIn7 Subscription registered'), \
+                person.send_mail(_(u'AIn7 subscription request registered'), \
 _(u"""Hi %(firstname)s,
 
-We have registered your subscription for the next year to the association AIn7.
-Your subscription will be validated as soon as we have received your payment.
-
-We remind you that you have an access to the website and can update your
-personal informations. On the website, you can find the directory,
-next events, news in the N7 world, employment.
+We have registered your subscription request for the next year to the
+association AIn7. Your subscription will be validated as soon as we have
+received your payment.
 
 All the AIn7 Team would like to thanks you for you support. See you on
 the website or at one of our events.
@@ -214,37 +226,27 @@ AIn7 Team
 
 """) % { 'firstname': person.first_name })
 
+            spplusurl = None
 
             if payment.type == 4:
 
                 import subprocess
                 from django.conf import settings
 
-                data = "siret=%(siret)s&montant=%(amount)s.00&taxe=0.00&validite=31/12/2099&langue=FR&devise=978&version=1&reference=%(reference)s" % { 'siret': settings.AIN7_SIRET, 'amount': payment.amount, 'reference': payment.id}
+                data = "siret=%(siret)s&montant=%(amount)s.00&taxe=0.00&\
+validite=31/12/2099&langue=FR&devise=978&version=1&reference=%(reference)s" \
+ % { 'siret': settings.AIN7_SIRET, 'amount': payment.amount,
+     'reference': payment.id }
                 
-                proc = subprocess.Popen('REQUEST_METHOD=GET QUERY_STRING=\''+data+'\' '+settings.SPPLUS_EXE, shell=True, stdout=subprocess.PIPE)
-                spplusurl = proc.communicate()[0].replace('Location: ','')
+                proc = subprocess.Popen('REQUEST_METHOD=GET QUERY_STRING=\''+ \
+                    data+'\' '+settings.SPPLUS_EXE, shell=True, \
+                    stdout=subprocess.PIPE)
+                spplusurl = proc.communicate()[0].replace('Location: ','').replace('\n','')
                 print spplusurl
 
-                #return HttpResponseRedirect(spplusurl)
-
-            if payment.type == 2 or payment.type == 5:
-
-                 return ain7_render_to_response(request, 'adhesions/informations.html',
-        {'payment': payment })
-
-            if isinstance(subscription, LoggedClass) and request.user:
-                subscription.logged_save(request.user.person)
-            request.user.message_set.create(message=
-                 _('Subscription successfully added'))
-        else:
-            page_dict.update({'form': form})
-            request.user.message_set.create(message=_('Something was wrong in\
- the form you filled. No modification done.'))
-            return ain7_render_to_response(request, 'adhesions/subscribe.html',
-                page_dict)
-        redirect = reverse(user_subscriptions, kwargs={'user_id': user_id})
-        return HttpResponseRedirect(redirect)
+            return ain7_render_to_response(request,
+                 'adhesions/informations.html',
+                 {'payment': payment, 'spplusurl': spplusurl })
 
 @login_required
 def configurations(request):
@@ -297,33 +299,7 @@ def configuration_delete(request, configuration_id=None):
          reverse(configurations),
          _('Configuration successfully deleted.'))
 
-def payment_validate(request):
-
-    if request.method == 'GET':
-        if request.GET.has_key('reference'):
-            reference = request.GET['reference']
-        if request.GET.has_key('montant'):
-            montant = request.GET['montant']
-        if request.GET.has_key('etat'):
-            etat = request.GET['etat']
-
-        pay = Payment.objects.get(id=reference, amount=montant)
-        if etat == '1':
-            pay.validated = True
-            #pay.save()
-
-            if pay.subscriptions.count() == 1:
-               sub = pay.subscriptions.order_by('id')[0]
-               sub.validated = True
-               #sub.save()
-
-    return  HttpResponseRedirect('/')
-
 def notification(request):
-
-    import re
-    import subprocess
-    import base64
 
     from django.conf import settings
 
@@ -340,9 +316,10 @@ def notification(request):
         if request.GET.has_key('reference'):
             reference = request.GET['reference']
 
-        if etat == '4':
+        if etat == '1':
             pay = Payment.objects.get(id=reference, amount=montant)
-            pay.validate()
+            pay.validated = True
+            pay.save()
 
     return ain7_render_to_response(request, 'adhesions/notification.html', {})
     return  HttpResponseRedirect('/')

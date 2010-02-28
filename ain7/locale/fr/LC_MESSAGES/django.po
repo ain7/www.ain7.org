@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-27 18:01+0100\n"
+"POT-Creation-Date: 2010-02-28 12:26+0100\n"
 "PO-Revision-Date: 2010-01-15 22:50+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: AIn7 French Translators <ain7-devel@lists.ain7.com>\n"
@@ -61,7 +61,7 @@ msgstr "publié uniquement dans l'annuaire papier"
 msgid "private"
 msgstr "privé"
 
-#: utils.py:140 adhesions/views.py:242 annuaire/views.py:315
+#: utils.py:140 adhesions/views.py:251 annuaire/views.py:315
 #: annuaire/views.py:340 annuaire/views.py:1084 association/views.py:137
 #: association/views.py:176 emploi/views.py:432 emploi/views.py:618
 #: emploi/views.py:717 emploi/views.py:799 emploi/views.py:869
@@ -208,47 +208,42 @@ msgstr "Durée"
 msgid "Configuration"
 msgstr "Configuration"
 
-#: adhesions/views.py:89
+#: adhesions/views.py:98
 msgid "Do you really want to validate this subscription"
 msgstr "Souhaitez-vous vraiment valider cette adhésion"
 
-#: adhesions/views.py:102
+#: adhesions/views.py:111
 msgid "Subscription successfully validated"
 msgstr "Adhésion validée avec succès"
 
-#: adhesions/views.py:108
+#: adhesions/views.py:117
 msgid "Do you really want to delete this subscription"
 msgstr "Souhaitez-vous vraiment supprimer cette adhésion"
 
-#: adhesions/views.py:119
+#: adhesions/views.py:128
 msgid "Subscription successfully deleted"
 msgstr "Adhésion effacée avec succès"
 
-#: adhesions/views.py:150
+#: adhesions/views.py:162
 msgid "Adding a subscription for"
 msgstr "Ajout d'une adhésion pour"
 
-#: adhesions/views.py:163
+#: adhesions/views.py:175
 msgid "You already have an active subscription."
 msgstr "Vous avez déjà une adhésion active."
 
-#: adhesions/views.py:198
-msgid "AIn7 Subscription registered"
-msgstr "Votre adhésions à l'AIn7 a été enregistrée"
+#: adhesions/views.py:210
+msgid "AIn7 subscription request registered"
+msgstr "Votre demande d'adhésion à l'AIn7 a été enregistrée"
 
-#: adhesions/views.py:199
+#: adhesions/views.py:211
 #, python-format
 msgid ""
 "Hi %(firstname)s,\n"
 "\n"
-"We have registered your subscription for the next year to the association "
-"AIn7.\n"
-"Your subscription will be validated as soon as we have received your "
-"payment.\n"
-"\n"
-"We remind you that you have an access to the website and can update your\n"
-"personal informations. On the website, you can find the directory,\n"
-"next events, news in the N7 world, employment.\n"
+"We have registered your subscription request for the next year to the\n"
+"association AIn7. Your subscription will be validated as soon as we have\n"
+"received your payment.\n"
 "\n"
 "All the AIn7 Team would like to thanks you for you support. See you on\n"
 "the website or at one of our events.\n"
@@ -261,12 +256,7 @@ msgstr ""
 "Bonjour %(firstname)s,\n"
 "\n"
 "Nous venons d'enregistrer votre adhésion pour l'année à venir à l'AIn7.\n"
-"Votre adhésion sera validée à la réception de votre paiement.\n"
-"\n"
-"Nous vous rappelons que vous disposez d'un accès personnel sur le site web\n"
-"de l'association qui vous permet de mettre à jour vos données dans \n"
-"l'annuaire. Vous pouvez retrouver sur le site l'annuaire des anciens\n"
-"de l'ENSEEIHT, les événements de l'AIn7, l'actualité dans le monde de l'N7.\n"
+"Votre adhésion sera validée dès la réception de votre paiement.\n"
 "\n"
 "Toute l'équipe de l'AIn7 vous remercie pour votre soutien. En espérant\n"
 "vous rencontrer sur le site ou lors de l'un de nos prochains événements\n"
@@ -276,23 +266,23 @@ msgstr ""
 "L'équipe de l'AIn7\n"
 "\n"
 
-#: adhesions/views.py:239
+#: adhesions/views.py:248
 msgid "Subscription successfully added"
 msgstr "Adhésion ajoutée avec succès"
 
-#: adhesions/views.py:271
+#: adhesions/views.py:280
 msgid "Configuration successfully added."
 msgstr "La configuration a été créée avec succès."
 
-#: adhesions/views.py:276
+#: adhesions/views.py:285
 msgid "Configuration informations updated successfully."
 msgstr "La configuration a été correctement enregistrée."
 
-#: adhesions/views.py:285
+#: adhesions/views.py:294
 msgid "Do you really want to delete this configuration"
 msgstr "Souhaitez-vous vraiment supprimer cette configuration"
 
-#: adhesions/views.py:298
+#: adhesions/views.py:307
 msgid "Configuration successfully deleted."
 msgstr "La configuration sélectionnée a été supprimée avec succès."
 
@@ -2122,19 +2112,19 @@ msgstr "Date d'enregistrement"
 msgid "modification date"
 msgstr "date de modification"
 
-#: manage/models.py:147
+#: manage/models.py:154
 msgid "payment of "
 msgstr "paiement de "
 
-#: manage/models.py:149
+#: manage/models.py:156
 msgid " from "
 msgstr " de la part de"
 
-#: manage/models.py:161
+#: manage/models.py:166
 msgid "AIn7 Subscription validated"
 msgstr "Votre adhésions à l'AIn7 a été validée"
 
-#: manage/models.py:162
+#: manage/models.py:167
 #, python-format
 msgid ""
 "Hi %(firstname)s,\n"
@@ -2447,7 +2437,7 @@ msgid "Field"
 msgstr "Champ"
 
 #: search_engine/models.py:126 search_engine/models.py:150
-#: search_engine/models.py:156 templates/base.html:140
+#: search_engine/models.py:156 templates/base.html:141
 msgid "and"
 msgstr "et"
 
@@ -2685,78 +2675,94 @@ msgstr "Accueil"
 msgid "The association"
 msgstr "L'association"
 
-#: templates/base.html:78
+#: templates/base.html:76 templates/adhesions/subscriptions.html:12
+msgid "Subscriptions"
+msgstr "Adhésions"
+
+#: templates/base.html:79
 msgid "Directory"
 msgstr "Annuaire"
 
-#: templates/base.html:81 templates/pages/homepage.html:40
+#: templates/base.html:82 templates/pages/homepage.html:45
 msgid "News"
 msgstr "Actualités"
 
-#: templates/base.html:84 templates/groupes_regionaux/base.html:39
+#: templates/base.html:85 templates/groupes_regionaux/base.html:39
 msgid "Events"
 msgstr "Évènements"
 
-#: templates/base.html:87
+#: templates/base.html:88
 msgid "Job service"
 msgstr "Service emploi"
 
-#: templates/base.html:90
+#: templates/base.html:91
 msgid "Regional Groups "
 msgstr "Groupes régionaux"
 
-#: templates/base.html:100
+#: templates/base.html:101
 msgid "School and Students Relationship"
 msgstr "Relations école et étudiants"
 
-#: templates/base.html:103 templates/groupes_professionnels/base.html:38
+#: templates/base.html:104 templates/groupes_professionnels/base.html:38
 msgid "Professionnal Groups"
 msgstr "Groupes professionnels"
 
-#: templates/base.html:106
+#: templates/base.html:107
 msgid "Media &amp; Communication"
 msgstr "Média &amp; Communication"
 
-#: templates/base.html:109
+#: templates/base.html:110
 msgid "Web"
 msgstr "Web"
 
-#: templates/base.html:112
+#: templates/base.html:113
 msgid "Travels"
 msgstr "Voyages"
 
-#: templates/base.html:115
+#: templates/base.html:116
 msgid "Gallery"
 msgstr "Galerie"
 
-#: templates/base.html:119
+#: templates/base.html:120
 msgid "Management"
 msgstr "Gestion"
 
-#: templates/base.html:135
+#: templates/base.html:136
 msgid "RSS"
 msgstr "Flux RSS"
 
-#: templates/base.html:136 templates/annuaire/details.html:100
+#: templates/base.html:137 templates/annuaire/details.html:100
 #: templates/annuaire/edit.html:275 templates/association/base.html:28
 #: templates/emploi/job_details.html:19 templates/emploi/job_details.html:33
 #: templates/evenements/details.html:15
 msgid "Contact"
 msgstr "Contact"
 
-#: templates/base.html:137
+#: templates/base.html:138
 msgid "About"
 msgstr "À propos"
 
-#: templates/base.html:138
+#: templates/base.html:139
 msgid "Terms of use"
 msgstr "Mentions légales"
 
-#: templates/base.html:142
+#: templates/base.html:143
 msgid "Unless specific mention, all Texts are under license"
 msgstr "Sauf mention spécifique, tous les textes sont sous licence"
 
-#: templates/adhesions/base.html:17 templates/association/council.html:29
+#: templates/adhesions/base.html:18 templates/annuaire/base.html:21
+msgid "Administration"
+msgstr "Administration"
+
+#: templates/adhesions/base.html:21 templates/adhesions/configurations.html:9
+msgid "Configurations"
+msgstr "Configurations"
+
+#: templates/adhesions/base.html:22 templates/adhesions/subscriptions.html:10
+msgid "Subscriptions to validate"
+msgstr "Adhésions à valider"
+
+#: templates/adhesions/base.html:28 templates/association/council.html:29
 #: templates/emploi/job_details.html:56 templates/evenements/details.html:47
 #: templates/evenements/edit.html:53 templates/evenements/index.html:45
 #: templates/evenements/search.html:52
@@ -2778,23 +2784,15 @@ msgstr "Sauf mention spécifique, tous les textes sont sous licence"
 msgid "Actions"
 msgstr "Actions"
 
-#: templates/adhesions/base.html:20 templates/adhesions/configurations.html:9
-msgid "Configurations"
-msgstr "Configurations"
-
-#: templates/adhesions/base.html:21 templates/adhesions/subscriptions.html:10
-msgid "Subscriptions to validate"
-msgstr "Adhésions à valider"
-
-#: templates/adhesions/base.html:23
+#: templates/adhesions/base.html:32
 msgid "Subscribe"
 msgstr "Adhérer"
 
-#: templates/adhesions/base.html:24
+#: templates/adhesions/base.html:33
 msgid "My subscriptions"
 msgstr "Mes adhésions"
 
-#: templates/adhesions/base.html:30 templates/association/base.html:37
+#: templates/adhesions/base.html:39 templates/association/base.html:37
 #: templates/emploi/job_details.html:71 templates/evenements/base.html:32
 #: templates/evenements/details.html:64
 #: templates/evenements/participants.html:30
@@ -2805,11 +2803,11 @@ msgstr "Mes adhésions"
 msgid "Statistics"
 msgstr "Statistiques"
 
-#: templates/adhesions/base.html:34 templates/association/base.html:40
+#: templates/adhesions/base.html:43 templates/association/base.html:40
 msgid "Number of members"
 msgstr "Nombre de membres"
 
-#: templates/adhesions/base.html:37
+#: templates/adhesions/base.html:46
 msgid "Number of subscribers"
 msgstr "Nombre d'adhérents"
 
@@ -2945,10 +2943,6 @@ msgstr "Abonnement Canal N7"
 #: templates/adhesions/subscribe.html:76
 msgid "Total amount"
 msgstr "Montant total"
-
-#: templates/adhesions/subscriptions.html:12
-msgid "Subscriptions"
-msgstr "Adhésions"
 
 #: templates/adhesions/subscriptions.html:18
 #: templates/annuaire/adv_search.html:86 templates/annuaire/search.html:31
@@ -3135,10 +3129,6 @@ msgstr "Recherche simple"
 #: templates/manage/organizations_adv_search.html:124
 msgid "Advanced Search (homepage)"
 msgstr "Recherche avancée (accueil)"
-
-#: templates/annuaire/base.html:20
-msgid "Administration"
-msgstr "Administration"
 
 #: templates/annuaire/base.html:24
 msgid "Register a new member"
@@ -3403,7 +3393,7 @@ msgstr "Comptes IRC"
 msgid "Edit"
 msgstr "Modifier"
 
-#: templates/association/base.html:18 templates/pages/homepage.html:78
+#: templates/association/base.html:18 templates/pages/homepage.html:83
 #: templates/pages/relations_ecole_etudiants.html:26
 msgid "Links"
 msgstr "Liens"
@@ -4340,31 +4330,31 @@ msgstr ""
 msgid "Ok"
 msgstr "Ok"
 
-#: templates/pages/homepage.html:56
+#: templates/pages/homepage.html:61
 msgid "All news"
 msgstr "Toutes les actualités"
 
-#: templates/pages/homepage.html:62
+#: templates/pages/homepage.html:67
 msgid "Events Forecast"
 msgstr "Événements à venir"
 
-#: templates/pages/homepage.html:73
+#: templates/pages/homepage.html:78
 msgid "All events"
 msgstr "Tous les événements"
 
-#: templates/pages/homepage.html:88 templates/sondages/details.html:15
+#: templates/pages/homepage.html:93 templates/sondages/details.html:15
 msgid "Survey"
 msgstr "Sondage"
 
-#: templates/pages/homepage.html:99
+#: templates/pages/homepage.html:104
 msgid "Results"
 msgstr "Résultats"
 
-#: templates/pages/homepage.html:104
+#: templates/pages/homepage.html:109
 msgid "Surveys history"
 msgstr "Historique des sondages"
 
-#: templates/pages/homepage.html:111
+#: templates/pages/homepage.html:116
 msgid "Happy birthday!"
 msgstr "Joyeux anniversaire !"
 
@@ -4721,4 +4711,3 @@ msgid "Do you really want this person not to be responsible of this travel"
 msgstr ""
 "Souhaitez-vous vraiment que cette personne ne soit pas responsable de ce "
 "voyage ?"
-

@@ -14,11 +14,20 @@
 
 <div class="right">
 
+   {% if superadmin or ca_member or secretariat_member %}
+   <h3 class="administration">{% trans "Administration" %}</h3>
+   <div class="right_articles">
+   <ul>
+      <li><a href="{% url ain7.adhesions.views.configurations %}">{% trans "Configurations" %}</a></li>
+      <li><a href="{% url to_validate_subscriptions %}">{% trans "Subscriptions to validate" %}</a></li>
+      {% block extra-admin %}{% endblock %}
+   </ul>
+   </div>
+   {% endif %}
+
    <h3>{% trans "Actions" %}</h3>
    <div class="right_articles">
     <ul>
-    <li><a href="{% url ain7.adhesions.views.configurations %}">{% trans "Configurations" %}</a></li>
-    <li><a href="{% url to_validate_subscriptions %}">{% trans "Subscriptions to validate" %}</a></li>
     {% if user.is_authenticated %}
     <li><a href="{% url ain7.adhesions.views.subscription_add user.id %}">{% trans "Subscribe" %}</a></li>
     <li><a href="{% url ain7.adhesions.views.user_subscriptions user.id %}">{% trans "My subscriptions" %}</a></li>

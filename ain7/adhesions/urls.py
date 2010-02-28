@@ -40,7 +40,6 @@ urlpatterns = patterns('ain7.adhesions.views',
     (r'^configurations/(?P<configuration_id>\d+)/delete/$', \
         'configuration_delete'),
     (r'^configurations/add/$', 'configuration_edit', {}, 'configuration_add'),
-    (r'^feedback/$', 'payment_validate'),
     (r'^notification/$', 'notification'),
 
 )

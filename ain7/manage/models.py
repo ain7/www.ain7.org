@@ -137,6 +137,13 @@ class Payment(models.Model):
 
     def save(self):
         """custom save method to save creation timesamp"""
+
+        if self.created_at:
+            selfdb = Payment.objects.get(pk=self.pk)
+
+            if selfdb.validated == False and self.validated == True:
+                self.validate_mail()
+
         if not self.created_at:
             self.created_at = datetime.datetime.now()
         self.modified_at = datetime.datetime.now()
@@ -149,14 +156,12 @@ class Payment(models.Model):
             uni += _(' from ') + ' ' + self.person.complete_name
         return uni
 
-    def validate(self):
+    def validate_mail(self):
 
         if self.subscriptions.count() == 1:
 	     sub = self.subscriptions.order_by('id')[0]
              sub.validated = True
              sub.save()
-
-             self.validated = True
 
              self.person.send_mail(_(u'AIn7 Subscription validated'), \
 	_(u"""Hi %(firstname)s,

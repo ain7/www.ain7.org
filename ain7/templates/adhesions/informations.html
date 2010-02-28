@@ -1,0 +1,47 @@
+{% extends "adhesions/base.html" %}
+{% load i18n %}
+
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
+{% if spplusurl %}
+{% block metaextra %}
+<meta http-equiv="refresh" content="5;url={{ spplusurl }}">
+{% endblock %}
+{% endif %}
+
+{% block content-left %}
+
+<p>Merci {{ request.user.person.first_name }} pour votre adhesion.</p>
+
+{% ifequal payment.type 2 %}
+
+<p>Afin de valider votre adhésion, merci de nous faire parvenir votre règlement par chèque à l'ordre de l'AIn7 à l'adresse:</p>
+<p>AIn7<br/>
+2 rue Charles Camichel, BP 7122,<br/>
+31071 Toulouse cedex 7</p>
+
+{% endifequal %}
+
+{% ifequal payment.type 4 %}
+
+<p>Afin d'effectuer votre règlement, vous allez être redirigé dans quelques instants sur le site de notre partenaire SPPlus.</p>
+<p>&nbsp;</p>
+<p>Si vous n'êtes pas redirigé, merci de <a href="{{ spplusurl }}">cliquer ici</a>.</p>
+<p>&nbsp;</p>
+<div align="center"><img src="media/images/logo_SPPLUS_100.gif"/></div>
+
+{% endifequal %}
+
+{% ifequal payment.type 5 %}
+
+<p>Afin de valider votre adhésion, merci de nous faire parvenir votre règlement par virement. Vous trouverez ci-dessous les coordonnées bancaires de l'AIn7:</p>
+<p>123456</p>
+<p>Merci de donner en référence de votre virement la référence suivante</p>
+<p>{{ payment.id }}</p>
+
+{% endifequal %}
+
+<a href="/">Retour à la page d'accueil</a>
+
+{% endblock %}
