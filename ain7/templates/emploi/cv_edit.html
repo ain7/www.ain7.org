@@ -65,8 +65,8 @@
 <table style="width: 100%">
 {% for position in ain7member.positions.all %}
     {% if not position.is_confidential %}
-        <tr><td style="width: 25%"><b>{{ position.start_date|date:"d/m/Y" }} - 
-            {{ position.end_date|date:"d/m/Y" }}</b></td>
+        <tr><td style="width: 25%"><b>{% if position.begin %}{{ position.begin }}{% endif %} - 
+            {% if position.end %}{{ position.end }}{% endif %}</b></td>
             <td>{% if position.fonction %}<em>{{ position.fonction }}</em>{% endif %}
                 {{ position.office }} ({{ position.office.organization }})</td>
             <td style="width: 12%"><a href="{% url ain7.emploi.views.position_edit person.user.id,position.id %}" class="changelink">{% trans "Modify" %}</a></td>
