@@ -393,10 +393,6 @@ class WebSiteForm(forms.ModelForm):
 
 class ClubMembershipForm(forms.ModelForm):
     "club membership form"""
-    start_date = forms.DateTimeField(label=_('start date').capitalize(),
-        widget=DATE_TIME_WIDGET)
-    end_date = forms.DateTimeField(label=_('end date').capitalize(),
-        widget=DATE_TIME_WIDGET)
 
     class Meta:
         """club membership form meta"""

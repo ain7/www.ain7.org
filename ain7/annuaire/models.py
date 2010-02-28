@@ -690,7 +690,7 @@ class ClubMembership(models.Model):
         """club membership meta"""
         verbose_name = _('club membership')
         verbose_name_plural = _('club memberships')
-        ordering = ['start_date']
+        ordering = ['begin']
 
 class UserActivity(models.Model):
     """user activity"""

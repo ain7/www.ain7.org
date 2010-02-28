@@ -45,6 +45,10 @@ def index(request):
         start_year__gt=datetime.date.today().year).exclude(\
         end_year__lt=datetime.date.today().year).count()
 
+    if not request.user.is_authenticated():
+       return HttpResponseRedirect('/accounts/login/?next=' + \
+           reverse('ain7.adhesions.views.index'))
+
     user_groups = request.user.groups.all().values_list('name', flat=True)
 
     if not 'ain7-secretariat' in user_groups and \
@@ -199,8 +203,9 @@ def subscription_add(request, user_id=None):
             subscription.member = ain7member
 
             payment = Payment()
-            payment.amount = form.cleaned_data['dues_amount'] + \
-                form.cleaned_data['newspaper_amount']
+            payment.amount = form.cleaned_data['dues_amount']
+            if form.cleaned_data['newspaper_amount']:
+                payment.amount += form.cleaned_data['newspaper_amount']
             payment.type = form.cleaned_data['tender_type']
             payment.person = ain7member.person
             payment.date = datetime.date.today()
@@ -303,7 +308,7 @@ def notification(request):
 
     from django.conf import settings
 
-    if not settings.DEBUG and not settings.REMOTE_ADDR in settings.SPPLUS_IP:
+    if not settings.DEBUG and not request.META['REMOTE_ADDR'] in settings.SPPLUS_IP:
         return  HttpResponseRedirect('/')
 
     if request.method == 'GET':
