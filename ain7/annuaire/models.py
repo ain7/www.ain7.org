@@ -303,7 +303,8 @@ X-Generated-By: AIn7 Web Portal
 class PersonPrivate(LoggedClass):
     """private data for a person"""
 
-    person = models.OneToOneField(Person, verbose_name=_('person'))
+    person = models.OneToOneField(Person, verbose_name=_('person'),
+        related_name='private')
 
     # Administration
     person_type = models.ForeignKey(PersonType, verbose_name=_('type'))
@@ -345,7 +346,8 @@ class AIn7MemberManager(models.Manager):
 class AIn7Member(LoggedClass):
     """AIn7 member"""
 
-    person = models.OneToOneField(Person, verbose_name=_('person'))
+    person = models.OneToOneField(Person, verbose_name=_('person'),
+        related_name='member')
 
     # Family situation
     marital_status = models.ForeignKey(MaritalStatus,
