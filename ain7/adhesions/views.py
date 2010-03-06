@@ -35,7 +35,7 @@ from ain7.adhesions.models import Subscription, SubscriptionConfiguration
 from ain7.annuaire.models import AIn7Member, Person
 from ain7.manage.models import Payment
 from ain7.decorators import confirmation_required
-from ain7.utils import ain7_render_to_response, ain7_generic_edit
+from ain7.utils import ain7_render_to_response
 from ain7.utils import ain7_generic_delete, check_access
 
 
@@ -46,7 +46,7 @@ def index(request):
         end_year__lt=datetime.date.today().year).count()
 
     if not request.user.is_authenticated():
-       return HttpResponseRedirect('/accounts/login/?next=' + \
+        return HttpResponseRedirect('/accounts/login/?next=' + \
            reverse('ain7.adhesions.views.index'))
 
     user_groups = request.user.groups.all().values_list('name', flat=True)
@@ -246,7 +246,8 @@ validite=31/12/2099&langue=FR&devise=978&version=1&reference=%(reference)s" \
                 proc = subprocess.Popen('REQUEST_METHOD=GET QUERY_STRING=\''+ \
                     data+'\' '+settings.SPPLUS_EXE, shell=True, \
                     stdout=subprocess.PIPE)
-                spplusurl = proc.communicate()[0].replace('Location: ','').replace('\n','')
+                spplusurl = proc.communicate()[0].replace('Location: ','').\
+                    replace('\n','')
                 print spplusurl
 
             return ain7_render_to_response(request,
@@ -266,32 +267,42 @@ def configurations(request):
          SubscriptionConfiguration.objects.all().order_by('type')})
 
 @login_required
-def configuration_edit(request, configuration_id=None):
+def configuration_edit(request, config_id=None):
     """edit subscription configuration"""
     access = check_access(request, request.user, 
         ['ain7-secretariat','ain7-ca'])
     if access:
         return access
 
-    configuration = None
-    action = 'create'
-    msg_done = _('Configuration successfully added.')
-    if configuration_id:
-        configuration = get_object_or_404(SubscriptionConfiguration,
-            pk=configuration_id)
-        action = 'edit'
-        msg_done = _('Configuration informations updated successfully.')
-    return ain7_generic_edit(
-        request, configuration, ConfigurationForm, {},
-        'adhesions/configuration_edit.html',
-        {'action': 'create', 'back': request.META.get('HTTP_REFERER', '/')}, {},
-         reverse(configurations), msg_done)
+    form = ConfigurationForm()
 
-@confirmation_required(lambda user_id=None, configuration_id=None:
-    str(get_object_or_404(SubscriptionConfiguration, pk=configuration_id)),
+    if config_id:
+        config = get_object_or_404(SubscriptionConfiguration,
+            pk=config_id)
+        form = ConfigurationForm(instance=config)
+
+    if request.method == 'POST':
+        if config_id:
+            form = ConfigurationForm(request.POST, instance=config)
+        else:
+            form = ConfigurationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            request.user.message_set.create(message=_('Modifications have been\
+ successfully saved.'))
+
+        return HttpResponseRedirect(reverse(configurations))
+
+    return ain7_render_to_response(
+        request, 'adhesions/configuration_edit.html',
+        {'form': form, 'action_title': _("Modification of configuration"),
+         'back': request.META.get('HTTP_REFERER', '/')})
+
+@confirmation_required(lambda user_id=None, config_id=None:
+    str(get_object_or_404(SubscriptionConfiguration, pk=config_id)),
     'adhesions/base.html', _('Do you really want to delete this configuration'))
 @login_required
-def configuration_delete(request, configuration_id=None):
+def configuration_delete(request, config_id=None):
     """delete subscription configuration"""
 
     access = check_access(request, request.user,
@@ -300,22 +311,22 @@ def configuration_delete(request, configuration_id=None):
         return access
 
     return ain7_generic_delete(request, 
-         get_object_or_404(SubscriptionConfiguration, pk=configuration_id),
+         get_object_or_404(SubscriptionConfiguration, pk=config_id),
          reverse(configurations),
          _('Configuration successfully deleted.'))
 
 def notification(request):
+    """SPPlus notification url management"""
 
     from django.conf import settings
 
-    if not settings.DEBUG and not request.META['REMOTE_ADDR'] in settings.SPPLUS_IP:
+    if not settings.DEBUG and not request.META['REMOTE_ADDR'] in \
+    settings.SPPLUS_IP:
         return  HttpResponseRedirect('/')
 
     if request.method == 'GET':
         if request.GET.has_key('etat'):
             etat = request.GET['etat']
-        if request.GET.has_key('montant'):
-            montant = request.GET['montant']
         if request.GET.has_key('reference'):
             reference = request.GET['reference']
 
@@ -325,5 +336,4 @@ def notification(request):
             pay.save()
 
     return ain7_render_to_response(request, 'adhesions/notification.html', {})
-    return  HttpResponseRedirect('/')
 

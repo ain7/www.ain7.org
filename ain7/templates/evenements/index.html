@@ -16,8 +16,10 @@
       <a href="{% url ain7.evenements.views.details event.id %}">{{ event.name }}</a>
     </div>
     <div class="news-date">
-      {% trans "Published on" %} {{ event.last_change_at|date:"l j F Y" }} {% trans "by" %}
+      {% trans "Published on" %} {{ event.last_change_at|date:"l j F Y" }} 
+      {% if event.last_change_by %}{% trans "by" %}
       <a href="{% url ain7.annuaire.views.details event.last_change_by.id %}">{{ event.last_change_by }}</a>
+      {% endif %}
     </div>
   </div>
   {% if event.image %}

@@ -68,5 +68,5 @@ class LostPassword(models.Model):
             Return True is lostpassword is expired (ie have more than 4 hour)
         """
         return (datetime.datetime.now() - self.created) > \
-            datetime.timedelta(hours=4)
+            datetime.timedelta(hours=24)
 

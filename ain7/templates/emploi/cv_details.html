@@ -57,8 +57,8 @@
 <table style="width: 100%">
 {% for position in ain7member.positions.all %}
     {% if not position.is_confidential %}
-        <tr><td style="width: 25%"><b>{{ position.start_date|date:"d/m/Y" }} - 
-            {{ position.end_date|date:"d/m/Y"|default:"..." }}</b></td>
+        <tr><td style="width: 25%"><b>{{ position.begin }} - 
+            {{ position.end }}</b></td>
             <td>{% if position.fonction %}<em>{{ position.fonction }}</em>{% endif %}
 		<a href="{% url ain7.emploi.views.organization_details position.office.organization.id %}">
                 {{ position.office.organization }}</a> {{ position.office }}
@@ -95,8 +95,8 @@
 
 <table style="width: 100%">
 {% for educationItem in ain7member.education.all %}
-    <tr><td style="width: 25%"><b>{{ educationItem.start_date|date:"Y" }} - 
-        {{ educationItem.end_date|date:"Y"|default:"..." }}</b></td>
+    <tr><td style="width: 25%"><b>{{ educationItem.begin }} - 
+        {{ educationItem.end }}</b></td>
         <td> <em>{{ educationItem.school }}</em></td></tr>
     {% if educationItem.diploma %}
         <tr><td></td><td>{{ educationItem.diploma }}</td></tr>

@@ -36,7 +36,7 @@ from ain7.annuaire.models import Person, Email
 from ain7.decorators import confirmation_required
 from ain7.evenements.models import Event
 from ain7.evenements.forms import *
-from ain7.utils import ain7_render_to_response, ain7_generic_edit, check_access
+from ain7.utils import ain7_render_to_response, check_access
 
 
 def index(request):
@@ -65,14 +65,25 @@ def edit(request, event_id):
         return access
 
     event = get_object_or_404(Event, pk=event_id)
-    return ain7_generic_edit(
-        request, event, EventForm, {},
-        'evenements/edit.html',
-        {'event': event, 'back': request.META.get('HTTP_REFERER', '/'),
+    form = EventForm(instance=event)
+
+    if request.method == 'POST':
+        form = EventForm(request.POST, instance=event)
+        if form.is_valid():
+            form.save()
+            request.user.message_set.create(message=_('Modifications have been\
+ successfully saved.'))
+
+        return HttpResponseRedirect(
+            '/evenements/%s/' % event_id)
+
+    return ain7_render_to_response(
+        request, 'evenements/edit.html',
+        {'form': form, 'action_title': _("Modification of event"),
+         'event': event,
          'event_list': Event.objects.all(),
-         'next_events': Event.objects.next_events()},
-        {'contributor': request.user.person},
-        '/evenements/%s/' % (event.id), _('Event successfully updated.'))
+         'next_events': Event.objects.next_events(),
+         'back': request.META.get('HTTP_REFERER', '/')})
 
 @confirmation_required(lambda event_id=None, object_id=None : '', 
     'evenements/base.html', 
@@ -162,14 +173,25 @@ def add(request):
     if access:
         return access
 
-    return ain7_generic_edit(
-        request, None, EventForm, {}, 'evenements/edit.html',
-        {'back': request.META.get('HTTP_REFERER', '/'),
+    form = EventForm()
+
+    if request.method == 'POST':
+        form = EventForm(request.POST)
+        if form.is_valid():
+            evt = form.save()
+            evt.last_change_by = request.user.person
+            evt.save()
+            request.user.message_set.create(message=_('Modifications have been\
+ successfully saved.'))
+
+        return HttpResponseRedirect('/evenements/%s/' % evt.id)
+
+    return ain7_render_to_response(
+        request, 'annuaire/edit_form.html',
+        {'form': form, 'action_title': _("New event registration"),
          'event_list': Event.objects.all(),
-         'next_events': Event.objects.next_events()},
-        {'contributor': request.user.person},
-        '/evenements/$objid/edit/', 
-        _('Event successfully added. You can now add organizers.'))
+         'next_events': Event.objects.next_events(),
+         'back': request.META.get('HTTP_REFERER', '/')})
 
 def search(request):
     """event search"""
@@ -348,14 +370,24 @@ def organizer_add(request, event_id):
         return access
 
     event = get_object_or_404(Event, pk=event_id)
-    return ain7_generic_edit(
-        request, None, EventOrganizerForm, {},
-        'evenements/organizer_add.html',
-        {'back': request.META.get('HTTP_REFERER', '/'),
+
+    form = EventOrganizerForm()
+
+    if request.method == 'POST':
+        form = EventOrganizerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            request.user.message_set.create(message=_('Modifications have been\
+ successfully saved.'))
+
+        return HttpResponseRedirect('/evenements/%s/' % event_id)
+
+    return ain7_render_to_response(
+        request, 'evenements/organizer_add.html',
+        {'form': form, 'action_title': _("Adding organizer"),
          'event_list': Event.objects.all(),
-         'next_events': Event.objects.next_events()},
-        {'contributor': request.user.person, 'event': event},
-        '/evenements/%s/edit/' % event.id, _('Organizer successfully added.'))
+         'next_events': Event.objects.next_events(),
+         'back': request.META.get('HTTP_REFERER', '/')})
 
 @confirmation_required(lambda event_id=None, organizer_id=None : 
     str(get_object_or_404(Person, pk=organizer_id)), 
