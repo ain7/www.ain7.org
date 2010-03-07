@@ -22,6 +22,6 @@
 <li><a href="{% url ain7.voyages.views.list %}">{% trans "Travels list" %}</a></li>
 <li><a href="{% url ain7.voyages.views.search %}">{% trans "Search a travel" %}</a></li>
 {% if superadmin or ca_member or secretariat_member or contributeur %}
-<li><a href="{% url ain7.voyages.views.add %}">{% trans "Add a travel" %}</a></li>
+<li><a href="{% url ain7.voyages.views.edit %}">{% trans "Add a travel" %}</a></li>
 {% endif %}
 {% endblock %}

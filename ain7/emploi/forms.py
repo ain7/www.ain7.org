@@ -246,10 +246,6 @@ class OfficeFormNoOrg(forms.ModelForm):
 class PositionForm(forms.ModelForm):
     """Position Form"""
 
-    start_date = forms.DateTimeField(label=_('start date').capitalize(),
-        widget=DATE_WIDGET)
-    end_date = forms.DateTimeField(label=_('end date').capitalize(),
-        widget=DATE_WIDGET, required=False)
     office = forms.IntegerField(label=_('Office'), required=False, 
         widget=AutoCompleteField(completed_obj_name='office'))
 

@@ -3,7 +3,7 @@
  ain7/sondages/views.py
 """
 #
-#   Copyright © 2007-2009 AIn7 Devel Team
+#   Copyright © 2007-2010 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 
 from ain7.decorators import confirmation_required
@@ -75,14 +76,6 @@ def vote(request, survey_id):
     return HttpResponseRedirect('/sondages/%s/' % (survey.id))
 
 @login_required
-def create(request):
-    """create new survey"""
-    return ain7_generic_edit(
-        request, None, SurveyForm, {}, 'sondages/form.html',
-        {'title': _('Survey creation')}, {}, '/sondages/$objid/details/',
-        _('Survey succesfully created.'))
-
-@login_required
 def details(request, survey_id):
     """survey details"""
     survey = get_object_or_404(Survey, pk=survey_id)
@@ -90,13 +83,32 @@ def details(request, survey_id):
                             {'survey': survey})
 
 @login_required
-def edit(request, survey_id):
+def edit(request, survey_id=None):
     """survey edit"""
-    survey = get_object_or_404(Survey, pk=survey_id)
-    return ain7_generic_edit(
-        request, survey, SurveyForm, {}, 'sondages/form.html',
-        {'title': _('Survey edition')},  {},
-        '/sondages/%s/details/' % survey_id, _('Survey succesfully updated.'))
+
+    form = SurveyForm()
+
+    if survey_id:
+        survey = get_object_or_404(Survey, pk=survey_id)
+        form = SurveyForm(instance=survey)
+
+    if request.method == 'POST':
+        if survey_id:
+            form = SurveyForm(request.POST, instance=survey)
+        else:
+            form = SurveyForm(request.POST)
+
+        if form.is_valid():
+            surv = form.save()
+            request.user.message_set.create(message=_('Modifications have been\
+ successfully saved.'))
+
+        return HttpResponseRedirect(reverse(details, args=[surv.id]))
+
+    return ain7_render_to_response(
+        request, 'sondages/form.html',
+        {'form': form, 'action_title': _("Survey modification"),
+         'back': request.META.get('HTTP_REFERER', '/')})
 
 @confirmation_required(lambda survey_id: str(get_object_or_404(Survey,
       pk=survey_id)),
@@ -109,23 +121,36 @@ def delete(request, survey_id):
         _('Survey successfully deleted.'))
 
 @login_required
-def choice_add(request, survey_id):
-    """add choice"""
-    survey = get_object_or_404(Survey, pk=survey_id)
-    return ain7_generic_edit(
-        request, None, ChoiceForm, {'survey': survey}, 'sondages/form.html',
-        {'title': _('Choice creation')}, {},
-        '/sondages/%s/details/' % survey_id, _('Choice succesfully added'))
-
-@login_required
-def choice_edit(request, survey_id, choice_id):
+def choice_edit(request, survey_id, choice_id=None):
     """edit choice"""
+
     survey = get_object_or_404(Survey, pk=survey_id)
-    choice = get_object_or_404(Choice, pk=choice_id)
-    return ain7_generic_edit(
-        request, choice, ChoiceForm, {'survey': survey}, 'sondages/form.html',
-        {'title': _('Choice edition')}, {},
-        '/sondages/%s/details/' % survey_id, _('Choice succesfully updated.'))
+
+    form = ChoiceForm()
+
+    if choice_id:
+        choice = get_object_or_404(Choice, pk=choice_id)
+        form = ChoiceForm(instance=choice)
+
+    if request.method == 'POST':
+        if choice_id:
+            form = ChoiceForm(request.POST, instance=choice)
+        else:
+            form = ChoiceForm(request.POST)
+
+        if form.is_valid():
+            schoice = form.save(commit=False)
+            schoice.survey = survey
+            schoice.save()
+            request.user.message_set.create(message=_('Modifications have been\
+ successfully saved.'))
+
+        return HttpResponseRedirect(reverse(details, args=[survey.id]))
+
+    return ain7_render_to_response(
+        request, 'sondages/form.html',
+        {'form': form, 'action_title': _("Survey modification"),
+         'back': request.META.get('HTTP_REFERER', '/')})
 
 @confirmation_required(lambda survey_id, choice_id: 
      str(get_object_or_404(Choice, pk=choice_id)), 'sondages/base.html', 

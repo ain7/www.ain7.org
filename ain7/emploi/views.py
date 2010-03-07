@@ -33,7 +33,7 @@ from ain7.decorators import confirmation_required
 from ain7.emploi.models import *
 from ain7.emploi.forms import *
 from ain7.manage.models import Notification
-from ain7.utils import ain7_render_to_response, ain7_generic_edit
+from ain7.utils import ain7_render_to_response
 from ain7.utils import ain7_generic_delete, check_access
 
 
@@ -97,13 +97,32 @@ def position_edit(request, user_id=None, position_id=None):
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
-    return ain7_generic_edit(
-        request, get_object_or_404(Position, pk=position_id),
-        PositionForm, {'ain7member': ain7member},
-        'emploi/position_edit.html',
-        {'action': 'edit', 'ain7member': ain7member}, {},
-        reverse(cv_edit, args=[user_id])+'#prof_exp',
-        _('Position informations updated successfully.'))
+
+    form = PositionForm()
+
+    if position_id:
+        position = get_object_or_404(Position, pk=position_id)
+        form=PositionForm(instance=position)
+
+    if request.method == 'POST':
+        if position_id:
+            form = PositionForm(request.POST, instance=position)
+        else:
+            form = PositionForm(request.POST)
+
+        if form.is_valid():
+            pos = form.save(commit=False)
+            pos.ain7member = ain7member
+            pos.save()
+            request.user.message_set.create(message=_('Modifications have been\
+ successfully saved.'))
+
+        return HttpResponseRedirect(reverse(cv_edit, args=[user_id])+'#prof_exp')
+
+    return ain7_render_to_response(
+        request, 'emploi/position_edit.html',
+        {'form': form, 'action_title': _("Position edit"),
+         'back': request.META.get('HTTP_REFERER', '/')})
 
 @confirmation_required(lambda user_id=None, position_id=None: 
     str(get_object_or_404(Position, pk=position_id)), 'emploi/base.html',
@@ -124,26 +143,6 @@ def position_delete(request, user_id=None, position_id=None):
         _('Position successfully deleted.'))
 
 @login_required
-def position_add(request, user_id=None):
-    """position add"""
-
-    is_myself = int(request.user.id) == int(user_id)
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access and not is_myself:
-        return access
-
-    person = get_object_or_404(Person, user=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=person)
-    return ain7_generic_edit(
-        request, None,
-        PositionForm, {'ain7member': ain7member},
-        'emploi/position_edit.html',
-        {'action': 'create', 'ain7member': ain7member}, {},
-        reverse(cv_edit, args=[user_id])+'#prof_exp',
-        _('Position successfully added.'))
-
-@login_required
 def education_edit(request, user_id=None, education_id=None):
     """education edit"""
 
@@ -155,13 +154,32 @@ def education_edit(request, user_id=None, education_id=None):
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
-    return ain7_generic_edit(
-        request, get_object_or_404(EducationItem, pk=education_id),
-        EducationItemForm, {'ain7member': ain7member},
-        'emploi/education_edit.html',
-        {'action': 'edit', 'ain7member': ain7member}, {},
-        reverse(cv_edit, args=[user_id])+'#education',
-        _('Education informations updated successfully.'))
+
+    form = EducationItemForm()
+
+    if education_id:
+        educationitem = get_object_or_404(EducationItem, pk=education_id)
+        form = EducationItemForm(instance=educationitem)
+
+    if request.method == 'POST':
+        if education_id:
+            form = EducationItemForm(request.POST, instance=educationitem)
+        else:
+            form = EducationItemForm(request.POST)
+
+        if form.is_valid():
+            editem = form.save(commit=False)
+            editem.ain7member = ain7member
+            editem.save()
+            request.user.message_set.create(message=_('Modifications have been\
+ successfully saved.'))
+
+        return HttpResponseRedirect(reverse(cv_edit, args=[user_id])+'#education')
+
+    return ain7_render_to_response(
+        request, 'emploi/education_edit.html',
+        {'form': form, 'action_title': _("Position edit"),
+         'back': request.META.get('HTTP_REFERER', '/')})
 
 @confirmation_required(lambda user_id=None, education_id=None: 
     str(get_object_or_404(EducationItem, pk=education_id)), 'emploi/base.html',
@@ -180,26 +198,6 @@ def education_delete(request, user_id=None, education_id=None):
         get_object_or_404(EducationItem, pk=education_id),
         reverse(cv_edit, args=[user_id])+'#education',
         _('Education informations deleted successfully.'))
-
-@login_required
-def education_add(request, user_id=None):
-    """education add"""
-
-    is_myself = int(request.user.id) == int(user_id)
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access and not is_myself:
-        return access
-
-    person = get_object_or_404(Person, user=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=person)
-    return ain7_generic_edit(
-        request, None,
-        EducationItemForm, {'ain7member': ain7member},
-        'emploi/education_edit.html',
-        {'action': 'create', 'ain7member': ain7member}, {},
-        reverse(cv_edit, args=[user_id])+'#education',
-        _('Education informations successfully added.'))
 
 @confirmation_required(lambda user_id=None, diploma_id=None:
     str(get_object_or_404(DiplomaItem, pk=diploma_id)), 'emploi/base.html',
@@ -231,13 +229,32 @@ def leisure_edit(request, user_id=None, leisure_id=None):
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
-    return ain7_generic_edit(
-        request, get_object_or_404(LeisureItem, pk=leisure_id),
-        LeisureItemForm, {'ain7member': ain7member},
-        'emploi/leisure_edit.html',
-        {'action': 'edit', 'ain7member': ain7member}, {},
-        reverse(cv_edit, args=[user_id])+'#leisure',
-        _('Leisure informations updated successfully.'))
+
+    form = LeisureItemForm()
+
+    if leisure_id:
+        leisureitem = get_object_or_404(LeisureItem, pk=leisure_id)
+        form = LeisureItemForm(instance=leisureitem)
+
+    if request.method == 'POST':
+        if leisure_id:
+            form = LeisureItemForm(request.POST, instance=leisureitem)
+        else:
+            form = LeisureItemForm(request.POST)
+
+        if form.is_valid():
+            leitem = form.save(commit=False)
+            leitem.ain7member = ain7member
+            leitem.save()
+            request.user.message_set.create(message=_('Modifications have been\
+ successfully saved.'))
+
+        return HttpResponseRedirect(reverse(cv_edit, args=[user_id])+'#leisure')
+
+    return ain7_render_to_response(
+        request, 'emploi/leisure_edit.html',
+        {'form': form, 'action_title': _("Position edit"),
+         'back': request.META.get('HTTP_REFERER', '/')})
 
 @confirmation_required(lambda user_id=None, leisure_id=None:
     str(get_object_or_404(LeisureItem, pk=leisure_id)), 'emploi/base.html', 
@@ -258,26 +275,6 @@ def leisure_delete(request, user_id=None, leisure_id=None):
         _('Leisure informations successfully deleted.'))
 
 @login_required
-def leisure_add(request, user_id=None):
-    """leisure add"""
-
-    is_myself = int(request.user.id) == int(user_id)
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access and not is_myself:
-        return access
-
-    person = get_object_or_404(Person, user=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=person)
-    return ain7_generic_edit(
-        request, None,
-        LeisureItemForm, {'ain7member': ain7member},
-        'emploi/leisure_edit.html',
-        {'action': 'create', 'ain7member': ain7member}, {},
-        reverse(cv_edit, args=[user_id])+'#leisure',
-        _('Leisure informations successfully added.'))
-
-@login_required
 def publication_edit(request, user_id=None, publication_id=None):
     """publication edit"""
 
@@ -289,13 +286,32 @@ def publication_edit(request, user_id=None, publication_id=None):
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
-    publi = get_object_or_404(PublicationItem, pk=publication_id)
-    return ain7_generic_edit(
-        request, publi, PublicationItemForm, {'ain7member': ain7member},
-        'emploi/publication_edit.html',
-        {'action': 'edit', 'ain7member': ain7member}, {},
-        reverse(cv_edit, args=[user_id])+'#publications',
-        _('Publication informations updated successfully.'))
+
+    form = PublicationItemForm()
+
+    if publication_id:
+        publi = get_object_or_404(PublicationItem, pk=publication_id)
+        form = PublicationItemForm(instance=publi)
+
+    if request.method == 'POST':
+        if publication_id:
+            form = PublicationItemForm(request.POST, instance=publi)
+        else:
+            form = PublicationItemForm(request.POST)
+
+        if form.is_valid():
+            publication = form.save(commit=False)
+            publication.ain7member = ain7member
+            publication.save()
+            request.user.message_set.create(message=_('Modifications have been\
+ successfully saved.'))
+
+        return HttpResponseRedirect(reverse(cv_edit, args=[user_id])+'#publications')
+
+    return ain7_render_to_response(
+        request, 'emploi/publication_edit.html',
+        {'form': form, 'action_title': _("Position edit"),
+         'back': request.META.get('HTTP_REFERER', '/')})
 
 @confirmation_required(lambda user_id=None, publication_id=None:
      str(get_object_or_404(PublicationItem,pk=publication_id)), 
@@ -315,25 +331,6 @@ def publication_delete(request, user_id=None, publication_id=None):
         get_object_or_404(PublicationItem,pk=publication_id),
         reverse(cv_edit, args=[user_id])+'#publications',
         _('Publication informations deleted successfully.'))
-
-@login_required
-def publication_add(request, user_id=None):
-    """publication add"""
-
-    is_myself = int(request.user.id) == int(user_id)
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access and not is_myself:
-        return access
-
-    person = get_object_or_404(Person, user=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=person)
-    return ain7_generic_edit(
-        request, None, PublicationItemForm, {'ain7member': ain7member},
-        'emploi/publication_edit.html',
-        {'action': 'create', 'ain7member': ain7member}, {},
-        reverse(cv_edit, args=[user_id])+'#publications',
-        _('Publication informations updated successfully.'))
 
 @login_required
 def job_details(request, emploi_id):

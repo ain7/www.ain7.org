@@ -3,7 +3,7 @@
  ain7/news/urls.py
 """
 #
-#   Copyright © 2007-2009 AIn7 Devel Team
+#   Copyright © 2007-2010 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ from django.conf.urls.defaults import patterns
 urlpatterns = patterns('ain7.news.views',
     # Evenements
     (r'^$', 'index'),
-    (r'^add/$', 'add'),
+    (r'^add/$', 'edit'),
     (r'^search/$', 'search'),
     (r'^(?P<news_slug>[\w\-]+)/$', 'details'),
     (r'^(?P<news_slug>[\w\-]+)/edit/$', 'edit'),

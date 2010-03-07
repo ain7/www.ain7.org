@@ -3,7 +3,7 @@
  ain7/voyages/views.py
 """
 #
-#   Copyright © 2007-2009 AIn7
+#   Copyright © 2007-2010 AIn7
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@ from datetime import datetime
 
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
@@ -32,7 +33,7 @@ from django.utils.translation import ugettext as _
 from ain7.annuaire.models import Person
 from ain7.decorators import confirmation_required
 from ain7.pages.models import Text
-from ain7.utils import ain7_render_to_response, ain7_generic_edit
+from ain7.utils import ain7_render_to_response
 from ain7.utils import ain7_generic_delete, check_access
 from ain7.voyages.models import Travel, Subscription, TravelResponsible
 from ain7.voyages.forms import *
@@ -48,20 +49,6 @@ def index(request):
     return ain7_render_to_response(request, 'voyages/index.html',
         {'next_travels': next_travels, 'previous_travels': prev_travels,
          'text': text})
-
-@login_required
-def add(request):
-    """add new travel"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
-
-    return ain7_generic_edit(
-        request, None, TravelForm, {}, 'voyages/edit.html',
-        {'action': 'add', 'back': request.META.get('HTTP_REFERER', '/')},
-        {}, '/voyages/list/', _('The travel has been successfully created.'))
 
 @confirmation_required(
     lambda user_id = None,
@@ -137,13 +124,30 @@ def edit(request, travel_id=None):
     if access:
         return access
 
-    travel = Travel.objects.get(pk=travel_id)
-    back = request.META.get('HTTP_REFERER', '/')
-    return ain7_generic_edit(
-        request, travel, TravelForm, {}, 'voyages/edit.html',
-        {'action': 'edit', 'travel': travel, 'back': back}, {},
-        '/voyages/%s/' % (travel.id),
-        _("Modifications have been successfully saved."))
+    form = TravelForm()
+    travel = None
+
+    if travel_id:
+        travel = Travel.objects.get(pk=travel_id)
+        form = TravelForm(instance=travel)
+
+    if request.method == 'POST':
+        if travel_id:
+            form = TravelForm(request.POST, instance=travel)
+        else:
+            form = TravelForm(request.POST)
+
+        if form.is_valid():
+            trav = form.save()
+            request.user.message_set.create(message=_('Modifications have been\
+ successfully saved.'))
+
+        return HttpResponseRedirect(reverse(details, args=[trav.id]))
+
+    return ain7_render_to_response(
+        request, 'voyages/edit.html',
+        {'form': form, 'action_title': _("Modification of personal data for"),
+         'back': request.META.get('HTTP_REFERER', '/')})
 
 @confirmation_required(lambda travel_id=None, object_id=None : '',
     'voyages/base.html', 

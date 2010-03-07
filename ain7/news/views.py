@@ -3,7 +3,7 @@
  ain7/news/views.py
 """
 #
-#   Copyright © 2007-2009 AIn7 Devel Team
+#   Copyright © 2007-2010 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
@@ -30,7 +31,7 @@ from django.utils.translation import ugettext as _
 from ain7.decorators import confirmation_required
 from ain7.news.models import NewsItem
 from ain7.news.forms import SearchNewsForm, NewsForm, AddNewsForm
-from ain7.utils import ain7_render_to_response, ain7_generic_edit, check_access
+from ain7.utils import ain7_render_to_response, check_access
 
 
 def index(request):
@@ -45,7 +46,7 @@ def details(request, news_slug):
                             {'news_item': news_item})
 
 @login_required
-def edit(request, news_slug):
+def edit(request, news_slug=None):
     """news edit"""
 
     access = check_access(request, request.user,
@@ -53,11 +54,29 @@ def edit(request, news_slug):
     if access:
         return access
 
-    news_item = get_object_or_404(NewsItem, slug=news_slug)
-    return ain7_generic_edit(
-        request, news_item, NewsForm, {}, 'news/edit.html',
-        {'news_item':news_item}, {}, '/actualites/%s/' % (news_slug),
-        _('News successfully updated.'))
+    news_item = None
+    form = NewsForm()
+
+    if news_slug:
+        news_item = get_object_or_404(NewsItem, slug=news_slug)
+        form = NewsForm(instance=news_item)
+
+    if request.method == 'POST':
+        if news_slug:
+             form = NewsForm(request.POST, instance=news_item)
+        else:
+             form = NewsForm(request.POST)
+        if form.is_valid():
+            news = form.save()
+            request.user.message_set.create(message=_('Modifications have been\
+ successfully saved.'))
+
+        return HttpResponseRedirect(reverse(details, args=[news.slug]))
+
+    return ain7_render_to_response(
+        request, 'news/edit.html',
+        {'form': form, 'title': _("News edition"), 'news_item': news_item,
+         'back': request.META.get('HTTP_REFERER', '/')})
 
 @confirmation_required(lambda news_slug=None, object_id=None: '', 
      'base.html', 
@@ -78,19 +97,6 @@ def image_delete(request, news_slug):
     request.user.message_set.create(message=
         _('The image of this news item has been successfully deleted.'))
     return HttpResponseRedirect('/actualites/%s/edit/' % news_slug)
-
-@login_required
-def add(request):
-    """news add"""
-
-    access = check_access(request, request.user, 
-        ['ain7-ca','ain7-secretariat','ain7-contributeur'])
-    if access:
-        return access
-
-    return ain7_generic_edit(
-        request, None, AddNewsForm, {'image': None}, 'news/write.html',
-        {}, {}, '/actualites/', _('News successfully added.'))
 
 @confirmation_required(lambda news_slug=None, object_id=None: '', 
     'base.html', 

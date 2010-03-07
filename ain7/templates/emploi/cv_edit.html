@@ -79,7 +79,7 @@
 {% endfor %}
 </table>
 {% endif %}
-<a href="{% url ain7.emploi.views.position_add person.user.id %}" class="addlink"> {% trans "Add" %}</a>
+<a href="{% url ain7.emploi.views.position_edit person.user.id %}" class="addlink"> {% trans "Add" %}</a>
 <br />
 </div>
 
@@ -101,7 +101,7 @@
 {% endfor %}
 </table>
 {% endif %}
-<a href="{% url ain7.emploi.views.publication_add person.user.id %}" class="addlink"> {% trans "Add" %}</a>
+<a href="{% url ain7.emploi.views.publication_edit person.user.id %}" class="addlink"> {% trans "Add" %}</a>
 <br />
 </div>
 
@@ -126,7 +126,7 @@
 {% endfor %}
 </table>
 {% endif %}
-<a href="{% url ain7.emploi.views.education_add person.user.id %}" class="addlink"> {% trans "Add" %}</a>
+<a href="{% url ain7.emploi.views.education_edit person.user.id %}" class="addlink"> {% trans "Add" %}</a>
 <br />
 </div>
 
@@ -165,7 +165,7 @@
 {% endfor %}
 </table>
 {% endif %}
-<a href="{% url ain7.emploi.views.leisure_add person.user.id %}" class="addlink"> {% trans "Add" %}</a>
+<a href="{% url ain7.emploi.views.leisure_edit person.user.id %}" class="addlink"> {% trans "Add" %}</a>
 </div>
 
 </div><!-- cv -->

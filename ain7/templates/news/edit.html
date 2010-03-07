@@ -12,8 +12,10 @@
 </table>
 
 <div style="text-align: center">
+{% if news_item %}
 <a href="{% url ain7.news.views.image_delete news_item.slug %}" class="deletelink">
 {% trans "Delete the image for this news item." %}</a><br />
+{% endif %}
 <input type="submit" class="button" value="{% trans "Register" %}" />
 </div>
 
@@ -22,5 +24,7 @@
 {% endblock %}
 
 {% block extra-actions %}
+{% if news_item %}
 <li><a href="{% url ain7.news.views.delete news_item.slug %}">{% trans "Delete this news" %}</a></li>
+{% endif %}
 {% endblock %}

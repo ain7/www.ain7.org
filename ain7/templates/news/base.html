@@ -18,7 +18,7 @@
 <ul>
 {% block extra-actions %}{% endblock %}
 {% if superadmin or ca_member or secretariat_member or contributeur %}
-<li><a href="{% url ain7.news.views.add %}">{% trans "Write a news" %}</a></li>
+<li><a href="{% url ain7.news.views.edit %}">{% trans "Write a news" %}</a></li>
 {% endif %}
 <li><a href="{% url ain7.news.views.search %}">{% trans "Search a news" %}</a></li>
 </ul>

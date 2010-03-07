@@ -3,7 +3,7 @@
  ain7/sondages/urls.py
 """
 #
-#   Copyright © 2007-2009 AIn7
+#   Copyright © 2007-2010 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -32,13 +32,13 @@ urlpatterns = patterns('ain7.sondages.views',
     (r'^(?P<survey_id>\d+)/vote/$', 'vote'),
 
     # Survey edition
-    (r'^create/$', 'create'),
+    (r'^add/$', 'edit'),
     (r'^(?P<survey_id>\d+)/details/$', 'details'),
-    (r'^(?P<survey_id>\d+)/edit/$', 'edit'),
     (r'^(?P<survey_id>\d+)/delete/$', 'delete'),
+    (r'^(?P<survey_id>\d+)/edit/$', 'edit'),
 
     # Choice edition
-    (r'^(?P<survey_id>\d+)/choice/add/$', 'choice_add'),
+    (r'^(?P<survey_id>\d+)/choice/add/$', 'choice_edit'),
     (r'^(?P<survey_id>\d+)/choice/(?P<choice_id>\d+)/edit/$', 'choice_edit'),
     (r'^(?P<survey_id>\d+)/choice/(?P<choice_id>\d+)/delete/$', 
         'choice_delete'),
