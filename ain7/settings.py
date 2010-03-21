@@ -23,8 +23,8 @@
 
 import os
 
-def detect_path():
-    return os.path.abspath(os.path.dirname(__file__))
+
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 # Django settings for ain7 project.
 
@@ -41,7 +41,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASE_ENGINE = 'sqlite3'           # 'postgresql', 'mysql', 'sqlite3' or 'ado_mssql'.
-DATABASE_NAME = detect_path()+'/data/ain7.db'      # Or path to database file if using sqlite3.
+DATABASE_NAME = BASE_DIR + '/data/ain7.db'      # Or path to database file if using sqlite3.
 DATABASE_USER = ''             # Not used with sqlite3.
 DATABASE_PASSWORD = ''         # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
@@ -60,7 +60,7 @@ SITE_ID = 1
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = detect_path()+'/media'
+MEDIA_ROOT = BASE_DIR + '/media'
 
 # URL that handles the media served from MEDIA_ROOT.
 # Example: "http://media.lawrence.com"
@@ -98,7 +98,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates".
     # Always use forward slashes, even on Windows.
     '/usr/share/python-support/python-django/django/contrib/admin/templates',
-    detect_path()+'/templates',
+    BASE_DIR + '/templates',
 )
 
 INSTALLED_APPS = (
@@ -132,12 +132,12 @@ PIWIK_URL = 'http://localhost/piwik/'
 PIWIK_SITE_ID = '0'
 
 # Version
-BASE = '1.1.5'
+BASE = '1.1.6'
 REVISION = ''
 
 try:
    from bzrlib.branch import Branch
-   bzr_branch = Branch.open(detect_path()+'/../')
+   bzr_branch = Branch.open(BASE_DIR + '/../')
    REVISION = 'r'+str(bzr_branch.revno())
 except:
    pass
@@ -152,7 +152,6 @@ MOOTOOLS_MORE_VERSION = '1.2.4.2'
 AIN7_PORTAL_ADMIN = 'ain7-admin'
 
 SPPLUS_CLENT = '58 6d fc 9c 34 91 9b 86 3f fd 64 63 c9 13 4a 26 ba 29 74 1e c7 e9 80 79'
-SPPLUS_LIB_PATH = '/dev/null'
 SPPLUS_EXE = '/bin/false'
 SPPLUS_IP = ['127.0.0.1']
 

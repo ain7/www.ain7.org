@@ -26,14 +26,13 @@ import datetime
 from string import Template
 
 from django import forms
+from django.conf import settings
 from django.contrib.auth.models import Group
 from django.db import models
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
-
-from ain7 import settings
 
 
 # the separator used in CSV exports, when a cell contains a list of values

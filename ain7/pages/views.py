@@ -23,13 +23,13 @@
 
 import datetime
 
+from django.conf import settings
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
-from ain7 import settings
 from ain7.annuaire.models import AIn7Member, Email
 from ain7.news.models import NewsItem
 from ain7.evenements.models import Event

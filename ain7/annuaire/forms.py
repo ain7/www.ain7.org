@@ -104,7 +104,7 @@ class NewMemberForm(forms.Form):
     mail = forms.EmailField(label=_('Mail'), max_length=50, required=True,
         widget=forms.TextInput(attrs={'size': 40}))
     nationality = forms.IntegerField(label=_('Nationality'), required=False,
-        widget=AutoCompleteField(completed_obj_name='nationality',addable=True))
+        widget=AutoCompleteField(completed_obj_name='nationality'))
     birth_date = forms.DateTimeField(label=_('Date of birth'), required=False,
         widget=DATE_WIDGET)
     sex = forms.ChoiceField(label=_('Sex'), required=True, choices=Person.SEX)
@@ -166,6 +166,7 @@ class NewMemberForm(forms.Form):
 
     def clean_track(self):
         """check track"""
+
         track_id = self.cleaned_data['track']
         try:
             track = Track.objects.get(id=track_id)
