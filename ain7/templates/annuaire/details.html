@@ -172,7 +172,7 @@
 {% if superadmin or secretariat_member %}
 {% if personprivate.notes %}
 <h2><img src="/site_media/images/private.png" alt="private" width="14" height="14"/>{% trans "AIn7 Notes" %}</h2>
-{{ person.notes|safe }}
+{{ personprivate.notes|safe }}
 {% endif %}
 {% endif %}
 

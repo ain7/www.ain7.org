@@ -24,21 +24,18 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group, User
 from django.core.paginator import Paginator, InvalidPage
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
 from ain7.utils import ain7_render_to_response, ain7_generic_edit
 from ain7.utils import ain7_generic_delete, check_access
 from ain7.decorators import confirmation_required
-from ain7.emploi.models import Organization, Office, ActivityField
+from ain7.emploi.models import Organization, Office
 from ain7.emploi.models import OrganizationProposal, OfficeProposal
 from ain7.emploi.forms import OrganizationForm, OfficeForm, OfficeFormNoOrg
 from ain7.manage.models import *
 from ain7.manage.forms import *
-from ain7.annuaire.forms import PersonForm, PhoneNumberForm
-from ain7.annuaire.forms import AddressForm, EmailForm
-from ain7.annuaire.models import Person
 from ain7.search_engine.models import *
 from ain7.search_engine.utils import *
 from ain7.search_engine.views import *
@@ -86,7 +83,7 @@ def users_search(request):
                 page = int(request.GET.get('page', '1'))
                 persons = paginator.page(page).object_list
             except InvalidPage:
-                raise http.Http404
+                raise Http404
 
     return ain7_render_to_response(request, 'manage/users_search.html',
         {'form': form, 'persons': persons, 'request': request,
@@ -153,7 +150,7 @@ def organizations_search(request):
                 page = int(request.GET.get('page', '1'))
                 organizations = paginator.page(page).object_list
             except InvalidPage:
-                raise http.Http404
+                raise Http404
 
     return ain7_render_to_response(request, 'manage/organizations_search.html',
         {'form': form, 'organizations': organizations,
@@ -217,7 +214,7 @@ def dict_for_filter(request, filter_id):
             page = int(request.GET.get('page', '1'))
             offices = paginator.page(page).object_list
         except InvalidPage:
-            raise http.Http404
+            raise Http404
 
     return {'offices': offices,
          'filtr': search_filter,
@@ -1201,7 +1198,7 @@ def nationality_add(request):
  have the same name. Please choose another one"))
 
             else:
-                new_role = form.save()
+                form.save()
                 request.user.message_set.create(
                     message=_("New country successfully created"))
                 return ain7_render_to_response(request, 
@@ -1231,7 +1228,7 @@ def errors_index(request):
         page = int(request.GET.get('page', '1'))
         errors = paginator.page(page).object_list
     except InvalidPage:
-        raise http.Http404
+        raise Http404
 
     return ain7_render_to_response(request, 'manage/errors_index.html',
         {'errors': errors, 'request': request,
@@ -1257,6 +1254,13 @@ def error_details(request, error_id):
     error = get_object_or_404(PortalError, pk=error_id)
     form = PortalErrorForm(instance=error)
 
+    from pygments import highlight
+    from pygments.lexers import PythonTracebackLexer
+    from pygments.formatters import HtmlFormatter
+
+    traceback = highlight(error.exception, PythonTracebackLexer(), \
+        HtmlFormatter())
+
     if request.method == 'POST':
         form = PortalErrorForm(request.POST.copy(), instance=error)
         if form.is_valid():
@@ -1266,7 +1270,8 @@ def error_details(request, error_id):
 
     return ain7_render_to_response(
         request, 'manage/error_details.html',
-        {'error': error, 'form': form, 'back': request.META.get('HTTP_REFERER', '/')})
+        {'error': error, 'form': form, 'traceback': traceback, 
+         'back': request.META.get('HTTP_REFERER', '/')})
 
 @login_required
 def errors_edit_range(request):
@@ -1319,7 +1324,7 @@ def payments_index(request):
         page = int(request.GET.get('page', '1'))
         payments = paginator.page(page).object_list
     except InvalidPage:
-        raise http.Http404
+        raise Http404
 
     return ain7_render_to_response(request, 'manage/payments_index.html',
         {'payments': payments,
@@ -1380,7 +1385,8 @@ def payment_edit(request, payment_id):
             form.save()
             request.user.message_set.create(message=_('Payment successfully\
  updated'))
-            return HttpResponseRedirect(reverse(payment_details, args=[payment.id]))
+            return HttpResponseRedirect(reverse(payment_details, \
+                args=[payment.id]))
         else:
             request.user.message_set.create(message=_('Something was wrong in\
  the form you filled. No modification done.') + str(form.errors))
@@ -1412,7 +1418,7 @@ def payments_deposit(request, deposit_id):
     if access:
         return access
 
-    deposits = Payment.objects.filter(type=deposit_id, deposited__isnull=True,\
+    deposits = Payment.objects.filter(type=deposit_id, deposited__isnull=True, \
         validated=True).order_by('id')
 
     try:
@@ -1436,7 +1442,7 @@ def payments_mark_deposited(request, deposit_id, last_deposit_id):
     if access:
         return access
 
-    for deposit in Payment.objects.filter(type=deposit_id,\
+    for deposit in Payment.objects.filter(type=deposit_id, \
         deposited__isnull=True, validated=True):
         deposit.deposited = datetime.datetime.now()
         deposit.save()

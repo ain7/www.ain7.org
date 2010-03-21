@@ -184,7 +184,7 @@ def add(request):
             request.user.message_set.create(message=_('Modifications have been\
  successfully saved.'))
 
-        return HttpResponseRedirect('/evenements/%s/' % evt.id)
+            return HttpResponseRedirect('/evenements/%s/' % evt.id)
 
     return ain7_render_to_response(
         request, 'annuaire/edit_form.html',

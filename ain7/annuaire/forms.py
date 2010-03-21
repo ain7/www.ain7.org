@@ -108,9 +108,9 @@ class NewMemberForm(forms.Form):
     birth_date = forms.DateTimeField(label=_('Date of birth'), required=False,
         widget=DATE_WIDGET)
     sex = forms.ChoiceField(label=_('Sex'), required=True, choices=Person.SEX)
-    promoyear = forms.IntegerField(label=_('Promo year'), required=True,
+    promoyear = forms.IntegerField(label=_('Promo year'), required=False,
         widget=AutoCompleteField(completed_obj_name='promoyear'))
-    track = forms.IntegerField(label=_('Track'), required=True, 
+    track = forms.IntegerField(label=_('Track'), required=False, 
         widget=AutoCompleteField(completed_obj_name='track'))
 
     def genlogin(self):
@@ -217,7 +217,7 @@ class NewMemberForm(forms.Form):
         new_ain7member.receive_job_offers = False
         new_ain7member.member_type = \
             MemberType.objects.get(type="Membre actif")
-        new_ain7member.person_type = PersonType.objects.get(type=u"Étudiant")
+        new_ain7member.person_type = PersonType.objects.get(type=u"Elèves")
         new_ain7member.activity = Activity.objects.get(activity="Connue")
         new_ain7member.save()
 

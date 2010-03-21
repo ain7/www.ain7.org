@@ -3,7 +3,9 @@
 {% load i18n ain7_tags %}
 
 {% block javascript %}{% endblock %}
-{% block stylesheet %}{% endblock %}
+{% block stylesheet %}
+<link type="text/css" rel="stylesheet" href="/site_media/css/pygments.css?version={{ portal_version }}"/>
+{% endblock %}
 
 {% block content-left %}
 
@@ -32,11 +34,9 @@
 </table>
 <b>{% trans "Error" %}:</b><br />
 <div class="code">
-<pre>
-{% if error.exception %}
-{{ error.exception|escape|linebreaksbr }}
-{% endif %}
-</pre>
+<div class="highlight">
+{{ traceback|safe }}
+</div>
 </div>
 
 <form method="post" action=".">
