@@ -6,7 +6,7 @@
 
 {% block content-left %}
 
-<h2>{{ person.last_name }} {{ person.first_name }} {% trans "subscriptions" %}</h2>
+<h2>{% trans "subscriptions" %} {{ person.first_name }} {{ person.last_name }}</h2>
 
 <p>
 <a class="addlink" href="add/">{% trans "Add a subscription" %}</a>
@@ -18,6 +18,8 @@
   <th>{% trans "Amount" %}</th>
   <th>{% trans "Canal n7" %}</th>
   <th>{% trans "Tender type" %}</th>
+  <th>{% trans "Payment" %}</th>
+  <th>{% trans "Status" %}</th>
 </tr>
 {% for subscription in subscriptions_list %}
 <tr>
@@ -44,6 +46,9 @@
   </td>
   <td align="center">
     {% trans subscription.get_tender_type_display %}
+  </td>
+  <td align="center">
+    <a  href="{% url manage.views.payment_details subscription.payment.id %}">{{ subscription.payment.id }}</a>
   </td>
   <td align="center">
     {% if subscription.validated %}

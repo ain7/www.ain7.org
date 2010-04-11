@@ -29,9 +29,9 @@ from django.utils.translation import ugettext as _
 
 from ain7.decorators import confirmation_required
 from ain7.sondages.models import Choice, Survey, Vote
-from ain7.sondages.forms import *
+from ain7.sondages.forms import SurveyForm, ChoiceForm
 from ain7.utils import ain7_render_to_response
-from ain7.utils import ain7_generic_edit, ain7_generic_delete
+from ain7.utils import ain7_generic_delete
 
 
 def index(request):

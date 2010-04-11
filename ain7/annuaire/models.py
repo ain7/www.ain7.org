@@ -413,7 +413,8 @@ class PhoneNumber(LoggedClass):
                          (3, _('Mobile')),
                          )
 
-    person = models.ForeignKey(Person, related_name='phone_numbers', editable=False)
+    person = models.ForeignKey(Person, related_name='phone_numbers',
+        editable=False)
 
     number = models.CharField(verbose_name=_('number'), max_length=30)
     type = models.IntegerField(verbose_name=_('type'),

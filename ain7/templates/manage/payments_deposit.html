@@ -13,7 +13,7 @@
 <tr><th>{% trans "Bank" %}</th><th>{% trans "Check number" %}</th><th>{% trans "Account holder" %}</th><th>{% trans "Amount" %}</th><th></th></tr>
 {% for deposit in deposits %}
 <tr>
-<td>{% if deposit.back %}{{ deposit.bank }}{%endif %}</td><td>{% if deposit.check_number %}{{ deposit.check_number }}{% endif %}<td>{{ deposit.person }}</td><td>{{ deposit.amount }}</td>
+<td>{% if deposit.bank %}{{ deposit.bank }}{%endif %}</td><td>{% if deposit.check_number %}{{ deposit.check_number }}{% endif %}<td>{{ deposit.person }}</td><td>{{ deposit.amount }}</td>
 <td><a href="{% url ain7.manage.views.payment_edit deposit.id %}" class="changelink"></a></td>
 </tr>
 {% endfor %}

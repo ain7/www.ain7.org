@@ -10,34 +10,35 @@
 	
 <div class="left">
 
-<h3>{% trans "Log-in" %}</h3>
-                {% if error %}
-                <p style="text-align: center; color: red;">{% trans "Your username and password didn't match. Please try again." %}</p>
-                {% endif %}
-        <form method="post" action=".">
-                <table cellpadding="0" cellspacing="0" id="login-form">
-                        <tbody id="login-form-body">
-                        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr>
-                                        <td><label for="username">{% trans "Username" %}:</label></td>
-                                        <td><input class="login-field" id="username" name="username" type="text"/></td>
-                                </tr>
-                                <tr>
-                                        <td><label for="password">{% trans "Password" %}:</label></td>
-                                        <td><input class="login-field" type="password" id="password" name="password"/></td>
-                                </tr>
-                                <tr><td colspan="2" style="height: 10px"></td></tr>
-                                <tr>
-                                        <td colspan="2" style="text-align: center">
-                                                <input type="submit" class="button" value="{% trans "Log-in" %}" />
-                                                <input type="hidden" name="next" value="{{ next }}" />
-                                                <p style="text-align: center;"><a href="{% url ain7.pages.views.lostpassword %}">{% trans "Lost password ?" %}</a></p>
-                                        </td>
-                                </tr>
-                        </tbody>
-                </table>
-        </form>
+{% if error %}
+     <p style="text-align: center; color: red;">{% trans "Your username and password didn't match. Please try again." %}</p>
+{% endif %}
 
+<form method="post" action=".">
+    <table cellpadding="0" cellspacing="0" id="login-form">
+    <tbody id="login-form-body">
+    <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+         <tr>
+             <td><label for="username">{% trans "Username" %}:</label></td>
+             <td><input class="login-field" id="username" name="username" type="text"/></td>
+         </tr>
+         <tr>
+             <td><label for="password">{% trans "Password" %}:</label></td>
+             <td><input class="login-field" type="password" id="password" name="password"/></td>
+         </tr>
+         <tr><td colspan="2" style="height: 10px"></td></tr>
+         <tr>
+             <td colspan="2" style="text-align: center">
+             <input type="submit" class="button" value="{% trans "Log-in" %}" />
+             <input type="hidden" name="next" value="{{ next }}" />
+             </td>
+         </tr>
+     </tbody>
+     </table>
+</form>
+
+<p>&nbsp;</p>
+<p style="text-align: center;"><a href="{% url ain7.pages.views.lostpassword %}">{% trans "If you have lost your login and/or your password follow this link" %}</a></p>
 
 </div>
 

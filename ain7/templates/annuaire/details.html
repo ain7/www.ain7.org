@@ -161,6 +161,9 @@
     {% else %}
         {{ club_membership.club.name }}
     {% endif %}
+    {% if club_membership.fonction %}
+       : {{ club_membership.fonction }}
+    {% endif %}
     {% if club_membership.begin and club_membership.end %}
     (<i>{{ club_membership.begin }} - {{ club_membership.end }}</i>)
     {% endif %}
