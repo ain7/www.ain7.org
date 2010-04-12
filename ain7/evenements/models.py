@@ -44,12 +44,12 @@ class EventManager(models.Manager):
 class Event(LoggedClass):
     """event"""
 
-    EVENT_CATEGORY = (
-              (0,_('conference')),
-              (1,_('feistivity')),
-              (2,_('Administration Council')),
-              (3,_('General Assembly')),
-              )
+#    EVENT_CATEGORY = (
+#              (0,_('conference')),
+#              (1,_('feistivity')),
+#              (2,_('Administration Council')),
+#              (3,_('General Assembly')),
+#              )
 
     EVENT_STATUS = (
               (0,_('tentative')),
@@ -57,24 +57,24 @@ class Event(LoggedClass):
               (2,_('cancel')),
               )
 
-    name = models.CharField(verbose_name=_('name'), max_length=60)
+    name = models.CharField(verbose_name=_('name'), max_length=80)
     date = models.DateTimeField(verbose_name=_('date'))
+    location = models.CharField(verbose_name=_('location'), max_length=60)
     description = models.TextField(verbose_name=_('description'),
         blank=True, null=True)
-    location = models.CharField(verbose_name=_('place'), max_length=60)
-    category = models.IntegerField(verbose_name=_('category'),
-        choices=EVENT_CATEGORY, null=True, blank=True)
+#    category = models.IntegerField(verbose_name=_('category'),
+#        choices=EVENT_CATEGORY, null=True, blank=True)
     status = models.IntegerField(verbose_name=_('status'), choices=EVENT_STATUS,
         null=True, blank=True)
     image = models.ImageField(verbose_name=_('image'), upload_to='data',
         null=True, blank=True)
-    author = models.CharField(verbose_name=_('author'), max_length=20)
     contact_email = models.EmailField(verbose_name=_('contact email'),
         max_length=50)
-    link = models.CharField(verbose_name=_('link'), max_length=60, blank=True,
+    link = models.CharField(verbose_name=_('external link'), max_length=60, blank=True,
         null=True)
-    publication_start =  models.DateField(verbose_name=_('publication start'))
-    publication_end = models.DateField(verbose_name=_('publication end'))
+    #author = models.CharField(verbose_name=_('author'), max_length=20)
+    #publication_start =  models.DateField(verbose_name=_('publication start'))
+    #publication_end = models.DateField(verbose_name=_('publication end'))
 
     organizers = models.ManyToManyField(Person, verbose_name=_('organizers'), 
          related_name='events', blank=True, null=True, through='EventOrganizer')
@@ -112,7 +112,7 @@ class Event(LoggedClass):
 
     class Meta:
         """event meta"""
-        ordering = ['date', 'publication_start', 'publication_end']
+        ordering = ['date']
         verbose_name = _('event')
 
 class EventSubscription(models.Model):

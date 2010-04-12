@@ -187,7 +187,7 @@ def add(request):
             return HttpResponseRedirect('/evenements/%s/' % evt.id)
 
     return ain7_render_to_response(
-        request, 'annuaire/edit_form.html',
+        request, 'evenements/edit.html',
         {'form': form, 'action_title': _("New event registration"),
          'event_list': Event.objects.all(),
          'next_events': Event.objects.next_events(),

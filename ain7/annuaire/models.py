@@ -490,6 +490,8 @@ class Address(LoggedClass):
 class Email(models.Model):
     """e-mail address for a person"""
 
+    from ain7.emploi.models import Position
+
     person = models.ForeignKey(Person, related_name='emails', editable=False)
 
     email = models.EmailField(verbose_name=_('email'))
@@ -497,6 +499,8 @@ class Email(models.Model):
         choices=CONFIDENTIALITY_LEVELS, default=0)
     preferred_email = models.BooleanField(verbose_name=_('preferred'),
         default=False)
+
+    position = models.ForeignKey(Position, related_name='mail', blank=True, null=True, editable=False)
 
     def website_confidential(self):
         """email confidentiality for the website"""

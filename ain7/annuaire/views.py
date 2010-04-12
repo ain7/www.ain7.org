@@ -788,19 +788,36 @@ def email_edit(request, user_id=None, email_id=None):
     person = get_object_or_404(Person, user=user_id)
     email = None
     title = _('Creation of an email address for')
-    form = EmailForm()
+
+    from django import forms
+
+    class EmailFormDyn(EmailForm):
+        """email form"""
+
+        position = forms.ChoiceField(required=False, choices = [('', '----------')] + [(p.id, p.office.organization) for p in Position.objects.filter(ain7member__person__id=person.id)])
+        if email_id:
+            email = get_object_or_404(Email, pk=email_id)
+            if email and email.position_id:
+                position.initial = email.position.id
+
+    form = EmailFormDyn()
 
     if email_id:
         email = get_object_or_404(Email, pk=email_id)
-        form = EmailForm(instance=email)
+
+        form = EmailFormDyn(instance=email)
 
         title = _('Modification of an email address for')
 
     if request.method == 'POST':
-        form = EmailForm(request.POST, instance=email)
+        form = EmailFormDyn(request.POST, instance=email)
         if form.is_valid():
             mail = form.save(commit=False)
             mail.person = person
+            if form.cleaned_data['position']:
+                mail.position = Position.objects.get(id=form.cleaned_data['position'])
+            else:
+                mail.position = None
             mail.save()
 
             request.user.message_set.create(message=\

@@ -115,24 +115,11 @@ class EventForm(AIn7ModelForm):
         widget=forms.widgets.Textarea(attrs={'rows':10, 'cols':40}))
     date = forms.DateTimeField(label=_('date').capitalize(),
         widget=DATE_TIME_WIDGET)
-    publication_start = forms.DateTimeField(
-        label=_('publication start').capitalize(), widget=DATE_TIME_WIDGET)
-    publication_end = forms.DateTimeField(
-        label=_('publication end').capitalize(), widget=DATE_TIME_WIDGET)
     
     class Meta:
         """event form meta"""
         model = Event
         exclude = ('organizers')
-
-    def clean_publication_end(self):
-        """check end publication date"""
-        if self.cleaned_data.get('publication_start') and \
-            self.cleaned_data.get('publication_end') and \
-            self.cleaned_data['publication_start'] > \
-            self.cleaned_data['publication_end']:
-            raise forms.ValidationError(_('Start date is later than end date'))
-        return self.cleaned_data['publication_end']
 
     def save(self, *args, **kwargs):
         """save event"""

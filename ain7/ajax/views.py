@@ -93,11 +93,18 @@ def ajax_get_elements(completed_name, input):
         criteria |= Q(**{'organization__name__icontains': input})
     selected = model.objects.filter(criteria).order_by(field_name)
     for selection in selected:
+        display = getattr(selection, field_name)
+        if completed_name == 'office':
+             display += '<i>'
+             for field in ['city', 'zip_code', 'line1', 'line2']:
+                 if getattr(selection, field):
+                     display += ' - ' + getattr(selection,field)
+             display += '</i>'
         elements.append({
             'id': selection.id,
-            'displayValue': getattr(selection, field_name) ,
-            'value': getattr(selection, field_name) })
-    return elements[:25]
+            'displayValue': display,
+            'value': display })
+    return elements[:50]
 
 def diploma(input):
     elements = []

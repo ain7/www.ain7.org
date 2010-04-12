@@ -4,11 +4,11 @@
 
 {% block content-main %}
 
-<h3>
+<h4>
 {% if event %}  {{ event.name }}
 {% else %}  {% trans "Register an event" %}
 {% endif %}
-</h3>
+</h4>
 
 <form method="post" action="." enctype="multipart/form-data">
 <table>
