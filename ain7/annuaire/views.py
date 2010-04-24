@@ -570,7 +570,7 @@ def ain7member_edit(request, user_id):
     form = AIn7MemberForm(instance=ain7member)
 
     if request.method == 'POST':
-        form = AIn7MemberForm(request.POST, instance=ain7member)
+        form = AIn7MemberForm(request.POST, request.FILES, instance=ain7member)
         if form.is_valid():
             form.save()
             request.user.message_set.create(message=_('Modifications have been\
