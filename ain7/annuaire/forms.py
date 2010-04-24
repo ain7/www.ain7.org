@@ -209,6 +209,14 @@ class NewMemberForm(forms.Form):
             Country.objects.get(id=self.cleaned_data['nationality'])
         new_person.save()
 
+        new_person_private = PersonPrivate()
+        new_person_private.person = new_person
+        new_person_private.person_type = PersonType.objects.get(type=u"Elèves")
+        new_person_private.member_type = \
+            MemberType.objects.get(type="Membre actif")
+        new_person_private.activity = Activity.objects.get(activity="Connue")
+        new_person_private.save()
+
         new_ain7member = AIn7Member()
         new_ain7member.person = new_person
         new_ain7member.marital_status = \
@@ -216,10 +224,6 @@ class NewMemberForm(forms.Form):
         new_ain7member.display_cv_in_directory = False
         new_ain7member.display_cv_in_job_section = False
         new_ain7member.receive_job_offers = False
-        new_ain7member.member_type = \
-            MemberType.objects.get(type="Membre actif")
-        new_ain7member.person_type = PersonType.objects.get(type=u"Elèves")
-        new_ain7member.activity = Activity.objects.get(activity="Connue")
         new_ain7member.save()
 
         track = Track.objects.get(id=self.cleaned_data['track'])

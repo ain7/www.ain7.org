@@ -939,7 +939,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     personTypeEngineer = annuaire.PersonType(type=u"Ingénieur")
     personTypeEngineer.save()
 
-    personTypeStudent = annuaire.PersonType(type=u"Étudiant")
+    personTypeStudent = annuaire.PersonType(type=u"Elèves")
     personTypeStudent.save()
 
     personalAddressType = annuaire.AddressType(type=u"Personnelle")

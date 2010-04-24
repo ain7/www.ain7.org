@@ -86,14 +86,10 @@
 
 {% for email in person.emails.all %}
 	{% if superadmin or ca_member or secretariat_member or is_myself or not  email.website_confidential %}
-	    <tr><td>{% if phone_number.website_confidential %}<img src="/site_media/images/private.png" alt="private" width="14" height="14"/>{% endif %}<img src="/site_media/images/mail.png" alt="{% trans "email" %}" width="24" height="24"/>&nbsp;<a href="mailto:{{ email.email }}">{{ email.email }}</a></td></tr>
+            {% if email.position and not email.position.end %}
+	    <tr><td>{% if email.website_confidential %}<img src="/site_media/images/private.png" alt="private" width="14" height="14"/>{% endif %}<img src="/site_media/images/mail.png" alt="{% trans "email" %}" width="24" height="24"/>&nbsp;<a href="mailto:{{ email.email }}">{{ email.email }}</a></td></tr>
+            {% endif %}
 	{% endif %}
-{% endfor %}
-
-{% for position in ain7member.positions.all %}
-{% if not position.end_date and position.email %}
- <tr><td><img src="/site_media/images/mail.png" alt="{% trans "email" %}" width="24" height="24"/>&nbsp;<a href="mailto:{{ position.email }}">{{ position.email }}</a></td></tr>
-{% endif %}
 {% endfor %}
 
 {% for im in person.instant_messagings.all %}

@@ -265,7 +265,7 @@ class PositionForm(forms.ModelForm):
     class Meta:
         """position form meta"""
         model = Position
-        exclude = ('ain7member')
+        exclude = ('ain7member', 'email')
 
     def clean_end_date(self):
         """clean end date for position form"""
