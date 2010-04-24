@@ -33,6 +33,9 @@ from ain7.association.forms import ChangeDatesForm, NewCouncilRoleForm
 from ain7.decorators import confirmation_required
 from ain7.pages.models import Text
 from ain7.utils import ain7_render_to_response, ain7_generic_delete
+from ain7.utils import check_access
+
+
 
 
 def count_members():
@@ -112,6 +115,12 @@ def build_council_roles_by_type(request, all_current=None,
 @login_required
 def edit_council(request, all_current=None):
     """edit council"""
+
+    access = check_access(request, request.user,
+        ['ain7-secretariat'])
+    if access:
+        return access
+
     roles_by_type = build_council_roles_by_type(request, all_current,
                                         None, None, None, None)
     return ain7_render_to_response(request,
@@ -123,6 +132,12 @@ def edit_council(request, all_current=None):
 @login_required
 def add_council_role(request, role_type=None, all_current=None):
     """add new council role"""
+
+    access = check_access(request, request.user,
+        ['ain7-secretariat'])
+    if access:
+        return access
+
     form = NewCouncilRoleForm()
     roles_by_type = build_council_roles_by_type(
         request, all_current, role_type, form, None, None)
@@ -152,6 +167,12 @@ def add_council_role(request, role_type=None, all_current=None):
 @login_required
 def delete_council_role(request, role_id=None, all_current=None):
     """delete council role"""
+
+    access = check_access(request, request.user,
+        ['ain7-secretariat'])
+    if access:
+        return access
+
     return ain7_generic_delete(request,
         get_object_or_404(CouncilRole, pk=role_id),
         reverse(edit_council, args=[all_current]),
@@ -160,6 +181,12 @@ def delete_council_role(request, role_id=None, all_current=None):
 @login_required
 def change_council_dates(request, role_id=None, all_current=None):
     """change council dates"""
+
+    access = check_access(request, request.user,
+        ['ain7-secretariat'])
+    if access:
+        return access
+
     role = get_object_or_404(CouncilRole, pk=role_id)
     roles_by_type = build_council_roles_by_type(
         request, all_current, None, None, role,

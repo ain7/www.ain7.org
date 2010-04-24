@@ -25,12 +25,12 @@
 
 
 {% block actions %}
-
+   {% if superadmin or secretariat_member %}
    <h3>{% trans "Actions" %}</h3>
    <div class="right_articles">
     <ul>
       <li><a href="{% url ain7.association.views.edit_council "current" %}">{% trans "Change council roles" %}</a></li>
     </ul>
    </div>
-
+   {% endif %}
 {% endblock %}
