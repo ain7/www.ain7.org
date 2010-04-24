@@ -79,11 +79,6 @@ def list(request):
     return ain7_render_to_response(request, 'voyages/list.html',
         {'travels': Travel.objects.exclude(end_date__lte=datetime.now())})
 
-def all(request):
-    """all travels list"""
-    return ain7_render_to_response(request, 'voyages/list.html',
-                            {'travels': Travel.objects.all()})
-
 def search(request):
     """search travels form"""
 
