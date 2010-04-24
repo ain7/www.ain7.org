@@ -3,7 +3,7 @@
 
 Pour installer le portail AIn7 en version de développement, il faut :
 - installer les packages Debian/Ubuntu: 
-  sudo apt-get install python-django python-pysqlite2 python-imaging python-vobject python-pexpect
+  sudo apt-get install python-django python-pysqlite2 python-imaging python-vobject python-pexpect python-pygments
 - récupérer les sources du portail (a priori si vous lisez ce fichier, c'est
   déjà fait. Sinon: bzr co bzr+ssh://<name>@bazaar.launchpad.net/~ain7-devel/ain7-portal/ain7-portal.dev
   ou <name> est votre identifiant launchpad.
