@@ -23,10 +23,12 @@
 
 import smtplib
 import time
+import os
 
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
+from django.conf import settings
 
 from ain7.utils import isAdmin, LoggedClass
 from ain7.utils import ain7_website_confidential, CONFIDENTIALITY_LEVELS
@@ -342,6 +344,11 @@ class AIn7MemberManager(models.Manager):
             crits.extend(crits_for_admin)
         return crits
 
+def avatar_file_path(instance, filename):
+    from django.utils.hashcompat import sha_constructor
+    hash = sha_constructor(settings.SECRET_KEY + str(instance.person.id) + str(time.time())).hexdigest()[::2]
+    return os.path.join('data', 'avatar', hash + '.jpg')
+
 class AIn7Member(LoggedClass):
     """AIn7 member"""
 
@@ -356,7 +363,7 @@ class AIn7Member(LoggedClass):
     # Other
     nick_name = models.CharField(verbose_name=_('Nick name'), max_length=50,
         blank=True, null=True)
-    avatar = models.ImageField(verbose_name=_('avatar'), upload_to='data/',
+    avatar = models.ImageField(verbose_name=_('avatar'), upload_to=avatar_file_path,
         blank=True, null=True)
 
     # School situation

@@ -572,6 +572,8 @@ def ain7member_edit(request, user_id):
     if request.method == 'POST':
         form = AIn7MemberForm(request.POST, request.FILES, instance=ain7member)
         if form.is_valid():
+            if ain7member.avatar and form.cleaned_data['avatar']:
+                ain7member.avatar.delete()
             form.save()
             request.user.message_set.create(message=_('Modifications have been\
  successfully saved.'))
@@ -598,7 +600,7 @@ def avatar_delete(request, user_id):
 
     person = Person.objects.get(user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
-    ain7member.avatar = None
+    ain7member.avatar.delete()
     ain7member.save()
 
     request.user.message_set.create(message=

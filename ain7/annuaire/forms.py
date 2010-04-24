@@ -284,6 +284,24 @@ class PersonPrivateForm(forms.ModelForm):
 class AIn7MemberForm(forms.ModelForm):
     """AIn7Member Form"""
 
+    def clean_avatar(self):
+        data = self.cleaned_data['avatar']
+        from PIL import Image, ImageOps
+        image = Image.open(data.file).convert('RGB')
+        image.thumbnail([100, 100], Image.ANTIALIAS)
+        fd = data.file
+        if hasattr(data.file, 'name'):
+            fd = data.file.name
+        else:
+            try:
+                from cStringIO import StringIO
+            except ImportError:
+                from StringIO import StringIO
+            data.file = StringIO()
+            fd = data.file
+        image.save(fd, 'jpeg', optimize=True)
+        return data
+
     class Meta:
         """AIn7 Member form meta"""
         model = AIn7Member
