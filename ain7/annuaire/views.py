@@ -199,10 +199,10 @@ def advanced_search(request):
     if access:
         return access
 
-    filter = annuaire_search_engine().unregistered_filters(request.user.person)
-    if filter:
+    search_filter = annuaire_search_engine().unregistered_filters(request.user.person)
+    if search_filter:
         return ain7_render_to_response(request, 'annuaire/adv_search.html',
-            dict_for_filter(request, filter.id))
+            dict_for_filter(request, search_filter.id))
     else:
         return ain7_render_to_response(request, 'annuaire/adv_search.html',
             dict_for_filter(request, None))
@@ -399,13 +399,13 @@ def filter_new(request):
     if access:
         return access
 
-    filter = annuaire_search_engine().unregistered_filters(request.user.person)
-    if not filter:
+    search_filter = annuaire_search_engine().unregistered_filters(request.user.person)
+    if not search_filter:
         return HttpResponseRedirect('/annuaire/advanced_search/')
-    remove_criteria(request, filter)
-    if filter.registered:
+    remove_criteria(request, search_filter)
+    if search_filter.registered:
         return HttpResponseRedirect(
-            '/annuaire/advanced_search/filter/%s/' % filter.id)
+            '/annuaire/advanced_search/filter/%s/' % search_filter.id)
     else:
         return HttpResponseRedirect('/annuaire/advanced_search/')
 
