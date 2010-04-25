@@ -68,7 +68,7 @@ def edit(request, event_id):
     form = EventForm(instance=event)
 
     if request.method == 'POST':
-        form = EventForm(request.POST, instance=event)
+        form = EventForm(request.POST, request.FILES, instance=event)
         if form.is_valid():
             form.save()
             request.user.message_set.create(message=_('Modifications have been\
@@ -176,7 +176,7 @@ def add(request):
     form = EventForm()
 
     if request.method == 'POST':
-        form = EventForm(request.POST)
+        form = EventForm(request.POST, request.FILES)
         if form.is_valid():
             evt = form.save()
             evt.last_change_by = request.user.person

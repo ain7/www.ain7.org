@@ -63,9 +63,9 @@ def edit(request, news_slug=None):
 
     if request.method == 'POST':
         if news_slug:
-             form = NewsForm(request.POST, instance=news_item)
+             form = NewsForm(request.POST, request.FILES, instance=news_item)
         else:
-             form = NewsForm(request.POST)
+             form = NewsForm(request.POST, request.FILES)
         if form.is_valid():
             news = form.save()
             request.user.message_set.create(message=_('Modifications have been\

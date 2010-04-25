@@ -128,9 +128,9 @@ def edit(request, travel_id=None):
 
     if request.method == 'POST':
         if travel_id:
-            form = TravelForm(request.POST, instance=travel)
+            form = TravelForm(request.POST, request.FILES, instance=travel)
         else:
-            form = TravelForm(request.POST)
+            form = TravelForm(request.POST, request.FILES)
 
         if form.is_valid():
             trav = form.save()
