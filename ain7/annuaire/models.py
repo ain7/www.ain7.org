@@ -618,7 +618,7 @@ class WebSite(models.Model):
 
     def save(self):
         """website save"""
-        if not self.url.startswith('http://'):
+        if not self.url.startswith('http://') and not self.url.startswith('https://'):
             self.url = 'http://'+self.url
         return super(WebSite, self).save()
 
