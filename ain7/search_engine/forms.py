@@ -40,7 +40,7 @@ class ChooseFieldForm(forms.Form):
 class SearchFilterForm(forms.ModelForm):
     class Meta:
         model = SearchFilter
-        fields = ('name')
+        fields = ('name',)
 
 class ChooseCSVFieldsForm(forms.Form):
     chosenFields = forms.MultipleChoiceField(label='', choices = [])
