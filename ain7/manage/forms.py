@@ -185,7 +185,7 @@ class NewRoleForm(forms.ModelForm):
     class Meta:
         """NewRoleForm meta information"""
         model = Group
-        exclude = ('permissions')
+        exclude = ('permissions',)
 
     def save(self):
         """new role save method"""
@@ -210,7 +210,6 @@ class NewCountryForm(forms.ModelForm):
     class Meta:
         "NewCountryForm meta information"""
         model = Country
-        exclude = ()
 
 
 class OrganizationListForm(forms.Form):

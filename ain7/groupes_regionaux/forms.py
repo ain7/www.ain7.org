@@ -58,7 +58,7 @@ class GroupForm(forms.ModelForm):
     class Meta:
         """Meta Group Form Information"""
         model = Group
-        exclude = ('group')
+        exclude = ('group',)
 
 class NewRoleForm(forms.Form):
     """New role form"""

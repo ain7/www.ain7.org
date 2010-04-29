@@ -273,7 +273,7 @@ class PersonPrivateForm(forms.ModelForm):
     class Meta:
         """person form meta"""
         model = PersonPrivate
-        exclude = ('person')
+        exclude = ('person',)
 
     def clean_death_date(self):
         """check death date"""

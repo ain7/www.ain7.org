@@ -119,7 +119,7 @@ class EventForm(AIn7ModelForm):
     class Meta:
         """event form meta"""
         model = Event
-        exclude = ('organizers')
+        exclude = ('organizers',)
 
     def save(self, *args, **kwargs):
         """save event"""
@@ -139,7 +139,7 @@ class EventOrganizerForm(forms.ModelForm):
     class Meta:
         """event organizer form meta"""
         model = EventOrganizer
-        exclude = ('event')
+        exclude = ('event',)
 
     def save(self, *args, **kwargs):
         """event organizer form save"""

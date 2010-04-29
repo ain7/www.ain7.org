@@ -289,7 +289,7 @@ class EducationItemForm(forms.ModelForm):
     class Meta:
         """education item meta"""
         model = EducationItem
-        exclude = ('ain7member')
+        exclude = ('ain7member',)
 
     def clean_end_date(self):
         """clean end date education item"""
@@ -305,7 +305,7 @@ class LeisureItemForm(forms.ModelForm):
     class Meta:
         """leisure item form meta"""
         model = LeisureItem
-        exclude = ('ain7member')
+        exclude = ('ain7member',)
 
 class PublicationItemForm(forms.ModelForm):
     """publication item form"""
@@ -315,7 +315,7 @@ class PublicationItemForm(forms.ModelForm):
     class Meta:
         """publication item meta"""
         model = PublicationItem
-        exclude = ('ain7member')
+        exclude = ('ain7member',)
 
 class ChooseOrganizationForm(forms.Form):
     """choose organization form"""

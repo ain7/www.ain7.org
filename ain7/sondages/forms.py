@@ -56,5 +56,5 @@ class ChoiceForm(forms.ModelForm):
     class Meta:
         """meta choice form"""
         model = Choice
-        exclude = ('survey')
+        exclude = ('survey',)
 

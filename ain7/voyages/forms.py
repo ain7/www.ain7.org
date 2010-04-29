@@ -103,7 +103,7 @@ class SubscribeTravelForm(forms.ModelForm):
     class Meta:
         """meta subscribe travel form"""
         model = Subscription
-        exclude = ('travel')
+        exclude = ('travel',)
 
 
 class TravelResponsibleForm(forms.ModelForm):
@@ -114,5 +114,5 @@ class TravelResponsibleForm(forms.ModelForm):
     class Meta:
         """meta travel responsible form"""
         model = TravelResponsible
-        exclude = ('travel')
+        exclude = ('travel',)
 

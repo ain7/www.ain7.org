@@ -63,7 +63,7 @@ class NewsForm(AIn7ModelForm):
     class Meta:
         """news form meta"""
         model = NewsItem
-        exclude = ('slug')
+        exclude = ('slug',)
 
 class AddNewsForm(AIn7ModelForm):
     """new news form"""

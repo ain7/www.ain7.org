@@ -67,11 +67,11 @@ def edit(request, news_slug=None):
         else:
              form = NewsForm(request.POST, request.FILES)
         if form.is_valid():
-            news = form.save()
+            news_item = form.save()
             request.user.message_set.create(message=_('Modifications have been\
  successfully saved.'))
 
-        return HttpResponseRedirect(reverse(details, args=[news.slug]))
+            return HttpResponseRedirect(reverse(details, args=[news_item.slug]))
 
     return ain7_render_to_response(
         request, 'news/edit.html',
