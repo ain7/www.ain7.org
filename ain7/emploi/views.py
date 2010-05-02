@@ -24,14 +24,20 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person, AIn7Member
 from ain7.decorators import confirmation_required
-from ain7.emploi.models import *
-from ain7.emploi.forms import *
+from ain7.emploi.models import JobOffer, Position, EducationItem, DiplomaItem,\
+                               LeisureItem, PublicationItem, JobOfferView,\
+                               Organization, OrganizationProposal, Office,\
+                               OfficeProposal
+from ain7.emploi.forms import PositionForm, EducationItemForm, LeisureItemForm,\
+                              PublicationItemForm, JobOfferForm, SearchJobForm,\
+                              ChooseOrganizationForm, OrganizationForm,\
+                              OfficeFormNoOrg
 from ain7.manage.models import Notification
 from ain7.utils import ain7_render_to_response
 from ain7.utils import ain7_generic_delete, check_access
@@ -46,7 +52,6 @@ def index(request):
         ain7member = AIn7Member.objects.get(person=person)
     except AIn7Member.DoesNotExist:
         ain7member = None
-        list_emplois = None
     liste_emplois = JobOffer.objects.filter(checked_by_secretariat=True, \
         obsolete=False).order_by('-id')[:20]
     return ain7_render_to_response(request, 'emploi/index.html',
@@ -462,7 +467,7 @@ def job_search(request):
                 page = int(request.GET.get('page', '1'))
                 list_jobs = paginator.page(page).object_list
             except InvalidPage:
-                raise http.Http404
+                raise Http404
 
     return ain7_render_to_response(request, 'emploi/job_search.html',
         {'form': form, 'list_jobs': list_jobs,

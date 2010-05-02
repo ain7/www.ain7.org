@@ -21,7 +21,6 @@
 #
 #
 
-from django.dispatch import dispatcher
 from django.db.models import signals
 
 from ain7.annuaire import models as annuaire_app

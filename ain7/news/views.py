@@ -24,13 +24,13 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
 from ain7.decorators import confirmation_required
 from ain7.news.models import NewsItem
-from ain7.news.forms import SearchNewsForm, NewsForm, AddNewsForm
+from ain7.news.forms import SearchNewsForm, NewsForm
 from ain7.utils import ain7_render_to_response, check_access
 
 
@@ -63,9 +63,9 @@ def edit(request, news_slug=None):
 
     if request.method == 'POST':
         if news_slug:
-             form = NewsForm(request.POST, request.FILES, instance=news_item)
+            form = NewsForm(request.POST, request.FILES, instance=news_item)
         else:
-             form = NewsForm(request.POST, request.FILES)
+            form = NewsForm(request.POST, request.FILES)
         if form.is_valid():
             news_item = form.save()
             request.user.message_set.create(message=_('Modifications have been\
@@ -137,7 +137,7 @@ def search(request):
                 list_news = paginator.page(page).object_list
 
             except InvalidPage:
-                raise http.Http404
+                raise Http404
 
     return ain7_render_to_response(request, 'news/search.html',
         {'form': form, 'list_news': list_news,

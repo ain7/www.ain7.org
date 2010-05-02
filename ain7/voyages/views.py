@@ -26,7 +26,7 @@ from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
@@ -36,7 +36,8 @@ from ain7.pages.models import Text
 from ain7.utils import ain7_render_to_response
 from ain7.utils import ain7_generic_delete, check_access
 from ain7.voyages.models import Travel, Subscription, TravelResponsible
-from ain7.voyages.forms import *
+from ain7.voyages.forms import SearchTravelForm, TravelForm, JoinTravelForm,\
+                               SubscribeTravelForm, TravelResponsibleForm
 
 
 def index(request):
@@ -97,7 +98,7 @@ def search(request):
                 page =  int(request.GET.get('page', '1'))
                 travels = paginator.page(page).object_list
             except InvalidPage:
-                raise http.Http404
+                raise Http404
     return ain7_render_to_response(request, 'voyages/search.html',
         {'travels': travels, 'form': form, 'request': request,
          'paginator': paginator, 'is_paginated': paginator.num_pages > 1,

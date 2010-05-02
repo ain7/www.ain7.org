@@ -31,7 +31,7 @@ from django.contrib.auth.models import Group
 from django.db import models
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.template import RequestContext, TemplateSyntaxError
 from django.utils.translation import ugettext as _
 
 
@@ -175,7 +175,7 @@ def generic_show_last_change(logged_obj):
     """ Utilisé pour le rendu du tag show_last_change.
     Peut être utilisé sur tout objet dont le modèle hérite de LoggedClass."""
     if not isinstance(logged_obj, LoggedClass):
-        raise django.template.TemplateSyntaxError, \
+        raise TemplateSyntaxError, \
             "show_last_change should only be used with LoggedClass objects."
     return {'obj': logged_obj}
 

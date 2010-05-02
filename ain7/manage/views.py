@@ -21,24 +21,32 @@
 #
 #
 
+import datetime
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group, User
 from django.core.paginator import Paginator, InvalidPage
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
-from ain7.utils import ain7_render_to_response, ain7_generic_edit
-from ain7.utils import ain7_generic_delete, check_access
+from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
 from ain7.decorators import confirmation_required
+from ain7.annuaire.models import Country
 from ain7.emploi.models import Organization, Office
 from ain7.emploi.models import OrganizationProposal, OfficeProposal
 from ain7.emploi.forms import OrganizationForm, OfficeForm, OfficeFormNoOrg
-from ain7.manage.models import *
-from ain7.manage.forms import *
-from ain7.search_engine.models import *
-from ain7.search_engine.utils import *
-from ain7.search_engine.views import *
+from ain7.manage.models import Notification, PortalError, Payment
+from ain7.manage.forms import SearchUserForm, NewPersonForm, SearchOrganizationForm,\
+                              OrganizationListForm, OfficeListForm, NewRoleForm,\
+                              MemberRoleForm, NotificationForm, NewCountryForm,\
+                              PortalErrorForm, ErrorRangeForm, PaymentForm
+from ain7.search_engine.models import SearchEngine, SearchFilter
+from ain7.search_engine.forms import SearchFilterForm
+from ain7.search_engine.views import se_filter_swap_op, se_criterion_field_edit,\
+                                     se_criterion_add, se_criterion_filter_edit,\
+                                     se_criterion_delete, se_export_csv
 
 
 def organization_search_engine():
@@ -560,14 +568,14 @@ def adv_export_csv(request, filter_id=None):
         return access
 
     search_engine = organization_search_engine()
-    if not filter_id and not se.unregistered_filters(request.user.person):
+    if not filter_id and not search_engine.unregistered_filters(request.user.person):
         request.user.message_set.create(message=
             _("You have to make a search before using csv export."))
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
     if filter_id:
         search_filter = get_object_or_404(SearchFilter, id=filter_id)
     else:
-        search_filter = se.unregistered_filters(request.user.person)
+        search_filter = search_engine.unregistered_filters(request.user.person)
     return se_export_csv(request, search_filter.search(), search_engine,
         'manage/edit_form.html')
 

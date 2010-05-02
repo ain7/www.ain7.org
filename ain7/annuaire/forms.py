@@ -23,6 +23,7 @@
 
 import datetime
 
+from django.db import models
 from django import forms
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
@@ -30,7 +31,11 @@ from django.forms.util import ValidationError
 
 from ain7.fields import AutoCompleteField
 from ain7.widgets import DateTimeWidget
-from ain7.annuaire.models import *
+from ain7.annuaire.models import AIn7Member, Promo, Track, PromoYear, Person,\
+                                 Country, PersonPrivate, MemberType, Activity,\
+                                 PersonType, MaritalStatus, Email, PhoneNumber,\
+                                 Address, InstantMessaging, IRC, WebSite,\
+                                 ClubMembership
 
 
 DATE_WIDGET = DateTimeWidget()
@@ -290,7 +295,7 @@ class AIn7MemberForm(forms.ModelForm):
 
     def clean_avatar(self):
         data = self.cleaned_data['avatar']
-        from PIL import Image, ImageOps
+        from PIL import Image
         image = Image.open(data.file).convert('RGB')
         image.thumbnail([100, 100], Image.ANTIALIAS)
         fd = data.file

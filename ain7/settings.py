@@ -136,11 +136,11 @@ BASE = '1.1.6'
 REVISION = ''
 
 try:
-   from bzrlib.branch import Branch
-   bzr_branch = Branch.open(BASE_DIR + '/../')
-   REVISION = 'r'+str(bzr_branch.revno())
+    from bzrlib.branch import Branch
+    bzr_branch = Branch.open(BASE_DIR + '/../')
+    REVISION = 'r'+str(bzr_branch.revno())
 except:
-   pass
+    pass
 
 VERSION = BASE+REVISION
 

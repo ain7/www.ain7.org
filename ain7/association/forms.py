@@ -22,6 +22,7 @@
 #
 
 from django import forms
+from django.forms.util import ValidationError
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person

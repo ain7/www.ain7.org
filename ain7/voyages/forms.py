@@ -24,7 +24,6 @@
 from datetime import datetime
 
 from django import forms
-from django.db import models
 from django.utils.translation import ugettext as _
 
 from ain7.fields import AutoCompleteField

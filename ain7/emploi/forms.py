@@ -21,12 +21,14 @@
 #
 #
 
+from django.db import models
 from django import forms
 from django.forms.util import ValidationError
 from django.utils.translation import ugettext as _
 
-from ain7.annuaire.models import Track
-from ain7.emploi.models import *
+from ain7.emploi.models import JobOffer, Office, ActivityField, Organization,\
+                               Country, Position, EducationItem, LeisureItem,\
+                               PublicationItem
 from ain7.fields import AutoCompleteField
 from ain7.utils import AIn7Form
 from ain7.widgets import DateTimeWidget
@@ -98,7 +100,7 @@ class JobOfferForm(AIn7Form):
             user_groups = user.groups.all().values_list('name', flat=True)
             if 'ain7-secretariat' in user_groups or \
                'ain7-admin' in user_groups:
-                 job_offer.checked_by_secretariat = True
+                job_offer.checked_by_secretariat = True
 
         job_offer.reference = self.cleaned_data['reference']
         job_offer.title = self.cleaned_data['title']

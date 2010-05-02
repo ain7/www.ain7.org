@@ -107,7 +107,7 @@ class Event(LoggedClass):
         """Renvoie le nombre de participants à l'événement."""
         nbpart = 0
         for sub in self.subscriptions.all():
-             nbpart += sub.subscriber_number
+            nbpart += sub.subscriber_number
         return nbpart
 
     class Meta:

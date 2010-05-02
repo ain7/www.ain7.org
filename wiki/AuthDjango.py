@@ -38,24 +38,24 @@ def AuthDjango(request, **kw):
         return user_obj, True
     import sys
     import traceback
+    import datetime
     from MoinMoin import user
-    from django.contrib.auth.models import User
     from django.contrib import auth
 
     u = None
     try:
 
-         django_user = auth.authenticate(username=username, password=password)
+        django_user = auth.authenticate(username=username, password=password)
 
-         u = user.User(request,
-                       auth_username=username,
-                       name=username,
-                       password=password,
-                       auth_method='auth_django',
-                       auth_attribs=('name', 'auth_username', 'password',))
+        u = user.User(request,
+                      auth_username=username,
+                      name=username,
+                      password=password,
+                      auth_method='auth_django',
+                      auth_attribs=('name', 'auth_username', 'password',))
 
-         django_user.last_login = datetime.datetime.now()
-         django_user.save()
+        django_user.last_login = datetime.datetime.now()
+        django_user.save()
 
     except:
         info = sys.exc_info()

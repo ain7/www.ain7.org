@@ -91,7 +91,7 @@ class PaymentMean(models.Model):
 
     def __unicode__(self):
         """return unicode representation of means of payment"""
-        return name
+        return self.name
 
 class Payment(models.Model):
     """payment"""
@@ -159,11 +159,11 @@ class Payment(models.Model):
     def validate_mail(self):
 
         if self.subscriptions.count() == 1:
-	     sub = self.subscriptions.order_by('id')[0]
-             sub.validated = True
-             sub.save()
+            sub = self.subscriptions.order_by('id')[0]
+            sub.validated = True
+            sub.save()
 
-             self.person.send_mail(_(u'AIn7 Subscription validated'), \
+            self.person.send_mail(_(u'AIn7 Subscription validated'), \
 	_(u"""Hi %(firstname)s,
 
 We have validated your subscription for the next year to the association AIn7.

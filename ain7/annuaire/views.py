@@ -25,6 +25,7 @@ import vobject
 import datetime
 
 from django.contrib import auth
+from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
@@ -33,13 +34,21 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.utils.translation import ugettext as _
 from django.http import Http404
 
-from ain7.annuaire.models import *
-from ain7.annuaire.forms import *
+from ain7.annuaire.models import PersonPrivate, UserActivity, Promo,\
+                                 PhoneNumber, InstantMessaging, Email, IRC,\
+                                 WebSite, ClubMembership, Person, AIn7Member, Address
+from ain7.annuaire.forms import SearchPersonForm, ChangePasswordForm, PersonForm,\
+                                PersonPrivateForm, AIn7MemberForm, PromoForm,\
+                                AddressForm, PhoneNumberForm, EmailForm,\
+                                InstantMessagingForm, IRCForm, WebSiteForm,\
+                                ClubMembershipForm, NewMemberForm, Position
 from ain7.adhesions.forms import Subscription
 from ain7.decorators import confirmation_required
-from ain7.search_engine.models import *
-from ain7.search_engine.utils import *
-from ain7.search_engine.views import *
+from ain7.search_engine.models import SearchEngine, SearchFilter
+from ain7.search_engine.forms import SearchFilterForm
+from ain7.search_engine.views import se_filter_swap_op, se_criterion_field_edit,\
+                                     se_criterion_add, se_criterion_delete,\
+                                     se_criterion_filter_edit, se_export_csv
 from ain7.utils import ain7_render_to_response
 from ain7.utils import ain7_generic_delete, check_access
 
@@ -66,7 +75,7 @@ def details(request, user_id):
 
     if AIn7Member.objects.filter(person=person).count() > 0:
         ain7member = get_object_or_404(AIn7Member, person=person)
-	is_subscriber = Subscription.objects.filter(member=ain7member).\
+        is_subscriber = Subscription.objects.filter(member=ain7member).\
             filter(validated=True).exclude(start_year__gt=datetime.date.\
             today().year).exclude(end_year__lt=datetime.date.today().year)
 
@@ -251,7 +260,7 @@ def dict_for_filter(request, filter_id):
             page = int(request.GET.get('page', '1'))
             ain7members = paginator.page(page).object_list
         except InvalidPage:
-            raise http.Http404
+            raise Http404
 
     return {'ain7members': ain7members,
          'filtr': search_filter,
@@ -411,7 +420,7 @@ def filter_new(request):
 
 @login_required
 def filter_swap_op(request, filter_id=None):
-    return se_filter_swapOp(request, filter_id,
+    return se_filter_swap_op(request, filter_id,
                             reverse(filter_details, args =[ filter_id ]),
                             reverse(advanced_search))
 
@@ -425,13 +434,13 @@ def criterion_add(request, filter_id=None, criterion_type=None):
 
 @login_required
 def criterionField_edit(request, filter_id=None, criterion_id=None):
-    return se_criterionField_edit(request, annuaire_search_engine(),
+    return se_criterion_field_edit(request, annuaire_search_engine(),
         filter_id, criterion_id, reverse(filter_details, args=[filter_id]),
         reverse(advanced_search), 'annuaire/criterion_edit.html')
 
 @login_required
 def criterionFilter_edit(request, filter_id=None, criterion_id=None):
-    return se_criterionFilter_edit(request, annuaire_search_engine(),
+    return se_criterion_filter_edit(request, annuaire_search_engine(),
         filter_id, criterion_id, reverse(filter_details, args=[filter_id]),
         'annuaire/criterionFilter_edit.html')
 

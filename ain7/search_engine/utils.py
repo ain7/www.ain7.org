@@ -30,7 +30,8 @@ from django.utils.translation import ugettext as _
 
 from ain7.ajax.views import ajax_resolve
 from ain7.fields import AutoCompleteField
-from ain7.search_engine.models import *
+from ain7.annuaire.models import Person
+from ain7.search_engine.models import params, SearchFilter
 from ain7.widgets import DateTimeWidget
 from ain7.utils import CSV_INNERSEP
 

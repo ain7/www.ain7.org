@@ -22,16 +22,22 @@
 
 import csv
 
+from django import forms
+from django.db.models.fields.related import ForeignKey, ManyToManyField
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
-#from ain7.ajax.views import ajaxed_fields
-from ain7.search_engine.forms import *
-from ain7.search_engine.utils import *
+from ain7.search_engine.models import getModelName, SearchCriterionFilter, SearchFilter,\
+                                      getClassFromName, SearchCriterionField
+from ain7.search_engine.forms import ChooseFieldForm, ChooseCSVFieldsForm
+from ain7.search_engine.utils import criteriaList, filtersToExclude, splitFieldFullname,\
+                                     getFieldFromName, getModelField, findComparatorsForField,\
+                                     getDisplayedVal, getCompVerboseName, getValueFromField
 from ain7.utils import ain7_render_to_response
+from ain7.ajax.views import ajax_resolve
 
 
 @login_required
@@ -88,7 +94,7 @@ def se_criterion_add(request, search_engine=None, filter_id=None,
             request.session['criterion_field']= form.cleaned_data['chosenField']
             return HttpResponseRedirect(
                 reverse(editFieldRedirect, args=[ filter_id ]))
-        
+
     if request.method == 'POST' and criterionType == 'filter':
         form = ChooseFilterForm(request.POST)
         if form.is_valid():
@@ -106,7 +112,7 @@ def se_criterion_add(request, search_engine=None, filter_id=None,
 
 
 @login_required
-def se_criterionField_edit(request, search_engine=None, filter_id=None,
+def se_criterion_field_edit(request, search_engine=None, filter_id=None,
     criterion_id=None, registeredRedirect=None, unregisteredRedirect=None,
     criterionEditTemplate=None):
     """ Used to modify a criterion.
@@ -148,8 +154,8 @@ def se_criterionField_edit(request, search_engine=None, filter_id=None,
                     label='', choices=comps, required=True)
             # for ForeignKey, we define the value field entirely.
             # It "should" be possible to only redefine the queryset here...
-            if (isinstance(searchField,models.fields.related.ForeignKey)\
-            or  isinstance(searchField,models.fields.related.ManyToManyField))\
+            if (isinstance(searchField,ForeignKey)\
+            or  isinstance(searchField,ManyToManyField))\
             and not searchField.rel.to in ajax_resolve().keys():
                 fieldsDict['value'] = forms.ModelChoiceField(
                     label='', empty_label=None,
@@ -213,7 +219,7 @@ def se_criterionField_edit(request, search_engine=None, filter_id=None,
          'action_title': msg})
 
 @login_required
-def se_criterionFilter_edit(request, search_engine,
+def se_criterion_filter_edit(request, search_engine,
     filter_id=None, criterion_id=None, redirectAfterEdit=None,
     criterionEditTemplate=None):
     """ Used to modify a filter criterion, either in session or
@@ -270,7 +276,7 @@ def se_criterion_delete(request, filtr_id=None, crit_id=None,
 
 
 @login_required
-def se_filter_swapOp(request, filter_id=None,
+def se_filter_swap_op(request, filter_id=None,
     registeredRedirect=None, unregisteredRedirect=None):
 
     operator = None
@@ -280,14 +286,14 @@ def se_filter_swapOp(request, filter_id=None,
     else:
         operator = request.session['filter_operator']
     for (op,desc) in SearchFilter.OPERATORS:
-      if _(op) != operator:
-          if filter_id:
-              filtr.operator = _(op)
-              filtr.save()
-              return HttpResponseRedirect(registeredRedirect)
-          else:
-              request.session['filter_operator'] = _(op)
-              return HttpResponseRedirect(unregisteredRedirect)
+        if _(op) != operator:
+            if filter_id:
+                filtr.operator = _(op)
+                filtr.save()
+                return HttpResponseRedirect(registeredRedirect)
+            else:
+                request.session['filter_operator'] = _(op)
+                return HttpResponseRedirect(unregisteredRedirect)
 
 
 @login_required

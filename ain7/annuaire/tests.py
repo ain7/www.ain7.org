@@ -22,7 +22,7 @@
 #
 
 import unittest
-from ajax.views import ajax_resolve
+from ain7.ajax.views import ajax_resolve
 
 
 class AjaxResolveTestCase(unittest.TestCase):

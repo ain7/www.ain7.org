@@ -21,7 +21,6 @@
 #
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import Permission
 from django.db.models import Q
 from django.http import Http404
 
@@ -95,11 +94,11 @@ def ajax_get_elements(completed_name, input):
     for selection in selected:
         display = getattr(selection, field_name)
         if completed_name == 'office':
-             display += '<i>'
-             for field in ['city', 'zip_code', 'line1', 'line2']:
-                 if getattr(selection, field):
-                     display += ' - ' + getattr(selection,field)
-             display += '</i>'
+            display += '<i>'
+            for field in ['city', 'zip_code', 'line1', 'line2']:
+                if getattr(selection, field):
+                    display += ' - ' + getattr(selection,field)
+            display += '</i>'
         elements.append({
             'id': selection.id,
             'displayValue': display,

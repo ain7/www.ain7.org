@@ -28,14 +28,16 @@ import datetime
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.core.mail import send_mail
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person, Email
 from ain7.decorators import confirmation_required
 from ain7.evenements.models import Event
-from ain7.evenements.forms import *
+from ain7.evenements.forms import EventForm, JoinEventForm, SearchEventForm,\
+                                  SubscribeEventForm, ContactEventForm,\
+                                  EventOrganizerForm
 from ain7.utils import ain7_render_to_response, check_access
 
 
@@ -211,7 +213,7 @@ def search(request):
                 page = int(request.GET.get('page', '1'))
                 list_events = paginator.page(page).object_list
             except InvalidPage:
-                raise http.Http404
+                raise Http404
 
     return ain7_render_to_response(request, 'evenements/search.html',
         {'form': form, 'list_events': list_events, 'request': request,

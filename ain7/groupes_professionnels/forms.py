@@ -25,12 +25,13 @@ import datetime
 import re
 
 from django import forms
+from django.forms.util import ValidationError
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
 from ain7.fields import AutoCompleteField
-from ain7.groupes_professionnels.models import *
+from ain7.groupes_professionnels.models import Membership, GroupPro, GroupProRole
 from ain7.widgets import DateTimeWidget
 
 

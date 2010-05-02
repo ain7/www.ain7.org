@@ -29,8 +29,10 @@ from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
 from ain7.decorators import confirmation_required
-from ain7.groupes_professionnels.models import *
-from ain7.groupes_professionnels.forms import *
+from ain7.groupes_professionnels.models import GroupPro, GroupProRole
+from ain7.groupes_professionnels.forms import SubscribeGroupProForm, GroupProForm,\
+                                              UnsubscribeGroupProForm, NewRoleForm,\
+                                              ChangeDatesForm
 from ain7.pages.models import Text
 from ain7.utils import ain7_render_to_response, ain7_generic_delete
 from ain7.utils import check_access

@@ -20,8 +20,6 @@
 #
 #
 
-import datetime
-
 from django.contrib.auth.models import User
 from django.db import models
 from django.shortcuts import get_object_or_404
@@ -210,7 +208,7 @@ class SearchCriterionFilter(models.Model):
     is_in = models.BooleanField(default=True)
 
     def __unicode__(self):
-        return str(filterCriterion)
+        return str(self.filterCriterion)
 
 def getClassFromName(className, search_engine):
     """Example: 'annuaire.person' -> Person
