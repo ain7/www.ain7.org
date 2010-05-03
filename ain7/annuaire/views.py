@@ -37,11 +37,12 @@ from django.http import Http404
 from ain7.annuaire.models import PersonPrivate, UserActivity, Promo,\
                                  PhoneNumber, InstantMessaging, Email, IRC,\
                                  WebSite, ClubMembership, Person, AIn7Member, Address
+from ain7.emploi.models import Position
 from ain7.annuaire.forms import SearchPersonForm, ChangePasswordForm, PersonForm,\
                                 PersonPrivateForm, AIn7MemberForm, PromoForm,\
                                 AddressForm, PhoneNumberForm, EmailForm,\
                                 InstantMessagingForm, IRCForm, WebSiteForm,\
-                                ClubMembershipForm, NewMemberForm, Position
+                                ClubMembershipForm, NewMemberForm
 from ain7.adhesions.forms import Subscription
 from ain7.decorators import confirmation_required
 from ain7.search_engine.models import SearchEngine, SearchFilter
