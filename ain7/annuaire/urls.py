@@ -49,17 +49,17 @@ urlpatterns = patterns('ain7.annuaire.views',
      'criterionField_edit'),
     (r'^advanced_search/filter/(?P<filter_id>\d+)/criterion/edit/filter/$',
      'criterionFilter_edit'),
-    (r'^advanced_search/filter/(?P<filter_id>\d+)/criterion/(?P<criterion_id>\
-\d+)/edit/field/$',
+    (r'^advanced_search/filter/(?P<filter_id>\d+)/criterion/'
+     +r'(?P<criterion_id>\d+)/edit/field/$',
      'criterionField_edit'),
-    (r'^advanced_search/filter/(?P<filter_id>\d+)/criterion/(?P<criterion_id>\
-\d+)/edit/filter/$',
+    (r'^advanced_search/filter/(?P<filter_id>\d+)/criterion/'
+     +r'(?P<criterion_id>\d+)/edit/filter/$',
      'criterionFilter_edit'),
-    (r'^advanced_search/filter/(?P<filtr_id>\d+)/criterion/(?P<crit_id>\d+)\
-/delete/field/$',
+    (r'^advanced_search/filter/(?P<filtr_id>\d+)/criterion/'
+     +r'(?P<crit_id>\d+)/delete/field/$',
      'criterion_delete', {'crit_type': 'field'}),
-    (r'^advanced_search/filter/(?P<filtr_id>\d+)/criterion/(?P<crit_id>\d+)\
-/delete/filter/$',
+    (r'^advanced_search/filter/(?P<filtr_id>\d+)/criterion/'
+     +r'(?P<crit_id>\d+)/delete/filter/$',
      'criterion_delete', {'crit_type': 'filter'}),
     # Edition
     (r'^(?P<user_id>\d+)/edit/$', 'edit'),

@@ -44,29 +44,29 @@ urlpatterns = patterns('ain7.manage.views',
         'filter_swap_op'),
     (r'^organizations/adv_search/filter/(?P<filter_id>\d*)/criterion/add/$',
         'criterion_add'),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d*)/criterion/\
-add/field/$',
+    (r'^organizations/adv_search/filter/(?P<filter_id>\d*)/criterion/'
+     +r'add/field/$',
      'criterion_add', {'criterion_type': 'field'}),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d*)/criterion/add/\
-filter/$',
+    (r'^organizations/adv_search/filter/(?P<filter_id>\d*)/criterion/'
+     +r'add/filter/$',
      'criterion_add', {'criterion_type': 'filter'}),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/edit/\
-field/$',
+    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/'
+     +r'edit/field/$',
      'criterion_field_edit'),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/edit/\
-filter/$',
+    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/'
+     +r'edit/filter/$',
      'criterion_filter_edit'),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/\
-(?P<criterion_id>\d+)/edit/field/$',
+    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/'
+     +r'(?P<criterion_id>\d+)/edit/field/$',
      'criterion_field_edit'),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/\
-(?P<criterion_id>\d+)/edit/filter/$',
+    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/'
+     +r'(?P<criterion_id>\d+)/edit/filter/$',
      'criterion_filter_edit'),
-    (r'^organizations/adv_search/filter/(?P<filtr_id>\d+)/criterion/\
-(?P<crit_id>\d+)/delete/field/$',
+    (r'^organizations/adv_search/filter/(?P<filtr_id>\d+)/criterion/'
+     +r'(?P<crit_id>\d+)/delete/field/$',
      'criterion_delete', {'crit_type': 'field'}, "criterionField_delete"),
-    (r'^organizations/adv_search/filter/(?P<filtr_id>\d+)/criterion/\
-(?P<crit_id>\d+)/delete/filter/$',
+    (r'^organizations/adv_search/filter/(?P<filtr_id>\d+)/criterion/'
+     +r'(?P<crit_id>\d+)/delete/filter/$',
      'criterion_delete', {'crit_type': 'filter'}, "criterionFilter_delete"),
     (r'^organizations/register/$', 'organization_edit'),
     (r'^organizations/(?P<organization_id>\d+)/$', 'organization_details'),
@@ -106,8 +106,8 @@ filter/$',
     (r'^roles/$', 'roles_index'),
     (r'^roles/register/$', 'role_register'),
     (r'^roles/(?P<role_id>[A-Za-z0-9.\-_]+)/$', 'role_details'),
-    (r'^roles/(?P<role_id>[A-Za-z0-9.\-_]+)/member/(?P<member_id>\d+)/delete/$'\
-         , 'role_member_delete'),
+    (r'^roles/(?P<role_id>[A-Za-z0-9.\-_]+)/member/(?P<member_id>\d+)/delete/$',
+     'role_member_delete'),
     (r'^roles/(?P<role_id>[A-Za-z0-9.\-_]+)/member/add/$', 'role_member_add'),
 
     # Notifications
@@ -131,8 +131,8 @@ filter/$',
     (r'^payments/(?P<payment_id>\d+)/edit/$', 'payment_edit'),
     (r'^payments/deposit/$', 'payments_deposit_index'),
     (r'^payments/deposit/(?P<deposit_id>\d+)/$', 'payments_deposit'),
-    (r'^payments/deposit/(?P<deposit_id>\d+)/deposited/\
-(?P<last_deposit_id>\d+)/$', 'payments_mark_deposited'),
+    (r'^payments/deposit/(?P<deposit_id>\d+)/deposited/'
+     +r'(?P<last_deposit_id>\d+)/$', 'payments_mark_deposited'),
 
 )
 

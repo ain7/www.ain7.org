@@ -32,9 +32,11 @@ urlpatterns = patterns('ain7.groupes_professionnels.views',
     (r'^(?P<group_name>\w+)/subscribe/$', 'subscribe'),
     (r'^(?P<group_name>\w+)/unsubscribe/$', 'unsubscribe'),
     (r'^(?P<group_name>\w+)/roles/edit/(?P<all_current>\w+)/$', 'edit_roles'),
-    (r'^(?P<group_name>\w+)/roles/(?P<role_id>\d+)/changedates/(?P<all_current>\w+)/$', 'change_dates'),
+    (r'^(?P<group_name>\w+)/roles/(?P<role_id>\d+)/changedates/'
+     +r'(?P<all_current>\w+)/$', 'change_dates'),
     (r'^(?P<group_name>\w+)/roles/(?P<type>\d+)/add/(?P<all_current>\w+)/$',
          'add_role'),
-    (r'^(?P<group_name>\w+)/roles/(?P<role_id>\d+)/delete/(?P<all_current>\w+)/$', 'delete_role'),
+    (r'^(?P<group_name>\w+)/roles/(?P<role_id>\d+)/delete/'
+     +r'(?P<all_current>\w+)/$', 'delete_role'),
 
 )
