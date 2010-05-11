@@ -249,7 +249,7 @@ def dict_for_filter(request, filter_id):
         search_filter = get_object_or_404(SearchFilter, pk=filter_id)
         
 
-    if request.method == 'POST':
+    if request.method == 'POST' or request.GET.has_key('page'):
 
         ain7members = AIn7Member.objects.all()
         if filter_id:
