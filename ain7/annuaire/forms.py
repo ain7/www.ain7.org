@@ -295,20 +295,21 @@ class AIn7MemberForm(forms.ModelForm):
 
     def clean_avatar(self):
         data = self.cleaned_data['avatar']
-        from PIL import Image
-        image = Image.open(data.file).convert('RGB')
-        image.thumbnail([100, 100], Image.ANTIALIAS)
-        fd = data.file
-        if hasattr(data.file, 'name'):
-            fd = data.file.name
-        else:
-            try:
-                from cStringIO import StringIO
-            except ImportError:
-                from StringIO import StringIO
-            data.file = StringIO()
+        if data:
+            from PIL import Image
+            image = Image.open(data.file).convert('RGB')
+            image.thumbnail([100, 100], Image.ANTIALIAS)
             fd = data.file
-        image.save(fd, 'jpeg', optimize=True)
+            if hasattr(data.file, 'name'):
+                fd = data.file.name
+            else:
+                try:
+                    from cStringIO import StringIO
+                except ImportError:
+                    from StringIO import StringIO
+                data.file = StringIO()
+                fd = data.file
+            image.save(fd, 'jpeg', optimize=True)
         return data
 
     class Meta:
