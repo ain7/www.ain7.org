@@ -39,7 +39,7 @@ class LatestsEvents(Feed):
         """
         Item of Events RSS stream
         """
-        return Event.objects.order_by('-publication_start')[:20]
+        return Event.objects.order_by('-date')[:20]
 
 class LatestsNews(Feed):
     """

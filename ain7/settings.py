@@ -132,7 +132,7 @@ PIWIK_URL = 'http://localhost/piwik/'
 PIWIK_SITE_ID = '0'
 
 # Version
-BASE = '1.1.7'
+BASE = '1.1.8'
 REVISION = ''
 
 try:
