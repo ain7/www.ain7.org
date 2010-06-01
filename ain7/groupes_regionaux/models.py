@@ -53,8 +53,7 @@ class Group(LoggedClass):
 
     def active_events(self):
         """current events for a regional group"""
-        return self.events.filter(publication_start__lte=\
-            datetime.datetime.now(), publication_end__gte=\
+        return self.events.filter(date__gte=\
             datetime.datetime.now())
 
     def has_for_member(self, person):

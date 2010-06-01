@@ -86,7 +86,7 @@
 
 {% for email in person.emails.all %}
 	{% if superadmin or ca_member or secretariat_member or is_myself or not  email.website_confidential %}
-            {% if email.position and not email.position.end %}
+            {% if not email.position or not email.position.end %}
 	    <tr><td>{% if email.website_confidential %}<img src="/site_media/images/private.png" alt="private" width="14" height="14"/>{% endif %}<img src="/site_media/images/mail.png" alt="{% trans "email" %}" width="24" height="24"/>&nbsp;<a href="mailto:{{ email.email }}">{{ email.email }}</a></td></tr>
             {% endif %}
 	{% endif %}

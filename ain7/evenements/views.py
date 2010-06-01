@@ -351,8 +351,6 @@ def ical(request):
             evt.add('description').value = event.description
         if event.status:
             evt.add('status').value = event.get_status_display()
-        if event.category:
-            evt.add('category').value = event.description
         evt.add('dtstamp').value = event.last_change_at
 
     icalstream = cal.serialize()
