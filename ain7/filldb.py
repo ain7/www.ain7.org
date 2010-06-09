@@ -889,6 +889,20 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 """
     text22.save()
 
+    textblock23 = pages.TextBlock()
+    textblock23.shortname = "internal_rules_ain7"
+    textblock23.url = '/association/internalrules/'
+    textblock23.save()
+
+    text23 = pages.Text()
+    text23.textblock = textblock23
+    text23.lang = 'fr'
+    text23.title = u"Règlement Intérieur"
+    text23.body = u"""C'est le règlement intérieur
+"""
+    text23.save()
+
+
     if os.path.exists('filldbain7'):
         import glob
         print 'Import des donnees privees AIn7'

@@ -1,0 +1,28 @@
+{% extends "manage/base.html" %}
+
+{% load i18n %}
+
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
+{% block content-left %}
+
+<h2>{% trans "Subscriptions"%}</h2>
+
+<table style="width: 100%">
+<th><td>Diplomés</td><td>Taux Pleins</td><td>Jeunes promos</td><td>Retraités</td><td>Bienfaiteurs</td><td>Affiliés</td><td>Total</td></tr>
+{% for row in stats_subs %}
+<tr><td>{{ row.year }}</td><td>{{ row.diplomees }}</td><td>{{ row.full }}</td><td>{{ row.young }}</td><td>{{ row.retired }}</td><td>{{ row.bienfaiteur }}</td><td>{{ row.students }}</td><td>{{ row.all }}</td></tr>
+{% endfor %}
+</table>
+
+<table border="1" style="width: 100%; border: solid 1px;">
+<th><td>Janvier</td><td>Février</td><td>Mars</td><td>Avril</td><td>Mai</td><td>Juin</td><td>Juillet</td><td>Août</td><td>Septembre</td><td>Octobre</td><td>Novembre</td><td>Décembre</td></th>
+<tr><td></td>
+{% for month in stats_months %}
+<td>{{ month }}</td>
+{% endfor %}
+</tr>
+</table>
+
+{% endblock %}

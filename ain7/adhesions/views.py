@@ -199,7 +199,7 @@ def subscription_add(request, user_id=None):
             subscription.start_year = form.cleaned_data['start_year']
             subscription.end_year = form.cleaned_data['start_year'] + \
                 configuration.duration - 1
-            subscription.date = datetime.date.today()
+            subscription.date = datetime.datetime.now()
             subscription.member = ain7member
 
             payment = Payment()
