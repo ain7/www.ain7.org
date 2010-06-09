@@ -39,20 +39,40 @@
 </td>
 </tr>
 </table>
-<ul>
     {% for ain7member in ain7members %}
-        <li class="person"><a href="{% url ain7.annuaire.views.details ain7member.person.user.id %}">
-            {{ ain7member.person.last_name }} 
+            <table border="0" width="100%" style="border-bottom:1px dashed grey; text-align: left;">
+            <tr><td width="60">
+            {% if ain7member.avatar %}
+            <img src ="{{ ain7member.avatar.url }}" height="50"  alt="{{ ain7member.person.complete_name }}" title="{{ ain7member.person.complete_name }}" />
+            {% else %}
+            <img src="/site_media/images/nobody.png" height="50" alt="{{ person.complete_name }}"/>
+            {% endif %}
+            </td><td>
+            <a href="{% url ain7.annuaire.views.details ain7member.person.user.id %}">
+            <b>{{ ain7member.person.last_name }} 
             {% if ain7member.person.maiden_name %}
               ({{ ain7member.person.maiden_name }})
             {% endif %}
-            {{ ain7member.person.first_name }}</a>
+            {{ ain7member.person.first_name }}</b></a>
+            {% if ain7member.is_subscriber %}
+            <img src="/site_media/images/star.png" title="Adherent {% now "Y" %}" alt="adherent {% now "Y" %}" width="16" height="16" />
+            {% endif %}
+            <br/>
+            {{ ain7member.promo_full }}
             {% for promo in ain7member.promos.all %}
-               {% if forloop.last %} ({{ promo }}){% endif %}
+               {% if forloop.last %} {{ promo }}{% endif %}
             {% endfor %}
-				</li>
+            <br/>
+            {% if not ain7member.personprivate.death_date %}
+            {% for position in ain7member.positions.all %}
+               {% if not position.end %}
+               <i>{{ position.office.organization }}{% if not forloop.last %}, {% endif %}</i>
+               {% endif %}
+            {% endfor %}
+            {% endif %}
+            </td></tr>
+            </table>
     {% endfor %}
-</ul>
 {% else %}
     <p>{% trans "No person matched your criteria." %}</p>
 {% endif %}

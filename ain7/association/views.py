@@ -63,6 +63,12 @@ def status(request):
     text = Text.objects.get(textblock__shortname='statuts_ain7') 
     return ain7_render_to_response(request, 'association/status.html', 
                 {'count_members': count_members(), 'text': text}) 
+
+def internalrules(request):
+    """internal rules page""" 
+    text = Text.objects.get(textblock__shortname='internal_rules_ain7') 
+    return ain7_render_to_response(request, 'association/internalrules.html', 
+                {'count_members': count_members(), 'text': text}) 
  
 def council(request):
     """council presentation page"""

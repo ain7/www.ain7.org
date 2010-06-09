@@ -391,16 +391,28 @@ class AIn7Member(LoggedClass):
     # Internal
     objects = AIn7MemberManager()
 
-    def interesting_jobs(self):
+    def is_subscriber(self):
         """
-        Si la personne souhaite recevoir les offres de certaines filières,
-        renvoie les offres pour ces filières.
-        Sinon, renvoie toutes les offres.
+        /!\ local import to avoid recursives import
         """
-        jobs = []
-        for track in Track.objects.all():
-            jobs.extend(track.jobs.filter(checked_by_secretariat=True))
-        return jobs
+        from ain7.adhesions.models import Subscription
+        import datetime
+        result = False
+        result = Subscription.objects.filter(member=self).\
+            filter(validated=True).exclude(start_year__gt=datetime.date.\
+            today().year).exclude(end_year__lt=datetime.date.today().year)
+        return result
+
+    def promo(self):
+        if self.promos.all():
+            return self.promos.all()[0].year.year
+
+    def track(self):
+        if self.promos.all():
+            return self.promos.all()[0].track.name
+
+    def promo_full(self):
+        return self.track()+" "+self.promo()
 
     def __unicode__(self):
         """AIn7 member unicode"""

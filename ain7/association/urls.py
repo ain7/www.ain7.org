@@ -36,6 +36,7 @@ urlpatterns = patterns('ain7.association.views',
         'delete_council_role'),
     (r'^contact/$', 'contact'),
     (r'^status/$', 'status'),
+    (r'^internalrules/$', 'internalrules'),
     (r'^activites/$', 'activites'),
 
 )

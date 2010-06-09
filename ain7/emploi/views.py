@@ -634,8 +634,6 @@ def organization_choose(request, action=None):
     if access:
         return access
 
-    person = get_object_or_404(Person, pk=request.user.id)
-
     title = _('Choose an organization for which you want to\
  propose modifications')
     if action == 'delete':
@@ -856,7 +854,8 @@ def office_add(request, organization_id=None):
             form.cleaned_data['is_valid'] = True
             form.cleaned_data['organization'] = org
             # create the OfficeProposal
-            modified_office = form.save()
+            modified_office = form.save(commit=False)
+            modified_office.organization = org
             modified_office.logged_save(person)
             office_prop = OfficeProposal(original = None,
                 modified = modified_office, author = person, action = 0)

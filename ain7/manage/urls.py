@@ -134,5 +134,8 @@ urlpatterns = patterns('ain7.manage.views',
     (r'^payments/deposit/(?P<deposit_id>\d+)/deposited/'
      +r'(?P<last_deposit_id>\d+)/$', 'payments_mark_deposited'),
 
+    # Subscriptions
+    (r'^subscriptions/$', 'subscriptions_stats'),
+
 )
 

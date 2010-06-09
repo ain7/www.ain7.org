@@ -1458,3 +1458,73 @@ def payments_mark_deposited(request, deposit_id, last_deposit_id):
     request.user.message_set.create(message=_('Payments marked as deposited'))
     return HttpResponseRedirect(reverse(payments_deposit_index))
 
+@login_required
+def subscriptions_stats(request):
+    """have some subscriptions statistics"""
+
+    access = check_access(request, request.user, 
+                          ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
+
+    from ain7.adhesions.models import Subscription
+
+    from datetime import date
+    this_year = date.today().year
+
+    if date.today().month < 10:
+        last_promo = this_year - 1
+    else:
+        last_promo = this_year
+
+    stats_subs = []
+    stats_amiunt = []
+
+    for year in range(this_year, this_year-10, -1):
+
+        # Cotisations à taux pleins hors élèves:
+        diplomees = Subscription.objects.filter(member__promos__year__year__lte=last_promo, start_year=year, validated=True).count()
+
+        # Cotisation supérieures à taux plein:
+        full = Subscription.objects.filter(member__promos__year__year__lte=last_promo, dues_amount__gte=80, start_year=year, validated=True).count()
+
+        # Cotisations jeunes promos:
+        young = Subscription.objects.filter(member__promos__year__year__lte=last_promo, dues_amount__gte=50, dues_amount__lt=60, start_year=year, validated=True).count()
+
+        # Cotisations retraités:
+        retired = Subscription.objects.filter(member__promos__year__year__lte=last_promo, dues_amount__gte=60, dues_amount__lt=80, start_year=year, validated=True).count()
+
+        # Cotisations bienfaiteurs:
+        bienfaiteur = Subscription.objects.filter(member__promos__year__year__lte=last_promo, dues_amount__gte=180, start_year=this_year, validated=True).count()
+
+        # students
+        students = Subscription.objects.filter(member__promos__year__year__gt=last_promo, start_year=year, validated=True).count()
+
+        # all
+        all = Subscription.objects.filter(start_year=year, validated=True).count()
+
+        stats_subs.append({'year': year, 'diplomees': diplomees, 'full': full, 'young':young, 'retired': retired, 'bienfaiteur': bienfaiteur, 'students': students, 'all': all})
+
+
+    stats_months = []
+    for month in range(1,13):
+        first_day = date(this_year, month, 1)
+        if month < 12:
+            last_day = date(this_year, month+1, 1)
+        else:
+            last_day = date(this_year+1,1,1)
+        stats_months.append(Subscription.objects.filter(member__promos__year__year__lte=last_promo, start_year=this_year, validated=True, date__gte=first_day, date__lt=last_day).count())
+
+    total_amount = 0
+    for s in Subscription.objects.filter(member__promos__year__year__lte=last_promo, start_year=this_year, validated=True):
+        total_amount += s.dues_amount
+
+    total_publications = 0
+    for s in Subscription.objects.filter(member__promos__year__year__lte=last_promo, start_year=this_year, validated=True):
+        if s.newspaper_amount:
+            total_publications += s.newspaper_amount
+
+    return ain7_render_to_response(
+        request, 'manage/subscriptions_stats.html', 
+        { 'stats_subs' : stats_subs, 'stats_months': stats_months, 'total_amount': total_amount, 'total_publications': total_publications})
+

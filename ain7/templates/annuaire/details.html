@@ -68,7 +68,9 @@
 </ul>
 </td><td>
 {% if ain7member.avatar %}
-	<img src="{{ ain7member.avatar.url }}" height="100" alt="{% trans "avatar" %}"/>
+	<img src="{{ ain7member.avatar.url }}" height="100" alt="{{ person.complete_name }}"/>
+{% else %}
+	<img src="/site_media/images/nobody.png" height="100" alt="{{ person.complete_name }}"/>
 {% endif %}
 </td></tr>
 {% for phone_number in person.phone_numbers.all %}
@@ -77,7 +79,7 @@
     {% endif %}
 {% endfor %}
 {% for position in ain7member.positions.all %}
-{% if position.phone_number %}
+{% if position.phone_number and not position.end %}
 <tr><td><b>{% trans "Professional Phone:" %}</b> {{ position.phone_number }}</td></tr>
 {% endif %}
 {% endfor %}
@@ -113,7 +115,7 @@
 	{% endif %}
 {% endfor %}
 {% for position in ain7member.positions.all %}
-{% if not position.end_date and position.office.line1 %}
+{% if not position.end and position.office.line1 %}
 <tr><td><b>{% trans "Professionnal Address:" %}</b> {{ position.office.line1 }} {{ position.office.line2|default_if_none:"" }} - {{ position.office.zip_code }} {{ position.office.city }} - {{ position.office.country.name }}</td></tr>
 {% endif %}
 {% endfor %}
@@ -124,7 +126,7 @@
 {% if ain7member.display_cv_in_directory or superadmin or ca_member or is_myself or secretariat_member %}
 
 <h2>{% if not ain7member.display_cv_in_directory %}<img src="/site_media/images/private.png" alt="private" width="14" height="14"/>{% endif %}
-{% trans "Professional experiences" %}</h2>
+{% trans "Experience" %}</h2>
 
 <ul>
 {% for position in ain7member.positions.all %}
@@ -133,6 +135,9 @@
        {% trans "since" %} <b>{{ position.begin }}</b>&nbsp;:
           {% else %}{% if position.begin and position.end %}
              <b>{{ position.begin }}-{{ position.end }}</b>:
+          {% else %}{% if position.end %}
+             {% trans "until" %} 2010</b>&nbsp;:
+          {% endif %}
           {% endif %}{% endif %}
             {% if position.fonction %}<em>{{ position.fonction }}</em>, {% endif %}
                 <a href="{% url ain7.emploi.views.organization_details position.office.organization.id %}">{{ position.office.organization }}</a>
