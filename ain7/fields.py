@@ -42,7 +42,7 @@ class LanguageField(models.CharField):
 #
 
 from django.forms.widgets import TextInput,flatatt
-from django.forms.util import smart_unicode
+from django.utils.encoding import smart_unicode
 from ain7.ajax.views import ajaxed_strings, ajax_get_elements, ajax_request, ajax_field_value
 from django.core.urlresolvers import reverse
 
