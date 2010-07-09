@@ -70,7 +70,7 @@
 {% for event in events %}
   <div class="right_articles">
       <div>
-      <a href="{% url ain7.evenements.views.details event.id %}">{{ event.name }}</a> ({{ event.date|date:"l j F Y" }})<br/>
+      <a href="{% url ain7.evenements.views.details event.id %}">{{ event.title }}</a> ({{ event.date|date:"l j F Y" }})<br/>
       </div>
    </div>
 {% endfor %}

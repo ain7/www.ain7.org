@@ -271,6 +271,27 @@ class Person(LoggedClass):
 
     objects = PersonManager()
 
+    def mobile(self):
+        """return mobile phone of a person if exists"""
+        try:
+             return self.phone_numbers.filter(type=3)[0].number
+        except IndexError:
+             return ''
+
+    def phone(self):
+        """return fix phone of a person if exists"""
+        try:
+             return self.phone_numbers.filter(type=1)[0].number
+        except IndexError:
+             return ''
+
+    def mail_favorite(self):
+        """return favourite e-mail"""
+        try:
+             return self.emails.filter(preferred_email=True)[0].email
+        except IndexError:
+             return ''
+
     def __unicode__(self):
         """person unicode"""
         return self.first_name + " " + self.last_name
@@ -403,6 +424,26 @@ class AIn7Member(LoggedClass):
             today().year).exclude(end_year__lt=datetime.date.today().year)
         return result
 
+    def last_subscription_amount(self):
+        """
+        /!\ local import to avoid recursives import
+        """
+        from ain7.adhesions.models import Subscription
+        result = 0
+        result = Subscription.objects.filter(member=self).\
+            filter(validated=True).exclude(start_year__icontains=2009).reverse()[0].dues_amount
+        return result
+
+    def last_subscription_date(self):
+        """
+        /!\ local import to avoid recursives import
+        """
+        from ain7.adhesions.models import Subscription
+        result = 0
+        result = Subscription.objects.filter(member=self).\
+            filter(validated=True).exclude(start_year__icontains=2009).reverse()[0].date
+        return result
+ 
     def promo(self):
         if self.promos.all():
             return self.promos.all()[0].year.year

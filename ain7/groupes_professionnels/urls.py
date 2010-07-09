@@ -27,16 +27,15 @@ from django.conf.urls.defaults import patterns
 urlpatterns = patterns('ain7.groupes_professionnels.views',
     # Groupes
     (r'^$', 'index'),
-    (r'^(?P<group_name>\w+)/$', 'details'),
-    (r'^(?P<group_name>\w+)/edit/$', 'edit'),
-    (r'^(?P<group_name>\w+)/subscribe/$', 'subscribe'),
-    (r'^(?P<group_name>\w+)/unsubscribe/$', 'unsubscribe'),
-    (r'^(?P<group_name>\w+)/roles/edit/(?P<all_current>\w+)/$', 'edit_roles'),
-    (r'^(?P<group_name>\w+)/roles/(?P<role_id>\d+)/changedates/'
+    (r'^(?P<slug>\w+)/$', 'details'),
+    (r'^(?P<slug>\w+)/edit/$', 'edit'),
+    (r'^(?P<slug>\w+)/subscribe/$', 'subscribe'),
+    (r'^(?P<slug>\w+)/unsubscribe/$', 'unsubscribe'),
+    (r'^(?P<slug>\w+)/roles/edit/(?P<all_current>\w+)/$', 'edit_roles'),
+    (r'^(?P<slug>\w+)/roles/(?P<role_id>\d+)/changedates/'
      +r'(?P<all_current>\w+)/$', 'change_dates'),
-    (r'^(?P<group_name>\w+)/roles/(?P<type>\d+)/add/(?P<all_current>\w+)/$',
+    (r'^(?P<slug>\w+)/roles/(?P<type>\d+)/add/(?P<all_current>\w+)/$',
          'add_role'),
-    (r'^(?P<group_name>\w+)/roles/(?P<role_id>\d+)/delete/'
+    (r'^(?P<slug>\w+)/roles/(?P<role_id>\d+)/delete/'
      +r'(?P<all_current>\w+)/$', 'delete_role'),
-
 )

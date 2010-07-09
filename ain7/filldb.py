@@ -1174,29 +1174,29 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     lepaysdesschtroumpfs.save()
 
     # Regional group
-    gr1 = groupes_regionaux.Group(name=u"Alpes Côte d'Azur", shortname="alpes_cotes_azur")
+    gr1 = groupes_regionaux.Group(name=u"Alpes Côte d'Azur", slug="alpes_cotes_azur")
     gr1.save()
-    gr2 = groupes_regionaux.Group(name=u"Centre", shortname="centre")
+    gr2 = groupes_regionaux.Group(name=u"Centre", slug="centre")
     gr2.save()
-    gr3 = groupes_regionaux.Group(name=u"Midi-Pyrénées", shortname="midi_pyrenees")
+    gr3 = groupes_regionaux.Group(name=u"Midi-Pyrénées", slug="midi_pyrenees")
     gr3.save()
-    gr4 = groupes_regionaux.Group(name=u"Nord-Picardie", shortname="nord_picardie")
+    gr4 = groupes_regionaux.Group(name=u"Nord-Picardie", slug="nord_picardie")
     gr4.save()
-    gr5 = groupes_regionaux.Group(name=u"Aquitaine", shortname="aquitaine")
+    gr5 = groupes_regionaux.Group(name=u"Aquitaine", slug="aquitaine")
     gr5.save()
-    gr6 = groupes_regionaux.Group(name=u"Rhône-Alpes", shortname="rhones_alpes")
+    gr6 = groupes_regionaux.Group(name=u"Rhône-Alpes", slug="rhones_alpes")
     gr6.save()
-    gr7 = groupes_regionaux.Group(name=u"Est", shortname="est")
+    gr7 = groupes_regionaux.Group(name=u"Est", slug="est")
     gr7.save()
-    gr8 = groupes_regionaux.Group(name=u"Ouest", shortname="ouest")
+    gr8 = groupes_regionaux.Group(name=u"Ouest", slug="ouest")
     gr8.save()
-    gr9 = groupes_regionaux.Group(name=u"Marseille-Provence", shortname="marseille_provence")
+    gr9 = groupes_regionaux.Group(name=u"Marseille-Provence", slug="marseille_provence")
     gr9.save()
-    gr10 = groupes_regionaux.Group(name=u"Normandie", shortname="normandie")
+    gr10 = groupes_regionaux.Group(name=u"Normandie", slug="normandie")
     gr10.save()
-    gr11 = groupes_regionaux.Group(name=u"Région Parisienne", shortname="region_parisienne")
+    gr11 = groupes_regionaux.Group(name=u"Région Parisienne", slug="region_parisienne")
     gr11.save()
-    gr12 = groupes_regionaux.Group(name=u"Languedoc-Roussillon", shortname="languedoc_roussillon")
+    gr12 = groupes_regionaux.Group(name=u"Languedoc-Roussillon", slug="languedoc_roussillon")
     gr12.save()
 
 
@@ -1907,9 +1907,9 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     recruteur_couriel1.save()
 
     ain7tic = groupes_professionnels.GroupPro()
-    ain7tic.name = "tic"
-    ain7tic.description = "Technologies de l'Information et Communications"
-    ain7tic.web_page = """<p>Ce groupe de travail s'adresse aux N7 dirigeants d'une petite entreprise / PME, PMI ou TPE. L'ingénieur N7, qu'il soit fraîchement diplômé ou chevronné, est confronté à un monde économique en profonde mutation qui se traduit en particulier par la création d'entreprise et par une accélération de leur renouvellement. Ce facteur est amplifié avec les opportunités qu'offre la nouvelle économie avec Internet.</p>
+    ain7tic.slug = "tic"
+    ain7tic.name = "Technologies de l'Information et Communications"
+    ain7tic.about = """<p>Ce groupe de travail s'adresse aux N7 dirigeants d'une petite entreprise / PME, PMI ou TPE. L'ingénieur N7, qu'il soit fraîchement diplômé ou chevronné, est confronté à un monde économique en profonde mutation qui se traduit en particulier par la création d'entreprise et par une accélération de leur renouvellement. Ce facteur est amplifié avec les opportunités qu'offre la nouvelle économie avec Internet.</p>
 
 <p>Un certain nombre d'entre nous ont créé leur entreprise, et ce qui était rare jusqu'à un passé récent devient de plus en plus fréquent.</p>
 
@@ -1930,9 +1930,9 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     ain7ticRole1.save()
 
     ain7telecom = groupes_professionnels.GroupPro()
-    ain7telecom.name = "telecom"
-    ain7telecom.description = "Groupe Telecom"
-    ain7telecom.web_page="""<p>Le Groupe professionnel TELECOM réunit les ingénieurs qui travaillent aux réseaux de Télécommunications.</p>
+    ain7telecom.slug = "telecom"
+    ain7telecom.name = "Groupe Telecom"
+    ain7telecom.about ="""<p>Le Groupe professionnel TELECOM réunit les ingénieurs qui travaillent aux réseaux de Télécommunications.</p>
 
 <p>Un noyau d'ingénieurs N7 animent le groupe, préparent les manifestations extérieures (N7à9, Manifestions de prestige…) et recherchent le cas échéant le financement de celles-ci.</p>
 
@@ -1981,15 +1981,15 @@ Prochaines manifestations
     ain7telecom.save()
 
     ain7energie = groupes_professionnels.GroupPro()
-    ain7energie.name = "energie"
-    ain7energie.description = "Groupe Energie"
-    ain7energie.web_page = "Issu du groupe \"Génie Electrique\", ce groupe est en cours de reconstitution et doit démarrer des activités élargies au printemps 2009."
+    ain7energie.slug = "energie"
+    ain7energie.name = "Groupe Energie"
+    ain7energie.about = "Issu du groupe \"Génie Electrique\", ce groupe est en cours de reconstitution et doit démarrer des activités élargies au printemps 2009."
     ain7energie.save()
 
     ain7aero = groupes_professionnels.GroupPro()
-    ain7aero.name = "aero"
-    ain7aero.description = "Groupe Aérospace"
-    ain7aero.web_page = "Ce groupe résidant à Toulouse, organise régulièrement des rencontres et bénéficie notamment de la présence de nombreux ingénieurs ENSEEIHT au sein du pôle de compétitivité \"Aerospace Valley\"."
+    ain7aero.slug = "aero"
+    ain7aero.name = "Groupe Aérospace"
+    ain7aero.about = "Ce groupe résidant à Toulouse, organise régulièrement des rencontres et bénéficie notamment de la présence de nombreux ingénieurs ENSEEIHT au sein du pôle de compétitivité \"Aerospace Valley\"."
     ain7aero.save()
 
     # L'association
@@ -2789,12 +2789,12 @@ Petit déjeuner, temps libre jusqu’au transfert vers l’aéroport internation
     utc = vobject.icalendar.utc
 
     evenement1 = evenements.Event()
-    evenement1.name = u"Réunion 100 ans"
+    evenement1.title = u"Réunion 100 ans"
     evenement1.date = datetime.now() + timedelta(10)
     evenement1.author = "Olivier Gauwin"
     evenement1.contact_email = "olivier.gauwin@alumni.enseeiht.fr"
     evenement1.location = "ENSEEIHT"
-    evenement1.description = u"Organisation des événements liés au centenaire de l'ENSEEIHT."
+    evenement1.body = u"Organisation des événements liés au centenaire de l'ENSEEIHT."
     evenement1.publication_start = datetime.now()
     evenement1.publication_end = datetime.now() + timedelta(30)
     evenement1.image = "data/anniversaire.jpg"
@@ -2803,12 +2803,12 @@ Petit déjeuner, temps libre jusqu’au transfert vers l’aéroport internation
     evenement1.save()
 
     evenement2 = evenements.Event()
-    evenement2.name = u"Réunion CA"
+    evenement2.title = u"Réunion CA"
     evenement2.date = datetime(2007, 11, 17, 10, 0)
     evenement2.author = "Lionel Porcheron"
     evenement2.contact_email = "lionel.porcheron@alumni.enseeiht.fr"
     evenement2.location = "ENSEEIHT"
-    evenement2.description = "Conseil d'administration"
+    evenement2.body = "Conseil d'administration"
     evenement2.image = "data/conseil.jpg"
     evenement2.publication_start = datetime.now()
     evenement2.publication_end = datetime.now() + timedelta(30)

@@ -87,7 +87,7 @@ class SubscribeEventForm(forms.Form):
 
 class SearchEventForm(forms.Form):
     """search event form"""
-    name = forms.CharField(label=_('Event name'), max_length=50,
+    title = forms.CharField(label=_('Event title'), max_length=50,
         required=False, widget=forms.TextInput(attrs={'size':'40'}))
     location = forms.CharField(label=_('Location'), max_length=50,
         required=False, widget=forms.TextInput(attrs={'size':'40'}))
@@ -95,7 +95,7 @@ class SearchEventForm(forms.Form):
     def search(self):
         """search event method"""
         return Event.objects.filter(
-            name__icontains=self.cleaned_data['name'],
+            title__icontains=self.cleaned_data['title'],
             location__icontains=self.cleaned_data['location'])        
 
 class ContactEventForm(AIn7Form):
@@ -108,9 +108,9 @@ class ContactEventForm(AIn7Form):
 
 class EventForm(AIn7ModelForm):
     """event form"""
-    name = forms.CharField(label=_('Name'), max_length=60,
+    title = forms.CharField(label=_('Title'), max_length=60,
         widget=forms.TextInput(attrs={'size':'60'}))
-    description = forms.CharField( label=_('description').capitalize(),
+    body = forms.CharField( label=_('description').capitalize(),
         required=False,
         widget=forms.widgets.Textarea(attrs={'rows':10, 'cols':40}))
     date = forms.DateTimeField(label=_('date').capitalize(),

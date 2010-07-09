@@ -13,7 +13,7 @@
 <div class="right_articles">
   <div class="news-header">
     <div class="news-title">
-      <a href="{% url ain7.evenements.views.details event.id %}">{{ event.name }}</a>
+      <a href="{% url ain7.evenements.views.details event.id %}">{{ event.title }}</a>
     </div>
     <div class="news-date">
       {% trans "Published on" %} {{ event.last_change_at|date:"l j F Y" }} 
@@ -23,14 +23,14 @@
     </div>
   </div>
   {% if event.image %}
-  <img src="{{ event.image.url }}" alt="{{ event.name }}" title="{{ event.name }}" class="image" />
+  <img src="{{ event.image.url }}" alt="{{ event.title }}" title="{{ event.title }}" class="image" />
   {% endif %}
   <ul>
   <li>{% trans "Date" %}: {{ event.date|date:"d/m/Y H:i" }}</li>
   <li>{% trans "Location" %}: {{ event.location }}</li>
   </ul>
   <div class="news-description">
-    {{ event.description|safe }}
+    {{ event.body|safe }}
   </div>
 </div>
 

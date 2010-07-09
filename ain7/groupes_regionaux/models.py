@@ -34,12 +34,13 @@ from ain7.utils import LoggedClass
 class Group(LoggedClass):
     """Regional Group"""
 
-    is_active = models.BooleanField(verbose_name=_('active'), default=True)
-    shortname = models.CharField(verbose_name=_('name'), max_length=50,
+    slug = models.CharField(verbose_name=_('slug'), max_length=50,
         unique=True)
-    name = models.CharField(verbose_name=_('name'), max_length=50)
-    description = models.TextField(verbose_name=_('description'), blank=True,
+    name = models.CharField(verbose_name=_('name'), max_length=100)
+    about = models.TextField(verbose_name=_('description'), blank=True,
         null=True)
+
+    is_active = models.BooleanField(verbose_name=_('active'), default=True)
 
     def __unicode__(self):
         """unicode string for a regional group"""

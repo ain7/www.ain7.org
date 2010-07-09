@@ -17,15 +17,15 @@
    <h3>{% trans "Actions" %}</h3>
    <div class="right_articles">
    <ul>
-      <li><a href="{% url ain7.groupes_professionnels.views.details group.name %}">{% trans "Page of this group" %}</a></li>
+      <li><a href="{% url ain7.groupes_professionnels.views.details group.slug %}">{% trans "Page of this group" %}</a></li>
       {% block extra-actions %}{% endblock %}
       {% if superadmin or ca_member or secretariat_member or contributeur %}
-      <li><a href="{% url ain7.groupes_professionnels.views.edit group.name %}">{% trans "Edit these data" %}</a></li>
-      <li><a href="{% url ain7.groupes_professionnels.views.subscribe group.name %}">{% trans "Subscribe someone" %}</a></li>
-      <li><a href="{% url ain7.groupes_professionnels.views.unsubscribe group.name %}">{% trans "Unsubscribe someone" %}</a></li>
+      <li><a href="{% url ain7.groupes_professionnels.views.edit group.slug %}">{% trans "Edit these data" %}</a></li>
+      <li><a href="{% url ain7.groupes_professionnels.views.subscribe group.slug %}">{% trans "Subscribe someone" %}</a></li>
+      <li><a href="{% url ain7.groupes_professionnels.views.unsubscribe group.slug %}">{% trans "Unsubscribe someone" %}</a></li>
       {% endif %}
       {% if superadmin or secretariat_member %}
-      <li><a href="{% url ain7.groupes_professionnels.views.edit_roles group.name,"current" %}">{% trans "Edit roles of this group" %}</a></li>
+      <li><a href="{% url ain7.groupes_professionnels.views.edit_roles group.slug,"current" %}">{% trans "Edit roles of this group" %}</a></li>
       {% endif %}
    </ul>
    </div>
@@ -39,7 +39,7 @@
     <div class="right_block">
     <ul>
     {% for group in groups %}
-        <li><a href="{% url ain7.groupes_professionnels.views.details group.name %}">{{ group.description }}</a></li>
+        <li><a href="{% url ain7.groupes_professionnels.views.details group.slug %}">{{ group.name }}</a></li>
     {% endfor %}
      </ul>
     </div>

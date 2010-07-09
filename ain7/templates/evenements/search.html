@@ -38,7 +38,7 @@
 </table>
 <ul>
     {% for event in list_events %}
-        <li><a href="{% url ain7.evenements.views.details event.id %}">{{ event.name }}</a> ({{ event.date|date:"d/m/Y H:i" }} - {{ event.location }})</li>
+        <li><a href="{% url ain7.evenements.views.details event.id %}">{{ event.title }}</a> ({{ event.date|date:"d/m/Y H:i" }} - {{ event.location }})</li>
     {% endfor %}
 </ul>
 {% else %}

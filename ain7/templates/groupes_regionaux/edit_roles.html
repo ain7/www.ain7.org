@@ -8,9 +8,9 @@
 <h3>{% trans "Board Members" %}</h3>
 
 {% ifequal all_current "all" %}
-  {% trans "All members (including past ones) of the board are displayed. Click" %} <a href="{% url ain7.groupes_regionaux.views.edit_roles group.shortname all_current %}">{% trans "here" %}</a> {% trans "to display only current ones." %}
+  {% trans "All members (including past ones) of the board are displayed. Click" %} <a href="{% url ain7.groupes_regionaux.views.edit_roles group.slug all_current %}">{% trans "here" %}</a> {% trans "to display only current ones." %}
 {% else %}
-  {% trans "Only current members of the board are displayed. Click" %} <a href="{% url ain7.groupes_regionaux.views.edit_roles group.shortname all_current %}">{% trans "here" %}</a> {% trans "to display past members too." %}
+  {% trans "Only current members of the board are displayed. Click" %} <a href="{% url ain7.groupes_regionaux.views.edit_roles group.slug all_current %}">{% trans "here" %}</a> {% trans "to display past members too." %}
 {% endifequal %}
 
 {% for type, type_display, type_form, roles in roles_by_type %}
@@ -28,8 +28,8 @@
              {% if role.end_date %} {{ role.end_date|date:"d/m/Y" }})
              {% else %} ...)
              {% endif %}&nbsp;<br/>
-            <a href="{% url ain7.groupes_regionaux.views.change_dates group.shortname role.id all_current %}" class="changelink">{% trans "Modify dates" %}</a>&nbsp;
-            <a href="{% url ain7.groupes_regionaux.views.delete_role group.shortname role.id all_current %}" class="deletelink">{% trans "Delete" %}</a>&nbsp;
+            <a href="{% url ain7.groupes_regionaux.views.change_dates group.slug role.id all_current %}" class="changelink">{% trans "Modify dates" %}</a>&nbsp;
+            <a href="{% url ain7.groupes_regionaux.views.delete_role group.slug role.id all_current %}" class="deletelink">{% trans "Delete" %}</a>&nbsp;
           {% else %}
             <form method="post" action=".">
               <table>
@@ -94,7 +94,7 @@
       </form>
     </div>
   {% else %}
-    <a href="{% url ain7.groupes_regionaux.views.add_role group.shortname type all_current %}" class="addlink">{% trans "Add" %}</a>
+    <a href="{% url ain7.groupes_regionaux.views.add_role group.slug type all_current %}" class="addlink">{% trans "Add" %}</a>
   {% endif %}
 
 {% endfor %}
@@ -106,7 +106,7 @@
     <div class="right_block">
         <ul>
             <li>
-                <a href="{% url ain7.groupes_regionaux.views.details group.shortname %}">{% trans "Main page of this group" %}</a>
+                <a href="{% url ain7.groupes_regionaux.views.details group.slug %}">{% trans "Main page of this group" %}</a>
             </li>
         </ul>
     </div>

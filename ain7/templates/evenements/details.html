@@ -6,7 +6,7 @@
 
 {% block content-main %}
 
-	<h2>{{ event.name }}</h2>
+	<h2>{{ event.title }}</h2>
 
 	<table border="0" width="100%">
         <tr><td>
@@ -40,8 +40,8 @@
         </td></tr>
         </table>
 
-	{% if event.description %}
-		{{ event.description|safe }}
+	{% if event.body %}
+		{{ event.body|safe }}
 	{% endif %}
 {% endblock %}
 

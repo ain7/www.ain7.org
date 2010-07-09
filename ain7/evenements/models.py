@@ -44,46 +44,43 @@ class EventManager(models.Manager):
 class Event(LoggedClass):
     """event"""
 
-#    EVENT_CATEGORY = (
-#              (0,_('conference')),
-#              (1,_('feistivity')),
-#              (2,_('Administration Council')),
-#              (3,_('General Assembly')),
-#              )
-
     EVENT_STATUS = (
-              (0,_('tentative')),
+              (0,_('project')),
               (1,_('confirmed')),
               (2,_('cancel')),
               )
 
-    name = models.CharField(verbose_name=_('name'), max_length=80)
-    date = models.DateTimeField(verbose_name=_('date'))
-    location = models.CharField(verbose_name=_('location'), max_length=60)
-    description = models.TextField(verbose_name=_('description'),
+    # general fields
+    slug = models.SlugField(max_length=100, blank=True, null=True)
+    title = models.CharField(verbose_name=_('title'), max_length=100)
+    body = models.TextField(verbose_name=_('body'),
         blank=True, null=True)
-#    category = models.IntegerField(verbose_name=_('category'),
-#        choices=EVENT_CATEGORY, null=True, blank=True)
-    status = models.IntegerField(verbose_name=_('status'), choices=EVENT_STATUS,
-        null=True, blank=True)
+    shorttext = models.CharField(verbose_name=_('short text'), max_length=500,
+        blank=True, null=True)
     image = models.ImageField(verbose_name=_('image'), upload_to='data',
-        null=True, blank=True)
-    contact_email = models.EmailField(verbose_name=_('contact email'),
-        max_length=50)
-    link = models.CharField(verbose_name=_('external link'), max_length=60, blank=True,
-        null=True)
-    #author = models.CharField(verbose_name=_('author'), max_length=20)
-    #publication_start =  models.DateField(verbose_name=_('publication start'))
-    #publication_end = models.DateField(verbose_name=_('publication end'))
+        blank=True, null=True)
 
-    organizers = models.ManyToManyField(Person, verbose_name=_('organizers'), 
-         related_name='events', blank=True, null=True, through='EventOrganizer')
+    # to which group we should link this news
     regional_groups = models.ManyToManyField(Group,
          verbose_name=_('regional groups'), related_name='events',
          blank=True, null=True)
     professional_groups = models.ManyToManyField(GroupPro,
          verbose_name=_('professional groups'), related_name='events',
          blank=True, null=True)
+
+    # those fields are only present for an event
+    date = models.DateTimeField(verbose_name=_('date'))
+    location = models.CharField(verbose_name=_('location'), max_length=60)
+    status = models.IntegerField(verbose_name=_('status'), choices=EVENT_STATUS,
+        blank=True, null=True)
+    contact_email = models.EmailField(verbose_name=_('contact email'),
+        max_length=50)
+
+    link = models.CharField(verbose_name=_('external link'), max_length=60, blank=True,
+        null=True)
+
+    organizers = models.ManyToManyField(Person, verbose_name=_('organizers'), 
+         related_name='events', blank=True, null=True, through='EventOrganizer')
     pictures_gallery = models.CharField(verbose_name=_('Pictures gallery'),
          max_length=100, blank=True, null=True)
     objects = EventManager()

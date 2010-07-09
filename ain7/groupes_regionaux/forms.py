@@ -38,22 +38,22 @@ DATE_WIDGET.dformat = '%d/%m/%Y'
 
 class GroupForm(forms.ModelForm):
     """New Group Form"""
-    shortname = forms.CharField(label=_('short name').capitalize(),
+    slug = forms.CharField(label=_('short name').capitalize(),
         widget = forms.TextInput(attrs={'size': 40}), 
         required=False)
-    description = forms.CharField(label=_('description').capitalize(),
+    about = forms.CharField(label=_('about').capitalize(),
         widget = forms.widgets.Textarea(attrs={'rows':10, 'cols':90}),
         required=False)
 
     def clean_shortname(self):
-        if not re.match(r'^[a-z0-9\-_]+$', self.cleaned_data['shortname']):
+        if not re.match(r'^[a-z0-9\-_]+$', self.cleaned_data['slug']):
             raise forms.ValidationError(\
                  _('Please only use alphanumeric characters'))
         if Group.objects.filter(\
-            shortname=self.cleaned_data['shortname']).count() > 1:
+            shortname=self.cleaned_data['slug']).count() > 1:
             raise forms.ValidationError(\
                  _('A group with this name already exists'))
-        return self.cleaned_data['shortname']
+        return self.cleaned_data['slug']
    
     class Meta:
         """Meta Group Form Information"""

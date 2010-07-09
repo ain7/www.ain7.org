@@ -34,11 +34,13 @@ from ain7.utils import LoggedClass
 class NewsItem(LoggedClass):
     """news item"""
 
+    slug = models.SlugField(max_length=100)
     title = models.CharField(verbose_name=_('title'), max_length=100)
     body = models.TextField(verbose_name=_('body'))
-    slug = models.SlugField(max_length=100)
+    shorttext = models.CharField(verbose_name=_('short text'), max_length=500,
+        blank=True, null=True)
     image = models.ImageField(verbose_name=_('image'), upload_to='data',
-        null=True, blank=True)
+        blank=True, null=True)
     creation_date = models.DateTimeField(verbose_name=_('date'), 
         default=datetime.datetime.today, editable=False)
 

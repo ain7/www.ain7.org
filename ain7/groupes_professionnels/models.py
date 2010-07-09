@@ -34,20 +34,22 @@ from ain7.utils import LoggedClass
 class GroupPro(LoggedClass):
     """group professionnal"""
 
-    name = models.CharField(verbose_name=_('name'), max_length=30,
+    slug = models.CharField(verbose_name=_('name'), max_length=50,
         unique=True, blank=False)
-    description = models.CharField(verbose_name=_('description'),
-        max_length=200, blank=True, null=True)
+    name = models.CharField(verbose_name=_('name'),
+        max_length=100, blank=True, null=True)
+    about = models.TextField(verbose_name=_('description'), blank=True,
+        null=True)
+
     contact = models.EmailField(verbose_name=_('Contact email'), 
         max_length=100, blank=True, null=True)
-    web_page = models.TextField(verbose_name=_('web page'), blank=True,
-        null=True)
+
     link = models.CharField(verbose_name=_('link'), max_length=100,
         blank=True, null=True)
 
     def __unicode__(self):
         """professionnal group unicode"""
-        return self.description
+        return self.name
 
     def has_for_member(self, person):
         """professionnal group membership test"""

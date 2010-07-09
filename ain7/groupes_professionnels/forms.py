@@ -84,22 +84,22 @@ class UnsubscribeGroupProForm(forms.Form):
 
 class GroupProForm(forms.ModelForm):
     """group pro form"""
-    name = forms.CharField(label=_('name').capitalize(),
+    slug = forms.CharField(label=_('slug').capitalize(),
         widget = forms.TextInput(attrs={'size': 40}), 
         required=False)
-    web_page = forms.CharField(label=_('web page').capitalize(),
+    about = forms.CharField(label=_('about').capitalize(),
         widget = forms.widgets.Textarea(attrs={'rows':10, 'cols':90}),
         required=False)
 
-    def clean_name(self):
+    def clean_slug(self):
         """check group name before registering"""
-        if not re.match(r'^[a-z0-9\-_]+$', self.cleaned_data['name']):
+        if not re.match(r'^[a-z0-9\-_]+$', self.cleaned_data['slug']):
             raise forms.ValidationError(
                 _('Please only use alphanumeric characters'))
-        if GroupPro.objects.filter(name=self.cleaned_data['name']).count() > 1:
+        if GroupPro.objects.filter(name=self.cleaned_data['slug']).count() > 1:
             raise forms.ValidationError(
-                _('A group with this name already exists'))
-        return self.cleaned_data['name']
+                _('A group with this slug already exists'))
+        return self.cleaned_data['slug']
 
     class Meta:
         """group pro meta"""

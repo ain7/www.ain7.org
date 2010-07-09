@@ -45,14 +45,14 @@ def index(request):
     return ain7_render_to_response(request, 'groupes_professionnels/index.html',
                     {'groups': groups, 'text': text})
 
-def details(request, group_name):
+def details(request, slug):
     """group details"""
-    group = get_object_or_404(GroupPro, name=group_name)
+    group = get_object_or_404(GroupPro, slug=slug)
     return ain7_render_to_response(request, 
         'groupes_professionnels/details.html', {'group': group})
 
 @login_required
-def subscribe(request, group_name):
+def subscribe(request, slug):
     """subscribe to a group"""
 
     access = check_access(request, request.user,
@@ -60,7 +60,7 @@ def subscribe(request, group_name):
     if access:
         return access
 
-    group = get_object_or_404(GroupPro, name=group_name)
+    group = get_object_or_404(GroupPro, slug=slug)
     form =  SubscribeGroupProForm()
 
     if request.method == 'POST':
@@ -79,11 +79,11 @@ def subscribe(request, group_name):
                     message=_('You have successfully subscribed')+
                     ' '+person.first_name+' '+person.last_name+' '+
                     _('to this group.'))
-                return HttpResponseRedirect(reverse(details, args=[group.name]))
+                return HttpResponseRedirect(reverse(details, args=[group.slug]))
             else:
                 request.user.message_set.create(
                 message=_('This person is already subscribed to this group.'))
-                return HttpResponseRedirect(reverse(details, args=[group.name]))
+                return HttpResponseRedirect(reverse(details, args=[group.slug]))
 
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 
@@ -92,7 +92,7 @@ def subscribe(request, group_name):
          'group_list': GroupPro.objects.all()})
 
 @login_required
-def unsubscribe(request, group_name):
+def unsubscribe(request, slug):
     """unsubscribe from a group"""
 
     access = check_access(request, request.user,
@@ -100,7 +100,7 @@ def unsubscribe(request, group_name):
     if access:
         return access
 
-    group = get_object_or_404(GroupPro, name=group_name)
+    group = get_object_or_404(GroupPro, slug=slug)
 
     if request.method == 'POST':
         form = UnsubscribeGroupProForm(request.POST)
@@ -118,7 +118,7 @@ def unsubscribe(request, group_name):
             request.user.message_set.create(
                 message=_('Something was wrong in the form you filled. No\
  modification done.'))
-        return HttpResponseRedirect(reverse(details, args=[group.name]))
+        return HttpResponseRedirect(reverse(details, args=[group.slug]))
 
     form =  UnsubscribeGroupProForm()
     back = request.META.get('HTTP_REFERER', '/')
@@ -130,7 +130,7 @@ def unsubscribe(request, group_name):
 
 
 @login_required
-def edit(request, group_name):
+def edit(request, slug):
     """edit group informations"""
 
     access = check_access(request, request.user, ['ain7-ca',
@@ -138,7 +138,7 @@ def edit(request, group_name):
     if access:
         return access
 
-    group = GroupPro.objects.get(name=group_name)
+    group = GroupPro.objects.get(slug=slug)
     form = GroupProForm(instance=group)
 
     if request.method == 'POST':
@@ -147,7 +147,7 @@ def edit(request, group_name):
             form.save(user=request.user)
             request.user.message_set.create(
                 message=_("Modifications have been successfully saved."))
-            return HttpResponseRedirect(reverse(details, args=[group.name]))
+            return HttpResponseRedirect(reverse(details, args=[group.slug]))
 
     back = request.META.get('HTTP_REFERER', '/')
     return ain7_render_to_response(request, 'groupes_professionnels/edit.html',
@@ -185,14 +185,14 @@ def build_roles_by_type(request, group=None, all_current=None,
     return roles_by_type
 
 @login_required
-def edit_roles(request, group_name, all_current=None):
+def edit_roles(request, slug, all_current=None):
     """edit group roles"""
 
     access = check_access(request, request.user, ['ain7-secretariat'])
     if access:
         return access
 
-    group = get_object_or_404(GroupPro, name=group_name)
+    group = get_object_or_404(GroupPro, slug=slug)
     is_member = request.user.is_authenticated()\
                 and group.has_for_member(request.user.person)
     roles_by_type = build_roles_by_type(request, group, all_current,
@@ -204,14 +204,14 @@ def edit_roles(request, group_name, all_current=None):
          'back': request.META.get('HTTP_REFERER', '/')})
 
 @login_required
-def add_role(request, group_name=None, type=None, all_current=None):
+def add_role(request, slug=None, type=None, all_current=None):
     """add new role"""
 
     access = check_access(request, request.user, ['ain7-secretariat'])
     if access:
         return access
 
-    group = get_object_or_404(GroupPro, name=group_name)
+    group = get_object_or_404(GroupPro, slug=slug)
     is_member = request.user.is_authenticated()\
                 and group.has_for_member(request.user.person)
     
@@ -226,7 +226,7 @@ def add_role(request, group_name=None, type=None, all_current=None):
         if form.is_valid():
             form.save(group, type)
             return HttpResponseRedirect(reverse(edit_roles,
-                args=[group.name, all_current]))
+                args=[group.slug, all_current]))
         else:
             request.user.message_set.create(message=_('Something was wrong in\
  the form you filled. No modification done.'))
@@ -238,13 +238,13 @@ def add_role(request, group_name=None, type=None, all_current=None):
          'roles_by_type': roles_by_type, 'all_current': all_current,
          'back': request.META.get('HTTP_REFERER', '/')})
 
-@confirmation_required(lambda group_name=None, role_id=None, all_current=None:
+@confirmation_required(lambda slug=None, role_id=None, all_current=None:
       str(get_object_or_404(GroupProRole, pk=role_id)),
       'groupes_professionnels/base.html', 
       _('Do you really want to remove the role of this person (you can end a\
  role by setting its end date)'))
 @login_required
-def delete_role(request, group_name=None, role_id=None, all_current=None):
+def delete_role(request, slug=None, role_id=None, all_current=None):
     """delete role"""
 
     access = check_access(request, request.user, ['ain7-secretariat'])
@@ -253,18 +253,18 @@ def delete_role(request, group_name=None, role_id=None, all_current=None):
 
     return ain7_generic_delete(request,
         get_object_or_404(GroupProRole, pk=role_id),
-        reverse(edit_roles, args=[group_name,all_current]),
+        reverse(edit_roles, args=[slug, all_current]),
         _('Role successfully deleted.'))
 
 @login_required
-def change_dates(request, group_name=None, role_id=None, all_current=None):
+def change_dates(request, slug=None, role_id=None, all_current=None):
     """change role dates"""
 
     access = check_access(request, request.user, ['ain7-secretariat'])
     if access:
         return access
 
-    group = get_object_or_404(GroupPro, name=group_name)
+    group = get_object_or_404(GroupPro, slug=slug)
     is_member = request.user.is_authenticated()\
                 and group.has_for_member(request.user.person)
     role = get_object_or_404(GroupProRole, pk=role_id)
@@ -278,7 +278,7 @@ def change_dates(request, group_name=None, role_id=None, all_current=None):
         if form.is_valid():
             form.save(role)
             return HttpResponseRedirect(reverse(edit_roles,
-                args=[group.name, all_current]))
+                args=[group.slug, all_current]))
         else:
             request.user.message_set.create(message=_('Something was wrong in\
  the form you filled. No modification done.'))

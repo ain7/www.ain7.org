@@ -312,7 +312,7 @@ def contact(request, event_id):
         form = ContactEventForm(request.POST)
         if form.is_valid():
             # Préparer le message et envoi au contact
-            subject = '[ain7_event] ' + event.name
+            subject = '[ain7_event] ' + event.title
             sender = form.cleaned_data['sender']
             message = form.cleaned_data['message']
             send_mail(subject, message, sender, [event.contact_email],
@@ -341,14 +341,14 @@ def ical(request):
 
     for event in list_events:
         evt = cal.add('vevent')
-        evt.add('summary').value = event.name
+        evt.add('summary').value = event.title
         if event.location:
             evt.add('location').value = event.location
         if event.date:
             evt.add('dtstart').value = event.date
         #ev.add('dtend').value = event.end
-        if event.description:
-            evt.add('description').value = event.description
+        if event.body:
+            evt.add('body').value = event.body
         if event.status:
             evt.add('status').value = event.get_status_display()
         evt.add('dtstamp').value = event.last_change_at

@@ -6,9 +6,9 @@
 
 {% block content-left %}
 
-<h3>{{ group.description }}</h3>
+<h3>{{ group.name }}</h3>
 
-{{ group.web_page|default_if_none:""|safe }}
+{{ group.about|default_if_none:""|safe }}
 
 {% if group.current_memberships %}
 <h4>{% trans "Members list" %}</h4>
