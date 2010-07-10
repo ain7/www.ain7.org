@@ -103,7 +103,9 @@ urlpatterns = patterns('',
     (r'^adhesions/',include('ain7.adhesions.urls')),
 
     # media & communication
-    (r'^media_communication/',include('ain7.media_communication.urls')),
+    (r'^media_communication/$', 'ain7.association.views.media_com'),
+    (r'^media_communication/canal_n7/$', 'ain7.association.views.canal_n7'),
+    (r'^media_communication/canal_n7/edito/$', 'ain7.association.views.canal_n7_edito'),
 
     # relations école étudiants
     (r'^relations_ecole_etudiants/', 'ain7.pages.views.relations_ecole_etudiants'),
