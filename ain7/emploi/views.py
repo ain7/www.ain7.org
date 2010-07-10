@@ -801,7 +801,8 @@ def office_edit(request, office_id=None):
             return ain7_render_to_response(request,
                 'emploi/office_edit.html',
                 {'form': form, 'title': _('Modify an office')})
-        return HttpResponseRedirect(reverse(index))
+        return HttpResponseRedirect(reverse(organization_edit, 
+            args=[modified_office.organization.id]))
 
 @confirmation_required(lambda office_id=None:
     str(get_object_or_404(Office,pk=office_id)), 'emploi/base.html', 
@@ -826,7 +827,8 @@ def office_delete(request, office_id=None):
     notif.logged_save(person)
     request.user.message_set.create(message=_('Your proposal for deleting an\
  office has been sent to moderators.'))
-    return HttpResponseRedirect(reverse(index))
+    return HttpResponseRedirect(reverse(organization_edit,
+         args=[office_prod.organization.id]))
 
 @login_required
 def office_add(request, organization_id=None):
@@ -872,5 +874,5 @@ def office_add(request, organization_id=None):
             return ain7_render_to_response(request,
                 'emploi/office_edit.html',
                 {'form': form, 'title': _('Create an office')})
-        return HttpResponseRedirect(reverse(index))
-
+        return HttpResponseRedirect(reverse(organization_edit, 
+            args=[modified_office.organization.id]))

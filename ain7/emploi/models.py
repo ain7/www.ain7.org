@@ -221,7 +221,8 @@ class Office(LoggedClass):
     organization = models.ForeignKey(Organization, 
         verbose_name=_('organization'), related_name='offices')
 
-    name = models.CharField(verbose_name=_('name'), max_length=100)
+    name = models.CharField(verbose_name=_('name'), max_length=100, 
+        blank=True, null=True)
 
     line1 = models.CharField(verbose_name=_('line1'), max_length=50,
         blank=True, null=True)
