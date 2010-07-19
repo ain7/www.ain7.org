@@ -14,8 +14,9 @@
 
 {% block content-left %}
 
-<div class="dataBlock">
 
+{% if organization %}
+<div class="dataBlock">
 <h2>{{ organization.name }}</h2>
 
 {% if organization.employment_agency %}
@@ -46,7 +47,6 @@
 
 </div> <!-- dataBlock -->
 
-{% if organization %}
 <a href="{% url ain7.organizations.views.organization_edit_data organization.id %}" class="changelink">
   {% trans "Modify" %}</a>
 &nbsp;
@@ -71,6 +71,19 @@
 </ul>
 <a href="{% url ain7.organizations.views.office_edit organization.id %}" class="addlink">
   {% trans "Add" %}</a>
+
+</div>
+{% else %}
+
+<form method="post" action=".">
+<table>
+{{ form }}
+</table>
+<div style="text-align: center">
+<input type="submit" class="button" value="{% trans "Save" %}" />
+</div>
+</form>
+
 {% endif %}
 
 

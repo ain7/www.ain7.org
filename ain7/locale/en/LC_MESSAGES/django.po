@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-19 23:26+0200\n"
+"POT-Creation-Date: 2010-07-20 00:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -52,11 +52,12 @@ msgstr ""
 #: manage/views.py:339 manage/views.py:633 manage/views.py:763
 #: manage/views.py:885 manage/views.py:950 manage/views.py:1003
 #: manage/views.py:1067 manage/views.py:1215 manage/views.py:1398
-#: organizations/views.py:178 organizations/views.py:307
-#: organizations/views.py:403 organizations/views.py:476
-#: organizations/views.py:540 organizations/views.py:604
-#: organizations/views.py:657 search_engine/views.py:342 voyages/views.py:204
-#: voyages/views.py:253 voyages/views.py:346
+#: organizations/views.py:145 organizations/views.py:226
+#: organizations/views.py:355 organizations/views.py:451
+#: organizations/views.py:524 organizations/views.py:588
+#: organizations/views.py:652 organizations/views.py:705
+#: search_engine/views.py:342 voyages/views.py:204 voyages/views.py:253
+#: voyages/views.py:346
 msgid "Something was wrong in the form you filled. No modification done."
 msgstr ""
 
@@ -1066,7 +1067,7 @@ msgstr ""
 #: templates/emploi/organization_edit.html:36
 #: templates/manage/organization_details.html:31
 #: templates/organizations/organization_details.html:28
-#: templates/organizations/organization_edit.html:36
+#: templates/organizations/organization_edit.html:37
 msgid "Activity field"
 msgstr ""
 
@@ -1197,7 +1198,7 @@ msgstr ""
 #: templates/emploi/organization_edit.html:22
 #: templates/manage/organization_details.html:15
 #: templates/organizations/organization_details.html:12
-#: templates/organizations/organization_edit.html:22
+#: templates/organizations/organization_edit.html:23
 msgid "employment agency"
 msgstr ""
 
@@ -1943,17 +1944,17 @@ msgid "Register an organization"
 msgstr ""
 
 #: manage/views.py:511 manage/views.py:759 organizations/views.py:90
-#: organizations/views.py:303
+#: organizations/views.py:351
 msgid "Organization successfully modified"
 msgstr ""
 
 #: manage/views.py:513 manage/views.py:709 organizations/views.py:92
-#: organizations/views.py:253
+#: organizations/views.py:301
 msgid "Organization successfully validated"
 msgstr ""
 
 #: manage/views.py:517 manage/views.py:712 organizations/views.py:96
-#: organizations/views.py:256
+#: organizations/views.py:304
 msgid "Something was wrong in the form you filled. No organization registered."
 msgstr ""
 
@@ -1961,29 +1962,29 @@ msgstr ""
 msgid "Do you REALLY want to delete this organization"
 msgstr ""
 
-#: manage/views.py:598 manage/views.py:788 organizations/views.py:332
+#: manage/views.py:598 manage/views.py:788 organizations/views.py:380
 msgid "Organization successfully removed"
 msgstr ""
 
-#: manage/views.py:631 organizations/views.py:176
+#: manage/views.py:631 organizations/views.py:224
 msgid "The two organizations are the same. No merging."
 msgstr ""
 
-#: manage/views.py:641 manage/views.py:891 organizations/views.py:185
-#: organizations/views.py:546
+#: manage/views.py:641 manage/views.py:891 organizations/views.py:233
+#: organizations/views.py:594
 msgid " replaced by "
 msgstr ""
 
-#: manage/views.py:644 manage/views.py:894 organizations/views.py:188
-#: organizations/views.py:549
+#: manage/views.py:644 manage/views.py:894 organizations/views.py:236
+#: organizations/views.py:597
 msgid "Do you REALLY want to have"
 msgstr ""
 
-#: manage/views.py:657 organizations/views.py:201
+#: manage/views.py:657 organizations/views.py:249
 msgid "Organizations successfully merged"
 msgstr ""
 
-#: manage/views.py:720 organizations/views.py:264
+#: manage/views.py:720 organizations/views.py:312
 msgid "Validate a new organization"
 msgstr ""
 
@@ -1991,7 +1992,7 @@ msgstr ""
 msgid "Edit an office"
 msgstr ""
 
-#: manage/views.py:810 manage/views.py:999 organizations/views.py:653
+#: manage/views.py:810 manage/views.py:999 organizations/views.py:701
 msgid "Office successfully modified"
 msgstr ""
 
@@ -2011,19 +2012,19 @@ msgstr ""
 msgid "Office successfully removed"
 msgstr ""
 
-#: manage/views.py:883 organizations/views.py:538
+#: manage/views.py:883 organizations/views.py:586
 msgid "The two offices are the same. No merging."
 msgstr ""
 
-#: manage/views.py:906 organizations/views.py:561
+#: manage/views.py:906 organizations/views.py:609
 msgid "Offices successfully merged"
 msgstr ""
 
-#: manage/views.py:946 organizations/views.py:600
+#: manage/views.py:946 organizations/views.py:648
 msgid "Office successfully validated"
 msgstr ""
 
-#: manage/views.py:956 organizations/views.py:610
+#: manage/views.py:956 organizations/views.py:658
 msgid "Validate a new office"
 msgstr ""
 
@@ -2135,7 +2136,7 @@ msgstr ""
 #: templates/emploi/organization_edit.html:40
 #: templates/manage/organization_details.html:27
 #: templates/organizations/organization_details.html:24
-#: templates/organizations/organization_edit.html:40
+#: templates/organizations/organization_edit.html:41
 msgid "Size"
 msgstr ""
 
@@ -2151,15 +2152,28 @@ msgstr ""
 msgid "The organization does not exist."
 msgstr ""
 
-#: organizations/views.py:357
+#: organizations/views.py:128 organizations/views.py:150
+msgid "Proposition of organization modification"
+msgstr ""
+
+#: organizations/views.py:140
+msgid "Proposal for modifying an organization"
+msgstr ""
+
+#: organizations/views.py:142
+msgid ""
+"Your proposal for modifying an organization has been sent to moderators."
+msgstr ""
+
+#: organizations/views.py:405
 msgid "Proposal for deleting an organization"
 msgstr ""
 
-#: organizations/views.py:359
+#: organizations/views.py:407
 msgid "Your proposal for deleting an organization has been sent to moderators."
 msgstr ""
 
-#: organizations/views.py:374
+#: organizations/views.py:422
 #, python-format
 msgid ""
 "An organization (for instance EDF) is composed by offices (for instance EDF "
@@ -2167,39 +2181,39 @@ msgid ""
 "the organization</a>."
 msgstr ""
 
-#: organizations/views.py:382 organizations/views.py:407
+#: organizations/views.py:430 organizations/views.py:455
 msgid "Creation of an organization"
 msgstr ""
 
-#: organizations/views.py:396
+#: organizations/views.py:444
 msgid "Organization added"
 msgstr ""
 
-#: organizations/views.py:398
+#: organizations/views.py:446
 msgid "Organization successfully created. To add an office to it, modify it."
 msgstr ""
 
-#: organizations/views.py:444 organizations/views.py:480
+#: organizations/views.py:492 organizations/views.py:528
 msgid "Modify an office"
 msgstr ""
 
-#: organizations/views.py:470
+#: organizations/views.py:518
 msgid "Proposal for modifying an office"
 msgstr ""
 
-#: organizations/views.py:473
+#: organizations/views.py:521
 msgid "Your proposal for modifying an office has been sent to moderators."
 msgstr ""
 
-#: organizations/views.py:486
+#: organizations/views.py:534
 msgid "Do you really want to propose the office for removal"
 msgstr ""
 
-#: organizations/views.py:502
+#: organizations/views.py:550
 msgid "Proposal for removing an office"
 msgstr ""
 
-#: organizations/views.py:505
+#: organizations/views.py:553
 msgid "Your proposal for deleting an office has been sent to moderators."
 msgstr ""
 
@@ -2665,6 +2679,7 @@ msgstr ""
 #: templates/manage/role_perm_add.html:15
 #: templates/manage/role_user_add.html:14
 #: templates/organizations/office_edit.html:28
+#: templates/organizations/organization_edit.html:83
 #: templates/pages/frame_edit_form.html:43 templates/pages/text_edit.html:18
 #: templates/sondages/form.html:15 templates/voyages/edit.html:21
 msgid "Save"
@@ -3533,7 +3548,7 @@ msgid "Past N7 employees"
 msgstr ""
 
 #: templates/emploi/organization_edit.html:24
-#: templates/organizations/organization_edit.html:24
+#: templates/organizations/organization_edit.html:25
 msgid "Not an employment agency"
 msgstr ""
 
