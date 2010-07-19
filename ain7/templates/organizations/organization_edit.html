@@ -60,7 +60,7 @@
 {{ office }}
 
   {% if office.is_valid and not office.is_a_proposal %}
-    <li>{{ office }} {{ office.line1 }} {{ office.line2 }} {{ office.zip_code }} {{ office.city }} {{ office.country }}
+    <li>{{ office }} {{ office.line1|default:"" }} {{ office.line2|default:"" }} {{ office.zip_code|default:"" }} {{ office.city|default:"" }} {{ office.country|default:"" }}
       <a href="{% url ain7.organizations.views.office_edit organization.id office.id %}" class="changelink">
         {% trans "Modify" %}</a>
       <a href="{% url ain7.organizations.views.office_delete organization.id office.id %}" class="deletelink">
