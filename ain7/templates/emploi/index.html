@@ -14,7 +14,7 @@
     <ul>
     {% for emploi in liste_emplois %}
         <li class="job"><a href="{% url ain7.emploi.views.job_details emploi.id %}">{{ emploi.title }}</a> - 
-    (<a href="{% url ain7.emploi.views.organization_details emploi.office.organization.id %}">{{ emploi.office.organization }}</a> {{ emploi.office }}) 
+    (<a href="{% url ain7.organizations.views.organization_details emploi.office.organization.id %}">{{ emploi.office.organization }}</a> {{ emploi.office }}) 
         </li>
     {% endfor %}
      </ul>

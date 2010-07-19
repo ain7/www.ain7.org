@@ -87,6 +87,9 @@ urlpatterns = patterns('',
     # sondage
     (r'^sondages/', include('ain7.sondages.urls')),
 
+    # organizations
+    (r'^organizations/', include('ain7.organizations.urls')),
+
     # voyages
     (r'^voyages/', include('ain7.voyages.urls')),
 

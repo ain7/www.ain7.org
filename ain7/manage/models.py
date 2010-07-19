@@ -193,4 +193,5 @@ class Mailing(models.Model):
     items = models.ForeignKey(Event, blank=True, null=True)
     testers = models.ForeignKey(Person, blank=True, null=True)
     go = models.BooleanField(default=False)
+    #recipients = models.ForeignKey(Filter)
 

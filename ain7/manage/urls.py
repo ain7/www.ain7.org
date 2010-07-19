@@ -26,10 +26,6 @@ from django.conf.urls.defaults import patterns
 urlpatterns = patterns('ain7.manage.views',
     (r'^$', 'index'),
     # Organizations
-    (r'^organizations/$', 'organizations_search'),
-    (r'^organizations/csv/$', 'export_csv'),
-    (r'^organizations/adv_search/$', 'organizations_adv_search'),
-    (r'^organizations/adv_search/csv/$', 'adv_export_csv'),
     (r'^organizations/adv_search/filter/new/$', 'filter_new'),
     (r'^organizations/adv_search/filter/register/$', 'filter_register'),
     (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/$', 
@@ -68,35 +64,6 @@ urlpatterns = patterns('ain7.manage.views',
     (r'^organizations/adv_search/filter/(?P<filtr_id>\d+)/criterion/'
      +r'(?P<crit_id>\d+)/delete/filter/$',
      'criterion_delete', {'crit_type': 'filter'}, "criterionFilter_delete"),
-    (r'^organizations/register/$', 'organization_edit'),
-    (r'^organizations/(?P<organization_id>\d+)/$', 'organization_details'),
-    (r'^organizations/(?P<organization_id>\d+)/edit/$', 'organization_edit'),
-    (r'^organizations/(?P<organization_id>\d+)/delete/$', \
-        'organization_delete'),
-    (r'^organizations/(?P<organization_id>\d+)/merge/$', 'organization_merge'),
-    (r'^organizations/(?P<org1_id>\d+)/merge/(?P<org2_id>\d+)/$',
-     'organization_do_merge'),
-    (r'^organizations/proposals/register/(?P<proposal_id>\d+)/$',
-     'organization_register_proposal'),
-    (r'^organizations/proposals/edit/(?P<proposal_id>\d+)/$',
-     'organization_edit_proposal'),
-    (r'^organizations/proposals/delete/(?P<proposal_id>\d+)/$',
-     'organization_delete_proposal'),
-                       
-    # Offices
-    (r'^offices/register/(?P<organization_id>\d+)/$', 'office_edit'),
-    (r'^offices/(?P<office_id>\d+)/$', 'office_details'),
-    (r'^offices/(?P<office_id>\d+)/edit/$', 'office_edit'),
-    (r'^offices/(?P<office_id>\d+)/delete/$', 'office_delete'),
-    (r'^offices/(?P<office_id>\d+)/merge/$', 'office_merge'),
-    (r'^offices/(?P<office1_id>\d+)/merge/(?P<office2_id>\d+)/$', \
-         'office_do_merge'),
-    (r'^offices/proposals/register/(?P<proposal_id>\d+)/$', \
-         'office_register_proposal'),
-    (r'^offices/proposals/edit/(?P<proposal_id>\d+)/$', \
-         'office_edit_proposal'),
-    (r'^offices/proposals/delete/(?P<proposal_id>\d+)/$', \
-         'office_delete_proposal'),
                        
     # Users
     (r'^users/$', 'users_search'),

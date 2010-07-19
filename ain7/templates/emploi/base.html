@@ -64,9 +64,7 @@
 <h3>{% trans "Propose some modifications" %}</h3>
 <div class="right_articles">
 <ul>
-<li><a href="/emploi/organization/edit/">{% trans "Edit an organization in database" %}</a></li>
-<li><a href="{% url ain7.emploi.views.organization_check %}">{% trans "Add an organization in database" %}</a></li>
-<li><a href="/emploi/organization/delete/">{% trans "Delete an organization from database" %}</a></li>
+<li><a href="{% url ain7.organizations.views.organization_search %}">{% trans "Edit an organization in database" %}</a></li>
 </ul>
 </div>
 {% endblock %}

@@ -1,0 +1,76 @@
+{% extends "organizations/base.html" %}
+{% load i18n %}
+
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
+{% block content-left %}
+
+<form action="." method="get">
+	<table class="form">
+		{{ form }}
+	</table>
+<div style="text-align: center">
+	<input class="button" type="submit" value="{% trans "Search" %}" />
+</div>
+</form>
+
+{% if organizations %}
+
+{% ifnotequal organizations|length 0 %}
+
+<h2>{% trans "Results list"%}</h2>
+
+<table style="width: 100%">
+<tr>
+<td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
+<td align="right">
+{% if is_paginated %}
+{% if has_previous %}<a href="{% url ain7.organizations.views.organization_search %}?name={{ request.GET.name }}&activity_code={{ request.GET.activity_code }}&activity_field={{ request.GET.activity_field }}&page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="{% url ain7.organizations.views.organization_search %}?name={{ request.GET.name }}&activity_code={{ request.GET.activity_code }}&activity_field={{ request.GET.activity_field }}&page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="{% url ain7.organizations.views.organization_search %}?name={{ request.GET.name }}&activity_code={{ request.GET.activity_code }}&activity_field={{ request.GET.activity_field }}&page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="{% url ain7.organizations.views.organization_search %}?name={{ request.GET.name }}&activity_code={{ request.GET.activity_code }}&activity_field={{ request.GET.activity_field }}&page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% endif %}
+</td>
+</table>
+<ul>
+  {% for org in organizations %}
+    <li>
+      <a href="{% url ain7.organizations.views.organization_details org.id %}">
+        {{ org.name }}
+      </a>
+    </li>
+  {% endfor %}
+</ul>
+{% else %}
+    <p>{% trans "No organization matched your criteria." %}</p>
+{% endifnotequal %}
+{% endif %}
+
+{% endblock %} {# content-left #}
+
+
+
+{% block extra-navigation %}
+    <li><a href="{% url ain7.manage.views.organizations_adv_search %}">{% trans "Advanced Search" %}</a></li>
+{% endblock %} {# extra-navigation #}
+
+
+{% block actions %}
+<h3>{% trans "Actions" %}</h3>
+<div class="right_articles">
+<ul>
+    <li><a href="{% url ain7.organizations.views.organization_edit %}">{% trans "Register organization" %}</a></li>
+</ul>
+</div>
+{% endblock %} {# actions #}
+
+{% block extra-menu %}
+<h3>{% trans "Statistics"%}</h3>
+<div class="right_articles">
+<ul>
+    <li>{{ nb_org }}&nbsp;{% trans "organizations" %}</li>
+    <li>{{ nb_offices }}&nbsp;{% trans "offices" %}</li>
+</ul>
+</div>
+{% endblock %} {# extra-menu #}

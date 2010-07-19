@@ -1,0 +1,96 @@
+{% extends "organizations/base.html" %}
+{% load i18n %}
+
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
+{% block content-left %}
+
+<h2>{{ organization.name }}</h2>
+
+{% if organization.employment_agency %}
+<p>{% filter capfirst %}{% trans "employment agency" %}{% endfilter %}</p>
+{% endif %}
+
+{% if organization.short_description %}
+<p>{{ organization.short_description }}</p>
+{% endif %}
+
+{% if organization.long_description %}
+{{ organization.long_description|safe }}
+{% endif %}
+
+{% if organization.size %}
+<p>{% trans "Size" %}: {{ organization.get_size_display }}</p>
+{% endif %}
+
+{% if organization.activity_field %}
+<p>{% trans "Activity field" %}: {{ organization.activity_field }}</p>
+{% endif %}
+
+
+<h2>{% trans "List of offices" %}</h2>
+<ul>
+{% for office in organization.offices.all %}
+    <li>{{ office }}
+        {% if office.line1 or office.line2 or office.zip_code or office.city or office.country or office.phone_number or office.web_site %}
+        <p>
+           {% if office.line1 or office.line2 %}
+               {{ office.line1|default_if_none:"" }} 
+               {{ office.line2|default_if_none:"" }}<br />
+           {% endif %}
+           {% if office.zip_code or office.city or office.country %}
+               {{ office.zip_code|default_if_none:"" }}
+               {{ office.city|default_if_none:"" }}
+               {% if office.country %} - {{ office.country }} {% endif %}<br />
+           {% endif %}
+           {% if office.phone_number %} 
+               {{ office.phone_number }} <br />
+           {% endif %}
+           {% if office.web_site %} 
+               <a href="{{ office.web_site }}">{{ office.web_site }}</a> 
+           {% endif %}
+        </p>
+        {% endif %}
+
+        {% if office.job_offers.all %}
+	<br />
+        {% trans "Job offers" %} :
+          <ul>
+            {% for emploi in office.job_offers.all %}
+            <li class="job">
+              <a href="{% url ain7.emploi.views.job_details emploi.id %}">{{ emploi.title }}</a> 
+            </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% if office.current_n7_employees %}
+          <br />{% trans "Current N7 employees" %}
+          <ul>
+            {% for ain7member in office.current_n7_employees %}
+              <li class="person">
+                <a href="{% url ain7.annuaire.views.details ain7member.person.user.id %}">
+                {{ ain7member }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% if office.past_n7_employees %}
+          <br />{% trans "Past N7 employees" %}
+          <ul>
+            {% for ain7member in office.past_n7_employees %}
+              <li class="person">
+                <a href="{% url ain7.annuaire.views.details ain7member.person.user.id %}">
+                {{ ain7member }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+    </li>
+{% endfor %}
+</ul>
+
+{% endblock %}

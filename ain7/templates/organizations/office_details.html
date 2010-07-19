@@ -1,0 +1,111 @@
+{% extends "manage/base.html" %}
+
+{% load i18n ain7_tags %}
+
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
+{% block content-left %}
+
+<div class="left_box">
+
+<h2>{{ office }}</h2>
+
+<p>{% trans "Office of the organization:" %}&nbsp;
+<a href="{% url ain7.manage.views.office_details office.organization.id %}/">{{ office.organization }}</a>
+</p>
+
+        {% if office.line1 or office.line2 or office.zip_code or office.city or office.country or office.phone_number or office.web_site %}
+        <p>
+           {% if office.line1 or office.line2 %}
+               {{ office.line1|default_if_none:"" }} 
+               {{ office.line2|default_if_none:"" }}<br />
+           {% endif %}
+           {% if office.zip_code or office.city or office.country %}
+               {{ office.zip_code|default_if_none:"" }}
+               {{ office.city|default_if_none:"" }}
+               {% if office.country %} - {{ office.country }} {% endif %}<br />
+           {% endif %}
+           {% if office.phone_number %} 
+               {{ office.phone_number }} <br />
+           {% endif %}
+           {% if office.web_site %} 
+               <a href="{{ office.web_site }}">{{ office.web_site }}</a> 
+           {% endif %}
+        </p>
+        {% endif %}
+
+        {% if office.job_offers.all %}
+	<br />
+        {% trans "Job offers" %} :
+          <ul>
+            {% for emploi in office.job_offers.all %}
+            <li class="job">
+              <a href="{% url ain7.emploi.views.job_details emploi.id %}">{{ emploi.title }}</a> 
+            </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% if office.current_n7_employees %}
+          <br />{% trans "Current N7 employees" %}
+          <ul>
+            {% for ain7member in office.current_n7_employees %}
+              <li class="person">
+                <a href="{% url ain7.annuaire.views.details ain7member.person.user.id %}">
+                {{ ain7member }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% if office.past_n7_employees %}
+          <br />{% trans "Past N7 employees" %}
+          <ul>
+            {% for ain7member in office.past_n7_employees %}
+              <li class="person">
+                <a href="{% url ain7.annuaire.views.details ain7member.person.user.id %}">
+                {{ ain7member }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+{% ifequal action "propose_deletion" %}
+  <form method="post" action=".">
+    <div class="confirm">
+      <p><strong>{% trans "Do you want to delete this office? This will not remove it (as references are used for old positions in CVs, etc), but will mark it as out-of-date." %}</strong></p>
+      <p>
+        <a class="button" href="{{ back }}">{% trans "No" %}</a>
+        <input type="submit" class="button" value="{% trans "Yes" %}" />
+      </p>
+    </div>
+  </form>
+{% endifequal %}
+</div>
+{% endblock %} {# content-left #}
+
+
+
+{% block actions %}
+<h3>{% trans "Actions" %}</h3>
+<div class="right_articles">
+<ul>
+<li><a href="{% url ain7.manage.views.office_edit office.organization.id %}">
+{% trans "Register a new office" %}</a></li>
+<li><a href="{% url ain7.manage.views.office_edit office.id %}">
+{% trans "Edit this office" %}</a></li>
+<li><a href="{% url ain7.manage.views.office_delete office.id %}">
+{% trans "Delete this office" %}</a></li>
+<li><a href="{% url ain7.manage.views.office_merge office.id %}">
+{% trans "Merge this office" %}</a></li>
+</ul>
+</div>
+{% endblock %} {# actions #}
+
+
+
+{% block extra-menu %}
+<h3>{% trans "Card Informations"%}</h3>
+{% show_last_change office %}
+{% endblock %}

@@ -10,7 +10,7 @@
 
 <ul>
 <li><b>{% filter capfirst%}{% trans "organization" %}{% endfilter %}&nbsp;:</b>
-    <a href="{% url ain7.emploi.views.organization_details job.office.organization.id %}">{{ job.office.organization }}</a>, {{ job.office }}
+    <a href="{% url ain7.organizations.views.organization_details job.office.organization.id %}">{{ job.office.organization }}</a>, {{ job.office }}
 </li>
 <li><b>{% trans "Contract Type" %}&nbsp;:</b> {{ job.get_contract_type_display }}</li>
 <li><b>{% trans "Experience" %}&nbsp;:</b> {{ job.experience }}</li>

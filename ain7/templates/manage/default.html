@@ -28,7 +28,7 @@
         {% trans "created the organization" %}
         <em>{{ notification.organization_proposal.modified }}</em>. 
         {% trans "Please visit" %} 
-        <a href="{% url ain7.manage.views.organization_register_proposal notification.organization_proposal.id %}">{% trans "this page" %}</a> 
+        <a href="{% url ain7.organizations.views.organization_proposal_register notification.organization_proposal.id %}">{% trans "this page" %}</a> 
         {% trans "to check for correctness and possibly validate." %}
         <br />
         <a href="{% url ain7.manage.views.notification_delete notification.id %}" 
@@ -39,7 +39,7 @@
         {% trans "proposed the modification of the organization" %}
         <em>{{ notification.organization_proposal.original }}</em>. 
         {% trans "Please visit" %} 
-        <a href="{% url ain7.manage.views.organization_edit_proposal notification.organization_proposal.id %}">{% trans "this page" %}</a> 
+        <a href="{% url ain7.organizations.views.organization_proposal_edit notification.organization_proposal.id %}">{% trans "this page" %}</a> 
         {% trans "to check for correctness and possibly confirm." %}
         <br />
         <a href="{% url ain7.manage.views.notification_delete notification.id %}" 
@@ -50,7 +50,7 @@
         {% trans "proposed the deletion of the organization" %}
         <em>{{ notification.organization_proposal.original }}</em>. 
         {% trans "Please visit" %} 
-        <a href="{% url ain7.manage.views.organization_delete_proposal notification.organization_proposal.id %}">{% trans "this page" %}</a> 
+        <a href="{% url ain7.organizations.views.organization_proposal_delete notification.organization_proposal.id %}">{% trans "this page" %}</a> 
         {% trans "to possibly confirm." %}
         <br />
         <a href="{% url ain7.manage.views.notification_delete notification.id %}" 
@@ -68,8 +68,8 @@
           <em>{{ notification.office_proposal.modified }}</em>
           {% trans "for the organization" %}
           <em>{{ notification.office_proposal.modified.organization }}</em>. 
-          {% trans "Please visit" %} 
-          <a href="{% url ain7.manage.views.office_register_proposal notification.office_proposal.id %}">{% trans "this page" %}</a> 
+          {% trans "Please visit" %}
+          <a href="{% url ain7.organizations.views.office_proposal_register notification.office_proposal.modified.organization.id notification.office_proposal.id %}">{% trans "this page" %}</a> 
           {% trans "to check for correctness and possibly validate." %}
           <br />
           <a href="{% url ain7.manage.views.notification_delete notification.id %}" 
@@ -82,7 +82,7 @@
           {% trans "for the organization" %}
           <em>{{ notification.office_proposal.original.organization }}</em>. 
           {% trans "Please visit" %}
-          <a href="{% url ain7.manage.views.office_edit_proposal notification.office_proposal.id %}">{% trans "this page" %}</a> 
+          <a href="{% url ain7.organizations.views.office_proposal_edit notification.office_proposal.original.organization.id notification.office_proposal.id %}">{% trans "this page" %}</a> 
           {% trans "to check for correctness and possibly confirm." %}
           <br />
           <a href="{% url ain7.manage.views.notification_delete notification.id %}" 
@@ -95,7 +95,7 @@
           {% trans "for the organization" %}
           <em>{{ notification.office_proposal.original.organization }}</em>. 
           {% trans "Please visit" %}
-          <a href="{% url ain7.manage.views.office_delete_proposal notification.office_proposal.id %}">{% trans "this page" %}</a> 
+          <a href="{% url ain7.organizations.views.office_proposal_delete notification.office_proposal.original.organization.id notification.office_proposal.id %}">{% trans "this page" %}</a> 
           {% trans "to possibly confirm." %}
           <br />
           <a href="{% url ain7.manage.views.notification_delete notification.id %}" 

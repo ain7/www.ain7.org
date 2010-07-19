@@ -61,18 +61,5 @@ urlpatterns = patterns('ain7.emploi.views',
     (r'^job/proposals/$', 'jobs_proposals'),
     (r'^job/proposals/(?P<job_id>\d+)/validate/$', 'job_validate'),
     (r'^job/proposals/(?P<job_id>\d+)/delete/$', 'job_delete'),
-    # Organization
-    (r'^organization/(?P<organization_id>\d+)/$', 'organization_details'),
-    (r'^organization/edit/$', 'organization_choose', {'action': 'edit'}),
-    (r'^organization/add/$', 'organization_add'),
-    (r'^organization/check/$', 'organization_check'),
-    (r'^organization/delete/$', 'organization_choose', {'action': 'delete'}),
-    (r'^organization/(?P<organization_id>\d+)/edit/$', 'organization_edit'),
-    (r'^organization/(?P<organization_id>\d+)/editdata/$',
-        'organization_edit_data'),
-    (r'^organization/(?P<organization_id>\d+)/delete/$', 'organization_delete'),
-    # Offices
-    (r'^office/(?P<office_id>\d+)/edit/$', 'office_edit'),
-    (r'^office/(?P<office_id>\d+)/delete/$', 'office_delete'),
-    (r'^organization/(?P<organization_id>\d+)/office/add/$', 'office_add'),
+
 )

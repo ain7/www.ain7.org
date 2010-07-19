@@ -1,0 +1,46 @@
+{% extends "manage/base.html" %}
+
+{% load i18n %}
+
+{% block content-left %}
+
+<div class="left_box">
+
+<h2>{% trans "Offices merging" %}</h2>
+
+<p>
+{% blocktrans %}This procedure will replace all the references to the office <em>{{ office }}</em> by references of another office, and then remove <em>{{ office }}</em>.{% endblocktrans %}
+
+<p>{% trans "Please choose this second office." %}</p>
+
+<form action="." method="post">
+<table border="0" align="center">
+   {{ form }}
+</table>
+<div style="text-align: center">
+<input type="submit" class="button" value="{% trans 'Continue' %}" />
+</div>
+</form>
+
+</div>
+{% endblock %}
+
+
+{% block actions %}
+<h3>{% trans "Actions" %}</h3>
+<div class="right_articles">
+<ul>
+<li><a href="{% url ain7.manage.views.office_edit office.organization.id %}">
+{% trans "Register a new office" %}</a></li>
+</ul>
+</div>
+{% endblock %}
+
+{% block extra-menu %}
+<h3>{% trans "Card Informations"%}</h3>
+<div class="right_articles">
+<ul>
+  <li>{% trans "Update" %}&nbsp;: {{ organization.modification_date|date:"l j F Y" }}</li>
+</ul>
+</div>
+{% endblock %}

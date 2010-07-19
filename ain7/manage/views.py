@@ -36,16 +36,15 @@ from ain7.decorators import confirmation_required
 from ain7.annuaire.models import Country
 from ain7.emploi.models import Organization, Office
 from ain7.emploi.models import OrganizationProposal, OfficeProposal
-from ain7.emploi.forms import OrganizationForm, OfficeForm, OfficeFormNoOrg
 from ain7.manage.models import Notification, PortalError, Payment
-from ain7.manage.forms import SearchUserForm, NewPersonForm, SearchOrganizationForm,\
-                              OrganizationListForm, OfficeListForm, NewRoleForm,\
-                              MemberRoleForm, NotificationForm, NewCountryForm,\
-                              PortalErrorForm, ErrorRangeForm, PaymentForm
+from ain7.manage.forms import SearchUserForm, NewPersonForm, \
+                              NewRoleForm, MemberRoleForm, NotificationForm, \
+                              NewCountryForm, PortalErrorForm, \
+                              ErrorRangeForm, PaymentForm
 from ain7.search_engine.models import SearchEngine, SearchFilter
 from ain7.search_engine.forms import SearchFilterForm
-from ain7.search_engine.views import se_filter_swap_op, se_criterion_field_edit,\
-                                     se_criterion_add, se_criterion_filter_edit,\
+from ain7.search_engine.views import se_filter_swap_op, se_criterion_field_edit, \
+                                     se_criterion_add, se_criterion_filter_edit, \
                                      se_criterion_delete, se_export_csv
 
 

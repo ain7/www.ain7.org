@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block barre-emploi %}<li class="active">{% endblock %}
+
+
+{% block content %}
+
+
+<div id="content-main">
+
+<div class="left">
+{% block content-left %}{% endblock %}
+</div>
+
+
+<div class="right">
+
+{% block actions %}{% endblock %}
+
+{% block menu-organisation %}
+<h3>{% trans "Propose some modifications" %}</h3>
+<div class="right_articles">
+<ul>
+{% if organization %}
+<li><a href="{% url ain7.organizations.views.organization_edit organization.id %}">{% trans "Modify" %}</a></li>
+{% endif %}
+<li><a href="{% url ain7.organizations.views.organization_edit %}">{% trans "Add an organization in database" %}</a></li>
+</ul>
+</div>
+{% endblock %}
+
+{% block show_last_change %}{% endblock %}
+{% block statistics %}{% endblock %}
+
+</div> <!-- right -->
+</div> <!-- content-main -->
+
+{% endblock %}

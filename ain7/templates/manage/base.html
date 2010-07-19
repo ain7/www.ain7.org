@@ -23,7 +23,7 @@
 {% if superadmin or secretariat_member %}
 <li><a href="{% url ain7.manage.views.roles_index %}">{% trans "Manage roles" %}</a></li>
 {% endif %}
-<li><a href="{% url ain7.manage.views.organizations_search %}">{% trans "Manage organizations" %}</a></li>
+<li><a href="{% url ain7.organizations.views.organization_search %}">{% trans "Manage organizations" %}</a></li>
 <li><a href="{% url ain7.manage.views.errors_index %}">{% trans "Errors" %}</a></li>
 <li><a href="{% url ain7.manage.views.payments_index %}">{% trans "Payments" %}</a></li>
 <li><a href="{% url ain7.manage.views.payments_deposit_index %}">{% trans "Deposit slip" %}</a></li>

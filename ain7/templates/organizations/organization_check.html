@@ -1,0 +1,30 @@
+{% extends "emploi/base.html" %}
+{% load i18n %}
+
+{% block javascript %}
+<script src="/site_media/js/mootools-{{ mootools_version }}-core-nc.js" type="text/javascript"></script>
+<script src="/site_media/js/mootools-{{ mootools_more_version }}-more.js" type="text/javascript"></script> 
+<script src="/site_media/js/autocomplete.js?version={{ portal_version }}" type="text/javascript"></script>
+{% endblock %}
+{% block stylesheet %}
+<link type="text/css" rel="stylesheet" href="/site_media/css/autocomplete.css?version={{ portal_version }}"/>
+<link type="text/css" rel="stylesheet" href="/site_media/css/floatingpane.css?version={{ portal_version }}"/>
+{% endblock %}
+
+{% block content-left %}
+
+<p><strong>
+{% trans "Before registering a new organization, please check in the field below that it does not exist yet in the database." %}
+</strong></p>
+
+<form method="post" action=".">
+<table>
+{{ form }}
+</table>
+<div style="text-align: center">
+<a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
+<input type="submit" class="button" value="{% trans "Not in database" %}" />
+</div>
+</form>
+
+{% endblock content-left %}

@@ -70,36 +70,6 @@ class SearchRoleForm(forms.Form):
         return Group.objects.filter(**criteria).order_by('name')
 
 
-class SearchOrganizationForm(forms.Form):
-    """organization search form"""
-    name = forms.CharField(label=_('Name'), max_length=50, required=False)
-#     location = forms.CharField(
-#         label=_('Location'), max_length=50, required=False)
-    activity_field = forms.CharField(label=_('Activity field'), max_length=50,
-        required=False,
-        widget=AutoCompleteField(completed_obj_name='activity_field'))
-    activity_code = forms.CharField(label=_('Activity code'), max_length=50, 
-        required=False,
-        widget=AutoCompleteField(completed_obj_name='activitycode'))
-
-    def criteria(self):
-        """defines criterias for an organization"""
-        criteria = {'name__icontains': self.cleaned_data['name'],
-            'is_a_proposal': False}
-#                     'location__contains': self.cleaned_data['location'],
-        if self.cleaned_data['activity_field'] != "":
-            criteria['activity_field__exact'] = ActivityField.objects.get(
-                id=self.cleaned_data['activity_field'])
-        if self.cleaned_data['activity_code'] != "":
-            criteria['activity_field__exact'] = ActivityField.objects.get(
-                id=self.cleaned_data['activity_code'])
-        return criteria
-
-    def search(self, criteria):
-        """search method for an organization"""
-        return Organization.objects.filter(**criteria).order_by('name')    
-        
-
 class MemberRoleForm(forms.Form):
     """add a new member to a role form"""
     username = forms.CharField(label=_('Username'), max_length=100,
@@ -211,37 +181,6 @@ class NewCountryForm(forms.ModelForm):
         "NewCountryForm meta information"""
         model = Country
 
-
-class OrganizationListForm(forms.Form):
-    """organization list form"""
-    organization = forms.CharField(label=_('organization').capitalize(),
-        max_length=50, required=False, 
-        widget=AutoCompleteField(completed_obj_name='organization'))
-
-    def search(self):
-        """search organization method"""
-        result = None
-        if self.cleaned_data['organization'] != "":
-            result = Organization.objects.filter(\
-                id=self.cleaned_data['organization']).distinct()
-            if result:
-                result = result[0]
-        return result
-
-class OfficeListForm(forms.Form):        
-    """office list form"""
-    bureau = forms.CharField(label=_('office').capitalize(), required=True,
-         widget=AutoCompleteField(completed_obj_name='office'))
-
-    def search(self):
-        """search office method"""
-        result = None
-        if self.cleaned_data['bureau'] != "":
-            result = Office.objects.filter(\
-                id=self.cleaned_data['bureau']).distinct()
-            if result:
-                result = result[0]
-        return result
 
 class PaymentForm(forms.ModelForm):
     """payment form"""
