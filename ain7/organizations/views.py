@@ -529,11 +529,11 @@ def office_edit(request, organization_id, office_id=None):
         return HttpResponseRedirect(reverse(organization_edit,
             args=[modified_office.organization.id]))
 
-@confirmation_required(lambda office_id=None:
+@confirmation_required(lambda organization_id, office_id=None:
     str(get_object_or_404(Office,pk=office_id)), 'organizations/base.html',
     _('Do you really want to propose the office for removal'))
 @login_required
-def office_delete(request, office_id=None):
+def office_delete(request, organization_id, office_id=None):
     """office delete"""
 
     access = check_access(request, request.user,
@@ -553,7 +553,7 @@ def office_delete(request, office_id=None):
     request.user.message_set.create(message=_('Your proposal for deleting an\
  office has been sent to moderators.'))
     return HttpResponseRedirect(reverse(organization_edit,
-         args=[office_prod.organization.id]))
+         args=[office_prop.original.organization.id]))
 
 @login_required
 def office_merge(request, office_id=None):
