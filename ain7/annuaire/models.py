@@ -292,6 +292,19 @@ class Person(LoggedClass):
         except IndexError:
              return ''
 
+    def address(self):
+        """return personal address"""
+
+        addr_perm = AddressType.objects.get(id=7)
+        addr_inconnue = AddressType.objects.get(id=1)
+
+        try:
+             #addr = Address.objects.filter(person=self, type=addr_perm)[0]
+             addr = Address.objects.filter(person=self)[0]
+             return { 'line1': addr.line1, 'line2': addr.line2, 'zip_code': addr.zip_code, 'city': addr.city, 'country': addr.country.name}
+        except IndexError:
+             return {}
+
     def __unicode__(self):
         """person unicode"""
         return self.first_name + " " + self.last_name
@@ -447,10 +460,14 @@ class AIn7Member(LoggedClass):
     def promo(self):
         if self.promos.all():
             return self.promos.all()[0].year.year
+        else:
+            return ''
 
     def track(self):
         if self.promos.all():
             return self.promos.all()[0].track.name
+        else:
+            return ''
 
     def promo_full(self):
         return self.track()+" "+self.promo()
