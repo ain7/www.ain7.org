@@ -91,7 +91,7 @@ def organization_edit(request, organization_id=None):
             else:
                 msg = _('Organization successfully validated')
             request.user.message_set.create(message=msg)
-            return HttpResponseRedirect('/manage/organizations/%s/' % org.id)
+            return HttpResponseRedirect('/organizations/%s/' % org.id)
         else:
             request.user.message_set.create(message=_('Something was wrong in\
  the form you filled. No organization registered.'))
@@ -101,6 +101,54 @@ def organization_edit(request, organization_id=None):
         'organizations/organization_edit.html',
         {'action_title': action_title, 'form': form, 
          'organization': organization, 'back': back})
+
+def organization_edit_data(request, organization_id=None):
+    """organization edit data"""
+
+    access = check_access(request, request.user,
+        ['ain7-membre', 'ain7-secretariat'])
+    if access:
+        return access
+
+    org = get_object_or_404(Organization, pk=organization_id)
+    person = get_object_or_404(Person, user=request.user.id)
+
+    if request.method == 'GET':
+        activity_field = None
+        if org.activity_field:
+            activity_field = org.activity_field.pk
+        form = OrganizationForm(
+            {'name':org.name, 'size':org.size,
+             'employment_agency':org.employment_agency,
+             'activity_field': activity_field,
+             'short_description':org.short_description,
+             'long_description':org.long_description})
+        return ain7_render_to_response(request, 'organizations/office_edit.html',
+            {'form': form, 
+             'title':_('Proposition of organization modification')})
+
+    if request.method == 'POST':
+        form = OrganizationForm(request.POST.copy())
+        if form.is_valid():
+            # create the OrganizationProposal
+            modified_org = form.save(request.user, is_a_proposal=True)
+            orgprop = OrganizationProposal(original = org,
+                modified = modified_org, author = person, action = 1)
+            orgprop.logged_save(person)
+            # create the notification
+            notif = Notification(details="", organization_proposal=orgprop,
+                title=_('Proposal for modifying an organization'))
+            notif.logged_save(person)
+            request.user.message_set.create(message=_('Your proposal for\
+ modifying an organization has been sent to moderators.'))
+        else:
+            request.user.message_set.create(message=_('Something was wrong\
+ in the form you filled. No modification done.'))
+            return ain7_render_to_response(request,
+                'organizations/office_edit.html',
+                {'form': form,
+                 'title': _('Proposition of organization modification')})
+        return HttpResponseRedirect('/organizations/%s/edit/' % org.id)
 
 @login_required
 def organization_search(request):

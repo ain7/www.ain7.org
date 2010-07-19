@@ -290,7 +290,7 @@ class Office(LoggedClass):
         for position in self.positions.all():
             ain7member = position.ain7member
             today = datetime.datetime.now().date()
-            if (not position.end_date) or position.end_date >= today:
+            if (not position.end) or position.end >= today.year:
                 liste_n7_current.append(ain7member)
         return liste_n7_current
 

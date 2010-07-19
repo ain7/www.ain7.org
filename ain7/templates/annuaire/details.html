@@ -140,9 +140,9 @@
           {% endif %}
           {% endif %}{% endif %}
             {% if position.fonction %}<em>{{ position.fonction }}</em>, {% endif %}
-                <a href="{% url ain7.emploi.views.organization_details position.office.organization.id %}">{{ position.office.organization }}</a>
+                <a href="{% url ain7.organizations.views.organization_details position.office.organization.id %}">{{ position.office.organization }}</a>
         {% if position.description %}
-            {{ position.description }}
+            {{ position.description|safe }}
         {% endif %}
 </li>
 {% endfor %}
