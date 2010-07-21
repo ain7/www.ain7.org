@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-20 00:55+0200\n"
+"POT-Creation-Date: 2010-07-21 21:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -451,13 +451,13 @@ msgstr ""
 
 #: annuaire/models.py:160 annuaire/models.py:669 annuaire/models.py:697
 #: annuaire/models.py:732 emploi/models.py:239
-#: templates/annuaire/details.html:106 templates/annuaire/edit.html:254
+#: templates/annuaire/details.html:108 templates/annuaire/edit.html:254
 msgid "web site"
 msgstr ""
 
 #: annuaire/models.py:162 annuaire/models.py:181 annuaire/models.py:574
 #: annuaire/models.py:610 annuaire/models.py:734 emploi/models.py:364
-#: emploi/models.py:489 templates/annuaire/details.html:92
+#: emploi/models.py:489 templates/annuaire/details.html:94
 #: templates/annuaire/edit.html:226 templates/annuaire/edit.html.py:231
 #: templates/emploi/cv_details.html:44 templates/emploi/cv_edit.html:46
 msgid "email"
@@ -620,7 +620,7 @@ msgstr ""
 msgid "is valid"
 msgstr ""
 
-#: annuaire/models.py:565 templates/annuaire/details.html:114
+#: annuaire/models.py:565 templates/annuaire/details.html:116
 #: templates/annuaire/edit.html:183 templates/annuaire/edit.html.py:188
 #: templates/emploi/cv_details.html:18 templates/emploi/cv_edit.html:20
 msgid "Address"
@@ -654,7 +654,7 @@ msgstr ""
 msgid "channels"
 msgstr ""
 
-#: annuaire/models.py:724 templates/annuaire/details.html:102
+#: annuaire/models.py:724 templates/annuaire/details.html:104
 #: templates/annuaire/edit.html:296
 msgid "irc"
 msgstr ""
@@ -1308,7 +1308,7 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
-#: emploi/models.py:482 templates/annuaire/details.html:129
+#: emploi/models.py:482 templates/annuaire/details.html:131
 #: templates/emploi/job_details.html:16
 msgid "Experience"
 msgstr ""
@@ -2536,10 +2536,10 @@ msgstr ""
 msgid "RSS"
 msgstr ""
 
-#: templates/base.html:139 templates/annuaire/details.html:98
-#: templates/annuaire/edit.html:275 templates/association/base.html:30
-#: templates/emploi/job_details.html:19 templates/emploi/job_details.html:33
-#: templates/evenements/details.html:16
+#: templates/base.html:139 templates/annuaire/details.html:78
+#: templates/annuaire/details.html:100 templates/annuaire/edit.html:275
+#: templates/association/base.html:30 templates/emploi/job_details.html:19
+#: templates/emploi/job_details.html:33 templates/evenements/details.html:16
 msgid "Contact"
 msgstr ""
 
@@ -3089,60 +3089,60 @@ msgstr ""
 msgid "children"
 msgstr ""
 
-#: templates/annuaire/details.html:83
+#: templates/annuaire/details.html:87
 msgid "Professional Phone:"
 msgstr ""
 
-#: templates/annuaire/details.html:102 templates/annuaire/edit.html:297
+#: templates/annuaire/details.html:104 templates/annuaire/edit.html:297
 msgid "on"
 msgstr ""
 
-#: templates/annuaire/details.html:119
+#: templates/annuaire/details.html:121
 msgid "Professionnal Address:"
 msgstr ""
 
-#: templates/annuaire/details.html:135
+#: templates/annuaire/details.html:137
 msgid "since"
 msgstr ""
 
-#: templates/annuaire/details.html:139
+#: templates/annuaire/details.html:141
 msgid "until"
 msgstr ""
 
-#: templates/annuaire/details.html:155 templates/annuaire/edit.html:314
+#: templates/annuaire/details.html:157 templates/annuaire/edit.html:314
 msgid "N7 associative activities"
 msgstr ""
 
-#: templates/annuaire/details.html:178
+#: templates/annuaire/details.html:180
 msgid "AIn7 Notes"
 msgstr ""
 
-#: templates/annuaire/details.html:187
+#: templates/annuaire/details.html:189
 msgid "Send new credentials"
 msgstr ""
 
-#: templates/annuaire/details.html:193 templates/voyages/details.html:62
+#: templates/annuaire/details.html:195 templates/voyages/details.html:62
 #: templates/voyages/edit.html:35 templates/voyages/join.html:25
 msgid "Modify these data"
 msgstr ""
 
-#: templates/annuaire/details.html:194
+#: templates/annuaire/details.html:196
 msgid "Subscriptions History"
 msgstr ""
 
-#: templates/annuaire/details.html:197
+#: templates/annuaire/details.html:199
 msgid "Change credentials"
 msgstr ""
 
-#: templates/annuaire/details.html:199
+#: templates/annuaire/details.html:201
 msgid "Download contact as vCard"
 msgstr ""
 
-#: templates/annuaire/details.html:204
+#: templates/annuaire/details.html:206
 msgid "Groups"
 msgstr ""
 
-#: templates/annuaire/details.html:213 templates/annuaire/edit.html:351
+#: templates/annuaire/details.html:215 templates/annuaire/edit.html:351
 #: templates/emploi/job_details.html:65 templates/evenements/details.html:75
 #: templates/groupes_professionnels/base.html:33
 #: templates/groupes_professionnels/base.html:47
@@ -3160,7 +3160,7 @@ msgstr ""
 msgid "Card Informations"
 msgstr ""
 
-#: templates/annuaire/details.html:218
+#: templates/annuaire/details.html:220
 msgid "Last connexion:"
 msgstr ""
 
