@@ -119,7 +119,7 @@ class EventForm(AIn7ModelForm):
     class Meta:
         """event form meta"""
         model = Event
-        exclude = ('organizers',)
+        exclude = ('organizers','shorttext', 'slug',)
 
     def save(self, *args, **kwargs):
         """save event"""

@@ -28,7 +28,7 @@ urlpatterns = patterns('ain7.evenements.views',
     # Evenements
     (r'^$', 'index'),
     (r'^ical/$', 'ical'),
-    (r'^add/$', 'add'),
+    (r'^new/$', 'add'),
     (r'^search/$', 'search'),
     (r'^(?P<event_id>\d+)/$', 'details'),
     (r'^(?P<event_id>\d+)/edit/$', 'edit'),

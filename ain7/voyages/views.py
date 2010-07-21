@@ -138,7 +138,7 @@ def edit(request, travel_id=None):
             request.user.message_set.create(message=_('Modifications have been\
  successfully saved.'))
 
-        return HttpResponseRedirect(reverse(details, args=[trav.id]))
+            return HttpResponseRedirect(reverse(details, args=[trav.id]))
 
     return ain7_render_to_response(
         request, 'voyages/edit.html',

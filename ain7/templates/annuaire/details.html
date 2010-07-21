@@ -35,7 +35,7 @@
            {% if educ.diploma and not forloop.last %} ; {% endif %}{% endfor %}</li>
    {% endif %}
    {% if person.birth_date %}
-   <li><b>{% trans "Birth date" %}&nbsp;:</b> {{ person.birth_date|date:"d/m/Y" }}</li>
+   <li><b>{% trans "Birth date" %}&nbsp;:</b> {{ person.birth_date|date:"d F Y" }}</li>
    {% endif %}
    {% if personprivate.death_date %}
    <li><b>{% filter capfirst %}{% trans "death date" %}{% endfilter %}
@@ -73,6 +73,10 @@
 	<img src="/site_media/images/nobody.png" height="100" alt="{{ person.complete_name }}"/>
 {% endif %}
 </td></tr>
+</table>
+
+<h2>{% trans "Contact" %}</h2>
+<table border="0" width="100%">
 {% for phone_number in person.phone_numbers.all %}
     {% if superadmin or ca_member or secretariat_member or is_myself or not phone_number.website_confidential %}
     	<tr><td>{% if phone_number.website_confidential %}<img src="/site_media/images/private.png" alt="private" width="14" height="14"/>{% endif %}<b>{{ phone_number.get_type_display }} :</b> {{ phone_number.number }}</td></tr>
@@ -83,8 +87,6 @@
 <tr><td><b>{% trans "Professional Phone:" %}</b> {{ position.phone_number }}</td></tr>
 {% endif %}
 {% endfor %}
-
-
 
 {% for email in person.emails.all %}
 	{% if superadmin or ca_member or secretariat_member or is_myself or not  email.website_confidential %}

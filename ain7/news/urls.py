@@ -27,7 +27,7 @@ from django.conf.urls.defaults import patterns
 urlpatterns = patterns('ain7.news.views',
     # Evenements
     (r'^$', 'index'),
-    (r'^add/$', 'edit'),
+    (r'^new/$', 'edit'),
     (r'^search/$', 'search'),
     (r'^(?P<news_slug>[\w\-]+)/$', 'details'),
     (r'^(?P<news_slug>[\w\-]+)/edit/$', 'edit'),
