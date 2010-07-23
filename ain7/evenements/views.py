@@ -34,31 +34,31 @@ from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person, Email
 from ain7.decorators import confirmation_required
-from ain7.evenements.models import Event
-from ain7.evenements.forms import EventForm, JoinEventForm, SearchEventForm,\
-                                  SubscribeEventForm, ContactEventForm,\
+from ain7.news.models import NewsItem
+from ain7.news.forms import EventForm, SearchEventForm,\
+                                  ContactEventForm,\
                                   EventOrganizerForm
 from ain7.utils import ain7_render_to_response, check_access
 
 
-def index(request):
+def event_index(request):
     """event index"""
-    events = Event.objects.filter(date__gte=datetime.datetime.now())[:5]
+    events = NewsItem.objects.filter(date__gte=datetime.datetime.now()).order_by('date')[:5]
     return ain7_render_to_response(request, 'evenements/index.html',
-        {'events': events, 'event_list': Event.objects.all(),
-         'next_events': Event.objects.next_events()})
+        {'events': events, 'event_list': NewsItem.objects.filter(date__isnull=False),
+         'next_events': NewsItem.objects.next_events()})
 
 
-def details(request, event_id):
+def event_details(request, event_id):
     """event details"""
-    event = get_object_or_404(Event, pk=event_id)
+    event = get_object_or_404(NewsItem, pk=event_id)
     return ain7_render_to_response(request, 'evenements/details.html',
-        {'event': event, 'event_list': Event.objects.all(),
+        {'event': event, 'event_list': NewsItem.objects.filter(date__isnull=False),
          'nbparticipants': event.nb_participants(),
-         'next_events': Event.objects.next_events()})
+         'next_events': NewsItem.objects.next_events()})
 
 @login_required
-def edit(request, event_id):
+def event_edit(request, event_id):
     """event edit"""
 
     access = check_access(request, request.user, 
@@ -66,7 +66,7 @@ def edit(request, event_id):
     if access:
         return access
 
-    event = get_object_or_404(Event, pk=event_id)
+    event = get_object_or_404(NewsItem, pk=event_id)
     form = EventForm(instance=event)
 
     if request.method == 'POST':
@@ -83,15 +83,15 @@ def edit(request, event_id):
         request, 'evenements/edit.html',
         {'form': form, 'action_title': _("Modification of event"),
          'event': event,
-         'event_list': Event.objects.all(),
-         'next_events': Event.objects.next_events(),
+         'event_list': NewsItem.objects.all(),
+         'next_events': NewsItem.objects.next_events(),
          'back': request.META.get('HTTP_REFERER', '/')})
 
 @confirmation_required(lambda event_id=None, object_id=None : '', 
     'evenements/base.html', 
     _('Do you really want to delete the image of this event'))
 @login_required
-def image_delete(request, event_id):
+def event_image_delete(request, event_id):
     """event image delete"""
 
     access = check_access(request, request.user,
@@ -99,7 +99,7 @@ def image_delete(request, event_id):
     if access:
         return access
 
-    event = get_object_or_404(Event, pk=event_id)
+    event = get_object_or_404(NewsItem, pk=event_id)
     event.image = None
     event.logged_save(request.user.person)
 
@@ -108,66 +108,7 @@ def image_delete(request, event_id):
     return HttpResponseRedirect('/evenements/%s/edit/' % event_id)
 
 @login_required
-def join(request, event_id):
-    """event join"""
-
-    event = get_object_or_404(Event, pk=event_id)
-
-    access = check_access(request, request.user, 
-        ['ain7-membre','ain7-ca','ain7-secretariat','ain7-contributeur'])
-    if access:
-        return access
-
-    if request.method == 'GET':
-        # on vérifie que la personne n'est pas déjà inscrite
-        person = request.user.person
-        already_subscribed = False
-        for subscription in person.event_subscriptions.all():
-            if subscription.event == event:
-                already_subscribed = True
-        if already_subscribed:
-            request.user.message_set.create(
-                message=_('You have already subscribed to this event.'))
-            return HttpResponseRedirect('/evenements/%s/' % event.id)
-        
-        return ain7_render_to_response(request, 'evenements/join.html',
-            {'event': event, 'form': JoinEventForm(),
-             'back': request.META.get('HTTP_REFERER', '/'),
-             'event_list': Event.objects.all(),
-             'next_events': Event.objects.next_events()})
-
-    if request.method == 'POST':
-        form = JoinEventForm(request.POST)
-        if form.is_valid():
-            form.save(subscriber=request.user.person, event=event)
-            request.user.message_set.create(message=
-                _('You have been successfully subscribed to this event.'))
-            return HttpResponseRedirect('/evenements/%s/' % (event.id))
-        else:
-            request.user.message_set.create(message=_("Something was wrong in\
- the form you filled. No modification done."))
-            return ain7_render_to_response(request, 'evenements/join.html',
-                {'event': event, 'form': form,
-                 'back': request.META.get('HTTP_REFERER', '/'),
-                 'event_list': Event.objects.all(),
-                 'next_events': Event.objects.next_events()})
-            
-
-@login_required
-def participants(request, event_id):
-    """list event participants"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca','ain7-secretariat','ain7-contributeur'])
-    if access:
-        return access
-
-    event = get_object_or_404(Event, pk=event_id)
-    return ain7_render_to_response(request, 'evenements/participants.html',
-        {'event': event, 'nbparticipants': event.nb_participants()})
-
-@login_required
-def add(request):
+def event_add(request):
     """event add"""
 
     access = check_access(request, request.user,
@@ -191,17 +132,17 @@ def add(request):
     return ain7_render_to_response(
         request, 'evenements/edit.html',
         {'form': form, 'action_title': _("New event registration"),
-         'event_list': Event.objects.all(),
-         'next_events': Event.objects.next_events(),
+         'event_list': NewsItem.objects.all(),
+         'next_events': NewsItem.objects.next_events(),
          'back': request.META.get('HTTP_REFERER', '/')})
 
-def search(request):
+def event_search(request):
     """event search"""
 
     form = SearchEventForm()
     nb_results_by_page = 25
     list_events = False
-    paginator = Paginator(Event.objects.none(), nb_results_by_page)
+    paginator = Paginator(NewsItem.objects.none(), nb_results_by_page)
     page = 1
 
     if request.method == 'POST':
@@ -217,8 +158,8 @@ def search(request):
 
     return ain7_render_to_response(request, 'evenements/search.html',
         {'form': form, 'list_events': list_events, 'request': request,
-         'event_list': Event.objects.all(),
-         'next_events': Event.objects.next_events(),
+         'event_list': NewsItem.objects.all(),
+         'next_events': NewsItem.objects.next_events(),
          'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
          'has_next': paginator.page(page).has_next(),
          'has_previous': paginator.page(page).has_previous(),
@@ -230,64 +171,10 @@ def search(request):
          'hits' : paginator.count })
 
 @login_required
-def subscribe(request, event_id):
-    """event subscribe"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca','ain7-secretariat','ain7-contributeur'])
-    if access:
-        return access
-
-    event = get_object_or_404(Event, pk=event_id)
-
-    if request.method == 'GET':
-        return ain7_render_to_response(request, 'evenements/subscribe.html',
-            {'event': event, 'form': SubscribeEventForm(),
-             'back': request.META.get('HTTP_REFERER', '/'),
-             'event_list': Event.objects.all(),
-             'next_events': Event.objects.next_events()})
-
-    if request.method == 'POST':
-        form = SubscribeEventForm(request.POST)
-        if form.is_valid():
-            person = Person.objects.get(id=request.POST['subscriber'])
-            # on vérifie que la personne n'est pas déjà inscrite
-            already_subscribed = False
-            for subscription in person.event_subscriptions.all():
-                if subscription.event == event:
-                    already_subscribed = True
-            if already_subscribed:
-                request.user.message_set.create(message=
-                    _('This person is already subscribed to this event.'))
-                return ain7_render_to_response(request,
-                    'evenements/subscribe.html',
-                    {'event': event, 'form': SubscribeEventForm(),
-                     'back': request.META.get('HTTP_REFERER', '/'),
-                     'event_list': Event.objects.all(),
-                     'next_events': Event.objects.next_events()})
-            subscription = form.save(event=event,
-                                  subscribed_by=request.user.person)
-            person = subscription.subscriber
-            request.user.message_set.create(
-                message=_('You have successfully subscribed')+
-                ' '+ person.last_name +' '+ person.first_name +
-                ' '+_('to this event.'))
-            return HttpResponseRedirect('/evenements/%s/' % (event.id))
-        else:
-            request.user.message_set.create(message=_("Something was wrong in\
- the form you filled. No modification done."))
-            return ain7_render_to_response(request,
-                'evenements/subscribe.html',
-                {'event': event, 'form': form,
-                 'back': request.META.get('HTTP_REFERER', '/'),
-                 'event_list': Event.objects.all(),
-                 'next_events': Event.objects.next_events()})
-
-@login_required
-def contact(request, event_id):
+def event_contact(request, event_id):
     """event contact"""
 
-    event = get_object_or_404(Event, pk=event_id)
+    event = get_object_or_404(NewsItem, pk=event_id)
 
     access = check_access(request, request.user,
         ['ain7-membre','ain7-ca','ain7-secretariat','ain7-contributeur'])
@@ -305,8 +192,8 @@ def contact(request, event_id):
         return ain7_render_to_response(request, 'evenements/contact.html',
             {'event': event, 'form': form,
              'back': request.META.get('HTTP_REFERER', '/'),
-             'event_list': Event.objects.all(),
-             'next_events': Event.objects.next_events()})
+             'event_list': NewsItem.objects.filter(date__isnull=False),
+             'next_events': NewsItem.objects.next_events()})
 
     if request.method == 'POST':
         form = ContactEventForm(request.POST)
@@ -328,13 +215,13 @@ def contact(request, event_id):
                 'evenements/contact.html',
                 {'event': event, 'form': form,
                  'back': request.META.get('HTTP_REFERER', '/'),
-                 'event_list': Event.objects.all(),
-                 'next_events': Event.objects.next_events()})
+                 'event_list': NewsItem.objects.filter(date__isnull=False),
+                 'next_events': NewsItem.objects.next_events()})
 
 def ical(request):
     """event iCal stream"""
 
-    list_events = Event.objects.filter(date__gte=datetime.datetime.now())
+    list_events = NewsItem.objects.filter(date__gte=datetime.datetime.now())
 
     cal = vobject.iCalendar()
     cal.add('method').value = 'PUBLISH'  # IE/Outlook needs this
@@ -361,7 +248,7 @@ def ical(request):
     return response
 
 @login_required
-def organizer_add(request, event_id):
+def event_organizer_add(request, event_id):
     """add organizer"""
 
     access = check_access(request, request.user,
@@ -369,7 +256,7 @@ def organizer_add(request, event_id):
     if access:
         return access
 
-    event = get_object_or_404(Event, pk=event_id)
+    event = get_object_or_404(NewsItem, pk=event_id)
 
     form = EventOrganizerForm()
 
@@ -385,8 +272,8 @@ def organizer_add(request, event_id):
     return ain7_render_to_response(
         request, 'evenements/organizer_add.html',
         {'form': form, 'action_title': _("Adding organizer"),
-         'event_list': Event.objects.all(),
-         'next_events': Event.objects.next_events(),
+         'event_list': NewsItem.objects.filter(date__isnull=False),
+         'next_events': NewsItem.objects.next_events(),
          'back': request.META.get('HTTP_REFERER', '/')})
 
 @confirmation_required(lambda event_id=None, organizer_id=None : 
@@ -394,7 +281,7 @@ def organizer_add(request, event_id):
     'evenements/base.html', 
     _('Do you really want to remove this organizer'))
 @login_required
-def organizer_delete(request, event_id, organizer_id):
+def event_organizer_delete(request, event_id, organizer_id):
     """delete organizer"""
 
     access = check_access(request, request.user,
@@ -402,7 +289,7 @@ def organizer_delete(request, event_id, organizer_id):
     if access:
         return access
 
-    event = get_object_or_404(Event, pk=event_id)
+    event = get_object_or_404(NewsItem, pk=event_id)
     organizer = get_object_or_404(Person, pk=organizer_id)
     eventorg = event.event_organizers.get(organizer=organizer)
     if eventorg:
@@ -412,7 +299,7 @@ def organizer_delete(request, event_id, organizer_id):
     return HttpResponseRedirect('/evenements/%s/edit/' % event_id)
 
 @login_required
-def swap_email_notif(request, event_id, organizer_id):
+def event_swap_email_notif(request, event_id, organizer_id):
     """swap email notification"""
 
     access = check_access(request, request.user,
@@ -420,7 +307,7 @@ def swap_email_notif(request, event_id, organizer_id):
     if access:
         return access
 
-    event = get_object_or_404(Event, pk=event_id)
+    event = get_object_or_404(NewsItem, pk=event_id)
     organizer = get_object_or_404(Person, pk=organizer_id)
     eventorg = event.event_organizers.get(organizer=organizer)
     if eventorg:

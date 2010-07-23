@@ -25,65 +25,14 @@ from django import forms
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
-from ain7.evenements.models import EventOrganizer, EventSubscription, Event
+from ain7.evenements.models import EventOrganizer
+from ain7.news.models import NewsItem
 from ain7.fields import AutoCompleteField
 from ain7.widgets import DateTimeWidget
 from ain7.utils import AIn7ModelForm, AIn7Form
 
 DATE_TIME_WIDGET = DateTimeWidget()
 DATE_TIME_WIDGET.dformat = '%d/%m/%Y %H:%M'
-
-class JoinEventForm(forms.Form):
-    """Join Event Form"""
-    subscriber_number = forms.IntegerField(label=_('Number of persons'),
-                                           required=True)
-    note = forms.CharField(label=_('Note, question, etc..'), max_length=200,
-        required=False, widget=forms.TextInput(attrs={'size':'40'}))
-
-    def clean_subscriber_number(self, *args, **kwargs):
-        """check we have at least one member"""
-        if self.cleaned_data['subscriber_number'] < 1:
-            raise forms.ValidationError(_('This number includes yourself, so it\
- should be at least 1.'))
-        return self.cleaned_data['subscriber_number']
-
-    def save(self, *args, **kwargs):
-        """save event participation"""
-        subscription = EventSubscription()
-        subscription.subscriber_number = self.cleaned_data['subscriber_number']
-        subscription.subscriber = kwargs['subscriber']
-        subscription.event = kwargs['event']
-        subscription.note = self.cleaned_data['note']
-        subscription.subscribed_by = kwargs['subscriber']
-        subscription.save()
-        return subscription
-
-class SubscribeEventForm(forms.Form):
-    """subscribe event form"""
-    subscriber = forms.IntegerField(label=_('Person to subscribe'),
-        widget=AutoCompleteField(completed_obj_name='person'))
-    subscriber_number = forms.IntegerField(label=_('Number of persons'))
-    note = forms.CharField(label=_('Note, question, etc..'), max_length=200,
-        required=False, widget=forms.TextInput(attrs={'size':'40'}))
-
-    def clean_subscriber_number(self, *args, **kwargs):
-        """On vérifie qu'il y a au moins une personne."""
-        if self.cleaned_data['subscriber_number'] < 1:
-            raise forms.ValidationError(_('This number includes the person you\
- subscribe, so it should be at least 1.'))
-        return self.cleaned_data['subscriber_number']
-
-    def save(self, *args, **kwargs):
-        """subscribe event save"""
-        subscription = EventSubscription()
-        subscription.subscriber_number = self.cleaned_data['subscriber_number']
-        subscription.subscriber = Person.objects.get(
-            id=self.cleaned_data['subscriber'])
-        subscription.event = kwargs['event']
-        subscription.note = self.cleaned_data['note']
-        subscription.subscribed_by = kwargs['subscribed_by']
-        subscription.save()
-        return subscription
 
 class SearchEventForm(forms.Form):
     """search event form"""
@@ -94,7 +43,7 @@ class SearchEventForm(forms.Form):
 
     def search(self):
         """search event method"""
-        return Event.objects.filter(
+        return NewsItem.objects.filter(
             title__icontains=self.cleaned_data['title'],
             location__icontains=self.cleaned_data['location'])        
 
@@ -118,7 +67,7 @@ class EventForm(AIn7ModelForm):
     
     class Meta:
         """event form meta"""
-        model = Event
+        model = NewsItem
         exclude = ('organizers','shorttext', 'slug',)
 
     def save(self, *args, **kwargs):

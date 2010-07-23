@@ -70,12 +70,12 @@
 {% for event in events %}
   <div class="right_articles">
       <div>
-      <a href="{% url ain7.evenements.views.details event.id %}">{{ event.title }}</a> ({{ event.date|date:"l j F Y" }})<br/>
+      <a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a> ({{ event.date|date:"l j F Y" }})<br/>
       </div>
    </div>
 {% endfor %}
 <div style="text-align: center">
-	<a href="{% url ain7.evenements.views.index %}">{% trans "All events" %}</a>
+	<a href="{% url ain7.news.views.event_index %}">{% trans "All events" %}</a>
 </div>
 </div>
 

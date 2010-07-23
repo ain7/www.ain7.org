@@ -28,7 +28,7 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 
 from ain7.annuaire.models import Person
-from ain7.evenements.models import Event
+from ain7.news.models import NewsItem
 from ain7.emploi.models import OrganizationProposal, OfficeProposal, JobOffer
 from ain7.utils import LoggedClass
 
@@ -186,12 +186,12 @@ AIn7 Team
 """) % { 'firstname': self.person.first_name, 'id': self.person.id })
 
 
-class Mailing(models.Model):
-    """Mailing model"""
-
-    description = models.TextField()
-    items = models.ForeignKey(Event, blank=True, null=True)
-    testers = models.ForeignKey(Person, blank=True, null=True)
-    go = models.BooleanField(default=False)
-    #recipients = models.ForeignKey(Filter)
+#class Mailing(models.Model):
+#    """Mailing model"""
+#
+#    description = models.TextField()
+#    items = models.ForeignKey(NewsItem, blank=True, null=True)
+#    testers = models.ForeignKey(Person, blank=True, null=True)
+#    go = models.BooleanField(default=False)
+#    recipients = models.ForeignKey(Filter)
 

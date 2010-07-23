@@ -101,6 +101,7 @@ class SubscriptionConfiguration(models.Model):
     newspaper_amount = models.IntegerField(verbose_name=_('Newspaper amount'),
          null=True, blank=True)
     duration = models.IntegerField(verbose_name=_('Duration'), default=1)
+    year = models.IntegerField(verbose_name=_('Year'))
 
     def __unicode__(self):
         """unicode string for subscriptionconfiguration object"""

@@ -13,7 +13,7 @@
 <div class="right_articles">
   <div class="news-header">
     <div class="news-title">
-      <a href="{% url ain7.evenements.views.details event.id %}">{{ event.title }}</a>
+      <a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a>
     </div>
     <div class="news-date">
       {% trans "Published on" %} {{ event.last_change_at|date:"l j F Y" }} 
@@ -48,10 +48,10 @@
 <div class="right_articles">
 <ul>
 {% if superadmin or ca_member or secretariat_member or contributeur %}
-<li><a href="{% url ain7.evenements.views.add %}">{% trans "Register an event" %}</a></li>
+<li><a href="{% url ain7.news.views.event_add %}">{% trans "Register an event" %}</a></li>
 {% endif %}
-<li><a href="{% url ain7.evenements.views.search %}">{% trans "Search an event" %}</a></li>
-<li><a href="{% url ain7.evenements.views.ical %}">{% trans "Subscribe iCal" %}</a></li>
+<li><a href="{% url ain7.news.views.event_search %}">{% trans "Search an event" %}</a></li>
+<li><a href="{% url ain7.news.views.ical %}">{% trans "Subscribe iCal" %}</a></li>
 </ul>
 </div>
 {% endblock %}

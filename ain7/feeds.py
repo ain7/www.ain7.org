@@ -24,7 +24,6 @@
 from django.contrib.syndication.feeds import Feed
 from django.utils.translation import ugettext as _
 
-from ain7.evenements.models import Event
 from ain7.news.models import NewsItem
 
 class LatestsEvents(Feed):
@@ -39,7 +38,7 @@ class LatestsEvents(Feed):
         """
         Item of Events RSS stream
         """
-        return Event.objects.order_by('-date')[:20]
+        return NewsItem.objects.filter(date__isnull=False).order_by('-date')[:20]
 
 class LatestsNews(Feed):
     """

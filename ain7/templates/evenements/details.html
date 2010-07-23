@@ -49,12 +49,9 @@
 	<h3>{% trans "Actions" %}</h3>
 	<div class="right_block">
 		<ul>
-	{#		<li><a href="{% url ain7.evenements.views.join event.id %}">{% trans "Participate to this event" %}</a></li>#}
-			<li><a href="{% url ain7.evenements.views.contact event.id %}">{% trans "Contact the event responsible" %}</a></li>
+			<li><a href="{% url ain7.news.views.event_contact event.id %}">{% trans "Contact the event responsible" %}</a></li>
                         {% if superadmin or ca_member or secretariat_member or contributeur %}
-			<li><a href="{% url ain7.evenements.views.edit event.id %}">{% trans "Edit this event" %}</a></li>
-	{#		<li><a href="{% url ain7.evenements.views.participants event.id %}">{% trans "List participants" %}</a></li>#}
-	{#		<li><a href="{% url ain7.evenements.views.subscribe event.id %}">{% trans "Subscribe someone" %}</a></li>#}
+			<li><a href="{% url ain7.news.views.event_edit event.id %}">{% trans "Edit this event" %}</a></li>
                         {% endif %}
 		</ul>
         </div>

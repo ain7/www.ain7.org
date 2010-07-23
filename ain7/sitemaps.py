@@ -24,7 +24,6 @@ import datetime
 
 from django.contrib.sitemaps import Sitemap
 
-from ain7.evenements.models import Event
 from ain7.pages.models import TextBlock
 from ain7.news.models import NewsItem
 from ain7.groupes_professionnels.models import GroupPro
@@ -36,7 +35,7 @@ class EventsSitemap(Sitemap):
     priority = 0.5
 
     def items(self):
-        return Event.objects.filter(publication_start__lte=datetime.datetime.now() , publication_end__gte=datetime.datetime.now(), status=1)
+        return NewsItem.objects.filter(date__gte=datetime.datetime.now() , status=1)
 
     def lastmod(self, obj):
         return obj.date

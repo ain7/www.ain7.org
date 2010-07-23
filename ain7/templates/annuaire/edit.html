@@ -165,7 +165,7 @@
                 <b>{{ position.begin }} - {{ position.end }}</b>&nbsp;:</td>
             <td><em>{{ position.fonction }}</em>,
                 {{ position.office }}
-                <a href="{% url ain7.emploi.views.organization_details position.office.organization.id %}">{{ position.office.organization }}</a></td></tr>
+                <a href="{% url ain7.organizations.views.organization_details position.office.organization.id %}">{{ position.office.organization }}</a></td></tr>
         {% if position.description %}
             <tr><td></td><td>{{ position.description }}</td></tr>
         {% endif %}

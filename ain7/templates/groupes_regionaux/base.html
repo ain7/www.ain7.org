@@ -39,7 +39,7 @@
         <h3>{% trans "Events" %}</h3>
         {% for event in group.active_events %}
             <div class="right_articles">
-                <p><strong><a href="{% url ain7.evenements.views.details event.id %}">{{ event.title|upper }}</a></strong></p>
+                <p><strong><a href="{% url ain7.news.views.event_details event.id %}">{{ event.title|upper }}</a></strong></p>
                 <p>
 {% blocktrans with event.date|date:"d/m/Y" as date and event.location as place %}{{ date }} at {{ place }}{% endblocktrans %}
                 </p>

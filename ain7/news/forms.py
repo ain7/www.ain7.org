@@ -24,20 +24,22 @@
 from django import forms
 from django.utils.translation import ugettext as _
 
-from ain7.news.models import NewsItem
-from ain7.utils import AIn7ModelForm
+from ain7.annuaire.models import Person
+from ain7.news.models import NewsItem, EventOrganizer
+from ain7.fields import AutoCompleteField
+from ain7.utils import AIn7ModelForm, AIn7Form
 from ain7.widgets import DateTimeWidget
 
 
-dateWidget = DateTimeWidget()
-dateWidget.dformat = '%d/%m/%Y'
+DATE_TIME_WIDGET = DateTimeWidget()
+DATE_TIME_WIDGET.dformat = '%d/%m/%Y'
 
 class SearchNewsForm(forms.Form):
     """search news form"""
     title = forms.CharField(label=_('News title'), max_length=50,
         required=False, widget=forms.TextInput(attrs={'size':'40'}))
     date = forms.DateField(label=_('Date'), required=False,
-        widget=dateWidget)
+        widget=DATE_TIME_WIDGET)
     content = forms.CharField(label=_('News content'), max_length=50,
         required=False, widget=forms.TextInput(attrs={'size':'40'}))
 
@@ -50,7 +52,7 @@ class SearchNewsForm(forms.Form):
             criteria['creation_date__year'] = inputdate.year
             criteria['creation_date__month'] = inputdate.month
             criteria['creation_date__day'] = inputdate.day
-        return NewsItem.objects.filter(**criteria)
+        return NewsItem.objects.filter(date__isnull=True).filter(**criteria)
 
 class NewsForm(AIn7ModelForm):
     """news form"""
@@ -63,7 +65,18 @@ class NewsForm(AIn7ModelForm):
     class Meta:
         """news form meta"""
         model = NewsItem
-        exclude = ('slug', 'shorttext',)
+        exclude = ('slug', 'shorttext', 'date', 'location', 'status', \
+            'contact_email', 'link', 'pictures_gallery')
+
+    def save(self, *args, **kwargs):
+        """save event"""
+        if kwargs.has_key('contributor'):
+            contributor = kwargs['contributor']
+            news = super(NewsForm, self).save()
+            news.logged_save(contributor)
+        else:
+            news = super(NewsForm, self).save()
+        return news
 
 class AddNewsForm(AIn7ModelForm):
     """new news form"""
@@ -77,4 +90,75 @@ class AddNewsForm(AIn7ModelForm):
         """meta add news form"""
         model = NewsItem
         exclude = ('image', 'slug')
+
+class SearchEventForm(forms.Form):
+    """search event form"""
+    title = forms.CharField(label=_('Event title'), max_length=50,
+        required=False, widget=forms.TextInput(attrs={'size':'40'}))
+    location = forms.CharField(label=_('Location'), max_length=50,
+        required=False, widget=forms.TextInput(attrs={'size':'40'}))
+
+    def search(self):
+        """search event method"""
+        return NewsItem.objects.filter(
+            title__icontains=self.cleaned_data['title'],
+            location__icontains=self.cleaned_data['location'])
+
+class ContactEventForm(AIn7Form):
+    """contact event form"""
+    message = forms.CharField( label=_('your message').capitalize(),
+        required=True,
+        widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':65}))
+    sender = forms.EmailField( label=_('your email').capitalize(),
+        required=True)
+
+class EventForm(AIn7ModelForm):
+    """event form"""
+    title = forms.CharField(label=_('Title'), max_length=60,
+        widget=forms.TextInput(attrs={'size':'60'}))
+    body = forms.CharField( label=_('description').capitalize(),
+        required=False,
+        widget=forms.widgets.Textarea(attrs={'rows':10, 'cols':40}))
+    date = forms.DateTimeField(label=_('date').capitalize(),
+        widget=DATE_TIME_WIDGET)
+
+    class Meta:
+        """event form meta"""
+        model = NewsItem
+        exclude = ('organizers','shorttext', 'slug',)
+
+    def save(self, *args, **kwargs):
+        """save event"""
+        if kwargs.has_key('contributor'):
+            contributor = kwargs['contributor']
+            event = super(EventForm, self).save()
+            event.logged_save(contributor)
+        else:
+            event = super(EventForm, self).save()
+        return event
+
+class EventOrganizerForm(forms.ModelForm):
+    """event organizer form"""
+    organizer = forms.IntegerField(label=_('organizer').capitalize(),
+        widget=AutoCompleteField(completed_obj_name='person'))
+
+    class Meta:
+        """event organizer form meta"""
+        model = EventOrganizer
+        exclude = ('event',)
+
+    def save(self, *args, **kwargs):
+        """event organizer form save"""
+        if kwargs.has_key('contributor') and kwargs.has_key('event'):
+            event = kwargs['event']
+            event_org = EventOrganizer()
+            event_org.event = event
+            event_org.organizer = Person.objects.get(
+                id=self.cleaned_data['organizer'])
+            event_org.send_email_for_new_subscriptions = \
+                self.cleaned_data['send_email_for_new_subscriptions']
+            event_org.save()
+            event.logged_save(kwargs['contributor'])
+            return event_org
+        return None
 

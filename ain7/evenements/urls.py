@@ -24,23 +24,20 @@
 from django.conf.urls.defaults import patterns
 
 
-urlpatterns = patterns('ain7.evenements.views',
+urlpatterns = patterns('ain7.news.views',
     # Evenements
-    (r'^$', 'index'),
+    (r'^$', 'event_index'),
     (r'^ical/$', 'ical'),
-    (r'^new/$', 'add'),
-    (r'^search/$', 'search'),
-    (r'^(?P<event_id>\d+)/$', 'details'),
-    (r'^(?P<event_id>\d+)/edit/$', 'edit'),
-    (r'^(?P<event_id>\d+)/image/delete/$', 'image_delete'),
-#    (r'^(?P<event_id>\d+)/join/$', 'join'),
-    (r'^(?P<event_id>\d+)/contact/$', 'contact'),
-#    (r'^(?P<event_id>\d+)/participants/$', 'participants'),
-#    (r'^(?P<event_id>\d+)/subscribe/$', 'subscribe'),
-    (r'^(?P<event_id>\d+)/organizer/add/$', 'organizer_add'),
+    (r'^new/$', 'event_add'),
+    (r'^search/$', 'event_search'),
+    (r'^(?P<event_id>\d+)/$', 'event_details'),
+    (r'^(?P<event_id>\d+)/edit/$', 'event_edit'),
+    (r'^(?P<event_id>\d+)/image/delete/$', 'event_image_delete'),
+    (r'^(?P<event_id>\d+)/contact/$', 'event_contact'),
+    (r'^(?P<event_id>\d+)/organizer/add/$', 'event_organizer_add'),
     (r'^(?P<event_id>\d+)/organizer/(?P<organizer_id>\d+)/delete/$',
-        'organizer_delete'),
+        'event_organizer_delete'),
     (r'^(?P<event_id>\d+)/organizer/(?P<organizer_id>\d+)/swap_email_notif/$',
-        'swap_email_notif'),
+        'event_swap_email_notif'),
 
 )

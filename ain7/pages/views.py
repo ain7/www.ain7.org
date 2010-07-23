@@ -32,7 +32,6 @@ from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import AIn7Member, Email
 from ain7.news.models import NewsItem
-from ain7.evenements.models import Event
 from ain7.pages.forms import LostPasswordForm, TextForm, ChangePasswordForm
 from ain7.pages.models import Text, LostPassword
 from ain7.sondages.models import Survey
@@ -41,8 +40,8 @@ from ain7.utils import ain7_render_to_response, check_access
 
 def homepage(request):
     """AIn7 homepage"""
-    news = NewsItem.objects.all().order_by('-creation_date')[:5]
-    events = Event.objects.filter(date__gte=datetime.datetime.now())[:5]
+    news = NewsItem.objects.filter(date__isnull=True).order_by('-creation_date')[:5]
+    events = NewsItem.objects.filter(date__gte=datetime.datetime.now())[:5]
     is_auth = request.user.is_authenticated()
     surveys = [(s, (is_auth and s.has_been_voted_by(request.user.person)))\
                for s in Survey.objects.all() if s.is_valid()][:2]
