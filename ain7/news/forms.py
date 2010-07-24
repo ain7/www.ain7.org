@@ -102,7 +102,7 @@ class SearchEventForm(forms.Form):
         """search event method"""
         return NewsItem.objects.filter(
             title__icontains=self.cleaned_data['title'],
-            location__icontains=self.cleaned_data['location'])
+            location__icontains=self.cleaned_data['location']).order_by('-date')
 
 class ContactEventForm(AIn7Form):
     """contact event form"""

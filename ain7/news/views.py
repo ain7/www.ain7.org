@@ -265,8 +265,8 @@ def event_search(request):
     paginator = Paginator(NewsItem.objects.none(), nb_results_by_page)
     page = 1
 
-    if request.method == 'POST':
-        form = SearchEventForm(request.POST)
+    if request.GET.has_key('location') or request.GET.has_key('title'):
+        form = SearchEventForm(request.GET)
         if form.is_valid():
             list_events = form.search()
             paginator = Paginator(list_events, nb_results_by_page)

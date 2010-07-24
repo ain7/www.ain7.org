@@ -12,7 +12,7 @@
 
 <h3>{% trans "Event Search" %}</h3>
 
-<form action="." method="post">
+<form action="." method="get">
 <table style="border: 0; text-align: left;">
    {{ form }}
 </table>
@@ -21,7 +21,7 @@
 </form>
 </div>
 <br/>
-{% ifequal request.method 'POST' %}
+{% ifequal request.method 'GET' %}
 <h3>{% trans "Research result" %}</h3>
 {% if list_events %}
 <table style="width: 100%">
@@ -29,16 +29,16 @@
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
 <td align="right">
 {% if is_paginated %}
-{% if has_previous %}<a href="{% url ain7.news.views.event_search %}?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="{% url ain7.news.views.event_search %}?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="{% url ain7.news.views.event_search %}?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="{% url ain7.news.views.event_search %}?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% if has_previous %}<a href="{% url ain7.news.views.event_search %}?page=1&location={{ request.GET.location }}&title={{ request.GET.title }}">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="{% url ain7.news.views.event_search %}?page={{ previous_page }}&location={{ request.GET.location }}&title={{ request.GET.title }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="{% url ain7.news.views.event_search %}?page={{ next_page }}&location={{ request.GET.location }}&title={{ request.GET.title }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="{% url ain7.news.views.event_search %}?page={{ pages }}&location={{ request.GET.location }}&title={{ request.GET.title }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
 {% endif %}
 </td>
 </table>
 <ul>
     {% for event in list_events %}
-        <li><a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a> ({{ event.date|date:"d/m/Y H:i" }} - {{ event.location }})</li>
+        <li><a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a> ({{ event.date|date:"d F Y H:i" }} - {{ event.location }})</li>
     {% endfor %}
 </ul>
 {% else %}

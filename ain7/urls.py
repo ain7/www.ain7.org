@@ -76,7 +76,7 @@ urlpatterns = patterns('',
     (r'^actualites/', include('ain7.news.urls')),
 
     # evenements
-    (r'^evenements/', include('ain7.evenements.urls')),
+    (r'^evenements/', include('ain7.news.urls_events')),
 
     # groupes professionnels
     (r'^groupes_professionnels/', include('ain7.groupes_professionnels.urls')),

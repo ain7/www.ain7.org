@@ -112,7 +112,6 @@ INSTALLED_APPS = (
     'ain7.annuaire',
     'ain7.association',
     'ain7.emploi',
-    'ain7.evenements',
     'ain7.groupes_professionnels',
     'ain7.groupes_regionaux',
     'ain7.manage',
