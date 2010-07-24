@@ -364,9 +364,9 @@ class Position(LoggedClass):
     email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
     is_regie = models.BooleanField(verbose_name=_('regie outside'),
         default=False)
-    begin = models.IntegerField(verbose_name=_('start date'),
+    begin = models.IntegerField(verbose_name=_('startyear'),
         blank=True, null=True)
-    end = models.IntegerField(verbose_name=_('end date'), blank=True,
+    end = models.IntegerField(verbose_name=_('end year'), blank=True,
         null=True)
 
     description = models.TextField(verbose_name=_('description'), blank=True,
@@ -396,14 +396,9 @@ class EducationItem(LoggedClass):
         blank=True, null=True)
     details = models.TextField(verbose_name=_('description'), blank=True,
         null=True)
-    begin = models.IntegerField(verbose_name=_('start date'),
+    begin = models.IntegerField(verbose_name=_('start year'),
         blank=True, null=True)
-    end = models.IntegerField(verbose_name=_('end date'), blank=True,
-        null=True)
-
-    # TODO: remove once transitionned to begin & end
-    start_date = models.DateField(verbose_name=_('start date'))
-    end_date = models.DateField(verbose_name=_('end date'), blank=True,
+    end = models.IntegerField(verbose_name=_('end year'), blank=True,
         null=True)
 
     def __unicode__(self):

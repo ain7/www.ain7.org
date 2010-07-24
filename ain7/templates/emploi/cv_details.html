@@ -13,14 +13,14 @@
 <table style="border: 0; width: 100%">
 <tr>
 {% for address in person.addresses.all %}
-    {% if not address.is_confidential %}
+    {% ifequal address.confidentiality 0 %}
         <td>
         <b>{% trans "Address" %} {{ address.type|lower }}&nbsp;:</b><br />
         {{ address.line1 }} {{ address.line2|default_if_none:"" }}<br />
         {{ address.zip_code }} {{ address.city }}<br />
         {{ address.country.name }}
 	</td>
-    {% endif %}
+    {% endifequal %}
 {% endfor %}
 
 <td>
@@ -33,17 +33,17 @@
 <tr>
 <td>
 {% for phone_number in person.phone_numbers.all %}
-    {% if not phone_number.is_confidential %}
+    {% ifequal phone_number.confidentiality 0 %}
 	<b>{{ phone_number.get_type_display }} :</b> 
 	{{ phone_number.number }} <br />
-    {% endif %}
+    {% endifequal %}
 {% endfor %}
 
 {% for email in person.emails.all %}
-	{% if not email.is_confidential %}
+	{% ifequal email.confidentiality 0 %}
             <img src="/site_media/images/mail.png" alt="{% trans "email" %}"/>
             <a href="mailto:{{ email.email }}">{{ email.email }}</a><br />
-	{% endif %}
+	{% endifequal %}
 {% endfor %}
 </td>
 </tr>
@@ -52,7 +52,7 @@
 <div id="cv_title">{{ ain7member.cv_title|default_if_none:"" }}</div>
 
 {% if ain7member.positions.all %}
-<h2>{% trans "Professional experiences" %}</h2>
+<h2>{% trans "Experience" %}</h2>
 
 <table style="width: 100%">
 {% for position in ain7member.positions.all %}
@@ -60,7 +60,7 @@
         <tr><td style="width: 25%"><b>{{ position.begin }} - 
             {{ position.end }}</b></td>
             <td>{% if position.fonction %}<em>{{ position.fonction }}</em>{% endif %}
-		<a href="{% url ain7.emploi.views.organization_details position.office.organization.id %}">
+		<a href="{% url ain7.organizations.views.organization_details position.office.organization.id %}">
                 {{ position.office.organization }}</a> {{ position.office }}
 		</td></tr>
         {% if position.service %}

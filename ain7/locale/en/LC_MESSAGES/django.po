@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-23 17:33+0200\n"
+"POT-Creation-Date: 2010-07-24 10:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -123,11 +123,11 @@ msgstr ""
 msgid "subscription date"
 msgstr ""
 
-#: adhesions/models.py:65 emploi/forms.py:197
+#: adhesions/models.py:65 emploi/models.py:399
 msgid "start year"
 msgstr ""
 
-#: adhesions/models.py:66 emploi/forms.py:199
+#: adhesions/models.py:66 emploi/models.py:369 emploi/models.py:401
 msgid "end year"
 msgstr ""
 
@@ -463,7 +463,7 @@ msgstr ""
 
 #: annuaire/models.py:162 annuaire/models.py:181 annuaire/models.py:574
 #: annuaire/models.py:610 annuaire/models.py:734 emploi/models.py:364
-#: emploi/models.py:489 templates/annuaire/details.html:94
+#: emploi/models.py:484 templates/annuaire/details.html:94
 #: templates/annuaire/edit.html:226 templates/annuaire/edit.html.py:231
 #: templates/emploi/cv_details.html:44 templates/emploi/cv_edit.html:46
 msgid "email"
@@ -478,7 +478,7 @@ msgstr ""
 msgid "active"
 msgstr ""
 
-#: annuaire/models.py:200 emploi/forms.py:228
+#: annuaire/models.py:200 emploi/forms.py:223
 #: templates/adhesions/configurations.html:37
 msgid "year"
 msgstr ""
@@ -662,7 +662,7 @@ msgstr ""
 #: annuaire/models.py:730 emploi/forms.py:55 emploi/models.py:372
 #: emploi/models.py:397 evenements/forms.py:62
 #: groupes_professionnels/models.py:41 groupes_regionaux/models.py:40
-#: groups/models.py:50 news/forms.py:108 voyages/forms.py:65
+#: groups/models.py:50 news/forms.py:119 voyages/forms.py:65
 #: voyages/models.py:57
 msgid "description"
 msgstr ""
@@ -672,8 +672,7 @@ msgid "icon"
 msgstr ""
 
 #: annuaire/models.py:741 annuaire/models.py:764 association/forms.py:43
-#: association/forms.py:86 association/models.py:51 emploi/models.py:369
-#: emploi/models.py:401 emploi/models.py:406
+#: association/forms.py:86 association/models.py:51
 #: groupes_professionnels/forms.py:121 groupes_professionnels/forms.py:148
 #: groupes_professionnels/models.py:89 groupes_professionnels/models.py:114
 #: groupes_regionaux/forms.py:69 groupes_regionaux/forms.py:96
@@ -692,8 +691,7 @@ msgid "fonction"
 msgstr ""
 
 #: annuaire/models.py:762 annuaire/models.py:781 association/forms.py:41
-#: association/forms.py:84 association/models.py:49 emploi/models.py:367
-#: emploi/models.py:399 emploi/models.py:405
+#: association/forms.py:84 association/models.py:49
 #: groupes_professionnels/forms.py:119 groupes_professionnels/forms.py:146
 #: groupes_professionnels/models.py:87 groupes_professionnels/models.py:112
 #: groupes_regionaux/forms.py:67 groupes_regionaux/forms.py:94
@@ -965,7 +963,7 @@ msgid "board member"
 msgstr ""
 
 #: association/forms.py:53 association/forms.py:94 emploi/forms.py:191
-#: emploi/forms.py:215 groupes_professionnels/forms.py:130
+#: emploi/forms.py:210 groupes_professionnels/forms.py:130
 #: groupes_professionnels/forms.py:156 groupes_regionaux/forms.py:77
 #: groupes_regionaux/forms.py:104 sondages/forms.py:50 voyages/forms.py:80
 msgid "Start date is later than end date"
@@ -1036,7 +1034,7 @@ msgid "reference"
 msgstr ""
 
 #: emploi/forms.py:45 emploi/forms.py:123 manage/models.py:44
-#: manage/models.py:67 news/forms.py:59 news/forms.py:72 news/models.py:55
+#: manage/models.py:67 news/forms.py:59 news/forms.py:83 news/models.py:55
 #: pages/forms.py:49 pages/models.py:48
 msgid "title"
 msgstr ""
@@ -1053,7 +1051,7 @@ msgstr ""
 msgid "contract type"
 msgstr ""
 
-#: emploi/forms.py:58 emploi/models.py:487
+#: emploi/forms.py:58 emploi/models.py:482
 msgid "Contact name"
 msgstr ""
 
@@ -1062,7 +1060,7 @@ msgid "Contact email"
 msgstr ""
 
 #: emploi/forms.py:62 emploi/forms.py:125 emploi/models.py:54
-#: emploi/models.py:111 emploi/models.py:492 organizations/forms.py:38
+#: emploi/models.py:111 emploi/models.py:487 organizations/forms.py:38
 #: organizations/forms.py:72 templates/emploi/job_details.html:30
 #: templates/emploi/organization_details.html:28
 #: templates/emploi/organization_edit.html:36
@@ -1088,7 +1086,7 @@ msgstr ""
 msgid "The entered activity field does not exist."
 msgstr ""
 
-#: emploi/forms.py:131 emploi/models.py:484
+#: emploi/forms.py:131 emploi/models.py:479
 msgid "Contract type"
 msgstr ""
 
@@ -1096,19 +1094,19 @@ msgstr ""
 msgid "all"
 msgstr ""
 
-#: emploi/forms.py:202 emploi/models.py:395 emploi/models.py:421
+#: emploi/forms.py:197 emploi/models.py:395 emploi/models.py:416
 msgid "diploma"
 msgstr ""
 
-#: emploi/forms.py:239 organizations/forms.py:113
+#: emploi/forms.py:234 organizations/forms.py:113
 msgid "Organization"
 msgstr ""
 
-#: emploi/forms.py:247 organizations/forms.py:124
+#: emploi/forms.py:242 organizations/forms.py:124
 msgid "The organization is mandatory."
 msgstr ""
 
-#: emploi/forms.py:253
+#: emploi/forms.py:248
 #, python-format
 msgid "The organization \"%s\" does not exist."
 msgstr ""
@@ -1207,8 +1205,8 @@ msgstr ""
 msgid "is a proposal"
 msgstr ""
 
-#: emploi/models.py:169 emploi/models.py:326 emploi/models.py:502
-#: emploi/models.py:506
+#: emploi/models.py:169 emploi/models.py:326 emploi/models.py:497
+#: emploi/models.py:501
 msgid "author"
 msgstr ""
 
@@ -1272,66 +1270,71 @@ msgstr ""
 msgid "regie outside"
 msgstr ""
 
+#: emploi/models.py:367
+msgid "startyear"
+msgstr ""
+
 #: emploi/models.py:386
 msgid "position"
 msgstr ""
 
-#: emploi/models.py:415
+#: emploi/models.py:410
 msgid "Education item"
 msgstr ""
 
-#: emploi/models.py:430
+#: emploi/models.py:425
 msgid "Diploma item"
 msgstr ""
 
-#: emploi/models.py:439 emploi/models.py:455 emploi/models.py:479
-#: evenements/forms.py:60 news/forms.py:106
+#: emploi/models.py:434 emploi/models.py:450 emploi/models.py:474
+#: evenements/forms.py:60 news/forms.py:117
 #: templates/manage/error_details.html:32
 msgid "Title"
 msgstr ""
 
-#: emploi/models.py:440 emploi/models.py:456
+#: emploi/models.py:435 emploi/models.py:451
 msgid "Detail"
 msgstr ""
 
-#: emploi/models.py:449
+#: emploi/models.py:444
 msgid "Leisure item"
 msgstr ""
 
-#: emploi/models.py:466
+#: emploi/models.py:461
 msgid "Publication and patent"
 msgstr ""
 
-#: emploi/models.py:477 templates/emploi/job_details.html:17
+#: emploi/models.py:472 templates/emploi/job_details.html:17
 msgid "Reference"
 msgstr ""
 
-#: emploi/models.py:480
+#: emploi/models.py:475
 msgid "Description"
 msgstr ""
 
-#: emploi/models.py:482 templates/annuaire/details.html:131
+#: emploi/models.py:477 templates/annuaire/details.html:131
+#: templates/emploi/cv_details.html:55 templates/emploi/cv_edit.html:61
 #: templates/emploi/job_details.html:16
 msgid "Experience"
 msgstr ""
 
-#: emploi/models.py:495
+#: emploi/models.py:490
 msgid "checked by secretariat"
 msgstr ""
 
-#: emploi/models.py:496
+#: emploi/models.py:491
 msgid "Number of views"
 msgstr ""
 
-#: emploi/models.py:498
+#: emploi/models.py:493
 msgid "Job offer is obsolete"
 msgstr ""
 
-#: emploi/models.py:535
+#: emploi/models.py:530
 msgid "viewed by"
 msgstr ""
 
-#: emploi/models.py:535
+#: emploi/models.py:530
 msgid "at"
 msgstr ""
 
@@ -1417,29 +1420,29 @@ msgstr ""
 msgid "Job proposal removed."
 msgstr ""
 
-#: evenements/forms.py:39 news/forms.py:85
+#: evenements/forms.py:39 news/forms.py:96
 msgid "Event title"
 msgstr ""
 
-#: evenements/forms.py:41 news/forms.py:87
+#: evenements/forms.py:41 news/forms.py:98
 #: templates/evenements/details.html:18 templates/evenements/index.html:30
 msgid "Location"
 msgstr ""
 
-#: evenements/forms.py:52 news/forms.py:98
+#: evenements/forms.py:52 news/forms.py:109
 msgid "your message"
 msgstr ""
 
-#: evenements/forms.py:55 news/forms.py:101
+#: evenements/forms.py:55 news/forms.py:112
 msgid "your email"
 msgstr ""
 
-#: evenements/forms.py:65 news/forms.py:111 news/models.py:61
+#: evenements/forms.py:65 news/forms.py:122 news/models.py:61
 #: news/models.py:73 templates/voyages/details.html:15
 msgid "date"
 msgstr ""
 
-#: evenements/forms.py:85 news/forms.py:131 news/models.py:137
+#: evenements/forms.py:85 news/forms.py:142 news/models.py:137
 msgid "organizer"
 msgstr ""
 
@@ -1977,7 +1980,7 @@ msgstr ""
 msgid "News content"
 msgstr ""
 
-#: news/forms.py:61 news/forms.py:74 news/models.py:56 pages/forms.py:51
+#: news/forms.py:61 news/forms.py:85 news/models.py:56 pages/forms.py:51
 #: pages/models.py:49
 msgid "body"
 msgstr ""
@@ -2202,7 +2205,7 @@ msgid "Field"
 msgstr ""
 
 #: search_engine/models.py:124 search_engine/models.py:148
-#: search_engine/models.py:154 templates/base.html:143
+#: search_engine/models.py:154 templates/base.html:145
 msgid "and"
 msgstr ""
 
@@ -2450,34 +2453,34 @@ msgstr ""
 msgid "Travels"
 msgstr ""
 
-#: templates/base.html:118
+#: templates/base.html:119
 msgid "Gallery"
 msgstr ""
 
-#: templates/base.html:122
+#: templates/base.html:124
 msgid "Management"
 msgstr ""
 
-#: templates/base.html:138
+#: templates/base.html:140
 msgid "RSS"
 msgstr ""
 
-#: templates/base.html:139 templates/annuaire/details.html:78
+#: templates/base.html:141 templates/annuaire/details.html:78
 #: templates/annuaire/details.html:100 templates/annuaire/edit.html:275
 #: templates/association/base.html:30 templates/emploi/job_details.html:19
 #: templates/emploi/job_details.html:33 templates/evenements/details.html:16
 msgid "Contact"
 msgstr ""
 
-#: templates/base.html:140
+#: templates/base.html:142
 msgid "About"
 msgstr ""
 
-#: templates/base.html:141
+#: templates/base.html:143
 msgid "Terms of use"
 msgstr ""
 
-#: templates/base.html:145
+#: templates/base.html:147
 msgid "Unless specific mention, all Texts are under license"
 msgstr ""
 
@@ -3159,9 +3162,8 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: templates/annuaire/edit.html:158 templates/emploi/cv_details.html:55
-#: templates/emploi/cv_edit.html:61
-msgid "Professional experiences"
+#: templates/annuaire/edit.html:158
+msgid "Experiences"
 msgstr ""
 
 #: templates/annuaire/edit.html:205

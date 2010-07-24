@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-23 17:33+0200\n"
+"POT-Creation-Date: 2010-07-24 10:38+0200\n"
 "PO-Revision-Date: 2010-01-15 22:50+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: AIn7 French Translators <ain7-devel@lists.ain7.com>\n"
@@ -128,11 +128,11 @@ msgstr "Validé"
 msgid "subscription date"
 msgstr "date d'adhésion"
 
-#: adhesions/models.py:65 emploi/forms.py:197
+#: adhesions/models.py:65 emploi/models.py:399
 msgid "start year"
 msgstr "début (année)"
 
-#: adhesions/models.py:66 emploi/forms.py:199
+#: adhesions/models.py:66 emploi/models.py:369 emploi/models.py:401
 msgid "end year"
 msgstr "fin (année)"
 
@@ -480,7 +480,7 @@ msgstr "site internet"
 
 #: annuaire/models.py:162 annuaire/models.py:181 annuaire/models.py:574
 #: annuaire/models.py:610 annuaire/models.py:734 emploi/models.py:364
-#: emploi/models.py:489 templates/annuaire/details.html:94
+#: emploi/models.py:484 templates/annuaire/details.html:94
 #: templates/annuaire/edit.html:226 templates/annuaire/edit.html.py:231
 #: templates/emploi/cv_details.html:44 templates/emploi/cv_edit.html:46
 msgid "email"
@@ -495,7 +495,7 @@ msgstr "école"
 msgid "active"
 msgstr "actif"
 
-#: annuaire/models.py:200 emploi/forms.py:228
+#: annuaire/models.py:200 emploi/forms.py:223
 #: templates/adhesions/configurations.html:37
 msgid "year"
 msgstr "année"
@@ -679,7 +679,7 @@ msgstr "irc"
 #: annuaire/models.py:730 emploi/forms.py:55 emploi/models.py:372
 #: emploi/models.py:397 evenements/forms.py:62
 #: groupes_professionnels/models.py:41 groupes_regionaux/models.py:40
-#: groups/models.py:50 news/forms.py:108 voyages/forms.py:65
+#: groups/models.py:50 news/forms.py:119 voyages/forms.py:65
 #: voyages/models.py:57
 msgid "description"
 msgstr "description"
@@ -689,8 +689,7 @@ msgid "icon"
 msgstr "icône"
 
 #: annuaire/models.py:741 annuaire/models.py:764 association/forms.py:43
-#: association/forms.py:86 association/models.py:51 emploi/models.py:369
-#: emploi/models.py:401 emploi/models.py:406
+#: association/forms.py:86 association/models.py:51
 #: groupes_professionnels/forms.py:121 groupes_professionnels/forms.py:148
 #: groupes_professionnels/models.py:89 groupes_professionnels/models.py:114
 #: groupes_regionaux/forms.py:69 groupes_regionaux/forms.py:96
@@ -709,8 +708,7 @@ msgid "fonction"
 msgstr "fonction"
 
 #: annuaire/models.py:762 annuaire/models.py:781 association/forms.py:41
-#: association/forms.py:84 association/models.py:49 emploi/models.py:367
-#: emploi/models.py:399 emploi/models.py:405
+#: association/forms.py:84 association/models.py:49
 #: groupes_professionnels/forms.py:119 groupes_professionnels/forms.py:146
 #: groupes_professionnels/models.py:87 groupes_professionnels/models.py:112
 #: groupes_regionaux/forms.py:67 groupes_regionaux/forms.py:94
@@ -992,7 +990,7 @@ msgid "board member"
 msgstr "membre du bureau"
 
 #: association/forms.py:53 association/forms.py:94 emploi/forms.py:191
-#: emploi/forms.py:215 groupes_professionnels/forms.py:130
+#: emploi/forms.py:210 groupes_professionnels/forms.py:130
 #: groupes_professionnels/forms.py:156 groupes_regionaux/forms.py:77
 #: groupes_regionaux/forms.py:104 sondages/forms.py:50 voyages/forms.py:80
 msgid "Start date is later than end date"
@@ -1065,7 +1063,7 @@ msgid "reference"
 msgstr "réference"
 
 #: emploi/forms.py:45 emploi/forms.py:123 manage/models.py:44
-#: manage/models.py:67 news/forms.py:59 news/forms.py:72 news/models.py:55
+#: manage/models.py:67 news/forms.py:59 news/forms.py:83 news/models.py:55
 #: pages/forms.py:49 pages/models.py:48
 msgid "title"
 msgstr "titre"
@@ -1082,7 +1080,7 @@ msgstr "expérience"
 msgid "contract type"
 msgstr "Type de Contrat"
 
-#: emploi/forms.py:58 emploi/models.py:487
+#: emploi/forms.py:58 emploi/models.py:482
 msgid "Contact name"
 msgstr "Nom du contact"
 
@@ -1091,7 +1089,7 @@ msgid "Contact email"
 msgstr "email de contact"
 
 #: emploi/forms.py:62 emploi/forms.py:125 emploi/models.py:54
-#: emploi/models.py:111 emploi/models.py:492 organizations/forms.py:38
+#: emploi/models.py:111 emploi/models.py:487 organizations/forms.py:38
 #: organizations/forms.py:72 templates/emploi/job_details.html:30
 #: templates/emploi/organization_details.html:28
 #: templates/emploi/organization_edit.html:36
@@ -1117,7 +1115,7 @@ msgstr "L'établissement saisi n'existe pas."
 msgid "The entered activity field does not exist."
 msgstr "Le domaine d'activité saisi n'existe pas."
 
-#: emploi/forms.py:131 emploi/models.py:484
+#: emploi/forms.py:131 emploi/models.py:479
 msgid "Contract type"
 msgstr "Type de Contrat"
 
@@ -1125,19 +1123,19 @@ msgstr "Type de Contrat"
 msgid "all"
 msgstr "tous"
 
-#: emploi/forms.py:202 emploi/models.py:395 emploi/models.py:421
+#: emploi/forms.py:197 emploi/models.py:395 emploi/models.py:416
 msgid "diploma"
 msgstr "diplôme"
 
-#: emploi/forms.py:239 organizations/forms.py:113
+#: emploi/forms.py:234 organizations/forms.py:113
 msgid "Organization"
 msgstr "Entreprise"
 
-#: emploi/forms.py:247 organizations/forms.py:124
+#: emploi/forms.py:242 organizations/forms.py:124
 msgid "The organization is mandatory."
 msgstr "L'entreprise est obligatoire"
 
-#: emploi/forms.py:253
+#: emploi/forms.py:248
 #, python-format
 msgid "The organization \"%s\" does not exist."
 msgstr "L'entreprise \"%s\" n'existe pas."
@@ -1236,8 +1234,8 @@ msgstr "cabinet de recrutement"
 msgid "is a proposal"
 msgstr "est une proposition"
 
-#: emploi/models.py:169 emploi/models.py:326 emploi/models.py:502
-#: emploi/models.py:506
+#: emploi/models.py:169 emploi/models.py:326 emploi/models.py:497
+#: emploi/models.py:501
 msgid "author"
 msgstr "auteur"
 
@@ -1301,66 +1299,71 @@ msgstr "téléphone"
 msgid "regie outside"
 msgstr "Régie à l'extérieur"
 
+#: emploi/models.py:367
+msgid "startyear"
+msgstr "année de début"
+
 #: emploi/models.py:386
 msgid "position"
 msgstr "expérience professionnelle"
 
-#: emploi/models.py:415
+#: emploi/models.py:410
 msgid "Education item"
 msgstr "Entrée du CV partie \"Formation\""
 
-#: emploi/models.py:430
+#: emploi/models.py:425
 msgid "Diploma item"
 msgstr "Diplôme"
 
-#: emploi/models.py:439 emploi/models.py:455 emploi/models.py:479
-#: evenements/forms.py:60 news/forms.py:106
+#: emploi/models.py:434 emploi/models.py:450 emploi/models.py:474
+#: evenements/forms.py:60 news/forms.py:117
 #: templates/manage/error_details.html:32
 msgid "Title"
 msgstr "Titre"
 
-#: emploi/models.py:440 emploi/models.py:456
+#: emploi/models.py:435 emploi/models.py:451
 msgid "Detail"
 msgstr "Détail"
 
-#: emploi/models.py:449
+#: emploi/models.py:444
 msgid "Leisure item"
 msgstr "Loisirs"
 
-#: emploi/models.py:466
+#: emploi/models.py:461
 msgid "Publication and patent"
 msgstr "Publication et brevet"
 
-#: emploi/models.py:477 templates/emploi/job_details.html:17
+#: emploi/models.py:472 templates/emploi/job_details.html:17
 msgid "Reference"
 msgstr "Réference"
 
-#: emploi/models.py:480
+#: emploi/models.py:475
 msgid "Description"
 msgstr "Description"
 
-#: emploi/models.py:482 templates/annuaire/details.html:131
+#: emploi/models.py:477 templates/annuaire/details.html:131
+#: templates/emploi/cv_details.html:55 templates/emploi/cv_edit.html:61
 #: templates/emploi/job_details.html:16
 msgid "Experience"
 msgstr "Experience"
 
-#: emploi/models.py:495
+#: emploi/models.py:490
 msgid "checked by secretariat"
 msgstr "vérifié par le secrétariat"
 
-#: emploi/models.py:496
+#: emploi/models.py:491
 msgid "Number of views"
 msgstr "Nombre de visionnages"
 
-#: emploi/models.py:498
+#: emploi/models.py:493
 msgid "Job offer is obsolete"
 msgstr "L'offre d'emploi est obsolete"
 
-#: emploi/models.py:535
+#: emploi/models.py:530
 msgid "viewed by"
 msgstr "consulté par"
 
-#: emploi/models.py:535
+#: emploi/models.py:530
 msgid "at"
 msgstr "à"
 
@@ -1456,29 +1459,29 @@ msgstr "Souhaitez-vous vraiment supprimer cette proposition d'offre d'emploi ?"
 msgid "Job proposal removed."
 msgstr "Proposition d'offre d'emploi supprimée."
 
-#: evenements/forms.py:39 news/forms.py:85
+#: evenements/forms.py:39 news/forms.py:96
 msgid "Event title"
 msgstr "Nom de l'événement"
 
-#: evenements/forms.py:41 news/forms.py:87
+#: evenements/forms.py:41 news/forms.py:98
 #: templates/evenements/details.html:18 templates/evenements/index.html:30
 msgid "Location"
 msgstr "Lieu"
 
-#: evenements/forms.py:52 news/forms.py:98
+#: evenements/forms.py:52 news/forms.py:109
 msgid "your message"
 msgstr "votre message"
 
-#: evenements/forms.py:55 news/forms.py:101
+#: evenements/forms.py:55 news/forms.py:112
 msgid "your email"
 msgstr "votre courriel"
 
-#: evenements/forms.py:65 news/forms.py:111 news/models.py:61
+#: evenements/forms.py:65 news/forms.py:122 news/models.py:61
 #: news/models.py:73 templates/voyages/details.html:15
 msgid "date"
 msgstr "date"
 
-#: evenements/forms.py:85 news/forms.py:131 news/models.py:137
+#: evenements/forms.py:85 news/forms.py:142 news/models.py:137
 msgid "organizer"
 msgstr "organisateur"
 
@@ -2038,7 +2041,7 @@ msgstr "Actualité"
 msgid "News content"
 msgstr "Contenu"
 
-#: news/forms.py:61 news/forms.py:74 news/models.py:56 pages/forms.py:51
+#: news/forms.py:61 news/forms.py:85 news/models.py:56 pages/forms.py:51
 #: pages/models.py:49
 msgid "body"
 msgstr "corps"
@@ -2294,7 +2297,7 @@ msgid "Field"
 msgstr "Champ"
 
 #: search_engine/models.py:124 search_engine/models.py:148
-#: search_engine/models.py:154 templates/base.html:143
+#: search_engine/models.py:154 templates/base.html:145
 msgid "and"
 msgstr "et"
 
@@ -2548,34 +2551,34 @@ msgstr "Web"
 msgid "Travels"
 msgstr "Voyages"
 
-#: templates/base.html:118
+#: templates/base.html:119
 msgid "Gallery"
 msgstr "Galerie"
 
-#: templates/base.html:122
+#: templates/base.html:124
 msgid "Management"
 msgstr "Gestion"
 
-#: templates/base.html:138
+#: templates/base.html:140
 msgid "RSS"
 msgstr "Flux RSS"
 
-#: templates/base.html:139 templates/annuaire/details.html:78
+#: templates/base.html:141 templates/annuaire/details.html:78
 #: templates/annuaire/details.html:100 templates/annuaire/edit.html:275
 #: templates/association/base.html:30 templates/emploi/job_details.html:19
 #: templates/emploi/job_details.html:33 templates/evenements/details.html:16
 msgid "Contact"
 msgstr "Contact"
 
-#: templates/base.html:140
+#: templates/base.html:142
 msgid "About"
 msgstr "À propos"
 
-#: templates/base.html:141
+#: templates/base.html:143
 msgid "Terms of use"
 msgstr "Mentions légales"
 
-#: templates/base.html:145
+#: templates/base.html:147
 msgid "Unless specific mention, all Texts are under license"
 msgstr "Sauf mention spécifique, tous les textes sont sous licence"
 
@@ -3259,10 +3262,9 @@ msgstr "Pas de promotion"
 msgid "Add"
 msgstr "Ajouter"
 
-#: templates/annuaire/edit.html:158 templates/emploi/cv_details.html:55
-#: templates/emploi/cv_edit.html:61
-msgid "Professional experiences"
-msgstr "Expériences professionnelles"
+#: templates/annuaire/edit.html:158
+msgid "Experiences"
+msgstr "Experience"
 
 #: templates/annuaire/edit.html:205
 msgid "Phone numbers"
@@ -4666,48 +4668,3 @@ msgid "Do you really want this person not to be responsible of this travel"
 msgstr ""
 "Souhaitez-vous vraiment que cette personne ne soit pas responsable de ce "
 "voyage ?"
-
-#~ msgid "Number of persons"
-#~ msgstr "Nombre de personnes"
-
-#~ msgid "Note, question, etc.."
-#~ msgstr "Note, question, etc."
-
-#~ msgid "This number includes yourself, so it should be at least 1."
-#~ msgstr "Ce nombre vous inclut, il doit donc valoir au moins 1."
-
-#~ msgid ""
-#~ "This number includes the person you subscribe, so it should be at least 1."
-#~ msgstr ""
-#~ "Ce nombre inclut la personne que vous inscrivez, et doit donc valoir au "
-#~ "moins 1."
-
-#~ msgid "organizers"
-#~ msgstr "Organisateurs"
-
-#~ msgid "event subscription"
-#~ msgstr "inscription"
-
-#~ msgid "event subscriptions"
-#~ msgstr "inscriptions"
-
-#~ msgid "subscribers in total"
-#~ msgstr "nouveaux inscrits"
-
-#~ msgid "subscribed by"
-#~ msgstr "inscrit par"
-
-#~ msgid "New subscription for"
-#~ msgstr "Nouvelle inscription pour"
-
-#~ msgid "You have already subscribed to this event."
-#~ msgstr "Vous êtes déjà inscrit à cet évènement."
-
-#~ msgid "You have been successfully subscribed to this event."
-#~ msgstr "Vous vous êtes inscrit à cet événement avec succès."
-
-#~ msgid "This person is already subscribed to this event."
-#~ msgstr "Cette personne est déjà inscrite à cet évènement."
-
-#~ msgid "to this event."
-#~ msgstr "à cet événement."

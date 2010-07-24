@@ -194,11 +194,6 @@ class PositionForm(forms.ModelForm):
 class EducationItemForm(forms.ModelForm):
     """Education Item form"""
 
-    start_date = forms.DateField(label=_('start year').capitalize(),
-        input_formats=['%Y'], widget=forms.DateTimeInput(format='%Y'))
-    end_date = forms.DateField(label=_('end year').capitalize(),
-        input_formats=['%Y'], widget=forms.DateTimeInput(format='%Y'),
-        required=False)
     diploma = forms.CharField(label=_('diploma').capitalize(),
         widget=AutoCompleteField(completed_obj_name='diploma'), required=False)
 

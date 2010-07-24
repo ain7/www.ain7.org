@@ -114,8 +114,10 @@
 {% block barre-voyages %}<li>{% endblock %}
     <a href="{% url ain7.voyages.views.index %}" accesskey="v">{% trans "Travels" %}</a></li>
 
+{% comment %}
 {% block barre-galerie %}<li>{% endblock %}
     <a href="{% url ain7.pages.views.galerie %}" accesskey="l">{% trans "Gallery" %}</a></li>
+{% endcomment %}
 
 {% if superadmin or ca_member or secretariat_member %}
 {% block barre-manage %}<li>{% endblock %}
