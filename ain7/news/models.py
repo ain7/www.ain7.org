@@ -96,7 +96,10 @@ class NewsItem(LoggedClass):
 
     def get_absolute_url(self):
         """news item url"""
-        return reverse('ain7.news.views.details', args=[self.slug])
+        if self.date:
+            return reverse('ain7.news.views.event_details', args=[self.id])
+        else:
+            return reverse('ain7.news.views.details', args=[self.slug])
 
     def short_body(self):
         """news item short body"""
