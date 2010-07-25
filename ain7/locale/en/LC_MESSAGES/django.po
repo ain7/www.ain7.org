@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-24 10:38+0200\n"
+"POT-Creation-Date: 2010-07-25 18:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -245,8 +245,7 @@ msgstr ""
 #: adhesions/views.py:291 annuaire/views.py:321 annuaire/views.py:347
 #: annuaire/views.py:531 annuaire/views.py:557 annuaire/views.py:588
 #: emploi/views.py:120 emploi/views.py:177 emploi/views.py:252
-#: emploi/views.py:309 evenements/views.py:76 evenements/views.py:127
-#: evenements/views.py:267 groupes_professionnels/views.py:149
+#: emploi/views.py:309 groupes_professionnels/views.py:149
 #: groupes_regionaux/views.py:76 manage/views.py:309 manage/views.py:336
 #: manage/views.py:1166 news/views.py:76 news/views.py:195 news/views.py:246
 #: news/views.py:387 search_engine/views.py:268 sondages/views.py:103
@@ -660,10 +659,9 @@ msgid "irc"
 msgstr ""
 
 #: annuaire/models.py:730 emploi/forms.py:55 emploi/models.py:372
-#: emploi/models.py:397 evenements/forms.py:62
-#: groupes_professionnels/models.py:41 groupes_regionaux/models.py:40
-#: groups/models.py:50 news/forms.py:119 voyages/forms.py:65
-#: voyages/models.py:57
+#: emploi/models.py:397 groupes_professionnels/models.py:41
+#: groupes_regionaux/models.py:40 groups/models.py:50 news/forms.py:119
+#: voyages/forms.py:65 voyages/models.py:57
 msgid "description"
 msgstr ""
 
@@ -1287,8 +1285,7 @@ msgid "Diploma item"
 msgstr ""
 
 #: emploi/models.py:434 emploi/models.py:450 emploi/models.py:474
-#: evenements/forms.py:60 news/forms.py:117
-#: templates/manage/error_details.html:32
+#: news/forms.py:117 templates/manage/error_details.html:32
 msgid "Title"
 msgstr ""
 
@@ -1418,68 +1415,6 @@ msgstr ""
 
 #: emploi/views.py:543
 msgid "Job proposal removed."
-msgstr ""
-
-#: evenements/forms.py:39 news/forms.py:96
-msgid "Event title"
-msgstr ""
-
-#: evenements/forms.py:41 news/forms.py:98
-#: templates/evenements/details.html:18 templates/evenements/index.html:30
-msgid "Location"
-msgstr ""
-
-#: evenements/forms.py:52 news/forms.py:109
-msgid "your message"
-msgstr ""
-
-#: evenements/forms.py:55 news/forms.py:112
-msgid "your email"
-msgstr ""
-
-#: evenements/forms.py:65 news/forms.py:122 news/models.py:61
-#: news/models.py:73 templates/voyages/details.html:15
-msgid "date"
-msgstr ""
-
-#: evenements/forms.py:85 news/forms.py:142 news/models.py:137
-msgid "organizer"
-msgstr ""
-
-#: evenements/views.py:84 news/views.py:203
-msgid "Modification of event"
-msgstr ""
-
-#: evenements/views.py:92 news/views.py:211
-msgid "Do you really want to delete the image of this event"
-msgstr ""
-
-#: evenements/views.py:107 news/views.py:226
-msgid "The image of this event has been successfully deleted."
-msgstr ""
-
-#: evenements/views.py:134 news/views.py:253
-msgid "New event registration"
-msgstr ""
-
-#: evenements/views.py:208 news/views.py:328
-msgid "Your message has been sent to the event responsible."
-msgstr ""
-
-#: evenements/views.py:212 news/views.py:332
-msgid "Something was wrong in the form you filled. No message sent."
-msgstr ""
-
-#: evenements/views.py:274 news/views.py:394
-msgid "Adding organizer"
-msgstr ""
-
-#: evenements/views.py:282 news/views.py:402
-msgid "Do you really want to remove this organizer"
-msgstr ""
-
-#: evenements/views.py:298 news/views.py:418
-msgid "Organizer successfully removed"
 msgstr ""
 
 #: groupes_professionnels/forms.py:44
@@ -1985,6 +1920,32 @@ msgstr ""
 msgid "body"
 msgstr ""
 
+#: news/forms.py:96
+msgid "Event title"
+msgstr ""
+
+#: news/forms.py:98 templates/evenements/details.html:18
+#: templates/evenements/index.html:30
+msgid "Location"
+msgstr ""
+
+#: news/forms.py:109
+msgid "your message"
+msgstr ""
+
+#: news/forms.py:112
+msgid "your email"
+msgstr ""
+
+#: news/forms.py:122 news/models.py:61 news/models.py:73
+#: templates/voyages/details.html:15
+msgid "date"
+msgstr ""
+
+#: news/forms.py:142 news/models.py:140
+msgid "organizer"
+msgstr ""
+
 #: news/models.py:49
 msgid "project"
 msgstr ""
@@ -2025,15 +1986,15 @@ msgstr ""
 msgid "Pictures gallery"
 msgstr ""
 
-#: news/models.py:130
+#: news/models.py:133
 msgid "news item"
 msgstr ""
 
-#: news/models.py:135 voyages/models.py:105
+#: news/models.py:138 voyages/models.py:105
 msgid "event"
 msgstr ""
 
-#: news/models.py:140
+#: news/models.py:143
 msgid "send email for new subscription"
 msgstr ""
 
@@ -2055,6 +2016,42 @@ msgstr ""
 
 #: news/views.py:122
 msgid "The news has been successfully deleted."
+msgstr ""
+
+#: news/views.py:203
+msgid "Modification of event"
+msgstr ""
+
+#: news/views.py:211
+msgid "Do you really want to delete the image of this event"
+msgstr ""
+
+#: news/views.py:226
+msgid "The image of this event has been successfully deleted."
+msgstr ""
+
+#: news/views.py:253
+msgid "New event registration"
+msgstr ""
+
+#: news/views.py:328
+msgid "Your message has been sent to the event responsible."
+msgstr ""
+
+#: news/views.py:332
+msgid "Something was wrong in the form you filled. No message sent."
+msgstr ""
+
+#: news/views.py:394
+msgid "Adding organizer"
+msgstr ""
+
+#: news/views.py:402
+msgid "Do you really want to remove this organizer"
+msgstr ""
+
+#: news/views.py:418
+msgid "Organizer successfully removed"
 msgstr ""
 
 #: organizations/forms.py:41
