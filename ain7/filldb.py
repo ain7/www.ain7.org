@@ -32,7 +32,6 @@ import ain7.adhesions.models as adhesions
 import ain7.annuaire.models as annuaire
 import ain7.association.models as association
 import ain7.emploi.models as emploi
-import ain7.evenements.models as evenements
 import ain7.groupes_professionnels.models as groupes_professionnels
 import ain7.groupes_regionaux.models as groupes_regionaux
 import ain7.manage.models as manage
@@ -987,34 +986,34 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     orgSearchEngine.name = "organization"
     orgSearchEngine.save()
 
-    subscription_conf1 = adhesions.SubscriptionConfiguration(type=0, dues_amount=75, newspaper_amount=15)
+    subscription_conf1 = adhesions.SubscriptionConfiguration(type=0, dues_amount=75, newspaper_amount=15, year=datetime.now().year)
     subscription_conf1.save()
 
-    subscription_conf2 = adhesions.SubscriptionConfiguration(type=1, dues_amount=50, newspaper_amount=15)
+    subscription_conf2 = adhesions.SubscriptionConfiguration(type=1, dues_amount=50, newspaper_amount=15, year=datetime.now().year)
     subscription_conf2.save()
 
-    subscription_conf3 = adhesions.SubscriptionConfiguration(type=2, dues_amount=50, newspaper_amount=15)
+    subscription_conf3 = adhesions.SubscriptionConfiguration(type=2, dues_amount=50, newspaper_amount=15, year=datetime.now().year)
     subscription_conf3.save()
 
-    subscription_conf4 = adhesions.SubscriptionConfiguration(type=3, dues_amount=160, newspaper_amount=15)
+    subscription_conf4 = adhesions.SubscriptionConfiguration(type=3, dues_amount=160, newspaper_amount=15, year=datetime.now().year)
     subscription_conf4.save()
 
-    subscription_conf5 = adhesions.SubscriptionConfiguration(type=4, dues_amount=30)
+    subscription_conf5 = adhesions.SubscriptionConfiguration(type=4, dues_amount=30, year=datetime.now().year)
     subscription_conf5.save()
 
-    subscription_conf6 = adhesions.SubscriptionConfiguration(type=5, dues_amount=15, duration=3)
+    subscription_conf6 = adhesions.SubscriptionConfiguration(type=5, dues_amount=15, duration=3, year=datetime.now().year)
     subscription_conf6.save()
 
-    subscription_conf7 = adhesions.SubscriptionConfiguration(type=6, dues_amount=10, duration=2)
+    subscription_conf7 = adhesions.SubscriptionConfiguration(type=6, dues_amount=10, duration=2, year=datetime.now().year)
     subscription_conf7.save()
 
-    subscription_conf8 = adhesions.SubscriptionConfiguration(type=7, dues_amount=5)
+    subscription_conf8 = adhesions.SubscriptionConfiguration(type=7, dues_amount=5, year=datetime.now().year)
     subscription_conf8.save()
 
-    subscription_conf9 = adhesions.SubscriptionConfiguration(type=9, dues_amount=160, newspaper_amount=15)
+    subscription_conf9 = adhesions.SubscriptionConfiguration(type=9, dues_amount=160, newspaper_amount=15, year=datetime.now().year)
     subscription_conf9.save()
 
-    subscription_conf10 = adhesions.SubscriptionConfiguration(type=10, dues_amount=100, newspaper_amount=15)
+    subscription_conf10 = adhesions.SubscriptionConfiguration(type=10, dues_amount=100, newspaper_amount=15, year=datetime.now().year)
     subscription_conf10.save()
 
     #                                                                  #
@@ -2788,21 +2787,19 @@ Petit déjeuner, temps libre jusqu’au transfert vers l’aéroport internation
 
     utc = vobject.icalendar.utc
 
-    evenement1 = evenements.Event()
+    evenement1 = news.NewsItem()
     evenement1.title = u"Réunion 100 ans"
     evenement1.date = datetime.now() + timedelta(10)
     evenement1.author = "Olivier Gauwin"
     evenement1.contact_email = "olivier.gauwin@alumni.enseeiht.fr"
     evenement1.location = "ENSEEIHT"
     evenement1.body = u"Organisation des événements liés au centenaire de l'ENSEEIHT."
-    evenement1.publication_start = datetime.now()
-    evenement1.publication_end = datetime.now() + timedelta(30)
     evenement1.image = "data/anniversaire.jpg"
     evenement1.save()
     evenement1.regional_groups.add(gr11)
     evenement1.save()
 
-    evenement2 = evenements.Event()
+    evenement2 = news.NewsItem()
     evenement2.title = u"Réunion CA"
     evenement2.date = datetime(2007, 11, 17, 10, 0)
     evenement2.author = "Lionel Porcheron"
@@ -2810,8 +2807,6 @@ Petit déjeuner, temps libre jusqu’au transfert vers l’aéroport internation
     evenement2.location = "ENSEEIHT"
     evenement2.body = "Conseil d'administration"
     evenement2.image = "data/conseil.jpg"
-    evenement2.publication_start = datetime.now()
-    evenement2.publication_end = datetime.now() + timedelta(30)
     evenement2.save()
     evenement2.regional_groups.add(gr11)
     evenement2.save()
