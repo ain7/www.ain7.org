@@ -378,6 +378,21 @@ class AIn7MemberManager(models.Manager):
             crits.extend(crits_for_admin)
         return crits
 
+    def pending_subscriptions(self):
+        return None
+
+    def subscribers(self):
+        pt = PersonType.objects.get(id=1)
+        return self.filter(ain7member__person__personprivate__death_date__isnull=True, ain7member__subscriptions__start_year=2010, personprivate__person_type=pt)
+
+    def almuni(self):
+        pt = PersonType.objects.get(id=1)
+        return self.filter(ain7member__person__personprivate__death_date__isnull=True, personprivate__person_type=pt, ain7member__promos__year__year__lte=2009)
+
+    def students(self):
+        return self.filter(ain7member__promos__year__year__gt=2009)
+
+
 def avatar_file_path(instance, filename):
     from django.utils.hashcompat import sha_constructor
     hash = sha_constructor(settings.SECRET_KEY + str(instance.person.id) + str(time.time())).hexdigest()[::2]
@@ -567,8 +582,6 @@ class Address(LoggedClass):
 class Email(models.Model):
     """e-mail address for a person"""
 
-    from ain7.emploi.models import Position
-
     person = models.ForeignKey(Person, related_name='emails', editable=False)
 
     email = models.EmailField(verbose_name=_('email'))
@@ -577,7 +590,7 @@ class Email(models.Model):
     preferred_email = models.BooleanField(verbose_name=_('preferred'),
         default=False)
 
-    position = models.ForeignKey(Position, related_name='mail', blank=True, null=True, editable=False)
+    position = models.ForeignKey('emploi.Position', related_name='mail', blank=True, null=True, editable=False)
 
     def website_confidential(self):
         """email confidentiality for the website"""
@@ -752,7 +765,7 @@ class Club(LoggedClass):
 class ClubMembership(models.Model):
     """Club membership for a person"""
 
-    club = models.ForeignKey(Club, verbose_name=_('club'),
+    club = models.ForeignKey('groups.Group', verbose_name=_('club'),
         related_name='memberships')
     member = models.ForeignKey(AIn7Member, verbose_name=_('member'),
         related_name='club_memberships', editable=False)

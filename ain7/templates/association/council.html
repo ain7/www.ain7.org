@@ -6,20 +6,23 @@
 
 {% block content-left %}
 
-<h3>{% trans "Administration Council" %}</h3>
-
-{% regroup current_roles by role as roles_by_role %}
-{% for roles in roles_by_role %}
-  <h4>{{ roles.list.0.get_role_display }}</h4>
-    <ul>
-      {% for role in roles.list %}
+<ul>
+{% for r in  group.get_group_head %}
       <li>
-        <a href="{% url ain7.annuaire.views.details role.member.user.id %}">
-          {{ role.member }}</a>
+        {{ r.title }}: <a href="{% url ain7.annuaire.views.details r.person.user.id %}">
+          {{ r.person }}</a>
+        {% if superadmin or secretariat_member %}
+        <a href="{% url ain7.association.views.edit_council_role r.id %}" class="changelink">
+{% trans "Modify" %}</a>
+           <a href="{% url ain7.association.views.delete_council_role r.id %}" class="deletelink">
+           {% trans "Delete" %}</a>
+        {% endif%}
       </li>
-      {% endfor %}
-    </ul>
 {% endfor %}
+</ul>
+
+<p><a href="{% url ain7.association.views.edit_council_role %}" class="addlink">
+   {% trans "Add" %}</a></p>
 
 {% endblock %}
 
@@ -29,7 +32,7 @@
    <h3>{% trans "Actions" %}</h3>
    <div class="right_articles">
     <ul>
-      <li><a href="{% url ain7.association.views.edit_council "current" %}">{% trans "Change council roles" %}</a></li>
+      <li><a href="{% url ain7.association.views.council %}">{% trans "Change council roles" %}</a></li>
     </ul>
    </div>
    {% endif %}

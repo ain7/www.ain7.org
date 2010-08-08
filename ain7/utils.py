@@ -27,13 +27,11 @@ from string import Template
 
 from django import forms
 from django.conf import settings
-from django.contrib.auth.models import Group
 from django.db import models
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext, TemplateSyntaxError
 from django.utils.translation import ugettext as _
-
 
 # the separator used in CSV exports, when a cell contains a list of values
 CSV_INNERSEP = '|'
@@ -56,7 +54,10 @@ def ain7_website_confidential(obj):
 # http://docs.djangoproject.com/en/dev/ref/templates/api/#writing-your-own-context-processors
 def ain7_render_to_response(req, *args, **kwargs):
 
-    user_groups = req.user.groups.all().values_list('name', flat=True)
+    user_groups = []
+
+    if req.user.is_authenticated():
+        user_groups = req.user.person.groups.values_list('group__name', flat=True)
 
     args[1]['portal_version'] = settings.VERSION
     args[1]['tinymce_version'] = settings.TINYMCE_VERSION
@@ -73,11 +74,15 @@ def ain7_render_to_response(req, *args, **kwargs):
     kwargs['context_instance'] = RequestContext(req)
     return render_to_response(*args, **kwargs)
 
-# détermine si un user a le profil administrateur
 def isAdmin(user):
+    """détermine si un user a le profil administrateur"""
+
+    from ain7.groups.models import Group
+
     try:
+        person = Person.objects.get(user=user)
         portal_admin = Group.objects.get(name=settings.AIN7_PORTAL_ADMIN)
-        if portal_admin in user.groups.all():
+        if portal_admin in person.groups.values_list('group__name', flat=True):
             return True
     except Group.DoesNotExist:
         return False
@@ -86,7 +91,7 @@ def isAdmin(user):
 
 def check_access(request, user, groups):
 
-    user_groups = user.groups.values_list('name', flat=True)
+    user_groups = user.person.groups.values_list('group__name', flat=True)
 
     if settings.AIN7_PORTAL_ADMIN in user_groups:
         return None
@@ -150,7 +155,6 @@ def ain7_generic_delete(request, obj, redirectPage, msgDone):
     obj.delete()
     request.user.message_set.create(message=msgDone)
     return HttpResponseRedirect(redirectPage)
-
  
 class LoggedClass(models.Model):
     """ Classe abstraite contenant les infos à enregistrer pour les modèles

@@ -29,8 +29,7 @@ from django.template import defaultfilters
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
-from ain7.groupes_regionaux.models import Group
-from ain7.groupes_professionnels.models import GroupPro
+from ain7.groups.models import Group
 from ain7.utils import LoggedClass
 
 # a Manager for the class NewsItem
@@ -62,11 +61,8 @@ class NewsItem(LoggedClass):
         default=datetime.datetime.today, editable=False)
 
     # to which group we should link this news
-    regional_groups = models.ManyToManyField(Group,
-         verbose_name=_('regional groups'), related_name='events',
-         blank=True, null=True)
-    professional_groups = models.ManyToManyField(GroupPro,
-         verbose_name=_('professional groups'), related_name='events',
+    groups = models.ManyToManyField(Group,
+         verbose_name=_('groups'), related_name='events',
          blank=True, null=True)
 
     # those fields are only present for an event

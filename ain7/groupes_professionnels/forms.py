@@ -31,7 +31,7 @@ from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
 from ain7.fields import AutoCompleteField
-from ain7.groupes_professionnels.models import Membership, GroupPro, GroupProRole
+from ain7.groups.models import Member, Group, GroupLeader
 from ain7.widgets import DateTimeWidget
 
 
@@ -46,7 +46,7 @@ class SubscribeGroupProForm(forms.Form):
 
     def save(self, group=None):
         """save group pro membership"""
-        membership = Membership()
+        membership = Member()
         membership.member = \
             Person.objects.get(user__id=self.cleaned_data['member'])
         membership.group = group
@@ -74,12 +74,12 @@ class UnsubscribeGroupProForm(forms.Form):
     def unsubscribe(self, group=None):
         """unsubscribe from a group pro method"""
         person = Person.objects.get(user__id=self.cleaned_data['member'])
-        membership = Membership.objects\
+        membership = Member.objects\
             .filter(group=group, member=person)\
             .exclude(end_date__isnull=False,
                      end_date__lte=datetime.datetime.now())\
             .latest('end_date')
-        membership.end_date = datetime.datetime.now()
+        membership.end_date = datetime.datetime.today()
         membership.save()
 
 class GroupProForm(forms.ModelForm):
@@ -96,14 +96,15 @@ class GroupProForm(forms.ModelForm):
         if not re.match(r'^[a-z0-9\-_]+$', self.cleaned_data['slug']):
             raise forms.ValidationError(
                 _('Please only use alphanumeric characters'))
-        if GroupPro.objects.filter(name=self.cleaned_data['slug']).count() > 1:
+        if Group.objects.filter(name=self.cleaned_data['slug']).count() > 1:
             raise forms.ValidationError(
                 _('A group with this slug already exists'))
         return self.cleaned_data['slug']
 
     class Meta:
         """group pro meta"""
-        model = GroupPro
+        model = Group
+        exclude = ['type', 'access', 'private', 'web_site', 'email',]
 
     def save(self, user=None):
         """save group pro form method"""
@@ -111,15 +112,19 @@ class GroupProForm(forms.ModelForm):
         group_pro.logged_save(user.person)
         return group_pro
 
-class NewRoleForm(forms.Form):
-    """new role form"""
+class RoleForm(forms.ModelForm):
+    """role form"""
 
-    username = forms.CharField(label=_('Username'), max_length=100,
+    person = forms.IntegerField(label=_('Person'),
         required=True, widget=AutoCompleteField(completed_obj_name='person'))
     start_date = forms.DateTimeField(label=_('start date').capitalize(),
         widget=DATE_WIDGET, required=True)
     end_date = forms.DateTimeField(label=_('end date').capitalize(),
         widget=DATE_WIDGET, required=False)
+
+    class Meta:
+         model = GroupLeader
+         exclude = ['grouphead']
 
     def clean_end_date(self):
         """clean membership en date"""
@@ -130,35 +135,18 @@ class NewRoleForm(forms.Form):
             raise forms.ValidationError(_('Start date is later than end date'))
         return self.cleaned_data['end_date']
 
-    def save(self, group, type):
-        """save group membership"""
-        grp = GroupProRole()
-        grp.type = type
-        grp.start_date = self.cleaned_data['start_date']
-        grp.end_date = self.cleaned_data['end_date']
-        grp.group = group
-        grp.member = get_object_or_404(Person, pk=self.cleaned_data['username'])
-        grp.save()
-        return grp
-
-class ChangeDatesForm(forms.Form):
-    """change dates form"""
-    start_date = forms.DateTimeField(label=_('start date').capitalize(),
-        widget=DATE_WIDGET, required=True)
-    end_date = forms.DateTimeField(label=_('end date').capitalize(),
-        widget=DATE_WIDGET, required=False)
-
-    def clean_end_date(self):
-        """check end date method"""
-        if self.cleaned_data.get('start_date') and \
-            self.cleaned_data.get('end_date') and \
-            self.cleaned_data['start_date']>self.cleaned_data['end_date']:
-            raise forms.ValidationError(_('Start date is later than end date'))
-        return self.cleaned_data['end_date']
-
-    def save(self, role):
-        """sve end date"""
-        role.start_date = self.cleaned_data['start_date']
-        role.end_date = self.cleaned_data['end_date']
-        return role.save()
+    def clean_person(self):
+        """check username"""
+        pid = self.cleaned_data['person']
+        if pid == None:
+            raise ValidationError(_('This field is mandatory.'))
+            return None
+        else:
+            person = None
+            try:
+                person = Person.objects.get(id=pid)
+            except Person.DoesNotExist:
+                raise ValidationError(_('The entered person is not in\
+ the database.'))
+            return person
 

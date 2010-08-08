@@ -1,0 +1,41 @@
+{% extends "groupes_regionaux/base.html" %}
+{% load i18n %}
+
+{% block javascript %}
+<!-- calendar -->
+<script src="/site_media/js/calendar/calendar.js" type="text/javascript"></script>
+<!-- this is translation file for calendar - choose your language here -->
+<script src="/site_media/js/calendar/lang/calendar-en.js" type="text/javascript"></script>
+<script src="/site_media/js/calendar/calendar-setup.js" type="text/javascript"></script>
+<!-- /calendar -->
+<script src="/site_media/js/mootools-{{ mootools_version }}-core-nc.js" type="text/javascript"></script>
+<script src="/site_media/js/mootools-{{ mootools_more_version }}-more.js" type="text/javascript"></script> 
+<script src="/site_media/js/autocomplete.js?version={{ portal_version }}" type="text/javascript"></script>
+{% endblock %}
+
+{% block content-left %}
+
+
+<form method="post" action="." enctype="multipart/form-data">
+<table>
+{{ form }}
+</table>
+<div style="text-align: center">
+<a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
+<input type="submit" class="button" value="{% trans "Save" %}" />
+</div>
+</form>
+
+{% endblock %}
+
+
+{% block actions %}
+   {% if superadmin or secretariat_member %}
+   <h3>{% trans "Actions" %}</h3>
+   <div class="right_articles">
+    <ul>
+      <li><a href="{% url ain7.association.views.council %}">{% trans "Change council roles" %}</a></li>
+    </ul>
+   </div>
+   {% endif %}
+{% endblock %}

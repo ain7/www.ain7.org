@@ -24,7 +24,7 @@
 import datetime
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
@@ -36,6 +36,7 @@ from ain7.decorators import confirmation_required
 from ain7.annuaire.models import Country
 from ain7.emploi.models import Organization, Office
 from ain7.emploi.models import OrganizationProposal, OfficeProposal
+from ain7.groups.models import Group, Member
 from ain7.manage.models import Notification, PortalError, Payment
 from ain7.manage.forms import SearchUserForm, NewPersonForm, \
                               NewRoleForm, MemberRoleForm, NotificationForm, \
@@ -1080,7 +1081,7 @@ def role_details(request, role_id):
     if access:
         return access
 
-    group = get_object_or_404(Group, name=role_id)
+    group = get_object_or_404(Group, slug=role_id)
     return ain7_render_to_response(request, 'manage/role_details.html',
                                    {'role': group})
 
@@ -1092,15 +1093,16 @@ def role_member_add(request, role_id):
     if access:
         return access
 
-    group = get_object_or_404(Group, name=role_id)
+    group = get_object_or_404(Group, slug=role_id)
 
     form = MemberRoleForm()
 
     if request.method == 'POST':
         form = MemberRoleForm(request.POST)
         if form.is_valid():
-            user = User.objects.get(id=form.cleaned_data['username'])
-            user.groups.add(group)
+            member = form.save(commit=False)
+            member.group = group
+            member.save()
             request.user.message_set.create(message=_('User added to role'))
             return HttpResponseRedirect('/manage/roles/%s/' % role_id)
         else:
@@ -1119,10 +1121,10 @@ def role_member_delete(request, role_id, member_id):
     if access:
         return access
 
-    group = get_object_or_404(Group, name=role_id)
-    member = get_object_or_404(User, pk=member_id)
+    group = get_object_or_404(Group, slug=role_id)
+    member = get_object_or_404(Member, pk=member_id)
 
-    member.groups.remove(group)
+    member.end_date = datetime.date.today()
 
     request.user.message_set.create(message=_('Member removed from role'))
 

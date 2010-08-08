@@ -25,15 +25,14 @@ import os
 
 from datetime import date, datetime, timedelta
 
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 
 import ain7.adhesions.models as adhesions
 import ain7.annuaire.models as annuaire
 import ain7.association.models as association
 import ain7.emploi.models as emploi
-import ain7.groupes_professionnels.models as groupes_professionnels
-import ain7.groupes_regionaux.models as groupes_regionaux
+import ain7.groups.models as groups
 import ain7.manage.models as manage
 import ain7.pages.models as pages
 import ain7.news.models as news
@@ -51,29 +50,29 @@ def filldb():
     text1 = pages.Text()
     text1.textblock = textblock1
     text1.lang = 'fr'
-    text1.title = u"Le réseau AIN7 : une force collective et des atouts au service de chaque diplômé ENSEEIHT"
+    text1.title = u"Le réseau AIn7 : une force collective et des atouts au service de chaque diplômé ENSEEIHT"
     text1.body = u"""<img src="/site_media/images/logo_ain7.png" class="image" alt="Big Image" />
 <p>L'ENSEEIHT a fêté son centenaire en 2007. Naturellement issue des premières promotions 
-d'ingénieurs de l'école, l'AIN7 a, au fil des décennies, toujours œuvré au service de tous 
+d'ingénieurs de l'école, l'AIn7 a, au fil des décennies, toujours œuvré au service de tous 
 les diplômés, elle a développé et entretient entre eux des liens professionnels et amicaux, 
 elle contribue à des actions en profondeur, au sein de l'Ecole et dans le monde des affaires, 
 pour améliorer et optimiser l'image et la notoriété de notre communauté.</p>
 <p>12 000 ingénieurs ont reçu, depuis l'origine, le diplôme d'ingénieur. Près de 10 000 sont 
 en activité… ceci dans tous les grands secteurs de l'Economie. Cela crée un potentiel de premier 
-plan et l'AIN7 se place en véritable catalyseur…</p>
+plan et l'AIn7 se place en véritable catalyseur…</p>
 <p>En ce début de 21ème siècle, réseau est obligatoirement synonyme de web. Conscient de ce fait 
-incontournable, l'AIN7 prend en ce début 2009 plusieurs initiatives majeures :</p>
+incontournable, l'AIn7 prend en ce début 2009 plusieurs initiatives majeures :</p>
 <ul>
 <li>une présence renforcée sur les principaux réseaux communautaires professionnels : en particulier 
-Viadeo, qui va ouvrir une communauté officielle supportée par l'AIN7.</li>
+Viadeo, qui va ouvrir une communauté officielle supportée par l'AIn7.</li>
 <li>notre nouveau site, visitez le régulièrement : il vous tiendra informé de toutes nos initiatives… 
-et n'oubliez pas, l'AIN7 c'est VOUS. Venez rejoindre le noyau de volontaires qui font vivre notre communauté, 
+et n'oubliez pas, l'AIn7 c'est VOUS. Venez rejoindre le noyau de volontaires qui font vivre notre communauté, 
 et si vous ne trouvez pas dans nos activités, celle que vous attendez, pourquoi ne pas venir la susciter 
 en nous rejoignant ?</li>
 </ul>
 
 <p><b>Jean-François Perret<br/>
-Président AIN7</b></p>
+Président AIn7</b></p>
 """
     text1.save()
 
@@ -94,11 +93,11 @@ de Toulouse.</p>
 filières, comprenant chacune un département de formation et un laboratoire de recherche étroitement lié.</p>
 <p>Les cinq filières d'enseignement sont les suivantes :</p>
 <ul style="list-style-type: square; margin: 1ex; margin-left: 4ex">
-  <li>Génie électrique et automatique</li>
-  <li>Électronique et Traitement du signal</li>
-  <li>Informatique et Mathématiques appliquées</li>
-  <li>Hydraulique et Mécanique des fluides</li>
-  <li>Télécommunications et Réseaux</li>
+<li>Génie électrique et automatique</li>
+<li>Électronique et Traitement du signal</li>
+<li>Informatique et Mathématiques appliquées</li>
+<li>Hydraulique et Mécanique des fluides</li>
+<li>Télécommunications et Réseaux</li>
 </ul>
 <p>L'ENSEEIHT fait partie du groupe des ENSI et est la plus importante ENSI en termes d'élèves diplomés chaque 
 année (près de 400).</p>
@@ -115,13 +114,13 @@ année (près de 400).</p>
     text3.lang = 'fr'
     text3.title = u"L'AIn7..."
     text3.body = u"""<h4>Des offres d'emploi</h4>
-<p>L'AIN7 gère un service Emplois-Carrières au bénéfice de l'Ecole et de ses membres :</p>
+<p>L'AIn7 gère un service Emplois-Carrières au bénéfice de l'Ecole et de ses membres :</p>
 <ul>
 <li>Mise à disposition des offres d'emploi et leur édition périodique,</li>
 <li>Tenue à jour d'un fichier des ingénieurs en recherche de situation,</li>
 <li>Réponse à des demandes ou des propositions urgentes.</li> 
 </ul>
- 
+
 <h4>Une assistance personnalisée</h4>
 <p>Les ingénieurs qui le souhaitent peuvent réaliser un auto bilan à l'aide d'un document élaboré par l'Association, leur donnant ainsi la possibilité d'affiner leur projet professionnel. Ils peuvent également solliciter les conseils d'anciens qui disposent de compétences dans les domaines d'activité concernés. Par ailleurs, l'Association peut apporter son soutien à ceux qui doivent faire face à des situations économiques difficiles.</p>
 
@@ -156,7 +155,7 @@ année (près de 400).</p>
 <p>Elle est représentée au Conseil d'Administration de l'Ecole par 2 représentants (actuellement Michel Canon et Pierre Hugot) ; un ingénieur ENSEEIHT, Bernard Leblanc, président le Conseil d'Administration où elle apporte son expertise de la connaissance des besoins des entreprises en matière de qualification des ingénieurs. Elle est partie prenante dans l'évolution des enseignements, en participant notamment à des commissions thématiques de ce Conseil.</p>
 <p>Elle organise des rencontres régulières avec les filières de l'Ecole et le Corps professoral, qui constituent un lieu d'échange et de meilleure compréhension réciproque. Cette dynamique va être renforcée en 2009 avec :</p>
 <ul>
-<li>Programme de participation de l'AIN7 à l'organisation d'informations sur les métiers d'ingénieurs à destination des élèves dans chaque filière</li>
+<li>Programme de participation de l'AIn7 à l'organisation d'informations sur les métiers d'ingénieurs à destination des élèves dans chaque filière</li>
 <li>Participation active aux "mini-forums" Etudiants/Entreprises</li>
 <li>Pour préparer leur recherche de stages ou d'un premier emploi, les élèves qui le souhaitent peuvent recourir à l'expérience de leurs aînés.</li>
 <li>Réseaux d'accueil des élèves stagiaires ou débutants en entreprises</li>
@@ -166,7 +165,7 @@ année (près de 400).</p>
 
 <p>L'Association favorise le renforcement des liens entre tous ses membres.</p>
 <p><b>AU PLAN NATIONAL</b></p>
-<p>Des manifestations de prestige sont organisées régulièrement à Toulouse et à Paris, permettant notamment la rencontre de personnalités du monde de l'entreprise. En particulier, le diner-débat annuel co-organisé au Sénat par l'AIN7 et l'Ecole rencontrent chaque année un grand succès.</p>
+<p>Des manifestations de prestige sont organisées régulièrement à Toulouse et à Paris, permettant notamment la rencontre de personnalités du monde de l'entreprise. En particulier, le diner-débat annuel co-organisé au Sénat par l'AIn7 et l'Ecole rencontrent chaque année un grand succès.</p>
 
 <p><b>AU PLAN RÉGIONAL</b></p>
 <p>Les adhérents d'une même région sont conviés à diverses activités : rencontres autour d'un thème, conférences, visites techniques et culturelles, repas conviviaux. Les initiatives sont riches et variées.</p>
@@ -191,13 +190,13 @@ année (près de 400).</p>
 
 <h5>Article premier</h5>
 
-L'Association dite AIN7, ASSOCIATION des INGENIEURS de l'ECOLE NATIONALE SUPERIEURE d'ELECTROTECHNIQUE, d'ELECTRONIQUE, d'INFORMATIQUE et d'HYDRAULIQUE de TOULOUSE (ENSEEIHT-IET), fondée en 1912, a pour but :
+L'Association dite AIn7, ASSOCIATION des INGENIEURS de l'ECOLE NATIONALE SUPERIEURE d'ELECTROTECHNIQUE, d'ELECTRONIQUE, d'INFORMATIQUE et d'HYDRAULIQUE de TOULOUSE (ENSEEIHT-IET), fondée en 1912, a pour but :
 
 <ul>
-    <li>D'entretenir et de resserrer les liens d'amitié et de solidarité qui existaient à l'Ecole, et de relier les nouvelles promotions aux précédentes.</li>
-    <li>De faciliter aux anciens élèves l'accès aux situations auxquelles ils peuvent prétendre. Dans ce but, tous les Membres de l'Association s'engagent à signaler à l’Association les emplois vacants qu'ils peuvent connaître.</li>
-    <li>De procurer à ses Membres le moyen d'étendre leurs connaissances par les communications, travaux et documents qui seront présentés aux réunions et discutés s'il y a lieu.</li>
-    <li>De développer l'action sociale au moyen de prêts gratuits ou de dons aux Membres de l'Association et le cas échéant, à leurs père, mère, veuf, veuve ou enfants dans le besoin.</li>
+<li>D'entretenir et de resserrer les liens d'amitié et de solidarité qui existaient à l'Ecole, et de relier les nouvelles promotions aux précédentes.</li>
+<li>De faciliter aux anciens élèves l'accès aux situations auxquelles ils peuvent prétendre. Dans ce but, tous les Membres de l'Association s'engagent à signaler à l’Association les emplois vacants qu'ils peuvent connaître.</li>
+<li>De procurer à ses Membres le moyen d'étendre leurs connaissances par les communications, travaux et documents qui seront présentés aux réunions et discutés s'il y a lieu.</li>
+<li>De développer l'action sociale au moyen de prêts gratuits ou de dons aux Membres de l'Association et le cas échéant, à leurs père, mère, veuf, veuve ou enfants dans le besoin.</li>
 </ul>
 
 Sa durée est illimitée.
@@ -213,11 +212,11 @@ Elle a son Siège à Toulouse, à l'ECOLE NATIONALE SUPERIEURE d'ELECTROTECHNIQU
 <p>L'Association se compose de membres actifs, de membres associés, de membres affiliés et de membres d'honneur.</p>
 
 <ul>
-   <li>Sont MEMBRES ACTIFS les ingénieurs diplômés de l'IET, de l'ENSEEHT, de l'ENSEIHT ou de l'ENSEEIHT à jour de leur cotisation.</li>
-   <li>Sont MEMBRES ASSOCIES les diplômés à la suite d'une des formations suivies à l'IET, l'ENSEEHT, l'ENSEIHT ou l'ENSEEIHT autres que celles sanctionnées par le diplôme d'ingénieur de l'Ecole et dont la liste est établie par l'Assemblée Générale ordinaire. Les diplômés d'une section spéciale de l'Ecole sont membres associés s'ils sont à jour de leur cotisation.</li>
-   <li>Sont MEMBRES AFFILIES durant leur formation à l'ENSEEIHT, les étudiants préparant un diplôme qui leur permettra de devenir membre actif ou membre associé et payant la cotisation correspondante.</li>
-   <li>Un membre actif ou associé peut, de plus, porter le titre de "BIENFAITEUR" si, pour l'année en cours, il verse la cotisation correspondante.</li>
-   <li>Le montant des cotisations est fixé par l'Assemblée Générale.</li>
+<li>Sont MEMBRES ACTIFS les ingénieurs diplômés de l'IET, de l'ENSEEHT, de l'ENSEIHT ou de l'ENSEEIHT à jour de leur cotisation.</li>
+<li>Sont MEMBRES ASSOCIES les diplômés à la suite d'une des formations suivies à l'IET, l'ENSEEHT, l'ENSEIHT ou l'ENSEEIHT autres que celles sanctionnées par le diplôme d'ingénieur de l'Ecole et dont la liste est établie par l'Assemblée Générale ordinaire. Les diplômés d'une section spéciale de l'Ecole sont membres associés s'ils sont à jour de leur cotisation.</li>
+<li>Sont MEMBRES AFFILIES durant leur formation à l'ENSEEIHT, les étudiants préparant un diplôme qui leur permettra de devenir membre actif ou membre associé et payant la cotisation correspondante.</li>
+<li>Un membre actif ou associé peut, de plus, porter le titre de "BIENFAITEUR" si, pour l'année en cours, il verse la cotisation correspondante.</li>
+<li>Le montant des cotisations est fixé par l'Assemblée Générale.</li>
 </ul>
 
 <p>Le titre de MEMBRE d'HONNEUR peut être décerné par le Conseil d'Administration aux personnes qui rendent ou qui ont rendu des services signalés à l'Association. Ce titre confère aux personnes qui l'ont obtenu, le droit de faire partie de l'Assemblée Générale sans être tenues de payer une cotisation.</p>
@@ -227,8 +226,8 @@ Elle a son Siège à Toulouse, à l'ECOLE NATIONALE SUPERIEURE d'ELECTROTECHNIQU
 <p>La qualité de membre de l'Association se perd :</p>
 
 <ul>
-   <li>par la radiation prononcée pour motif grave par le Conseil d'Administration, sauf recours à l'Assemblée Générale. Le membre concerné est préalablement appelé à fournir ses explications ;</li>
-   <li>par le non-paiement de la cotisation (sauf pour ceux qui en sont dispensés).</li>
+<li>par la radiation prononcée pour motif grave par le Conseil d'Administration, sauf recours à l'Assemblée Générale. Le membre concerné est préalablement appelé à fournir ses explications ;</li>
+<li>par le non-paiement de la cotisation (sauf pour ceux qui en sont dispensés).</li>
 </ul>
 
 <h4>II - ADMINISTRATION ET FONCTIONNEMENT</h4>
@@ -240,8 +239,8 @@ Elle a son Siège à Toulouse, à l'ECOLE NATIONALE SUPERIEURE d'ELECTROTECHNIQU
 <p>La composition de ce Conseil est la suivante :</p>
 
 <ul>
-    <li>18 à 22 membres élus parmi les membres actifs ;</li>
-    <li>au plus 2 membres élus parmi les membres associés.</li>
+<li>18 à 22 membres élus parmi les membres actifs ;</li>
+<li>au plus 2 membres élus parmi les membres associés.</li>
 </ul>
 
 <p>Les membres sortants sont immédiatement rééligibles. Le renouvellement des membres élus a lieu par ouverture de 11 postes de membres actifs et 1 poste de membre associé tous les ans.</p>
@@ -315,18 +314,18 @@ Elle a son Siège à Toulouse, à l'ECOLE NATIONALE SUPERIEURE d'ELECTROTECHNIQU
 <h5>Article 12</h5>
 
 <ul>
-   <li>Des groupes régionaux sans autonomie officielle peuvent être créés à l'initiative de membres habitant une même région. Un même territoire ne peut être couvert que par un seul groupe régional. Dix membres actifs ou associés sont nécessaires pour constituer un groupe régional.</li>
-   <li>La demande de création ou de modification de la couverture géographique d'un groupe régional doit être présentée:
-   <ul>
-       <li>en délimitant la région couverte par le groupe</li>
-       <li>en décrivant la composition de son bureau et le mode de désignation de son président.</li>
-   </ul>
-   </li>
-   <li>La création, la modification de la couverture géographique d'un groupe régional est votée par l'Assemblée Générale sur proposition du Conseil d'Administration de l'Association. Ce point doit figurer à l'ordre du jour de la convocation à l'Assemblée Générale ordinaire. La délibération doit être notifiée au Préfet dans le délai de huitaine.</li>
-   <li>La composition du bureau doit être adressée tous les ans au Conseil d'Administration. Le Président du groupe régional participe au Conseil d'Administration avec voix consultative.</li>
-   <li>Le groupe régional bénéficie du soutien logistique du secrétariat de l'Association. Il adresse au secrétaire du Conseil d'Administration copie de toutes les circulaires locales à l'attention des membres de son groupe.</li>
-   <li>La présence d'un trésorier au sein de son bureau est un préalable à l'engagement de dépenses par un groupe régional. Les dépenses du groupe régional sont soumises à l'approbation du Conseil d'Administration. Le trésorier du groupe fait parvenir au Conseil d'Administration en décembre de chaque année le budget prévisionnel de son groupe pour l'année suivante et en janvier le bilan de l'année écoulée. Il fournit au trésorier de l'Association tous les éléments nécessaires à la tenue de la comptabilité du groupe régional.</li>
-   <li>En cas de non respect de ces clauses, le Conseil d'Administration de l'Association peut proposer à l'Assemblée Générale la dissolution du groupe régional.</li>
+<li>Des groupes régionaux sans autonomie officielle peuvent être créés à l'initiative de membres habitant une même région. Un même territoire ne peut être couvert que par un seul groupe régional. Dix membres actifs ou associés sont nécessaires pour constituer un groupe régional.</li>
+<li>La demande de création ou de modification de la couverture géographique d'un groupe régional doit être présentée:
+<ul>
+<li>en délimitant la région couverte par le groupe</li>
+<li>en décrivant la composition de son bureau et le mode de désignation de son président.</li>
+</ul>
+</li>
+<li>La création, la modification de la couverture géographique d'un groupe régional est votée par l'Assemblée Générale sur proposition du Conseil d'Administration de l'Association. Ce point doit figurer à l'ordre du jour de la convocation à l'Assemblée Générale ordinaire. La délibération doit être notifiée au Préfet dans le délai de huitaine.</li>
+<li>La composition du bureau doit être adressée tous les ans au Conseil d'Administration. Le Président du groupe régional participe au Conseil d'Administration avec voix consultative.</li>
+<li>Le groupe régional bénéficie du soutien logistique du secrétariat de l'Association. Il adresse au secrétaire du Conseil d'Administration copie de toutes les circulaires locales à l'attention des membres de son groupe.</li>
+<li>La présence d'un trésorier au sein de son bureau est un préalable à l'engagement de dépenses par un groupe régional. Les dépenses du groupe régional sont soumises à l'approbation du Conseil d'Administration. Le trésorier du groupe fait parvenir au Conseil d'Administration en décembre de chaque année le budget prévisionnel de son groupe pour l'année suivante et en janvier le bilan de l'année écoulée. Il fournit au trésorier de l'Association tous les éléments nécessaires à la tenue de la comptabilité du groupe régional.</li>
+<li>En cas de non respect de ces clauses, le Conseil d'Administration de l'Association peut proposer à l'Assemblée Générale la dissolution du groupe régional.</li>
 </ul>
 
 <h4>III - DOTATION, RESSOURCES ANNUELLES</h4>
@@ -336,11 +335,11 @@ Elle a son Siège à Toulouse, à l'ECOLE NATIONALE SUPERIEURE d'ELECTROTECHNIQU
 <p>La dotation comprend :</p>
 
 <ol>
-   <li>une somme de 3 000 F, constituée en valeurs nominatives placées conformément aux prescriptions de l'article suivant ;</li>
-   <li>les immeubles nécessaires au but recherché par l'Association ainsi que des bois, forêts ou terrains à boiser ;</li>
-   <li>les capitaux provenant des libéralités, à moins que l'emploi n'en ait été autorisé;</li>
-   <li>le dixième au moins annuellement capitalisé, du revenu net des biens de l'Association ;</li>
-   <li>la partie des excédents de ressources qui n'est pas nécessaire au fonctionnement de l'Association pour l'exercice suivant.</li>
+<li>une somme de 3 000 F, constituée en valeurs nominatives placées conformément aux prescriptions de l'article suivant ;</li>
+<li>les immeubles nécessaires au but recherché par l'Association ainsi que des bois, forêts ou terrains à boiser ;</li>
+<li>les capitaux provenant des libéralités, à moins que l'emploi n'en ait été autorisé;</li>
+<li>le dixième au moins annuellement capitalisé, du revenu net des biens de l'Association ;</li>
+<li>la partie des excédents de ressources qui n'est pas nécessaire au fonctionnement de l'Association pour l'exercice suivant.</li>
 </ol>
 
 <h5>Article 14</h5>
@@ -352,12 +351,12 @@ Elle a son Siège à Toulouse, à l'ECOLE NATIONALE SUPERIEURE d'ELECTROTECHNIQU
 <p>Les recettes annuelles de l'Association se composent :</p>
 
 <ol>
-   <li>du revenu de ses biens à l'exception de la fraction prévue a l'alinéa 4 de l'article 13 ;</li>
-   <li>des cotisations et souscriptions de ses membres ;</li>
-   <li>des subventions de l'Etat, des Régions, des Départements, des Communes et des Etablissements Publics ;</li>
-   <li>du produit des libéralités dont l'emploi est autorisé au cours de l'exercice ;</li>
-   <li>des ressources créées à titre exceptionnel et, s'il y a lieu, avec l'agrément de l'autorité compétente ;</li>
-   <li>du produit des rétributions perçues pour service rendu.</li>
+<li>du revenu de ses biens à l'exception de la fraction prévue a l'alinéa 4 de l'article 13 ;</li>
+<li>des cotisations et souscriptions de ses membres ;</li>
+<li>des subventions de l'Etat, des Régions, des Départements, des Communes et des Etablissements Publics ;</li>
+<li>du produit des libéralités dont l'emploi est autorisé au cours de l'exercice ;</li>
+<li>des ressources créées à titre exceptionnel et, s'il y a lieu, avec l'agrément de l'autorité compétente ;</li>
+<li>du produit des rétributions perçues pour service rendu.</li>
 </ol>
 
 <h5>Article 16</h5>
@@ -485,7 +484,7 @@ AIn7<br/>
 <p>Le Président et le bureau du groupe informent le secrétariat de l’association nationale de leurs actions et communiquent un compte-rendu des réunions de bureau, manifestations et assemblés générales.</p>
 
 <h4>Adhésion</h4>
-<p>Le secrétariat de l’AIN7 adresse régulièrement aux groupes régionaux des listes à jour (membres actifs, associés et autres).</p>
+<p>Le secrétariat de l’AIn7 adresse régulièrement aux groupes régionaux des listes à jour (membres actifs, associés et autres).</p>
 <p>Tout cotisant à l’association, ainsi que chaque élève de 3ième année est informé de l’existence et des coordonnées de son groupe régional.</p>
 <p>Chaque groupe a un devoir de développement du nombre des adhérents.</p>
 
@@ -542,19 +541,19 @@ Voilà.
     text9.textblock = textblock9
     text9.lang = 'fr'
     text9.title = u"Groupes professionnels"
-    text9.body = u"""<p>Au fil des dernières années, l'AIN7 a suscité la création de groupes professionnels. Chaque Groupe Professionnel réunit les ingénieurs N7 qui travaillent dans le même domaine industriel.</p>
+    text9.body = u"""<p>Au fil des dernières années, l'AIn7 a suscité la création de groupes professionnels. Chaque Groupe Professionnel réunit les ingénieurs N7 qui travaillent dans le même domaine industriel.</p>
 <p>Il est animé par un noyau de quelques ingénieurs N7 qui contribue à l'animation et prépare les manifestations du groupe.</p>
 <p>Il a une couverture nationale.</p>
 <p>Il a vocation à être un des interlocuteurs de l'ENSEEIHT pour l'évolution de ses filières d'enseignement et une source privilégiée d'informations et de proposition.</p>
-<p>Il contribue dans son domaine à assurer la promotion de l'ENSEEIHT dans le cadre de l'AIN7 et en liaison avec la Direction de l'ENSEEIHT.</p>
+<p>Il contribue dans son domaine à assurer la promotion de l'ENSEEIHT dans le cadre de l'AIn7 et en liaison avec la Direction de l'ENSEEIHT.</p>
 <p>Il a vocation d'entraide pour la recherche d'emplois.</p>
-<p>Il bénéficie de la logistique de l'AIN7 (mailing – Web – Groupes régionaux….)</p>
+<p>Il bénéficie de la logistique de l'AIn7 (mailing – Web – Groupes régionaux….)</p>
 <p>L'action des Groupes professionnels se fait en liaison avec celles des Correspondants d'Entreprises qui, dans leurs domaines, sont des invités permanents dans chaque groupe.</p>
-<p>La Communication des Groupes professionnels vers le monde extérieur se fait par le canal de l'AIN7.</p>
+<p>La Communication des Groupes professionnels vers le monde extérieur se fait par le canal de l'AIn7.</p>
 <p>3 groupes professionnels sont actifs :</p>
 <h4>Groupe TIC (animateur : Eric Nizard - eric.nizard@lic.fr)</h4>
 <p>Issu du groupe professionnel Telecom qui a été depuis 2000 le plus actif, ce groupe a désormais élargi ses activités à l'informatique et plus généralement aux métiers issus des technologies de l'information et de la communication.</p>
-<p>Le groupe TIC organise régulièrement des conférences à Paris, dans le cadre du Groupe Parisien. Il est par ailleurs, le correspondant AIN7 au sein de <a href="http://www.g9plus.org">l'Institut G9+</a> qui rassemble les représentants "TIC" de 17 grandes Associations d'Ingénieurs (X, Centrales, Mines, Supélec…) et de Management (HEC, ESCP, ESSEC,…).</p>
+<p>Le groupe TIC organise régulièrement des conférences à Paris, dans le cadre du Groupe Parisien. Il est par ailleurs, le correspondant AIn7 au sein de <a href="http://www.g9plus.org">l'Institut G9+</a> qui rassemble les représentants "TIC" de 17 grandes Associations d'Ingénieurs (X, Centrales, Mines, Supélec…) et de Management (HEC, ESCP, ESSEC,…).</p>
 <h4>Groupe Aerospace (animateur : Yann Guerin – yannguer@yahoo.fr)</h4>
 <p>Ce groupe résidant à Toulouse, organise régulièrement des rencontres et bénéficie notamment de la présence de nombreux ingénieurs ENSEEIHT au sein du pôle de compétitivité "Aerospace Valley".</p>
 <h4>Groupe Energie (renseignements : Maryse Lemmet - maryse.lemmet@orange.fr)</h4>
@@ -571,16 +570,16 @@ Voilà.
     text10.textblock = textblock10 
     text10.lang = 'fr'
     text10.title = u"Les publications de l'AIn7"
-    text10.body = u"""<p>La Communication, Interne aux adhérents de l’AIN7, est réalisée par les 3 vecteurs suivants, en complément des moyens classiques (courrier, mail, téléphone, fax …)</p>
+    text10.body = u"""<p>La Communication, Interne aux adhérents de l’AIn7, est réalisée par les 3 vecteurs suivants, en complément des moyens classiques (courrier, mail, téléphone, fax …)</p>
 
 <p>En Projet:</p>
 <ul>
 <li>Newsletter</li>
-<li>Communauté AIN7/Viadeo</li>
+<li>Communauté AIn7/Viadeo</li>
 </ul>
 
 <p>Newsletter : répond à un besoin de diffuser des informations rapides et sous format électronique. 10 parutions annuelles envisagées.</p>
-<p>Communauté AIN7/Viadeo : dans le cadre d'un protocole d'accord en cours de négociation, le réseau Viadeo mettra à la disposition de l'AIN7 un espace communautaire privatif qui a vocation à devenir le forum privilégié de dialogue entre les N7.</p>
+<p>Communauté AIn7/Viadeo : dans le cadre d'un protocole d'accord en cours de négociation, le réseau Viadeo mettra à la disposition de l'AIn7 un espace communautaire privatif qui a vocation à devenir le forum privilégié de dialogue entre les N7.</p>
 
 <p>Communication</p>
 <p>Des supports de communication interactifs</p>
@@ -588,7 +587,7 @@ Voilà.
 <p>C'est un moyen privilégié de communication entre tous les membres. Plus de 15000 adresses personnelles et professionnelles y sont répertoriées.</p>
 <p>Réalisé avec le plus grand soin, c'est un outil précieux à la fois pour l'activité professionnelle et les relations conviviales.</p>
 <p>Il est également apprécié des entreprises et des cabinets de recrutement et contribue à la notoriété de l'Association et des ingénieurs ENSEEIHT.</p>
-<p>Il est librement accessible sur le site AIN7 aux adhérents de l'AI.</p>
+<p>Il est librement accessible sur le site AIn7 aux adhérents de l'AI.</p>
 
 
 <p><b>CANAL N7 : REVUE TRIMESTRIELLE A VOCATION SCIENTIFIQUE, TECHNIQUE INDUSTRIELLE ET SOCIETALE</b></p>
@@ -654,7 +653,7 @@ Voilà.
     text13.textblock = textblock13
     text13.lang = 'fr'
     text13.title = u"Le magazine"
-    text13.body = u"""<p>Depuis Novembre 1986, le bulletin d’information de l’AIN7 est réellement devenu le journal de l’Association avec des articles à portée scientifique , socio- économique ou culturelle.</p>
+    text13.body = u"""<p>Depuis Novembre 1986, le bulletin d’information de l’AIn7 est réellement devenu le journal de l’Association avec des articles à portée scientifique , socio- économique ou culturelle.</p>
 
 <p>On y retrouve trois parties :</p>
 <ul>
@@ -665,7 +664,7 @@ Voilà.
 
 <p>De manière générale, chaque numéro est organisé autour d’un thème (…La Qualité, Sécurité et simulation, Communication, Biomécanique, Microsystèmes, Véhicules électriques, 3ième millénaire, Ingéniérie du sport, Télecoms,…..).</p>
 
-<p>La liste complète des numéros est disponible auprés du secrétariat de l’AIN7.</p>
+<p>La liste complète des numéros est disponible auprés du secrétariat de l’AIn7.</p>
 
 <p>Vous pourrez consulter le sommaire des derniers numéros en cliquant sur la photo du numéro correspondant.</p>
 """
@@ -681,20 +680,20 @@ Voilà.
     text14.lang = 'fr'
     text14.title = u"Au sommaire du dernier numéro"
     text14.body = u"""<ul>
-      <li><a href="/media_communication/canal_n7/edito/">Editorial</a></li>
-      <li>Le mot du président</li>
-      <li>Vestiges historiques</li>
-      <li>Naissance de FEST'INP, le nouveau gala des étudiants des trois écoles toulousaines de l'INPT</li>
-      <li>Le Fest'INP, une inauguration réussie !</li>
-      <li>Bureau du Développement Durable</li>
-      <li>La certification des compétences, un futur inéluctable</li>
-      <li>Forum des lecteurs</li>
-      <li>Quelques nouvelles de l'ENSEEIHT</li>
-      <li>Souvenir de Jean-Louis Amalric</li>
-      <li>Skype</li>
-      <li>Assemblée générale 2008</li>
-      <li>Commission voyage</li>
-   </ul>
+<li><a href="/media_communication/canal_n7/edito/">Editorial</a></li>
+<li>Le mot du président</li>
+<li>Vestiges historiques</li>
+<li>Naissance de FEST'INP, le nouveau gala des étudiants des trois écoles toulousaines de l'INPT</li>
+<li>Le Fest'INP, une inauguration réussie !</li>
+<li>Bureau du Développement Durable</li>
+<li>La certification des compétences, un futur inéluctable</li>
+<li>Forum des lecteurs</li>
+<li>Quelques nouvelles de l'ENSEEIHT</li>
+<li>Souvenir de Jean-Louis Amalric</li>
+<li>Skype</li>
+<li>Assemblée générale 2008</li>
+<li>Commission voyage</li>
+</ul>
 """
     text14.save()
 
@@ -783,7 +782,7 @@ acceptables par la majorité de nos camarades.</p>
 les camarades qui se retrouvent après. C'est aussi une opportunité pour des
 relations d'affaire !</p>
 
-    <h4>Comment participer ?</h4>
+<h4>Comment participer ?</h4>
 <p>Si tu es intéressé par la destination, tu remplis la demande de réservation
 que tu fais parvenir, soit au secrétariat, soit auprès du responsable du
 voyage.</p>
@@ -802,24 +801,24 @@ nécessaire d'avoir un visa on te demande ton passeport pour l'obtenir.</p>
 l'aéroport, ainsi que tous les documents utiles pour le voyage. Les billets
 d'avion et les passeports avec les visas sont remis à l'aéroport.</p>
 
-    <h4>Conditions habituelles</h4>
+<h4>Conditions habituelles</h4>
 <p>Les prestations comprennent généralement :</p>
 
 <ul>
-  <li>L'hébergement en chambre double et en hôtel 1ère catégorie,</li>
-  <li>La pension complète comme indiquée dans le descriptif du voyage,</li>
-  <li>Les transports A/R à partir de France en compagnie régulière,</li>
-  <li>Les transports sur place,</li>
-  <li>Un accompagnateur local pendant le séjour ou le circuit,</li>
-  <li>Les visites mentionnées au programme</li>
+<li>L'hébergement en chambre double et en hôtel 1ère catégorie,</li>
+<li>La pension complète comme indiquée dans le descriptif du voyage,</li>
+<li>Les transports A/R à partir de France en compagnie régulière,</li>
+<li>Les transports sur place,</li>
+<li>Un accompagnateur local pendant le séjour ou le circuit,</li>
+<li>Les visites mentionnées au programme</li>
 </ul>
 
 <p>Les prestations non comprises sont :</p>
 
 <ul>
-  <li>Les boissons et dépenses personnelles,</li>
-  <li>Les visas, pourboires et taxes d'aéroport et de sécurité,</li>
-  <li>L'assurance annulation/bagages (environ 2.5% du prix du voyage)</li>
+<li>Les boissons et dépenses personnelles,</li>
+<li>Les visas, pourboires et taxes d'aéroport et de sécurité,</li>
+<li>L'assurance annulation/bagages (environ 2.5% du prix du voyage)</li>
 </ul>
 
 <p>Nota : avec chaque programme, les conditions des tours opérators retenus
@@ -903,34 +902,34 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 
 
     if os.path.exists('filldbain7'):
-        import glob
-        print 'Import des donnees privees AIn7'
-        print '- import des données de base'
-        execfile('filldbain7/base.py')
-        print '- import des sociétés'
-        execfile('filldbain7/companies.py')
-        filelist = glob.glob('filldbain7/*.py')
-        filelist.sort()
-        if 'filldbain7/base.py' in filelist:
-            filelist.remove('filldbain7/base.py')
-        if 'filldbain7/companies.py' in filelist:
-            filelist.remove('filldbain7/companies.py')
-        imported_files = 0
-        total_files = len(filelist)
-        for filename in filelist:
-            imported_files = imported_files +1
-            print '- import de l\'individu '+filename+' ('+str(imported_files)+'/'+str(total_files)+')'
-            execfile(filename)
-        return
+       import glob
+       print 'Import des donnees privees AIn7'
+       print '- import des données de base'
+       execfile('filldbain7/base.py')
+       print '- import des sociétés'
+       execfile('filldbain7/companies.py')
+       filelist = glob.glob('filldbain7/*.py')
+       filelist.sort()
+       if 'filldbain7/base.py' in filelist:
+           filelist.remove('filldbain7/base.py')
+       if 'filldbain7/companies.py' in filelist:
+           filelist.remove('filldbain7/companies.py')
+       imported_files = 0
+       total_files = len(filelist)
+       for filename in filelist:
+           imported_files = imported_files +1
+           print '- import de l\'individu '+filename+' ('+str(imported_files)+'/'+str(total_files)+')'
+           execfile(filename)
+       return
 
     else:
         print "Pas de donnes privees AIn7, importation des donnees de demo"
         pass
 
-    ######################  Fixed values  ##############################
-    # Cette partie regroupe les valeurs fixes de la base,              #
-    # que l'on s'autorise donc à tester en dur dans le code.           #
-    # Merci d'y ajouter tous les champs que vous devez tester en dur.  #
+######################  Fixed values  ##############################
+# Cette partie regroupe les valeurs fixes de la base,              #
+# que l'on s'autorise donc à tester en dur dans le code.           #
+# Merci d'y ajouter tous les champs que vous devez tester en dur.  #
 
     # Types
     activityUnKnown = annuaire.Activity(activity=u"Inconnue")
@@ -1016,8 +1015,33 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     subscription_conf10 = adhesions.SubscriptionConfiguration(type=10, dues_amount=100, newspaper_amount=15, year=datetime.now().year)
     subscription_conf10.save()
 
-    #                                                                  #
-    ###################### End of fixed values #########################
+    role1 = groups.GroupRole(name='Administrateur', rank = 10)
+    role1.save()
+    role2 = groups.GroupRole(name='Animateur', rank = 20)
+    role2.save()
+    role3 = groups.GroupRole(name='President', rank = 30)
+    role3.save()
+    role4 = groups.GroupRole(name='vice-president', rank = 40)
+    role4.save()
+    role5 = groups.GroupRole(name='Tresorier', rank = 50)
+    role5.save()
+    role6 = groups.GroupRole(name='Tresorier adjoint', rank = 60)
+    role6.save()
+    role7 = groups.GroupRole(name='Secretaire', rank = 70)
+    role7.save()
+    role8 = groups.GroupRole(name='Secretaire adjoint', rank = 80)
+    role8.save()
+    role9 = groups.GroupRole(name='Membre du bureau', rank = 90)
+    role9.save()
+    role10 = groups.GroupRole(name='Recruteur', rank = 100)
+    role10.save()
+    role11 = groups.GroupRole(name='Membre du Conseil d\'Administration', rank = 110)
+    role11.save()
+    role12 = groups.GroupRole(name='Représentant d\'un groupe régional', rank = 120)
+    role12.save()
+
+#                                                                  #
+###################### End of fixed values #########################
 
     # fixons l'URL du site
     site = Site.objects.get(id=1)
@@ -1144,7 +1168,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     n7hy2003 = annuaire.Promo(year=y2003, track=n7hydro)
     n7hy2003.save()
 
-    # Organizations
+# Organizations
     infofield = emploi.ActivityField(field = u"Informatique", code=u"ZZ", label=u"Informatique")
     infofield.save()
 
@@ -1172,55 +1196,90 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     lepaysdesschtroumpfs = emploi.Office(name=u"Mon champignon", organization=schtroumpfland)
     lepaysdesschtroumpfs.save()
 
+    gt0 = groups.GroupType(name="admin", description="Groupes internes au portail")
+    gt0.save()
+    gt1 = groups.GroupType(name="n7", description="n7")
+    gt1.save()
+    gt2 = groups.GroupType(name="ain7", description="AIn7")
+    gt2.save()
+    gt3 = groups.GroupType(name="ain7-regional", description="Groupe regional de l'AIn7")
+    gt3.save()
+    gt4 = groups.GroupType(name="ain7-professionnel", description="Groupe professionnel de l'AIn7")
+    gt4.save()
+    gt5 = groups.GroupType(name="aen7", description="AEn7")
+    gt5.save()
+    gt6 = groups.GroupType(name="aen7-club", description="Club étudiant AEn7")
+    gt6.save()
+    gt7 = groups.GroupType(name="user", description="Défini par l'utilisateur")
+    gt7.save()
+
     # Regional group
-    gr1 = groupes_regionaux.Group(name=u"Alpes Côte d'Azur", slug="alpes_cotes_azur")
+    gr1 = groups.Group(name=u"Alpes Côte d'Azur", slug="alpes_cotes_azur", type=gt3)
     gr1.save()
-    gr2 = groupes_regionaux.Group(name=u"Centre", slug="centre")
+    gr2 = groups.Group(name=u"Centre", slug="centre", type=gt3)
     gr2.save()
-    gr3 = groupes_regionaux.Group(name=u"Midi-Pyrénées", slug="midi_pyrenees")
+    gr3 = groups.Group(name=u"Midi-Pyrénées", slug="midi_pyrenees", type=gt3)
     gr3.save()
-    gr4 = groupes_regionaux.Group(name=u"Nord-Picardie", slug="nord_picardie")
+    gr4 = groups.Group(name=u"Nord-Picardie", slug="nord_picardie", type=gt3)
     gr4.save()
-    gr5 = groupes_regionaux.Group(name=u"Aquitaine", slug="aquitaine")
+    gr5 = groups.Group(name=u"Aquitaine", slug="aquitaine", type=gt3)
     gr5.save()
-    gr6 = groupes_regionaux.Group(name=u"Rhône-Alpes", slug="rhones_alpes")
+    gr6 = groups.Group(name=u"Rhône-Alpes", slug="rhones_alpes", type=gt3)
     gr6.save()
-    gr7 = groupes_regionaux.Group(name=u"Est", slug="est")
+    gr7 = groups.Group(name=u"Est", slug="est", type=gt3)
     gr7.save()
-    gr8 = groupes_regionaux.Group(name=u"Ouest", slug="ouest")
+    gr8 = groups.Group(name=u"Ouest", slug="ouest", type=gt3)
     gr8.save()
-    gr9 = groupes_regionaux.Group(name=u"Marseille-Provence", slug="marseille_provence")
+    gr9 = groups.Group(name=u"Marseille-Provence", slug="marseille_provence", type=gt3)
     gr9.save()
-    gr10 = groupes_regionaux.Group(name=u"Normandie", slug="normandie")
+    gr10 = groups.Group(name=u"Normandie", slug="normandie", type=gt3)
     gr10.save()
-    gr11 = groupes_regionaux.Group(name=u"Région Parisienne", slug="region_parisienne")
+    gr11 = groups.Group(name=u"Région Parisienne", slug="region_parisienne", type=gt3)
     gr11.save()
-    gr12 = groupes_regionaux.Group(name=u"Languedoc-Roussillon", slug="languedoc_roussillon")
+    gr12 = groups.Group(name=u"Languedoc-Roussillon", slug="languedoc_roussillon", type=gt3)
     gr12.save()
 
-
     # Groups / Roles
-    ain7_admin = Group(name='ain7-admin')
+    n7 = groups.Group(name='n7', slug='n7', type=gt1)
+    n7.save()
+
+    n7info = groups.Group(name='n7-info', slug='n7-info', type=gt1)
+    n7info.save()
+
+    n7hydro = groups.Group(name='n7-hydro', slug='n7-hydro', type=gt1)
+    n7hydro.save()
+
+    n7en = groups.Group(name='n7-en', slug='n7-en', type=gt1)
+    n7en.save()
+
+    n7en = groups.Group(name='n7-electrotech', slug='n7-electrotech', type=gt1)
+    n7en.save()
+
+    n7tr = groups.Group(name='n7-telecom', slug='n7-telecom', type=gt1)
+    n7tr.save()
+
+    # ain7
+    ain7_admin = groups.Group(name='ain7-admin', slug='ain7-admin', type=gt0)
     ain7_admin.save()
-    ain7_devel = Group(name='ain7-devel')
+    ain7_devel = groups.Group(name='ain7-devel', slug='ain7-devel', type=gt0)
     ain7_devel.save()
-    ain7_bureau = Group(name='ain7-bureau')
+    ain7_bureau = groups.Group(name='ain7-bureau', slug='ain7-bureau', type=gt0)
     ain7_bureau.save()
-    ain7_ca = Group(name='ain7-ca')
+    ain7_ca = groups.Group(name='ain7-ca', slug='ain7-ca', type=gt0)
     ain7_ca.save()
-    ain7_secretariat = Group(name='ain7-secretariat')
+    ain7_secretariat = groups.Group(name='ain7-secretariat', slug='ain7-secretariat', type=gt0)
     ain7_secretariat.save()
-    ain7_membre = Group(name='ain7-membre')
+    ain7_membre = groups.Group(name='ain7-membre', slug='ain7-member', type=gt0)
     ain7_membre.save()
-    ain7_recruteur = Group(name='ain7-recruteur')
+    ain7_recruteur = groups.Group(name='ain7-recruteur', slug='ain7-recruteur', type=gt0)
     ain7_recruteur.save()
-    ain7_emploi = Group(name='ain7-emploi')
+    ain7_emploi = groups.Group(name='ain7-emploi', slug='ain7-emploi', type=gt0)
     ain7_emploi.save()
-    ain7_voyages = Group(name='ain7-voyages')
+    ain7_voyages = groups.Group(name='ain7-voyages', slug='ain7-voyages', type=gt0)
     ain7_voyages.save()
-    ain7_externe = Group(name='ain7-externe')
+    ain7_externe = groups.Group(name='ain7-externe', slug='ain7-externe', type=gt0)
     ain7_externe.save()
-    ain7_contrib = Group(name='ain7-contributeur')
+    ain7_contrib = groups.Group(name='ain7-contributeur', slug='ain7-contributeur', type=gt0)
     ain7_contrib.save()
 
     # Person
@@ -1228,10 +1287,6 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     lionel.user = User.objects.create_user("lionel", "lionel@ain7.org","lionel")
     lionel.user.is_staff = True
     lionel.user.is_superuser = True
-    lionel.user.groups.add(ain7_admin)
-    lionel.user.groups.add(ain7_devel)
-    lionel.user.groups.add(ain7_ca)
-    lionel.user.groups.add(ain7_membre)
     lionel.user.save()
     lionel.sex = 'M'
     lionel.first_name = "Lionel"
@@ -1240,6 +1295,12 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     lionel.birth_date = date(1978,11,18)
     lionel.country = france
     lionel.save()
+
+    n7.add(lionel)
+    ain7_admin.add(lionel)
+    ain7_devel.add(lionel)
+    ain7_ca.add(lionel)
+    ain7_membre.add(lionel)
 
     # AIn7Member
     lionel_ain7member = annuaire.AIn7Member()
@@ -1385,9 +1446,6 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     pierref.user = User.objects.create_user("pierref", "pierre.fersing@inp-net.eu.org","pierref")
     pierref.user.is_staff = True
     pierref.user.is_superuser = True
-    pierref.user.groups.add(ain7_admin)
-    pierref.user.groups.add(ain7_devel)
-    pierref.user.groups.add(ain7_membre)
     pierref.user.save()
     pierref.sex = 'M'
     pierref.first_name = "Pierre"
@@ -1396,6 +1454,11 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     pierref.birth_date = date(1985,11,05)
     pierref.country = france
     pierref.save()
+
+    n7.add(pierref)
+    ain7_admin.add(pierref)
+    ain7_devel.add(pierref)
+    ain7_membre.add(pierref)
 
     pierref_private = annuaire.PersonPrivate()
     pierref_private.person = pierref
@@ -1436,9 +1499,6 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     olivier.user = User.objects.create_user("gauwino", "olivier.gauwin@laposte.net","gauwino")
     olivier.user.is_staff = True
     olivier.user.is_superuser = True
-    olivier.user.groups.add(ain7_admin)
-    olivier.user.groups.add(ain7_devel)
-    olivier.user.groups.add(ain7_membre)
     olivier.user.save()
     olivier.sex = 'M'
     olivier.first_name = "Olivier"
@@ -1448,6 +1508,11 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     olivier.country = france
     olivier.notes = u"Je ne sais pas à quoi sert ce champ mais je fais confiance à Alex!"
     olivier.save()
+
+    n7.add(olivier)
+    ain7_admin.add(olivier)
+    ain7_devel.add(olivier)
+    ain7_membre.add(olivier)
 
     olivier_private = annuaire.PersonPrivate()
     olivier_private.person = olivier
@@ -1576,9 +1641,6 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     alex.user = User.objects.create_user("alex", "zigouigoui.garnier@laposte.net","alex")
     alex.user.is_staff = True
     alex.user.is_superuser = True
-    alex.user.groups.add(ain7_admin)
-    alex.user.groups.add(ain7_devel)
-    alex.user.groups.add(ain7_membre)
     alex.user.save()
     alex.sex = 'M'
     alex.first_name = "Alexandre"
@@ -1587,6 +1649,11 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     alex.birth_date = date(1984,03,14)
     alex.country = france
     alex.save()
+
+    n7.add(alex)
+    ain7_admin.add(alex)
+    ain7_devel.add(alex)
+    ain7_membre.add(alex)
 
     alex_private = annuaire.PersonPrivate()
     alex_private.person = alex
@@ -1644,9 +1711,6 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     laurent.user = User.objects.create_user("laurent", "laurent07@gmail.com","laurent")
     laurent.user.is_staff = True
     laurent.user.is_superuser = True
-    laurent.user.groups.add(ain7_admin)
-    laurent.user.groups.add(ain7_devel)
-    laurent.user.groups.add(ain7_membre)
     laurent.user.save()
     laurent.sex = 'M'
     laurent.first_name = "Laurent"
@@ -1655,6 +1719,11 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     laurent.birth_date = date(1984,03,14)
     laurent.country = france
     laurent.save()
+
+    n7.add(laurent)
+    ain7_admin.add(laurent)
+    ain7_devel.add(laurent)
+    ain7_membre.add(laurent)
 
     laurent_private = annuaire.PersonPrivate()
     laurent_private.person = laurent
@@ -1704,7 +1773,6 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     gui.user = User.objects.create_user("gui", "gui@ain7.com","gui")
     gui.user.is_staff = True
     gui.user.is_superuser = True
-    gui.user.groups.add(ain7_membre)
     gui.user.save()
     gui.sex = 'M'
     gui.first_name = "Guillaume"
@@ -1713,6 +1781,9 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     gui.birth_date = date(1980,06,9)
     gui.country = france
     gui.save()
+
+    n7.add(gui)
+    ain7_membre.add(gui)
 
     gui_private = annuaire.PersonPrivate()
     gui_private.person = gui
@@ -1758,8 +1829,9 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     gui_adresse2.type = parentalAddressType
     gui_adresse2.save()
 
-    tvn7 = annuaire.Club()
+    tvn7 = groups.Group()
     tvn7.name = "TVn7"
+    tvn7.slug = "tvn7"
     tvn7.description = u"Le club vidéo de l'N7"
     tvn7.web_site = "http://www.tvn7.fr"
     tvn7.email = "tvn7@lists.bde.enseeiht.fr"
@@ -1784,8 +1856,9 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     tvn7_gui.fonction = "Président 2002-2003"
     tvn7_gui.save()
 
-    net7 = annuaire.Club()
+    net7 = groups.Group()
     net7.name = "Net7"
+    net7.slug = "net7"
     net7.description = u"Le club informatique et réseau de l'N7"
     net7.web_site = "http://www.bde.enseeiht.fr"
     net7.email = "net7@bde.enseeiht.fr"
@@ -1803,8 +1876,9 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     net7_pierref.member = pierref_ain7member
     net7_pierref.save()
 
-    inpnet = annuaire.Club()
+    inpnet = groups.Group()
     inpnet.name = "INP-net"
+    inpnet.slug = "inp-net"
     inpnet.description = u"Le club informatique et réseau de l'INP"
     inpnet.web_site = "http://www.inp-net.eu.org"
     inpnet.email = "inp-net@bde.inp-toulouse.fr"
@@ -1826,8 +1900,6 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 
     sylvie = annuaire.Person()
     sylvie.user = User.objects.create_user("sylvie", "noreply@ain7.info","sylvie")
-    sylvie.user.groups.add(ain7_admin)
-    sylvie.user.groups.add(ain7_secretariat)
     sylvie.user.save()
     sylvie.sex = 'F'
     sylvie.first_name = "Sylvie"
@@ -1852,9 +1924,6 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 
     frederique = annuaire.Person()
     frederique.user = User.objects.create_user("frederique", "noreply@ain7.info","frederique")
-    frederique.user.groups.add(ain7_admin)
-    frederique.user.groups.add(ain7_secretariat)
-    frederique.user.groups.add(ain7_emploi)
     frederique.user.save()
     frederique.sex = 'F'
     frederique.first_name = "Frédérique"
@@ -1880,8 +1949,6 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 
     recruteur = annuaire.Person()
     recruteur.user = User.objects.create_user("jeannot", "noreply@ain7.info","jeannot")
-    recruteur.user.groups.add(ain7_recruteur)
-    recruteur.user.groups.add(ain7_externe)
     recruteur.user.save()
     recruteur.sex = 'M'
     recruteur.first_name = "Jeannot"
@@ -1905,32 +1972,33 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     recruteur_couriel1.preferred_email = True
     recruteur_couriel1.save()
 
-    ain7tic = groupes_professionnels.GroupPro()
+    ain7tic = groups.Group()
     ain7tic.slug = "tic"
     ain7tic.name = "Technologies de l'Information et Communications"
+    ain7tic.type = gt4
     ain7tic.about = """<p>Ce groupe de travail s'adresse aux N7 dirigeants d'une petite entreprise / PME, PMI ou TPE. L'ingénieur N7, qu'il soit fraîchement diplômé ou chevronné, est confronté à un monde économique en profonde mutation qui se traduit en particulier par la création d'entreprise et par une accélération de leur renouvellement. Ce facteur est amplifié avec les opportunités qu'offre la nouvelle économie avec Internet.</p>
 
 <p>Un certain nombre d'entre nous ont créé leur entreprise, et ce qui était rare jusqu'à un passé récent devient de plus en plus fréquent.</p>
 
-<p>Dans l'esprit de convivialité et de solidarité qui la caractérise, l'AIN7 a donc proposé la création en son sein d'un groupe professionnel sur la création d'entreprise, persudée qu'il rencontrera de l'intérêt auprès de ses membres.</p>
+<p>Dans l'esprit de convivialité et de solidarité qui la caractérise, l'AIn7 a donc proposé la création en son sein d'un groupe professionnel sur la création d'entreprise, persudée qu'il rencontrera de l'intérêt auprès de ses membres.</p>
 
 <p>L'objectif visé est de faciliter les échanges entre les créateurs, qui ont donc des préoccupations communes, et aussi avec ceux d'entre nos camarades qui ont de tels projets.</p>
 
 <p>De plus, ces travaux sont susceptibles d'intéresser nos camarades futurs diplômés pour les aider à trouver un écho pertinent auprès d'acteurs de la création d'entreprise et ils pourront faire des propositions à l'Ecole pour introduire, le cas échéant, des enseignements appropriés dans ses programmes, répondant ainsi à cette nouvelle demande.</p>"""
     ain7tic.save()
-    ain7ticMS1 = groupes_professionnels.Membership()
+
+    ain7tichead = groups.GroupHead(group=ain7tic, name='Responsables AIn7 TIC')
+    ain7tichead.save()
+
+    ain7ticMS1 = groups.Member()
     ain7ticMS1.group = ain7tic
     ain7ticMS1.member = olivier
     ain7ticMS1.save()
-    ain7ticRole1 = groupes_professionnels.GroupProRole()
-    ain7ticRole1.member = olivier
-    ain7ticRole1.group = ain7tic
-    ain7ticRole1.type = 0
-    ain7ticRole1.save()
 
-    ain7telecom = groupes_professionnels.GroupPro()
+    ain7telecom = groups.Group()
     ain7telecom.slug = "telecom"
     ain7telecom.name = "Groupe Telecom"
+    ain7telecom.type = gt4
     ain7telecom.about ="""<p>Le Groupe professionnel TELECOM réunit les ingénieurs qui travaillent aux réseaux de Télécommunications.</p>
 
 <p>Un noyau d'ingénieurs N7 animent le groupe, préparent les manifestations extérieures (N7à9, Manifestions de prestige…) et recherchent le cas échéant le financement de celles-ci.</p>
@@ -1939,13 +2007,13 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 
 <p>Il a une couverture nationale.</p>
 
-<p>Il participe dans son domaine à assurer la promotion de l'ENSEEIHT dans le cadre de l'AIN7 et en liaison avec la Direction de l'Ecole.</p>
+<p>Il participe dans son domaine à assurer la promotion de l'ENSEEIHT dans le cadre de l'AIn7 et en liaison avec la Direction de l'Ecole.</p>
 
 <p>Il a vocation d'entraide pour la recherche d'emplois, en liaison avec les Correspondants d'Entreprises.</p>
 
-<p>Il bénéficie de la logistique de l'AIN7.</p>
+<p>Il bénéficie de la logistique de l'AIn7.</p>
 
-<p>La Communication du Groupe se fait par le canal de l'AIN7.</p>
+<p>La Communication du Groupe se fait par le canal de l'AIn7.</p>
 
 <b>REALISATIONS</b>
 
@@ -1979,29 +2047,46 @@ Prochaines manifestations
 <p>en 2002, manifestation de prestige à l'occasion de la sortie de la première promotion de la Filière "Télécommunications &amp; Réseaux". Programme de la manifestation en cours d'élaboration.</p>"""
     ain7telecom.save()
 
-    ain7energie = groupes_professionnels.GroupPro()
+    ain7energie = groups.Group()
     ain7energie.slug = "energie"
     ain7energie.name = "Groupe Energie"
+    ain7energie.type = gt4
     ain7energie.about = "Issu du groupe \"Génie Electrique\", ce groupe est en cours de reconstitution et doit démarrer des activités élargies au printemps 2009."
     ain7energie.save()
 
-    ain7aero = groupes_professionnels.GroupPro()
+    ain7aero = groups.Group()
     ain7aero.slug = "aero"
     ain7aero.name = "Groupe Aérospace"
+    ain7aero.type = gt4
     ain7aero.about = "Ce groupe résidant à Toulouse, organise régulièrement des rencontres et bénéficie notamment de la présence de nombreux ingénieurs ENSEEIHT au sein du pôle de compétitivité \"Aerospace Valley\"."
     ain7aero.save()
 
     # L'association
-    councilRole0 = association.CouncilRole()
-    councilRole0.member = lionel
-    councilRole0.role = 0
-    councilRole0.board_member = True
-    councilRole0.save()
-    councilRole1 = association.CouncilRole()
-    councilRole1.member = olivier
-    councilRole1.role = 1
-    councilRole1.board_member = True
-    councilRole1.save()
+
+    ain7 = groups.Group()
+    ain7.slug = "ain7"
+    ain7.name = "AIn7"
+    ain7.type = gt2
+    ain7.save()
+
+    caain7 = groups.GroupHead(name='Conseil d\'Administration', group=ain7)
+    caain7.save()
+
+    cam0 = groups.GroupLeader(grouphead=caain7, role=role3, person=lionel)
+    cam0.save()
+
+    cam1 = groups.GroupLeader(grouphead=caain7, role=role5, person=olivier)
+    cam1.save()
+
+    # MiPy
+    camipy = groups.GroupHead(name='Bureau', group=gr3)
+    camipy.save()
+
+    camipy1 = groups.GroupLeader(grouphead=camipy, role=role3, person=lionel)
+    camipy1.save()
+
+    camipy2 = groups.GroupLeader(grouphead=camipy, role=role5, person=olivier)
+    camipy2.save()
 
     sondage1 = sondages.Survey()
     sondage1.question = u"Quelle est votre couleur préférée ?"
@@ -2778,12 +2863,12 @@ Petit déjeuner, temps libre jusqu’au transfert vers l’aéroport internation
 """
     travel9.save()
 
-    groupes_regionaux.GroupMembership(group=gr11, member=lionel).save()
-    groupes_regionaux.GroupRole(group=gr11, member=lionel, type=0).save()
-    groupes_regionaux.GroupMembership(group=gr11, member=alex).save()
-    groupes_regionaux.GroupRole(group=gr11, member=alex, type=2).save()
-    groupes_regionaux.GroupMembership(group=gr11, member=pierref).save()
-    groupes_regionaux.GroupMembership(group=gr11, member=olivier).save()
+    groups.Member(group=gr11, member=lionel).save()
+    #groups.GroupRole(group=gr11, member=lionel, type=0).save()
+    groups.Member(group=gr11, member=alex).save()
+    #groups.GroupRole(group=gr11, member=alex, type=2).save()
+    groups.Member(group=gr11, member=pierref).save()
+    groups.Member(group=gr11, member=olivier).save()
 
     utc = vobject.icalendar.utc
 
@@ -2796,7 +2881,7 @@ Petit déjeuner, temps libre jusqu’au transfert vers l’aéroport internation
     evenement1.body = u"Organisation des événements liés au centenaire de l'ENSEEIHT."
     evenement1.image = "data/anniversaire.jpg"
     evenement1.save()
-    evenement1.regional_groups.add(gr11)
+    evenement1.groups.add(gr11)
     evenement1.save()
 
     evenement2 = news.NewsItem()
@@ -2808,7 +2893,7 @@ Petit déjeuner, temps libre jusqu’au transfert vers l’aéroport internation
     evenement2.body = "Conseil d'administration"
     evenement2.image = "data/conseil.jpg"
     evenement2.save()
-    evenement2.regional_groups.add(gr11)
+    evenement2.groups.add(gr11)
     evenement2.save()
 
     job1 = emploi.JobOffer()

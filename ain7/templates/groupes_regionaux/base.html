@@ -29,9 +29,6 @@
             {% if superadmin or ca_member or secretariat_member %}
             <li><a href="{% url ain7.groupes_regionaux.views.edit group.slug %}">{% trans "Edit group informations" %}</a></li>
             {% endif %}
-            {% if superadmin or secretariat_member %}
-            <li><a href="{% url ain7.groupes_regionaux.views.edit_roles group.slug "current" %}">{% trans "Edit group board" %}</a></li>
-            {% endif %}
         </ul>
     </div>
 

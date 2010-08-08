@@ -24,12 +24,13 @@
 from django import forms
 from django.forms.util import ValidationError
 from django.db import models
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person, Country, Email
 from ain7.emploi.models import ActivityField, Office, Organization
 from ain7.fields import AutoCompleteField
+from ain7.groups.models import Group, Member
 from ain7.manage.models import Notification, Payment, PortalError
 from ain7.widgets import DateTimeWidget
 
@@ -70,11 +71,30 @@ class SearchRoleForm(forms.Form):
         return Group.objects.filter(**criteria).order_by('name')
 
 
-class MemberRoleForm(forms.Form):
+class MemberRoleForm(forms.ModelForm):
     """add a new member to a role form"""
-    username = forms.CharField(label=_('Username'), max_length=100,
-        required=True, 
+    member = forms.IntegerField(label=_('Username'),required=True,
         widget=AutoCompleteField(completed_obj_name='person'))
+
+    class Meta:
+         model = Member
+         exclude = ['group','start_date', 'end_date', 'expiration_date']
+
+    def clean_member(self):
+        """check username"""
+        pid = self.cleaned_data['member']
+        if pid == None:
+            raise ValidationError(_('This field is mandatory.'))
+            return None
+        else:
+            person = None
+            try:
+                person = Person.objects.get(id=pid)
+            except Person.DoesNotExist:
+                raise ValidationError(_('The entered person is not in\
+ the database.'))
+            return person
+
 
 class NewPersonForm(forms.ModelForm):
     """new person form"""

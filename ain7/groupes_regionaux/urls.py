@@ -31,13 +31,8 @@ urlpatterns = patterns('ain7.groupes_regionaux.views',
     (r'^(?P<slug>\w+)/edit/$', 'edit'),
     (r'^(?P<slug>\w+)/join/$', 'join'),
     (r'^(?P<slug>\w+)/quit/$', 'quit'),
-    (r'^(?P<slug>\w+)/roles/edit/(?P<all_current>\w+)/$',
-         'edit_roles'),
-    (r'^(?P<slug>\w+)/roles/(?P<role_id>\d+)/changedates/'
-     +r'(?P<all_current>\w+)/$', 'change_dates'),
-    (r'^(?P<slug>\w+)/roles/(?P<type>\d+)/add/'
-     +r'(?P<all_current>\w+)/$', 'add_role'),
-    (r'^(?P<slug>\w+)/roles/(?P<role_id>\d+)/delete/'
-     +r'(?P<all_current>\w+)/$', 'delete_role'),
+    (r'^(?P<slug>\w+)/roles/(?P<role_id>\d+)/edit/$', 'edit_role'),
+    (r'^(?P<slug>\w+)/roles/add/$', 'edit_role'),
+    (r'^(?P<slug>\w+)/roles/(?P<role_id>\d+)/delete/$', 'delete_role'),
 )
 

@@ -11,10 +11,10 @@
 
 <h2>{{ role.name }}</h2>
 
-<h3>{% trans "Content of the role" %}</h3>
+<h3>{% trans "Group Members" %}</h3>
 <ul>
-{% for user in role.user_set.all %}
-  <li><a href="{% url ain7.annuaire.views.details user.id %}">{{ user.person.last_name }} {{ user.person.first_name }}</a> &nbsp; &nbsp; <a href="{% url ain7.manage.views.role_member_delete role.name user.id %}" class="deletelink">{% trans "Delete" %}</a></li>
+{% for user in role.members.all %}
+  <li><a href="{% url ain7.annuaire.views.details user.member.id %}">{{ user.member.last_name }} {{ user.member.first_name }}</a> &nbsp; &nbsp; <a href="{% url ain7.manage.views.role_member_delete role.name user.id %}" class="deletelink">{% trans "Delete" %}</a></li>
 {% endfor %}
 </ul>
 <p><a href="{% url ain7.manage.views.role_member_add role.name %}" class="addlink">{% trans "Add" %}</a></p>

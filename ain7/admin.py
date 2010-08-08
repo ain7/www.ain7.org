@@ -28,8 +28,7 @@ import ain7.annuaire.models as annuaire
 import ain7.emploi.models as emploi
 import ain7.voyages.models as voyages
 import ain7.news.models as news
-import ain7.groupes_professionnels.models as groupes_professionnels
-import ain7.groupes_regionaux.models as groupes_regionaux
+import ain7.groups.models as groups
 
 admin.site.register(manage.Notification)
 admin.site.register(manage.PortalError)
@@ -66,7 +65,5 @@ admin.site.register(voyages.Travel)
 
 admin.site.register(news.NewsItem)
 
-admin.site.register(groupes_professionnels.GroupPro)
-
-admin.site.register(groupes_regionaux.Group)
+admin.site.register(groups.Group)
 

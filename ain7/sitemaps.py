@@ -26,8 +26,7 @@ from django.contrib.sitemaps import Sitemap
 
 from ain7.pages.models import TextBlock
 from ain7.news.models import NewsItem
-from ain7.groupes_professionnels.models import GroupPro
-from ain7.groupes_regionaux.models import Group
+from ain7.groups.models import Group
 from ain7.voyages.models import Travel
 
 class EventsSitemap(Sitemap):
@@ -65,7 +64,7 @@ class GroupesProSitemap(Sitemap):
     priority = 0.5
 
     def items(self):
-        return GroupPro.objects.all()
+        return Group.objects.all()
 
     def lastmod(self, obj):
         return obj.last_change_at

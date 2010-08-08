@@ -24,9 +24,6 @@
       <li><a href="{% url ain7.groupes_professionnels.views.subscribe group.slug %}">{% trans "Subscribe someone" %}</a></li>
       <li><a href="{% url ain7.groupes_professionnels.views.unsubscribe group.slug %}">{% trans "Unsubscribe someone" %}</a></li>
       {% endif %}
-      {% if superadmin or secretariat_member %}
-      <li><a href="{% url ain7.groupes_professionnels.views.edit_roles group.slug,"current" %}">{% trans "Edit roles of this group" %}</a></li>
-      {% endif %}
    </ul>
    </div>
 

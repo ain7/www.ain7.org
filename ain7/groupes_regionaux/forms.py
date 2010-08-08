@@ -29,7 +29,7 @@ from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
 from ain7.fields import AutoCompleteField
-from ain7.groupes_regionaux.models import Group, GroupRole
+from ain7.groups.models import Group, GroupLeader
 from ain7.widgets import DateTimeWidget
 
 
@@ -58,16 +58,20 @@ class GroupForm(forms.ModelForm):
     class Meta:
         """Meta Group Form Information"""
         model = Group
-        exclude = ('group',)
+        exclude = ('group', 'type', 'access', 'private', 'web_site', 'email',)
 
-class NewRoleForm(forms.Form):
+class RoleForm(forms.ModelForm):
     """New role form"""
-    username = forms.CharField(label=_('Username'), max_length=100,
+    person = forms.IntegerField(label=_('Person'),
         required=True, widget=AutoCompleteField(completed_obj_name='person'))
     start_date = forms.DateTimeField(label=_('start date').capitalize(),
         widget=DATE_WIDGET, required=True)
     end_date = forms.DateTimeField(label=_('end date').capitalize(),
         widget=DATE_WIDGET, required=False)
+
+    class Meta:
+        model = GroupLeader
+        exclude = ['grouphead']
 
     def clean_end_date(self):
         """check end date for new role"""
@@ -77,36 +81,18 @@ class NewRoleForm(forms.Form):
             raise forms.ValidationError(_('Start date is later than end date'))
         return self.cleaned_data['end_date']
 
-    def save(self, group, type):
-        """save new role method"""
-        role = GroupRole()
-        role.type = type
-        role.start_date = self.cleaned_data['start_date']
-        role.end_date = self.cleaned_data['end_date']
-        role.group = group
-        role.member = get_object_or_404(Person,
-                                      pk=self.cleaned_data['username'])
-        role.save()
-        return role
-
-class ChangeDatesForm(forms.Form):
-    """change dates form"""
-    start_date = forms.DateTimeField(label=_('start date').capitalize(),
-        widget=DATE_WIDGET, required=True)
-    end_date = forms.DateTimeField(label=_('end date').capitalize(),
-        widget=DATE_WIDGET, required=False)
-
-    def clean_end_date(self):
-        """check end date method"""
-        if self.cleaned_data.get('start_date') and \
-            self.cleaned_data.get('end_date') and \
-            self.cleaned_data['start_date']>self.cleaned_data['end_date']:
-            raise forms.ValidationError(_('Start date is later than end date'))
-        return self.cleaned_data['end_date']
-
-    def save(self, role):
-        """save dates for a role"""
-        role.start_date = self.cleaned_data['start_date']
-        role.end_date = self.cleaned_data['end_date']
-        return role.save()
+    def clean_person(self):
+        """check username"""
+        pid = self.cleaned_data['person']
+        if pid == None:
+            raise ValidationError(_('This field is mandatory.'))
+            return None
+        else:
+            person = None
+            try:
+                person = Person.objects.get(id=pid)
+            except Person.DoesNotExist:
+                raise ValidationError(_('The entered person is not in\
+ the database.'))
+            return person
 

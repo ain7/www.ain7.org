@@ -26,17 +26,17 @@ from django.forms.util import ValidationError
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
-from ain7.association.models import CouncilRole
 from ain7.fields import AutoCompleteField
+from ain7.groups.models import GroupLeader
 from ain7.widgets import DateTimeWidget
 
 
 DATE_WIDGET = DateTimeWidget()
 DATE_WIDGET.dformat = '%d/%m/%Y'
 
-class NewCouncilRoleForm(forms.Form):
+class CouncilRoleForm(forms.ModelForm):
     """Council Role Form"""
-    username = forms.CharField(label=_('Username'), max_length=100,
+    person = forms.IntegerField(label=_('Person'),
         required=True, widget=AutoCompleteField(completed_obj_name='person'))
     start_date = forms.DateTimeField(label=_('start date').capitalize(),
         widget=DATE_WIDGET, required=True)
@@ -44,6 +44,11 @@ class NewCouncilRoleForm(forms.Form):
         widget=DATE_WIDGET, required=False)
     board_member = forms.BooleanField(label=_('board member').capitalize(),
         required=False)
+
+    class Meta:
+        """form meta data"""
+        model = GroupLeader
+        exclude = ('grouphead',)
 
     def clean_end_date(self):
         """check end date"""
@@ -53,9 +58,9 @@ class NewCouncilRoleForm(forms.Form):
             raise forms.ValidationError(_('Start date is later than end date'))
         return self.cleaned_data['end_date']
 
-    def clean_username(self):
+    def clean_person(self):
         """check username"""
-        pid = self.cleaned_data['username']
+        pid = self.cleaned_data['person']
         if pid == None:
             raise ValidationError(_('This field is mandatory.'))
             return None
@@ -67,36 +72,4 @@ class NewCouncilRoleForm(forms.Form):
                 raise ValidationError(_('The entered person is not in\
  the database.'))
             return person
-    
-    def save(self, role_type):
-        """save council role"""
-        c_role = CouncilRole()
-        c_role.role = role_type
-        c_role.start_date = self.cleaned_data['start_date']
-        c_role.end_date = self.cleaned_data['end_date']
-        c_role.member = self.cleaned_data['username']
-        c_role.board_member = self.cleaned_data['board_member']
-        c_role.save()
-        return c_role
-
-class ChangeDatesForm(forms.Form):
-    """change dates form"""
-    start_date = forms.DateTimeField(label=_('start date').capitalize(),
-        widget=DATE_WIDGET, required=True)
-    end_date = forms.DateTimeField(label=_('end date').capitalize(),
-        widget=DATE_WIDGET, required=False)
-
-    def clean_end_date(self):
-        """check end date"""
-        if self.cleaned_data.get('start_date') and \
-            self.cleaned_data.get('end_date') and \
-            self.cleaned_data['start_date']>self.cleaned_data['end_date']:
-            raise forms.ValidationError(_('Start date is later than end date'))
-        return self.cleaned_data['end_date']
-
-    def save(self, role):
-        """save new dates"""
-        role.start_date = self.cleaned_data['start_date']
-        role.end_date = self.cleaned_data['end_date']
-        return role.save()
 
