@@ -48,7 +48,7 @@ class TextForm(forms.Form):
     """Text Generic Form"""
     title = forms.CharField(label=_('title'), max_length=150, required=False,
         widget=forms.TextInput(attrs={'size':80}))
-    body = forms.CharField(label=_('body'), max_length=10000, required=False, 
+    body = forms.CharField(label=_('body'), max_length=100000000, required=False, 
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':215}))
 
 class ChangePasswordForm(forms.Form):
