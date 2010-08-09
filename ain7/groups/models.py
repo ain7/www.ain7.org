@@ -148,9 +148,15 @@ class Group(LoggedClass):
             .filter(start_date__lte=datetime.datetime.now())\
             .count() != 0
 
-    def current_memberships(self):
-        """professionnal group current members"""
-        return [ ms for ms in self.members.all() if ms.current() ]
+    def active_members(self):
+        """current group members"""
+        from django.db.models import Q
+        return [ ms for ms in self.members.filter(Q(start_date__lte=datetime.date.today()), Q(end_date__gte=datetime.date.today()) | Q(end_date__isnull=True)) ]
+
+    def all_members(self):
+        """all group members"""
+        from django.db.models import Q
+        return [ ms for ms in self.members.al() ]
 
     def has_for_board_member(self, person):
         """check board member for a regional group"""
@@ -171,6 +177,16 @@ class Group(LoggedClass):
         member.start_date = datetime.date.today()
         member.save()
 
+    def remove(self, person):
+        member = Member.objects.get(group=self, person=person)
+        member.end_date = datetime.date.today()
+        member.save()
+
     def get_group_head(self):
+        from django.db.models import Q 
+        return [ {'id': rol.id, 'title': rol.get_title(), 'person': rol.person} for rol in GroupLeader.objects.filter(Q(grouphead__group=self), Q(start_date__lte=datetime.date.today()), Q(end_date__gte=datetime.date.today()) | Q(end_date__isnull=True)).order_by('rank', 'role__rank') ] 
+
+    def get_group_head_history(self):
+        from django.db.models import Q 
         return [ {'id': rol.id, 'title': rol.get_title(), 'person': rol.person} for rol in GroupLeader.objects.filter(grouphead__group=self).order_by('rank', 'role__rank') ] 
 

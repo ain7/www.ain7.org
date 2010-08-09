@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-08 20:17+0200\n"
+"POT-Creation-Date: 2010-08-08 20:44+0200\n"
 "PO-Revision-Date: 2010-01-15 22:50+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: AIn7 French Translators <ain7-devel@lists.ain7.com>\n"
@@ -1912,7 +1912,7 @@ msgstr "organisateur"
 
 #: news/models.py:48
 msgid "project"
-msgstr ""
+msgstr "projet"
 
 #: news/models.py:49
 msgid "confirmed"
@@ -1944,7 +1944,7 @@ msgstr "email de contact"
 
 #: news/models.py:77
 msgid "external link"
-msgstr ""
+msgstr "lien externe"
 
 #: news/models.py:82
 msgid "Pictures gallery"
@@ -4211,11 +4211,11 @@ msgstr "Tous les événements"
 
 #: templates/pages/homepage.html:83
 msgid "AIn7 communities on the web"
-msgstr ""
+msgstr "Les communautés web de l'AIn7"
 
 #: templates/pages/homepage.html:87
 msgid "Join your AIn7 communities on"
-msgstr ""
+msgstr "Rejoindre les communautés de l'AIn7"
 
 #: templates/pages/homepage.html:105 templates/sondages/details.html:15
 msgid "Survey"

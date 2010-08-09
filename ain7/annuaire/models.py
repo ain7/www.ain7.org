@@ -474,7 +474,7 @@ class AIn7Member(LoggedClass):
  
     def promo(self):
         if self.promos.all():
-            return self.promos.all()[0].year.year
+            return str(self.promos.all()[0].year.year)
         else:
             return ''
 
@@ -485,7 +485,7 @@ class AIn7Member(LoggedClass):
             return ''
 
     def promo_full(self):
-        return self.track()+" "+self.promo()
+        return self.track()+' '+str(self.promo())
 
     def __unicode__(self):
         """AIn7 member unicode"""
