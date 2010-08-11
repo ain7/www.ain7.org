@@ -49,7 +49,7 @@
   <div class="right_articles">
       <div>
       {% if news_item.image %}
-      <a href="{% url ain7.news.views.details news_item.slug %}/"><img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" title="{{ news_item.title }}" class="image" width="60" /></a>
+      <a href="{% url ain7.news.views.details news_item.slug %}"><img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" title="{{ news_item.title }}" class="image" width="60" /></a>
       {% endif %}
       <b><a href="{% url ain7.news.views.details news_item.slug %}">{{ news_item.title }}</a></b><br />{{ news_item.short_body|safe }}
       </div>
