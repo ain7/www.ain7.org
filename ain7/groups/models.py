@@ -184,9 +184,9 @@ class Group(LoggedClass):
 
     def get_group_head(self):
         from django.db.models import Q 
-        return [ {'id': rol.id, 'title': rol.get_title(), 'person': rol.person} for rol in GroupLeader.objects.filter(Q(grouphead__group=self), Q(start_date__lte=datetime.date.today()), Q(end_date__gte=datetime.date.today()) | Q(end_date__isnull=True)).order_by('rank', 'role__rank') ] 
+        return [ {'id': rol.id, 'title': rol.get_title(), 'person': rol.person} for rol in GroupLeader.objects.filter(Q(grouphead__group=self), Q(start_date__lte=datetime.date.today()), Q(end_date__gte=datetime.date.today()) | Q(end_date__isnull=True)).order_by('rank', 'role__rank', 'person__last_name', 'person__first_name') ] 
 
     def get_group_head_history(self):
         from django.db.models import Q 
-        return [ {'id': rol.id, 'title': rol.get_title(), 'person': rol.person} for rol in GroupLeader.objects.filter(grouphead__group=self).order_by('rank', 'role__rank') ] 
+        return [ {'id': rol.id, 'title': rol.get_title(), 'person': rol.person} for rol in GroupLeader.objects.filter(grouphead__group=self).order_by('rank', 'role__rank', 'person__last_name', 'person__first_name') ] 
 

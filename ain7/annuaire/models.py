@@ -765,7 +765,7 @@ class Club(LoggedClass):
 class ClubMembership(models.Model):
     """Club membership for a person"""
 
-    club = models.ForeignKey('groups.Group', verbose_name=_('club'),
+    club = models.ForeignKey('annuaire.Club', verbose_name=_('club'),
         related_name='memberships')
     member = models.ForeignKey(AIn7Member, verbose_name=_('member'),
         related_name='club_memberships', editable=False)
