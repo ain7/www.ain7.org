@@ -50,7 +50,7 @@ class NewsItem(LoggedClass):
               (2,_('cancel')),
               )
 
-    slug = models.SlugField(max_length=100)
+    slug = models.SlugField(max_length=100, unique=True)
     title = models.CharField(verbose_name=_('title'), max_length=100)
     body = models.TextField(verbose_name=_('body'))
     shorttext = models.CharField(verbose_name=_('short text'), max_length=500,

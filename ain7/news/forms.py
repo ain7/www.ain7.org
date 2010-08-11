@@ -22,9 +22,11 @@
 #
 
 from django import forms
+from django.db.models import Q
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
+from ain7.groups.models import Group
 from ain7.news.models import NewsItem, EventOrganizer
 from ain7.fields import AutoCompleteField
 from ain7.utils import AIn7ModelForm, AIn7Form
@@ -67,6 +69,12 @@ class NewsForm(AIn7ModelForm):
         model = NewsItem
         exclude = ('slug', 'shorttext', 'date', 'location', 'status', \
             'contact_email', 'link', 'pictures_gallery')
+
+    def __init__(self, *args, **kwargs):
+        super (NewsForm,self ).__init__(*args,**kwargs)
+        self.fields['groups'].queryset = Group.objects.filter(\
+            Q(type__name='ain7-regional') | Q(type__name='ain7-professionnel'))
+
 
     def save(self, *args, **kwargs):
         """save event"""
@@ -126,6 +134,11 @@ class EventForm(AIn7ModelForm):
         """event form meta"""
         model = NewsItem
         exclude = ('organizers','shorttext', 'slug',)
+
+    def __init__(self, *args, **kwargs):
+        super (EventForm,self ).__init__(*args,**kwargs)
+        self.fields['groups'].queryset = Group.objects.filter(\
+            Q(type__name='ain7-regional') | Q(type__name='ain7-professionnel'))
 
     def save(self, *args, **kwargs):
         """save event"""
