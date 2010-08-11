@@ -3,24 +3,68 @@
 {% load i18n %}
 
 {% block javascript %}{% endblock %}
-{% block stylesheet %}{% endblock %}
+{% block stylesheet %}
+<style type="text/css">
+table {
+ border-collapse: collapse;
+ width: 96%;
+ }
+th {
+ background-color: #6c757a;
+ color: #ffffff;
+ }
+th, td {
+ border: 1px solid black;
+ }
+td {
+ text-align: center;
+ }
+caption {
+ font-weight: bold;
+ font-size: 8pt;
+ }
+</style>
+{% endblock %}
 
 {% block content-left %}
 
-<h2>{% trans "Subscriptions"%}</h2>
+<h2>{% trans "Subscriptions Statistics"%}</h2>
 
-<table style="width: 100%">
-<th><td>Diplomés</td><td>Taux Pleins</td><td>Jeunes promos</td><td>Retraités</td><td>Bienfaiteurs</td><td>Affiliés</td><td>Total</td></tr>
-{% for row in stats_subs %}
-<tr><td>{{ row.year }}</td><td>{{ row.diplomees }}</td><td>{{ row.full }}</td><td>{{ row.young }}</td><td>{{ row.retired }}</td><td>{{ row.bienfaiteur }}</td><td>{{ row.students }}</td><td>{{ row.all }}</td></tr>
-{% endfor %}
+<table>
+<caption>Synthèse 2010</caption>
+<tr><th>Nombre de cotisants</th><th colspan="2">Taux</th><th>Montant</th></tr>
+<tr><td>{{ stats_year.full.number }}</td><td>Taux plein</td><td>{{ stats_year.full.price }} €</td><td>{{ stats_year.full.amount }} €</td></tr>
+<tr><td>{{ stats_year.young.number }}</td><td>Jeunes promos</td><td>{{ stats_year.young.price }} €</td><td>{{ stats_year.young.amount }} €</td></tr>
+<tr><td>{{ stats_year.retired.number }}</td><td>Retraités</td><td>{{ stats_year.retired.price }} €</td><td>{{ stats_year.retired.amount }} €</td></tr>
+<tr><td>{{ stats_year.bienfaiteur.number }}</td><td>Bienfaiteurs</td><td>{{ stats_year.bienfaiteur.price }} €</td><td>{{ stats_year.bienfaiteur.amount }} €</td></tr>
+<tr><td>{{ stats_year.unemployed.number }}</td><td>Sans emploi</td><td>{{ stats_year.unemployed.price }} €</td><td>{{ stats_year.unemployed.amount }} €</td></tr>
+<tr><td>{{ stats_year.students.number }}</td><td>Elèves Affiliés</td><td>5, 10 ou 15 €</td><td>{{ stats_year.students.amount }} €</td></tr>
+<tr><td>{{ stats_year.other.number }}</td><td>Autres</td><td>n/a</td><td>{{ stats_year.other.amount }} €</td></tr>
+<tr><td colspan="3"><b>Total: {{ stats_year.total.number }} dont {{ stats_year.total.diplomees }} diplomés</b></td><td><b>Total: {{ stats_year.total.amount }} €</b></td></tr>
 </table>
 
-<table border="1" style="width: 100%; border: solid 1px;">
-<th><td>Janvier</td><td>Février</td><td>Mars</td><td>Avril</td><td>Mai</td><td>Juin</td><td>Juillet</td><td>Août</td><td>Septembre</td><td>Octobre</td><td>Novembre</td><td>Décembre</td></th>
-<tr><td></td>
+<p>&nbsp;</p>
+
+<div id="edition">
+<table class="datas">
+<caption>Répartition des cotisations</caption>
+<tr><th></th><th>Diplomés</th><th>Taux Pleins</th><th>Jeunes promos</th><th>Retraités</th><th>Bienfaiteurs</th><th>Sans emploi</th><th>Affiliés</th><th>Autre(s)</th><th>Total</th></tr>
+{% for row in stats_subs %}
+<tr class="{% cycle row1,row2 %}">
+<td>{{ row.year }}</td><td>{{ row.diplomees }}</td><td>{{ row.full }}</td><td>{{ row.young }}</td><td>{{ row.retired }}</td><td>{{ row.bienfaiteur }}</td><td>{{ row.unemployed }}</td><td>{{ row.students }}</td><td>{{ row.other }}</td><td>{{ row.total }}</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+
+<p>&nbsp;</p>
+
+<table>
+<caption>Evolution mensuelle des cotisations</caption>
+<tr><th>Janvier</th><th>Février</th><th>Mars</th><th>Avril</th><th>Mai</th><th>Juin</th><th>Juillet</th><th>Août</th><th>Septembre</th><th>Octobre</th><th>Novembre</th><th>Décembre</th></tr>
+<tr>
 {% for month in stats_months %}
-<td>{{ month }}</td>
+<td style="width: 8%;">{{ month }}</td>
 {% endfor %}
 </tr>
 </table>

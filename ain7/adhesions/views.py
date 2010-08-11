@@ -167,8 +167,10 @@ def subscription_add(request, user_id=None):
 
     title = _('Adding a subscription for')
 
+    year_current = datetime.date.today().year
+
     page_dict = {'action_title': title, 'person': person,
-        'configurations': SubscriptionConfiguration.objects.all().\
+        'configurations': SubscriptionConfiguration.objects.filter(year=year_current).\
              order_by('type'),
         'back': request.META.get('HTTP_REFERER', '/')}
 
@@ -262,9 +264,11 @@ def configurations(request):
     if access:
         return access
 
+    year_current = datetime.date.today().year
+
     return ain7_render_to_response(request, 'adhesions/configurations.html',
         {'configurations_list': 
-         SubscriptionConfiguration.objects.all().order_by('type')})
+         SubscriptionConfiguration.objects.filter(year=year_current).order_by('type')})
 
 @login_required
 def configuration_edit(request, config_id=None):

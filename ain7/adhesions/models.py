@@ -95,8 +95,7 @@ class SubscriptionConfiguration(models.Model):
             (9, _('Support')),
             )
 
-    type = models.IntegerField(verbose_name=_('Type'), unique=True, 
-        choices=TYPE)
+    type = models.IntegerField(verbose_name=_('Type'), choices=TYPE)
     dues_amount = models.IntegerField(verbose_name=_('Dues amount'))
     newspaper_amount = models.IntegerField(verbose_name=_('Newspaper amount'),
          null=True, blank=True)

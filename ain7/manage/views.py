@@ -33,7 +33,7 @@ from django.utils.translation import ugettext as _
 
 from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
 from ain7.decorators import confirmation_required
-from ain7.annuaire.models import Country
+from ain7.annuaire.models import Country, PersonType
 from ain7.emploi.models import Organization, Office
 from ain7.emploi.models import OrganizationProposal, OfficeProposal
 from ain7.groups.models import Group, Member
@@ -1468,43 +1468,89 @@ def subscriptions_stats(request):
     if access:
         return access
 
-    from ain7.adhesions.models import Subscription
+    from django.db.models import Q, Sum
+    from ain7.adhesions.models import Subscription, SubscriptionConfiguration
 
     from datetime import date
     this_year = date.today().year
 
-    if date.today().month < 10:
-        last_promo = this_year - 1
-    else:
-        last_promo = this_year
-
     stats_subs = []
-    stats_amiunt = []
+    stats_amount = []
+    stats_year = {}
+
+    inge = PersonType.objects.get(type='Ingénieurs')
+    student = PersonType.objects.get(type='Elèves')
 
     for year in range(this_year, this_year-10, -1):
 
         # Cotisations à taux pleins hors élèves:
-        diplomees = Subscription.objects.filter(member__promos__year__year__lte=last_promo, start_year=year, validated=True).count()
+        diplomees_number = Subscription.objects.filter(member__person__personprivate__person_type=inge, start_year=year, validated=True).count()
 
         # Cotisation supérieures à taux plein:
-        full = Subscription.objects.filter(member__promos__year__year__lte=last_promo, dues_amount__gte=80, start_year=year, validated=True).count()
+        full_price = SubscriptionConfiguration.objects.get(year=this_year, type=0).dues_amount
+        full_query = Q(member__person__personprivate__person_type=inge, dues_amount=full_price, start_year=year, validated=True)
+        full_queryset = Subscription.objects.filter(full_query)
+        full_number = full_queryset.count()
+        full_amount = full_number * full_price
 
         # Cotisations jeunes promos:
-        young = Subscription.objects.filter(member__promos__year__year__lte=last_promo, dues_amount__gte=50, dues_amount__lt=60, start_year=year, validated=True).count()
+        young_price = SubscriptionConfiguration.objects.get(year=this_year, type=1).dues_amount
+        young_query = Q(member__person__personprivate__person_type=inge, dues_amount=young_price, start_year=year, validated=True)
+        young_queryset = Subscription.objects.filter(young_query)
+        young_number = young_queryset.count()
+        young_amount = young_number * young_price
 
         # Cotisations retraités:
-        retired = Subscription.objects.filter(member__promos__year__year__lte=last_promo, dues_amount__gte=60, dues_amount__lt=80, start_year=year, validated=True).count()
+        retired_price = SubscriptionConfiguration.objects.get(year=this_year, type=2).dues_amount
+        retired_query = Q(member__person__personprivate__person_type=inge, dues_amount=retired_price, start_year=year, validated=True)
+        retired_queryset = Subscription.objects.filter(retired_query)
+        retired_number = retired_queryset.count()
+        retired_amount = retired_number * retired_price
 
         # Cotisations bienfaiteurs:
-        bienfaiteur = Subscription.objects.filter(member__promos__year__year__lte=last_promo, dues_amount__gte=180, start_year=this_year, validated=True).count()
+        bienfaiteur_price = SubscriptionConfiguration.objects.get(year=this_year, type=3).dues_amount
+        bienfaiteur_query = Q(member__person__personprivate__person_type=inge, dues_amount__gte=bienfaiteur_price, start_year=this_year, validated=True)
+        bienfaiteur_queryset = Subscription.objects.filter(bienfaiteur_query)
+        bienfaiteur_number = bienfaiteur_queryset.count()
+        bienfaiteur_amount = bienfaiteur_number * bienfaiteur_price
+
+        # unemployed
+        unemployed_price = SubscriptionConfiguration.objects.get(year=this_year, type=4).dues_amount
+        unemployed_query = Q(member__person__personprivate__person_type=inge, dues_amount=unemployed_price, start_year=year, validated=True)
+        unemployed_queryset = Subscription.objects.filter(unemployed_query)
+        unemployed_number = unemployed_queryset.count()
+        unemployed_amount = unemployed_number * unemployed_price
 
         # students
-        students = Subscription.objects.filter(member__promos__year__year__gt=last_promo, start_year=year, validated=True).count()
+        students_query = Q(member__person__personprivate__person_type=student, start_year=year, validated=True)
+        students_queryset = Subscription.objects.filter(students_query)
+        students_number = students_queryset.count()
+        students_amount = students_queryset.aggregate(sum=Sum('dues_amount'))['sum']
 
         # all
-        all = Subscription.objects.filter(start_year=year, validated=True).count()
+        total_query = Q(start_year=year, validated=True)
+        total_queryset = Subscription.objects.filter(total_query)
+        total_number = total_queryset.count()
+        total_amount = total_queryset.aggregate(sum=Sum('dues_amount'))['sum']
 
-        stats_subs.append({'year': year, 'diplomees': diplomees, 'full': full, 'young':young, 'retired': retired, 'bienfaiteur': bienfaiteur, 'students': students, 'all': all})
+        # other
+        other_number = total_number - students_number - unemployed_number - bienfaiteur_number - retired_number - young_number - full_number
+        #other_amount = total_amount - students_amount - unemployed_amount - bienfaiteur_amount - retired_amount - young_amount - full_amount
+        other_amount = total_amount - unemployed_amount - bienfaiteur_amount - retired_amount - young_amount - full_amount
+
+        stats_subs.append({'year': year, 'diplomees': diplomees_number, 'full': full_number, 'young':young_number, 'retired': retired_number, 'bienfaiteur': bienfaiteur_number, 'unemployed': unemployed_number, 'other': other_number, 'students': students_number, 'total': total_number})
+
+        if year == this_year:
+            stats_year = {
+                'full': {'number': full_number, 'price': full_price, 'amount': full_amount}, 
+                'young': { 'number': young_number, 'price': young_price, 'amount': young_amount},
+                'retired': { 'number': retired_number, 'price': retired_price, 'amount': retired_amount},
+                'bienfaiteur': { 'number': bienfaiteur_number, 'price': bienfaiteur_price, 'amount': bienfaiteur_amount},
+                'unemployed': { 'number': unemployed_number, 'price': unemployed_price, 'amount': unemployed_amount },
+                'students': { 'number': students_number, 'price': 0, 'amount': int(students_amount)},
+                'other': { 'number': other_number, 'price': 'n/a', 'amount': int(other_amount)},
+                'total': { 'number': total_number, 'diplomees': diplomees_number, 'amount': int(total_amount) }
+            }
 
 
     stats_months = []
@@ -1514,18 +1560,18 @@ def subscriptions_stats(request):
             last_day = date(this_year, month+1, 1)
         else:
             last_day = date(this_year+1,1,1)
-        stats_months.append(Subscription.objects.filter(member__promos__year__year__lte=last_promo, start_year=this_year, validated=True, date__gte=first_day, date__lt=last_day).count())
+        stats_months.append(Subscription.objects.filter(member__person__personprivate__person_type=inge, start_year=this_year, validated=True, date__gte=first_day, date__lt=last_day).count())
 
     total_amount = 0
-    for s in Subscription.objects.filter(member__promos__year__year__lte=last_promo, start_year=this_year, validated=True):
+    for s in Subscription.objects.filter(member__person__personprivate__person_type=inge, start_year=this_year, validated=True):
         total_amount += s.dues_amount
 
     total_publications = 0
-    for s in Subscription.objects.filter(member__promos__year__year__lte=last_promo, start_year=this_year, validated=True):
+    for s in Subscription.objects.filter(member__person__personprivate__person_type=inge, start_year=this_year, validated=True):
         if s.newspaper_amount:
             total_publications += s.newspaper_amount
 
     return ain7_render_to_response(
         request, 'manage/subscriptions_stats.html', 
-        { 'stats_subs' : stats_subs, 'stats_months': stats_months, 'total_amount': total_amount, 'total_publications': total_publications})
+        { 'stats_subs' : stats_subs, 'stats_months': stats_months, 'stats_year': stats_year, 'total_amount': total_amount, 'total_publications': total_publications})
 
