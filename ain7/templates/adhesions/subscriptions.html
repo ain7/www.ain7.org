@@ -33,11 +33,11 @@
   <th>{% trans "Year" %}</th>
   <th>{% trans "Amount" %}</th>
   <th>{% trans "Canal n7" %}</th>
-  <th>{% trans "Tender type" %}</th>
+  <th>{% trans "Payment" %}</th>
 </tr>
 {% for subscription in subscriptions_list %}
 <tr class="{% cycle row1,row2 %}">
-  <td align="center">{{ subscription.member.person.last_name }} {{ subscription.member.person.first_name }}</td>
+  <td align="center"><a href="{% url ain7.annuaire.views.details subscription.member.person.user.id %}">{{ subscription.member.person.last_name }} {{ subscription.member.person.first_name }}</a></td>
   <td align="center">
     {% ifnotequal subscription.start_year subscription.end_year %}
       {% blocktrans with subscription.start_year as start and subscription.end_year as end %}{{ start }} to {{ end }}{% endblocktrans %}
@@ -60,7 +60,7 @@
       {% endifequal %}
   </td>
   <td align="center">
-    {{ subscription.get_tender_type_display }}
+    <a href="{% url ain7.manage.views.payment_details subscription.payment.id %}">#{{ subscription.payment.id }}</a> {% trans "by" %} {{ subscription.payment.get_type_display }}
   </td>
   <td align="center">
     {% if not subscription.validated %}

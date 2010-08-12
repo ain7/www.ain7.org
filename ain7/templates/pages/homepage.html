@@ -8,7 +8,7 @@
 
 <div id="content-main">
 
-<div class="left">
+<div class="left" style="width: 65%">
 <h3>
 {{ text1.title }}
 {% if superadmin or ca_member or secretariat_member or contributeur %}
@@ -36,7 +36,7 @@
 </div>
 
 </div>
-<div class="right">
+<div class="right" style="width: 32%">
 
 <div class="right_articles" align="center">
 <a href="{% url ain7.adhesions.views.index %}"><img src="/site_media/images/adherer.png"></a>
@@ -61,9 +61,7 @@
 	<a href="{% url ain7.news.views.index %}">{% trans "All news" %}</a>
 </div>
 </div>
-</div>
 
-<div class="right">
 <h3>{% trans "Events Forecast" %}</h3>
 <div class="right_articles">
 
@@ -84,7 +82,6 @@
 <div class="right_articles">
 
 <div class="snBox">
-<p>{% trans "Join your AIn7 communities on" %}</p>
 <p><a href="http://www.viadeo.com/communaute/macommunaute/?communityId=0022ezgr59190pqm" target="_blank"><img class="snIcon" src="/site_media/images/viadeo-icon.png"> Viadeo</a></p>
 <p><a href="http://www.linkedin.com/groups?gid=73525" target="_blank"><img class="snIcon" src="/site_media/images/linkedin-icon.png"> LinkedIn</a></p>
 <p><a href="http://www.facebook.com/home.php#/group.php?gid=9422764057" target="_blank"><img class="snIcon" src="/site_media/images/FB-icon.jpg"> Facebook</a></p>

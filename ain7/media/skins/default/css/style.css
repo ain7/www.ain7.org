@@ -225,7 +225,7 @@ input[type=text] {
 
 div.left {
     float: left;
-    width: 65%;
+    width: 75%;
     margin: 0 0 10px 0;
     padding: 10px 0 0 0;
 }
@@ -276,7 +276,7 @@ h3.notif {
 
 .right {
     float: right;
-    width: 32.6%;
+    width: 23%;
     margin: 0 0 10px 0;
     padding: 10px 0 0 0;
 }

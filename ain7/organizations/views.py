@@ -29,7 +29,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
 from ain7.decorators import confirmation_required
-from ain7.annuaire.models import Person
+from ain7.annuaire.models import Person, Country
 from ain7.emploi.models import Organization, OrganizationProposal, Office, \
                                OfficeProposal
 from ain7.organizations.forms import OrganizationForm, OfficeForm, \
@@ -481,6 +481,9 @@ def office_edit(request, organization_id, office_id=None):
     form = OfficeFormNoOrg()
 
     person = get_object_or_404(Person, user=request.user.id)
+    organization = get_object_or_404(Organization, id=organization_id)
+
+    office = None
 
     if office_id:
         office = get_object_or_404(Office, pk=office_id)
@@ -496,7 +499,7 @@ def office_edit(request, organization_id, office_id=None):
         form = OfficeFormNoOrg(request.POST.copy())
         if form.is_valid():
             modified_office = Office()
-            modified_office.organization = office.organization
+            modified_office.organization = organization
             modified_office.name = form.cleaned_data['name']
             modified_office.line1 = form.cleaned_data['line1']
             modified_office.line2 = form.cleaned_data['line2']
@@ -504,7 +507,7 @@ def office_edit(request, organization_id, office_id=None):
             modified_office.city = form.cleaned_data['city']
             modified_office.phone_number = form.cleaned_data['phone_number']
             modified_office.web_site = form.cleaned_data['web_site']
-            modified_office.country = office.country #Country.objects.get(f.cleaned_data['country'])
+            modified_office.country = form.cleaned_data['country']
             modified_office.is_a_proposal = True
             modified_office.is_valid = True
             modified_office.save()
