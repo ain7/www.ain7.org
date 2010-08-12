@@ -45,7 +45,7 @@
       {% endifequal %}
   </td>
   <td align="center">
-    {% trans subscription.get_tender_type_display %}
+    {% trans subscription.payment.get_type_display %}
   </td>
   <td align="center">
     <a  href="{% url manage.views.payment_details subscription.payment.id %}">{{ subscription.payment.id }}</a>
