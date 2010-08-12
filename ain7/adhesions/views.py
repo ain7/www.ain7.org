@@ -148,7 +148,7 @@ def user_subscriptions(request, user_id):
     ain7member = get_object_or_404(AIn7Member, person=person)
 
     subscriptions_list = Subscription.objects.filter(member=ain7member).\
-        order_by('-start_year')
+        order_by('-start_year', '-id')
 
     return ain7_render_to_response(request, 
         'adhesions/user_subscriptions.html',
