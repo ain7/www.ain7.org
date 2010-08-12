@@ -16,7 +16,7 @@
 <li><b>{% trans "Date:" %}</b> {{ payment.date|date:"l j F Y" }}</li>
 <li><b>{% trans "Amount:" %}</b> {{ payment.amount }}</li>
 <li><b>{% trans "Type:" %}</b> {{ payment.get_type_display }}</li>
-<li><b>{% trans "Validated:" %}</b> {{ payment.validated }}</li>
+<li><b>{% trans "Validated:" %}</b> {% if payment.validated %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</li>
 {% if payment.deposited %}
 <li><b>{% trans "Deposited:" %}</b> {{ payment.deposited|date:"l j F Y" }}</li>
 {% endif %}
