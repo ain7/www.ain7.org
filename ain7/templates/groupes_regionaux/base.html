@@ -18,7 +18,6 @@
     <h3>{% trans "Actions" %}</h3>
     <div class="right_block">
         <ul>
-            <li><a href="{% url ain7.groupes_regionaux.views.details group.slug %}">{% trans "Page of this group" %}</a></li>
             <li>
             {% if not is_member %}
                 <a href="{% url ain7.groupes_regionaux.views.join group.slug %}">{% trans "Join the group" %}</a>
