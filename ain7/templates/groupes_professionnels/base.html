@@ -17,7 +17,6 @@
    <h3>{% trans "Actions" %}</h3>
    <div class="right_articles">
    <ul>
-      <li><a href="{% url ain7.groupes_professionnels.views.details group.slug %}">{% trans "Page of this group" %}</a></li>
       {% block extra-actions %}{% endblock %}
       {% if superadmin or ca_member or secretariat_member or contributeur %}
       <li><a href="{% url ain7.groupes_professionnels.views.edit group.slug %}">{% trans "Edit these data" %}</a></li>

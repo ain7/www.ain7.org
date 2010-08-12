@@ -38,7 +38,8 @@
     {% endfor %}
 </table>
 
-<p><a href="{% url ain7.groupes_professionnels.views.edit_role group.slug %}" class="addlink">
-   {% trans "Add" %}</a></p>
+{% if superadmin or secretariat_member %}
+<p><a href="{% url ain7.groupes_professionnels.views.edit_role group.slug %}" class="addlink">{% trans "Add" %}</a></p>
+{% endif %}
 
 {% endblock %}
