@@ -49,7 +49,7 @@ def index(request):
         return HttpResponseRedirect('/accounts/login/?next=' + \
            reverse('ain7.adhesions.views.index'))
 
-    user_groups = request.user.groups.all().values_list('name', flat=True)
+    user_groups = request.user.person.groups.values_list('group__name', flat=True)
 
     if not 'ain7-secretariat' in user_groups and \
         not 'ain7-admin' in user_groups and \
