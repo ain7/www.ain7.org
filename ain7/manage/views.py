@@ -1187,41 +1187,6 @@ def notification_delete(request, notif_id):
     return HttpResponseRedirect('/manage/')
 
 @login_required
-def nationality_add(request):
-    """add nationality"""
-
-    access = check_access(request, request.user, 
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
-
-    form = NewCountryForm()
-
-    if request.method == 'POST':
-        form = NewCountryForm(request.POST)
-        if form.is_valid():
-
-            if not Country.objects.filter(\
-                name=form.cleaned_data['name']).count() == 0:
-                request.user.message_set.create(message=_("Several countries\
- have the same name. Please choose another one"))
-
-            else:
-                form.save()
-                request.user.message_set.create(
-                    message=_("New country successfully created"))
-                return ain7_render_to_response(request, 
-                       'pages/frame_message.html', {})
-
-        else:
-            request.user.message_set.create(message=_("Something was wrong in\
- the form you filled. No modification done."))
-
-    back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request, 'pages/frame_edit_form.html',
-        {'action_title': _('Register new country'), 'back': back, 'form': form})
-
-@login_required
 def errors_index(request):
     """errors index"""
 

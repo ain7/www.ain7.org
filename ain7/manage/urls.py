@@ -82,9 +82,6 @@ urlpatterns = patterns('ain7.manage.views',
     (r'^notification/(?P<notif_id>\d+)/edit/$', 'notification_edit'),
     (r'^notification/(?P<notif_id>\d+)/delete/$', 'notification_delete'),
 
-    # Nationality
-    (r'^nationality/add/$', 'nationality_add'),
-
     # Errors
     (r'^errors/$', 'errors_index'),
     (r'^errors/(?P<error_id>\d+)/$', 'error_details'),

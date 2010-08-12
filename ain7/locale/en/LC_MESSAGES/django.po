@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-13 00:03+0200\n"
+"POT-Creation-Date: 2010-08-13 00:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,12 +49,12 @@ msgstr ""
 #: manage/views.py:127 manage/views.py:314 manage/views.py:340
 #: manage/views.py:634 manage/views.py:764 manage/views.py:886
 #: manage/views.py:951 manage/views.py:1004 manage/views.py:1068
-#: manage/views.py:1217 manage/views.py:1400 organizations/views.py:145
-#: organizations/views.py:226 organizations/views.py:355
-#: organizations/views.py:451 organizations/views.py:527
-#: organizations/views.py:591 organizations/views.py:655
-#: organizations/views.py:708 search_engine/views.py:342 voyages/views.py:204
-#: voyages/views.py:253 voyages/views.py:346
+#: manage/views.py:1365 organizations/views.py:145 organizations/views.py:226
+#: organizations/views.py:355 organizations/views.py:451
+#: organizations/views.py:527 organizations/views.py:591
+#: organizations/views.py:655 organizations/views.py:708
+#: search_engine/views.py:342 voyages/views.py:204 voyages/views.py:253
+#: voyages/views.py:346
 msgid "Something was wrong in the form you filled. No modification done."
 msgstr ""
 
@@ -1785,27 +1785,15 @@ msgstr ""
 msgid "The notification has been successfully removed."
 msgstr ""
 
-#: manage/views.py:1206
-msgid "Several countries have the same name. Please choose another one"
-msgstr ""
-
-#: manage/views.py:1212
-msgid "New country successfully created"
-msgstr ""
-
-#: manage/views.py:1222
-msgid "Register new country"
-msgstr ""
-
-#: manage/views.py:1395
+#: manage/views.py:1360
 msgid "Payment successfully updated"
 msgstr ""
 
-#: manage/views.py:1437
+#: manage/views.py:1402
 msgid "No payment to deposit"
 msgstr ""
 
-#: manage/views.py:1459
+#: manage/views.py:1424
 msgid "Payments marked as deposited"
 msgstr ""
 
@@ -2274,7 +2262,7 @@ msgstr ""
 msgid "You can note the error number to ask administrator what goes wrong."
 msgstr ""
 
-#: templates/base.html:5 templates/pages/frame_edit_form.html:5
+#: templates/base.html:5
 msgid "AIn7: alumni network for IET-ENSEEIHT engineers"
 msgstr ""
 
@@ -2471,8 +2459,8 @@ msgstr ""
 #: templates/organizations/proposal_edit_office.html:79
 #: templates/organizations/proposal_edit_organization.html:72
 #: templates/organizations/proposal_register.html:14
-#: templates/pages/frame_edit_form.html:42 templates/pages/text_edit.html:17
-#: templates/voyages/edit.html:20 templates/voyages/join.html:12
+#: templates/pages/text_edit.html:17 templates/voyages/edit.html:20
+#: templates/voyages/join.html:12
 msgid "Cancel"
 msgstr ""
 
@@ -2507,8 +2495,7 @@ msgstr ""
 #: templates/news/write.html:15 templates/organizations/office_edit.html:28
 #: templates/organizations/organization_edit.html:83
 #: templates/organizations/proposal_register.html:15
-#: templates/pages/changepassword.html:28
-#: templates/pages/frame_edit_form.html:43 templates/pages/text_edit.html:18
+#: templates/pages/changepassword.html:28 templates/pages/text_edit.html:18
 #: templates/sondages/form.html:15 templates/voyages/edit.html:21
 #: templates/voyages/join.html:13
 msgid "Save"
