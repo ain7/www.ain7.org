@@ -34,8 +34,10 @@
 {% endfor %}
 </table>
 
+{% if superadmin or secretariat_member %}
 <p><a href="{% url ain7.association.views.edit_council_role %}" class="addlink">
    {% trans "Add" %}</a></p>
+{% endif %}
 
 {% endblock %}
 
