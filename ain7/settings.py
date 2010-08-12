@@ -132,7 +132,7 @@ PIWIK_URL = 'http://localhost/piwik/'
 PIWIK_SITE_ID = '0'
 
 # Version
-BASE = '1.2.3'
+BASE = '1.2.4'
 REVISION = ''
 
 try:
@@ -144,7 +144,7 @@ except:
 
 VERSION = BASE+REVISION
 
-TINYMCE_VERSION = '3.2.7'
+TINYMCE_VERSION = '3.3.8'
 
 MOOTOOLS_VERSION = '1.2.4'
 MOOTOOLS_MORE_VERSION = '1.2.4.2'
