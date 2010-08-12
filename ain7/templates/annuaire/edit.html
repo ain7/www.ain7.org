@@ -162,12 +162,21 @@
 <table>
 {% for position in ain7member.positions.all %}
         <tr><td>
-                <b>{{ position.begin }} - {{ position.end }}</b>&nbsp;:</td>
+                <b>
+       {% if position.begin and not position.end %}
+       {% trans "since" %} <b>{{ position.begin }}</b>&nbsp;:
+          {% else %}{% if position.begin and position.end %}
+             <b>{{ position.begin }}-{{ position.end }}</b>:
+          {% else %}{% if position.end %}
+             {% trans "until" %} {{ position.end }}</b>&nbsp;:
+          {% endif %}
+          {% endif %}{% endif %}
+                </b></td>
             <td><em>{{ position.fonction }}</em>,
                 {{ position.office }}
                 <a href="{% url ain7.organizations.views.organization_details position.office.organization.id %}">{{ position.office.organization }}</a></td></tr>
         {% if position.description %}
-            <tr><td></td><td>{{ position.description }}</td></tr>
+            <tr><td></td><td>{{ position.description|safe }}</td></tr>
         {% endif %}
 {% endfor %}
 </table>
