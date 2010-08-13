@@ -2,3 +2,5 @@
 filldbain7*
 ain7.db
 settings_local.py
+ain7/data/*
+ain7/media/data/*
