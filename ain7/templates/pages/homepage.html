@@ -38,8 +38,8 @@
 </div>
 <div class="right" style="width: 32%">
 
-<div class="right_articles" align="center">
-<a href="{% url ain7.adhesions.views.index %}"><img src="/site_media/images/adherer.png"></a>
+<div class="right_articles" style="text-align: center">
+<a href="{% url ain7.adhesions.views.index %}"><img src="/site_media/images/adherer.png" alt="Adhérer"/></a>
 </div>
 
 <h3>{% trans "News" %}</h3>
@@ -51,7 +51,7 @@
       {% if news_item.image %}
       <a href="{% url ain7.news.views.details news_item.slug %}"><img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" title="{{ news_item.title }}" class="image" width="60" /></a>
       {% endif %}
-      <b><a href="{% url ain7.news.views.details news_item.slug %}">{{ news_item.title }}</a></b><br />{{ news_item.short_body|safe }}
+      <b><a href="{% url ain7.news.views.details news_item.slug %}">{{ news_item.title }}</a></b><br />{{ news_item.body|truncatewords_html:20|safe }}
       </div>
       <!-- in case the image has bigger height than text -->
       <div style="clear: left;"></div>
@@ -77,17 +77,15 @@
 </div>
 </div>
 
-
 <h3>{% trans "AIn7 communities on the web" %}</h3>
 <div class="right_articles">
 
 <div class="snBox">
-<p><a href="http://www.viadeo.com/communaute/macommunaute/?communityId=0022ezgr59190pqm" target="_blank"><img class="snIcon" src="/site_media/images/viadeo-icon.png"> Viadeo</a></p>
-<p><a href="http://www.linkedin.com/groups?gid=73525" target="_blank"><img class="snIcon" src="/site_media/images/linkedin-icon.png"> LinkedIn</a></p>
-<p><a href="http://www.facebook.com/home.php#/group.php?gid=9422764057" target="_blank"><img class="snIcon" src="/site_media/images/FB-icon.jpg"> Facebook</a></p>
+<p><a href="http://www.viadeo.com/communaute/macommunaute/?communityId=0022ezgr59190pqm" target="_blank"><img class="snIcon" src="/site_media/images/viadeo-icon.png" alt="Viadeo"/> Viadeo</a></p>
+<p><a href="http://www.linkedin.com/groups?gid=73525" target="_blank"><img class="snIcon" src="/site_media/images/linkedin-icon.png" alt="Linkedin"/> LinkedIn</a></p>
+<p><a href="http://www.facebook.com/home.php#/group.php?gid=9422764057" target="_blank"><img class="snIcon" src="/site_media/images/FB-icon.jpg" alt="Facebook"/> Facebook</a></p>
 </div>
 </div>
-
 
 <h3>{% trans "Links" %}</h3>
 <div class="right_articles">

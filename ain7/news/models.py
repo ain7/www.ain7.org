@@ -97,16 +97,6 @@ class NewsItem(LoggedClass):
         else:
             return reverse('ain7.news.views.details', args=[self.slug])
 
-    def short_body(self):
-        """news item short body"""
-        if len(self.body) > 100:
-            # we avoid to cut a word because this could produce non-valid html
-            # example: t&eamp;nu -> t&ea
-            wordlist = self.body[:100].split(" ")
-            return " ".join(wordlist[:-1]) + " ..."
-        else:
-            return self.body
-
     def save(self):
         """news item save method"""
         if self.pictures_gallery:
