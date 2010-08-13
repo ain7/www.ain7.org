@@ -23,7 +23,6 @@
 import os.path
 
 from django.conf.urls.defaults import *
-from django.contrib import admin
 
 from ain7.feeds import LatestsEvents, LatestsNews
 from ain7.sitemaps import EventsSitemap, TextsSitemap, NewsSitemap, GroupesProSitemap
@@ -43,10 +42,6 @@ sitemaps = {
     'texts': TextsSitemap,
 }
 
-# Add (nearly) all object to the django admin, so we can edit them with django admin.
-admin.autodiscover()
-import ain7.admin
-
 urlpatterns = patterns('',
 
     (r'^~(?P<user_name>\w+)/$', 'ain7.annuaire.views.home'),
@@ -56,9 +51,6 @@ urlpatterns = patterns('',
 
     # servir le contenu statique pendant le dev
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.abspath(os.path.dirname(__file__))+'/media'}),
-
-    # django admin
-    (r'^admin/(.*)', admin.site.root),
 
     # AIn7 management section
     (r'^manage/', include('ain7.manage.urls')),
