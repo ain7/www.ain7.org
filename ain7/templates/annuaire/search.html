@@ -57,6 +57,9 @@
             {% if ain7member.is_subscriber %}
             <img src="/site_media/images/star.png" title="Adherent {% now "Y" %}" alt="adherent {% now "Y" %}" width="16" height="16" />
             {% endif %}
+            {% if ain7member.person.personprivate.death_date %}
+            <img src="/site_media/images/deceased.png" title="Décédé" alt="Décédé" width="16" height="16" />
+            {% endif %}
             <br/>
             {{ ain7member.promo_full }}
             {% for promo in ain7member.promos.all %}
