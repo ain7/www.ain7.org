@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-13 00:18+0200\n"
+"POT-Creation-Date: 2010-08-13 20:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1832,7 +1832,7 @@ msgstr ""
 msgid "date"
 msgstr ""
 
-#: news/forms.py:155 news/models.py:136
+#: news/forms.py:155 news/models.py:126
 msgid "organizer"
 msgstr ""
 
@@ -1876,15 +1876,15 @@ msgstr ""
 msgid "Pictures gallery"
 msgstr ""
 
-#: news/models.py:129
+#: news/models.py:119
 msgid "news item"
 msgstr ""
 
-#: news/models.py:134 voyages/models.py:105
+#: news/models.py:124 voyages/models.py:105
 msgid "event"
 msgstr ""
 
-#: news/models.py:139
+#: news/models.py:129
 msgid "send email for new subscription"
 msgstr ""
 
@@ -2775,7 +2775,7 @@ msgstr ""
 msgid "Results list"
 msgstr ""
 
-#: templates/annuaire/adv_search.html:108 templates/annuaire/search.html:77
+#: templates/annuaire/adv_search.html:108 templates/annuaire/search.html:80
 #: templates/manage/users_search.html:50
 msgid "No person matched your criteria."
 msgstr ""
@@ -3098,7 +3098,7 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: templates/association/base.html:18 templates/pages/homepage.html:92
+#: templates/association/base.html:18 templates/pages/homepage.html:90
 #: templates/pages/relations_ecole_etudiants.html:26
 msgid "Links"
 msgstr ""
@@ -3977,23 +3977,23 @@ msgstr ""
 msgid "All events"
 msgstr ""
 
-#: templates/pages/homepage.html:81
+#: templates/pages/homepage.html:80
 msgid "AIn7 communities on the web"
 msgstr ""
 
-#: templates/pages/homepage.html:102 templates/sondages/details.html:15
+#: templates/pages/homepage.html:100 templates/sondages/details.html:15
 msgid "Survey"
 msgstr ""
 
-#: templates/pages/homepage.html:113
+#: templates/pages/homepage.html:111
 msgid "Results"
 msgstr ""
 
-#: templates/pages/homepage.html:118
+#: templates/pages/homepage.html:116
 msgid "Surveys history"
 msgstr ""
 
-#: templates/pages/homepage.html:125
+#: templates/pages/homepage.html:123
 msgid "Happy birthday!"
 msgstr ""
 
