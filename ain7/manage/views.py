@@ -24,28 +24,28 @@
 import datetime
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
-from ain7.utils import ain7_render_to_response, ain7_generic_edit, ain7_generic_delete, check_access
+from ain7.utils import ain7_render_to_response, ain7_generic_edit, \
+                              ain7_generic_delete, check_access
 from ain7.decorators import confirmation_required
-from ain7.annuaire.models import Country, PersonType
 from ain7.emploi.models import Organization, Office
 from ain7.emploi.models import OrganizationProposal, OfficeProposal
 from ain7.groups.models import Group, Member
 from ain7.manage.models import Notification, PortalError, Payment
 from ain7.manage.forms import SearchUserForm, NewPersonForm, \
                               NewRoleForm, MemberRoleForm, NotificationForm, \
-                              NewCountryForm, PortalErrorForm, \
-                              ErrorRangeForm, PaymentForm
+                              PortalErrorForm, ErrorRangeForm, PaymentForm
 from ain7.search_engine.models import SearchEngine, SearchFilter
 from ain7.search_engine.forms import SearchFilterForm
-from ain7.search_engine.views import se_filter_swap_op, se_criterion_field_edit, \
-                                     se_criterion_add, se_criterion_filter_edit, \
+from ain7.search_engine.views import se_filter_swap_op, \
+                                     se_criterion_field_edit, \
+                                     se_criterion_add, \
+                                     se_criterion_filter_edit, \
                                      se_criterion_delete, se_export_csv
 
 
@@ -568,7 +568,8 @@ def adv_export_csv(request, filter_id=None):
         return access
 
     search_engine = organization_search_engine()
-    if not filter_id and not search_engine.unregistered_filters(request.user.person):
+    if not filter_id and not \
+        search_engine.unregistered_filters(request.user.person):
         request.user.message_set.create(message=
             _("You have to make a search before using csv export."))
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
@@ -1440,59 +1441,71 @@ def subscriptions_stats(request):
     this_year = date.today().year
 
     stats_subs = []
-    stats_amount = []
     stats_year = {}
-
-    inge = PersonType.objects.get(type='Ingénieurs')
-    student = PersonType.objects.get(type='Elèves')
 
     for year in range(this_year, this_year-10, -1):
 
         last_promo = year-1
 
         # Cotisations à taux pleins hors élèves:
-        diplomees_number = Subscription.objects.filter(member__promos__year__year__lte=last_promo, start_year=year, validated=True).count()
+        diplomees_number = Subscription.objects.filter(\
+            member__promos__year__year__lte=last_promo, start_year=year, \
+            validated=True).count()
 
         # Cotisation à taux plein:
-        full_price = SubscriptionConfiguration.objects.get(year=year, type=0).dues_amount
-        full_query = Q(member__promos__year__year__lte=last_promo, dues_amount=full_price, start_year=year, validated=True)
+        full_price = SubscriptionConfiguration.objects.get(year=year, \
+            type=0).dues_amount
+        full_query = Q(member__promos__year__year__lte=last_promo, \
+            dues_amount=full_price, start_year=year, validated=True)
         full_queryset = Subscription.objects.filter(full_query)
         full_number = full_queryset.count()
         full_amount = full_number * full_price
 
         # Cotisations jeunes promos:
-        young_price = SubscriptionConfiguration.objects.get(year=year, type=1).dues_amount
-        young_query = Q(member__promos__year__year__lte=last_promo, member__promos__year__year__gte=last_promo-4, dues_amount=young_price, start_year=year, validated=True)
+        young_price = SubscriptionConfiguration.objects.get(year=year, \
+            type=1).dues_amount
+        young_query = Q(member__promos__year__year__lte=last_promo, \
+            member__promos__year__year__gte=last_promo-4, \
+            dues_amount=young_price, start_year=year, validated=True)
         young_queryset = Subscription.objects.filter(young_query)
         young_number = young_queryset.count()
         young_amount = young_number * young_price
 
         # Cotisations retraités:
-        retired_price = SubscriptionConfiguration.objects.get(year=year, type=2).dues_amount
-        retired_query = Q(member__promos__year__year__lte=last_promo-5, dues_amount=retired_price, start_year=year, validated=True)
+        retired_price = SubscriptionConfiguration.objects.get(year=year, \
+            type=2).dues_amount
+        retired_query = Q(member__promos__year__year__lte=last_promo-5, \
+            dues_amount=retired_price, start_year=year, validated=True)
         retired_queryset = Subscription.objects.filter(retired_query)
         retired_number = retired_queryset.count()
         retired_amount = retired_number * retired_price
 
         # Cotisations bienfaiteurs:
-        bienfaiteur_price = SubscriptionConfiguration.objects.get(year=year, type=3).dues_amount
-        bienfaiteur_query = Q(member__promos__year__year__lte=last_promo, dues_amount__gte=bienfaiteur_price, start_year=this_year, validated=True)
+        bienfaiteur_price = SubscriptionConfiguration.objects.get(year=year, \
+            type=3).dues_amount
+        bienfaiteur_query = Q(member__promos__year__year__lte=last_promo, \
+            dues_amount__gte=bienfaiteur_price, start_year=this_year, \
+            validated=True)
         bienfaiteur_queryset = Subscription.objects.filter(bienfaiteur_query)
         bienfaiteur_number = bienfaiteur_queryset.count()
         bienfaiteur_amount = bienfaiteur_number * bienfaiteur_price
 
         # unemployed
-        unemployed_price = SubscriptionConfiguration.objects.get(year=year, type=4).dues_amount
-        unemployed_query = Q(member__promos__year__year__lte=last_promo, dues_amount=unemployed_price, start_year=year, validated=True)
+        unemployed_price = SubscriptionConfiguration.objects.get(year=year, \
+            type=4).dues_amount
+        unemployed_query = Q(member__promos__year__year__lte=last_promo, \
+            dues_amount=unemployed_price, start_year=year, validated=True)
         unemployed_queryset = Subscription.objects.filter(unemployed_query)
         unemployed_number = unemployed_queryset.count()
         unemployed_amount = unemployed_number * unemployed_price
 
         # students
-        students_query = Q(member__promos__year__year__gt=last_promo, start_year=year, validated=True)
+        students_query = Q(member__promos__year__year__gt=last_promo, \
+            start_year=year, validated=True)
         students_queryset = Subscription.objects.filter(students_query)
         students_number = students_queryset.count()
-        students_amount = students_queryset.aggregate(sum=Sum('dues_amount'))['sum']
+        students_amount = \
+            students_queryset.aggregate(sum=Sum('dues_amount'))['sum']
 
         # all
         total_query = Q(start_year=year, validated=True)
@@ -1501,44 +1514,96 @@ def subscriptions_stats(request):
         total_amount = total_queryset.aggregate(sum=Sum('dues_amount'))['sum']
 
         # other
-        other_number = total_number - students_number - unemployed_number - bienfaiteur_number - retired_number - young_number - full_number
-        #other_amount = total_amount - students_amount - unemployed_amount - bienfaiteur_amount - retired_amount - young_amount - full_amount
-        other_amount = total_amount - unemployed_amount - bienfaiteur_amount - retired_amount - young_amount - full_amount
+        other_number = total_number - students_number - unemployed_number - \
+            bienfaiteur_number - retired_number - young_number - full_number
+        other_amount = total_amount - unemployed_amount - bienfaiteur_amount - \
+            retired_amount - young_amount - full_amount
 
-        stats_subs.append({'year': year, 'diplomees': diplomees_number, 'full': full_number, 'young':young_number, 'retired': retired_number, 'bienfaiteur': bienfaiteur_number, 'unemployed': unemployed_number, 'other': other_number, 'students': students_number, 'total': total_number})
+        stats_subs.append({'year': year, 
+                           'diplomees': diplomees_number, 
+                           'full': full_number, 
+                           'young':young_number, 
+                           'retired': retired_number, 
+                           'bienfaiteur': bienfaiteur_number, 
+                           'unemployed': unemployed_number, 
+                           'other': other_number, 
+                           'students': students_number, 
+                           'total': total_number})
 
         if year == this_year:
             stats_year = {
-                'full': {'number': full_number, 'price': full_price, 'amount': full_amount}, 
-                'young': { 'number': young_number, 'price': young_price, 'amount': young_amount},
-                'retired': { 'number': retired_number, 'price': retired_price, 'amount': retired_amount},
-                'bienfaiteur': { 'number': bienfaiteur_number, 'price': bienfaiteur_price, 'amount': bienfaiteur_amount},
-                'unemployed': { 'number': unemployed_number, 'price': unemployed_price, 'amount': unemployed_amount },
-                'students': { 'number': students_number, 'price': 0, 'amount': int(students_amount)},
-                'other': { 'number': other_number, 'price': 'n/a', 'amount': int(other_amount)},
-                'total': { 'number': total_number, 'diplomees': diplomees_number, 'amount': int(total_amount) }
+                'full': { 
+                    'number': full_number, 
+                    'price': full_price, 
+                    'amount': full_amount
+                    },
+                'young': { 
+                    'number': young_number, 
+                    'price': young_price, 
+                    'amount': young_amount
+                    },
+                'retired': { 
+                    'number': retired_number, 
+                    'price': retired_price, 
+                    'amount': retired_amount
+                    },
+                'bienfaiteur': { 
+                    'number': bienfaiteur_number,
+                    'price': bienfaiteur_price,
+                    'amount': bienfaiteur_amount
+                    },
+                'unemployed': { 
+                    'number': unemployed_number, 
+                    'price': unemployed_price, 
+                    'amount': unemployed_amount 
+                    },
+                'students': { 
+                    'number': students_number,
+                    'price': 0,
+                    'amount': int(students_amount)
+                    },
+                'other': { 
+                    'number': other_number, 
+                    'price': 'n/a', 
+                    'amount': int(other_amount)
+                    },
+                'total': { 
+                    'number': total_number, 
+                    'diplomees': diplomees_number, 
+                    'amount': int(total_amount) 
+                    }
             }
 
-
     stats_months = []
-    for month in range(1,13):
+    for month in range(1, 13):
         first_day = date(this_year, month, 1)
         if month < 12:
             last_day = date(this_year, month+1, 1)
         else:
-            last_day = date(this_year+1,1,1)
-        stats_months.append(Subscription.objects.filter(member__person__personprivate__person_type=inge, start_year=this_year, validated=True, date__gte=first_day, date__lt=last_day).count())
+            last_day = date(this_year+1, 1, 1)
+        stats_months.append(Subscription.objects.filter(\
+            member__promos__year__year__lt=this_year, start_year=this_year, \
+            validated=True, date__gte=first_day, date__lt=last_day).count())
 
     total_amount = 0
-    for s in Subscription.objects.filter(member__person__personprivate__person_type=inge, start_year=this_year, validated=True):
-        total_amount += s.dues_amount
+    for subs in Subscription.objects.filter(\
+        member__promos__year__year__lt=this_year, start_year=this_year, \
+        validated=True):
+        total_amount += subs.dues_amount
 
     total_publications = 0
-    for s in Subscription.objects.filter(member__person__personprivate__person_type=inge, start_year=this_year, validated=True):
-        if s.newspaper_amount:
-            total_publications += s.newspaper_amount
+    for subs in Subscription.objects.filter(\
+        member__promos__year__year__lt=this_year, start_year=this_year, \
+        validated=True):
+        if subs.newspaper_amount:
+            total_publications += subs.newspaper_amount
 
     return ain7_render_to_response(
         request, 'manage/subscriptions_stats.html', 
-        { 'stats_subs' : stats_subs, 'stats_months': stats_months, 'stats_year': stats_year, 'total_amount': total_amount, 'total_publications': total_publications})
+        { 'stats_subs' : stats_subs, 
+          'stats_months': stats_months, 
+          'stats_year': stats_year, 
+          'total_amount': total_amount, 
+          'total_publications': total_publications
+        })
 

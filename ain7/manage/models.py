@@ -27,9 +27,6 @@ from django.db import models
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 
-from ain7.annuaire.models import Person
-from ain7.news.models import NewsItem
-from ain7.emploi.models import OrganizationProposal, OfficeProposal, JobOffer
 from ain7.utils import LoggedClass
 
 
@@ -45,12 +42,12 @@ class Notification(LoggedClass):
     details = models.TextField(verbose_name=_('Notes'),
         blank=True, null=True)
     organization_proposal = models.ForeignKey(
-        OrganizationProposal, verbose_name=_('organization proposal'),
+        'emploi.OrganizationProposal', verbose_name=_('organization proposal'),
         blank=True, null=True)
     office_proposal = models.ForeignKey(
-        OfficeProposal, verbose_name=_('organization proposal'),
+        'emploi.OfficeProposal', verbose_name=_('organization proposal'),
         blank=True, null=True)
-    job_proposal = models.ForeignKey( JobOffer, blank=True, null=True,
+    job_proposal = models.ForeignKey( 'emploi.JobOffer', blank=True, null=True,
         verbose_name = _('job offer proposal'), related_name='notification')
 
     def __unicode__(self):
@@ -107,8 +104,8 @@ class Payment(models.Model):
         (7, _('Other')),
     )
 
-    person = models.ForeignKey(Person, blank=True, null=True)
-    mean = models.ForeignKey(PaymentMean, blank=True, null=True)
+    person = models.ForeignKey('annuaire.Person', blank=True, null=True)
+    mean = models.ForeignKey('manage.PaymentMean', blank=True, null=True)
 
     amount = models.FloatField(verbose_name=_('amount'))
     type = models.IntegerField(verbose_name=_('Type'), choices=TYPE)
@@ -124,12 +121,12 @@ class Payment(models.Model):
 
     created_at = models.DateTimeField(verbose_name=_('registration date'),
         editable=False)
-    created_by = models.ForeignKey(Person, null=True, editable=False,
+    created_by = models.ForeignKey('annuaire.Person', null=True, editable=False,
         related_name='payment_added')
     modified_at = models.DateTimeField(verbose_name=_('modification date'),
         editable=False)
-    modified_by = models.ForeignKey(Person, null=True, editable=False,
-        related_name='payment_modified')
+    modified_by = models.ForeignKey('annuaire.Person', null=True, 
+        editable=False, related_name='payment_modified')
 
     class Meta:
         """payment meta informations"""

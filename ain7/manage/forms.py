@@ -28,7 +28,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person, Country, Email
-from ain7.emploi.models import ActivityField, Office, Organization
+from ain7.emploi.models import Organization
 from ain7.fields import AutoCompleteField
 from ain7.groups.models import Group, Member
 from ain7.manage.models import Notification, Payment, PortalError
@@ -73,12 +73,12 @@ class SearchRoleForm(forms.Form):
 
 class MemberRoleForm(forms.ModelForm):
     """add a new member to a role form"""
-    member = forms.IntegerField(label=_('Username'),required=True,
+    member = forms.IntegerField(label=_('Username'), required=True,
         widget=AutoCompleteField(completed_obj_name='person'))
 
     class Meta:
-         model = Member
-         exclude = ['group','start_date', 'end_date', 'expiration_date']
+        model = Member
+        exclude = ['group', 'start_date', 'end_date', 'expiration_date']
 
     def clean_member(self):
         """check username"""
@@ -194,14 +194,6 @@ class NotificationForm(forms.ModelForm):
         model = Notification
         exclude = ('organization_proposal', 'office_proposal', 'job_proposal')
 
-class NewCountryForm(forms.ModelForm):
-    """new country form"""
-
-    class Meta:
-        "NewCountryForm meta information"""
-        model = Country
-
-
 class PaymentForm(forms.ModelForm):
     """payment form"""
     date = forms.DateTimeField(label=_('Payment Date'), required=False,
@@ -236,11 +228,9 @@ class ErrorRangeForm(forms.Form):
         range_to   = self.cleaned_data['range_to']
         if range_to < range_from:
             raise ValidationError(_('End of range precedes its beginning.'))
-            return None
         for index in range(range_from, range_to+1):
             if not PortalError.objects.filter(pk=index):
                 raise ValidationError(_('Error #%s does not exist.') % index)
-                return None
         return self.cleaned_data
 
     def save(self):
