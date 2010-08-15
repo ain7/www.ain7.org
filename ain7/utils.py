@@ -77,6 +77,7 @@ def ain7_render_to_response(req, *args, **kwargs):
 def isAdmin(user):
     """détermine si un user a le profil administrateur"""
 
+    from ain7.annuaire.models import Person
     from ain7.groups.models import Group
 
     try:
