@@ -30,11 +30,10 @@ from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person, AIn7Member
 from ain7.decorators import confirmation_required
-from ain7.emploi.models import JobOffer, Position, EducationItem, DiplomaItem,\
-                               LeisureItem, PublicationItem, JobOfferView,\
-                               Organization, OrganizationProposal, Office,\
-                               OfficeProposal
-from ain7.emploi.forms import PositionForm, EducationItemForm, LeisureItemForm,\
+from ain7.emploi.models import JobOffer, Position, EducationItem, DiplomaItem, \
+                               LeisureItem, PublicationItem, JobOfferView
+from ain7.emploi.forms import PositionForm, EducationItemForm, \
+                              LeisureItemForm, \
                               PublicationItemForm, JobOfferForm, SearchJobForm
 from ain7.manage.models import Notification
 from ain7.utils import ain7_render_to_response
@@ -105,7 +104,7 @@ def position_edit(request, user_id=None, position_id=None):
 
     if position_id:
         position = get_object_or_404(Position, pk=position_id)
-        form=PositionForm(instance=position)
+        form = PositionForm(instance=position)
 
     if request.method == 'POST':
         if position_id:
@@ -120,7 +119,8 @@ def position_edit(request, user_id=None, position_id=None):
             request.user.message_set.create(message=_('Modifications have been\
  successfully saved.'))
 
-        return HttpResponseRedirect(reverse(cv_edit, args=[user_id])+'#prof_exp')
+        return HttpResponseRedirect(reverse(cv_edit, 
+            args=[user_id])+'#prof_exp')
 
     return ain7_render_to_response(
         request, 'emploi/position_edit.html',
@@ -177,7 +177,8 @@ def education_edit(request, user_id=None, education_id=None):
             request.user.message_set.create(message=_('Modifications have been\
  successfully saved.'))
 
-        return HttpResponseRedirect(reverse(cv_edit, args=[user_id])+'#education')
+        return HttpResponseRedirect(reverse(cv_edit, 
+             args=[user_id])+'#education')
 
     return ain7_render_to_response(
         request, 'emploi/education_edit.html',
@@ -309,7 +310,8 @@ def publication_edit(request, user_id=None, publication_id=None):
             request.user.message_set.create(message=_('Modifications have been\
  successfully saved.'))
 
-        return HttpResponseRedirect(reverse(cv_edit, args=[user_id])+'#publications')
+        return HttpResponseRedirect(reverse(cv_edit, 
+            args=[user_id])+'#publications')
 
     return ain7_render_to_response(
         request, 'emploi/publication_edit.html',
@@ -414,7 +416,8 @@ def job_register(request):
         if form.is_valid():
             job_offer = form.save(request.user)
 
-            user_groups = request.user.groups.all().values_list('name', flat=True)
+            user_groups = request.user.groups.all().values_list('name',
+                flat=True)
             if not 'ain7-secretariat' in user_groups and \
                not 'ain7-admin' in user_groups:
 

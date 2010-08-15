@@ -26,8 +26,6 @@ import datetime
 from django.db import models
 from django.utils.translation import ugettext as _
 
-from ain7.annuaire.models import Person, AIn7Member
-from ain7.annuaire.models import Country
 from ain7.utils import LoggedClass, isAdmin
 
 
@@ -107,7 +105,7 @@ class Organization(LoggedClass):
     size = models.IntegerField(verbose_name=_('size'),
         choices=ORGANIZATION_SIZE, blank=True, null=True)
     # TODO: do not allow null=True, but mandatory for import right now
-    activity_field = models.ForeignKey(ActivityField,
+    activity_field = models.ForeignKey('emploi.ActivityField',
          verbose_name=_('Activity field'), related_name='organizations',
          null=True, blank=True)
     short_description = models.CharField(verbose_name=_('short description'),
@@ -136,7 +134,8 @@ class Organization(LoggedClass):
 
     def delete(self):
         """delete organization"""
-        for office in self.offices.all(): office.delete()
+        for office in self.offices.all(): 
+            office.delete()
         self.is_valid = False
         return super(Organization, self).save()
         
@@ -166,13 +165,13 @@ class OrganizationProposal(LoggedClass):
     Actually, it is only used for proposing a creation.
     """
 
-    author = models.ForeignKey(Person, verbose_name=_('author'),
+    author = models.ForeignKey('annuaire.Person', verbose_name=_('author'),
                                related_name='organization_proposals')
-    original = models.ForeignKey(Organization,
+    original = models.ForeignKey('emploi.Organization',
                                  verbose_name=_('original organization'),
                                  related_name='organization_proposals',
                                  blank=True, null=True)
-    modified = models.ForeignKey(Organization,
+    modified = models.ForeignKey('emploi.Organization',
                                  verbose_name=_('modified organization'),
                                  blank=True, null=True)
     action = models.IntegerField(verbose_name=_('action'), choices=ACTIONS,
@@ -218,7 +217,7 @@ class Office(LoggedClass):
     old_id = models.IntegerField(verbose_name='old id', blank=True,
         null=True, unique=True)
 
-    organization = models.ForeignKey(Organization, 
+    organization = models.ForeignKey('emploi.Organization',
         verbose_name=_('organization'), related_name='offices')
 
     name = models.CharField(verbose_name=_('name'), max_length=100, 
@@ -232,7 +231,7 @@ class Office(LoggedClass):
         blank=True, null=True)
     city = models.CharField(verbose_name=_('city'), max_length=50,
         blank=True, null=True)
-    country = models.ForeignKey(Country, verbose_name=_('country'),
+    country = models.ForeignKey('annuaire.Country', verbose_name=_('country'),
         blank=True, null=True)
     phone_number = models.CharField(verbose_name=_('phone number'),
         max_length=20, blank=True, null=True)
@@ -323,15 +322,15 @@ class OfficeProposal(LoggedClass):
     Actually, it is only used for proposing a creation.
     """
 
-    author = models.ForeignKey(Person, verbose_name=_('author'),
-                               related_name='office_proposals')
-    original = models.ForeignKey(Office, verbose_name=_('original office'),
-                                 related_name='office_proposals',
-                                 null=True)
-    modified = models.ForeignKey(Office, verbose_name=_('modified office'),
-                                 blank=True, null=True)
+    author = models.ForeignKey('annuaire.Person', 
+        verbose_name=_('author'), related_name='office_proposals')
+    original = models.ForeignKey('emploi.Office', 
+        verbose_name=_('original office'), related_name='office_proposals',
+        null=True)
+    modified = models.ForeignKey('emploi.Office',
+        verbose_name=_('modified office'), blank=True, null=True)
     action = models.IntegerField(verbose_name=_('action'), choices=ACTIONS,
-                                 blank=True, null=True)
+        blank=True, null=True)
 
     def __unicode__(self):
         """office proposal unicode"""
@@ -351,8 +350,9 @@ class Position(LoggedClass):
     A position occupied by a person.
     """
 
-    ain7member = models.ForeignKey(AIn7Member, related_name='positions')
-    office = models.ForeignKey(Office, verbose_name=_('office'),
+    ain7member = models.ForeignKey('annuaire.AIn7Member', 
+        related_name='positions')
+    office = models.ForeignKey('emploi.Office', verbose_name=_('office'),
         related_name='positions')
 
     fonction = models.CharField(verbose_name=_('fonction'), max_length=80,
@@ -389,7 +389,8 @@ class Position(LoggedClass):
 class EducationItem(LoggedClass):
     """ An education item in the CV of a person."""
 
-    ain7member = models.ForeignKey(AIn7Member, related_name='education')
+    ain7member = models.ForeignKey('annuaire.AIn7Member',
+        related_name='education')
 
     school = models.CharField(verbose_name=_('school'), max_length=150)
     diploma = models.CharField(verbose_name=_('diploma'), max_length=150,
@@ -414,7 +415,8 @@ class DiplomaItem(LoggedClass):
     """A diploma item in the CV of a person."""
 
     diploma = models.CharField(verbose_name=_('diploma'), max_length=150)
-    ain7member = models.ForeignKey(AIn7Member, related_name='diploma')
+    ain7member = models.ForeignKey('annuaire.AIn7Member', 
+        related_name='diploma')
 
     def __unicode__(self):
         """diploma item unicode"""
@@ -433,7 +435,8 @@ class LeisureItem(LoggedClass):
 
     title = models.CharField(verbose_name=_('Title'), max_length=50)
     detail = models.TextField(verbose_name=_('Detail'), blank=True, null=True)
-    ain7member = models.ForeignKey(AIn7Member, related_name='leisure')
+    ain7member = models.ForeignKey('annuaire.AIn7Member', 
+        related_name='leisure')
 
     def __unicode__(self):
         """leisure item unicode"""
@@ -450,7 +453,8 @@ class PublicationItem(LoggedClass):
     title = models.CharField(verbose_name=_('Title'), max_length=50)
     details = models.TextField(verbose_name=_('Detail'), blank=True, null=True)
     date = models.DateField()
-    ain7member = models.ForeignKey(AIn7Member, related_name='publication')
+    ain7member = models.ForeignKey('annuaire.AIn7Member', 
+        related_name='publication')
 
     def __unicode__(self):
         """publication item unicode"""
@@ -478,12 +482,12 @@ class JobOffer(LoggedClass):
         blank=True, null=True)
     contract_type = models.IntegerField(verbose_name=_('Contract type'),
         choices=JOB_TYPES, blank=True, null=True)
-    office = models.ForeignKey(Office, blank=True, null=True)
+    office = models.ForeignKey('emploi.Office', blank=True, null=True)
     contact_name = models.CharField(verbose_name=_('Contact name'),
         max_length=80, blank=True, null=True)
     contact_email = models.EmailField(verbose_name=_('email'), blank=True,
         null=True)
-    activity_field = models.ForeignKey(ActivityField,
+    activity_field = models.ForeignKey('emploi.ActivityField',
         verbose_name=_('Activity field'), related_name='jobs',
         blank=True, null=True)
     checked_by_secretariat = models.BooleanField(
@@ -494,11 +498,11 @@ class JobOffer(LoggedClass):
         default=False)
 
     created_at = models.DateTimeField(editable=False)
-    created_by = models.ForeignKey(Person, verbose_name=_('author'),
+    created_by = models.ForeignKey('annuaire.Person', verbose_name=_('author'),
         related_name='job_offers_created', null=True)
 
     modified_at = models.DateTimeField(editable=False)
-    modified_by = models.ForeignKey(Person, verbose_name=_('author'),
+    modified_by = models.ForeignKey('annuaire.Person', verbose_name=_('author'),
         related_name='job_offers_modified', null=True)
 
     def save(self, *args, **kwargs):
@@ -515,8 +519,8 @@ class JobOffer(LoggedClass):
 class JobOfferView(models.Model):
     """job offer view"""
 
-    job_offer = models.ForeignKey(JobOffer)
-    person = models.ForeignKey(Person)
+    job_offer = models.ForeignKey('emploi.JobOffer')
+    person = models.ForeignKey('annuaire.Person')
     timestamp = models.DateTimeField()
 
     def save(self, *args, **kwargs):
@@ -527,5 +531,6 @@ class JobOfferView(models.Model):
 
     def __unicode__(self):
         """job offer view unicode"""
-        return self.job_offer + _('viewed by') + self.person + _('at') + self.timestamp
+        return self.job_offer + _('viewed by') + self.person + _('at') + \
+            self.timestamp
 

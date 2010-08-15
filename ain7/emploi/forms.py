@@ -26,8 +26,8 @@ from django import forms
 from django.forms.util import ValidationError
 from django.utils.translation import ugettext as _
 
-from ain7.emploi.models import JobOffer, Office, ActivityField, Organization,\
-                               Country, Position, EducationItem, LeisureItem,\
+from ain7.emploi.models import JobOffer, Office, ActivityField, Organization, \
+                               Position, EducationItem, LeisureItem,\
                                PublicationItem
 from ain7.fields import AutoCompleteField
 from ain7.utils import AIn7Form
@@ -69,7 +69,6 @@ class JobOfferForm(AIn7Form):
         org = self.cleaned_data['office']
         if org == None:
             raise ValidationError(_('The office is mandatory.'))
-            return None
         else:
             office = None
             try:
