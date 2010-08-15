@@ -31,7 +31,7 @@
     {% endifnotequal %}
   </td>
   <td align="center">
-      {{ subscription.dues_amount }}&nbsp;{% trans "euros" %}
+      {{ subscription.dues_amount }}&nbsp;€
   </td>
   <td align="center">
       {% ifequal subscription.newspaper_amount None %}
@@ -40,7 +40,7 @@
         {% ifequal subscription.newspaper_amount 0 %}
           {% trans "Free" %}
         {% else %}
-          {{ subscription.newspaper_amount }}&nbsp;{% trans "euros" %}
+          {{ subscription.newspaper_amount }}&nbsp;€
         {% endifequal %}
       {% endifequal %}
   </td>
