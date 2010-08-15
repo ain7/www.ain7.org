@@ -62,9 +62,6 @@
             {% endif %}
             <br/>
             {{ ain7member.promo_full }}
-            {% for promo in ain7member.promos.all %}
-               {% if forloop.last %} {{ promo }}{% endif %}
-            {% endfor %}
             <br/>
             {% if not ain7member.personprivate.death_date %}
             {% for position in ain7member.positions.all %}

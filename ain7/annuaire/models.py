@@ -213,7 +213,7 @@ class Promo(models.Model):
     year = models.ForeignKey(PromoYear, verbose_name=_('Promo Year'),
         related_name='promosyear')
     track = models.ForeignKey(Track, verbose_name=_('Track'),
-        related_name='promos')
+        related_name='promos', null=True, blank=True)
 
     def __unicode__(self):
         """promo unicode"""
@@ -479,7 +479,7 @@ class AIn7Member(LoggedClass):
             return ''
 
     def track(self):
-        if self.promos.all():
+        if self.promos.all() and self.promos.all()[0].track:
             return self.promos.all()[0].track.name
         else:
             return ''
