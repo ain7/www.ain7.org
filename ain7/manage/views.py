@@ -1448,46 +1448,48 @@ def subscriptions_stats(request):
 
     for year in range(this_year, this_year-10, -1):
 
-        # Cotisations à taux pleins hors élèves:
-        diplomees_number = Subscription.objects.filter(member__person__personprivate__person_type=inge, start_year=year, validated=True).count()
+        last_promo = year-1
 
-        # Cotisation supérieures à taux plein:
-        full_price = SubscriptionConfiguration.objects.get(year=this_year, type=0).dues_amount
-        full_query = Q(member__person__personprivate__person_type=inge, dues_amount=full_price, start_year=year, validated=True)
+        # Cotisations à taux pleins hors élèves:
+        diplomees_number = Subscription.objects.filter(member__promos__year__year__lte=last_promo, start_year=year, validated=True).count()
+
+        # Cotisation à taux plein:
+        full_price = SubscriptionConfiguration.objects.get(year=year, type=0).dues_amount
+        full_query = Q(member__promos__year__year__lte=last_promo, dues_amount=full_price, start_year=year, validated=True)
         full_queryset = Subscription.objects.filter(full_query)
         full_number = full_queryset.count()
         full_amount = full_number * full_price
 
         # Cotisations jeunes promos:
-        young_price = SubscriptionConfiguration.objects.get(year=this_year, type=1).dues_amount
-        young_query = Q(member__person__personprivate__person_type=inge, dues_amount=young_price, start_year=year, validated=True)
+        young_price = SubscriptionConfiguration.objects.get(year=year, type=1).dues_amount
+        young_query = Q(member__promos__year__year__lte=last_promo, member__promos__year__year__gte=last_promo-4, dues_amount=young_price, start_year=year, validated=True)
         young_queryset = Subscription.objects.filter(young_query)
         young_number = young_queryset.count()
         young_amount = young_number * young_price
 
         # Cotisations retraités:
-        retired_price = SubscriptionConfiguration.objects.get(year=this_year, type=2).dues_amount
-        retired_query = Q(member__person__personprivate__person_type=inge, dues_amount=retired_price, start_year=year, validated=True)
+        retired_price = SubscriptionConfiguration.objects.get(year=year, type=2).dues_amount
+        retired_query = Q(member__promos__year__year__lte=last_promo-5, dues_amount=retired_price, start_year=year, validated=True)
         retired_queryset = Subscription.objects.filter(retired_query)
         retired_number = retired_queryset.count()
         retired_amount = retired_number * retired_price
 
         # Cotisations bienfaiteurs:
-        bienfaiteur_price = SubscriptionConfiguration.objects.get(year=this_year, type=3).dues_amount
-        bienfaiteur_query = Q(member__person__personprivate__person_type=inge, dues_amount__gte=bienfaiteur_price, start_year=this_year, validated=True)
+        bienfaiteur_price = SubscriptionConfiguration.objects.get(year=year, type=3).dues_amount
+        bienfaiteur_query = Q(member__promos__year__year__lte=last_promo, dues_amount__gte=bienfaiteur_price, start_year=this_year, validated=True)
         bienfaiteur_queryset = Subscription.objects.filter(bienfaiteur_query)
         bienfaiteur_number = bienfaiteur_queryset.count()
         bienfaiteur_amount = bienfaiteur_number * bienfaiteur_price
 
         # unemployed
-        unemployed_price = SubscriptionConfiguration.objects.get(year=this_year, type=4).dues_amount
-        unemployed_query = Q(member__person__personprivate__person_type=inge, dues_amount=unemployed_price, start_year=year, validated=True)
+        unemployed_price = SubscriptionConfiguration.objects.get(year=year, type=4).dues_amount
+        unemployed_query = Q(member__promos__year__year__lte=last_promo, dues_amount=unemployed_price, start_year=year, validated=True)
         unemployed_queryset = Subscription.objects.filter(unemployed_query)
         unemployed_number = unemployed_queryset.count()
         unemployed_amount = unemployed_number * unemployed_price
 
         # students
-        students_query = Q(member__person__personprivate__person_type=student, start_year=year, validated=True)
+        students_query = Q(member__promos__year__year__gt=last_promo, start_year=year, validated=True)
         students_queryset = Subscription.objects.filter(students_query)
         students_number = students_queryset.count()
         students_amount = students_queryset.aggregate(sum=Sum('dues_amount'))['sum']
