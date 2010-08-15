@@ -26,7 +26,8 @@ from django.http import Http404
 
 
 from ain7.annuaire.models import Person, Country, Track, PromoYear
-from ain7.emploi.models import ActivityField, Organization, Office, EducationItem, DiplomaItem
+from ain7.emploi.models import EducationItem, DiplomaItem
+from ain7.organizations.models import OrganizationActivityField, Organization, Office
 from ain7.utils import ain7_render_to_response
 
 def ajax_resolve():
@@ -40,7 +41,7 @@ def ajax_resolve():
             Track:         [ ('name','track') ],
             Organization:  [ ('name','organization') ],
             Office:        [ ('name','office') ],
-            ActivityField: [ ('label','activity_field'), ('code','activitycode') ],
+            OrganizationActivityField: [ ('label','activity_field'), ('code','activitycode') ],
             }
 
 def ajaxed_strings():

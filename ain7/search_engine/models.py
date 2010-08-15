@@ -27,7 +27,8 @@ from django.utils.translation import ugettext as _
 
 from ain7 import search_engine
 from ain7.annuaire.models import AIn7Member, Person, Address
-from ain7.emploi.models import Office, Organization, Position, EducationItem
+from ain7.emploi.models import Position, EducationItem
+from ain7.organizations.models import Office, Organization
 
 
 class Parameters:

@@ -116,6 +116,7 @@ INSTALLED_APPS = (
     'ain7.groupes_regionaux',
     'ain7.manage',
     'ain7.news',
+    'ain7.organizations',
     'ain7.pages',
     'ain7.sondages',
     'ain7.voyages',

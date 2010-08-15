@@ -12,7 +12,7 @@
 <h2>{{ office }}</h2>
 
 <p>{% trans "Office of the organization:" %}&nbsp;
-<a href="{% url ain7.manage.views.office_details office.organization.id %}/">{{ office.organization }}</a>
+<a href="{% url ain7.organizations.views.office_details office.id office.organization.id %}/">{{ office.organization }}</a>
 </p>
 
         {% if office.line1 or office.line2 or office.zip_code or office.city or office.country or office.phone_number or office.web_site %}
@@ -91,13 +91,13 @@
 <h3>{% trans "Actions" %}</h3>
 <div class="right_articles">
 <ul>
-<li><a href="{% url ain7.manage.views.office_edit office.organization.id %}">
+<li><a href="{% url ain7.organizations.views.office_edit office.organization.id office.id %}">
 {% trans "Register a new office" %}</a></li>
-<li><a href="{% url ain7.manage.views.office_edit office.id %}">
+<li><a href="{% url ain7.organizations.views.office_edit office.organization.id office.id %}">
 {% trans "Edit this office" %}</a></li>
-<li><a href="{% url ain7.manage.views.office_delete office.id %}">
+<li><a href="{% url ain7.organizations.views.office_delete office.organization.id office.id %}">
 {% trans "Delete this office" %}</a></li>
-<li><a href="{% url ain7.manage.views.office_merge office.id %}">
+<li><a href="{% url ain7.organizations.views.office_merge office.organization.id office.id %}">
 {% trans "Merge this office" %}</a></li>
 </ul>
 </div>

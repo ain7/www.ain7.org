@@ -49,21 +49,9 @@
 
 {% endblock %} {# content-left #}
 
-
-
 {% block extra-navigation %}
     <li><a href="{% url ain7.manage.views.organizations_adv_search %}">{% trans "Advanced Search" %}</a></li>
 {% endblock %} {# extra-navigation #}
-
-
-{% block actions %}
-<h3>{% trans "Actions" %}</h3>
-<div class="right_articles">
-<ul>
-    <li><a href="{% url ain7.organizations.views.organization_edit %}">{% trans "Register organization" %}</a></li>
-</ul>
-</div>
-{% endblock %} {# actions #}
 
 {% block extra-menu %}
 <h3>{% trans "Statistics"%}</h3>

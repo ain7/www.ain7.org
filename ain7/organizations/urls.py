@@ -26,35 +26,20 @@ from django.conf.urls.defaults import patterns
 urlpatterns = patterns('ain7.organizations.views',
     # Organizations
     (r'^$', 'organization_search'),
-    (r'^register/', 'organization_edit'),
+    (r'^add/', 'organization_edit'),
     (r'^(?P<organization_id>\d+)/$', 'organization_details'),
     (r'^(?P<organization_id>\d+)/edit/$', 'organization_edit'),
-    (r'^(?P<organization_id>\d+)/edit/data/$', 'organization_edit_data'),
     (r'^(?P<organization_id>\d+)/delete/$', 'organization_delete'),
-    (r'^(?P<organization_id>\d+)/merge/$', 'organization_merge'),
-    (r'^organizations/(?P<org1_id>\d+)/merge/(?P<org2_id>\d+)/$',
+    (r'^(?P<org1_id>\d+)/merge/(?P<org2_id>\d+)/$',
      'organization_merge_perform'),
-    (r'^organizations/proposals/register/(?P<proposal_id>\d+)/$',
-     'organization_proposal_register'),
-    (r'^organizations/proposals/edit/(?P<proposal_id>\d+)/$',
-     'organization_proposal_edit'),
-    (r'^organizations/proposals/delete/(?P<proposal_id>\d+)/$',
-     'organization_proposal_delete'),
-                       
+
     # Offices
-    (r'^(?P<organization_id>\d+)/offices/register/$', 'office_edit'),
-    (r'^(?P<organization_id>\d+)/offices/(?P<office_id>\d+)/$', 'office_details'),
+    (r'^(?P<organization_id>\d+)/offices/add/$', 'office_edit'),
     (r'^(?P<organization_id>\d+)/offices/(?P<office_id>\d+)/edit/$', 'office_edit'),
     (r'^(?P<organization_id>\d+)/offices/(?P<office_id>\d+)/delete/$', 'office_delete'),
     (r'^(?P<organization_id>\d+)/offices/(?P<office_id>\d+)/merge/$', 'office_merge'),
     (r'^(?P<organization_id>\d+)/offices/(?P<office1_id>\d+)/merge/(?P<office2_id>\d+)/$', \
          'office_merge_perform'),
-    (r'^(?P<organization_id>\d+)/offices/proposals/register/(?P<proposal_id>\d+)/$', \
-         'office_proposal_register'),
-    (r'^(?P<organization_id>\d+)/offices/proposals/edit/(?P<proposal_id>\d+)/$', \
-         'office_proposal_edit'),
-    (r'^(?P<organization_id>\d+)/offices/proposals/delete/(?P<proposal_id>\d+)/$', \
-         'office_proposal_delete'),
 
 )
 

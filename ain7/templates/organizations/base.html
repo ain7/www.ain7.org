@@ -19,13 +19,13 @@
 {% block actions %}{% endblock %}
 
 {% block menu-organisation %}
-<h3>{% trans "Propose some modifications" %}</h3>
+<h3>{% trans "Actions" %}</h3>
 <div class="right_articles">
 <ul>
 {% if organization %}
 <li><a href="{% url ain7.organizations.views.organization_edit organization.id %}">{% trans "Modify" %}</a></li>
 {% endif %}
-<li><a href="{% url ain7.organizations.views.organization_edit %}">{% trans "Add an organization in database" %}</a></li>
+<li><a href="{% url ain7.organizations.views.organization_edit %}">{% trans "Add an organization" %}</a></li>
 </ul>
 </div>
 {% endblock %}

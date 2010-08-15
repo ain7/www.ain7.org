@@ -30,33 +30,33 @@ from django.contrib.auth.models import User
 from ain7.utils import LoggedClass
 
 
-class Notification(LoggedClass):
-    """notification"""
-
-    PROPOSAL_TYPE = (
-        (0, _('organization')),
-        (1, _('office')),
-        )
-
-    title = models.CharField(verbose_name=_('title'), max_length=50)
-    details = models.TextField(verbose_name=_('Notes'),
-        blank=True, null=True)
-    organization_proposal = models.ForeignKey(
-        'emploi.OrganizationProposal', verbose_name=_('organization proposal'),
-        blank=True, null=True)
-    office_proposal = models.ForeignKey(
-        'emploi.OfficeProposal', verbose_name=_('organization proposal'),
-        blank=True, null=True)
-    job_proposal = models.ForeignKey( 'emploi.JobOffer', blank=True, null=True,
-        verbose_name = _('job offer proposal'), related_name='notification')
-
-    def __unicode__(self):
-        """notification unicode method"""
-        return self.title
-
-    class Meta:
-        """notification meta information"""
-        verbose_name = _('notification')
+#class Notification(LoggedClass):
+#    """notification"""
+#
+#    PROPOSAL_TYPE = (
+#        (0, _('organization')),
+#        (1, _('office')),
+#        )
+#
+#    title = models.CharField(verbose_name=_('title'), max_length=50)
+#    details = models.TextField(verbose_name=_('Notes'),
+#        blank=True, null=True)
+#    organization_proposal = models.ForeignKey(
+#        'emploi.OrganizationProposal', verbose_name=_('organization proposal'),
+#        blank=True, null=True)
+#    office_proposal = models.ForeignKey(
+#        'emploi.OfficeProposal', verbose_name=_('organization proposal'),
+#        blank=True, null=True)
+#    job_proposal = models.ForeignKey( 'emploi.JobOffer', blank=True, null=True,
+#        verbose_name = _('job offer proposal'), related_name='notification')
+#
+#    def __unicode__(self):
+#        """notification unicode method"""
+#        return self.title
+#
+#    class Meta:
+#        """notification meta information"""
+#        verbose_name = _('notification')
 
 class PortalError(models.Model):
     """portal error"""

@@ -6,18 +6,11 @@
 
 {% block content-left %}
 
+<div class="dataBlock">
 <h2>{{ organization.name }}</h2>
 
 {% if organization.employment_agency %}
 <p>{% filter capfirst %}{% trans "employment agency" %}{% endfilter %}</p>
-{% endif %}
-
-{% if organization.short_description %}
-<p>{{ organization.short_description }}</p>
-{% endif %}
-
-{% if organization.long_description %}
-{{ organization.long_description|safe }}
 {% endif %}
 
 {% if organization.size %}
@@ -28,6 +21,27 @@
 <p>{% trans "Activity field" %}: {{ organization.activity_field }}</p>
 {% endif %}
 
+{% if organization.short_description %}
+<p>{{ organization.short_description }}</p>
+{% endif %}
+
+{% if organization.long_description %}
+{{ organization.long_description|safe }}
+{% endif %}
+
+<p><a href="{% url ain7.organizations.views.organization_edit organization.id %}" class="changelink">{% trans "Modify" %}</a>
+{% if superadmin or secretariat_member %}
+{% if organization.is_valid %}
+<a href="{% url ain7.organizations.views.organization_delete organization.id %}" class="mergelink">{% trans "Merge" %}</a>
+<a href="{% url ain7.organizations.views.organization_delete organization.id %}" class="deletelink">{% trans "Delete" %}</a>
+{% else %}
+<a href="{% url ain7.organizations.views.organization_delete organization.id %}" class="purgelink">{% trans "Purge" %}</a>
+<a href="{% url ain7.organizations.views.organization_delete organization.id %}" class="undeletelink">{% trans "Undelete" %}</a>
+{% endif %}
+{% endif %}
+</p>
+
+</div>
 
 <h2>{% trans "List of offices" %}</h2>
 <ul>
@@ -52,6 +66,18 @@
            {% endif %}
         </p>
         {% endif %}
+        <p><a href="{% url ain7.organizations.views.office_edit organization.id office.id %}" class="changelink">{% trans "Modify" %}</a>
+{% if superadmin or secretariat_member %}
+{% if office.is_valid %}
+<a href="{% url ain7.organizations.views.office_merge organization.id office.id %}" class="mergelink">{% trans "Merge" %}</a>
+<a href="{% url ain7.organizations.views.office_delete organization.id office.id %}" class="deletelink">{% trans "Delete" %}</a>
+{% else %}
+<a href="{% url ain7.organizations.views.office_delete organization.id office.id %}" class="purgelink">{% trans "Purge" %}</a>
+<a href="{% url ain7.organizations.views.office_delete organization.id office.id %}" class="undeletelink">{% trans "Undelete" %}</a>
+{% endif %}
+{% endif %}
+</p>
+
 
         {% if office.job_offers.all %}
 	<br />
@@ -92,5 +118,6 @@
     </li>
 {% endfor %}
 </ul>
+ <p><a href="{% url ain7.organizations.views.office_edit organization.id %}" class="addlink">{% trans "Add new office" %}</a></p>
 
 {% endblock %}

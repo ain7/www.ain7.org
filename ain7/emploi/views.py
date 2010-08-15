@@ -35,7 +35,6 @@ from ain7.emploi.models import JobOffer, Position, EducationItem, DiplomaItem, \
 from ain7.emploi.forms import PositionForm, EducationItemForm, \
                               LeisureItemForm, \
                               PublicationItemForm, JobOfferForm, SearchJobForm
-from ain7.manage.models import Notification
 from ain7.utils import ain7_render_to_response
 from ain7.utils import ain7_generic_delete, check_access
 

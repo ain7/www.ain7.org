@@ -28,10 +28,10 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person, Country, Email
-from ain7.emploi.models import Organization
+from ain7.organizations.models import Organization
 from ain7.fields import AutoCompleteField
 from ain7.groups.models import Group, Member
-from ain7.manage.models import Notification, Payment, PortalError
+from ain7.manage.models import Payment, PortalError
 from ain7.widgets import DateTimeWidget
 
 
@@ -183,16 +183,6 @@ class NewRoleForm(forms.ModelForm):
         new_role.save()
         
         return new_role
-
-class NotificationForm(forms.ModelForm):
-    """notification form"""
-    details = forms.CharField(label=_('details'), required=True,
-        widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':60}))
-
-    class Meta:
-        """NotificationForm meta information"""
-        model = Notification
-        exclude = ('organization_proposal', 'office_proposal', 'job_proposal')
 
 class PaymentForm(forms.ModelForm):
     """payment form"""

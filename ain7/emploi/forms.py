@@ -26,9 +26,11 @@ from django import forms
 from django.forms.util import ValidationError
 from django.utils.translation import ugettext as _
 
-from ain7.emploi.models import JobOffer, Office, ActivityField, Organization, \
+from ain7.emploi.models import JobOffer, \
                                Position, EducationItem, LeisureItem,\
                                PublicationItem
+from ain7.organizations.models import Office, Organization, \
+                               OrganizationActivityField
 from ain7.fields import AutoCompleteField
 from ain7.utils import AIn7Form
 from ain7.widgets import DateTimeWidget
@@ -84,8 +86,8 @@ class JobOfferForm(AIn7Form):
             return None
         activity_field = None
         try:
-            activity_field = ActivityField.objects.get(pk=activity)
-        except ActivityField.DoesNotExist:
+            activity_field = OrganizationActivityField.objects.get(pk=activity)
+        except OrganizationActivityField.DoesNotExist:
             raise ValidationError(
                 _('The entered activity field does not exist.'))
         return activity_field

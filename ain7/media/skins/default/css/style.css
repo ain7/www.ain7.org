@@ -363,10 +363,26 @@ h3.notif {
     padding-left: 12px;
 }
 
+.mergelink, .mergelink:hover {
+    background: transparent url(../images/icon_mergelink.png) left center no-repeat;
+    padding-left: 12px;
+}
+
+.purgelink, .purgelink:hover {
+    background: transparent url(../images/icon_purgelink.png) left center no-repeat;
+    padding-left: 12px;
+}
+
 .savelink, .savelink:hover {
     background: transparent url(../images/icon_savelink.gif) left center no-repeat;
     padding-left: 12px;
 }
+
+.undeletelink, .undeletelink:hover {
+    background: transparent url(../images/icon_undeletelink.png) left center no-repeat;
+    padding-left: 12px;
+}
+
 
 /* CV
    ------ */

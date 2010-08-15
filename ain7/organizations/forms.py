@@ -26,7 +26,8 @@ from django.forms.util import ValidationError
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Country
-from ain7.emploi.models import Office, ActivityField, Organization
+from ain7.organizations.models import Office, OrganizationActivityField, \
+     Organization
 from ain7.fields import AutoCompleteField
 
 
@@ -48,10 +49,12 @@ class SearchOrganizationForm(forms.Form):
             'is_a_proposal': False}
 #                     'location__contains': self.cleaned_data['location'],
         if self.cleaned_data['activity_field'] != "":
-            criteria['activity_field__exact'] = ActivityField.objects.get(
+            criteria['activity_field__exact'] = \
+                OrganizationActivityField.objects.get(
                 id=self.cleaned_data['activity_field'])
         if self.cleaned_data['activity_code'] != "":
-            criteria['activity_field__exact'] = ActivityField.objects.get(
+            criteria['activity_field__exact'] = \
+                OrganizationActivityField.objects.get(
                 id=self.cleaned_data['activity_code'])
         return criteria
 
@@ -59,7 +62,7 @@ class SearchOrganizationForm(forms.Form):
         """search method for an organization"""
         return Organization.objects.filter(**criteria).order_by('name')
 
-class OrganizationForm(forms.Form):
+class OrganizationForm(forms.ModelForm):
     """organization form"""
 
     name = forms.CharField(
@@ -69,50 +72,24 @@ class OrganizationForm(forms.Form):
     size = forms.IntegerField(
         label=_('Size'), required=True,
         widget=forms.Select(choices=Organization.ORGANIZATION_SIZE))
-    activity_field = forms.IntegerField(label=_('Activity field'),
-        required=False,
-        widget=AutoCompleteField(completed_obj_name='activity_field'))
+    #activity_field = forms.IntegerField(label=_('Activity field'),
+    #    required=False,
+    #    widget=AutoCompleteField(completed_obj_name='activity_field'))
     short_description = forms.CharField(
         label=_('Short Description'), max_length=50, required=False)
     long_description = forms.CharField(
         label=_('Long Description'), max_length=5000, required=False,
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':50}))
 
-    def clean_activity_field(self):
-        """clean activity field"""
-        activity = self.cleaned_data['activity_field']
-        if activity is None:
-            return None
-        activity_field = None
-        try:
-            activity_field = ActivityField.objects.get(pk=activity)
-        except ActivityField.DoesNotExist:
-            raise ValidationError(
-                _('The entered activity field does not exist.'))
-        return activity_field
-    
-    def save(self, user, is_a_proposal=False, organization=None, is_valid=True):
-        """save organization"""
-        if organization:
-            org = organization
-        else:
-            org = Organization()
-        org.name = self.cleaned_data['name']
-        org.employment_agency = self.cleaned_data['employment_agency']
-        org.size = self.cleaned_data['size']
-        org.activity_field = self.cleaned_data['activity_field']
-        org.short_description = self.cleaned_data['short_description']
-        org.long_description = self.cleaned_data['long_description']
-        org.is_a_proposal = is_a_proposal
-        org.is_valid = is_valid
-        org.logged_save(user.person)
-        return org
+    class Meta:
+        """meta organization form"""
+        model = Organization
+        exclude = ('is_a_proposal', 'is_valid')
+
 
 class OfficeForm(forms.ModelForm):
     """office form"""
-    organization = forms.IntegerField(label=_('Organization'),
-        required=True,widget=AutoCompleteField(\
-            completed_obj_name='organization'))
+
     country = forms.ModelChoiceField(
         label=_('country').capitalize(),
         queryset=Country.objects.all().order_by('name'), required=False)
@@ -132,18 +109,7 @@ class OfficeForm(forms.ModelForm):
     class Meta:
         """meta office form"""
         model = Office
-        exclude = ('old_id', 'is_a_proposal', 'is_valid')
-
-class OfficeFormNoOrg(forms.ModelForm):
-    """Office Form No Org ?"""
-    country = forms.ModelChoiceField(
-        label=_('country').capitalize(),
-        queryset=Country.objects.all().order_by('name'), required=False)
-
-    class Meta:
-        """Office Form Meta"""
-        model = Office
-        exclude = ('old_id', 'is_a_proposal', 'is_valid', 'organization')
+        exclude = ('old_id', 'organization', 'is_a_proposal', 'is_valid')
 
 class OrganizationListForm(forms.Form):
     """organization list form"""
