@@ -36,12 +36,18 @@
 <a href="{% url ain7.organizations.views.organization_delete organization.id %}" class="deletelink">{% trans "Delete" %}</a>
 {% else %}
 <a href="{% url ain7.organizations.views.organization_delete organization.id %}" class="purgelink">{% trans "Purge" %}</a>
-<a href="{% url ain7.organizations.views.organization_delete organization.id %}" class="undeletelink">{% trans "Undelete" %}</a>
+<a href="{% url ain7.organizations.views.organization_undelete organization.id %}" class="undeletelink">{% trans "Undelete" %}</a>
 {% endif %}
 {% endif %}
 </p>
 
 </div>
+
+{% if superadmin or secretairat_member %}
+{% if organization.modification_of %}
+<p>{% trans "This organization is the modification of" %} <a href="{% url ain7.organizations.views.organization_details organization.modification_of.id %}">{{ organization.modification_of.name }}</a> {% trans "by" %} {{ organization.last_change_by }}.</p>
+{% endif %}
+{% endif %}
 
 <h2>{% trans "List of offices" %}</h2>
 <ul>
@@ -73,7 +79,7 @@
 <a href="{% url ain7.organizations.views.office_delete organization.id office.id %}" class="deletelink">{% trans "Delete" %}</a>
 {% else %}
 <a href="{% url ain7.organizations.views.office_delete organization.id office.id %}" class="purgelink">{% trans "Purge" %}</a>
-<a href="{% url ain7.organizations.views.office_delete organization.id office.id %}" class="undeletelink">{% trans "Undelete" %}</a>
+<a href="{% url ain7.organizations.views.organization_undelete organization.id office.id %}" class="undeletelink">{% trans "Undelete" %}</a>
 {% endif %}
 {% endif %}
 </p>

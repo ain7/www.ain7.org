@@ -106,6 +106,10 @@ class Organization(LoggedClass):
          default=True)
     objects = OrganizationManager()
 
+    modification_of = models.ForeignKey('organizations.Organization',
+        null=True, blank=True)
+    modification_date = models.DateTimeField(null=True, blank=True)
+
     def __unicode__(self):
         """organization unicode"""
         return self.name

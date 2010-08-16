@@ -21,6 +21,8 @@
 #
 #
 
+import datetime
+
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
@@ -75,7 +77,24 @@ def organization_edit(request, organization_id=None):
 
         if form.is_valid():
 
+            old_org = None
+            user_groups = request.user.person.groups.values_list('group__name',
+                flat=True)
+
+            if not 'ain7-secretariat' in user_groups and \
+                not 'ain7-admin' in user_groups and organization_id:
+                org.id = None
+                org.is_valid = False
+                org.save()
+                old_org = org
+                org = get_object_or_404(Organization, pk=organization_id)
+                form = OrganizationForm(request.POST.copy(), instance=org)
+
             org = form.save()
+            if old_org:
+                org.modification_of = old_org
+                org.modification_date = datetime.datetime.now()
+            org.save()
             return HttpResponseRedirect(reverse(organization_details,
                 args=[org.id]))
 
@@ -211,6 +230,31 @@ def organization_delete(request, organization_id):
     request.user.message_set.create(message=_('Organisation has been\
  marked as deleted.'))
     return HttpResponseRedirect(reverse(organization_search))
+
+@login_required
+def organization_undelete(request, organization_id, office_id=None):
+    """organization delete"""
+
+    access = check_access(request, request.user,
+        ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
+
+    organization = get_object_or_404(Organization, pk=organization_id)
+
+    if office_id:
+        office = get_object_or_404(Office, pk=office_id, 
+           organization__id=organization_id)
+        office.is_valid = True
+        office.save()
+    else:
+        organization.is_valid = True
+        organization.save()
+
+    request.user.message_set.create(message=_('Organisation has been\
+ marked as restaured.'))
+    return HttpResponseRedirect(reverse(organization_details, 
+        args=[organization_id]))
 
 @login_required
 def office_edit(request, organization_id, office_id=None):
