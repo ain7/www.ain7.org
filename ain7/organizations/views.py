@@ -60,12 +60,19 @@ def organization_edit(request, organization_id=None):
     if access:
         return access
 
-    org = get_object_or_404(Organization, pk=organization_id)
+    if organization_id:
+        org = get_object_or_404(Organization, pk=organization_id)
+        form = OrganizationForm(instance=org)
+    else:
+        form = OrganizationForm()
 
-    form = OrganizationForm(instance=org)
 
     if request.method == 'POST':
-        form = OrganizationForm(request.POST.copy(), instance=org)
+        if organization_id:
+            form = OrganizationForm(request.POST.copy(), instance=org)
+        else:
+            form = OrganizationForm(request.POST.copy())
+
         if form.is_valid():
 
             org = form.save()

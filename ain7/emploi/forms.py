@@ -98,7 +98,7 @@ class JobOfferForm(AIn7Form):
             job_offer = JobOffer()
             job_offer.created_by = user.person
 
-            user_groups = user.groups.all().values_list('name', flat=True)
+            user_groups = user.person.groups.values_list('group__name', flat=True) 
             if 'ain7-secretariat' in user_groups or \
                'ain7-admin' in user_groups:
                 job_offer.checked_by_secretariat = True

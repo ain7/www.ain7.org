@@ -54,7 +54,7 @@ urlpatterns = patterns('ain7.emploi.views',
         'publication_edit'),
     (r'^(?P<user_id>\d+)/cv/publication/add/$', 'publication_edit'),
     # Job offers
-    (r'^job/register/$', 'job_register'),
+    (r'^job/add/$', 'job_register'),
     (r'^job/search/$', 'job_search'),
     (r'^job/(?P<emploi_id>\d+)/$', 'job_details'),
     (r'^job/(?P<emploi_id>\d+)/edit/$', 'job_edit'),
