@@ -110,7 +110,8 @@ class OfficeForm(forms.ModelForm):
     class Meta:
         """meta office form"""
         model = Office
-        exclude = ('old_id', 'organization', 'is_a_proposal', 'is_valid')
+        exclude = ('old_id', 'organization', 'is_a_proposal', 'is_valid',
+            'modification_of', 'modification_date')
 
 class OrganizationListForm(forms.Form):
     """organization list form"""
