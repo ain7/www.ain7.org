@@ -198,6 +198,12 @@ class Office(LoggedClass):
     is_valid = models.BooleanField(verbose_name=_('is valid'), default=True)
     is_a_proposal = models.BooleanField(verbose_name=_('is a proposal'),
         default=False)
+
+
+    modification_of = models.ForeignKey('organizations.Office',
+        null=True, blank=True)
+    modification_date = models.DateTimeField(null=True, blank=True)
+
     objects = OfficeManager()
 
     def __unicode__(self):

@@ -274,20 +274,39 @@ def office_edit(request, organization_id, office_id=None):
             organization=organization)
         form = OfficeForm(instance=office)
 
-    # 2e passage : sauvegarde et redirection
     if request.method == 'POST':
         form = OfficeForm(request.POST.copy())
         if office_id:
             form = OfficeForm(request.POST.copy(), instance=office)
         if form.is_valid():
-            off = form.save(commit=False)
-            off.organization = organization
-            off.save()
+
+            old_office = None
+            user_groups = request.user.person.groups.values_list('group__name',
+                flat=True)
+
+            if not 'ain7-secretariat' in user_groups and \
+                not 'ain7-admin' in user_groups and office_id:
+                office.id = None
+                office.is_valid = False
+                office.save()
+                old_office = office
+                office = get_object_or_404(Office, pk=office_id)
+                form = OfficeForm(request.POST.copy(), instance=office)
+
+            office = form.save(commit=False)
+            office.organization = organization
+            office.save()
+
+            if old_office:
+                office.modification_of = old_office
+                office.modification_date = datetime.datetime.now()
+                office.save()
+
             request.user.message_set.create(message=_('Office has been\
  modified.'))
 
             return HttpResponseRedirect(reverse(organization_details,
-                args=[off.organization.id]))
+                args=[office.organization.id]))
 
         else:
             request.user.message_set.create(message=_('Something was wrong in\

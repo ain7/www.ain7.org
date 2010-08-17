@@ -84,6 +84,13 @@
 {% endif %}
 </p>
 
+<p>
+{% if superadmin or secretairat_member %}
+{% if office.modification_of %}
+<p>{% trans "This office is the modification of" %} <a href="{% url ain7.organizations.views.organization_details office.organization.id %}">{{ office.organization.name }}</a> {% trans "by" %} {{ office.last_change_by }}.</p>
+{% endif %}
+{% endif %}
+</p>
 
         {% if office.job_offers.all %}
 	<br />
