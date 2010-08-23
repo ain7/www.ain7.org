@@ -52,18 +52,20 @@
 <h2>{% trans "List of offices" %}</h2>
 <ul>
 {% for office in organization.offices.all %}
-    <li>{{ office }}
+{% if office.is_valid or superadmin or secretariat_member %}
+        <li>{{ office }}
         {% if office.line1 or office.line2 or office.zip_code or office.city or office.country or office.phone_number or office.web_site %}
         <p>
            {% if office.line1 or office.line2 %}
-               {{ office.line1|default_if_none:"" }} 
-               {{ office.line2|default_if_none:"" }}<br />
+               {% if office.line1 %}{{ office.line1 }}<br/>{% endif %}
+               {% if office.line2 %}{{ office.line2 }}<br/>{% endif %}
            {% endif %}
-           {% if office.zip_code or office.city or office.country %}
+           {% if office.zip_code or office.city %}
                {{ office.zip_code|default_if_none:"" }}
                {{ office.city|default_if_none:"" }}
-               {% if office.country %} - {{ office.country }} {% endif %}<br />
+               <br/>
            {% endif %}
+           {% if office.country %} {{ office.country }} {% endif %}<br />
            {% if office.phone_number %} 
                {{ office.phone_number }} <br />
            {% endif %}
@@ -84,13 +86,11 @@
 {% endif %}
 </p>
 
-<p>
 {% if superadmin or secretairat_member %}
 {% if office.modification_of %}
 <p>{% trans "This office is the modification of" %} <a href="{% url ain7.organizations.views.organization_details office.organization.id %}">{{ office.organization.name }}</a> {% trans "by" %} {{ office.last_change_by }}.</p>
 {% endif %}
 {% endif %}
-</p>
 
         {% if office.job_offers.all %}
 	<br />
@@ -129,6 +129,7 @@
         {% endif %}
 
     </li>
+{% endif %}
 {% endfor %}
 </ul>
  <p><a href="{% url ain7.organizations.views.office_edit organization.id %}" class="addlink">{% trans "Add new office" %}</a></p>
