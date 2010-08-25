@@ -316,9 +316,13 @@ class Person(LoggedClass):
         if mail_list:
             mail = mail_list[0].email
 
+            from email.header import make_header
+
+            subject_enc = str(make_header([(subject, 'utf-8')]))
+
             msg = """From: Association AIn7 <ain7@ain7.com>
 To: """+self.first_name+' '+self.last_name+' <'+mail+'>'+"""
-Subject: """+subject+"""
+Subject: """+subject_enc+"""
 Mime-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Date:  """+time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime())+"""
