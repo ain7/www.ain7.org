@@ -177,8 +177,8 @@ def subscription_add(request, user_id=None):
     # 1er passage : on propose un formulaire avec les données actuelles
     if request.method == 'GET':
         if Subscription.objects.filter(member=ain7member).\
-            exclude(start_year__gt=datetime.date.today().year).\
-            exclude(end_year__lt=datetime.date.today().year):
+            exclude(start_year__gt=year_current).\
+            exclude(end_year__lt=year_current):
             request.user.message_set.create(\
             message=_('You already have an active subscription.'))
         form = SubscriptionForm()
@@ -191,7 +191,7 @@ def subscription_add(request, user_id=None):
         form = SubscriptionForm(request.POST.copy(), request.FILES)
         if form.is_valid():
             configuration = SubscriptionConfiguration.objects.get(\
-                type=form.data['configuration'])
+                type=form.data['configuration'], year=year_current)
 
             subscription = Subscription()
             subscription.dues_amount = form.cleaned_data['dues_amount']
@@ -240,10 +240,14 @@ AIn7 Team
                 import subprocess
                 from django.conf import settings
 
+                reference = payment.id
+                if settings.DEBUG:
+                    reference = 'DEBUG-'+str(payment.id)
+
                 data = "siret=%(siret)s&montant=%(amount)s.00&taxe=0.00&\
 validite=31/12/2099&langue=FR&devise=978&version=1&reference=%(reference)s" \
  % { 'siret': settings.AIN7_SIRET, 'amount': payment.amount,
-     'reference': payment.id }
+     'reference': reference }
                 
                 proc = subprocess.Popen('REQUEST_METHOD=GET QUERY_STRING=\''+ \
                     data+'\' '+settings.SPPLUS_EXE, shell=True, \

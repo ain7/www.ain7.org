@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-18 00:52+0200\n"
+"POT-Creation-Date: 2010-08-25 22:37+0200\n"
 "PO-Revision-Date: 2010-01-15 22:50+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: AIn7 French Translators <ain7-devel@lists.ain7.com>\n"
@@ -51,8 +51,8 @@ msgstr "privé"
 #: groupes_professionnels/views.py:112 groupes_regionaux/views.py:174
 #: manage/views.py:126 manage/views.py:271 manage/views.py:297
 #: manage/views.py:519 manage/views.py:760 organizations/views.py:102
-#: organizations/views.py:185 organizations/views.py:311
-#: organizations/views.py:375 search_engine/views.py:342 voyages/views.py:204
+#: organizations/views.py:185 organizations/views.py:312
+#: organizations/views.py:376 search_engine/views.py:342 voyages/views.py:204
 #: voyages/views.py:253 voyages/views.py:346
 msgid "Something was wrong in the form you filled. No modification done."
 msgstr ""
@@ -249,7 +249,7 @@ msgstr ""
 "L'équipe de l'AIn7\n"
 "\n"
 
-#: adhesions/views.py:295 annuaire/views.py:321 annuaire/views.py:347
+#: adhesions/views.py:299 annuaire/views.py:321 annuaire/views.py:347
 #: annuaire/views.py:531 annuaire/views.py:557 annuaire/views.py:588
 #: emploi/views.py:118 emploi/views.py:176 emploi/views.py:252
 #: emploi/views.py:309 groupes_professionnels/views.py:140
@@ -260,15 +260,15 @@ msgstr ""
 msgid "Modifications have been successfully saved."
 msgstr "Les modifications ont été correctement enregistrées."
 
-#: adhesions/views.py:302
+#: adhesions/views.py:306
 msgid "Modification of configuration"
 msgstr "Modifier une configuration"
 
-#: adhesions/views.py:307
+#: adhesions/views.py:311
 msgid "Do you really want to delete this configuration"
 msgstr "Souhaitez-vous vraiment supprimer cette configuration"
 
-#: adhesions/views.py:320
+#: adhesions/views.py:324
 msgid "Configuration successfully deleted."
 msgstr "La configuration sélectionnée a été supprimée avec succès."
 
@@ -291,7 +291,7 @@ msgstr "Année de promotion"
 msgid "Track"
 msgstr "Filière"
 
-#: annuaire/forms.py:56 manage/forms.py:47 organizations/forms.py:117
+#: annuaire/forms.py:56 manage/forms.py:47 organizations/forms.py:118
 #: organizations/models.py:144 organizations/models.py:176
 #: templates/emploi/job_details.html:12
 msgid "organization"
@@ -1081,7 +1081,7 @@ msgstr "L'entreprise est obligatoire"
 msgid "The organization \"%s\" does not exist."
 msgstr "L'entreprise \"%s\" n'existe pas."
 
-#: emploi/models.py:39 organizations/forms.py:133 organizations/models.py:273
+#: emploi/models.py:39 organizations/forms.py:134 organizations/models.py:279
 msgid "office"
 msgstr "établissement"
 
@@ -1813,7 +1813,7 @@ msgstr "description longue"
 msgid "is a proposal"
 msgstr "est une proposition"
 
-#: organizations/models.py:274
+#: organizations/models.py:280
 #: templates/manage/organizations_adv_search.html:180
 #: templates/manage/organizations_search.html:75
 #: templates/organizations/organizations_adv_search.html:180
@@ -1829,11 +1829,11 @@ msgstr "Modification d'une organisation"
 msgid "The two organizations are the same. No merging."
 msgstr "Les deux établissements sont identiques. Pas de fusion."
 
-#: organizations/views.py:192 organizations/views.py:383
+#: organizations/views.py:192 organizations/views.py:384
 msgid " replaced by "
 msgstr " soit remplacé par "
 
-#: organizations/views.py:195 organizations/views.py:386
+#: organizations/views.py:195 organizations/views.py:387
 msgid "Do you REALLY want to have"
 msgstr "Souhaitez-vous VRAIMENT que"
 
@@ -1853,27 +1853,27 @@ msgstr "Cette organisation a été marquée comme supprimée."
 msgid "Organisation has been marked as restaured."
 msgstr "Cette organisation a été restaurée."
 
-#: organizations/views.py:304
+#: organizations/views.py:305
 msgid "Office has been modified."
 msgstr "Etablissement modifié avec succès"
 
-#: organizations/views.py:316
+#: organizations/views.py:317
 msgid "Modify an office"
 msgstr "Modifier un établissement"
 
-#: organizations/views.py:320
+#: organizations/views.py:321
 msgid "Do you really want to remove this office"
 msgstr "Souhaitez-vous vraiment supprimer cet établissement"
 
-#: organizations/views.py:338
+#: organizations/views.py:339
 msgid "Office has been marked as deleted."
 msgstr "Cet établissement a été marqué comme supprimé."
 
-#: organizations/views.py:373
+#: organizations/views.py:374
 msgid "The two offices are the same. No merging."
 msgstr "Les deux établissements sont identiques. Pas de fusion."
 
-#: organizations/views.py:400
+#: organizations/views.py:401
 msgid "Offices successfully merged"
 msgstr "Etablissement fusionné avec succès"
 
@@ -2396,7 +2396,7 @@ msgstr "Gratuit"
 #: templates/manage/organizations_adv_search.html:60
 #: templates/organizations/base.html:26
 #: templates/organizations/organization_details.html:32
-#: templates/organizations/organization_details.html:75
+#: templates/organizations/organization_details.html:77
 #: templates/organizations/organization_edit.html:51
 #: templates/organizations/organization_edit.html:65
 #: templates/organizations/organizations_adv_search.html:36
@@ -2426,7 +2426,7 @@ msgstr "Modifier"
 #: templates/manage/organizations_adv_search.html:62
 #: templates/manage/role_details.html:17
 #: templates/organizations/organization_details.html:36
-#: templates/organizations/organization_details.html:79
+#: templates/organizations/organization_details.html:81
 #: templates/organizations/organization_edit.html:54
 #: templates/organizations/organization_edit.html:67
 #: templates/organizations/organizations_adv_search.html:38
@@ -2576,7 +2576,7 @@ msgstr "Non"
 #: templates/manage/payment_edit.html:6
 #: templates/manage/payments_index.html:26 templates/news/index.html:20
 #: templates/organizations/organization_details.html:48
-#: templates/organizations/organization_details.html:90
+#: templates/organizations/organization_details.html:91
 #: templates/pages/last_change.html:7
 msgid "by"
 msgstr "par"
@@ -3738,17 +3738,17 @@ msgid "Update"
 msgstr "Mise à jour"
 
 #: templates/organizations/organization_details.html:35
-#: templates/organizations/organization_details.html:78
+#: templates/organizations/organization_details.html:80
 msgid "Merge"
 msgstr "Fusion"
 
 #: templates/organizations/organization_details.html:38
-#: templates/organizations/organization_details.html:81
+#: templates/organizations/organization_details.html:83
 msgid "Purge"
 msgstr "Purge"
 
 #: templates/organizations/organization_details.html:39
-#: templates/organizations/organization_details.html:82
+#: templates/organizations/organization_details.html:84
 msgid "Undelete"
 msgstr "Restaurer"
 
@@ -3756,11 +3756,11 @@ msgstr "Restaurer"
 msgid "This organization is the modification of"
 msgstr "Cette organisation est la modification de"
 
-#: templates/organizations/organization_details.html:90
+#: templates/organizations/organization_details.html:91
 msgid "This office is the modification of"
 msgstr "Cet établissement est la modification de"
 
-#: templates/organizations/organization_details.html:134
+#: templates/organizations/organization_details.html:135
 msgid "Add new office"
 msgstr "Ajouter un établissement"
 
