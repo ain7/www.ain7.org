@@ -26,7 +26,7 @@ from django.http import Http404
 
 
 from ain7.annuaire.models import Person, Country, Track, PromoYear
-from ain7.emploi.models import EducationItem, DiplomaItem
+from ain7.emploi.models import EducationItem
 from ain7.organizations.models import OrganizationActivityField, Organization, Office
 from ain7.utils import ain7_render_to_response
 
@@ -111,8 +111,6 @@ def diploma(input):
 
     diplomas = []
     for e in EducationItem.objects.filter(diploma__icontains=input):
-        diplomas.append(e.diploma)
-    for e in DiplomaItem.objects.filter(diploma__icontains=input):
         diplomas.append(e.diploma)
     diplomas = list(set(diplomas))
     diplomas.sort()

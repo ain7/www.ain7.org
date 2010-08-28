@@ -76,7 +76,8 @@ class EducationItem(LoggedClass):
     ain7member = models.ForeignKey('annuaire.AIn7Member',
         related_name='education')
 
-    school = models.CharField(verbose_name=_('school'), max_length=150)
+    school = models.CharField(verbose_name=_('school'), max_length=150,
+        blank=True, null=True)
     diploma = models.CharField(verbose_name=_('diploma'), max_length=150,
         blank=True, null=True)
     details = models.TextField(verbose_name=_('description'), blank=True,
@@ -94,21 +95,6 @@ class EducationItem(LoggedClass):
         """education item meta"""
         verbose_name = _('Education item')
         ordering = ['-begin']
-
-class DiplomaItem(LoggedClass):
-    """A diploma item in the CV of a person."""
-
-    diploma = models.CharField(verbose_name=_('diploma'), max_length=150)
-    ain7member = models.ForeignKey('annuaire.AIn7Member', 
-        related_name='diploma')
-
-    def __unicode__(self):
-        """diploma item unicode"""
-        return self.diploma
-
-    class Meta:
-        """diploma item meta"""
-        verbose_name = _('Diploma item')
 
 class LeisureItem(LoggedClass):
     """

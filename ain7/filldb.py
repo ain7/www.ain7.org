@@ -1620,11 +1620,6 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     olivier_education2.end_date = date(2004,8,23)
     olivier_education2.save()
 
-    olivier_diploma1 = emploi.DiplomaItem()
-    olivier_diploma1.ain7member = olivier_ain7member
-    olivier_diploma1.diploma = u"Diplôme d'ingenieur en informatique et mathématiques appliquées"
-    olivier_diploma1.save()
-
     olivier_leisure1 = emploi.LeisureItem()
     olivier_leisure1.ain7member = olivier_ain7member
     olivier_leisure1.title = "Culture"

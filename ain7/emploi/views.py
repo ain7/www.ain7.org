@@ -30,7 +30,7 @@ from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person, AIn7Member
 from ain7.decorators import confirmation_required
-from ain7.emploi.models import JobOffer, Position, EducationItem, DiplomaItem, \
+from ain7.emploi.models import JobOffer, Position, EducationItem, \
                                LeisureItem, PublicationItem, JobOfferView
 from ain7.emploi.forms import PositionForm, EducationItemForm, \
                               LeisureItemForm, \
@@ -201,24 +201,6 @@ def education_delete(request, user_id=None, education_id=None):
         get_object_or_404(EducationItem, pk=education_id),
         reverse(cv_edit, args=[user_id])+'#education',
         _('Education informations deleted successfully.'))
-
-@confirmation_required(lambda user_id=None, diploma_id=None:
-    str(get_object_or_404(DiplomaItem, pk=diploma_id)), 'emploi/base.html',
-    _('Do you really want to delete your diploma item'))
-@login_required
-def diploma_delete(request, user_id=None, diploma_id=None):
-    """diploma delete"""
-
-    is_myself = int(request.user.id) == int(user_id)
-    access = check_access(request, request.user,
-        ['ain7-ca','ain7-secretariat'])
-    if access and not is_myself:
-        return access
-
-    return ain7_generic_delete(request,
-        get_object_or_404(DiplomaItem, pk=diploma_id),
-        reverse(cv_edit, args=[user_id])+'#diploma',
-        _('Diploma informations deleted successfully.'))
 
 @login_required
 def leisure_edit(request, user_id=None, leisure_id=None):
