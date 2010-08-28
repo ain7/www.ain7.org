@@ -85,12 +85,6 @@ urlpatterns = patterns('',
     # voyages
     (r'^voyages/', include('ain7.voyages.urls')),
 
-    # forums
-    (r'^forums/', 'ain7.pages.views.forums'),
-
-    # galerie
-    (r'^galerie/', 'ain7.pages.views.galerie'),
-
     # association
     (r'^association/',include('ain7.association.urls')),
 
