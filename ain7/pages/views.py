@@ -163,14 +163,6 @@ def rss(request):
     text = Text.objects.get(textblock__shortname='rss')
     return ain7_render_to_response(request, 'pages/rss.html', {'text': text})
 
-def forums(request):
-    """forums link"""
-    return HttpResponseRedirect(settings.FORUMS_URL)
-    
-def galerie(request):
-    """gallery link"""
-    return HttpResponseRedirect(settings.GALLERY_URL)
-
 def logout(request):
     """logout page"""
     auth.logout(request)

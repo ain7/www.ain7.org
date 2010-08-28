@@ -121,6 +121,7 @@ class Decoration(models.Model):
     class Meta:
         """decoration meta"""
         verbose_name = _('decoration')
+        order = ['decoration']
 
 class CeremonialDuty(models.Model):
     """Honorific functions occupied by some persons"""
@@ -136,6 +137,7 @@ class CeremonialDuty(models.Model):
         """ceremonial duty meta"""
         verbose_name = _('ceremonial duty')
         verbose_name_plural = _('ceremonial duties')
+        order = ['ceremonial_duty']
 
 class School(models.Model):
     """school where users come from"""
