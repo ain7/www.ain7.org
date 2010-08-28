@@ -21,6 +21,7 @@
 #
 #
 
+import datetime
 import smtplib
 import time
 import os
@@ -121,7 +122,7 @@ class Decoration(models.Model):
     class Meta:
         """decoration meta"""
         verbose_name = _('decoration')
-        order = ['decoration']
+        ordering = ['decoration']
 
 class CeremonialDuty(models.Model):
     """Honorific functions occupied by some persons"""
@@ -137,7 +138,7 @@ class CeremonialDuty(models.Model):
         """ceremonial duty meta"""
         verbose_name = _('ceremonial duty')
         verbose_name_plural = _('ceremonial duties')
-        order = ['ceremonial_duty']
+        ordering = ['ceremonial_duty']
 
 class School(models.Model):
     """school where users come from"""
@@ -467,7 +468,7 @@ class AIn7Member(LoggedClass):
         """
         from ain7.adhesions.models import Subscription
         result = 0
-        current_year = datetime.datetime.todat().year
+        current_year = datetime.datetime.today().year
         result = Subscription.objects.filter(member=self).\
             filter(validated=True).exclude(start_year__icontains=current_year-1).reverse()[0].dues_amount
         return result
@@ -478,16 +479,16 @@ class AIn7Member(LoggedClass):
         """
         from ain7.adhesions.models import Subscription
         result = 0
-        current_year = datetime.datetime.todat().year
+        current_year = datetime.datetime.today().year
         result = Subscription.objects.filter(member=self).\
             filter(validated=True).exclude(start_year__icontains=current_year-1).reverse()[0].date
         return result
  
     def promo(self):
         if self.promos.all():
-            return str(self.promos.all()[0].year.year)
+            return self.promos.all()[0].year.year
         else:
-            return ''
+            return 0
 
     def track(self):
         if self.promos.all() and self.promos.all()[0].track:
