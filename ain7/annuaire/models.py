@@ -389,14 +389,17 @@ class AIn7MemberManager(models.Manager):
 
     def subscribers(self):
         pt = PersonType.objects.get(id=1)
-        return self.filter(ain7member__person__personprivate__death_date__isnull=True, ain7member__subscriptions__start_year=2010, personprivate__person_type=pt)
+        current_year = datetime.datetime.today().year
+        return self.filter(ain7member__person__personprivate__death_date__isnull=True, ain7member__subscriptions__start_year=current_yer, personprivate__person_type=pt)
 
     def almuni(self):
         pt = PersonType.objects.get(id=1)
-        return self.filter(ain7member__person__personprivate__death_date__isnull=True, personprivate__person_type=pt, ain7member__promos__year__year__lte=2009)
+        current_year = datetime.datetime.today().year
+        return self.filter(ain7member__person__personprivate__death_date__isnull=True, personprivate__person_type=pt, ain7member__promos__year__year__lte=current_year-1)
 
     def students(self):
-        return self.filter(ain7member__promos__year__year__gt=2009)
+        current_year = datetime.datetime.today().year
+        return self.filter(ain7member__promos__year__year__gt=current_year-1)
 
 
 def avatar_file_path(instance, filename):
@@ -464,8 +467,9 @@ class AIn7Member(LoggedClass):
         """
         from ain7.adhesions.models import Subscription
         result = 0
+        current_year = datetime.datetime.todat().year
         result = Subscription.objects.filter(member=self).\
-            filter(validated=True).exclude(start_year__icontains=2009).reverse()[0].dues_amount
+            filter(validated=True).exclude(start_year__icontains=current_year-1).reverse()[0].dues_amount
         return result
 
     def last_subscription_date(self):
@@ -474,8 +478,9 @@ class AIn7Member(LoggedClass):
         """
         from ain7.adhesions.models import Subscription
         result = 0
+        current_year = datetime.datetime.todat().year
         result = Subscription.objects.filter(member=self).\
-            filter(validated=True).exclude(start_year__icontains=2009).reverse()[0].date
+            filter(validated=True).exclude(start_year__icontains=current_year-1).reverse()[0].date
         return result
  
     def promo(self):
