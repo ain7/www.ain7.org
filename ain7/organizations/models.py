@@ -50,6 +50,7 @@ class OrganizationActivityField(models.Model):
     class Meta:
         """activity field meta"""
         verbose_name = _('Activity field')
+        ordering = ['label']
 
 class OrganizationManager(models.Manager):
     """ A manager for organizations"""
