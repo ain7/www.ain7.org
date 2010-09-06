@@ -844,14 +844,14 @@ def subscriptions_stats(request):
         # Cotisations à taux pleins hors élèves:
         diplomees_number = Subscription.objects.filter(\
             member__promos__year__year__lte=last_promo, start_year=year, \
-            validated=True).count()
+            validated=True).distinct().count()
 
         # Cotisation à taux plein:
         full_price = SubscriptionConfiguration.objects.get(year=year, \
             type=0).dues_amount
         full_query = Q(member__promos__year__year__lte=last_promo, \
             dues_amount=full_price, start_year=year, validated=True)
-        full_queryset = Subscription.objects.filter(full_query)
+        full_queryset = Subscription.objects.filter(full_query).distinct()
         full_number = full_queryset.count()
         full_amount = full_number * full_price
 
@@ -861,7 +861,7 @@ def subscriptions_stats(request):
         young_query = Q(member__promos__year__year__lte=last_promo, \
             member__promos__year__year__gte=last_promo-4, \
             dues_amount=young_price, start_year=year, validated=True)
-        young_queryset = Subscription.objects.filter(young_query)
+        young_queryset = Subscription.objects.filter(young_query).distinct()
         young_number = young_queryset.count()
         young_amount = young_number * young_price
 
@@ -870,7 +870,7 @@ def subscriptions_stats(request):
             type=2).dues_amount
         retired_query = Q(member__promos__year__year__lte=last_promo-5, \
             dues_amount=retired_price, start_year=year, validated=True)
-        retired_queryset = Subscription.objects.filter(retired_query)
+        retired_queryset = Subscription.objects.filter(retired_query).distinct()
         retired_number = retired_queryset.count()
         retired_amount = retired_number * retired_price
 
@@ -880,7 +880,7 @@ def subscriptions_stats(request):
         bienfaiteur_query = Q(member__promos__year__year__lte=last_promo, \
             dues_amount__gte=bienfaiteur_price, start_year=this_year, \
             validated=True)
-        bienfaiteur_queryset = Subscription.objects.filter(bienfaiteur_query)
+        bienfaiteur_queryset = Subscription.objects.filter(bienfaiteur_query).distinct()
         bienfaiteur_number = bienfaiteur_queryset.count()
         bienfaiteur_amount = bienfaiteur_number * bienfaiteur_price
 
@@ -889,23 +889,23 @@ def subscriptions_stats(request):
             type=4).dues_amount
         unemployed_query = Q(member__promos__year__year__lte=last_promo, \
             dues_amount=unemployed_price, start_year=year, validated=True)
-        unemployed_queryset = Subscription.objects.filter(unemployed_query)
+        unemployed_queryset = Subscription.objects.filter(unemployed_query).distinct()
         unemployed_number = unemployed_queryset.count()
         unemployed_amount = unemployed_number * unemployed_price
 
         # students
         students_query = Q(member__promos__year__year__gt=last_promo, \
             start_year=year, validated=True)
-        students_queryset = Subscription.objects.filter(students_query)
+        students_queryset = Subscription.objects.filter(students_query).distinct()
         students_number = students_queryset.count()
         students_amount = \
             students_queryset.aggregate(sum=Sum('dues_amount'))['sum']
 
         # all
-        total_query = Q(start_year=year, validated=True)
+        total_query = Q(start_year=year, member__promos__isnull=False, validated=True)
         total_queryset = Subscription.objects.filter(total_query)
-        total_number = total_queryset.count()
-        total_amount = total_queryset.aggregate(sum=Sum('dues_amount'))['sum']
+        total_number = total_queryset.distinct().count()
+        total_amount = total_queryset.distinct().aggregate(sum=Sum('dues_amount'))['sum']
 
         # other
         other_number = total_number - students_number - unemployed_number - \
@@ -977,7 +977,7 @@ def subscriptions_stats(request):
             last_day = date(this_year+1, 1, 1)
         stats_months.append(Subscription.objects.filter(\
             member__promos__year__year__lt=this_year, start_year=this_year, \
-            validated=True, date__gte=first_day, date__lt=last_day).count())
+            validated=True, date__gte=first_day, date__lt=last_day).distinct().count())
 
     total_amount = 0
     for subs in Subscription.objects.filter(\
