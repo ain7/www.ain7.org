@@ -469,8 +469,10 @@ class AIn7Member(LoggedClass):
         from ain7.adhesions.models import Subscription
         result = 0
         current_year = datetime.datetime.today().year
-        result = Subscription.objects.filter(member=self).\
-            filter(validated=True).exclude(start_year__icontains=current_year-1).reverse()[0].dues_amount
+        if Subscription.objects.filter(member=self).\
+            filter(validated=True).exclude(start_year__icontains=current_year-1).count() > 0:
+            result = Subscription.objects.filter(member=self).\
+               filter(validated=True).exclude(start_year__icontains=current_year-1).reverse()[0].dues_amount
         return result
 
     def last_subscription_date(self):
@@ -480,8 +482,10 @@ class AIn7Member(LoggedClass):
         from ain7.adhesions.models import Subscription
         result = 0
         current_year = datetime.datetime.today().year
-        result = Subscription.objects.filter(member=self).\
-            filter(validated=True).exclude(start_year__icontains=current_year-1).reverse()[0].date
+        if Subscription.objects.filter(member=self).\
+            filter(validated=True).exclude(start_year__icontains=current_year-1).count() > 0:
+            result = Subscription.objects.filter(member=self).\
+                filter(validated=True).exclude(start_year__icontains=current_year-1).reverse()[0].date
         return result
  
     def promo(self):

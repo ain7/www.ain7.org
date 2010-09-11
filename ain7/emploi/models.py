@@ -45,7 +45,6 @@ class Position(LoggedClass):
         blank=True, null=True)
     phone_number = models.CharField(verbose_name=_('phone'),
         max_length=20, blank=True, null=True)
-    email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
     is_regie = models.BooleanField(verbose_name=_('regie outside'),
         default=False)
     begin = models.IntegerField(verbose_name=_('startyear'),
@@ -162,8 +161,6 @@ class JobOffer(LoggedClass):
         blank=True, null=True)
     checked_by_secretariat = models.BooleanField(
         verbose_name=_('checked by secretariat'), default=False)
-    nb_views = models.IntegerField(verbose_name=_('Number of views'),
-        default=0, editable=False)
     obsolete = models.BooleanField(verbose_name=_('Job offer is obsolete'),
         default=False)
 
