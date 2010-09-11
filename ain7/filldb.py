@@ -32,6 +32,7 @@ import ain7.adhesions.models as adhesions
 import ain7.annuaire.models as annuaire
 import ain7.association.models as association
 import ain7.emploi.models as emploi
+import ain7.organizations.models as organizations
 import ain7.groups.models as groups
 import ain7.manage.models as manage
 import ain7.pages.models as pages
@@ -1065,63 +1066,63 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     JCPrice.save()
 
     # School
-    n7 = annuaire.School()
-    n7.name = u"École national supérieure d'éléctronique, d'éléctrotechnique, d'informatique, d'hydraulique et des télécommunications"
-    n7.initials = u"ENSEEIHT"
-    n7.save()
+    n7_school = annuaire.School()
+    n7_school.name = u"École national supérieure d'éléctronique, d'éléctrotechnique, d'informatique, d'hydraulique et des télécommunications"
+    n7_school.initials = u"ENSEEIHT"
+    n7_school.save()
 
     n7info = annuaire.Track()
     n7info.name = u"Informatique et Mathématiques Appliquées"
     n7info.initials = u"IN"
-    n7info.school = n7
+    n7info.school = n7_school
     n7info.active = True
     n7info.save()
 
     n7hydro = annuaire.Track()
     n7hydro.name = u"Hydraulique et Mécanique des Fluides"
     n7hydro.initials = u"HY"
-    n7hydro.school = n7
+    n7hydro.school = n7_school
     n7hydro.active = True
     n7hydro.save()
 
     n7tr = annuaire.Track()
     n7tr.name = u"Télécommunications et Réseaux"
     n7tr.initials = u"TR"
-    n7tr.school = n7
+    n7tr.school = n7_school
     n7tr.active = True
     n7tr.save()
 
-    annuaire.Track(name=u"Electrotechnique", initials="", school=n7).save()
-    annuaire.Track(name=u"Mathématiques Appliquées", initials="", school=n7).save()
-    annuaire.Track(name=u"Automatique", initials="", school=n7).save()
-    annuaire.Track(name=u"Automatique Avancée", initials="", school=n7).save()
-    annuaire.Track(name=u"Electrotechnique option Génie Energétique", initials="", school=n7).save()
-    annuaire.Track(name=u"Méthodes & Applications Avancées en IN option F", initials="", school=n7).save()
-    annuaire.Track(name=u"Electrotechnique option Electronique Industrielle", initials="", school=n7).save()
-    annuaire.Track(name=u"Systèmes de Communication & des Réseaux", initials="", school=n7).save()
-    annuaire.Track(name=u"Electrotechnique & Electronique de Puissance", initials="", school=n7).save()
-    annuaire.Track(name=u"Méthodes & Applications Avancées en Informatiqi.", initials="", school=n7).save()
-    annuaire.Track(name=u"Génie Energétique des Equipements Industriels", initials="", school=n7).save()
-    annuaire.Track(name=u"Traitement du Signal et des Images", initials="", school=n7).save()
-    annuaire.Track(name=u"Méthodes & Applications Avancées en IN option II", initials="", school=n7).save()
-    annuaire.Track(name=u"Electronique de Puissance Avancée", initials="", school=n7).save()
-    annuaire.Track(name=u"Méthodes & Applications Avancées en IN option?", initials="", school=n7).save()
-    annuaire.Track(name=u"Section Spéciale Calcul Scientifique à Haute Performance", initials="", school=n7).save()
-    annuaire.Track(name=u"Electronique et Traitement du Signal", initials="", school=n7).save()
-    annuaire.Track(name=u"Génie Electrique et Automatique", initials="", school=n7).save()
-    annuaire.Track(name=u"Section Spéciale Calcul Scientifique à Haute Performance", initials="", school=n7).save()
-    annuaire.Track(name=u"Docteur Ingénieur", initials="", school=n7).save()
-    annuaire.Track(name=u"Section Spéciale Génie Electrique et Automatique", initials="", school=n7).save()
-    annuaire.Track(name=u"Section Spéciale Génie Electrique et Automatique", initials="", school=n7).save()
-    annuaire.Track(name=u"Section Speciale Systèmes de Communications et Réseaux", initials="", school=n7).save()
-    annuaire.Track(name=u"Section Speciale Systèmes de Communications et Réseaux", initials="", school=n7).save()
-    annuaire.Track(name=u"Section Spéciale Traitement Avancé de l'Energie Electrique", initials="", school=n7).save()
-    annuaire.Track(name=u"DHET Technologies Multimedia", initials="", school=n7).save()
-    annuaire.Track(name=u"DHET Hydraulique", initials="", school=n7).save()
-    annuaire.Track(name=u"DHET Systèmes de Communication et Réseaux", initials="", school=n7).save()
-    annuaire.Track(name=u"DHET Génie Electrique et Automatique", initials="", school=n7).save()
-    annuaire.Track(name=u"DHET Systèmes Electroniques", initials="", school=n7).save()
-    annuaire.Track(name=u"DHET informatique fl.", initials="", school=n7).save()
+    annuaire.Track(name=u"Electrotechnique", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Mathématiques Appliquées", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Automatique", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Automatique Avancée", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Electrotechnique option Génie Energétique", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Méthodes & Applications Avancées en IN option F", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Electrotechnique option Electronique Industrielle", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Systèmes de Communication & des Réseaux", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Electrotechnique & Electronique de Puissance", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Méthodes & Applications Avancées en Informatiqi.", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Génie Energétique des Equipements Industriels", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Traitement du Signal et des Images", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Méthodes & Applications Avancées en IN option II", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Electronique de Puissance Avancée", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Méthodes & Applications Avancées en IN option?", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Section Spéciale Calcul Scientifique à Haute Performance", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Electronique et Traitement du Signal", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Génie Electrique et Automatique", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Section Spéciale Calcul Scientifique à Haute Performance", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Docteur Ingénieur", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Section Spéciale Génie Electrique et Automatique", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Section Spéciale Génie Electrique et Automatique", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Section Speciale Systèmes de Communications et Réseaux", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Section Speciale Systèmes de Communications et Réseaux", initials="", school=n7_school).save()
+    annuaire.Track(name=u"Section Spéciale Traitement Avancé de l'Energie Electrique", initials="", school=n7_school).save()
+    annuaire.Track(name=u"DHET Technologies Multimedia", initials="", school=n7_school).save()
+    annuaire.Track(name=u"DHET Hydraulique", initials="", school=n7_school).save()
+    annuaire.Track(name=u"DHET Systèmes de Communication et Réseaux", initials="", school=n7_school).save()
+    annuaire.Track(name=u"DHET Génie Electrique et Automatique", initials="", school=n7_school).save()
+    annuaire.Track(name=u"DHET Systèmes Electroniques", initials="", school=n7_school).save()
+    annuaire.Track(name=u"DHET informatique fl.", initials="", school=n7_school).save()
 
     y2000 = annuaire.PromoYear(year='2000')
     y2000.save()
@@ -1169,31 +1170,31 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     n7hy2003.save()
 
 # Organizations
-    infofield = emploi.ActivityField(field = u"Informatique", code=u"ZZ", label=u"Informatique")
+    infofield = organizations.OrganizationActivityField(field = u"Informatique", code=u"ZZ", label=u"Informatique")
     infofield.save()
 
-    telecomfield = emploi.ActivityField(field = u"Telecom", code=u"TC", label=u"Télécom")
+    telecomfield = organizations.OrganizationActivityField(field = u"Telecom", code=u"TC", label=u"Télécom")
     telecomfield.save()
 
-    babelstore = emploi.Organization(name=u"BABELSTORE", activity_field=infofield, size=2)
+    babelstore = organizations.Organization(name=u"BABELSTORE", activity_field=infofield, size=2)
     babelstore.save()
 
-    priceminister = emploi.Office(name=u"PriceMinister", organization=babelstore)
+    priceminister = organizations.Office(name=u"PriceMinister", organization=babelstore)
     priceminister.save()
 
-    anyware = emploi.Organization(name=u"Anyware Technologies", activity_field=infofield, size=2)
+    anyware = organizations.Organization(name=u"Anyware Technologies", activity_field=infofield, size=2)
     anyware.save()
 
-    anywareoffice = emploi.Office(name=u"Toulouse Labège", organization=anyware)
+    anywareoffice = organizations.Office(name=u"Toulouse Labège", organization=anyware)
     anywareoffice.save()
 
-    anywareoffice = emploi.Office(name=u"Paris", organization=anyware)
+    anywareoffice = organizations.Office(name=u"Paris", organization=anyware)
     anywareoffice.save()
 
-    schtroumpfland = emploi.Organization(name=u"Schtroumpfland", activity_field=infofield)
+    schtroumpfland = organizations.Organization(name=u"Schtroumpfland", activity_field=infofield)
     schtroumpfland.save()
 
-    lepaysdesschtroumpfs = emploi.Office(name=u"Mon champignon", organization=schtroumpfland)
+    lepaysdesschtroumpfs = organizations.Office(name=u"Mon champignon", organization=schtroumpfland)
     lepaysdesschtroumpfs.save()
 
     gt0 = groups.GroupType(name="admin", description="Groupes internes au portail")
@@ -1824,14 +1825,15 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     gui_adresse2.type = parentalAddressType
     gui_adresse2.save()
 
-    tvn7 = groups.Group()
+    #tvn7 = groups.Group()
+    tvn7 = annuaire.Club()
     tvn7.name = "TVn7"
     tvn7.slug = "tvn7"
     tvn7.description = u"Le club vidéo de l'N7"
     tvn7.web_site = "http://www.tvn7.fr"
     tvn7.email = "tvn7@lists.bde.enseeiht.fr"
     tvn7.creation_date = date(1992,01,01)
-    tvn7.school = n7
+    tvn7.school = n7_school
     tvn7.save()
 
     tvn7_lionel = annuaire.ClubMembership()
@@ -1851,14 +1853,15 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     tvn7_gui.fonction = "Président 2002-2003"
     tvn7_gui.save()
 
-    net7 = groups.Group()
+    #net7 = groups.Group()
+    net7 = annuaire.Club()
     net7.name = "Net7"
     net7.slug = "net7"
     net7.description = u"Le club informatique et réseau de l'N7"
     net7.web_site = "http://www.bde.enseeiht.fr"
     net7.email = "net7@bde.enseeiht.fr"
     net7.creation_date = date(1992,01,01)
-    net7.school = n7
+    net7.school = n7_school
     net7.save()
 
     net7_lionel = annuaire.ClubMembership()
@@ -1871,14 +1874,15 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     net7_pierref.member = pierref_ain7member
     net7_pierref.save()
 
-    inpnet = groups.Group()
+    #inpnet = groups.Group()
+    inpnet = annuaire.Club()
     inpnet.name = "INP-net"
     inpnet.slug = "inp-net"
     inpnet.description = u"Le club informatique et réseau de l'INP"
     inpnet.web_site = "http://www.inp-net.eu.org"
     inpnet.email = "inp-net@bde.inp-toulouse.fr"
     inpnet.creation_date = date(2002,07,01)
-    inpnet.school = n7
+    inpnet.school = n7_school
     inpnet.save()
 
     inpnet_lionel = annuaire.ClubMembership()
@@ -2959,11 +2963,6 @@ Petit déjeuner, temps libre jusqu’au transfert vers l’aéroport internation
     job5.created_by = lionel
     job5.modified_by = lionel
     job5.save()
-
-    notif1 = manage.Notification()
-    notif1.title = "Un exemple de notification !"
-    notif1.details = "Ceci est une exemple de notification..."
-    notif1.save()
 
     p1 = manage.Payment()
     p1.amount = 15
