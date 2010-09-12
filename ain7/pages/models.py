@@ -48,6 +48,10 @@ class Text(LoggedClass):
     title = models.CharField(verbose_name=_('title'), max_length=150)
     body = models.TextField(verbose_name=_('body'), blank=True, null=True)
 
+    def get_absolute_url(self):
+        """ return the URL of the page"""
+        return self.textblock.url
+
 class LostPassword(models.Model):
     """store lost password information"""
     person = models.ForeignKey('annuaire.Person')

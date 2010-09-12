@@ -62,7 +62,6 @@ def ain7_render_to_response(req, *args, **kwargs):
     args[1]['portal_version'] = settings.VERSION
     args[1]['tinymce_version'] = settings.TINYMCE_VERSION
     args[1]['mootools_version'] = settings.MOOTOOLS_VERSION
-    args[1]['mootools_more_version'] = settings.MOOTOOLS_MORE_VERSION
     args[1]['jquery_version'] = settings.JQUERY_VERSION
     args[1]['piwik_url'] = settings.PIWIK_URL
     args[1]['piwik_site_id'] = settings.PIWIK_SITE_ID

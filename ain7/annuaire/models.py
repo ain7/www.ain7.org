@@ -26,6 +26,7 @@ import smtplib
 import time
 import os
 
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
@@ -337,6 +338,8 @@ X-Generated-By: AIn7 Web Portal
             server.sendmail('ain7@ain7.com', mail, unicode(msg).encode('utf8'))
             server.quit()
 
+    def get_absolute_url(self):
+        return reverse('ain7.annuaire.views.details', args=[self.id])
 
     class Meta:
         """person meta"""

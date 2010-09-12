@@ -125,8 +125,6 @@ INSTALLED_APPS = (
 
 # attributs non standards
 SKIN = 'default'
-FORUMS_URL = 'http://forums.ain7.info/'
-GALLERY_URL = 'http://gallery.ain7.info/'
 
 PIWIK_URL = 'http://localhost/piwik/'
 PIWIK_SITE_ID = '0'
@@ -147,7 +145,6 @@ VERSION = BASE+REVISION
 TINYMCE_VERSION = '3.3.8'
 
 MOOTOOLS_VERSION = '1.2.4'
-MOOTOOLS_MORE_VERSION = '1.2.4.2'
 
 JQUERY_VERSION = '1.4.2'
 

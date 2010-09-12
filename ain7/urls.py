@@ -115,6 +115,6 @@ urlpatterns = patterns('',
     (r'^edit/(?P<text_id>.*)/$', 'ain7.pages.views.edit'),
 
     # sitemaps
-    (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps})
+    (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
 
 )
