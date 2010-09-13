@@ -1,10 +1,10 @@
 {% load i18n %}
 
-   <div class="grey-box">
+
        {% trans "Update:" %} 
-         {{ obj.last_change_at|date:"l j F Y (H:i)" }}
+         {{ obj.last_change_at|date:"l j F Y H:i" }}
          {% if obj.last_change_by %}
            {% trans "by" %} {{ obj.last_change_by }}
          {% endif %}
-   </div>
+
 

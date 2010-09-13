@@ -7,6 +7,8 @@
 {% block content-left %}
 
 	<h2>{{ news_item.title }}</h2>
+	
+	<div class="article-info">{%  show_last_change news_item %}</div>
 
 	<p>
           {% if news_item.image %}
@@ -24,9 +26,3 @@
 {% endif %}
 {% endblock %}
 
-{% block extra-menus %}
-    <div class="grey-box">
-    <h2>{% trans "Card Informations"%}</h2>
-    {%  show_last_change news_item %}
-    </div>
-{% endblock %}

@@ -465,6 +465,20 @@ a.button, a.button:hover {
     padding: 3px;
 }
 
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.article-info {
+	color: #666;
+	margin-bottom: 30px;
+	margin-top : -10px;
+}
+
 /* Edition buttons
    ------ */
 
