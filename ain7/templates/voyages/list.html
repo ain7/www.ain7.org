@@ -6,7 +6,7 @@
 
 {% block content-left %}
 
-    <h3>{% trans "List of travels" %}</h3>
+    <h2>{% trans "List of travels" %}</h2>
     <div class="left_box">
 
       {% if travels %}
@@ -42,8 +42,8 @@
 {% endblock %}
 
 {% block navigation %}
-    <h3>{% trans "Navigation" %}</h3>
-    <div class="right_articles">
+    <h2>{% trans "Navigation" %}</h2>
+    <div class="grey-box">
       <ul>
         <li><a href="{% url ain7.voyages.views.index %}">{% trans "Travels main page" %}</a></li>
       </ul>

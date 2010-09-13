@@ -6,127 +6,145 @@
 
 {% block content %}
 
-<div id="content-main">
+<div class="span-17 colborder">
 
-<div class="left" style="width: 65%">
-<h3>
-{{ text1.title }}
-{% if superadmin or ca_member or secretariat_member or contributeur %}
-&nbsp;<a href="{% url ain7.pages.views.edit text1.id %}" class="changelink"></a>
-{% endif %}
-</h3>
-<div class="left_box">
-{{ text1.body|safe }}
-{% if superadmin or ca_member or secretariat_member or contributeur %}
-<p><a href="{% url ain7.pages.views.edit text1.id %}">{% trans "Edit" %}</a></p>
-{% endif %}
+    <h2>
+    {{ text1.title }}
+    {% if superadmin or ca_member or secretariat_member or contributeur %}
+    &nbsp;<a href="{% url ain7.pages.views.edit text1.id %}" class="changelink"></a>
+    {% endif %}
+    </h2>
+
+    <p>{{ text1.body|safe }}
+    {% if superadmin or ca_member or secretariat_member or contributeur %}</p>
+    <p><a href="{% url ain7.pages.views.edit text1.id %}">{% trans "Edit" %}</a></p>
+    {% endif %}
+
+<hr />
+
+
+<div class="span-7 colborder">
+    <h2><a href="{% url ain7.news.views.index %}" accesskey="c">{% trans "News" %}</a></h2>
+    
+    {% for news_item in news %}
+
+          <div>
+            {% if news_item.image %}
+            <a href="{% url ain7.news.views.details news_item.slug %}"><img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" title="{{ news_item.title }}" class="image" width="60" /></a>
+            {% endif %}
+            <b><a href="{% url ain7.news.views.details news_item.slug %}">{{ news_item.title }}</a></b><br />{{ news_item.body|truncatewords_html:20|safe }}
+          </div>
+          <!-- in case the image has bigger height than text -->
+          <div style="clear: left;"></div>
+    
+    {% endfor %}
+    <div style="text-align: center">
+    	<br /><a href="{% url ain7.news.views.index %}">{% trans "All news" %}</a>
+    </div>
 </div>
 
-<h3>
-{{ text2.title }} 
-{% if superadmin or ca_member or secretariat_member or contributeur %}
+
+<div class="span-7">
+    <h2><a href="{% url ain7.news.views.event_index %}" accesskey="e">{% trans "Events Forecast" %}</a></h2>
+
+    {% for event in events %}
+
+          <div>
+          <a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a><br /> {{ event.date|date:"l j F Y" }}
+          </div>
+
+    {% endfor %}
+    <div style="text-align: center">
+    	<br /><a href="{% url ain7.news.views.event_index %}">{% trans "All events" %}</a>
+    </div>
+</div>
+
+
+<hr />
+
+
+<h2>{{ text2.title }}</h2>
+{% if superadmin or ca_member or secretariat_member or contributeur %}</p>
 &nbsp;<a href="{% url ain7.pages.views.edit text2.id %}" class="changelink"></a>
 {% endif %}
-</h3>
-<div class="left_box">
+
+
+
 {{ text2.body|safe }}
 {% if superadmin or ca_member or secretariat_member or contributeur %}
 <p><a href="{% url ain7.pages.views.edit text2.id %}">{% trans "Edit" %}</a></p>
 {% endif %}
-</div>
+
 
 </div>
-<div class="right" style="width: 32%">
 
-<div class="right_articles" style="text-align: center">
+    <div class="span-6 last">
+    
+<center>    
 <a href="{% url ain7.adhesions.views.index %}"><img src="/site_media/images/adherer.png" alt="Adhérer"/></a>
+</center>
+    
+    <div class="grey-box">
+    <h2>{% trans "AIn7 communities on the web" %}</h2>
+    
+    <a href="http://www.viadeo.com/communaute/macommunaute/?communityId=0022ezgr59190pqm" target="_blank"><img class="social-thumb" src="/site_media/images/viadeo-icon.png" alt="Viadeo"/> Viadeo</a><br />
+    <a href="http://www.linkedin.com/groups?gid=73525" target="_blank"><img class="social-thumb" src="/site_media/images/linkedin-icon.png" alt="Linkedin"/> LinkedIn</a><br />
+    <a href="http://www.facebook.com/home.php#/group.php?gid=9422764057" target="_blank"><img class="social-thumb" src="/site_media/images/FB-icon.jpg" alt="Facebook"/> Facebook</a>
+
 </div>
 
-<h3>{% trans "News" %}</h3>
-<div class="right_articles">
 
-{% for news_item in news %}
-  <div class="right_articles">
-      <div>
-      {% if news_item.image %}
-      <a href="{% url ain7.news.views.details news_item.slug %}"><img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" title="{{ news_item.title }}" class="image" width="60" /></a>
-      {% endif %}
-      <b><a href="{% url ain7.news.views.details news_item.slug %}">{{ news_item.title }}</a></b><br />{{ news_item.body|truncatewords_html:20|safe }}
-      </div>
-      <!-- in case the image has bigger height than text -->
-      <div style="clear: left;"></div>
-   </div>
-{% endfor %}
-<div style="text-align: center">
-	<a href="{% url ain7.news.views.index %}">{% trans "All news" %}</a>
-</div>
+
+
+<div class="grey-box">
+<h2>{% trans "Links" %}</h2>
+	<ul>
+	   <li><a href="http://www.enseeiht.fr">ENSEEIHT</a></li>       
+       <li><a href="http://www.bde.enseeiht.fr">Bureau Des Élèves</a></li>
+        <li><a href="http://www.inp-toulouse.fr">INP Toulouse</a></li>
+        <li><a href="http://www.cnisf.org">CNISF</a></li>
+        <li><a href="http://www.g9plus.org/">Le G9+</a></li>
+	<ul>
 </div>
 
-<h3>{% trans "Events Forecast" %}</h3>
-<div class="right_articles">
 
-{% for event in events %}
-  <div class="right_articles">
-      <div>
-      <a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a><br /> {{ event.date|date:"l j F Y" }}
-      </div>
-   </div>
-{% endfor %}
-<div style="text-align: center">
-	<a href="{% url ain7.news.views.event_index %}">{% trans "All events" %}</a>
-</div>
-</div>
 
-<h3>{% trans "AIn7 communities on the web" %}</h3>
-<div class="right_articles">
+{% if surveys %}
+    <div class="grey-box">
+    <h2>{% trans "Survey" %}</h2>
+    
+    {% for survey, has_already_voted in surveys %}
+    
+    	<p> {{ survey.question }} </p>
+    	{% if has_already_voted %}
+    	  {% include "sondages/results_include.html" %}
+                    {% else %}
+    	  {% include "sondages/vote_include.html" %}
+                    {% endif %}
+    	<div style="text-align: center">
+    		<a href="{% url ain7.sondages.views.view survey.id %}">{% trans "Results" %}</a>
+    	</div>
+    
+    {% endfor %}
+    <div style="text-align: center">
+        <a href="{% url ain7.sondages.views.index %}">{% trans "Surveys history" %}</a>
 
-<div class="snBox">
-<p><a href="http://www.viadeo.com/communaute/macommunaute/?communityId=0022ezgr59190pqm" target="_blank"><img class="snIcon" src="/site_media/images/viadeo-icon.png" alt="Viadeo"/> Viadeo</a></p>
-<p><a href="http://www.linkedin.com/groups?gid=73525" target="_blank"><img class="snIcon" src="/site_media/images/linkedin-icon.png" alt="Linkedin"/> LinkedIn</a></p>
-<p><a href="http://www.facebook.com/home.php#/group.php?gid=9422764057" target="_blank"><img class="snIcon" src="/site_media/images/FB-icon.jpg" alt="Facebook"/> Facebook</a></p>
-</div>
-</div>
+    </div>
+{% endif %}
 
-<h3>{% trans "Links" %}</h3>
-<div class="right_articles">
-	<p><a href="http://www.enseeiht.fr">ENSEEIHT</a></p>
-	<p><a href="http://www.bde.enseeiht.fr">Bureau Des Élèves</a></p>
-	<p><a href="http://www.inp-toulouse.fr">INP Toulouse</a></p>
-	<p><a href="http://www.cnisf.org">CNISF</a></p>
-	<p><a href="http://www.g9plus.org/">Le G9+</a></p>
-</div>
 
-        {% if surveys %}
-	<h3>{% trans "Survey" %}</h3>
-	<div class="right_articles">
-	{% for survey, has_already_voted in surveys %}
-		<div class="right_articles">
-			<p> {{ survey.question }} </p>
-			{% if has_already_voted %}
-			  {% include "sondages/results_include.html" %}
-                        {% else %}
-			  {% include "sondages/vote_include.html" %}
-                        {% endif %}
-			<div style="text-align: center">
-				<a href="{% url ain7.sondages.views.view survey.id %}">{% trans "Results" %}</a>
-			</div>
-		</div>
-        {% endfor %}
-	<div style="text-align: center">
-    	    <a href="{% url ain7.sondages.views.index %}">{% trans "Surveys history" %}</a>
-	</div>
-	</div>
-        {% endif %}
+
 
 {% if birthdays %}
+<div class="grey-box">
 {% if user.is_authenticated %}
-	<h3>{% trans "Happy birthday!" %}</h3>
-		<div class="right_articles">
+	<h2>{% trans "Happy birthday!" %}</h2>
+		
 			{% for member in birthdays %}
 			<a href="{% url ain7.annuaire.views.details member.person.pk %}">{{ member }}</a>
 			{% if not forloop.last %} - {% endif %}
 			{% endfor %}
-		</div>
+		
 {% endif %}
 {% endif %}
 

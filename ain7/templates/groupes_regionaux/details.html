@@ -11,7 +11,7 @@
         {{ group.about|safe }}
     {% endif %}
 
-    <h3>{{ group.grouphead.name }}</h3>
+    <h2>{{ group.grouphead.name }}</h2>
 <table width="100%">
     {% for r in group.get_group_head %}
        <td><b>{{ r.title }}</b></td>

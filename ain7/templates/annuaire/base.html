@@ -5,30 +5,28 @@
 
 {% block content %}
 
-<div id="content-main">
+<div class="span-17 colborder">
 
-<div class="left">
 
 {% block content-left %}
 {% endblock %}
 
 </div>
 
-
-<div class="right">
+<div class="span-6 last">
 
    {% if superadmin or ca_member or secretariat_member %}
-   <h3 class="administration">{% trans "Administration" %}</h3>
-   <div class="right_articles">
+   <div class="grey-box">
+   <h2 class="administration">{% trans "Administration" %}</h2>
    <ul>
       <li><a href="{% url ain7.annuaire.views.add %}">{% trans "Register a new member" %}</a></li>
       {% block extra-admin %}{% endblock %}
    </ul>
    </div>
    {% endif %}
- 
-   <h3>{% trans "Navigation" %}</h3>
-   <div class="right_articles">
+
+   <div class="grey-box"> 
+   <h2>{% trans "Navigation" %}</h2>
    <ul>
 
       {% block extra-actions %}{% endblock %}
@@ -56,8 +54,9 @@
    {% if superadmin or ca_member or secretariat_member %}
    {% block export %}
      {% if dosearch %}
-       <h3>{% trans "Export" %}</h3>
-       <div class="right_articles">
+       <div class="grey-box">
+       <h2>{% trans "Export" %}</h2>
+
        <ul>
          {% block worksheet-export %}
          <li><a href="{% url ain7.annuaire.views.export_csv %}">{% trans "Worksheet export" %}</a></li>
@@ -70,8 +69,9 @@
 
    {% if userFilters %}
 
-   <h3>{% trans "Registered filters" %}</h3>
-   <div class="right_articles">
+   <div class="grey-box">
+   <h2>{% trans "Registered filters" %}</h2>
+
    <ul>
        {% for filter in userFilters %}
          <li>

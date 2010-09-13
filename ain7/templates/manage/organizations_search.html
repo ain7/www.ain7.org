@@ -57,8 +57,8 @@
 
 
 {% block actions %}
-<h3>{% trans "Actions" %}</h3>
-<div class="right_articles">
+<h2>{% trans "Actions" %}</h2>
+<div class="grey-box">
 <ul>
     <li><a href="{% url ain7.manage.views.organization_edit %}">{% trans "Register organization" %}</a></li>
     <li><a href="{% url ain7.manage.views.export_csv %}">
@@ -68,8 +68,8 @@
 {% endblock %} {# actions #}
 
 {% block extra-menu %}
-<h3>{% trans "Statistics"%}</h3>
-<div class="right_articles">
+<h2>{% trans "Statistics"%}</h2>
+<div class="grey-box">
 <ul>
     <li>{{ nb_org }}&nbsp;{% trans "organizations" %}</li>
     <li>{{ nb_offices }}&nbsp;{% trans "offices" %}</li>

@@ -8,11 +8,11 @@
 
 {% block content %}
 
-<div id="content-main">
+<div class="span-17 colborder">
 
-<div class="left">
 
-<h3>{{ text.title }}</h3>
+
+<h2>{{ text.title }}</h2>
 
 {{ text.body|safe }}
 
@@ -22,16 +22,16 @@
 
 </div>
 
-<div class="right">
-    <h3>{% trans "Links" %}</h3>
-   <div class="right_articles">
+<div class="span-6 last">
+    <h2>{% trans "Links" %}</h2>
+   <div class="grey-box">
     <ul>
       <li><a href="http://www.enseeiht.fr">Le site de l'école</a></li>
       <li><a href="http://www.bde.enseeiht.fr">Le site des étudiants</a></li>
     </ul>
    </div>
 
-   <h3>{% trans "Card Informations"%}</h3>
+   <h2>{% trans "Card Informations"%}</h2>
    {% show_last_change text %}
 
 </div>

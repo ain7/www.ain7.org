@@ -7,20 +7,18 @@
 {% block content %}
 
 
-<div id="content-main">
+<div class="span-17 colborder">
 
-<div class="left">
 {% block content-left %}{% endblock %}
 </div>
 
-
-<div class="right">
+<div class="span-6 last">
 
 {% block actions %}{% endblock %}
 
 {% block menu-organisation %}
-<h3>{% trans "Actions" %}</h3>
-<div class="right_articles">
+<div class="grey-box">
+<h2>{% trans "Actions" %}</h2>
 <ul>
 {% if organization %}
 <li><a href="{% url ain7.organizations.views.organization_edit organization.id %}">{% trans "Modify" %}</a></li>

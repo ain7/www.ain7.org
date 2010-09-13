@@ -6,11 +6,11 @@
 
 {% block content-left %}
 
-	<h3>{{ news_item.title }}</h3>
+	<h2>{{ news_item.title }}</h2>
 
 	<p>
           {% if news_item.image %}
-            <img src="{{ news_item.image.url }}" alt="Image" title="Image" class="image" width="60" />
+          <img src="{{ news_item.image.url }}" alt="Image" title="Image" class="image-article" />
           {% endif %}
           {{ news_item.body|safe }}
         </p>
@@ -25,6 +25,8 @@
 {% endblock %}
 
 {% block extra-menus %}
-    <h3>{% trans "Card Informations"%}</h3>
+    <div class="grey-box">
+    <h2>{% trans "Card Informations"%}</h2>
     {%  show_last_change news_item %}
+    </div>
 {% endblock %}

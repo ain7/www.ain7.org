@@ -127,8 +127,8 @@
 
 
 {% block actions %}
-<h3>{% trans "Actions" %}</h3>
-<div class="right_articles">
+<h2>{% trans "Actions" %}</h2>
+<div class="grey-box">
 <ul>
       {% if filtr %}
       <li><a href="{% url ain7.manage.views.filter_reset filtr.id %}">
@@ -149,7 +149,7 @@
         {% trans "Worksheet export" %}</a></li>
 </ul>
 </div>
-<div class="right_articles">
+<div class="grey-box">
 <ul>
     <li><a href="{% url ain7.manage.views.organization_edit %}">{% trans "Register organization" %}</a></li>
 </ul>
@@ -157,8 +157,8 @@
 {% endblock %} {# actions #}
 
 {% block extra-menu %}
-<h3>{% trans "Registered filters" %}</h3>
-<div class="right_articles">
+<h2>{% trans "Registered filters" %}</h2>
+<div class="grey-box">
 {% if userFilters %}
 <ul>
     {% for filter in userFilters %}
@@ -173,8 +173,8 @@
 {% endif %}
 </div>
 
-<h3>{% trans "Statistics"%}</h3>
-<div class="right_articles">
+<h2>{% trans "Statistics"%}</h2>
+<div class="grey-box">
 <ul>
     <li>{{ nb_org }}&nbsp;{% trans "organizations" %}</li>
     <li>{{ nb_offices }}&nbsp;{% trans "offices" %}</li>

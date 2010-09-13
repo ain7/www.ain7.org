@@ -10,7 +10,7 @@
 
 <div class="left_box">
 
-<h3>{% trans "Event Search" %}</h3>
+<h2>{% trans "Event Search" %}</h2>
 
 <form action="." method="get">
 <table style="border: 0; text-align: left;">
@@ -22,7 +22,7 @@
 </div>
 <br/>
 {% ifequal request.method 'GET' %}
-<h3>{% trans "Research result" %}</h3>
+<h2>{% trans "Research result" %}</h2>
 {% if list_events %}
 <table style="width: 100%">
 <tr>
@@ -49,8 +49,8 @@
 {% endblock %}
 
 {% block actions %}
-<h3>{% trans "Actions" %}</h3>
-<div class="right_articles">
+<h2>{% trans "Actions" %}</h2>
+<div class="grey-box">
 <ul>
 {% if superadmin or ca_member or secretariat_member or contributeur %}
 <li><a href="{% url ain7.news.views.event_add %}">{% trans "Register an event" %}</a></li>

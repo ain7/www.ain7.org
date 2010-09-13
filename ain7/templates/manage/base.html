@@ -6,18 +6,18 @@
 
 {% block content %}
 
-<div id="content-main">
+<div class="span-17 colborder">
 
-<div class="left">
+
 {% block content-left %}{% endblock %}
 </div>
 
-<div class="right">
+<div class="span-6 last">
 
 {% block actions %}{% endblock %}
 
-<h3>{% trans "Navigation" %}</h3>
-<div class="right_articles">
+<h2>{% trans "Navigation" %}</h2>
+<div class="grey-box">
 <ul>
 <li><a href="{% url ain7.manage.views.users_search %}">{% trans "Manage users" %}</a></li>
 {% if superadmin or secretariat_member %}

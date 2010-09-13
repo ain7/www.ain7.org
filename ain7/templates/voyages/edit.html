@@ -3,11 +3,11 @@
 
 {% block content-left %}
 
-<h3>
+<h2>
   {% ifequal action "add" %}{% trans "Creation of a new travel" %}
   {% else %}{% trans "Edit travel" %} "{{ travel.label }}"
   {% endifequal %}
-</h3>
+</h2>
 
 <form action="." method="post" enctype="multipart/form-data">
     <table class="form">

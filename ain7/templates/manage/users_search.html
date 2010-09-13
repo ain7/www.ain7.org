@@ -54,8 +54,8 @@
 
 
 {% block actions %}
-<h3>{% trans "Actions" %}</h3>
-<div class="right_articles">
+<h2>{% trans "Actions" %}</h2>
+<div class="grey-box">
 {% if superadmin or secretariat_member %}
 <ul>
     <li><a href="{% url ain7.manage.views.user_register %}">{% trans "Register external user" %}</a></li>

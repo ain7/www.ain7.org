@@ -6,7 +6,7 @@
 
 {% block content-left %}
 
-  <h3>{{ travel.label|escape }} - {{ travel.date|escape }}</h3>
+  <h2>{{ travel.label|escape }} - {{ travel.date|escape }}</h2>
 
 {% if travel.subscriptions.all %}
     {% for subscription in travel.subscriptions.all %}
@@ -33,8 +33,8 @@
 
 
 {% block navigation %}
-  <h3>{% trans "Navigation" %}</h3>
-  <div class="right_block">
+  <h2>{% trans "Navigation" %}</h2>
+  <div class="grey-box">
     <ul>
       <li><a href="{% url ain7.voyages.views.details travel.id %}">
           {% trans "Back to the page of this travel" %}</a></li>

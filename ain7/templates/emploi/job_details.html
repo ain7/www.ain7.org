@@ -53,8 +53,8 @@
 
 
 {% block actions %}
-   <h3>{% trans "Actions" %}</h3>
-   <div class="right_articles">
+   <div class="grey-box">
+   <h2>{% trans "Actions" %}</h2>
     <ul>
       <li><a href="{% url ain7.emploi.views.job_edit job.id %}">{% trans "Edit this job offer" %}</a></li>
     </ul>
@@ -62,14 +62,14 @@
 {% endblock %}
 
 {% block show_last_change %}
-   <h3>{% trans "Card Informations"%}</h3>
+   <h2>{% trans "Card Informations"%}</h2>
    {% show_last_change job %}
 {% endblock %}
 
 
 {% block statistics %}
-   <h3>{% trans "Statistics"%}</h3>
-   <div class="right_articles">
+   <div class="grey-box">
+   <h2>{% trans "Statistics"%}</h2>
      <ul>
      <li>{% trans "This announce has been viewed" %} {{ views }} {% trans "times" %}.</li>
      </ul>

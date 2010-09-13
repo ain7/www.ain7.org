@@ -5,17 +5,17 @@
 
 {% block content %}
 
-<div id="content-main">
+<div class="span-17 colborder">
 
-<div class="left">
+
 {% block content-left %}{% endblock %}
 </div>
 
-<div class="right">
+<div class="span-6 last">
 
    {% if group %}
-   <h3>{% trans "Actions" %}</h3>
-   <div class="right_articles">
+   <h2>{% trans "Actions" %}</h2>
+   <div class="grey-box">
    <ul>
       {% block extra-actions %}{% endblock %}
       {% if superadmin or ca_member or secretariat_member or contributeur %}
@@ -26,13 +26,13 @@
    </ul>
    </div>
 
-    <h3>{% trans "Card Informations"%}</h3>
+    <h2>{% trans "Card Informations"%}</h2>
     {% show_last_change group %}
     {% endif %} {# group #}
 
     {% if groups %}
-    <h3>{% trans "Professionnal Groups" %}</h3>
-    <div class="right_block">
+    <h2>{% trans "Professionnal Groups" %}</h2>
+    <div class="grey-box">
     <ul>
     {% for group in groups %}
         <li><a href="{% url ain7.groupes_professionnels.views.details group.slug %}">{{ group.name }}</a></li>
@@ -40,12 +40,12 @@
      </ul>
     </div>
     {% if text %}
-    <h3>{% trans "Card Informations"%}</h3>
+    <h2>{% trans "Card Informations"%}</h2>
     {% show_last_change text %}
     {% endif %}
     {% endif %}
 
-</div> {# right #}
-</div> {# content-main #}
+</div> 
+
 
 {% endblock %}

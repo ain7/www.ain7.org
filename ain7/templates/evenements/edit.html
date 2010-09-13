@@ -50,8 +50,8 @@
 {% endblock %}
 
 {% block actions %}
-<h3>{% trans "Actions" %}</h3>
-<div class="right_articles">
+<div class="grey-box">
+<h2>{% trans "Actions" %}</h2>
 <ul>
 {% if superadmin or ca_member or secretariat_member or contributeur %}
 <li><a href="{% url ain7.news.views.event_add %}">{% trans "Register an event" %}</a></li>

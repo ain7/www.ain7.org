@@ -5,18 +5,18 @@
 
 {% block content %}
 
-<div id="content-main">
+<div class="span-17 colborder">
 
-<div class="left">
+
 {% block content-left %}{% endblock %}
 </div>
 
 
-<div class="right">
+<div class="span-6 last">
 
    {% if superadmin or ca_member or secretariat_member %}
-   <h3 class="administration">{% trans "Administration" %}</h3>
-   <div class="right_articles">
+   <h2 class="administration">{% trans "Administration" %}</h2>
+   <div class="grey-box">
    <ul>
       <li><a href="{% url ain7.adhesions.views.configurations %}">{% trans "Configurations" %}</a></li>
       <li><a href="{% url to_validate_subscriptions %}">{% trans "Subscriptions to validate" %}</a></li>
@@ -25,8 +25,8 @@
    </div>
    {% endif %}
 
-   <h3>{% trans "Actions" %}</h3>
-   <div class="right_articles">
+   <h2>{% trans "Actions" %}</h2>
+   <div class="grey-box">
     <ul>
     {% if user.is_authenticated %}
     <li><a href="{% url ain7.adhesions.views.subscription_add user.id %}">{% trans "Subscribe" %}</a></li>
@@ -36,8 +36,8 @@
    </div>
 
    {% if count_members or count_subscribers %}
-   <h3>{% trans "Statistics" %}</h3>
-   <div class="right_articles">
+   <h2>{% trans "Statistics" %}</h2>
+   <div class="grey-box">
     <ul>
       {% if count_members %}
       <li>{% trans "Number of members" %}: {{ count_members }}</li>

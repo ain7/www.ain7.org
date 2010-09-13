@@ -5,18 +5,18 @@
 
 {% block content %}
 
-<div id="content-main">
+<div class="span-17 colborder">
 
-<div class="left">
+
 
 {% block content-left %}
 {% endblock %}
 
 </div>
 
-<div class="right">
-    <h3>{% trans "Links" %}</h3>
-   <div class="right_articles">
+<div class="span-6 last">
+    <h2>{% trans "Links" %}</h2>
+   <div class="grey-box">
     <ul>
       <li><a href="{% url ain7.association.views.index %}">
           {% trans "Overview" %}</a></li>
@@ -36,8 +36,8 @@
    {% block actions %}
    {% endblock %}
 
-    <h3>{% trans "Statistics" %}</h3>
-   <div class="right_articles">
+    <h2>{% trans "Statistics" %}</h2>
+   <div class="grey-box">
     <ul>
       <li>{% trans "Number of members" %}: {{ count_members }}</li>
     </ul>

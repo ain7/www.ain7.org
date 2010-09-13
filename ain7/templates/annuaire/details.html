@@ -203,8 +203,8 @@
 
 
 {% block extra-right-blocks %}
-   <h3>{% trans "Groups" %}</h3>
-   <div class="right_articles">
+   <h2>{% trans "Groups" %}</h2>
+   <div class="grey-box">
     <ul>
     {% for group in person.groups.all %}
 {#	    <li><a href="{% url ain7.manage.views.role_details group.name %}">{{ group.name }}</a></li>#}
@@ -213,11 +213,11 @@
     </ul>
     </div>
 
-    <h3>{% trans "Card Informations"%}</h3>
+    <h2>{% trans "Card Informations"%}</h2>
     {% show_last_change person %}
 
     {% if last_activity %}
-    <div class="right_articles">
+    <div class="grey-box">
     {% trans "Last connexion:" %} {{ last_activity.date|date:"l j F Y (H:i)" }}
     {% endif %}
    </div>

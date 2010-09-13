@@ -5,7 +5,7 @@
 {% block stylesheet %}{% endblock %}
 
 {% block content-main %}
-<h3>{{ event.name }}</h3>
+<h2>{{ event.name }}</h2>
 
 {% if event.subscriptions.all %}
 <ul>
@@ -27,8 +27,8 @@
 {% endblock %}
 
 {% block statistics %}
-<h3>{% trans "Statistics" %}</h3>
-  <div class="right_block">
+<h2>{% trans "Statistics" %}</h2>
+  <div class="grey-box">
     <ul>
       <li>
         {% ifequal nbparticipants 0 %}

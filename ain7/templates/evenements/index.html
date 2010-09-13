@@ -10,31 +10,34 @@
 
 {% if events %}
 {% for event in events %}
-<div class="right_articles">
-  <div class="news-header">
-    <div class="news-title">
-      <a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a>
-    </div>
-    <div class="news-date">
-      {% trans "Published on" %} {{ event.last_change_at|date:"l j F Y" }} 
-      {% if event.last_change_by %}{% trans "by" %}
-      <a href="{% url ain7.annuaire.views.details event.last_change_by.id %}">{{ event.last_change_by }}</a>
-      {% endif %}
-    </div>
-  </div>
+
+ <h2><a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a></h2>
+
   {% if event.image %}
-  <img src="{{ event.image.url }}" alt="{{ event.title }}" title="{{ event.title }}" class="image" />
+
+  <img src="{{ event.image.url }}" alt="{{ event.title }}" title="{{ event.title }}" class="image-article" />
   {% endif %}
   <ul>
-  <li>{% trans "Date" %}: {{ event.date|date:"d/m/Y H:i" }}</li>
-  <li>{% trans "Location" %}: {{ event.location }}</li>
+      <li>{% trans "Date" %}: <b>{{ event.date|date:"d/m/Y H:i" }}</b></li>
+      <li>{% trans "Location" %}: <b>{{ event.location }}</b></li>
   </ul>
+
   <div class="news-description">
     {{ event.body|safe }}
   </div>
-</div>
+
+
+    <br /><i><span class="grey">{% trans "Published on" %} {{ event.last_change_at|date:"l j F Y" }}</span></i>
+    {% if event.last_change_by %}{% trans "by" %}
+    <a href="{% url ain7.annuaire.views.details event.last_change_by.id %}">{{ event.last_change_by }}</a>
+    {% endif %}
+
+    <hr />
 
 {% endfor %}
+
+
+
 {% else %}
 	<p>{% trans "No planned event." %}</p>
 {% endif %}
@@ -44,8 +47,8 @@
 {% endblock %}
 
 {% block actions %}
-<h3>{% trans "Actions" %}</h3>
-<div class="right_articles">
+<div class="grey-box">
+<h2>{% trans "Actions" %}</h2>
 <ul>
 {% if superadmin or ca_member or secretariat_member or contributeur %}
 <li><a href="{% url ain7.news.views.event_add %}">{% trans "Add an event" %}</a></li>

@@ -7,21 +7,22 @@
 {% block content %}
 
 
-<div id="content-main">
+<div class="span-17 colborder">
 
-<div class="left">
+
 {% block content-left %}{% endblock %}
 </div>
 
 
-<div class="right">
+<div class="span-6 last">
 
 {% block actions %}{% endblock %}
 
 {% block menu-cv %}
 {% if ain7member %}
-<h3>{% trans "Manage your CV" %}</h3>
-<div class="right_articles">
+<div class="grey-box">
+<h2>{% trans "Manage your CV" %}</h2>
+
 <ul>
 <li><a href="{% url ain7.emploi.views.cv_details user.id %}">{% trans "View your CV" %}</a></li>
 <li><a href="{% url ain7.emploi.views.cv_edit user.id %}">{% trans "Modify your CV" %}</a></li>
@@ -33,8 +34,8 @@
 
 
 {% block menu-offres %}
-<h3>{% trans "Job Offers" %}</h3>
-<div class="right_articles">
+<div class="grey-box">
+<h2>{% trans "Job Offers" %}</h2>
 <ul>
 {% if superadmin or ca_member or secretariat_member %}
 <li><a href="{% url ain7.emploi.views.job_register %}">{% trans "Add a job offer" %}</a></li>
@@ -48,8 +49,8 @@
 
 {% block menu-proposals %}
 {% if proposals %}
-<h3>{% trans "Your proposals under review" %}</h3>
-  <div class="right_articles">
+<div class="grey-box">
+<h2>{% trans "Your proposals under review" %}</h2>
     <ul>
       {% for proposal in proposals %}
         <li>{{ proposal }}</li>
@@ -61,8 +62,8 @@
 
 
 {% block menu-organisation %}
-<h3>{% trans "Propose some modifications" %}</h3>
-<div class="right_articles">
+<div class="grey-box">
+<h2>{% trans "Propose some modifications" %}</h2>
 <ul>
 <li><a href="{% url ain7.organizations.views.organization_search %}">{% trans "Edit an organization in database" %}</a></li>
 </ul>
@@ -72,7 +73,7 @@
 {% block show_last_change %}{% endblock %}
 {% block statistics %}{% endblock %}
 
-</div> <!-- right -->
-</div> <!-- content-main -->
+
+</div>
 
 {% endblock %}

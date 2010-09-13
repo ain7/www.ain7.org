@@ -46,8 +46,8 @@
 {% endblock %}
 
 {% block actions %}
-	<h3>{% trans "Actions" %}</h3>
-	<div class="right_block">
+	<div class="grey-box">
+	<h2>{% trans "Actions" %}</h2>
 		<ul>
 			<li><a href="{% url ain7.news.views.event_contact event.id %}">{% trans "Contact the event responsible" %}</a></li>
                         {% if superadmin or ca_member or secretariat_member or contributeur %}
@@ -60,8 +60,8 @@
 {% ifnotequal nbparticipants 0 %}
 {% if superadmin or ca_member or secretariat_member or contributeur %}
 {% block statistics %}
-	<h3>{% trans "Statistics" %}</h3>
-	<div class="right_block">
+	<div class="grey-box">
+	<h2>{% trans "Statistics" %}</h2>
             {{ nbparticipants }} {% trans "persons subscribed to this event" %}
         </div>
 {% endblock %}
@@ -69,6 +69,6 @@
 {% endifnotequal %}
 
 {% block additional-right-blocks %}
-    <h3>{% trans "Card Informations"%}</h3>
+    <h2>{% trans "Card Informations"%}</h2>
    {% show_last_change event %}
 {% endblock %}

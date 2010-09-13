@@ -5,21 +5,17 @@
 
 {% block content %}
 
-<div id="content-main">
-<div class="left">
-
-{% block content-main %}{% endblock%}
-
-</div>
+<div class="span-17 colborder">
+    {% block content-main %}{% endblock%}
 </div>
 
-<div class="right">
+<div class="span-6 last">
 
   {% block actions %}{% endblock %}
 
   {% if event %}
-  <h3>{% trans "Navigation" %}</h3>
-  <div class="right_block">
+  <div class="grey-box">
+  <h2>{% trans "Navigation" %}</h2>
     <ul>
       <li>
         <a href="{% url ain7.news.views.event_details event.id %}">{% trans "Event page" %}</a>
@@ -29,8 +25,9 @@
   {% endif %}{# event #}
 
   {% block statistics %}
-    <h3>{% trans "Statistics" %}</h3>
-    <div class="right_block">
+    <div class="grey-box">
+    <h2>{% trans "Statistics" %}</h2>
+
       <ul>
         <li>
           {% if event_list %}

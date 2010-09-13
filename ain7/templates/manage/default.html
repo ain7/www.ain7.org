@@ -9,7 +9,7 @@
 
 <div class="left_box">
 
-<h3>{% trans "AIn7 Management" %}</h3>
+<h2>{% trans "AIn7 Management" %}</h2>
 
 {% trans "This section is dedicated to the portal administration." %}
 {% trans "You can add, edit, delete users and roles." %}
@@ -19,7 +19,7 @@
 {% if notifications %}
 <div class="left_box">
   {% for notification in notifications %}
-    <h3 class="notif">{{ notification.title }}</h3>
+    <h2 class="notif">{{ notification.title }}</h2>
 
     {% if notification.organization_proposal %}
 
@@ -135,7 +135,7 @@
 
 
 {% block actions %}
-<h3>{% trans "Actions" %}</h3>
-<div class="right_articles">
+<h2>{% trans "Actions" %}</h2>
+<div class="grey-box">
 </div>
 {% endblock %}

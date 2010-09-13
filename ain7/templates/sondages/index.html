@@ -3,9 +3,9 @@
 
 {% block content %}
 
-<div id="content-main">
+<div class="span-17 colborder">
 
-<div class="left">
+
 
 	<h1>{% trans "List of surveys" %}</h1>
 	<ul>
@@ -16,10 +16,10 @@
 
 </div>
 
-<div class="right">
+<div class="span-6 last">
 
-	<h3>{% trans "Actions" %}</h3>
-	<div class="right_block">
+	<h2>{% trans "Actions" %}</h2>
+	<div class="grey-box">
 		<ul>
 			<li><a href="{% url ain7.sondages.views.edit %}">{% trans "Create a new survey" %}</a></li>
 		</ul>

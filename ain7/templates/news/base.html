@@ -5,16 +5,18 @@
 
 {% block content %}
 
-<div id="content-main">
+<div class="span-17 colborder">
 
-<div class="left">
+
 {% block content-left %}{% endblock %}
 </div>
 
-<div class="right">
 
-<h3>{% trans "Actions" %}</h3>
-<div class="right_articles">
+<div class="span-6 last">
+
+<div class="grey-box">
+<h2>{% trans "Actions" %}</h2>
+
 <ul>
 {% block extra-actions %}{% endblock %}
 {% if superadmin or ca_member or secretariat_member or contributeur %}
@@ -26,8 +28,8 @@
 
 {% block extra-menus %}{% endblock %}
 
-</div> <!-- right -->
-</div> <!-- content-main -->
+</div>
+
 
 {% endblock %}
 

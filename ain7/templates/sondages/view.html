@@ -4,9 +4,9 @@
 {% block stylesheet %}{% endblock %}
 {% block content %}
 
-<div id="content-main">
+<div class="span-17 colborder">
 
-	<div class="left">
+	
 	
 		<h1>{{ survey.question }}</h1>
 
@@ -33,10 +33,10 @@
 	
 	</div>
 
-	<div class="right">
+	<div class="span-6 last">
 	
-		<h3>{% trans "Actions" %}</h3>
-		<div class="right_block">
+		<h2>{% trans "Actions" %}</h2>
+		<div class="grey-box">
 			<ul>
 				{% block action %}
 					{% if not already_vote %}

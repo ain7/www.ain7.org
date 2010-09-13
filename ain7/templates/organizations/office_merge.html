@@ -27,8 +27,8 @@
 
 
 {% block actions %}
-<h3>{% trans "Actions" %}</h3>
-<div class="right_articles">
+<h2>{% trans "Actions" %}</h2>
+<div class="grey-box">
 <ul>
 <li><a href="{% url ain7.organizations.views.office_edit office.organization.id %}">
 {% trans "Register a new office" %}</a></li>
@@ -37,8 +37,8 @@
 {% endblock %}
 
 {% block extra-menu %}
-<h3>{% trans "Card Informations"%}</h3>
-<div class="right_articles">
+<h2>{% trans "Card Informations"%}</h2>
+<div class="grey-box">
 <ul>
   <li>{% trans "Update" %}&nbsp;: {{ organization.modification_date|date:"l j F Y" }}</li>
 </ul>

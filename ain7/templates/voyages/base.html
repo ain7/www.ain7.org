@@ -5,17 +5,17 @@
 
 {% block content %}
 
-<div id="content-main">
+<div class="span-17 colborder">
 	
-  <div class="left">
+  
   {% block content-left %}{% endblock %}
   </div>
 
 
-  <div class="right">
+  <div class="span-6 last">
 
-    <h3>{% trans "Actions" %}</h3>
-    <div class="right_articles">
+    <h2>{% trans "Actions" %}</h2>
+    <div class="grey-box">
       <ul>
        {% block actions %}{% endblock%}
       </ul>
@@ -25,8 +25,8 @@
 
     {% if travel %}
     {% if superadmin or ca_member or secretariat_member or contributeur %}
-      <h3>{% trans "Statistics" %}</h3>
-      <div class="right_block">
+      <h2>{% trans "Statistics" %}</h2>
+      <div class="grey-box">
         <ul>
           <li>
              {% if travel.nb_participants %}
@@ -39,14 +39,14 @@
       </div>
     {% endif %} 
 
-      <h3>{% trans "Card Informations"%}</h3>
+      <h2>{% trans "Card Informations"%}</h2>
       {% show_last_change travel %}
     {% endif %} {# travel #}
 
     {% if next_travels %}
-    <h3>{% trans "Planned travels" %}</h3>
+    <h2>{% trans "Planned travels" %}</h2>
     {% if next_travels %}
-      <div class="right_articles">
+      <div class="grey-box">
       <ul>
       {% for travel in next_travels %}
         <li>
@@ -62,15 +62,15 @@
       </ul>
       </div>
     {% else %}
-      <div class="right_articles">
+      <div class="grey-box">
         <p>{% trans "No planned travels." %}</p>
       </div>
     {% endif %}
     {% endif %} {# next_travels #}
 
     {% if previous_travels %}
-    <h3>{% trans "Previous travels" %}</h3>
-      <div class="right_articles">
+    <h2>{% trans "Previous travels" %}</h2>
+      <div class="grey-box">
         {% if previous_travels %}
           <ul>
             {% for travel in previous_travels %}
