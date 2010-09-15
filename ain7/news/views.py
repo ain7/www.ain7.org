@@ -73,6 +73,7 @@ def edit(request, news_slug=None):
             form = NewsForm(request.POST, request.FILES)
         if form.is_valid():
             news_item = form.save()
+            news_item.logged_save(request.user.person)
             request.user.message_set.create(message=_('Modifications have been\
  successfully saved.'))
 
@@ -191,7 +192,8 @@ def event_edit(request, event_id):
     if request.method == 'POST':
         form = EventForm(request.POST, request.FILES, instance=event)
         if form.is_valid():
-            form.save()
+            evt = form.save()
+            evt.logged_save(request.user.person)
             request.user.message_set.create(message=_('Modifications have been\
  successfully saved.'))
 
@@ -241,8 +243,7 @@ def event_add(request):
         form = EventForm(request.POST, request.FILES)
         if form.is_valid():
             evt = form.save()
-            evt.last_change_by = request.user.person
-            evt.save()
+            evt.logged_save(request.user.person)
             request.user.message_set.create(message=_('Modifications have been\
  successfully saved.'))
 
@@ -383,7 +384,8 @@ def event_organizer_add(request, event_id):
     if request.method == 'POST':
         form = EventOrganizerForm(request.POST)
         if form.is_valid():
-            form.save()
+            evt = form.save()
+            evt.logged_save(request.user.person)
             request.user.message_set.create(message=_('Modifications have been\
  successfully saved.'))
 
