@@ -69,6 +69,9 @@
            {% if office.phone_number %} 
                {{ office.phone_number }} <br />
            {% endif %}
+           {% if office.fax_number %} 
+               {{ office.fax_number }} <br />
+           {% endif %}
            {% if office.web_site %} 
                <a href="{{ office.web_site }}">{{ office.web_site }}</a> 
            {% endif %}
