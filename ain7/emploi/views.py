@@ -401,11 +401,6 @@ def job_register(request):
             if not 'ain7-secretariat' in user_groups and \
                not 'ain7-admin' in user_groups:
 
-                # create the notification
-                notif = Notification(details='',
-                    title=_('Proposal for job offer'),
-                    job_proposal = job_offer)
-                notif.logged_save(request.user.person)
                 request.user.message_set.create(
                     message=_('Job offer successfully created. It will now be\
  checked by the secretariat.'))
