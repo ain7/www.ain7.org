@@ -1,0 +1,3 @@
+{{ object.slug }}
+{{ object.name }}
+{{ object.about }}

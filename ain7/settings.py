@@ -107,6 +107,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.sitemaps',
+    'haystack',
     'ain7.adhesions',
     'ain7.annuaire',
     'ain7.association',
@@ -157,6 +158,11 @@ SPPLUS_IP = ['127.0.0.1']
 AIN7_SIRET = '0000000000000001-001'
 
 ENVIRONMENT= 'production'
+
+HAYSTACK_SITECONF = 'ain7.search_sites'
+HAYSTACK_SEARCH_ENGINE = 'xapian'
+HAYSTACK_XAPIAN_PATH = BASE_DIR +'/data/xapian/'
+
 
 try:
     from settings_local import *
