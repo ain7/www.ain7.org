@@ -34,7 +34,7 @@ from ain7.widgets import DateTimeWidget
 
 
 DATE_TIME_WIDGET = DateTimeWidget()
-DATE_TIME_WIDGET.dformat = '%d/%m/%Y'
+DATE_TIME_WIDGET.dformat = '%d/%m/%Y %H:%M'
 
 class SearchNewsForm(forms.Form):
     """search news form"""

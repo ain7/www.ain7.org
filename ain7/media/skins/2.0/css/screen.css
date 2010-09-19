@@ -273,10 +273,11 @@ hr.space {background:#fff;color:#fff;visibility:hidden;}
 .clear {clear:both;}
 
 .top-border-blue{
-    background-color: #00279E;
+/*    background-color: #00279E; */
+    background-color: #f0f0f0;
     width: 100%
     padding:2px;
-    color: #ffffff;
+/*    color: #ffffff; */
     padding: 10px;
     text-align: center;
 }
@@ -292,7 +293,7 @@ hr.space {background:#fff;color:#fff;visibility:hidden;}
 }
 
 .top-border-blue a{
-    color: #ffffff;
+/*    color: #ffffff; */
     font-weight: bold;
 }
 
@@ -446,6 +447,23 @@ p img.left-thumb {
 
 
 /* OLD TEMPLATE */
+
+.button {
+    padding: 2px;
+    background-color: #eaa000;
+    background-color: #120077;
+    color: #FFFFFF;
+    border: 1px solid #737373;
+    font: bold 1em Arial, Sans-Serif;
+}
+
+a.button, a.button:hover {
+    text-decoration: none;
+    background-color: #eaa000;
+    color: #FFFFFF;
+    cursor: default;
+    padding: 3px;
+}
 
 /* Edition buttons
    ------ */

@@ -11,13 +11,13 @@
 	<table border="0" width="100%">
         <tr><td>
 	<ul>
-        <li>{% trans "Date" %}: {{ event.date|date:"d/m/Y H:i" }}</li>
+        <li>{% trans "Date" %}: {{ event.date|date:"l j F Y H:i" }}</li>
         {% if event.contant_email %}
         <li>{% trans "Contact" %}: <a href="mailto:{{ event.contact_email }}">{% trans "Contact organizer" %}</a></li>
         {% endif %}
         <li>{% trans "Location" %}: {{ event.location }}</li>
         {% if event.link %}
-             <li>{% trans "Link" %}: <a href="{{ event.link }}">{{ event.link }}</a></li>
+             <li><a href="{{ event.link }}">{{ event.link }}</a></li>
         {% endif %}
         {% if event.status and ca_member %}
         <li>{% trans "Status" %}: {{ event.get_status_display }}</li>

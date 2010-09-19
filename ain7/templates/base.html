@@ -29,17 +29,11 @@
 
 
 <link rel="stylesheet" href="/site_media/skins/2.0/css/screen.css?version={{ portal_version }}" type="text/css" />
-
 <link rel="stylesheet" href="/site_media/skins/2.0/css/src/typography.css?version={{ portal_version }}" type="text/css" />
-
 <link rel="stylesheet" href="/site_media/skins/2.0/css/src/forms.css?version={{ portal_version }}" type="text/css" />
-
 <link rel="stylesheet" href="/site_media/skins/2.0/css/plugins/fancy-type/screen.css?version={{ portal_version }}" type="text/css" />
 
-
-
 {% block stylesheet %}
-
 {# CSS par defaut sur toutes les pages. #}
 {# Rien n'empeche de redefinir ce bloc pour certaines pages... #}
 <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/calendar/calendar-win2k-cold-2.css" />
@@ -51,36 +45,29 @@
 
 <body>
 
-
 <div class="top-border-blue">
 
 <div class="sizer">
     <div class="top-left">
 
-
 {% if user.is_authenticated %}
     <form method="post" action="/accounts/logout/">
     
-    		{% trans "Connected as" %} <a href="/annuaire/{{ user.id }}/">{{ user.person.first_name }} {{ user.person.last_name }}</a>
-    		<input class="button" type="submit" value="{% trans "Log out" %}" />
+    		<p><a href="/annuaire/{{ user.id }}/">{{ user.person.first_name }} {{ user.person.last_name }}</a>&nbsp;<input class="button" type="submit" value="{% trans "Log out" %}" /></p>
 
-</form>
+    </form>
 {% else %}
     {% trans "You are not logged-in" %} - <a href="/accounts/login/?next={{ request.path }}">{% trans "Log-in" %}</a>
 {% endif %}    
 
     </div>
 
-
     <div class="top-right">
-        <!-- future search engine bar -->
+        <form method="post" action="search"><p><input type="text" size="30" />&nbsp;<input class="button" type="submit" value="{% trans "Search" %}" /></p></form>
     </div>
 &nbsp;
 </div>
 </div>
-
-
-
 
 <div class="container">
 
@@ -88,9 +75,9 @@
 
         <p>
         <a href="{% url ain7.pages.views.homepage %}" accesskey="h">
-    		<img style="margin-top:25px;" src="/site_media/skins/2.0/images/logo-AIo.png" height="120" />
+    		<img style="margin-top:25px;" src="/site_media/skins/2.0/images/logo-AIo.png" height="120" alt="AIn7 logo" />
 		</a>
-		<img class="right" src="/site_media/skins/2.0/images/n7.png" height="120"><br />
+		<img class="right" src="/site_media/skins/2.0/images/n7.png" height="120" alt="n7 logo" /><br />
         </p>
     </div>
 
@@ -104,16 +91,12 @@
         <div class="link-bar lb-orange">&nbsp;</div><a href="{% url ain7.news.views.index %}" accesskey="c">{% trans "News"%}</a>
         <div class="link-bar lb-grey">&nbsp;</div><a href="{% url ain7.news.views.event_index %}" accesskey="e">{% trans "Events"%}</a>
         <div class="link-bar lb-purple">&nbsp;</div><a href="{% url ain7.emploi.views.index %}" accesskey="s">{% trans "Job service"%}</a>
-        <div class="link-bar lb-green">&nbsp;</div><a href="{% url ain7.groupes_regionaux.views.index %}" accesskey="p">{% trans "Regional Groups "%}</a>
+        <div class="link-bar lb-green">&nbsp;</div><a href="{% url ain7.groupes_regionaux.views.index %}" accesskey="p">{% trans "Groups "%}</a>
         <div class="link-bar lb-yellow">&nbsp;</div><a href="{% url ain7.voyages.views.index %}">{% trans "Travels" %}</a>
         
     </div>
 
-
-
-
-
-<!--
+{% comment %}
 
 {% block barre-home %}<li>{% endblock %}
     <a href="{% url ain7.pages.views.homepage %}" accesskey="h">{% trans "Home"%}</a></li>
@@ -161,10 +144,8 @@
 {% block barre-voyages %}<li>{% endblock %}
     <a href="{% url ain7.voyages.views.index %}" accesskey="v">{% trans "Travels" %}</a></li>
 
-{% comment %}
 {% block barre-galerie %}<li>{% endblock %}
     <a href="{% url ain7.pages.views.galerie %}" accesskey="l">{% trans "Gallery" %}</a></li>
-{% endcomment %}
 
 {% if superadmin or ca_member or secretariat_member %}
 {% block barre-manage %}<li>{% endblock %}
@@ -173,8 +154,7 @@
 
 </ul>
 
-
--->
+{% endcomment %}
 
 <hr />
 
@@ -189,14 +169,11 @@
 
 </div>
 
-
-
-
 <div class="bottom-blue clearfix">
 
 <div class="sizer">
 	<div class="span-4">
-	 Service Emploi
+	 <span>Service Emploi</span>
 	  <ul>
 	      <li><a href="">Offres</a></li>
 	      <li><a href="">Conseils</a></li>
@@ -236,13 +213,6 @@
 	&copy; Copyright 2009-2010 AIn7 - Version {{ portal_version  }} - {% trans "Unless specific mention, all Texts are under license" %} <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.fr">CC by-sa 3.0</a>.<br />
 	<a href="/rss/">{% trans "RSS" %}</a> | <a href="/apropos/">{% trans "About" %}</a> | <a href="/mentions_legales/">{% trans "Terms of use" %}</a> | <a href="/association/contact/">{% trans "Contact" %}</a>
 </div>
-
-
-
-
-
-
-
 
 <!-- Piwik -->
 <script type="text/javascript">
