@@ -207,8 +207,7 @@
    <div class="right_articles">
     <ul>
     {% for group in person.groups.all %}
-{#	    <li><a href="{% url ain7.manage.views.role_details group.name %}">{{ group.name }}</a></li>#}
-            <li>{{ group.group.name }}</li>
+	    <li><a href="{% url ain7.groups.views.details group.group.slug %}">{{ group.group.name }}</a></li>
     {% endfor %}
     </ul>
     </div>

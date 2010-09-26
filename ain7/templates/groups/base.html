@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load i18n ain7_tags %}
+
+{% block barre-groupes_regionaux %}<li class="active">{% endblock %}
+
+{% block content %}
+
+<div id="content-main">
+
+<div class="left">
+{% block content-left %}{% endblock %}
+</div>
+
+
+<div class="right">
+
+    {% if group %}
+    <h3>{% trans "Actions" %}</h3>
+    <div class="right_block">
+        <ul>
+            <li>
+            {% if not is_member %}
+                <a href="{% url ain7.groups.views.join group.slug %}">{% trans "Join the group" %}</a>
+            {% else %}
+                <a href="{% url ain7.groups.views.quit group.slug %}">{% trans "Quit the group" %}</a>
+            {% endif %}
+            </li>
+            <li><a href="{% url ain7.groups.views.members group.slug %}">{% trans "Members" %}</a></li>
+            {% if superadmin or ca_member or secretariat_member %}
+            <li><a href="{% url ain7.groups.views.edit group.slug %}">{% trans "Edit group informations" %}</a></li>
+            {% endif %}
+        </ul>
+    </div>
+
+    {% if group.active_events %}
+        <h3>{% trans "Events" %}</h3>
+        {% for event in group.active_events %}
+            <div class="right_articles">
+                <p><strong><a href="{% url ain7.news.views.event_details event.id %}">{{ event.title|upper }}</a></strong></p>
+                <p>
+{% blocktrans with event.date|date:"d/m/Y" as date and event.location as place %}{{ date }} at {{ place }}{% endblocktrans %}
+                </p>
+                {% if event.body %}
+                    <p><em>{{ event.body|safe|truncatewords:10 }}</em></p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% endif %} {# group.active_events #}
+
+    {% block extra-menu %}{% endblock %}
+
+    <h3>{% trans "Card Informations"%}</h3>
+    {%  show_last_change group %}
+    {% endif %} {# group #}
+
+    {% if groups %}
+    <h3>{% trans "Statistics" %}</h3>
+    <div class="right_block">
+        <ul>
+            <li>{{ groups|length }} {% trans "regional groups" %}</li>
+        </ul>
+    </div>
+
+    <h3>{% trans "The regional groups" %}</h3>
+    <div class="right_block">
+        <ul>
+        {% for group in groups %}
+           <li><a href="{% url ain7.groupes_regionaux.views.details group.slug %}">{{ group.name }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+
+    {% endif %}
+
+</div> <!-- right -->
+</div> <!-- content-main -->
+{% endblock %}

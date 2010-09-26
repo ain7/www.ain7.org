@@ -34,7 +34,6 @@ from ain7.utils import ain7_render_to_response, ain7_generic_edit, \
                               ain7_generic_delete, check_access
 from ain7.decorators import confirmation_required
 from ain7.organizations.models import Organization, Office
-from ain7.groups.models import Group, Member
 from ain7.manage.models import PortalError, Payment
 from ain7.manage.forms import SearchUserForm, NewPersonForm, \
                               NewRoleForm, MemberRoleForm, \
@@ -476,110 +475,6 @@ def adv_export_csv(request, filter_id=None):
         search_filter = search_engine.unregistered_filters(request.user.person)
     return se_export_csv(request, search_filter.search(), search_engine,
         'manage/edit_form.html')
-
-@login_required
-def roles_index(request):
-    """roles index"""
-
-    access = check_access(request, request.user, ['ain7-secretariat'])
-    if access:
-        return access
-
-    roles = Group.objects.all()
-
-    return ain7_render_to_response(request, 'manage/role_index.html',
-        {'roles': roles, 'request': request})
-
-@login_required
-def role_register(request):
-    """new role register"""
-
-    access = check_access(request, request.user, ['ain7-secretariat'])
-    if access:
-        return access
-
-    form = NewRoleForm()
-
-    if request.method == 'POST':
-        form = NewRoleForm(request.POST)
-        if form.is_valid():
-
-            if not Group.objects.filter(\
-                name=form.cleaned_data['name']).count() == 0:
-                request.user.message_set.create(message=_("Several roles have\
- the same name. Please choose another one"))
-
-            else:
-                new_role = form.save()
-                request.user.message_set.create(
-                    message=_("New role successfully created"))
-                return HttpResponseRedirect(
-                    '/manage/roles/%s/' % (new_role.name))
-        else:
-            request.user.message_set.create(message=_("Something was wrong in\
- the form you filled. No modification done."))
-
-    back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request, 'manage/edit_form.html',
-        {'action_title': _('Register new role'), 'back': back, 'form': form})
-
-
-@login_required
-def role_details(request, role_id):
-    """role details"""
-
-    access = check_access(request, request.user, ['ain7-secretariat'])
-    if access:
-        return access
-
-    group = get_object_or_404(Group, slug=role_id)
-    return ain7_render_to_response(request, 'manage/role_details.html',
-                                   {'role': group})
-
-@login_required
-def role_member_add(request, role_id):
-    """add a new member to the role"""
-
-    access = check_access(request, request.user, ['ain7-secretariat'])
-    if access:
-        return access
-
-    group = get_object_or_404(Group, slug=role_id)
-
-    form = MemberRoleForm()
-
-    if request.method == 'POST':
-        form = MemberRoleForm(request.POST)
-        if form.is_valid():
-            member = form.save(commit=False)
-            member.group = group
-            member.save()
-            request.user.message_set.create(message=_('User added to role'))
-            return HttpResponseRedirect('/manage/roles/%s/' % role_id)
-        else:
-            request.user.message_set.create(message=_('User is not correct'))
-
-    back = request.META.get('HTTP_REFERER', '/')
-
-    return ain7_render_to_response(request, 'manage/role_user_add.html',
-                            {'form': form, 'role': group, 'back': back})
-
-@login_required
-def role_member_delete(request, role_id, member_id):
-    """delete member role"""
-
-    access = check_access(request, request.user, ['ain7-secretariat'])
-    if access:
-        return access
-
-    group = get_object_or_404(Group, slug=role_id)
-    member = get_object_or_404(Member, pk=member_id)
-
-    member.end_date = datetime.date.today()
-
-    request.user.message_set.create(message=_('Member removed from role'))
-
-    return HttpResponseRedirect('/manage/roles/%s/' % role_id)
 
 @login_required
 def errors_index(request):

@@ -69,14 +69,6 @@ urlpatterns = patterns('ain7.manage.views',
     (r'^users/$', 'users_search'),
     (r'^users/register/$', 'user_register'),
 
-    # Roles
-    (r'^roles/$', 'roles_index'),
-    (r'^roles/register/$', 'role_register'),
-    (r'^roles/(?P<role_id>[A-Za-z0-9.\-_]+)/$', 'role_details'),
-    (r'^roles/(?P<role_id>[A-Za-z0-9.\-_]+)/member/(?P<member_id>\d+)/delete/$',
-     'role_member_delete'),
-    (r'^roles/(?P<role_id>[A-Za-z0-9.\-_]+)/member/add/$', 'role_member_add'),
-
     # Errors
     (r'^errors/$', 'errors_index'),
     (r'^errors/(?P<error_id>\d+)/$', 'error_details'),

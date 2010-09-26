@@ -70,6 +70,9 @@ urlpatterns = patterns('',
     # evenements
     (r'^evenements/', include('ain7.news.urls_events')),
 
+    # groups
+    (r'^groups/', include('ain7.groups.urls')),
+ 
     # groupes professionnels
     (r'^groupes_professionnels/', include('ain7.groupes_professionnels.urls')),
 
