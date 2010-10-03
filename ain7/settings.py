@@ -58,6 +58,18 @@ LANGUAGE_CODE = 'fr'
 
 SITE_ID = 1
 
+# enable or disable applications
+FORUM_ENABLED=False
+SEARCH_ENABLED=False
+ADVANCEDSEARCH_ENABLED=False
+SHOP_ENABLED=False
+PIWIK_ENABLED=False
+
+try:
+    from settings_features import *
+except ImportError:
+    pass
+
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = BASE_DIR + '/media'
@@ -107,7 +119,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.sitemaps',
-    'haystack',
     'ain7.adhesions',
     'ain7.annuaire',
     'ain7.association',
@@ -158,9 +169,12 @@ AIN7_SIRET = '0000000000000001-001'
 
 ENVIRONMENT= 'production'
 
-HAYSTACK_SITECONF = 'ain7.search_sites'
-HAYSTACK_SEARCH_ENGINE = 'xapian'
-HAYSTACK_XAPIAN_PATH = BASE_DIR +'/data/xapian/'
+if SEARCH_ENABLED:
+    HAYSTACK_SITECONF = 'ain7.search_sites'
+    HAYSTACK_SEARCH_ENGINE = 'xapian'
+    HAYSTACK_XAPIAN_PATH = BASE_DIR +'/data/xapian/'
+
+    INSTALLED_APPS += ('haystack',)
 
 
 try:
