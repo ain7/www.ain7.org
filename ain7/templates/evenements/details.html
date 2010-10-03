@@ -8,6 +8,18 @@
 
 	<h2>{{ event.title }}</h2>
 
+        <p>
+        {% if rsvp %}
+            {% trans "You have already answered" %} "{{ rsvp.answer }}" {% trans "to attendind this event" %}.<br/>
+            {% trans "You can change your answer:" %}
+        {% else %}
+            {% trans "Do you plan to attend?" %}
+        {% endif %}
+        <a href="{% url ain7.news.views.event_attend_yes event.id %}">{% trans "Yes" %}</a>
+        <a href="{% url ain7.news.views.event_attend_no event.id %}">{% trans "No" %}</a>
+        <a href="{% url ain7.news.views.event_attend_maybe event.id %}">{% trans "Maybe" %}</a>
+        </p>
+
 	<table border="0" width="100%">
         <tr><td>
 	<ul>

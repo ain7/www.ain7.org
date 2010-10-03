@@ -57,6 +57,14 @@ class RSVPAnswer(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
     updated_by = models.ForeignKey('annuaire.Person', related_name='rsvpanswers_updated')
 
+    def answer(self):
+       if self.yes:
+           return _('yes')
+       if self.no:
+           return _('no')
+       if self.maybe:
+           return _('maybe')
+
 
 class NewsItemManager(models.Manager):
     """news item manager"""

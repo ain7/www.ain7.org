@@ -32,7 +32,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
 from ain7.decorators import confirmation_required
-from ain7.news.models import NewsItem
+from ain7.news.models import NewsItem, RSVPAnswer
 from ain7.news.forms import SearchNewsForm, NewsForm, EventForm, \
      SearchEventForm, ContactEventForm, EventOrganizerForm
 from ain7.utils import ain7_render_to_response, check_access
@@ -171,11 +171,16 @@ def event_index(request):
 def event_details(request, event_id):
     """event details"""
     event = get_object_or_404(NewsItem, pk=event_id)
+
+    rsvp = None
+    if RSVPAnswer.objects.filter(person=request.user.person, event=event).count() == 1:
+        rsvp = RSVPAnswer.objects.get(person=request.user.person, event=event)
+
     return ain7_render_to_response(request, 'evenements/details.html',
         {'event': event, 
          'event_list': NewsItem.objects.filter(date__isnull=False),
-         'nbparticipants': event.nb_participants(),
-         'next_events': NewsItem.objects.next_events()})
+         'next_events': NewsItem.objects.next_events(),
+         'rsvp': rsvp})
 
 @login_required
 def event_edit(request, event_id):
@@ -256,6 +261,63 @@ def event_add(request):
          'next_events': NewsItem.objects.next_events(),
          'back': request.META.get('HTTP_REFERER', '/')})
 
+
+def event_attend_yes(request, event_id):
+    """event details"""
+
+    event = get_object_or_404(NewsItem, pk=event_id)
+
+    if RSVPAnswer.objects.filter(person=request.user.person, event=event).count() == 1:
+        rsvp = RSVPAnswer.objects.get(person=request.user.person, event=event)
+        rsvp.no = False
+        rsvp.yes = True
+        rsvp.maybe = False
+        rsvp.save()
+    else:
+        rsvp = RSVPAnswer(person=request.user.person, event=event,
+            created_by=request.user.person, updated_by=request.user.person,
+            yes=True, number=0).save()
+
+    return HttpResponseRedirect(reverse('ain7.news.views.event_details', 
+        args=[event.id]))
+
+def event_attend_no(request, event_id):
+    """event details"""
+
+    event = get_object_or_404(NewsItem, pk=event_id)
+
+    if RSVPAnswer.objects.filter(person=request.user.person, event=event).count() == 1:
+        rsvp = RSVPAnswer.objects.get(person=request.user.person, event=event)
+        rsvp.no = True
+        rsvp.yes = False
+        rsvp.maybe = False
+        rsvp.save()
+    else:
+        rsvp = RSVPAnswer(person=request.user.person, event=event,
+            created_by=request.user.person, updated_by=request.user.person,
+            no=True, number=0).save()
+
+    return HttpResponseRedirect(reverse('ain7.news.views.event_details', 
+        args=[event.id]))
+
+def event_attend_maybe(request, event_id):
+    """event details"""
+
+    event = get_object_or_404(NewsItem, pk=event_id)
+
+    if RSVPAnswer.objects.filter(person=request.user.person, event=event).count() == 1:
+        rsvp = RSVPAnswer.objects.get(person=request.user.person, event=event)
+        rsvp.no = False
+        rsvp.yes = False
+        rsvp.maybe = True
+        rsvp.save()
+    else:
+        rsvp = RSVPAnswer(person=request.user.person, event=event,
+            created_by=request.user.person, updated_by=request.user.person,
+            maybe=True, number=0).save()
+
+    return HttpResponseRedirect(reverse('ain7.news.views.event_details', 
+        args=[event.id]))
 
 def event_search(request):
     """event search"""

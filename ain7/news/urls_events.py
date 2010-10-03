@@ -39,5 +39,8 @@ urlpatterns = patterns('ain7.news.views',
         'event_organizer_delete'),
     (r'^(?P<event_id>\d+)/organizer/(?P<organizer_id>\d+)/swap_email_notif/$',
         'event_swap_email_notif'),
+    (r'^(?P<event_id>\d+)/yes/$', 'event_attend_yes'),
+    (r'^(?P<event_id>\d+)/no/$', 'event_attend_no'),
+    (r'^(?P<event_id>\d+)/maybe/$', 'event_attend_maybe'),
 
 )
