@@ -88,5 +88,14 @@ urlpatterns = patterns('ain7.manage.views',
     # Subscriptions
     (r'^subscriptions/$', 'subscriptions_stats'),
 
+    # mailings
+    (r'^mailings/$', 'mailings_index'),
+    (r'^mailings/add/$', 'mailing_edit'),
+    (r'^mailings/(?P<mailing_id>\d+)/$', 'mailing_edit'),
+    (r'^mailings/(?P<mailing_id>\d+)/test/$', 'mailing_send'),
+    (r'^mailings/(?P<mailing_id>\d+)/testteam/$', 'mailing_sendteam'),
+    (r'^mailings/(?P<mailing_id>\d+)/send/$', 'mailing_ready'),
+    (r'^mailings/(?P<mailing_id>\d+)/preview/$', 'mailing_preview'),
+
 )
 

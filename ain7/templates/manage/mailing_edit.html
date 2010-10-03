@@ -1,0 +1,45 @@
+{% extends "manage/base.html" %}
+{% load i18n %}
+
+{% block content-left %}
+
+<h2>{{ mailing.title }}</h2>
+<p>
+{% if mailing.created_by and mailing.created_at %}
+<i>{% trans "Created by" %} <a href="{% url ain7.annuaire.views.details mailing.created_by.id %}">{{ mailing.created_by }}</a> {% trans "the" %} {{mailing.created_at|date:"l j F Y H:i" }}</i><br/>
+{% endif %}
+{% if mailing.modified_by and mailing.modified_at %}
+<i>{% trans "Modified by" %} <a href="{% url ain7.annuaire.views.details mailing.modified_by.id %}">{{ mailing.modified_by }}</a> {% trans "the" %} {{mailing.modified_at|date:"l j F Y H:i" }}</i><br/>
+{% endif %}
+{% if mailing.approved_by and mailing.approved_at %}
+<i>{% trans "Approved by" %} <a href="{% url ain7.annuaire.views.details mailing.approved_by.user.id %}">{{ mailing.approved_by }}</a> {% trans "the" %}{{ mailing.approved_at|date:"l j F Y H:i" }}</i><br/>
+{% endif %}
+{% if mailing.sent_at %}
+<i>{% trans "Sent on" %}: {{ mailing.sent_at|date:"l j F Y H:i" }}</i><br/>
+{% endif %}
+</p>
+
+<p>{{ mailing.description }}</p>
+
+
+{% if not mailing.approved_by %}
+
+<ul>
+<li><a href="{% url ain7.manage.views.mailing_send mailing.id %}">{% trans "Send a test to myself" %}</a></li>
+<li><a href="{% url ain7.manage.views.mailing_sendteam mailing.id %}">{% trans "Send a test to the tester team" %}</a></li>
+<li><a href="{% url ain7.manage.views.mailing_preview mailing.id %}">{% trans "Mailing preview" %}</a></li>
+<li><a href="{% url ain7.manage.views.mailing_ready mailing.id %}">{% trans "Send mailing" %}</a></li>
+</ul>
+
+<form method="post" action=".">
+<table>
+{{ form }}
+</table>
+<div style="text-align: center">
+<a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
+<input type="submit" class="button" value="{% trans "Save" %}" />
+</div>
+</form>
+{% endif %}
+
+{% endblock %}

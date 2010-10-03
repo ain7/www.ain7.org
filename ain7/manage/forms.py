@@ -28,10 +28,11 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person, Country, Email
+from ain7.news.models import NewsItem
 from ain7.organizations.models import Organization
 from ain7.fields import AutoCompleteField
 from ain7.groups.models import Group, Member
-from ain7.manage.models import Payment, PortalError
+from ain7.manage.models import Mailing, MailingItem, Payment, PortalError
 from ain7.widgets import DateTimeWidget
 
 
@@ -235,3 +236,50 @@ class ErrorRangeForm(forms.Form):
             error.comment += self.cleaned_data['comment']
             error.save()
         return
+
+class MailingForm(forms.ModelForm):
+    """mailing form"""
+
+    def __init__(self, *args, **kwargs):
+        self.news = []
+        if kwargs.has_key('news'):
+            self.news = kwargs['news']
+            del kwargs['news']
+
+        super (MailingForm,self ).__init__(*args,**kwargs)
+        for item in self.news:
+            default_value = False
+            if kwargs.has_key('instance'):
+                mailing = Mailing.objects.get(id=kwargs['instance'].id)
+                if MailingItem.objects.filter(mailing=mailing, newsitem=item).count() == 1:
+                   default_value = True
+            self.fields[item.slug] = forms.BooleanField(required=False, initial=default_value, label=item.title)
+
+
+    def save(self, *args, **kwargs):
+        """save event"""
+        mailing = super(MailingForm, self).save()
+
+        for item in self.news:
+           newsitem = NewsItem.objects.get(slug=item.slug)
+           try:
+               mailingitem = MailingItem.objects.get(mailing=mailing, newsitem=newsitem)
+           except Exception:
+               mailingitem = MailingItem()
+
+           if self.cleaned_data[item.slug]:
+               mailingitem.mailing = mailing
+               mailingitem.newsitem = newsitem
+               mailingitem.save()
+           else:
+               if mailingitem.id:
+                   mailingitem.delete()
+
+        return mailing
+
+
+    class Meta:
+        """mailing meta information"""
+        model = Mailing
+        exclude = ('created_at', 'created_by', 'modified_at', 'modified_by', 'sent_at', 'approved_by', 'approved_at')
+
