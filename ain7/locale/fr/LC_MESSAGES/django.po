@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-03 23:13+0200\n"
+"POT-Creation-Date: 2010-10-03 23:43+0200\n"
 "PO-Revision-Date: 2010-01-15 22:50+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: AIn7 French Translators <ain7-devel@lists.ain7.com>\n"
@@ -50,8 +50,8 @@ msgstr "privé"
 #: utils.py:145 annuaire/views.py:325 annuaire/views.py:350
 #: annuaire/views.py:1113 association/views.py:108 emploi/views.py:410
 #: groupes_professionnels/views.py:112 groupes_regionaux/views.py:174
-#: groups/views.py:248 manage/views.py:127 manage/views.py:272
-#: manage/views.py:298 manage/views.py:657 manage/views.py:990
+#: groups/views.py:248 manage/views.py:124 manage/views.py:269
+#: manage/views.py:295 manage/views.py:654 manage/views.py:989
 #: organizations/views.py:102 organizations/views.py:185
 #: organizations/views.py:312 organizations/views.py:376
 #: search_engine/views.py:342 voyages/views.py:204 voyages/views.py:253
@@ -69,7 +69,7 @@ msgstr "Auteur de la dernière modification"
 msgid "last changed at"
 msgstr "Modifié pour la dernière fois à"
 
-#: adhesions/models.py:39 manage/models.py:99
+#: adhesions/models.py:39 manage/models.py:69
 msgid "Cash"
 msgstr "Espèce"
 
@@ -77,7 +77,7 @@ msgstr "Espèce"
 msgid "Cheque"
 msgstr "Chèque"
 
-#: adhesions/models.py:41 manage/models.py:102
+#: adhesions/models.py:41 manage/models.py:72
 msgid "Card"
 msgstr "Carte bancaire"
 
@@ -85,7 +85,7 @@ msgstr "Carte bancaire"
 msgid "Transfer"
 msgstr "Virement"
 
-#: adhesions/models.py:43 manage/models.py:105
+#: adhesions/models.py:43 manage/models.py:75
 msgid "Other"
 msgstr "Autre"
 
@@ -94,7 +94,7 @@ msgstr "Autre"
 msgid "member"
 msgstr "membre"
 
-#: adhesions/models.py:52 manage/models.py:134
+#: adhesions/models.py:52 manage/models.py:104
 msgid "payment"
 msgstr "Paiement"
 
@@ -112,7 +112,7 @@ msgstr "Montant Canal N7"
 msgid "Tender type"
 msgstr "Mode de paiement"
 
-#: adhesions/models.py:60 manage/models.py:119
+#: adhesions/models.py:60 manage/models.py:89
 msgid "validated"
 msgstr "Validé"
 
@@ -174,7 +174,7 @@ msgstr "Couple"
 msgid "Support"
 msgstr "Soutien"
 
-#: adhesions/models.py:98 manage/models.py:112
+#: adhesions/models.py:98 manage/models.py:82
 #: templates/adhesions/configurations.html:18
 msgid "Type"
 msgstr "Type"
@@ -255,8 +255,8 @@ msgstr ""
 #: annuaire/views.py:531 annuaire/views.py:557 annuaire/views.py:588
 #: emploi/views.py:118 emploi/views.py:176 emploi/views.py:234
 #: emploi/views.py:291 groupes_professionnels/views.py:140
-#: groupes_regionaux/views.py:76 groups/views.py:84 manage/views.py:268
-#: manage/views.py:295 news/views.py:77 news/views.py:197 news/views.py:247
+#: groupes_regionaux/views.py:76 groups/views.py:84 manage/views.py:265
+#: manage/views.py:292 news/views.py:77 news/views.py:197 news/views.py:247
 #: news/views.py:389 search_engine/views.py:268 sondages/views.py:103
 #: sondages/views.py:145 voyages/views.py:138
 msgid "Modifications have been successfully saved."
@@ -275,12 +275,12 @@ msgid "Configuration successfully deleted."
 msgstr "La configuration sélectionnée a été supprimée avec succès."
 
 #: annuaire/forms.py:48 annuaire/forms.py:107 annuaire/models.py:264
-#: manage/forms.py:44 manage/forms.py:104 templates/annuaire/edit.html:24
+#: manage/forms.py:43 manage/forms.py:68 templates/annuaire/edit.html:24
 msgid "Last name"
 msgstr "Nom"
 
 #: annuaire/forms.py:50 annuaire/forms.py:105 annuaire/models.py:265
-#: manage/forms.py:46 manage/forms.py:102 templates/annuaire/edit.html:23
+#: manage/forms.py:45 manage/forms.py:66 templates/annuaire/edit.html:23
 msgid "First name"
 msgstr "Prénom"
 
@@ -293,25 +293,25 @@ msgstr "Année de promotion"
 msgid "Track"
 msgstr "Filière"
 
-#: annuaire/forms.py:56 manage/forms.py:48 organizations/forms.py:118
+#: annuaire/forms.py:56 manage/forms.py:47 organizations/forms.py:118
 #: organizations/models.py:145 organizations/models.py:177
 #: templates/emploi/job_details.html:12
 msgid "organization"
 msgstr "entreprise"
 
-#: annuaire/forms.py:109 manage/forms.py:106
+#: annuaire/forms.py:109 manage/forms.py:70
 msgid "Mail"
 msgstr "Mail"
 
-#: annuaire/forms.py:111 manage/forms.py:108
+#: annuaire/forms.py:111 manage/forms.py:72
 msgid "Nationality"
 msgstr "Nationalité"
 
-#: annuaire/forms.py:113 manage/forms.py:110
+#: annuaire/forms.py:113 manage/forms.py:74
 msgid "Date of birth"
 msgstr "Date de naissance"
 
-#: annuaire/forms.py:115 annuaire/forms.py:252 manage/forms.py:112
+#: annuaire/forms.py:115 annuaire/forms.py:252 manage/forms.py:76
 msgid "Sex"
 msgstr "Sexe"
 
@@ -387,7 +387,7 @@ msgstr "Les mot de passe ne correspondent pas."
 
 #: annuaire/models.py:41 annuaire/models.py:147 annuaire/models.py:182
 #: groups/models.py:74 groups/models.py:83 groups/models.py:112
-#: manage/models.py:86 organizations/models.py:88 organizations/models.py:179
+#: manage/models.py:56 organizations/models.py:88 organizations/models.py:179
 #: search_engine/models.py:127
 msgid "name"
 msgstr "nom"
@@ -505,7 +505,7 @@ msgstr "Masculin"
 msgid "Female"
 msgstr "Féminin"
 
-#: annuaire/models.py:258 manage/models.py:67 search_engine/models.py:133
+#: annuaire/models.py:258 manage/models.py:37 search_engine/models.py:133
 msgid "user"
 msgstr "utilisateur"
 
@@ -762,28 +762,28 @@ msgstr ""
 msgid "New credentials have been sent"
 msgstr "Les nouveaux identifiants ont été envoyés"
 
-#: annuaire/views.py:299 manage/views.py:246
+#: annuaire/views.py:299 manage/views.py:243
 msgid "Enter parameters of your filter"
 msgstr "Paramètres de votre filtre"
 
-#: annuaire/views.py:310 manage/views.py:257
+#: annuaire/views.py:310 manage/views.py:254
 msgid "One of your filters already has this name."
 msgstr "L'un de vos filtres a déjà ce nom."
 
-#: annuaire/views.py:356 manage/views.py:304
+#: annuaire/views.py:356 manage/views.py:301
 msgid "Modification of the filter"
 msgstr "Modification du filtre"
 
-#: annuaire/views.py:397 manage/views.py:356
+#: annuaire/views.py:397 manage/views.py:353
 msgid "Your filter has been successfully deleted."
 msgstr "Votre filtre a été supprimé avec succès."
 
-#: annuaire/views.py:401 manage/views.py:359
+#: annuaire/views.py:401 manage/views.py:356
 msgid "Something went wrong. The filter has not been deleted."
 msgstr "Des erreurs se sont produites. Le filtre n'a pas été supprimé."
 
-#: annuaire/views.py:462 annuaire/views.py:483 manage/views.py:448
-#: manage/views.py:472
+#: annuaire/views.py:462 annuaire/views.py:483 manage/views.py:445
+#: manage/views.py:469
 msgid "You have to make a search before using csv export."
 msgstr "Vous devez effectuer une recherche avant d'utiliser l'export CSV"
 
@@ -953,11 +953,11 @@ msgstr "Souhaitez-vous vraiment supprimer l'appartenance à ce club"
 msgid "Club membership successfully deleted."
 msgstr "L'appartenance au club a été supprimée avec succès."
 
-#: annuaire/views.py:1109 manage/views.py:123
+#: annuaire/views.py:1109 manage/views.py:120
 msgid "New user successfully created"
 msgstr "Utilisateur créé avec succès"
 
-#: annuaire/views.py:1119 manage/views.py:132
+#: annuaire/views.py:1119 manage/views.py:129
 msgid "Register new user"
 msgstr "Enregistrer une nouvelle personne"
 
@@ -978,13 +978,12 @@ msgstr "La date de début est postérieure à la date de fin."
 
 #: association/forms.py:65 groupes_professionnels/forms.py:60
 #: groupes_professionnels/forms.py:142 groupes_regionaux/forms.py:88
-#: groups/forms.py:88 groups/forms.py:113 manage/forms.py:88
+#: groups/forms.py:88 groups/forms.py:113
 msgid "This field is mandatory."
 msgstr "Ce champ est obligatoire."
 
 #: association/forms.py:72 groupes_professionnels/forms.py:149
 #: groupes_regionaux/forms.py:95 groups/forms.py:95 groups/forms.py:120
-#: manage/forms.py:95
 msgid "The entered person is not in the database."
 msgstr "Cette personne n'existe pas dans la base."
 
@@ -1007,7 +1006,7 @@ msgid "reference"
 msgstr "réference"
 
 #: emploi/forms.py:47 emploi/forms.py:124 groups/models.py:99
-#: manage/models.py:65 news/forms.py:61 news/forms.py:91 news/models.py:79
+#: manage/models.py:35 news/forms.py:61 news/forms.py:91 news/models.py:79
 #: pages/forms.py:49 pages/models.py:48
 msgid "title"
 msgstr "titre"
@@ -1042,7 +1041,7 @@ msgstr "email de contact"
 msgid "Activity field"
 msgstr "Domaine d'activité"
 
-#: emploi/forms.py:67 manage/models.py:89
+#: emploi/forms.py:67 manage/models.py:59
 msgid "obsolete"
 msgstr "obsolete"
 
@@ -1328,7 +1327,7 @@ msgstr "Vous avez quitté ce groupe avec succès."
 msgid "You are not a member of this group."
 msgstr "Vous n'êtes pas membre de ce groupe."
 
-#: groups/forms.py:102 manage/forms.py:77 templates/pages/login.html:22
+#: groups/forms.py:102 templates/pages/login.html:22
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
@@ -1368,138 +1367,133 @@ msgstr "Utilisateur incorrect"
 msgid "Member removed from role"
 msgstr "Membre du rôle supprimé"
 
-#: manage/forms.py:67 manage/forms.py:173 organizations/forms.py:36
-#: organizations/forms.py:69
-msgid "Name"
-msgstr "Nom"
-
-#: manage/forms.py:190
+#: manage/forms.py:138
 msgid "Payment Date"
 msgstr "Date de paiement"
 
-#: manage/forms.py:192
+#: manage/forms.py:140
 msgid "Deposit Date"
 msgstr "Date de dépôt"
 
-#: manage/forms.py:211 templates/voyages/details.html:16
+#: manage/forms.py:159 templates/voyages/details.html:16
 msgid "from"
 msgstr "du"
 
-#: manage/forms.py:212 templates/voyages/details.html:17
+#: manage/forms.py:160 templates/voyages/details.html:17
 msgid "to"
 msgstr "au"
 
-#: manage/forms.py:213
+#: manage/forms.py:161
 msgid "Comment (added)"
 msgstr "Commentaire (ajouté)"
 
-#: manage/forms.py:215 manage/models.py:81
+#: manage/forms.py:163 manage/models.py:51
 msgid "fixed"
 msgstr "corrigé"
 
-#: manage/forms.py:221
+#: manage/forms.py:169
 msgid "End of range precedes its beginning."
 msgstr "La fin de plage dépasse son début."
 
-#: manage/forms.py:224
+#: manage/forms.py:172
 #, python-format
 msgid "Error #%s does not exist."
 msgstr "L'erreur #%s n'existe pas."
 
-#: manage/models.py:69 news/forms.py:43 templates/evenements/details.html:14
+#: manage/models.py:39 news/forms.py:43 templates/evenements/details.html:14
 #: templates/evenements/index.html:29 templates/manage/error_details.html:27
 msgid "Date"
 msgstr "Date"
 
-#: manage/models.py:70 pages/models.py:36
+#: manage/models.py:40 pages/models.py:36
 msgid "url"
 msgstr "url"
 
-#: manage/models.py:71
+#: manage/models.py:41
 msgid "Referrer"
 msgstr "Referrer"
 
-#: manage/models.py:73
+#: manage/models.py:43
 msgid "Browser info"
 msgstr "Navigateur"
 
-#: manage/models.py:75
+#: manage/models.py:45
 msgid "Client address"
 msgstr "Adresse du client"
 
-#: manage/models.py:77
+#: manage/models.py:47
 msgid "Exception"
 msgstr "Exception"
 
-#: manage/models.py:78
+#: manage/models.py:48
 msgid "Comment"
 msgstr "commentaire"
 
-#: manage/models.py:79
+#: manage/models.py:49
 msgid "Issue"
 msgstr "Issue"
 
-#: manage/models.py:88
+#: manage/models.py:58
 msgid "public"
 msgstr "public"
 
-#: manage/models.py:100
+#: manage/models.py:70
 msgid "Check CE"
 msgstr "Chèque CE"
 
-#: manage/models.py:101
+#: manage/models.py:71
 msgid "Check CCP"
 msgstr "Chèque CCP"
 
-#: manage/models.py:103
+#: manage/models.py:73
 msgid "Transfer CE"
 msgstr "Virement CE"
 
-#: manage/models.py:104
+#: manage/models.py:74
 msgid "Transfer CCP"
 msgstr "Virement CCP"
 
-#: manage/models.py:111
+#: manage/models.py:81
 msgid "amount"
 msgstr "montant"
 
-#: manage/models.py:114 templates/manage/payments_deposit.html:13
+#: manage/models.py:84 templates/manage/payments_deposit.html:13
 msgid "Bank"
 msgstr "Banque"
 
-#: manage/models.py:116 templates/manage/payments_deposit.html:13
+#: manage/models.py:86 templates/manage/payments_deposit.html:13
 msgid "Check number"
 msgstr "Numéro de chèque"
 
-#: manage/models.py:118
+#: manage/models.py:88
 msgid "payment date"
 msgstr "Date de paiement"
 
-#: manage/models.py:120
+#: manage/models.py:90
 msgid "deposit date"
 msgstr "date de dépôt"
 
-#: manage/models.py:123
+#: manage/models.py:93
 msgid "registration date"
 msgstr "Date d'enregistrement"
 
-#: manage/models.py:127
+#: manage/models.py:97
 msgid "modification date"
 msgstr "date de modification"
 
-#: manage/models.py:153
+#: manage/models.py:123
 msgid "payment of "
 msgstr "paiement de "
 
-#: manage/models.py:155
+#: manage/models.py:125
 msgid " from "
 msgstr " de la part de"
 
-#: manage/models.py:165
+#: manage/models.py:136
 msgid "AIn7 Subscription validated"
 msgstr "Votre adhésion à l'AIn7 a été validée"
 
-#: manage/models.py:166
+#: manage/models.py:137
 #, python-format
 msgid ""
 "Hi %(firstname)s,\n"
@@ -1542,32 +1536,32 @@ msgstr ""
 "L'équipe de l'AIn7\n"
 "\n"
 
-#: manage/models.py:194 search_engine/models.py:160
+#: manage/models.py:165 search_engine/models.py:160
 msgid "filter"
 msgstr "filtre"
 
-#: manage/models.py:205
+#: manage/models.py:177
 msgid "Table of contents"
 msgstr "Table des matières"
 
-#: manage/views.py:652
+#: manage/views.py:649
 msgid "Payment successfully updated"
 msgstr "Paiment mis à jour"
 
-#: manage/views.py:694
+#: manage/views.py:691
 msgid "No payment to deposit"
 msgstr "Pas de paiement en attente de dépot"
 
-#: manage/views.py:716
+#: manage/views.py:713
 msgid "Payments marked as deposited"
 msgstr "Paiements marqués comme déposés"
 
-#: manage/views.py:947
+#: manage/views.py:945
 #, python-format
 msgid "Mailing already  approved by %(person)s on %(date)s"
 msgstr ""
 
-#: manage/views.py:985
+#: manage/views.py:984
 msgid "Mailing successfully updated"
 msgstr "Mailing mis à jour"
 
@@ -1721,6 +1715,10 @@ msgstr "Souhaitez-vous vraiment supprimer cet organisateur ?"
 #: news/views.py:420
 msgid "Organizer successfully removed"
 msgstr "Organisateur supprimé avec succès"
+
+#: organizations/forms.py:36 organizations/forms.py:69
+msgid "Name"
+msgstr "Nom"
 
 #: organizations/forms.py:42
 msgid "Activity code"

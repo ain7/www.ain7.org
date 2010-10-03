@@ -30,13 +30,10 @@ from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
-from ain7.utils import ain7_render_to_response, ain7_generic_edit, \
-                              ain7_generic_delete, check_access
-from ain7.decorators import confirmation_required
+from ain7.utils import ain7_render_to_response, check_access
 from ain7.organizations.models import Organization, Office
 from ain7.manage.models import Mailing, Payment, PortalError
 from ain7.manage.forms import SearchUserForm, NewPersonForm, \
-                              NewRoleForm, MemberRoleForm, \
                               PortalErrorForm, ErrorRangeForm, \
                               MailingForm,PaymentForm
 from ain7.news.models import NewsItem
@@ -931,6 +928,7 @@ def mailings_index(request):
 
 @login_required
 def mailing_ready(request, mailing_id):
+    """declare a mailing as ready to send"""
 
     access = check_access(request, request.user, 
                           ['ain7-secretariat'])
@@ -945,7 +943,8 @@ def mailing_ready(request, mailing_id):
         mailing.save()
     else:
         request.user.message_set.create(message=_('Mailing already \
- approved by %(person)s on %(date)s') % {'person': mailing.approved_by, 'date': mailing.approved_at})
+ approved by %(person)s on %(date)s') % {'person': mailing.approved_by, 
+        'date': mailing.approved_at})
 
     return HttpResponseRedirect(reverse(mailing_edit, \
          args=[mailing.id]))
@@ -998,6 +997,7 @@ def mailing_edit(request, mailing_id=None):
 
 @login_required
 def mailing_sendteam(request, mailing_id, testing=True, myself=False):
+    """send test maling to the team"""
     return mailing_send(request, mailing_id, testing, myself)
 
 @login_required

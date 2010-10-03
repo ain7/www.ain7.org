@@ -28,36 +28,6 @@ from django.db import models
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 
-from ain7.utils import LoggedClass
-
-
-#class Notification(LoggedClass):
-#    """notification"""
-#
-#    PROPOSAL_TYPE = (
-#        (0, _('organization')),
-#        (1, _('office')),
-#        )
-#
-#    title = models.CharField(verbose_name=_('title'), max_length=50)
-#    details = models.TextField(verbose_name=_('Notes'),
-#        blank=True, null=True)
-#    organization_proposal = models.ForeignKey(
-#        'emploi.OrganizationProposal', verbose_name=_('organization proposal'),
-#        blank=True, null=True)
-#    office_proposal = models.ForeignKey(
-#        'emploi.OfficeProposal', verbose_name=_('organization proposal'),
-#        blank=True, null=True)
-#    job_proposal = models.ForeignKey( 'emploi.JobOffer', blank=True, null=True,
-#        verbose_name = _('job offer proposal'), related_name='notification')
-#
-#    def __unicode__(self):
-#        """notification unicode method"""
-#        return self.title
-#
-#    class Meta:
-#        """notification meta information"""
-#        verbose_name = _('notification')
 
 class PortalError(models.Model):
     """portal error"""
@@ -156,6 +126,7 @@ class Payment(models.Model):
         return uni
 
     def validate_mail(self):
+        """send a mail saying subscription is now validated"""
 
         if self.subscriptions.count() == 1:
             sub = self.subscriptions.order_by('id')[0]
@@ -195,6 +166,7 @@ class Filter(models.Model):
         choices=FILTERS, default=0)
 
     def __unicode__(self):
+        """return unicode string for Filter object"""
         return self.label
 
 class Mailing(models.Model):
@@ -202,30 +174,37 @@ class Mailing(models.Model):
 
     title = models.CharField(max_length=500)
     description = models.CharField(max_length=500, null=True, blank=True)
-    toc = models.BooleanField(verbose_name=_('Table of contents'), default=False)
+    toc = models.BooleanField(verbose_name=_('Table of contents'),
+        default=False)
 
     filter = models.ForeignKey('manage.Filter', null=True, blank=True)
 
     introduction = models.TextField(blank=True, null=True)
 
     approved_at = models.DateTimeField(auto_now_add=True)
-    approved_by = models.ForeignKey('annuaire.Person', related_name="mailing_approved", null=True, blank=True)
+    approved_by = models.ForeignKey('annuaire.Person',
+        related_name="mailing_approved", null=True, blank=True)
     sent_at = models.DateTimeField(null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey('annuaire.Person', related_name="mailing_created", null=True, blank=True)
+    created_by = models.ForeignKey('annuaire.Person', 
+        related_name="mailing_created", null=True, blank=True)
     modified_at = models.DateTimeField(auto_now=True)
-    modified_by = models.ForeignKey('annuaire.Person', related_name="mailing_modified", null=True, blank=True)
+    modified_by = models.ForeignKey('annuaire.Person', 
+        related_name="mailing_modified", null=True, blank=True)
 
     def __unicode__(self):
+        """return unicode string for Mailing object"""
         return self.title
 
     def build_html_body(self):
+        """build html body for a mailing"""
 
         from ain7.news.models import NewsItem
 
         body = ""
-        body += open(settings.BASE_DIR+'/templates/manage/mailing_header.html').read().decode('utf-8')
+        body += open(settings.BASE_DIR+'/templates/manage/mailing_header.html')\
+            .read().decode('utf-8')
 
         newsitems = NewsItem.objects.filter(mailingitem__mailing=self)
 
@@ -234,14 +213,16 @@ class Mailing(models.Model):
         if self.toc:
             body += "<ul>"
             for item in newsitems:
-                body +='<li><a href="#'+item.slug+'">'+item.title+'</a></li>'
+                body += '<li><a href="#'+item.slug+'">'+item.title+'</a></li>'
             body += "</ul>"
 
         for item in newsitems:
-            body += '<h2><a name="'+item.slug+'"/><a href="'+item.get_absolute_url()+'">'+item.title+'</a></h2>'
+            body += '<h2><a name="'+item.slug+'"/><a href="'\
+                +item.get_absolute_url()+'">'+item.title+'</a></h2>'
             body += item.body
 
-        body += open(settings.BASE_DIR+'/templates/manage/mailing_footer.html').read().decode('utf-8')
+        body += open(settings.BASE_DIR+'/templates/manage/mailing_footer.html')\
+           .read().decode('utf-8')
 
         body = body.replace('||TITLE||', self.title)
 
@@ -257,13 +238,14 @@ class Mailing(models.Model):
         from email.header import make_header
         from email.mime.text import MIMEText
         from email.mime.multipart import MIMEMultipart
-        from django.conf import settings
 
         from ain7.annuaire.models import Person
         from ain7.filters_local import FILTERS
 
+
         url = reverse('ain7.manage.views.mailing_preview', args=[self.id])
-        text = u"Si vous n'arrivez pas à voir ce mail correctement, merci de vous\nrendre à l'URL "+url+u"\n\nL'équipe de l'AIn7"
+        text = u"Si vous n'arrivez pas à voir ce mail correctement, merci de\
+ vous\nrendre à l'URL "+url+u"\n\nL'équipe de l'AIn7"
 
         html = self.build_html_body()
 
@@ -285,13 +267,14 @@ class Mailing(models.Model):
         recipients = Person.objects.none()
 
         if request:
-             recipients = Person.objects.filter(user__id=request.user.id)
+            recipients = Person.objects.filter(user__id=request.user.id)
 
         if testing and not myself:
-             recipients = Person.objects.filter(groups__group__slug='ain7-mailing-tester')
+            recipients = Person.objects.filter(\
+                groups__group__slug='ain7-mailing-tester')
 
         if not testing:
-           recipients = Person.objects.filter(FILTERS[self.filter.filter][1])
+            recipients = Person.objects.filter(FILTERS[self.filter.filter][1])
 
         for recipient in recipients:
 
@@ -304,24 +287,26 @@ class Mailing(models.Model):
 
             mail_modified = mail.replace('@','=')
 
-            msg['From'] = u'Association AIn7 <noreply+'+mail_modified+'@ain7.com>'
+            msg['From'] = u'Association AIn7 <noreply+'+\
+                mail_modified+'@ain7.com>'
             msg['To'] = first_name+' '+last_name+' <'+mail+'>'
 
             msg.attach(part2)
 
             try:
-               smtp.sendmail('noreply+'+mail_modified+'@ain7.com', mail, msg.as_string())
+                smtp.sendmail('noreply+'+mail_modified+'@ain7.com', mail, 
+                    msg.as_string())
 
-               mailingrecipient = MailingRecipient()
-               mailingrecipient.person = recipient
-               mailingrecipient.mailing = self
-               mailingrecipient.testing = True
-               if not testing:
-                   mailingrecipient.testing = False
-               mailingrecipient.save()
+                mailingrecipient = MailingRecipient()
+                mailingrecipient.person = recipient
+                mailingrecipient.mailing = self
+                mailingrecipient.testing = True
+                if not testing:
+                    mailingrecipient.testing = False
+                mailingrecipient.save()
 
             except Exception:
-               pass
+                pass
             smtp.quit()
 
         if not testing:
