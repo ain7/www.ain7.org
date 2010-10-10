@@ -138,9 +138,25 @@ class NewsItem(LoggedClass):
         self.slug = defaultfilters.slugify(self.title)
         super(NewsItem, self).save()
 
+    def rsvp_answer(self, person, yes=False, no=False, maybe=False):
+        """define a rsvp answer to an event"""
+
+        if RSVPAnswer.objects.filter(person=person, event=self).count() == 1:
+            rsvp = RSVPAnswer.objects.get(person=person, event=self)
+            rsvp.no = no
+            rsvp.yes = yes
+            rsvp.maybe = maybe
+            rsvp.save()
+        else:
+            rsvp = RSVPAnswer(person=request.user.person, event=event,
+                 created_by=request.user.person, updated_by=request.user.person,
+                 no=no, yes=yes, maybe=maybe, number=0).save()
+
+        return rsvp
+
     def attendees(self):
-       """return event attendees"""
-       return self.RSVAnswers.filter(yes=True)
+        """return event attendees"""
+        return self.RSVAnswers.filter(yes=True)
 
     def attendeees_number(self):
         """Renvoie le nombre de participants à l'événement."""

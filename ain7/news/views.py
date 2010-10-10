@@ -31,6 +31,7 @@ from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
+from ain7.annuaire.models import Email
 from ain7.decorators import confirmation_required
 from ain7.news.models import NewsItem, RSVPAnswer
 from ain7.news.forms import SearchNewsForm, NewsForm, EventForm, \
@@ -261,22 +262,38 @@ def event_add(request):
          'next_events': NewsItem.objects.next_events(),
          'back': request.META.get('HTTP_REFERER', '/')})
 
+def event_attendees(request, event_id):
+
+    access = check_access(request, request.user,
+        ['ain7-ca','ain7-secretariat','ain7-contributeur'])
+    if access:
+        return access
+
+    event = get_object_or_404(NewsItem, pk=event_id)
+
+    attendees_yes = RSVPAnswer.objects.filter(event=event, yes=True)
+    attendees_no = RSVPAnswer.objects.filter(event=event, no=True)
+    attendees_maybe = RSVPAnswer.objects.filter(event=event, maybe=True)
+
+    return ain7_render_to_response(
+        request, 'evenements/attendees.html',
+        {'attendees_yes': attendees_yes,
+         'attendees_no': attendees_no,
+         'attendees_maybe': attendees_maybe,
+         'back': request.META.get('HTTP_REFERER', '/'),
+         'event': event})
 
 def event_attend_yes(request, event_id):
     """event details"""
 
+    access = check_access(request, request.user,
+        ['ain7-secretariat', 'ain7-membre'])
+    if access:
+        return access
+
     event = get_object_or_404(NewsItem, pk=event_id)
 
-    if RSVPAnswer.objects.filter(person=request.user.person, event=event).count() == 1:
-        rsvp = RSVPAnswer.objects.get(person=request.user.person, event=event)
-        rsvp.no = False
-        rsvp.yes = True
-        rsvp.maybe = False
-        rsvp.save()
-    else:
-        rsvp = RSVPAnswer(person=request.user.person, event=event,
-            created_by=request.user.person, updated_by=request.user.person,
-            yes=True, number=0).save()
+    event.rsvp_answer(request.user.person, yes=True)
 
     return HttpResponseRedirect(reverse('ain7.news.views.event_details', 
         args=[event.id]))
@@ -284,18 +301,14 @@ def event_attend_yes(request, event_id):
 def event_attend_no(request, event_id):
     """event details"""
 
+    access = check_access(request, request.user,
+        ['ain7-secretariat', 'ain7-membre'])
+    if access:
+        return access
+
     event = get_object_or_404(NewsItem, pk=event_id)
 
-    if RSVPAnswer.objects.filter(person=request.user.person, event=event).count() == 1:
-        rsvp = RSVPAnswer.objects.get(person=request.user.person, event=event)
-        rsvp.no = True
-        rsvp.yes = False
-        rsvp.maybe = False
-        rsvp.save()
-    else:
-        rsvp = RSVPAnswer(person=request.user.person, event=event,
-            created_by=request.user.person, updated_by=request.user.person,
-            no=True, number=0).save()
+    event.rsvp_answer(request.user.person, no=True)
 
     return HttpResponseRedirect(reverse('ain7.news.views.event_details', 
         args=[event.id]))
@@ -303,18 +316,14 @@ def event_attend_no(request, event_id):
 def event_attend_maybe(request, event_id):
     """event details"""
 
+    access = check_access(request, request.user,
+        ['ain7-secretariat', 'ain7-membre'])
+    if access:
+        return access
+
     event = get_object_or_404(NewsItem, pk=event_id)
 
-    if RSVPAnswer.objects.filter(person=request.user.person, event=event).count() == 1:
-        rsvp = RSVPAnswer.objects.get(person=request.user.person, event=event)
-        rsvp.no = False
-        rsvp.yes = False
-        rsvp.maybe = True
-        rsvp.save()
-    else:
-        rsvp = RSVPAnswer(person=request.user.person, event=event,
-            created_by=request.user.person, updated_by=request.user.person,
-            maybe=True, number=0).save()
+    event.rsvp_answer(request.user.person, maybe=True)
 
     return HttpResponseRedirect(reverse('ain7.news.views.event_details', 
         args=[event.id]))

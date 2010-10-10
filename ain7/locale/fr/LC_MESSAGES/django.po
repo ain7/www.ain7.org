@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-04 00:41+0200\n"
+"POT-Creation-Date: 2010-10-10 17:44+0200\n"
 "PO-Revision-Date: 2010-01-15 22:50+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: AIn7 French Translators <ain7-devel@lists.ain7.com>\n"
@@ -256,8 +256,8 @@ msgstr ""
 #: emploi/views.py:118 emploi/views.py:176 emploi/views.py:234
 #: emploi/views.py:291 groupes_professionnels/views.py:140
 #: groupes_regionaux/views.py:76 groups/views.py:84 manage/views.py:265
-#: manage/views.py:292 news/views.py:77 news/views.py:202 news/views.py:252
-#: news/views.py:451 search_engine/views.py:268 sondages/views.py:103
+#: manage/views.py:292 news/views.py:78 news/views.py:203 news/views.py:253
+#: news/views.py:460 search_engine/views.py:268 sondages/views.py:103
 #: sondages/views.py:145 voyages/views.py:138
 msgid "Modifications have been successfully saved."
 msgstr "Les modifications ont été correctement enregistrées."
@@ -963,6 +963,9 @@ msgstr "Enregistrer une nouvelle personne"
 
 #: association/forms.py:39 groupes_professionnels/forms.py:118
 #: groupes_regionaux/forms.py:65 groups/forms.py:65
+#: templates/evenements/attendees.html:14
+#: templates/evenements/attendees.html:24
+#: templates/evenements/attendees.html:34
 msgid "Person"
 msgstr "Personne"
 
@@ -1668,63 +1671,63 @@ msgstr "lien externe"
 msgid "Pictures gallery"
 msgstr "Galerie photos"
 
-#: news/models.py:154
+#: news/models.py:170
 msgid "news item"
 msgstr "actualité"
 
-#: news/views.py:84
+#: news/views.py:85
 msgid "News edition"
 msgstr "Modifier une actualité"
 
-#: news/views.py:89
+#: news/views.py:90
 msgid "Do you really want to delete the image of this news"
 msgstr "Souhaitez-vous vraiment supprimer l'image associée à cette actualité"
 
-#: news/views.py:104
+#: news/views.py:105
 msgid "The image of this news item has been successfully deleted."
 msgstr "L'image associée à cette actualité a été supprimée avec succès"
 
-#: news/views.py:109
+#: news/views.py:110
 msgid "Do you really want to delete this news"
 msgstr "Souhaitez-vous vraiment supprimer cette actualité"
 
-#: news/views.py:123
+#: news/views.py:124
 msgid "The news has been successfully deleted."
 msgstr "L'actualité a été supprimée avec succès."
 
-#: news/views.py:210
+#: news/views.py:211
 msgid "Modification of event"
 msgstr "Modification d'un événement"
 
-#: news/views.py:218
+#: news/views.py:219
 msgid "Do you really want to delete the image of this event"
 msgstr "Souhaitez-vous vraiment supprimer l'image de cet évènement"
 
-#: news/views.py:233
+#: news/views.py:234
 msgid "The image of this event has been successfully deleted."
 msgstr "L'image de cet évènement a été supprimée avec succès"
 
-#: news/views.py:259
+#: news/views.py:260
 msgid "New event registration"
 msgstr "Enregistrer d'un nouvel événement"
 
-#: news/views.py:391
+#: news/views.py:400
 msgid "Your message has been sent to the event responsible."
 msgstr "Votre message a été envoyé au responsable de l'événement."
 
-#: news/views.py:395
+#: news/views.py:404
 msgid "Something was wrong in the form you filled. No message sent."
 msgstr "Certains champs ont été incorrectement remplis. Aucun message envoyé."
 
-#: news/views.py:458
+#: news/views.py:467
 msgid "Adding organizer"
 msgstr "Ajouter un organisateur"
 
-#: news/views.py:466
+#: news/views.py:475
 msgid "Do you really want to remove this organizer"
 msgstr "Souhaitez-vous vraiment supprimer cet organisateur ?"
 
-#: news/views.py:482
+#: news/views.py:491
 msgid "Organizer successfully removed"
 msgstr "Organisateur supprimé avec succès"
 
@@ -2257,9 +2260,9 @@ msgstr "Adhésions à valider"
 
 #: templates/adhesions/base.html:28 templates/association/council.html:46
 #: templates/association/council_edit.html:33
-#: templates/emploi/job_details.html:56 templates/evenements/details.html:61
-#: templates/evenements/edit.html:53 templates/evenements/index.html:47
-#: templates/evenements/search.html:52
+#: templates/emploi/job_details.html:56 templates/evenements/attendees.html:44
+#: templates/evenements/details.html:61 templates/evenements/edit.html:53
+#: templates/evenements/index.html:47 templates/evenements/search.html:52
 #: templates/groupes_professionnels/base.html:17
 #: templates/groupes_regionaux/base.html:18
 #: templates/groupes_regionaux/roles_edit.html:33
@@ -2286,8 +2289,8 @@ msgid "My subscriptions"
 msgstr "Mes adhésions"
 
 #: templates/adhesions/base.html:39 templates/association/base.html:39
-#: templates/emploi/job_details.html:71 templates/evenements/base.html:32
-#: templates/evenements/details.html:75
+#: templates/emploi/job_details.html:71 templates/evenements/attendees.html:59
+#: templates/evenements/base.html:32 templates/evenements/details.html:76
 #: templates/evenements/participants.html:30
 #: templates/groupes_regionaux/base.html:56 templates/groups/base.html:57
 #: templates/manage/organizations_adv_search.html:176
@@ -2861,7 +2864,8 @@ msgid "Groups"
 msgstr "Groupes"
 
 #: templates/annuaire/details.html:215 templates/annuaire/edit.html:360
-#: templates/emploi/job_details.html:65 templates/evenements/details.html:84
+#: templates/emploi/job_details.html:65 templates/evenements/attendees.html:68
+#: templates/evenements/details.html:85
 #: templates/groupes_professionnels/base.html:29
 #: templates/groupes_professionnels/base.html:43
 #: templates/groupes_regionaux/base.html:51 templates/groups/base.html:52
@@ -3216,6 +3220,49 @@ msgstr "Modification d'une publication ou d'un brevet"
 msgid "Creation of a publication or patent"
 msgstr "Ajout d'une publication ou d'un brevet"
 
+#: templates/evenements/attendees.html:9
+msgid "attendees"
+msgstr "inscrits"
+
+#: templates/evenements/attendees.html:12
+msgid "Attendees"
+msgstr "Inscrits"
+
+#: templates/evenements/attendees.html:14
+#: templates/evenements/attendees.html:24
+#: templates/evenements/attendees.html:34
+msgid "Answer Date"
+msgstr "Date de réponse"
+
+#: templates/evenements/attendees.html:14
+msgid "Number of attendees"
+msgstr "Nombre d'inscrits"
+
+#: templates/evenements/attendees.html:22
+msgid "Person who answer no"
+msgstr "Personnes ayant décliné l'invitation"
+
+#: templates/evenements/attendees.html:32
+msgid "Person who answer maybe"
+msgstr "Personnes indécisses"
+
+#: templates/evenements/attendees.html:47 templates/evenements/details.html:64
+msgid "Contact the event responsible"
+msgstr "Contacter le responsable"
+
+#: templates/evenements/attendees.html:49 templates/evenements/details.html:66
+msgid "Edit this event"
+msgstr "Modifier cet événement"
+
+#: templates/evenements/attendees.html:50 templates/evenements/details.html:67
+msgid "View attendees"
+msgstr "Liste des inscrits"
+
+#: templates/evenements/attendees.html:61 templates/evenements/details.html:78
+#: templates/evenements/participants.html:40
+msgid "persons subscribed to this event"
+msgstr "personnes inscrites à cet événement"
+
 #: templates/evenements/base.html:25
 msgid "Event page"
 msgstr "Page de l'événement"
@@ -3302,19 +3349,6 @@ msgstr "Lien"
 #: templates/evenements/edit.html.py:28 templates/evenements/edit.html:35
 msgid "Organizers"
 msgstr "Organisateurs"
-
-#: templates/evenements/details.html:64
-msgid "Contact the event responsible"
-msgstr "Contacter le responsable"
-
-#: templates/evenements/details.html:66
-msgid "Edit this event"
-msgstr "Modifier cet événement"
-
-#: templates/evenements/details.html:77
-#: templates/evenements/participants.html:40
-msgid "persons subscribed to this event"
-msgstr "personnes inscrites à cet événement"
 
 #: templates/evenements/edit.html:9 templates/evenements/edit.html.py:57
 #: templates/evenements/search.html:56

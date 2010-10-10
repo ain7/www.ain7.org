@@ -42,5 +42,6 @@ urlpatterns = patterns('ain7.news.views',
     (r'^(?P<event_id>\d+)/yes/$', 'event_attend_yes'),
     (r'^(?P<event_id>\d+)/no/$', 'event_attend_no'),
     (r'^(?P<event_id>\d+)/maybe/$', 'event_attend_maybe'),
+    (r'^(?P<event_id>\d+)/attendees/$', 'event_attendees'),
 
 )
