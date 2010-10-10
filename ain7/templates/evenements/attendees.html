@@ -11,9 +11,9 @@
         <div id="edition">
         <p><b>{% trans "Attendees" %}</b></p>
 	<table border="0" width="100%" class="datas">
-        <tr><th>{% trans "Person" %}</th><th>{% trans "Answer Date" %}</th><th>{% trans "Number of attendees" %}</th></tr>
+        <tr><th>{% trans "Person" %}</th><th>{% trans "Answer Date" %}</th><th>{% trans "Number of attendees" %}</th><th>{% trans "Subscriber" %}</th></tr>
         {% for attendee in attendees_yes %}
-        <tr><td><a href="{% url ain7.annuaire.views.details attendee.person.user.id %}">{{ attendee.person }}</a></td><td>{{ attendee.updated_on|date:"l d F Y H:i" }}</td><td>{{ attendee.number }}</td></tr>
+        <tr><td><a href="{% url ain7.annuaire.views.details attendee.person.user.id %}">{{ attendee.person }}</a></td><td>{{ attendee.updated_on|date:"l d F Y H:i" }}</td><td>{{ attendee.number }}</td><td>{% if attendee.person.ain7member.is_subscriber %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</td></tr>
         {% endfor %}
         </table>
 
