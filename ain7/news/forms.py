@@ -27,7 +27,7 @@ from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
 from ain7.groups.models import Group
-from ain7.news.models import NewsItem, EventOrganizer
+from ain7.news.models import NewsItem, EventOrganizer, RSVPAnswer
 from ain7.fields import AutoCompleteField
 from ain7.utils import AIn7ModelForm, AIn7Form
 from ain7.widgets import DateTimeWidget
@@ -85,19 +85,6 @@ class NewsForm(AIn7ModelForm):
         else:
             news = super(NewsForm, self).save()
         return news
-
-class AddNewsForm(AIn7ModelForm):
-    """new news form"""
-    title = forms.CharField(label=_('title').capitalize(), max_length=100,
-        required=True, widget=forms.TextInput(attrs={'size':'50'}))
-    body = forms.CharField(label=_('body').capitalize(),
-        required=True,
-        widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':60}))
-
-    class Meta:
-        """meta add news form"""
-        model = NewsItem
-        exclude = ('image', 'slug')
 
 class SearchEventForm(forms.Form):
     """search event form"""
@@ -174,4 +161,48 @@ class EventOrganizerForm(forms.ModelForm):
             event.logged_save(kwargs['contributor'])
             return event_org
         return None
+
+class RSVPAnswerForm(forms.ModelForm):
+    """rsvp answer for an event"""
+
+    person = forms.IntegerField(label=_('person').capitalize(),
+        widget=AutoCompleteField(completed_obj_name='person'))
+
+    class Meta:
+        """event rsvp answer meta"""
+        model = RSVPAnswer
+        exclude = ('created_by', 'updated_by', 'event')
+
+    def __init__(self, *args, **kwargs):
+        self.edit_person = True
+        self.myself = False
+        if kwargs.has_key('edit_person'):
+            self.edit_person = kwargs['edit_person']
+            del kwargs['edit_person']
+        if kwargs.has_key('myself'):
+            self.myself = kwargs['myself']
+            del kwargs['myself']
+        super (RSVPAnswerForm,self ).__init__(*args,**kwargs)
+        if not self.edit_person:
+            del self.fields['person']
+        if self.myself:
+            del self.fields['yes']
+            del self.fields['no']
+            del self.fields['maybe']
+
+
+    def clean_person(self):
+        """check username"""
+        pid = self.cleaned_data['person']
+        if pid == None:
+            raise ValidationError(_('This field is mandatory.'))
+            return None
+        else:
+            person = None
+            try:
+                person = Person.objects.get(id=pid)
+            except Person.DoesNotExist:
+                raise ValidationError(_('The entered person is not in\
+ the database.'))
+            return person
 

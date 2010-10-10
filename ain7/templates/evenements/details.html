@@ -70,17 +70,6 @@
         </div>
 {% endblock %}
 
-{% ifnotequal nbparticipants 0 %}
-{% if superadmin or ca_member or secretariat_member or contributeur %}
-{% block statistics %}
-	<h3>{% trans "Statistics" %}</h3>
-	<div class="right_block">
-            {{ nbparticipants }} {% trans "persons subscribed to this event" %}
-        </div>
-{% endblock %}
-{% endif %}
-{% endifnotequal %}
-
 {% block additional-right-blocks %}
     <h3>{% trans "Card Informations"%}</h3>
    {% show_last_change event %}

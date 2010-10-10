@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-10 17:44+0200\n"
+"POT-Creation-Date: 2010-10-10 22:34+0200\n"
 "PO-Revision-Date: 2010-01-15 22:50+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: AIn7 French Translators <ain7-devel@lists.ain7.com>\n"
@@ -256,9 +256,9 @@ msgstr ""
 #: emploi/views.py:118 emploi/views.py:176 emploi/views.py:234
 #: emploi/views.py:291 groupes_professionnels/views.py:140
 #: groupes_regionaux/views.py:76 groups/views.py:84 manage/views.py:265
-#: manage/views.py:292 news/views.py:78 news/views.py:203 news/views.py:253
-#: news/views.py:460 search_engine/views.py:268 sondages/views.py:103
-#: sondages/views.py:145 voyages/views.py:138
+#: manage/views.py:292 news/views.py:78 news/views.py:481
+#: search_engine/views.py:268 sondages/views.py:103 sondages/views.py:145
+#: voyages/views.py:138
 msgid "Modifications have been successfully saved."
 msgstr "Les modifications ont été correctement enregistrées."
 
@@ -528,7 +528,7 @@ msgid "sex"
 msgstr "sexe"
 
 #: annuaire/models.py:346 annuaire/models.py:352 annuaire/models.py:417
-#: templates/voyages/participants.html:18
+#: news/forms.py:168 templates/voyages/participants.html:18
 msgid "person"
 msgstr "personne"
 
@@ -667,7 +667,7 @@ msgid "irc"
 msgstr "irc"
 
 #: annuaire/models.py:762 emploi/forms.py:57 emploi/models.py:55
-#: emploi/models.py:82 groups/models.py:113 news/forms.py:127
+#: emploi/models.py:82 groups/models.py:113 news/forms.py:114
 #: organizations/models.py:35 voyages/forms.py:65 voyages/models.py:57
 msgid "description"
 msgstr "description"
@@ -981,12 +981,13 @@ msgstr "La date de début est postérieure à la date de fin."
 
 #: association/forms.py:65 groupes_professionnels/forms.py:60
 #: groupes_professionnels/forms.py:142 groupes_regionaux/forms.py:88
-#: groups/forms.py:88 groups/forms.py:113
+#: groups/forms.py:88 groups/forms.py:113 news/forms.py:198
 msgid "This field is mandatory."
 msgstr "Ce champ est obligatoire."
 
 #: association/forms.py:72 groupes_professionnels/forms.py:149
 #: groupes_regionaux/forms.py:95 groups/forms.py:95 groups/forms.py:120
+#: news/forms.py:205
 msgid "The entered person is not in the database."
 msgstr "Cette personne n'existe pas dans la base."
 
@@ -1009,8 +1010,8 @@ msgid "reference"
 msgstr "réference"
 
 #: emploi/forms.py:47 emploi/forms.py:124 groups/models.py:99
-#: manage/models.py:35 news/forms.py:61 news/forms.py:91 news/models.py:87
-#: pages/forms.py:49 pages/models.py:48
+#: manage/models.py:35 news/forms.py:61 news/models.py:87 pages/forms.py:49
+#: pages/models.py:48
 msgid "title"
 msgstr "titre"
 
@@ -1114,7 +1115,7 @@ msgid "Education item"
 msgstr "Entrée du CV partie \"Formation\""
 
 #: emploi/models.py:105 emploi/models.py:122 emploi/models.py:147
-#: news/forms.py:125 templates/manage/error_details.html:32
+#: news/forms.py:112 templates/manage/error_details.html:32
 msgid "Title"
 msgstr "Titre"
 
@@ -1576,34 +1577,33 @@ msgstr "Actualité"
 msgid "News content"
 msgstr "Contenu"
 
-#: news/forms.py:63 news/forms.py:93 news/models.py:88 pages/forms.py:51
-#: pages/models.py:49
+#: news/forms.py:63 news/models.py:88 pages/forms.py:51 pages/models.py:49
 msgid "body"
 msgstr "corps"
 
-#: news/forms.py:104
+#: news/forms.py:91
 msgid "Event title"
 msgstr "Nom de l'événement"
 
-#: news/forms.py:106 templates/evenements/details.html:30
+#: news/forms.py:93 templates/evenements/details.html:30
 #: templates/evenements/index.html:30
 msgid "Location"
 msgstr "Lieu"
 
-#: news/forms.py:117
+#: news/forms.py:104
 msgid "your message"
 msgstr "votre message"
 
-#: news/forms.py:120
+#: news/forms.py:107
 msgid "your email"
 msgstr "votre courriel"
 
-#: news/forms.py:130 news/models.py:93 news/models.py:102
+#: news/forms.py:117 news/models.py:93 news/models.py:102
 #: templates/voyages/details.html:15
 msgid "date"
 msgstr "date"
 
-#: news/forms.py:155 news/models.py:41
+#: news/forms.py:142 news/models.py:41
 msgid "organizer"
 msgstr "organisateur"
 
@@ -1671,7 +1671,7 @@ msgstr "lien externe"
 msgid "Pictures gallery"
 msgstr "Galerie photos"
 
-#: news/models.py:170
+#: news/models.py:175
 msgid "news item"
 msgstr "actualité"
 
@@ -1695,39 +1695,47 @@ msgstr "Souhaitez-vous vraiment supprimer cette actualité"
 msgid "The news has been successfully deleted."
 msgstr "L'actualité a été supprimée avec succès."
 
-#: news/views.py:211
-msgid "Modification of event"
+#: news/views.py:210
+msgid "Event successfully saved"
+msgstr "Evenement sauvegardé"
+
+#: news/views.py:218
+msgid "Event modification"
 msgstr "Modification d'un événement"
 
-#: news/views.py:219
+#: news/views.py:226
 msgid "Do you really want to delete the image of this event"
 msgstr "Souhaitez-vous vraiment supprimer l'image de cet évènement"
 
-#: news/views.py:234
+#: news/views.py:241
 msgid "The image of this event has been successfully deleted."
 msgstr "L'image de cet évènement a été supprimée avec succès"
 
-#: news/views.py:260
-msgid "New event registration"
-msgstr "Enregistrer d'un nouvel événement"
+#: news/views.py:295
+msgid "RSVP successfully saved"
+msgstr "RSVP sauvegardé"
 
-#: news/views.py:400
+#: news/views.py:303
+msgid "RSVP Answer"
+msgstr "Réponse à une invitation"
+
+#: news/views.py:421
 msgid "Your message has been sent to the event responsible."
 msgstr "Votre message a été envoyé au responsable de l'événement."
 
-#: news/views.py:404
+#: news/views.py:425
 msgid "Something was wrong in the form you filled. No message sent."
 msgstr "Certains champs ont été incorrectement remplis. Aucun message envoyé."
 
-#: news/views.py:467
+#: news/views.py:488
 msgid "Adding organizer"
 msgstr "Ajouter un organisateur"
 
-#: news/views.py:475
+#: news/views.py:496
 msgid "Do you really want to remove this organizer"
 msgstr "Souhaitez-vous vraiment supprimer cet organisateur ?"
 
-#: news/views.py:491
+#: news/views.py:512
 msgid "Organizer successfully removed"
 msgstr "Organisateur supprimé avec succès"
 
@@ -2290,9 +2298,8 @@ msgstr "Mes adhésions"
 
 #: templates/adhesions/base.html:39 templates/association/base.html:39
 #: templates/emploi/job_details.html:71 templates/evenements/attendees.html:59
-#: templates/evenements/base.html:32 templates/evenements/details.html:76
-#: templates/evenements/participants.html:30
-#: templates/groupes_regionaux/base.html:56 templates/groups/base.html:57
+#: templates/evenements/base.html:32 templates/groupes_regionaux/base.html:56
+#: templates/groups/base.html:57
 #: templates/manage/organizations_adv_search.html:176
 #: templates/manage/organizations_search.html:71
 #: templates/organizations/organizations_adv_search.html:176
@@ -2582,7 +2589,8 @@ msgstr "Paiement"
 #: templates/adhesions/subscriptions.html:53
 #: templates/adhesions/user_subscriptions.html:38
 #: templates/annuaire/edit.html:92 templates/annuaire/edit.html.py:95
-#: templates/annuaire/edit.html:100 templates/evenements/details.html:19
+#: templates/annuaire/edit.html:100 templates/evenements/attendees.html:16
+#: templates/evenements/details.html:19
 #: templates/manage/payment_details.html:19 templates/pages/confirm.html:19
 msgid "No"
 msgstr "Non"
@@ -2614,11 +2622,11 @@ msgstr "Ajouter une adhésion"
 msgid "Status"
 msgstr "Statuts"
 
-#: templates/adhesions/user_subscriptions.html:55
+#: templates/adhesions/user_subscriptions.html:57
 msgid "Validated"
 msgstr "Validé"
 
-#: templates/adhesions/user_subscriptions.html:57
+#: templates/adhesions/user_subscriptions.html:59
 msgid "Not validated"
 msgstr "Non validé"
 
@@ -2794,7 +2802,8 @@ msgstr ""
 "... ou vous pouvez choisir un filtre existant, et décider si vous souhaitez "
 "que le résultat contienne (ou non) les personnes qu'il sélectionne."
 
-#: templates/annuaire/details.html:16 voyages/forms.py:99
+#: templates/annuaire/details.html:16 templates/evenements/attendees.html:14
+#: voyages/forms.py:99
 msgid "Subscriber"
 msgstr "Adhérent"
 
@@ -2865,7 +2874,7 @@ msgstr "Groupes"
 
 #: templates/annuaire/details.html:215 templates/annuaire/edit.html:360
 #: templates/emploi/job_details.html:65 templates/evenements/attendees.html:68
-#: templates/evenements/details.html:85
+#: templates/evenements/details.html:74
 #: templates/groupes_professionnels/base.html:29
 #: templates/groupes_professionnels/base.html:43
 #: templates/groupes_regionaux/base.html:51 templates/groups/base.html:52
@@ -2918,7 +2927,8 @@ msgid "Display my CV in the directory"
 msgstr "Afficher mon CV dans l'annuaire"
 
 #: templates/annuaire/edit.html:92 templates/annuaire/edit.html.py:95
-#: templates/annuaire/edit.html:98 templates/evenements/details.html:18
+#: templates/annuaire/edit.html:98 templates/evenements/attendees.html:16
+#: templates/evenements/details.html:18
 #: templates/manage/payment_details.html:19 templates/pages/confirm.html:20
 msgid "Yes"
 msgstr "Oui"
@@ -3258,8 +3268,7 @@ msgstr "Modifier cet événement"
 msgid "View attendees"
 msgstr "Liste des inscrits"
 
-#: templates/evenements/attendees.html:61 templates/evenements/details.html:78
-#: templates/evenements/participants.html:40
+#: templates/evenements/attendees.html:61
 msgid "persons subscribed to this event"
 msgstr "personnes inscrites à cet événement"
 
@@ -3409,32 +3418,6 @@ msgstr "Ce nombre de personnes vous inclut."
 msgid "Choose an organizer to add"
 msgstr "Choisissez un organisateur à ajouter"
 
-#: templates/evenements/participants.html:16
-#, python-format
-msgid ""
-"\n"
-"         1 person\n"
-"      "
-msgid_plural ""
-"\n"
-"         %(nbsub)s people\n"
-"      "
-msgstr[0] ""
-"\n"
-"1 personne"
-msgstr[1] ""
-"\n"
-"%(nbsub)s personnes"
-
-#: templates/evenements/participants.html:25
-#: templates/evenements/participants.html:35
-msgid "No one is subscribed to this event"
-msgstr "Personne n'est inscrit à cet événement"
-
-#: templates/evenements/participants.html:38
-msgid "One person subscribed to this event"
-msgstr "Une personne inscrite à cet événement"
-
 #: templates/evenements/search.html:13
 msgid "Event Search"
 msgstr "Rechercher"
@@ -3489,12 +3472,12 @@ msgid "Members"
 msgstr "Membres"
 
 #: templates/manage/base.html:22
-msgid "Manage users"
-msgstr "Gestion des utilisateurs"
+msgid "Users"
+msgstr "Utilisateurs"
 
 #: templates/manage/base.html:25
-msgid "Manage organizations"
-msgstr "Gestion des entreprises"
+msgid "Organizations"
+msgstr "Entreprises"
 
 #: templates/manage/base.html:26 templates/manage/errors_index.html:12
 msgid "Errors"

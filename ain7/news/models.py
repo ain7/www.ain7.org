@@ -141,17 +141,22 @@ class NewsItem(LoggedClass):
     def rsvp_answer(self, person, yes=False, no=False, maybe=False):
         """define a rsvp answer to an event"""
 
+        rsvp = None
+
         if RSVPAnswer.objects.filter(person=person, event=self).count() == 1:
             rsvp = RSVPAnswer.objects.get(person=person, event=self)
             rsvp.no = no
             rsvp.yes = yes
             rsvp.maybe = maybe
-            rsvp.save()
+            rsvp.updated_by = person
         else:
-            rsvp = RSVPAnswer(person=request.user.person, event=event,
-                 created_by=request.user.person, updated_by=request.user.person,
-                 no=no, yes=yes, maybe=maybe, number=0).save()
+            rsvp = RSVPAnswer(person=person, event=self,
+                 created_by=person, updated_by=person,
+                 no=no, yes=yes, maybe=maybe, number=0)
 
+        if yes:
+            rsvp.number = 1
+        rsvp.save()
         return rsvp
 
     def attendees(self):
