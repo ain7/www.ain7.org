@@ -115,6 +115,7 @@ class NewsItem(LoggedClass):
     pictures_gallery = models.CharField(verbose_name=_('Pictures gallery'),
          max_length=100, blank=True, null=True)
 
+    package = models.ForeignKey('shop.Package', blank=True, null=True)
 
     objects = NewsItemManager()
 

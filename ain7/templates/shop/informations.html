@@ -1,0 +1,53 @@
+{% extends "shop/base.html" %}
+{% load i18n %}
+
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
+{% block meta %}
+{% ifequal payment.type 4 %}
+<meta http-equiv="refresh" content="5;url={{ spplusurl }}"/>
+{% endifequal %}
+{% endblock %}
+
+{% block content %}
+
+<p>Merci {{ request.user.person.first_name }} pour votre règlement.</p>
+
+{% ifequal payment.type 2 %}
+
+<p>Merci de nous faire parvenir votre règlement par chèque de {{ payment.amount }}€ à l'ordre de l'AIn7 à l'adresse:</p>
+<p>AIn7<br/>
+2 rue Charles Camichel, BP 7122,<br/>
+31071 Toulouse cedex 7</p>
+
+{% endifequal %}
+
+{% ifequal payment.type 4 %}
+
+<p>Afin d'effectuer votre règlement, vous allez être redirigé dans quelques instants sur le site de notre partenaire SPPlus afin de finaliser votre règlement.</p>
+<p>&nbsp;</p>
+<p>Si vous n'êtes pas redirigé, merci de <a href="{{ spplusurl }}">cliquer ici</a>.</p>
+<p>&nbsp;</p>
+<div style="text-align: center"><img src="{{ MEDIA_URL }}/images/logo_SPPLUS_100.gif" alt="SPPlus"/></div>
+
+{% endifequal %}
+
+{% ifequal payment.type 5 %}
+
+<p>Merci de nous faire parvenir votre règlement de {{ payment.amount }}€ par virement. Vous trouverez ci-dessous les coordonnées bancaires de l'AIn7:</p>
+<p>
+Établissement: 13135<br/>
+Guichet: 00080<br/>
+Compte: 08100408766<br/>
+Clé: 74</p>
+<p>IBAN: FR76 1313 5000 8008 1004 0876 674</p>
+<p>Intitulé du compte: Association Ingénieurs ENSEEIHT, 2 rue Charles Camichel, 31071 Toulouse Cedex 7</p>
+<p>&nbsp;</p>
+<p><b>Merci de donner en référence de votre virement la référence suivante : {{ payment.id }}</b></p>
+
+{% endifequal %}
+
+<a href="/">Retour à la page d'accueil</a>
+
+{% endblock %}

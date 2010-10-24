@@ -80,6 +80,9 @@ urlpatterns = patterns('',
     # groupes regionaux
     (r'^groupes_regionaux/', include('ain7.groupes_regionaux.urls')),
 
+    # shop
+    (r'^shop/', include('ain7.shop.urls')),
+
     # sondage
     (r'^sondages/', include('ain7.sondages.urls')),
 

@@ -171,7 +171,7 @@ class RSVPAnswerForm(forms.ModelForm):
     class Meta:
         """event rsvp answer meta"""
         model = RSVPAnswer
-        exclude = ('created_by', 'updated_by', 'event')
+        exclude = ('created_by', 'updated_by', 'event', 'payment')
 
     def __init__(self, *args, **kwargs):
         self.edit_person = True

@@ -36,6 +36,7 @@ from ain7.decorators import confirmation_required
 from ain7.news.models import NewsItem, RSVPAnswer
 from ain7.news.forms import SearchNewsForm, NewsForm, EventForm, \
      SearchEventForm, ContactEventForm, EventOrganizerForm, RSVPAnswerForm
+from ain7.shop.models import Order
 from ain7.utils import ain7_render_to_response, check_access
 
 
@@ -307,6 +308,15 @@ def event_rsvp(request, event_id, rsvp_id=None):
             if not myself:
                 return HttpResponseRedirect(reverse('ain7.news.views.event_attendees',
                     args=[event.id]))
+
+            if event.package:
+                order = Order()
+                order.package = event.package
+                order.save()
+
+                return HttpResponseRedirect(reverse('ain7.shop.views.order_pay',
+                    args=[order.id]))
+
             else:
                 return HttpResponseRedirect(reverse('ain7.news.views.event_details',
                     args=[event.id]))

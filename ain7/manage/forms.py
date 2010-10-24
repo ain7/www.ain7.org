@@ -31,7 +31,8 @@ from ain7.annuaire.models import Person, Country, Email
 from ain7.news.models import NewsItem
 from ain7.organizations.models import Organization
 from ain7.fields import AutoCompleteField
-from ain7.manage.models import Mailing, MailingItem, Payment, PortalError
+from ain7.manage.models import Mailing, MailingItem, PortalError
+from ain7.shop.models import Payment
 from ain7.widgets import DateTimeWidget
 
 
@@ -143,7 +144,7 @@ class PaymentForm(forms.ModelForm):
     class Meta:
         """Payment meta information"""
         model = Payment
-        exclude = ('mean', 'person')
+        exclude = ('method', 'person')
 
 class PortalErrorForm(forms.ModelForm):
     """error form"""

@@ -32,7 +32,8 @@ from django.utils.translation import ugettext as _
 
 from ain7.utils import ain7_render_to_response, check_access
 from ain7.organizations.models import Organization, Office
-from ain7.manage.models import Mailing, Payment, PortalError
+from ain7.manage.models import Mailing, PortalError
+from ain7.shop.models import Payment
 from ain7.manage.forms import SearchUserForm, NewPersonForm, \
                               PortalErrorForm, ErrorRangeForm, \
                               MailingForm,PaymentForm

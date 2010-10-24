@@ -25,8 +25,6 @@ import datetime
 from django.db import models
 from django.utils.translation import ugettext as _
 
-from ain7.annuaire.models import AIn7Member
-from ain7.manage.models import Payment
 from ain7.utils import LoggedClass
 
 
@@ -46,11 +44,11 @@ class Subscription(LoggedClass):
     old_id = models.IntegerField(verbose_name='old id', blank=True, null=True,
         unique=True)
 
-    member = models.ForeignKey(AIn7Member, verbose_name=_('member'), 
+    member = models.ForeignKey('annuaire.AIn7Member', verbose_name=_('member'),
         related_name='subscriptions')
 
-    payment = models.ForeignKey(Payment, verbose_name=_('payment'), null=True,
-        related_name='subscriptions')
+    payment = models.ForeignKey('shop.Payment', verbose_name=_('payment'), 
+        null=True, related_name='subscriptions')
 
     dues_amount = models.FloatField(verbose_name=_('Dues amount'))
     newspaper_amount = models.FloatField(verbose_name=_('Newspaper amount'), 

@@ -33,7 +33,7 @@ from django.utils.translation import ugettext as _
 from ain7.adhesions.forms import ConfigurationForm, SubscriptionForm
 from ain7.adhesions.models import Subscription, SubscriptionConfiguration
 from ain7.annuaire.models import AIn7Member, Person
-from ain7.manage.models import Payment
+from ain7.shop.models import Payment
 from ain7.decorators import confirmation_required
 from ain7.utils import ain7_render_to_response
 from ain7.utils import ain7_generic_delete, check_access
