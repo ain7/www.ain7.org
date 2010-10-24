@@ -243,6 +243,8 @@ def event_image_delete(request, event_id):
 
 def event_attendees(request, event_id):
 
+    from django.db.models import Sum
+
     access = check_access(request, request.user,
         ['ain7-ca','ain7-secretariat','ain7-contributeur'])
     if access:
@@ -251,12 +253,14 @@ def event_attendees(request, event_id):
     event = get_object_or_404(NewsItem, pk=event_id)
 
     attendees_yes = RSVPAnswer.objects.filter(event=event, yes=True)
+    attendees_number = RSVPAnswer.objects.filter(event=event, yes=True).aggregate(Sum('number'))['number__sum']
     attendees_no = RSVPAnswer.objects.filter(event=event, no=True)
     attendees_maybe = RSVPAnswer.objects.filter(event=event, maybe=True)
 
     return ain7_render_to_response(
         request, 'evenements/attendees.html',
         {'attendees_yes': attendees_yes,
+         'attendees_number': attendees_number,
          'attendees_no': attendees_no,
          'attendees_maybe': attendees_maybe,
          'back': request.META.get('HTTP_REFERER', '/'),
@@ -264,25 +268,31 @@ def event_attendees(request, event_id):
 
 def event_rsvp(request, event_id, rsvp_id=None):
 
+    event = get_object_or_404(NewsItem, pk=event_id)
+    myself= False
+
+    if rsvp_id:
+        rsvpanswer = get_object_or_404(RSVPAnswer, pk=rsvp_id)
+        if rsvpanswer.person == request.user.person:
+            myself = True
+
     access = check_access(request, request.user,
         ['ain7-ca','ain7-secretariat','ain7-contributeur'])
-    if access:
-        return access
 
-    event = get_object_or_404(NewsItem, pk=event_id)
+    if access and not myself:
+        return access
 
     form = RSVPAnswerForm()
 
     if rsvp_id:
         rsvpanswer = get_object_or_404(RSVPAnswer, pk=rsvp_id)
-        myself= False
         if rsvpanswer.person == request.user.person:
             myself = True
         form = RSVPAnswerForm(instance=rsvpanswer, edit_person=False, myself=myself)
 
     if request.method == 'POST':
         if rsvp_id:
-            form = RSVPAnswerForm(request.POST, instance=rsvpanswer)
+            form = RSVPAnswerForm(request.POST, instance=rsvpanswer, edit_person=False, myself=myself)
         else:
             form = RSVPAnswerForm(request.POST)
         if form.is_valid():
@@ -294,8 +304,12 @@ def event_rsvp(request, event_id, rsvp_id=None):
             rsvp.save()
             request.user.message_set.create(message=_('RSVP successfully saved'))
 
-            return HttpResponseRedirect(reverse('ain7.news.views.event_details',
-                args=[event.id]))
+            if not myself:
+                return HttpResponseRedirect(reverse('ain7.news.views.event_attendees',
+                    args=[event.id]))
+            else:
+                return HttpResponseRedirect(reverse('ain7.news.views.event_details',
+                    args=[event.id]))
 
     return ain7_render_to_response(
         request, 'evenements/edit.html',
