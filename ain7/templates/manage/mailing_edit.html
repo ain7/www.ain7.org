@@ -22,7 +22,7 @@
 <p>{{ mailing.description }}</p>
 
 
-{% if not mailing.approved_by %}
+{% if mailing and not mailing.approved_by %}
 
 <ul>
 <li><a href="{% url ain7.manage.views.mailing_send mailing.id %}">{% trans "Send a test to myself" %}</a></li>
@@ -30,6 +30,9 @@
 <li><a href="{% url ain7.manage.views.mailing_preview mailing.id %}">{% trans "Mailing preview" %}</a></li>
 <li><a href="{% url ain7.manage.views.mailing_ready mailing.id %}">{% trans "Send mailing" %}</a></li>
 </ul>
+{% endif %}
+
+{% if not mailing.approved_by %}
 
 <form method="post" action=".">
 <table>
