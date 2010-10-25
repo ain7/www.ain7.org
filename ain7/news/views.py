@@ -36,7 +36,7 @@ from ain7.decorators import confirmation_required
 from ain7.news.models import NewsItem, RSVPAnswer
 from ain7.news.forms import SearchNewsForm, NewsForm, EventForm, \
      SearchEventForm, ContactEventForm, EventOrganizerForm, RSVPAnswerForm
-from ain7.shop.models import Order
+from ain7.shop.models import Order, ShoppingCart, ShoppingCartItem
 from ain7.utils import ain7_render_to_response, check_access
 
 
@@ -178,10 +178,19 @@ def event_details(request, event_id):
     if RSVPAnswer.objects.filter(person=request.user.person, event=event).count() == 1:
         rsvp = RSVPAnswer.objects.get(person=request.user.person, event=event)
 
+    today = datetime.date.today()
+    now = datetime.datetime.now()
+    rsvp_display = event.date > now
+    if rsvp_display and event.rsvp_begin:
+        rsvp_display = rsvp_display and event.rsvp_begin < today
+    if rsvp_display and event.rsvp_end:
+        rsvp_display = rsvp_display and event.rsvp_end > today
+
     return ain7_render_to_response(request, 'evenements/details.html',
         {'event': event, 
          'event_list': NewsItem.objects.filter(date__isnull=False),
          'next_events': NewsItem.objects.next_events(),
+         'rsvp_display': rsvp_display,
          'rsvp': rsvp})
 
 @login_required
@@ -310,8 +319,20 @@ def event_rsvp(request, event_id, rsvp_id=None):
                     args=[event.id]))
 
             if event.package:
+
+                shc = ShoppingCart()
+                shc.person = request.user.person
+                shc.save()
+
+                sci = ShoppingCartItem()
+                sci.shoppingcart = shc
+                sci.package = event.package
+                sci.quantity = rsvp.number
+                sci.save()
+
                 order = Order()
-                order.package = event.package
+                order.shoppingcart = shc
+                order.person = request.user.person
                 order.save()
 
                 return HttpResponseRedirect(reverse('ain7.shop.views.order_pay',

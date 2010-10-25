@@ -107,8 +107,8 @@ class NewsItem(LoggedClass):
     contact_email = models.EmailField(verbose_name=_('contact email'),
         max_length=50, blank=True, null=True)
 
-    link = models.CharField(verbose_name=_('external link'), max_length=60, blank=True,
-        null=True)
+    link = models.CharField(verbose_name=_('external link'), max_length=60,
+        blank=True, null=True)
 
 #   organizers = models.ManyToManyField(Person, verbose_name=_('organizers'),
 #         related_name='events', blank=True, null=True, through='EventOrganizer')
@@ -116,6 +116,14 @@ class NewsItem(LoggedClass):
          max_length=100, blank=True, null=True)
 
     package = models.ForeignKey('shop.Package', blank=True, null=True)
+
+    rsvp_question = models.CharField(verbose_name=_('extra question'), 
+        max_length=100, blank=True, null=True)
+    rsvp_begin = models.DateField(verbose_name=_('rsvp begin'), 
+        blank=True, null=True)
+    rsvp_end = models.DateField(verbose_name=_('rsvp end'), 
+        blank=True, null=True)
+    rsvp_multiple = models.BooleanField(default=True)
 
     objects = NewsItemManager()
 

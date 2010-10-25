@@ -29,6 +29,8 @@ from django.template.defaultfilters import slugify
 from django.template.defaultfilters import truncatewords
 from django.utils.translation import ugettext as _
 
+from ain7.annuaire.models import Person
+from ain7.filters import FILTERS
 from ain7.utils import LoggedClass, isAdmin
 
 class PackageCategory(models.Model):
@@ -42,15 +44,26 @@ class PackageCategory(models.Model):
 
 class Package(models.Model):
     category = models.ForeignKey('shop.PackageCategory', null=True, blank=True)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, null=True, blank=True)
     description = models.TextField(_('Description'), max_length=200, 
         blank=True, null=True)
 
     def __unicode__(self):
          return self.name
 
-    def amount(self):
-         return 0
+    def amount(self, person=None):
+         amount = 0
+         for article in self.article_set.all():
+              price_proposal = []
+              for price in article.articleprice_set.all():
+                  if person and price.filter:
+                      if person in Person.objects.filter(FILTERS[price.filter.filter][1]):
+                           price_proposal.append(price.price)
+                  else:
+                      price_proposal.append(price.price)
+                  
+              amount += min(price_proposal)
+         return amount
 
 
 class Article(models.Model):
@@ -58,7 +71,7 @@ class Article(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(_('Description'), max_length=200,
         blank=True, null=True)
-    option = models.BooleanField()
+    option = models.BooleanField(default=False)
 
     def __unicode__(self):
          return self.name
@@ -69,13 +82,32 @@ class ArticlePrice(models.Model):
     price = models.IntegerField()
     filter = models.ForeignKey('manage.Filter')
 
-    def __unicode__(self):
-         return self.name
+
+class ShoppingCart(models.Model):
+
+    name = models.CharField(max_length=50, null=True, blank=True) 
+    saved = models.BooleanField(default=False)
+    person = models.ForeignKey('annuaire.Person')
+
+
+class ShoppingCartItem(models.Model):
+
+    shoppingcart = models.ForeignKey('shop.ShoppingCart')
+    package = models.ForeignKey('shop.Package')
+    quantity = models.IntegerField(default=1)
+
 
 class Order(models.Model):
 
+    person = models.ForeignKey('annuaire.Person')
     payment = models.OneToOneField('shop.Payment', null=True, blank=True)
-    package = models.ForeignKey('shop.Package')
+    shoppingcart = models.ForeignKey('shop.ShoppingCart')
+
+    def amount(self):
+        amount = 0
+        for item in self.shoppingcart.shoppingcartitem_set.all():
+            amount += item.quantity * item.package.amount(self.person)
+        return amount
 
 
 class PaymentMethod(models.Model):

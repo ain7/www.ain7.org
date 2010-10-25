@@ -49,7 +49,7 @@ def order_pay(request, order_id):
 
             payment = form.save(commit=False)
             payment.person = request.user.person
-            payment.amount = order.package.amount()
+            payment.amount = order.amount()
             payment.date = datetime.date.today()
             payment.created_by = request.user.person
             payment.modified_by = request.user.person
