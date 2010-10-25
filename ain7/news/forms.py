@@ -68,7 +68,8 @@ class NewsForm(AIn7ModelForm):
         """news form meta"""
         model = NewsItem
         exclude = ('slug', 'shorttext', 'date', 'location', 'status', \
-            'contact_email', 'link', 'pictures_gallery')
+            'contact_email', 'link', 'pictures_gallery', 'rsvp_question', \
+            'rsvp_begin', 'rsvp_end', 'rsvp_multiple', 'package',)
 
     def __init__(self, *args, **kwargs):
         super (NewsForm,self ).__init__(*args,**kwargs)
@@ -120,7 +121,8 @@ class EventForm(AIn7ModelForm):
     class Meta:
         """event form meta"""
         model = NewsItem
-        exclude = ('organizers','shorttext', 'slug',)
+        exclude = ('organizers','shorttext', 'slug', 'rsvp_question', \
+            'rsvp_begin', 'rsvp_end', 'rsvp_multiple', 'package',)
 
     def __init__(self, *args, **kwargs):
         super (EventForm,self ).__init__(*args,**kwargs)
