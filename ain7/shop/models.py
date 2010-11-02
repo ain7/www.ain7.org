@@ -57,7 +57,8 @@ class Package(models.Model):
               price_proposal = []
               for price in article.articleprice_set.all():
                   if person and price.filter:
-                      if person in Person.objects.filter(FILTERS[price.filter.filter][1]):
+                      if person in \
+                          Person.objects.filter(FILTERS[price.filter.filter][1]):
                            price_proposal.append(price.price)
                   else:
                       price_proposal.append(price.price)
