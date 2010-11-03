@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-26 00:18+0200\n"
+"POT-Creation-Date: 2010-11-03 23:29+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -64,7 +64,7 @@ msgstr ""
 msgid "last changed at"
 msgstr ""
 
-#: adhesions/models.py:37 shop/models.py:130
+#: adhesions/models.py:37 shop/models.py:131
 msgid "Cash"
 msgstr ""
 
@@ -72,7 +72,7 @@ msgstr ""
 msgid "Cheque"
 msgstr ""
 
-#: adhesions/models.py:39 shop/models.py:133
+#: adhesions/models.py:39 shop/models.py:134
 msgid "Card"
 msgstr ""
 
@@ -80,7 +80,7 @@ msgstr ""
 msgid "Transfer"
 msgstr ""
 
-#: adhesions/models.py:41 shop/models.py:136
+#: adhesions/models.py:41 shop/models.py:137
 msgid "Other"
 msgstr ""
 
@@ -107,7 +107,7 @@ msgstr ""
 msgid "Tender type"
 msgstr ""
 
-#: adhesions/models.py:58 shop/models.py:150
+#: adhesions/models.py:58 shop/models.py:151
 msgid "validated"
 msgstr ""
 
@@ -169,7 +169,7 @@ msgstr ""
 msgid "Support"
 msgstr ""
 
-#: adhesions/models.py:96 shop/models.py:143
+#: adhesions/models.py:96 shop/models.py:144
 #: templates/adhesions/configurations.html:18
 msgid "Type"
 msgstr ""
@@ -239,7 +239,7 @@ msgstr ""
 #: emploi/views.py:118 emploi/views.py:176 emploi/views.py:234
 #: emploi/views.py:291 groupes_professionnels/views.py:140
 #: groupes_regionaux/views.py:76 groups/views.py:84 manage/views.py:266
-#: manage/views.py:293 news/views.py:79 news/views.py:526
+#: manage/views.py:293 news/views.py:79 news/views.py:535
 #: search_engine/views.py:268 sondages/views.py:103 sondages/views.py:145
 #: voyages/views.py:138
 msgid "Modifications have been successfully saved."
@@ -371,7 +371,7 @@ msgstr ""
 #: annuaire/models.py:41 annuaire/models.py:147 annuaire/models.py:182
 #: groups/models.py:74 groups/models.py:83 groups/models.py:112
 #: organizations/models.py:88 organizations/models.py:179
-#: search_engine/models.py:127 shop/models.py:116
+#: search_engine/models.py:127 shop/models.py:117
 msgid "name"
 msgstr ""
 
@@ -399,7 +399,7 @@ msgstr ""
 msgid "activity"
 msgstr ""
 
-#: annuaire/models.py:104 news/models.py:105
+#: annuaire/models.py:104 news/models.py:106
 msgid "status"
 msgstr ""
 
@@ -511,7 +511,7 @@ msgid "sex"
 msgstr ""
 
 #: annuaire/models.py:346 annuaire/models.py:352 annuaire/models.py:417
-#: news/forms.py:168 templates/voyages/participants.html:18
+#: news/forms.py:170 templates/voyages/participants.html:18
 msgid "person"
 msgstr ""
 
@@ -650,7 +650,7 @@ msgid "irc"
 msgstr ""
 
 #: annuaire/models.py:762 emploi/forms.py:57 emploi/models.py:55
-#: emploi/models.py:82 groups/models.py:113 news/forms.py:114
+#: emploi/models.py:82 groups/models.py:113 news/forms.py:115
 #: organizations/models.py:35 voyages/forms.py:65 voyages/models.py:57
 msgid "description"
 msgstr ""
@@ -954,13 +954,13 @@ msgstr ""
 
 #: association/forms.py:65 groupes_professionnels/forms.py:60
 #: groupes_professionnels/forms.py:142 groupes_regionaux/forms.py:88
-#: groups/forms.py:88 groups/forms.py:113 news/forms.py:198
+#: groups/forms.py:88 groups/forms.py:113 news/forms.py:200
 msgid "This field is mandatory."
 msgstr ""
 
 #: association/forms.py:72 groupes_professionnels/forms.py:149
 #: groupes_regionaux/forms.py:95 groups/forms.py:95 groups/forms.py:120
-#: news/forms.py:205
+#: news/forms.py:207
 msgid "The entered person is not in the database."
 msgstr ""
 
@@ -981,7 +981,7 @@ msgid "reference"
 msgstr ""
 
 #: emploi/forms.py:47 emploi/forms.py:124 groups/models.py:99
-#: manage/models.py:35 news/forms.py:61 news/models.py:87 pages/forms.py:49
+#: manage/models.py:35 news/forms.py:61 news/models.py:88 pages/forms.py:49
 #: pages/models.py:48
 msgid "title"
 msgstr ""
@@ -1016,7 +1016,7 @@ msgstr ""
 msgid "Activity field"
 msgstr ""
 
-#: emploi/forms.py:67 shop/models.py:119
+#: emploi/forms.py:67 shop/models.py:120
 msgid "obsolete"
 msgstr ""
 
@@ -1086,7 +1086,7 @@ msgid "Education item"
 msgstr ""
 
 #: emploi/models.py:105 emploi/models.py:122 emploi/models.py:147
-#: news/forms.py:112 templates/manage/error_details.html:32
+#: news/forms.py:113 templates/manage/error_details.html:32
 msgid "Title"
 msgstr ""
 
@@ -1106,7 +1106,7 @@ msgstr ""
 msgid "Reference"
 msgstr ""
 
-#: emploi/models.py:148 shop/models.py:38 shop/models.py:48 shop/models.py:72
+#: emploi/models.py:148 shop/models.py:38 shop/models.py:48 shop/models.py:73
 msgid "Description"
 msgstr ""
 
@@ -1433,33 +1433,33 @@ msgstr ""
 msgid "News content"
 msgstr ""
 
-#: news/forms.py:63 news/models.py:88 pages/forms.py:51 pages/models.py:49
+#: news/forms.py:63 news/models.py:89 pages/forms.py:51 pages/models.py:49
 msgid "body"
 msgstr ""
 
-#: news/forms.py:91
+#: news/forms.py:92
 msgid "Event title"
 msgstr ""
 
-#: news/forms.py:93 templates/evenements/details.html:32
+#: news/forms.py:94 templates/evenements/details.html:32
 #: templates/evenements/index.html:30
 msgid "Location"
 msgstr ""
 
-#: news/forms.py:104
+#: news/forms.py:105
 msgid "your message"
 msgstr ""
 
-#: news/forms.py:107
+#: news/forms.py:108
 msgid "your email"
 msgstr ""
 
-#: news/forms.py:117 news/models.py:93 news/models.py:102
+#: news/forms.py:118 news/models.py:94 news/models.py:103
 #: templates/voyages/details.html:15
 msgid "date"
 msgstr ""
 
-#: news/forms.py:142 news/models.py:41
+#: news/forms.py:144 news/models.py:41
 msgid "organizer"
 msgstr ""
 
@@ -1475,71 +1475,71 @@ msgstr ""
 msgid "number of persons"
 msgstr ""
 
-#: news/models.py:62
+#: news/models.py:63
 msgid "yes"
 msgstr ""
 
-#: news/models.py:64
+#: news/models.py:65
 msgid "no"
 msgstr ""
 
-#: news/models.py:66
+#: news/models.py:67
 msgid "maybe"
 msgstr ""
 
-#: news/models.py:81
+#: news/models.py:82
 msgid "project"
 msgstr ""
 
-#: news/models.py:82
+#: news/models.py:83
 msgid "confirmed"
 msgstr ""
 
-#: news/models.py:83
+#: news/models.py:84
 msgid "cancel"
 msgstr ""
 
-#: news/models.py:89
+#: news/models.py:90
 msgid "short text"
 msgstr ""
 
-#: news/models.py:91 templates/evenements/details.html:42
+#: news/models.py:92 templates/evenements/details.html:42
 msgid "image"
 msgstr ""
 
-#: news/models.py:98
+#: news/models.py:99
 msgid "groups"
 msgstr ""
 
-#: news/models.py:103
+#: news/models.py:104
 msgid "location"
 msgstr ""
 
-#: news/models.py:107
+#: news/models.py:108
 msgid "contact email"
 msgstr ""
 
-#: news/models.py:110
+#: news/models.py:111
 msgid "external link"
 msgstr ""
 
-#: news/models.py:115
+#: news/models.py:116
 msgid "Pictures gallery"
 msgstr ""
 
-#: news/models.py:120
+#: news/models.py:121
 msgid "extra question"
 msgstr ""
 
-#: news/models.py:122
+#: news/models.py:123
 msgid "rsvp begin"
 msgstr ""
 
-#: news/models.py:124
+#: news/models.py:125
 msgid "rsvp end"
 msgstr ""
 
-#: news/models.py:184
+#: news/models.py:185
 msgid "news item"
 msgstr ""
 
@@ -1563,47 +1563,47 @@ msgstr ""
 msgid "The news has been successfully deleted."
 msgstr ""
 
-#: news/views.py:220
+#: news/views.py:223
 msgid "Event successfully saved"
 msgstr ""
 
-#: news/views.py:228
+#: news/views.py:231
 msgid "Event modification"
 msgstr ""
 
-#: news/views.py:236
+#: news/views.py:239
 msgid "Do you really want to delete the image of this event"
 msgstr ""
 
-#: news/views.py:251
+#: news/views.py:254
 msgid "The image of this event has been successfully deleted."
 msgstr ""
 
-#: news/views.py:315
+#: news/views.py:320
 msgid "RSVP successfully saved"
 msgstr ""
 
-#: news/views.py:348
+#: news/views.py:353
 msgid "RSVP Answer"
 msgstr ""
 
-#: news/views.py:466
+#: news/views.py:475
 msgid "Your message has been sent to the event responsible."
 msgstr ""
 
-#: news/views.py:470
+#: news/views.py:479
 msgid "Something was wrong in the form you filled. No message sent."
 msgstr ""
 
-#: news/views.py:533
+#: news/views.py:542
 msgid "Adding organizer"
 msgstr ""
 
-#: news/views.py:541
+#: news/views.py:550
 msgid "Do you really want to remove this organizer"
 msgstr ""
 
-#: news/views.py:557
+#: news/views.py:566
 msgid "Organizer successfully removed"
 msgstr ""
 
@@ -1912,67 +1912,67 @@ msgstr ""
 msgid "Choose fields to export"
 msgstr ""
 
-#: shop/models.py:118
+#: shop/models.py:119
 msgid "public"
 msgstr ""
 
-#: shop/models.py:131
+#: shop/models.py:132
 msgid "Check CE"
 msgstr ""
 
-#: shop/models.py:132
+#: shop/models.py:133
 msgid "Check CCP"
 msgstr ""
 
-#: shop/models.py:134
+#: shop/models.py:135
 msgid "Transfer CE"
 msgstr ""
 
-#: shop/models.py:135
+#: shop/models.py:136
 msgid "Transfer CCP"
 msgstr ""
 
-#: shop/models.py:142
+#: shop/models.py:143
 msgid "amount"
 msgstr ""
 
-#: shop/models.py:145 templates/manage/payments_deposit.html:13
+#: shop/models.py:146 templates/manage/payments_deposit.html:13
 msgid "Bank"
 msgstr ""
 
-#: shop/models.py:147 templates/manage/payments_deposit.html:13
+#: shop/models.py:148 templates/manage/payments_deposit.html:13
 msgid "Check number"
 msgstr ""
 
-#: shop/models.py:149
+#: shop/models.py:150
 msgid "payment date"
 msgstr ""
 
-#: shop/models.py:151
+#: shop/models.py:152
 msgid "deposit date"
 msgstr ""
 
-#: shop/models.py:154
+#: shop/models.py:155
 msgid "registration date"
 msgstr ""
 
-#: shop/models.py:158
+#: shop/models.py:159
 msgid "modification date"
 msgstr ""
 
-#: shop/models.py:179
+#: shop/models.py:180
 msgid "payment of "
 msgstr ""
 
-#: shop/models.py:181
+#: shop/models.py:182
 msgid " from "
 msgstr ""
 
-#: shop/models.py:192
+#: shop/models.py:193
 msgid "AIn7 Subscription validated"
 msgstr ""
 
-#: shop/models.py:193
+#: shop/models.py:194
 #, python-format
 msgid ""
 "Hi %(firstname)s,\n"
@@ -2197,7 +2197,8 @@ msgstr ""
 #: templates/association/council_edit.html:33
 #: templates/emploi/job_details.html:56 templates/evenements/attendees.html:46
 #: templates/evenements/details.html:63 templates/evenements/edit.html:47
-#: templates/evenements/index.html:47 templates/evenements/search.html:52
+#: templates/evenements/index.html:47 templates/evenements/rsvp.html:25
+#: templates/evenements/search.html:52
 #: templates/groupes_professionnels/base.html:17
 #: templates/groupes_regionaux/base.html:18
 #: templates/groupes_regionaux/roles_edit.html:33
@@ -2250,7 +2251,7 @@ msgstr ""
 #: templates/evenements/contact.html:26 templates/evenements/edit.html:40
 #: templates/evenements/join.html:16
 #: templates/evenements/organizer_add.html:13
-#: templates/evenements/subscribe.html:14
+#: templates/evenements/rsvp.html:18 templates/evenements/subscribe.html:14
 #: templates/groupes_professionnels/edit.html:13
 #: templates/groupes_professionnels/roles_edit.html:23
 #: templates/groupes_professionnels/subscribe.html:14
@@ -2277,7 +2278,7 @@ msgstr ""
 #: templates/emploi/publication_edit.html:17 templates/evenements/edit.html:41
 #: templates/evenements/join.html:17
 #: templates/evenements/organizer_add.html:14
-#: templates/evenements/subscribe.html:15
+#: templates/evenements/rsvp.html:19 templates/evenements/subscribe.html:15
 #: templates/groupes_professionnels/edit.html:14
 #: templates/groupes_professionnels/roles_edit.html:24
 #: templates/groupes_professionnels/subscribe.html:15
@@ -2349,7 +2350,7 @@ msgid "Modify"
 msgstr ""
 
 #: templates/adhesions/configurations.html:45
-#: templates/adhesions/subscriptions.html:70
+#: templates/adhesions/subscriptions.html:72
 #: templates/annuaire/adv_search.html:34 templates/annuaire/adv_search.html:56
 #: templates/annuaire/edit.html:52 templates/annuaire/edit.html.py:145
 #: templates/annuaire/edit.html:206 templates/annuaire/edit.html.py:227
@@ -2508,6 +2509,7 @@ msgstr ""
 
 #: templates/adhesions/subscriptions.html:36
 #: templates/adhesions/user_subscriptions.html:21
+#: templates/evenements/attendees.html:14
 #: templates/manage/payment_details.html:12
 msgid "Payment"
 msgstr ""
@@ -2521,7 +2523,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: templates/adhesions/subscriptions.html:63
+#: templates/adhesions/subscriptions.html:64
 #: templates/emploi/job_details.html:46 templates/evenements/index.html:20
 #: templates/manage/payment_edit.html:6
 #: templates/manage/payments_index.html:26 templates/news/index.html:20
@@ -2531,7 +2533,7 @@ msgstr ""
 msgid "by"
 msgstr ""
 
-#: templates/adhesions/subscriptions.html:68
+#: templates/adhesions/subscriptions.html:70
 msgid "Validate"
 msgstr ""
 
@@ -2797,8 +2799,7 @@ msgid "Groups"
 msgstr ""
 
 #: templates/annuaire/details.html:215 templates/annuaire/edit.html:360
-#: templates/emploi/job_details.html:65 templates/evenements/attendees.html:59
-#: templates/evenements/details.html:76
+#: templates/emploi/job_details.html:65 templates/evenements/details.html:76
 #: templates/groupes_professionnels/base.html:29
 #: templates/groupes_professionnels/base.html:43
 #: templates/groupes_regionaux/base.html:51 templates/groups/base.html:52
@@ -3287,17 +3288,18 @@ msgstr ""
 msgid "Delete the image of this event."
 msgstr ""
 
-#: templates/evenements/edit.html:51 templates/evenements/search.html:56
+#: templates/evenements/edit.html:51 templates/evenements/rsvp.html:29
+#: templates/evenements/search.html:56
 msgid "Register an event"
 msgstr ""
 
 #: templates/evenements/edit.html:53 templates/evenements/index.html:53
-#: templates/evenements/search.html:58
+#: templates/evenements/rsvp.html:31 templates/evenements/search.html:58
 msgid "Search an event"
 msgstr ""
 
 #: templates/evenements/edit.html:54 templates/evenements/index.html:54
-#: templates/evenements/search.html:59
+#: templates/evenements/rsvp.html:32 templates/evenements/search.html:59
 msgid "Subscribe iCal"
 msgstr ""
 
