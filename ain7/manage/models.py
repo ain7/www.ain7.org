@@ -113,9 +113,11 @@ class Mailing(models.Model):
             body += "</ul>"
 
         for item in newsitems:
-            body += '<h2><a name="'+item.slug+'"/><a href="'\
+            body += '<h2><a name="'+item.slug+'"/><a href="http://ain7.com'\
                 +item.get_absolute_url()+'">'+item.title+'</a></h2>'
             body += item.body
+            body = body.replace('<a href="../', '<a href=http://ain7.com'+\
+                item.get_absolute_url()+'../')
 
         body += open(settings.BASE_DIR+'/templates/manage/mailing_footer.html')\
            .read().decode('utf-8')
