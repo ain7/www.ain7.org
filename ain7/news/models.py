@@ -51,6 +51,7 @@ class RSVPAnswer(models.Model):
     no = models.BooleanField(default=False)
     maybe = models.BooleanField(default=False)
     number = models.IntegerField(verbose_name=_('number of persons'), default=1)
+    payment = models.ForeignKey('shop.Payment', null=True, blank=True)
 
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey('annuaire.Person', related_name='rsvpanswers_created')

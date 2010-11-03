@@ -8,7 +8,7 @@
 
 	<h2>{{ event.title }}</h2>
 
-        {% if rsvp_display %}
+        {% if request.user.is_authenticated and rsvp_display %}
         <p>
         {% if rsvp %}
             {% trans "You have already answered" %} "{{ rsvp.answer }}" {% trans "to attendind this event" %}.<br/>

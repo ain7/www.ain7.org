@@ -6,14 +6,14 @@
 
 {% block content-main %}
 
-	<h2>{{ event.title }}</h2>
+	<h2><a href="{{ event.get_absolute_url }}">{{ event.title }}</a></h2>
 
         <div id="edition">
         <p><b>{{ attendees_yes.count }} {% trans "attendees" %}</b></p>
 	<table border="0" width="100%" class="datas">
-        <tr><th>&nbsp;</th><th>{% trans "Person" %}</th><th>{% trans "Answer Date" %}</th><th>{% trans "Number of attendees" %}</th><th>{% trans "Subscriber" %}</th></tr>
+        <tr><th>&nbsp;</th><th>{% trans "Person" %}</th><th>{% trans "Answer Date" %}</th><th>{% trans "Number of attendees" %}</th><th>{% trans "Subscriber" %}</th><th>{% trans "Payment" %}</th></tr>
         {% for attendee in attendees_yes %}
-        <tr><td><a href="{% url ain7.news.views.event_rsvp attendee.event.id attendee.id %}" class="changelink"></a></td><td><a href="{% url ain7.annuaire.views.details attendee.person.user.id %}">{{ attendee.person }}</a></td><td>{{ attendee.updated_on|date:"l d F Y H:i" }}</td><td>{{ attendee.number }}</td><td>{% if attendee.person.ain7member.is_subscriber %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</td></tr>
+        <tr><td><a href="{% url ain7.news.views.event_rsvp attendee.event.id attendee.id %}" class="changelink"></a></td><td><a href="{% url ain7.annuaire.views.details attendee.person.user.id %}">{{ attendee.person }}</a></td><td>{{ attendee.updated_on|date:"l d F Y H:i" }}</td><td>{{ attendee.number }}</td><td>{% if attendee.person.ain7member.is_subscriber %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</td><td>{{ attendee.payment }}</td></tr>
         {% endfor %}
         <tr><td colspan="3"><b>Total</b></td><td><b>{{ attendees_number }}</b></td></tr>
         </table>
@@ -55,7 +55,3 @@
         </div>
 {% endblock %}
 
-{% block additional-right-blocks %}
-    <h3>{% trans "Card Informations"%}</h3>
-   {% show_last_change event %}
-{% endblock %}

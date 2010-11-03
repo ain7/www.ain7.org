@@ -175,8 +175,11 @@ def event_details(request, event_id):
     event = get_object_or_404(NewsItem, pk=event_id)
 
     rsvp = None
-    if RSVPAnswer.objects.filter(person=request.user.person, event=event).count() == 1:
-        rsvp = RSVPAnswer.objects.get(person=request.user.person, event=event)
+    if request.user.is_authenticated() and \
+        RSVPAnswer.objects.filter(person=request.user.person, \
+        event=event).count() == 1:
+            rsvp = RSVPAnswer.objects.get(person=request.user.person, \
+                event=event)
 
     today = datetime.date.today()
     now = datetime.datetime.now()
@@ -251,6 +254,7 @@ def event_image_delete(request, event_id):
         _('The image of this event has been successfully deleted.'))
     return HttpResponseRedirect('/evenements/%s/edit/' % event_id)
 
+@login_required
 def event_attendees(request, event_id):
 
     from django.db.models import Sum
@@ -276,6 +280,7 @@ def event_attendees(request, event_id):
          'back': request.META.get('HTTP_REFERER', '/'),
          'event': event})
 
+@login_required
 def event_rsvp(request, event_id, rsvp_id=None):
 
     event = get_object_or_404(NewsItem, pk=event_id)
@@ -343,11 +348,13 @@ def event_rsvp(request, event_id, rsvp_id=None):
                     args=[event.id]))
 
     return ain7_render_to_response(
-        request, 'evenements/edit.html',
+        request, 'evenements/rsvp.html',
         {'form': form, 
          'action_title': _("RSVP Answer"),
+         'event': event,
          'back': request.META.get('HTTP_REFERER', '/')})
 
+@login_required
 def event_attend_yes(request, event_id):
     """event details"""
 
@@ -364,6 +371,7 @@ def event_attend_yes(request, event_id):
     return HttpResponseRedirect(reverse('ain7.news.views.event_rsvp', 
         args=[event.id, rsvp.id]))
 
+@login_required
 def event_attend_no(request, event_id):
     """event details"""
 
@@ -379,6 +387,7 @@ def event_attend_no(request, event_id):
     return HttpResponseRedirect(reverse('ain7.news.views.event_details', 
         args=[event.id]))
 
+@login_required
 def event_attend_maybe(request, event_id):
     """event details"""
 
