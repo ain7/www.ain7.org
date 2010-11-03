@@ -116,7 +116,7 @@ class Mailing(models.Model):
             body += '<h2><a name="'+item.slug+'"/><a href="http://ain7.com'\
                 +item.get_absolute_url()+'">'+item.title+'</a></h2>'
             body += item.body
-            body = body.replace('<a href="../', '<a href=http://ain7.com'+\
+            body = body.replace('<a href="../', '<a href="http://ain7.com'+\
                 item.get_absolute_url()+'../')
 
         body += open(settings.BASE_DIR+'/templates/manage/mailing_footer.html')\
