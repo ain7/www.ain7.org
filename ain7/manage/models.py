@@ -162,6 +162,8 @@ class Mailing(models.Model):
         msg['X-AIn7-Portal-Message-Rationale'] = u'Subscriber'
         msg.attach(part1)
 
+        msg.attach(part2)
+
         recipients = Person.objects.none()
 
         if request:
@@ -174,10 +176,10 @@ class Mailing(models.Model):
         if not testing:
             recipients = Person.objects.filter(FILTERS[self.filter.filter][1])
 
-        for recipient in recipients:
+        smtp = smtplib.SMTP('localhost')
+        smtp.ehlo()
 
-            smtp = smtplib.SMTP('localhost')
-            smtp.ehlo()
+        for recipient in recipients:
 
             mail = recipient.mail_favorite()
             first_name = recipient.first_name
@@ -185,11 +187,11 @@ class Mailing(models.Model):
 
             mail_modified = mail.replace('@','=')
 
+            del(msg['From'])
             msg['From'] = u'Association AIn7 <noreply+'+\
                 mail_modified+'@ain7.com>'
+            del(msg['To'])
             msg['To'] = first_name+' '+last_name+' <'+mail+'>'
-
-            msg.attach(part2)
 
             try:
                 smtp.sendmail('noreply+'+mail_modified+'@ain7.com', mail, 
@@ -205,7 +207,8 @@ class Mailing(models.Model):
 
             except Exception:
                 pass
-            smtp.quit()
+
+        smtp.quit()
 
         if not testing:
             self.sent_at = datetime.datetime.now()
