@@ -603,7 +603,7 @@ class Email(models.Model):
 
     person = models.ForeignKey(Person, related_name='emails', editable=False)
 
-    email = models.EmailField(verbose_name=_('email'))
+    email = models.EmailField(verbose_name=_('email'), unique=True)
     confidentiality = models.IntegerField(verbose_name=_('confidentiality'),
         choices=CONFIDENTIALITY_LEVELS, default=0)
     preferred_email = models.BooleanField(verbose_name=_('preferred'),
