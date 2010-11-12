@@ -183,6 +183,11 @@ class JobOffer(LoggedClass):
         return self.reference + " " + self.title + " ("+\
              unicode(self.office) + ")"
 
+    def mark_obsolete(self):
+        """mark a job offer as obsolote"""
+        self.obsolete = True
+        self.save()
+
 class JobOfferView(models.Model):
     """job offer view"""
 
