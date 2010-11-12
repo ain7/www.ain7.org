@@ -34,21 +34,24 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.utils.translation import ugettext as _
 from django.http import Http404
 
-from ain7.annuaire.models import PersonPrivate, UserActivity, Promo,\
-                                 PhoneNumber, InstantMessaging, Email, IRC,\
-                                 WebSite, ClubMembership, Person, AIn7Member, Address
+from ain7.annuaire.models import PersonPrivate, UserActivity, Promo, \
+                                 PhoneNumber, InstantMessaging, Email, IRC, \
+                                 WebSite, ClubMembership, Person, \
+                                 AIn7Member, Address
 from ain7.emploi.models import Position
-from ain7.annuaire.forms import SearchPersonForm, ChangePasswordForm, PersonForm,\
-                                PersonPrivateForm, AIn7MemberForm, PromoForm,\
-                                AddressForm, PhoneNumberForm, EmailForm,\
-                                InstantMessagingForm, IRCForm, WebSiteForm,\
+from ain7.annuaire.forms import SearchPersonForm, ChangePasswordForm, \
+                                PersonForm,PersonPrivateForm, \
+                                AIn7MemberForm, PromoForm, \
+                                AddressForm, PhoneNumberForm, EmailForm, \
+                                InstantMessagingForm, IRCForm, WebSiteForm, \
                                 ClubMembershipForm, NewMemberForm
 from ain7.adhesions.forms import Subscription
 from ain7.decorators import confirmation_required
 from ain7.search_engine.models import SearchEngine, SearchFilter
 from ain7.search_engine.forms import SearchFilterForm
-from ain7.search_engine.views import se_filter_swap_op, se_criterion_field_edit,\
-                                     se_criterion_add, se_criterion_delete,\
+from ain7.search_engine.views import se_filter_swap_op, \
+                                     se_criterion_field_edit, \
+                                     se_criterion_add, se_criterion_delete, \
                                      se_criterion_filter_edit, se_export_csv
 from ain7.utils import ain7_render_to_response
 from ain7.utils import ain7_generic_delete, check_access
@@ -209,7 +212,8 @@ def advanced_search(request):
     if access:
         return access
 
-    search_filter = annuaire_search_engine().unregistered_filters(request.user.person)
+    search_filter = annuaire_search_engine().unregistered_filters(\
+        request.user.person)
     if search_filter:
         return ain7_render_to_response(request, 'annuaire/adv_search.html',
             dict_for_filter(request, search_filter.id))
@@ -409,7 +413,8 @@ def filter_new(request):
     if access:
         return access
 
-    search_filter = annuaire_search_engine().unregistered_filters(request.user.person)
+    search_filter = annuaire_search_engine().unregistered_filters(\
+        request.user.person)
     if not search_filter:
         return HttpResponseRedirect('/annuaire/advanced_search/')
     remove_criteria(request, search_filter)
@@ -806,7 +811,10 @@ def email_edit(request, user_id=None, email_id=None):
     class EmailFormDyn(EmailForm):
         """email form"""
 
-        position = forms.ChoiceField(required=False, choices = [('', '----------')] + [(p.id, p.office.organization) for p in Position.objects.filter(ain7member__person__id=person.id)])
+        position = forms.ChoiceField(required=False, 
+             choices = [('', '----------')] + [(p.id, p.office.organization) \
+             for p in Position.objects.filter(\
+             ain7member__person__id=person.id)])
         if email_id:
             email = get_object_or_404(Email, pk=email_id)
             if email and email.position_id:
@@ -827,7 +835,8 @@ def email_edit(request, user_id=None, email_id=None):
             mail = form.save(commit=False)
             mail.person = person
             if form.cleaned_data['position']:
-                mail.position = Position.objects.get(id=form.cleaned_data['position'])
+                mail.position = Position.objects.get(\
+                    id=form.cleaned_data['position'])
             else:
                 mail.position = None
             mail.save()
