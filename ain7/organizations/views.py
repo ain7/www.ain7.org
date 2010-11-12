@@ -54,6 +54,7 @@ def organization_details(request, organization_id):
          'organizations/organization_details.html',
         {'organization': organization})
 
+@login_required
 def organization_edit(request, organization_id=None):
     """organization edit data"""
 
@@ -193,6 +194,7 @@ def organization_merge(request, organization_id=None):
     str(get_object_or_404(Organization, pk=org1_id)),
     'organizations/base.html',
     _('Do you REALLY want to have'))
+@login_required
 def organization_merge_perform(request, org1_id, org2_id):
     """organization effective merge"""
 
@@ -385,6 +387,7 @@ def office_merge(request, organization_id, office_id=None):
     unicode(get_object_or_404(Office, pk=office1_id)),
     'organizations/base.html',
     _('Do you REALLY want to have'))
+@login_required
 def office_merge_perform(request, organization_id, office1_id, office2_id):
     """merge offices"""
 
