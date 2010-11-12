@@ -32,7 +32,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from django.conf import settings
 
-from ain7.utils import isAdmin, LoggedClass
+from ain7.utils import isAdmin, LoggedClass, get_root_url
 from ain7.utils import ain7_website_confidential, CONFIDENTIALITY_LEVELS
 
 class Country(models.Model):
@@ -289,8 +289,12 @@ class Person(LoggedClass):
         except IndexError:
              return ''
 
-    def mail_favorite(self):
+    def mail_favorite(self, email=None):
         """return favourite e-mail"""
+
+        if email and Email.objects.filter(person=self,
+            email=email).count() == 1:
+            return email
         try:
              return self.emails.filter(preferred_email=True)[0].email
         except IndexError:
@@ -313,30 +317,74 @@ class Person(LoggedClass):
         """person unicode"""
         return self.first_name + " " + self.last_name
 
-    def send_mail(self, subject, message):
+    def mail_from(self, email=None):
+        """Get a mail from field for message"""
+        mail = self.mail_favorite(email)
+        mail_modified = mail.replace('@','=')
+        return u'Association AIn7 <noreply+'+mail_modified+'@ain7.com>'
+
+    def send_mail(self, subject, message, email=None):
         """person send a mail"""
 
-        mail_list = Email.objects.filter(person=self, preferred_email=True)
-        if mail_list:
-            mail = mail_list[0].email
+        mail = self.mail_favorite(email)
+        if mail:
 
             from email.header import make_header
 
             subject_enc = str(make_header([(subject, 'utf-8')]))
 
-            msg = """From: Association AIn7 <ain7@ain7.com>
+            msg = """From: """+self.mail_from(email)+"""
 To: """+self.first_name+' '+self.last_name+' <'+mail+'>'+"""
 Subject: """+subject_enc+"""
 Mime-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Date:  """+time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime())+"""
+Sender: bounces@ain7.com
+Presence: Bulk
+X-Mailer: Python
 X-Generated-By: AIn7 Web Portal
 
 """+message
 
-            server = smtplib.SMTP('localhost')
-            server.sendmail('ain7@ain7.com', mail, unicode(msg).encode('utf8'))
-            server.quit()
+            smtp = smtplib.SMTP(settings.SMTP_HOST)
+            if settings.SMTP_TLS:
+                smtp.starttls()
+            smtp.ehlo()
+            if settings.SMTP_LOGIN and settings.SMTP_PASSWORD:
+                smtp.login(settings.SMTP_LOGIN, settings.SMTP_PASSWORD)
+            smtp.sendmail('ain7@ain7.com', mail, unicode(msg).encode('utf8'))
+            smtp.quit()
+
+    def password_ask(self, email=None, request=None):
+        """Ask for a password reset"""
+
+        from ain7.pages.models import LostPassword
+
+        lostpw = LostPassword()
+        lostpw.key = User.objects.make_random_password(50)
+        lostpw.person = self
+        lostpw.save()
+
+        root_url = get_root_url(request)
+
+        url = '%s%s' % (root_url, lostpw.get_absolute_url())
+
+        self.send_mail(_('Password reset of your AIn7 account'), \
+                        _("""Hi %(firstname)s,
+
+You have requested a new password for your AIn7 account.
+
+Your user name is: %(login)s
+To reset your password, please follow this link:
+%(url)s
+
+This link will be valid 24h.
+
+If the new password request if not from you, you can safely ignore this message.
+-- 
+http://ain7.com""") % { 'firstname': self.first_name, 'url': url,
+    'login': self.user.username}, email)
+
 
     def get_absolute_url(self):
         return reverse('ain7.annuaire.views.details', args=[self.id])

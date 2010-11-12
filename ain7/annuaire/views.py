@@ -26,6 +26,7 @@ import datetime
 
 from django.contrib import auth
 from django.contrib.auth.models import User
+#from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
@@ -149,7 +150,8 @@ def change_credentials(request, user_id):
     is_myself = int(request.user.id) == int(user_id)
 
     if not is_myself:
-        return HttpResponseRedirect('/annuaire/'+str(user_id)+'/')
+        return HttpResponseRedirect(\
+            reverse('ain7.annuaire.views.details', args=[person.id]))
 
     person = get_object_or_404(Person, pk=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -165,7 +167,8 @@ def change_credentials(request, user_id):
                 person.user.save()
                 request.user.message_set.create(\
                     message=_("Credentials updated."))
-                return HttpResponseRedirect('/annuaire/'+str(person.id)+'/')
+                return HttpResponseRedirect(\
+                    reverse('ain7.annuaire.views.details', args=[person.id]))
             else:
                 request.user.message_set.create(message=\
                     _("Wrong authentication"))
@@ -177,6 +180,7 @@ def change_credentials(request, user_id):
 
 @login_required
 def send_new_credentials(request, user_id):
+    """Send a link for reseting password"""
 
     access = check_access(request, request.user, ['ain7-secretariat'])
     if access:
@@ -185,24 +189,12 @@ def send_new_credentials(request, user_id):
     person = get_object_or_404(Person, pk=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
 
-    password = User.objects.make_random_password(8)
-
-    person.send_mail(_('Password reset of your AIn7 account'), \
-    _("""Hi %(firstname)s,
-
-Someone of the AIn7 Team has requested a new password for your
-AIn7 account.
-
-Your new credentials are:
-Login: %(login)s
-Password: %(password)s
-
--- 
-http://ain7.com""") % { 'firstname': person.first_name, 
- 'login': person.user.username, 'password': password } )
+    person.password_ask(request=request)
 
     request.user.message_set.create(message=_("New credentials have been sent"))
-    return HttpResponseRedirect('/annuaire/'+str(person.id)+'/')
+    #messages.success(request, _("New credentials have been sent"))
+    return HttpResponseRedirect(reverse('ain7.annuaire.views.details', 
+        args=[person.id]))
 
 @login_required
 def advanced_search(request):

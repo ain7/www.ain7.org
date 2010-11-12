@@ -134,6 +134,12 @@ INSTALLED_APPS = (
     'ain7.voyages',
 )
 
+SMTP_HOST='localhost'
+SMTP_PORT=25
+SMTP_LOGIN=''
+SMTP_PASSWORD=''
+SMTP_TLS=False
+
 # attributs non standards
 SKIN = 'default'
 
