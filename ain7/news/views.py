@@ -79,7 +79,8 @@ def edit(request, news_slug=None):
             request.user.message_set.create(message=_('Modifications have been\
  successfully saved.'))
 
-            return HttpResponseRedirect(reverse(details, args=[news_item.slug]))
+            return HttpResponseRedirect(reverse(details, 
+                args=[news_item.slug]))
 
     return ain7_render_to_response(
         request, 'news/edit.html',
@@ -183,6 +184,10 @@ def event_details(request, event_id):
 
     today = datetime.date.today()
     now = datetime.datetime.now()
+
+    if not event.date:
+        return HttpResponseRedirect(reverse(details, args=[event.slug]))
+
     rsvp_display = event.date > now
     if rsvp_display and event.rsvp_begin:
         rsvp_display = rsvp_display and event.rsvp_begin < today
@@ -220,10 +225,10 @@ def event_edit(request, event_id=None):
         if form.is_valid():
             evt = form.save()
             evt.logged_save(request.user.person)
-            request.user.message_set.create(message=_('Event successfully saved'))
+            request.user.message_set.create(\
+                message=_('Event successfully saved'))
 
-            return HttpResponseRedirect(
-                '/evenements/%s/' % evt.id)
+            return HttpResponseRedirect(reverse(event_details, args=[evt.id]))
 
     return ain7_render_to_response(
         request, 'evenements/edit.html',
@@ -252,7 +257,7 @@ def event_image_delete(request, event_id):
 
     request.user.message_set.create(message=
         _('The image of this event has been successfully deleted.'))
-    return HttpResponseRedirect('/evenements/%s/edit/' % event_id)
+    return HttpResponseRedirect(reverse(event_details, args=[event.id]))
 
 @login_required
 def event_attendees(request, event_id):
@@ -267,7 +272,8 @@ def event_attendees(request, event_id):
     event = get_object_or_404(NewsItem, pk=event_id)
 
     attendees_yes = RSVPAnswer.objects.filter(event=event, yes=True)
-    attendees_number = RSVPAnswer.objects.filter(event=event, yes=True).aggregate(Sum('number'))['number__sum']
+    attendees_number = RSVPAnswer.objects.filter(event=event, 
+        yes=True).aggregate(Sum('number'))['number__sum']
     attendees_no = RSVPAnswer.objects.filter(event=event, no=True)
     attendees_maybe = RSVPAnswer.objects.filter(event=event, maybe=True)
 
@@ -282,9 +288,10 @@ def event_attendees(request, event_id):
 
 @login_required
 def event_rsvp(request, event_id, rsvp_id=None):
+    """RSVP answer to an event"""
 
     event = get_object_or_404(NewsItem, pk=event_id)
-    myself= False
+    myself = False
 
     if rsvp_id:
         rsvpanswer = get_object_or_404(RSVPAnswer, pk=rsvp_id)
@@ -303,11 +310,13 @@ def event_rsvp(request, event_id, rsvp_id=None):
         rsvpanswer = get_object_or_404(RSVPAnswer, pk=rsvp_id)
         if rsvpanswer.person == request.user.person:
             myself = True
-        form = RSVPAnswerForm(instance=rsvpanswer, edit_person=False, myself=myself)
+        form = RSVPAnswerForm(instance=rsvpanswer, 
+            edit_person=False, myself=myself)
 
     if request.method == 'POST':
         if rsvp_id:
-            form = RSVPAnswerForm(request.POST, instance=rsvpanswer, edit_person=False, myself=myself)
+            form = RSVPAnswerForm(request.POST, 
+                instance=rsvpanswer, edit_person=False, myself=myself)
         else:
             form = RSVPAnswerForm(request.POST)
         if form.is_valid():
@@ -315,12 +324,14 @@ def event_rsvp(request, event_id, rsvp_id=None):
             rsvp.event = event
             rsvp.updated_by = request.user.person
             if not rsvp.id:
-                 rsvp.created_by = request.user.person
+                rsvp.created_by = request.user.person
             rsvp.save()
-            request.user.message_set.create(message=_('RSVP successfully saved'))
+            request.user.message_set.create(\
+                message=_('RSVP successfully saved'))
 
             if not myself:
-                return HttpResponseRedirect(reverse('ain7.news.views.event_attendees',
+                return HttpResponseRedirect(\
+                    reverse('ain7.news.views.event_attendees',
                     args=[event.id]))
 
             if event.package:
@@ -340,11 +351,13 @@ def event_rsvp(request, event_id, rsvp_id=None):
                 order.person = request.user.person
                 order.save()
 
-                return HttpResponseRedirect(reverse('ain7.shop.views.order_pay',
+                return HttpResponseRedirect(\
+                    reverse('ain7.shop.views.order_pay',
                     args=[order.id]))
 
             else:
-                return HttpResponseRedirect(reverse('ain7.news.views.event_details',
+                return HttpResponseRedirect(\
+                    reverse('ain7.news.views.event_details',
                     args=[event.id]))
 
     return ain7_render_to_response(
@@ -474,7 +487,7 @@ def event_contact(request, event_id):
                 
             request.user.message_set.create(message=_('Your message has been\
  sent to the event responsible.'))
-            return HttpResponseRedirect('/evenements/%s/' % (event.id))
+            return HttpResponseRedirect(reverse(event_details, args=[event_id]))
         else:
             request.user.message_set.create(message=_("Something was wrong in\
  the form you filled. No message sent."))
@@ -535,7 +548,7 @@ def event_organizer_add(request, event_id):
             request.user.message_set.create(message=_('Modifications have been\
  successfully saved.'))
 
-        return HttpResponseRedirect('/evenements/%s/' % event_id)
+        return HttpResponseRedirect(reverse(event_details, args=[evt.id]))
 
     return ain7_render_to_response(
         request, 'evenements/organizer_add.html',
@@ -564,7 +577,7 @@ def event_organizer_delete(request, event_id, organizer_id):
         eventorg.delete()
         request.user.message_set.create(
             message=_('Organizer successfully removed'))
-    return HttpResponseRedirect('/evenements/%s/edit/' % event_id)
+    return HttpResponseRedirect(reverse(event_edit, args=[event_id]))
 
 @login_required
 def event_swap_email_notif(request, event_id, organizer_id):
@@ -582,5 +595,5 @@ def event_swap_email_notif(request, event_id, organizer_id):
         eventorg.send_email_for_new_subscriptions = \
            not(eventorg.send_email_for_new_subscriptions)
         eventorg.save()
-    return HttpResponseRedirect('/evenements/%s/edit/' % event.id)
+    return HttpResponseRedirect(reverse(event_edit, args=[event_id]))
 
