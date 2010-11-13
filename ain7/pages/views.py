@@ -25,6 +25,7 @@ import datetime
 
 from django.conf import settings
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -167,6 +168,7 @@ def login(request):
         return ain7_render_to_response(request, 'pages/login.html',
             {'error': False, 'next': next_page})
 
+@login_required
 def edit(request, text_id):
     """edit text block"""
 
