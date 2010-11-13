@@ -172,9 +172,9 @@ class LoggedClass(models.Model):
         self.last_change_by = person
         return self.save()
         
-    def save(self):
+    def save(self, *args, **kwargs):
         self.last_change_at = datetime.datetime.now()
-        return super(LoggedClass, self).save()
+        return super(LoggedClass, self).save(*args, **kwargs)
         
 def generic_show_last_change(logged_obj):
     """ Utilisé pour le rendu du tag show_last_change.
