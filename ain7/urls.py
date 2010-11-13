@@ -51,7 +51,7 @@ urlpatterns = patterns('',
     (r'^accounts/logout/$', 'ain7.pages.views.logout'),
 
     # servir le contenu statique pendant le dev
-    (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.abspath(os.path.dirname(__file__))+'/media'}),
+    (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 
     # AIn7 management section
     (r'^manage/', include('ain7.manage.urls')),
@@ -128,7 +128,6 @@ urlpatterns = patterns('',
 )
 
 if settings.SEARCH_ENABLED:
-
     urlpatterns += patterns('',
         (r'^search/', include('haystack.urls')),
     )
