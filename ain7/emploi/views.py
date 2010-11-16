@@ -490,12 +490,6 @@ def job_validate(request, job_id=None):
     job.save()
     request.user.message_set.create(
         message=_("Job proposal validated."))
-    # remove notification
-    notif = job.notification.all()
-    if notif:
-        notif[0].delete()
-        request.user.message_set.create(
-            message=_("Corresponding notification removed."))
     return HttpResponseRedirect('/emploi/job/proposals/')
 
 @confirmation_required(lambda job_id=None:
@@ -509,13 +503,6 @@ def job_delete(request, job_id=None):
     if access:
         return access
     job = get_object_or_404(JobOffer, pk=job_id)
-    # remove notification
-    notif = job.notification.all()
-    if notif:
-        notif[0].delete()
-        request.user.message_set.create(
-            message=_("Corresponding notification removed."))
-    # validate
     job.delete()
     request.user.message_set.create(
         message=_("Job proposal removed."))
