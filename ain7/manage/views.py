@@ -1017,13 +1017,13 @@ def mailing_send(request, mailing_id, testing=True, myself=True):
     return HttpResponseRedirect(reverse(mailing_edit, \
         args=[mailing.id]))
 
-def mailing_preview(request, mailing_id):
-    """ preview mailing in a browser"""
+def mailing_view(request, mailing_id):
+    """ view mailing in a browser"""
 
     mailing = get_object_or_404(Mailing, pk=mailing_id)
 
     html = mailing.build_html_body()
 
     return ain7_render_to_response(
-        request, 'manage/mailing_preview.html', {'html': html})
+        request, 'manage/mailing_view.html', {'html': html})
 

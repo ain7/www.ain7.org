@@ -95,7 +95,7 @@ urlpatterns = patterns('ain7.manage.views',
     (r'^mailings/(?P<mailing_id>\d+)/test/$', 'mailing_send'),
     (r'^mailings/(?P<mailing_id>\d+)/testteam/$', 'mailing_sendteam'),
     (r'^mailings/(?P<mailing_id>\d+)/send/$', 'mailing_ready'),
-    (r'^mailings/(?P<mailing_id>\d+)/preview/$', 'mailing_preview'),
+    (r'^mailings/(?P<mailing_id>\d+)/view/$', 'mailing_view'),
 
 )
 
