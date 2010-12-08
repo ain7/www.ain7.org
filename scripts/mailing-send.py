@@ -31,6 +31,6 @@ setup_environ(settings)
 from ain7.manage.models import Mailing
 
 for mailing in Mailing.objects.filter(approved_at__isnull=False, \
-    approved_by__isnull=False, sent_at__isnull=True):
+    approved_by__isnull=False, sent_at__isnull=True, mail_to__isnull=False):
     mailing.send(False)
 

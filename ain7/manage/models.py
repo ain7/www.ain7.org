@@ -73,7 +73,7 @@ class Mailing(models.Model):
     toc = models.BooleanField(verbose_name=_('Table of contents'),
         default=False)
 
-    filter = models.ForeignKey('manage.Filter', null=True, blank=True)
+    mail_to = models.ForeignKey('manage.Filter', verbose_name=_('Mail to'))
 
     introduction = models.TextField(blank=True, null=True)
 
