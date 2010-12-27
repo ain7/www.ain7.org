@@ -2,14 +2,12 @@
 {% load i18n %}
 
 {% block javascript %}
-<script src="/site_media/js/mootools-{{ mootools_version }}-core-nc.js" type="text/javascript"></script>
-<script src="/site_media/js/mootools-{{ mootools_more_version }}-more.js" type="text/javascript"></script> 
-<script src="/site_media/js/autocomplete.js?version={{ portal_version }}" type="text/javascript"></script>
+<script src="{{ MEDIA_URL }}/js/mootools-{{ mootools_version }}-core-nc.js" type="text/javascript"></script>
+<script src="{{ MEDIA_URL }}/js/autocomplete.js?version={{ portal_version }}" type="text/javascript"></script>
 {% endblock %}
 
 {% block stylesheet %}
-<link type="text/css" rel="stylesheet" href="/site_media/css/autocomplete.css?version={{ portal_version }}"/>
-<link type="text/css" rel="stylesheet" href="/site_media/css/floatingpane.css?version={{ portal_version }}"/>
+<link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}/css/autocomplete.css?version={{ portal_version }}"/>
 {% endblock %}
 
 {% block content-left %}

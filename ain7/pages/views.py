@@ -25,6 +25,7 @@ import datetime
 
 from django.conf import settings
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -73,30 +74,9 @@ def lostpassword(request):
         if form.is_valid():
             email = form.cleaned_data['email']
             person = Email.objects.get(email=email).person
-            lostpw = LostPassword()
-            lostpw.key = User.objects.make_random_password(50)
-            lostpw.person = person
-            lostpw.save()
 
-            url = 'http://%s%s' % \
-                (request.get_host(), lostpw.get_absolute_url())
-            person.send_mail(_('Password reset of your AIn7 account'), \
-                        _("""Hi %(firstname)s,
+            person.password_ask(email=email, request=request)
 
-You, or someone posing as you, has requested a new password for your
-AIn7 account.
-
-Your user name is: %(login)s
-To reset your password, please follow this link:
-%(url)s
-
-This link will be valid 24h.
-
-Note: if you did not make this request, you can safely ignore this
-email.
--- 
-http://ain7.com""") % { 'firstname': person.first_name, 'url': url,
-    'login': person.user.username} )
             info = _('We have sent you an email with instructions to reset\
  your password.')
             request.path = '/'
@@ -188,6 +168,7 @@ def login(request):
         return ain7_render_to_response(request, 'pages/login.html',
             {'error': False, 'next': next_page})
 
+@login_required
 def edit(request, text_id):
     """edit text block"""
 

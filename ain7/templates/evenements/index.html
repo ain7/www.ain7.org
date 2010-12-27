@@ -51,7 +51,7 @@
 <h2>{% trans "Actions" %}</h2>
 <ul>
 {% if superadmin or ca_member or secretariat_member or contributeur %}
-<li><a href="{% url ain7.news.views.event_add %}">{% trans "Add an event" %}</a></li>
+<li><a href="{% url ain7.news.views.event_edit %}">{% trans "Add an event" %}</a></li>
 {% endif %}
 <li><a href="{% url ain7.news.views.event_search %}">{% trans "Search an event" %}</a></li>
 <li><a href="{% url ain7.news.views.ical %}">{% trans "Subscribe iCal" %}</a></li>

@@ -31,10 +31,12 @@ from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
+from ain7.annuaire.models import Email
 from ain7.decorators import confirmation_required
-from ain7.news.models import NewsItem
+from ain7.news.models import NewsItem, RSVPAnswer
 from ain7.news.forms import SearchNewsForm, NewsForm, EventForm, \
-     SearchEventForm, ContactEventForm, EventOrganizerForm
+     SearchEventForm, ContactEventForm, EventOrganizerForm, RSVPAnswerForm
+from ain7.shop.models import Order, ShoppingCart, ShoppingCartItem
 from ain7.utils import ain7_render_to_response, check_access
 
 
@@ -73,10 +75,12 @@ def edit(request, news_slug=None):
             form = NewsForm(request.POST, request.FILES)
         if form.is_valid():
             news_item = form.save()
+            news_item.logged_save(request.user.person)
             request.user.message_set.create(message=_('Modifications have been\
  successfully saved.'))
 
-            return HttpResponseRedirect(reverse(details, args=[news_item.slug]))
+            return HttpResponseRedirect(reverse(details, 
+                args=[news_item.slug]))
 
     return ain7_render_to_response(
         request, 'news/edit.html',
@@ -170,14 +174,35 @@ def event_index(request):
 def event_details(request, event_id):
     """event details"""
     event = get_object_or_404(NewsItem, pk=event_id)
+
+    rsvp = None
+    if request.user.is_authenticated() and \
+        RSVPAnswer.objects.filter(person=request.user.person, \
+        event=event).count() == 1:
+            rsvp = RSVPAnswer.objects.get(person=request.user.person, \
+                event=event)
+
+    today = datetime.date.today()
+    now = datetime.datetime.now()
+
+    if not event.date:
+        return HttpResponseRedirect(reverse(details, args=[event.slug]))
+
+    rsvp_display = event.date > now
+    if rsvp_display and event.rsvp_begin:
+        rsvp_display = rsvp_display and event.rsvp_begin < today
+    if rsvp_display and event.rsvp_end:
+        rsvp_display = rsvp_display and event.rsvp_end > today
+
     return ain7_render_to_response(request, 'evenements/details.html',
         {'event': event, 
          'event_list': NewsItem.objects.filter(date__isnull=False),
-         'nbparticipants': event.nb_participants(),
-         'next_events': NewsItem.objects.next_events()})
+         'next_events': NewsItem.objects.next_events(),
+         'rsvp_display': rsvp_display,
+         'rsvp': rsvp})
 
 @login_required
-def event_edit(request, event_id):
+def event_edit(request, event_id=None):
     """event edit"""
 
     access = check_access(request, request.user, 
@@ -185,22 +210,30 @@ def event_edit(request, event_id):
     if access:
         return access
 
-    event = get_object_or_404(NewsItem, pk=event_id)
-    form = EventForm(instance=event)
+    form = EventForm()
+    event = None
+
+    if event_id:
+        event = get_object_or_404(NewsItem, pk=event_id)
+        form = EventForm(instance=event)
 
     if request.method == 'POST':
-        form = EventForm(request.POST, request.FILES, instance=event)
+        if event_id:
+            form = EventForm(request.POST, request.FILES, instance=event)
+        else:
+            form = EventForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            request.user.message_set.create(message=_('Modifications have been\
- successfully saved.'))
+            evt = form.save()
+            evt.logged_save(request.user.person)
+            request.user.message_set.create(\
+                message=_('Event successfully saved'))
 
-        return HttpResponseRedirect(
-            '/evenements/%s/' % event_id)
+            return HttpResponseRedirect(reverse(event_details, args=[evt.id]))
 
     return ain7_render_to_response(
         request, 'evenements/edit.html',
-        {'form': form, 'action_title': _("Modification of event"),
+        {'form': form, 
+         'action_title': _("Event modification"),
          'event': event,
          'event_list': NewsItem.objects.all(),
          'next_events': NewsItem.objects.next_events(),
@@ -224,37 +257,164 @@ def event_image_delete(request, event_id):
 
     request.user.message_set.create(message=
         _('The image of this event has been successfully deleted.'))
-    return HttpResponseRedirect('/evenements/%s/edit/' % event_id)
+    return HttpResponseRedirect(reverse(event_details, args=[event.id]))
 
 @login_required
-def event_add(request):
-    """event add"""
+def event_attendees(request, event_id):
+
+    from django.db.models import Sum
 
     access = check_access(request, request.user,
         ['ain7-ca','ain7-secretariat','ain7-contributeur'])
     if access:
         return access
 
-    form = EventForm()
+    event = get_object_or_404(NewsItem, pk=event_id)
 
-    if request.method == 'POST':
-        form = EventForm(request.POST, request.FILES)
-        if form.is_valid():
-            evt = form.save()
-            evt.last_change_by = request.user.person
-            evt.save()
-            request.user.message_set.create(message=_('Modifications have been\
- successfully saved.'))
-
-            return HttpResponseRedirect('/evenements/%s/' % evt.id)
+    attendees_yes = RSVPAnswer.objects.filter(event=event, yes=True)
+    attendees_number = RSVPAnswer.objects.filter(event=event, 
+        yes=True).aggregate(Sum('number'))['number__sum']
+    attendees_no = RSVPAnswer.objects.filter(event=event, no=True)
+    attendees_maybe = RSVPAnswer.objects.filter(event=event, maybe=True)
 
     return ain7_render_to_response(
-        request, 'evenements/edit.html',
-        {'form': form, 'action_title': _("New event registration"),
-         'event_list': NewsItem.objects.all(),
-         'next_events': NewsItem.objects.next_events(),
+        request, 'evenements/attendees.html',
+        {'attendees_yes': attendees_yes,
+         'attendees_number': attendees_number,
+         'attendees_no': attendees_no,
+         'attendees_maybe': attendees_maybe,
+         'back': request.META.get('HTTP_REFERER', '/'),
+         'event': event})
+
+@login_required
+def event_rsvp(request, event_id, rsvp_id=None):
+    """RSVP answer to an event"""
+
+    event = get_object_or_404(NewsItem, pk=event_id)
+    myself = False
+
+    if rsvp_id:
+        rsvpanswer = get_object_or_404(RSVPAnswer, pk=rsvp_id)
+        if rsvpanswer.person == request.user.person:
+            myself = True
+
+    access = check_access(request, request.user,
+        ['ain7-ca','ain7-secretariat','ain7-contributeur'])
+
+    if access and not myself:
+        return access
+
+    form = RSVPAnswerForm()
+
+    if rsvp_id:
+        rsvpanswer = get_object_or_404(RSVPAnswer, pk=rsvp_id)
+        if rsvpanswer.person == request.user.person:
+            myself = True
+        form = RSVPAnswerForm(instance=rsvpanswer, 
+            edit_person=False, myself=myself)
+
+    if request.method == 'POST':
+        if rsvp_id:
+            form = RSVPAnswerForm(request.POST, 
+                instance=rsvpanswer, edit_person=False, myself=myself)
+        else:
+            form = RSVPAnswerForm(request.POST)
+        if form.is_valid():
+            rsvp = form.save(commit=False)
+            rsvp.event = event
+            rsvp.updated_by = request.user.person
+            if not rsvp.id:
+                rsvp.created_by = request.user.person
+            rsvp.save()
+            request.user.message_set.create(\
+                message=_('RSVP successfully saved'))
+
+            if not myself:
+                return HttpResponseRedirect(\
+                    reverse('ain7.news.views.event_attendees',
+                    args=[event.id]))
+
+            if event.package:
+
+                shc = ShoppingCart()
+                shc.person = request.user.person
+                shc.save()
+
+                sci = ShoppingCartItem()
+                sci.shoppingcart = shc
+                sci.package = event.package
+                sci.quantity = rsvp.number
+                sci.save()
+
+                order = Order()
+                order.shoppingcart = shc
+                order.person = request.user.person
+                order.save()
+
+                return HttpResponseRedirect(\
+                    reverse('ain7.shop.views.order_pay',
+                    args=[order.id]))
+
+            else:
+                return HttpResponseRedirect(\
+                    reverse('ain7.news.views.event_details',
+                    args=[event.id]))
+
+    return ain7_render_to_response(
+        request, 'evenements/rsvp.html',
+        {'form': form, 
+         'action_title': _("RSVP Answer"),
+         'event': event,
          'back': request.META.get('HTTP_REFERER', '/')})
 
+@login_required
+def event_attend_yes(request, event_id):
+    """event details"""
+
+    access = check_access(request, request.user,
+        ['ain7-secretariat', 'ain7-membre'])
+    if access:
+        return access
+
+    event = get_object_or_404(NewsItem, pk=event_id)
+
+    rsvp = event.rsvp_answer(request.user.person, yes=True)
+    print rsvp
+
+    return HttpResponseRedirect(reverse('ain7.news.views.event_rsvp', 
+        args=[event.id, rsvp.id]))
+
+@login_required
+def event_attend_no(request, event_id):
+    """event details"""
+
+    access = check_access(request, request.user,
+        ['ain7-secretariat', 'ain7-membre'])
+    if access:
+        return access
+
+    event = get_object_or_404(NewsItem, pk=event_id)
+
+    event.rsvp_answer(request.user.person, no=True)
+
+    return HttpResponseRedirect(reverse('ain7.news.views.event_details', 
+        args=[event.id]))
+
+@login_required
+def event_attend_maybe(request, event_id):
+    """event details"""
+
+    access = check_access(request, request.user,
+        ['ain7-secretariat', 'ain7-membre'])
+    if access:
+        return access
+
+    event = get_object_or_404(NewsItem, pk=event_id)
+
+    event.rsvp_answer(request.user.person, maybe=True)
+
+    return HttpResponseRedirect(reverse('ain7.news.views.event_details', 
+        args=[event.id]))
 
 def event_search(request):
     """event search"""
@@ -327,7 +487,7 @@ def event_contact(request, event_id):
                 
             request.user.message_set.create(message=_('Your message has been\
  sent to the event responsible.'))
-            return HttpResponseRedirect('/evenements/%s/' % (event.id))
+            return HttpResponseRedirect(reverse(event_details, args=[event_id]))
         else:
             request.user.message_set.create(message=_("Something was wrong in\
  the form you filled. No message sent."))
@@ -383,11 +543,12 @@ def event_organizer_add(request, event_id):
     if request.method == 'POST':
         form = EventOrganizerForm(request.POST)
         if form.is_valid():
-            form.save()
+            evt = form.save()
+            evt.logged_save(request.user.person)
             request.user.message_set.create(message=_('Modifications have been\
  successfully saved.'))
 
-        return HttpResponseRedirect('/evenements/%s/' % event_id)
+        return HttpResponseRedirect(reverse(event_details, args=[evt.id]))
 
     return ain7_render_to_response(
         request, 'evenements/organizer_add.html',
@@ -416,7 +577,7 @@ def event_organizer_delete(request, event_id, organizer_id):
         eventorg.delete()
         request.user.message_set.create(
             message=_('Organizer successfully removed'))
-    return HttpResponseRedirect('/evenements/%s/edit/' % event_id)
+    return HttpResponseRedirect(reverse(event_edit, args=[event_id]))
 
 @login_required
 def event_swap_email_notif(request, event_id, organizer_id):
@@ -434,5 +595,5 @@ def event_swap_email_notif(request, event_id, organizer_id):
         eventorg.send_email_for_new_subscriptions = \
            not(eventorg.send_email_for_new_subscriptions)
         eventorg.save()
-    return HttpResponseRedirect('/evenements/%s/edit/' % event.id)
+    return HttpResponseRedirect(reverse(event_edit, args=[event_id]))
 

@@ -38,7 +38,14 @@ class TextBlock(LoggedClass):
 
     def get_absolute_url(self):
         """text block url"""
-        return self.url
+        if self.url:
+            return self.url
+        else:
+            return None
+
+    def __unicode__(self):
+        """unicode string for test blocks"""
+        return self.shortname
 
 class Text(LoggedClass):
     """Text"""
@@ -51,7 +58,7 @@ class Text(LoggedClass):
     def get_absolute_url(self):
         """ return the URL of the page"""
         return self.textblock.url
-
+      
 class LostPassword(models.Model):
     """store lost password information"""
     person = models.ForeignKey('annuaire.Person')

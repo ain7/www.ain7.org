@@ -191,6 +191,8 @@ class Office(LoggedClass):
         blank=True, null=True)
     phone_number = models.CharField(verbose_name=_('phone number'),
         max_length=20, blank=True, null=True)
+    fax_number = models.CharField(verbose_name=_('fax number'),
+        max_length=20, blank=True, null=True)
     web_site = models.CharField(verbose_name=_('web site'), max_length=100,
         blank=True, null=True)
 

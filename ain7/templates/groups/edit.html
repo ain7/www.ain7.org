@@ -1,13 +1,14 @@
-{% extends "manage/base.html" %}
+{% extends "groups/base.html" %}
 {% load i18n %}
+
 
 {% block content-left %}
 
-<h2>{{ role.name }}</h2>
+    <h1>{{ group.name }}</h1>
 
 <form method="post" action=".">
 <table>
-{{ form }}
+        {{ form }}
 </table>
 <div style="text-align: center">
 <a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
@@ -16,3 +17,5 @@
 </form>
 
 {% endblock %}
+
+

@@ -30,15 +30,14 @@ from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
-from ain7.utils import ain7_render_to_response, ain7_generic_edit, \
-                              ain7_generic_delete, check_access
-from ain7.decorators import confirmation_required
+from ain7.utils import ain7_render_to_response, check_access
 from ain7.organizations.models import Organization, Office
-from ain7.groups.models import Group, Member
-from ain7.manage.models import PortalError, Payment
+from ain7.manage.models import Mailing, PortalError
+from ain7.shop.models import Payment
 from ain7.manage.forms import SearchUserForm, NewPersonForm, \
-                              NewRoleForm, MemberRoleForm, \
-                              PortalErrorForm, ErrorRangeForm, PaymentForm
+                              PortalErrorForm, ErrorRangeForm, \
+                              MailingForm,PaymentForm
+from ain7.news.models import NewsItem
 from ain7.search_engine.models import SearchEngine, SearchFilter
 from ain7.search_engine.forms import SearchFilterForm
 from ain7.search_engine.views import se_filter_swap_op, \
@@ -478,110 +477,6 @@ def adv_export_csv(request, filter_id=None):
         'manage/edit_form.html')
 
 @login_required
-def roles_index(request):
-    """roles index"""
-
-    access = check_access(request, request.user, ['ain7-secretariat'])
-    if access:
-        return access
-
-    roles = Group.objects.all()
-
-    return ain7_render_to_response(request, 'manage/role_index.html',
-        {'roles': roles, 'request': request})
-
-@login_required
-def role_register(request):
-    """new role register"""
-
-    access = check_access(request, request.user, ['ain7-secretariat'])
-    if access:
-        return access
-
-    form = NewRoleForm()
-
-    if request.method == 'POST':
-        form = NewRoleForm(request.POST)
-        if form.is_valid():
-
-            if not Group.objects.filter(\
-                name=form.cleaned_data['name']).count() == 0:
-                request.user.message_set.create(message=_("Several roles have\
- the same name. Please choose another one"))
-
-            else:
-                new_role = form.save()
-                request.user.message_set.create(
-                    message=_("New role successfully created"))
-                return HttpResponseRedirect(
-                    '/manage/roles/%s/' % (new_role.name))
-        else:
-            request.user.message_set.create(message=_("Something was wrong in\
- the form you filled. No modification done."))
-
-    back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request, 'manage/edit_form.html',
-        {'action_title': _('Register new role'), 'back': back, 'form': form})
-
-
-@login_required
-def role_details(request, role_id):
-    """role details"""
-
-    access = check_access(request, request.user, ['ain7-secretariat'])
-    if access:
-        return access
-
-    group = get_object_or_404(Group, slug=role_id)
-    return ain7_render_to_response(request, 'manage/role_details.html',
-                                   {'role': group})
-
-@login_required
-def role_member_add(request, role_id):
-    """add a new member to the role"""
-
-    access = check_access(request, request.user, ['ain7-secretariat'])
-    if access:
-        return access
-
-    group = get_object_or_404(Group, slug=role_id)
-
-    form = MemberRoleForm()
-
-    if request.method == 'POST':
-        form = MemberRoleForm(request.POST)
-        if form.is_valid():
-            member = form.save(commit=False)
-            member.group = group
-            member.save()
-            request.user.message_set.create(message=_('User added to role'))
-            return HttpResponseRedirect('/manage/roles/%s/' % role_id)
-        else:
-            request.user.message_set.create(message=_('User is not correct'))
-
-    back = request.META.get('HTTP_REFERER', '/')
-
-    return ain7_render_to_response(request, 'manage/role_user_add.html',
-                            {'form': form, 'role': group, 'back': back})
-
-@login_required
-def role_member_delete(request, role_id, member_id):
-    """delete member role"""
-
-    access = check_access(request, request.user, ['ain7-secretariat'])
-    if access:
-        return access
-
-    group = get_object_or_404(Group, slug=role_id)
-    member = get_object_or_404(Member, pk=member_id)
-
-    member.end_date = datetime.date.today()
-
-    request.user.message_set.create(message=_('Member removed from role'))
-
-    return HttpResponseRedirect('/manage/roles/%s/' % role_id)
-
-@login_required
 def errors_index(request):
     """errors index"""
 
@@ -1000,4 +895,162 @@ def subscriptions_stats(request):
           'total_amount': total_amount, 
           'total_publications': total_publications
         })
+
+@login_required
+def mailings_index(request):
+    """mailing index"""
+
+    access = check_access(request, request.user, 
+                          ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
+
+    nb_results_by_page = 25
+
+    mailings = Mailing.objects.all().order_by('-id')
+    paginator = Paginator(mailings, nb_results_by_page)
+    try:
+        page = int(request.GET.get('page', '1'))
+        payments = paginator.page(page).object_list
+    except InvalidPage:
+        raise Http404
+
+    return ain7_render_to_response(request, 'manage/mailings_index.html',
+        {'mailings': mailings,
+         'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
+         'has_next': paginator.page(page).has_next(),
+         'has_previous': paginator.page(page).has_previous(),
+         'current_page': page,
+         'next_page': page + 1, 'previous_page': page - 1,
+         'pages': paginator.num_pages,
+         'first_result': (page - 1) * nb_results_by_page +1,
+         'last_result': min((page) * nb_results_by_page, paginator.count),
+         'hits' : paginator.count})
+
+@login_required
+def mailing_ready(request, mailing_id):
+    """declare a mailing as ready to send"""
+
+    access = check_access(request, request.user, 
+                          ['ain7-secretariat'])
+    if access:
+        return access
+
+    mailing = get_object_or_404(Mailing, pk=mailing_id)
+
+    if not mailing.approved_at or not mailing.approved_by:
+        mailing.approved_at = datetime.datetime.now()
+        mailing.approved_by = request.user.person
+        mailing.save()
+    else:
+        request.user.message_set.create(message=_('Mailing already \
+ approved by %(person)s on %(date)s') % {'person': mailing.approved_by, 
+        'date': mailing.approved_at})
+
+    return HttpResponseRedirect(reverse(mailing_edit, \
+         args=[mailing.id]))
+
+@login_required
+def mailing_edit(request, mailing_id=None):
+    """mailing edit"""
+
+    access = check_access(request, request.user, 
+                          ['ain7-ca', 'ain7-secretariat'])
+    if access:
+        return access
+
+    news = NewsItem.objects.all().order_by('-id')[:25]
+
+    if mailing_id:
+        mailing = get_object_or_404(Mailing, pk=mailing_id)
+        form = MailingForm(instance=mailing, news=news)
+    else:
+        mailing = None
+        form = MailingForm(news=news)
+
+
+    if request.method == 'POST':
+        if mailing_id:
+            form = MailingForm(request.POST.copy(), instance=mailing, news=news)
+        else:
+            form = MailingForm(request.POST.copy(), news=news)
+
+        if form.is_valid():
+            mailing = form.save(commit=False)
+
+            if not mailing_id:
+                mailing.created_by = request.user.person
+            mailing.modified_by = request.user.person
+            mailing.save()
+            request.user.message_set.create(message=_('Mailing successfully\
+ updated'))
+            return HttpResponseRedirect(reverse(mailing_edit, \
+                args=[mailing.id]))
+        else:
+            request.user.message_set.create(message=_('Something was wrong in\
+ the form you filled. No modification done.') + str(form.errors))
+
+    back = request.META.get('HTTP_REFERER', '/')
+
+    return ain7_render_to_response(
+        request, 'manage/mailing_edit.html', {'mailing': mailing,
+            'news': news, 'form': form, 'back': back})
+
+@login_required
+def mailing_sendteam(request, mailing_id, testing=True, myself=False):
+    """send test maling to the team"""
+    return mailing_send(request, mailing_id, testing, myself)
+
+@login_required
+def mailing_send(request, mailing_id, testing=True, myself=True):
+    """ send mailing"""
+
+    access = check_access(request, request.user, 
+                          ['ain7-secretariat'])
+    if access:
+        return access
+
+    mailing = get_object_or_404(Mailing, pk=mailing_id)
+
+    mailing.send(testing, myself, request)
+
+    return HttpResponseRedirect(reverse(mailing_edit, \
+        args=[mailing.id]))
+
+def mailing_view(request, mailing_id):
+    """ view mailing in a browser"""
+
+    mailing = get_object_or_404(Mailing, pk=mailing_id)
+
+    html = mailing.build_html_body()
+
+    return ain7_render_to_response(
+        request, 'manage/mailing_view.html', {'html': html})
+
+@login_required
+def mailing_export(request, mailing_id):
+    """output csv of people without mail"""
+
+    import csv
+    from django.http import HttpResponse
+
+    access = check_access(request, request.user, 
+                          ['ain7-secretariat'])
+    if access:
+        return access
+
+    mailing = get_object_or_404(Mailing, pk=mailing_id)
+
+    response = HttpResponse(mimetype='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=mailing_'+str(mailing_id)+'.csv'
+
+    writer = csv.writer(response)
+
+    for per in mailing.nomail_export():
+        try:
+            writer.writerow([per.first_name.encode('utf-8'), per.last_name.encode('utf-8'), per.ain7member.promo(), per.ain7member.track().encode('utf-8'), per.address()['line1'].encode('utf-8'), per.address()['line2'].encode('utf-8'), per.address()['zip_code'], per.address()['city'].encode('utf-8'), per.address()['country'].encode('utf-8')])
+        except Exception:
+            pass
+
+    return response
 

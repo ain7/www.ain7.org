@@ -1,6 +1,7 @@
 .*project
 filldbain7*
 ain7.db
+filters_local.py
 settings_local.py
 ain7/data/*
 ain7/media/data/*

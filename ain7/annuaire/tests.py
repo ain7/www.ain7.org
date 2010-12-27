@@ -21,17 +21,20 @@
 #
 #
 
-import unittest
+from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from django.test import TestCase
+
 from ain7.ajax.views import ajax_resolve
 
 
-class AjaxResolveTestCase(unittest.TestCase):
+class AjaxResolveTestCase(TestCase):
     """
     Tests relative to ajax (which is not an app, so these
     tests are put here)
     """
     
-    def testMapping(self):
+    def test_mapping(self):
         """Tests whether all fields listed in ajax_resolve exist in models."""
         for model, pairs in ajax_resolve().iteritems():
             if model.objects.count() > 0:
@@ -40,12 +43,11 @@ class AjaxResolveTestCase(unittest.TestCase):
                     getattr(model_inst, field_name)
                 
                 
-    def testUrlUniqueness(self):
+    def test_url_uniqueness(self):
         """Tests the uniqueness of Ajax URLs."""
         urls = []
         for model, pairs in ajax_resolve().iteritems():
             for field_name, completed_name in pairs:
                 assert( completed_name not in urls )
                 urls.append( completed_name )
-                
-            
+

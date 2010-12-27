@@ -19,13 +19,14 @@
 <h2>{% trans "Navigation" %}</h2>
 <div class="grey-box">
 <ul>
-<li><a href="{% url ain7.manage.views.users_search %}">{% trans "Manage users" %}</a></li>
+<li><a href="{% url ain7.manage.views.users_search %}">{% trans "Users" %}</a></li>
 {% if superadmin or secretariat_member %}
-<li><a href="{% url ain7.manage.views.roles_index %}">{% trans "Manage roles" %}</a></li>
 {% endif %}
-<li><a href="{% url ain7.organizations.views.organization_search %}">{% trans "Manage organizations" %}</a></li>
+<li><a href="{% url ain7.organizations.views.organization_search %}">{% trans "Organizations" %}</a></li>
 <li><a href="{% url ain7.manage.views.errors_index %}">{% trans "Errors" %}</a></li>
 <li><a href="{% url ain7.manage.views.payments_index %}">{% trans "Payments" %}</a></li>
+<li><a href="{% url ain7.manage.views.mailings_index %}">{% trans "Mailings" %}</a></li>
+<li><a href="{% url ain7.manage.views.subscriptions_stats %}">{% trans "Subscriptions" %}</a></li>
 <li><a href="{% url ain7.manage.views.payments_deposit_index %}">{% trans "Deposit slip" %}</a></li>
 {% block extra-navigation %}{% endblock %}
 </ul>

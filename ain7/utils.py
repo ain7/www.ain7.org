@@ -172,9 +172,9 @@ class LoggedClass(models.Model):
         self.last_change_by = person
         return self.save()
         
-    def save(self):
+    def save(self, *args, **kwargs):
         self.last_change_at = datetime.datetime.now()
-        return super(LoggedClass, self).save()
+        return super(LoggedClass, self).save(*args, **kwargs)
         
 def generic_show_last_change(logged_obj):
     """ Utilisé pour le rendu du tag show_last_change.
@@ -183,6 +183,13 @@ def generic_show_last_change(logged_obj):
         raise TemplateSyntaxError, \
             "show_last_change should only be used with LoggedClass objects."
     return {'obj': logged_obj}
+
+def get_root_url(request=None):
+    if request:
+        return 'http' + ('', 's')[request.is_secure()] + '://' + request.get_host()
+    else:
+        from django.contrib.sites.models import Site
+        return 'http://'+Site.objects.all()[0].domain
 
 class AIn7ModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):

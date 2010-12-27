@@ -1,0 +1,57 @@
+{% extends "evenements/base.html" %}
+{% load i18n ain7_tags %}
+
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
+{% block content-main %}
+
+	<h2><a href="{{ event.get_absolute_url }}">{{ event.title }}</a></h2>
+
+        <div id="edition">
+        <p><b>{{ attendees_yes.count }} {% trans "attendees" %}</b></p>
+	<table border="0" width="100%" class="datas">
+        <tr><th>&nbsp;</th><th>{% trans "Person" %}</th><th>{% trans "Answer Date" %}</th><th>{% trans "Number of attendees" %}</th><th>{% trans "Subscriber" %}</th><th>{% trans "Payment" %}</th></tr>
+        {% for attendee in attendees_yes %}
+        <tr><td><a href="{% url ain7.news.views.event_rsvp attendee.event.id attendee.id %}" class="changelink"></a></td><td><a href="{% url ain7.annuaire.views.details attendee.person.user.id %}">{{ attendee.person }}</a></td><td>{{ attendee.updated_on|date:"l d F Y H:i" }}</td><td>{{ attendee.number }}</td><td>{% if attendee.person.ain7member.is_subscriber %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</td><td>{{ attendee.payment }}</td></tr>
+        {% endfor %}
+        <tr><td colspan="3"><b>Total</b></td><td><b>{{ attendees_number }}</b></td></tr>
+        </table>
+<p><a href="{% url ain7.news.views.event_rsvp event.id %}" class="addlink">{% trans "Add an attendee" %}</a></p>
+
+        <p>&nbsp;</p>
+
+        <p><b>{{ attendees_no.count }} {% trans "person(s) who answer no" %}</b></p>
+	<table border="0" width="100%" class="datas">
+        <tr><th>&nbsp;</th><th>{% trans "Person" %}</th><th>{% trans "Answer Date" %}</th></tr>
+        {% for attendee in attendees_no %}
+        <tr><td><a href="{% url ain7.news.views.event_rsvp attendee.event.id attendee.id %}" class="changelink"></a></td><td><a href="{% url ain7.annuaire.views.details attendee.person.user.id %}">{{ attendee.person }}</a></td><td>{{ attendee.updated_on|date:"l d F Y H:i" }}</td></tr>
+        {% endfor %}
+        </table>
+
+        <p>&nbsp;</p>
+
+        <p><b>{{ attendees_maybe.count }} {% trans "person(s) who answer maybe" %}</b></p>
+	<table border="0" width="100%" class="datas">
+        <tr><th>&nbsp;</th><th>{% trans "Person" %}</th><th>{% trans "Answer Date" %}</th></tr>
+        {% for attendee in attendees_maybe %}
+        <tr><td><a href="{% url ain7.news.views.event_rsvp attendee.event.id attendee.id %}" class="changelink"></a></td><td><a href="{% url ain7.annuaire.views.details attendee.person.user.id %}">{{ attendee.person }}</a></td><td>{{ attendee.updated_on|date:"l d F Y H:i" }}</td></tr>
+        {% endfor %}
+        </table>
+        </div>
+
+{% endblock %}
+
+{% block actions %}
+	<h3>{% trans "Actions" %}</h3>
+	<div class="right_block">
+		<ul>
+			<li><a href="{% url ain7.news.views.event_contact event.id %}">{% trans "Contact the event responsible" %}</a></li>
+                        {% if superadmin or ca_member or secretariat_member or contributeur %}
+			<li><a href="{% url ain7.news.views.event_edit event.id %}">{% trans "Edit this event" %}</a></li>
+			<li><a href="{% url ain7.news.views.event_attendees event.id %}">{% trans "View attendees" %}</a></li>
+                        {% endif %}
+		</ul>
+        </div>
+{% endblock %}
+

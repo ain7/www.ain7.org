@@ -60,7 +60,9 @@
       {% endifequal %}
   </td>
   <td align="center">
+    {% if subscription.payment %}
     <a href="{% url ain7.manage.views.payment_details subscription.payment.id %}">#{{ subscription.payment.id }}</a> {% trans "by" %} {{ subscription.payment.get_type_display }}
+    {% endif %}
   </td>
   <td align="center">
     {% if not subscription.validated %}

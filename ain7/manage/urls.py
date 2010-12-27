@@ -69,14 +69,6 @@ urlpatterns = patterns('ain7.manage.views',
     (r'^users/$', 'users_search'),
     (r'^users/register/$', 'user_register'),
 
-    # Roles
-    (r'^roles/$', 'roles_index'),
-    (r'^roles/register/$', 'role_register'),
-    (r'^roles/(?P<role_id>[A-Za-z0-9.\-_]+)/$', 'role_details'),
-    (r'^roles/(?P<role_id>[A-Za-z0-9.\-_]+)/member/(?P<member_id>\d+)/delete/$',
-     'role_member_delete'),
-    (r'^roles/(?P<role_id>[A-Za-z0-9.\-_]+)/member/add/$', 'role_member_add'),
-
     # Errors
     (r'^errors/$', 'errors_index'),
     (r'^errors/(?P<error_id>\d+)/$', 'error_details'),
@@ -95,6 +87,16 @@ urlpatterns = patterns('ain7.manage.views',
 
     # Subscriptions
     (r'^subscriptions/$', 'subscriptions_stats'),
+
+    # mailings
+    (r'^mailings/$', 'mailings_index'),
+    (r'^mailings/add/$', 'mailing_edit'),
+    (r'^mailings/(?P<mailing_id>\d+)/$', 'mailing_edit'),
+    (r'^mailings/(?P<mailing_id>\d+)/test/$', 'mailing_send'),
+    (r'^mailings/(?P<mailing_id>\d+)/testteam/$', 'mailing_sendteam'),
+    (r'^mailings/(?P<mailing_id>\d+)/send/$', 'mailing_ready'),
+    (r'^mailings/(?P<mailing_id>\d+)/csv/$', 'mailing_export'),
+    (r'^mailings/(?P<mailing_id>\d+)/view/$', 'mailing_view'),
 
 )
 

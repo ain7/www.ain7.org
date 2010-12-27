@@ -25,5 +25,6 @@ tinyMCE.init({
    theme_advanced_buttons4 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,spellchecker,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,blockquote,pagebreak,|,insertfile,insertimage",
   },
    verify_html: true,
+   convert_urls : false,
    extended_valid_elements : "img[id|dir|lang|longdesc|usemap|style|class|src|onmouseover|onmouseout|alt|title|hspace|vspace|width|height|align]"
 });

@@ -23,6 +23,7 @@
 import os.path
 
 from django.conf.urls.defaults import *
+from django.conf import settings
 
 from ain7.feeds import LatestsEvents, LatestsNews
 from ain7.sitemaps import EventsSitemap, TextsSitemap, NewsSitemap, GroupesProSitemap
@@ -50,7 +51,7 @@ urlpatterns = patterns('',
     (r'^accounts/logout/$', 'ain7.pages.views.logout'),
 
     # servir le contenu statique pendant le dev
-    (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.abspath(os.path.dirname(__file__))+'/media'}),
+    (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 
     # AIn7 management section
     (r'^manage/', include('ain7.manage.urls')),
@@ -70,11 +71,17 @@ urlpatterns = patterns('',
     # evenements
     (r'^evenements/', include('ain7.news.urls_events')),
 
+    # groups
+    (r'^groups/', include('ain7.groups.urls')),
+ 
     # groupes professionnels
     (r'^groupes_professionnels/', include('ain7.groupes_professionnels.urls')),
 
     # groupes regionaux
     (r'^groupes_regionaux/', include('ain7.groupes_regionaux.urls')),
+
+    # shop
+    (r'^shop/', include('ain7.shop.urls')),
 
     # sondage
     (r'^sondages/', include('ain7.sondages.urls')),
@@ -117,4 +124,11 @@ urlpatterns = patterns('',
     # sitemaps
     (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
 
+
 )
+
+if settings.SEARCH_ENABLED:
+    urlpatterns += patterns('',
+        (r'^search/', include('haystack.urls')),
+    )
+

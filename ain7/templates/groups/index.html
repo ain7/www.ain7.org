@@ -1,0 +1,21 @@
+{% extends "groups/base.html" %}
+{% load i18n %}
+
+{% block javascript %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+
+{% block content-left %}
+
+<ul>
+{% for group in groups_pro %}
+   <li><a href="{% url ain7.groups.views.details group.slug %}">{{ group }}</a></li>
+{% endfor %}
+</ul>
+
+<ul>
+{% for group in groups_regional %}
+   <li><a href="{% url ain7.groups.views.details group.slug %}">{{ group }}</a></li>
+{% endfor %}
+</ul>
+
+{% endblock %}

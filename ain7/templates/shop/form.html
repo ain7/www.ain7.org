@@ -1,0 +1,21 @@
+{% extends "shop/base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div id="content-main">
+
+    <h2>{{ title }}</h2>
+
+    <form method="post" action=".">
+    <table class="form">
+       {{ form }}
+    </table>
+    <div style="text-align: center">
+       <input type="submit" class="button" value="{% trans "Save" %}" />
+    </div>
+    </form>
+
+</div>
+
+{% endblock %}

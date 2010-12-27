@@ -28,10 +28,11 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person, Country, Email
+from ain7.news.models import NewsItem
 from ain7.organizations.models import Organization
 from ain7.fields import AutoCompleteField
-from ain7.groups.models import Group, Member
-from ain7.manage.models import Payment, PortalError
+from ain7.manage.models import Mailing, MailingItem, PortalError
+from ain7.shop.models import Payment
 from ain7.widgets import DateTimeWidget
 
 
@@ -60,41 +61,6 @@ class SearchUserForm(forms.Form):
                 ain7member__positions__office__organization__exact=\
                 Organization.objects.get(id=self.cleaned_data['organization']))
         return Person.objects.filter(querry).distinct()
-
-class SearchRoleForm(forms.Form):
-    """role search form"""
-    name = forms.CharField(label=_('Name'), max_length=50, required=False)
-
-    def search(self):
-        """search method for a role"""
-        criteria = {'name__icontains':self.cleaned_data['name']}
-        return Group.objects.filter(**criteria).order_by('name')
-
-
-class MemberRoleForm(forms.ModelForm):
-    """add a new member to a role form"""
-    member = forms.IntegerField(label=_('Username'), required=True,
-        widget=AutoCompleteField(completed_obj_name='person'))
-
-    class Meta:
-        model = Member
-        exclude = ['group', 'start_date', 'end_date', 'expiration_date']
-
-    def clean_member(self):
-        """check username"""
-        pid = self.cleaned_data['member']
-        if pid == None:
-            raise ValidationError(_('This field is mandatory.'))
-            return None
-        else:
-            person = None
-            try:
-                person = Person.objects.get(id=pid)
-            except Person.DoesNotExist:
-                raise ValidationError(_('The entered person is not in\
- the database.'))
-            return person
-
 
 class NewPersonForm(forms.ModelForm):
     """new person form"""
@@ -167,22 +133,6 @@ class NewPersonForm(forms.ModelForm):
 
         return new_person
 
-class NewRoleForm(forms.ModelForm):
-    """define new role form"""
-    name = forms.CharField(label=_('Name'), max_length=50, required=True, 
-        widget=forms.TextInput(attrs={'size':40}))
-
-    class Meta:
-        """NewRoleForm meta information"""
-        model = Group
-        exclude = ('permissions',)
-
-    def save(self):
-        """new role save method"""
-        new_role = Group(name = self.cleaned_data['name'])
-        new_role.save()
-        
-        return new_role
 
 class PaymentForm(forms.ModelForm):
     """payment form"""
@@ -194,7 +144,7 @@ class PaymentForm(forms.ModelForm):
     class Meta:
         """Payment meta information"""
         model = Payment
-        exclude = ('mean', 'person')
+        exclude = ('method', 'person')
 
 class PortalErrorForm(forms.ModelForm):
     """error form"""
@@ -235,3 +185,54 @@ class ErrorRangeForm(forms.Form):
             error.comment += self.cleaned_data['comment']
             error.save()
         return
+
+class MailingForm(forms.ModelForm):
+    """mailing form"""
+
+    def __init__(self, *args, **kwargs):
+        self.news = []
+        if kwargs.has_key('news'):
+            self.news = kwargs['news']
+            del kwargs['news']
+
+        super (MailingForm, self ).__init__(*args,**kwargs)
+        for item in self.news:
+            default_value = False
+            if kwargs.has_key('instance'):
+                mailing = Mailing.objects.get(id=kwargs['instance'].id)
+                if MailingItem.objects.filter(mailing=mailing, \
+                    newsitem=item).count() == 1:
+                    default_value = True
+            self.fields[item.slug] = forms.BooleanField(required=False, 
+                initial=default_value, label=item.title)
+
+
+    def save(self, *args, **kwargs):
+        """save event"""
+        mailing = super(MailingForm, self).save()
+
+        for item in self.news:
+            newsitem = NewsItem.objects.get(slug=item.slug)
+            try:
+                mailingitem = MailingItem.objects.get(mailing=mailing,
+                    newsitem=newsitem)
+            except Exception:
+                mailingitem = MailingItem()
+
+            if self.cleaned_data[item.slug]:
+                mailingitem.mailing = mailing
+                mailingitem.newsitem = newsitem
+                mailingitem.save()
+            else:
+                if mailingitem.id:
+                    mailingitem.delete()
+
+        return mailing
+
+
+    class Meta:
+        """mailing meta information"""
+        model = Mailing
+        exclude = ('created_at', 'created_by', 'modified_at', 'modified_by',
+            'sent_at', 'approved_by', 'approved_at')
+

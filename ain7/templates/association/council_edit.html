@@ -3,14 +3,13 @@
 
 {% block javascript %}
 <!-- calendar -->
-<script src="/site_media/js/calendar/calendar.js" type="text/javascript"></script>
+<script src="{{ MEDIA_URL }}/js/calendar/calendar.js" type="text/javascript"></script>
 <!-- this is translation file for calendar - choose your language here -->
-<script src="/site_media/js/calendar/lang/calendar-en.js" type="text/javascript"></script>
-<script src="/site_media/js/calendar/calendar-setup.js" type="text/javascript"></script>
+<script src="{{ MEDIA_URL }}/js/calendar/lang/calendar-en.js" type="text/javascript"></script>
+<script src="{{ MEDIA_URL }}/js/calendar/calendar-setup.js" type="text/javascript"></script>
 <!-- /calendar -->
-<script src="/site_media/js/mootools-{{ mootools_version }}-core-nc.js" type="text/javascript"></script>
-<script src="/site_media/js/mootools-{{ mootools_more_version }}-more.js" type="text/javascript"></script> 
-<script src="/site_media/js/autocomplete.js?version={{ portal_version }}" type="text/javascript"></script>
+<script src="{{ MEDIA_URL }}/js/mootools-{{ mootools_version }}-core-nc.js" type="text/javascript"></script>
+<script src="{{ MEDIA_URL }}/js/autocomplete.js?version={{ portal_version }}" type="text/javascript"></script>
 {% endblock %}
 
 {% block content-left %}

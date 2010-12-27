@@ -32,7 +32,41 @@ from ain7.annuaire.models import Person
 from ain7.groups.models import Group
 from ain7.utils import LoggedClass
 
-# a Manager for the class NewsItem
+
+class EventOrganizer(models.Model):
+    """event organizer"""
+
+    event = models.ForeignKey('news.NewsItem', verbose_name=_('event'),
+        related_name='event_organizers')
+    organizer = models.ForeignKey(Person, verbose_name=_('organizer'),
+        related_name='organized_events')
+    send_email_for_new_subscriptions = models.BooleanField(default=False,
+            verbose_name=_('send email for new subscription'))
+
+class RSVPAnswer(models.Model):
+
+    person = models.ForeignKey('annuaire.Person')
+    event = models.ForeignKey('news.NewsItem')
+    yes = models.BooleanField(default=False)
+    no = models.BooleanField(default=False)
+    maybe = models.BooleanField(default=False)
+    number = models.IntegerField(verbose_name=_('number of persons'), default=1)
+    payment = models.ForeignKey('shop.Payment', null=True, blank=True)
+
+    created_on = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey('annuaire.Person', related_name='rsvpanswers_created')
+    updated_on = models.DateTimeField(auto_now=True)
+    updated_by = models.ForeignKey('annuaire.Person', related_name='rsvpanswers_updated')
+
+    def answer(self):
+       if self.yes:
+           return _('yes')
+       if self.no:
+           return _('no')
+       if self.maybe:
+           return _('maybe')
+
+
 class NewsItemManager(models.Manager):
     """news item manager"""
 
@@ -61,7 +95,7 @@ class NewsItem(LoggedClass):
         default=datetime.datetime.today, editable=False)
 
     # to which group we should link this news
-    groups = models.ManyToManyField(Group,
+    groups = models.ManyToManyField('groups.Group',
          verbose_name=_('groups'), related_name='events',
          blank=True, null=True)
 
@@ -74,14 +108,23 @@ class NewsItem(LoggedClass):
     contact_email = models.EmailField(verbose_name=_('contact email'),
         max_length=50, blank=True, null=True)
 
-    link = models.CharField(verbose_name=_('external link'), max_length=60, blank=True,
-        null=True)
+    link = models.CharField(verbose_name=_('external link'), max_length=60,
+        blank=True, null=True)
 
 #   organizers = models.ManyToManyField(Person, verbose_name=_('organizers'),
 #         related_name='events', blank=True, null=True, through='EventOrganizer')
     pictures_gallery = models.CharField(verbose_name=_('Pictures gallery'),
          max_length=100, blank=True, null=True)
 
+    package = models.ForeignKey('shop.Package', blank=True, null=True)
+
+    rsvp_question = models.CharField(verbose_name=_('extra question'), 
+        max_length=100, blank=True, null=True)
+    rsvp_begin = models.DateField(verbose_name=_('rsvp begin'), 
+        blank=True, null=True)
+    rsvp_end = models.DateField(verbose_name=_('rsvp end'), 
+        blank=True, null=True)
+    rsvp_multiple = models.BooleanField(default=True)
 
     objects = NewsItemManager()
 
@@ -105,26 +148,39 @@ class NewsItem(LoggedClass):
         self.slug = defaultfilters.slugify(self.title)
         super(NewsItem, self).save()
 
-    def nb_participants(self):
+    def rsvp_answer(self, person, yes=False, no=False, maybe=False):
+        """define a rsvp answer to an event"""
+
+        rsvp = None
+
+        if RSVPAnswer.objects.filter(person=person, event=self).count() == 1:
+            rsvp = RSVPAnswer.objects.get(person=person, event=self)
+            rsvp.no = no
+            rsvp.yes = yes
+            rsvp.maybe = maybe
+            rsvp.updated_by = person
+        else:
+            rsvp = RSVPAnswer(person=person, event=self,
+                 created_by=person, updated_by=person,
+                 no=no, yes=yes, maybe=maybe, number=0)
+
+        if yes:
+            rsvp.number = 1
+        rsvp.save()
+        return rsvp
+
+    def attendees(self):
+        """return event attendees"""
+        return self.RSVAnswers.filter(yes=True)
+
+    def attendeees_number(self):
         """Renvoie le nombre de participants à l'événement."""
         nbpart = 0
+        for sub in self.RSVPAnswers.filter(yes=True):
+            nbpart += sub.number
         return nbpart
-#        for sub in self.subscriptions.all():
-#            nbpart += sub.subscriber_number
-#        return nbpart
-
 
     class Meta:
         """news item meta information"""
         verbose_name = _('news item')
-
-class EventOrganizer(models.Model):
-    """event organizer"""
-
-    event = models.ForeignKey(NewsItem, verbose_name=_('event'),
-        related_name='event_organizers')
-    organizer = models.ForeignKey(Person, verbose_name=_('organizer'),
-        related_name='organized_events')
-    send_email_for_new_subscriptions = models.BooleanField(default=False,
-            verbose_name=_('send email for new subscription'))
 

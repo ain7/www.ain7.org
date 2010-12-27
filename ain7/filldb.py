@@ -38,6 +38,7 @@ import ain7.manage.models as manage
 import ain7.pages.models as pages
 import ain7.news.models as news
 import ain7.search_engine.models as search_engine
+import ain7.shop.models as shop
 import ain7.sondages.models as sondages
 import ain7.voyages.models as voyages
 
@@ -1918,7 +1919,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 
     sylvie_couriel1 = annuaire.Email()
     sylvie_couriel1.person = sylvie
-    sylvie_couriel1.email = "noreply@ain7.info"
+    sylvie_couriel1.email = "noreply+sh@ain7.com"
     sylvie_couriel1.preferred_email = True
 
     frederique = annuaire.Person()
@@ -1942,7 +1943,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 
     frederique_couriel1 = annuaire.Email()
     frederique_couriel1.person = frederique
-    frederique_couriel1.email = "noreply@ain7.info"
+    frederique_couriel1.email = "noreply+ff@ain7.com"
     frederique_couriel1.preferred_email = True
     frederique_couriel1.save()
 
@@ -1967,7 +1968,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 
     recruteur_couriel1 = annuaire.Email()
     recruteur_couriel1.person = recruteur
-    recruteur_couriel1.email = "noreply@ain7.info"
+    recruteur_couriel1.email = "noreply+recruteur@ain7.com"
     recruteur_couriel1.preferred_email = True
     recruteur_couriel1.save()
 
@@ -2964,7 +2965,7 @@ Petit déjeuner, temps libre jusqu’au transfert vers l’aéroport internation
     job5.modified_by = lionel
     job5.save()
 
-    p1 = manage.Payment()
+    p1 = shop.Payment()
     p1.amount = 15
     p1.type = 1
     p1.registered = datetime.now()

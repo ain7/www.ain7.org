@@ -14,7 +14,7 @@
            {% if r.person.ain7member.avatar %}
             <img src ="{{ r.person.ain7member.avatar.url }}" height="50"  alt="{{ r.person.complete_name }}" title="{{ r.person.complete_name }}" />
             {% else %}
-            <img src="/site_media/images/nobody.png" height="50" alt="{{ r.person.complete_name }}"/>
+            <img src="{{ MEDIA_URL }}/images/nobody.png" height="50" alt="{{ r.person.complete_name }}"/>
             {% endif %}
         </td>
         <td>

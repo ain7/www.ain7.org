@@ -58,6 +58,18 @@ LANGUAGE_CODE = 'fr'
 
 SITE_ID = 1
 
+# enable or disable applications
+FORUM_ENABLED=False
+SEARCH_ENABLED=False
+ADVANCEDSEARCH_ENABLED=False
+SHOP_ENABLED=False
+PIWIK_ENABLED=False
+
+try:
+    from settings_features import *
+except ImportError:
+    pass
+
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = BASE_DIR + '/media'
@@ -97,7 +109,7 @@ ROOT_URLCONF = 'ain7.urls'
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates".
     # Always use forward slashes, even on Windows.
-    '/usr/share/python-support/python-django/django/contrib/admin/templates',
+    '/usr/share/pyshared/django/contrib/admin/templates/',
     BASE_DIR + '/templates',
 )
 
@@ -112,16 +124,21 @@ INSTALLED_APPS = (
     'ain7.association',
     'ain7.emploi',
     'ain7.groups',
-    'ain7.groupes_professionnels',
-    'ain7.groupes_regionaux',
     'ain7.manage',
     'ain7.news',
     'ain7.organizations',
     'ain7.pages',
+    'ain7.search_engine',
+    'ain7.shop',
     'ain7.sondages',
     'ain7.voyages',
-    'ain7.search_engine',
 )
+
+SMTP_HOST='localhost'
+SMTP_PORT=25
+SMTP_LOGIN=''
+SMTP_PASSWORD=''
+SMTP_TLS=False
 
 # attributs non standards
 SKIN = 'default'
@@ -130,7 +147,7 @@ PIWIK_URL = 'http://localhost/piwik/'
 PIWIK_SITE_ID = '0'
 
 # Version
-BASE = '1.2.6'
+BASE = '1.3.2'
 REVISION = ''
 
 try:
@@ -157,6 +174,14 @@ SPPLUS_IP = ['127.0.0.1']
 AIN7_SIRET = '0000000000000001-001'
 
 ENVIRONMENT= 'production'
+
+if SEARCH_ENABLED:
+    HAYSTACK_SITECONF = 'ain7.search_sites'
+    HAYSTACK_SEARCH_ENGINE = 'xapian'
+    HAYSTACK_XAPIAN_PATH = BASE_DIR +'/data/xapian/'
+
+    INSTALLED_APPS += ('haystack',)
+
 
 try:
     from settings_local import *
