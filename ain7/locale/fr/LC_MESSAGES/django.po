@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-27 21:20+0100\n"
+"POT-Creation-Date: 2010-12-27 21:53+0100\n"
 "PO-Revision-Date: 2010-01-15 22:50+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: AIn7 French Translators <ain7-devel@lists.ain7.com>\n"
@@ -557,7 +557,7 @@ msgstr ""
 "Pour redéfinir votre mot de passe, veuillez suivre ce lien:\n"
 "%(url)s\n"
 "\n"
-"Ce lien restera valide 24h\n"
+"Ce lien restera valide 24h.\n"
 "\n"
 "Si cette requête n'émane pas de vous, vous pouvez sans risque ignorer\n"
 "ce courriel.\n"
@@ -1385,7 +1385,7 @@ msgstr "Date de dépôt"
 msgid "from"
 msgstr "du"
 
-#: manage/forms.py:161 templates/manage/mailings_index.html:39
+#: manage/forms.py:161 templates/manage/mailings_index.html:42
 #: templates/voyages/details.html:17
 msgid "to"
 msgstr "au"
@@ -3546,32 +3546,32 @@ msgid "Edit a range of errors"
 msgstr "Modifier une plage d'erreurs"
 
 #: templates/manage/mailing_edit.html:10
-#: templates/manage/mailings_index.html:30
+#: templates/manage/mailings_index.html:33
 msgid "Created by"
 msgstr "Créé par"
 
 #: templates/manage/mailing_edit.html:10 templates/manage/mailing_edit.html:13
 #: templates/manage/mailing_edit.html:16
-#: templates/manage/mailings_index.html:30
 #: templates/manage/mailings_index.html:33
 #: templates/manage/mailings_index.html:36
+#: templates/manage/mailings_index.html:39
 #: templates/manage/payment_edit.html:6
 #: templates/manage/payments_index.html:26
 msgid "the"
 msgstr "le"
 
 #: templates/manage/mailing_edit.html:13
-#: templates/manage/mailings_index.html:33
+#: templates/manage/mailings_index.html:36
 msgid "Modified by"
 msgstr "Modifié par"
 
 #: templates/manage/mailing_edit.html:16
-#: templates/manage/mailings_index.html:36
+#: templates/manage/mailings_index.html:39
 msgid "Approved by"
 msgstr "Approuvé par"
 
 #: templates/manage/mailing_edit.html:19
-#: templates/manage/mailings_index.html:39
+#: templates/manage/mailings_index.html:42
 msgid "Sent on"
 msgstr "Envoyé le"
 
@@ -3591,7 +3591,7 @@ msgstr "Envoyer un test à l'équipe"
 msgid "Send mailing"
 msgstr "Envoyer le mailing"
 
-#: templates/manage/mailings_index.html:40
+#: templates/manage/mailings_index.html:43
 msgid "Download snail mail mailing listing"
 msgstr "Télécharger le listing pour le mailing papier"
 

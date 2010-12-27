@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-27 21:20+0100\n"
+"POT-Creation-Date: 2010-12-27 21:53+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1339,7 +1339,7 @@ msgstr ""
 msgid "from"
 msgstr ""
 
-#: manage/forms.py:161 templates/manage/mailings_index.html:39
+#: manage/forms.py:161 templates/manage/mailings_index.html:42
 #: templates/voyages/details.html:17
 msgid "to"
 msgstr ""
@@ -3457,32 +3457,32 @@ msgid "Edit a range of errors"
 msgstr ""
 
 #: templates/manage/mailing_edit.html:10
-#: templates/manage/mailings_index.html:30
+#: templates/manage/mailings_index.html:33
 msgid "Created by"
 msgstr ""
 
 #: templates/manage/mailing_edit.html:10 templates/manage/mailing_edit.html:13
 #: templates/manage/mailing_edit.html:16
-#: templates/manage/mailings_index.html:30
 #: templates/manage/mailings_index.html:33
 #: templates/manage/mailings_index.html:36
+#: templates/manage/mailings_index.html:39
 #: templates/manage/payment_edit.html:6
 #: templates/manage/payments_index.html:26
 msgid "the"
 msgstr ""
 
 #: templates/manage/mailing_edit.html:13
-#: templates/manage/mailings_index.html:33
+#: templates/manage/mailings_index.html:36
 msgid "Modified by"
 msgstr ""
 
 #: templates/manage/mailing_edit.html:16
-#: templates/manage/mailings_index.html:36
+#: templates/manage/mailings_index.html:39
 msgid "Approved by"
 msgstr ""
 
 #: templates/manage/mailing_edit.html:19
-#: templates/manage/mailings_index.html:39
+#: templates/manage/mailings_index.html:42
 msgid "Sent on"
 msgstr ""
 
@@ -3502,7 +3502,7 @@ msgstr ""
 msgid "Send mailing"
 msgstr ""
 
-#: templates/manage/mailings_index.html:40
+#: templates/manage/mailings_index.html:43
 msgid "Download snail mail mailing listing"
 msgstr ""
 
