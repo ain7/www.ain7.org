@@ -1027,3 +1027,30 @@ def mailing_view(request, mailing_id):
     return ain7_render_to_response(
         request, 'manage/mailing_view.html', {'html': html})
 
+@login_required
+def mailing_export(request, mailing_id):
+    """output csv of people without mail"""
+
+    import csv
+    from django.http import HttpResponse
+
+    access = check_access(request, request.user, 
+                          ['ain7-secretariat'])
+    if access:
+        return access
+
+    mailing = get_object_or_404(Mailing, pk=mailing_id)
+
+    response = HttpResponse(mimetype='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=mailing_'+str(mailing_id)+'.csv'
+
+    writer = csv.writer(response)
+
+    for per in mailing.nomail_export():
+        try:
+            writer.writerow([per.first_name.encode('utf-8'), per.last_name.encode('utf-8'), per.ain7member.promo(), per.ain7member.track().encode('utf-8'), per.address()['line1'].encode('utf-8'), per.address()['line2'].encode('utf-8'), per.address()['zip_code'], per.address()['city'].encode('utf-8'), per.address()['country'].encode('utf-8')])
+        except Exception:
+            pass
+
+    return response
+

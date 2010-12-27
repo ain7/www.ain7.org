@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-08 09:14+0100\n"
+"POT-Creation-Date: 2010-12-27 21:20+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1339,7 +1339,8 @@ msgstr ""
 msgid "from"
 msgstr ""
 
-#: manage/forms.py:161 templates/voyages/details.html:17
+#: manage/forms.py:161 templates/manage/mailings_index.html:39
+#: templates/voyages/details.html:17
 msgid "to"
 msgstr ""
 
@@ -2235,7 +2236,7 @@ msgstr ""
 #: templates/groupes_regionaux/edit.html:14
 #: templates/groupes_regionaux/roles_edit.html:23
 #: templates/groups/edit.html:14 templates/manage/edit_form.html:13
-#: templates/manage/mailing_edit.html:43 templates/manage/payment_edit.html:13
+#: templates/manage/mailing_edit.html:40 templates/manage/payment_edit.html:13
 #: templates/pages/text_edit.html:17 templates/voyages/edit.html:20
 #: templates/voyages/join.html:12
 msgid "Cancel"
@@ -2263,7 +2264,7 @@ msgstr ""
 #: templates/groupes_regionaux/roles_edit.html:24
 #: templates/groups/edit.html:15 templates/manage/edit_form.html:14
 #: templates/manage/error_details.html:47
-#: templates/manage/mailing_edit.html:44
+#: templates/manage/mailing_edit.html:41
 #: templates/manage/org_criterionFilter_edit.html:17
 #: templates/manage/org_criterion_add.html:34
 #: templates/manage/org_criterion_edit.html:18
@@ -3455,13 +3456,13 @@ msgstr ""
 msgid "Edit a range of errors"
 msgstr ""
 
-#: templates/manage/mailing_edit.html:9
+#: templates/manage/mailing_edit.html:10
 #: templates/manage/mailings_index.html:30
 msgid "Created by"
 msgstr ""
 
-#: templates/manage/mailing_edit.html:9 templates/manage/mailing_edit.html:12
-#: templates/manage/mailing_edit.html:15
+#: templates/manage/mailing_edit.html:10 templates/manage/mailing_edit.html:13
+#: templates/manage/mailing_edit.html:16
 #: templates/manage/mailings_index.html:30
 #: templates/manage/mailings_index.html:33
 #: templates/manage/mailings_index.html:36
@@ -3470,35 +3471,39 @@ msgstr ""
 msgid "the"
 msgstr ""
 
-#: templates/manage/mailing_edit.html:12
+#: templates/manage/mailing_edit.html:13
 #: templates/manage/mailings_index.html:33
 msgid "Modified by"
 msgstr ""
 
-#: templates/manage/mailing_edit.html:15
+#: templates/manage/mailing_edit.html:16
 #: templates/manage/mailings_index.html:36
 msgid "Approved by"
 msgstr ""
 
-#: templates/manage/mailing_edit.html:18
+#: templates/manage/mailing_edit.html:19
 #: templates/manage/mailings_index.html:39
 msgid "Sent on"
 msgstr ""
 
-#: templates/manage/mailing_edit.html:27
-msgid "Mailing preview"
+#: templates/manage/mailing_edit.html:26
+msgid "Mailing view"
 msgstr ""
 
-#: templates/manage/mailing_edit.html:29
+#: templates/manage/mailing_edit.html:28
 msgid "Send a test to myself"
 msgstr ""
 
-#: templates/manage/mailing_edit.html:30
+#: templates/manage/mailing_edit.html:29
 msgid "Send a test to the tester team"
 msgstr ""
 
-#: templates/manage/mailing_edit.html:31
+#: templates/manage/mailing_edit.html:30
 msgid "Send mailing"
+msgstr ""
+
+#: templates/manage/mailings_index.html:40
+msgid "Download snail mail mailing listing"
 msgstr ""
 
 #: templates/manage/organizations_adv_search.html:17

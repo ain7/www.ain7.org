@@ -25,7 +25,10 @@
 </table>
 <ul>
     {% for mailing in mailings %}
-        <li><a href="{% url ain7.manage.views.mailing_edit mailing.id %}">{{ mailing.title }}</a> {{ mailing.description }} <br/>
+        <li><a href="{% url ain7.manage.views.mailing_edit mailing.id %}">{{ mailing.title }}</a><br/>
+        {% if mailing.description %}
+        {{ mailing.description }} <br/>
+        {% endif %}
         {% if mailing.created_at and mailing.created_by %}
         <i>{% trans "Created by" %} <a href="{% url ain7.annuaire.views.details mailing.created_by.user.id %}">{{ mailing.created_by }}</a> {% trans "the" %} {{ mailing.created_at|date:"l j F Y H:i" }}</i><br/>
         {% endif %}
@@ -36,7 +39,8 @@
         <i>{% trans "Approved by" %} <a href="{% url ain7.annuaire.views.details mailing.approved_by.user.id %}">{{ mailing.approved_by }}</a> {% trans "the" %}{{ mailing.approved_at|date:"l j F Y H:i" }}</i><br/>
         {% endif %}
         {% if mailing.sent_at %}
-        <i>{% trans "Sent on" %}: {{ mailing.sent_at|date:"l j F Y H:i" }}</i><br/>
+        <i>{% trans "Sent on" %} {{ mailing.sent_at|date:"l j F Y H:i" }} {% trans "to" %} {{ mailing.mail_to.label }}</i><br/>
+        <i><a href="{% url ain7.manage.views.mailing_export mailing.id %}">{% trans "Download snail mail mailing listing" %}</a></i><br/>
         {% endif %}
         </li>
     {% endfor %}

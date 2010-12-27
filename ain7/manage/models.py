@@ -214,6 +214,14 @@ class Mailing(models.Model):
             self.sent_at = datetime.datetime.now()
             self.save()
 
+    def nomail_export(self):
+
+        from ain7.annuaire.models import Person
+        from ain7.filters_local import FILTERS
+
+        return Person.objects.filter(FILTERS[self.mail_to.filter][1], 
+            emails__isnull=True, addresses__isnull=False)
+
 
 class MailingItem(models.Model):
     """Mailing Item model"""
