@@ -61,13 +61,7 @@
             <br/>
             {{ ain7member.promo_full }}
             <br/>
-            {% if not ain7member.personprivate.death_date %}
-            {% for position in ain7member.positions.all %}
-               {% if not position.end %}
-               <i>{{ position.office.organization }}{% if not forloop.last %}, {% endif %}</i>
-               {% endif %}
-            {% endfor %}
-            {% endif %}
+            <i>{{ ain7member.current_positions_orga }}</i>
             </td></tr>
             </table>
     {% endfor %}

@@ -554,6 +554,21 @@ class AIn7Member(LoggedClass):
     def promo_full(self):
         return self.track()+' '+str(self.promo())
 
+    def current_positions(self):
+        if not self.person.personprivate.death_date:
+            return self.positions.filter(end__isnull=True)
+        else:
+            return ''
+
+    def current_positions_orga(self):
+        """return current positions"""
+        res = ''
+        positions = self.current_positions()
+        for pos in positions:
+            res += str(pos.office.organization)
+            res += ' '
+        return res
+
     def __unicode__(self):
         """AIn7 member unicode"""
         return unicode(self.person)
