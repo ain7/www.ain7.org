@@ -18,11 +18,12 @@
     <h3>{% trans "Actions" %}</h3>
     <div class="right_block">
         <ul>
+            <li><a href="{% url ain7.groups.views.details group.slug %}">{% trans "Group details" %}</a></li>
             <li>
             {% if not is_member %}
                 <a href="{% url ain7.groups.views.join group.slug %}">{% trans "Join the group" %}</a>
             {% else %}
-                <a href="{% url ain7.groups.views.quit group.slug %}">{% trans "Quit the group" %}</a>
+                <a href="{% url ain7.groups.views.quit group.slug %}">{% trans "Leave the group" %}</a>
             {% endif %}
             </li>
             <li><a href="{% url ain7.groups.views.members group.slug %}">{% trans "Members" %}</a></li>

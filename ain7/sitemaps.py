@@ -59,17 +59,7 @@ class NewsSitemap(Sitemap):
     def lastmod(self, obj):
         return obj.last_change_at
 
-class GroupesProSitemap(Sitemap):
-    changefreq = "daily"
-    priority = 0.5
-
-    def items(self):
-        return Group.objects.all()
-
-    def lastmod(self, obj):
-        return obj.last_change_at
-
-class GroupesRegionauxSitemap(Sitemap):
+class GroupsSitemap(Sitemap):
     changefreq = "daily"
     priority = 0.5
 

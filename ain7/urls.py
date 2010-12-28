@@ -26,8 +26,8 @@ from django.conf.urls.defaults import *
 from django.conf import settings
 
 from ain7.feeds import LatestsEvents, LatestsNews
-from ain7.sitemaps import EventsSitemap, TextsSitemap, NewsSitemap, GroupesProSitemap
-from ain7.sitemaps import GroupesRegionauxSitemap, TravelsSitemap
+from ain7.sitemaps import EventsSitemap, TextsSitemap, NewsSitemap, GroupsSitemap
+from ain7.sitemaps import TravelsSitemap
 
 feeds = {
     'events': LatestsEvents,
@@ -37,8 +37,7 @@ feeds = {
 sitemaps = {
     'events': EventsSitemap,
     'news': NewsSitemap,
-    'groupespro': GroupesProSitemap,
-    'groupesregionaux': GroupesRegionauxSitemap,
+    'groups': GroupsSitemap,
     'voyages': TravelsSitemap,
     'texts': TextsSitemap,
 }
@@ -74,12 +73,6 @@ urlpatterns = patterns('',
     # groups
     (r'^groups/', include('ain7.groups.urls')),
  
-    # groupes professionnels
-    (r'^groupes_professionnels/', include('ain7.groupes_professionnels.urls')),
-
-    # groupes regionaux
-    (r'^groupes_regionaux/', include('ain7.groupes_regionaux.urls')),
-
     # shop
     (r'^shop/', include('ain7.shop.urls')),
 

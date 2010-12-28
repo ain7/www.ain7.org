@@ -25,8 +25,8 @@
 </td>
 </tr>
 </table>
-    {% for member in members %}
             <table border="0" width="100%" style="border-bottom:1px dashed grey; text-align: left;">
+    {% for member in members %}
             <tr><td width="60">
             {% if member.ain7member.avatar %}
             <img src ="{{ member.ain7member.avatar.url }}" height="50"  alt="{{ member.complete_name }}" title="{{ member.complete_name }}" />
@@ -64,8 +64,8 @@
            {% trans "Delete" %}</a>
         {% endif%}
             </td></tr>
-            </table>
     {% endfor %}
+            </table>
 {% endif %}
 
 {% if superadmin or secretariat_member %}

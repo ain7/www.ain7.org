@@ -138,12 +138,13 @@
 {% if birthdays %}
 <div class="grey-box">
 {% if user.is_authenticated %}
-	<h2>{% trans "Happy birthday!" %}</h2>
-		
-			{% for member in birthdays %}
-			<a href="{% url ain7.annuaire.views.details member.person.pk %}">{{ member }}</a>
-			{% if not forloop.last %} - {% endif %}
-			{% endfor %}
+     <h2>{% trans "Happy birthday!" %}</h2>
+     
+     <ul>   
+     {% for member in birthdays %}
+         <li><a href="{% url ain7.annuaire.views.details member.person.pk %}">{{ member }}</a></li>
+     {% endfor %}
+     </ul>
 		
 {% endif %}
 {% endif %}
