@@ -3,7 +3,7 @@
  ain7/middleware/portalexceptions.py
 """
 #
-#   Copyright © 2009-2010 AIn7 Devel Team
+#   Copyright © 2009-2011 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
