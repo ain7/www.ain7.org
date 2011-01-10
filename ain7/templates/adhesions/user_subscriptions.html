@@ -45,7 +45,9 @@
       {% endifequal %}
   </td>
   <td align="center">
+    {% if subscription.payment %}
     {% trans subscription.payment.get_type_display %}
+    {% endif %}
   </td>
   <td align="center">
     {% if subscription.payment %}
