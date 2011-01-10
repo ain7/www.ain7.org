@@ -174,7 +174,7 @@ class Mailing(models.Model):
                 groups__group__slug='ain7-mailing-tester')
 
         if not testing:
-            recipients = Person.objects.filter(FILTERS[self.filter.filter][1])
+            recipients = Person.objects.filter(FILTERS[self.mail_to.filter][1])
 
         smtp = smtplib.SMTP('localhost')
         smtp.ehlo()
