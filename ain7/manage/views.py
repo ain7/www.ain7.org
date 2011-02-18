@@ -75,7 +75,7 @@ def users_search(request):
     form = SearchUserForm()
     nb_results_by_page = 25
     persons = False
-    paginator = Paginator(Group.objects.none(), nb_results_by_page)
+    paginator = Paginator([], nb_results_by_page)
     page = 1
 
     if request.GET.has_key('last_name') or \
