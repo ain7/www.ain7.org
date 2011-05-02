@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-10 22:46+0100\n"
+"POT-Creation-Date: 2011-05-03 00:07+0200\n"
 "PO-Revision-Date: 2010-01-15 22:50+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: AIn7 French Translators <ain7-devel@lists.ain7.com>\n"
@@ -69,7 +69,7 @@ msgstr "Auteur de la dernière modification"
 msgid "last changed at"
 msgstr "Modifié pour la dernière fois à"
 
-#: adhesions/models.py:37 shop/models.py:131
+#: adhesions/models.py:37 shop/models.py:134
 msgid "Cash"
 msgstr "Espèce"
 
@@ -77,7 +77,7 @@ msgstr "Espèce"
 msgid "Cheque"
 msgstr "Chèque"
 
-#: adhesions/models.py:39 shop/models.py:134
+#: adhesions/models.py:39 shop/models.py:137
 msgid "Card"
 msgstr "Carte bancaire"
 
@@ -85,7 +85,7 @@ msgstr "Carte bancaire"
 msgid "Transfer"
 msgstr "Virement"
 
-#: adhesions/models.py:41 shop/models.py:137
+#: adhesions/models.py:41 shop/models.py:140
 msgid "Other"
 msgstr "Autre"
 
@@ -112,7 +112,7 @@ msgstr "Montant Canal N7"
 msgid "Tender type"
 msgstr "Mode de paiement"
 
-#: adhesions/models.py:58 shop/models.py:151
+#: adhesions/models.py:58 shop/models.py:154
 msgid "validated"
 msgstr "Validé"
 
@@ -174,7 +174,7 @@ msgstr "Couple"
 msgid "Support"
 msgstr "Soutien"
 
-#: adhesions/models.py:96 shop/models.py:144
+#: adhesions/models.py:96 shop/models.py:147
 #: templates/adhesions/configurations.html:18
 msgid "Type"
 msgstr "Type"
@@ -256,7 +256,7 @@ msgstr ""
 #: emploi/views.py:118 emploi/views.py:176 emploi/views.py:234
 #: emploi/views.py:291 groupes_professionnels/views.py:140
 #: groupes_regionaux/views.py:76 groups/views.py:84 manage/views.py:266
-#: manage/views.py:293 news/views.py:79 news/views.py:548
+#: manage/views.py:293 news/views.py:79 news/views.py:550
 #: search_engine/views.py:268 sondages/views.py:103 sondages/views.py:145
 #: voyages/views.py:138
 msgid "Modifications have been successfully saved."
@@ -388,7 +388,7 @@ msgstr "Les mot de passe ne correspondent pas."
 #: annuaire/models.py:41 annuaire/models.py:147 annuaire/models.py:182
 #: groups/models.py:74 groups/models.py:83 groups/models.py:112
 #: organizations/models.py:88 organizations/models.py:179
-#: search_engine/models.py:127 shop/models.py:117
+#: search_engine/models.py:127 shop/models.py:120
 msgid "name"
 msgstr "nom"
 
@@ -553,7 +553,7 @@ msgstr ""
 "\n"
 "Vous avez demandé la réinitialisation du mot de passe de votre compte AIn7.\n"
 "\n"
-"Nom d'utilisateur : %(login)s\n"
+"Identifiant : %(login)s\n"
 "Pour redéfinir votre mot de passe, veuillez suivre ce lien:\n"
 "%(url)s\n"
 "\n"
@@ -566,7 +566,7 @@ msgstr ""
 "http://ain7.com"
 
 #: annuaire/models.py:394 annuaire/models.py:400 annuaire/models.py:465
-#: news/forms.py:170 templates/voyages/participants.html:18
+#: news/forms.py:171 templates/voyages/participants.html:18
 msgid "person"
 msgstr "personne"
 
@@ -989,13 +989,13 @@ msgstr "La date de début est postérieure à la date de fin."
 
 #: association/forms.py:65 groupes_professionnels/forms.py:60
 #: groupes_professionnels/forms.py:142 groupes_regionaux/forms.py:88
-#: groups/forms.py:88 groups/forms.py:113 news/forms.py:200
+#: groups/forms.py:88 groups/forms.py:113 news/forms.py:156 news/forms.py:201
 msgid "This field is mandatory."
 msgstr "Ce champ est obligatoire."
 
 #: association/forms.py:72 groupes_professionnels/forms.py:149
 #: groupes_regionaux/forms.py:95 groups/forms.py:95 groups/forms.py:120
-#: news/forms.py:207
+#: news/forms.py:163 news/forms.py:208
 msgid "The entered person is not in the database."
 msgstr "Cette personne n'existe pas dans la base."
 
@@ -1051,7 +1051,7 @@ msgstr "email de contact"
 msgid "Activity field"
 msgstr "Domaine d'activité"
 
-#: emploi/forms.py:67 shop/models.py:120
+#: emploi/forms.py:67 shop/models.py:123
 msgid "obsolete"
 msgstr "obsolete"
 
@@ -1141,7 +1141,7 @@ msgstr "Publication et brevet"
 msgid "Reference"
 msgstr "Réference"
 
-#: emploi/models.py:148 shop/models.py:38 shop/models.py:48 shop/models.py:73
+#: emploi/models.py:148 shop/models.py:38 shop/models.py:48 shop/models.py:76
 msgid "Description"
 msgstr "Description"
 
@@ -1335,7 +1335,7 @@ msgstr "Vous n'êtes pas membre de ce groupe."
 
 #: groups/forms.py:102 templates/pages/login.html:22
 msgid "Username"
-msgstr "Nom d'utilisateur"
+msgstr "Identifiant"
 
 #: groups/models.py:54 groups/models.py:82
 msgid "group"
@@ -1631,27 +1631,27 @@ msgstr "L'image de cet évènement a été supprimée avec succès"
 msgid "RSVP successfully saved"
 msgstr "RSVP sauvegardé"
 
-#: news/views.py:366
+#: news/views.py:367
 msgid "RSVP Answer"
 msgstr "Réponse à une invitation"
 
-#: news/views.py:488
+#: news/views.py:489
 msgid "Your message has been sent to the event responsible."
 msgstr "Votre message a été envoyé au responsable de l'événement."
 
-#: news/views.py:492
+#: news/views.py:493
 msgid "Something was wrong in the form you filled. No message sent."
 msgstr "Certains champs ont été incorrectement remplis. Aucun message envoyé."
 
-#: news/views.py:555
+#: news/views.py:557
 msgid "Adding organizer"
 msgstr "Ajouter un organisateur"
 
-#: news/views.py:563
+#: news/views.py:565
 msgid "Do you really want to remove this organizer"
 msgstr "Souhaitez-vous vraiment supprimer cet organisateur ?"
 
-#: news/views.py:579
+#: news/views.py:581
 msgid "Organizer successfully removed"
 msgstr "Organisateur supprimé avec succès"
 
@@ -1941,67 +1941,67 @@ msgstr "Des erreurs se sont produites. Aucune modification effectuée."
 msgid "Choose fields to export"
 msgstr "Choisissez les champs à exporter"
 
-#: shop/models.py:119
+#: shop/models.py:122
 msgid "public"
 msgstr "public"
 
-#: shop/models.py:132
+#: shop/models.py:135
 msgid "Check CE"
 msgstr "Chèque CE"
 
-#: shop/models.py:133
+#: shop/models.py:136
 msgid "Check CCP"
 msgstr "Chèque CCP"
 
-#: shop/models.py:135
+#: shop/models.py:138
 msgid "Transfer CE"
 msgstr "Virement CE"
 
-#: shop/models.py:136
+#: shop/models.py:139
 msgid "Transfer CCP"
 msgstr "Virement CCP"
 
-#: shop/models.py:143
+#: shop/models.py:146
 msgid "amount"
 msgstr "montant"
 
-#: shop/models.py:146 templates/manage/payments_deposit.html:13
+#: shop/models.py:149 templates/manage/payments_deposit.html:13
 msgid "Bank"
 msgstr "Banque"
 
-#: shop/models.py:148 templates/manage/payments_deposit.html:13
+#: shop/models.py:151 templates/manage/payments_deposit.html:13
 msgid "Check number"
 msgstr "Numéro de chèque"
 
-#: shop/models.py:150
+#: shop/models.py:153
 msgid "payment date"
 msgstr "Date de paiement"
 
-#: shop/models.py:152
+#: shop/models.py:155
 msgid "deposit date"
 msgstr "date de dépôt"
 
-#: shop/models.py:155
+#: shop/models.py:158
 msgid "registration date"
 msgstr "Date d'enregistrement"
 
-#: shop/models.py:159
+#: shop/models.py:162
 msgid "modification date"
 msgstr "date de modification"
 
-#: shop/models.py:180
+#: shop/models.py:183
 msgid "payment of "
 msgstr "paiement de "
 
-#: shop/models.py:182
+#: shop/models.py:185
 msgid " from "
 msgstr " de la part de"
 
-#: shop/models.py:193
+#: shop/models.py:196
 msgid "AIn7 Subscription validated"
 msgstr "Votre adhésion à l'AIn7 a été validée"
 
-#: shop/models.py:194
+#: shop/models.py:197
 #, python-format
 msgid ""
 "Hi %(firstname)s,\n"
@@ -2598,11 +2598,11 @@ msgstr "Ajouter une adhésion"
 msgid "Status"
 msgstr "Statuts"
 
-#: templates/adhesions/user_subscriptions.html:57
+#: templates/adhesions/user_subscriptions.html:59
 msgid "Validated"
 msgstr "Validé"
 
-#: templates/adhesions/user_subscriptions.html:59
+#: templates/adhesions/user_subscriptions.html:61
 msgid "Not validated"
 msgstr "Non validé"
 
