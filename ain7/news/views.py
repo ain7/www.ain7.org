@@ -164,7 +164,7 @@ def search(request):
 def event_index(request):
     """event index"""
     events = NewsItem.objects.filter(date__gte=datetime.datetime.now()).\
-        order_by('date')[:5]
+        order_by('date')[:10]
     return ain7_render_to_response(request, 'evenements/index.html',
         {'events': events, 
          'event_list': NewsItem.objects.filter(date__isnull=False),
