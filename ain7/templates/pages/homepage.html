@@ -9,6 +9,48 @@
 <div id="content-main">
 
 <div class="left" style="width: 65%">
+
+<div class="front_box">
+<h3>{% trans "News" %}</h3>
+
+{% for news_item in news %}
+  <div class="">
+      <div>
+      {% if news_item.image %}
+      <a href="{% url ain7.news.views.details news_item.slug %}"><img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" title="{{ news_item.title }}" class="image" width="60" /></a>
+      {% endif %}
+      <b><a href="{% url ain7.news.views.details news_item.slug %}">{{ news_item.title }}</a></b><br />{{ news_item.body|truncatewords_html:20|safe }}
+      </div>
+      <!-- in case the image has bigger height than text -->
+      <div style="clear: left;"></div>
+   </div>
+{% endfor %}
+<div class="allItems">
+	<a href="{% url ain7.news.views.index %}">{% trans "All news" %}</a>
+</div>
+</div>
+
+<div class="front_box">
+<h3>{% trans "Events Forecast" %}</h3>
+
+{% for event in events %}
+  <div class="">
+      <div>
+      {% if event.image %}
+      <a href="{% url ain7.news.views.event_details event.id %}"><img src="{{ event.image.url }}" alt="{{ event.title }}" title="{{ event.title }}" class="image" width="60" /></a>
+      {% endif %}
+      <b><a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a></b><br />{{ event.date|date:"l j F Y" }}
+      </div>
+   </div>
+{% endfor %}
+<div class="allItems">
+	<a href="{% url ain7.news.views.event_index %}">{% trans "All events" %}</a>
+</div>
+</div>
+
+
+
+
 <h3>
 {{ text1.title }}
 {% if superadmin or ca_member or secretariat_member or contributeur %}
@@ -22,18 +64,19 @@
 {% endif %}
 </div>
 
-<h3>
-{{ text2.title }} 
-{% if superadmin or ca_member or secretariat_member or contributeur %}
-&nbsp;<a href="{% url ain7.pages.views.edit text2.id %}" class="changelink"></a>
-{% endif %}
-</h3>
-<div class="left_box">
-{{ text2.body|safe }}
-{% if superadmin or ca_member or secretariat_member or contributeur %}
-<p><a href="{% url ain7.pages.views.edit text2.id %}">{% trans "Edit" %}</a></p>
-{% endif %}
+
+<br/><br/>
+<!-- AddThis Button BEGIN -->
+<div class="addthis_toolbox addthis_default_style ">
+<a class="addthis_button_viadeo"></a>
+<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+<a class="addthis_button_linkedin_counter"></a>
+<a class="addthis_button_tweet"></a>
+<a class="addthis_counter addthis_pill_style"></a>
 </div>
+<script type="text/javascript">var addthis_config = {"data_track_clickback":true,"data_track_addressbar":true};</script>
+<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4dc7154b4ea96654"></script>
+<!-- AddThis Button END -->
 
 </div>
 <div class="right" style="width: 32%">
@@ -42,48 +85,24 @@
 <a href="{% url ain7.adhesions.views.index %}"><img src="{{ MEDIA_URL }}/images/adherer.png" alt="Adhérer"/></a>
 </div>
 
-<h3>{% trans "News" %}</h3>
-<div class="right_articles">
-
-{% for news_item in news %}
-  <div class="right_articles">
-      <div>
-      {% if news_item.image %}
-      <a href="{% url ain7.news.views.details news_item.slug %}"><img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" title="{{ news_item.title }}" class="image" width="60" /></a>
-      {% endif %}
-      <b><a href="{% url ain7.news.views.details news_item.slug %}">{{ news_item.title }}</a></b><br />{{ news_item.body|truncatewords_html:20|safe }}
-      </div>
-      <!-- in case the image has bigger height than text -->
-      <div style="clear: left;"></div>
-   </div>
-{% endfor %}
-<div style="text-align: center">
-	<a href="{% url ain7.news.views.index %}">{% trans "All news" %}</a>
-</div>
-</div>
-
-<h3>{% trans "Events Forecast" %}</h3>
-<div class="right_articles">
-
-{% for event in events %}
-  <div class="right_articles">
-      <div>
-      <a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a><br /> {{ event.date|date:"l j F Y" }}
-      </div>
-   </div>
-{% endfor %}
-<div style="text-align: center">
-	<a href="{% url ain7.news.views.event_index %}">{% trans "All events" %}</a>
-</div>
-</div>
-
 <h3>{% trans "AIn7 communities on the web" %}</h3>
 <div class="right_articles">
 
 <div class="snBox">
-<p><a href="http://www.viadeo.com/communaute/macommunaute/?communityId=0022ezgr59190pqm" target="_blank"><img class="snIcon" src="{{ MEDIA_URL }}/images/viadeo-icon.png" alt="Viadeo"/> Viadeo</a></p>
-<p><a href="http://www.linkedin.com/groups?gid=73525" target="_blank"><img class="snIcon" src="{{ MEDIA_URL }}/images/linkedin-icon.png" alt="Linkedin"/> LinkedIn</a></p>
-<p><a href="http://www.facebook.com/home.php#/group.php?gid=9422764057" target="_blank"><img class="snIcon" src="{{ MEDIA_URL }}/images/FB-icon.jpg" alt="Facebook"/> Facebook</a></p>
+
+<div class="floatLeft">
+<a href="http://www.viadeo.com/communaute/macommunaute/?communityId=0022ezgr59190pqm" target="_blank"><img class="snIcon" src="{{ MEDIA_URL }}/images/viadeo-icon.png" alt="Viadeo"/>
+<br />
+Viadeo</a>
+</div>
+
+<div class="floatLeft"><a href="http://www.linkedin.com/groups?gid=73525" target="_blank"><img class="snIcon" src="{{ MEDIA_URL }}/images/linkedin-icon.png" alt="Linkedin"/>
+<br />LinkedIn</a>
+</div>
+<div class="floatLeft"><a href="http://www.facebook.com/home.php#/group.php?gid=9422764057" target="_blank"><img class="snIcon" src="{{ MEDIA_URL }}/images/FB-icon.jpg" alt="Facebook"/>
+<br />Facebook</a>
+</div>
+<div class="floatClear"></div>
 </div>
 </div>
 
