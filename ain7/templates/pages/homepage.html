@@ -11,6 +11,26 @@
 <div class="left" style="width: 65%">
 
 <div class="left_box">
+<h3>{% trans "Events Forecast" %}</h3>
+
+{% for event in events %}
+  <div class="">
+      <div>
+      {% if event.image %}
+      <a href="{% url ain7.news.views.event_details event.id %}"><img src="{{ event.image.url }}" alt="{{ event.title }}" title="{{ event.title }}" class="image" width="60" /></a>
+      {% endif %}
+      <b><a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a> | {{ event.date|date:"l j F Y" }}</b><br />{{ event.body|truncatewords_html:30|safe }}
+      </div>
+   </div>
+{% endfor %}
+<div class="allItems">
+	<a href="{% url ain7.news.views.event_index %}">{% trans "All events" %}</a>
+</div>
+</div>
+
+
+
+<div class="left_box">
 <h3>{% trans "News" %}</h3>
 
 {% for news_item in news %}
@@ -27,24 +47,6 @@
 {% endfor %}
 <div class="allItems">
 	<a href="{% url ain7.news.views.index %}">{% trans "All news" %}</a>
-</div>
-</div>
-
-<div class="left_box">
-<h3>{% trans "Events Forecast" %}</h3>
-
-{% for event in events %}
-  <div class="">
-      <div>
-      {% if event.image %}
-      <a href="{% url ain7.news.views.event_details event.id %}"><img src="{{ event.image.url }}" alt="{{ event.title }}" title="{{ event.title }}" class="image" width="60" /></a>
-      {% endif %}
-      <b><a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a> | {{ event.date|date:"l j F Y" }}</b><br />{{ event.body|truncatewords_html:30|safe }}
-      </div>
-   </div>
-{% endfor %}
-<div class="allItems">
-	<a href="{% url ain7.news.views.event_index %}">{% trans "All events" %}</a>
 </div>
 </div>
 
