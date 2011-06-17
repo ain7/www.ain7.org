@@ -71,20 +71,8 @@
 
 <div class="container">
 
-	<div class="span-24 last">
-
-        <p>
-        <a href="{% url ain7.pages.views.homepage %}" accesskey="h">
-    		<img style="margin-top:25px;" src="/site_media/skins/2.0/images/logo-AIo.png" height="120" alt="AIn7 logo" />
-		</a>
-		<img class="right" src="/site_media/skins/2.0/images/n7.png" height="120" alt="n7 logo" /><br />
-        </p>
-    </div>
-
-    <hr />
-
     <div class="span-24 top-menu last append-1">
-
+        <div class="link-bar">&nbsp;</div><a href="{% url ain7.pages.views.homepage %}"><img src="{{ MEDIA_URL }}skins/2.0/images/logo-AIo.png" height="30" alt="AIn7 logo" /></a>
         <div class="link-bar lb-red">&nbsp;</div><a href="">Ingénieurs</a>
         <div class="link-bar lb-blue">&nbsp;</div><a href="">Étudiants</a>
         <div class="link-bar lb-green">&nbsp;</div><a href="{% url ain7.annuaire.views.search %}" accesskey="a">{% trans "Directory"%}</a>
@@ -94,6 +82,18 @@
         <div class="link-bar lb-green">&nbsp;</div><a href="{% url ain7.groups.views.index %}" accesskey="p">{% trans "Groups "%}</a>
         <div class="link-bar lb-yellow">&nbsp;</div><a href="{% url ain7.voyages.views.index %}">{% trans "Travels" %}</a>
         
+    </div>
+
+    <hr/>
+
+    <div class="span-24 last">
+
+        <p>
+        <a href="{% url ain7.pages.views.homepage %}" accesskey="h">
+    		<img style="margin-top:25px;" src="{{ MEDIA_URL }}skins/2.0/images/logo-AIo.png" height="120" alt="AIn7 logo" />
+		</a>
+		<img class="right" src="{{ MEDIA_URL }}skins/2.0/images/n7.png" height="120" alt="n7 logo" /><br />
+        </p>
     </div>
 
 {% comment %}
