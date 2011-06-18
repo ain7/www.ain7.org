@@ -141,7 +141,7 @@ class Mailing(models.Model):
         from ain7.filters_local import FILTERS
 
 
-        url = reverse('ain7.manage.views.mailing_preview', args=[self.id])
+        url = reverse('ain7.manage.views.mailing_view', args=[self.id])
         text = u"Si vous n'arrivez pas à voir ce mail correctement, merci de\
  vous\nrendre à l'URL "+url+u"\n\nL'équipe de l'AIn7"
 
@@ -174,7 +174,7 @@ class Mailing(models.Model):
                 groups__group__slug='ain7-mailing-tester')
 
         if not testing:
-            recipients = Person.objects.filter(FILTERS[self.filter.filter][1])
+            recipients = Person.objects.filter(FILTERS[self.mail_to.filter][1])
 
         smtp = smtplib.SMTP('localhost')
         smtp.ehlo()

@@ -106,6 +106,20 @@ input[type=text] {
 /* layout
    ------ */
 
+.floatLeft {
+    float: left;
+    margin: 5px;
+}
+
+.floatRight {
+    float: right;
+    margin: 5px;
+}
+
+.floatClear {
+    clear: both;
+}
+
 .content {
     margin: 0 auto;
     width: 950px;
@@ -114,6 +128,13 @@ input[type=text] {
 
 #content-main {
     padding: 10px;
+}
+
+.front_box{
+    width: 48%;
+    float: left;
+    padding-right: 10px;
+    padding-bottom: 10px;
 }
 
 .header {
@@ -219,6 +240,13 @@ input[type=text] {
     background: inherit;
     font-weight: normal;
 }
+
+.allItems {
+    padding-top: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
 
 /* left side
    --------- */
@@ -618,9 +646,10 @@ div.code {
 /* Social Networks icons on homepage */
 .snBox a {
     text-decoration: none;
+    text-align: center;
 }
 
 .snBox img {
-    max-width: 20px;
-    max-height: 20px;
+    width: 30px;
+    height: 30px;
 }

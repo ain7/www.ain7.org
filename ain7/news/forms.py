@@ -142,27 +142,28 @@ class EventForm(AIn7ModelForm):
 class EventOrganizerForm(forms.ModelForm):
     """event organizer form"""
     organizer = forms.IntegerField(label=_('organizer').capitalize(),
-        widget=AutoCompleteField(completed_obj_name='person'))
+        required=True, widget=AutoCompleteField(completed_obj_name='person'))
 
     class Meta:
         """event organizer form meta"""
         model = EventOrganizer
         exclude = ('event',)
 
-    def save(self, *args, **kwargs):
-        """event organizer form save"""
-        if kwargs.has_key('contributor') and kwargs.has_key('event'):
-            event = kwargs['event']
-            event_org = EventOrganizer()
-            event_org.event = event
-            event_org.organizer = Person.objects.get(
-                id=self.cleaned_data['organizer'])
-            event_org.send_email_for_new_subscriptions = \
-                self.cleaned_data['send_email_for_new_subscriptions']
-            event_org.save()
-            event.logged_save(kwargs['contributor'])
-            return event_org
-        return None
+    def clean_organizer(self):
+        """check username"""
+        pid = self.cleaned_data['organizer']
+        if pid == None:
+            raise ValidationError(_('This field is mandatory.'))
+            return None
+        else:
+            person = None
+            try:
+                person = Person.objects.get(id=pid)
+            except Person.DoesNotExist:
+                raise ValidationError(_('The entered person is not in\
+ the database.'))
+            return person
+
 
 class RSVPAnswerForm(forms.ModelForm):
     """rsvp answer for an event"""

@@ -31,7 +31,7 @@ from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
-from ain7.annuaire.models import Email
+from ain7.annuaire.models import Email, Person
 from ain7.decorators import confirmation_required
 from ain7.news.models import NewsItem, RSVPAnswer
 from ain7.news.forms import SearchNewsForm, NewsForm, EventForm, \
@@ -164,7 +164,7 @@ def search(request):
 def event_index(request):
     """event index"""
     events = NewsItem.objects.filter(date__gte=datetime.datetime.now()).\
-        order_by('date')[:5]
+        order_by('date')[:10]
     return ain7_render_to_response(request, 'evenements/index.html',
         {'events': events, 
          'event_list': NewsItem.objects.filter(date__isnull=False),
@@ -351,12 +351,12 @@ def event_rsvp(request, event_id, rsvp_id=None):
                 order.person = request.user.person
                 order.save()
 
-                return HttpResponseRedirect(\
-                    reverse('ain7.shop.views.order_pay',
-                    args=[order.id]))
+                if order.amount() > 0:
+                    return HttpResponseRedirect(\
+                        reverse('ain7.shop.views.order_pay',
+                        args=[order.id]))
 
-            else:
-                return HttpResponseRedirect(\
+            return HttpResponseRedirect(\
                     reverse('ain7.news.views.event_details',
                     args=[event.id]))
 
@@ -543,12 +543,13 @@ def event_organizer_add(request, event_id):
     if request.method == 'POST':
         form = EventOrganizerForm(request.POST)
         if form.is_valid():
-            evt = form.save()
-            evt.logged_save(request.user.person)
+            evt_org = form.save(commit=False)
+            evt_org.event = event
+            evt_org.save()
             request.user.message_set.create(message=_('Modifications have been\
  successfully saved.'))
 
-        return HttpResponseRedirect(reverse(event_details, args=[evt.id]))
+        return HttpResponseRedirect(reverse(event_details, args=[event.id]))
 
     return ain7_render_to_response(
         request, 'evenements/organizer_add.html',

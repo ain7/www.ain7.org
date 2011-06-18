@@ -52,6 +52,9 @@ class Package(models.Model):
          return self.name
 
     def amount(self, person=None):
+
+         from ain7.filters_local import FILTERS
+
          amount = 0
          for article in self.article_set.all():
               price_proposal = []
