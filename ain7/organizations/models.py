@@ -26,7 +26,7 @@ import datetime
 from django.db import models
 from django.utils.translation import ugettext as _
 
-from ain7.utils import LoggedClass, isAdmin
+from ain7.utils import LoggedClass, is_admin
 
 
 class OrganizationSize(models.Model):
@@ -69,7 +69,7 @@ class OrganizationManager(models.Manager):
             "is_valid" , "is_a_proposal" ,
             "last_change_at" , "last_change_by" ]
         crits = crits_for_all
-        if isAdmin(user):
+        if is_admin(user):
             crits.extend(crits_for_admin)
         return crits
 
@@ -162,7 +162,7 @@ class OfficeManager(models.Manager):
             "is_valid" , "is_a_proposal" ,
             "last_change_at" , "last_change_by" ]
         crits = crits_for_all
-        if isAdmin(user):
+        if is_admin(user):
             crits.extend(crits_for_admin)
         return crits
 

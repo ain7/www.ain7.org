@@ -69,6 +69,9 @@ class GroupManager(models.Manager):
     def get_by_type(self, type):
         return Group.objects.filter(type__name=type)
 
+    def active(self):
+        return Group.objects.filter(is_active=True)
+
 class GroupRole(models.Model):
 
     name =  models.CharField(verbose_name=_('name'), max_length=100)
@@ -96,7 +99,8 @@ class GroupLeader(models.Model):
     board_member = models.BooleanField()
 
     rank = models.IntegerField(verbose_name=_('rank'), null=True, blank=True)
-    title = models.CharField(verbose_name=_('title'), max_length=100, null=True, blank=True)
+    title = models.CharField(verbose_name=_('title'), max_length=100, \
+        null=True, blank=True)
 
     def get_title(self):
         if self.title:
@@ -151,7 +155,9 @@ class Group(LoggedClass):
     def active_members(self):
         """current group members"""
         from django.db.models import Q
-        return [ ms for ms in self.members.filter(Q(start_date__lte=datetime.date.today()), Q(end_date__gte=datetime.date.today()) | Q(end_date__isnull=True)) ]
+        return [ ms for ms in self.members.filter(Q(start_date__lte=\
+            datetime.date.today()), Q(end_date__gte=datetime.date.today()) \
+            | Q(end_date__isnull=True)) ]
 
     def all_members(self):
         """all group members"""

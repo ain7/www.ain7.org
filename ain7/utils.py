@@ -54,9 +54,11 @@ def ain7_website_confidential(obj):
 # http://docs.djangoproject.com/en/dev/ref/templates/api/#writing-your-own-context-processors
 def ain7_render_to_response(req, *args, **kwargs):
 
+    from ain7.annuaire.models import Person
+
     user_groups = []
 
-    if req.user.is_authenticated():
+    if req.user.is_authenticated() and Person.objects.filter(user=req.user):
         user_groups = req.user.person.groups.values_list('group__name', flat=True)
 
     args[1]['portal_version'] = settings.VERSION
@@ -73,7 +75,7 @@ def ain7_render_to_response(req, *args, **kwargs):
     kwargs['context_instance'] = RequestContext(req)
     return render_to_response(*args, **kwargs)
 
-def isAdmin(user):
+def is_admin(user):
     """détermine si un user a le profil administrateur"""
 
     from ain7.annuaire.models import Person
@@ -91,63 +93,19 @@ def isAdmin(user):
 
 def check_access(request, user, groups):
 
-    user_groups = user.person.groups.values_list('group__name', flat=True)
+    from ain7.annuaire.models import Person
 
-    if settings.AIN7_PORTAL_ADMIN in user_groups:
-        return None
+    if Person.objects.filter(user=user):
+        user_groups = user.person.groups.values_list('group__name', flat=True)
 
-    for group in user_groups:
-        if group in groups:
+        if settings.AIN7_PORTAL_ADMIN in user_groups:
             return None
 
+        for group in user_groups:
+            if group in groups:
+                return None
+
     return ain7_render_to_response(request, 'pages/permission_denied.html', {})
-
-def ain7_generic_edit(request, obj, MyForm, formInitDict, formPage, \
-    formPageDict, saveDict, redirectPage, msgDone):
-    """ Méthode utilisée pour éditer (ou créer) un objet de façon standard,
-    c'est-à-dire via un formulaire de type ModelForms.
-    obj : objet à éditer. S'il s'agit de None, on est en mode création.
-    MyForm : la classe du formulaire.
-    formInitDict : données de l'objet exclues du formulaire.
-    formPage : template du formulaire.
-    formPageDict : dictionnaire passé au template du formulaire.
-    saveDict : argument passés à la méthode save du formulaire.
-    redirectPage : redirection après le formulaire. Utiliser $objid pour l'identifiant de l'objet.
-    msgDone : message en cas de succès."""
-    
-    # 1er passage : on propose un formulaire avec les données actuelles
-    if request.method == 'GET':
-        if obj:
-            f = MyForm(instance=obj)
-        else:
-            f = MyForm()
-        pageDict = {'form': f}
-        pageDict.update(formPageDict)
-        return ain7_render_to_response(request, formPage, pageDict)
-
-    # 2e passage : sauvegarde et redirection
-    if request.method == 'POST':
-        if obj:
-            f = MyForm(request.POST.copy(), request.FILES, instance=obj)
-        else:
-            f = MyForm(request.POST.copy(), request.FILES)
-        if f.is_valid():
-            for k, v in formInitDict.iteritems():
-                f.cleaned_data[k] = v
-            obj = f.save(**saveDict)
-            if isinstance(obj, LoggedClass) and request.user:
-                obj.logged_save(request.user.person)
-            request.user.message_set.create(message=msgDone)
-        else:
-            pageDict = {'form': f}
-            pageDict.update(formPageDict)
-            request.user.message_set.create(message=\
-                _('Something was wrong in the form you filled. No modification done.'))
-            return ain7_render_to_response(request, formPage, pageDict)
-        redirect = redirectPage
-        if obj:
-            redirect = Template(redirectPage).substitute(objid=obj.id)
-        return HttpResponseRedirect(redirect)
 
 def ain7_generic_delete(request, obj, redirectPage, msgDone):
     """ Méthode générique pour supprimer un objet."""

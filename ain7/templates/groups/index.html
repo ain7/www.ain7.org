@@ -7,13 +7,7 @@
 {% block content-left %}
 
 <ul>
-{% for group in groups_pro %}
-   <li><a href="{% url ain7.groups.views.details group.slug %}">{{ group }}</a></li>
-{% endfor %}
-</ul>
-
-<ul>
-{% for group in groups_regional %}
+{% for group in groups %}
    <li><a href="{% url ain7.groups.views.details group.slug %}">{{ group }}</a></li>
 {% endfor %}
 </ul>

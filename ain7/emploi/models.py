@@ -26,7 +26,7 @@ import datetime
 from django.db import models
 from django.utils.translation import ugettext as _
 
-from ain7.utils import LoggedClass, isAdmin
+from ain7.utils import LoggedClass
 
 
 class Position(LoggedClass):

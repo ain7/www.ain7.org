@@ -153,17 +153,24 @@ def logout(request):
 
 def login(request):
     """login page"""
+
+    from django.db.models import Q
+
     next_page = request.GET.get('next','/')
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = auth.authenticate(username=username, password=password)
-        if user is not None:
-            auth.login(request, user)
-            return HttpResponseRedirect(request.POST.get('next','/'))
-        else:
-            return ain7_render_to_response(request, 'pages/login.html',
-                {'error': True, 'next': next_page})
+        try:
+            login = request.POST['username']
+            username = User.objects.filter(Q(person__emails__email=login) | \
+                Q(username=login)).distinct().get().username
+            password = request.POST['password']
+            user = auth.authenticate(username=username, password=password)
+            if user is not None:
+                auth.login(request, user)
+                return HttpResponseRedirect(request.POST.get('next','/'))
+        except Exception:
+            pass
+        return ain7_render_to_response(request, 'pages/login.html',
+            {'error': True, 'next': next_page})
     else:
         return ain7_render_to_response(request, 'pages/login.html',
             {'error': False, 'next': next_page})
@@ -174,6 +181,7 @@ def edit(request, text_id):
 
     access = check_access(request, request.user,
         ['ain7-membre', 'ain7-ca', 'ain7-secretariat', 'ain7-contributeur'])
+
     if access:
         return access
 

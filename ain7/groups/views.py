@@ -39,10 +39,9 @@ from ain7.utils import ain7_generic_delete, check_access
 
 def index(request):
     """index page"""
-    groups_regional = Group.objects.get_by_type("ain7-regional")
-    groups_pro = Group.objects.get_by_type("ain7-professionnel")
+    groups = Group.objects.active()
     return ain7_render_to_response(request, 'groups/index.html',
-        {'groups_regional': groups_regional, 'groups_pro': groups_pro})
+        {'groups': groups})
 
 def details(request, slug):
     """group details"""
