@@ -174,6 +174,7 @@ def edit(request, text_id):
 
     access = check_access(request, request.user,
         ['ain7-membre', 'ain7-ca', 'ain7-secretariat', 'ain7-contributeur'])
+
     if access:
         return access
 

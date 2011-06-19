@@ -54,9 +54,11 @@ def ain7_website_confidential(obj):
 # http://docs.djangoproject.com/en/dev/ref/templates/api/#writing-your-own-context-processors
 def ain7_render_to_response(req, *args, **kwargs):
 
+    from ain7.annuaire.models import Person
+
     user_groups = []
 
-    if req.user.is_authenticated():
+    if req.user.is_authenticated() and Person.objects.filter(user=req.user):
         user_groups = req.user.person.groups.values_list('group__name', flat=True)
 
     args[1]['portal_version'] = settings.VERSION
@@ -91,14 +93,17 @@ def isAdmin(user):
 
 def check_access(request, user, groups):
 
-    user_groups = user.person.groups.values_list('group__name', flat=True)
+    from ain7.annuaire.models import Person
 
-    if settings.AIN7_PORTAL_ADMIN in user_groups:
-        return None
+    if Person.objects.filter(user=user):
+        user_groups = user.person.groups.values_list('group__name', flat=True)
 
-    for group in user_groups:
-        if group in groups:
+        if settings.AIN7_PORTAL_ADMIN in user_groups:
             return None
+
+        for group in user_groups:
+            if group in groups:
+                return None
 
     return ain7_render_to_response(request, 'pages/permission_denied.html', {})
 
