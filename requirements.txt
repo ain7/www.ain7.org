@@ -1,0 +1,19 @@
+Django==1.2.5
+PIL==1.1.7
+vobject==0.8.1c
+pexpect==2.4
+pygments==1.2.2
+
+# database laye
+pysqlite==2.5.5
+MySQL-python==1.2.3
+
+# search engine
+django-haystack==1.2.4
+xapian-haystack==1.1.5beta
+
+# For the dev
+django-debug-toolbar==0.8.5
+
+# workaround python-dateutil issue (python 2.x / python 3)
+python-dateutil==1.4.1
