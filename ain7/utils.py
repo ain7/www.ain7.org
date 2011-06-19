@@ -75,7 +75,7 @@ def ain7_render_to_response(req, *args, **kwargs):
     kwargs['context_instance'] = RequestContext(req)
     return render_to_response(*args, **kwargs)
 
-def isAdmin(user):
+def is_admin(user):
     """détermine si un user a le profil administrateur"""
 
     from ain7.annuaire.models import Person

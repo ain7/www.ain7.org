@@ -32,7 +32,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from django.conf import settings
 
-from ain7.utils import isAdmin, LoggedClass, get_root_url
+from ain7.utils import is_admin, LoggedClass, get_root_url
 from ain7.utils import ain7_website_confidential, CONFIDENTIALITY_LEVELS
 
 class Country(models.Model):
@@ -242,7 +242,7 @@ class PersonManager(models.Manager):
         crits_for_admin = [
             "user" , "last_change_at" , "last_change_by" ]
         crits = crits_for_all
-        if isAdmin(user):
+        if is_admin(user):
             crits.extend(crits_for_admin)
         return crits
 
@@ -432,7 +432,7 @@ class AIn7MemberManager(models.Manager):
             "display_cv_in_directory" , "display_cv_in_job_section" ,
             "receive_job_offers" ]
         crits = crits_for_all
-        if isAdmin(user):
+        if is_admin(user):
             crits.extend(crits_for_admin)
         return crits
 

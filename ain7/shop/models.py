@@ -31,7 +31,7 @@ from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
 from ain7.filters import FILTERS
-from ain7.utils import LoggedClass, isAdmin
+from ain7.utils import LoggedClass
 
 class PackageCategory(models.Model):
     name = models.CharField(max_length=50)
