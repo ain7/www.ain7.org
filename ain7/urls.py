@@ -117,11 +117,7 @@ urlpatterns = patterns('',
     # sitemaps
     (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
 
+    (r'^search/', include('haystack.urls')),
 
 )
-
-if settings.SEARCH_ENABLED:
-    urlpatterns += patterns('',
-        (r'^search/', include('haystack.urls')),
-    )
 
