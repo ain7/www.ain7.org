@@ -26,14 +26,13 @@ import datetime
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
 from ain7.decorators import confirmation_required
 from ain7.groups.models import Group, Member, GroupRole, GroupLeader, GroupHead
 from ain7.groupes_regionaux.forms import GroupForm, RoleForm
 from ain7.pages.models import Text
-from ain7.utils import ain7_render_to_response
 from ain7.utils import ain7_generic_delete, check_access
 
 
@@ -41,7 +40,7 @@ def index(request):
     """index page"""
     text = Text.objects.get(textblock__shortname='groupes_regionaux')
     groups = Group.objects.get_by_type("ain7-regional")
-    return ain7_render_to_response(request, 'groupes_regionaux/index.html',
+    return render(request, 'groupes_regionaux/index.html',
                             {'groups': groups, 'text': text})
 
 def details(request, slug):
@@ -50,7 +49,7 @@ def details(request, slug):
     is_member = request.user.is_authenticated()\
                 and group.has_for_member(request.user.person)
 
-    return ain7_render_to_response(request, 'groupes_regionaux/details.html',
+    return render(request, 'groupes_regionaux/details.html',
                             {'group': group, 'is_member': is_member})
 
 @login_required
@@ -78,7 +77,7 @@ def edit(request, slug):
                 args=[group.slug]))
 
     back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request, 'groupes_regionaux/edit.html', 
+    return render(request, 'groupes_regionaux/edit.html', 
          {'form': form, 'group': group, 'back': back, 'is_member': is_member})
 
 @login_required
@@ -175,7 +174,7 @@ def edit_role(request, slug, role_id=None):
  the form you filled. No modification done.'))
 
 
-    return ain7_render_to_response(request,
+    return render(request,
         'groupes_regionaux/roles_edit.html',
         {'group': group, 'is_member': is_member, 'form': form,
          'back': request.META.get('HTTP_REFERER', '/')})

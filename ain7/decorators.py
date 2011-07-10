@@ -21,8 +21,8 @@
 #
 
 from django.utils.translation import ugettext as _
+from django.decorators import render
 
-from ain7.utils import ain7_render_to_response
 
 def confirmation_required(get_description, section='base.html', 
            message=_('Are you sure you want to do this action?')):
@@ -41,7 +41,7 @@ def confirmation_required(get_description, section='base.html',
             if request.method != 'POST':
                 description = get_description(*args, **kwargs)
                 back = request.META.get('HTTP_REFERER', '/')
-                return ain7_render_to_response(request, 'pages/confirm.html',
+                return render(request, 'pages/confirm.html',
                              {'description': description, 'section': section,
                               'message': message, 'back': back})
             else:

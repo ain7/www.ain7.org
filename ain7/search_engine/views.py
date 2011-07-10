@@ -27,7 +27,7 @@ from django.db.models.fields.related import ForeignKey, ManyToManyField
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
 from ain7.search_engine.models import getModelName, SearchCriterionFilter, SearchFilter,\
@@ -36,7 +36,6 @@ from ain7.search_engine.forms import ChooseFieldForm, ChooseCSVFieldsForm
 from ain7.search_engine.utils import criteriaList, filtersToExclude, splitFieldFullname,\
                                      getFieldFromName, getModelField, findComparatorsForField,\
                                      getDisplayedVal, getCompVerboseName, getValueFromField
-from ain7.utils import ain7_render_to_response
 from ain7.ajax.views import ajax_resolve
 
 
@@ -105,7 +104,7 @@ def se_criterion_add(request, search_engine=None, filter_id=None,
             new_criterion.save()
         return HttpResponseRedirect(filterRedirect)
 
-    return ain7_render_to_response(request, criterionAddTemplate,
+    return render(request, criterionAddTemplate,
         {'formFields': formFields, 'formFilters': formFilters,
          'zeroFilters': zeroFilters})
 
@@ -214,7 +213,7 @@ def se_criterion_field_edit(request, search_engine=None, filter_id=None,
                 return HttpResponseRedirect(registeredRedirect)
             else:
                 return HttpResponseRedirect(unregisteredRedirect)
-    return ain7_render_to_response(request, criterionEditTemplate,
+    return render(request, criterionEditTemplate,
         {'form': form, 'chosenField': field_verbose_name,
          'action_title': msg})
 
@@ -252,7 +251,7 @@ def se_criterion_filter_edit(request, search_engine,
             criter.is_in           = isin
             criter.save()
             return HttpResponseRedirect(redirectAfterEdit)
-    return ain7_render_to_response(request,
+    return render(request,
                                    criterionEditTemplate, {'form': form})
 
 @login_required
@@ -311,7 +310,7 @@ def se_export_csv(request, objects_to_export=None, search_engine=None,
     form.fields['chosenFields'].choices = choiceList
 
     if request.method != 'POST':
-        return ain7_render_to_response(request, editTemplate,
+        return render(request, editTemplate,
             {'form': form, 'back': request.META.get('HTTP_REFERER', '/'),
              'action_title': _("Choose fields to export")})
     else:
@@ -340,7 +339,7 @@ def se_export_csv(request, objects_to_export=None, search_engine=None,
             return response
         else:
             request.user.message_set.create(message=_('Something was wrong in the form you filled. No modification done.'))
-            return ain7_render_to_response(request,
+            return render(request,
                 {'form': form, 'back': request.META.get('HTTP_REFERER', '/'),
                 'action_title': _("Choose fields to export")})
 

@@ -23,12 +23,12 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import Http404
+from django.shortcuts import render
 
 
 from ain7.annuaire.models import Person, Country, Track, PromoYear
 from ain7.emploi.models import EducationItem
 from ain7.organizations.models import OrganizationActivityField, Organization, Office
-from ain7.utils import ain7_render_to_response
 
 def ajax_resolve():
     """Maps Ajax URLs to model fields.
@@ -80,7 +80,7 @@ def ajax_request(request, completed_name, field_name):
         else:
             elements = ajax_get_elements(completed_name, input)
 
-    return ain7_render_to_response(request, 'ajax/complete.html', {'elements': elements})
+    return render(request, 'ajax/complete.html', {'elements': elements})
 
 def ajax_get_elements(completed_name, input):
     """Given a completed_name, and some input of the user, returns

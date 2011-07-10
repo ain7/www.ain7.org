@@ -24,7 +24,7 @@
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
@@ -33,21 +33,20 @@ from ain7.groups.models import Group, Member, GroupHead, GroupLeader
 from ain7.groupes_professionnels.forms import SubscribeGroupProForm, GroupProForm,\
                                               UnsubscribeGroupProForm, RoleForm
 from ain7.pages.models import Text
-from ain7.utils import ain7_render_to_response, ain7_generic_delete
-from ain7.utils import check_access
+from ain7.utils import ain7_generic_delete, check_access
 
 
 def index(request):
     """index page"""
     text = Text.objects.get(textblock__shortname='groupes_professionnels')
     groups = Group.objects.get_by_type("ain7-professionnel")
-    return ain7_render_to_response(request, 'groupes_professionnels/index.html',
+    return render(request, 'groupes_professionnels/index.html',
                     {'groups': groups, 'text': text})
 
 def details(request, slug):
     """group details"""
     group = get_object_or_404(Group, slug=slug, type__name="ain7-professionnel")
-    return ain7_render_to_response(request, 
+    return render(request, 
         'groupes_professionnels/details.html', {'group': group})
 
 @login_required
@@ -79,7 +78,7 @@ def subscribe(request, slug):
                 return HttpResponseRedirect(reverse(details, args=[group.slug]))
 
     back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request, 
+    return render(request, 
          'groupes_professionnels/subscribe.html',
         {'group': group, 'form': form, 'back': back,
          'group_list': Group.objects.all()})
@@ -115,7 +114,7 @@ def unsubscribe(request, slug):
 
     form =  UnsubscribeGroupProForm()
     back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(
+    return render(
         request, 'groupes_professionnels/subscribe.html',
         {'group': group, 'form': form, 'back': back,
          'group_list': Group.objects.all()})
@@ -141,7 +140,7 @@ def edit(request, slug):
             return HttpResponseRedirect(reverse(details, args=[group.slug]))
 
     back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request, 'groupes_professionnels/edit.html',
+    return render(request, 'groupes_professionnels/edit.html',
         {'form': form, 'group': group, 'back': back})
 
 @login_required
@@ -174,7 +173,7 @@ def edit_role(request, slug, role_id=None):
             role.save()
             return HttpResponseRedirect(reverse(details, args=[group.slug]))
 
-    return ain7_render_to_response(request,
+    return render(request,
         'groupes_professionnels/roles_edit.html',
         {'group': group, 'is_member': is_member, 'form': form,
          'back': request.META.get('HTTP_REFERER', '/')})
