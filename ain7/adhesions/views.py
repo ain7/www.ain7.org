@@ -23,11 +23,11 @@
 
 import datetime
 
-from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
+from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
 from ain7.adhesions.forms import ConfigurationForm, SubscriptionForm
@@ -35,7 +35,6 @@ from ain7.adhesions.models import Subscription, SubscriptionConfiguration
 from ain7.annuaire.models import AIn7Member, Person
 from ain7.shop.models import Payment
 from ain7.decorators import confirmation_required
-from ain7.utils import ain7_render_to_response
 from ain7.utils import ain7_generic_delete, check_access
 
 
@@ -57,7 +56,7 @@ def index(request):
         return HttpResponseRedirect('/adhesions/'+str(request.user.id)+ \
             '/subscriptions/add/')
 
-    return ain7_render_to_response(request, 'adhesions/index.html',
+    return render(request, 'adhesions/index.html',
         {'subscriptions_list': Subscription.objects.filter(validated=True).\
             order_by('-id')[:20],
          'count_members': AIn7Member.objects.count(),
@@ -85,7 +84,7 @@ def subscriptions(request, to_validate=False):
     except PageNotAnInteger:
         raise Http404
 
-    return ain7_render_to_response(request, 'adhesions/subscriptions.html',
+    return render(request, 'adhesions/subscriptions.html',
         {'subscriptions_list': subscriptions_list, 'request': request,
          'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
          'has_next': paginator.page(page).has_next(),
@@ -150,7 +149,7 @@ def user_subscriptions(request, user_id):
     subscriptions_list = Subscription.objects.filter(member=ain7member).\
         order_by('-start_year', '-id')
 
-    return ain7_render_to_response(request, 
+    return render(request, 
         'adhesions/user_subscriptions.html',
         {'person': person, 'ain7member': ain7member, 
          'subscriptions_list': subscriptions_list})
@@ -183,7 +182,7 @@ def subscription_add(request, user_id=None):
             message=_('You already have an active subscription.'))
         form = SubscriptionForm()
         page_dict.update({'form': form})
-        return ain7_render_to_response(request, 
+        return render(request, 
             'adhesions/subscribe.html', page_dict)
 
     # 2e passage : sauvegarde et redirection
@@ -256,7 +255,7 @@ validite=31/12/2099&langue=FR&devise=978&version=1&reference=%(reference)s" \
                     replace('\n','')
                 print spplusurl
 
-            return ain7_render_to_response(request,
+            return render(request,
                  'adhesions/informations.html',
                  {'payment': payment, 'spplusurl': spplusurl })
 
@@ -270,7 +269,7 @@ def configurations(request):
 
     year_current = datetime.date.today().year
 
-    return ain7_render_to_response(request, 'adhesions/configurations.html',
+    return render(request, 'adhesions/configurations.html',
         {'configurations_list': 
          SubscriptionConfiguration.objects.filter(year=year_current).order_by('type')})
 
@@ -301,7 +300,7 @@ def configuration_edit(request, config_id=None):
 
         return HttpResponseRedirect(reverse(configurations))
 
-    return ain7_render_to_response(
+    return render(
         request, 'adhesions/configuration_edit.html',
         {'form': form, 'action_title': _("Modification of configuration"),
          'back': request.META.get('HTTP_REFERER', '/')})
@@ -343,5 +342,5 @@ def notification(request):
             pay.validated = True
             pay.save()
 
-    return ain7_render_to_response(request, 'adhesions/notification.html', {})
+    return render(request, 'adhesions/notification.html', {})
 

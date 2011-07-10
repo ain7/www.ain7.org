@@ -27,10 +27,10 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
-from ain7.utils import ain7_render_to_response, check_access
+from ain7.utils import check_access
 from ain7.organizations.models import Organization, Office
 from ain7.manage.models import Mailing, PortalError
 from ain7.shop.models import Payment
@@ -60,7 +60,7 @@ def index(request):
     if access:
         return access
 
-    return ain7_render_to_response(request, 'manage/default.html',
+    return render(request, 'manage/default.html',
         {'notifications': None})
 
 @login_required
@@ -91,7 +91,7 @@ def users_search(request):
             except InvalidPage:
                 raise Http404
 
-    return ain7_render_to_response(request, 'manage/users_search.html',
+    return render(request, 'manage/users_search.html',
         {'form': form, 'persons': persons, 'request': request,
          'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
          'has_next': paginator.page(page).has_next(),
@@ -126,7 +126,7 @@ def user_register(request):
  the form you filled. No modification done."))
 
     back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request, 'manage/edit_form.html',
+    return render(request, 'manage/edit_form.html',
         {'action_title': _('Register new user'), 'back': back, 'form': form})
 
 @login_required
@@ -141,11 +141,11 @@ def organizations_adv_search(request):
     filtr = organization_search_engine()\
             .unregistered_filters(request.user.person)
     if filtr:
-        return ain7_render_to_response(request,
+        return render(request,
             'manage/organizations_adv_search.html',
             dict_for_filter(request, filtr.id))
     else:
-        return ain7_render_to_response(request,
+        return render(request,
             'manage/organizations_adv_search.html',
             dict_for_filter(request, None))
 
@@ -204,7 +204,7 @@ def filter_details(request, filter_id):
     if access:
         return access
 
-    return ain7_render_to_response(request,
+    return render(request,
         'manage/organizations_adv_search.html',
         dict_for_filter(request, filter_id))
 
@@ -238,7 +238,7 @@ def filter_register(request):
     form = SearchFilterForm()
 
     if request.method != 'POST':
-        return ain7_render_to_response(request,
+        return render(request,
             'manage/edit_form.html',
             {'form': form, 'back': request.META.get('HTTP_REFERER', '/'),
              'action_title': _("Enter parameters of your filter")})
@@ -297,7 +297,7 @@ def filter_edit(request, filter_id):
  the form you filled. No modification done."))
         return HttpResponseRedirect(
             reverse(filter_details, args=[ filter_id ]))
-    return ain7_render_to_response(
+    return render(
         request, 'manage/edit_form.html',
         {'form': form, 'action_title': _("Modification of the filter")})
 
@@ -494,7 +494,7 @@ def errors_index(request):
     except InvalidPage:
         raise Http404
 
-    return ain7_render_to_response(request, 'manage/errors_index.html',
+    return render(request, 'manage/errors_index.html',
         {'errors': errors, 'request': request,
          'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
          'has_next': paginator.page(page).has_next(),
@@ -532,7 +532,7 @@ def error_details(request, error_id):
             return HttpResponseRedirect(
                 reverse(error_details, args=[error.id]))
 
-    return ain7_render_to_response(
+    return render(
         request, 'manage/error_details.html',
         {'error': error, 'form': form, 'traceback': traceback, 
          'back': request.META.get('HTTP_REFERER', '/')})
@@ -553,7 +553,7 @@ def errors_edit_range(request):
             form.save()
             return HttpResponseRedirect(reverse(errors_index))
 
-    return ain7_render_to_response(
+    return render(
         request, 'manage/edit_form.html',
         {'form': form, 'back': request.META.get('HTTP_REFERER', '/')})
 
@@ -590,7 +590,7 @@ def payments_index(request):
     except InvalidPage:
         raise Http404
 
-    return ain7_render_to_response(request, 'manage/payments_index.html',
+    return render(request, 'manage/payments_index.html',
         {'payments': payments,
          'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
          'has_next': paginator.page(page).has_next(),
@@ -613,7 +613,7 @@ def payment_add(request):
 
     payments_list = Payment.objects.all()
 
-    return ain7_render_to_response(
+    return render(
         request, 'manage/payments_index.html', {'payment_list': payments_list})
 
 @login_required
@@ -627,7 +627,7 @@ def payment_details(request, payment_id):
 
     payment = get_object_or_404(Payment, pk=payment_id)
 
-    return ain7_render_to_response(
+    return render(
         request, 'manage/payment_details.html', {'payment': payment})
 
 @login_required
@@ -657,7 +657,7 @@ def payment_edit(request, payment_id):
 
     back = request.META.get('HTTP_REFERER', '/')
 
-    return ain7_render_to_response(
+    return render(
         request, 'manage/payment_edit.html', {'payment': payment,
             'form': form, 'back': back})
 
@@ -670,7 +670,7 @@ def payments_deposit_index(request):
     if access:
         return access
 
-    return ain7_render_to_response(
+    return render(
         request, 'manage/payments_deposit_index.html', {})
 
 @login_required
@@ -692,7 +692,7 @@ def payments_deposit(request, deposit_id):
         request.user.message_set.create(message=_('No payment to deposit'))
         return HttpResponseRedirect(reverse(payments_deposit_index))
 
-    return ain7_render_to_response(
+    return render(
         request, 'manage/payments_deposit.html', 
         {'deposits': deposits, 'deposit_id': int(deposit_id),
          'last_deposit_id': last_deposit_id })
@@ -887,7 +887,7 @@ def subscriptions_stats(request):
         if subs.newspaper_amount:
             total_publications += subs.newspaper_amount
 
-    return ain7_render_to_response(
+    return render(
         request, 'manage/subscriptions_stats.html', 
         { 'stats_subs' : stats_subs, 
           'stats_months': stats_months, 
@@ -915,7 +915,7 @@ def mailings_index(request):
     except InvalidPage:
         raise Http404
 
-    return ain7_render_to_response(request, 'manage/mailings_index.html',
+    return render(request, 'manage/mailings_index.html',
         {'mailings': mailings,
          'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
          'has_next': paginator.page(page).has_next(),
@@ -992,7 +992,7 @@ def mailing_edit(request, mailing_id=None):
 
     back = request.META.get('HTTP_REFERER', '/')
 
-    return ain7_render_to_response(
+    return render(
         request, 'manage/mailing_edit.html', {'mailing': mailing,
             'news': news, 'form': form, 'back': back})
 
@@ -1024,7 +1024,7 @@ def mailing_view(request, mailing_id):
 
     html = mailing.build_html_body()
 
-    return ain7_render_to_response(
+    return render(
         request, 'manage/mailing_view.html', {'html': html})
 
 @login_required

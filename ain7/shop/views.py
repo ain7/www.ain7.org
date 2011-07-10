@@ -25,13 +25,12 @@ import datetime
 
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
 
 from ain7.shop.forms import PaymentMethodForm
 from ain7.shop.models import Order, Payment
-from ain7.utils import ain7_render_to_response
 
 def index(request):
 
@@ -81,11 +80,11 @@ validite=31/12/2099&langue=FR&devise=978&version=1&reference=%(reference)s" \
                     replace('\n','')
                 print spplusurl
 
-            return ain7_render_to_response(request,
+            return render(request,
                  'shop/informations.html',
                  {'payment': payment, 'spplusurl': spplusurl })
 
-    return ain7_render_to_response(request,
+    return render(request,
         'shop/form.html',
         {'form': form, })
 

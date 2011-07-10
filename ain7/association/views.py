@@ -24,7 +24,7 @@
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import AIn7Member
@@ -32,8 +32,7 @@ from ain7.association.forms import CouncilRoleForm
 from ain7.decorators import confirmation_required
 from ain7.groups.models import Group, GroupHead, GroupLeader
 from ain7.pages.models import Text
-from ain7.utils import ain7_render_to_response, ain7_generic_delete
-from ain7.utils import check_access
+from ain7.utils import ain7_generic_delete, check_access
 
 
 def count_members():
@@ -44,38 +43,38 @@ def count_members():
 def index(request):
     """index page"""
     text = Text.objects.get(textblock__shortname='presentation_ain7') 
-    return ain7_render_to_response(request, 'association/index.html', 
+    return render(request, 'association/index.html', 
                 {'count_members': count_members(), 'text': text}) 
  
 def status(request):
     """status page""" 
     text = Text.objects.get(textblock__shortname='statuts_ain7') 
-    return ain7_render_to_response(request, 'association/status.html', 
+    return render(request, 'association/status.html', 
                 {'count_members': count_members(), 'text': text}) 
 
 def internalrules(request):
     """internal rules page""" 
     text = Text.objects.get(textblock__shortname='internal_rules_ain7') 
-    return ain7_render_to_response(request, 'association/internalrules.html', 
+    return render(request, 'association/internalrules.html', 
                 {'count_members': count_members(), 'text': text}) 
  
 def council(request):
     """council presentation page"""
     from ain7.groups.models import Group
     ca = get_object_or_404(Group, slug='ain7')
-    return ain7_render_to_response(request, 'association/council.html',
+    return render(request, 'association/council.html',
         {'group': ca, 'count_members': count_members()})
  
 def contact(request):
     """contact page"""
     text = Text.objects.get(textblock__shortname='contact_ain7') 
-    return ain7_render_to_response(request, 'association/contact.html', 
+    return render(request, 'association/contact.html', 
           {'count_members': count_members(), 'text': text}) 
 
 def activites(request):
     """activities page"""
     text = Text.objects.get(textblock__shortname='activites_ain7') 
-    return ain7_render_to_response(request, 'association/activites.html', 
+    return render(request, 'association/activites.html', 
           {'count_members': count_members(), 'text': text}) 
 
 @login_required
@@ -109,7 +108,7 @@ def edit_council_role(request, role_id=None):
  the form you filled. No modification done.'))
             # TODO : le champ username n'est pas renseigné ici (LP 346274)
 
-    return ain7_render_to_response(request,
+    return render(request,
         'association/council_edit.html',
         {'count_members': count_members(), 'form': form,
          'back': request.META.get('HTTP_REFERER', '/')})
@@ -135,7 +134,7 @@ def delete_council_role(request, role_id):
 def media_com(request):
     """media communication index page"""
     text = Text.objects.get(textblock__shortname='publication_ain7')
-    return ain7_render_to_response(request, 
+    return render(request, 
             'media_communication/index.html', {'text': text})
 
 def canal_n7(request):
@@ -144,14 +143,14 @@ def canal_n7(request):
     text2 = Text.objects.get(textblock__shortname='redaction_canal_n7')
     text3 = Text.objects.get(textblock__shortname='canal_n7')
     text4 = Text.objects.get(textblock__shortname='sommaire_canal_n7')
-    return ain7_render_to_response(request, 'media_communication/canal_n7.html',
+    return render(request, 'media_communication/canal_n7.html',
                   {'text1': text1, 'text2': text2, 'text3': text3, 'text4': text4})
 
 def canal_n7_edito(request): 
     """Canal N7 edito"""
     text1 = Text.objects.get(textblock__shortname='edito_canal_n7')
     text2 = Text.objects.get(textblock__shortname='sommaire_canal_n7')
-    return ain7_render_to_response(request, 
+    return render(request, 
                       'media_communication/canal_n7_edito.html', 
                      {'text1': text1, 'text2': text2})
 

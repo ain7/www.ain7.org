@@ -430,17 +430,14 @@ Elle a son Siège à Toulouse, à l'ECOLE NATIONALE SUPERIEURE d'ELECTROTECHNIQU
     text5.title = u"Le secrétariat permanant"
     text5.body = u"""<b>Coordonnées globales :</b>
 <p>
-AIn7<br/>
-2 rue Charles Camichel, BP 7122,<br/>
-31071 Toulouse cedex 7</p>
+AIn7, 2 rue Charles Camichel, BP 7122, 31071 Toulouse cedex 7</p>
 
 <p>Fax : 05 61 62 09 76</p>
 <p>Courriel : <a href="mailto:ain7@ain7.com">ain7@ain7.com</a></p>
 
-<b>Nos deux secrétaires :</b>
+<b>Le secrétariat :</b>
 <ul>
 <li>Sylvie Henric - <a href="mailto:sylvie.henric@ain7.fr">sylvie.henric@ain7.com</a> - Tél : 05 61 58 82 88</li>
-<li>Frédérique Forestie - <a href="mailto:frederique.forestie@ain7.fr">frederique.forestie@ain7.com</a> -  Tél : 05 61 58 82 13</li>
 </ul>
 """
     text5.save()

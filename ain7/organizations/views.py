@@ -27,7 +27,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
 from ain7.decorators import confirmation_required
@@ -35,7 +35,6 @@ from ain7.organizations.models import Organization, Office
 from ain7.organizations.forms import OrganizationForm, OfficeForm, \
                               SearchOrganizationForm, \
                               OrganizationListForm, OfficeListForm
-from ain7.utils import ain7_render_to_response
 from ain7.utils import check_access
 
 
@@ -50,7 +49,7 @@ def organization_details(request, organization_id):
 
     organization = get_object_or_404(Organization, pk=organization_id)
 
-    return ain7_render_to_response(request, 
+    return render(request, 
          'organizations/organization_details.html',
         {'organization': organization})
 
@@ -103,7 +102,7 @@ def organization_edit(request, organization_id=None):
             request.user.message_set.create(message=_('Something was wrong\
  in the form you filled. No modification done.'))
 
-    return ain7_render_to_response(request, 
+    return render(request, 
          'organizations/office_edit.html',
         {'form': form, 
          'title':_('Organization modification')})
@@ -138,7 +137,7 @@ def organization_search(request):
             except InvalidPage:
                 raise Http404
 
-    return ain7_render_to_response(request, 
+    return render(request, 
          'organizations/organizations_search.html',
         {'form': form, 'organizations': organizations,
          'nb_org': Organization.objects.valid_organizations().count(),
@@ -166,7 +165,7 @@ def organization_merge(request, organization_id=None):
     # 1er passage : on demande la saisie d'une deuxième organisation
     if request.method == 'GET':
         form = OrganizationListForm()
-        return ain7_render_to_response(
+        return render(
             request, 'organizations/organization_merge.html',
             {'form': form, 'organization': organization})
 
@@ -314,7 +313,7 @@ def office_edit(request, organization_id, office_id=None):
             request.user.message_set.create(message=_('Something was wrong in\
  the form you filled. No modification done.'))
 
-    return ain7_render_to_response(request, 
+    return render(request, 
          'organizations/office_edit.html',
         {'form': form, 'title': _('Modify an office')})
 
@@ -358,7 +357,7 @@ def office_merge(request, organization_id, office_id=None):
     # 1er passage : on demande la saisie d'une deuxième organisation
     if request.method == 'GET':
         form = OfficeListForm()
-        return ain7_render_to_response(
+        return render(
             request, 'organizations/office_merge.html',
             {'form':form, 'office':office})
 

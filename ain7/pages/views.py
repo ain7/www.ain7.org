@@ -28,7 +28,7 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import AIn7Member, Email
@@ -36,7 +36,7 @@ from ain7.news.models import NewsItem
 from ain7.pages.forms import LostPasswordForm, TextForm, ChangePasswordForm
 from ain7.pages.models import Text, LostPassword
 from ain7.sondages.models import Survey
-from ain7.utils import ain7_render_to_response, check_access
+from ain7.utils import check_access
 
 
 def homepage(request):
@@ -57,7 +57,7 @@ def homepage(request):
             person__birth_date__month=today.month,
             person__personprivate__death_date=None) ]
         birthdays.sort(lambda x, y: cmp(x.person.last_name, y.person.last_name))
-    return ain7_render_to_response(request, 'pages/homepage.html', 
+    return render(request, 'pages/homepage.html', 
         {'news': news , 'events': events, 'surveys': surveys, 
          'birthdays': birthdays, 'text1': text1, 'text2': text2})
 
@@ -67,7 +67,7 @@ def lostpassword(request):
     messages = request.session.setdefault('messages', [])
     form = LostPasswordForm()
     if request.method == 'GET':
-        return ain7_render_to_response(request, 'pages/lostpassword.html',
+        return render(request, 'pages/lostpassword.html',
             {'form': form})
     if request.method == 'POST':
         form = LostPasswordForm(request.POST)
@@ -80,12 +80,12 @@ def lostpassword(request):
             info = _('We have sent you an email with instructions to reset\
  your password.')
             request.path = '/'
-            return ain7_render_to_response(request, 'pages/lostpassword.html',
+            return render(request, 'pages/lostpassword.html',
                 {'info': info})
         else:
             info = _('If you are claiming an existing account but don\'t know\
  the email address that was used, please contact an AIn7 administrator.')
-            return ain7_render_to_response(request, 'pages/lostpassword.html',
+            return render(request, 'pages/lostpassword.html',
                 {'form': form, 'info': info})
 
 def changepassword(request, key):
@@ -97,7 +97,7 @@ def changepassword(request, key):
     if lostpw.is_expired():
         lostpw.delete()
         info = _('Page expired, please request a new key')
-        return ain7_render_to_response(request, 'pages/changepassword.html',
+        return render(request, 'pages/changepassword.html',
             {'info': info})
 
     if request.POST:
@@ -108,40 +108,40 @@ def changepassword(request, key):
             person.user.set_password(form.cleaned_data['password'])
             person.user.save()
             info = _('Successfully changed password')
-            return ain7_render_to_response(request, 'pages/changepassword.html',
+            return render(request, 'pages/changepassword.html',
                 {'person': person, 'info': info})
 
-    return ain7_render_to_response(request, 'pages/changepassword.html', 
+    return render(request, 'pages/changepassword.html', 
         {'form': form, 'person': lostpw.person})
 
 def apropos(request):
     """about page"""
     text = Text.objects.get(textblock__shortname='apropos')
-    return ain7_render_to_response(request, 'pages/apropos.html',
+    return render(request, 'pages/apropos.html',
         {'text': text})
 
 def web(request):
     """web presentation page"""
     text = Text.objects.get(textblock__shortname='web_ain7')
-    return ain7_render_to_response(request, 'pages/web.html', 
+    return render(request, 'pages/web.html', 
                        {'text': text})
 
 def mentions_legales(request):
     """legal mentions"""
     text = Text.objects.get(textblock__shortname='mentions_legales')
-    return ain7_render_to_response(request, 'pages/mentions_legales.html',
+    return render(request, 'pages/mentions_legales.html',
         {'text': text})
 
 def relations_ecole_etudiants(request): 
     """school and students relashionchip"""
     text = Text.objects.get(textblock__shortname='relations_ecole_etudiants')
-    return ain7_render_to_response(request, 
+    return render(request, 
                 'pages/relations_ecole_etudiants.html', {'text': text})
 
 def rss(request):
     """rss feeds"""
     text = Text.objects.get(textblock__shortname='rss')
-    return ain7_render_to_response(request, 'pages/rss.html', {'text': text})
+    return render(request, 'pages/rss.html', {'text': text})
 
 def logout(request):
     """logout page"""
@@ -169,10 +169,10 @@ def login(request):
                 return HttpResponseRedirect(request.POST.get('next','/'))
         except Exception:
             pass
-        return ain7_render_to_response(request, 'pages/login.html',
+        return render(request, 'pages/login.html',
             {'error': True, 'next': next_page})
     else:
-        return ain7_render_to_response(request, 'pages/login.html',
+        return render(request, 'pages/login.html',
             {'error': False, 'next': next_page})
 
 @login_required
@@ -199,7 +199,7 @@ def edit(request, text_id):
             request.user.message_set.create(message=_("Modifications saved."))
             return HttpResponseRedirect(text.textblock.url)
 
-    return ain7_render_to_response(request, 'pages/text_edit.html', 
+    return render(request, 'pages/text_edit.html', 
         {'text_id': text_id, 'form': form,
          'back': request.META.get('HTTP_REFERER')})
 

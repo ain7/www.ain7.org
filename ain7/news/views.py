@@ -28,7 +28,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404, HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Email, Person
@@ -37,19 +37,19 @@ from ain7.news.models import NewsItem, RSVPAnswer
 from ain7.news.forms import SearchNewsForm, NewsForm, EventForm, \
      SearchEventForm, ContactEventForm, EventOrganizerForm, RSVPAnswerForm
 from ain7.shop.models import Order, ShoppingCart, ShoppingCartItem
-from ain7.utils import ain7_render_to_response, check_access
+from ain7.utils import check_access
 
 
 def index(request):
     """news index page"""
     news = NewsItem.objects.filter(date__isnull=True).\
         order_by('-creation_date')[:20]
-    return ain7_render_to_response(request, 'news/index.html', {'news': news })
+    return render(request, 'news/index.html', {'news': news })
 
 def details(request, news_slug):
     """news details"""
     news_item = get_object_or_404(NewsItem, slug=news_slug)
-    return ain7_render_to_response(request, 'news/details.html',
+    return render(request, 'news/details.html',
                             {'news_item': news_item})
 
 @login_required
@@ -82,7 +82,7 @@ def edit(request, news_slug=None):
             return HttpResponseRedirect(reverse(details, 
                 args=[news_item.slug]))
 
-    return ain7_render_to_response(
+    return render(
         request, 'news/edit.html',
         {'form': form, 'title': _("News edition"), 'news_item': news_item,
          'back': request.META.get('HTTP_REFERER', '/')})
@@ -148,7 +148,7 @@ def search(request):
             except InvalidPage:
                 raise Http404
 
-    return ain7_render_to_response(request, 'news/search.html',
+    return render(request, 'news/search.html',
         {'form': form, 'list_news': list_news,
          'request': request,'paginator': paginator,
          'is_paginated': paginator.num_pages > 1,
@@ -165,7 +165,7 @@ def event_index(request):
     """event index"""
     events = NewsItem.objects.filter(date__gte=datetime.datetime.now()).\
         order_by('date')[:10]
-    return ain7_render_to_response(request, 'evenements/index.html',
+    return render(request, 'evenements/index.html',
         {'events': events, 
          'event_list': NewsItem.objects.filter(date__isnull=False),
          'next_events': NewsItem.objects.next_events()})
@@ -194,7 +194,7 @@ def event_details(request, event_id):
     if rsvp_display and event.rsvp_end:
         rsvp_display = rsvp_display and event.rsvp_end > today
 
-    return ain7_render_to_response(request, 'evenements/details.html',
+    return render(request, 'evenements/details.html',
         {'event': event, 
          'event_list': NewsItem.objects.filter(date__isnull=False),
          'next_events': NewsItem.objects.next_events(),
@@ -230,7 +230,7 @@ def event_edit(request, event_id=None):
 
             return HttpResponseRedirect(reverse(event_details, args=[evt.id]))
 
-    return ain7_render_to_response(
+    return render(
         request, 'evenements/edit.html',
         {'form': form, 
          'action_title': _("Event modification"),
@@ -277,7 +277,7 @@ def event_attendees(request, event_id):
     attendees_no = RSVPAnswer.objects.filter(event=event, no=True)
     attendees_maybe = RSVPAnswer.objects.filter(event=event, maybe=True)
 
-    return ain7_render_to_response(
+    return render(
         request, 'evenements/attendees.html',
         {'attendees_yes': attendees_yes,
          'attendees_number': attendees_number,
@@ -360,7 +360,7 @@ def event_rsvp(request, event_id, rsvp_id=None):
                     reverse('ain7.news.views.event_details',
                     args=[event.id]))
 
-    return ain7_render_to_response(
+    return render(
         request, 'evenements/rsvp.html',
         {'form': form, 
          'action_title': _("RSVP Answer"),
@@ -436,7 +436,7 @@ def event_search(request):
             except InvalidPage:
                 raise Http404
 
-    return ain7_render_to_response(request, 'evenements/search.html',
+    return render(request, 'evenements/search.html',
         {'form': form, 'list_events': list_events, 'request': request,
          'event_list': NewsItem.objects.all(),
          'next_events': NewsItem.objects.next_events(),
@@ -469,7 +469,7 @@ def event_contact(request, event_id):
             form = ContactEventForm()
         else:
             form = ContactEventForm(initial={'sender': email})
-        return ain7_render_to_response(request, 'evenements/contact.html',
+        return render(request, 'evenements/contact.html',
             {'event': event, 'form': form,
              'back': request.META.get('HTTP_REFERER', '/'),
              'event_list': NewsItem.objects.filter(date__isnull=False),
@@ -491,7 +491,7 @@ def event_contact(request, event_id):
         else:
             request.user.message_set.create(message=_("Something was wrong in\
  the form you filled. No message sent."))
-            return ain7_render_to_response(request,
+            return render(request,
                 'evenements/contact.html',
                 {'event': event, 'form': form,
                  'back': request.META.get('HTTP_REFERER', '/'),
@@ -551,7 +551,7 @@ def event_organizer_add(request, event_id):
 
         return HttpResponseRedirect(reverse(event_details, args=[event.id]))
 
-    return ain7_render_to_response(
+    return render(
         request, 'evenements/organizer_add.html',
         {'form': form, 'action_title': _("Adding organizer"),
          'event_list': NewsItem.objects.filter(date__isnull=False),

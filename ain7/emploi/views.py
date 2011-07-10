@@ -25,7 +25,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person, AIn7Member
@@ -35,7 +35,6 @@ from ain7.emploi.models import JobOffer, Position, EducationItem, \
 from ain7.emploi.forms import PositionForm, EducationItemForm, \
                               LeisureItemForm, \
                               PublicationItemForm, JobOfferForm, SearchJobForm
-from ain7.utils import ain7_render_to_response
 from ain7.utils import ain7_generic_delete, check_access
 
 
@@ -50,7 +49,7 @@ def index(request):
         ain7member = None
     liste_emplois = JobOffer.objects.filter(checked_by_secretariat=True, \
         obsolete=False).order_by('-id')[:20]
-    return ain7_render_to_response(request, 'emploi/index.html',
+    return render(request, 'emploi/index.html',
         {'ain7member': ain7member,
          'liste_emplois': liste_emplois})
 
@@ -67,7 +66,7 @@ def cv_details(request, user_id):
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
-    return ain7_render_to_response(request, 'emploi/cv_details.html',
+    return render(request, 'emploi/cv_details.html',
         {'person': person, 'ain7member': ain7member})
 
 @login_required
@@ -83,7 +82,7 @@ def cv_edit(request, user_id=None):
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
-    return ain7_render_to_response(request, 'emploi/cv_edit.html',
+    return render(request, 'emploi/cv_edit.html',
         {'person': person, 'ain7member': ain7member})
 
 @login_required
@@ -121,7 +120,7 @@ def position_edit(request, user_id=None, position_id=None):
         return HttpResponseRedirect(reverse(cv_edit, 
             args=[user_id])+'#prof_exp')
 
-    return ain7_render_to_response(
+    return render(
         request, 'emploi/position_edit.html',
         {'form': form, 'action_title': _("Position edit"),
          'back': request.META.get('HTTP_REFERER', '/')})
@@ -179,7 +178,7 @@ def education_edit(request, user_id=None, education_id=None):
         return HttpResponseRedirect(reverse(cv_edit, 
              args=[user_id])+'#education')
 
-    return ain7_render_to_response(
+    return render(
         request, 'emploi/education_edit.html',
         {'form': form, 'action_title': _("Position edit"),
          'back': request.META.get('HTTP_REFERER', '/')})
@@ -236,7 +235,7 @@ def leisure_edit(request, user_id=None, leisure_id=None):
 
         return HttpResponseRedirect(reverse(cv_edit, args=[user_id])+'#leisure')
 
-    return ain7_render_to_response(
+    return render(
         request, 'emploi/leisure_edit.html',
         {'form': form, 'action_title': _("Position edit"),
          'back': request.META.get('HTTP_REFERER', '/')})
@@ -294,7 +293,7 @@ def publication_edit(request, user_id=None, publication_id=None):
         return HttpResponseRedirect(reverse(cv_edit, 
             args=[user_id])+'#publications')
 
-    return ain7_render_to_response(
+    return render(
         request, 'emploi/publication_edit.html',
         {'form': form, 'action_title': _("Position edit"),
          'back': request.META.get('HTTP_REFERER', '/')})
@@ -340,7 +339,7 @@ def job_details(request, emploi_id):
     job_offer_view.job_offer = job_offer
     job_offer_view.person = request.user.person
     job_offer_view.save()
-    return ain7_render_to_response(
+    return render(
         request, 'emploi/job_details.html', {'job': job_offer, 'views': views })
 
 @login_required
@@ -378,7 +377,7 @@ def job_edit(request, emploi_id):
             return HttpResponseRedirect(reverse(job_details, args=[job.id]))
 
     back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request, 'emploi/job_edit.html', 
+    return render(request, 'emploi/job_edit.html', 
         {'form': form, 'job': job, 'back': back})
 
 @login_required
@@ -411,7 +410,7 @@ def job_register(request):
  No modification done.'))
             
     back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request, 'emploi/job_register.html',
+    return render(request, 'emploi/job_register.html',
         {'form': form, 'back': back})
 
 @login_required
@@ -445,7 +444,7 @@ def job_search(request):
             except InvalidPage:
                 raise Http404
 
-    return ain7_render_to_response(request, 'emploi/job_search.html',
+    return render(request, 'emploi/job_search.html',
         {'form': form, 'list_jobs': list_jobs,
          'dosearch': dosearch,
          'request': request,
@@ -471,7 +470,7 @@ def jobs_proposals(request):
     access = check_access(request, request.user, ['ain7-secretariat'])
     if access:
         return access
-    return ain7_render_to_response(request, 'emploi/job_proposals.html',
+    return render(request, 'emploi/job_proposals.html',
         {'proposals': JobOffer.objects.filter(checked_by_secretariat=False)})
 
 @confirmation_required(lambda job_id=None: 

@@ -29,7 +29,7 @@ import settings
 
 confirm = 'oui'
 
-if os.path.exists(settings.DATABASE_NAME):
+if os.path.exists(settings.DATABASES['default']['NAME']):
     msg = "La base de donnee existe deja, voulez vous la supprimer ? "
     confirm = raw_input(msg)
     while 1:
@@ -37,7 +37,7 @@ if os.path.exists(settings.DATABASE_NAME):
             confirm = raw_input('Merci de saisir "oui" ou "non" : ')
             continue
         if confirm == 'oui':
-            os.remove(settings.DATABASE_NAME)
+            os.remove(settings.DATABASES['default']['NAME'])
         break
 
 # spawn the child process

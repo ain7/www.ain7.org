@@ -27,13 +27,12 @@ import datetime
 from django.contrib import auth
 from django.contrib.auth.models import User
 #from django.contrib import messages
-from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.utils.translation import ugettext as _
-from django.http import Http404
+from django.shortcuts import get_object_or_404, render
 
 from ain7.annuaire.models import PersonPrivate, UserActivity, Promo, \
                                  PhoneNumber, InstantMessaging, Email, IRC, \
@@ -54,7 +53,6 @@ from ain7.search_engine.views import se_filter_swap_op, \
                                      se_criterion_field_edit, \
                                      se_criterion_add, se_criterion_delete, \
                                      se_criterion_filter_edit, se_export_csv
-from ain7.utils import ain7_render_to_response
 from ain7.utils import ain7_generic_delete, check_access
 
 
@@ -87,7 +85,7 @@ def details(request, user_id):
     if UserActivity.objects.filter(person=person):
         last_activity = UserActivity.objects.filter(person=person).latest('id')
 
-    return ain7_render_to_response(request, 'annuaire/details.html',
+    return render(request, 'annuaire/details.html',
         {'person': person, 'personprivate': personprivate, 
          'is_subscriber': is_subscriber,
          'ain7member': ain7member, 'is_myself': is_myself, 
@@ -132,7 +130,7 @@ def search(request):
             except InvalidPage:
                 raise Http404
 
-    return ain7_render_to_response(request, 'annuaire/search.html',
+    return render(request, 'annuaire/search.html',
         {'form': form, 'ain7members': ain7members, 'request': request,
          'userFilters': annuaire_search_engine().registered_filters(
                             request.user.person),
@@ -174,7 +172,7 @@ def change_credentials(request, user_id):
                     _("Wrong authentication"))
 
     form = ChangePasswordForm(initial={'login': person.user.username})
-    return ain7_render_to_response(request, 'annuaire/credentials.html',
+    return render(request, 'annuaire/credentials.html',
         {'form': form, 'person': person, 'ain7member': ain7member,
          'is_myself': is_myself})
 
@@ -207,10 +205,10 @@ def advanced_search(request):
     search_filter = annuaire_search_engine().unregistered_filters(\
         request.user.person)
     if search_filter:
-        return ain7_render_to_response(request, 'annuaire/adv_search.html',
+        return render(request, 'annuaire/adv_search.html',
             dict_for_filter(request, search_filter.id))
     else:
-        return ain7_render_to_response(request, 'annuaire/adv_search.html',
+        return render(request, 'annuaire/adv_search.html',
             dict_for_filter(request, None))
     
 
@@ -222,7 +220,7 @@ def filter_details(request, filter_id):
     if access:
         return access
 
-    return ain7_render_to_response(request, 'annuaire/adv_search.html',
+    return render(request, 'annuaire/adv_search.html',
         dict_for_filter(request, filter_id))
 
 
@@ -289,7 +287,7 @@ def filter_register(request):
     form = SearchFilterForm()
 
     if request.method != 'POST':
-        return ain7_render_to_response(request,
+        return render(request,
             'annuaire/edit_form.html',
             {'form': form, 'back': request.META.get('HTTP_REFERER', '/'),
              'action_title': _("Enter parameters of your filter")})
@@ -347,7 +345,7 @@ def filter_edit(request, filter_id):
  the form you filled. No modification done."))
         return HttpResponseRedirect(
             '/annuaire/advanced_search/filter/%s/' % filter_id)
-    return ain7_render_to_response(
+    return render(
         request, 'annuaire/edit_form.html',
         {'form': form, 'action_title': _("Modification of the filter")})
 
@@ -503,7 +501,7 @@ def edit(request, user_id=None):
     if AIn7Member.objects.filter(person=person).count() > 0:
         ain7member = get_object_or_404(AIn7Member, person=person)
 
-    return ain7_render_to_response(request, 'annuaire/edit.html',
+    return render(request, 'annuaire/edit.html',
         {'person': person, 'ain7member': ain7member, 
          'personprivate': personprivate,
          'is_myself': is_myself})
@@ -531,7 +529,7 @@ def person_edit(request, user_id):
         return HttpResponseRedirect(
             '/annuaire/%s/edit/' % user_id)
 
-    return ain7_render_to_response(
+    return render(
         request, 'annuaire/edit_form.html',
         {'form': form, 'action_title': _("Modification of personal data for"),
          'back': request.META.get('HTTP_REFERER', '/')})
@@ -557,7 +555,7 @@ def personprivate_edit(request, user_id):
         return HttpResponseRedirect(
             '/annuaire/%s/edit/' % user_id)
 
-    return ain7_render_to_response(
+    return render(
         request, 'annuaire/edit_form.html',
         {'form': form, 'action_title': _("Modification of personal data for"),
          'back': request.META.get('HTTP_REFERER', '/')})
@@ -588,7 +586,7 @@ def ain7member_edit(request, user_id):
         return HttpResponseRedirect(
             '/annuaire/%s/edit/' % user_id)
 
-    return ain7_render_to_response(
+    return render(
         request, 'annuaire/edit_form.html',
         {'form': form, 'action_title': _("Modification of personal data for"),
          'back': request.META.get('HTTP_REFERER', '/')})
@@ -636,13 +634,13 @@ def promo_edit(request, person_id=None, promo_id=None):
             request.user.message_set.create(message=\
                 _('Promotion successfully added.'))
         else:
-            return ain7_render_to_response(
+            return render(
                 request, 'annuaire/edit_form.html',
                 {'form': form, 
                  'action_title': _(u'Adding a promotion for %s' % ain7member)})
         return HttpResponseRedirect(
             '/annuaire/%s/edit/#promos' % person_id)
-    return ain7_render_to_response(
+    return render(
         request, 'annuaire/edit_form.html',
         {'form': form, 'action_title': 
          _(u'Adding a promotion for %s' % ain7member)})
@@ -704,7 +702,7 @@ def address_edit(request, user_id=None, address_id=None):
             return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
                  kwargs={'user_id': user_id}))
 
-    return ain7_render_to_response(
+    return render(
         request, 'annuaire/edit_form.html',
         {'form': form, 'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')})
@@ -761,7 +759,7 @@ def phone_edit(request, user_id=None, phone_id=None):
             return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
                 kwargs={'user_id': user_id}))
 
-    return ain7_render_to_response(
+    return render(
         request, 'annuaire/edit_form.html',
         {'form': form, 'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')})
@@ -839,7 +837,7 @@ def email_edit(request, user_id=None, email_id=None):
             return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
                 kwargs={'user_id': user_id}))
 
-    return ain7_render_to_response(
+    return render(
         request, 'annuaire/edit_form.html',
         {'form': form, 'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')})
@@ -895,7 +893,7 @@ def im_edit(request, user_id=None, im_id=None):
             return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
                 kwargs={'user_id': user_id}))
 
-    return ain7_render_to_response(
+    return render(
         request, 'annuaire/edit_form.html',
         {'form': form, 'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')})
@@ -951,7 +949,7 @@ def irc_edit(request, user_id=None, irc_id=None):
             return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
                 kwargs={'user_id': user_id}))
 
-    return ain7_render_to_response(
+    return render(
         request, 'annuaire/edit_form.html',
         {'form': form, 'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')})
@@ -1008,7 +1006,7 @@ def website_edit(request, user_id=None, website_id=None):
             return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
                 kwargs={'user_id': user_id}))
 
-    return ain7_render_to_response(
+    return render(
         request, 'annuaire/edit_form.html',
         {'form': form, 'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')})
@@ -1068,7 +1066,7 @@ def club_membership_edit(request, user_id=None, club_membership_id=None):
             return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
                 kwargs={'user_id': user_id}))
 
-    return ain7_render_to_response(
+    return render(
         request, 'annuaire/edit_form.html',
         {'form': form, 'action_title': title, 'person': person,
          'back': request.META.get('HTTP_REFERER', '/')})
@@ -1115,7 +1113,7 @@ def add(request, user_id=None):
  the form you filled. No modification done."))
 
     back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request,
+    return render(request,
         'annuaire/edit_form.html',
         {'action_title': _('Register new user'), 'back': back, 'form': form})
 

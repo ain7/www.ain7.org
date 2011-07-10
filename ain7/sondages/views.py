@@ -23,14 +23,13 @@
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 
 from ain7.decorators import confirmation_required
 from ain7.sondages.models import Choice, Survey, Vote
 from ain7.sondages.forms import SurveyForm, ChoiceForm
-from ain7.utils import ain7_render_to_response
 from ain7.utils import ain7_generic_delete
 
 
@@ -38,7 +37,7 @@ def index(request):
     """index page"""
     surveys = Survey.objects.all()
 
-    return ain7_render_to_response(request, 'sondages/index.html',
+    return render(request, 'sondages/index.html',
                             {'surveys': surveys})
 
 
@@ -48,7 +47,7 @@ def view(request, survey_id):
     already_vote = request.user.is_authenticated()\
                     and survey.has_been_voted_by(request.user.person)
 
-    return ain7_render_to_response(request, 'sondages/view.html',
+    return render(request, 'sondages/view.html',
                              {'survey': survey, 'already_vote': already_vote})
 
 @login_required
@@ -61,7 +60,7 @@ def vote(request, survey_id):
             choice = survey.choices.get(pk=request.GET['choice'])
         except (KeyError, Choice.DoesNotExist):
             # Go to vote form
-            return ain7_render_to_response(request, 'sondages/vote.html',
+            return render(request, 'sondages/vote.html',
                                      {'survey': survey})
         else:
             # Create vote
@@ -79,7 +78,7 @@ def vote(request, survey_id):
 def details(request, survey_id):
     """survey details"""
     survey = get_object_or_404(Survey, pk=survey_id)
-    return ain7_render_to_response(request, 'sondages/details.html',
+    return render(request, 'sondages/details.html',
                             {'survey': survey})
 
 @login_required
@@ -105,7 +104,7 @@ def edit(request, survey_id=None):
 
         return HttpResponseRedirect(reverse(details, args=[surv.id]))
 
-    return ain7_render_to_response(
+    return render(
         request, 'sondages/form.html',
         {'form': form, 'action_title': _("Survey modification"),
          'back': request.META.get('HTTP_REFERER', '/')})
@@ -147,7 +146,7 @@ def choice_edit(request, survey_id, choice_id=None):
 
         return HttpResponseRedirect(reverse(details, args=[survey.id]))
 
-    return ain7_render_to_response(
+    return render(
         request, 'sondages/form.html',
         {'form': form, 'action_title': _("Survey modification"),
          'back': request.META.get('HTTP_REFERER', '/')})

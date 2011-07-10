@@ -29,7 +29,6 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-SERVER_EMAIL = 'AIn7 Web Portal <noreply@ain7.com>'
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
 )
@@ -189,6 +188,17 @@ LOGGING = {
 # AIn7 specific settings
 #
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.contrib.messages.context_processors.messages',
+    'ain7.context_processors.versions',
+    'ain7.context_processors.piwik',
+    'ain7.context_processors.user_groups',
+)
 
 # enable or disable applications
 FORUM_ENABLED=False
@@ -197,6 +207,7 @@ ADVANCEDSEARCH_ENABLED=False
 SHOP_ENABLED=False
 PIWIK_ENABLED=False
 
+SERVER_EMAIL = 'AIn7 Web Portal <noreply@ain7.com>'
 SMTP_HOST='localhost'
 SMTP_PORT=25
 SMTP_LOGIN=''

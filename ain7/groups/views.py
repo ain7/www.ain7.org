@@ -26,21 +26,20 @@ import datetime
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
 from ain7.decorators import confirmation_required
 from ain7.groups.forms import GroupForm, MemberForm, RoleForm
 from ain7.groups.models import Group, Member, GroupRole, GroupLeader, GroupHead
-from ain7.utils import ain7_render_to_response
 from ain7.utils import ain7_generic_delete, check_access
 
 
 def index(request):
     """index page"""
     groups = Group.objects.active()
-    return ain7_render_to_response(request, 'groups/index.html',
+    return render(request, 'groups/index.html',
         {'groups': groups})
 
 def details(request, slug):
@@ -49,7 +48,7 @@ def details(request, slug):
     is_member = request.user.is_authenticated()\
                 and group.has_for_member(request.user.person)
 
-    return ain7_render_to_response(request, 'groups/details.html',
+    return render(request, 'groups/details.html',
                             {'group': group, 'is_member': is_member})
 
 @login_required
@@ -85,7 +84,7 @@ def edit(request, slug=None):
                 args=[group.slug]))
 
     back = request.META.get('HTTP_REFERER', '/')
-    return ain7_render_to_response(request, 'groups/edit.html', 
+    return render(request, 'groups/edit.html', 
          {'form': form, 'group': group, 'back': back, 'is_member': is_member})
 
 @login_required
@@ -120,7 +119,7 @@ def members(request, slug):
     is_member = request.user.is_authenticated()\
                 and group.has_for_member(request.user.person)
 
-    return ain7_render_to_response(request, 'groups/members.html',
+    return render(request, 'groups/members.html',
         {'group': group, 'is_member': is_member, 'members': members, 'is_paginated': False})
 
 @login_required
@@ -155,7 +154,7 @@ def member_edit(request, slug, member_id=None):
 
     back = request.META.get('HTTP_REFERER', '/')
 
-    return ain7_render_to_response(request, 'groups/edit.html',
+    return render(request, 'groups/edit.html',
         {'form': form, 'group': group, 'back': back})
 
 
@@ -248,7 +247,7 @@ def role_edit(request, slug, role_id=None):
  the form you filled. No modification done.'))
 
 
-    return ain7_render_to_response(request,
+    return render(request,
         'groups/edit.html',
         {'group': group, 'is_member': is_member, 'form': form,
          'back': request.META.get('HTTP_REFERER', '/')})
