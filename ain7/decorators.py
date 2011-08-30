@@ -26,14 +26,21 @@ except ImportError:
     from django.utils.functional import wraps  # Python 2.4 fallback.
 
 from django.utils.translation import ugettext as _
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.utils.decorators import available_attrs
 from django.contrib.auth.decorators import login_required
 
-def access_required(view_func=None, groups=None, allow_myself=False):
+def access_required(view_func=None, groups=None,
+                    allow_myself=False, allow_rsvp=False):
     """
     Decorator for views that needs granted access.
     Applies the login_required decorator to the wrapped_view.
+
+    groups       : is the list of groups to test the user membership against
+    allow_myself : requires that the decorated function be called with
+                   'user_id' kwarg.
+    allow_rsvp   : requires that the decorated function be called with
+                   'rsvp_id' kwarg.
     """
     from django.conf import settings # ici limiter la visibilité des settings
 
@@ -52,6 +59,7 @@ def access_required(view_func=None, groups=None, allow_myself=False):
             Redirect to a permission denied page if permissions are not granted.
             """
             from ain7.annuaire.models import Person
+            from ain7.news.models import RSVPAnswer
 
             if not request.user:
                 return render(request, PERMISSION_DENIED_PAGE, {})
@@ -62,10 +70,17 @@ def access_required(view_func=None, groups=None, allow_myself=False):
 
             user_groups = user.person.groups.values_list('group__name', flat=True)
 
-            if allow_myself and (int(request.user.id) == int(kwargs['user_id'])):
-                # Go to the decorated view
-                return view_func(request, *args, **kwargs)
-                
+            if allow_myself and kwargs['user_id']:
+                if int(request.user.id) == int(kwargs['user_id']):
+                    # Go to the decorated view
+                    return view_func(request, *args, **kwargs)
+
+            if allow_rsvp and kwargs['rsvp_id']:
+                rsvpanswer = get_object_or_404(RSVPAnswer, pk=kwargs['rsvp_id'])
+                if rsvpanswer.person == request.user.person:
+                    # Go to the decorated view
+                    return view_func(request, *args, **kwargs)
+
             if settings.AIN7_PORTAL_ADMIN in user_groups:
                 # Go to the decorated view
                 return view_func(request, *args, **kwargs)
