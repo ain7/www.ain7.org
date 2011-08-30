@@ -70,8 +70,8 @@ urlpatterns = patterns('ain7.annuaire.views',
     (r'^(?P<user_id>\d+)/ain7member/edit/$', 'ain7member_edit'),
     (r'^(?P<user_id>\d+)/avatar/delete/$', 'avatar_delete'),
     # Promos
-    (r'^(?P<person_id>\d+)/promo/(?P<promo_id>\d+)/delete/$', 'promo_delete'),
-    (r'^(?P<person_id>\d+)/promo/add/$', 'promo_edit'),
+    (r'^(?P<user_id>\d+)/promo/(?P<promo_id>\d+)/delete/$', 'promo_delete'),
+    (r'^(?P<user_id>\d+)/promo/add/$', 'promo_edit'),
     # Adresses
     (r'^(?P<user_id>\d+)/address/(?P<address_id>\d+)/edit/$', 'address_edit'),
     (r'^(?P<user_id>\d+)/address/(?P<address_id>\d+)/delete/$',
