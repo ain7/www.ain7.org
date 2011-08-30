@@ -34,7 +34,7 @@ from ain7.adhesions.forms import ConfigurationForm, SubscriptionForm
 from ain7.adhesions.models import Subscription, SubscriptionConfiguration
 from ain7.annuaire.models import AIn7Member, Person
 from ain7.shop.models import Payment
-from ain7.decorators import confirmation_required
+from ain7.decorators import access_required, confirmation_required
 from ain7.utils import ain7_generic_delete, check_access
 
 
@@ -62,13 +62,9 @@ def index(request):
          'count_members': AIn7Member.objects.count(),
          'count_subscribers': count_subscribers})
 
-@login_required
+@access_required(groups=['ain7-secretariat','ain7-ca'])
 def subscriptions(request, to_validate=False):
     """list subscriptions"""
-    access = check_access(request, request.user,
-        ['ain7-secretariat','ain7-ca'])
-    if access:
-        return access
 
     nb_results_by_page = 50
     subscriptions_list = Subscription.objects.order_by(\
@@ -99,13 +95,9 @@ def subscriptions(request, to_validate=False):
      str(get_object_or_404(Subscription, pk=subscription_id)), 
      'adhesions/base.html', 
     _('Do you really want to validate this subscription'))
-@login_required
+@access_required(groups=['ain7-secretariat'])
 def subscription_validate(request, subscription_id=None):
     """validate subscription"""
-
-    access = check_access(request, request.user, ['ain7-secretariat'])
-    if access:
-        return access
 
     subscription = get_object_or_404(Subscription, pk=subscription_id)
     subscription.validated = True
@@ -119,29 +111,18 @@ def subscription_validate(request, subscription_id=None):
     str(get_object_or_404(Subscription, pk=subscription_id)),
     'adhesions/base.html', 
     _('Do you really want to delete this subscription'))
-@login_required
+@access_required(groups=['ain7-secretariat'])
 def subscription_delete(request, subscription_id=None):
     """delete subscription"""
-
-    access = check_access(request, request.user, ['ain7-secretariat'])
-    if access:
-        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(Subscription, pk=subscription_id),
         reverse(subscriptions),
         _('Subscription successfully deleted'))
 
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def user_subscriptions(request, user_id):
     """show user subscriptions"""
-
-    access = check_access(request, request.user,
-        ['ain7-secretariat','ain7-ca'])
-    is_myself = int(request.user.id) == int(user_id)
-
-    if access and not is_myself:
-        return access
 
     person = get_object_or_404(Person, pk=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -154,12 +135,9 @@ def user_subscriptions(request, user_id):
         {'person': person, 'ain7member': ain7member, 
          'subscriptions_list': subscriptions_list})
 
-@login_required
+@access_required(groups=['ain7-secretariat'], allow_myself=True)
 def subscription_add(request, user_id=None):
     """add user subscription"""
-    access = check_access(request, request.user, ['ain7-secretariat'])
-    if access and unicode(request.user.id) != user_id:
-        return access
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -259,13 +237,9 @@ validite=31/12/2099&langue=FR&devise=978&version=1&reference=%(reference)s" \
                  'adhesions/informations.html',
                  {'payment': payment, 'spplusurl': spplusurl })
 
-@login_required
+@access_required(groups=['ain7-secretariat','ain7-ca'])
 def configurations(request):
     """configure subscriptions"""
-    access = check_access(request, request.user,
-        ['ain7-secretariat','ain7-ca'])
-    if access:
-        return access
 
     year_current = datetime.date.today().year
 
@@ -273,13 +247,9 @@ def configurations(request):
         {'configurations_list': 
          SubscriptionConfiguration.objects.filter(year=year_current).order_by('type')})
 
-@login_required
+@access_required(groups=['ain7-secretariat','ain7-ca'])
 def configuration_edit(request, config_id=None):
     """edit subscription configuration"""
-    access = check_access(request, request.user, 
-        ['ain7-secretariat','ain7-ca'])
-    if access:
-        return access
 
     form = ConfigurationForm()
 
@@ -308,14 +278,9 @@ def configuration_edit(request, config_id=None):
 @confirmation_required(lambda user_id=None, config_id=None:
     str(get_object_or_404(SubscriptionConfiguration, pk=config_id)),
     'adhesions/base.html', _('Do you really want to delete this configuration'))
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-ca'])
 def configuration_delete(request, config_id=None):
     """delete subscription configuration"""
-
-    access = check_access(request, request.user,
-        ['ain7-secretariat', 'ain7-ca'])
-    if access:
-        return access
 
     return ain7_generic_delete(request, 
          get_object_or_404(SubscriptionConfiguration, pk=config_id),
