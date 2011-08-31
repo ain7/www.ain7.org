@@ -24,7 +24,6 @@
 import datetime
 import vobject
 
-from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404, HttpResponse
@@ -37,7 +36,6 @@ from ain7.news.models import NewsItem, RSVPAnswer
 from ain7.news.forms import SearchNewsForm, NewsForm, EventForm, \
      SearchEventForm, ContactEventForm, EventOrganizerForm, RSVPAnswerForm
 from ain7.shop.models import Order, ShoppingCart, ShoppingCartItem
-from ain7.utils import check_access
 
 
 def index(request):

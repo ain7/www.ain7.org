@@ -25,7 +25,6 @@ import datetime
 
 from django.conf import settings
 from django.contrib import auth
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
@@ -36,7 +35,6 @@ from ain7.news.models import NewsItem
 from ain7.pages.forms import LostPasswordForm, TextForm, ChangePasswordForm
 from ain7.pages.models import Text, LostPassword
 from ain7.sondages.models import Survey
-from ain7.utils import check_access
 from ain7.decorators import access_required
 
 

@@ -21,7 +21,6 @@
 #
 #
 
-from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
@@ -32,7 +31,7 @@ from ain7.association.forms import CouncilRoleForm
 from ain7.decorators import access_required, confirmation_required
 from ain7.groups.models import Group, GroupHead, GroupLeader
 from ain7.pages.models import Text
-from ain7.utils import ain7_generic_delete, check_access
+from ain7.utils import ain7_generic_delete
 
 
 def count_members():

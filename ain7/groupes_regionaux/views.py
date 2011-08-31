@@ -23,7 +23,6 @@
 
 import datetime
 
-from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
@@ -33,7 +32,7 @@ from ain7.decorators import access_required, confirmation_required
 from ain7.groups.models import Group, Member, GroupRole, GroupLeader, GroupHead
 from ain7.groupes_regionaux.forms import GroupForm, RoleForm
 from ain7.pages.models import Text
-from ain7.utils import ain7_generic_delete, check_access
+from ain7.utils import ain7_generic_delete
 
 
 def index(request):

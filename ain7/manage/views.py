@@ -30,7 +30,6 @@ from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
-from ain7.utils import check_access
 from ain7.decorators import access_required
 from ain7.organizations.models import Organization, Office
 from ain7.manage.models import Mailing, PortalError

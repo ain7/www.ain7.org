@@ -53,7 +53,7 @@ from ain7.search_engine.views import se_filter_swap_op, \
                                      se_criterion_field_edit, \
                                      se_criterion_add, se_criterion_delete, \
                                      se_criterion_filter_edit, se_export_csv
-from ain7.utils import ain7_generic_delete, check_access
+from ain7.utils import ain7_generic_delete
 
 
 def annuaire_search_engine():

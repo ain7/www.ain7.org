@@ -23,7 +23,6 @@
 
 import datetime
 
-from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
@@ -35,8 +34,6 @@ from ain7.organizations.models import Organization, Office
 from ain7.organizations.forms import OrganizationForm, OfficeForm, \
                               SearchOrganizationForm, \
                               OrganizationListForm, OfficeListForm
-from ain7.utils import check_access
-
 
 @access_required(groups=['ain7-membre', 'ain7-secretariat'])
 def organization_details(request, organization_id):

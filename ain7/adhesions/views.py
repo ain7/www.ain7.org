@@ -23,7 +23,6 @@
 
 import datetime
 
-from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
@@ -35,7 +34,7 @@ from ain7.adhesions.models import Subscription, SubscriptionConfiguration
 from ain7.annuaire.models import AIn7Member, Person
 from ain7.shop.models import Payment
 from ain7.decorators import access_required, confirmation_required
-from ain7.utils import ain7_generic_delete, check_access
+from ain7.utils import ain7_generic_delete
 
 
 def index(request):
