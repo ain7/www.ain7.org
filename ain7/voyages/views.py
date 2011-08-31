@@ -23,7 +23,6 @@
 
 from datetime import datetime
 
-from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
@@ -33,7 +32,7 @@ from django.utils.translation import ugettext as _
 from ain7.annuaire.models import Person
 from ain7.decorators import access_required, confirmation_required
 from ain7.pages.models import Text
-from ain7.utils import ain7_generic_delete, check_access
+from ain7.utils import ain7_generic_delete
 from ain7.voyages.models import Travel, Subscription, TravelResponsible
 from ain7.voyages.forms import SearchTravelForm, TravelForm, JoinTravelForm,\
                                SubscribeTravelForm, TravelResponsibleForm
