@@ -31,6 +31,7 @@ from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
 from ain7.utils import check_access
+from ain7.decorators import access_required
 from ain7.organizations.models import Organization, Office
 from ain7.manage.models import Mailing, PortalError
 from ain7.shop.models import Payment
@@ -51,26 +52,16 @@ def organization_search_engine():
     """organization search"""
     return get_object_or_404(SearchEngine, name="organization")
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def index(request):
     """index management"""
-
-    access = check_access(request, request.user,
-                          ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     return render(request, 'manage/default.html',
         {'notifications': None})
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def users_search(request):
     """search users"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     form = SearchUserForm()
     nb_results_by_page = 25
@@ -103,13 +94,9 @@ def users_search(request):
          'last_result': min((page) * nb_results_by_page, paginator.count),
          'hits' : paginator.count})
 
-@login_required
+@access_required(groups=['ain7-secretariat'])
 def user_register(request):
     """new user registration"""
-
-    access = check_access(request, request.user, ['ain7-secretariat'])
-    if access:
-        return access
 
     form = NewPersonForm()
 
@@ -129,14 +116,9 @@ def user_register(request):
     return render(request, 'manage/edit_form.html',
         {'action_title': _('Register new user'), 'back': back, 'form': form})
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def organizations_adv_search(request):
     """organization advanced search"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     filtr = organization_search_engine()\
             .unregistered_filters(request.user.person)
@@ -149,14 +131,9 @@ def organizations_adv_search(request):
             'manage/organizations_adv_search.html',
             dict_for_filter(request, None))
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def dict_for_filter(request, filter_id):
     """dictionnary for search filter"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     offices = False
     person = request.user.person
@@ -195,40 +172,25 @@ def dict_for_filter(request, filter_id):
          'last_result': min((page) * nb_results_by_page, paginator.count),
          'hits' : paginator.count}
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def filter_details(request, filter_id):
     """filter details"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     return render(request,
         'manage/organizations_adv_search.html',
         dict_for_filter(request, filter_id))
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def filter_swap_op(request, filter_id=None):
     """change filter operator"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     return se_filter_swap_op(request, filter_id,
                             reverse(filter_details, args =[ filter_id ]),
                             reverse(organizations_adv_search))
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def filter_register(request):
     """register new filter"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     search_filter = organization_search_engine().\
          unregistered_filters(request.user.person)
@@ -272,14 +234,9 @@ def filter_register(request):
         return HttpResponseRedirect(reverse(organizations_adv_search))
 
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def filter_edit(request, filter_id):
     """edit search filter"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     filtr = get_object_or_404(SearchFilter, pk=filter_id)
     form = SearchFilterForm(instance=filtr)
@@ -302,14 +259,9 @@ def filter_edit(request, filter_id):
         {'form': form, 'action_title': _("Modification of the filter")})
 
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def remove_criteria(request, filtr):
     """remove search criteria"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     for crit in filtr.criteriaField.all():
         crit.delete()
@@ -318,14 +270,9 @@ def remove_criteria(request, filtr):
     # TODO non recursivite + supprimer filtres sans criteres
     return
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def filter_reset(request, filter_id):
     """reset search filter"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     filtr = get_object_or_404(SearchFilter, pk=filter_id)
     remove_criteria(request, filtr)
@@ -335,14 +282,9 @@ def filter_reset(request, filter_id):
     else:
         return HttpResponseRedirect(reverse(organizations_adv_search))
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def filter_delete(request, filter_id):
     """delete search filter"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     filtr = get_object_or_404(SearchFilter, pk=filter_id)
     try:
@@ -357,14 +299,9 @@ def filter_delete(request, filter_id):
             message=_("Something went wrong. The filter has not been deleted."))
     return HttpResponseRedirect(reverse(organizations_adv_search))
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def filter_new(request):
     """new search filter"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     filter = organization_search_engine().unregistered_filters(\
         request.user.person)
@@ -377,14 +314,9 @@ def filter_new(request):
     else:
         return HttpResponseRedirect(reverse(organizations_adv_search))
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def criterion_add(request, filter_id=None, criterion_type=None):
     """add criterion to a search filter"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     redirect = reverse(organizations_adv_search)
     if filter_id:
@@ -393,54 +325,34 @@ def criterion_add(request, filter_id=None, criterion_type=None):
         filter_id, criterion_type, criterion_field_edit,
         redirect, 'manage/org_criterion_add.html')
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def criterion_field_edit(request, filter_id=None, criterion_id=None):
     """criterion edit in a search filter"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     return se_criterion_field_edit(request, organization_search_engine(),
         filter_id, criterion_id, reverse(filter_details, args=[filter_id]),
         reverse(organizations_adv_search),
         'manage/org_criterion_edit.html')
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def criterion_filter_edit(request, filter_id=None, criterion_id=None):
     """criterion edit in a search filter"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     return se_criterion_filter_edit(request, organization_search_engine(),
         filter_id, criterion_id, reverse(filter_details, args=[filter_id]),
         'manage/org_criterionFilter_edit.html')
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def criterion_delete(request, filtr_id=None, crit_id=None, crit_type=None):
     """criterion delete in a search filter"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     return se_criterion_delete(request, filtr_id, crit_id, crit_type,
         reverse(filter_details, args=[filtr_id]),
         reverse(organizations_adv_search))
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def export_csv(request):
     """csv export"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     if not request.session.has_key('filter'):
         request.user.message_set.create(message=_("You have to make a search\
@@ -454,14 +366,9 @@ def export_csv(request):
     return se_export_csv(request, offices, organization_search_engine(),
         'manage/edit_form.html')
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def adv_export_csv(request, filter_id=None):
     """advanced csv export"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     search_engine = organization_search_engine()
     if not filter_id and not \
@@ -476,14 +383,9 @@ def adv_export_csv(request, filter_id=None):
     return se_export_csv(request, search_filter.search(), search_engine,
         'manage/edit_form.html')
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
 def errors_index(request):
     """errors index"""
-
-    access = check_access(request, request.user, 
-        ['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
-    if access:
-        return access
 
     nb_results_by_page = 25 
     errors = PortalError.objects.all().order_by('-date')
@@ -506,14 +408,9 @@ def errors_index(request):
          'last_result': min((page) * nb_results_by_page, paginator.count),
          'hits' : paginator.count})
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
 def error_details(request, error_id):
     """error edition"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
-    if access:
-        return access
 
     error = get_object_or_404(PortalError, pk=error_id)
     form = PortalErrorForm(instance=error)
@@ -537,14 +434,9 @@ def error_details(request, error_id):
         {'error': error, 'form': form, 'traceback': traceback, 
          'back': request.META.get('HTTP_REFERER', '/')})
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
 def errors_edit_range(request):
     """error edition"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
-    if access:
-        return access
 
     form = ErrorRangeForm()
     if request.method == 'POST':
@@ -557,14 +449,9 @@ def errors_edit_range(request):
         request, 'manage/edit_form.html',
         {'form': form, 'back': request.META.get('HTTP_REFERER', '/')})
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
 def error_swap(request, error_id):
     """swap error fixed status"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
-    if access:
-        return access
 
     error = get_object_or_404(PortalError, pk=error_id)
     error.fixed = not(error.fixed)
@@ -572,14 +459,9 @@ def error_swap(request, error_id):
 
     return errors_index(request)
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def payments_index(request):
     """payment index"""
-
-    access = check_access(request, request.user,
-                          ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     nb_results_by_page = 25 
     payments = Payment.objects.all().order_by('-id')
@@ -602,42 +484,27 @@ def payments_index(request):
          'last_result': min((page) * nb_results_by_page, paginator.count),
          'hits' : paginator.count})
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def payment_add(request):
     """payment add"""
-
-    access = check_access(request, request.user, 
-                          ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     payments_list = Payment.objects.all()
 
     return render(
         request, 'manage/payments_index.html', {'payment_list': payments_list})
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def payment_details(request, payment_id):
     """payment details"""
-
-    access = check_access(request, request.user, 
-                          ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     payment = get_object_or_404(Payment, pk=payment_id)
 
     return render(
         request, 'manage/payment_details.html', {'payment': payment})
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def payment_edit(request, payment_id):
     """payment edit"""
-
-    access = check_access(request, request.user, 
-                          ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     payment = get_object_or_404(Payment, pk=payment_id)
 
@@ -661,26 +528,16 @@ def payment_edit(request, payment_id):
         request, 'manage/payment_edit.html', {'payment': payment,
             'form': form, 'back': back})
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def payments_deposit_index(request):
     """payment deposit index"""
-
-    access = check_access(request, request.user, 
-                          ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     return render(
         request, 'manage/payments_deposit_index.html', {})
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def payments_deposit(request, deposit_id):
     """payment deposit"""
-
-    access = check_access(request, request.user, 
-                          ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     deposits = Payment.objects.filter(type=deposit_id, deposited__isnull=True, \
         validated=True).order_by('id')
@@ -697,14 +554,9 @@ def payments_deposit(request, deposit_id):
         {'deposits': deposits, 'deposit_id': int(deposit_id),
          'last_deposit_id': last_deposit_id })
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def payments_mark_deposited(request, deposit_id, last_deposit_id):
     """payment mark deposited"""
-
-    access = check_access(request, request.user, 
-                          ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     for deposit in Payment.objects.filter(type=deposit_id, \
         deposited__isnull=True, validated=True):
@@ -714,14 +566,9 @@ def payments_mark_deposited(request, deposit_id, last_deposit_id):
     request.user.message_set.create(message=_('Payments marked as deposited'))
     return HttpResponseRedirect(reverse(payments_deposit_index))
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def subscriptions_stats(request):
     """have some subscriptions statistics"""
-
-    access = check_access(request, request.user, 
-                          ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     from django.db.models import Q, Sum
     from ain7.adhesions.models import Subscription, SubscriptionConfiguration
@@ -896,14 +743,9 @@ def subscriptions_stats(request):
           'total_publications': total_publications
         })
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def mailings_index(request):
     """mailing index"""
-
-    access = check_access(request, request.user, 
-                          ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     nb_results_by_page = 25
 
@@ -927,14 +769,9 @@ def mailings_index(request):
          'last_result': min((page) * nb_results_by_page, paginator.count),
          'hits' : paginator.count})
 
-@login_required
+@access_required(groups=['ain7-secretariat'])
 def mailing_ready(request, mailing_id):
     """declare a mailing as ready to send"""
-
-    access = check_access(request, request.user, 
-                          ['ain7-secretariat'])
-    if access:
-        return access
 
     mailing = get_object_or_404(Mailing, pk=mailing_id)
 
@@ -950,14 +787,9 @@ def mailing_ready(request, mailing_id):
     return HttpResponseRedirect(reverse(mailing_edit, \
          args=[mailing.id]))
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def mailing_edit(request, mailing_id=None):
     """mailing edit"""
-
-    access = check_access(request, request.user, 
-                          ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     news = NewsItem.objects.all().order_by('-id')[:25]
 
@@ -1001,14 +833,9 @@ def mailing_sendteam(request, mailing_id, testing=True, myself=False):
     """send test maling to the team"""
     return mailing_send(request, mailing_id, testing, myself)
 
-@login_required
+@access_required(groups=['ain7-secretariat'])
 def mailing_send(request, mailing_id, testing=True, myself=True):
     """ send mailing"""
-
-    access = check_access(request, request.user, 
-                          ['ain7-secretariat'])
-    if access:
-        return access
 
     mailing = get_object_or_404(Mailing, pk=mailing_id)
 
@@ -1027,17 +854,12 @@ def mailing_view(request, mailing_id):
     return render(
         request, 'manage/mailing_view.html', {'html': html})
 
-@login_required
+@access_required(groups=['ain7-secretariat'])
 def mailing_export(request, mailing_id):
     """output csv of people without mail"""
 
     import csv
     from django.http import HttpResponse
-
-    access = check_access(request, request.user, 
-                          ['ain7-secretariat'])
-    if access:
-        return access
 
     mailing = get_object_or_404(Mailing, pk=mailing_id)
 
