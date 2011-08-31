@@ -29,7 +29,7 @@ from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person, AIn7Member
-from ain7.decorators import confirmation_required
+from ain7.decorators import access_required, confirmation_required
 from ain7.emploi.models import JobOffer, Position, EducationItem, \
                                LeisureItem, PublicationItem, JobOfferView
 from ain7.emploi.forms import PositionForm, EducationItemForm, \
@@ -53,47 +53,27 @@ def index(request):
         {'ain7member': ain7member,
          'liste_emplois': liste_emplois})
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def cv_details(request, user_id):
     """cvs details"""
-
-    is_myself = int(request.user.id) == int(user_id)
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access and not is_myself:
-        return access
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
     return render(request, 'emploi/cv_details.html',
         {'person': person, 'ain7member': ain7member})
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def cv_edit(request, user_id=None):
     """cv edit"""
-
-    is_myself = int(request.user.id) == int(user_id)
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access and not is_myself:
-        return access
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
     return render(request, 'emploi/cv_edit.html',
         {'person': person, 'ain7member': ain7member})
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def position_edit(request, user_id=None, position_id=None):
     """position edit"""
-
-    is_myself = int(request.user.id) == int(user_id)
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access and not is_myself:
-        return access
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -128,30 +108,18 @@ def position_edit(request, user_id=None, position_id=None):
 @confirmation_required(lambda user_id=None, position_id=None: 
     str(get_object_or_404(Position, pk=position_id)), 'emploi/base.html',
      _('Do you really want to delete your position'))
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def position_delete(request, user_id=None, position_id=None):
     """position delete"""
-
-    is_myself = int(request.user.id) == int(user_id)
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access and not is_myself:
-        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(Position, pk=position_id),
         reverse(cv_edit, args=[user_id])+'#prof_exp',
         _('Position successfully deleted.'))
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def education_edit(request, user_id=None, education_id=None):
     """education edit"""
-
-    is_myself = int(request.user.id) == int(user_id)
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access and not is_myself:
-        return access
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -186,30 +154,18 @@ def education_edit(request, user_id=None, education_id=None):
 @confirmation_required(lambda user_id=None, education_id=None: 
     str(get_object_or_404(EducationItem, pk=education_id)), 'emploi/base.html',
      _('Do you really want to delete your education item'))
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def education_delete(request, user_id=None, education_id=None):
     """education delete"""
-
-    is_myself = int(request.user.id) == int(user_id)
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access and not is_myself:
-        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(EducationItem, pk=education_id),
         reverse(cv_edit, args=[user_id])+'#education',
         _('Education informations deleted successfully.'))
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def leisure_edit(request, user_id=None, leisure_id=None):
     """leisure edit"""
-
-    is_myself = int(request.user.id) == int(user_id)
-    access = check_access(request, request.user,
-        ['ain7-ca','ain7-secretariat'])
-    if access and not is_myself:
-        return access
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -243,30 +199,18 @@ def leisure_edit(request, user_id=None, leisure_id=None):
 @confirmation_required(lambda user_id=None, leisure_id=None:
     str(get_object_or_404(LeisureItem, pk=leisure_id)), 'emploi/base.html', 
     _('Do you really want to delete your leisure item'))
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def leisure_delete(request, user_id=None, leisure_id=None):
     """leisure delete"""
-
-    is_myself = int(request.user.id) == int(user_id)
-    access = check_access(request, request.user,
-        ['ain7-ca',  'ain7-secretariat'])
-    if access and not is_myself:
-        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(LeisureItem, pk=leisure_id),
         reverse(cv_edit, args=[user_id])+'#leisure',
         _('Leisure informations successfully deleted.'))
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def publication_edit(request, user_id=None, publication_id=None):
     """publication edit"""
-
-    is_myself = int(request.user.id) == int(user_id)
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access and not is_myself:
-        return access
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -302,29 +246,18 @@ def publication_edit(request, user_id=None, publication_id=None):
      str(get_object_or_404(PublicationItem,pk=publication_id)), 
      'emploi/base.html', 
      _('Do you really want to delete your publication'))
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def publication_delete(request, user_id=None, publication_id=None):
     """publication delete"""
-
-    is_myself = int(request.user.id) == int(user_id)
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access and not is_myself:
-        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(PublicationItem,pk=publication_id),
         reverse(cv_edit, args=[user_id])+'#publications',
         _('Publication informations deleted successfully.'))
 
-@login_required
+@access_required(groups=['ain7-membre', 'ain7-secretariat'])
 def job_details(request, emploi_id):
     """job details"""
-
-    access = check_access(request, request.user,
-        ['ain7-membre','ain7-secretariat'])
-    if access:
-        return access
 
     job_offer = get_object_or_404(JobOffer, pk=emploi_id)
     role = check_access(request, request.user, ['ain7-secretariat'])
@@ -342,14 +275,9 @@ def job_details(request, emploi_id):
     return render(
         request, 'emploi/job_details.html', {'job': job_offer, 'views': views })
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def job_edit(request, emploi_id):
     """job edit"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     job = get_object_or_404(JobOffer, pk=emploi_id)
     role = check_access(request, request.user, ['ain7-secretariat'])
@@ -380,14 +308,9 @@ def job_edit(request, emploi_id):
     return render(request, 'emploi/job_edit.html', 
         {'form': form, 'job': job, 'back': back})
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def job_register(request):
     """job register"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     form = JobOfferForm()
 
@@ -413,14 +336,9 @@ def job_register(request):
     return render(request, 'emploi/job_register.html',
         {'form': form, 'back': back})
 
-@login_required
+@access_required(groups=['ain7-membre', 'ain7-secretariat'])
 def job_search(request):
     """job search"""
-
-    access = check_access(request, request.user,
-        ['ain7-membre', 'ain7-secretariat'])
-    if access:
-        return access
 
     form = SearchJobForm()
     nb_results_by_page = 25
@@ -458,31 +376,20 @@ def job_search(request):
          'last_result': min((page) * nb_results_by_page, paginator.count),
          'hits' : paginator.count })
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def jobs_proposals(request):
     """job proposal lists"""
 
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
-
-    access = check_access(request, request.user, ['ain7-secretariat'])
-    if access:
-        return access
     return render(request, 'emploi/job_proposals.html',
         {'proposals': JobOffer.objects.filter(checked_by_secretariat=False)})
 
 @confirmation_required(lambda job_id=None: 
      str(get_object_or_404(JobOffer, pk=job_id)), 'emploi/base.html', 
      _('Do you confirm the validation of this job proposal'))
-@login_required
+@access_required(groups=['ain7-secretariat'])
 def job_validate(request, job_id=None):
     """job validate"""
 
-    access = check_access(request, request.user, ['ain7-secretariat'])
-    if access:
-        return access
     job = get_object_or_404(JobOffer, pk=job_id)
     # validate
     job.checked_by_secretariat = True
@@ -494,13 +401,10 @@ def job_validate(request, job_id=None):
 @confirmation_required(lambda job_id=None:
      str(get_object_or_404(JobOffer, pk=job_id)), 'emploi/base.html',
      _('Do you really want to delete this job proposal'))
-@login_required
+@access_required(groups=['ain7-secretariat'])
 def job_delete(request, job_id=None):
     """job delete"""
 
-    access = check_access(request, request.user, ['ain7-secretariat'])
-    if access:
-        return access
     job = get_object_or_404(JobOffer, pk=job_id)
     job.delete()
     request.user.message_set.create(

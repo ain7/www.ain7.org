@@ -29,7 +29,7 @@ from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import AIn7Member
 from ain7.association.forms import CouncilRoleForm
-from ain7.decorators import confirmation_required
+from ain7.decorators import access_required, confirmation_required
 from ain7.groups.models import Group, GroupHead, GroupLeader
 from ain7.pages.models import Text
 from ain7.utils import ain7_generic_delete, check_access
@@ -77,14 +77,9 @@ def activites(request):
     return render(request, 'association/activites.html', 
           {'count_members': count_members(), 'text': text}) 
 
-@login_required
+@access_required(groups=['ain7-secretariat'])
 def edit_council_role(request, role_id=None):
     """edit council role"""
-
-    access = check_access(request, request.user,
-        ['ain7-secretariat'])
-    if access:
-        return access
 
     form = CouncilRoleForm()
 
@@ -117,14 +112,9 @@ def edit_council_role(request, role_id=None):
      str(get_object_or_404(GroupLeader, pk=role_id)), 'association/base.html',
      _('Do you really want to remove the role of this person (you can end a\
  role by setting its end date)'))
-@login_required
+@access_required(groups=['ain7-secretariat'])
 def delete_council_role(request, role_id):
     """delete council role"""
-
-    access = check_access(request, request.user,
-        ['ain7-secretariat'])
-    if access:
-        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(GroupLeader, pk=role_id),
