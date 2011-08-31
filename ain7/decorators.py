@@ -70,12 +70,12 @@ def access_required(view_func=None, groups=None,
 
             user_groups = user.person.groups.values_list('group__name', flat=True)
 
-            if allow_myself and kwargs['user_id']:
+            if allow_myself and kwargs.has_key('user_id'):
                 if int(request.user.id) == int(kwargs['user_id']):
                     # Go to the decorated view
                     return view_func(request, *args, **kwargs)
 
-            if allow_rsvp and kwargs['rsvp_id']:
+            if allow_rsvp and kwargs.has_key('rsvp_id'):
                 rsvpanswer = get_object_or_404(RSVPAnswer, pk=kwargs['rsvp_id'])
                 if rsvpanswer.person == request.user.person:
                     # Go to the decorated view
