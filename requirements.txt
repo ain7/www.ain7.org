@@ -4,8 +4,7 @@ vobject==0.8.1c
 pexpect==2.4
 pygments==1.2.2
 
-# database laye
-pysqlite==2.5.5
+# database layer
 MySQL-python==1.2.3
 
 # search engine
