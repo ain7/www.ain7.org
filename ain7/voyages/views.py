@@ -23,7 +23,6 @@
 
 from datetime import datetime
 
-from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
@@ -31,9 +30,9 @@ from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
-from ain7.decorators import confirmation_required
+from ain7.decorators import access_required, confirmation_required
 from ain7.pages.models import Text
-from ain7.utils import ain7_generic_delete, check_access
+from ain7.utils import ain7_generic_delete
 from ain7.voyages.models import Travel, Subscription, TravelResponsible
 from ain7.voyages.forms import SearchTravelForm, TravelForm, JoinTravelForm,\
                                SubscribeTravelForm, TravelResponsibleForm
@@ -55,14 +54,9 @@ def index(request):
     travel_id = None: str(get_object_or_404(Travel, pk=travel_id)),
     'voyages/base.html',
     _('Do you REALLY want to delete this travel'))
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def delete(request, travel_id):
     """delete travel"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(Travel, pk=travel_id),
@@ -110,14 +104,9 @@ def search(request):
          'last_result': min((page) * nb_results_by_page, paginator.count),
          'hits' : paginator.count})
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def edit(request, travel_id=None):
     """edit travel"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     form = TravelForm()
     travel = None
@@ -147,14 +136,9 @@ def edit(request, travel_id=None):
 @confirmation_required(lambda travel_id=None, object_id=None : '',
     'voyages/base.html', 
      _('Do you really want to delete the thumbnail of this travel'))
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def thumbnail_delete(request, travel_id):
     """remove travel thumbnail"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     travel = get_object_or_404(Travel, pk=travel_id)
     travel.thumbnail = None
@@ -164,13 +148,9 @@ def thumbnail_delete(request, travel_id):
         _('The thumbnail of this travel has been successfully deleted.'))
     return HttpResponseRedirect('/voyages/%s/edit/' % travel_id)
 
-@login_required
+@access_required(groups=['ain7-membre'])
 def join(request, travel_id):
     """join travel"""
-
-    access = check_access(request, request.user, ['ain7-membre'])
-    if access:
-        return access
 
     travel = get_object_or_404(Travel, pk=travel_id)
     person = request.user.person
@@ -205,16 +185,11 @@ def join(request, travel_id):
         return HttpResponseRedirect('/voyages/%s/' % (travel.id))
 
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def subscribe(request, travel_id):
     """subscribe someone to a travel"""
 
     travel = get_object_or_404(Travel, pk=travel_id)
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     if request.method == 'GET':
         form = SubscribeTravelForm()
@@ -261,14 +236,9 @@ def subscribe(request, travel_id):
     'voyages/base.html',
     _('Do you really want to unsubscribe this participant'))
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def unsubscribe(request, travel_id, participant_id):
     """unsubscribe someone from a travel"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     travel = get_object_or_404(Travel, pk=travel_id)
     participant = get_object_or_404(Person, pk=participant_id)
@@ -278,42 +248,27 @@ def unsubscribe(request, travel_id, participant_id):
     return render(request, 'voyages/participants.html',
                             {'travel': travel})
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def participants(request, travel_id):
     """travel participants list"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     travel = get_object_or_404(Travel, pk=travel_id)
     return render(request, 'voyages/participants.html',
         {'travel': travel})
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def responsibles(request, travel_id):
     """travels responsibles"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     travel = get_object_or_404(Travel, pk=travel_id)
     return render(request, 'voyages/responsibles.html',
         {'travel': travel})
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def responsibles_add(request, travel_id):
     """travel responsible add"""
 
     travel = get_object_or_404(Travel, pk=travel_id)
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     if request.method == 'GET':
         form = TravelResponsibleForm()
@@ -353,14 +308,9 @@ def responsibles_add(request, travel_id):
     str(get_object_or_404(Person, pk=responsible_id)),
     'voyages/base.html',
     _('Do you really want this person not to be responsible of this travel'))
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def responsibles_delete(request, travel_id, responsible_id):
     """travel responsible delete"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     travel = get_object_or_404(Travel, pk=travel_id)
     responsible = get_object_or_404(Person, pk=responsible_id)

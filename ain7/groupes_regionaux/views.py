@@ -23,17 +23,16 @@
 
 import datetime
 
-from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
-from ain7.decorators import confirmation_required
+from ain7.decorators import access_required, confirmation_required
 from ain7.groups.models import Group, Member, GroupRole, GroupLeader, GroupHead
 from ain7.groupes_regionaux.forms import GroupForm, RoleForm
 from ain7.pages.models import Text
-from ain7.utils import ain7_generic_delete, check_access
+from ain7.utils import ain7_generic_delete
 
 
 def index(request):
@@ -52,14 +51,9 @@ def details(request, slug):
     return render(request, 'groupes_regionaux/details.html',
                             {'group': group, 'is_member': is_member})
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat','ain7-contributeur'])
 def edit(request, slug):
     """edit regional group"""
-
-    access = check_access(request, request.user, ['ain7-ca', 'ain7-secretariat',
-        'ain7-contributeur'])
-    if access:
-        return access
 
     group = get_object_or_404(Group, slug=slug, type__name="ain7-regional")
     is_member = request.user.is_authenticated()\
@@ -80,16 +74,12 @@ def edit(request, slug):
     return render(request, 'groupes_regionaux/edit.html', 
          {'form': form, 'group': group, 'back': back, 'is_member': is_member})
 
-@login_required
+@access_required(groups=['ain7-membre'])
 def join(request, slug):
     """join regional group"""
 
     group = get_object_or_404(Group, slug=slug, type__name="ain7-regional")
     person = request.user.person
-
-    access = check_access(request, request.user, ['ain7-membre'])
-    if access:
-        return access
 
     if not group.has_for_member(person):
         grp_membership = Member()
@@ -107,16 +97,12 @@ def join(request, slug):
 @confirmation_required(lambda slug: 
     str(get_object_or_404(Group, slug=slug)),
     'groupes_regionaux/base.html', _('Do you really want to quit the group'))
-@login_required
+@access_required(groups=['ain7-membre'])
 def quit(request, slug):
     """leave regional group"""
 
     group = get_object_or_404(Group, slug=slug, type__name="ain7-regional")
     person = request.user.person
-
-    access = check_access(request, request.user, ['ain7-membre'])
-    if access:
-        return access
 
     if group.has_for_member(person):
         if group.has_for_board_member(person):
@@ -139,13 +125,9 @@ unsubscribe from every role in your group before leaving it."))
 
     return HttpResponseRedirect(reverse(details, args=[group.slug]))
 
-@login_required
+@access_required(groups=['ain7-secretariat'])
 def edit_role(request, slug, role_id=None):
     """edit regional group"""
-
-    access = check_access(request, request.user, ['ain7-secretariat'])
-    if access:
-        return access
 
     group = get_object_or_404(Group, slug=slug, type__name="ain7-regional")
 
@@ -183,13 +165,9 @@ def edit_role(request, slug, role_id=None):
       str(get_object_or_404(GroupLeader, pk=role_id)), 
       'groupes_regionaux/base.html', _('Do you really want to remove the role\
  of this person (you can end a role by setting its end date)'))
-@login_required
+@access_required(groups=['ain7-secretariat'])
 def delete_role(request, slug=None, role_id=None):
     """delete a role to a regional group"""
-
-    access = check_access(request, request.user, ['ain7-secretariat'])
-    if access:
-        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(GroupLeader, pk=role_id),

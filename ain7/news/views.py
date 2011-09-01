@@ -24,7 +24,6 @@
 import datetime
 import vobject
 
-from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404, HttpResponse
@@ -32,12 +31,11 @@ from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Email, Person
-from ain7.decorators import confirmation_required
+from ain7.decorators import access_required, confirmation_required
 from ain7.news.models import NewsItem, RSVPAnswer
 from ain7.news.forms import SearchNewsForm, NewsForm, EventForm, \
      SearchEventForm, ContactEventForm, EventOrganizerForm, RSVPAnswerForm
 from ain7.shop.models import Order, ShoppingCart, ShoppingCartItem
-from ain7.utils import check_access
 
 
 def index(request):
@@ -52,14 +50,9 @@ def details(request, news_slug):
     return render(request, 'news/details.html',
                             {'news_item': news_item})
 
-@login_required
+@access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'])
 def edit(request, news_slug=None):
     """news edit"""
-
-    access = check_access(request, request.user,
-       ['ain7-ca','ain7-secretariat','ain7-contributeur'])
-    if access:
-        return access
 
     news_item = None
     form = NewsForm()
@@ -90,14 +83,9 @@ def edit(request, news_slug=None):
 @confirmation_required(lambda news_slug=None, object_id=None: '', 
      'base.html', 
      _('Do you really want to delete the image of this news'))
-@login_required
+@access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'])
 def image_delete(request, news_slug):
     """news image delete"""
-
-    access = check_access(request, request.user, 
-        ['ain7-ca','ain7-secretariat','ain7-contributeur'])
-    if access:
-        return access
 
     news_item = get_object_or_404(NewsItem, slug=news_slug)
     news_item.image = None
@@ -110,14 +98,9 @@ def image_delete(request, news_slug):
 @confirmation_required(lambda news_slug=None, object_id=None: '', 
     'base.html', 
     _('Do you really want to delete this news'))
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat', 'ain7-contributeur'])
 def delete(request, news_slug):
     """news delete"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat', 'ain7-contributeur'])
-    if access:
-        return access
 
     news_item = get_object_or_404(NewsItem, slug=news_slug)
     news_item.delete()
@@ -201,14 +184,9 @@ def event_details(request, event_id):
          'rsvp_display': rsvp_display,
          'rsvp': rsvp})
 
-@login_required
+@access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'])
 def event_edit(request, event_id=None):
     """event edit"""
-
-    access = check_access(request, request.user, 
-        ['ain7-ca','ain7-secretariat','ain7-contributeur'])
-    if access:
-        return access
 
     form = EventForm()
     event = None
@@ -242,14 +220,9 @@ def event_edit(request, event_id=None):
 @confirmation_required(lambda event_id=None, object_id=None : '', 
     'evenements/base.html', 
     _('Do you really want to delete the image of this event'))
-@login_required
+@access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'])
 def event_image_delete(request, event_id):
     """event image delete"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca','ain7-secretariat','ain7-contributeur'])
-    if access:
-        return access
 
     event = get_object_or_404(NewsItem, pk=event_id)
     event.image = None
@@ -259,15 +232,10 @@ def event_image_delete(request, event_id):
         _('The image of this event has been successfully deleted.'))
     return HttpResponseRedirect(reverse(event_details, args=[event.id]))
 
-@login_required
+@access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'])
 def event_attendees(request, event_id):
 
     from django.db.models import Sum
-
-    access = check_access(request, request.user,
-        ['ain7-ca','ain7-secretariat','ain7-contributeur'])
-    if access:
-        return access
 
     event = get_object_or_404(NewsItem, pk=event_id)
 
@@ -286,23 +254,13 @@ def event_attendees(request, event_id):
          'back': request.META.get('HTTP_REFERER', '/'),
          'event': event})
 
-@login_required
+@access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'],
+                 allow_rsvp=True)
 def event_rsvp(request, event_id, rsvp_id=None):
     """RSVP answer to an event"""
 
     event = get_object_or_404(NewsItem, pk=event_id)
     myself = False
-
-    if rsvp_id:
-        rsvpanswer = get_object_or_404(RSVPAnswer, pk=rsvp_id)
-        if rsvpanswer.person == request.user.person:
-            myself = True
-
-    access = check_access(request, request.user,
-        ['ain7-ca','ain7-secretariat','ain7-contributeur'])
-
-    if access and not myself:
-        return access
 
     form = RSVPAnswerForm()
 
@@ -367,14 +325,9 @@ def event_rsvp(request, event_id, rsvp_id=None):
          'event': event,
          'back': request.META.get('HTTP_REFERER', '/')})
 
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-membre'])
 def event_attend_yes(request, event_id):
     """event details"""
-
-    access = check_access(request, request.user,
-        ['ain7-secretariat', 'ain7-membre'])
-    if access:
-        return access
 
     event = get_object_or_404(NewsItem, pk=event_id)
 
@@ -384,14 +337,9 @@ def event_attend_yes(request, event_id):
     return HttpResponseRedirect(reverse('ain7.news.views.event_rsvp', 
         args=[event.id, rsvp.id]))
 
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-membre'])
 def event_attend_no(request, event_id):
     """event details"""
-
-    access = check_access(request, request.user,
-        ['ain7-secretariat', 'ain7-membre'])
-    if access:
-        return access
 
     event = get_object_or_404(NewsItem, pk=event_id)
 
@@ -400,14 +348,9 @@ def event_attend_no(request, event_id):
     return HttpResponseRedirect(reverse('ain7.news.views.event_details', 
         args=[event.id]))
 
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-membre'])
 def event_attend_maybe(request, event_id):
     """event details"""
-
-    access = check_access(request, request.user,
-        ['ain7-secretariat', 'ain7-membre'])
-    if access:
-        return access
 
     event = get_object_or_404(NewsItem, pk=event_id)
 
@@ -450,16 +393,12 @@ def event_search(request):
          'last_result': min((page) * nb_results_by_page, paginator.count),
          'hits' : paginator.count })
 
-@login_required
+@access_required(groups=['ain7-membre','ain7-ca','ain7-secretariat',
+                         'ain7-contributeur'])
 def event_contact(request, event_id):
     """event contact"""
 
     event = get_object_or_404(NewsItem, pk=event_id)
-
-    access = check_access(request, request.user,
-        ['ain7-membre','ain7-ca','ain7-secretariat','ain7-contributeur'])
-    if access:
-        return access
 
     if request.method == 'GET':
         person = request.user.person    
@@ -527,14 +466,9 @@ def ical(request):
 
     return response
 
-@login_required
+@access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'])
 def event_organizer_add(request, event_id):
     """add organizer"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca','ain7-secretariat','ain7-contributeur'])
-    if access:
-        return access
 
     event = get_object_or_404(NewsItem, pk=event_id)
 
@@ -562,14 +496,10 @@ confirmation_required(lambda event_id=None, organizer_id=None :
     str(get_object_or_404(Person, pk=organizer_id)), 
     'evenements/base.html', 
     _('Do you really want to remove this organizer'))
-@login_required
+
+@access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'])
 def event_organizer_delete(request, event_id, organizer_id):
     """delete organizer"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca','ain7-secretariat','ain7-contributeur'])
-    if access:
-        return access
 
     event = get_object_or_404(NewsItem, pk=event_id)
     organizer = get_object_or_404(Person, pk=organizer_id)
@@ -580,14 +510,9 @@ def event_organizer_delete(request, event_id, organizer_id):
             message=_('Organizer successfully removed'))
     return HttpResponseRedirect(reverse(event_edit, args=[event_id]))
 
-@login_required
+@access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'])
 def event_swap_email_notif(request, event_id, organizer_id):
     """swap email notification"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca','ain7-secretariat','ain7-contributeur'])
-    if access:
-        return access
 
     event = get_object_or_404(NewsItem, pk=event_id)
     organizer = get_object_or_404(Person, pk=organizer_id)

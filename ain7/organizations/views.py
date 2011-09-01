@@ -23,29 +23,21 @@
 
 import datetime
 
-from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
-from ain7.decorators import confirmation_required
+from ain7.decorators import access_required, confirmation_required
 from ain7.organizations.models import Organization, Office
 from ain7.organizations.forms import OrganizationForm, OfficeForm, \
                               SearchOrganizationForm, \
                               OrganizationListForm, OfficeListForm
-from ain7.utils import check_access
 
-
-@login_required
+@access_required(groups=['ain7-membre', 'ain7-secretariat'])
 def organization_details(request, organization_id):
     """organization details"""
-
-    access = check_access(request, request.user,
-        ['ain7-membre', 'ain7-secretariat'])
-    if access:
-        return access
 
     organization = get_object_or_404(Organization, pk=organization_id)
 
@@ -53,14 +45,9 @@ def organization_details(request, organization_id):
          'organizations/organization_details.html',
         {'organization': organization})
 
-@login_required
+@access_required(groups=['ain7-membre', 'ain7-secretariat'])
 def organization_edit(request, organization_id=None):
     """organization edit data"""
-
-    access = check_access(request, request.user,
-        ['ain7-membre', 'ain7-secretariat'])
-    if access:
-        return access
 
     if organization_id:
         org = get_object_or_404(Organization, pk=organization_id)
@@ -108,14 +95,9 @@ def organization_edit(request, organization_id=None):
          'title':_('Organization modification')})
 
 
-@login_required
+@access_required(groups=['ain7-membre', 'ain7-secretariat'])
 def organization_search(request):
     """organization search"""
-
-    access = check_access(request, request.user,
-        ['ain7-membre', 'ain7-secretariat'])
-    if access:
-        return access
 
     form = SearchOrganizationForm()
     nb_results_by_page = 25
@@ -151,14 +133,9 @@ def organization_search(request):
          'last_result': min((page) * nb_results_by_page, paginator.count),
          'hits' : paginator.count})
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def organization_merge(request, organization_id=None):
     """merge organizations"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     organization = get_object_or_404(Organization, pk=organization_id)
 
@@ -193,14 +170,9 @@ def organization_merge(request, organization_id=None):
     str(get_object_or_404(Organization, pk=org1_id)),
     'organizations/base.html',
     _('Do you REALLY want to have'))
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def organization_merge_perform(request, org1_id, org2_id):
     """organization effective merge"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     org1 = get_object_or_404(Organization, pk=org1_id)
     org2 = get_object_or_404(Organization, pk=org2_id)
@@ -213,14 +185,9 @@ def organization_merge_perform(request, org1_id, org2_id):
     str(get_object_or_404(Organization, pk=organization_id)), 
     'organizations/base.html',
     _('Do you really want to delete this organization'))
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def organization_delete(request, organization_id):
     """organization delete"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     organization = get_object_or_404(Organization, pk=organization_id)
     if organization.is_valid:
@@ -232,14 +199,9 @@ def organization_delete(request, organization_id):
  marked as deleted.'))
     return HttpResponseRedirect(reverse(organization_search))
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def organization_undelete(request, organization_id, office_id=None):
     """organization delete"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     organization = get_object_or_404(Organization, pk=organization_id)
 
@@ -257,14 +219,9 @@ def organization_undelete(request, organization_id, office_id=None):
     return HttpResponseRedirect(reverse(organization_details, 
         args=[organization_id]))
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def office_edit(request, organization_id, office_id=None):
     """office edit"""
-
-    access = check_access(request, request.user,
-        ['ain7-membre', 'ain7-secretariat'])
-    if access:
-        return access
 
     form = OfficeForm()
 
@@ -320,14 +277,9 @@ def office_edit(request, organization_id, office_id=None):
 @confirmation_required(lambda organization_id, office_id=None:
     str(get_object_or_404(Office,pk=office_id)), 'organizations/base.html',
     _('Do you really want to remove this office'))
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def office_delete(request, organization_id, office_id=None):
     """office delete"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     office = get_object_or_404(Office, pk=office_id, 
         organization__id=organization_id)
@@ -342,14 +294,9 @@ def office_delete(request, organization_id, office_id=None):
     return HttpResponseRedirect(reverse(organization_details,
          args=[office.organization.id]))
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def office_merge(request, organization_id, office_id=None):
     """merge offices"""
-
-    access = check_access(request, request.user,
-                          ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     office = get_object_or_404(Office, pk=office_id, 
         organization__id=organization_id)
@@ -386,14 +333,9 @@ def office_merge(request, organization_id, office_id=None):
     unicode(get_object_or_404(Office, pk=office1_id)),
     'organizations/base.html',
     _('Do you REALLY want to have'))
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def office_merge_perform(request, organization_id, office1_id, office2_id):
     """merge offices"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     office1 = get_object_or_404(Office, pk=office1_id, 
         organization__id=organization_id)

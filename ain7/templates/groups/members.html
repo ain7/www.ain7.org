@@ -43,7 +43,7 @@
             {% if member.ain7member.is_subscriber %}
             <img src="{{ MEDIA_URL }}/images/star.png" title="Adherent {% now "Y" %}" alt="adherent {% now "Y" %}" width="16" height="16" />
             {% endif %}
-            {% if member.ersonprivate.death_date %}
+            {% if member.personprivate.death_date %}
             <img src="{{ MEDIA_URL }}/images/deceased.png" title="Décédé" alt="Décédé" width="16" height="16" />
             {% endif %}
             <br/>
@@ -58,9 +58,9 @@
             {% endif %}
         {% if superadmin or secretariat_member %}
         </td><td>
-        <a href="{% url ain7.groups.views.member_edit group.slug 1 %}" class="changelink">
+        <a href="{% url ain7.groups.views.member_edit group.slug member.id %}" class="changelink">
 {% trans "Modify" %}</a><br/>
-           <a href="{% url ain7.groups.views.member_delete group.slug 1 %}" class="deletelink">
+           <a href="{% url ain7.groups.views.member_delete group.slug member.id %}" class="deletelink">
            {% trans "Delete" %}</a>
         {% endif%}
             </td></tr>

@@ -21,19 +21,18 @@
 #
 #
 
-from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
-from ain7.decorators import confirmation_required
+from ain7.decorators import access_required, confirmation_required
 from ain7.groups.models import Group, Member, GroupHead, GroupLeader
 from ain7.groupes_professionnels.forms import SubscribeGroupProForm, GroupProForm,\
                                               UnsubscribeGroupProForm, RoleForm
 from ain7.pages.models import Text
-from ain7.utils import ain7_generic_delete, check_access
+from ain7.utils import ain7_generic_delete
 
 
 def index(request):
@@ -49,14 +48,9 @@ def details(request, slug):
     return render(request, 
         'groupes_professionnels/details.html', {'group': group})
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def subscribe(request, slug):
     """subscribe to a group"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     group = get_object_or_404(Group, slug=slug, type__name="ain7-professionnel")
     form =  SubscribeGroupProForm()
@@ -83,14 +77,9 @@ def subscribe(request, slug):
         {'group': group, 'form': form, 'back': back,
          'group_list': Group.objects.all()})
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def unsubscribe(request, slug):
     """unsubscribe from a group"""
-
-    access = check_access(request, request.user,
-        ['ain7-ca', 'ain7-secretariat'])
-    if access:
-        return access
 
     group = get_object_or_404(Group, slug=slug, type__name="ain7-professionnel")
 
@@ -119,14 +108,9 @@ def unsubscribe(request, slug):
         {'group': group, 'form': form, 'back': back,
          'group_list': Group.objects.all()})
 
-@login_required
+@access_required(groups=['ain7-ca', 'ain7-secretariat', 'ain7-contributeur'])
 def edit(request, slug):
     """edit group informations"""
-
-    access = check_access(request, request.user, ['ain7-ca',
-        'ain7-secretariat', 'ain7-contributeur'])
-    if access:
-        return access
 
     group = Group.objects.get(slug=slug, type__name="ain7-professionnel")
     form = GroupProForm(instance=group)
@@ -143,13 +127,9 @@ def edit(request, slug):
     return render(request, 'groupes_professionnels/edit.html',
         {'form': form, 'group': group, 'back': back})
 
-@login_required
+@access_required(groups=['ain7-secretariat'])
 def edit_role(request, slug, role_id=None):
     """edit group roles"""
-
-    access = check_access(request, request.user, ['ain7-secretariat'])
-    if access:
-        return access
 
     group = get_object_or_404(Group, slug=slug, type__name="ain7-professionnel")
 
@@ -183,13 +163,9 @@ def edit_role(request, slug, role_id=None):
       'groupes_professionnels/base.html', 
       _('Do you really want to remove the role of this person (you can end a\
  role by setting its end date)'))
-@login_required
+@access_required(groups=['ain7-secretariat'])
 def delete_role(request, slug=None, role_id=None):
     """delete role"""
-
-    access = check_access(request, request.user, ['ain7-secretariat'])
-    if access:
-        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(GroupLeader, pk=role_id),

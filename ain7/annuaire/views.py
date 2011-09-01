@@ -46,14 +46,14 @@ from ain7.annuaire.forms import SearchPersonForm, ChangePasswordForm, \
                                 InstantMessagingForm, IRCForm, WebSiteForm, \
                                 ClubMembershipForm, NewMemberForm
 from ain7.adhesions.forms import Subscription
-from ain7.decorators import confirmation_required
+from ain7.decorators import access_required, confirmation_required
 from ain7.search_engine.models import SearchEngine, SearchFilter
 from ain7.search_engine.forms import SearchFilterForm
 from ain7.search_engine.views import se_filter_swap_op, \
                                      se_criterion_field_edit, \
                                      se_criterion_add, se_criterion_delete, \
                                      se_criterion_filter_edit, se_export_csv
-from ain7.utils import ain7_generic_delete, check_access
+from ain7.utils import ain7_generic_delete
 
 
 def annuaire_search_engine():
@@ -176,13 +176,9 @@ def change_credentials(request, user_id):
         {'form': form, 'person': person, 'ain7member': ain7member,
          'is_myself': is_myself})
 
-@login_required
+@access_required(groups=['ain7-secretariat'])
 def send_new_credentials(request, user_id):
     """Send a link for reseting password"""
-
-    access = check_access(request, request.user, ['ain7-secretariat'])
-    if access:
-        return access
 
     person = get_object_or_404(Person, pk=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -194,13 +190,8 @@ def send_new_credentials(request, user_id):
     return HttpResponseRedirect(reverse('ain7.annuaire.views.details', 
         args=[person.id]))
 
-@login_required
+@access_required(groups=['ain7-membre', 'ain7-secretariat'])
 def advanced_search(request):
-
-    access = check_access(request, request.user,
-        ['ain7-membre','ain7-secretariat'])
-    if access:
-        return access
 
     search_filter = annuaire_search_engine().unregistered_filters(\
         request.user.person)
@@ -212,25 +203,15 @@ def advanced_search(request):
             dict_for_filter(request, None))
     
 
-@login_required
+@access_required(groups=['ain7-membre', 'ain7-secretariat'])
 def filter_details(request, filter_id):
-
-    access = check_access(request, request.user,
-        ['ain7-membre','ain7-secretariat'])
-    if access:
-        return access
 
     return render(request, 'annuaire/adv_search.html',
         dict_for_filter(request, filter_id))
 
 
-@login_required
+@access_required(groups=['ain7-membre','ain7-secretariat'])
 def dict_for_filter(request, filter_id):
-
-    access = check_access(request, request.user,
-        ['ain7-membre','ain7-secretariat'])
-    if access:
-        return access
 
     ain7members = False
     dosearch = False
@@ -271,13 +252,8 @@ def dict_for_filter(request, filter_id):
          'hits' : paginator.count, 'dosearch': dosearch}
 
 
-@login_required
+@access_required(groups=['ain7-membre','ain7-secretariat'])
 def filter_register(request):
-
-    access = check_access(request, request.user,
-        ['ain7-membre','ain7-secretariat'])
-    if access:
-        return access
 
     search_filter = annuaire_search_engine().unregistered_filters(\
         request.user.person)
@@ -321,13 +297,8 @@ def filter_register(request):
         return HttpResponseRedirect('/annuaire/advanced_search/')
 
 
-@login_required
+@access_required(groups=['ain7-membre','ain7-secretariat'])
 def filter_edit(request, filter_id):
-
-    access = check_access(request, request.user,
-        ['ain7-membre','ain7-secretariat'])
-    if access:
-        return access
 
     filtr = get_object_or_404(SearchFilter, pk=filter_id)
     form = SearchFilterForm(instance=filtr)
@@ -357,13 +328,8 @@ def remove_criteria(request, filtr):
     # TODO non recursivite + supprimer filtres sans criteres
     return
 
-@login_required
+@access_required(groups=['ain7-membre','ain7-secretariat'])
 def filter_reset(request, filter_id):
-
-    access = check_access(request, request.user,
-        ['ain7-membre','ain7-secretariat'])
-    if access:
-        return access
 
     filtr = get_object_or_404(SearchFilter, pk=filter_id)
     remove_criteria(request, filtr)
@@ -373,13 +339,8 @@ def filter_reset(request, filter_id):
     else:
         return HttpResponseRedirect('/annuaire/advanced_search/')
 
-@login_required
+@access_required(groups=['ain7-membre','ain7-secretariat'])
 def filter_delete(request, filter_id):
-
-    access = check_access(request, request.user,
-        ['ain7-membre','ain7-secretariat'])
-    if access:
-        return access
 
     filtr = get_object_or_404(SearchFilter, pk=filter_id)
     try:
@@ -395,13 +356,8 @@ def filter_delete(request, filter_id):
                 _("Something went wrong. The filter has not been deleted."))
     return HttpResponseRedirect('/annuaire/advanced_search/')
 
-@login_required
+@access_required(groups=['ain7-membre','ain7-secretariat'])
 def filter_new(request):
-
-    access = check_access(request, request.user,
-        ['ain7-membre','ain7-secretariat'])
-    if access:
-        return access
 
     search_filter = annuaire_search_engine().unregistered_filters(\
         request.user.person)
@@ -445,13 +401,8 @@ def criterion_delete(request, filtr_id=None, crit_id=None, crit_type=None):
     return se_criterion_delete(request, filtr_id, crit_id, crit_type,
         reverse(filter_details, args=[filtr_id]), reverse(advanced_search))
 
-@login_required
+@access_required(groups=['ain7-secretariat','ain7-ca'])
 def export_csv(request):
-
-    access = check_access(request, request.user,
-        ['ain7-secretariat','ain7-ca'])
-    if access:
-        return access
 
     if not request.session.has_key('filter'):
         request.user.message_set.create(message=_("You have to make a search\
@@ -464,13 +415,8 @@ def export_csv(request):
     return se_export_csv(request, ain7members, annuaire_search_engine(),
         'annuaire/edit_form.html')
 
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-ca'])
 def adv_export_csv(request, filter_id=None):
-
-    access = check_access(request, request.user,
-        ['ain7-secretariat', 'ain7-ca'])
-    if access:
-        return access
 
     se = annuaire_search_engine()
     if not filter_id and not se.unregistered_filters(request.user.person):
@@ -484,16 +430,10 @@ def adv_export_csv(request, filter_id=None):
     return se_export_csv(request, search_filter.search(), se, 
         'annuaire/edit_form.html')
 
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def edit(request, user_id=None):
 
-    is_myself = int(request.user.id) == int(user_id)
     ain7member = None
-
-    access = check_access(request, request.user,
-        ['ain7-secretariat', 'ain7-ca'])
-    if access and not is_myself:
-        return access
 
     person = get_object_or_404(Person, pk=user_id)
     personprivate = get_object_or_404(PersonPrivate, person=person)
@@ -504,17 +444,10 @@ def edit(request, user_id=None):
     return render(request, 'annuaire/edit.html',
         {'person': person, 'ain7member': ain7member, 
          'personprivate': personprivate,
-         'is_myself': is_myself})
+         'is_myself': int(request.user.id) == int(user_id)})
 
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def person_edit(request, user_id):
-
-    is_myself = int(request.user.id) == int(user_id)
-
-    access = check_access(request, request.user,
-        ['ain7-secretariat','ain7-ca'])
-    if access and not is_myself:
-        return access
 
     person = Person.objects.get(user=user_id)
     form = PersonForm(instance=person)
@@ -534,13 +467,8 @@ def person_edit(request, user_id):
         {'form': form, 'action_title': _("Modification of personal data for"),
          'back': request.META.get('HTTP_REFERER', '/')})
 
-@login_required
+@access_required(groups=['ain7-secretariat','ain7-ca'])
 def personprivate_edit(request, user_id):
-
-    access = check_access(request, request.user,
-        ['ain7-secretariat','ain7-ca'])
-    if access:
-        return access
 
     personprivate = PersonPrivate.objects.get(person=user_id)
     form = PersonPrivateForm(instance=personprivate)
@@ -560,15 +488,8 @@ def personprivate_edit(request, user_id):
         {'form': form, 'action_title': _("Modification of personal data for"),
          'back': request.META.get('HTTP_REFERER', '/')})
 
-@login_required
+@access_required(groups=['ain7-secretariat','ain7-ca'], allow_myself=True)
 def ain7member_edit(request, user_id):
-
-    is_myself = int(request.user.id) == int(user_id)
-
-    access = check_access(request, request.user,
-        ['ain7-secretariat','ain7-ca'])
-    if access and not is_myself:
-        return access
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -593,15 +514,8 @@ def ain7member_edit(request, user_id):
 
 @confirmation_required(lambda user_id=None, object_id=None : '',
      'annuaire/base.html', _('Do you really want to delete your avatar'))
-@login_required
+@access_required(groups=['ain7-secretariat','ain7-ca'], allow_myself=True)
 def avatar_delete(request, user_id):
-
-    is_myself = int(request.user.id) == int(user_id)
-
-    access = check_access(request, request.user,
-        ['ain7-secretariat','ain7-ca'])
-    if access and not is_myself:
-        return access
 
     person = Person.objects.get(user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -613,17 +527,10 @@ def avatar_delete(request, user_id):
     return HttpResponseRedirect('/annuaire/%s/edit/' % user_id)
 
 # Promos
-@login_required
-def promo_edit(request, person_id=None, promo_id=None):
+@access_required(groups=['ain7-secretariat','ain7-ca'], allow_myself=True)
+def promo_edit(request, user_id=None, promo_id=None):
 
-    is_myself = int(request.user.id) == int(person_id)
-
-    access = check_access(request, request.user,
-        ['ain7-secretariat', 'ain7-ca'])
-    if access and not is_myself:
-        return access
-
-    person = get_object_or_404(Person, id=person_id)
+    person = get_object_or_404(Person, id=user_id)
     ain7member = person.ain7member
     form = PromoForm()
     if request.method == 'POST':
@@ -639,44 +546,31 @@ def promo_edit(request, person_id=None, promo_id=None):
                 {'form': form, 
                  'action_title': _(u'Adding a promotion for %s' % ain7member)})
         return HttpResponseRedirect(
-            '/annuaire/%s/edit/#promos' % person_id)
+            '/annuaire/%s/edit/#promos' % user_id)
     return render(
         request, 'annuaire/edit_form.html',
         {'form': form, 'action_title': 
          _(u'Adding a promotion for %s' % ain7member)})
 
-@confirmation_required(lambda person_id=None, promo_id=None :
+@confirmation_required(lambda user_id=None, promo_id=None :
      str(get_object_or_404(Promo, pk=promo_id)), 
      'annuaire/base.html', 
      _('Do you really want to remove the membership to the promotion'))
-@login_required
-def promo_delete(request, person_id=None, promo_id=None):
+@access_required(groups=['ain7-secretariat','ain7-ca'], allow_myself=True)
+def promo_delete(request, user_id=None, promo_id=None):
 
-    person = get_object_or_404(Person, id=person_id)
-    is_myself = int(request.user.id) == int(person.user.id)
-
-    access = check_access(request, request.user,
-        ['ain7-secretariat', 'ain7-ca'])
-    if access and not is_myself:
-        return access
+    person = get_object_or_404(Person, id=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
     promo = get_object_or_404(Promo, id=promo_id)
     ain7member.promos.remove(promo)
     ain7member.save()
     request.user.message_set.create(message="Membership to promotion %s\
  successfully removed.")
-    return HttpResponseRedirect('/annuaire/%s/edit/#promos' % person_id)
+    return HttpResponseRedirect('/annuaire/%s/edit/#promos' % user_id)
 
 # Adresses
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def address_edit(request, user_id=None, address_id=None):
-
-    is_myself = int(request.user.id) == int(user_id)
-
-    access = check_access(request, request.user,
-        ['ain7-secretariat', 'ain7-ca'])
-    if access and not is_myself:
-        return access
 
     person = get_object_or_404(Person, user=user_id)
     address = None
@@ -710,14 +604,8 @@ def address_edit(request, user_id=None, address_id=None):
 @confirmation_required(lambda user_id=None, address_id=None :
     str(get_object_or_404(Address, pk=address_id)), 'annuaire/base.html', 
     _('Do you really want to delete your address'))
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def address_delete(request, user_id=None, address_id=None):
-
-    is_myself = int(request.user.id) == int(user_id)
-    access = check_access(request, request.user, 
-        ['ain7-secretariat', 'ain7-ca'])
-    if access and not is_myself:
-        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(Address, pk=address_id),
@@ -725,15 +613,8 @@ def address_delete(request, user_id=None, address_id=None):
         _('Address successfully deleted.'))
 
 # Numeros de telephone
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def phone_edit(request, user_id=None, phone_id=None):
-
-    is_myself = int(request.user.id) == int(user_id)
-
-    access = check_access(request, request.user,
-        ['ain7-secretariat', 'ain7-ca'])
-    if access and not is_myself:
-        return access
 
     person = get_object_or_404(Person, user=user_id)
     phone = None
@@ -767,14 +648,8 @@ def phone_edit(request, user_id=None, phone_id=None):
 @confirmation_required(lambda user_id=None, phone_id=None :
     str(get_object_or_404(PhoneNumber, pk=phone_id)), 'annuaire/base.html', 
     _('Do you really want to delete your phone number'))
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def phone_delete(request, user_id=None, phone_id=None):
-
-    is_myself = int(request.user.id) == int(user_id)
-    access = check_access(request, request.user, 
-        ['ain7-secretariat', 'ain7-ca'])
-    if access and not is_myself:
-        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(PhoneNumber, pk=phone_id),
@@ -782,15 +657,8 @@ def phone_delete(request, user_id=None, phone_id=None):
         _('Phone number successfully deleted.'))
 
 # Adresses de courriel
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def email_edit(request, user_id=None, email_id=None):
-
-    is_myself = int(request.user.id) == int(user_id)
-
-    access = check_access(request, request.user, 
-        ['ain7-secretariat', 'ain7-ca'])
-    if access and not is_myself:
-        return access
 
     person = get_object_or_404(Person, user=user_id)
     email = None
@@ -845,29 +713,16 @@ def email_edit(request, user_id=None, email_id=None):
 @confirmation_required(lambda user_id=None, email_id=None:
     str(get_object_or_404(Email, pk=email_id)), 'annuaire/base.html', 
     _('Do you really want to delete your email address'))
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def email_delete(request, user_id=None, email_id=None):
-
-    is_myself = int(request.user.id) == int(user_id)
-    access = check_access(request, request.user,
-        ['ain7-secretariat', 'ain7-ca'])
-    if access and not is_myself:
-        return access
 
     return ain7_generic_delete(request, get_object_or_404(Email, pk=email_id),
                                '/annuaire/%s/edit/#email' % user_id,
                                _('Email address successfully deleted.'))
 
 # Comptes de messagerie instantanee
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def im_edit(request, user_id=None, im_id=None):
-
-    is_myself = int(request.user.id) == int(user_id)
-
-    access = check_access(request, request.user,
-        ['ain7-secretariat', 'ain7-ca'])
-    if access and not is_myself:
-        return access
 
     person = get_object_or_404(Person, user=user_id)
     ime = None
@@ -901,14 +756,8 @@ def im_edit(request, user_id=None, im_id=None):
 @confirmation_required(lambda user_id=None, im_id=None :
     str(get_object_or_404(InstantMessaging, pk=im_id)), 'annuaire/base.html',
     _('Do you really want to delete your instant messaging account'))
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def im_delete(request, user_id=None, im_id=None):
-
-    is_myself = int(request.user.id) == int(user_id)
-    access = check_access(request, request.user,
-        ['ain7-secretariat', 'ain7-ca'])
-    if access and not is_myself:
-        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(InstantMessaging, pk=im_id),
@@ -916,14 +765,8 @@ def im_delete(request, user_id=None, im_id=None):
         _('Instant messaging account successfully deleted.'))
 
 # Comptes IRC
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def irc_edit(request, user_id=None, irc_id=None):
-
-    is_myself = int(request.user.id) == int(user_id)
-    access = check_access(request, request.user,
-        ['ain7-secretariat', 'ain7-ca'])
-    if access and not is_myself:
-        return access
 
     person = get_object_or_404(Person, user=user_id)
     irc = None
@@ -957,14 +800,8 @@ def irc_edit(request, user_id=None, irc_id=None):
 @confirmation_required(lambda user_id=None, irc_id=None:
     str(get_object_or_404(IRC, pk=irc_id)), 'annuaire/base.html',
     _('Do you really want to delete your IRC account'))
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def irc_delete(request, user_id=None, irc_id=None):
-
-    is_myself = int(request.user.id) == int(user_id)
-    access = check_access(request, request.user,
-        ['ain7-secretariat', 'ain7-ca'])
-    if access and not is_myself:
-        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(IRC, pk=irc_id),
@@ -972,15 +809,8 @@ def irc_delete(request, user_id=None, irc_id=None):
         _('IRC account successfully deleted.'))
 
 # Sites Internet
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def website_edit(request, user_id=None, website_id=None):
-
-    is_myself = int(request.user.id) == int(user_id)
-
-    access = check_access(request, request.user, 
-        ['ain7-secretariat', 'ain7-ca'])
-    if access and not is_myself:
-        return access
 
     person = get_object_or_404(Person, user=user_id)
     website = None
@@ -1014,14 +844,8 @@ def website_edit(request, user_id=None, website_id=None):
 @confirmation_required(lambda user_id=None, website_id=None:
     str(get_object_or_404(WebSite, pk=website_id)), 'annuaire/base.html',
     _('Do you really want to delete your website'))
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def website_delete(request, user_id=None, website_id=None):
-
-    is_myself = int(request.user.id) == int(user_id)
-    access = check_access(request, request.user,
-        ['ain7-secretariat', 'ain7-ca'])
-    if access and not is_myself:
-        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(WebSite, pk=website_id),
@@ -1029,16 +853,8 @@ def website_delete(request, user_id=None, website_id=None):
         _('Website successfully deleted.'))
 
 # Vie associative a l'n7
-
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def club_membership_edit(request, user_id=None, club_membership_id=None):
-
-    is_myself = int(request.user.id) == int(user_id)
-
-    access = check_access(request, request.user,
-        ['ain7-secretariat', 'ain7-ca'])
-    if access and not is_myself:
-        return access
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -1075,28 +891,17 @@ def club_membership_edit(request, user_id=None, club_membership_id=None):
     str(get_object_or_404(ClubMembership, pk=club_membership_id)),
     'annuaire/base.html', 
     _('Do you really want to delete your club membership'))
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def club_membership_delete(request, user_id=None, club_membership_id=None):
-
-    is_myself = int(request.user.id) == int(user_id)
-    access = check_access(request, request.user,
-        ['ain7-secretariat', 'ain7-ca'])
-    if access and not is_myself:
-        return access
 
     return ain7_generic_delete(request,
         get_object_or_404(ClubMembership, pk=club_membership_id),
         '/annuaire/%s/edit/#assoc' % user_id,
         _('Club membership successfully deleted.'))
 
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-ca'])
 def add(request, user_id=None):
     """ add a new person"""
-
-    access = check_access(request, request.user,
-        ['ain7-secretariat', 'ain7-ca'])
-    if access:
-        return access
 
     form = NewMemberForm()
 
@@ -1117,13 +922,8 @@ def add(request, user_id=None):
         'annuaire/edit_form.html',
         {'action_title': _('Register new user'), 'back': back, 'form': form})
 
-@login_required
+@access_required(groups=['ain7-secretariat', 'ain7-member'])
 def vcard(request, user_id):
-
-    access = check_access(request, request.user,
-        ['ain7-secretariat', 'ain7-membre'])
-    if access:
-        return access
 
     person = get_object_or_404(Person, pk=user_id)
 
