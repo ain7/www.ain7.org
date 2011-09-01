@@ -52,28 +52,28 @@ def ain7_website_confidential(obj):
 # http://www.djangosnippets.org/snippets/3/
 # Serait pas mieux d'utiliser un ContextProcessor ?
 # http://docs.djangoproject.com/en/dev/ref/templates/api/#writing-your-own-context-processors
-def ain7_render_to_response(req, *args, **kwargs):
-
-    from ain7.annuaire.models import Person
-
-    user_groups = []
-
-    if req.user.is_authenticated() and Person.objects.filter(user=req.user):
-        user_groups = req.user.person.groups.values_list('group__name', flat=True)
-
-    args[1]['portal_version'] = settings.VERSION
-    args[1]['tinymce_version'] = settings.TINYMCE_VERSION
-    args[1]['mootools_version'] = settings.MOOTOOLS_VERSION
-    args[1]['jquery_version'] = settings.JQUERY_VERSION
-    args[1]['piwik_url'] = settings.PIWIK_URL
-    args[1]['piwik_site_id'] = settings.PIWIK_SITE_ID
-    args[1]['request'] = req
-    args[1]['superadmin'] = settings.AIN7_PORTAL_ADMIN in user_groups
-    args[1]['ca_member'] = 'ain7-ca' in user_groups
-    args[1]['secretariat_member'] = 'ain7-secretariat' in user_groups
-    args[1]['contributeur'] = 'ain7-contributeur' in user_groups
-    kwargs['context_instance'] = RequestContext(req)
-    return render_to_response(*args, **kwargs)
+#def ain7_render_to_response(req, *args, **kwargs):
+#
+#    from ain7.annuaire.models import Person
+#
+#    user_groups = []
+#
+#    if req.user.is_authenticated() and Person.objects.filter(user=req.user):
+#        user_groups = req.user.person.groups.values_list('group__name', flat=True)
+#
+#    args[1]['portal_version'] = settings.VERSION
+#    args[1]['tinymce_version'] = settings.TINYMCE_VERSION
+#    args[1]['mootools_version'] = settings.MOOTOOLS_VERSION
+#    args[1]['jquery_version'] = settings.JQUERY_VERSION
+#    args[1]['piwik_url'] = settings.PIWIK_URL
+#    args[1]['piwik_site_id'] = settings.PIWIK_SITE_ID
+#    args[1]['request'] = req
+#    args[1]['superadmin'] = settings.AIN7_PORTAL_ADMIN in user_groups
+#    args[1]['ca_member'] = 'ain7-ca' in user_groups
+#    args[1]['secretariat_member'] = 'ain7-secretariat' in user_groups
+#    args[1]['contributeur'] = 'ain7-contributeur' in user_groups
+#    kwargs['context_instance'] = RequestContext(req)
+#    return render_to_response(*args, **kwargs)
 
 def is_admin(user):
     """détermine si un user a le profil administrateur"""
