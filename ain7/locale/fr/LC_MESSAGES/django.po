@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-19 23:02+0200\n"
+"POT-Creation-Date: 2011-09-10 22:24+0200\n"
 "PO-Revision-Date: 2010-01-15 22:50+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: AIn7 French Translators <ain7-devel@lists.ain7.com>\n"
@@ -47,11 +47,11 @@ msgstr "publié uniquement dans l'annuaire papier"
 msgid "private"
 msgstr "privé"
 
-#: utils.py:121 core/models.py:31
+#: utils.py:121
 msgid "modifier"
 msgstr "Auteur de la dernière modification"
 
-#: utils.py:123 core/models.py:33
+#: utils.py:123
 msgid "last changed at"
 msgstr "Modifié pour la dernière fois à"
 
@@ -2128,7 +2128,7 @@ msgstr ""
 
 #: templates/base.html:5
 msgid "AIn7: alumni network for IET-ENSEEIHT engineers"
-msgstr "AIn7 : association des ingénieurs IET - ENSEEIHT"
+msgstr "AIn7 : Association des Ingénieurs de l'ENSEEIHT"
 
 #: templates/base.html:51
 msgid "Connected as"
@@ -2973,7 +2973,7 @@ msgstr "Comptes IRC"
 msgid "Edit"
 msgstr "Modifier"
 
-#: templates/association/base.html:18 templates/pages/homepage.html:98
+#: templates/association/base.html:18 templates/pages/homepage.html:102
 #: templates/pages/relations_ecole_etudiants.html:26
 msgid "Links"
 msgstr "Liens"
@@ -3392,10 +3392,6 @@ msgstr "groupes régionaux"
 #: templates/groupes_regionaux/base.html:63
 msgid "The regional groups"
 msgstr "Les groupes régionaux"
-
-#: templates/groups/base.html:22
-msgid "Group"
-msgstr "Groupe"
 
 #: templates/groups/base.html:30
 msgid "Members"
@@ -3856,21 +3852,21 @@ msgstr "Toutes les actualités"
 
 #: templates/pages/homepage.html:77
 msgid "AIn7 communities on the web"
-msgstr "Les communautés web de l'AIn7"
+msgstr "Communautés ENSEEIHT sur le Web"
 
-#: templates/pages/homepage.html:108 templates/sondages/details.html:15
+#: templates/pages/homepage.html:112 templates/sondages/details.html:15
 msgid "Survey"
 msgstr "Sondage"
 
-#: templates/pages/homepage.html:119
+#: templates/pages/homepage.html:123
 msgid "Results"
 msgstr "Résultats"
 
-#: templates/pages/homepage.html:124
+#: templates/pages/homepage.html:128
 msgid "Surveys history"
 msgstr "Historique des sondages"
 
-#: templates/pages/homepage.html:131
+#: templates/pages/homepage.html:135
 msgid "Happy birthday!"
 msgstr "Joyeux anniversaire !"
 
@@ -4229,3 +4225,6 @@ msgid "Do you really want this person not to be responsible of this travel"
 msgstr ""
 "Souhaitez-vous vraiment que cette personne ne soit pas responsable de ce "
 "voyage ?"
+
+#~ msgid "Group"
+#~ msgstr "Groupe"

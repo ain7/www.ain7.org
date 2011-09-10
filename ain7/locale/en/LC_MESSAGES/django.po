@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-19 23:02+0200\n"
+"POT-Creation-Date: 2011-09-10 22:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,11 +44,11 @@ msgstr ""
 msgid "private"
 msgstr ""
 
-#: utils.py:121 core/models.py:31
+#: utils.py:121
 msgid "modifier"
 msgstr ""
 
-#: utils.py:123 core/models.py:33
+#: utils.py:123
 msgid "last changed at"
 msgstr ""
 
@@ -2896,7 +2896,7 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: templates/association/base.html:18 templates/pages/homepage.html:98
+#: templates/association/base.html:18 templates/pages/homepage.html:102
 #: templates/pages/relations_ecole_etudiants.html:26
 msgid "Links"
 msgstr ""
@@ -3304,10 +3304,6 @@ msgstr ""
 
 #: templates/groupes_regionaux/base.html:63
 msgid "The regional groups"
-msgstr ""
-
-#: templates/groups/base.html:22
-msgid "Group"
 msgstr ""
 
 #: templates/groups/base.html:30
@@ -3762,19 +3758,19 @@ msgstr ""
 msgid "AIn7 communities on the web"
 msgstr ""
 
-#: templates/pages/homepage.html:108 templates/sondages/details.html:15
+#: templates/pages/homepage.html:112 templates/sondages/details.html:15
 msgid "Survey"
 msgstr ""
 
-#: templates/pages/homepage.html:119
+#: templates/pages/homepage.html:123
 msgid "Results"
 msgstr ""
 
-#: templates/pages/homepage.html:124
+#: templates/pages/homepage.html:128
 msgid "Surveys history"
 msgstr ""
 
-#: templates/pages/homepage.html:131
+#: templates/pages/homepage.html:135
 msgid "Happy birthday!"
 msgstr ""
 
