@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-10 22:24+0200\n"
+"POT-Creation-Date: 2011-09-11 01:28+0200\n"
 "PO-Revision-Date: 2010-01-15 22:50+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: AIn7 French Translators <ain7-devel@lists.ain7.com>\n"
@@ -242,7 +242,7 @@ msgstr ""
 #: emploi/views.py:118 emploi/views.py:176 emploi/views.py:234
 #: emploi/views.py:291 groupes_professionnels/views.py:140
 #: groupes_regionaux/views.py:76 groups/views.py:83 manage/views.py:266
-#: manage/views.py:293 news/views.py:79 news/views.py:549
+#: manage/views.py:293 news/views.py:81 news/views.py:555
 #: search_engine/views.py:268 sondages/views.py:103 sondages/views.py:145
 #: voyages/views.py:138
 msgid "Modifications have been successfully saved."
@@ -1333,7 +1333,7 @@ msgstr "Vous avez quitté ce groupe avec succès."
 msgid "You are not a member of this group."
 msgstr "Vous n'êtes pas membre de ce groupe."
 
-#: groups/forms.py:102 templates/pages/login.html:22
+#: groups/forms.py:102 templates/pages/login.html:26
 msgid "Username"
 msgstr "Identifiant"
 
@@ -1591,67 +1591,67 @@ msgstr "fin des inscriptions"
 msgid "news item"
 msgstr "actualité"
 
-#: news/views.py:87
+#: news/views.py:89
 msgid "News edition"
 msgstr "Modifier une actualité"
 
-#: news/views.py:92
+#: news/views.py:94
 msgid "Do you really want to delete the image of this news"
 msgstr "Souhaitez-vous vraiment supprimer l'image associée à cette actualité"
 
-#: news/views.py:107
+#: news/views.py:109
 msgid "The image of this news item has been successfully deleted."
 msgstr "L'image associée à cette actualité a été supprimée avec succès"
 
-#: news/views.py:112
+#: news/views.py:114
 msgid "Do you really want to delete this news"
 msgstr "Souhaitez-vous vraiment supprimer cette actualité"
 
-#: news/views.py:126
+#: news/views.py:128
 msgid "The news has been successfully deleted."
 msgstr "L'actualité a été supprimée avec succès."
 
-#: news/views.py:229
+#: news/views.py:235
 msgid "Event successfully saved"
 msgstr "Evenement sauvegardé"
 
-#: news/views.py:236
+#: news/views.py:242
 msgid "Event modification"
 msgstr "Modification d'un événement"
 
-#: news/views.py:244
+#: news/views.py:250
 msgid "Do you really want to delete the image of this event"
 msgstr "Souhaitez-vous vraiment supprimer l'image de cet évènement"
 
-#: news/views.py:259
+#: news/views.py:265
 msgid "The image of this event has been successfully deleted."
 msgstr "L'image de cet évènement a été supprimée avec succès"
 
-#: news/views.py:330
+#: news/views.py:336
 msgid "RSVP successfully saved"
 msgstr "RSVP sauvegardé"
 
-#: news/views.py:366
+#: news/views.py:372
 msgid "RSVP Answer"
 msgstr "Réponse à une invitation"
 
-#: news/views.py:488
+#: news/views.py:494
 msgid "Your message has been sent to the event responsible."
 msgstr "Votre message a été envoyé au responsable de l'événement."
 
-#: news/views.py:492
+#: news/views.py:498
 msgid "Something was wrong in the form you filled. No message sent."
 msgstr "Certains champs ont été incorrectement remplis. Aucun message envoyé."
 
-#: news/views.py:556
+#: news/views.py:562
 msgid "Adding organizer"
 msgstr "Ajouter un organisateur"
 
-#: news/views.py:564
+#: news/views.py:570
 msgid "Do you really want to remove this organizer"
 msgstr "Souhaitez-vous vraiment supprimer cet organisateur ?"
 
-#: news/views.py:580
+#: news/views.py:586
 msgid "Organizer successfully removed"
 msgstr "Organisateur supprimé avec succès"
 
@@ -2142,7 +2142,7 @@ msgstr "Déconnexion"
 msgid "You are not logged-in"
 msgstr "Vous n'êtes pas authentifié"
 
-#: templates/base.html:56 templates/pages/login.html:32
+#: templates/base.html:56 templates/pages/login.html:36
 msgid "Log-in"
 msgstr "S'identifier"
 
@@ -2250,7 +2250,7 @@ msgstr "Adhésions à valider"
 #: templates/adhesions/base.html:28 templates/association/council.html:46
 #: templates/association/council_edit.html:33
 #: templates/emploi/job_details.html:56 templates/evenements/attendees.html:46
-#: templates/evenements/details.html:79 templates/evenements/edit.html:47
+#: templates/evenements/details.html:78 templates/evenements/edit.html:47
 #: templates/evenements/index.html:47 templates/evenements/rsvp.html:25
 #: templates/evenements/search.html:52
 #: templates/groupes_professionnels/base.html:17
@@ -2849,13 +2849,13 @@ msgid "Groups"
 msgstr "Groupes"
 
 #: templates/annuaire/details.html:215 templates/annuaire/edit.html:360
-#: templates/emploi/job_details.html:65 templates/evenements/details.html:94
+#: templates/emploi/job_details.html:65 templates/evenements/details.html:93
 #: templates/groupes_professionnels/base.html:29
 #: templates/groupes_professionnels/base.html:43
 #: templates/groupes_regionaux/base.html:51 templates/groups/base.html:55
 #: templates/media_communication/canal_n7.html:59
 #: templates/media_communication/canal_n7_edito.html:42
-#: templates/news/details.html:44 templates/organizations/office_merge.html:40
+#: templates/news/details.html:43 templates/organizations/office_merge.html:40
 #: templates/pages/relations_ecole_etudiants.html:34
 #: templates/pages/web.html:28 templates/voyages/base.html:42
 msgid "Card Informations"
@@ -3190,15 +3190,15 @@ msgstr "personne(s) ayant décliné l'invitation"
 msgid "person(s) who answer maybe"
 msgstr "personne(s) indécisses"
 
-#: templates/evenements/attendees.html:49 templates/evenements/details.html:83
+#: templates/evenements/attendees.html:49 templates/evenements/details.html:82
 msgid "Contact the event responsible"
 msgstr "Contacter le responsable"
 
-#: templates/evenements/attendees.html:51 templates/evenements/details.html:86
+#: templates/evenements/attendees.html:51 templates/evenements/details.html:85
 msgid "Edit this event"
 msgstr "Modifier cet événement"
 
-#: templates/evenements/attendees.html:52 templates/evenements/details.html:87
+#: templates/evenements/attendees.html:52 templates/evenements/details.html:86
 msgid "View attendees"
 msgstr "Liste des inscrits"
 
@@ -3692,11 +3692,11 @@ msgstr "Créer une actualité"
 msgid "Search a news"
 msgstr "Rechercher une actualité"
 
-#: templates/news/details.html:38
+#: templates/news/details.html:37
 msgid "Edit this news"
 msgstr "Modifier cette actualité"
 
-#: templates/news/details.html:39 templates/news/edit.html:28
+#: templates/news/details.html:38 templates/news/edit.html:28
 msgid "Delete this news"
 msgstr "Supprimer cette actualité"
 
@@ -3878,11 +3878,19 @@ msgstr "Mise à jour :"
 msgid "Your username and password didn't match. Please try again."
 msgstr "Votre identification a échoué. Veuillez essayer à nouveau."
 
-#: templates/pages/login.html:26 templates/registration/login.html:25
+#: templates/pages/login.html:17
+msgid "Welcome"
+msgstr "Bienvenue"
+
+#: templates/pages/login.html:19
+msgid "Please enter your login and password."
+msgstr "Merci de saisir votre identifiant et mot de passe."
+
+#: templates/pages/login.html:30 templates/registration/login.html:25
 msgid "Password"
 msgstr "Mot de passe"
 
-#: templates/pages/login.html:41
+#: templates/pages/login.html:45
 msgid "If you have lost your login and/or your password follow this link"
 msgstr ""
 "Si vous avez perdu vos identifiants (nom d'utilisateur et/ou mot de passe), "

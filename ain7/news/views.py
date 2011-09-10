@@ -44,7 +44,8 @@ def index(request):
     """news index page"""
     news = NewsItem.objects.filter(date__isnull=True).\
         order_by('-creation_date')[:20]
-    return ain7_render_to_response(request, 'news/index.html', {'news': news })
+    page_title = 'Actualités'
+    return ain7_render_to_response(request, 'news/index.html', {'news': news, 'page_title':page_title })
 
 def details(request, news_slug):
     """news details"""
@@ -166,10 +167,11 @@ def event_index(request):
     """event index"""
     events = NewsItem.objects.filter(date__gte=datetime.datetime.now()).\
         order_by('date')[:10]
+    page_title = 'Évènements'
     return ain7_render_to_response(request, 'evenements/index.html',
         {'events': events, 
          'event_list': NewsItem.objects.filter(date__isnull=False),
-         'next_events': NewsItem.objects.next_events()})
+         'next_events': NewsItem.objects.next_events(), 'page_title':page_title})
 
 
 def event_details(request, event_id):
