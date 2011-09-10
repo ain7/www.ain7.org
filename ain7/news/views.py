@@ -49,8 +49,9 @@ def index(request):
 def details(request, news_slug):
     """news details"""
     news_item = get_object_or_404(NewsItem, slug=news_slug)
+    page_title = news_item.title
     return ain7_render_to_response(request, 'news/details.html',
-                            {'news_item': news_item})
+                            {'news_item': news_item, 'page_title' : page_title})
 
 @login_required
 def edit(request, news_slug=None):
@@ -194,12 +195,15 @@ def event_details(request, event_id):
     if rsvp_display and event.rsvp_end:
         rsvp_display = rsvp_display and event.rsvp_end > today
 
+
+    page_title = event.title
+
     return ain7_render_to_response(request, 'evenements/details.html',
         {'event': event, 
          'event_list': NewsItem.objects.filter(date__isnull=False),
          'next_events': NewsItem.objects.next_events(),
          'rsvp_display': rsvp_display,
-         'rsvp': rsvp})
+         'rsvp': rsvp, 'page_title':page_title})
 
 @login_required
 def event_edit(request, event_id=None):
