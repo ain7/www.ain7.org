@@ -68,7 +68,7 @@ def ain7_website_confidential(obj):
 #    args[1]['piwik_url'] = settings.PIWIK_URL
 #    args[1]['piwik_site_id'] = settings.PIWIK_SITE_ID
 #    args[1]['request'] = req
-#    args[1]['superadmin'] = settings.AIN7_PORTAL_ADMIN in user_groups
+#    args[1]['superadmin'] = settings.PORTAL_ADMIN in user_groups
 #    args[1]['ca_member'] = 'ain7-ca' in user_groups
 #    args[1]['secretariat_member'] = 'ain7-secretariat' in user_groups
 #    args[1]['contributeur'] = 'ain7-contributeur' in user_groups
@@ -83,7 +83,7 @@ def is_admin(user):
 
     try:
         person = Person.objects.get(user=user)
-        portal_admin = Group.objects.get(name=settings.AIN7_PORTAL_ADMIN)
+        portal_admin = Group.objects.get(name=settings.PORTAL_ADMIN)
         if portal_admin in person.groups.values_list('group__name', flat=True):
             return True
     except Group.DoesNotExist:
@@ -98,7 +98,7 @@ def check_access(request, user, groups):
     if Person.objects.filter(user=user):
         user_groups = user.person.groups.values_list('group__name', flat=True)
 
-        if settings.AIN7_PORTAL_ADMIN in user_groups:
+        if settings.PORTAL_ADMIN in user_groups:
             return None
 
         for group in user_groups:
