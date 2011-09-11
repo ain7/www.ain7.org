@@ -501,16 +501,20 @@ class AIn7Member(LoggedClass):
     # Internal
     objects = AIn7MemberManager()
 
-    def is_subscriber(self):
+    def is_subscriber(self, year=None):
         """
         /!\ local import to avoid recursives import
         """
         from ain7.adhesions.models import Subscription
         import datetime
+
+        if not year:
+            year = datetime.date.today().year
+
         result = False
         result = Subscription.objects.filter(member=self).\
-            filter(validated=True).exclude(start_year__gt=datetime.date.\
-            today().year).exclude(end_year__lt=datetime.date.today().year)
+            filter(validated=True).exclude(start_year__gt=year).\
+            exclude(end_year__lt=year)
         return result
 
     def last_subscription_amount(self):
