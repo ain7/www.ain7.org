@@ -22,6 +22,7 @@
       <b><a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a> | {{ event.date|date:"l j F Y" }}</b><br />{{ event.body|truncatewords_html:30|safe }}
       </div>
    </div>
+   <br /><hr /><br />
 {% endfor %}
 <div class="allItems">
 	<a href="{% url ain7.news.views.event_index %}">{% trans "All events" %}</a>
@@ -44,6 +45,7 @@
       <!-- in case the image has bigger height than text -->
       <div style="clear: left;"></div>
    </div>
+   <br /><hr /><br />
 {% endfor %}
 <div class="allItems">
 	<a href="{% url ain7.news.views.index %}">{% trans "All news" %}</a>

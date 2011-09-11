@@ -23,6 +23,12 @@ a:hover {
     background: inherit;
 }
 
+hr {
+    border: 1px solid #d0d0d0;
+    width: 60%;
+    height: 1px;
+}
+
 h1 {
     font: normal 2.1em Arial, Sans-Serif;
     letter-spacing: -1px;
