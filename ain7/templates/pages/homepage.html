@@ -12,7 +12,6 @@
 
 <div class="left_box">
 <h3>{% trans "Events Forecast" %}</h3>
-
 {% for event in events %}
   <div class="">
       <div>
@@ -22,7 +21,7 @@
       <b><a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a> | {{ event.date|date:"l j F Y" }}</b><br />{{ event.body|truncatewords_html:30|safe }}
       </div>
    </div>
-   <br /><br />
+   <br /><hr />
 {% endfor %}
 <div class="allItems">
 	<a href="{% url ain7.news.views.event_index %}">{% trans "All events" %}</a>
@@ -30,10 +29,8 @@
 </div>
 
 
-
 <div class="left_box">
 <h3>{% trans "News" %}</h3>
-
 {% for news_item in news %}
   <div class="">
       <div>
