@@ -37,9 +37,7 @@ from django.utils.translation import ugettext as _
 CSV_INNERSEP = '|'
 
 CONFIDENTIALITY_LEVELS = (
-    (0, _('published in directory and website')),
-    (1, _('published in website only')),
-    (2, _('published in directory only')),
+    (0, _('public')),
     (3, _('private')),
     )
 
