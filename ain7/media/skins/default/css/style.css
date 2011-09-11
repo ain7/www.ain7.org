@@ -347,7 +347,7 @@ h3.notif {
 
 .image-right {
     float: right;
-    margin: 0 9px 3px 0;
+    margin: 0 3px 9px 0;
 }
 
 /* footer
@@ -666,3 +666,8 @@ div.code {
     width: 30px;
     height: 30px;
 }
+
+.logo {
+   width: 800px;
+}
+
