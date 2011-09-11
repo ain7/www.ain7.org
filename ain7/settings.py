@@ -167,6 +167,11 @@ JQUERY_VERSION = '1.4.2'
 
 AIN7_PORTAL_ADMIN = 'ain7-admin'
 
+FACEBOOK_AIN7='http://www.facebook.com/ENSEEIHT'
+LINKEDIN_AIN7='http://www.linkedin.com/groups?gid=73525'
+TWITTER_AIN7='http://twitter.com/ENSEEIHT_Alumni'
+VIADEO_AIN7='http://www.viadeo.com/communaute/macommunaute/?communityId=0022ezgr59190pqm'
+
 SPPLUS_CLENT = '58 6d fc 9c 34 91 9b 86 3f fd 64 63 c9 13 4a 26 ba 29 74 1e c7 e9 80 79'
 SPPLUS_EXE = '/bin/false'
 SPPLUS_IP = ['127.0.0.1']
