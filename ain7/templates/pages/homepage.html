@@ -17,12 +17,12 @@
   <div class="">
       <div>
       {% if event.image %}
-      <a href="{% url ain7.news.views.event_details event.id %}"><img src="{{ event.image.url }}" alt="{{ event.title }}" title="{{ event.title }}" class="image" width="60" /></a>
+      <a href="{% url ain7.news.views.event_details event.id %}"><img src="{{ event.image.url }}" alt="{{ event.title }}" title="{{ event.title }}" class="image" width="80" /></a>
       {% endif %}
       <b><a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a> | {{ event.date|date:"l j F Y" }}</b><br />{{ event.body|truncatewords_html:30|safe }}
       </div>
    </div>
-   <br /><hr /><br />
+   <hr /><br />
 {% endfor %}
 <div class="allItems">
 	<a href="{% url ain7.news.views.event_index %}">{% trans "All events" %}</a>
@@ -38,14 +38,14 @@
   <div class="">
       <div>
       {% if news_item.image %}
-      <a href="{% url ain7.news.views.details news_item.slug %}"><img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" title="{{ news_item.title }}" class="image" width="60" /></a>
+      <a href="{% url ain7.news.views.details news_item.slug %}"><img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" title="{{ news_item.title }}" class="image" width="80" /></a>
       {% endif %}
       <b><a href="{% url ain7.news.views.details news_item.slug %}">{{ news_item.title }}</a></b><br />{{ news_item.body|truncatewords_html:30|safe }}
       </div>
       <!-- in case the image has bigger height than text -->
       <div style="clear: left;"></div>
    </div>
-   <br /><hr /><br />
+   <hr /><br />
 {% endfor %}
 <div class="allItems">
 	<a href="{% url ain7.news.views.index %}">{% trans "All news" %}</a>
