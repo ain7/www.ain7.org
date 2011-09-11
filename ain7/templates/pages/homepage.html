@@ -15,10 +15,12 @@
 {% for event in events %}
   <div class="">
       <div>
+      <b>{{ event.date|date:"l j F" }} | <a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a></b>
       {% if event.image %}
-      <a href="{% url ain7.news.views.event_details event.id %}"><img src="{{ event.image.url }}" alt="{{ event.title }}" title="{{ event.title }}" class="image" width="80" /></a>
+      <a href="{% url ain7.news.views.event_details event.id %}"><img src="{{ event.image.url }}" alt="{{ event.title }}" title="{{ event.title }}" class="image-right" width="80" /></a>
       {% endif %}
-      <b><a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a> | {{ event.date|date:"l j F Y" }}</b><br />{{ event.body|truncatewords_html:30|safe }}
+      <br />
+      {{ event.body|truncatewords_html:30|safe }}
       </div>
    </div>
    <br /><hr />
