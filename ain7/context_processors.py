@@ -48,7 +48,7 @@ def user_groups(request):
         user_groups = request.user.person.groups.values_list('group__name', flat=True)
 
     return { 
-        'superadmin': settings.AIN7_PORTAL_ADMIN in user_groups,
+        'superadmin': settings.PORTAL_ADMIN in user_groups,
         'ca_member': 'ain7-ca' in user_groups,
         'secretariat_member': 'ain7-secretariat' in user_groups,
         'contributeur': 'ain7-contributeur' in user_groups,
