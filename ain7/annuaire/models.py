@@ -300,7 +300,7 @@ class Person(LoggedClass):
         except IndexError:
              return ''
 
-    def address(self):
+    def address(self, key=None):
         """return personal address"""
 
         addr_perm = AddressType.objects.get(id=7)
@@ -309,8 +309,12 @@ class Person(LoggedClass):
         try:
              #addr = Address.objects.filter(person=self, type=addr_perm)[0]
              addr = Address.objects.filter(person=self)[0]
-             return { 'line1': addr.line1, 'line2': addr.line2, 'zip_code': addr.zip_code, 'city': addr.city, 'country': addr.country.name}
-        except IndexError:
+             if not key:
+                 addr_struct = { 'line1': addr.line1, 'line2': addr.line2, 'zip_code': addr.zip_code, 'city': addr.city, 'country': addr.country.name}
+                 return addr_struct
+             else:
+                 return addr_struct[key]
+        except (IndexError, KeyError):
              return {}
 
     def __unicode__(self):
