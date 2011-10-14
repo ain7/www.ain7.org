@@ -38,13 +38,13 @@ CSV_INNERSEP = '|'
 
 CONFIDENTIALITY_LEVELS = (
     (0, _('public')),
-    (3, _('private')),
+    (1, _('private')),
     )
 
 def ain7_website_confidential(obj):
     if not isinstance(obj, models.Model):
         raise NotImplementedError
-    return (obj.confidentiality>1)
+    return (obj.confidentiality>0)
 
 # pour alléger les appels à render_to_response
 # http://www.djangosnippets.org/snippets/3/

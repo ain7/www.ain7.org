@@ -656,6 +656,7 @@ class Address(LoggedClass):
 
     def confidentiality_print(self):
         """address confidentiality print"""
+        print self.confidentiality
         return CONFIDENTIALITY_LEVELS[self.confidentiality][1]
 
     def __unicode__(self):

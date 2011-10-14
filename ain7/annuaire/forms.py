@@ -55,6 +55,11 @@ class SearchPersonForm(forms.Form):
         widget=AutoCompleteField(completed_obj_name='track'))
     organization = forms.CharField(label=_('organization').capitalize(),
         max_length=50, required=False)
+    city = forms.CharField(label=_('city').capitalize(),
+        max_length=50, required=False)
+    country = forms.CharField(label=_('country').capitalize(),
+        max_length=50, required=False,
+        widget=AutoCompleteField(completed_obj_name='country'))
 
     def criteria(self):
         """define search criteria for a person"""
@@ -72,6 +77,18 @@ class SearchPersonForm(forms.Form):
                 =self.cleaned_data['organization']) | \
                  models.Q(positions__office__name__icontains=\
                  self.cleaned_data['organization'])
+
+        if self.cleaned_data['city']:
+            querry &= models.Q(positions__office__city__icontains\
+                =self.cleaned_data['city']) | \
+                 models.Q(person__addresses__city__icontains=\
+                 self.cleaned_data['city'])
+
+        if self.cleaned_data['country']:
+            querry &= models.Q(positions__office__country\
+                =self.cleaned_data['country']) | \
+                 models.Q(person__addresses__country=\
+                 self.cleaned_data['country'])
 
         # ici on commence par rechercher toutes les promos
         # qui concordent avec l'annee de promotion et la filiere

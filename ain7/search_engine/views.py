@@ -330,7 +330,7 @@ def se_export_csv(request, objects_to_export=None, search_engine=None,
                 field = getFieldFromName(clas, fieldname, search_engine)
                 fields.append((field,clas))
             writer.writerow(
-                [ f.verbose_name.capitalize().encode('utf8')
+                [ f.verbose_name.capitalize().encode('utf-8')
                   for f,c in fields ])
             # then we fill the following lines with search results
             for found_obj in objects_to_export:
