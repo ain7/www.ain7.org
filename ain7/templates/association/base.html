@@ -15,8 +15,8 @@
 </div>
 
 <div class="span-6 last">
-    <h2>{% trans "Links" %}</h2>
    <div class="grey-box">
+    <h2>{% trans "Links" %}</h2>
     <ul>
       <li><a href="{% url ain7.association.views.index %}">
           {% trans "Overview" %}</a></li>
@@ -36,8 +36,9 @@
    {% block actions %}
    {% endblock %}
 
-    <h2>{% trans "Statistics" %}</h2>
+
    <div class="grey-box">
+    <h2>{% trans "Statistics" %}</h2>
     <ul>
       <li>{% trans "Number of members" %}: {{ count_members }}</li>
     </ul>

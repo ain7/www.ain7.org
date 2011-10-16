@@ -93,6 +93,17 @@
 	</div>
 
 
+	{% if jobOffers  %}
+	<div class="grey-box">
+		<h2>{% trans "Last job offers" %}</h2>
+		{% for job in jobOffers %}
+		<li><a href="{% url ain7.emploi.views.job_details job.id %}">{{ job.title }}</a></li>
+		{% endfor %}
+	<br />
+	<center><a href="emploi">Toutes les offres</a></center>
+
+	</div>
+	{% endif %}
 
 
 	<div class="grey-box clear">
@@ -105,7 +116,6 @@
 		<li><a href="http://www.g9plus.org/">Institut G9+</a></li>
 		</ul>
 	</div>
-
 
 
 	{% if surveys %}
@@ -130,10 +140,8 @@
 
 		    </div>
 	    </div>
+
 	{% endif %}
-
-
-
 
 	{% if birthdays %}
 	<div class="grey-box">

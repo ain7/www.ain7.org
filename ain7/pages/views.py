@@ -36,7 +36,7 @@ from ain7.pages.forms import LostPasswordForm, TextForm, ChangePasswordForm
 from ain7.pages.models import Text, LostPassword
 from ain7.sondages.models import Survey
 from ain7.decorators import access_required
-
+from ain7.emploi.models import JobOffer
 
 def homepage(request):
     """AIn7 homepage"""
@@ -48,7 +48,8 @@ def homepage(request):
     today = datetime.datetime.today()
     birthdays = []
     text1 = Text.objects.get(textblock__shortname='edito')
-    text2 = Text.objects.get(textblock__shortname='enseeiht')
+    jobOffers = JobOffer.objects.filter(checked_by_secretariat=True, \
+        obsolete=False).order_by('-id')[:5]
     if is_auth:
         birthdays = [ m for m in AIn7Member.objects.filter(
             person__birth_date__isnull=False,
@@ -58,7 +59,7 @@ def homepage(request):
         birthdays.sort(lambda x, y: cmp(x.person.last_name, y.person.last_name))
     return render(request, 'pages/homepage.html', 
         {'news': news , 'events': events, 'surveys': surveys, 'settings': settings,
-         'birthdays': birthdays, 'text1': text1, 'text2': text2})
+         'birthdays': birthdays, 'text1': text1, 'jobOffers' : jobOffers})
 
 def lostpassword(request):
     """lostpassword page"""

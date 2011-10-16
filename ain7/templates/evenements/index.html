@@ -27,9 +27,11 @@
   </div>
 
 
-    <br /><i><span class="grey">{% trans "Published on" %} {{ event.last_change_at|date:"l j F Y" }}</span></i>
+    <br />
+<span class="grey right">{% trans "Published on" %} {{ event.last_change_at|date:"l j F" }}
     {% if event.last_change_by %}{% trans "by" %}
     <a href="{% url ain7.annuaire.views.details event.last_change_by.id %}">{{ event.last_change_by }}</a>
+    </span><br /><br />
     {% endif %}
 
     <hr />

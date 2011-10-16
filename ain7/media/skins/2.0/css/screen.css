@@ -506,6 +506,10 @@ a.button, a.button:hover {
 	float: left;
 }
 
+.spacer {
+    height: 15px;
+    clear: both;
+}
 
 /* Edition buttons
    ------ */

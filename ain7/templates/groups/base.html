@@ -5,18 +5,18 @@
 
 {% block content %}
 
-<div id="content-main">
 
-<div class="left">
+
+<div class="span-17 colborder">
 {% block content-left %}{% endblock %}
 </div>
 
 
-<div class="right">
+<div class="span-6 last">
 
     {% if group %}
-    <h3>{% trans "Actions" %}</h3>
-    <div class="right_block">
+    <div class="grey-box">    
+    <h2>{% trans "Actions" %}</h2>
         <ul>
             <li><a href="{% url ain7.groups.views.index %}">{% trans "Groups" %}</a></li>
             <li><a href="{% url ain7.groups.views.details group.slug %}">{{ group.name }}</a></li>
@@ -36,9 +36,9 @@
     </div>
 
     {% if group.active_events %}
-        <h3>{% trans "Events" %}</h3>
+    <div class="grey-box">    
+        <h2>{% trans "Events" %}</h2>
         {% for event in group.active_events %}
-            <div class="right_articles">
                 <p><strong><a href="{% url ain7.news.views.event_details event.id %}">{{ event.title|upper }}</a></strong></p>
                 <p>
 {% blocktrans with event.date|date:"d/m/Y" as date and event.location as place %}{{ date }} at {{ place }}{% endblocktrans %}
@@ -52,13 +52,16 @@
 
     {% block extra-menu %}{% endblock %}
 
-    <h3>{% trans "Card Informations"%}</h3>
+    <div class="grey-box">    
+    <h2>{% trans "Card Informations"%}</h2>
     {%  show_last_change group %}
     {% endif %} {# group #}
+    </div>
 
     {% if groups %}
-    <h3>{% trans "Statistics" %}</h3>
-    <div class="right_block">
+    <div class="grey-box">    
+    <h2>{% trans "Statistics" %}</h2>
+
         <ul>
             <li>{{ groups|length }} {% trans "groups" %}</li>
         </ul>
@@ -67,5 +70,5 @@
     {% endif %}
 
 </div> <!-- right -->
-</div> <!-- content-main -->
+
 {% endblock %}
