@@ -503,7 +503,7 @@ class AIn7Member(LoggedClass):
 
     def is_subscriber(self):
         """
-        /!\ local import to avoid recursives import
+        /!\ local import to avoid recursive imports
         """
         from ain7.adhesions.models import Subscription
         import datetime
@@ -515,7 +515,7 @@ class AIn7Member(LoggedClass):
 
     def last_subscription_amount(self):
         """
-        /!\ local import to avoid recursives import
+        /!\ local import to avoid recursive imports
         """
         from ain7.adhesions.models import Subscription
         result = 0
@@ -528,7 +528,7 @@ class AIn7Member(LoggedClass):
 
     def last_subscription_date(self):
         """
-        /!\ local import to avoid recursives import
+        /!\ local import to avoid recursive imports
         """
         from ain7.adhesions.models import Subscription
         result = 0

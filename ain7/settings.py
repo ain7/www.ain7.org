@@ -22,6 +22,8 @@
 #
 
 import os
+# Extends context_processors
+import django.conf.global_settings as DEFAULT_SETTINGS
 
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -188,13 +190,8 @@ LOGGING = {
 # AIn7 specific settings
 #
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'django.contrib.messages.context_processors.messages',
+TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
+    'django.core.context_processors.request',
     'ain7.context_processors.versions',
     'ain7.context_processors.piwik',
     'ain7.context_processors.user_groups',

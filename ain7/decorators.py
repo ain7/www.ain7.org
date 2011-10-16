@@ -81,7 +81,7 @@ def access_required(view_func=None, groups=None,
                     # Go to the decorated view
                     return view_func(request, *args, **kwargs)
 
-            if settings.AIN7_PORTAL_ADMIN in user_groups:
+            if settings.PORTAL_ADMIN in user_groups:
                 # Go to the decorated view
                 return view_func(request, *args, **kwargs)
 
