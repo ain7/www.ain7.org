@@ -255,7 +255,7 @@ HAYSTACK_SITECONF = 'ain7.search_sites'
 HAYSTACK_SEARCH_ENGINE = 'xapian'
 HAYSTACK_XAPIAN_PATH = BASE_DIR +'/data/xapian/'
 
-INSTALLED_APPS += ('haystack',)
+# INSTALLED_APPS += ('haystack',)
 
 
 try:
