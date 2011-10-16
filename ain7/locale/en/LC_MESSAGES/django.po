@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-17 00:29+0200\n"
+"POT-Creation-Date: 2011-10-17 00:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lionel Porcheron <lionel@alveonet.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2885,7 +2885,7 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: templates/association/base.html:19 templates/pages/homepage.html:110
+#: templates/association/base.html:19 templates/pages/homepage.html:141
 #: templates/pages/relations_ecole_etudiants.html:26
 msgid "Links"
 msgstr ""
@@ -3751,19 +3751,19 @@ msgstr ""
 msgid "Last job offers"
 msgstr ""
 
-#: templates/pages/homepage.html:123 templates/sondages/details.html:15
+#: templates/pages/homepage.html:154 templates/sondages/details.html:15
 msgid "Survey"
 msgstr ""
 
-#: templates/pages/homepage.html:134
+#: templates/pages/homepage.html:165
 msgid "Results"
 msgstr ""
 
-#: templates/pages/homepage.html:139
+#: templates/pages/homepage.html:170
 msgid "Surveys history"
 msgstr ""
 
-#: templates/pages/homepage.html:149
+#: templates/pages/homepage.html:180
 msgid "Happy birthday!"
 msgstr ""
 

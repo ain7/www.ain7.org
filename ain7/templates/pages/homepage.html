@@ -65,12 +65,14 @@
 </div>
 
 <div class="span-6 last">
-    
+
+	{% if not user.is_authenticated %}    
 	<div style="text-align: center">
 	<a href="{% url ain7.adhesions.views.index %}"><img src="/site_media/images/adherer.png" alt="Adhérer"/></a>
 	<br />
 	<br />
 	</div>
+	{% endif %}
     
 	<div class="grey-box clearfix">
 	<h2>{% trans "Follow the ENSEEIHT Alumni network" %}</h2>
@@ -105,6 +107,37 @@
 	</div>
 	{% endif %}
 
+
+	<script src="http://widgets.twimg.com/j/2/widget.js"></script>
+	<script>
+	new TWTR.Widget({
+	  version: 2,
+	  type: 'profile',
+	  rpp: 20,
+	  interval: 30000,
+	  width: 230,
+	  height: 300,
+	  theme: {
+	    shell: {
+	      background: '#00289e',
+	      color: '#ffffff'
+	    },
+	    tweets: {
+	      background: '#ffffff',
+	      color: '#333333',
+	      links: '#00289e'
+	    }
+	  },
+	  features: {
+	    scrollbar: true,
+	    loop: false,
+	    live: false,
+	    behavior: 'all'
+	  }
+	}).render().setUser('enseeiht_alumni').start();
+	</script>
+
+<br /><br />
 
 	<div class="grey-box clear">
 	<h2>{% trans "Links" %}</h2>
@@ -156,6 +189,8 @@
 	</div>
 	{% endif %}
 	{% endif %}
+
+
 
 </div>
 

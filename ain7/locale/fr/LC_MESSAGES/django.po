@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-17 00:28+0200\n"
+"POT-Creation-Date: 2011-10-17 00:51+0200\n"
 "PO-Revision-Date: 2010-01-15 22:50+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: AIn7 French Translators <ain7-devel@lists.ain7.com>\n"
@@ -2966,7 +2966,7 @@ msgstr "Comptes IRC"
 msgid "Edit"
 msgstr "Modifier"
 
-#: templates/association/base.html:19 templates/pages/homepage.html:110
+#: templates/association/base.html:19 templates/pages/homepage.html:141
 #: templates/pages/relations_ecole_etudiants.html:26
 msgid "Links"
 msgstr "Liens"
@@ -3845,26 +3845,25 @@ msgstr "Tous les événements"
 
 #: templates/pages/homepage.html:76
 msgid "Follow the ENSEEIHT Alumni network"
-msgstr "Suivez le réseaux des ENSEEIHT"
+msgstr "Suivez le réseau des ENSEEIHT"
 
 #: templates/pages/homepage.html:98
-#, fuzzy
 msgid "Last job offers"
 msgstr "Dernières offres d'emploi"
 
-#: templates/pages/homepage.html:123 templates/sondages/details.html:15
+#: templates/pages/homepage.html:154 templates/sondages/details.html:15
 msgid "Survey"
 msgstr "Sondage"
 
-#: templates/pages/homepage.html:134
+#: templates/pages/homepage.html:165
 msgid "Results"
 msgstr "Résultats"
 
-#: templates/pages/homepage.html:139
+#: templates/pages/homepage.html:170
 msgid "Surveys history"
 msgstr "Historique des sondages"
 
-#: templates/pages/homepage.html:149
+#: templates/pages/homepage.html:180
 msgid "Happy birthday!"
 msgstr "Joyeux anniversaire&nbsp;!"
 
