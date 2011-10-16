@@ -117,6 +117,13 @@ urlpatterns = patterns('',
     # sitemaps
     (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
 
+
+    # redirection to external communities
+    (r'^facebook/$', 'ain7.pages.views.facebook'),
+    (r'^linkedin/$', 'ain7.pages.views.linkedin'),
+    (r'^twitter/$', 'ain7.pages.views.twitter'),
+    (r'^viadeo/$', 'ain7.pages.views.viadeo'),
+
     (r'^search/', include('haystack.urls')),
 
 )

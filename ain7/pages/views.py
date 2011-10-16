@@ -57,7 +57,7 @@ def homepage(request):
             person__personprivate__death_date=None) ]
         birthdays.sort(lambda x, y: cmp(x.person.last_name, y.person.last_name))
     return render(request, 'pages/homepage.html', 
-        {'news': news , 'events': events, 'surveys': surveys, 
+        {'news': news , 'events': events, 'surveys': surveys, 'settings': settings,
          'birthdays': birthdays, 'text1': text1, 'text2': text2})
 
 def lostpassword(request):
@@ -196,4 +196,20 @@ def edit(request, text_id):
     return render(request, 'pages/text_edit.html', 
         {'text_id': text_id, 'form': form,
          'back': request.META.get('HTTP_REFERER')})
+
+def facebook(request):
+    """redirect to Facebook ENSEEIHT/Alumni Community"""
+    return HttpResponseRedirect(settings.FACEBOOK_AIN7)
+
+def linkedin(request):
+    """redirect to Linkedin ENSEEIHT/Alumni Community"""
+    return HttpResponseRedirect(settings.LINKEDIN_AIN7)
+
+def twitter(request):
+    """redirect to Twitter ENSEEIHT/Alumni Feed"""
+    return HttpResponseRedirect(settings.TWITTER_AIN7)
+
+def viadeo(request):
+    """redirect to Viadeo ENSEEIHT/Alumni Feed"""
+    return HttpResponseRedirect(settings.VIADEO_AIN7)
 

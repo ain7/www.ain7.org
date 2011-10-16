@@ -42,13 +42,15 @@ def index(request):
     """news index page"""
     news = NewsItem.objects.filter(date__isnull=True).\
         order_by('-creation_date')[:20]
-    return render(request, 'news/index.html', {'news': news })
+    page_title = 'Actualités'
+    return render(request, 'news/index.html', {'news': news, 'page_title': page_title })
 
 def details(request, news_slug):
     """news details"""
     news_item = get_object_or_404(NewsItem, slug=news_slug)
+    page_title = news_item.title
     return render(request, 'news/details.html',
-                            {'news_item': news_item})
+                            {'news_item': news_item, 'page_title': page_title})
 
 @access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'])
 def edit(request, news_slug=None):
@@ -148,11 +150,11 @@ def event_index(request):
     """event index"""
     events = NewsItem.objects.filter(date__gte=datetime.datetime.now()).\
         order_by('date')[:10]
+    page_title = _('Events')
     return render(request, 'evenements/index.html',
         {'events': events, 
          'event_list': NewsItem.objects.filter(date__isnull=False),
-         'next_events': NewsItem.objects.next_events()})
-
+         'next_events': NewsItem.objects.next_events(), 'page_title': page_title})
 
 def event_details(request, event_id):
     """event details"""
@@ -177,12 +179,15 @@ def event_details(request, event_id):
     if rsvp_display and event.rsvp_end:
         rsvp_display = rsvp_display and event.rsvp_end > today
 
+    page_title = event.title
+
     return render(request, 'evenements/details.html',
         {'event': event, 
          'event_list': NewsItem.objects.filter(date__isnull=False),
          'next_events': NewsItem.objects.next_events(),
          'rsvp_display': rsvp_display,
-         'rsvp': rsvp})
+         'rsvp': rsvp,
+         'page_title': page_title})
 
 @access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'])
 def event_edit(request, event_id=None):

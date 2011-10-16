@@ -118,7 +118,7 @@ def display_list(seq):
     if len(seq)==0: return ''
     seq = dict.fromkeys(seq).keys()  # remove duplicates
     ret = unicode(seq.pop())
-    for s in seq: ret+=';'+unicode(seq.pop()).encode('utf8') 
+    for s in seq: ret+=';'+unicode(seq.pop()).encode('utf-8') 
     return ret
 
 class SearchFilter(models.Model):

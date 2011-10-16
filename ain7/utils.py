@@ -37,16 +37,14 @@ from django.utils.translation import ugettext as _
 CSV_INNERSEP = '|'
 
 CONFIDENTIALITY_LEVELS = (
-    (0, _('published in directory and website')),
-    (1, _('published in website only')),
-    (2, _('published in directory only')),
-    (3, _('private')),
+    (0, _('public')),
+    (1, _('private')),
     )
 
 def ain7_website_confidential(obj):
     if not isinstance(obj, models.Model):
         raise NotImplementedError
-    return (obj.confidentiality>1)
+    return (obj.confidentiality>0)
 
 # pour alléger les appels à render_to_response
 # http://www.djangosnippets.org/snippets/3/

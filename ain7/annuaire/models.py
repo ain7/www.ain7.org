@@ -300,7 +300,7 @@ class Person(LoggedClass):
         except IndexError:
              return ''
 
-    def address(self):
+    def address(self, key=None):
         """return personal address"""
 
         addr_perm = AddressType.objects.get(id=7)
@@ -309,8 +309,12 @@ class Person(LoggedClass):
         try:
              #addr = Address.objects.filter(person=self, type=addr_perm)[0]
              addr = Address.objects.filter(person=self)[0]
-             return { 'line1': addr.line1, 'line2': addr.line2, 'zip_code': addr.zip_code, 'city': addr.city, 'country': addr.country.name}
-        except IndexError:
+             if not key:
+                 addr_struct = { 'line1': addr.line1, 'line2': addr.line2, 'zip_code': addr.zip_code, 'city': addr.city, 'country': addr.country.name}
+                 return addr_struct
+             else:
+                 return addr_struct[key]
+        except (IndexError, KeyError):
              return {}
 
     def __unicode__(self):
@@ -501,16 +505,20 @@ class AIn7Member(LoggedClass):
     # Internal
     objects = AIn7MemberManager()
 
-    def is_subscriber(self):
+    def is_subscriber(self, year=None):
         """
         /!\ local import to avoid recursive imports
         """
         from ain7.adhesions.models import Subscription
         import datetime
+
+        if not year:
+            year = datetime.date.today().year
+
         result = False
         result = Subscription.objects.filter(member=self).\
-            filter(validated=True).exclude(start_year__gt=datetime.date.\
-            today().year).exclude(end_year__lt=datetime.date.today().year)
+            filter(validated=True).exclude(start_year__gt=year).\
+            exclude(end_year__lt=year)
         return result
 
     def last_subscription_amount(self):
@@ -648,6 +656,7 @@ class Address(LoggedClass):
 
     def confidentiality_print(self):
         """address confidentiality print"""
+        print self.confidentiality
         return CONFIDENTIALITY_LEVELS[self.confidentiality][1]
 
     def __unicode__(self):
