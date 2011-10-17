@@ -16,8 +16,8 @@
 
 {% block actions %}{% endblock %}
 
-<h2>{% trans "Navigation" %}</h2>
 <div class="grey-box">
+<h2>{% trans "Navigation" %}</h2>
 <ul>
 <li><a href="{% url ain7.manage.views.users_search %}">{% trans "Users" %}</a></li>
 {% if superadmin or secretariat_member %}

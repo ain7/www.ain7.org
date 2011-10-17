@@ -6,7 +6,6 @@
 {% block content %}
 
 
-
 <div class="span-17 colborder">
 {% block content-left %}{% endblock %}
 </div>
@@ -16,23 +15,23 @@
 
     {% if group %}
     <div class="grey-box">    
-    <h2>{% trans "Actions" %}</h2>
-        <ul>
-            <li><a href="{% url ain7.groups.views.index %}">{% trans "Groups" %}</a></li>
-            <li><a href="{% url ain7.groups.views.details group.slug %}">{{ group.name }}</a></li>
-            <li>
-            {% if not is_member %}
-                <a href="{% url ain7.groups.views.join group.slug %}">{% trans "Join the group" %}</a>
-            {% else %}
-                <a href="{% url ain7.groups.views.quit group.slug %}">{% trans "Leave the group" %}</a>
-            {% endif %}
-            </li>
-            <li><a href="{% url ain7.groups.views.members group.slug %}">{% trans "Members" %}</a></li>
-            {% if superadmin or ca_member or secretariat_member %}
-            <li><a href="{% url ain7.groups.views.edit group.slug %}">{% trans "Modify" %}</a></li>
-            <li><a href="{% url ain7.groups.views.edit %}">{% trans "Register new group" %}</a></li>
-            {% endif %}
-        </ul>
+	<h2>{% trans "Actions" %}</h2>
+	<ul>
+	    <li><a href="{% url ain7.groups.views.index %}">{% trans "Groups" %}</a></li>
+	    <li><a href="{% url ain7.groups.views.details group.slug %}">{{ group.name }}</a></li>
+	    <li>
+	    {% if not is_member %}
+		<a href="{% url ain7.groups.views.join group.slug %}">{% trans "Join the group" %}</a>
+	    {% else %}
+		<a href="{% url ain7.groups.views.quit group.slug %}">{% trans "Leave the group" %}</a>
+	    {% endif %}
+	    </li>
+	    <li><a href="{% url ain7.groups.views.members group.slug %}">{% trans "Members" %}</a></li>
+	    {% if superadmin or ca_member or secretariat_member %}
+	    <li><a href="{% url ain7.groups.views.edit group.slug %}">{% trans "Modify" %}</a></li>
+	    <li><a href="{% url ain7.groups.views.edit %}">{% trans "Register new group" %}</a></li>
+	    {% endif %}
+	</ul>
     </div>
 
     {% if group.active_events %}
@@ -46,24 +45,28 @@
                 {% if event.body %}
                     <p><em>{{ event.body|safe|truncatewords:10 }}</em></p>
                 {% endif %}
-            </div>
         {% endfor %}
-    {% endif %} {# group.active_events #}
+     </div>
+    {% endif %}
+
+    {# group.active_events #}
+
 
     {% block extra-menu %}{% endblock %}
 
     <div class="grey-box">    
-    <h2>{% trans "Card Informations"%}</h2>
-    {%  show_last_change group %}
-    {% endif %} {# group #}
+	    <h2>{% trans "Card Informations"%}</h2>
+	    {%  show_last_change group %}
     </div>
+
+    {% endif %} {# group #}
+
 
     {% if groups %}
     <div class="grey-box">    
     <h2>{% trans "Statistics" %}</h2>
-
         <ul>
-            <li>{{ groups|length }} {% trans "groups" %}</li>
+            <li>{{ groups|length }} {% trans "groups" %}s</li>
         </ul>
     </div>
 

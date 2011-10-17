@@ -52,15 +52,21 @@
 <div class="sizer">
     <div class="top-left">
 
-	{% if user.is_authenticated %}
-	    <form method="post" action="{% url ain7.pages.views.logout %}">
-	    
-	    		<p><a href="{% url ain7.annuaire.views.details user.id %}">{{ user.person.first_name }} {{ user.person.last_name }}</a>&nbsp;<input class="button" type="submit" value="{% trans "Log out" %}" /></p>
 
-	    </form>
+	<a href="{% url ain7.pages.views.homepage %}">{% trans "Home" %}</a>&nbsp;|
+
+	{% if user.is_authenticated %}
+	    		<a href="{% url ain7.annuaire.views.details user.id %}">{{ user.person.first_name }} {{ user.person.last_name }}</a>
+	{% if superadmin or ca_member or secretariat_member %}
+	    &nbsp;| <a href="{% url ain7.manage.views.index %}" accesskey="n">{% trans "Management" %}</a>
+	{% endif %}
+
+&nbsp;| <a href="{% url ain7.pages.views.logout %}">{% trans "Log out" %}<a/>
+
 	{% else %}
 	    {% trans "You are not logged-in" %} - <a href="/accounts/login/?next={{ request.path }}">{% trans "Log-in" %}</a>
 	{% endif %}    
+
 
     </div>
 
@@ -79,12 +85,12 @@
     <div class="span-24 top-menu last append-1">
         <div class="link-bar">&nbsp;</div><a href="{% url ain7.pages.views.homepage %}"><img src="{{ MEDIA_URL }}images/logo_ain7.png" height="40" alt="AIn7 logo" /></a>
         <div class="link-bar lb-red">&nbsp;</div><a href="{% url ain7.annuaire.views.search %}" accesskey="a">{% trans "Directory" %}</a>
-        <div class="link-bar lb-green">&nbsp;</div><a href="{% url ain7.groups.views.index %}" accesskey="p">{% trans "Groups" %}</a>
         <div class="link-bar lb-orange">&nbsp;</div><a href="{% url ain7.news.views.index %}" accesskey="c">{% trans "News" %}</a>
         <div class="link-bar lb-grey">&nbsp;</div><a href="{% url ain7.news.views.event_index %}" accesskey="e">{% trans "Events" %}</a>
         <div class="link-bar lb-purple">&nbsp;</div><a href="{% url ain7.emploi.views.index %}" accesskey="s">{% trans "Job service" %}</a>
+        <div class="link-bar lb-green">&nbsp;</div><a href="{% url ain7.groups.views.index %}" accesskey="p">{% trans "Groups" %}</a>
         <div class="link-bar lb-yellow">&nbsp;</div><a href="{% url ain7.association.views.index %}">{% trans "Association" %}</a>
-        <div class="link-bar lb-black">&nbsp;</div><a href="{% url ain7.manage.views.index %}">{% trans "Management" %}</a>
+        <div class="link-bar lb-black">&nbsp;</div><a href="{% url ain7.voyages.views.index %}" accesskey="v">{% trans "Travels" %}</a>
         
     </div>
 
@@ -142,10 +148,7 @@
 {% block barre-galerie %}<li>{% endblock %}
     <a href="{% url ain7.pages.views.galerie %}" accesskey="l">{% trans "Gallery" %}</a></li>
 
-{% if superadmin or ca_member or secretariat_member %}
-{% block barre-manage %}<li>{% endblock %}
-    <a href="{% url ain7.manage.views.index %}" accesskey="n">{% trans "Management" %}</a></li>
-{% endif %}
+
 
 </ul>
 
@@ -175,9 +178,7 @@
 	<div class="span-4">
 	 <span>Service Emploi</span>
 	  <ul>
-	      <li><a href="">Offres</a></li>
-	      <li><a href="">Conseils</a></li>
-	      <li><a href="">Liens</a></li>
+	      <li><a href="{% url ain7.emploi.views.index %}">Offres</a></li>
 	  </ul>
 	</div>
 
@@ -201,9 +202,9 @@
 	<div class="span-5">
 	 L'Association
 	  <ul>
-	      <li><a href="">Présentation</a></li>
-	      <li><a href="">Conseil d'administration</a></li>
-	      <li><a href="">Contact</a></li>
+	      <li><a href="{% url ain7.association.views.index %}">Présentation</a></li>
+	      <li><a href="{% url ain7.association.views.council %}">Conseil d'administration</a></li>
+	      <li><a href="{% url ain7.association.views.contact %}">Contact</a></li>
 	  </ul>
 	</div>
 </div>

@@ -71,6 +71,7 @@ def homepage(request):
             person__birth_date__month=today.month,
             person__personprivate__death_date=None) ]
         birthdays.sort(lambda x, y: cmp(x.person.last_name, y.person.last_name))
+
     return render(request, 'pages/homepage.html', 
         {'news': news , 'events': events, 'surveys': surveys, 'settings': settings,
          'birthdays': birthdays, 'text1': text1, 'jobOffers' : jobOffers, 'is_subscriber': is_subscriber})

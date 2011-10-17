@@ -45,7 +45,6 @@
 	    </div>
 	</div>
 
-
 	<hr />
 
 	<h2>
@@ -72,6 +71,8 @@
 	<br />
 	<br />
 	</div>
+	{% else %}
+		{% trans "Your are a subscriber of the Association" %}.<br /><br />
 	{% endif %}
     
 	<div class="grey-box clearfix">
@@ -91,18 +92,21 @@
 	<a href="{{ settings.VIADEO_AIN7 }}" target="_blank"><img class="social-thumb" src="{{ MEDIA_URL }}/images/viadeo-icon.png" alt="Viadeo"/><br/>Viadeo</a>
 	</div>
 	</div>
- <a href="/web">Plus d'informations</a>
+	<br />
+<br />
+ <a href="/web">{% trans "More information" %}</a>
 	</div>
 
 
 	{% if jobOffers  %}
 	<div class="grey-box">
 		<h2>{% trans "Last job offers" %}</h2>
-		{% for job in jobOffers %}
+		<ul>{% for job in jobOffers %}
 		<li><a href="{% url ain7.emploi.views.job_details job.id %}">{{ job.title }}</a></li>
 		{% endfor %}
+		</ul>
 	<br />
-	<center><a href="emploi">Toutes les offres</a></center>
+	<center><a href="emploi">{% trans "All the offers" %}</a></center>
 
 	</div>
 	{% endif %}
@@ -143,8 +147,8 @@
 	<h2>{% trans "Links" %}</h2>
 		<ul>
 		<li><a href="http://www.bde.enseeiht.fr">Bureau Des Élèves</a></li>
-		<li><a href="http://www.cnisf.org">CNISF</a></li>
 		<li><a href="http://www.enseeiht.fr">ENSEEIHT</a></li>
+		<li><a href="http://www.cnisf.org">Ing&eacute;nieurs et Scientiques de France</a></li>
 		<li><a href="http://www.inp-toulouse.fr">INP Toulouse</a></li>
 		<li><a href="http://www.g9plus.org/">Institut G9+</a></li>
 		</ul>
