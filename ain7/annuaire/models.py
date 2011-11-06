@@ -305,12 +305,22 @@ class Person(LoggedClass):
 
         addr_perm = AddressType.objects.get(id=7)
         addr_inconnue = AddressType.objects.get(id=1)
+        addr_parents = AddressType.objects.get(id=4)
 
         try:
-             #addr = Address.objects.filter(person=self, type=addr_perm)[0]
              addr = Address.objects.filter(person=self)[0]
+             if Address.objects.filter(person=self).count() > 1:
+                if Address.objects.filter(person=self, type=addr_per):
+                   addr = Address.objects.filter(person=self, type=addr_perm)[0]
+                else:
+                   if Address.objects.filter(person=self, type=addr_inconnue):
+                       addr = Address.objects.filter(person=self, type=addr_inconnue)[0]
+                   else:
+                      if Address.objects.filter(person=self, type=addr_parents):
+                          addr = Address.objects.filter(person=self, type=addr_parents)[0]
+
              if not key:
-                 addr_struct = { 'line1': addr.line1, 'line2': addr.line2, 'zip_code': addr.zip_code, 'city': addr.city, 'country': addr.country.name}
+                 addr_struct = { 'line1': addr.line1, 'line2': addr.line2, 'zip_code': addr.zip_code, 'city': addr.city, 'country': addr.country.name, 'type': addr.type}
                  return addr_struct
              else:
                  return addr_struct[key]
