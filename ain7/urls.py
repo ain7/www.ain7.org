@@ -129,6 +129,7 @@ urlpatterns = patterns('',
     (r'^linkedin/$', 'ain7.pages.views.linkedin'),
     (r'^twitter/$', 'ain7.pages.views.twitter'),
     (r'^viadeo/$', 'ain7.pages.views.viadeo'),
+    (r'^g\+/$', 'ain7.pages.views.gplus'),
 
 
 )
