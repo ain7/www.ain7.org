@@ -532,10 +532,11 @@ class AIn7Member(LoggedClass):
             sub = Subscription.objects.filter(member=self).\
                filter(validated=True).reverse()[0]
 
-            today = datetime.datetime.today()
-            delta = today - sub.date
+            if sub.date:
 
-            result = delta.days < 365
+                today = datetime.datetime.today()
+                delta = today - sub.date
+                result = delta.days < 365
 
         return result
 
