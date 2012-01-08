@@ -80,9 +80,8 @@ def details(request, user_id):
 
     if AIn7Member.objects.filter(person=person).count() > 0:
         ain7member = get_object_or_404(AIn7Member, person=person)
-        is_subscriber = Subscription.objects.filter(member=ain7member).\
-            filter(validated=True).exclude(start_year__gt=datetime.date.\
-            today().year).exclude(end_year__lt=datetime.date.today().year)
+
+        is_subscriber = ain7member.is_subscriber()
 
     if UserActivity.objects.filter(person=person):
         last_activity = UserActivity.objects.filter(person=person).latest('id')

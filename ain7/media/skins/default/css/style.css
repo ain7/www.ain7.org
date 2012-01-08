@@ -14,13 +14,14 @@ body {
 }
 
 a {
-    color: #E0691A;
+    color: #00279E;
     background: inherit;
+    text-decoration: none;
 }
 
 a:hover {
-    color: #6C757A;
     background: inherit;
+    text-decoration: underline;
 }
 
 hr {background:#c0c0c0;color:#ddd;clear:both;float:none;width:100%;height:.1em;margin:0 0 1.45em;border:none;}
@@ -48,7 +49,7 @@ h1 a, h2 a {
 }
 
 h1 a:hover, h2 a:hover {
-    color: #FF6600;
+    color: inherit;
     background: inherit;
 }
 
@@ -86,7 +87,7 @@ img {
 
 .button {
     padding: 2px;
-    background-color: #FF9148;
+    background-color: #345ACF;
     color: #FFFFFF;
     border: 1px solid #737373;
     font: bold 1em Arial, Sans-Serif;
@@ -94,7 +95,7 @@ img {
 
 a.button, a.button:hover {
     text-decoration: none;
-    background-color: #FF9148;
+    background-color: #345ACF;
     color: #FFFFFF;
     cursor: default;
     padding: 3px;
@@ -176,7 +177,7 @@ input[type=text] {
     clear: both;
     width: 950px;
     font-size: 11px;
-    background: #FF9148;
+    background: #00279E;
     list-style: none;
     text-align: center;
     line-height: 22px;
@@ -200,11 +201,11 @@ input[type=text] {
 }
 
 .bar ul.ligne1 li.active {
-    background: #E0691A url(../images/bar.gif) no-repeat center top;
+    background: #345ACF url(../images/bar.gif) no-repeat center top;
 }
 
 .bar ul.ligne2 li.active {
-    background: #E0691A url(../images/bar-up.gif) no-repeat center bottom;
+    background: #345ACF url(../images/bar-up.gif) no-repeat center bottom;
 }
 
 .bar ul.ligne3 li.active {
@@ -212,12 +213,12 @@ input[type=text] {
 }
 
 .bar li.active a {
-    background: #E0691A;
+    background: #345ACF;
 }
 
 .bar li.active a:hover {
-    background: #E0691A;
-    color: #FF9148;
+    background: #345ACF;;
+    color: #d0d0d0;
 }
 
 .bar li a {
@@ -229,7 +230,7 @@ input[type=text] {
 }
 
 .bar li a:hover {
-    color: #E0691A;
+    color: #D0D0D0;;
     background: inherit;
 }
 

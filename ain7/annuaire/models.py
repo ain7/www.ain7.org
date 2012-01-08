@@ -526,9 +526,17 @@ class AIn7Member(LoggedClass):
             year = datetime.date.today().year
 
         result = False
-        result = Subscription.objects.filter(member=self).\
-            filter(validated=True).exclude(start_year__gt=year).\
-            exclude(end_year__lt=year)
+
+        if Subscription.objects.filter(member=self).\
+            filter(validated=True).count() > 0:
+            sub = Subscription.objects.filter(member=self).\
+               filter(validated=True).reverse()[0]
+
+            today = datetime.datetime.today()
+            delta = today - sub.date
+
+            result = delta.days < 365
+
         return result
 
     def last_subscription_amount(self):

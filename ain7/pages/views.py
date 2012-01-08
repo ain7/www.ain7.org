@@ -31,7 +31,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
-from ain7.annuaire.models import AIn7Member, Email
+from ain7.annuaire.models import AIn7Member, Email, Person
 from ain7.news.models import NewsItem
 from ain7.pages.forms import LostPasswordForm, TextForm, ChangePasswordForm
 from ain7.pages.models import Text, LostPassword
@@ -41,6 +41,7 @@ from ain7.utils import ain7_render_to_response, check_access
 
 def homepage(request):
     """AIn7 homepage"""
+    is_subscriber = False
     news = NewsItem.objects.filter(date__isnull=True).order_by('-creation_date')[:5]
     events = NewsItem.objects.filter(date__gte=datetime.datetime.now()).order_by('date')[:5]
     is_auth = request.user.is_authenticated()
@@ -50,6 +51,8 @@ def homepage(request):
     birthdays = []
     text1 = Text.objects.get(textblock__shortname='edito')
     text2 = Text.objects.get(textblock__shortname='enseeiht')
+    
+
     if is_auth:
         birthdays = [ m for m in AIn7Member.objects.filter(
             person__birth_date__isnull=False,
@@ -57,9 +60,15 @@ def homepage(request):
             person__birth_date__month=today.month,
             person__personprivate__death_date=None) ]
         birthdays.sort(lambda x, y: cmp(x.person.last_name, y.person.last_name))
+
+        person = Person.objects.get(user=request.user.id)
+        if AIn7Member.objects.filter(person=person).count() > 0:
+            ain7member = get_object_or_404(AIn7Member, person=person)
+            is_subscriber = ain7member.is_subscriber()
+
     return ain7_render_to_response(request, 'pages/homepage.html', 
         {'news': news , 'events': events, 'surveys': surveys, 'settings': settings,
-         'birthdays': birthdays, 'text1': text1, 'text2': text2})
+         'birthdays': birthdays, 'text1': text1, 'text2': text2, 'is_subscriber': is_subscriber})
 
 def lostpassword(request):
     """lostpassword page"""

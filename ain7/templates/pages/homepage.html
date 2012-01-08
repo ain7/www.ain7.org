@@ -71,9 +71,12 @@
 </div>
 <div class="right" style="width: 32%">
 
+{% if not is_subscriber %}
 <div class="right_articles" style="text-align: center">
 <a href="{% url ain7.adhesions.views.index %}"><img src="{{ MEDIA_URL }}/images/adherer.png" alt="Adhérer"/></a>
 </div>
+
+{% endif %}
 
 <h3>{% trans "AIn7 communities on the web" %}</h3>
 <div class="right_articles">
