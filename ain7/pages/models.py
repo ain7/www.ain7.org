@@ -76,7 +76,7 @@ class LostPassword(models.Model):
 
     def is_expired(self):
         """
-            Return True is lostpassword is expired (ie have more than 4 hour)
+            Return True is lostpassword is expired (ie have more than 24 hour)
         """
         return (datetime.datetime.now() - self.created) > \
             datetime.timedelta(hours=24)

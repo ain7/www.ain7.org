@@ -32,7 +32,6 @@ from ain7.utils import LoggedClass
 class GroupAccess(LoggedClass):
     """Stock group access level"""
 
-    level = models.IntegerField()
     name = models.CharField(max_length=20)
     description = models.CharField(max_length=200, blank=True, null=True)
 
@@ -44,6 +43,8 @@ class GroupType(LoggedClass):
 
     name = models.CharField(max_length=20, unique=True)
     description = models.CharField(max_length=200, blank=True, null=True)
+    access = models.ForeignKey('groups.GroupAccess', null=True, blank=True)
+    group_name_prefix = models.CharField(max_length=20, null=True, blank=True)
 
     def __unicode__(self):
         return self.name
@@ -63,6 +64,9 @@ class Member(LoggedClass):
         null=True)
     expiration_date = models.DateField(verbose_name=_('expiration date'), blank=True,
         null=True)
+
+    def __unicode__(self):
+        return self.member.complete_name
 
 class GroupManager(models.Manager):
 
@@ -84,6 +88,10 @@ class GroupHead(models.Model):
 
     group = models.OneToOneField('groups.Group', verbose_name=_('group'))
     name = models.CharField(verbose_name=_('name'), max_length=100)
+    access = models.ForeignKey('groups.GroupAccess', null=True, blank=True)
+
+    def __unicode__(self):
+        return self.name+' '+self.group.name
 
 class GroupLeader(models.Model):
 
@@ -107,6 +115,10 @@ class GroupLeader(models.Model):
             return self.title
         else:
             return self.role.name 
+
+    def get_by_category(self, category):
+        return self.objects.filter(grouphead__group__type=category)
+
 
 class Group(LoggedClass):
     """Regional Group"""
@@ -167,10 +179,11 @@ class Group(LoggedClass):
     def has_for_board_member(self, person):
         """check board member for a regional group"""
         has_role = False
-        for role in self.grouphead.groupleader_set.filter(person=person)\
-            .filter(start_date__lte=datetime.datetime.now()):
-            if not role.end_date or role.end_date > datetime.datetime.now():
-                has_role = True
+        if self.grouphead:
+            for role in self.grouphead.groupleader_set.filter(person=person)\
+               .filter(start_date__lte=datetime.datetime.now()):
+                if not role.end_date or role.end_date > datetime.datetime.now():
+                    has_role = True
         return has_role
 
     def board_members(self):

@@ -849,7 +849,7 @@ def subscriptions_stats(request):
                 'students': { 
                     'number': students_number,
                     'price': 0,
-                    'amount': int(students_amount)
+                    'amount': int(max(students_amount,0))
                     },
                 'other': { 
                     'number': other_number, 

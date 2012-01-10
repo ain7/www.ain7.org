@@ -37,6 +37,8 @@ from ain7.annuaire.models import AIn7Member, Promo, Track, PromoYear, Person,\
                                  Address, InstantMessaging, IRC, WebSite,\
                                  ClubMembership
 
+from ain7.groups.models import GroupLeader
+
 
 DATE_WIDGET = DateTimeWidget()
 DATE_WIDGET.dformat = '%d/%m/%Y'
@@ -442,7 +444,8 @@ class ClubMembershipForm(forms.ModelForm):
 
     class Meta:
         """club membership form meta"""
-        model = ClubMembership
+        model = GroupLeader
+        fields = ('grouphead', 'start_date', 'end_date', 'title')
 
 class ChangePasswordForm(forms.Form):
     """ Change password and/or login"""

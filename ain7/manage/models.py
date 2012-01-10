@@ -200,9 +200,8 @@ class Mailing(models.Model):
                 mailingrecipient = MailingRecipient()
                 mailingrecipient.person = recipient
                 mailingrecipient.mailing = self
-                mailingrecipient.testing = True
-                if not testing:
-                    mailingrecipient.testing = False
+                mailingrecipient.testing = testing
+                mailingrecipient.key = User.objects.make_random_password(50)
                 mailingrecipient.save()
 
             except Exception:
@@ -235,4 +234,15 @@ class MailingRecipient(models.Model):
     person = models.ForeignKey('annuaire.Person')
     mailing = models.ForeignKey('manage.mailing')
     testing = models.BooleanField(default=False)
+    key = models.CharField(max_length=50, unique=True)
+    accessed = models.BooleanField(default=False)
+
+
+class MailingLink(models.Model):
+
+    person = models.ForeignKey('annuaire.Person')
+    mailing = models.ForeignKey('manage.mailing')
+    key = models.CharField(max_length=50, unique=True)
+    link = models.CharField(max_length=200)
+    accessed = models.BooleanField(default=False)
 

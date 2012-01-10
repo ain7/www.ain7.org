@@ -521,7 +521,7 @@ def ical(request):
             evt.add('dtstart').value = event.date
         #ev.add('dtend').value = event.end
         if event.body:
-            evt.add('body').value = event.body
+            evt.add('description').value = event.body
         if event.status:
             evt.add('status').value = event.get_status_display()
         evt.add('dtstamp').value = event.last_change_at

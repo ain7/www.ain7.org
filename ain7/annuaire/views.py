@@ -47,6 +47,7 @@ from ain7.annuaire.forms import SearchPersonForm, ChangePasswordForm, \
                                 InstantMessagingForm, IRCForm, WebSiteForm, \
                                 ClubMembershipForm, NewMemberForm
 from ain7.adhesions.forms import Subscription
+from ain7.groups.models import GroupLeader
 from ain7.decorators import confirmation_required
 from ain7.search_engine.models import SearchEngine, SearchFilter
 from ain7.search_engine.forms import SearchFilterForm
@@ -1048,7 +1049,9 @@ def club_membership_edit(request, user_id=None, club_membership_id=None):
     form = ClubMembershipForm()
  
     if club_membership_id:
-        club_membership = get_object_or_404(ClubMembership,
+        #club_membership = get_object_or_404(ClubMembership,
+        #    pk=club_membership_id)
+        club_membership = get_object_or_404(GroupLeader,
             pk=club_membership_id)
         form = ClubMembershipForm(instance=club_membership)
 

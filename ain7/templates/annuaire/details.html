@@ -157,6 +157,23 @@
 <h2>{% trans "N7 associative activities" %}</h2>
 
 <ul>
+
+{% for club_membership in ain7member.person.council_roles.all %}
+    <li>
+    {% if club_membership.grouphead.group.web_site %}
+        <a href="{{ club_membership.grouphead.group.web_site }}">{{ club_membership.grouphead.group.name }}</a>
+    {% else %}
+        {{ club_membership.grouphead.group.name }}
+    {% endif %}
+    {% if club_membership.title %}
+       : {{ club_membership.title }}
+    {% endif %}
+    {% if club_membership.start_date and club_membership.end_date %}
+    (<i>{{ club_membership.start_date|date:"Y" }} - {{ club_membership.end_date|date:"Y" }}</i>)
+    {% endif %}
+    </li>
+{% endfor %}
+
 {% for club_membership in ain7member.club_memberships.all %}
     <li>
     {% if club_membership.club.web_site %}
