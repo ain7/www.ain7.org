@@ -37,7 +37,7 @@ from ain7.annuaire.models import AIn7Member, Promo, Track, PromoYear, Person,\
                                  Address, InstantMessaging, IRC, WebSite,\
                                  ClubMembership
 
-from ain7.groups.models import GroupLeader
+from ain7.groups.models import GroupHead, GroupLeader
 
 
 DATE_WIDGET = DateTimeWidget()
@@ -441,6 +441,15 @@ class WebSiteForm(forms.ModelForm):
 
 class ClubMembershipForm(forms.ModelForm):
     "club membership form"""
+
+    def __init__(self, *args, **kwargs):
+        super(ClubMembershipForm, self).__init__(*args, **kwargs)
+        clubs = []
+        i = 0
+        for club in GroupHead.objects.filter(group__type=7):
+            clubs.append((club.id, club.group))
+            i = i + 1
+        self.fields['grouphead'].choices = clubs
 
     class Meta:
         """club membership form meta"""
