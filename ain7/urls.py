@@ -25,7 +25,7 @@ import os.path
 from django.conf.urls.defaults import *
 from django.conf import settings
 
-from ain7.feeds import MainFeed, LatestsEvents, LatestsNews
+from ain7.feeds import LatestsEvents, LatestsNews
 from ain7.sitemaps import EventsSitemap, TextsSitemap, NewsSitemap, GroupesProSitemap
 from ain7.sitemaps import GroupesRegionauxSitemap, TravelsSitemap
 
@@ -116,7 +116,7 @@ urlpatterns = patterns('',
 
     # flux RSS
     #(r'^rss/$', 'ain7.pages.views.rss'),
-    (r'^rss/$', MainFeed()),
+    #(r'^rss/$', MainFeed()),
     (r'^ical/$', 'ain7.news.views.ical'),
     (r'^rss/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
 
