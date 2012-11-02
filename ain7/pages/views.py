@@ -30,35 +30,51 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
-from ain7.annuaire.models import AIn7Member, Email
+from ain7.annuaire.models import AIn7Member, Email, Person
 from ain7.news.models import NewsItem
 from ain7.pages.forms import LostPasswordForm, TextForm, ChangePasswordForm
 from ain7.pages.models import Text, LostPassword
 from ain7.sondages.models import Survey
 from ain7.decorators import access_required
-
+from ain7.emploi.models import JobOffer
+from ain7.adhesions.forms import Subscription
 
 def homepage(request):
     """AIn7 homepage"""
+
+    is_subscriber = False
+    ain7member = None
+
     news = NewsItem.objects.filter(date__isnull=True).order_by('-creation_date')[:5]
     events = NewsItem.objects.filter(date__gte=datetime.datetime.now()).order_by('date')[:5]
+    
     is_auth = request.user.is_authenticated()
+
     surveys = [(s, (is_auth and s.has_been_voted_by(request.user.person)))\
                for s in Survey.objects.all() if s.is_valid()][:2]
     today = datetime.datetime.today()
     birthdays = []
     text1 = Text.objects.get(textblock__shortname='edito')
-    text2 = Text.objects.get(textblock__shortname='enseeiht')
+    jobOffers = JobOffer.objects.filter(checked_by_secretariat=True, \
+        obsolete=False).order_by('-id')[:5]
+
     if is_auth:
+
+        person = Person.objects.get(user=request.user.id)
+        if AIn7Member.objects.filter(person=person).count() > 0:
+            ain7member = get_object_or_404(AIn7Member, person=person)
+            is_subscriber = ain7member.is_subscriber()
+
         birthdays = [ m for m in AIn7Member.objects.filter(
             person__birth_date__isnull=False,
             person__birth_date__day=today.day,
             person__birth_date__month=today.month,
             person__personprivate__death_date=None) ]
         birthdays.sort(lambda x, y: cmp(x.person.last_name, y.person.last_name))
+
     return render(request, 'pages/homepage.html', 
         {'news': news , 'events': events, 'surveys': surveys, 'settings': settings,
-         'birthdays': birthdays, 'text1': text1, 'text2': text2})
+         'birthdays': birthdays, 'text1': text1, 'jobOffers' : jobOffers, 'is_subscriber': is_subscriber})
 
 def lostpassword(request):
     """lostpassword page"""

@@ -661,7 +661,11 @@ class Address(LoggedClass):
 
     def __unicode__(self):
         """address unicode"""
-        addr  = self.line1 + " " + self.line2 + " - "
+        addr = self.line1
+        if self.line2:
+            addr += self.line2 + " - "
+        else:
+            addr += " - "
         addr += self.zip_code + " " + self.city + " - "
         addr += self.country.name
         return addr

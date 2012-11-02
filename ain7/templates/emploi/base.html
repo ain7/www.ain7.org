@@ -10,6 +10,19 @@
 <div class="span-17 colborder">
 
 
+	<h2>
+	{{ text1.title }}
+	{% if superadmin or ca_member or secretariat_member or contributeur %}
+	&nbsp;<a href="{% url ain7.pages.views.edit text1.id %}" class="changelink"></a>
+	{% endif %}
+	</h2>
+
+	{{ text1.body|safe }}
+	{% if superadmin or ca_member or secretariat_member or contributeur %}
+	<p><a href="{% url ain7.pages.views.edit text1.id %}">{% trans "Edit" %}</a></p>
+	{% endif %}
+
+
 {% block content-left %}{% endblock %}
 </div>
 
@@ -74,6 +87,5 @@
 {% block statistics %}{% endblock %}
 
 
-</div>
 
 {% endblock %}

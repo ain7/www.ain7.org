@@ -13,26 +13,21 @@
 
  <h2><a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a></h2>
 
-  {% if event.image %}
-
-  <img src="{{ event.image.url }}" alt="{{ event.title }}" title="{{ event.title }}" class="image-article" />
-  {% endif %}
   <ul>
-      <li>{% trans "Date" %}: <b>{{ event.date|date:"d/m/Y H:i" }}</b></li>
+      <li><strong>{% trans "Date" %}&nbsp;: {{ event.date|date:"l j F H:i" }}</strong></li>
       <li>{% trans "Location" %}: <b>{{ event.location }}</b></li>
   </ul>
 
   <div class="news-description">
+
+  {% if event.image %}
+  <img src="{{ event.image.url }}" alt="{{ event.title }}" title="{{ event.title }}" class="image-article" />
+  {% endif %}
+
     {{ event.body|safe }}
   </div>
 
-
-    <br /><i><span class="grey">{% trans "Published on" %} {{ event.last_change_at|date:"l j F Y" }}</span></i>
-    {% if event.last_change_by %}{% trans "by" %}
-    <a href="{% url ain7.annuaire.views.details event.last_change_by.id %}">{{ event.last_change_by }}</a>
-    {% endif %}
-
-    <hr />
+  <hr />
 
 {% endfor %}
 

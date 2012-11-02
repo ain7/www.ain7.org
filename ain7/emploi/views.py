@@ -28,6 +28,7 @@ from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
+from ain7.pages.models import Text
 from ain7.annuaire.models import Person, AIn7Member
 from ain7.decorators import access_required, confirmation_required
 from ain7.emploi.models import JobOffer, Position, EducationItem, \
@@ -49,9 +50,10 @@ def index(request):
         ain7member = None
     liste_emplois = JobOffer.objects.filter(checked_by_secretariat=True, \
         obsolete=False).order_by('-id')[:20]
+    text1 = Text.objects.get(textblock__shortname='emploi')
     return render(request, 'emploi/index.html',
         {'ain7member': ain7member,
-         'liste_emplois': liste_emplois})
+         'liste_emplois': liste_emplois, 'text1': text1})
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def cv_details(request, user_id):

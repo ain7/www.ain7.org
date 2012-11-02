@@ -8,149 +8,193 @@
 
 <div class="span-17 colborder">
 
-    <h2>
-    {{ text1.title }}
-    {% if superadmin or ca_member or secretariat_member or contributeur %}
-    &nbsp;<a href="{% url ain7.pages.views.edit text1.id %}" class="changelink"></a>
-    {% endif %}
-    </h2>
 
-    {{ text1.body|safe }}
-    {% if superadmin or ca_member or secretariat_member or contributeur %}
-    <p><a href="{% url ain7.pages.views.edit text1.id %}">{% trans "Edit" %}</a></p>
-    {% endif %}
+	<div class="span-8 colborder">
+	    <h2><a href="{% url ain7.news.views.index %}" accesskey="c">{% trans "News" %}</a></h2>
+	    
+	    {% for news_item in news %}
 
-<hr />
-
-
-<div class="span-7 colborder">
-    <h2><a href="{% url ain7.news.views.index %}" accesskey="c">{% trans "News" %}</a></h2>
-    
-    {% for news_item in news %}
-
-          <div>
-            {% if news_item.image %}
-            <a href="{% url ain7.news.views.details news_item.slug %}"><img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" title="{{ news_item.title }}" class="image" width="60" /></a>
-            {% endif %}
-            <b><a href="{% url ain7.news.views.details news_item.slug %}">{{ news_item.title }}</a></b><br />{{ news_item.body|truncatewords_html:20|safe }}
-          </div>
-          <!-- in case the image has bigger height than text -->
-          <div style="clear: left;"></div>
-    
-    {% endfor %}
-    <div style="text-align: center">
-    	<br /><a href="{% url ain7.news.views.index %}">{% trans "All news" %}</a>
-    </div>
-</div>
+		  <div class="hp-item clear">
+		    {% if news_item.image %}
+		    <a href="{% url ain7.news.views.details news_item.slug %}"><img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" title="{{ news_item.title }}" class="image right prepend-05"/></a>
+		    {% endif %}
+		    <b><a href="{% url ain7.news.views.details news_item.slug %}">{{ news_item.title }}</a></b><br />{{ news_item.body|striptags|truncatewords_html:25|safe }} <a href="{% url ain7.news.views.details news_item.slug %}"><small>(suite)</small></a>
+		  </div>
+		  <!-- in case the image has bigger height than text -->
+	    
+	    {% endfor %}
+	    <div style="text-align: center">
+	    	<br /><a href="{% url ain7.news.views.index %}">{% trans "All news" %}</a>
+	    </div>
+	</div>
 
 
-<div class="span-7">
-    <h2><a href="{% url ain7.news.views.event_index %}" accesskey="e">{% trans "Events Forecast" %}</a></h2>
+	<div class="span-8 last">
+	    <h2><a href="{% url ain7.news.views.event_index %}" accesskey="e">{% trans "Events Forecast" %}</a></h2>
 
-    {% for event in events %}
+	    {% for event in events %}
 
-          <div>
-          <a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a><br /> {{ event.date|date:"l j F Y" }}
-          </div>
+		  <div class="hp-item">
+		  <b>{{ event.date|date:"l j F"|capfirst }}</b><br /><a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a><br />
+		  {{ event.body|striptags|truncatewords_html:25|safe }} <a href="{% url ain7.news.views.event_details event.id %}"><small>(suite)</small></a>
+		  </div>
 
-    {% endfor %}
-    <div style="text-align: center">
-    	<br /><a href="{% url ain7.news.views.event_index %}">{% trans "All events" %}</a>
-    </div>
-</div>
+	    {% endfor %}
+	    <div style="text-align: center">
+	    	<br /><a href="{% url ain7.news.views.event_index %}">{% trans "All events" %}</a>
+	    </div>
+	</div>
 
+	<hr />
 
-<hr />
+	<h2>
+	{{ text1.title }}
+	{% if superadmin or ca_member or secretariat_member or contributeur %}
+	&nbsp;<a href="{% url ain7.pages.views.edit text1.id %}" class="changelink"></a>
+	{% endif %}
+	</h2>
 
+	{{ text1.body|safe }}
+	{% if superadmin or ca_member or secretariat_member or contributeur %}
+	<p><a href="{% url ain7.pages.views.edit text1.id %}">{% trans "Edit" %}</a></p>
+	{% endif %}
 
-<h2>{{ text2.title }}</h2>
-{% if superadmin or ca_member or secretariat_member or contributeur %}
-&nbsp;<a href="{% url ain7.pages.views.edit text2.id %}" class="changelink"></a>
-{% endif %}
-
-
-
-{{ text2.body|safe }}
-{% if superadmin or ca_member or secretariat_member or contributeur %}
-<p><a href="{% url ain7.pages.views.edit text2.id %}">{% trans "Edit" %}</a></p>
-{% endif %}
 
 
 </div>
 
-    <div class="span-6 last">
+<div class="span-6 last">
+
+	{% if not is_subscriber %}    
+	<div style="text-align: center">
+	<a href="{% url ain7.adhesions.views.index %}"><img src="/site_media/images/adherer.png" alt="Adhérer"/></a>
+	<br />
+	<br />
+	</div>
+	{% else %}
+		{% trans "Your are a subscriber of the Association" %}.<br /><br />
+	{% endif %}
     
-<div style="text-align: center">
-<a href="{% url ain7.adhesions.views.index %}"><img src="/site_media/images/adherer.png" alt="Adhérer"/></a>
-</div>
-    
-    <div class="grey-box">
-    <h2>{% trans "Follow us..." %}</h2>
-    
-    <a href="{{ settings.LINKEDIN_AIN7 }}" target="_blank"><img class="social-thumb" src="{{ MEDIA_URL }}/images/linkedin-icon.png" alt="Linkedin"/> LinkedIn</a><br/>
-    <a href="{{ settings.FACEBOOK_AIN7 }}" target="_blank"><img class="social-thumb" src="{{ MEDIA_URL }}/images/FB-icon.jpg" alt="Facebook"/> Facebook</a><br/>
-    <a href="{{ settings.TWITTER_AIN7 }}" target="_blank"><img class="social-thumb" src="{{ MEDIA_URL }}/images/twitter-icon.png" alt="Twitter"/> Twitter</a><br/>
-    <a href="{{ settings.VIADEO_AIN7 }}" target="_blank"><img class="social-thumb" src="{{ MEDIA_URL }}/images/viadeo-icon.png" alt="Viadeo"/> Viadeo</a><br/>
+	<div class="grey-box clearfix">
+	<h2>{% trans "Follow the ENSEEIHT Alumni network" %}</h2>
 
-</div>
-
-
-
-
-<div class="grey-box">
-<h2>{% trans "Links" %}</h2>
-	<ul>
-        <li><a href="http://www.enseeiht.fr">ENSEEIHT</a></li>
-        <li><a href="http://www.bde.enseeiht.fr">Bureau Des Élèves</a></li>
-        <li><a href="http://www.inp-toulouse.fr">INP Toulouse</a></li>
-        <li><a href="http://www.cnisf.org">CNISF</a></li>
-        <li><a href="http://www.g9plus.org/">Le G9+</a></li>
-	</ul>
-</div>
+	<div class="snBox">
+	<div class="snItem">
+	<a href="{{ settings.LINKEDIN_AIN7 }}" target="_blank"><img class="social-thumb" src="{{ MEDIA_URL }}/images/linkedin-icon.png" alt="Linkedin"/><br /> LinkedIn</a>
+	</div>
+	<div class="snItem">
+	<a href="{{ settings.FACEBOOK_AIN7 }}" target="_blank"><img class="social-thumb" src="{{ MEDIA_URL }}/images/FB-icon.jpg" alt="Facebook"/><br /> Facebook</a>
+	</div>
+	<div class="snItem">
+	<a href="{{ settings.TWITTER_AIN7 }}" target="_blank"><img class="social-thumb" src="{{ MEDIA_URL }}/images/twitter-icon.png" alt="Twitter"/><br/>Twitter</a>
+	</div>
+	<div class="snItem">
+	<a href="{{ settings.VIADEO_AIN7 }}" target="_blank"><img class="social-thumb" src="{{ MEDIA_URL }}/images/viadeo-icon.png" alt="Viadeo"/><br/>Viadeo</a>
+	</div>
+	</div>
+	<br />
+<br />
+ <a href="/web">{% trans "More information" %}</a>
+	</div>
 
 
-
-{% if surveys %}
-    <div class="grey-box">
-    <h2>{% trans "Survey" %}</h2>
-    
-    {% for survey, has_already_voted in surveys %}
-    
-    	<p> {{ survey.question }} </p>
-    	{% if has_already_voted %}
-    	  {% include "sondages/results_include.html" %}
-                    {% else %}
-    	  {% include "sondages/vote_include.html" %}
-                    {% endif %}
-    	<div style="text-align: center">
-    		<a href="{% url ain7.sondages.views.view survey.id %}">{% trans "Results" %}</a>
-    	</div>
-    
-    {% endfor %}
-    <div style="text-align: center">
-        <a href="{% url ain7.sondages.views.index %}">{% trans "Surveys history" %}</a>
-
-    </div>
-{% endif %}
-
-
-
-
-{% if birthdays %}
-<div class="grey-box">
-{% if user.is_authenticated %}
-     <h2>{% trans "Happy birthday!" %}</h2>
-     
-     <ul>   
-     {% for member in birthdays %}
-         <li><a href="{% url ain7.annuaire.views.details member.person.pk %}">{{ member }}</a></li>
-     {% endfor %}
-     </ul>
-		
-{% endif %}
-{% endif %}
+	{% if jobOffers  %}
+	<div class="grey-box">
+		<h2>{% trans "Last job offers" %}</h2>
+		<ul>{% for job in jobOffers %}
+		<li><a href="{% url ain7.emploi.views.job_details job.id %}">{{ job.title }}</a></li>
+		{% endfor %}
+		</ul>
+	<br />
+	<center><a href="emploi">{% trans "All the offers" %}</a></center>
 
 	</div>
+	{% endif %}
+
+
+	<script src="http://widgets.twimg.com/j/2/widget.js"></script>
+	<script>
+	new TWTR.Widget({
+	  version: 2,
+	  type: 'profile',
+	  rpp: 20,
+	  interval: 30000,
+	  width: 230,
+	  height: 300,
+	  theme: {
+	    shell: {
+	      background: '#00289e',
+	      color: '#ffffff'
+	    },
+	    tweets: {
+	      background: '#ffffff',
+	      color: '#333333',
+	      links: '#00289e'
+	    }
+	  },
+	  features: {
+	    scrollbar: true,
+	    loop: false,
+	    live: false,
+	    behavior: 'all'
+	  }
+	}).render().setUser('enseeiht_alumni').start();
+	</script>
+
+<br /><br />
+
+	<div class="grey-box clear">
+	<h2>{% trans "Links" %}</h2>
+		<ul>
+		<li><a href="http://www.bde.enseeiht.fr">Bureau Des Élèves</a></li>
+		<li><a href="http://www.enseeiht.fr">ENSEEIHT</a></li>
+		<li><a href="http://www.cnisf.org">Ing&eacute;nieurs et Scientiques de France</a></li>
+		<li><a href="http://www.inp-toulouse.fr">INP Toulouse</a></li>
+		<li><a href="http://www.g9plus.org/">Institut G9+</a></li>
+		</ul>
+	</div>
+
+
+	{% if surveys %}
+	    <div class="grey-box">
+	    <h2>{% trans "Survey" %}</h2>
+	    
+	    {% for survey, has_already_voted in surveys %}
+	    
+	    	<p> {{ survey.question }} </p>
+	    	{% if has_already_voted %}
+	    	  {% include "sondages/results_include.html" %}
+		            {% else %}
+	    	  {% include "sondages/vote_include.html" %}
+		            {% endif %}
+	    	<div style="text-align: center">
+	    		<a href="{% url ain7.sondages.views.view survey.id %}">{% trans "Results" %}</a>
+	    	</div>
+	    
+	    {% endfor %}
+		    <div style="text-align: center">
+			<a href="{% url ain7.sondages.views.index %}">{% trans "Surveys history" %}</a>
+
+		    </div>
+	    </div>
+
+	{% endif %}
+
+	{% if birthdays %}
+	<div class="grey-box">
+	{% if user.is_authenticated %}
+	     <h2>{% trans "Happy birthday!" %}</h2>
+	     
+	     <ul>   
+	     {% for member in birthdays %}
+		 <li><a href="{% url ain7.annuaire.views.details member.person.pk %}">{{ member }}</a></li>
+	     {% endfor %}
+	     </ul>
+	</div>
+	{% endif %}
+	{% endif %}
+
+
 
 </div>
 
