@@ -27,17 +27,11 @@
 
 
 {% block actions %}
-<li><a href="{% url ain7.voyages.views.subscribe travel.id %}">
-    {% trans "Subscribe someone to this travel" %}</a></li>
+<li><a href="{% url ain7.voyages.views.subscribe travel.id %}">{% trans "Subscribe someone to this travel" %}</a></li>
 {% endblock %}
 
 
 {% block navigation %}
-  <h2>{% trans "Navigation" %}</h2>
-  <div class="grey-box">
-    <ul>
-      <li><a href="{% url ain7.voyages.views.details travel.id %}">
-          {% trans "Back to the page of this travel" %}</a></li>
-    </ul>
-  </div>
+  <li class="nav-header">{% trans "Navigation" %}</li>
+  <li><a href="{% url ain7.voyages.views.details travel.id %}">{% trans "Back to the page of this travel" %}</a></li>
 {% endblock %}

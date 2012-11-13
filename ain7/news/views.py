@@ -24,6 +24,7 @@
 import datetime
 import vobject
 
+from django.contrib import messages
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404, HttpResponse
@@ -71,8 +72,7 @@ def edit(request, news_slug=None):
         if form.is_valid():
             news_item = form.save()
             news_item.logged_save(request.user.person)
-            request.user.message_set.create(message=_('Modifications have been\
- successfully saved.'))
+            messages.success(request, _('Modifications have been successfully saved.'))
 
             return HttpResponseRedirect(reverse(details, 
                 args=[news_item.slug]))
@@ -93,8 +93,7 @@ def image_delete(request, news_slug):
     news_item.image = None
     news_item.logged_save(request.user.person)
 
-    request.user.message_set.create(message=
-        _('The image of this news item has been successfully deleted.'))
+    messages.success(request, _('The image of this news item has been successfully deleted.'))
     return HttpResponseRedirect('/actualites/%s/edit/' % news_slug)
 
 @confirmation_required(lambda news_slug=None, object_id=None: '', 
@@ -107,8 +106,7 @@ def delete(request, news_slug):
     news_item = get_object_or_404(NewsItem, slug=news_slug)
     news_item.delete()
 
-    request.user.message_set.create(message=
-        _('The news has been successfully deleted.'))
+    messages.success(request, _('The news has been successfully deleted.'))
     return HttpResponseRedirect('/actualites/')
 
 def search(request):
@@ -208,8 +206,7 @@ def event_edit(request, event_id=None):
         if form.is_valid():
             evt = form.save()
             evt.logged_save(request.user.person)
-            request.user.message_set.create(\
-                message=_('Event successfully saved'))
+            messages.success(request, _('Event successfully saved'))
 
             return HttpResponseRedirect(reverse(event_details, args=[evt.id]))
 
@@ -233,8 +230,7 @@ def event_image_delete(request, event_id):
     event.image = None
     event.logged_save(request.user.person)
 
-    request.user.message_set.create(message=
-        _('The image of this event has been successfully deleted.'))
+    messages.success(request, _('The image of this event has been successfully deleted.'))
     return HttpResponseRedirect(reverse(event_details, args=[event.id]))
 
 @access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'])
@@ -289,8 +285,7 @@ def event_rsvp(request, event_id, rsvp_id=None):
             if not rsvp.id:
                 rsvp.created_by = request.user.person
             rsvp.save()
-            request.user.message_set.create(\
-                message=_('RSVP successfully saved'))
+            messages.success(request, _('RSVP successfully saved'))
 
             if not myself:
                 return HttpResponseRedirect(\
@@ -429,12 +424,10 @@ def event_contact(request, event_id):
             send_mail(subject, message, sender, [event.contact_email],
                 fail_silently=False)
                 
-            request.user.message_set.create(message=_('Your message has been\
- sent to the event responsible.'))
+            messages.success(request, _('Your message has been sent to the event responsible.'))
             return HttpResponseRedirect(reverse(event_details, args=[event_id]))
         else:
-            request.user.message_set.create(message=_("Something was wrong in\
- the form you filled. No message sent."))
+            messages.error(request, _("Something was wrong in the form you filled. No message sent."))
             return render(request,
                 'evenements/contact.html',
                 {'event': event, 'form': form,
@@ -485,8 +478,7 @@ def event_organizer_add(request, event_id):
             evt_org = form.save(commit=False)
             evt_org.event = event
             evt_org.save()
-            request.user.message_set.create(message=_('Modifications have been\
- successfully saved.'))
+            messages.success(request, _('Modifications have been successfully saved.'))
 
         return HttpResponseRedirect(reverse(event_details, args=[event.id]))
 
@@ -511,8 +503,7 @@ def event_organizer_delete(request, event_id, organizer_id):
     eventorg = event.event_organizers.get(organizer=organizer)
     if eventorg:
         eventorg.delete()
-        request.user.message_set.create(
-            message=_('Organizer successfully removed'))
+        messages.success(request, _('Organizer successfully removed'))
     return HttpResponseRedirect(reverse(event_edit, args=[event_id]))
 
 @access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'])

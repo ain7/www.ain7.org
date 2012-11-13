@@ -27,6 +27,7 @@ from string import Template
 
 from django import forms
 from django.conf import settings
+from django.contrib import messages
 from django.db import models
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -109,7 +110,7 @@ def ain7_generic_delete(request, obj, redirectPage, msgDone):
     """ Méthode générique pour supprimer un objet."""
 
     obj.delete()
-    request.user.message_set.create(message=msgDone)
+    messages.success(request, msgDone)
     return HttpResponseRedirect(redirectPage)
  
 class LoggedClass(models.Model):

@@ -1,18 +1,9 @@
 {% extends "pages/base_pages.html" %}
 {% load i18n %}
 
-{% block javascript %}{% endblock %}
-{% block stylesheet %}{% endblock %}
-
 {% block content %}
 
-<div class="span-17 colborder">
-	
-
-
-{% if error %}
-     <p style="text-align: center; color: red;">{% trans "Your username and password didn't match. Please try again." %}</p>
-{% endif %}
+<div class="span12">
 
 <br /><br />
 <form method="post" action=".">
@@ -30,7 +21,7 @@
          <tr><td colspan="2" style="height: 10px"></td></tr>
          <tr>
              <td colspan="2" style="text-align: center">
-             <input type="submit" class="button" value="{% trans "Log-in" %}" />
+             <input type="submit" class="btn btn-primary" value="{% trans "Log-in" %}" />
              <input type="hidden" name="next" value="{{ next }}" />
              </td>
          </tr>

@@ -21,6 +21,7 @@
 #
 #
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
@@ -96,7 +97,7 @@ def position_edit(request, user_id=None, position_id=None):
             pos = form.save(commit=False)
             pos.ain7member = ain7member
             pos.save()
-            request.user.message_set.create(message=_('Modifications have been\
+            messages.success(request, _('Modifications have been\
  successfully saved.'))
 
         return HttpResponseRedirect(reverse(cv_edit, 
@@ -142,7 +143,7 @@ def education_edit(request, user_id=None, education_id=None):
             editem = form.save(commit=False)
             editem.ain7member = ain7member
             editem.save()
-            request.user.message_set.create(message=_('Modifications have been\
+            messages.success(request, _('Modifications have been\
  successfully saved.'))
 
         return HttpResponseRedirect(reverse(cv_edit, 
@@ -188,7 +189,7 @@ def leisure_edit(request, user_id=None, leisure_id=None):
             leitem = form.save(commit=False)
             leitem.ain7member = ain7member
             leitem.save()
-            request.user.message_set.create(message=_('Modifications have been\
+            messages.success(request, _('Modifications have been\
  successfully saved.'))
 
         return HttpResponseRedirect(reverse(cv_edit, args=[user_id])+'#leisure')
@@ -233,7 +234,7 @@ def publication_edit(request, user_id=None, publication_id=None):
             publication = form.save(commit=False)
             publication.ain7member = ain7member
             publication.save()
-            request.user.message_set.create(message=_('Modifications have been\
+            messages.success(request, _('Modifications have been\
  successfully saved.'))
 
         return HttpResponseRedirect(reverse(cv_edit, 
@@ -264,8 +265,8 @@ def job_details(request, emploi_id):
     job_offer = get_object_or_404(JobOffer, pk=emploi_id)
     role = check_access(request, request.user, ['ain7-secretariat'])
     if not job_offer.checked_by_secretariat and role:
-        request.user.message_set.create(
-            message=_('This job offer has to be checked by the secretariat.'))
+        messages.info(request, 
+            _('This job offer has to be checked by the secretariat.'))
         return HttpResponseRedirect('/emploi/')
 
     views = JobOfferView.objects.filter(job_offer=job_offer).count()
@@ -284,8 +285,8 @@ def job_edit(request, emploi_id):
     job = get_object_or_404(JobOffer, pk=emploi_id)
     role = check_access(request, request.user, ['ain7-secretariat'])
     if not job.checked_by_secretariat and role:
-        request.user.message_set.create(
-            message=_('This job offer has to be checked by the secretariat.'))
+        messages.info(request,
+            _('This job offer has to be checked by the secretariat.'))
         return HttpResponseRedirect('/emploi/')
     afid = None
     if job.activity_field:
@@ -302,8 +303,8 @@ def job_edit(request, emploi_id):
         form = JobOfferForm(request.POST)
         if form.is_valid():
             form.save(request.user, job_offer=job)
-            request.user.message_set.create(
-                message=_('Job offer successfully modified.'))
+            messages.success(request,
+                _('Job offer successfully modified.'))
             return HttpResponseRedirect(reverse(job_details, args=[job.id]))
 
     back = request.META.get('HTTP_REFERER', '/')
@@ -325,13 +326,13 @@ def job_register(request):
             if not 'ain7-secretariat' in user_groups and \
                not 'ain7-admin' in user_groups:
 
-                request.user.message_set.create(
-                    message=_('Job offer successfully created. It will now be\
+                messages.success(request, 
+                    _('Job offer successfully created. It will now be\
  checked by the secretariat.'))
             return HttpResponseRedirect('/emploi/')
         else:
-            request.user.message_set.create(
-                message=_('Something was wrong in the form you filled.\
+            messages.error(request,
+                _('Something was wrong in the form you filled.\
  No modification done.'))
             
     back = request.META.get('HTTP_REFERER', '/')
@@ -396,8 +397,7 @@ def job_validate(request, job_id=None):
     # validate
     job.checked_by_secretariat = True
     job.save()
-    request.user.message_set.create(
-        message=_("Job proposal validated."))
+    messages.success(request, _("Job proposal validated."))
     return HttpResponseRedirect('/emploi/job/proposals/')
 
 @confirmation_required(lambda job_id=None:
@@ -409,7 +409,6 @@ def job_delete(request, job_id=None):
 
     job = get_object_or_404(JobOffer, pk=job_id)
     job.delete()
-    request.user.message_set.create(
-        message=_("Job proposal removed."))
+    messages.success(request, _("Job proposal removed."))
     return HttpResponseRedirect('/emploi/job/proposals/')
 

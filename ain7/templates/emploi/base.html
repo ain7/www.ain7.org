@@ -7,7 +7,7 @@
 {% block content %}
 
 
-<div class="span-17 colborder">
+<div class="span9">
 
 
 	<h2>
@@ -27,65 +27,48 @@
 </div>
 
 
-<div class="span-6 last">
+<div class="span3">
+
+<div class="well">
+<ul class="nav nav-list">
 
 {% block actions %}{% endblock %}
 
 {% block menu-cv %}
 {% if ain7member %}
-<div class="grey-box">
-<h2>{% trans "Manage your CV" %}</h2>
-
-<ul>
+<li class="nav-header">{% trans "Manage your CV" %}</li>
 <li><a href="{% url ain7.emploi.views.cv_details user.id %}">{% trans "View your CV" %}</a></li>
 <li><a href="{% url ain7.emploi.views.cv_edit user.id %}">{% trans "Modify your CV" %}</a></li>
 <li><a href="{% url ain7.annuaire.views.ain7member_edit user.id %}">{% trans "Manage your CV visiblity" %}</a></li>
-</ul>
-</div>
 {% endif %}
 {% endblock %}
 
 
 {% block menu-offres %}
-<div class="grey-box">
-<h2>{% trans "Job Offers" %}</h2>
-<ul>
+<li class="nav-header">{% trans "Job Offers" %}</li>
 {% if superadmin or ca_member or secretariat_member %}
 <li><a href="{% url ain7.emploi.views.job_register %}">{% trans "Add a job offer" %}</a></li>
 <li><a href="{% url ain7.emploi.views.jobs_proposals %}">{% trans "Jobs proposals" %}</a></li>
 {% endif %}
 <li><a href="{% url ain7.emploi.views.job_search %}">{% trans "Search a job offer" %}</a></li>
-</ul>
-</div>
 {% endblock %}
-
 
 {% block menu-proposals %}
 {% if proposals %}
-<div class="grey-box">
-<h2>{% trans "Your proposals under review" %}</h2>
-    <ul>
-      {% for proposal in proposals %}
-        <li>{{ proposal }}</li>
-      {% endfor %}
-    </ul>
-  </div>
+<li class="nav-header">{% trans "Your proposals under review" %}</li>
+{% for proposal in proposals %}
+  <li>{{ proposal }}</li>
+{% endfor %}
 {% endif %}
 {% endblock %}
 
 
 {% block menu-organisation %}
-<div class="grey-box">
-<h2>{% trans "Propose some modifications" %}</h2>
-<ul>
+<li class="nav-header">{% trans "Propose some modifications" %}</li>
 <li><a href="{% url ain7.organizations.views.organization_search %}">{% trans "Edit an organization in database" %}</a></li>
-</ul>
-</div>
 {% endblock %}
 
 {% block show_last_change %}{% endblock %}
 {% block statistics %}{% endblock %}
-
-
 
 {% endblock %}

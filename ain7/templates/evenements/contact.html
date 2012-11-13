@@ -1,19 +1,6 @@
 {% extends "evenements/base.html" %}
 {% load i18n %}
 
-{% block javascript %}
-{# Importé par defaut dans base.html #}
-{# On redefinit ici pour supprimer TinyMCE <textarea /> #}
-<!-- calendar -->
-<script src="{{ MEDIA_URL }}/js/calendar/calendar.js" type="text/javascript"></script>
-<!-- this is translation file for calendar - choose your language here -->
-<script src="{{ MEDIA_URL }}/js/calendar/lang/calendar-en.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}/js/calendar/calendar-setup.js" type="text/javascript"></script>
-<!-- /calendar -->
-<script src="{{ MEDIA_URL }}/js/mootools-{{ mootools_version }}-core-nc.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}/js/autocomplete.js?version={{ portal_version }}" type="text/javascript"></script>
-{% endblock %}
-
 {% block content-main %}
 
 <h2>{{ event.name }}</h2>
@@ -23,8 +10,8 @@
 {{ form }}
 </table>
 <div style="text-align: center">
-<a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
-<input type="submit" class="button" value="{% trans "Send" %}" />
+<a class="btn disabled" href="{{ back }}">{% trans "Cancel" %}</a>
+<input type="submit" class="btn btn-primary" value="{% trans "Send" %}" />
 </div>
 </form>
 

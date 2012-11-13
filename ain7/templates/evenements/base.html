@@ -1,34 +1,30 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block barre-evenements %}<li class="active">{% endblock %}
+{% block navbarevents %}class="active"{% endblock %}
 
 {% block content %}
 
-<div class="span-17 colborder">
+<div class="span9">
     {% block content-main %}{% endblock%}
 </div>
 
-<div class="span-6 last">
+<div class="span3">
 
+  <div class="well">
+   <ul class="nav nav-list">
   {% block actions %}{% endblock %}
 
   {% if event %}
-  <div class="grey-box">
-  <h2>{% trans "Navigation" %}</h2>
-    <ul>
-      <li>
-        <a href="{% url ain7.news.views.event_details event.id %}">{% trans "Event page" %}</a>
-      </li>
-    </ul>
-  </div>
+  <li class="nav-header">{% trans "Navigation" %}</li>
+  <li>
+    <a href="{% url ain7.news.views.event_details event.id %}">{% trans "Event page" %}</a>
+  </li>
   {% endif %}
 
   {% block statistics %}
-    <div class="grey-box">
-    <h2>{% trans "Statistics" %}</h2>
+  <li class="nav-header">{% trans "Statistics" %}</li>
 
-      <ul>
         <li>
           {% if event_list %}
             {% blocktrans count event_list|length as nbevents %}
@@ -51,12 +47,11 @@
             {% trans "No future events planned" %}
           {% endif %}
         </li>
-      </ul>
-    </div>
   {% endblock %}
 
   {% block additional-right-blocks %}{% endblock %}
-
+  </ul>
+  </div>
 </div>
 
 {% endblock %}

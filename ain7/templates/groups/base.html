@@ -1,22 +1,22 @@
 {% extends "base.html" %}
 {% load i18n ain7_tags %}
 
-{% block barre-groupes_regionaux %}<li class="active">{% endblock %}
+{% block navbargroups %}class="active"{% endblock %}
 
 {% block content %}
 
 
-<div class="span-17 colborder">
+<div class="span9">
 {% block content-left %}{% endblock %}
 </div>
 
 
-<div class="span-6 last">
+<div class="span3">
 
+<div class="well">
+    <ul class="nav nav-list">
     {% if group %}
-    <div class="grey-box">    
-	<h2>{% trans "Actions" %}</h2>
-	<ul>
+	<li class="nav-header">{% trans "Actions" %}</li>
 	    <li><a href="{% url ain7.groups.views.index %}">{% trans "Groups" %}</a></li>
 	    <li><a href="{% url ain7.groups.views.details group.slug %}">{{ group.name }}</a></li>
 	    <li>
@@ -31,12 +31,8 @@
 	    <li><a href="{% url ain7.groups.views.edit group.slug %}">{% trans "Modify" %}</a></li>
 	    <li><a href="{% url ain7.groups.views.edit %}">{% trans "Register new group" %}</a></li>
 	    {% endif %}
-	</ul>
-    </div>
-
     {% if group.active_events %}
-    <div class="grey-box">    
-        <h2>{% trans "Events" %}</h2>
+        <li class="nav-header">{% trans "Events" %}</li>
         {% for event in group.active_events %}
                 <p><strong><a href="{% url ain7.news.views.event_details event.id %}">{{ event.title|upper }}</a></strong></p>
                 <p>
@@ -46,32 +42,25 @@
                     <p><em>{{ event.body|safe|truncatewords:10 }}</em></p>
                 {% endif %}
         {% endfor %}
-     </div>
     {% endif %}
 
     {# group.active_events #}
 
-
     {% block extra-menu %}{% endblock %}
 
-    <div class="grey-box">    
-	    <h2>{% trans "Card Informations"%}</h2>
-	    {%  show_last_change group %}
-    </div>
-
+    <li class="nav-header">{% trans "Card Informations"%}</li>
+    {%  show_last_change group %}
     {% endif %} {# group #}
 
 
     {% if groups %}
-    <div class="grey-box">    
-    <h2>{% trans "Statistics" %}</h2>
-        <ul>
+    <li class="nav-header">{% trans "Statistics" %}</li>
             <li>{{ groups|length }} {% trans "groups" %}s</li>
-        </ul>
-    </div>
 
     {% endif %}
+    </ul>
 
+</div>
 </div> <!-- right -->
 
 {% endblock %}

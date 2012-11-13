@@ -22,7 +22,7 @@
 #
 
 
-import haystack
+#import haystack
 
 
-haystack.autodiscover()
+#haystack.autodiscover()

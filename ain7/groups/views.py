@@ -23,6 +23,7 @@
 
 import datetime
 
+from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
@@ -72,8 +73,7 @@ def edit(request, slug=None):
              form = GroupForm(request.POST)
         if form.is_valid():
             group = form.save()
-            request.user.message_set.create(
-                message=_("Modifications have been successfully saved."))
+            messages.success(request, _("Modifications have been successfully saved."))
             return HttpResponseRedirect(reverse(details,
                 args=[group.slug]))
 
@@ -93,11 +93,9 @@ def join(request, slug):
         grp_membership.group = group
         grp_membership.member = person
         grp_membership.save()
-        request.user.message_set.create(message=
-            _("You have been successfully added to this group."))
+        messages.success(request, _("You have been successfully added to this group."))
     else:
-        request.user.message_set.create(message=
-            _("You are already a member of this group."))
+        messages.info(request, _("You are already a member of this group."))
 
     return HttpResponseRedirect(reverse(details, args=[group.slug]))
 
@@ -133,10 +131,10 @@ def member_edit(request, slug, member_id=None):
             member = form.save(commit=False)
             member.group = group
             member.save()
-            request.user.message_set.create(message=_('User added to group'))
+            messages.success(request, _('User added to group'))
             return HttpResponseRedirect('/groups/%s/' % group.slug)
         else:
-            request.user.message_set.create(message=_('User is not correct'))
+            messages.error(request, _('User is not correct'))
 
     back = request.META.get('HTTP_REFERER', '/')
 
@@ -152,7 +150,7 @@ def member_delete(request, slug, member_id):
 
     member.end_date = datetime.date.today()
 
-    request.user.message_set.create(message=_('Member removed from role'))
+    messages.success(request, _('Member removed from role'))
 
     return HttpResponseRedirect('/groups/%s/' % group.slug)
 
@@ -168,7 +166,7 @@ def quit(request, slug):
 
     if group.has_for_member(person):
         if group.has_for_board_member(person):
-            request.user.message_set.create(message=
+            messages.info(request,
                 _("You are a member of the office of this group. You have to \
 unsubscribe from every role in your group before leaving it."))
         else:
@@ -179,11 +177,9 @@ unsubscribe from every role in your group before leaving it."))
                 .latest('end_date')
             membership.end_date = datetime.datetime.now()
             membership.save()
-            request.user.message_set.create(message=
-               _('You have been successfully removed from this group.'))
+            messages.success(request, _('You have been successfully removed from this group.'))
     else:
-        request.user.message_set.create(message=
-            _("You are not a member of this group."))
+        messages.info(request, _("You are not a member of this group."))
 
     return HttpResponseRedirect(reverse(details, args=[group.slug]))
 
@@ -215,7 +211,7 @@ def role_edit(request, slug, role_id=None):
             return HttpResponseRedirect(reverse(details, args=[group.slug]))
 
         else:
-            request.user.message_set.create(message=_('Something was wrong in\
+            messages.error(request, _('Something was wrong in\
  the form you filled. No modification done.'))
 
 

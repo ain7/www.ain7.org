@@ -17,8 +17,8 @@
   <p><a href="{% url ain7.voyages.views.thumbnail_delete travel.id %}" class="deletelink">{% trans "Delete the thumbnail of this travel." %}</a></p>
 {% endif %}
 <div style="text-align: center">
-<a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
-<input type="submit" class="button" value="{% trans "Save" %}" />
+<a class="btn disabled" href="{{ back }}">{% trans "Cancel" %}</a>
+<input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
 </div>
 </form>
 

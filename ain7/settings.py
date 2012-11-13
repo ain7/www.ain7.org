@@ -3,7 +3,7 @@
  ain7/settings.py
 """
 #
-#   Copyright © 2007-2011 AIn7 Devel Team
+#   Copyright © 2007-2012 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -116,8 +116,8 @@ SECRET_KEY = '*r9!#_dmg+vj01z8-^*j8(qn4tu^4taa-x_r+4wx+4-sz_1o9z'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.load_template_source',
-    'django.template.loaders.app_directories.load_template_source',
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.load_template_source',
 )
 
@@ -130,6 +130,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
     'ain7.middleware.useractivity.UserActivityMiddleware',
     'ain7.middleware.portalexceptions.PortalException',
+    'django.contrib.messages.middleware.MessageMiddleware',
 )
 
 
@@ -218,7 +219,7 @@ PIWIK_URL = 'http://localhost/piwik/'
 PIWIK_SITE_ID = '0'
 
 # Version
-BASE = '1.4.1'
+BASE = '1.4.2a'
 REVISION = ''
 
 try:
@@ -242,6 +243,7 @@ FACEBOOK_AIN7='http://www.facebook.com/ENSEEIHT'
 LINKEDIN_AIN7='http://www.linkedin.com/groups?gid=73525'
 TWITTER_AIN7='http://twitter.com/ENSEEIHT_Alumni'
 VIADEO_AIN7='http://www.viadeo.com/communaute/macommunaute/?communityId=0022ezgr59190pqm'
+GPLUS_AIN7='https://plus.google.com/s/enseeiht#105806841193732839789/posts'
 
 SPPLUS_CLENT = '58 6d fc 9c 34 91 9b 86 3f fd 64 63 c9 13 4a 26 ba 29 74 1e c7 e9 80 79'
 SPPLUS_EXE = '/bin/false'
@@ -251,9 +253,9 @@ AIN7_SIRET = '0000000000000001-001'
 
 ENVIRONMENT= 'production'
 
-HAYSTACK_SITECONF = 'ain7.search_sites'
-HAYSTACK_SEARCH_ENGINE = 'xapian'
-HAYSTACK_XAPIAN_PATH = BASE_DIR +'/data/xapian/'
+#HAYSTACK_SITECONF = 'ain7.search_sites'
+#HAYSTACK_SEARCH_ENGINE = 'xapian'
+#HAYSTACK_XAPIAN_PATH = BASE_DIR +'/data/xapian/'
 
 # INSTALLED_APPS += ('haystack',)
 

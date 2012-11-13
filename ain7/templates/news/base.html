@@ -1,35 +1,30 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block barre-actualites %}<li class="active">{% endblock %}
+{% block navbarnews %}class="active"{% endblock %}
 
 {% block content %}
 
-<div class="span-17 colborder">
-
+<div class="span9">
 
 {% block content-left %}{% endblock %}
+
 </div>
 
+<div class="span3">
 
-<div class="span-6 last">
+<div class="well">
+<ul class="nav nav-list">
+<li class="nav-header">{% trans "Actions" %}</li>
 
-<div class="grey-box">
-<h2>{% trans "Actions" %}</h2>
-
-<ul>
 {% block extra-actions %}{% endblock %}
 {% if superadmin or ca_member or secretariat_member or contributeur %}
 <li><a href="{% url ain7.news.views.edit %}">{% trans "Write a news" %}</a></li>
 {% endif %}
 <li><a href="{% url ain7.news.views.search %}">{% trans "Search a news" %}</a></li>
-</ul>
-</div>
 
 {% block extra-menus %}{% endblock %}
-
 </div>
-
 
 {% endblock %}
 

@@ -37,8 +37,8 @@
 <form method="post" action=".">
 {{ form.as_p }}
 <div style="text-align: center">
-<a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
-<input type="submit" class="button" value="{% trans "Save" %}" />
+<a class="btn disabled" href="{{ back }}">{% trans "Cancel" %}</a>
+<input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
 </div>
 </form>
 {% endif %}

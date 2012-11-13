@@ -43,11 +43,7 @@
 
 {% block actions %}
    {% if superadmin or secretariat_member %}
-   <div class="grey-box">
-   <h2>{% trans "Actions" %}</h2>
-    <ul>
-      <li><a href="{% url ain7.association.views.council %}">{% trans "Change council roles" %}</a></li>
-    </ul>
-   </div>
+   <li class="nav-header">{% trans "Actions" %}</li>
+   <li><a href="{% url ain7.association.views.council %}">{% trans "Change council roles" %}</a></li>
    {% endif %}
 {% endblock %}

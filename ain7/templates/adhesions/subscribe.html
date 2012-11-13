@@ -1,9 +1,6 @@
 {% extends "adhesions/base.html" %}
 {% load i18n %}
 
-{% block javascript %}{% endblock %}
-{% block stylesheet %}{% endblock %}
-
 {% block content-left %}
 
 <div class="left_box">
@@ -77,8 +74,8 @@ function select_conf(id, dues_amount, newspaper_amount, toggle) {
 {{ form }}
 </table>
 <div style="text-align: center">
-<a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
-<input type="submit" class="button" value="{% trans "Save" %}" />
+<a class="btn disabled" href="{{ back }}">{% trans "Cancel" %}</a>
+<input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
 </div>
 </form>
 {% if form.data.configuration %}

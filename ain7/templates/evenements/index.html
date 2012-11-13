@@ -42,15 +42,11 @@
 {% endblock %}
 
 {% block actions %}
-<div class="grey-box">
-<h2>{% trans "Actions" %}</h2>
-<ul>
+<li class="nav-header">{% trans "Actions" %}</li>
 {% if superadmin or ca_member or secretariat_member or contributeur %}
 <li><a href="{% url ain7.news.views.event_edit %}">{% trans "Add an event" %}</a></li>
 {% endif %}
 <li><a href="{% url ain7.news.views.event_search %}">{% trans "Search an event" %}</a></li>
 <li><a href="{% url ain7.news.views.ical %}">{% trans "Subscribe iCal" %}</a></li>
-</ul>
-</div>
 {% endblock %}
 

@@ -899,6 +899,18 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 """
     text23.save()
 
+    textblock24 = pages.TextBlock()
+    textblock24.shortname = "emploi"
+    textblock24.url = '/emploi/'
+    textblock24.save()
+
+    text24 = pages.Text()
+    text24.textblock = textblock24
+    text24.lang = 'fr'
+    text24.title = u"Service emploi"
+    text24.body = u"""Descriptif emploi
+"""
+    text24.save()
 
     if os.path.exists('filldbain7'):
        import glob
@@ -1334,7 +1346,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     lionel_couriel2 = annuaire.Email()
     lionel_couriel2.person = lionel
     lionel_couriel2.email = "lionel@porcheron.info"
-    lionel_couriel2.confidentiality = 2
+    lionel_couriel2.confidentiality = 1
     lionel_couriel2.save()
 
     lionel_messagerie1 = annuaire.InstantMessaging()

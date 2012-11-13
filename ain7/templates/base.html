@@ -1,219 +1,127 @@
 {% load  i18n %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
 <title>{% if page_title %}{{ page_title }} - {% else %} {%if text.title %} {{ text.title }} - {% endif %} {% endif %} {% trans "AIn7: ENSEEIHT Engineer Alumni Association" %}</title>
 <meta name="author" content="AIn7 Devel Team (http://ain7.com)" />
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="content-style-type" content="text/css" />
 {% block meta %}{{ meta }}{% endblock %}
 <link rel="shortcut icon" type="image/x-icon" href="{{ MEDIA_URL }}images/favicon.png" />
 <link rel="alternate" type="application/rss+xml" href="/rss/events/" />
 
-{% block javascript %}
-
-{# Par defaut, on importe ces codes javascript sur toutes les pages. #}
-{# Rien n'empeche de redefinir ce bloc pour certaines pages... #}
-<!-- calendar -->
-<script src="{{ MEDIA_URL }}js/calendar/calendar.js" type="text/javascript"></script>
-<!-- this is translation file for calendar - choose your language here -->
-<script src="{{ MEDIA_URL }}js/calendar/lang/calendar-en.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL}}js/calendar/calendar-setup.js" type="text/javascript"></script>
-<!-- /calendar -->
-<script src="{{ MEDIA_URL }}js/mootools-{{ mootools_version }}-core-nc.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}js/autocomplete.js?version={{ portal_version }}" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}js/tiny_mce/tiny_mce.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}js/textareas.js" type="text/javascript"></script>
-<!--{#<script src="/site_media/js/jquery-{{ jquery_version }}.min.js" type="text/javascript"></script> //-->
-{% endblock %}
-
-
-<link rel="stylesheet" href="{{ MEDIA_URL }}skins/2.0/css/screen.css?version={{ portal_version }}" type="text/css" />
-<link rel="stylesheet" href="{{ MEDIA_URL }}skins/2.0/css/src/typography.css?version={{ portal_version }}" type="text/css" />
-<link rel="stylesheet" href="{{ MEDIA_URL }}skins/2.0/css/src/forms.css?version={{ portal_version }}" type="text/css" />
-<link rel="stylesheet" href="{{ MEDIA_URL }}skins/2.0/css/plugins/fancy-type/screen.css?version={{ portal_version }}" type="text/css" />
-
-{% block stylesheet %}
-{# CSS par defaut sur toutes les pages. #}
-{# Rien n'empeche de redefinir ce bloc pour certaines pages... #}
-<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/calendar/calendar-win2k-cold-2.css" />
-<link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/autocomplete.css?version={{ portal_version }}"/>
-
-{% endblock %}
+<link href="{{ MEDIA_URL }}css/bootstrap.min.css" rel="stylesheet" media="screen">
 
 </head>
 
 <body>
 
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="{{ MEDIA_URL }}js/bootstrap.min.js"></script>
+
+<div class="navbar navbar-inverse">
+<div class="navbar-inner">
 <div class="container">
+     
+<!-- Be sure to leave the brand out there if you want it shown -->
+<a class="brand" href="{% url ain7.pages.views.homepage %}"><img src="{{ MEDIA_URL }}logo_ain7.png" height="33%" /></a>
+  
+<!-- Everything you want hidden at 940px or less, place within here -->
+<div class="nav-collapse collapse navbar-responsive-collapse">
+<ul class="nav">
+    <li {% block navbardirectory %}{{ navbardirectory }}{% endblock %}><a href="{% url ain7.annuaire.views.search %}">{% trans "Directory" %}</a></li>
+    <li {% block navbarnews %}{{ navbarnews }}{% endblock %}><a href="{% url ain7.news.views.index %}">{% trans "News" %}</a></li>
+    <li {% block navbarevents %}{{ navbarevents }}{% endblock %}><a href="{% url ain7.news.views.event_index %}">{% trans "Events" %}</a></li>
+    <li {% block navbarjobs %}{{ navvarjobs }}{% endblock %}><a href="{% url ain7.emploi.views.index %}">{% trans "Job service" %}</a></li>
+    <li {% block navbargroups %}{{ navbargroups }}{% endblock %}><a href="{% url ain7.groups.views.index %}">{% trans "Groups" %}</a></li>
+    <li {% block navbarassociation %}{{ navbarassociation }}{% endblock %}><a href="{% url ain7.association.views.index %}">{% trans "Association" %}</a></li>
+    <li {% block navbartravels %}{{ navbartravels }}{% endblock %}><a href="{% url ain7.voyages.views.index %}">{% trans "Travels" %}</a></li>
+</ul>
 
-<div class="top-border-blue">
+<form class="navbar-search pull-right" action="">
+<input type="text" class="search-query span2" placeholder="Search">
+</form>
 
-<div class="sizer">
-    <div class="top-left">
+<ul class="nav pull-right">
+{% if superadmin or ca_member or secretariat_member %}
+ <li class="dropdown" {% block navbarmanage %}{{ navbarmanage }}{% endblock %}>
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Manage" %}<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="{% url ain7.organizations.views.organization_search %}">{% trans "Organizations" %}</a></li>
+      <li><a href="{% url ain7.manage.views.errors_index %}">{% trans "Errors" %}</a></li>
+      <li><a href="{% url ain7.manage.views.payments_index %}">{% trans "Payments" %}</a></li>
+      <li><a href="{% url ain7.manage.views.mailings_index %}">{% trans "Mailings" %}</a></li>
+      <li><a href="{% url ain7.manage.views.subscriptions_stats %}">{% trans "Subscriptions" %}</a></li>
+      <li><a href="{% url ain7.manage.views.payments_deposit_index %}">{% trans "Deposit slip" %}</a></li>
+      <li class="divider"></li>
+      <li><a href="#">Separated link</a></li>
+    </ul>
+ </li>
+{% endif %}
+{% if user.is_authenticated %}
+ <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.person.first_name }} {{ user.person.last_name }}<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="{% url ain7.annuaire.views.details user.id %}"><i class="icon-home"></i> Profile</a></li>
+      <li><a href="{% url ain7.annuaire.views.details user.id %}"><i class="icon-cog"></i> Preferences</a></li>
+      <li><a href="{% url ain7.annuaire.views.details user.id %}"><i class="icon-envelope"></i> Messages</a></li>
+      <li class="divider"></li>
+      <li><a href="{% url ain7.pages.views.logout %}"><i class="icon-off"></i> Logout</a></li>
+    </ul>
+ </li>
+{% else %}
+    <li><a href="/accounts/login/?next={{ request.path }}">{% trans "Log-in" %}</a></li>
+{% endif %}
+</ul>
 
+</div>
+  
+</div>
+</div>
+</div>
 
-	<a href="{% url ain7.pages.views.homepage %}">{% trans "Home" %}</a>&nbsp;|
+<div class="container">
+<div class="row-fluid">
 
-	{% if user.is_authenticated %}
-	    		<a href="{% url ain7.annuaire.views.details user.id %}">{{ user.person.first_name }} {{ user.person.last_name }}</a>
-	{% if superadmin or ca_member or secretariat_member %}
-	    &nbsp;| <a href="{% url ain7.manage.views.index %}" accesskey="n">{% trans "Management" %}</a>
-	{% endif %}
+{% block carousel %}{{ carousel }}{% endblock %}
 
-&nbsp;| <a href="{% url ain7.pages.views.logout %}">{% trans "Log out" %}<a/>
+</div>
 
-	{% else %}
-	    {% trans "You are not logged-in" %} - <a href="/accounts/login/?next={{ request.path }}">{% trans "Log-in" %}</a>
-	{% endif %}    
+{% if messages %}
+<div class="row-fluid">
+{% for message in messages %}
+<div class="alert fade in {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+{{ message|safe }}
+</div>
+{% endfor %}
+</div>
+{% endif %}
 
+<div class="row-fluid">
 
-    </div>
+{% block content %}{{ content }}{% endblock %}
 
-    <div class="top-right">
-        <form method="get" action="/search/"><p><input type="text" name="q" size="25" />&nbsp;<input class="button" type="submit" value="{% trans "Search" %}" /></p></form>
-    </div>
+</div>
+</div>
+
+<footer class="footer">
+<div class="navbar navbar-fixed-bottom navbar-inner">
+  <div class="container">
+    <p class="pull-right"><a href="#">Back to top</a></p>
+    <p>&copy; Copyright 2009-2012 AIn7 - Version {{ portal_version  }} -
+<a href="{{ settings.LINKEDIN_AIN7 }}" target="_blank"><img height="16" width="16" src="{{ MEDIA_URL }}images/linkedin-icon.png" alt="Linkedin"/></a>
 &nbsp;
-
+<a href="{{ settings.FACEBOOK_AIN7 }}" target="_blank"><img height="16" width="16" src="{{ MEDIA_URL }}images/FB-icon.jpg" alt="Facebook"/> </a>
+&nbsp;
+<a href="{{ settings.TWITTER_AIN7 }}" target="_blank"><img height="16" width="16" src="{{ MEDIA_URL }}images/twitter-icon.png" alt="Twitter"/></a>
+&nbsp;
+<a href="{{ settings.GPLUS_AIN7 }}" target="_blank"><img height="16" width="16" src="{{ MEDIA_URL }}images/gplus-icon.png" alt="Google+"/></a>
+<a href="{{ settings.VIADEO_AIN7 }}" target="_blank"><img height="16" width="16" src="{{ MEDIA_URL }}images/viadeo-icon.png" alt="Viadeo"/></a>
+<br />
+    <a href="/rss/">{% trans "RSS" %}</a> | <a href="/apropos/">{% trans "About" %}</a> | <a href="/mentions_legales/">{% trans "Terms of use" %}</a> | <a href="/association/contact/">{% trans "Contact" %}</a></p>
+  </div>
 </div>
-
-
-</div>
-
-<div class="container">
-
-    <div class="span-24 top-menu last append-1">
-        <div class="link-bar">&nbsp;</div><a href="{% url ain7.pages.views.homepage %}"><img src="{{ MEDIA_URL }}images/logo_ain7.png" height="40" alt="AIn7 logo" /></a>
-        <div class="link-bar lb-red">&nbsp;</div><a href="{% url ain7.annuaire.views.search %}" accesskey="a">{% trans "Directory" %}</a>
-        <div class="link-bar lb-orange">&nbsp;</div><a href="{% url ain7.news.views.index %}" accesskey="c">{% trans "News" %}</a>
-        <div class="link-bar lb-grey">&nbsp;</div><a href="{% url ain7.news.views.event_index %}" accesskey="e">{% trans "Events" %}</a>
-        <div class="link-bar lb-purple">&nbsp;</div><a href="{% url ain7.emploi.views.index %}" accesskey="s">{% trans "Job service" %}</a>
-        <div class="link-bar lb-green">&nbsp;</div><a href="{% url ain7.groups.views.index %}" accesskey="p">{% trans "Groups" %}</a>
-        <div class="link-bar lb-yellow">&nbsp;</div><a href="{% url ain7.association.views.index %}">{% trans "Association" %}</a>
-        <div class="link-bar lb-black">&nbsp;</div><a href="{% url ain7.voyages.views.index %}" accesskey="v">{% trans "Travels" %}</a>
-        
-    </div>
-
-
-
-
-{% comment %}
-
-{% block barre-home %}<li>{% endblock %}
-    <a href="{% url ain7.pages.views.homepage %}" accesskey="h">{% trans "Home"%}</a></li>
-
-{% block barre-association %}<li>{% endblock %}
-    <a href="{% url ain7.association.views.index %}" accesskey="o">{% trans "The association"%}</a></li>
-
-{% block barre-adhesions %}<li>{% endblock %} 
-    <a href="/adhesions/" accesskey="o">{% trans "Subscriptions"%}</a></li>
-
-{% block barre-annuaire %}<li>{% endblock %}
-    <a href="{% url ain7.annuaire.views.search %}" accesskey="a">{% trans "Directory"%}</a></li>
-
-{% block barre-actualites %}<li>{% endblock %}
-    <a href="{% url ain7.news.views.index %}" accesskey="c">{% trans "News"%}</a></li>
-
-{% block barre-evenements %}<li>{% endblock %}
-    <a href="{% url ain7.news.views.event_index %}" accesskey="e">{% trans "Events"%}</a></li>
-
-{% block barre-emploi %}<li>{% endblock %}
-    <a href="{% url ain7.emploi.views.index %}" accesskey="s">{% trans "Job service"%}</a></li>
-
-{% block barre-groupes_regionaux %}<li>{% endblock %}
-    <a href="{% url ain7.groupes_regionaux.views.index %}" accesskey="p">{% trans "Regional Groups "%}</a></li>
-
-{#{% block barre-forums %}<li>{% endblock %}#}
-{#    <a href="{% url ain7.pages.views.forums %}" accesskey="f">{% trans "Forums"%}</a></li>#}
-
-</ul>
-
-<ul class="ligne2">
-
-{% block barre-relation_ecole_etudiants %}<li>{% endblock %}
-    <a href="{% url ain7.pages.views.relations_ecole_etudiants %}" accesskey="r">{% trans "School and Students Relationship" %}</a></li>
-
-{% block barre-groupes %}<li>{% endblock %}
-    <a href="{% url ain7.groupes_professionnels.views.index %}" accesskey="g">{% trans "Professionnal Groups"%}</a></li>
-
-{% block barre-media_communication %}<li>{% endblock %}
-    <a href="{% url ain7.association.views.media_com %}" accesskey="m">{% trans "Media &amp; Communication" %}</a></li>
-
-{% block barre-web %}<li>{% endblock %}
-    <a href="{% url ain7.pages.views.web %}" accesskey="i">{% trans "Web" %}</a></li>
-
-{% block barre-voyages %}<li>{% endblock %}
-    <a href="{% url ain7.voyages.views.index %}" accesskey="v">{% trans "Travels" %}</a></li>
-
-{% block barre-galerie %}<li>{% endblock %}
-    <a href="{% url ain7.pages.views.galerie %}" accesskey="l">{% trans "Gallery" %}</a></li>
-
-
-
-</ul>
-
-{% endcomment %}
-
-<hr />
-
-    <div class="messages">
-    {% for message in messages %}
-    <p class="msg_info">{{ message|safe }}</p>
-    {% endfor %}
-    </div>
-
-    {% block content %}{{ content }}{% endblock %}
-
-<div class="spacer">&nbsp;</div>
-
-</div>
-
-</div>
-
-
-
-<div class="bottom-blue">
-
-<div class="sizer">
-	<div class="span-4">
-	 <span>Service Emploi</span>
-	  <ul>
-	      <li><a href="{% url ain7.emploi.views.index %}">Offres</a></li>
-	  </ul>
-	</div>
-
-	<div class="span-4">
-	 Groupes professionnels
-	  <ul>
-	      <li><a href="">TIC</a></li>
-	      <li><a href="">Énergie</a></li>
-	      <li><a href="">Entrepreneurs</a></li>
-	  </ul>
-	</div>
-
-	<div class="span-4">
-	 Groupes régionaux
-	  <ul>
-	      <li><a href="">Île-de-France</a></li>
-	      <li><a href="">Midi-Pyrénées</a></li>
-	  </ul>
-	</div>
-
-	<div class="span-5">
-	 L'Association
-	  <ul>
-	      <li><a href="{% url ain7.association.views.index %}">Présentation</a></li>
-	      <li><a href="{% url ain7.association.views.council %}">Conseil d'administration</a></li>
-	      <li><a href="{% url ain7.association.views.contact %}">Contact</a></li>
-	  </ul>
-	</div>
-</div>
-</div>
-
-<div class="bottom-grey bottom clear">
-	&copy; Copyright 2009-2011 AIn7 - Version {{ portal_version  }} - {% trans "Unless specific mention, all Texts are under license" %} <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.fr">CC by-sa 3.0</a>.<br />
-	<a href="/rss/">{% trans "RSS" %}</a> | <a href="/apropos/">{% trans "About" %}</a> | <a href="/mentions_legales/">{% trans "Terms of use" %}</a> | <a href="/association/contact/">{% trans "Contact" %}</a>
-</div>
+</footer>
 
 <!-- Piwik -->
 <script type="text/javascript">

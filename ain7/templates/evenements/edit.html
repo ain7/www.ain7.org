@@ -37,21 +37,17 @@
       {% trans "Delete the image of this event." %}</a><br />
   {% endif %}
 <div style="text-align: center">
-<a class="button" href="{{ back }}">{% trans "Cancel" %}</a>
-<input type="submit" class="button" value="{% trans "Save" %}" />
+<a class="btn disabled" href="{{ back }}">{% trans "Cancel" %}</a>
+<input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
 </div>
 </form>
 {% endblock %}
 
 {% block actions %}
-<div class="grey-box">
-<h2>{% trans "Actions" %}</h2>
-<ul>
+<li class="nav-header">{% trans "Actions" %}</li>
 {% if superadmin or ca_member or secretariat_member or contributeur %}
 <li><a href="{% url ain7.news.views.event_edit %}">{% trans "Register an event" %}</a></li>
 {% endif %}
 <li><a href="{% url ain7.news.views.event_search %}">{% trans "Search an event" %}</a></li>
 <li><a href="{% url ain7.news.views.ical %}">{% trans "Subscribe iCal" %}</a></li>
-</ul>
-</div>
 {% endblock %}

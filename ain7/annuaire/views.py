@@ -26,7 +26,7 @@ import datetime
 
 from django.contrib import auth
 from django.contrib.auth.models import User
-#from django.contrib import messages
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
@@ -114,8 +114,7 @@ def search(request):
             ain7members = form.search(criteria)
 
             if len(ain7members) == 1:
-                request.user.message_set.create(\
-                     message=_("Only one result matched your criteria."))
+                messages.info(request, _('Only one result matched your criteria.'))
                 return HttpResponseRedirect('/annuaire/%s/' % \
                     (ain7members[0].person.id))
 
@@ -163,13 +162,11 @@ def change_credentials(request, user_id):
                 person.user.username = form.cleaned_data['login']
                 person.user.set_password(form.cleaned_data['new_password1'])
                 person.user.save()
-                request.user.message_set.create(\
-                    message=_("Credentials updated."))
+                messages.success(request, _("Credentials updated."))
                 return HttpResponseRedirect(\
                     reverse('ain7.annuaire.views.details', args=[person.id]))
             else:
-                request.user.message_set.create(message=\
-                    _("Wrong authentication"))
+                messages.error(request, _("Wrong authentication"))
 
     form = ChangePasswordForm(initial={'login': person.user.username})
     return render(request, 'annuaire/credentials.html',
@@ -185,8 +182,7 @@ def send_new_credentials(request, user_id):
 
     person.password_ask(request=request)
 
-    request.user.message_set.create(message=_("New credentials have been sent"))
-    #messages.success(request, _("New credentials have been sent"))
+    messages.success(request, _("New credentials have been sent"))
     return HttpResponseRedirect(reverse('ain7.annuaire.views.details', 
         args=[person.id]))
 
@@ -277,7 +273,7 @@ def filter_register(request):
                 registered_filters(request.user.person).\
                 filter(name=fName).count()
             if same_name > 0:
-                request.user.message_set.create(message=_("One of your filters\
+                messages.error(request, _("One of your filters\
  already has this name."))
                 return HttpResponseRedirect('/annuaire/advanced_search/')
 
@@ -287,12 +283,11 @@ def filter_register(request):
             search_filter.save()
 
             # Redirect to filter page
-            request.user.message_set.create(
-                message=_("Modifications have been successfully saved."))
+            messages.success(request, _("Modifications have been successfully saved."))
             return HttpResponseRedirect(
                 '/annuaire/advanced_search/filter/%s/' % search_filter.id)
         else:
-            request.user.message_set.create(message=_("Something was wrong in\
+            messages.error(request, _("Something was wrong in\
  the form you filled. No modification done."))
         return HttpResponseRedirect('/annuaire/advanced_search/')
 
@@ -309,10 +304,10 @@ def filter_edit(request, filter_id):
             form.cleaned_data['user'] = filtr.user
             form.cleaned_data['operator'] = filtr.operator
             form.save()
-            request.user.message_set.create(message=_("Modifications have been\
+            messages.success(request, _("Modifications have been\
  successfully saved."))
         else:
-            request.user.message_set.create(message=_("Something was wrong in\
+            messages.error(request, _("Something was wrong in\
  the form you filled. No modification done."))
         return HttpResponseRedirect(
             '/annuaire/advanced_search/filter/%s/' % filter_id)
@@ -348,11 +343,9 @@ def filter_delete(request, filter_id):
         remove_criteria(request, filtr)
         # now remove the filter
         filtr.delete()
-        request.user.message_set.create(
-            message=_("Your filter has been successfully deleted."))
+        messages.error(request, _("Your filter has been successfully deleted."))
     except KeyError:
-        request.user.message_set.create(
-            message=\
+        messages.error(request, 
                 _("Something went wrong. The filter has not been deleted."))
     return HttpResponseRedirect('/annuaire/advanced_search/')
 
@@ -405,7 +398,7 @@ def criterion_delete(request, filtr_id=None, crit_id=None, crit_type=None):
 def export_csv(request):
 
     if not request.session.has_key('filter'):
-        request.user.message_set.create(message=_("You have to make a search\
+        messages.info(request, _("You have to make a search\
  before using csv export."))
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
@@ -420,7 +413,7 @@ def adv_export_csv(request, filter_id=None):
 
     se = annuaire_search_engine()
     if not filter_id and not se.unregistered_filters(request.user.person):
-        request.user.message_set.create(message=
+        messages.info(request, 
             _("You have to make a search before using csv export."))
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
     if filter_id:
@@ -456,7 +449,7 @@ def person_edit(request, user_id):
         form = PersonForm(request.POST, instance=person)
         if form.is_valid():
             form.save()
-            request.user.message_set.create(message=_('Modifications have been\
+            messages.success(request, _('Modifications have been\
  successfully saved.'))
 
         return HttpResponseRedirect(
@@ -477,7 +470,7 @@ def personprivate_edit(request, user_id):
         form = PersonPrivateForm(request.POST, instance=personprivate)
         if form.is_valid():
             form.save()
-            request.user.message_set.create(message=_('Modifications have been\
+            messages.sucess(request, _('Modifications have been\
  successfully saved.'))
 
         return HttpResponseRedirect(
@@ -501,7 +494,7 @@ def ain7member_edit(request, user_id):
             if ain7member.avatar and form.cleaned_data['avatar']:
                 ain7member.avatar.delete()
             form.save()
-            request.user.message_set.create(message=_('Modifications have been\
+            messages.success(request, _('Modifications have been\
  successfully saved.'))
 
         return HttpResponseRedirect(
@@ -522,7 +515,7 @@ def avatar_delete(request, user_id):
     ain7member.avatar.delete()
     ain7member.save()
 
-    request.user.message_set.create(message=
+    messages.success(request,
         _('Your avatar has been successfully deleted.'))
     return HttpResponseRedirect('/annuaire/%s/edit/' % user_id)
 
@@ -538,7 +531,7 @@ def promo_edit(request, user_id=None, promo_id=None):
         if form.is_valid():
             promo = form.search()
             ain7member.promos.add(promo)
-            request.user.message_set.create(message=\
+            messages.success(request,
                 _('Promotion successfully added.'))
         else:
             return render(
@@ -564,7 +557,7 @@ def promo_delete(request, user_id=None, promo_id=None):
     promo = get_object_or_404(Promo, id=promo_id)
     ain7member.promos.remove(promo)
     ain7member.save()
-    request.user.message_set.create(message="Membership to promotion %s\
+    messages.success(request, "Membership to promotion %s\
  successfully removed.")
     return HttpResponseRedirect('/annuaire/%s/edit/#promos' % user_id)
 
@@ -590,8 +583,7 @@ def address_edit(request, user_id=None, address_id=None):
             adr.person = person
             adr.save()
 
-            request.user.message_set.create(message=\
-                _('Address successfully saved'))
+            messages.success(request, _('Address successfully saved'))
 
             return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
                  kwargs={'user_id': user_id}))
@@ -634,8 +626,7 @@ def phone_edit(request, user_id=None, phone_id=None):
             phon.person = person
             phon.save()
 
-            request.user.message_set.create(message=\
-                _('Phone number successfully saved'))
+            messages.success(request, _('Phone number successfully saved'))
 
             return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
                 kwargs={'user_id': user_id}))
@@ -699,8 +690,7 @@ def email_edit(request, user_id=None, email_id=None):
                 mail.position = None
             mail.save()
 
-            request.user.message_set.create(message=\
-                _('Email successfully saved'))
+            messages.success(request, _('Email successfully saved'))
 
             return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
                 kwargs={'user_id': user_id}))
@@ -742,8 +732,7 @@ def im_edit(request, user_id=None, im_id=None):
             inm.person = person
             inm.save()
 
-            request.user.message_set.create(message=\
-                _('Instant messaging successfully saved'))
+            messages.success(request, _('Instant messaging successfully saved'))
 
             return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
                 kwargs={'user_id': user_id}))
@@ -786,8 +775,7 @@ def irc_edit(request, user_id=None, irc_id=None):
             this_irc.person = person
             this_irc.save()
 
-            request.user.message_set.create(message=\
-                _('irc contact successfully saved'))
+            messages.success(request, _('irc contact successfully saved'))
 
             return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
                 kwargs={'user_id': user_id}))
@@ -830,8 +818,7 @@ def website_edit(request, user_id=None, website_id=None):
             web.person = person
             web.save()
 
-            request.user.message_set.create(message=\
-                _('website successfully saved'))
+            messages.success(request, _('website successfully saved'))
 
             return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
                 kwargs={'user_id': user_id}))
@@ -876,8 +863,7 @@ def club_membership_edit(request, user_id=None, club_membership_id=None):
             membership.member = ain7member
             membership.save()
 
-            request.user.message_set.create(message=\
-                _('Club membership successfully saved'))
+            messages.success(request, _('Club membership successfully saved'))
 
             return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
                 kwargs={'user_id': user_id}))
@@ -909,12 +895,11 @@ def add(request, user_id=None):
         form = NewMemberForm(request.POST)
         if form.is_valid():
             new_person = form.save()
-            request.user.message_set.create(message=\
-                _("New user successfully created"))
+            messages.success(request, _("New user successfully created"))
             return HttpResponseRedirect('/annuaire/%s/edit/' % \
                 (new_person.user.id))
         else:
-            request.user.message_set.create(message=_("Something was wrong in\
+            messages.error(request, _("Something was wrong in\
  the form you filled. No modification done."))
 
     back = request.META.get('HTTP_REFERER', '/')

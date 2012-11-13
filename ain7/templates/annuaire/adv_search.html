@@ -2,9 +2,6 @@
 
 {% load i18n %}
 
-{% block javascript %}{% endblock %}
-{% block stylesheet %}{% endblock %}
-
 {% block content-left %}
 
 <form action="." method="post">
@@ -69,7 +66,7 @@
    class="addlink">{% trans "Add a criterion" %}</a>
 
 <div style="text-align: center">
-    <input type="submit" class="button" value="{% trans "Search" %}" />
+    <input type="submit" class="btn btn-primary" value="{% trans "Search" %}" />
 </div>
 
 </div>

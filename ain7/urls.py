@@ -109,7 +109,7 @@ urlpatterns = patterns('',
 
     # flux RSS
     (r'^rss/$', 'ain7.pages.views.rss'),
-    (r'^rss/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
+    (r'^rss/(?P<url>.*)/$', 'django.contrib.syndication.views.Feed', {'feed_dict': feeds}),
 
     # Edit text blocks
     (r'^edit/(?P<text_id>.*)/$', 'ain7.pages.views.edit'),
@@ -117,14 +117,14 @@ urlpatterns = patterns('',
     # sitemaps
     (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
 
-
     # redirection to external communities
     (r'^facebook/$', 'ain7.pages.views.facebook'),
     (r'^linkedin/$', 'ain7.pages.views.linkedin'),
     (r'^twitter/$', 'ain7.pages.views.twitter'),
     (r'^viadeo/$', 'ain7.pages.views.viadeo'),
+    (r'^g\+/$', 'ain7.pages.views.gplus'),
 
-    (r'^search/', include('haystack.urls')),
+    #(r'^search/', include('haystack.urls')),
 
 )
 

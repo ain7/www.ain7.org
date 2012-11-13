@@ -17,7 +17,7 @@
    {{ form }}
 </table>
 <div style="text-align: center">
-<input type="submit" class="button" value="{% trans "Search" %}" />
+<input type="submit" class="btn btn-primary" value="{% trans "Search" %}" />
 </form>
 </div>
 <br/>
@@ -49,14 +49,10 @@
 {% endblock %}
 
 {% block actions %}
-<h2>{% trans "Actions" %}</h2>
-<div class="grey-box">
-<ul>
+<li class="nav-header">{% trans "Actions" %}</li>
 {% if superadmin or ca_member or secretariat_member or contributeur %}
 <li><a href="{% url ain7.news.views.event_edit %}">{% trans "Register an event" %}</a></li>
 {% endif %}
 <li><a href="{% url ain7.news.views.event_search %}">{% trans "Search an event" %}</a></li>
 <li><a href="{% url ain7.news.views.ical %}">{% trans "Subscribe iCal" %}</a></li>
-</ul>
-</div>
 {% endblock %}

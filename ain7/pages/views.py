@@ -3,7 +3,7 @@
  ain7/pages/views.py
 """
 #
-#   Copyright © 2007-2011 AIn7 Devel Team
+#   Copyright © 2007-2012 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@ import datetime
 
 from django.conf import settings
 from django.contrib import auth
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
@@ -79,7 +80,6 @@ def homepage(request):
 def lostpassword(request):
     """lostpassword page"""
 
-    messages = request.session.setdefault('messages', [])
     form = LostPasswordForm()
     if request.method == 'GET':
         return render(request, 'pages/lostpassword.html',
@@ -92,16 +92,15 @@ def lostpassword(request):
 
             person.password_ask(email=email, request=request)
 
-            info = _('We have sent you an email with instructions to reset\
- your password.')
+            messages.success(request, _('We have sent you an email with\
+ instructions to reset your password.'))
             request.path = '/'
-            return render(request, 'pages/lostpassword.html',
-                {'info': info})
+            return render(request, 'pages/lostpassword.html')
         else:
-            info = _('If you are claiming an existing account but don\'t know\
- the email address that was used, please contact an AIn7 administrator.')
-            return render(request, 'pages/lostpassword.html',
-                {'form': form, 'info': info})
+            messages.info(request, _('If you are claiming an existing\
+ account but don\'t know the email address that was used, please\
+ contact an AIn7 administrator.'))
+            return render(request, 'pages/lostpassword.html', {'form': form})
 
 def changepassword(request, key):
     """changepassword page"""
@@ -111,9 +110,8 @@ def changepassword(request, key):
 
     if lostpw.is_expired():
         lostpw.delete()
-        info = _('Page expired, please request a new key')
-        return render(request, 'pages/changepassword.html',
-            {'info': info})
+        messages.error(request, _('Page expired, please request a new key'))
+        return render(request, 'pages/changepassword.html')
 
     if request.POST:
         form = ChangePasswordForm(request.POST)
@@ -122,9 +120,10 @@ def changepassword(request, key):
             lostpw.delete()
             person.user.set_password(form.cleaned_data['password'])
             person.user.save()
-            info = _('Successfully changed password')
-            return render(request, 'pages/changepassword.html',
-                {'person': person, 'info': info})
+            messages.success(request, _('Successfully changed password'))
+            user = auth.authenticate(username=person.user.username, password=form.cleaned_data['password'])
+            auth.login(request, user)
+            return HttpResponseRedirect('/')
 
     return render(request, 'pages/changepassword.html', 
         {'form': form, 'person': lostpw.person})
@@ -132,20 +131,17 @@ def changepassword(request, key):
 def apropos(request):
     """about page"""
     text = Text.objects.get(textblock__shortname='apropos')
-    return render(request, 'pages/apropos.html',
-        {'text': text})
+    return render(request, 'pages/apropos.html', {'text': text})
 
 def web(request):
     """web presentation page"""
     text = Text.objects.get(textblock__shortname='web_ain7')
-    return render(request, 'pages/web.html', 
-                       {'text': text})
+    return render(request, 'pages/web.html', {'text': text})
 
 def mentions_legales(request):
     """legal mentions"""
     text = Text.objects.get(textblock__shortname='mentions_legales')
-    return render(request, 'pages/mentions_legales.html',
-        {'text': text})
+    return render(request, 'pages/mentions_legales.html', {'text': text})
 
 def relations_ecole_etudiants(request): 
     """school and students relashionchip"""
@@ -184,11 +180,10 @@ def login(request):
                 return HttpResponseRedirect(request.POST.get('next','/'))
         except Exception:
             pass
-        return render(request, 'pages/login.html',
-            {'error': True, 'next': next_page})
+        messages.error(request, _("Your username and password didn't match. Please try again"))
+        return render(request, 'pages/login.html', {'next': next_page})
     else:
-        return render(request, 'pages/login.html',
-            {'error': False, 'next': next_page})
+        return render(request, 'pages/login.html', {'next': next_page})
 
 @access_required(groups=['ain7-membre', 'ain7-ca', 'ain7-secretariat',
                          'ain7-contributeur'])
@@ -228,4 +223,8 @@ def twitter(request):
 def viadeo(request):
     """redirect to Viadeo ENSEEIHT/Alumni Feed"""
     return HttpResponseRedirect(settings.VIADEO_AIN7)
+
+def gplus(request):
+    """redirect to Google+ ENSEEIHT/Alumni Feed"""
+    return HttpResponseRedirect(settings.GPLUS_AIN7)
 

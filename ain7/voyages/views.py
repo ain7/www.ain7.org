@@ -23,6 +23,7 @@
 
 from datetime import datetime
 
+from django.contrib import messages
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
@@ -123,8 +124,7 @@ def edit(request, travel_id=None):
 
         if form.is_valid():
             trav = form.save()
-            request.user.message_set.create(message=_('Modifications have been\
- successfully saved.'))
+            messages.success(request, _('Modifications have been successfully saved.'))
 
             return HttpResponseRedirect(reverse(details, args=[trav.id]))
 
@@ -144,8 +144,7 @@ def thumbnail_delete(request, travel_id):
     travel.thumbnail = None
     travel.logged_save(request.user.person)
 
-    request.user.message_set.create(message=
-        _('The thumbnail of this travel has been successfully deleted.'))
+    messages.success(request, _('The thumbnail of this travel has been successfully deleted.'))
     return HttpResponseRedirect('/voyages/%s/edit/' % travel_id)
 
 @access_required(groups=['ain7-membre'])
@@ -162,8 +161,7 @@ def join(request, travel_id):
             if subscription.travel == travel:
                 already_subscribed = True
         if already_subscribed:
-            request.user.message_set.create(
-                message=_('You have already subscribed to this travel.'))
+            messages.success(request, _('You have already subscribed to this travel.'))
             return HttpResponseRedirect('/voyages/%s/' % (travel.id))
         form = JoinTravelForm()
         back = request.META.get('HTTP_REFERER', '/')
@@ -176,10 +174,10 @@ def join(request, travel_id):
             form.cleaned_data['subscriber'] = person
             form.cleaned_data['travel'] = travel
             form.save()
-            request.user.message_set.create(message=
+            messages.success(request, 
                 _('You have been successfully subscribed to this travel.'))
         else:
-            request.user.message_set.create(message=
+            messages.error(request,
                 _('Something was wrong in the form you filled. No modification\
  done.') + str(form.errors))
         return HttpResponseRedirect('/voyages/%s/' % (travel.id))
@@ -212,7 +210,7 @@ def subscribe(request, travel_id):
             if subscription.travel == travel:
                 already_subscribed = True
         if already_subscribed:
-            request.user.message_set.create(message=
+            messages.info(request,
                 _('This person is already subscribed to this travel.'))
             return render(request,
                 'voyages/participants.html', {'travel': travel})
@@ -221,10 +219,10 @@ def subscribe(request, travel_id):
                 form.cleaned_data['travel'] = travel
                 form.cleaned_data['subscriber'] = person
                 form.save()
-                request.user.message_set.create(message=_('You have\
+                messages.success(request, _('You have\
  successfully subscribed someone to this travel.'))
             else:
-                request.user.message_set.create(message=_('Something was\
+                messages.error(request, _('Something was\
  wrong in the form you filled. No modification done.'))
             return render(request,
                 'voyages/participants.html', {'travel': travel})
@@ -285,7 +283,7 @@ def responsibles_add(request, travel_id):
             if responsibility.travel == travel:
                 already_responsible = True
         if already_responsible:
-            request.user.message_set.create(message=
+            messages.info(request,
                 _('This person is already responsible of this travel.'))
             return render(request,
                 'voyages/responsibles.html', {'travel': travel})
@@ -294,10 +292,10 @@ def responsibles_add(request, travel_id):
                 travel_responsible = TravelResponsible(travel=travel,
                     responsible=person)
                 travel_responsible.save()
-                request.user.message_set.create(message=_('You have\
+                messages.success(request, _('You have\
  successfully added someone to responsibles of this travel.'))
             else:
-                request.user.message_set.create(message=_('Something was wrong\
+                messages.error(request, _('Something was wrong\
  in the form you filled. No modification done.') + str(form.errors))
             return render(request,
                 'voyages/responsibles.html', {'travel': travel})

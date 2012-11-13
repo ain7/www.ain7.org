@@ -1,14 +1,6 @@
 {% extends "annuaire/base.html" %}
 {% load i18n %}
 
-{% block javascript %}
-<link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}/css/autocomplete.css?version={{ portal_version }}"/>
-{% endblock %}
-{% block stylesheet %}
-<script src="{{ MEDIA_URL }}/js/mootools-{{ mootools_version }}-core-nc.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}/js/autocomplete.js?version={{ portal_version }}" type="text/javascript"></script>
-{% endblock %}
-
 {% block content-left %}
 
 <form action="." method="get">
@@ -16,7 +8,7 @@
 		{{ form }}
 	</table>
 <div style="text-align: center;">
-	<input class="button" type="submit" value="{% trans "Search" %}" />
+	<input class="btn btn-primary" type="submit" value="{% trans "Search" %}" />
 </div>
 </form>
 
@@ -43,7 +35,7 @@
             {% if ain7member.avatar %}
             <img src ="{{ ain7member.avatar.url }}" height="50"  alt="{{ ain7member.person.complete_name }}" title="{{ ain7member.person.complete_name }}" />
             {% else %}
-            <img src="{{ MEDIA_URL }}/images/nobody.png" height="50" alt="{{ person.complete_name }}"/>
+            <img src="{{ MEDIA_URL }}images/nobody.png" height="50" alt="{{ person.complete_name }}"/>
             {% endif %}
             </td><td>
             <a href="{% url ain7.annuaire.views.details ain7member.person.user.id %}">
@@ -53,10 +45,10 @@
             {% endif %}
             {{ ain7member.person.first_name }}</b></a>
             {% if ain7member.is_subscriber %}
-            <img src="{{ MEDIA_URL }}/images/star.png" title="Adherent {% now "Y" %}" alt="adherent {% now "Y" %}" width="16" height="16" />
+            <img src="{{ MEDIA_URL }}images/star.png" title="Adherent {% now "Y" %}" alt="adherent {% now "Y" %}" width="16" height="16" />
             {% endif %}
             {% if ain7member.person.personprivate.death_date %}
-            <img src="{{ MEDIA_URL }}/images/deceased.png" title="Décédé" alt="Décédé" width="16" height="16" />
+            <img src="{{ MEDIA_URL }}images/deceased.png" title="Décédé" alt="Décédé" width="16" height="16" />
             {% endif %}
             <br/>
             {{ ain7member.promo_full }}

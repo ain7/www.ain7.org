@@ -1,41 +1,27 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block barre-annuaire %}<li class="active">{% endblock %}
+{% block navbardirectory %}class="active"{% endblock %}
 
 {% block content %}
 
-<div class="span-17 colborder">
-
-
-{% block content-left %}
-{% endblock %}
-
+<div class="span9">
+{% block content-left %}{% endblock %}
 </div>
 
-<div class="span-6 last">
+<div class="span3">
 
-   {% if superadmin or ca_member or secretariat_member %}
-   <div class="grey-box">
-   <h2 class="administration">{% trans "Administration" %}</h2>
-   <ul>
-      <li><a href="{% url ain7.annuaire.views.add %}">{% trans "Register a member" %}</a></li>
-      {% block extra-admin %}{% endblock %}
-   </ul>
-   </div>
-   {% endif %}
-
-   <div class="grey-box"> 
-   <h2>{% trans "Navigation" %}</h2>
-   <ul>
-
-      {% block extra-actions %}{% endblock %}
-
-      {# filters #}
-
+   <div class="well">
+    <ul class="nav nav-list">
+    {% if superadmin or ca_member or secretariat_member %}
+    <li class="nav-header">{% trans "Administration" %}</li>
+    <li class="active"><a href="{% url ain7.annuaire.views.add %}">{% trans "Register a member" %}</a></li>
+    {% block extra-admin %}{% endblock %}
+    {% endif %}
+    <li class="nav-header">{% trans "Navigation" %}</li>
+    {% block extra-actions %}{% endblock %}
       {% if filtr %}
-      <li><a href="{% url ain7.annuaire.views.filter_reset filtr.id %}">
-          {% trans "Reset this filter" %}</a></li>
+      <li><a href="{% url ain7.annuaire.views.filter_reset filtr.id %}">{% trans "Reset this filter" %}</a></li>
       {% if filtr.registered %}
       <li><a href="{% url ain7.annuaire.views.filter_edit filtr.id %}">{% trans "Modify the name of this filter" %}</a></li>
       <li><a href="{% url ain7.annuaire.views.filter_delete filtr.id %}">{% trans "Delete this filter" %}</a></li>
@@ -46,44 +32,28 @@
       {% endif %}
       <li><a href="{% url ain7.annuaire.views.advanced_search %}">{% trans "Advanced Search" %}</a></li>
 
-   </ul>
-   </div>
+      {% block extra-right-blocks %}{% endblock %}
 
-   {% block extra-right-blocks %}{% endblock %}
-
-   {% if superadmin or ca_member or secretariat_member %}
-   {% block export %}
      {% if dosearch %}
-       <div class="grey-box">
-       <h2>{% trans "Export" %}</h2>
+     <li class="nav-header">{% trans "Export" %}</li>
 
-       <ul>
          {% block worksheet-export %}
          <li><a href="{% url ain7.annuaire.views.export_csv %}">{% trans "Worksheet export" %}</a></li>
          {% endblock %}
-       </ul>
-       </div>
      {% endif %}
-   {% endblock %}
-   {% endif %}
 
    {% if userFilters %}
 
-   <div class="grey-box">
-   <h2>{% trans "Registered filters" %}</h2>
+   <li class="nav-header">{% trans "Registered filters" %}</li>
 
-   <ul>
        {% for filter in userFilters %}
-         <li>
-           <a href="{% url ain7.annuaire.views.filter_details filter.id %}">{{ filter }}</a>
-         </li>
+         <li><a href="{% url ain7.annuaire.views.filter_details filter.id %}">{{ filter }}</a></li>
        {% endfor %}
-   </ul>
-   </div>
 
    {% endif %}
 
-</div>
+   </ul>
+   </div>
 
 </div>
 

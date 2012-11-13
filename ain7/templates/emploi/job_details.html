@@ -53,19 +53,11 @@
 
 
 {% block actions %}
-   <div class="grey-box">
-   <h2>{% trans "Actions" %}</h2>
-    <ul>
-      <li><a href="{% url ain7.emploi.views.job_edit job.id %}">{% trans "Edit this job offer" %}</a></li>
-    </ul>
-   </div>
+<li class="nav-header">{% trans "Actions" %}</li>
+<li><a href="{% url ain7.emploi.views.job_edit job.id %}">{% trans "Edit this job offer" %}</a></li>
 {% endblock %}
 
 {% block statistics %}
-   <div class="grey-box">
-   <h2>{% trans "Statistics"%}</h2>
-     <ul>
-     <li>{% trans "This announce has been viewed" %} {{ views }} {% trans "times" %}.</li>
-     </ul>
-   </div>
+<li class="nav-header">{% trans "Statistics"%}</li>
+<li>{% trans "This announce has been viewed" %} {{ views }} {% trans "times" %}</li>
 {% endblock %}

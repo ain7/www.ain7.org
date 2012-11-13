@@ -43,15 +43,11 @@
 {% endblock %}
 
 {% block actions %}
-	<h3>{% trans "Actions" %}</h3>
-	<div class="right_block">
-		<ul>
-			<li><a href="{% url ain7.news.views.event_contact event.id %}">{% trans "Contact the event responsible" %}</a></li>
-                        {% if superadmin or ca_member or secretariat_member or contributeur %}
-			<li><a href="{% url ain7.news.views.event_edit event.id %}">{% trans "Edit this event" %}</a></li>
-			<li><a href="{% url ain7.news.views.event_attendees event.id %}">{% trans "View attendees" %}</a></li>
-                        {% endif %}
-		</ul>
-        </div>
+<li class="nav-header">{% trans "Actions" %}</li>
+<li><a href="{% url ain7.news.views.event_contact event.id %}">{% trans "Contact the event responsible" %}</a></li>
+{% if superadmin or ca_member or secretariat_member or contributeur %}
+<li><a href="{% url ain7.news.views.event_edit event.id %}">{% trans "Edit this event" %}</a></li>
+<li><a href="{% url ain7.news.views.event_attendees event.id %}">{% trans "View attendees" %}</a></li>
+{% endif %}
 {% endblock %}
 
