@@ -310,7 +310,7 @@ class Person(LoggedClass):
         try:
              addr = Address.objects.filter(person=self)[0]
              if Address.objects.filter(person=self).count() > 1:
-                if Address.objects.filter(person=self, type=addr_per):
+                if Address.objects.filter(person=self, type=addr_perm):
                    addr = Address.objects.filter(person=self, type=addr_perm)[0]
                 else:
                    if Address.objects.filter(person=self, type=addr_inconnue):

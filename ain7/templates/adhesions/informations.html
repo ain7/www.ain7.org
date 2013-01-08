@@ -4,12 +4,6 @@
 {% block javascript %}{% endblock %}
 {% block stylesheet %}{% endblock %}
 
-{% block meta %}
-{% ifequal payment.type 4 %}
-<meta http-equiv="refresh" content="5;url={{ spplusurl }}"/>
-{% endifequal %}
-{% endblock %}
-
 {% block content-left %}
 
 <p>Merci {{ request.user.person.first_name }} pour votre adhesion.</p>
@@ -25,10 +19,15 @@
 
 {% ifequal payment.type 4 %}
 
-<p>Afin d'effectuer votre règlement, vous allez être redirigé dans quelques instants sur le site de notre partenaire SPPlus afin de finaliser votre règlement.</p>
-<p>&nbsp;</p>
-<p>Si vous n'êtes pas redirigé, merci de <a href="{{ spplusurl }}">cliquer ici</a>.</p>
-<p>&nbsp;</p>
+<p>Afin d'effectuer votre règlement, vous allez être redirigé dans quelques instants sur le site de notre partenaire System Pay afin de finaliser votre règlement.</p>
+<form method="post" action="{{ systempay_url }}">
+{% for name, value in systempay.items %}
+<input type="hidden" name="{{ name }}" value="{{ value }}">
+{% endfor %}
+<input type="hidden" name="signature" value="{{ systempay_signature }}">
+<input type="submit" value="Continuer le paiement">
+</form>
+
 <div style="text-align: center"><img src="{{ MEDIA_URL }}/images/logo_SPPLUS_100.gif" alt="SPPlus"/></div>
 
 {% endifequal %}

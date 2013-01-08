@@ -385,7 +385,6 @@ def event_attend_yes(request, event_id):
     event = get_object_or_404(NewsItem, pk=event_id)
 
     rsvp = event.rsvp_answer(request.user.person, yes=True)
-    print rsvp
 
     return HttpResponseRedirect(reverse('ain7.news.views.event_rsvp', 
         args=[event.id, rsvp.id]))

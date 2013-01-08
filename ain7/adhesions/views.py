@@ -22,6 +22,7 @@
 #
 
 import datetime
+import hashlib
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -237,28 +238,29 @@ AIn7 Team
 
             if payment.type == 4:
 
-                import subprocess
                 from django.conf import settings
 
-                reference = payment.id
-                if settings.DEBUG:
-                    reference = 'DEBUG-'+str(payment.id)
+                systempay = {}
+                # payment amount in cents
+                systempay['vads_amount'] = payment.amount*100
+                # 978 is code for Euros
+                systempay['vads_currency'] = 978
+                systempay['vads_site_id'] = settings.SYSTEM_PAY_SITE_ID
+                systempay['vads_trans_id'] = "%06d" % (payment.id % 900000)
+                systempay['vads_trans_date'] = datetime.datetime.utcnow().strftime("%Y%m%d%H%M%S")
+                systempay['vads_version'] = 'V2'
+                systempay['vads_payment_config'] = 'SINGLE'
+                systempay['vads_page_action'] = 'PAYMENT'
+                systempay['vads_action_mode'] = 'INTERACTIVE'
+                systempay['vads_ctx_mode'] = settings.SYSTEM_PAY_MODE
+                systempay['vads_order_id'] = payment.id
 
-                data = "siret=%(siret)s&montant=%(amount)s.00&taxe=0.00&\
-validite=31/12/2099&langue=FR&devise=978&version=1&reference=%(reference)s" \
- % { 'siret': settings.AIN7_SIRET, 'amount': payment.amount,
-     'reference': reference }
-                
-                proc = subprocess.Popen('REQUEST_METHOD=GET QUERY_STRING=\''+ \
-                    data+'\' '+settings.SPPLUS_EXE, shell=True, \
-                    stdout=subprocess.PIPE)
-                spplusurl = proc.communicate()[0].replace('Location: ','').\
-                    replace('\n','')
-                print spplusurl
+                systempay_string = '+'.join([str(v) for k, v in sorted(systempay.items())])+'+'+settings.SYSTEM_PAY_CERTIFICATE
+                systempay_signature = hashlib.sha1(systempay_string).hexdigest()
 
             return ain7_render_to_response(request,
                  'adhesions/informations.html',
-                 {'payment': payment, 'spplusurl': spplusurl })
+                 {'payment': payment, 'systempay': systempay, 'systempay_signature': systempay_signature, 'systempay_url': settings.SYSTEM_PAY_URL })
 
 @login_required
 def configurations(request):
@@ -328,18 +330,14 @@ def notification(request):
 
     from django.conf import settings
 
-    if not settings.DEBUG and not request.META['REMOTE_ADDR'] in \
-    settings.SPPLUS_IP:
-        return  HttpResponseRedirect('/')
+    if request.method == 'POST':
+       
+        systempay_string = '+'.join([str(v) for k, v in sorted(request.POST.items()) if k.startswith('vads_')])+'+'+settings.SYSTEM_PAY_CERTIFICATE
+        systempay_signature = hashlib.sha1(systempay_string).hexdigest()
 
-    if request.method == 'GET':
-        if request.GET.has_key('etat'):
-            etat = request.GET['etat']
-        if request.GET.has_key('reference'):
-            reference = request.GET['reference']
+        if systempay_signature == request.POST['signature'] and request.POST['vads_result'] == '00':
 
-        if etat == '1':
-            pay = Payment.objects.get(id=reference)
+            pay = Payment.objects.get(id=int(request.POST['vads_order_id']))
             pay.validated = True
             pay.save()
 
