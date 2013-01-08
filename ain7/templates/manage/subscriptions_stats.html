@@ -31,7 +31,7 @@ caption {
 <h2>{% trans "Subscriptions Statistics"%}</h2>
 
 <table>
-<caption>Synthèse 2012</caption>
+<caption>Synthèse {% now "Y" %}</caption>
 <tr><th>Nombre de cotisants</th><th colspan="2">Taux</th><th>Montant</th></tr>
 <tr><td>{{ stats_year.full.number }}</td><td>Taux plein</td><td>{{ stats_year.full.price }} €</td><td>{{ stats_year.full.amount }} €</td></tr>
 <tr><td>{{ stats_year.young.number }}</td><td>Jeunes promos</td><td>{{ stats_year.young.price }} €</td><td>{{ stats_year.young.amount }} €</td></tr>
