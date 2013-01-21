@@ -3,7 +3,7 @@
  ain7:adhesions/views.py
 """
 #
-#   Copyright © 2007-2011 AIn7 Devel Team
+#   Copyright © 2007-2012 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@ from django.core.paginator import Paginator, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
 from django.utils.translation import ugettext as _
+from django.conf import settings
 
 from ain7.adhesions.forms import ConfigurationForm, SubscriptionForm
 from ain7.adhesions.models import Subscription, SubscriptionConfiguration
@@ -234,13 +235,11 @@ AIn7 Team
 
 """) % { 'firstname': person.first_name })
 
-            spplusurl = ''
+            systempay = {}
+            systempay_signature = ''
 
             if payment.type == 4:
 
-                from django.conf import settings
-
-                systempay = {}
                 # payment amount in cents
                 systempay['vads_amount'] = payment.amount*100
                 # 978 is code for Euros
