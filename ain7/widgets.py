@@ -39,6 +39,7 @@ from time import strptime
 
 from django import forms
 from django.conf import settings
+from django.utils import formats
 
 
 # DATETIMEWIDGET
@@ -76,7 +77,7 @@ class DateTimeWidget(forms.widgets.TextInput):
         return a
 
     def value_from_datadict(self, data, files, name):
-        dtf = forms.fields.DEFAULT_DATETIME_INPUT_FORMATS
+        dtf = formats.get_format('DATETIME_INPUT_FORMATS')
         empty_values = forms.fields.EMPTY_VALUES
 
         value = data.get(name, None)
