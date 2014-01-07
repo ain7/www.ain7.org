@@ -585,8 +585,7 @@ def ain7member_edit(request, user_id):
             request.user.message_set.create(message=_('Modifications have been\
  successfully saved.'))
 
-        return HttpResponseRedirect(
-            '/annuaire/%s/edit/' % user_id)
+            return HttpResponseRedirect('/annuaire/%s/edit/' % user_id)
 
     return ain7_render_to_response(
         request, 'annuaire/edit_form.html',
