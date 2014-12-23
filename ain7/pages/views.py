@@ -3,7 +3,7 @@
  ain7/pages/views.py
 """
 #
-#   Copyright © 2007-2012 AIn7 Devel Team
+#   Copyright © 2007-2015 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
