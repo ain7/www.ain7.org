@@ -76,9 +76,6 @@ urlpatterns = patterns('',
     # shop
     (r'^shop/', include('ain7.shop.urls')),
 
-    # sondage
-    (r'^sondages/', include('ain7.sondages.urls')),
-
     # organizations
     (r'^organizations/', include('ain7.organizations.urls')),
 

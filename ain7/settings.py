@@ -161,7 +161,6 @@ INSTALLED_APPS = (
     'ain7.pages',
     'ain7.search_engine',
     'ain7.shop',
-    'ain7.sondages',
     'ain7.voyages',
 )
 
