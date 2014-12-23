@@ -1,15 +1,15 @@
-Django==1.4.2
-PIL==1.1.7
-vobject==0.8.1c
-pexpect==2.4
-pygments==1.5
+Django<1.8
+Pillow
+vobject
+pexpect
+pygments
 
 # database layer
-MySQL-python==1.2.4b5
+MySQL-python
 
 # search engine
-django-haystack==1.2.7
-xapian-haystack==1.1.5beta
+#django-haystack
+#xapian-haystack
 
 # workaround python-dateutil issue (python 2.x / python 3)
 python-dateutil==1.4.1
