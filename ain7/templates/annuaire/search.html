@@ -21,10 +21,10 @@
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
 <td align="right">
 {% if is_paginated %}
-{% if has_previous %}<a href="{% url ain7.annuaire.views.search %}?first_name={{ request.GET.first_name }}&last_name={{ request.GET.last_name }}&promoyear={{ request.GET.promoyear }}&track={{ request.GET.track }}&organization={{ request.GET.organization }}&page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="{% url ain7.annuaire.views.search %}?first_name={{ request.GET.first_name }}&last_name={{ request.GET.last_name }}&promoyear={{ request.GET.promoyear }}&track={{ request.GET.track }}&organization={{ request.GET.organization }}&page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="{% url ain7.annuaire.views.search %}?first_name={{ request.GET.first_name }}&last_name={{ request.GET.last_name }}&promoyear={{ request.GET.promoyear }}&track={{ request.GET.track }}&organization={{ request.GET.organization }}&page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="{% url ain7.annuaire.views.search %}?first_name={{ request.GET.first_name }}&last_name={{ request.GET.last_name }}&promoyear={{ request.GET.promoyear }}&track={{ request.GET.track }}&organization={{ request.GET.organization }}&page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% if has_previous %}<a href="{% url "ain7.annuaire.views.search" %}?first_name={{ request.GET.first_name }}&last_name={{ request.GET.last_name }}&promoyear={{ request.GET.promoyear }}&track={{ request.GET.track }}&organization={{ request.GET.organization }}&page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="{% url "ain7.annuaire.views.search" %}?first_name={{ request.GET.first_name }}&last_name={{ request.GET.last_name }}&promoyear={{ request.GET.promoyear }}&track={{ request.GET.track }}&organization={{ request.GET.organization }}&page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="{% url "ain7.annuaire.views.search" %}?first_name={{ request.GET.first_name }}&last_name={{ request.GET.last_name }}&promoyear={{ request.GET.promoyear }}&track={{ request.GET.track }}&organization={{ request.GET.organization }}&page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="{% url "ain7.annuaire.views.search" %}?first_name={{ request.GET.first_name }}&last_name={{ request.GET.last_name }}&promoyear={{ request.GET.promoyear }}&track={{ request.GET.track }}&organization={{ request.GET.organization }}&page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
 {% endif %}
 </td>
 </tr>
@@ -38,7 +38,7 @@
             <img src="{{ MEDIA_URL }}images/nobody.png" height="50" alt="{{ person.complete_name }}"/>
             {% endif %}
             </td><td>
-            <a href="{% url ain7.annuaire.views.details ain7member.person.user.id %}">
+            <a href="{% url "ain7.annuaire.views.details" ain7member.person.user.id %}">
             <b>{{ ain7member.person.last_name }} 
             {% if ain7member.person.maiden_name %}
               ({{ ain7member.person.maiden_name }})

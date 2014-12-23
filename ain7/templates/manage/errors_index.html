@@ -16,10 +16,10 @@
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
 <td align="right">
 {% if is_paginated %}
-{% if has_previous %}<a href="{% url ain7.manage.views.errors_index %}?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="{% url ain7.manage.views.errors_index %}?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="{% url ain7.manage.views.errors_index %}?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="{% url ain7.manage.views.errors_index %}?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% if has_previous %}<a href="{% url "ain7.manage.views.errors_index" %}?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="{% url "ain7.manage.views.errors_index" %}?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="{% url "ain7.manage.views.errors_index" %}?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="{% url "ain7.manage.views.errors_index" %}?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
 {% endif %}
 </td>
 </tr>
@@ -27,9 +27,9 @@
 <ul>
   {% for error in errors %}
     <li>
-      <a href="{% url ain7.manage.views.error_details error.id %}">
+      <a href="{% url "ain7.manage.views.error_details" error.id %}">
         #{{ error.id }}</a>
-      <a href="{% url ain7.manage.views.error_swap error.id %}">
+      <a href="{% url "ain7.manage.views.error_swap" error.id %}">
       </a>
       {{ error.title }}
         {% if error.fixed %}
@@ -47,7 +47,7 @@
 <div class="grey-box">
 <h2>{% trans "Actions" %}</h2>
 <ul>
-<li><a href="{% url ain7.manage.views.errors_edit_range %}">{% trans "Edit a range of errors" %}</a></li>
+<li><a href="{% url "ain7.manage.views.errors_edit_range" %}">{% trans "Edit a range of errors" %}</a></li>
 </ul>
 </div>
 {% endblock %} {# extra-menu #}

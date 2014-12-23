@@ -27,16 +27,16 @@
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
 <td align="right">
 {% if is_paginated %}
-{% if has_previous %}<a href="{% url ain7.voyages.search %}?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="{% url ain7.voyages.search %}?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="{% url ain7.voyages.search %}?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="{% url ain7.voyages.search %}?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% if has_previous %}<a href="{% url "ain7.voyages.search" %}?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="{% url "ain7.voyages.search" %}?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="{% url "ain7.voyages.search" %}?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="{% url "ain7.voyages.search" %}?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
 {% endif %}
 </td>
 </table>
 <ul>
     {% for travel in travels %}
-        <li><a href="{% url ain7.voyages.views.details travel.id %}">{{ travel.label|escape }}</a>
+        <li><a href="{% url "ain7.voyages.views.details" travel.id %}">{{ travel.label|escape }}</a>
             - {{ travel.date|escape }}</li>
     {% endfor %}
 </ul>
@@ -48,5 +48,5 @@
 {% endblock %}
 
 {% block actions %}
-<li><a href="{% url ain7.voyages.views.edit %}">{% trans "Add a travel" %}</a></li>
+<li><a href="{% url "ain7.voyages.views.edit" %}">{% trans "Add a travel" %}</a></li>
 {% endblock %}

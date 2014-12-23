@@ -14,7 +14,7 @@
         {{ form }}
     </table>
 {% if travel.thumbnail %}
-  <p><a href="{% url ain7.voyages.views.thumbnail_delete travel.id %}" class="deletelink">{% trans "Delete the thumbnail of this travel." %}</a></p>
+  <p><a href="{% url "ain7.voyages.views.thumbnail_delete" travel.id %}" class="deletelink">{% trans "Delete the thumbnail of this travel." %}</a></p>
 {% endif %}
 <div style="text-align: center">
 <a class="btn disabled" href="{{ back }}">{% trans "Cancel" %}</a>
@@ -27,19 +27,19 @@
 
 {% block actions %}
 {% if travel %}
-<li><a href="{% url ain7.voyages.views.join travel.id %}">
+<li><a href="{% url "ain7.voyages.views.join" travel.id %}">
     {% trans "Participate to this travel" %}</a></li>
-<li><a href="{% url ain7.voyages.views.participants travel.id %}">
+<li><a href="{% url "ain7.voyages.views.participants" travel.id %}">
     {% trans "List participants" %}</a></li>
-<li><a href="{% url ain7.voyages.views.edit travel.id %}">
+<li><a href="{% url "ain7.voyages.views.edit" travel.id %}">
     {% trans "Modify these data" %}</a></li>
-<li><a href="{% url ain7.voyages.views.responsibles travel.id %}">
+<li><a href="{% url "ain7.voyages.views.responsibles" travel.id %}">
     {% trans "Modify the responsibles" %}</a></li>
-<li><a href="{% url ain7.voyages.views.delete travel.id %}">
+<li><a href="{% url "ain7.voyages.views.delete" travel.id %}">
     {% trans "Delete this travel" %}</a></li>
 {% else %}
-<li><a href="{% url ain7.voyages.views.edit %}">{% trans "Add a travel" %}</a></li>
-<li><a href="{% url ain7.voyages.views.search %}">{% trans "Search a travel" %}</a></li>
+<li><a href="{% url "ain7.voyages.views.edit" %}">{% trans "Add a travel" %}</a></li>
+<li><a href="{% url "ain7.voyages.views.search" %}">{% trans "Search a travel" %}</a></li>
 {% endif %}
 {% endblock %}
 

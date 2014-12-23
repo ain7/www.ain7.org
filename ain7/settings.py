@@ -149,6 +149,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.sitemaps',
+    'django.contrib.staticfiles',
     'ain7.adhesions',
     'ain7.annuaire',
     'ain7.association',

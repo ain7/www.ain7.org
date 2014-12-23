@@ -19,6 +19,6 @@
 {% block actions %}
    {% if superadmin or secretariat_member %}
    <li class="nav-header">{% trans "Actions" %}</li>
-   <li><a href="{% url ain7.association.views.council %}">{% trans "Change council roles" %}</a></li>
+   <li><a href="{% url "ain7.association.views.council" %}">{% trans "Change council roles" %}</a></li>
    {% endif %}
 {% endblock %}

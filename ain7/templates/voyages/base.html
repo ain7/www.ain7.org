@@ -41,10 +41,10 @@
     {% if next_travels %}
       {% for travel in next_travels %}
       <li>
-	    <a href="{% url ain7.voyages.views.details travel.id %}">{{ travel.label|escape }}</a>
+	    <a href="{% url "ain7.voyages.views.details" travel.id %}">{{ travel.label|escape }}</a>
           {% if travel.thumbnail %}
           <p style="text-align:center">
-            <a href="{% url ain7.voyages.views.details travel.id %}">
+            <a href="{% url "ain7.voyages.views.details" travel.id %}">
             <img src="{{ travel.thumbnail.url }}" height="100" alt="{{ travel.label }}"/></a>
           </p>
           {% endif %}
@@ -59,7 +59,7 @@
     <li class="nav-header">{% trans "Previous travels" %}</li>
         {% if previous_travels %}
             {% for travel in previous_travels %}
-              <li><a href="{% url ain7.voyages.views.details travel.id %}">{{ travel.label|escape }}</a></li>
+              <li><a href="{% url "ain7.voyages.views.details" travel.id %}">{{ travel.label|escape }}</a></li>
             {% endfor %}
         {% else %}
           {% trans "No previous travels" %}

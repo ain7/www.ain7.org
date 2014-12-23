@@ -16,9 +16,9 @@
 {% for job in proposals %}
 <li>
   {{ job.title }}&nbsp;
-  <a href="{% url ain7.emploi.views.job_validate job.id %}" class="savelink">{% trans "Validate proposal" %}</a>&nbsp;
-  <a href="{% url ain7.emploi.views.job_edit job.id %}" class="changelink">{% trans "Check" %}</a>&nbsp;
-  <a href="{% url ain7.emploi.views.job_delete job.id %}" class="deletelink">{% trans "Delete" %}</a>
+  <a href="{% url "ain7.emploi.views.job_validate" job.id %}" class="savelink">{% trans "Validate proposal" %}</a>&nbsp;
+  <a href="{% url "ain7.emploi.views.job_edit" job.id %}" class="changelink">{% trans "Check" %}</a>&nbsp;
+  <a href="{% url "ain7.emploi.views.job_delete" job.id %}" class="deletelink">{% trans "Delete" %}</a>
 </li>
 {% endfor %}
 </ul>

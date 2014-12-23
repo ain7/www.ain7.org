@@ -10,10 +10,10 @@
 	<div id="edition">
 		<h1>{{ survey.question }}</h1>
 
-		<p><a href="{% url ain7.sondages.views.view survey.id %}" class="backlink">{% trans "Go back to results" %}</a></p>
+		<p><a href="{% url "ain7.sondages.views.view" survey.id %}" class="backlink">{% trans "Go back to results" %}</a></p>
 
 		<h2>{% trans "Survey" %}</h2>
-		<p><a href="{% url ain7.sondages.views.delete survey.id %}" class="deletelink">{% trans "Delete" %}</a></p>
+		<p><a href="{% url "ain7.sondages.views.delete" survey.id %}" class="deletelink">{% trans "Delete" %}</a></p>
 		<div class="datas">
 			<ul>
 				<li>
@@ -30,7 +30,7 @@
 				</li>
 			</ul>
 		</div>
-		<p><a href="{% url ain7.sondages.views.edit survey.id %}" class="changelink">{% trans "Modify" %}</a></p>
+		<p><a href="{% url "ain7.sondages.views.edit" survey.id %}" class="changelink">{% trans "Modify" %}</a></p>
 
 
 		<h2>{% trans "Choices" %}</h2>
@@ -38,12 +38,12 @@
 			{% for choice in survey.choices.all %}
 				<tr class="{% cycle row1,row2 %}">
 					<td>{{ choice.choice }}</td>
-					<td class="action"><a href="{% url ain7.sondages.views.choice_edit survey.id choice.id %}" class="changelink">{% trans "Modify" %}</a></td>
-					<td class="action"><a href="{% url ain7.sondages.views.choice_delete survey.id choice.id %}" class="deletelink">{% trans "Delete" %}</a></td>
+					<td class="action"><a href="{% url "ain7.sondages.views.choice_edit" survey.id choice.id %}" class="changelink">{% trans "Modify" %}</a></td>
+					<td class="action"><a href="{% url "ain7.sondages.views.choice_delete" survey.id choice.id %}" class="deletelink">{% trans "Delete" %}</a></td>
 				</tr>
 			{% endfor %}
 		</table>
-		<p><a href="{% url ain7.sondages.views.choice_edit survey.id %}" class="addlink">{% trans "Add" %}</a></p>
+		<p><a href="{% url "ain7.sondages.views.choice_edit" survey.id %}" class="addlink">{% trans "Add" %}</a></p>
 
 	</div>
 </div>
@@ -53,8 +53,8 @@
 	<h2>{% trans "Actions" %}</h2>
 	<div class="grey-box">
 		<ul>
-			<li><a href="{% url ain7.sondages.views.edit %}">{% trans "Create a new survey" %}</a></li>
-			<li><a href="{% url ain7.sondages.views.index %}">{% trans "See all surveys" %}</a></li>
+			<li><a href="{% url "ain7.sondages.views.edit" %}">{% trans "Create a new survey" %}</a></li>
+			<li><a href="{% url "ain7.sondages.views.index" %}">{% trans "See all surveys" %}</a></li>
 		</ul>
 	</div>
 

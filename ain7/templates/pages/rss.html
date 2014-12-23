@@ -8,8 +8,8 @@
 <h2>{% trans "You can find several RSS feed on AIn7 portal:" %}</h2>
 
 <ul>
-<li><a href="{% url django.contrib.syndication.views.Feed "events" %}">{% trans "Latest events" %}</a></li>
-<li><a href="{% url django.contrib.syndication.views.Feed "news" %}">{% trans "Latest news" %}</a></li>
+<li><a href="{% url "django.contrib.syndication.views.Feed" "events" %}">{% trans "Latest events" %}</a></li>
+<li><a href="{% url "django.contrib.syndication.views.Feed" "news" %}">{% trans "Latest news" %}</a></li>
 </ul>
 
 </div>	

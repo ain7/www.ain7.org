@@ -15,7 +15,7 @@
 {{ text.body|safe }}
 
 {% if superadmin or ca_member or secretariat_member or contributeur %}
-<p><a href="{% url pages.views.edit text.id %}">{% trans "Edit" %}</a></p>
+<p><a href="{% url "pages.views.edit" text.id %}">{% trans "Edit" %}</a></p>
 {% endif %}
 
 </div>
@@ -25,9 +25,9 @@
    <h2>{% trans "Index" %}</h2>
    <div class="grey-box">
    <ul>
-      <li><a href="{% url ain7.association.views.media_com %}">Media &amp; Communication</a></li>
-      <li><a href="{% url ain7.association.views.canal_n7 %}">Canal N7</a></li>
-      <li><a href="{% url ain7.annuaire.views.search %}">Annuaire</a></li>
+      <li><a href="{% url "ain7.association.views.media_com" %}">Media &amp; Communication</a></li>
+      <li><a href="{% url "ain7.association.views.canal_n7" %}">Canal N7</a></li>
+      <li><a href="{% url "ain7.annuaire.views.search" %}">Annuaire</a></li>
    </ul>
    </div>
 

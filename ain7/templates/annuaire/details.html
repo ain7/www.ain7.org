@@ -8,7 +8,7 @@
 
 <h1>{{ person.first_name }} {{ person.last_name }}
 {% if superadmin or ca_member or secretariat_member or is_myself %}
-<a href="{% url ain7.annuaire.views.edit person.user.id %}" class="changelink">&nbsp;</a>
+<a href="{% url "ain7.annuaire.views.edit" person.user.id %}" class="changelink">&nbsp;</a>
 {% endif %}
 </h1>
 
@@ -142,7 +142,7 @@
           {% endif %}
           {% endif %}{% endif %}
             {% if position.fonction %}<em>{{ position.fonction }}</em>, {% endif %}
-                <a href="{% url ain7.organizations.views.organization_details position.office.organization.id %}">{{ position.office.organization }}</a>
+                <a href="{% url "ain7.organizations.views.organization_details" position.office.organization.id %}">{{ position.office.organization }}</a>
         {% if position.description %}
             {{ position.description|safe }}
         {% endif %}
@@ -186,19 +186,19 @@
 
 {% if superadmin or secretariat_member %}
 {% block extra-admin %}
-      <li><a href="{% url ain7.annuaire.views.send_new_credentials person.user.id %}">{% trans "Send credentials" %}</a></li>
+      <li><a href="{% url "ain7.annuaire.views.send_new_credentials" person.user.id %}">{% trans "Send credentials" %}</a></li>
 {% endblock %}
 {% endif %}
 
 {% block extra-actions %}
       {% if superadmin or ca_member or secretariat_member or is_myself %}
-      <li><a href="{% url ain7.annuaire.views.edit person.user.id %}">{% trans "Modify these data" %}</a></li>
-      <li><a href="{% url ain7.adhesions.views.user_subscriptions person.user.id %}">{% trans "Subscriptions History" %}</a></li>
+      <li><a href="{% url "ain7.annuaire.views.edit" person.user.id %}">{% trans "Modify these data" %}</a></li>
+      <li><a href="{% url "ain7.adhesions.views.user_subscriptions" person.user.id %}">{% trans "Subscriptions History" %}</a></li>
       {% endif %}
       {% if is_myself %}
-      <li><a href="{% url ain7.annuaire.views.change_credentials person.user.id %}">{% trans "Change credentials" %}</a></li>
+      <li><a href="{% url "ain7.annuaire.views.change_credentials" person.user.id %}">{% trans "Change credentials" %}</a></li>
       {% endif %}
-      <li><a href="{% url ain7.annuaire.views.vcard person.user.id %}">{% trans "Download vCard" %}</a></li>
+      <li><a href="{% url "ain7.annuaire.views.vcard" person.user.id %}">{% trans "Download vCard" %}</a></li>
 {% endblock %}
 
 
@@ -206,7 +206,7 @@
 
    <li class="nav-header">{% trans "Groups" %}</li>
     {% for group in person.groups.all %}
-	    <li><a href="{% url ain7.groups.views.details group.group.slug %}">{{ group.group.name }}</a></li>
+	    <li><a href="{% url "ain7.groups.views.details" group.group.slug %}">{{ group.group.name }}</a></li>
     {% endfor %}
 
     <li class="nav-header">{% trans "Card Informations"%}</li>

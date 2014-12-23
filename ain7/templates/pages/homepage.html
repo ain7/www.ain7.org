@@ -63,16 +63,16 @@
 
   <div class="hp-item clear">
     {% if news_item.image %}
-    <a href="{% url ain7.news.views.details news_item.slug %}"><img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" title="{{ news_item.title }}" class="image right prepend-05"/></a>
+    <a href="{% url "ain7.news.views.details" news_item.slug %}"><img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" title="{{ news_item.title }}" class="image right prepend-05"/></a>
     {% endif %}
-    <b><a href="{% url ain7.news.views.details news_item.slug %}">{{ news_item.title }}</a></b><br />{{ news_item.body|striptags|truncatewords_html:25|safe }} <a href="{% url ain7.news.views.details news_item.slug %}"><small>(suite)</small></a>
+    <b><a href="{% url "ain7.news.views.details" news_item.slug %}">{{ news_item.title }}</a></b><br />{{ news_item.body|striptags|truncatewords_html:25|safe }} <a href="{% url "ain7.news.views.details" news_item.slug %}"><small>(suite)</small></a>
   </div>
   <!-- in case the image has bigger height than text -->
 	    
 {% endfor %}
 
 <div style="text-align: center">
-    <br /><a href="{% url ain7.news.views.index %}">{% trans "All news" %}</a>
+    <br /><a href="{% url "ain7.news.views.index" %}">{% trans "All news" %}</a>
 </div>
 
 </div>
@@ -81,7 +81,7 @@
 
 	{% if not is_subscriber %}    
 	<div style="text-align: center">
-	<a href="{% url ain7.adhesions.views.index %}"><img src="{{ MEDIA_URL }}images/adherer.png" alt="Adhérer"/></a>
+	<a href="{% url "ain7.adhesions.views.index" %}"><img src="{{ MEDIA_URL }}images/adherer.png" alt="Adhérer"/></a>
 	<br />
 	<br />
 	</div>
@@ -89,13 +89,13 @@
 		{% trans "Your are a subscriber of the Association" %}.<br /><br />
 	{% endif %}
 
-	<h2><a href="{% url ain7.news.views.event_index %}">{% trans "Coming" %}</a></h2>
+	<h2><a href="{% url "ain7.news.views.event_index" %}">{% trans "Coming" %}</a></h2>
 
 	{% for event in events %}
 
 	<div class="hp-item">
-	<b>{{ event.date|date:"l j F"|capfirst }}</b><br /><a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a><br />
-	{{ event.body|striptags|truncatewords_html:25|safe }} <a href="{% url ain7.news.views.event_details event.id %}"><small>(suite)</small></a>
+	<b>{{ event.date|date:"l j F"|capfirst }}</b><br /><a href="{% url "ain7.news.views.event_details" event.id %}">{{ event.title }}</a><br />
+	{{ event.body|striptags|truncatewords_html:25|safe }} <a href="{% url "ain7.news.views.event_details" event.id %}"><small>(suite)</small></a>
 	</div>
 
 	{% endfor %}
@@ -118,7 +118,7 @@
 	     
 	     <ul>   
 	     {% for member in birthdays %}
-		 <li><a href="{% url ain7.annuaire.views.details member.person.pk %}">{{ member }}</a></li>
+		 <li><a href="{% url "ain7.annuaire.views.details" member.person.pk %}">{{ member }}</a></li>
 	     {% endfor %}
 	     </ul>
 	</div>

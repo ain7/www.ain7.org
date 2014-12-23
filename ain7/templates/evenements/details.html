@@ -13,9 +13,9 @@
         {% else %}
             {% trans "Do you plan to attend?" %}
         {% endif %}
-        <a href="{% url ain7.news.views.event_attend_yes event.id %}">{% trans "Yes" %}</a>
-        <a href="{% url ain7.news.views.event_attend_no event.id %}">{% trans "No" %}</a>
-        <a href="{% url ain7.news.views.event_attend_maybe event.id %}">{% trans "Maybe" %}</a>
+        <a href="{% url "ain7.news.views.event_attend_yes" event.id %}">{% trans "Yes" %}</a>
+        <a href="{% url "ain7.news.views.event_attend_no" event.id %}">{% trans "No" %}</a>
+        <a href="{% url "ain7.news.views.event_attend_maybe" event.id %}">{% trans "Maybe" %}</a>
         </p>
         {%  endif %}
 
@@ -41,7 +41,7 @@
         {% trans "Organizers" %}:
         <ul>
         {% for person in event.organizers.all %}
-            <li><a href="{% url ain7.annuaire.views.details person.id %}">{{ person }}</a></li>
+            <li><a href="{% url "ain7.annuaire.views.details" person.id %}">{{ person }}</a></li>
         {% endfor %}
         </ul>
         {% endif %}
@@ -73,10 +73,10 @@
 
 {% block actions %}
 <li class="nav-header">{% trans "Actions" %}</li>
-<li><a href="{% url ain7.news.views.event_contact event.id %}">{% trans "Contact the event responsible" %}</a></li>
+<li><a href="{% url "ain7.news.views.event_contact" event.id %}">{% trans "Contact the event responsible" %}</a></li>
 {% if superadmin or ca_member or secretariat_member or contributeur %}
-<li><a href="{% url ain7.news.views.event_edit event.id %}">{% trans "Edit this event" %}</a></li>
-<li><a href="{% url ain7.news.views.event_attendees event.id %}">{% trans "View attendees" %}</a></li>
+<li><a href="{% url "ain7.news.views.event_edit" event.id %}">{% trans "Edit this event" %}</a></li>
+<li><a href="{% url "ain7.news.views.event_attendees" event.id %}">{% trans "View attendees" %}</a></li>
 {% endif %}
 {% endblock %}
 

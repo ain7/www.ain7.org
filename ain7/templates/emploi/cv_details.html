@@ -60,7 +60,7 @@
         <tr><td style="width: 25%"><b>{{ position.begin }} - 
             {{ position.end }}</b></td>
             <td>{% if position.fonction %}<em>{{ position.fonction }}</em>{% endif %}
-		<a href="{% url ain7.organizations.views.organization_details position.office.organization.id %}">
+		<a href="{% url "ain7.organizations.views.organization_details" position.office.organization.id %}">
                 {{ position.office.organization }}</a> {{ position.office }}
 		</td></tr>
         {% if position.service %}

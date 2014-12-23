@@ -20,7 +20,7 @@
 #
 #
 
-from django.conf.urls.defaults import *
+from django.conf.urls import patterns
 
 urlpatterns = patterns('ain7.ajax.views',
     (r'^(?P<completed_name>.*)/(?P<field_name>.*)/$', 'ajax_request'),

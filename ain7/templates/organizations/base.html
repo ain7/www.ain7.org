@@ -21,9 +21,9 @@
 <h2>{% trans "Actions" %}</h2>
 <ul>
 {% if organization %}
-<li><a href="{% url ain7.organizations.views.organization_edit organization.id %}">{% trans "Modify" %}</a></li>
+<li><a href="{% url "ain7.organizations.views.organization_edit" organization.id %}">{% trans "Modify" %}</a></li>
 {% endif %}
-<li><a href="{% url ain7.organizations.views.organization_edit %}">{% trans "Add an organization" %}</a></li>
+<li><a href="{% url "ain7.organizations.views.organization_edit" %}">{% trans "Add an organization" %}</a></li>
 </ul>
 </div>
 {% endblock %}

@@ -14,13 +14,13 @@
 {% for deposit in deposits %}
 <tr>
 <td>{% if deposit.bank %}{{ deposit.bank }}{%endif %}</td><td>{% if deposit.check_number %}{{ deposit.check_number }}{% endif %}<td>{{ deposit.person }}</td><td>{{ deposit.amount }}</td>
-<td><a href="{% url ain7.manage.views.payment_edit deposit.id %}" class="changelink"></a></td>
+<td><a href="{% url "ain7.manage.views.payment_edit" deposit.id %}" class="changelink"></a></td>
 </tr>
 {% endfor %}
 </table>
 
 <div>
-<a href="{% url ain7.manage.views.payments_mark_deposited deposit_id last_deposit_id %}">{% trans "Mark as deposited" %}</a>
+<a href="{% url "ain7.manage.views.payments_mark_deposited" deposit_id last_deposit_id %}">{% trans "Mark as deposited" %}</a>
 </div>
 
 {% endblock %}

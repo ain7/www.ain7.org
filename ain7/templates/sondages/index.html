@@ -10,7 +10,7 @@
 	<h1>{% trans "List of surveys" %}</h1>
 	<ul>
 		{% for survey in surveys %}
-		   <li><a href="{% url ain7.sondages.views.view survey.id %}">{{ survey.question }}</a></li>
+		   <li><a href="{% url "ain7.sondages.views.view" survey.id %}">{{ survey.question }}</a></li>
 		{% endfor %}
 	</ul>
 
@@ -21,7 +21,7 @@
 	<h2>{% trans "Actions" %}</h2>
 	<div class="grey-box">
 		<ul>
-			<li><a href="{% url ain7.sondages.views.edit %}">{% trans "Create a new survey" %}</a></li>
+			<li><a href="{% url "ain7.sondages.views.edit" %}">{% trans "Create a new survey" %}</a></li>
 		</ul>
 	</div>
 

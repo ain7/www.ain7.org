@@ -18,14 +18,14 @@
             {% endif %}
         </td>
         <td>
-          <a href="{% url ain7.annuaire.views.details r.person.user.id %}">
+          <a href="{% url "ain7.annuaire.views.details" r.person.user.id %}">
           {{ r.person }}</a><br/>
           (<i>{{ r.person.ain7member.track }} {{ r.person.ain7member.promo }}</i>)
         {% if superadmin or secretariat_member %}
         </td><td>
-        <a href="{% url ain7.association.views.edit_council_role r.id %}" class="changelink">
+        <a href="{% url "ain7.association.views.edit_council_role" r.id %}" class="changelink">
 {% trans "Modify" %}</a><br/>
-           <a href="{% url ain7.association.views.delete_council_role r.id %}" class="deletelink">
+           <a href="{% url "ain7.association.views.delete_council_role" r.id %}" class="deletelink">
            {% trans "Delete" %}</a>
         {% endif%}
        </td>
@@ -35,7 +35,7 @@
 </table>
 
 {% if superadmin or secretariat_member %}
-<p><a href="{% url ain7.association.views.edit_council_role %}" class="addlink">
+<p><a href="{% url "ain7.association.views.edit_council_role" %}" class="addlink">
    {% trans "Add" %}</a></p>
 {% endif %}
 
@@ -44,6 +44,6 @@
 {% block actions %}
    {% if superadmin or secretariat_member %}
    <li class="nav-header">{% trans "Actions" %}</li>
-   <li><a href="{% url ain7.association.views.council %}">{% trans "Change council roles" %}</a></li>
+   <li><a href="{% url "ain7.association.views.council" %}">{% trans "Change council roles" %}</a></li>
    {% endif %}
 {% endblock %}

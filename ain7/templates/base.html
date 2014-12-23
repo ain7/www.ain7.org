@@ -1,40 +1,41 @@
 {% load  i18n %}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
-<head>
-<title>{% if page_title %}{{ page_title }} - {% else %} {%if text.title %} {{ text.title }} - {% endif %} {% endif %} {% trans "AIn7: ENSEEIHT Engineer Alumni Association" %}</title>
-<meta name="author" content="AIn7 Devel Team (http://ain7.com)" />
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-{% block meta %}{{ meta }}{% endblock %}
-<link rel="shortcut icon" type="image/x-icon" href="{{ MEDIA_URL }}images/favicon.png" />
-<link rel="alternate" type="application/rss+xml" href="/rss/events/" />
+<html lang="en">                                                                
+  <head>                                                                        
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="AIn7">
+    {% block meta %}{{ meta }}{% endblock %}
+    <link rel="icon" href="{{ MEDIA_URL }}images/favicon.png">
+    <link rel="alternate" type="application/rss+xml" href="/rss/events/" />
 
-<link href="{{ MEDIA_URL }}css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <title>{% if page_title %}{{ page_title }} - {% else %} {%if text.title %} {{ text.title }} - {% endif %} {% endif %} {% trans "AIn7: ENSEEIHT Engineer Alumni Association" %}</title>
 
-</head>
+    <link href="css/homepage.css" rel="stylesheet">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+  </head>
 
 <body>
-
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="{{ MEDIA_URL }}js/bootstrap.min.js"></script>
 
 <div class="navbar navbar-inverse">
 <div class="navbar-inner">
 <div class="container">
      
 <!-- Be sure to leave the brand out there if you want it shown -->
-<a class="brand" href="{% url ain7.pages.views.homepage %}"><img src="{{ MEDIA_URL }}logo_ain7.png" height="33%" /></a>
+<a class="brand" href="{% url "ain7.pages.views.homepage" %}"><img src="{{ MEDIA_URL }}logo_ain7.png" height="33%" /></a>
   
 <!-- Everything you want hidden at 940px or less, place within here -->
 <div class="nav-collapse collapse navbar-responsive-collapse">
 <ul class="nav">
-    <li {% block navbardirectory %}{{ navbardirectory }}{% endblock %}><a href="{% url ain7.annuaire.views.search %}">{% trans "Directory" %}</a></li>
-    <li {% block navbarnews %}{{ navbarnews }}{% endblock %}><a href="{% url ain7.news.views.index %}">{% trans "News" %}</a></li>
-    <li {% block navbarevents %}{{ navbarevents }}{% endblock %}><a href="{% url ain7.news.views.event_index %}">{% trans "Events" %}</a></li>
-    <li {% block navbarjobs %}{{ navvarjobs }}{% endblock %}><a href="{% url ain7.emploi.views.index %}">{% trans "Job service" %}</a></li>
-    <li {% block navbargroups %}{{ navbargroups }}{% endblock %}><a href="{% url ain7.groups.views.index %}">{% trans "Groups" %}</a></li>
-    <li {% block navbarassociation %}{{ navbarassociation }}{% endblock %}><a href="{% url ain7.association.views.index %}">{% trans "Association" %}</a></li>
-    <li {% block navbartravels %}{{ navbartravels }}{% endblock %}><a href="{% url ain7.voyages.views.index %}">{% trans "Travels" %}</a></li>
+    <li {% block navbardirectory %}{{ navbardirectory }}{% endblock %}><a href="{% url "ain7.annuaire.views.search" %}">{% trans "Directory" %}</a></li>
+    <li {% block navbarnews %}{{ navbarnews }}{% endblock %}><a href="{% url "ain7.news.views.index" %}">{% trans "News" %}</a></li>
+    <li {% block navbarevents %}{{ navbarevents }}{% endblock %}><a href="{% url "ain7.news.views.event_index" %}">{% trans "Events" %}</a></li>
+    <li {% block navbarjobs %}{{ navvarjobs }}{% endblock %}><a href="{% url "ain7.emploi.views.index" %}">{% trans "Job service" %}</a></li>
+    <li {% block navbargroups %}{{ navbargroups }}{% endblock %}><a href="{% url "ain7.groups.views.index" %}">{% trans "Groups" %}</a></li>
+    <li {% block navbarassociation %}{{ navbarassociation }}{% endblock %}><a href="{% url "ain7.association.views.index" %}">{% trans "Association" %}</a></li>
+    <li {% block navbartravels %}{{ navbartravels }}{% endblock %}><a href="{% url "ain7.voyages.views.index" %}">{% trans "Travels" %}</a></li>
 </ul>
 
 <form class="navbar-search pull-right" action="">
@@ -46,12 +47,12 @@
  <li class="dropdown" {% block navbarmanage %}{{ navbarmanage }}{% endblock %}>
   <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Manage" %}<b class="caret"></b></a>
     <ul class="dropdown-menu">
-      <li><a href="{% url ain7.organizations.views.organization_search %}">{% trans "Organizations" %}</a></li>
-      <li><a href="{% url ain7.manage.views.errors_index %}">{% trans "Errors" %}</a></li>
-      <li><a href="{% url ain7.manage.views.payments_index %}">{% trans "Payments" %}</a></li>
-      <li><a href="{% url ain7.manage.views.mailings_index %}">{% trans "Mailings" %}</a></li>
-      <li><a href="{% url ain7.manage.views.subscriptions_stats %}">{% trans "Subscriptions" %}</a></li>
-      <li><a href="{% url ain7.manage.views.payments_deposit_index %}">{% trans "Deposit slip" %}</a></li>
+      <li><a href="{% url "ain7.organizations.views.organization_search" %}">{% trans "Organizations" %}</a></li>
+      <li><a href="{% url "ain7.manage.views.errors_index" %}">{% trans "Errors" %}</a></li>
+      <li><a href="{% url "ain7.manage.views.payments_index" %}">{% trans "Payments" %}</a></li>
+      <li><a href="{% url "ain7.manage.views.mailings_index" %}">{% trans "Mailings" %}</a></li>
+      <li><a href="{% url "ain7.manage.views.subscriptions_stats" %}">{% trans "Subscriptions" %}</a></li>
+      <li><a href="{% url "ain7.manage.views.payments_deposit_index" %}">{% trans "Deposit slip" %}</a></li>
       <li class="divider"></li>
       <li><a href="#">Separated link</a></li>
     </ul>
@@ -61,11 +62,11 @@
  <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.person.first_name }} {{ user.person.last_name }}<b class="caret"></b></a>
     <ul class="dropdown-menu">
-      <li><a href="{% url ain7.annuaire.views.details user.id %}"><i class="icon-home"></i> Profile</a></li>
-      <li><a href="{% url ain7.annuaire.views.details user.id %}"><i class="icon-cog"></i> Preferences</a></li>
-      <li><a href="{% url ain7.annuaire.views.details user.id %}"><i class="icon-envelope"></i> Messages</a></li>
+      <li><a href="{% url "ain7.annuaire.views.details" user.id %}"><i class="icon-home"></i> Profile</a></li>
+      <li><a href="{% url "ain7.annuaire.views.details" user.id %}"><i class="icon-cog"></i> Preferences</a></li>
+      <li><a href="{% url "ain7.annuaire.views.details" user.id %}"><i class="icon-envelope"></i> Messages</a></li>
       <li class="divider"></li>
-      <li><a href="{% url ain7.pages.views.logout %}"><i class="icon-off"></i> Logout</a></li>
+      <li><a href="{% url "ain7.pages.views.logout" %}"><i class="icon-off"></i> Logout</a></li>
     </ul>
  </li>
 {% else %}
@@ -135,6 +136,9 @@ piwikTracker.enableLinkTracking();
 } catch( err ) {}
 </script><noscript><p><img src="{{ piwik_url }}piwik.php?idsite={{ piwik_site_id}}" style="border:0" alt=""/></p></noscript>
 <!-- End Piwik Tag -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
 </body>
 </html>

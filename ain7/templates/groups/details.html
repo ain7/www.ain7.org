@@ -24,13 +24,13 @@
             {% endif %}
         </td>
         <td>
-        <a href="{% url ain7.annuaire.views.details r.person.user.id %}">{{ r.person }}</a><br/>
+        <a href="{% url "ain7.annuaire.views.details" r.person.user.id %}">{{ r.person }}</a><br/>
         (<i>{{ r.person.ain7member.track }} {{ r.person.ain7member.promo }}</i>)
         {% if superadmin or secretariat_member %}
         </td><td>
-        <a href="{% url ain7.groups.views.role_edit group.slug r.id %}" class="changelink">
+        <a href="{% url "ain7.groups.views.role_edit" group.slug r.id %}" class="changelink">
 {% trans "Modify" %}</a><br/>
-           <a href="{% url ain7.groups.views.role_delete group.slug r.id %}" class="deletelink">
+           <a href="{% url "ain7.groups.views.role_delete" group.slug r.id %}" class="deletelink">
            {% trans "Delete" %}</a>
         {% endif%}
        </td>
@@ -40,7 +40,7 @@
 </table>
 
 {% if superadmin or secretariat_member %}
-<p><a href="{% url ain7.groups.views.role_edit group.slug %}" class="addlink">{% trans "Add" %}</a></p>
+<p><a href="{% url "ain7.groups.views.role_edit" group.slug %}" class="addlink">{% trans "Add" %}</a></p>
 {% endif %}
 
 {% endblock %}

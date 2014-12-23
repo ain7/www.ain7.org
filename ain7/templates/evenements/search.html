@@ -29,16 +29,16 @@
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
 <td align="right">
 {% if is_paginated %}
-{% if has_previous %}<a href="{% url ain7.news.views.event_search %}?page=1&location={{ request.GET.location }}&title={{ request.GET.title }}">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="{% url ain7.news.views.event_search %}?page={{ previous_page }}&location={{ request.GET.location }}&title={{ request.GET.title }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="{% url ain7.news.views.event_search %}?page={{ next_page }}&location={{ request.GET.location }}&title={{ request.GET.title }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="{% url ain7.news.views.event_search %}?page={{ pages }}&location={{ request.GET.location }}&title={{ request.GET.title }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% if has_previous %}<a href="{% url "ain7.news.views.event_search" %}?page=1&location={{ request.GET.location }}&title={{ request.GET.title }}">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="{% url "ain7.news.views.event_search" %}?page={{ previous_page }}&location={{ request.GET.location }}&title={{ request.GET.title }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="{% url "ain7.news.views.event_search" %}?page={{ next_page }}&location={{ request.GET.location }}&title={{ request.GET.title }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="{% url "ain7.news.views.event_search" %}?page={{ pages }}&location={{ request.GET.location }}&title={{ request.GET.title }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
 {% endif %}
 </td>
 </table>
 <ul>
     {% for event in list_events %}
-        <li><a href="{% url ain7.news.views.event_details event.id %}">{{ event.title }}</a> ({{ event.date|date:"d F Y H:i" }} - {{ event.location }})</li>
+        <li><a href="{% url "ain7.news.views.event_details" event.id %}">{{ event.title }}</a> ({{ event.date|date:"d F Y H:i" }} - {{ event.location }})</li>
     {% endfor %}
 </ul>
 {% else %}
@@ -51,8 +51,8 @@
 {% block actions %}
 <li class="nav-header">{% trans "Actions" %}</li>
 {% if superadmin or ca_member or secretariat_member or contributeur %}
-<li><a href="{% url ain7.news.views.event_edit %}">{% trans "Register an event" %}</a></li>
+<li><a href="{% url "ain7.news.views.event_edit" %}">{% trans "Register an event" %}</a></li>
 {% endif %}
-<li><a href="{% url ain7.news.views.event_search %}">{% trans "Search an event" %}</a></li>
-<li><a href="{% url ain7.news.views.ical %}">{% trans "Subscribe iCal" %}</a></li>
+<li><a href="{% url "ain7.news.views.event_search" %}">{% trans "Search an event" %}</a></li>
+<li><a href="{% url "ain7.news.views.ical" %}">{% trans "Subscribe iCal" %}</a></li>
 {% endblock %}

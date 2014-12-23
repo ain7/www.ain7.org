@@ -13,8 +13,8 @@
   <ul>
     {% for responsible in travel.travel_responsibles.all %}
       <li>
-        <a href="{% url ain7.annuaire.views.details responsible.responsible.user.id %}">{{ responsible.responsible }}</a>
-        (<a href="{% url ain7.voyages.views.responsibles_delete travel.id responsible.responsible.user.id %}" class="deletelink">{% trans "Delete" %}</a>)
+        <a href="{% url "ain7.annuaire.views.details" responsible.responsible.user.id %}">{{ responsible.responsible }}</a>
+        (<a href="{% url "ain7.voyages.views.responsibles_delete" travel.id responsible.responsible.user.id %}" class="deletelink">{% trans "Delete" %}</a>)
 </li>
     {% endfor %}
   </ul>
@@ -25,11 +25,11 @@
 {% endblock %} {# content-left #}
 
 {% block actions %}
-<li><a href="{% url ain7.voyages.views.responsibles_add travel.id %}">{% trans "Add a responsible" %}</a></li>
+<li><a href="{% url "ain7.voyages.views.responsibles_add" travel.id %}">{% trans "Add a responsible" %}</a></li>
 {% endblock %}
 
 
 {% block navigation %}
   <li class="nav-header">{% trans "Navigation" %}</li>
-  <li><a href="{% url ain7.voyages.views.details travel.id %}">{% trans "Back to the page of this travel" %}</a></li>
+  <li><a href="{% url "ain7.voyages.views.details" travel.id %}">{% trans "Back to the page of this travel" %}</a></li>
 {% endblock %}

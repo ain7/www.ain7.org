@@ -40,11 +40,11 @@
 			<ul>
 				{% block action %}
 					{% if not already_vote %}
-						<li><a href="{% url ain7.sondages.views.vote survey.id %}">{% trans "Vote" %}</a></li>
+						<li><a href="{% url "ain7.sondages.views.vote" survey.id %}">{% trans "Vote" %}</a></li>
 					{% endif %}
 				{% endblock action %}
-				<li><a href="{% url ain7.sondages.views.details survey.id %}">{% trans "Edit this survey" %}</a></li>
-				<li><a href="{% url ain7.sondages.views.index %}">{% trans "See all surveys" %}</a></li>
+				<li><a href="{% url "ain7.sondages.views.details" survey.id %}">{% trans "Edit this survey" %}</a></li>
+				<li><a href="{% url "ain7.sondages.views.index" %}">{% trans "See all surveys" %}</a></li>
 			</ul>
 		</div>
 	

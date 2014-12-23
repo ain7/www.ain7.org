@@ -45,10 +45,10 @@
 
 </div> <!-- dataBlock -->
 
-<a href="{% url ain7.organizations.views.organization_edit_data organization.id %}" class="changelink">
+<a href="{% url "ain7.organizations.views.organization_edit_data" organization.id %}" class="changelink">
   {% trans "Modify" %}</a>
 &nbsp;
-<a href="{% url ain7.organizations.views.organization_delete organization.id %}" class="deletelink">
+<a href="{% url "ain7.organizations.views.organization_delete" organization.id %}" class="deletelink">
   {% trans "Delete" %}</a>
 
 <h2>{% trans "List of offices" %}</h2>
@@ -59,15 +59,15 @@
 
   {% if office.is_valid and not office.is_a_proposal %}
     <li>{{ office }} {{ office.line1|default:"" }} {{ office.line2|default:"" }} {{ office.zip_code|default:"" }} {{ office.city|default:"" }} {{ office.country|default:"" }}
-      <a href="{% url ain7.organizations.views.office_edit organization.id office.id %}" class="changelink">
+      <a href="{% url "ain7.organizations.views.office_edit" organization.id office.id %}" class="changelink">
         {% trans "Modify" %}</a>
-      <a href="{% url ain7.organizations.views.office_delete organization.id office.id %}" class="deletelink">
+      <a href="{% url "ain7.organizations.views.office_delete" organization.id office.id %}" class="deletelink">
         {% trans "Delete" %}</a>
     </li>
   {% endif %}
 {% endfor %}
 </ul>
-<a href="{% url ain7.organizations.views.office_edit organization.id %}" class="addlink">
+<a href="{% url "ain7.organizations.views.office_edit" organization.id %}" class="addlink">
   {% trans "Add" %}</a>
 
 </div>
@@ -83,6 +83,5 @@
 </form>
 
 {% endif %}
-
 
 {% endblock %}

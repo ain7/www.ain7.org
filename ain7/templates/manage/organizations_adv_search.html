@@ -24,7 +24,7 @@
     {% for criterion in filtr.criteriaField.all %}
       <tr class="{% cycle row1,row2 as rowvar %}">
         <td>{% if not forloop.first %}
-          <a href="{% url manage.views.filter_swapOp filtr.id %}">
+          <a href="{% url "manage.views.filter_swapOp" filtr.id %}">
             {{ filtr.operator }}
           </a>
           {% endif %}
@@ -32,9 +32,9 @@
         <td>{{ criterion.fieldVerboseName|capfirst }}</td>
         <td>{{ criterion.comparatorVerboseName }}</td>
         <td>{{ criterion.displayedValue }}</td>
-        <td><a href="{% url ain7.manage.views.criterion_field_edit filtr.id criterion.id %}" 
+        <td><a href="{% url "ain7.manage.views.criterion_field_edit" filtr.id criterion.id %}" 
                 class="changelink">{% trans "Modify" %}</a></td>
-        <td><a href="{% url ain7.manage.views.criterion_delete filtr.id criterion.id %}"
+        <td><a href="{% url "ain7.manage.views.criterion_delete" filtr.id criterion.id %}"
                 class="deletelink">{% trans "Delete" %}</a></td>
       </tr>
     {% endfor %}
@@ -42,7 +42,7 @@
     {% for criterion in filtr.criteriaFilter.all %}
       <tr class="{% cycle rowvar %}">
         <td>{% if filtr.criteriaField.all or not forloop.first %}
-          <a href="{% url ain7.manage.views.filter_swap_op filtr.id %}">
+          <a href="{% url "ain7.manage.views.filter_swap_op" filtr.id %}">
             {{ filtr.operator }}
           </a>
           {% endif %}
@@ -56,9 +56,9 @@
         </td>
         <td>&nbsp;</td>
         <td>{{ criterion.filterCriterion }}</td>
-        <td><a href="{% url ain7.manage.views.criterion_filter_edit filtr.id criterion.id %}" 
+        <td><a href="{% url "ain7.manage.views.criterion_filter_edit" filtr.id criterion.id %}" 
                class="changelink">{% trans "Modify" %}</a></td>
-        <td><a href="{% url ain7.manage.views.criterion_delete filtr.id criterion.id %}"
+        <td><a href="{% url "ain7.manage.views.criterion_delete" filtr.id criterion.id %}"
                class="deletelink">{% trans "Delete" %}</a></td>
       </tr>
     {% endfor %}
@@ -72,7 +72,7 @@
   <p>{% trans "No criterion. Please add one." %}</p>
 {% endif %}
 
-<a href="{% url ain7.manage.views.criterion_add filtr.id %}" 
+<a href="{% url "ain7.manage.views.criterion_add" filtr.id %}" 
    class="addlink">{% trans "Add a criterion" %}</a>
 
 <div style="text-align: center">
@@ -91,19 +91,19 @@
 <td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
 <td align="right">
 {% if is_paginated %}
-{% if has_previous %}<a href="{% url ain7.manage.views.organizations_adv_search %}?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="{% url ain7.manage.views.organizations_adv_search %}?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="{% url ain7.manage.views.organizations_adv_search %}?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="{% url ain7.manage.views.organizations_adv_search %}?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
+{% if has_previous %}<a href="{% url "ain7.manage.views.organizations_adv_search" %}?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
+{% if has_previous %}<a href="{% url "ain7.manage.views.organizations_adv_search" %}?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
+{% if has_next %}<a href="{% url "ain7.manage.views.organizations_adv_search" %}?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
+{% if has_next %}<a href="{% url "ain7.manage.views.organizations_adv_search" %}?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
 {% endif %}
 </td>
 </table>
   <ul>
     {% for office in offices %}
       <li>
-        <a href="{% url ain7.manage.views.organization_details office.organization.id %}">
+        <a href="{% url "ain7.manage.views.organization_details" office.organization.id %}">
           {{ office.organization }} </a> - 
-        <a href="{% url ain7.manage.views.office_details office.id %}">
+        <a href="{% url "ain7.manage.views.office_details" office.id %}">
           {{ office.name }} </a>
       </li>
     {% endfor %}
@@ -118,9 +118,9 @@
 
 
 {% block extra-navigation %}
-    <li><a href="{% url ain7.manage.views.organizations_search %}">{% trans "Simple Search" %}</a></li>
+    <li><a href="{% url "ain7.manage.views.organizations_search" %}">{% trans "Simple Search" %}</a></li>
     {% if filtr.registered %}
-      <li><a href="{% url ain7.manage.views.organizations_adv_search %}">
+      <li><a href="{% url "ain7.manage.views.organizations_adv_search" %}">
           {% trans "Advanced Search (homepage)" %}</a></li>
     {% endif %}
 {% endblock %}
@@ -131,27 +131,27 @@
 <div class="grey-box">
 <ul>
       {% if filtr %}
-      <li><a href="{% url ain7.manage.views.filter_reset filtr.id %}">
+      <li><a href="{% url "ain7.manage.views.filter_reset" filtr.id %}">
           {% trans "Reset this filter" %}</a></li>
       {% endif %}
       {% if filtr.registered %}
-      <li><a href="{% url ain7.manage.views.filter_edit filtr.id %}">
+      <li><a href="{% url "ain7.manage.views.filter_edit" filtr.id %}">
           {% trans "Modify the name of this filter" %}</a>&nbsp;
-      <li><a href="{% url ain7.manage.views.filter_delete filtr.id %}">
+      <li><a href="{% url "ain7.manage.views.filter_delete" filtr.id %}">
           {% trans "Delete this filter" %}</a>&nbsp;
-      <li><a href="{% url ain7.manage.views.filter_new %}">
+      <li><a href="{% url "ain7.manage.views.filter_new" %}">
           {% trans "New filter" %}</a>&nbsp;
       {% else %}
-      <li><a href="{% url ain7.manage.views.filter_register %}">
+      <li><a href="{% url "ain7.manage.views.filter_register" %}">
           {% trans "Save this filter" %}</a></li>
       {% endif %}
-    <li><a href="{% url ain7.manage.views.adv_export_csv%}">
+    <li><a href="{% url "ain7.manage.views.adv_export_csv" %}">
         {% trans "Worksheet export" %}</a></li>
 </ul>
 </div>
 <div class="grey-box">
 <ul>
-    <li><a href="{% url ain7.manage.views.organization_edit %}">{% trans "Register organization" %}</a></li>
+    <li><a href="{% url "ain7.manage.views.organization_edit" %}">{% trans "Register organization" %}</a></li>
 </ul>
 </div>
 {% endblock %} {# actions #}
@@ -163,7 +163,7 @@
 <ul>
     {% for filter in userFilters %}
       <li>
-        <a href="{% url ain7.manage.views.filter_details filter.id %}">
+        <a href="{% url "ain7.manage.views.filter_details" filter.id %}">
           {{ filter }}</a>
       </li>
     {% endfor %}

@@ -18,7 +18,7 @@
   {% if event %}
   <li class="nav-header">{% trans "Navigation" %}</li>
   <li>
-    <a href="{% url ain7.news.views.event_details event.id %}">{% trans "Event page" %}</a>
+    <a href="{% url "ain7.news.views.event_details" event.id %}">{% trans "Event page" %}</a>
   </li>
   {% endif %}
 

@@ -37,7 +37,7 @@
 </tr>
 {% for subscription in subscriptions_list %}
 <tr class="{% cycle row1,row2 %}">
-  <td align="center"><a href="{% url ain7.annuaire.views.details subscription.member.person.user.id %}">{{ subscription.member.person.last_name }} {{ subscription.member.person.first_name }}</a></td>
+  <td align="center"><a href="{% url "ain7.annuaire.views.details" subscription.member.person.user.id %}">{{ subscription.member.person.last_name }} {{ subscription.member.person.first_name }}</a></td>
   <td align="center">
     {% ifnotequal subscription.start_year subscription.end_year %}
       {% blocktrans with subscription.start_year as start and subscription.end_year as end %}{{ start }} to {{ end }}{% endblocktrans %}
@@ -61,14 +61,14 @@
   </td>
   <td align="center">
     {% if subscription.payment %}
-    <a href="{% url ain7.manage.views.payment_details subscription.payment.id %}">#{{ subscription.payment.id }}</a> {% trans "by" %} {{ subscription.payment.get_type_display }}
+    <a href="{% url "ain7.manage.views.payment_details" subscription.payment.id %}">#{{ subscription.payment.id }}</a> {% trans "by" %} {{ subscription.payment.get_type_display }}
     {% endif %}
   </td>
   <td align="center">
     {% if not subscription.validated %}
-      <a class="savelink" href="{% url ain7.adhesions.views.subscription_validate subscription.id %}">
+      <a class="savelink" href="{% url "ain7.adhesions.views.subscription_validate" subscription.id %}">
       {% trans "Validate" %}</a><br/>
-      <a class="deletelink" href="{% url ain7.adhesions.views.subscription_delete subscription.id %}">
+      <a class="deletelink" href="{% url "ain7.adhesions.views.subscription_delete" subscription.id %}">
       {% trans "Delete" %}</a>
     {% endif %}
   </td>
