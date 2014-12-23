@@ -248,13 +248,6 @@ AIN7_SIRET = '0000000000000001-001'
 
 ENVIRONMENT= 'production'
 
-#HAYSTACK_SITECONF = 'ain7.search_sites'
-#HAYSTACK_SEARCH_ENGINE = 'xapian'
-#HAYSTACK_XAPIAN_PATH = BASE_DIR +'/data/xapian/'
-
-# INSTALLED_APPS += ('haystack',)
-
-
 try:
     from settings_local import *
 except ImportError:

@@ -118,7 +118,5 @@ urlpatterns = patterns('',
     (r'^viadeo/$', 'ain7.pages.views.viadeo'),
     (r'^g\+/$', 'ain7.pages.views.gplus'),
 
-    #(r'^search/', include('haystack.urls')),
-
 )
 
