@@ -39,7 +39,6 @@ import ain7.pages.models as pages
 import ain7.news.models as news
 import ain7.search_engine.models as search_engine
 import ain7.shop.models as shop
-import ain7.sondages.models as sondages
 import ain7.voyages.models as voyages
 
 def filldb():
@@ -2096,27 +2095,6 @@ Prochaines manifestations
 
     camipy2 = groups.GroupLeader(grouphead=camipy, role=role5, person=olivier)
     camipy2.save()
-
-    sondage1 = sondages.Survey()
-    sondage1.question = u"Quelle est votre couleur préférée ?"
-    sondage1.start_date = datetime.now()
-    sondage1.end_date = datetime.now() + timedelta(30)
-    sondage1.save()
-
-    sondage1_choix1 = sondages.Choice()
-    sondage1_choix1.survey = sondage1
-    sondage1_choix1.choice = "Bleu"
-    sondage1_choix1.save()
-
-    sondage1_choix2 = sondages.Choice()
-    sondage1_choix2.survey = sondage1
-    sondage1_choix2.choice = "Vert"
-    sondage1_choix2.save()
-
-    sondage1_choix3 = sondages.Choice()
-    sondage1_choix3.survey = sondage1
-    sondage1_choix3.choice = "Rouge"
-    sondage1_choix3.save()
 
     news1 = news.NewsItem()
     news1.title = "Nouveau portail Web"
