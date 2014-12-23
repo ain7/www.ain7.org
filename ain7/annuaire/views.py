@@ -30,9 +30,10 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
+from django.forms.models import modelform_factory
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.utils.translation import ugettext as _
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from ain7.annuaire.models import PersonPrivate, UserActivity, Promo, \
                                  PhoneNumber, InstantMessaging, Email, IRC, \
@@ -443,22 +444,23 @@ def edit(request, user_id=None):
 def person_edit(request, user_id):
 
     person = Person.objects.get(user=user_id)
-    form = PersonForm(instance=person)
+    PersonForm = modelform_factory(Person, exclude=('old_id', 'user',))
+    form = PersonForm(request.POST or None, instance=person)
 
-    if request.method == 'POST':
-        form = PersonForm(request.POST, instance=person)
-        if form.is_valid():
-            form.save()
-            messages.success(request, _('Modifications have been\
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        messages.success(request, _('Modifications have been\
  successfully saved.'))
 
-        return HttpResponseRedirect(
-            '/annuaire/%s/edit/' % user_id)
+        return redirect('annuaire-edit', user_id)
 
-    return render(
-        request, 'annuaire/edit_form.html',
-        {'form': form, 'action_title': _("Modification of personal data for"),
-         'back': request.META.get('HTTP_REFERER', '/')})
+    return render(request, 'annuaire/edit_form.html',
+        {
+            'form': form,
+            'action_title': _("Modification of personal data for"),
+            'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @access_required(groups=['ain7-secretariat','ain7-ca'])
 def personprivate_edit(request, user_id):

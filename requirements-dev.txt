@@ -2,7 +2,6 @@
 
 # For the dev
 django-debug-toolbar
-django-extensions
 django-nose
 werkzeug
 coverage

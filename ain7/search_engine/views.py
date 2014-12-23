@@ -36,7 +36,6 @@ from ain7.search_engine.forms import ChooseFieldForm, ChooseCSVFieldsForm
 from ain7.search_engine.utils import criteriaList, filtersToExclude, splitFieldFullname,\
                                      getFieldFromName, getModelField, findComparatorsForField,\
                                      getDisplayedVal, getCompVerboseName, getValueFromField
-from ain7.ajax.views import ajax_resolve
 
 
 @login_required

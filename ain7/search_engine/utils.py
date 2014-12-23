@@ -28,7 +28,6 @@ from django.db import models
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
-from ain7.ajax.views import ajax_resolve
 from ain7.fields import AutoCompleteField
 from ain7.annuaire.models import Person
 from ain7.search_engine.models import params, SearchFilter

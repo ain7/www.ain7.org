@@ -29,7 +29,6 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 from django.forms.util import ValidationError
 
-from ain7.fields import AutoCompleteField
 from ain7.widgets import DateTimeWidget
 from ain7.annuaire.models import AIn7Member, Promo, Track, PromoYear, Person,\
                                  Country, PersonPrivate, MemberType, Activity,\
@@ -49,17 +48,14 @@ class SearchPersonForm(forms.Form):
         required=False)
     first_name = forms.CharField(label=_('First name'), max_length=50,
         required=False)
-    promoyear = forms.IntegerField(label=_('Promo year'), required=False,
-        widget=AutoCompleteField(completed_obj_name='promoyear'))
-    track = forms.IntegerField(label=_('Track'), required=False,
-        widget=AutoCompleteField(completed_obj_name='track'))
+    promoyear = forms.IntegerField(label=_('Promo year'), required=False)
+    track = forms.IntegerField(label=_('Track'), required=False)
     organization = forms.CharField(label=_('organization').capitalize(),
         max_length=50, required=False)
     city = forms.CharField(label=_('city').capitalize(),
         max_length=50, required=False)
     country = forms.CharField(label=_('country').capitalize(),
-        max_length=50, required=False,
-        widget=AutoCompleteField(completed_obj_name='country'))
+        max_length=50, required=False)
 
     def criteria(self):
         """define search criteria for a person"""
@@ -114,7 +110,8 @@ class SearchPersonForm(forms.Form):
 
     def search(self, criteria):
         """perform the search for a person"""
-        return AIn7Member.objects.filter(criteria).distinct().\
+        #return AIn7Member.objects.filter(criteria).distinct().\
+        return AIn7Member.objects.filter().distinct().\
             order_by('person__last_name','person__first_name')
 
 class NewMemberForm(forms.Form):
@@ -125,15 +122,12 @@ class NewMemberForm(forms.Form):
         required=True, widget=forms.TextInput(attrs={'size': 40}))
     mail = forms.EmailField(label=_('Mail'), max_length=50, required=True,
         widget=forms.TextInput(attrs={'size': 40}))
-    nationality = forms.IntegerField(label=_('Nationality'), required=False,
-        widget=AutoCompleteField(completed_obj_name='nationality'))
+    nationality = forms.IntegerField(label=_('Nationality'), required=False)
     birth_date = forms.DateTimeField(label=_('Date of birth'), required=False,
         widget=DATE_WIDGET)
     sex = forms.ChoiceField(label=_('Sex'), required=True, choices=Person.SEX)
-    promoyear = forms.IntegerField(label=_('Promo year'), required=False,
-        widget=AutoCompleteField(completed_obj_name='promoyear'))
-    track = forms.IntegerField(label=_('Track'), required=False, 
-        widget=AutoCompleteField(completed_obj_name='track'))
+    promoyear = forms.IntegerField(label=_('Promo year'), required=False)
+    track = forms.IntegerField(label=_('Track'), required=False)
 
     def genlogin(self):
         """login generation"""
@@ -269,8 +263,7 @@ class PersonForm(forms.ModelForm):
         label=_('Sex'))
     birth_date = forms.DateTimeField(label=_('birth date').capitalize(),
         widget=DATE_WIDGET, required=False)
-    country = forms.IntegerField(label=_('nationality'), required=False,
-        widget=AutoCompleteField(completed_obj_name='nationality'))
+    country = forms.IntegerField(label=_('nationality'), required=False)
 
     class Meta:
         """person form with no death date meta"""
@@ -350,10 +343,8 @@ class PhoneNumberForm(forms.ModelForm):
 
 class PromoForm(forms.Form):
     """promo form"""
-    promoyear = forms.IntegerField(label=_('Promo year'), required=False,
-        widget=AutoCompleteField(completed_obj_name='promoyear'))
-    track = forms.IntegerField(label=_('Track'), required=False,
-        widget=AutoCompleteField(completed_obj_name='track'))
+    promoyear = forms.IntegerField(label=_('Promo year'), required=False)
+    track = forms.IntegerField(label=_('Track'), required=False)
 
     def clean_promoyear(self):
         """check promo year"""
@@ -400,8 +391,7 @@ class PromoForm(forms.Form):
 class AddressForm(forms.ModelForm):
     """address form"""
     country = forms.IntegerField(label=_('country').capitalize(),
-        required=False,
-        widget=AutoCompleteField(completed_obj_name='country'))
+        required=False)
 
     class Meta:
         """address form meta"""

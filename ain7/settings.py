@@ -150,6 +150,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'django.contrib.staticfiles',
+    'crispy_forms',
     'ain7.adhesions',
     'ain7.annuaire',
     'ain7.association',
@@ -231,8 +232,9 @@ VERSION = BASE+REVISION
 
 TINYMCE_VERSION = '3.3.8'
 
-
 PORTAL_ADMIN = 'ain7-admin'
+
+CRISPY_TEMPLATE_PACK='bootstrap'
 
 FACEBOOK_AIN7='http://www.facebook.com/ENSEEIHT'
 LINKEDIN_AIN7='http://www.linkedin.com/groups?gid=73525'

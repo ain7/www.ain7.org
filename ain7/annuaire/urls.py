@@ -21,7 +21,7 @@
 #
 #
 
-from django.conf.urls import patterns
+from django.conf.urls import patterns, url
 
 urlpatterns = patterns('ain7.annuaire.views',
     # Annuaire
@@ -62,7 +62,7 @@ urlpatterns = patterns('ain7.annuaire.views',
      +r'(?P<crit_id>\d+)/delete/filter/$',
      'criterion_delete', {'crit_type': 'filter'}),
     # Edition
-    (r'^(?P<user_id>\d+)/edit/$', 'edit'),
+    url(r'^(?P<user_id>\d+)/edit/$', 'edit', name='annuaire-edit'),
     (r'^(?P<user_id>\d+)/credentials/$', 'change_credentials'),
     (r'^(?P<user_id>\d+)/sendcredentials/$', 'send_new_credentials'),
     (r'^(?P<user_id>\d+)/person/edit/$', 'person_edit'),

@@ -1,4 +1,9 @@
 Django<1.8
+
+django-autocomplete-light
+django-crispy-forms
+django-extensions
+
 Pillow
 vobject
 pexpect
@@ -6,10 +11,6 @@ pygments
 
 # database layer
 MySQL-python
-
-# search engine
-#django-haystack
-#xapian-haystack
 
 # workaround python-dateutil issue (python 2.x / python 3)
 python-dateutil==1.4.1
