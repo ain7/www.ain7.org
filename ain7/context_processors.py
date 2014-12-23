@@ -28,8 +28,6 @@ def versions(request):
     return {
         'portal_version': settings.VERSION,
         'tinymce_version': settings.TINYMCE_VERSION,
-        'mootools_version': settings.MOOTOOLS_VERSION,
-        'jquery_version': settings.JQUERY_VERSION,
     }
 
 def piwik(request):
