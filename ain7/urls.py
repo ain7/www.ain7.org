@@ -55,9 +55,6 @@ urlpatterns = patterns('',
     # AIn7 management section
     (r'^manage/', include('ain7.manage.urls')),
 
-    # AJAX autocompletion
-    (r'^ajax/', include('ain7.ajax.urls')),
-
     # annuaire
     (r'^annuaire/', include('ain7.annuaire.urls')),
 
