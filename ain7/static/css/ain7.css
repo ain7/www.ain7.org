@@ -1,0 +1,22 @@
+@font-face {
+    font-family: 'l-lt';
+    src: url('fonts/l-lt.eot');
+    src: url('fonts/l-lt.eot?#iefix') format('embedded-opentype'),
+         url('fonts/l-lt.woff') format('woff'),
+         url('fonts/l-lt.ttf') format('truetype'),
+         url('fonts/l-lt.svg#l-lt') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'l-lt', arial, sans;
+    color: #8B8B8B;
+    padding-top: 50px;
+}
+
+span.asteriskField {                                                            
+    color: red;                                                                 
+    font-size: 15px;                                                            
+} 
+
