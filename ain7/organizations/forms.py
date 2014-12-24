@@ -28,7 +28,6 @@ from django.utils.translation import ugettext as _
 from ain7.annuaire.models import Country
 from ain7.organizations.models import Office, OrganizationActivityField, \
      Organization
-from ain7.fields import AutoCompleteField
 
 
 class SearchOrganizationForm(forms.Form):
@@ -37,11 +36,9 @@ class SearchOrganizationForm(forms.Form):
 #     location = forms.CharField(
 #         label=_('Location'), max_length=50, required=False)
     activity_field = forms.CharField(label=_('Activity field'), max_length=50,
-        required=False,
-        widget=AutoCompleteField(completed_obj_name='activity_field'))
+        required=False)
     activity_code = forms.CharField(label=_('Activity code'), max_length=50,
-        required=False,
-        widget=AutoCompleteField(completed_obj_name='activitycode'))
+        required=False)
 
     def criteria(self):
         """defines criterias for an organization"""
@@ -116,8 +113,7 @@ class OfficeForm(forms.ModelForm):
 class OrganizationListForm(forms.Form):
     """organization list form"""
     organization = forms.CharField(label=_('organization').capitalize(),
-        max_length=50, required=False,
-        widget=AutoCompleteField(completed_obj_name='organization'))
+        max_length=50, required=False)
 
     def search(self):
         """search organization method"""
@@ -131,8 +127,7 @@ class OrganizationListForm(forms.Form):
 
 class OfficeListForm(forms.Form):
     """office list form"""
-    bureau = forms.CharField(label=_('office').capitalize(), required=True,
-         widget=AutoCompleteField(completed_obj_name='office'))
+    bureau = forms.CharField(label=_('office').capitalize(), required=True)
 
     def search(self):
         """search office method"""

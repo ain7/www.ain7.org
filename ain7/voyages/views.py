@@ -26,8 +26,9 @@ from datetime import datetime
 from django.contrib import messages
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
+from django.forms.models import modelform_factory
 from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
@@ -35,8 +36,7 @@ from ain7.decorators import access_required, confirmation_required
 from ain7.pages.models import Text
 from ain7.utils import ain7_generic_delete
 from ain7.voyages.models import Travel, Subscription, TravelResponsible
-from ain7.voyages.forms import SearchTravelForm, TravelForm, JoinTravelForm,\
-                               SubscribeTravelForm, TravelResponsibleForm
+from ain7.voyages.forms import SearchTravelForm
 
 
 def index(request):
@@ -94,227 +94,42 @@ def search(request):
             except InvalidPage:
                 raise Http404
     return render(request, 'voyages/search.html',
-        {'travels': travels, 'form': form, 'request': request,
-         'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
-         'has_next': paginator.page(page).has_next(),
-         'has_previous': paginator.page(page).has_previous(),
-         'current_page': page,
-         'next_page': page + 1, 'previous_page': page - 1,
-         'pages': paginator.num_pages,
-         'first_result': (page - 1) * nb_results_by_page +1,
-         'last_result': min((page) * nb_results_by_page, paginator.count),
-         'hits' : paginator.count})
+        {
+            'travels': travels, 'form': form, 'request': request,
+            'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
+            'has_next': paginator.page(page).has_next(),
+            'has_previous': paginator.page(page).has_previous(),
+            'current_page': page,
+            'next_page': page + 1, 'previous_page': page - 1,
+            'pages': paginator.num_pages,
+            'first_result': (page - 1) * nb_results_by_page +1,
+            'last_result': min((page) * nb_results_by_page, paginator.count),
+            'hits' : paginator.count,
+        }
+    )
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def edit(request, travel_id=None):
     """edit travel"""
 
-    form = TravelForm()
     travel = None
-
     if travel_id:
         travel = Travel.objects.get(pk=travel_id)
-        form = TravelForm(instance=travel)
 
-    if request.method == 'POST':
-        if travel_id:
-            form = TravelForm(request.POST, request.FILES, instance=travel)
-        else:
-            form = TravelForm(request.POST, request.FILES)
+    TravelForm = modelform_factory(Travel, exclude=())
+    form = TravelForm(request.POST or None, request.FILES or None, instance=travel)
 
-        if form.is_valid():
-            trav = form.save()
-            messages.success(request, _('Modifications have been successfully saved.'))
+    if request.method == 'POST' and form.is_valid():
+        trav = form.save()
+        messages.success(request, _('Modifications have been successfully saved.'))
 
-            return HttpResponseRedirect(reverse(details, args=[trav.id]))
+        redirect('travel-details', trav.id)
 
-    return render(
-        request, 'voyages/edit.html',
-        {'form': form, 'action_title': _("Modification of personal data for"),
-         'back': request.META.get('HTTP_REFERER', '/')})
-
-@confirmation_required(lambda travel_id=None, object_id=None : '',
-    'voyages/base.html', 
-     _('Do you really want to delete the thumbnail of this travel'))
-@access_required(groups=['ain7-ca', 'ain7-secretariat'])
-def thumbnail_delete(request, travel_id):
-    """remove travel thumbnail"""
-
-    travel = get_object_or_404(Travel, pk=travel_id)
-    travel.thumbnail = None
-    travel.logged_save(request.user.person)
-
-    messages.success(request, _('The thumbnail of this travel has been successfully deleted.'))
-    return HttpResponseRedirect('/voyages/%s/edit/' % travel_id)
-
-@access_required(groups=['ain7-membre'])
-def join(request, travel_id):
-    """join travel"""
-
-    travel = get_object_or_404(Travel, pk=travel_id)
-    person = request.user.person
-
-    if request.method == 'GET':
-        # on vérifie que la personne n'est pas déjà inscrite
-        already_subscribed = False
-        for subscription in person.travel_subscriptions.all():
-            if subscription.travel == travel:
-                already_subscribed = True
-        if already_subscribed:
-            messages.success(request, _('You have already subscribed to this travel.'))
-            return HttpResponseRedirect('/voyages/%s/' % (travel.id))
-        form = JoinTravelForm()
-        back = request.META.get('HTTP_REFERER', '/')
-        return render(request, "voyages/join.html",
-            {'form': form, 'travel': travel, 'back': back})
-
-    if request.method == 'POST':
-        form = JoinTravelForm(request.POST.copy())
-        if form.is_valid():
-            form.cleaned_data['subscriber'] = person
-            form.cleaned_data['travel'] = travel
-            form.save()
-            messages.success(request, 
-                _('You have been successfully subscribed to this travel.'))
-        else:
-            messages.error(request,
-                _('Something was wrong in the form you filled. No modification\
- done.') + str(form.errors))
-        return HttpResponseRedirect('/voyages/%s/' % (travel.id))
-
-
-@access_required(groups=['ain7-ca', 'ain7-secretariat'])
-def subscribe(request, travel_id):
-    """subscribe someone to a travel"""
-
-    travel = get_object_or_404(Travel, pk=travel_id)
-
-    if request.method == 'GET':
-        form = SubscribeTravelForm()
-        # TODO : AJAX pour sélectionner une personne plutôt qu'une liste
-        return render(request, "voyages/join.html",
-            {'form': form, 'travel': travel,
-             'back': request.META.get('HTTP_REFERER', '/')})
-
-    if request.method == 'POST':
-        form = SubscribeTravelForm(request.POST.copy())
-        persons = Person.objects.filter(pk=request.POST['subscriber'])
-        if not persons:
-            return render(request, "voyages/join.html",
-                {'form': form, 'travel': travel,
-                 'back': request.META.get('HTTP_REFERER', '/')})
-        person = persons[0]
-        # on vérifie que la personne n'est pas déjà inscrite
-        already_subscribed = False
-        for subscription in person.travel_subscriptions.all():
-            if subscription.travel == travel:
-                already_subscribed = True
-        if already_subscribed:
-            messages.info(request,
-                _('This person is already subscribed to this travel.'))
-            return render(request,
-                'voyages/participants.html', {'travel': travel})
-        else:
-            if form.is_valid():
-                form.cleaned_data['travel'] = travel
-                form.cleaned_data['subscriber'] = person
-                form.save()
-                messages.success(request, _('You have\
- successfully subscribed someone to this travel.'))
-            else:
-                messages.error(request, _('Something was\
- wrong in the form you filled. No modification done.'))
-            return render(request,
-                'voyages/participants.html', {'travel': travel})
-    return HttpResponseRedirect('/voyages/%s/' % (travel.id))
-
-@confirmation_required(
-    lambda user_id=None, travel_id=None, participant_id=None:
-    str(get_object_or_404(Person, pk=participant_id)),
-    'voyages/base.html',
-    _('Do you really want to unsubscribe this participant'))
-
-@access_required(groups=['ain7-ca', 'ain7-secretariat'])
-def unsubscribe(request, travel_id, participant_id):
-    """unsubscribe someone from a travel"""
-
-    travel = get_object_or_404(Travel, pk=travel_id)
-    participant = get_object_or_404(Person, pk=participant_id)
-    subscription = get_object_or_404(Subscription, travel=travel,
-        subscriber=participant.id)
-    subscription.delete()
-    return render(request, 'voyages/participants.html',
-                            {'travel': travel})
-
-@access_required(groups=['ain7-ca', 'ain7-secretariat'])
-def participants(request, travel_id):
-    """travel participants list"""
-
-    travel = get_object_or_404(Travel, pk=travel_id)
-    return render(request, 'voyages/participants.html',
-        {'travel': travel})
-
-@access_required(groups=['ain7-ca', 'ain7-secretariat'])
-def responsibles(request, travel_id):
-    """travels responsibles"""
-
-    travel = get_object_or_404(Travel, pk=travel_id)
-    return render(request, 'voyages/responsibles.html',
-        {'travel': travel})
-
-@access_required(groups=['ain7-ca', 'ain7-secretariat'])
-def responsibles_add(request, travel_id):
-    """travel responsible add"""
-
-    travel = get_object_or_404(Travel, pk=travel_id)
-
-    if request.method == 'GET':
-        form = TravelResponsibleForm()
-        back = request.META.get('HTTP_REFERER', '/')
-        return render(request, "voyages/join.html",
-            {'form': form, 'travel': travel, 'back': back})
-
-    if request.method == 'POST':
-        form = TravelResponsibleForm(request.POST.copy())
-        person = Person.objects.get(pk=request.POST['responsible'])
-        # on vérifie que la personne n'est pas déjà inscrite
-        already_responsible = False
-        for responsibility in person.travel_responsibilities.all():
-            if responsibility.travel == travel:
-                already_responsible = True
-        if already_responsible:
-            messages.info(request,
-                _('This person is already responsible of this travel.'))
-            return render(request,
-                'voyages/responsibles.html', {'travel': travel})
-        else:
-            if form.is_valid():
-                travel_responsible = TravelResponsible(travel=travel,
-                    responsible=person)
-                travel_responsible.save()
-                messages.success(request, _('You have\
- successfully added someone to responsibles of this travel.'))
-            else:
-                messages.error(request, _('Something was wrong\
- in the form you filled. No modification done.') + str(form.errors))
-            return render(request,
-                'voyages/responsibles.html', {'travel': travel})
-    return HttpResponseRedirect('/voyages/%s/' % (travel.id))
-
-@confirmation_required(
-    lambda user_id=None, travel_id=None, responsible_id=None:
-    str(get_object_or_404(Person, pk=responsible_id)),
-    'voyages/base.html',
-    _('Do you really want this person not to be responsible of this travel'))
-@access_required(groups=['ain7-ca', 'ain7-secretariat'])
-def responsibles_delete(request, travel_id, responsible_id):
-    """travel responsible delete"""
-
-    travel = get_object_or_404(Travel, pk=travel_id)
-    responsible = get_object_or_404(Person, pk=responsible_id)
-    travel_responsible = get_object_or_404(TravelResponsible,
-        responsible=responsible, travel=travel)
-    travel_responsible.delete()
-    return render(request, 'voyages/responsibles.html',
-                            {'travel': travel})
+    return render(request, 'voyages/edit.html',
+        {
+            'form': form,
+            'action_title': _("Modification of personal data for"),
+            'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 

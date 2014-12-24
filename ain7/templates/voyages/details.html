@@ -60,7 +60,7 @@
 {% if superadmin or ca_member or secretariat_member or contributeur %}
 {# <li><a href="{% url "ain7.voyages.views.participants" travel.id %}">{% trans "List participants" %}</a></li> #}
 <li><a href="{% url "ain7.voyages.views.edit" travel.id %}">{% trans "Modify these data" %}</a></li>
-<li><a href="{% url "ain7.voyages.views.responsibles" travel.id %}">{% trans "Modify the responsibles" %}</a></li>
+{#<li><a href="{% url "ain7.voyages.views.responsibles" travel.id %}">{% trans "Modify the responsibles" %}</a></li> #}
 <li><a href="{% url "ain7.voyages.views.delete" travel.id %}">{% trans "Delete this travel" %}</a></li>
 {% endif %}
 {% endblock %}

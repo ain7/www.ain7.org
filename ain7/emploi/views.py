@@ -25,8 +25,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
+from django.forms.models import modelform_factory
 from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext as _
 
 from ain7.pages.models import Text
@@ -34,9 +35,7 @@ from ain7.annuaire.models import Person, AIn7Member
 from ain7.decorators import access_required, confirmation_required
 from ain7.emploi.models import JobOffer, Position, EducationItem, \
                                LeisureItem, PublicationItem, JobOfferView
-from ain7.emploi.forms import PositionForm, EducationItemForm, \
-                              LeisureItemForm, \
-                              PublicationItemForm, JobOfferForm, SearchJobForm
+from ain7.emploi.forms import SearchJobForm
 from ain7.utils import ain7_generic_delete, check_access
 
 
@@ -62,8 +61,13 @@ def cv_details(request, user_id):
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
+
     return render(request, 'emploi/cv_details.html',
-        {'person': person, 'ain7member': ain7member})
+        {
+            'person': person,
+            'ain7member': ain7member,
+        }
+    )
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def cv_edit(request, user_id=None):
@@ -71,8 +75,13 @@ def cv_edit(request, user_id=None):
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
+
     return render(request, 'emploi/cv_edit.html',
-        {'person': person, 'ain7member': ain7member})
+        {
+            'person': person,
+            'ain7member': ain7member,
+        }
+    )
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def position_edit(request, user_id=None, position_id=None):
@@ -81,32 +90,29 @@ def position_edit(request, user_id=None, position_id=None):
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
 
-    form = PositionForm()
-
+    position = None
     if position_id:
         position = get_object_or_404(Position, pk=position_id)
-        form = PositionForm(instance=position)
 
-    if request.method == 'POST':
-        if position_id:
-            form = PositionForm(request.POST, instance=position)
-        else:
-            form = PositionForm(request.POST)
+    PositionForm = modelform_factory(Position, exclude=('ain7member',))
+    form = PositionForm(request.POST or None, instance=position)
 
-        if form.is_valid():
-            pos = form.save(commit=False)
-            pos.ain7member = ain7member
-            pos.save()
-            messages.success(request, _('Modifications have been\
+    if request.method == 'POST' and form.is_valid():
+        pos = form.save(commit=False)
+        pos.ain7member = ain7member
+        pos.save()
+        messages.success(request, _('Modifications have been\
  successfully saved.'))
 
-        return HttpResponseRedirect(reverse(cv_edit, 
-            args=[user_id])+'#prof_exp')
+        return redirect('cv-edit', user_id)
 
-    return render(
-        request, 'emploi/position_edit.html',
-        {'form': form, 'action_title': _("Position edit"),
-         'back': request.META.get('HTTP_REFERER', '/')})
+    return render(request, 'emploi/position_edit.html',
+        {
+            'form': form,
+            'action_title': _("Position edit"),
+            'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @confirmation_required(lambda user_id=None, position_id=None: 
     str(get_object_or_404(Position, pk=position_id)), 'emploi/base.html',
@@ -127,32 +133,29 @@ def education_edit(request, user_id=None, education_id=None):
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
 
-    form = EducationItemForm()
-
+    educationitem = None
     if education_id:
         educationitem = get_object_or_404(EducationItem, pk=education_id)
-        form = EducationItemForm(instance=educationitem)
 
-    if request.method == 'POST':
-        if education_id:
-            form = EducationItemForm(request.POST, instance=educationitem)
-        else:
-            form = EducationItemForm(request.POST)
+    EducationItemForm = modelform_factory(EducationItem, exclude=('ain7member',))
+    form = EducationItemForm(request.POST or None, instance=educationitem)
 
-        if form.is_valid():
-            editem = form.save(commit=False)
-            editem.ain7member = ain7member
-            editem.save()
-            messages.success(request, _('Modifications have been\
+    if request.method == 'POST' and form.is_valid():
+        editem = form.save(commit=False)
+        editem.ain7member = ain7member
+        editem.save()
+        messages.success(request, _('Modifications have been\
  successfully saved.'))
 
-        return HttpResponseRedirect(reverse(cv_edit, 
-             args=[user_id])+'#education')
+        return redirect('cv-edit', user_id)
 
-    return render(
-        request, 'emploi/education_edit.html',
-        {'form': form, 'action_title': _("Position edit"),
-         'back': request.META.get('HTTP_REFERER', '/')})
+    return render(request, 'emploi/education_edit.html',
+        {
+              'form': form,
+              'action_title': _("Position edit"),
+              'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @confirmation_required(lambda user_id=None, education_id=None: 
     str(get_object_or_404(EducationItem, pk=education_id)), 'emploi/base.html',
@@ -173,31 +176,29 @@ def leisure_edit(request, user_id=None, leisure_id=None):
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
 
-    form = LeisureItemForm()
-
+    leisureitem = None
     if leisure_id:
         leisureitem = get_object_or_404(LeisureItem, pk=leisure_id)
-        form = LeisureItemForm(instance=leisureitem)
 
-    if request.method == 'POST':
-        if leisure_id:
-            form = LeisureItemForm(request.POST, instance=leisureitem)
-        else:
-            form = LeisureItemForm(request.POST)
+    LeisureItemForm = modelform_factory(LeisureItem, exclude=('ain7member',))
+    form = LeisureItemForm(request.POST or None, instance=leisureitem)
 
-        if form.is_valid():
-            leitem = form.save(commit=False)
-            leitem.ain7member = ain7member
-            leitem.save()
-            messages.success(request, _('Modifications have been\
+    if request.method == 'POST' and form.is_valid():
+        leitem = form.save(commit=False)
+        leitem.ain7member = ain7member
+        leitem.save()
+        messages.success(request, _('Modifications have been\
  successfully saved.'))
 
-        return HttpResponseRedirect(reverse(cv_edit, args=[user_id])+'#leisure')
+        return redirect('cv-edit', user_id)
 
-    return render(
-        request, 'emploi/leisure_edit.html',
-        {'form': form, 'action_title': _("Position edit"),
-         'back': request.META.get('HTTP_REFERER', '/')})
+    return render(request, 'emploi/leisure_edit.html',
+        {
+             'form': form,
+             'action_title': _("Position edit"),
+             'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @confirmation_required(lambda user_id=None, leisure_id=None:
     str(get_object_or_404(LeisureItem, pk=leisure_id)), 'emploi/base.html', 
@@ -218,32 +219,29 @@ def publication_edit(request, user_id=None, publication_id=None):
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
 
-    form = PublicationItemForm()
-
+    publi = None
     if publication_id:
         publi = get_object_or_404(PublicationItem, pk=publication_id)
-        form = PublicationItemForm(instance=publi)
 
-    if request.method == 'POST':
-        if publication_id:
-            form = PublicationItemForm(request.POST, instance=publi)
-        else:
-            form = PublicationItemForm(request.POST)
+    PublicationItemForm = modelform_factory(PublicationItem, exclude=('ain7member',))
+    form = PublicationItemForm(request.POST or None, instance=publi)
 
-        if form.is_valid():
-            publication = form.save(commit=False)
-            publication.ain7member = ain7member
-            publication.save()
-            messages.success(request, _('Modifications have been\
+    if request.method == 'POST' and form.is_valid():
+        publication = form.save(commit=False)
+        publication.ain7member = ain7member
+        publication.save()
+        messages.success(request, _('Modifications have been\
  successfully saved.'))
 
-        return HttpResponseRedirect(reverse(cv_edit, 
-            args=[user_id])+'#publications')
+        return redirect('cv-edit', user_id)
 
-    return render(
-        request, 'emploi/publication_edit.html',
-        {'form': form, 'action_title': _("Position edit"),
-         'back': request.META.get('HTTP_REFERER', '/')})
+    return render(request, 'emploi/publication_edit.html',
+        {
+            'form': form,
+            'action_title': _("Position edit"),
+            'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @confirmation_required(lambda user_id=None, publication_id=None:
      str(get_object_or_404(PublicationItem,pk=publication_id)), 
@@ -259,10 +257,10 @@ def publication_delete(request, user_id=None, publication_id=None):
         _('Publication informations deleted successfully.'))
 
 @access_required(groups=['ain7-membre', 'ain7-secretariat'])
-def job_details(request, emploi_id):
+def job_details(request, job_id):
     """job details"""
 
-    job_offer = get_object_or_404(JobOffer, pk=emploi_id)
+    job_offer = get_object_or_404(JobOffer, pk=job_id)
     role = check_access(request, request.user, ['ain7-secretariat'])
     if not job_offer.checked_by_secretariat and role:
         messages.info(request, 
@@ -279,65 +277,29 @@ def job_details(request, emploi_id):
         request, 'emploi/job_details.html', {'job': job_offer, 'views': views })
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
-def job_edit(request, emploi_id):
+def job_edit(request, job_id):
     """job edit"""
 
-    job = get_object_or_404(JobOffer, pk=emploi_id)
-    role = check_access(request, request.user, ['ain7-secretariat'])
-    if not job.checked_by_secretariat and role:
-        messages.info(request,
-            _('This job offer has to be checked by the secretariat.'))
-        return HttpResponseRedirect('/emploi/')
-    afid = None
-    if job.activity_field:
-        afid = job.activity_field.pk
-    form = JobOfferForm(
-        {'reference': job.reference, 'title': job.title,
-         'experience': job.experience, 'contract_type': job.contract_type,
-         'obsolete': job.obsolete, 'description': job.description,
-         'office': job.office.id, 'contact_name': job.contact_name,
-         'contact_email': job.contact_email,
-         'activity_field': afid })
+    job = None
+    if job_id:
+        job = get_object_or_404(JobOffer, pk=job_id)
 
-    if request.method == 'POST':
-        form = JobOfferForm(request.POST)
-        if form.is_valid():
-            form.save(request.user, job_offer=job)
-            messages.success(request,
-                _('Job offer successfully modified.'))
-            return HttpResponseRedirect(reverse(job_details, args=[job.id]))
+    JobOfferForm = modelform_factory(JobOffer, exclude=())    
+    form = JobOfferForm(request.POST or None, instance=job)
 
-    back = request.META.get('HTTP_REFERER', '/')
+    if request.method == 'POST' and form.is_valid():
+        job = form.save()
+        messages.success(request, _('Job offer successfully modified.'))
+
+        return redirect('job-details', job.id)
+
     return render(request, 'emploi/job_edit.html', 
-        {'form': form, 'job': job, 'back': back})
-
-@access_required(groups=['ain7-ca', 'ain7-secretariat'])
-def job_register(request):
-    """job register"""
-
-    form = JobOfferForm()
-
-    if request.method == 'POST':
-        form = JobOfferForm(request.POST)
-        if form.is_valid():
-            job_offer = form.save(request.user)
-
-            user_groups = request.user.person.groups.values_list('group__name', flat=True)
-            if not 'ain7-secretariat' in user_groups and \
-               not 'ain7-admin' in user_groups:
-
-                messages.success(request, 
-                    _('Job offer successfully created. It will now be\
- checked by the secretariat.'))
-            return HttpResponseRedirect('/emploi/')
-        else:
-            messages.error(request,
-                _('Something was wrong in the form you filled.\
- No modification done.'))
-            
-    back = request.META.get('HTTP_REFERER', '/')
-    return render(request, 'emploi/job_register.html',
-        {'form': form, 'back': back})
+        {
+            'form': form,
+            'job': job,
+            'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @access_required(groups=['ain7-membre', 'ain7-secretariat'])
 def job_search(request):

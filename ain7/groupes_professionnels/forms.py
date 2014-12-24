@@ -30,19 +30,13 @@ from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
-from ain7.fields import AutoCompleteField
 from ain7.groups.models import Member, Group, GroupLeader
-from ain7.widgets import DateTimeWidget
 
-
-DATE_WIDGET = DateTimeWidget()
-DATE_WIDGET.dformat = '%d/%m/%Y'
 
 class SubscribeGroupProForm(forms.Form):
     """Subscribe Group Pro Form"""
 
-    member = forms.IntegerField(label=_('Person to subscribe'),
-        widget=AutoCompleteField(completed_obj_name='person'))
+    member = forms.IntegerField(label=_('Person to subscribe'))
 
     def save(self, group=None):
         """save group pro membership"""
@@ -68,8 +62,7 @@ class SubscribeGroupProForm(forms.Form):
     
 class UnsubscribeGroupProForm(forms.Form):
     """unsubscribe from a professionnal group"""
-    member = forms.IntegerField(label=_('Person to unsubscribe'),
-        widget=AutoCompleteField(completed_obj_name='person'))
+    member = forms.IntegerField(label=_('Person to unsubscribe'))
 
     def unsubscribe(self, group=None):
         """unsubscribe from a group pro method"""
@@ -115,12 +108,11 @@ class GroupProForm(forms.ModelForm):
 class RoleForm(forms.ModelForm):
     """role form"""
 
-    person = forms.IntegerField(label=_('Person'),
-        required=True, widget=AutoCompleteField(completed_obj_name='person'))
+    person = forms.IntegerField(label=_('Person'), required=True)
     start_date = forms.DateTimeField(label=_('start date').capitalize(),
-        widget=DATE_WIDGET, required=True)
+        required=True)
     end_date = forms.DateTimeField(label=_('end date').capitalize(),
-        widget=DATE_WIDGET, required=False)
+        required=False)
 
     class Meta:
          model = GroupLeader

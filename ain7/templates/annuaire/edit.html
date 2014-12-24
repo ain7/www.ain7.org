@@ -48,8 +48,6 @@
    <li><b>{% filter capfirst %}{% trans "avatar" %}{% endfilter %}</b>&nbsp;:
        {% if ain7member.avatar %}
 	   <img src="{{ ain7member.avatar.url }}" height="100" alt="{% trans "avatar" %}" />
-	   <a href="{% url "ain7.annuaire.views.avatar_delete" person.user.id %}" class="deletelink">
-           {% trans "Delete" %}</a>
        {% else %}
            {% trans "No avatar" %}
        {% endif %}

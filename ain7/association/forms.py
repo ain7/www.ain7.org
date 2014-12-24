@@ -26,22 +26,17 @@ from django.forms.util import ValidationError
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
-from ain7.fields import AutoCompleteField
 from ain7.groups.models import GroupLeader
-from ain7.widgets import DateTimeWidget
 
-
-DATE_WIDGET = DateTimeWidget()
-DATE_WIDGET.dformat = '%d/%m/%Y'
 
 class CouncilRoleForm(forms.ModelForm):
     """Council Role Form"""
     person = forms.IntegerField(label=_('Person'),
-        required=True, widget=AutoCompleteField(completed_obj_name='person'))
+        required=True)
     start_date = forms.DateTimeField(label=_('start date').capitalize(),
-        widget=DATE_WIDGET, required=True)
+        required=True)
     end_date = forms.DateTimeField(label=_('end date').capitalize(),
-        widget=DATE_WIDGET, required=False)
+        required=False)
     board_member = forms.BooleanField(label=_('board member').capitalize(),
         required=False)
 

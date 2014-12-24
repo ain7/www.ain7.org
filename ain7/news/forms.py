@@ -28,20 +28,14 @@ from django.utils.translation import ugettext as _
 from ain7.annuaire.models import Person
 from ain7.groups.models import Group
 from ain7.news.models import NewsItem, EventOrganizer, RSVPAnswer
-from ain7.fields import AutoCompleteField
 from ain7.utils import AIn7ModelForm, AIn7Form
-from ain7.widgets import DateTimeWidget
 
-
-DATE_TIME_WIDGET = DateTimeWidget()
-DATE_TIME_WIDGET.dformat = '%d/%m/%Y %H:%M'
 
 class SearchNewsForm(forms.Form):
     """search news form"""
     title = forms.CharField(label=_('News title'), max_length=50,
         required=False, widget=forms.TextInput(attrs={'size':'40'}))
-    date = forms.DateField(label=_('Date'), required=False,
-        widget=DATE_TIME_WIDGET)
+    date = forms.DateField(label=_('Date'), required=False)
     content = forms.CharField(label=_('News content'), max_length=50,
         required=False, widget=forms.TextInput(attrs={'size':'40'}))
 
@@ -115,8 +109,7 @@ class EventForm(AIn7ModelForm):
     body = forms.CharField( label=_('description').capitalize(),
         required=False,
         widget=forms.widgets.Textarea(attrs={'rows':10, 'cols':40}))
-    date = forms.DateTimeField(label=_('date').capitalize(),
-        widget=DATE_TIME_WIDGET)
+    date = forms.DateTimeField(label=_('date').capitalize())
 
     class Meta:
         """event form meta"""
@@ -142,7 +135,7 @@ class EventForm(AIn7ModelForm):
 class EventOrganizerForm(forms.ModelForm):
     """event organizer form"""
     organizer = forms.IntegerField(label=_('organizer').capitalize(),
-        required=True, widget=AutoCompleteField(completed_obj_name='person'))
+        required=True)
 
     class Meta:
         """event organizer form meta"""
@@ -168,8 +161,7 @@ class EventOrganizerForm(forms.ModelForm):
 class RSVPAnswerForm(forms.ModelForm):
     """rsvp answer for an event"""
 
-    person = forms.IntegerField(label=_('person').capitalize(),
-        widget=AutoCompleteField(completed_obj_name='person'))
+    person = forms.IntegerField(label=_('person').capitalize())
 
     class Meta:
         """event rsvp answer meta"""

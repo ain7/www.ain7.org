@@ -37,7 +37,6 @@ import ain7.groups.models as groups
 import ain7.manage.models as manage
 import ain7.pages.models as pages
 import ain7.news.models as news
-import ain7.search_engine.models as search_engine
 import ain7.shop.models as shop
 import ain7.voyages.models as voyages
 
@@ -986,14 +985,6 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 
     maritalstatus_7 = annuaire.MaritalStatus(status=u"Séparé(e)")
     maritalstatus_7.save()
-
-    annuaireSearchEngine = search_engine.SearchEngine()
-    annuaireSearchEngine.name = "annuaire"
-    annuaireSearchEngine.save()
-
-    orgSearchEngine = search_engine.SearchEngine()
-    orgSearchEngine.name = "organization"
-    orgSearchEngine.save()
 
     subscription_conf1 = adhesions.SubscriptionConfiguration(type=0, dues_amount=75, newspaper_amount=15, year=datetime.now().year)
     subscription_conf1.save()

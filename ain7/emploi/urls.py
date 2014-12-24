@@ -21,7 +21,7 @@
 #
 #
 
-from django.conf.urls import patterns
+from django.conf.urls import patterns, url
 
 
 urlpatterns = patterns('ain7.emploi.views',
@@ -30,7 +30,7 @@ urlpatterns = patterns('ain7.emploi.views',
     (r'^$', 'index'),
     # CV
     (r'^(?P<user_id>\d+)/cv/$', 'cv_details'),
-    (r'^(?P<user_id>\d+)/cv/edit/$', 'cv_edit'),
+    url(r'^(?P<user_id>\d+)/cv/edit/$', 'cv_edit', name='cv-edit'),
     (r'^(?P<user_id>\d+)/cv/position/(?P<position_id>\d+)/edit/$',
         'position_edit'),
     (r'^(?P<user_id>\d+)/cv/position/(?P<position_id>\d+)/delete/$',
@@ -52,10 +52,10 @@ urlpatterns = patterns('ain7.emploi.views',
         'publication_edit'),
     (r'^(?P<user_id>\d+)/cv/publication/add/$', 'publication_edit'),
     # Job offers
-    (r'^job/add/$', 'job_register'),
+    (r'^job/add/$', 'job_edit'),
     (r'^job/search/$', 'job_search'),
-    (r'^job/(?P<emploi_id>\d+)/$', 'job_details'),
-    (r'^job/(?P<emploi_id>\d+)/edit/$', 'job_edit'),
+    url(r'^job/(?P<job_id>\d+)/$', 'job_details', name='job-details'),
+    (r'^job/(?P<job_id>\d+)/edit/$', 'job_edit'),
     (r'^job/proposals/$', 'jobs_proposals'),
     (r'^job/proposals/(?P<job_id>\d+)/validate/$', 'job_validate'),
     (r'^job/proposals/(?P<job_id>\d+)/delete/$', 'job_delete'),

@@ -458,10 +458,10 @@ class AIn7MemberManager(models.Manager):
         return self.filter(ain7member__promos__year__year__gt=current_year-1)
 
 
-def avatar_file_path(instance, filename):
-    from django.utils.hashcompat import sha_constructor
-    hash = sha_constructor(settings.SECRET_KEY + str(instance.person.id) + str(time.time())).hexdigest()[::2]
-    return os.path.join('data', 'avatar', hash + '.jpg')
+#def avatar_file_path(instance, filename):
+#    from django.utils.hashcompat import sha_constructor
+#    hash = sha_constructor(settings.SECRET_KEY + str(instance.person.id) + str(time.time())).hexdigest()[::2]
+#    return os.path.join('data', 'avatar', hash + '.jpg')
 
 class AIn7Member(LoggedClass):
     """AIn7 member"""
@@ -477,7 +477,7 @@ class AIn7Member(LoggedClass):
     # Other
     nick_name = models.CharField(verbose_name=_('Nick name'), max_length=50,
         blank=True, null=True)
-    avatar = models.ImageField(verbose_name=_('avatar'), upload_to=avatar_file_path,
+    avatar = models.ImageField(verbose_name=_('avatar'), 
         blank=True, null=True)
 
     # School situation

@@ -20,37 +20,7 @@
     {% endif %}
     <li class="nav-header">{% trans "Navigation" %}</li>
     {% block extra-actions %}{% endblock %}
-      {% if filtr %}
-      <li><a href="{% url "ain7.annuaire.views.filter_reset" filtr.id %}">{% trans "Reset this filter" %}</a></li>
-      {% if filtr.registered %}
-      <li><a href="{% url "ain7.annuaire.views.filter_edit" filtr.id %}">{% trans "Modify the name of this filter" %}</a></li>
-      <li><a href="{% url "ain7.annuaire.views.filter_delete" filtr.id %}">{% trans "Delete this filter" %}</a></li>
-      <li><a href="{% url "ain7.annuaire.views.filter_new" %}">{% trans "New filter" %}</a></li>
-      {% else %}
-      <li><a href="{% url "ain7.annuaire.views.filter_register" %}">{% trans "Save this filter" %}</a></li>
-      {% endif %}
-      {% endif %}
-      <li><a href="{% url "ain7.annuaire.views.advanced_search" %}">{% trans "Advanced Search" %}</a></li>
-
-      {% block extra-right-blocks %}{% endblock %}
-
-     {% if dosearch %}
-     <li class="nav-header">{% trans "Export" %}</li>
-
-         {% block worksheet-export %}
-         <li><a href="{% url "ain7.annuaire.views.export_csv" %}">{% trans "Worksheet export" %}</a></li>
-         {% endblock %}
-     {% endif %}
-
-   {% if userFilters %}
-
-   <li class="nav-header">{% trans "Registered filters" %}</li>
-
-       {% for filter in userFilters %}
-         <li><a href="{% url "ain7.annuaire.views.filter_details" filter.id %}">{{ filter }}</a></li>
-       {% endfor %}
-
-   {% endif %}
+    {% block extra-right-blocks %}{% endblock %}
 
    </ul>
    </div>

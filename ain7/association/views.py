@@ -42,20 +42,35 @@ def count_members():
 def index(request):
     """index page"""
     text = Text.objects.get(textblock__shortname='presentation_ain7') 
+
     return render(request, 'association/index.html', 
-                {'count_members': count_members(), 'text': text}) 
+        {
+            'count_members': count_members(),
+            'text': text,
+        }
+    ) 
  
 def status(request):
     """status page""" 
     text = Text.objects.get(textblock__shortname='statuts_ain7') 
+
     return render(request, 'association/status.html', 
-                {'count_members': count_members(), 'text': text}) 
+        {
+            'count_members': count_members(),
+            'text': text,
+        }
+    ) 
 
 def internalrules(request):
     """internal rules page""" 
     text = Text.objects.get(textblock__shortname='internal_rules_ain7') 
+
     return render(request, 'association/internalrules.html', 
-                {'count_members': count_members(), 'text': text}) 
+        {
+            'count_members': count_members(),
+            'text': text,
+        }
+    ) 
  
 def council(request):
     """council presentation page"""
@@ -67,14 +82,13 @@ def council(request):
 def contact(request):
     """contact page"""
     text = Text.objects.get(textblock__shortname='contact_ain7') 
-    return render(request, 'association/contact.html', 
-          {'count_members': count_members(), 'text': text}) 
 
-def activites(request):
-    """activities page"""
-    text = Text.objects.get(textblock__shortname='activites_ain7') 
-    return render(request, 'association/activites.html', 
-          {'count_members': count_members(), 'text': text}) 
+    return render(request, 'association/contact.html', 
+        {
+            'count_members': count_members(),
+            'text': text,
+        }
+    ) 
 
 @access_required(groups=['ain7-secretariat'])
 def edit_council_role(request, role_id=None):
@@ -102,10 +116,13 @@ def edit_council_role(request, role_id=None):
  the form you filled. No modification done.'))
             # TODO : le champ username n'est pas renseigné ici (LP 346274)
 
-    return render(request,
-        'association/council_edit.html',
-        {'count_members': count_members(), 'form': form,
-         'back': request.META.get('HTTP_REFERER', '/')})
+    return render(request, 'association/council_edit.html',
+        {
+            'count_members': count_members(),
+            'form': form,
+            'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @confirmation_required(lambda role_id=None, all_current=None:
      str(get_object_or_404(GroupLeader, pk=role_id)), 'association/base.html',
@@ -119,27 +136,4 @@ def delete_council_role(request, role_id):
         get_object_or_404(GroupLeader, pk=role_id),
         reverse(council),
         _('Role successfully deleted.'))
-
-def media_com(request):
-    """media communication index page"""
-    text = Text.objects.get(textblock__shortname='publication_ain7')
-    return render(request, 
-            'media_communication/index.html', {'text': text})
-
-def canal_n7(request):
-    """Canal N7 page"""
-    text1 = Text.objects.get(textblock__shortname='presentation_canal_n7')
-    text2 = Text.objects.get(textblock__shortname='redaction_canal_n7')
-    text3 = Text.objects.get(textblock__shortname='canal_n7')
-    text4 = Text.objects.get(textblock__shortname='sommaire_canal_n7')
-    return render(request, 'media_communication/canal_n7.html',
-                  {'text1': text1, 'text2': text2, 'text3': text3, 'text4': text4})
-
-def canal_n7_edito(request): 
-    """Canal N7 edito"""
-    text1 = Text.objects.get(textblock__shortname='edito_canal_n7')
-    text2 = Text.objects.get(textblock__shortname='sommaire_canal_n7')
-    return render(request, 
-                      'media_communication/canal_n7_edito.html', 
-                     {'text1': text1, 'text2': text2})
 

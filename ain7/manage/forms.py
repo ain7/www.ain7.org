@@ -30,14 +30,9 @@ from django.utils.translation import ugettext as _
 from ain7.annuaire.models import Person, Country, Email
 from ain7.news.models import NewsItem
 from ain7.organizations.models import Organization
-from ain7.fields import AutoCompleteField
 from ain7.manage.models import Mailing, MailingItem, PortalError
 from ain7.shop.models import Payment
-from ain7.widgets import DateTimeWidget
 
-
-DATE_WIDGET = DateTimeWidget()
-DATE_WIDGET.dformat = '%d/%m/%Y'
 
 class SearchUserForm(forms.Form):
     """user search form"""
@@ -46,8 +41,7 @@ class SearchUserForm(forms.Form):
     first_name = forms.CharField(label=_('First name'), max_length=50,
         required=False)
     organization = forms.CharField(label=_('organization').capitalize(), 
-        max_length=50, required=False,
-        widget=AutoCompleteField(completed_obj_name='organization'))
+        max_length=50, required=False)
 
     def search(self):
         """search method for a user"""
@@ -70,10 +64,8 @@ class NewPersonForm(forms.ModelForm):
         required=True, widget=forms.TextInput(attrs={'size': 40}))
     mail = forms.EmailField(label=_('Mail'), max_length=50, required=True,
         widget=forms.TextInput(attrs={'size': 40}))
-    country = forms.IntegerField(label=_('Nationality'), required=False, 
-        widget=AutoCompleteField(completed_obj_name='nationality'))
-    birth_date = forms.DateTimeField(label=_('Date of birth'), required=False,
-        widget=DATE_WIDGET)
+    country = forms.IntegerField(label=_('Nationality'), required=False) 
+    birth_date = forms.DateTimeField(label=_('Date of birth'), required=False)
     sex = forms.CharField(label=_('Sex'), required=False,  
         widget=forms.Select(choices=Person.SEX))
 
@@ -136,10 +128,8 @@ class NewPersonForm(forms.ModelForm):
 
 class PaymentForm(forms.ModelForm):
     """payment form"""
-    date = forms.DateTimeField(label=_('Payment Date'), required=False,
-        widget=DATE_WIDGET)
-    deposited = forms.DateTimeField(label=_('Deposit Date'), required=False,
-        widget=DATE_WIDGET)
+    date = forms.DateTimeField(label=_('Payment Date'), required=False)
+    deposited = forms.DateTimeField(label=_('Deposit Date'), required=False)
 
     class Meta:
         """Payment meta information"""

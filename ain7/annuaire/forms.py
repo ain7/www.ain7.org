@@ -29,18 +29,12 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 from django.forms.util import ValidationError
 
-from ain7.widgets import DateTimeWidget
 from ain7.annuaire.models import AIn7Member, Promo, Track, PromoYear, Person,\
                                  Country, PersonPrivate, MemberType, Activity,\
                                  PersonType, MaritalStatus, Email, PhoneNumber,\
                                  Address, InstantMessaging, IRC, WebSite,\
                                  ClubMembership
 
-
-DATE_WIDGET = DateTimeWidget()
-DATE_WIDGET.dformat = '%d/%m/%Y'
-DATE_TIME_WIDGET = DateTimeWidget()
-DATE_TIME_WIDGET.dformat = '%d/%m/%Y %H:%M'
 
 class SearchPersonForm(forms.Form):
     """search person form"""
@@ -110,8 +104,8 @@ class SearchPersonForm(forms.Form):
 
     def search(self, criteria):
         """perform the search for a person"""
-        #return AIn7Member.objects.filter(criteria).distinct().\
-        return AIn7Member.objects.filter().distinct().\
+        print 'coin'
+        return AIn7Member.objects.filter(criteria).distinct().\
             order_by('person__last_name','person__first_name')
 
 class NewMemberForm(forms.Form):
@@ -123,8 +117,7 @@ class NewMemberForm(forms.Form):
     mail = forms.EmailField(label=_('Mail'), max_length=50, required=True,
         widget=forms.TextInput(attrs={'size': 40}))
     nationality = forms.IntegerField(label=_('Nationality'), required=False)
-    birth_date = forms.DateTimeField(label=_('Date of birth'), required=False,
-        widget=DATE_WIDGET)
+    birth_date = forms.DateTimeField(label=_('Date of birth'), required=False)
     sex = forms.ChoiceField(label=_('Sex'), required=True, choices=Person.SEX)
     promoyear = forms.IntegerField(label=_('Promo year'), required=False)
     track = forms.IntegerField(label=_('Track'), required=False)
@@ -257,90 +250,6 @@ class NewMemberForm(forms.Form):
 
         return new_person
     
-class PersonForm(forms.ModelForm):
-    """person form with no death date"""
-    sex = forms.CharField(widget=forms.Select(choices=Person.SEX),
-        label=_('Sex'))
-    birth_date = forms.DateTimeField(label=_('birth date').capitalize(),
-        widget=DATE_WIDGET, required=False)
-    country = forms.IntegerField(label=_('nationality'), required=False)
-
-    class Meta:
-        """person form with no death date meta"""
-        model = Person
-        exclude = ('user','old_id')
-
-    def clean_country(self):
-        """person form no deatch clean_country"""
-        country_id = self.cleaned_data['country']
-        try:
-            Country.objects.get(id=country_id)
-        except Country.DoesNotExist:
-            raise ValidationError(_('The entered nationality does not exist.'))
-        else:
-            return Country.objects.get(id=country_id)
-
-class PersonPrivateForm(forms.ModelForm):
-    """person private form"""
-    death_date = forms.DateTimeField(label=_('death date').capitalize(),
-        widget=DATE_WIDGET, required=False)
-
-    class Meta:
-        """person form meta"""
-        model = PersonPrivate
-        exclude = ('person',)
-
-    def clean_death_date(self):
-        """check death date"""
-        if self.cleaned_data.get('birth_date') and \
-            self.cleaned_data.get('death_date') and \
-            self.cleaned_data['birth_date']>self.cleaned_data['death_date']:
-            raise forms.ValidationError(_('Birth date is later than\
- death date.'))
-        return self.cleaned_data['death_date']
-
-
-class AIn7MemberForm(forms.ModelForm):
-    """AIn7Member Form"""
-
-    def clean_avatar(self):
-        data = self.cleaned_data['avatar']
-        if data:
-            from PIL import Image
-            image = Image.open(data.file).convert('RGB')
-            image.thumbnail([100, 100], Image.ANTIALIAS)
-            fd = data.file
-            if hasattr(data.file, 'name'):
-                fd = data.file.name
-            else:
-                try:
-                    from cStringIO import StringIO
-                except ImportError:
-                    from StringIO import StringIO
-                data.file = StringIO()
-                fd = data.file
-            image.save(fd, 'jpeg', optimize=True)
-        return data
-
-    class Meta:
-        """AIn7 Member form meta"""
-        model = AIn7Member
-        exclude = ('person','promos')
-
-class EmailForm(forms.ModelForm):
-    """email form"""
-
-    class Meta:
-        """email form meta"""
-        model = Email
-
-class PhoneNumberForm(forms.ModelForm):
-    """phone number form"""
-
-    class Meta:
-        """phone number form meta"""
-        model = PhoneNumber
-
 class PromoForm(forms.Form):
     """promo form"""
     promoyear = forms.IntegerField(label=_('Promo year'), required=False)
@@ -388,51 +297,6 @@ class PromoForm(forms.Form):
         promo = Promo.objects.get(year=promo_year, track=track)
         return promo
 
-class AddressForm(forms.ModelForm):
-    """address form"""
-    country = forms.IntegerField(label=_('country').capitalize(),
-        required=False)
-
-    class Meta:
-        """address form meta"""
-        model = Address
-
-    def clean_country(self):
-        """check country"""
-        country_id = self.cleaned_data['country']
-        try:
-            return Country.objects.get(id=country_id)
-        except Country.DoesNotExist:
-            raise ValidationError(_('The entered country does not exist.'))
-            return None
-
-class InstantMessagingForm(forms.ModelForm):
-    """Instant Messaging Form"""
-
-    class Meta:
-        """instant messaging form meta"""
-        model = InstantMessaging
-
-class IRCForm(forms.ModelForm):
-    """IRC form"""
-
-    class Meta:
-        """IRC form meta"""
-        model = IRC
-
-class WebSiteForm(forms.ModelForm):
-    """web site form"""
-
-    class Meta:
-        """web site form meta"""
-        model = WebSite
-
-class ClubMembershipForm(forms.ModelForm):
-    "club membership form"""
-
-    class Meta:
-        """club membership form meta"""
-        model = ClubMembership
 
 class ChangePasswordForm(forms.Form):
     """ Change password and/or login"""

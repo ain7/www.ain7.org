@@ -31,7 +31,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
 from django.forms.models import modelform_factory
-from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.http import HttpResponseRedirect, Http404
 from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -41,24 +41,11 @@ from ain7.annuaire.models import PersonPrivate, UserActivity, Promo, \
                                  AIn7Member, Address
 from ain7.emploi.models import Position
 from ain7.annuaire.forms import SearchPersonForm, ChangePasswordForm, \
-                                PersonForm,PersonPrivateForm, \
-                                AIn7MemberForm, PromoForm, \
-                                AddressForm, PhoneNumberForm, EmailForm, \
-                                InstantMessagingForm, IRCForm, WebSiteForm, \
-                                ClubMembershipForm, NewMemberForm
+                                PromoForm, NewMemberForm
 from ain7.adhesions.forms import Subscription
 from ain7.decorators import access_required, confirmation_required
-from ain7.search_engine.models import SearchEngine, SearchFilter
-from ain7.search_engine.forms import SearchFilterForm
-from ain7.search_engine.views import se_filter_swap_op, \
-                                     se_criterion_field_edit, \
-                                     se_criterion_add, se_criterion_delete, \
-                                     se_criterion_filter_edit, se_export_csv
 from ain7.utils import ain7_generic_delete
 
-
-def annuaire_search_engine():
-    return get_object_or_404(SearchEngine, name="annuaire")
 
 @login_required
 def home(request, user_name):
@@ -111,8 +98,9 @@ def search(request):
             dosearch = True
 
             # perform search
-            criteria = form.criteria()
-            ain7members = form.search(criteria)
+            #criteria = form.criteria()
+            #ain7members = form.search(criteria)
+            ain7members = AIn7Member.objects.all().order_by('person__last_name','person__first_name')
 
             if len(ain7members) == 1:
                 messages.info(request, _('Only one result matched your criteria.'))
@@ -121,7 +109,7 @@ def search(request):
 
             # put the criteria in session: they must be accessed when
             # performing a CSV export, sending a mail...
-            request.session['filter'] = criteria
+            #request.session['filter'] = criteria
             paginator = Paginator(ain7members, nb_results_by_page)
 
             try:
@@ -131,17 +119,22 @@ def search(request):
                 raise Http404
 
     return render(request, 'annuaire/search.html',
-        {'form': form, 'ain7members': ain7members, 'request': request,
-         'userFilters': annuaire_search_engine().registered_filters(
-                            request.user.person),
-         'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
-         'has_next': paginator.page(page).has_next(),
-         'has_previous': paginator.page(page).has_previous(),
-         'current_page': page, 'pages': paginator.num_pages,
-         'next_page': page + 1, 'previous_page': page - 1,
-         'first_result': (page-1) * nb_results_by_page +1,
-         'last_result': min((page) * nb_results_by_page, paginator.count),
-         'hits' : paginator.count, 'dosearch': dosearch})
+        {
+            'form': form,
+            'ain7members': ain7members,
+            'request': request,
+            'paginator': paginator,
+            'is_paginated': paginator.num_pages > 1,
+            'has_next': paginator.page(page).has_next(),
+            'has_previous': paginator.page(page).has_previous(),
+            'current_page': page, 'pages': paginator.num_pages,
+            'next_page': page + 1, 'previous_page': page - 1,
+            'first_result': (page-1) * nb_results_by_page +1,
+            'last_result': min((page) * nb_results_by_page, paginator.count),
+            'hits' : paginator.count,
+            'dosearch': dosearch,
+        }
+    )
 
 @login_required
 def change_credentials(request, user_id):
@@ -170,9 +163,15 @@ def change_credentials(request, user_id):
                 messages.error(request, _("Wrong authentication"))
 
     form = ChangePasswordForm(initial={'login': person.user.username})
+
     return render(request, 'annuaire/credentials.html',
-        {'form': form, 'person': person, 'ain7member': ain7member,
-         'is_myself': is_myself})
+        {
+            'form': form,
+            'person': person,
+            'ain7member': ain7member,
+            'is_myself': is_myself,
+        }
+    )
 
 @access_required(groups=['ain7-secretariat'])
 def send_new_credentials(request, user_id):
@@ -184,245 +183,9 @@ def send_new_credentials(request, user_id):
     person.password_ask(request=request)
 
     messages.success(request, _("New credentials have been sent"))
+
     return HttpResponseRedirect(reverse('ain7.annuaire.views.details', 
         args=[person.id]))
-
-@access_required(groups=['ain7-membre', 'ain7-secretariat'])
-def advanced_search(request):
-
-    search_filter = annuaire_search_engine().unregistered_filters(\
-        request.user.person)
-    if search_filter:
-        return render(request, 'annuaire/adv_search.html',
-            dict_for_filter(request, search_filter.id))
-    else:
-        return render(request, 'annuaire/adv_search.html',
-            dict_for_filter(request, None))
-    
-
-@access_required(groups=['ain7-membre', 'ain7-secretariat'])
-def filter_details(request, filter_id):
-
-    return render(request, 'annuaire/adv_search.html',
-        dict_for_filter(request, filter_id))
-
-
-@access_required(groups=['ain7-membre','ain7-secretariat'])
-def dict_for_filter(request, filter_id):
-
-    ain7members = False
-    dosearch = False
-    person = request.user.person
-    nb_results_by_page = 25
-    paginator = Paginator(AIn7Member.objects.none(), nb_results_by_page)
-    page = 1
-    search_filter = None
-    if filter_id:
-        search_filter = get_object_or_404(SearchFilter, pk=filter_id)
-        
-
-    if request.method == 'POST' or request.GET.has_key('page'):
-
-        ain7members = AIn7Member.objects.all()
-        if filter_id:
-            ain7members = search_filter.search()
-        dosearch = True
-        paginator = Paginator(ain7members, nb_results_by_page)
-
-        try:
-            page = int(request.GET.get('page', '1'))
-            ain7members = paginator.page(page).object_list
-        except InvalidPage:
-            raise Http404
-
-    return {'ain7members': ain7members,
-         'filtr': search_filter,
-         'userFilters': annuaire_search_engine().registered_filters(person),
-         'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
-         'has_next': paginator.page(page).has_next(),
-         'has_previous': paginator.page(page).has_previous(),
-         'current_page': page,
-         'next_page': page + 1, 'previous_page': page - 1,
-         'pages': paginator.num_pages,
-         'first_result': (page - 1) * nb_results_by_page +1,
-         'last_result': min((page) * nb_results_by_page, paginator.count),
-         'hits' : paginator.count, 'dosearch': dosearch}
-
-
-@access_required(groups=['ain7-membre','ain7-secretariat'])
-def filter_register(request):
-
-    search_filter = annuaire_search_engine().unregistered_filters(\
-        request.user.person)
-    if not search_filter:
-        return HttpResponseRedirect('/annuaire/advanced_search/')
-
-    form = SearchFilterForm()
-
-    if request.method != 'POST':
-        return render(request,
-            'annuaire/edit_form.html',
-            {'form': form, 'back': request.META.get('HTTP_REFERER', '/'),
-             'action_title': _("Enter parameters of your filter")})
-    else:
-        form = SearchFilterForm(request.POST)
-        if form.is_valid():
-            fName = form.cleaned_data['name']
-            # First we check that the user does not have
-            # a filter with the same name
-            same_name = annuaire_search_engine().\
-                registered_filters(request.user.person).\
-                filter(name=fName).count()
-            if same_name > 0:
-                messages.error(request, _("One of your filters\
- already has this name."))
-                return HttpResponseRedirect('/annuaire/advanced_search/')
-
-            # Set the registered flag to True
-            search_filter.registered = True
-            search_filter.name = fName
-            search_filter.save()
-
-            # Redirect to filter page
-            messages.success(request, _("Modifications have been successfully saved."))
-            return HttpResponseRedirect(
-                '/annuaire/advanced_search/filter/%s/' % search_filter.id)
-        else:
-            messages.error(request, _("Something was wrong in\
- the form you filled. No modification done."))
-        return HttpResponseRedirect('/annuaire/advanced_search/')
-
-
-@access_required(groups=['ain7-membre','ain7-secretariat'])
-def filter_edit(request, filter_id):
-
-    filtr = get_object_or_404(SearchFilter, pk=filter_id)
-    form = SearchFilterForm(instance=filtr)
-
-    if request.method == 'POST':
-        form = SearchFilterForm(request.POST, instance=filtr)
-        if form.is_valid():
-            form.cleaned_data['user'] = filtr.user
-            form.cleaned_data['operator'] = filtr.operator
-            form.save()
-            messages.success(request, _("Modifications have been\
- successfully saved."))
-        else:
-            messages.error(request, _("Something was wrong in\
- the form you filled. No modification done."))
-        return HttpResponseRedirect(
-            '/annuaire/advanced_search/filter/%s/' % filter_id)
-    return render(
-        request, 'annuaire/edit_form.html',
-        {'form': form, 'action_title': _("Modification of the filter")})
-
-
-@login_required
-def remove_criteria(request, filtr):
-    for crit in filtr.criteriaField.all():  crit.delete()
-    for crit in filtr.criteriaFilter.all(): crit.delete()
-    # TODO non recursivite + supprimer filtres sans criteres
-    return
-
-@access_required(groups=['ain7-membre','ain7-secretariat'])
-def filter_reset(request, filter_id):
-
-    filtr = get_object_or_404(SearchFilter, pk=filter_id)
-    remove_criteria(request, filtr)
-    if filtr.registered:
-        return HttpResponseRedirect(
-            '/annuaire/advanced_search/filter/%s/' % filter_id)
-    else:
-        return HttpResponseRedirect('/annuaire/advanced_search/')
-
-@access_required(groups=['ain7-membre','ain7-secretariat'])
-def filter_delete(request, filter_id):
-
-    filtr = get_object_or_404(SearchFilter, pk=filter_id)
-    try:
-        # remove criteria linked to this filter from database
-        remove_criteria(request, filtr)
-        # now remove the filter
-        filtr.delete()
-        messages.error(request, _("Your filter has been successfully deleted."))
-    except KeyError:
-        messages.error(request, 
-                _("Something went wrong. The filter has not been deleted."))
-    return HttpResponseRedirect('/annuaire/advanced_search/')
-
-@access_required(groups=['ain7-membre','ain7-secretariat'])
-def filter_new(request):
-
-    search_filter = annuaire_search_engine().unregistered_filters(\
-        request.user.person)
-    if not search_filter:
-        return HttpResponseRedirect('/annuaire/advanced_search/')
-    remove_criteria(request, search_filter)
-    if search_filter.registered:
-        return HttpResponseRedirect(
-            '/annuaire/advanced_search/filter/%s/' % search_filter.id)
-    else:
-        return HttpResponseRedirect('/annuaire/advanced_search/')
-
-@login_required
-def filter_swap_op(request, filter_id=None):
-    return se_filter_swap_op(request, filter_id,
-                            reverse(filter_details, args =[ filter_id ]),
-                            reverse(advanced_search))
-
-@login_required
-def criterion_add(request, filter_id=None, criterion_type=None):
-    redirect = reverse(advanced_search)
-    if filter_id: redirect = reverse(filter_details, args=[ filter_id ])
-    return se_criterion_add(request, annuaire_search_engine(),
-        filter_id, criterion_type, criterionField_edit,
-        redirect, 'annuaire/criterion_add.html')
-
-@login_required
-def criterionField_edit(request, filter_id=None, criterion_id=None):
-    return se_criterion_field_edit(request, annuaire_search_engine(),
-        filter_id, criterion_id, reverse(filter_details, args=[filter_id]),
-        reverse(advanced_search), 'annuaire/criterion_edit.html')
-
-@login_required
-def criterionFilter_edit(request, filter_id=None, criterion_id=None):
-    return se_criterion_filter_edit(request, annuaire_search_engine(),
-        filter_id, criterion_id, reverse(filter_details, args=[filter_id]),
-        'annuaire/criterionFilter_edit.html')
-
-@login_required
-def criterion_delete(request, filtr_id=None, crit_id=None, crit_type=None):
-    return se_criterion_delete(request, filtr_id, crit_id, crit_type,
-        reverse(filter_details, args=[filtr_id]), reverse(advanced_search))
-
-@access_required(groups=['ain7-secretariat','ain7-ca'])
-def export_csv(request):
-
-    if not request.session.has_key('filter'):
-        messages.info(request, _("You have to make a search\
- before using csv export."))
-        return HttpResponseRedirect(request.META['HTTP_REFERER'])
-
-    criteria = request.session['filter']
-    ain7members = AIn7Member.objects.filter(criteria).distinct()
-
-    return se_export_csv(request, ain7members, annuaire_search_engine(),
-        'annuaire/edit_form.html')
-
-@access_required(groups=['ain7-secretariat', 'ain7-ca'])
-def adv_export_csv(request, filter_id=None):
-
-    se = annuaire_search_engine()
-    if not filter_id and not se.unregistered_filters(request.user.person):
-        messages.info(request, 
-            _("You have to make a search before using csv export."))
-        return HttpResponseRedirect(request.META['HTTP_REFERER'])
-    if filter_id:
-        search_filter = get_object_or_404(SearchFilter, id=filter_id)
-    else:
-        search_filter = se.unregistered_filters(request.user.person)
-    return se_export_csv(request, search_filter.search(), se, 
-        'annuaire/edit_form.html')
 
 @access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def edit(request, user_id=None):
@@ -436,14 +199,18 @@ def edit(request, user_id=None):
         ain7member = get_object_or_404(AIn7Member, person=person)
 
     return render(request, 'annuaire/edit.html',
-        {'person': person, 'ain7member': ain7member, 
-         'personprivate': personprivate,
-         'is_myself': int(request.user.id) == int(user_id)})
+        {
+            'person': person,
+            'ain7member': ain7member, 
+            'personprivate': personprivate,
+            'is_myself': int(request.user.id) == int(user_id),
+        }
+    )
 
 @access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def person_edit(request, user_id):
 
-    person = Person.objects.get(user=user_id)
+    person = get_object_or_404(Person, user=user_id)
     PersonForm = modelform_factory(Person, exclude=('old_id', 'user',))
     form = PersonForm(request.POST or None, instance=person)
 
@@ -465,61 +232,48 @@ def person_edit(request, user_id):
 @access_required(groups=['ain7-secretariat','ain7-ca'])
 def personprivate_edit(request, user_id):
 
-    personprivate = PersonPrivate.objects.get(person=user_id)
-    form = PersonPrivateForm(instance=personprivate)
+    personprivate = get_object_or_404(PersonPrivate, person=user_id)
+    PersonPrivateForm = modelform_factory(PersonPrivate, exclude=('person',))
+    form = PersonPrivateForm(request.POST or None, instance=personprivate)
 
-    if request.method == 'POST':
-        form = PersonPrivateForm(request.POST, instance=personprivate)
-        if form.is_valid():
-            form.save()
-            messages.sucess(request, _('Modifications have been\
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        messages.success(request, _('Modifications have been\
  successfully saved.'))
 
-        return HttpResponseRedirect(
-            '/annuaire/%s/edit/' % user_id)
+        return redirect('annuaire-edit', user_id)
 
-    return render(
-        request, 'annuaire/edit_form.html',
-        {'form': form, 'action_title': _("Modification of personal data for"),
-         'back': request.META.get('HTTP_REFERER', '/')})
+    return render(request, 'annuaire/edit_form.html',
+        {
+            'form': form,
+            'action_title': _("Modification of personal data for"),
+            'back': request.META.get('HTTP_REFERER', '/')
+        }
+    )
 
 @access_required(groups=['ain7-secretariat','ain7-ca'], allow_myself=True)
 def ain7member_edit(request, user_id):
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
-    form = AIn7MemberForm(instance=ain7member)
+    AIn7MemberForm = modelform_factory(AIn7Member, exclude=('person',))
 
-    if request.method == 'POST':
-        form = AIn7MemberForm(request.POST, request.FILES, instance=ain7member)
-        if form.is_valid():
-            if ain7member.avatar and form.cleaned_data['avatar']:
-                ain7member.avatar.delete()
-            form.save()
-            messages.success(request, _('Modifications have been\
+    form = AIn7MemberForm(request.POST, request.FILES, instance=ain7member)
+
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        messages.success(request, _('Modifications have been\
  successfully saved.'))
 
-        return HttpResponseRedirect(
-            '/annuaire/%s/edit/' % user_id)
+        return redirect('annuaire-edit', user_id)
 
-    return render(
-        request, 'annuaire/edit_form.html',
-        {'form': form, 'action_title': _("Modification of personal data for"),
-         'back': request.META.get('HTTP_REFERER', '/')})
-
-@confirmation_required(lambda user_id=None, object_id=None : '',
-     'annuaire/base.html', _('Do you really want to delete your avatar'))
-@access_required(groups=['ain7-secretariat','ain7-ca'], allow_myself=True)
-def avatar_delete(request, user_id):
-
-    person = Person.objects.get(user=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=person)
-    ain7member.avatar.delete()
-    ain7member.save()
-
-    messages.success(request,
-        _('Your avatar has been successfully deleted.'))
-    return HttpResponseRedirect('/annuaire/%s/edit/' % user_id)
+    return render(request, 'annuaire/edit_form.html',
+        {
+             'form': form,
+             'action_title': _("Modification of personal data for"),
+             'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 # Promos
 @access_required(groups=['ain7-secretariat','ain7-ca'], allow_myself=True)
@@ -527,25 +281,22 @@ def promo_edit(request, user_id=None, promo_id=None):
 
     person = get_object_or_404(Person, id=user_id)
     ain7member = person.ain7member
-    form = PromoForm()
-    if request.method == 'POST':
-        form = PromoForm(request.POST)
-        if form.is_valid():
-            promo = form.search()
-            ain7member.promos.add(promo)
-            messages.success(request,
-                _('Promotion successfully added.'))
-        else:
-            return render(
-                request, 'annuaire/edit_form.html',
-                {'form': form, 
-                 'action_title': _(u'Adding a promotion for %s' % ain7member)})
-        return HttpResponseRedirect(
-            '/annuaire/%s/edit/#promos' % user_id)
-    return render(
-        request, 'annuaire/edit_form.html',
-        {'form': form, 'action_title': 
-         _(u'Adding a promotion for %s' % ain7member)})
+
+    form = PromoForm(request.POST or None)
+
+    if request.method == 'POST' and form.is_valid():
+        promo = form.search()
+        ain7member.promos.add(promo)
+        messages.success(request, _('Promotion successfully added.'))
+
+        return redirect('annuaire-edit', user_id)
+
+    return render(request, 'annuaire/edit_form.html',
+        {
+            'form': form,
+            'action_title': _(u'Adding a promotion for %s' % ain7member),
+        },
+    )
 
 @confirmation_required(lambda user_id=None, promo_id=None :
      str(get_object_or_404(Promo, pk=promo_id)), 
@@ -569,31 +320,30 @@ def address_edit(request, user_id=None, address_id=None):
 
     person = get_object_or_404(Person, user=user_id)
     address = None
-    title = _('Creation of an address for')
-    form = AddressForm()
-
     if address_id:
-        address = get_object_or_404(Address, pk=address_id)
-        form = AddressForm(instance=address)
+        address = get_object_or_404(Address, id=address_id)
+    title = _('Creation of an address for')
 
-        title = _('Modification of an address for')
+    AddressForm = modelform_factory(Address, exclude=('person',))
+    form = AddressForm(request.POST or None, instance=address)
 
-    if request.method == 'POST':
-        form = AddressForm(request.POST, instance=address)
-        if form.is_valid():
-            adr = form.save(commit=False)
-            adr.person = person
-            adr.save()
+    if request.method == 'POST' and form.is_valid():
+        adr = form.save(commit=False)
+        adr.person = person
+        adr.save()
 
-            messages.success(request, _('Address successfully saved'))
+        messages.success(request, _('Address successfully saved'))
 
-            return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
-                 kwargs={'user_id': user_id}))
+        return redirect('annuaire-edit', user_id)
 
-    return render(
-        request, 'annuaire/edit_form.html',
-        {'form': form, 'action_title': title, 'person': person,
-         'back': request.META.get('HTTP_REFERER', '/')})
+    return render(request, 'annuaire/edit_form.html',
+        {
+            'form': form,
+            'action_title': title,
+            'person': person,
+            'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @confirmation_required(lambda user_id=None, address_id=None :
     str(get_object_or_404(Address, pk=address_id)), 'annuaire/base.html', 
@@ -606,37 +356,35 @@ def address_delete(request, user_id=None, address_id=None):
         '/annuaire/%s/edit/#address' % user_id,
         _('Address successfully deleted.'))
 
-# Numeros de telephone
 @access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def phone_edit(request, user_id=None, phone_id=None):
 
     person = get_object_or_404(Person, user=user_id)
     phone = None
-    title = _('Creation of a phone number for')
-    form = PhoneNumberForm()
-
     if phone_id:
-        phone = get_object_or_404(PhoneNumber, pk=phone_id)
-        form = PhoneNumberForm(instance=phone)
+        phone = get_object_or_404(PhoneNumber, id=phone_id)
+    title = _('Creation of a phone number for')
 
-        title = _('Modification of a phone number for')
+    PhoneNumberForm = modelform_factory(PhoneNumber, exclude=('person',)) 
+    form = PhoneNumberForm(request.POST or None, instance=phone)
 
-    if request.method == 'POST':
-        form = PhoneNumberForm(request.POST, instance=phone)
-        if form.is_valid():
-            phon = form.save(commit=False)
-            phon.person = person
-            phon.save()
+    if request.method == 'POST' and form.is_valid():
+        phon = form.save(commit=False)
+        phon.person = person
+        phon.save()
 
-            messages.success(request, _('Phone number successfully saved'))
+        messages.success(request, _('Phone number successfully saved'))
 
-            return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
-                kwargs={'user_id': user_id}))
+        return redirect('annuaire-edit', user_id)
 
-    return render(
-        request, 'annuaire/edit_form.html',
-        {'form': form, 'action_title': title, 'person': person,
-         'back': request.META.get('HTTP_REFERER', '/')})
+    return render(request, 'annuaire/edit_form.html',
+        {
+             'form': form,
+             'action_title': title,
+             'person': person,
+             'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @confirmation_required(lambda user_id=None, phone_id=None :
     str(get_object_or_404(PhoneNumber, pk=phone_id)), 'annuaire/base.html', 
@@ -654,53 +402,32 @@ def phone_delete(request, user_id=None, phone_id=None):
 def email_edit(request, user_id=None, email_id=None):
 
     person = get_object_or_404(Person, user=user_id)
-    email = None
     title = _('Creation of an email address for')
 
-    from django import forms
-
-    class EmailFormDyn(EmailForm):
-        """email form"""
-
-        position = forms.ChoiceField(required=False, 
-             choices = [('', '----------')] + [(p.id, p.office.organization) \
-             for p in Position.objects.filter(\
-             ain7member__person__id=person.id)])
-        if email_id:
-            email = get_object_or_404(Email, pk=email_id)
-            if email and email.position_id:
-                position.initial = email.position.id
-
-    form = EmailFormDyn()
-
+    email = None
     if email_id:
         email = get_object_or_404(Email, pk=email_id)
 
-        form = EmailFormDyn(instance=email)
+    EmailForm = modelform_factory(Email, exclude=('person',))
+    form = EmailForm(request.POST or None, instance=email)
 
-        title = _('Modification of an email address for')
+    if request.method == 'POST' and form.is_valid():
+        mail = form.save(commit=False)
+        mail.person = person
+        mail.save()
 
-    if request.method == 'POST':
-        form = EmailFormDyn(request.POST, instance=email)
-        if form.is_valid():
-            mail = form.save(commit=False)
-            mail.person = person
-            if form.cleaned_data['position']:
-                mail.position = Position.objects.get(\
-                    id=form.cleaned_data['position'])
-            else:
-                mail.position = None
-            mail.save()
+        messages.success(request, _('Email successfully saved'))
 
-            messages.success(request, _('Email successfully saved'))
+        return redirect('annuaire-edit', user_id)
 
-            return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
-                kwargs={'user_id': user_id}))
-
-    return render(
-        request, 'annuaire/edit_form.html',
-        {'form': form, 'action_title': title, 'person': person,
-         'back': request.META.get('HTTP_REFERER', '/')})
+    return render(request, 'annuaire/edit_form.html',
+        {
+             'form': form,
+             'action_title': title,
+             'person': person,
+             'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @confirmation_required(lambda user_id=None, email_id=None:
     str(get_object_or_404(Email, pk=email_id)), 'annuaire/base.html', 
@@ -718,31 +445,30 @@ def im_edit(request, user_id=None, im_id=None):
 
     person = get_object_or_404(Person, user=user_id)
     ime = None
-    title = _('Creation of an instant messaging account for')
-    form = InstantMessagingForm()
-
     if im_id:
         ime = get_object_or_404(InstantMessaging, pk=im_id)
-        form = InstantMessagingForm(instance=ime)
 
-        title = _('Modification of an instant messaging account for')
+    title = _('Creation of an instant messaging account for')
+    InstantMessagingForm = modelform_factory(InstantMessaging, exclude=('person',))
+    form = InstantMessagingForm(request.POST or None, instance=ime)
 
-    if request.method == 'POST':
-        form = InstantMessagingForm(request.POST, instance=ime)
-        if form.is_valid():
-            inm = form.save(commit=False)
-            inm.person = person
-            inm.save()
+    if request.method == 'POST' and form.is_valid():
+        inm = form.save(commit=False)
+        inm.person = person
+        inm.save()
 
-            messages.success(request, _('Instant messaging successfully saved'))
+        messages.success(request, _('Instant messaging successfully saved'))
 
-            return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
-                kwargs={'user_id': user_id}))
+        return redirect('annuaire-edit', user_id)
 
-    return render(
-        request, 'annuaire/edit_form.html',
-        {'form': form, 'action_title': title, 'person': person,
-         'back': request.META.get('HTTP_REFERER', '/')})
+    return render(request, 'annuaire/edit_form.html',
+        {
+             'form': form, 
+             'action_title': title,
+             'person': person,
+             'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @confirmation_required(lambda user_id=None, im_id=None :
     str(get_object_or_404(InstantMessaging, pk=im_id)), 'annuaire/base.html',
@@ -762,30 +488,31 @@ def irc_edit(request, user_id=None, irc_id=None):
     person = get_object_or_404(Person, user=user_id)
     irc = None
     title = _('Creation of an IRC account for')
-    form = IRCForm()
 
+    irc = None
     if irc_id:
         irc = get_object_or_404(IRC, pk=irc_id)
-        form = IRCForm(instance=irc)
 
-        title = _('Modification of an IRC account for')
+    IRCForm = modelform_factory(IRC, exclude=('person',))
+    form = IRCForm(request.POST or None, instance=irc)
 
-    if request.method == 'POST':
-        form = IRCForm(request.POST, instance=irc)
-        if form.is_valid():
-            this_irc = form.save(commit=False)
-            this_irc.person = person
-            this_irc.save()
+    if request.method == 'POST' and form.is_valid():
+        this_irc = form.save(commit=False)
+        this_irc.person = person
+        this_irc.save()
 
-            messages.success(request, _('irc contact successfully saved'))
+        messages.success(request, _('irc contact successfully saved'))
 
-            return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
-                kwargs={'user_id': user_id}))
+        return redirect('annuaire-edit', user_id)
 
-    return render(
-        request, 'annuaire/edit_form.html',
-        {'form': form, 'action_title': title, 'person': person,
-         'back': request.META.get('HTTP_REFERER', '/')})
+    return render(request, 'annuaire/edit_form.html',
+        {
+            'form': form,
+            'action_title': title,
+            'person': person,
+            'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @confirmation_required(lambda user_id=None, irc_id=None:
     str(get_object_or_404(IRC, pk=irc_id)), 'annuaire/base.html',
@@ -805,30 +532,31 @@ def website_edit(request, user_id=None, website_id=None):
     person = get_object_or_404(Person, user=user_id)
     website = None
     title = _('Creation of a website for')
-    form = WebSiteForm()
 
+    website = None
     if website_id:
         website = get_object_or_404(WebSite, pk=website_id)
-        form = WebSiteForm(instance=website)
 
-        title = _('Modification of a website for')
+    WebSiteForm = modelform_factory(WebSite, exclude=('person',))
+    form = WebSiteForm(request.POST or None, instance=website)
 
-    if request.method == 'POST':
-        form = WebSiteForm(request.POST, instance=website)
-        if form.is_valid():
-            web = form.save(commit=False)
-            web.person = person
-            web.save()
+    if request.method == 'POST' and form.is_valid():
+        web = form.save(commit=False)
+        web.person = person
+        web.save()
 
-            messages.success(request, _('website successfully saved'))
+        messages.success(request, _('website successfully saved'))
 
-            return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
-                kwargs={'user_id': user_id}))
+        return redirect('annuaire-edit', user_id)
 
-    return render(
-        request, 'annuaire/edit_form.html',
-        {'form': form, 'action_title': title, 'person': person,
-         'back': request.META.get('HTTP_REFERER', '/')})
+    return render(request, 'annuaire/edit_form.html',
+        {
+            'form': form,
+            'action_title': title,
+            'person': person,
+            'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @confirmation_required(lambda user_id=None, website_id=None:
     str(get_object_or_404(WebSite, pk=website_id)), 'annuaire/base.html',
@@ -847,33 +575,33 @@ def club_membership_edit(request, user_id=None, club_membership_id=None):
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
-    club_membership = None
     title = _('Creation of a club membership for')
-    form = ClubMembershipForm()
  
+    club_membership = None
     if club_membership_id:
         club_membership = get_object_or_404(ClubMembership,
             pk=club_membership_id)
-        form = ClubMembershipForm(instance=club_membership)
 
-        title = _('Modification of a club membership for')
+    ClubMembershipForm = modelform_factory(ClubMembership, exclude=('person',))
+    form = ClubMembershipForm(request.POST or None, instance=club_membership)
 
-    if request.method == 'POST':
-        form = ClubMembershipForm(request.POST, instance=club_membership)
-        if form.is_valid():
-            membership = form.save(commit=False)
-            membership.member = ain7member
-            membership.save()
+    if request.method == 'POST' and form.is_valid():
+        membership = form.save(commit=False)
+        membership.member = ain7member
+        membership.save()
 
-            messages.success(request, _('Club membership successfully saved'))
+        messages.success(request, _('Club membership successfully saved'))
 
-            return HttpResponseRedirect(reverse('ain7.annuaire.views.edit',
-                kwargs={'user_id': user_id}))
+        return redirect('annuaire-edit', user_id)
 
-    return render(
-        request, 'annuaire/edit_form.html',
-        {'form': form, 'action_title': title, 'person': person,
-         'back': request.META.get('HTTP_REFERER', '/')})
+    return render(request, 'annuaire/edit_form.html',
+        {
+             'form': form,
+             'action_title': title,
+             'person': person,
+             'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @confirmation_required(lambda user_id=None, club_membership_id=None:
     str(get_object_or_404(ClubMembership, pk=club_membership_id)),
@@ -891,23 +619,21 @@ def club_membership_delete(request, user_id=None, club_membership_id=None):
 def add(request, user_id=None):
     """ add a new person"""
 
-    form = NewMemberForm()
+    form = NewMemberForm(request.POST or None)
 
-    if request.method == 'POST':
-        form = NewMemberForm(request.POST)
-        if form.is_valid():
-            new_person = form.save()
-            messages.success(request, _("New user successfully created"))
-            return HttpResponseRedirect('/annuaire/%s/edit/' % \
-                (new_person.user.id))
-        else:
-            messages.error(request, _("Something was wrong in\
- the form you filled. No modification done."))
+    if request.method == 'POST' and form.is_valid():
+        new_person = form.save()
+        messages.success(request, _("New user successfully created"))
 
-    back = request.META.get('HTTP_REFERER', '/')
-    return render(request,
-        'annuaire/edit_form.html',
-        {'action_title': _('Register new user'), 'back': back, 'form': form})
+        return redirect('annuaire-edit', user_id)
+
+    return render(request, 'annuaire/edit_form.html',
+        {
+            'action_title': _('Register new user'),
+            'back': request.META.get('HTTP_REFERER', '/'),
+            'form': form,
+        }
+    )
 
 @access_required(groups=['ain7-secretariat', 'ain7-member'])
 def vcard(request, user_id):

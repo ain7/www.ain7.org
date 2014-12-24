@@ -21,7 +21,7 @@
 #
 #
 
-from django.conf.urls import patterns
+from django.conf.urls import patterns, url
 
 urlpatterns = patterns('ain7.voyages.views',
 
@@ -31,19 +31,9 @@ urlpatterns = patterns('ain7.voyages.views',
     (r'^edit/$', 'edit'),
     (r'^add/$', 'edit'),
     (r'^list/$', 'list'),
-    (r'^(?P<travel_id>\d+)/$', 'details'),
+    url(r'^(?P<travel_id>\d+)/$', 'details', name='travel-details'),
     (r'^(?P<travel_id>\d+)/edit/$', 'edit'),
-    (r'^(?P<travel_id>\d+)/thumbnail/delete/$', 'thumbnail_delete'),
-    (r'^(?P<travel_id>\d+)/join/$', 'join'),
     (r'^(?P<travel_id>\d+)/search/$', 'search'),
-    (r'^(?P<travel_id>\d+)/subscribe/$', 'subscribe'),
-    (r'^(?P<travel_id>\d+)/unsubscribe/(?P<participant_id>\d+)/$',
-        'unsubscribe'),
-    (r'^(?P<travel_id>\d+)/participants/$', 'participants'),
-    (r'^(?P<travel_id>\d+)/responsibles/$', 'responsibles'),
-    (r'^(?P<travel_id>\d+)/responsibles/add/$', 'responsibles_add'),
-    (r'^(?P<travel_id>\d+)/responsibles/(?P<responsible_id>\d+)/delete/$',
-     'responsibles_delete'),
     (r'^(?P<travel_id>\d+)/delete/$', 'delete'),
 
 )

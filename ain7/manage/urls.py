@@ -25,46 +25,7 @@ from django.conf.urls import patterns
 
 urlpatterns = patterns('ain7.manage.views',
     (r'^$', 'index'),
-    # Organizations
-    (r'^organizations/adv_search/filter/new/$', 'filter_new'),
-    (r'^organizations/adv_search/filter/register/$', 'filter_register'),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/$', 
-        'filter_details'),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/edit/$', 
-        'filter_edit'),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/reset/$', 
-        'filter_reset'),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/delete/$', 
-        'filter_delete'),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d*)/swapOp/$', 
-        'filter_swap_op'),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d*)/criterion/add/$',
-        'criterion_add'),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d*)/criterion/'
-     +r'add/field/$',
-     'criterion_add', {'criterion_type': 'field'}),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d*)/criterion/'
-     +r'add/filter/$',
-     'criterion_add', {'criterion_type': 'filter'}),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/'
-     +r'edit/field/$',
-     'criterion_field_edit'),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/'
-     +r'edit/filter/$',
-     'criterion_filter_edit'),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/'
-     +r'(?P<criterion_id>\d+)/edit/field/$',
-     'criterion_field_edit'),
-    (r'^organizations/adv_search/filter/(?P<filter_id>\d+)/criterion/'
-     +r'(?P<criterion_id>\d+)/edit/filter/$',
-     'criterion_filter_edit'),
-    (r'^organizations/adv_search/filter/(?P<filtr_id>\d+)/criterion/'
-     +r'(?P<crit_id>\d+)/delete/field/$',
-     'criterion_delete', {'crit_type': 'field'}, "criterionField_delete"),
-    (r'^organizations/adv_search/filter/(?P<filtr_id>\d+)/criterion/'
-     +r'(?P<crit_id>\d+)/delete/filter/$',
-     'criterion_delete', {'crit_type': 'filter'}, "criterionFilter_delete"),
-                       
+                      
     # Users
     (r'^users/$', 'users_search'),
     (r'^users/register/$', 'user_register'),

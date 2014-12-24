@@ -28,13 +28,8 @@ from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
-from ain7.fields import AutoCompleteField
 from ain7.groups.models import Group, GroupLeader, Member
-from ain7.widgets import DateTimeWidget
 
-
-DATE_WIDGET = DateTimeWidget()
-DATE_WIDGET.dformat = '%d/%m/%Y'
 
 class GroupForm(forms.ModelForm):
     """New Group Form"""
@@ -62,12 +57,11 @@ class GroupForm(forms.ModelForm):
 
 class RoleForm(forms.ModelForm):
     """New role form"""
-    person = forms.IntegerField(label=_('Person'),
-        required=True, widget=AutoCompleteField(completed_obj_name='person'))
+    person = forms.IntegerField(label=_('Person'), required=True)
     start_date = forms.DateTimeField(label=_('start date').capitalize(),
-        widget=DATE_WIDGET, required=True)
+        required=True)
     end_date = forms.DateTimeField(label=_('end date').capitalize(),
-        widget=DATE_WIDGET, required=False)
+        required=False)
 
     class Meta:
         model = GroupLeader
@@ -99,8 +93,7 @@ class RoleForm(forms.ModelForm):
 
 class MemberForm(forms.ModelForm):
     """add a new member to a role form"""
-    member = forms.IntegerField(label=_('Username'), required=True,
-        widget=AutoCompleteField(completed_obj_name='person'))
+    member = forms.IntegerField(label=_('Username'), required=True)
 
     class Meta:
         model = Member

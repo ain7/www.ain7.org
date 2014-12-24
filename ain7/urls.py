@@ -85,17 +85,8 @@ urlpatterns = patterns('',
     # adhesions
     (r'^adhesions/',include('ain7.adhesions.urls')),
 
-    # media & communication
-    (r'^media_communication/$', 'ain7.association.views.media_com'),
-    (r'^media_communication/canal_n7/$', 'ain7.association.views.canal_n7'),
-    (r'^media_communication/canal_n7/edito/$', 'ain7.association.views.canal_n7_edito'),
-
-    # relations école étudiants
-    (r'^relations_ecole_etudiants/', 'ain7.pages.views.relations_ecole_etudiants'),
-
     # Pages particulieres au contenu pseudo statique
     (r'^apropos/$','ain7.pages.views.apropos'),
-    (r'^web/$','ain7.pages.views.web'),
     (r'^mentions_legales/$','ain7.pages.views.mentions_legales'),
     (r'^lostpassword/$','ain7.pages.views.lostpassword'),
     (r'^lostpassword/([A-Za-z0-9.\-_]+)/$','ain7.pages.views.changepassword'),

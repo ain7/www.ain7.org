@@ -28,13 +28,6 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
 from ain7.shop.models import Payment
-from ain7.widgets import DateTimeWidget
-
-
-DATE_WIDGET = DateTimeWidget()
-DATE_WIDGET.dformat = '%d/%m/%Y'
-DATE_TIME_WIDGET = DateTimeWidget()
-DATE_TIME_WIDGET.dformat = '%d/%m/%Y %H:%M'
 
 
 class PaymentMethodForm(forms.ModelForm):
@@ -46,10 +39,8 @@ class PaymentMethodForm(forms.ModelForm):
 
 class PaymentForm(forms.ModelForm):
     """payment form"""
-    date = forms.DateTimeField(label=_('Payment Date'), required=False,
-        widget=DATE_WIDGET)
-    deposited = forms.DateTimeField(label=_('Deposit Date'), required=False,
-        widget=DATE_WIDGET)
+    date = forms.DateTimeField(label=_('Payment Date'), required=False)
+    deposited = forms.DateTimeField(label=_('Deposit Date'), required=False)
 
     class Meta:
         """Payment meta information"""

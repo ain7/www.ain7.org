@@ -69,7 +69,7 @@
             {% if position.end %}{{ position.end }}{% endif %}</b></td>
             <td>{% if position.fonction %}<em>{{ position.fonction }}</em>{% endif %}
                 {{ position.office }} ({{ position.office.organization }})</td>
-            <td style="width: 12%"><a href="{% url "ain7.emploi.views.position_edit" person.user.id,position.id %}" class="changelink">{% trans "Modify" %}</a></td>
+            <td style="width: 12%"><a href="{% url "ain7.emploi.views.position_edit" person.user.id position.id %}" class="changelink">{% trans "Modify" %}</a></td>
             <td style="width: 12%"><a href="{% url "ain7.emploi.views.position_delete" person.user.id position.id %}" class="deletelink"> {% trans "Delete" %}</a></td>
         </tr>
         {% if position.description %}
