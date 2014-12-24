@@ -24,6 +24,7 @@ import os.path
 
 from django.conf.urls import patterns, include, url
 from django.conf import settings
+from django.contrib import admin                                                
 
 from ain7.feeds import LatestsEvents, LatestsNews
 from ain7.sitemaps import EventsSitemap, TextsSitemap, NewsSitemap, GroupsSitemap
@@ -46,11 +47,13 @@ urlpatterns = patterns('',
 
     (r'^~(?P<user_name>\w+)/$', 'ain7.annuaire.views.home'),
 
-    (r'^accounts/login/$', 'ain7.pages.views.login'),
-    (r'^accounts/logout/$', 'ain7.pages.views.logout'),
+    #(r'^accounts/login/$', 'ain7.pages.views.login'),
+    #(r'^accounts/logout/$', 'ain7.pages.views.logout'),
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login', name='login'),
+    url(r'^acocunts/logout/$', 'django.contrib.auth.views.logout_then_login', name='logout'),
 
     # servir le contenu statique pendant le dev
-    (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
+    url(r'^static/(?P<path>.*)$', 'django.contrib.staticfiles.views.serve'),
 
     # AIn7 management section
     (r'^manage/', include('ain7.manage.urls')),
@@ -63,7 +66,6 @@ urlpatterns = patterns('',
 
     # news
     (r'^actualites/', include('ain7.news.urls')),
-
     # evenements
     (r'^evenements/', include('ain7.news.urls_events')),
 
@@ -110,6 +112,9 @@ urlpatterns = patterns('',
     (r'^twitter/$', 'ain7.pages.views.twitter'),
     (r'^viadeo/$', 'ain7.pages.views.viadeo'),
     (r'^g\+/$', 'ain7.pages.views.gplus'),
+
+    (r'^grappelli/', include('grappelli.urls')), # grappelli URLS
+    (r'^admin/',  include(admin.site.urls)), # admin site
 
 )
 
