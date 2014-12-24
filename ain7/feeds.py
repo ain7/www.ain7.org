@@ -3,7 +3,7 @@
  ain7/feeds.py
 """
 #
-#   Copyright © 2007-2015 AIn7 Devel Team
+#   Copyright © 2007-2011 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -21,10 +21,31 @@
 #
 #
 
-from django.contrib.syndication.views import Feed
+from django.contrib.syndication.feeds import Feed
+#from django.contrib.syndication.views import Feed as FeedView
 from django.utils.translation import ugettext as _
 
 from ain7.news.models import NewsItem
+
+#class MainFeed(FeedView):
+#    """
+#    Return latest news from AIn7
+#    """
+#    title = "AIn7 News RSS"
+#    link = "/news/"
+#    description = _("AIn7 news")
+#
+#    def items(self):
+#        """
+#        Item of News RSS stream
+#        """
+#        return NewsItem.objects.order_by('-creation_date')[:20]
+#
+#    def item_title(self, item):
+#        return item.title
+#
+#    def item_description(self, item):
+#        return item.body
 
 class LatestsEvents(Feed):
     """

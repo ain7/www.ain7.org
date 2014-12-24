@@ -369,11 +369,12 @@ def subscriptions_stats(request):
         total_query = Q(start_year=year, member__promos__isnull=False, validated=True)
         total_queryset = Subscription.objects.filter(total_query)
         total_number = total_queryset.distinct().count()
-        total_amount = total_queryset.distinct().aggregate(sum=Sum('dues_amount'))['sum']
+        total_amount = total_queryset.distinct().aggregate(sum=Sum('dues_amount'))['sum'] or 0
 
         # other
         other_number = total_number - students_number - unemployed_number - \
             bienfaiteur_number - retired_number - young_number - full_number
+
         other_amount = total_amount - unemployed_amount - bienfaiteur_amount - \
             retired_amount - young_amount - full_amount
 
@@ -418,7 +419,7 @@ def subscriptions_stats(request):
                 'students': { 
                     'number': students_number,
                     'price': 0,
-                    'amount': int(students_amount)
+                    'amount': int(max(students_amount,0))
                     },
                 'other': { 
                     'number': other_number, 

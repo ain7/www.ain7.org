@@ -332,7 +332,6 @@ def event_attend_yes(request, event_id):
     event = get_object_or_404(NewsItem, pk=event_id)
 
     rsvp = event.rsvp_answer(request.user.person, yes=True)
-    print rsvp
 
     return HttpResponseRedirect(reverse('ain7.news.views.event_rsvp', 
         args=[event.id, rsvp.id]))
@@ -452,7 +451,7 @@ def ical(request):
             evt.add('dtstart').value = event.date
         #ev.add('dtend').value = event.end
         if event.body:
-            evt.add('body').value = event.body
+            evt.add('description').value = event.body
         if event.status:
             evt.add('status').value = event.get_status_display()
         evt.add('dtstamp').value = event.last_change_at

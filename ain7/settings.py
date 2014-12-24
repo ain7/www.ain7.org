@@ -217,7 +217,7 @@ PIWIK_URL = 'http://localhost/piwik/'
 PIWIK_SITE_ID = '0'
 
 # Version
-BASE = '1.4.2a'
+BASE = '1.4.3d'
 REVISION = ''
 
 try:
@@ -244,6 +244,11 @@ GPLUS_AIN7='https://plus.google.com/s/enseeiht#105806841193732839789/posts'
 SPPLUS_CLENT = '58 6d fc 9c 34 91 9b 86 3f fd 64 63 c9 13 4a 26 ba 29 74 1e c7 e9 80 79'
 SPPLUS_EXE = '/bin/false'
 SPPLUS_IP = ['127.0.0.1']
+
+SYSTEM_PAY_URL='http://localhost'
+SYSTEM_PAY_SITE_ID='123456789'
+SYSTEM_PAY_CERTIFICATE='1234567890912345'
+SYSTEM_PAY_MODE='TEST'
 
 AIN7_SIRET = '0000000000000001-001'
 

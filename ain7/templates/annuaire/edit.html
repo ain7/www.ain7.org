@@ -321,13 +321,13 @@
 <h2><a name="assoc"></a>{% trans "N7 associative activities" %}</h2>
 
 <div class="dataBlock">
-{% for club_membership in ain7member.club_memberships.all %}
+{% for club_membership in ain7member.person.council_roles.all %}
 <table style="border: 0; width: 100%;">
-    <tr><td>{% if club_membership.club.web_site %}<a href="{{ club_membership.club.web_site}}">{% endif %}
-                 {{ club_membership.club.name }}
-            {% if club_membership.club.web_site %}</a>{% endif %}
-    {% if club_membership.begin and club_membership.end %}(<i>{{ club_membership.begin }} - {{ club_membership.end }}</i>){% endif %}</td>
-    <td>{% if club_membership.fonction %}{{ club_membership.fonction }}{% endif %}</td>
+    <tr><td>{% if club_membership.grouphead.group.web_site %}<a href="{{ club_membership.grouphead.group.web_site}}">{% endif %}
+                 {{ club_membership.grouphead.group.name }}
+            {% if club_membership.grouphead.group.web_site %}</a>{% endif %}
+    {% if club_membership.start_date and club_membership.end_date %}(<i>{{ club_membership.start_date|date:"Y" }} - {{ club_membership.end_date|date:"Y" }}</i>){% endif %}</td>
+    <td>{% if club_membership.title %}{{ club_membership.title }}{% endif %}</td>
     <td style="width: 12%">
         <a href="{% url "ain7.annuaire.views.club_membership_edit" person.user.id club_membership.id %}" class="changelink">
         {% trans "Modify" %}</a></td>
