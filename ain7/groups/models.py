@@ -105,7 +105,7 @@ class GroupLeader(models.Model):
         default=datetime.datetime.now, blank=True, null=True)
     end_date = models.DateField(verbose_name=_('end date'),
         blank=True, null=True)
-    board_member = models.BooleanField()
+    board_member = models.BooleanField(default=False)
 
     rank = models.IntegerField(verbose_name=_('rank'), null=True, blank=True)
     title = models.CharField(verbose_name=_('title'), max_length=100, \

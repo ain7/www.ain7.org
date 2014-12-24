@@ -184,7 +184,7 @@ class Track(models.Model):
         blank=True, null=True)
     email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
 
-    active = models.BooleanField(verbose_name=_('active'))
+    active = models.BooleanField(verbose_name=_('active'), default=True)
 
     school = models.ForeignKey(School, verbose_name=_('school'),
         related_name='tracks')
