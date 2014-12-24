@@ -1,6 +1,7 @@
 {% extends "manage/base.html" %}
 
 {% load i18n %}
+{% load crispy_forms_tags %}
 
 {% block content-left %}
 
@@ -13,12 +14,11 @@
 
 <p>{% trans "Please choose this second organization." %}</p>
 
-<form action="." method="post">
-<table style="border: 0; text-align: left">
-   {{ form }}
-</table>
-<div style="text-align: center">
-<input type="submit" class="btn btn-primary" value="{% trans 'Confirm' %}" />
+<form action="." method="post" class="form-horizontal">
+{{ form }}
+<div class="form-group">                                                        
+<button type="submit" class="btn btn-default">{% trans "Save" %}</button>
+<a href="{% url 'organizationè-details' organization.id %}">{% trans "Cancel" %}</a>
 </div>
 </form>
 

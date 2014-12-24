@@ -1,5 +1,6 @@
 {% extends "manage/base.html" %}
 {% load i18n %}
+{% load crispy_forms_tags %}
 
 {% block content-left %}
 
@@ -34,11 +35,11 @@
 
 {% if not mailing.approved_by %}
 
-<form method="post" action=".">
-{{ form.as_p }}
-<div style="text-align: center">
-<a class="btn disabled" href="{{ back }}">{% trans "Cancel" %}</a>
-<input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+<form method="post" action="." class="form-horizontal">
+{{ form|crispy }}
+<div class="form-group">                                                        
+<button type="submit" class="btn btn-default">{% trans "Save" %}</button>
+<a href="{% url 'mailing-details' mailing.id %}">{% trans "Cancel" %}</a>
 </div>
 </form>
 {% endif %}

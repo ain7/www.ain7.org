@@ -1,5 +1,6 @@
 {% extends "voyages/base.html" %}
 {% load i18n %}
+{% load crispy_forms_tags %}
 
 {% block content-left %}
 
@@ -9,16 +10,11 @@
   {% endifequal %}
 </h2>
 
-<form action="." method="post" enctype="multipart/form-data">
-    <table class="form">
-        {{ form }}
-    </table>
-{% if travel.thumbnail %}
-  <p><a href="{% url "ain7.voyages.views.thumbnail_delete" travel.id %}" class="deletelink">{% trans "Delete the thumbnail of this travel." %}</a></p>
-{% endif %}
-<div style="text-align: center">
-<a class="btn disabled" href="{{ back }}">{% trans "Cancel" %}</a>
-<input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+<form action="." method="post" enctype="multipart/form-data" class="form-horizontal">
+{{ form }}
+<div class="form-group">                                                        
+<button type="submit" class="btn btn-default">{% trans "Save" %}</button>
+<a href="{% url 'travel-details' travel.id %}">{% trans "Cancel" %}</a>
 </div>
 </form>
 

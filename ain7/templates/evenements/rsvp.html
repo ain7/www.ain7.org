@@ -1,6 +1,6 @@
 {% extends "evenements/base.html" %}
 {% load i18n %}
-
+{% load crispy_forms_tags %}
 
 {% block content-main %}
 
@@ -10,13 +10,11 @@
 {% endif %}
 </h4>
 
-<form method="post" action="." enctype="multipart/form-data">
-<table>
-{{ form }}
-</table>
-<div style="text-align: center">
-<a class="btn disabled" href="{{ back }}">{% trans "Cancel" %}</a>
-<input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+<form method="post" action="." enctype="multipart/form-data" class="form-horizontal">
+{{ form|crispy }}
+<div class="form-group">                                                        
+<button type="submit" class="btn btn-default">{% trans "Save" %}</button>
+<a href="{% url 'annuaire-edit' user.id %}">{% trans "Cancel" %}</a>
 </div>
 </form>
 {% endblock %}

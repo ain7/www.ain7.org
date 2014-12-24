@@ -1,15 +1,16 @@
 {% extends "association/base.html" %}
 {% load i18n %}
+{% load crispy_forms_tags %}
 
 {% block content-left %}
 
 <form method="post" action="." enctype="multipart/form-data">
-<table>
 {{ form }}
-</table>
-<div style="text-align: center">
+<div class="control-group">
+<div class="controls">
 <a class="btn disabled" href="{{ back }}">{% trans "Cancel" %}</a>
 <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+</div>
 </div>
 </form>
 

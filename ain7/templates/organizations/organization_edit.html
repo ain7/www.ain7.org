@@ -1,17 +1,6 @@
 {% extends "organizations/base.html" %}
 {% load i18n %}
-
-{% block javascript %}
-<script src="{{ MEDIA_URL }}/js/mootools-{{ mootools_version }}-core-nc.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}/js/autocomplete.js?version={{ portal_version }}" type="text/javascript"></script>
-{% endblock %}
-
-{% block stylesheet %}
-<link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}/css/autocomplete.css?version={{ portal_version }}"/>
-{% endblock %}
-
-{% block content-left %}
-
+{% load crispy_forms_tags %}
 
 {% if organization %}
 <div class="dataBlock">
@@ -73,12 +62,11 @@
 </div>
 {% else %}
 
-<form method="post" action=".">
-<table>
-{{ form }}
-</table>
-<div style="text-align: center">
-<input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+<form method="post" action="." class="form-horizontal">
+{{ form|crispy }}
+<div class="form-group">                                                        
+<button type="submit" class="btn btn-default">{% trans "Save" %}</button>
+<a href="{% url 'organization-edit' organization.id %}">{% trans "Cancel" %}</a>
 </div>
 </form>
 

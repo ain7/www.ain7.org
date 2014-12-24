@@ -1,5 +1,6 @@
 {% extends "emploi/base.html" %}
 {% load i18n %}
+{% load crispy_forms_tags %}
 
 {% block content-left %}
 
@@ -9,12 +10,11 @@
     <h2>{% trans "Creation of a publication or patent" %}</h2>
 {% endifequal %}
 
-<form method="post" action=".">
-<table>
+<form method="post" action="." class="form-horizontal">
 {{ form }}
-</table>
-<div style="text-align: center">
-<input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+<div class="form-group">                                                        
+<button type="submit" class="btn btn-default">{% trans "Save" %}</button>
+<a href="{% url 'annuaire-edit' user.id %}">{% trans "Cancel" %}</a>
 </div>
 </form>
 

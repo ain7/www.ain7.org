@@ -1,5 +1,6 @@
 {% extends "news/base.html" %}
 {% load i18n %}
+{% load crispy_forms_tags %}
 
 {% block content-left %}
 
@@ -7,16 +8,11 @@
 
 <form method="post" action="." enctype="multipart/form-data">
 
-<table>
-{{ form }}
-</table>
+{{ form|crispy }}
 
-<div style="text-align: center">
-{% if news_item %}
-<a href="{% url "ain7.news.views.image_delete" news_item.slug %}" class="deletelink">
-{% trans "Delete the image for this news item." %}</a><br />
-{% endif %}
-<input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+<div class="form-group">                                                        
+<button type="submit" class="btn btn-default">{% trans "Save" %}</button>
+<a href="{% url 'new-details' news_item.id %}">{% trans "Cancel" %}</a>
 </div>
 
 </form>

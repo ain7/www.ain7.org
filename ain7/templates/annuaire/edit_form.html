@@ -8,13 +8,11 @@
 
 <h2>{{ action_title }} {{ person }}</h2>
 
-<form method="post" action="." enctype="multipart/form-data" class="form-horizontal col-lg-8 col-lg-offset-1">
+<form method="post" action="." enctype="multipart/form-data" class="form-horizontal">
 {{ form|crispy }}
-<div class="control-group">
-<div class="controls">
-<a class="btn disabled" href="{{ back }}">{% trans "Cancel" %}</a>
-<input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
-</div>
+<div class="form-group">                                                        
+<button type="submit" class="btn btn-default">{% trans "Save" %}</button>
+<a href="{% url 'annuaire-edit' user.id %}">{% trans "Cancel" %}</a>
 </div>
 </form>
 

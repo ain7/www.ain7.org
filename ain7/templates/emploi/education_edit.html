@@ -1,5 +1,6 @@
 {% extends "emploi/base.html" %}
 {% load i18n %}
+{% load crispy_forms_tags %}
 
 {% block content-left %}
 
@@ -10,11 +11,10 @@
 {% endifequal %}
 
 <form method="post" action=".">
-<table>
-{{ form }}
-</table>
-<div style="text-align: center">
-<input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+{{ form|crispy }}
+<div class="form-group">                                                        
+<button type="submit" class="btn btn-default">{% trans "Save" %}</button>
+<a href="{% url 'annuaire-edit' user.id %}">{% trans "Cancel" %}</a>
 </div>
 </form>
 
