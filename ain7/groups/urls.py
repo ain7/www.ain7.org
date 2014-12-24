@@ -21,23 +21,22 @@
 #
 #
 
-from django.conf.urls import patterns
+from django.conf.urls import patterns, url
 
 
 urlpatterns = patterns('ain7.groups.views',
-    # Groupes Regionaux
-    (r'^$', 'index'),
-    (r'^add/$', 'edit'),
-    (r'^(?P<slug>[A-Za-z0-9.\-_]+)/$', 'details'),
-    (r'^(?P<slug>[A-Za-z0-9.\-_]+)/edit/$', 'edit'),
-    (r'^(?P<slug>[A-Za-z0-9.\-_]+)/join/$', 'join'),
-    (r'^(?P<slug>[A-Za-z0-9.\-_]+)/quit/$', 'quit'),
-    (r'^(?P<slug>[A-Za-z0-9.\-_]+)/members/$', 'members'),
-    (r'^(?P<slug>[A-Za-z0-9.\-_]+)/members/(?P<member_id>\d+)/delete/$', 'member_delete'),
-    (r'^(?P<slug>[A-Za-z0-9.\-_]+)/members/(?P<member_id>\d+)/edit/$', 'member_edit'),
-    (r'^(?P<slug>[A-Za-z0-9.\-_]+)/members/add/$', 'member_edit'),
-    (r'^(?P<slug>[A-Za-z0-9.\-_]+)/role/(?P<role_id>\d+)/edit/$', 'role_edit'),
-    (r'^(?P<slug>[A-Za-z0-9.\-_]+)/role/add/$', 'role_edit'),
-    (r'^(?P<slug>[A-Za-z0-9.\-_]+)/role/(?P<role_id>\d+)/delete/$', 'role_delete'),
+    url(r'^$', 'index', name='groups-index'),
+    url(r'^add/$', 'edit', name='group-edit'),
+    url(r'^(?P<slug>[A-Za-z0-9.\-_]+)/$', 'details', name='group-details'),
+    url(r'^(?P<slug>[A-Za-z0-9.\-_]+)/edit/$', 'edit', name='group-edit'),
+    url(r'^(?P<slug>[A-Za-z0-9.\-_]+)/join/$', 'join', name='group-join'),
+    url(r'^(?P<slug>[A-Za-z0-9.\-_]+)/quit/$', 'quit', name='group-quit'),
+    url(r'^(?P<slug>[A-Za-z0-9.\-_]+)/members/$', 'members', name='group-members'),
+    url(r'^(?P<slug>[A-Za-z0-9.\-_]+)/members/(?P<member_id>\d+)/delete/$', 'member_delete', name='group-member-delete'),
+    url(r'^(?P<slug>[A-Za-z0-9.\-_]+)/members/(?P<member_id>\d+)/edit/$', 'member_edit', name='group-member-edit'),
+    url(r'^(?P<slug>[A-Za-z0-9.\-_]+)/members/add/$', 'member_edit', name='group-member-add'),
+    url(r'^(?P<slug>[A-Za-z0-9.\-_]+)/role/(?P<role_id>\d+)/edit/$', 'role_edit', name='group-role-edit'),
+    url(r'^(?P<slug>[A-Za-z0-9.\-_]+)/role/add/$', 'role_edit', name='group-role-add'),
+    url(r'^(?P<slug>[A-Za-z0-9.\-_]+)/role/(?P<role_id>\d+)/delete/$', 'role_delete', name='group-role-delete'),
 )
 

@@ -26,14 +26,14 @@ from django.conf.urls import patterns, url
 urlpatterns = patterns('ain7.voyages.views',
 
     # Voyages
-    (r'^$', 'index'),
-    (r'^search/$', 'search'),
-    (r'^edit/$', 'edit'),
-    (r'^add/$', 'edit'),
-    (r'^list/$', 'list'),
+    url(r'^$', 'index', name='travels-index'),
+    url(r'^add/$', 'edit', name='travel-register'),
+    url(r'^edit/$', 'edit', name='travel-page-edit'),
+    url(r'^list/$', 'list', name='travels-list'),
+    url(r'^search/$', 'search', name='travels-search'),
     url(r'^(?P<travel_id>\d+)/$', 'details', name='travel-details'),
-    (r'^(?P<travel_id>\d+)/edit/$', 'edit'),
-    (r'^(?P<travel_id>\d+)/search/$', 'search'),
-    (r'^(?P<travel_id>\d+)/delete/$', 'delete'),
+    url(r'^(?P<travel_id>\d+)/edit/$', 'edit', name='travel-edit'),
+    url(r'^(?P<travel_id>\d+)/search/$', 'search', name='travel-search'),
+    url(r'^(?P<travel_id>\d+)/delete/$', 'delete', name='travel-delete'),
 
 )

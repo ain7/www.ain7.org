@@ -29,8 +29,6 @@ from django.template.defaultfilters import slugify
 from django.template.defaultfilters import truncatewords
 from django.utils.translation import ugettext as _
 
-from ain7.utils import LoggedClass, isAdmin
-
 
 class ForumAccess(models.Model):
     group = models.ForeignKey('groups.Group')

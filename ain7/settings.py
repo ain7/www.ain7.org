@@ -85,7 +85,7 @@ MEDIA_URL = '/site_media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = BASE_DIR+'/static'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -233,7 +233,7 @@ TINYMCE_VERSION = '3.3.8'
 
 PORTAL_ADMIN = 'ain7-admin'
 
-CRISPY_TEMPLATE_PACK='bootstrap'
+CRISPY_TEMPLATE_PACK='bootstrap3'
 
 FACEBOOK_AIN7='http://www.facebook.com/ENSEEIHT'
 LINKEDIN_AIN7='http://www.linkedin.com/groups?gid=73525'
