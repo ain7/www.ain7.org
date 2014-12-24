@@ -26,8 +26,6 @@ import datetime
 from django.conf import settings
 from django.contrib import auth
 from django.contrib import messages
-from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
@@ -37,7 +35,6 @@ from ain7.pages.forms import LostPasswordForm, TextForm, ChangePasswordForm
 from ain7.pages.models import Text, LostPassword
 from ain7.decorators import access_required
 from ain7.emploi.models import JobOffer
-from ain7.adhesions.forms import Subscription
 
 def homepage(request):
     """AIn7 homepage"""
@@ -150,37 +147,6 @@ def rss(request):
     """rss feeds"""
     text = Text.objects.get(textblock__shortname='rss')
     return render(request, 'pages/rss.html', {'text': text})
-
-def logout(request):
-    """logout page"""
-    auth.logout(request)
-    if request.META.has_key('HTTP_REFERER'):
-        return HttpResponseRedirect(request.META['HTTP_REFERER'])
-    else:
-        return HttpResponseRedirect('/')
-
-def login(request):
-    """login page"""
-
-    from django.db.models import Q
-
-    next_page = request.GET.get('next','/')
-    if request.method == 'POST':
-        try:
-            login = request.POST['username']
-            username = User.objects.filter(Q(person__emails__email=login) | \
-                Q(username=login)).distinct().get().username
-            password = request.POST['password']
-            user = auth.authenticate(username=username, password=password)
-            if user is not None:
-                auth.login(request, user)
-                return HttpResponseRedirect(request.POST.get('next','/'))
-        except Exception:
-            pass
-        messages.error(request, _("Your username and password didn't match. Please try again"))
-        return render(request, 'pages/login.html', {'next': next_page})
-    else:
-        return render(request, 'pages/login.html', {'next': next_page})
 
 @access_required(groups=['ain7-membre', 'ain7-ca', 'ain7-secretariat',
                          'ain7-contributeur'])
