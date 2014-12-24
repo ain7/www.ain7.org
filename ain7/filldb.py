@@ -26,7 +26,6 @@ import os
 from datetime import date, datetime, timedelta
 
 from django.contrib.auth.models import User
-from django.contrib.sites.models import Site
 
 import ain7.adhesions.models as adhesions
 import ain7.annuaire.models as annuaire
@@ -1043,12 +1042,6 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 
 #                                                                  #
 ###################### End of fixed values #########################
-
-    # fixons l'URL du site
-    site = Site.objects.get(id=1)
-    site.domain = 'localhost:8888'
-    site.name = 'localhost:8888'
-    site.save()
 
     # Country
     france = annuaire.Country(name=u"France", nationality=u"Française")
