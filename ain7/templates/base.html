@@ -138,8 +138,15 @@ piwikTracker.enableLinkTracking();
 </script><noscript><p><img src="{{ piwik_url }}piwik.php?idsite={{ piwik_site_id}}" style="border:0" alt=""/></p></noscript>
 <!-- End Piwik Tag -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
+<script>
+tinymce.init({
+    selector:'textarea',
+    menubar: "tools table format view insert edit",
+});
+</script>
 
 </body>
 </html>
