@@ -1,9 +1,6 @@
 {% extends "evenements/base.html" %}
 {% load i18n ain7_tags %}
 
-{% block javascript %}{% endblock %}
-{% block stylesheet %}{% endblock %}
-
 {% block content-main %}
 
 	<h2><a href="{{ event.get_absolute_url }}">{{ event.title }}</a></h2>

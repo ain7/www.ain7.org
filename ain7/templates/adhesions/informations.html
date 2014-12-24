@@ -1,9 +1,6 @@
 {% extends "adhesions/base.html" %}
 {% load i18n %}
 
-{% block javascript %}{% endblock %}
-{% block stylesheet %}{% endblock %}
-
 {% block content-left %}
 
 <p>Merci {{ request.user.person.first_name }} pour votre adhesion.</p>
@@ -28,7 +25,7 @@
 <input type="submit" value="Continuer le paiement">
 </form>
 
-<div style="text-align: center"><img src="{{ MEDIA_URL }}/images/logo_SPPLUS_100.gif" alt="SPPlus"/></div>
+<div style="text-align: center"><img src="{% static "images/logo_SPPLUS_100.gif" %}" alt="SPPlus"/></div>
 
 {% endifequal %}
 

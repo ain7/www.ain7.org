@@ -1,4 +1,5 @@
 {% load  i18n %}
+{% load static from staticfiles %}
 <html lang="en">                                                                
   <head>                                                                        
     <meta charset="utf-8">
@@ -7,12 +8,12 @@
     <meta name="description" content="">
     <meta name="author" content="AIn7">
     {% block meta %}{{ meta }}{% endblock %}
-    <link rel="icon" href="{{ MEDIA_URL }}images/favicon.png">
+    <link rel="icon" href="{% static "images/favicon.png" %}">
     <link rel="alternate" type="application/rss+xml" href="/rss/events/" />
 
     <title>{% if page_title %}{{ page_title }} - {% else %} {%if text.title %} {{ text.title }} - {% endif %} {% endif %} {% trans "AIn7: ENSEEIHT Engineer Alumni Association" %}</title>
 
-    <link href="/site_media/css/ain7.css" rel="stylesheet">
+    <link href="{% static "css/ain7.css" %}" rel="stylesheet">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
   </head>
@@ -27,7 +28,7 @@
   
 <!-- Everything you want hidden at 940px or less, place within here -->
 <div class="navbar-header">
-<a class="navbar-brand" href="{% url "ain7.pages.views.homepage" %}"><img src="{{ MEDIA_URL }}logo_ain7.png"></a>
+<a class="navbar-brand" href="{% url "ain7.pages.views.homepage" %}"><img src="{% static "logo_ain7.png" %}"></a>
 </div>
 
 <div class="navbar-collapse collapse">
@@ -67,7 +68,7 @@
       <li><a href="{% url "ain7.annuaire.views.details" user.id %}"><i class="icon-cog"></i> Preferences</a></li>
       <li><a href="{% url "ain7.annuaire.views.details" user.id %}"><i class="icon-envelope"></i> Messages</a></li>
       <li class="divider"></li>
-      <li><a href="{% url "ain7.pages.views.logout" %}"><i class="icon-off"></i> Logout</a></li>
+      <li><a href="{% url "logout" %}"><i class="icon-off"></i> Logout</a></li>
     </ul>
  </li>
 {% else %}
@@ -109,15 +110,15 @@
 <footer class="footer">
 <div class="navbar navbar-inner">
   <div class="container">
-    <p>&copy; Copyright 2009-2015 AIn7 - Version {{ portal_version  }} -
-<a href="{{ settings.LINKEDIN_AIN7 }}" target="_blank"><img height="16" width="16" src="{{ MEDIA_URL }}images/linkedin-icon.png" alt="Linkedin"/></a>
+    <p>&copy; Copyright 2009-2015 AIn7 - 
+<a href="{{ settings.LINKEDIN_AIN7 }}" target="_blank"><img height="16" width="16" src="{% static "images/linkedin-icon.png" %}" alt="Linkedin"/></a>
 &nbsp;
-<a href="{{ settings.FACEBOOK_AIN7 }}" target="_blank"><img height="16" width="16" src="{{ MEDIA_URL }}images/FB-icon.jpg" alt="Facebook"/> </a>
+<a href="{{ settings.FACEBOOK_AIN7 }}" target="_blank"><img height="16" width="16" src="{% static "images/FB-icon.jpg" %}" alt="Facebook"/> </a>
 &nbsp;
-<a href="{{ settings.TWITTER_AIN7 }}" target="_blank"><img height="16" width="16" src="{{ MEDIA_URL }}images/twitter-icon.png" alt="Twitter"/></a>
+<a href="{{ settings.TWITTER_AIN7 }}" target="_blank"><img height="16" width="16" src="{% static "images/twitter-icon.png" %}" alt="Twitter"/></a>
 &nbsp;
-<a href="{{ settings.GPLUS_AIN7 }}" target="_blank"><img height="16" width="16" src="{{ MEDIA_URL }}images/gplus-icon.png" alt="Google+"/></a>
-<a href="{{ settings.VIADEO_AIN7 }}" target="_blank"><img height="16" width="16" src="{{ MEDIA_URL }}images/viadeo-icon.png" alt="Viadeo"/></a>
+<a href="{{ settings.GPLUS_AIN7 }}" target="_blank"><img height="16" width="16" src="{% static "images/gplus-icon.png" %}" alt="Google+"/></a>
+<a href="{{ settings.VIADEO_AIN7 }}" target="_blank"><img height="16" width="16" src="{% static "images/viadeo-icon.png" %}" alt="Viadeo"/></a>
 <br />
     <a href="/rss/">{% trans "RSS" %}</a> | <a href="/apropos/">{% trans "About" %}</a> | <a href="/mentions_legales/">{% trans "Terms of use" %}</a> | <a href="/association/contact/">{% trans "Contact" %}</a></p>
   </div>

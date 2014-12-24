@@ -1,33 +1,34 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load static from staticfiles %}
 
 {% block carousel %}
 
 <div id="myCarousel" class="carousel slide span12">
 <div class="carousel-inner">
 <div class="item active">
-<img src="{{ MEDIA_URL }}carousel01.png" alt="">
+<img src="{% static "carousel01.png" %}" alt="">
 <div class="carousel-caption">
 <h4>First Thumbnail label</h4>
 <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
 </div>
 </div>
 <div class="item">
-<img src="{{ MEDIA_URL }}carousel02.png" alt="">
+<img src="{% static "carousel02.png" %}" alt="">
 <div class="carousel-caption">
 <h4>Second Thumbnail label</h4>
 <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
 </div>
 </div>
 <div class="item">
-<img src="{{ MEDIA_URL }}carousel03.png" alt="">
+<img src="{% static "carousel03.png" %}" alt="">
 <div class="carousel-caption">
 <h4>Third Thumbnail label</h4>
 <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
 </div>
 </div>
 <div class="item">
-<img src="{{ MEDIA_URL }}carousel04.png" alt="">
+<img src="{% static "carousel04.png" %}" alt="">
 <div class="carousel-caption">
 <h4>Third Thumbnail label</h4>
 <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
@@ -40,14 +41,14 @@
 
 <div class="row-fluid">
 <div class="span12" style="text-align: center;">
-<a href="{{ settings.LINKEDIN_AIN7 }}" target="_blank"><img height="32" width="32" src="{{ MEDIA_URL }}images/linkedin-icon.png" alt="Linkedin"/></a>
+<a href="{{ settings.LINKEDIN_AIN7 }}" target="_blank"><img height="32" width="32" src="{% static "images/linkedin-icon.png" %}" alt="Linkedin"/></a>
 &nbsp;
-<a href="{{ settings.FACEBOOK_AIN7 }}" target="_blank"><img height="32" width="32" src="{{ MEDIA_URL }}images/FB-icon.jpg" alt="Facebook"/> </a>
+<a href="{{ settings.FACEBOOK_AIN7 }}" target="_blank"><img height="32" width="32" src="{% static "images/FB-icon.jpg" %}" alt="Facebook"/> </a>
 &nbsp;
-<a href="{{ settings.TWITTER_AIN7 }}" target="_blank"><img height="32" width="32" src="{{ MEDIA_URL }}images/twitter-icon.png" alt="Twitter"/></a>
+<a href="{{ settings.TWITTER_AIN7 }}" target="_blank"><img height="32" width="32" src="{% static "images/twitter-icon.png" %}" alt="Twitter"/></a>
 &nbsp;
-<a href="{{ settings.GPLUS_AIN7 }}" target="_blank"><img height="32" width="32" src="{{ MEDIA_URL }}images/gplus-icon.png" alt="Google+"/></a>
-<a href="{{ settings.VIADEO_AIN7 }}" target="_blank"><img height="32" width="32" src="{{ MEDIA_URL }}images/viadeo-icon.png" alt="Viadeo"/></a>
+<a href="{{ settings.GPLUS_AIN7 }}" target="_blank"><img height="32" width="32" src="{% static "images/gplus-icon.png" %}" alt="Google+"/></a>
+<a href="{{ settings.VIADEO_AIN7 }}" target="_blank"><img height="32" width="32" src="{% static "images/viadeo-icon.png" %}" alt="Viadeo"/></a>
 </div>
 </div>
 
@@ -81,7 +82,7 @@
 
 	{% if not is_subscriber %}    
 	<div style="text-align: center">
-	<a href="{% url "ain7.adhesions.views.index" %}"><img src="{{ MEDIA_URL }}images/adherer.png" alt="Adhérer"/></a>
+	<a href="{% url "ain7.adhesions.views.index" %}"><img src="{% static "images/adherer.png" %}" alt="Adhérer"/></a>
 	<br />
 	<br />
 	</div>

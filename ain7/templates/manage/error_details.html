@@ -1,10 +1,10 @@
 {% extends "manage/base.html" %}
 
 {% load i18n ain7_tags %}
+{% load static from staticfiles %}
 
-{% block javascript %}{% endblock %}
 {% block stylesheet %}
-<link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}/css/pygments.css?version={{ portal_version }}"/>
+<link type="text/css" rel="stylesheet" href="{% static "css/pygments.css" %}"/>
 {% endblock %}
 
 {% block content-left %}

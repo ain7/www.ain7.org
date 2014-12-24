@@ -1,9 +1,6 @@
 {% extends "shop/base.html" %}
 {% load i18n %}
 
-{% block javascript %}{% endblock %}
-{% block stylesheet %}{% endblock %}
-
 {% block meta %}
 {% ifequal payment.type 4 %}
 <meta http-equiv="refresh" content="5;url={{ spplusurl }}"/>

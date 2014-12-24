@@ -1,8 +1,6 @@
 {% extends "emploi/base.html" %}
 {% load i18n %}
-
-{% block javascript %}{% endblock %}
-{% block stylesheet %}{% endblock %}
+{% load static from staticfiles %}
 
 {% block content-left %}
 
@@ -41,7 +39,7 @@
 
 {% for email in person.emails.all %}
 	{% ifequal email.confidentiality 0 %}
-            <img src="{{ MEDIA_URL }}/images/mail.png" alt="{% trans "email" %}"/>
+            <img src="{% static "images/mail.png" %}" alt="{% trans "email" %}"/>
             <a href="mailto:{{ email.email }}">{{ email.email }}</a><br />
 	{% endifequal %}
 {% endfor %}

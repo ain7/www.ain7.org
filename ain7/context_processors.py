@@ -26,7 +26,6 @@ from django.conf import settings
 
 def versions(request):
     return {
-        'portal_version': settings.VERSION,
         'tinymce_version': settings.TINYMCE_VERSION,
     }
 

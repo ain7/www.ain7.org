@@ -1,8 +1,6 @@
 {% extends "groups/base.html" %}
 {% load i18n ain7_tags %}
-
-{% block javascript %}{% endblock %}
-{% block stylesheet %}{% endblock %}
+{% load static from staticfiles %}
 
 {% block content-left %}
 
@@ -20,7 +18,7 @@
            {% if r.person.ain7member.avatar %}
             <img src ="{{ r.person.ain7member.avatar.url }}" height="50"  alt="{{ r.person.complete_name }}" title="{{ r.person.complete_name }}" />
             {% else %}
-            <img src="{{ MEDIA_URL }}/images/nobody.png" height="50" alt="{{ r.person.complete_name }}"/>
+            <img src="{% static "images/nobody.png" %}" height="50" alt="{{ r.person.complete_name }}"/>
             {% endif %}
         </td>
         <td>

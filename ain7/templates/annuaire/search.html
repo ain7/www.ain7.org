@@ -1,6 +1,7 @@
 {% extends "annuaire/base.html" %}
 {% load i18n %}
 {% load crispy_forms_tags %}
+{% load static from staticfiles %}
 
 {% block content-left %}
 
@@ -36,7 +37,7 @@
             {% if ain7member.avatar %}
             <img src ="{{ ain7member.avatar.url }}" height="50"  alt="{{ ain7member.person.complete_name }}" title="{{ ain7member.person.complete_name }}" />
             {% else %}
-            <img src="{{ MEDIA_URL }}images/nobody.png" height="50" alt="{{ person.complete_name }}"/>
+            <img src="{% static "images/nobody.png" %}" height="50" alt="{{ person.complete_name }}"/>
             {% endif %}
             </td><td>
             <a href="{% url "ain7.annuaire.views.details" ain7member.person.user.id %}">
@@ -46,10 +47,10 @@
             {% endif %}
             {{ ain7member.person.first_name }}</b></a>
             {% if ain7member.is_subscriber %}
-            <img src="{{ MEDIA_URL }}images/star.png" title="Adherent {% now "Y" %}" alt="adherent {% now "Y" %}" width="16" height="16" />
+            <img src="{% static "images/star.png" %}" title="Adherent {% now "Y" %}" alt="adherent {% now "Y" %}" width="16" height="16" />
             {% endif %}
             {% if ain7member.person.personprivate.death_date %}
-            <img src="{{ MEDIA_URL }}images/deceased.png" title="Décédé" alt="Décédé" width="16" height="16" />
+            <img src="{% static "images/deceased.png" %}" title="Décédé" alt="Décédé" width="16" height="16" />
             {% endif %}
             <br/>
             {{ ain7member.promo_full }}

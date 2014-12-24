@@ -1,9 +1,7 @@
 {% extends "manage/base.html" %}
 
 {% load i18n %}
-
-{% block javascript %}{% endblock %}
-{% block stylesheet %}{% endblock %}
+{% load static from staticfiles %}
 
 {% block content-left %}
 
@@ -33,7 +31,7 @@
       </a>
       {{ error.title }}
         {% if error.fixed %}
-          <img src="{{ MEDIA_URL }}skins/default/images/icon_savelink.gif" alt="ok"/> 
+          <img src="{% static "skins/default/images/icon_savelink.gif" %}" alt="ok"/> 
         {% endif %}
     </li>
   {% endfor %}

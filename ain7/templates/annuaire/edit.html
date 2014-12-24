@@ -1,8 +1,7 @@
 {% extends "annuaire/base.html" %}
 {% load i18n ain7_tags %}
+{% load static from staticfiles %}
 
-{% block javascript %}{% endblock %}
-{% block stylesheet %}{% endblock %}
 
 {% block content-left %}
 
@@ -235,7 +234,7 @@
 <div class="dataBlock">
 {% for email in person.emails.all %}
 <table style="border:0; width: 100%;">
-	    <tr><td><img src="{{ MEDIA_URL }}/images/mail.png" alt="{% trans "email" %}" width="24" height="24"/><a href="mailto:{{ email.email }}">{{ email.email }}</a>
+	    <tr><td><img src="{% static "images/mail.png" %}" alt="{% trans "email" %}" width="24" height="24"/><a href="mailto:{{ email.email }}">{{ email.email }}</a>
        ({{ email.confidentiality_print }}{% if email.preferred_email %}, {% trans "preferred" %}{% endif %})
 
 </td>
@@ -258,7 +257,7 @@
 {% for website in person.web_sites.all %}
 <table style="border: 0; width: 100%;">
     <tr valign="middle"><td>
-        <img src="{{ MEDIA_URL }}/images/{{ website.get_type_display|lower }}.png" alt="{% trans "web site" %}" width="24" height="24" />
+        <img src="{% static "images/{{ website.get_type_display|lower }}.png" %}" alt="{% trans "web site" %}" width="24" height="24" />
         <a href="{{ website.url }}">{{ website.url }}</a> ({{ website.confidentiality_print }})</td>
     <td style="width: 12%">
         <a href="{% url "ain7.annuaire.views.website_edit" person.user.id website.id %}" class="changelink">
@@ -279,7 +278,7 @@
 {% for im in person.instant_messagings.all %}
 <table style="border: 0; width: 100%">
     <tr valign="middle"><td>
-       <img src="{{ MEDIA_URL }}/images/{{ im.get_type_display|lower }}.png" alt="{% trans "Contact" %} {{im.get_im_display|lower }}" width="24" height="24"/>
+       <img src="{% static "images/{{ im.get_type_display|lower }}.png" %}" alt="{% trans "Contact" %} {{im.get_im_display|lower }}" width="24" height="24"/>
        {{ im.identifier }} ({{ im.confidentiality_print }})</td>
     <td style="width: 12%">
         <a href="{% url "ain7.annuaire.views.im_edit" person.user.id im.id %}" class="changelink">
@@ -300,7 +299,7 @@
 {% for irc in person.ircs.all %}
 <table style="border: 0; width: 100%">
     <tr valign="middle"><td>
-       <img src="{{ MEDIA_URL }}/images/irc.png" alt="{% trans "irc" %}" width="24" height="24"/>
+       <img src="{% static "images/irc.png" %}" alt="{% trans "irc" %}" width="24" height="24"/>
        {{ irc.pseudo }} @ {{ irc.network }} {% trans "on" %} {{ irc.channels }} ({{ irc.confidentiality_print }})
        </td>
     <td style="width: 12%">
