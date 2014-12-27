@@ -27,10 +27,11 @@ import time
 import os
 
 from django.core.urlresolvers import reverse
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 from django.utils.translation import ugettext as _
-from django.conf import settings
 
 from ain7.utils import is_admin, LoggedClass, get_root_url
 from ain7.utils import ain7_website_confidential, CONFIDENTIALITY_LEVELS
@@ -520,10 +521,9 @@ class AIn7Member(LoggedClass):
         /!\ local import to avoid recursive imports
         """
         from ain7.adhesions.models import Subscription
-        import datetime
 
         if not year:
-            year = datetime.date.today().year
+            year = timezone.now().date().year
 
         result = False
 
@@ -534,7 +534,7 @@ class AIn7Member(LoggedClass):
 
             if sub.date:
 
-                today = datetime.datetime.today()
+                today = timezone.now()
                 delta = today - sub.date
                 result = delta.days < 365
 
