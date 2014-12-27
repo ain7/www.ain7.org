@@ -4,6 +4,7 @@ django-autocomplete-light
 django-crispy-forms
 django-extensions
 django-grappelli
+django-endless-pagination
 
 Pillow
 vobject

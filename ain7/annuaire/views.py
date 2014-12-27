@@ -85,9 +85,6 @@ def search(request):
     form = SearchPersonForm()
     dosearch = False
     ain7members = False
-    nb_results_by_page = 25
-    paginator = Paginator(AIn7Member.objects.none(), nb_results_by_page)
-    page = 1
 
     if request.GET.has_key('first_name') or request.GET.has_key('last_name') \
        or request.GET.has_key('organization') or \
@@ -104,34 +101,13 @@ def search(request):
 
             if len(ain7members) == 1:
                 messages.info(request, _('Only one result matched your criteria.'))
-                return HttpResponseRedirect('/annuaire/%s/' % \
-                    (ain7members[0].person.id))
-
-            # put the criteria in session: they must be accessed when
-            # performing a CSV export, sending a mail...
-            #request.session['filter'] = criteria
-            paginator = Paginator(ain7members, nb_results_by_page)
-
-            try:
-                page = int(request.GET.get('page', '1'))
-                ain7members = paginator.page(page).object_list
-            except InvalidPage:
-                raise Http404
+                return redirect(ain7members[0].person)
 
     return render(request, 'annuaire/search.html',
         {
             'form': form,
             'ain7members': ain7members,
             'request': request,
-            'paginator': paginator,
-            'is_paginated': paginator.num_pages > 1,
-            'has_next': paginator.page(page).has_next(),
-            'has_previous': paginator.page(page).has_previous(),
-            'current_page': page, 'pages': paginator.num_pages,
-            'next_page': page + 1, 'previous_page': page - 1,
-            'first_result': (page-1) * nb_results_by_page +1,
-            'last_result': min((page) * nb_results_by_page, paginator.count),
-            'hits' : paginator.count,
             'dosearch': dosearch,
         }
     )

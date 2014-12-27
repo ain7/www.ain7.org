@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 {% load static from staticfiles %}
+{% load endless %}
 
 {% block content-left %}
 
@@ -18,19 +19,8 @@
 <h2>{% trans "Results list"%}</h2>
 
 {% if ain7members %}
-<table style="width: 100%">
-<tr>
-<td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
-<td align="right">
-{% if is_paginated %}
-{% if has_previous %}<a href="{% url "ain7.annuaire.views.search" %}?first_name={{ request.GET.first_name }}&last_name={{ request.GET.last_name }}&promoyear={{ request.GET.promoyear }}&track={{ request.GET.track }}&organization={{ request.GET.organization }}&page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="{% url "ain7.annuaire.views.search" %}?first_name={{ request.GET.first_name }}&last_name={{ request.GET.last_name }}&promoyear={{ request.GET.promoyear }}&track={{ request.GET.track }}&organization={{ request.GET.organization }}&page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="{% url "ain7.annuaire.views.search" %}?first_name={{ request.GET.first_name }}&last_name={{ request.GET.last_name }}&promoyear={{ request.GET.promoyear }}&track={{ request.GET.track }}&organization={{ request.GET.organization }}&page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="{% url "ain7.annuaire.views.search" %}?first_name={{ request.GET.first_name }}&last_name={{ request.GET.last_name }}&promoyear={{ request.GET.promoyear }}&track={{ request.GET.track }}&organization={{ request.GET.organization }}&page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
-{% endif %}
-</td>
-</tr>
-</table>
+{% paginate ain7members %}
+<p class="text-center">{% show_pages %}</p> 
     {% for ain7member in ain7members %}
             <table border="0" width="100%" style="border-bottom:1px dashed grey; text-align: left;">
             <tr><td width="60">
@@ -59,6 +49,7 @@
             </td></tr>
             </table>
     {% endfor %}
+<p class="text-center">{% show_pages %}</p> 
 {% else %}
     <p>{% trans "No person matched your criteria." %}</p>
 {% endif %}
