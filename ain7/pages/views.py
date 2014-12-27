@@ -26,12 +26,13 @@ import datetime
 from django.conf import settings
 from django.contrib import auth
 from django.contrib import messages
-from django.shortcuts import get_object_or_404, render
+from django.forms.models import modelform_factory
+from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import AIn7Member, Email, Person
 from ain7.news.models import NewsItem
-from ain7.pages.forms import LostPasswordForm, TextForm, ChangePasswordForm
+from ain7.pages.forms import LostPasswordForm, ChangePasswordForm
 from ain7.pages.models import Text, LostPassword
 from ain7.decorators import access_required
 from ain7.emploi.models import JobOffer
@@ -155,21 +156,22 @@ def edit(request, text_id):
 
     text = get_object_or_404(Text, pk=text_id)
 
-    form = TextForm(initial={'title': text.title, 'body': text.body})
+    TextForm = modelform_factory(Text, exclude=('textblock','lang'))
+    form = TextForm(request.POST or None, instance=text)
 
-    if request.method == 'POST':
-        form = TextForm(request.POST)
-        if form.is_valid():
-            text.title = form.cleaned_data['title']
-            text.body = form.cleaned_data['body']
-            text.save()
+    if request.method == 'POST' and form.is_valid():
+        text = form.save()
 
-            request.user.message_set.create(message=_("Modifications saved."))
-            return HttpResponseRedirect(text.textblock.url)
+        messages.success(request, message=_("Modifications saved."))
+        return redirect(text)
 
     return render(request, 'pages/text_edit.html', 
-        {'text_id': text_id, 'form': form,
-         'back': request.META.get('HTTP_REFERER')})
+        {
+            'text_id': text_id,
+            'form': form,
+            'back': request.META.get('HTTP_REFERER'),
+        }
+    )
 
 def facebook(request):
     """redirect to Facebook ENSEEIHT/Alumni Community"""

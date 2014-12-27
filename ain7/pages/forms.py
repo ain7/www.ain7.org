@@ -44,13 +44,6 @@ class LostPasswordForm(forms.Form):
         else:
             return self.cleaned_data['email']
 
-class TextForm(forms.Form):
-    """Text Generic Form"""
-    title = forms.CharField(label=_('title'), max_length=150, required=False,
-        widget=forms.TextInput(attrs={'size':80}))
-    body = forms.CharField(label=_('body'), max_length=100000000, required=False, 
-        widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':215}))
-
 class ChangePasswordForm(forms.Form):
     """ Change password when lost old one """
     password = forms.CharField(label=_('New password:'), max_length=50,
