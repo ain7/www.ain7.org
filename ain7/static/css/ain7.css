@@ -10,9 +10,8 @@
 }
 
 body {
-    font-family: 'l-lt', arial, sans;
-    color: #8B8B8B;
     padding-top: 50px;
+    color: #8B8B8B;
 }
 
 span.asteriskField {                                                            

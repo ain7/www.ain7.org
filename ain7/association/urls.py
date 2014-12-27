@@ -21,11 +21,11 @@
 #
 #
 
-from django.conf.urls import patterns
+from django.conf.urls import patterns, url
 
 
 urlpatterns = patterns('ain7.association.views',
-    (r'^$', 'index'),
+    url(r'^$', 'index', name='association-index'),
     (r'^council/$', 'council'),
     (r'^council/add/$', 'edit_council_role'),
     (r'^council/edit/(?P<role_id>\d+)/$', 'edit_council_role'),

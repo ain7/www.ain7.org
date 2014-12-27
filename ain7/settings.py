@@ -53,6 +53,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
     'crispy_forms',
+    'endless_pagination',
     'grappelli',
     'ain7.adhesions',
     'ain7.annuaire',

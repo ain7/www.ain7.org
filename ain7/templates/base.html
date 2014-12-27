@@ -1,5 +1,6 @@
 {% load  i18n %}
 {% load static from staticfiles %}
+<!DOCTYPE html>                                                                 
 <html lang="en">                                                                
   <head>                                                                        
     <meta charset="utf-8">
@@ -8,45 +9,55 @@
     <meta name="description" content="">
     <meta name="author" content="AIn7">
     {% block meta %}{{ meta }}{% endblock %}
-    <link rel="icon" href="{% static "images/favicon.png" %}">
-    <link rel="alternate" type="application/rss+xml" href="/rss/events/" />
 
     <title>{% if page_title %}{{ page_title }} - {% else %} {%if text.title %} {{ text.title }} - {% endif %} {% endif %} {% trans "AIn7: ENSEEIHT Engineer Alumni Association" %}</title>
 
-    <link href="{% static "css/ain7.css" %}" rel="stylesheet">
+    <link rel="icon" href="{% static "images/favicon.png" %}">
+    <link rel="alternate" type="application/rss+xml" href="/rss/events/" />
+
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-  </head>
+    <!--
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    -->
 
+
+    <link rel="stylesheet" href="{% static "theme/css/responsive-slider.css" %}">
+    <link rel="stylesheet" href="{% static "theme/css/animate.css" %}">
+    <link rel="stylesheet" href="{% static "theme/css/style.css" %}">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link href="{% static "css/ain7.css" %}" rel="stylesheet">
+
+  </head>
 <body>
 
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">      
-<div class="navbar-inner">
-<div class="container">
-     
-<!-- Be sure to leave the brand out there if you want it shown -->
-  
-<!-- Everything you want hidden at 940px or less, place within here -->
-<div class="navbar-header">
-<a class="navbar-brand" href="{% url "ain7.pages.views.homepage" %}"><img src="{% static "logo_ain7.png" %}"></a>
-</div>
 
-<div class="navbar-collapse collapse">
-<ul class="nav navbar-nav">
-    <li {% block navbardirectory %}{{ navbardirectory }}{% endblock %}><a href="{% url "ain7.annuaire.views.search" %}">{% trans "Directory" %}</a></li>
-    <li {% block navbarnews %}{{ navbarnews }}{% endblock %}><a href="{% url "ain7.news.views.index" %}">{% trans "News" %}</a></li>
-    <li {% block navbarevents %}{{ navbarevents }}{% endblock %}><a href="{% url "ain7.news.views.event_index" %}">{% trans "Events" %}</a></li>
-    <li {% block navbarjobs %}{{ navvarjobs }}{% endblock %}><a href="{% url "ain7.emploi.views.index" %}">{% trans "Job service" %}</a></li>
-    <li {% block navbargroups %}{{ navbargroups }}{% endblock %}><a href="{% url "ain7.groups.views.index" %}">{% trans "Groups" %}</a></li>
-    <li {% block navbarassociation %}{{ navbarassociation }}{% endblock %}><a href="{% url "ain7.association.views.index" %}">{% trans "Association" %}</a></li>
-    <li {% block navbartravels %}{{ navbartravels }}{% endblock %}><a href="{% url "ain7.voyages.views.index" %}">{% trans "Travels" %}</a></li>
-</ul>
+    <header>
+                <div class="container">
+                        <div class="row">
+                                <nav class="navbar navbar-default" role="navigation">
+                                        <div class="container-fluid">
+                                                <div class="navbar-header">
+                                                        <div class="navbar-brand">
+                                                                <a href="{% url "homepage" %}"><h1>AIn7</h1></a>
+                                                        </div>
+                                                </div>
+                                                <div class="menu">
+                                                        <ul class="nav nav-tabs" role="tablist">
+                                                                <li role="presentation" class="active"><a href="{% url "homepage" %}">Home</a></li>
+                                                                
+                                                                <li role="presentation"><a href="{% url "news-index" %}">Blog</a></li>
+                                                                <li role="presentation"><a href="{% url "annuaire-search" %}">Annuaire</a></li>
+                                                                <li role="presentation"><a href="{% url "groups-index" %}">Activités</a></li>
+                                                                <li role="presentation"><a href="{% url "association-index" %}">L'association</a></li>
 
-<form class="navbar-form navbar-left" action="">
-<input type="text" class="search-query span2" placeholder="Search">
-</form>
 
-<ul class="nav navbar-nav navbar-right">
 {% if superadmin or ca_member or secretariat_member %}
  <li class="dropdown" {% block navbarmanage %}{{ navbarmanage }}{% endblock %}>
   <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>
@@ -64,9 +75,9 @@
  <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.person.first_name }} {{ user.person.last_name }}<b class="caret"></b></a>
     <ul class="dropdown-menu">
-      <li><a href="{% url "ain7.annuaire.views.details" user.id %}"><i class="icon-home"></i> Profile</a></li>
-      <li><a href="{% url "ain7.annuaire.views.details" user.id %}"><i class="icon-cog"></i> Preferences</a></li>
-      <li><a href="{% url "ain7.annuaire.views.details" user.id %}"><i class="icon-envelope"></i> Messages</a></li>
+      <li><a href="{% url "member-details" user.id %}"><i class="icon-home"></i> Profile</a></li>
+      <li><a href="{% url "member-details" user.id %}"><i class="icon-cog"></i> Preferences</a></li>
+      <li><a href="{% url "member-details" user.id %}"><i class="icon-envelope"></i> Messages</a></li>
       <li class="divider"></li>
       <li><a href="{% url "logout" %}"><i class="icon-off"></i> Logout</a></li>
     </ul>
@@ -74,21 +85,16 @@
 {% else %}
     <li><a href="/accounts/login/?next={{ request.path }}">{% trans "Log-in" %}</a></li>
 {% endif %}
-</ul>
 
-</div>
-  
-</div>
-</div>
-</div>
+                                                        </ul>
+                                                </div>
+                                        </div>                  
+                                </nav>
+                        </div>
+                </div>
+        </header>
 
 <div class="container">
-<div class="row-fluid">
-
-{% block carousel %}{{ carousel }}{% endblock %}
-
-</div>
-
 {% if messages %}
 <div class="row-fluid">
 {% for message in messages %}
@@ -100,30 +106,119 @@
 </div>
 {% endif %}
 
-<div class="row-fluid">
+</div>
 
+<div class="container">
 {% block content %}{{ content }}{% endblock %}
-
-</div>
 </div>
 
-<footer class="footer">
-<div class="navbar navbar-inner">
-  <div class="container">
-    <p>&copy; Copyright 2009-2015 AIn7 - 
-<a href="{{ settings.LINKEDIN_AIN7 }}" target="_blank"><img height="16" width="16" src="{% static "images/linkedin-icon.png" %}" alt="Linkedin"/></a>
-&nbsp;
-<a href="{{ settings.FACEBOOK_AIN7 }}" target="_blank"><img height="16" width="16" src="{% static "images/FB-icon.jpg" %}" alt="Facebook"/> </a>
-&nbsp;
-<a href="{{ settings.TWITTER_AIN7 }}" target="_blank"><img height="16" width="16" src="{% static "images/twitter-icon.png" %}" alt="Twitter"/></a>
-&nbsp;
-<a href="{{ settings.GPLUS_AIN7 }}" target="_blank"><img height="16" width="16" src="{% static "images/gplus-icon.png" %}" alt="Google+"/></a>
-<a href="{{ settings.VIADEO_AIN7 }}" target="_blank"><img height="16" width="16" src="{% static "images/viadeo-icon.png" %}" alt="Viadeo"/></a>
-<br />
-    <a href="/rss/">{% trans "RSS" %}</a> | <a href="/apropos/">{% trans "About" %}</a> | <a href="/mentions_legales/">{% trans "Terms of use" %}</a> | <a href="/association/contact/">{% trans "Contact" %}</a></p>
-  </div>
-</div>
-</footer>
+        <div class="container">
+                <div class="row">
+                        <hr>
+                </div>
+        </div>
+        
+        <!--start footer-->
+        <footer>
+                <div class="container">
+                        <div class="row">
+                                <div class="col-lg-3">
+                                        <div class="widget">
+                                                <h5 class="widgetheading">Get in touch with us</h5>
+                                                <address>
+                                                <strong>Association des Ingénieurs N7</strong><br>
+                                                 2 rue Charles Camichel<br>
+                                                 31071 Toulouse
+                                                </address>
+                                                <p>
+                                                        <i class="fa fa-phone"></i> (+33) 5 34 32 20 29<br>
+                                                        <i class="fa fa-envelope-o"></i> contact@ain7.com
+                                                </p>
+                                        </div>
+                                </div>
+
+                                <div class="col-lg-3">
+                                        <div class="widget">
+                                                <h5 class="widgetheading">Pages</h5>
+                                                <ul class="link-list">
+                                                        <li><a href="/apropos/">{% trans "About" %}</a></li>
+                                                        <li><a href="/mentions_legales/">{% trans "Terms of use" %}</a></li>
+                                                        <li><a href="/association/contact/">{% trans "Contact" %}</a></li>
+                                                </ul>
+                                        </div>
+                                </div>
+                                <div class="col-lg-3">
+                                        <div class="widget">
+                                                <h5 class="widgetheading">Latest posts</h5>
+                                                <ul class="link-list">
+                                                        <li><a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a></li>
+                                                        <li><a href="#">Pellentesque et pulvinar enim. Quisque at tempor ligula</a></li>
+                                                        <li><a href="#">Natus error sit voluptatem accusantium doloremque</a></li>
+                                                </ul>
+                                        </div>
+                                </div>
+                                <div class="col-lg-3">
+                                        <div class="widget">
+                                                <h5 class="widgetheading">Liens</h5>
+                                                <ul class="link-list">
+                                                        <li><a href="http://www.enseeiht.fr">ENSEEIHT</a></li>
+                                                        <li><a href="http://www.bde.enseeiht.fr">Bureau Des Élèves de l'n7</a></li>
+                                                        <li><a href="http://www.iesf.org">IESF</a></li>
+                                                        <li><a href="http://www.inp-toulouse.fr">INP Toulouse</a></li>
+                                                        <li><a href="http://www.g9plus.org">Institut G9+</a></li>
+                                                </ul>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+                <div class="container">
+                        <div class="row">
+                                <hr>
+                        </div>
+                </div>
+                
+                <div id="sub-footer">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col-lg-6">
+                                                <div class="copyright">
+                                                        <p>
+                                                                <span>&copy; AIn7 2009-2015</span>
+                                                        </p>
+                                                </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                                <ul class="social-network">
+                                                        <li><a href="{% url "facebook" %}" data-placement="top" title="Facebook"><i class="fa fa-facebook fa-2x"></i></a></li>
+                                                        <li><a href="{% url "twitter" %}" data-placement="top" title="Twitter"><i class="fa fa-twitter fa-2x"></i></a></li>
+                                                        <li><a href="{% url "linkedin" %}" data-placement="top" title="Linkedin"><i class="fa fa-linkedin fa-2x"></i></a></li>
+                                                        <li><a href="{% url "g+" %}" data-placement="top" title="Google plus"><i class="fa fa-google-plus fa-2x"></i></a></li>
+                                                </ul>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </footer>
+        <!--end footer-->
+        
+        
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
+
+
+
+        <script src="{% static "theme/js/responsive-slider.js" %}"></script>
+        <script src="{% static "theme/js/wow.min.js" %}"></script>
+        <script>
+        wow = new WOW(
+         {
+        
+                }       ) 
+                .init();
+        </script>
 
 <!-- Piwik -->
 <script type="text/javascript">
@@ -138,9 +233,6 @@ piwikTracker.enableLinkTracking();
 </script><noscript><p><img src="{{ piwik_url }}piwik.php?idsite={{ piwik_site_id}}" style="border:0" alt=""/></p></noscript>
 <!-- End Piwik Tag -->
 
-<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-<script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
 <script>
 tinymce.init({
     selector:'textarea',
@@ -148,5 +240,5 @@ tinymce.init({
 });
 </script>
 
-</body>
+  </body>
 </html>

@@ -476,21 +476,25 @@ def mailings_index(request):
     paginator = Paginator(mailings, nb_results_by_page)
     try:
         page = int(request.GET.get('page', '1'))
-        payments = paginator.page(page).object_list
+        mailings = paginator.page(page).object_list
     except InvalidPage:
         raise Http404
 
     return render(request, 'manage/mailings_index.html',
-        {'mailings': mailings,
-         'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
-         'has_next': paginator.page(page).has_next(),
-         'has_previous': paginator.page(page).has_previous(),
-         'current_page': page,
-         'next_page': page + 1, 'previous_page': page - 1,
-         'pages': paginator.num_pages,
-         'first_result': (page - 1) * nb_results_by_page +1,
-         'last_result': min((page) * nb_results_by_page, paginator.count),
-         'hits' : paginator.count})
+        {
+            'mailings': mailings,
+            'paginator': paginator,
+            'is_paginated': paginator.num_pages > 1,
+            'has_next': paginator.page(page).has_next(),
+            'has_previous': paginator.page(page).has_previous(),
+            'current_page': page,
+            'next_page': page + 1, 'previous_page': page - 1,
+            'pages': paginator.num_pages,
+            'first_result': (page - 1) * nb_results_by_page +1,
+            'last_result': min((page) * nb_results_by_page, paginator.count),
+            'hits' : paginator.count,
+        }
+    )
 
 @access_required(groups=['ain7-secretariat'])
 def mailing_ready(request, mailing_id):

@@ -49,7 +49,7 @@ urlpatterns = patterns('',
 
     #(r'^accounts/login/$', 'ain7.pages.views.login'),
     #(r'^accounts/logout/$', 'ain7.pages.views.logout'),
-    url(r'^accounts/login/$', 'django.contrib.auth.views.login', name='login'),
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'registration/login.html'}, name='login'),
     url(r'^acocunts/logout/$', 'django.contrib.auth.views.logout_then_login', name='logout'),
 
     # servir le contenu statique pendant le dev
@@ -92,7 +92,7 @@ urlpatterns = patterns('',
     (r'^mentions_legales/$','ain7.pages.views.mentions_legales'),
     (r'^lostpassword/$','ain7.pages.views.lostpassword'),
     (r'^lostpassword/([A-Za-z0-9.\-_]+)/$','ain7.pages.views.changepassword'),
-    (r'^$','ain7.pages.views.homepage'),
+    url(r'^$','ain7.pages.views.homepage', name='homepage'),
 
     # flux RSS
     (r'^rss/$', 'ain7.pages.views.rss'),
@@ -107,11 +107,11 @@ urlpatterns = patterns('',
     (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
 
     # redirection to external communities
-    (r'^facebook/$', 'ain7.pages.views.facebook'),
-    (r'^linkedin/$', 'ain7.pages.views.linkedin'),
-    (r'^twitter/$', 'ain7.pages.views.twitter'),
-    (r'^viadeo/$', 'ain7.pages.views.viadeo'),
-    (r'^g\+/$', 'ain7.pages.views.gplus'),
+    url(r'^facebook/$', 'ain7.pages.views.facebook', name='facebook'),
+    url(r'^linkedin/$', 'ain7.pages.views.linkedin', name='linkedin'),
+    url(r'^twitter/$', 'ain7.pages.views.twitter', name='twitter'),
+    url(r'^viadeo/$', 'ain7.pages.views.viadeo', name='viadeo'),
+    url(r'^g\+/$', 'ain7.pages.views.gplus', name='g+'),
 
     (r'^grappelli/', include('grappelli.urls')), # grappelli URLS
     (r'^admin/',  include(admin.site.urls)), # admin site

@@ -6,7 +6,7 @@
 
 <h1>{{ person.first_name }} {{ person.last_name }}
 {% if superadmin or ca_member or secretariat_member or is_myself %}
-<a href="{% url "ain7.annuaire.views.edit" person.user.id %}" class="changelink">&nbsp;</a>
+<a href="{% url 'annuaire-edit' person.id %}"><span class="glyphicon glyphicon-edit"></span></a>
 {% endif %}
 </h1>
 
@@ -21,11 +21,11 @@
    <li><b>{% filter capfirst %}{% trans "maiden name" %}{% endfilter %}
        &nbsp;:</b> {{ person.maiden_name }}</li>
    {% endif %}
-   {% if ain7member.nick_name %}
-   <li><b>{% trans "Nick name" %}&nbsp;:</b> {{ ain7member.nick_name }}</li>
-   {% endif %}
    {% if ain7member.promos %}
    <li><b>{% trans "Promos" %}&nbsp;:</b> {% for promo in ain7member.promos.all %}{{ promo }}{% if not forloop.last %} - {% endif %}{% endfor %}</li>
+   {% endif %}
+   {% if ain7member.nick_name %}
+   <li><b>{% trans "Nick name" %}&nbsp;:</b> {{ ain7member.nick_name }}</li>
    {% endif %}
    {% if ain7member.education.all %}
    <li><b>{% filter capfirst %}{% trans "diplomas" %}{% endfilter %}&nbsp;:</b>
@@ -126,7 +126,7 @@
 {% if ain7member.display_cv_in_directory or superadmin or ca_member or is_myself or secretariat_member %}
 
 <h2>{% if not ain7member.display_cv_in_directory %}<img src="{% static "images/private.png" %}" alt="private" width="14" height="14"/>{% endif %}
-{% trans "Experience" %}</h2>
+{% trans "Career" %}</h2>
 
 <ul>
 {% for position in ain7member.positions.all %}

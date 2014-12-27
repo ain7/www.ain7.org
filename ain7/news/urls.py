@@ -21,12 +21,12 @@
 #
 #
 
-from django.conf.urls import patterns
+from django.conf.urls import patterns, url
 
 
 urlpatterns = patterns('ain7.news.views',
     # Evenements
-    (r'^$', 'index'),
+    url(r'^$', 'index', name='news-index'),
     (r'^new/$', 'edit'),
     (r'^search/$', 'search'),
     (r'^(?P<news_slug>[\w\-]+)/$', 'details'),

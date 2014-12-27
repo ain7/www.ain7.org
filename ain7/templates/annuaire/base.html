@@ -5,26 +5,6 @@
 
 {% block content %}
 
-<div class="span9">
 {% block content-left %}{% endblock %}
-</div>
-
-<div class="span3">
-
-   <div class="well">
-    <ul class="nav nav-list">
-    {% if superadmin or ca_member or secretariat_member %}
-    <li class="nav-header">{% trans "Administration" %}</li>
-    <li class="active"><a href="{% url "ain7.annuaire.views.add" %}">{% trans "Register a member" %}</a></li>
-    {% block extra-admin %}{% endblock %}
-    {% endif %}
-    <li class="nav-header">{% trans "Navigation" %}</li>
-    {% block extra-actions %}{% endblock %}
-    {% block extra-right-blocks %}{% endblock %}
-
-   </ul>
-   </div>
-
-</div>
 
 {% endblock %}
