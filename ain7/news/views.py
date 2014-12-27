@@ -27,8 +27,9 @@ import vobject
 from django.contrib import messages
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
+from django.forms.models import modelform_factory
 from django.http import HttpResponseRedirect, Http404, HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Email, Person
@@ -57,44 +58,28 @@ def details(request, news_slug):
 def edit(request, news_slug=None):
     """news edit"""
 
-    news_item = None
-    form = NewsForm()
+    NewsForm = modelform_factory(NewsItem, exclude=('Person',))
 
+    news_item = None
     if news_slug:
         news_item = get_object_or_404(NewsItem, slug=news_slug)
-        form = NewsForm(instance=news_item)
 
-    if request.method == 'POST':
-        if news_slug:
-            form = NewsForm(request.POST, request.FILES, instance=news_item)
-        else:
-            form = NewsForm(request.POST, request.FILES)
-        if form.is_valid():
-            news_item = form.save()
-            news_item.logged_save(request.user.person)
-            messages.success(request, _('Modifications have been successfully saved.'))
+    form = NewsForm(request.POST or None, request.FILES or None, instance=news_item)
 
-            return HttpResponseRedirect(reverse(details, 
-                args=[news_item.slug]))
+    if request.method == 'POST' and form.is_valid():
+        news_item = form.save()
+        news_item.logged_save(request.user.person)
+        messages.success(request, _('Modifications have been successfully saved.'))
+        return redirect(news_item)
 
-    return render(
-        request, 'news/edit.html',
-        {'form': form, 'title': _("News edition"), 'news_item': news_item,
-         'back': request.META.get('HTTP_REFERER', '/')})
-
-@confirmation_required(lambda news_slug=None, object_id=None: '', 
-     'base.html', 
-     _('Do you really want to delete the image of this news'))
-@access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'])
-def image_delete(request, news_slug):
-    """news image delete"""
-
-    news_item = get_object_or_404(NewsItem, slug=news_slug)
-    news_item.image = None
-    news_item.logged_save(request.user.person)
-
-    messages.success(request, _('The image of this news item has been successfully deleted.'))
-    return HttpResponseRedirect('/actualites/%s/edit/' % news_slug)
+    return render(request, 'news/edit.html',
+        {
+            'form': form,
+            'title': _("News edition"),
+            'news_item': news_item,
+            'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @confirmation_required(lambda news_slug=None, object_id=None: '', 
     'base.html', 
@@ -112,37 +97,19 @@ def delete(request, news_slug):
 def search(request):
     """news search"""
 
-    form = SearchNewsForm()
-    nb_results_by_page = 25
     list_news = False
-    paginator = Paginator(NewsItem.objects.none(), nb_results_by_page)
-    page = 1
+    form = SearchNewsForm(request.POST or None)
 
-    if request.method == 'POST':
-        form = SearchNewsForm(request.POST)
-        if form.is_valid():
-            list_news = form.search()
-            paginator = Paginator(list_news, nb_results_by_page)
-
-            try:
-                page = int(request.GET.get('page', '1'))
-                list_news = paginator.page(page).object_list
-
-            except InvalidPage:
-                raise Http404
+    if request.method == 'POST' and form.is_valid():
+        list_news = form.search()
 
     return render(request, 'news/search.html',
-        {'form': form, 'list_news': list_news,
-         'request': request,'paginator': paginator,
-         'is_paginated': paginator.num_pages > 1,
-         'has_next': paginator.page(page).has_next(),
-         'has_previous': paginator.page(page).has_previous(),
-         'current_page': page,
-         'next_page': page + 1, 'previous_page': page - 1,
-         'pages': paginator.num_pages,
-         'first_result': (page - 1) * nb_results_by_page +1,
-         'last_result': min((page) * nb_results_by_page, paginator.count),
-         'hits' : paginator.count})
+        {
+            'form': form,
+            'list_news': list_news,
+            'request': request,
+        }
+    )
 
 def event_index(request):
     """event index"""
@@ -180,44 +147,43 @@ def event_details(request, event_id):
     page_title = event.title
 
     return render(request, 'evenements/details.html',
-        {'event': event, 
-         'event_list': NewsItem.objects.filter(date__isnull=False),
-         'next_events': NewsItem.objects.next_events(),
-         'rsvp_display': rsvp_display,
-         'rsvp': rsvp,
-         'page_title': page_title})
+        {
+            'event': event, 
+            'event_list': NewsItem.objects.filter(date__isnull=False),
+            'next_events': NewsItem.objects.next_events(),
+            'rsvp_display': rsvp_display,
+            'rsvp': rsvp,
+            'page_title': page_title,
+        }
+    )
 
 @access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'])
 def event_edit(request, event_id=None):
     """event edit"""
 
-    form = EventForm()
     event = None
-
     if event_id:
         event = get_object_or_404(NewsItem, pk=event_id)
         form = EventForm(instance=event)
 
-    if request.method == 'POST':
-        if event_id:
-            form = EventForm(request.POST, request.FILES, instance=event)
-        else:
-            form = EventForm(request.POST, request.FILES)
-        if form.is_valid():
-            evt = form.save()
-            evt.logged_save(request.user.person)
-            messages.success(request, _('Event successfully saved'))
+    form = EventForm(request.POST or None, request.FILES or None, instance=event)
 
-            return HttpResponseRedirect(reverse(event_details, args=[evt.id]))
+    if request.method == 'POST' and form.is_valid():
+        evt = form.save()
+        evt.logged_save(request.user.person)
+        messages.success(request, _('Event successfully saved'))
+        return redirect(evt)
 
-    return render(
-        request, 'evenements/edit.html',
-        {'form': form, 
-         'action_title': _("Event modification"),
-         'event': event,
-         'event_list': NewsItem.objects.all(),
-         'next_events': NewsItem.objects.next_events(),
-         'back': request.META.get('HTTP_REFERER', '/')})
+    return render(request, 'evenements/edit.html',
+        {
+            'form': form, 
+            'action_title': _("Event modification"),
+            'event': event,
+            'event_list': NewsItem.objects.all(),
+            'next_events': NewsItem.objects.next_events(),
+            'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @confirmation_required(lambda event_id=None, object_id=None : '', 
     'evenements/base.html', 

@@ -1,26 +1,28 @@
 {% extends "news/base.html" %}
 {% load i18n %}
+{% load endless %}
 
 {% block content-left %}
 
 {% if news %}
 
+{% paginate news %}
 {% for one_news in news %}
-
   
 <h2><a href="{% url "ain7.news.views.details" one_news.slug %}">{{ one_news.title }}</a></h2>
   
-      <span class="grey" style="float:right;">{{ one_news.creation_date|date:"l j F Y" }}</span>
+<span class="grey" style="float:right;">{{ one_news.creation_date|date:"l j F Y" }}</span>
 
-  <div class="news-description">  
-  {% if one_news.image %}
-  <img src="{{ one_news.image.url }}" alt="{{ one_news.title }}" title="{{ one_news.title }}" class="image-article" />
-  {% endif %}
-    {{ one_news.body|safe }}
-  </div>
+<div class="news-description">  
+{% if one_news.image %}
+<img src="{{ one_news.image.url }}" alt="{{ one_news.title }}" title="{{ one_news.title }}" class="image-article" />
+{% endif %}
+{{ one_news.body|safe }}
+</div>
 
-<hr />
-	{% endfor %}
+<hr>
+{% endfor %}
+<p class="text-center">{% show_pages %}</p>
 
 {% else %}
 	<p>{% trans "No news !" %}</p>
