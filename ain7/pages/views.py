@@ -69,8 +69,16 @@ def homepage(request):
         birthdays.sort(lambda x, y: cmp(x.person.last_name, y.person.last_name))
 
     return render(request, 'pages/homepage.html', 
-        {'news': news , 'events': events, 'settings': settings,
-         'birthdays': birthdays, 'text1': text1, 'jobOffers' : jobOffers, 'is_subscriber': is_subscriber})
+        {
+            'news': news ,
+            'events': events,
+            'settings': settings,
+            'birthdays': birthdays,
+            'text1': text1,
+            'jobOffers': jobOffers,
+            'is_subscriber': is_subscriber,
+        }
+    )
 
 def lostpassword(request):
     """lostpassword page"""
@@ -128,21 +136,10 @@ def apropos(request):
     text = Text.objects.get(textblock__shortname='apropos')
     return render(request, 'pages/apropos.html', {'text': text})
 
-def web(request):
-    """web presentation page"""
-    text = Text.objects.get(textblock__shortname='web_ain7')
-    return render(request, 'pages/web.html', {'text': text})
-
 def mentions_legales(request):
     """legal mentions"""
     text = Text.objects.get(textblock__shortname='mentions_legales')
     return render(request, 'pages/mentions_legales.html', {'text': text})
-
-def relations_ecole_etudiants(request): 
-    """school and students relashionchip"""
-    text = Text.objects.get(textblock__shortname='relations_ecole_etudiants')
-    return render(request, 
-                'pages/relations_ecole_etudiants.html', {'text': text})
 
 def rss(request):
     """rss feeds"""

@@ -1,5 +1,6 @@
 {% extends "manage/base.html" %}
 {% load i18n %}
+{% load endless %}
 
 {% block content-left %}
 
@@ -16,45 +17,27 @@
 
 {% ifnotequal persons|length 0 %}
 
+{% paginate persons %}
+
 <h2>{% trans "Results list"%}</h2>
 
-<table style="width: 100%">
-<tr>
-<td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
-<td align="right">
-{% if is_paginated %}
-{% if has_previous %}<a href="{% url "ain7.manage.views.users_search" %}?last_name={{ request.GET.last_name }}&first_name={{ request.GET.first_name }}&organization={{ request.GET.organization }}&page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="{% url "ain7.manage.views.users_search" %}?last_name={{ request.GET.last_name }}&first_name={{ request.GET.first_name }}&organization={{ request.GET.organization }}&page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="{% url "ain7.manage.views.users_search" %}?last_name={{ request.GET.last_name }}&first_name={{ request.GET.first_name }}&organization={{ request.GET.organization }}&page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="{% url "ain7.manage.views.users_search" %}?last_name={{ request.GET.last_name }}&first_name={{ request.GET.first_name }}&organization={{ request.GET.organization }}&page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
-{% endif %}
-</td>
-</table>
+<p class="text-center">{% show_pages %}</p> 
+
 <ul>
     {% for person in persons %}
         <li class="person"><a href="{% url "ain7.annuaire.views.details" person.user.id %}">
             {{ person.last_name }} 
-            {% if person.maiden_name %}
-              ({{ person.maiden_name }})
-            {% endif %}
+            {% if person.maiden_name %} ({{ person.maiden_name }}) {% endif %}
             {{ person.first_name }}</a>
-				</li>
+		</li>
     {% endfor %}
 </ul>
+
+<p class="text-center">{% show_pages %}</p> 
+
 {% else %}
     <p>{% trans "No person matched your criteria." %}</p>
 {% endifnotequal %}
 {% endif %}
 {% endblock %} {# content-left #}
 
-
-{% block actions %}
-<h2>{% trans "Actions" %}</h2>
-<div class="grey-box">
-{% if superadmin or secretariat_member %}
-<ul>
-    <li><a href="{% url "ain7.manage.views.user_register" %}">{% trans "Register external user" %}</a></li>
-{% endif %}
-</ul>
-</div>
-{% endblock %} {# actions #}

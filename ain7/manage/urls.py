@@ -21,7 +21,7 @@
 #
 #
 
-from django.conf.urls import patterns
+from django.conf.urls import patterns, url
 
 urlpatterns = patterns('ain7.manage.views',
     (r'^$', 'index'),
@@ -31,28 +31,29 @@ urlpatterns = patterns('ain7.manage.views',
     (r'^users/register/$', 'user_register'),
 
     # Errors
-    (r'^errors/$', 'errors_index'),
+    url(r'^errors/$', 'errors_index', name='errors-index'),
     (r'^errors/(?P<error_id>\d+)/$', 'error_details'),
     (r'^errors/edit_range/$', 'errors_edit_range'),
     (r'^errors/(?P<error_id>\d+)/swap/$', 'error_swap'),
 
     # Payment
     (r'^payments/$', 'payments_index'),
-    (r'^payments/add/$', 'payment_add'),
-    (r'^payments/(?P<payment_id>\d+)/$', 'payment_details'),
+    (r'^payments/add/$', 'payment_edit'),
+    url(r'^payments/(?P<payment_id>\d+)/$', 'payment_details', name='payment-details'),
     (r'^payments/(?P<payment_id>\d+)/edit/$', 'payment_edit'),
-    (r'^payments/deposit/$', 'payments_deposit_index'),
+    url(r'^payments/deposit/$', 'payments_deposit_index', name='payments-deposit-index'),
     (r'^payments/deposit/(?P<deposit_id>\d+)/$', 'payments_deposit'),
     (r'^payments/deposit/(?P<deposit_id>\d+)/deposited/'
      +r'(?P<last_deposit_id>\d+)/$', 'payments_mark_deposited'),
 
     # Subscriptions
     (r'^subscriptions/$', 'subscriptions_stats'),
+    url(r'^subscriptions/(?P<the_year>\d+)/$', 'subscriptions_stats', name='subscriptions-stats-per-year'),
 
     # mailings
     (r'^mailings/$', 'mailings_index'),
-    (r'^mailings/add/$', 'mailing_edit'),
-    (r'^mailings/(?P<mailing_id>\d+)/$', 'mailing_edit'),
+    url(r'^mailings/add/$', 'mailing_edit', name='mailing-add'),
+    url(r'^mailings/(?P<mailing_id>\d+)/$', 'mailing_edit', name='mailing-edit'),
     (r'^mailings/(?P<mailing_id>\d+)/test/$', 'mailing_send'),
     (r'^mailings/(?P<mailing_id>\d+)/testteam/$', 'mailing_sendteam'),
     (r'^mailings/(?P<mailing_id>\d+)/send/$', 'mailing_ready'),

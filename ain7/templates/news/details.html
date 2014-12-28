@@ -3,18 +3,26 @@
 
 {% block content-left %}
 
-	<h2>{{ news_item.title }}</h2>
-	
-	<div class="article-info">{%  show_last_change news_item %}</div>
+<h2>{{ news_item.title }}</h2>
 
-	<p>
-          {% if news_item.image %}
-          <img src="{{ news_item.image.url }}" alt="Image" title="Image" class="image-article" />
-          {% endif %}
-          {{ news_item.body|safe }}
-        </p>
+{% if superadmin or ca_member or secretariat_member or contributeur %}
+<ul class="list-inline">
+<li><a href="{% url "ain7.news.views.edit" news_item.slug %}"><span class="glyphicon glyphicon-edit"></span></a></li>
+<li><a href="{% url "ain7.news.views.delete" news_item.slug %}"><span class="glyphicon glyphicon-trash"></span></a></li>
+</ul>
+{% endif %}
 
-<br /><br /><br />
+<div class="article-info">{%  show_last_change news_item %}</div>
+
+<p>
+{% if news_item.image %}
+<img src="{{ news_item.image.url }}" alt="Image" title="Image" class="image-article" />
+{% endif %}
+{{ news_item.body|safe }}
+</p>
+
+<br><br><br>
+
 <!-- AddThis Button BEGIN -->
 <div class="addthis_toolbox addthis_default_style">
 <a class="addthis_button_linkedin"></a>
@@ -28,15 +36,5 @@
 <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4dc7154b4ea96654"></script>
 <!-- AddThis Button END -->
 
-
-
-{% endblock %}
-
-
-{% block extra-actions %}
-{% if superadmin or ca_member or secretariat_member or contributeur %}
-<li><a href="{% url "ain7.news.views.edit" news_item.slug %}">{% trans "Edit this news" %}</a></li>
-<li><a href="{% url "ain7.news.views.delete" news_item.slug %}">{% trans "Delete this news" %}</a></li>
-{% endif %}
 {% endblock %}
 

@@ -66,7 +66,6 @@ INSTALLED_APPS = (
     'ain7.pages',
     'ain7.shop',
     'ain7.voyages',
-
 )
 
 MIDDLEWARE_CLASSES = (
@@ -79,6 +78,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'ain7.middleware.forcelocale.ForceDefaultLanguageMiddleware',
 #    'ain7.middleware.useractivity.UserActivityMiddleware',
+    'ain7.middleware.forcelocale.ForceDefaultLanguageMiddleware',
     'ain7.middleware.portalexceptions.PortalException',
 )
 
@@ -133,7 +133,6 @@ STATICFILES_DIRS = (
 
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
-    'ain7.context_processors.versions',
     'ain7.context_processors.piwik',
     'ain7.context_processors.user_groups',
 )
@@ -146,6 +145,8 @@ SMTP_PORT=25
 SMTP_LOGIN=''
 SMTP_PASSWORD=''
 SMTP_TLS=False
+
+ENDLESS_PAGINATION_PER_PAGE=25
 
 PIWIK_URL = 'http://localhost/piwik/'
 PIWIK_SITE_ID = '0'

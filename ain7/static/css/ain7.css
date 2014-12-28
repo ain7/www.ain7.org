@@ -19,3 +19,11 @@ span.asteriskField {
     font-size: 15px;                                                            
 } 
 
+.white {
+    color: #fff;
+}
+
+.menu {
+        text-transform:none;
+}
+

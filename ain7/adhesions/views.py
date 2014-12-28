@@ -24,12 +24,11 @@
 import datetime
 import hashlib
 
-from django.core.paginator import Paginator, PageNotAnInteger
+from django.conf import settings
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
-from django.conf import settings
 
 from ain7.adhesions.forms import ConfigurationForm, SubscriptionForm
 from ain7.adhesions.models import Subscription, SubscriptionConfiguration
@@ -41,6 +40,7 @@ from ain7.utils import ain7_generic_delete
 
 def index(request):
     """index adhesions"""
+
     count_subscribers = Subscription.objects.filter(validated=True).exclude(\
         start_year__gt=datetime.date.today().year).exclude(\
         end_year__lt=datetime.date.today().year).count()
@@ -67,30 +67,17 @@ def index(request):
 def subscriptions(request, to_validate=False):
     """list subscriptions"""
 
-    nb_results_by_page = 50
     subscriptions_list = Subscription.objects.order_by(\
          'validated', '-start_year', '-end_year')
 
     if to_validate:
         subscriptions_list = subscriptions_list.filter(validated=False)
-    paginator = Paginator(subscriptions_list, nb_results_by_page)
-
-    try:
-        page = int(request.GET.get('page', '1'))
-        subscriptions_list = paginator.page(page).object_list
-    except PageNotAnInteger:
-        raise Http404
 
     return render(request, 'adhesions/subscriptions.html',
-        {'subscriptions_list': subscriptions_list, 'request': request,
-         'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
-         'has_next': paginator.page(page).has_next(),
-         'has_previous': paginator.page(page).has_previous(),
-         'current_page': page, 'pages': paginator.num_pages,
-         'next_page': page + 1, 'previous_page': page - 1,
-         'first_result': (page-1) * nb_results_by_page +1,
-         'last_result': min((page) * nb_results_by_page, paginator.count),
-         'hits': paginator.count})
+        {
+            'subscriptions_list': subscriptions_list,
+        }
+    )
 
 @confirmation_required(lambda user_id=None, subscription_id=None : 
      str(get_object_or_404(Subscription, pk=subscription_id)), 
@@ -106,7 +93,7 @@ def subscription_validate(request, subscription_id=None):
 
     request.user.message_set.create(\
          message=_('Subscription successfully validated'))
-    return HttpResponseRedirect(reverse(subscriptions))
+    return redirect('subscriptions')
 
 @confirmation_required(lambda user_id=None, subscription_id=None :
     str(get_object_or_404(Subscription, pk=subscription_id)),
@@ -238,42 +225,38 @@ AIn7 Team
                  {'payment': payment, 'systempay': systempay, 'systempay_signature': systempay_signature, 'systempay_url': settings.SYSTEM_PAY_URL })
 
 @access_required(groups=['ain7-secretariat','ain7-ca'])
-def configurations(request):
+def configurations(request, year=datetime.date.today().year):
     """configure subscriptions"""
 
-    year_current = datetime.date.today().year
-
     return render(request, 'adhesions/configurations.html',
-        {'configurations_list': 
-         SubscriptionConfiguration.objects.filter(year=year_current).order_by('type')})
+        {
+            'configurations_list': SubscriptionConfiguration.objects.filter(year=year).order_by('type'),
+        }
+    )
 
 @access_required(groups=['ain7-secretariat','ain7-ca'])
 def configuration_edit(request, config_id=None):
     """edit subscription configuration"""
 
-    form = ConfigurationForm()
-
+    config = None
     if config_id:
-        config = get_object_or_404(SubscriptionConfiguration,
-            pk=config_id)
-        form = ConfigurationForm(instance=config)
+        config = get_object_or_404(SubscriptionConfiguration, pk=config_id)
 
-    if request.method == 'POST':
-        if config_id:
-            form = ConfigurationForm(request.POST, instance=config)
-        else:
-            form = ConfigurationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            request.user.message_set.create(message=_('Modifications have been\
- successfully saved.'))
+    ConfigurationForm = modelform_factory(SubscriptionConfiguration, exclude=())
+    form = ConfigurationForm(request.POST or None, instance=config)
 
-        return HttpResponseRedirect(reverse(configurations))
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        message.success(request, message=_('Modifications have been successfully saved.'))
+        return redirect('configurations')
 
-    return render(
-        request, 'adhesions/configuration_edit.html',
-        {'form': form, 'action_title': _("Modification of configuration"),
-         'back': request.META.get('HTTP_REFERER', '/')})
+    return render(request, 'adhesions/configuration_edit.html',
+        {
+            'form': form,
+            'action_title': _("Modification of configuration"),
+            'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @confirmation_required(lambda user_id=None, config_id=None:
     str(get_object_or_404(SubscriptionConfiguration, pk=config_id)),

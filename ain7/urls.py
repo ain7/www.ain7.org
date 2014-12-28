@@ -72,9 +72,6 @@ urlpatterns = patterns('',
     # groups
     (r'^groups/', include('ain7.groups.urls')),
  
-    # shop
-    (r'^shop/', include('ain7.shop.urls')),
-
     # organizations
     (r'^organizations/', include('ain7.organizations.urls')),
 
@@ -95,7 +92,7 @@ urlpatterns = patterns('',
     url(r'^$','ain7.pages.views.homepage', name='homepage'),
 
     # flux RSS
-    (r'^rss/$', 'ain7.pages.views.rss'),
+    url(r'^rss/$', 'ain7.pages.views.rss', name='rss'),
     (r'^rss/(?P<url>.*)/$', 'django.contrib.syndication.views.Feed', {'feed_dict': feeds}),
 
     (r'^ical/$', 'ain7.news.views.ical'),

@@ -25,7 +25,6 @@ import datetime
 import vobject
 
 from django.contrib import messages
-from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
 from django.forms.models import modelform_factory
 from django.http import HttpResponseRedirect, Http404, HttpResponse
@@ -136,7 +135,7 @@ def event_details(request, event_id):
     now = datetime.datetime.now()
 
     if not event.date:
-        return HttpResponseRedirect(reverse(details, args=[event.slug]))
+        return redirect(event)
 
     rsvp_display = event.date > now
     if rsvp_display and event.rsvp_begin:
@@ -185,20 +184,6 @@ def event_edit(request, event_id=None):
         }
     )
 
-@confirmation_required(lambda event_id=None, object_id=None : '', 
-    'evenements/base.html', 
-    _('Do you really want to delete the image of this event'))
-@access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'])
-def event_image_delete(request, event_id):
-    """event image delete"""
-
-    event = get_object_or_404(NewsItem, pk=event_id)
-    event.image = None
-    event.logged_save(request.user.person)
-
-    messages.success(request, _('The image of this event has been successfully deleted.'))
-    return HttpResponseRedirect(reverse(event_details, args=[event.id]))
-
 @access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'])
 def event_attendees(request, event_id):
 
@@ -212,14 +197,16 @@ def event_attendees(request, event_id):
     attendees_no = RSVPAnswer.objects.filter(event=event, no=True)
     attendees_maybe = RSVPAnswer.objects.filter(event=event, maybe=True)
 
-    return render(
-        request, 'evenements/attendees.html',
-        {'attendees_yes': attendees_yes,
-         'attendees_number': attendees_number,
-         'attendees_no': attendees_no,
-         'attendees_maybe': attendees_maybe,
-         'back': request.META.get('HTTP_REFERER', '/'),
-         'event': event})
+    return render(request, 'evenements/attendees.html',
+        {
+            'attendees_yes': attendees_yes,
+            'attendees_number': attendees_number,
+            'attendees_no': attendees_no,
+            'attendees_maybe': attendees_maybe,
+            'back': request.META.get('HTTP_REFERER', '/'),
+            'event': event,
+        }
+    )
 
 @access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'],
                  allow_rsvp=True)
@@ -284,12 +271,14 @@ def event_rsvp(request, event_id, rsvp_id=None):
                     reverse('ain7.news.views.event_details',
                     args=[event.id]))
 
-    return render(
-        request, 'evenements/rsvp.html',
-        {'form': form, 
-         'action_title': _("RSVP Answer"),
-         'event': event,
-         'back': request.META.get('HTTP_REFERER', '/')})
+    return render(request, 'evenements/rsvp.html',
+        {
+            'form': form, 
+            'action_title': _("RSVP Answer"),
+            'event': event,
+            'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @access_required(groups=['ain7-secretariat', 'ain7-membre'])
 def event_attend_yes(request, event_id):
@@ -327,36 +316,20 @@ def event_attend_maybe(request, event_id):
 def event_search(request):
     """event search"""
 
-    form = SearchEventForm()
-    nb_results_by_page = 25
+    form = SearchEventForm(request.GET or None)
     list_events = False
-    paginator = Paginator(NewsItem.objects.none(), nb_results_by_page)
-    page = 1
 
-    if request.GET.has_key('location') or request.GET.has_key('title'):
-        form = SearchEventForm(request.GET)
-        if form.is_valid():
-            list_events = form.search()
-            paginator = Paginator(list_events, nb_results_by_page)
-            try:
-                page = int(request.GET.get('page', '1'))
-                list_events = paginator.page(page).object_list
-            except InvalidPage:
-                raise Http404
+    if (request.GET.has_key('location') or request.GET.has_key('title')) and \
+        form.is_valid():
+        list_events = form.search()
 
     return render(request, 'evenements/search.html',
-        {'form': form, 'list_events': list_events, 'request': request,
-         'event_list': NewsItem.objects.all(),
-         'next_events': NewsItem.objects.next_events(),
-         'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
-         'has_next': paginator.page(page).has_next(),
-         'has_previous': paginator.page(page).has_previous(),
-         'current_page': page,
-         'next_page': page + 1, 'previous_page': page - 1,
-         'pages': paginator.num_pages,
-         'first_result': (page - 1) * nb_results_by_page +1,
-         'last_result': min((page) * nb_results_by_page, paginator.count),
-         'hits' : paginator.count })
+        {
+            'form': form,
+            'list_events': list_events,
+            'event_list': NewsItem.objects.all(),
+        }
+    )
 
 @access_required(groups=['ain7-membre','ain7-ca','ain7-secretariat',
                          'ain7-contributeur'])

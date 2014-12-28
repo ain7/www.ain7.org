@@ -12,48 +12,17 @@
                         <div class="responsive-slider" data-spy="responsive-slider" data-autoplay="true">
                                 <div class="slides" data-group="slides">
                                         <ul>
-                                                <li>
+{% for news_item in news %}                                                     
+                                               <li>
                                                         <div class="slide-body" data-group="slide">
-                                                                <img src="{% static "theme/img/2a.jpg" %}" alt="">
-                                                                <div class="caption header" data-animate="slideAppearUpToDown" data-
-delay="500" data-length="300">
-                                                                        <button class="btn btn-primary"><h2> we are creative design<
-/h2></button>
-                                                                        <div class="caption-sub" data-animate="slideAppearDownToUp" 
-data-delay="1200" data-length="300"><button class="btn btn-primary"><h4><span>Lorem ipsum dolor sit amet, consectetur adipisicing el
-it sit amet.</span></h4></button></div>
-                                                                        <div class="caption-sub" data-animate="slideAppearLeftToRigh
-t" data-delay="900" data-length="300"><button class="btn btn-primary"><h3>With one to one swipe movement!</h3></button></div>
+                                                                <img src="{% static "images/picture_wall_n7.jpg" %}" alt="">
+                                                                <div class="caption header" data-animate="slideAppearDownToUp" data-delay="500" data-length="300">
+                                                                        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off"><h3><a href="{% url "news-details" news_item.slug %}">{{ news_item.title }}</a></h3></button>
+                                                                        <div class="caption-sub" data-animate="slideAppearUpToDown" data-delay="800" data-length="300"><button class="btn btn-primary"><h4><span>{{ news_item.body|striptags|truncatewords_html:25|safe }} <a href="{% url "ain7.news.views.details" news_item.slug %}"><small>(suite)</small></span></h4></button></div>
                                                                 </div>
                                                         </div>
                                                 </li>
-                                                <li>
-                                                        <div class="slide-body" data-group="slide">
-                                                                <img src="{% static "theme/img/1.jpg" %}" alt="">
-                                                                <div class="caption header" data-animate="slideAppearDownToUp" data-
-delay="500" data-length="300">
-                                                                        <button type="button" class="btn btn-primary" data-toggle="b
-utton" aria-pressed="false" autocomplete="off"><h2>creative design Responsive slider</h2></button>
-                                                                        <div class="caption-sub" data-animate="slideAppearUpToDown" 
-data-delay="800" data-length="300"><button class="btn btn-primary"><h4><span>Lorem ipsum dolor sit amet, consectetur adipisicing eli
-t sit amet. </span></h4></button></div>
-                                                                        <div class="caption-sub" data-animate="slideAppearRightToLef
-t" data-delay="1200" data-length="300"><button class="btn btn-primary"><h3>Clean and Flat</h3></button></div>
-                                                                </div>
-                                                        </div>
-                                                </li>
-                                                <li>
-                                                        <div class="slide-body" data-group="slide">
-                                                                <img src="{% static "theme/img/10.jpg" %}" alt="">
-                                                                <div class="caption header" data-animate="slideAppearUpToDown" data-delay="500" data-length="300">
-                                                                  <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off"><h2>creative design Custom animations</h2></button>
-                                                                  <div class="caption-sub" data-animate="slideAppearLeftToRight" data-delay="800" data-length="300"><button class="btn btn-primary"><h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit sit amet.</h4></button></div>
-                                                                  <div class="caption-sub" data-animate="slideAppearDownToUp" data-delay="1200" data-length="300"><button class="btn btn-primary"><h3><span>New style Slides!</span></h3></button></div>
-                                                
-                                                                </div>
-                                                        </div>
-                                                </li>
-                                
+{% endfor %}
                                         </ul>
                                 </div>
                    
@@ -64,66 +33,120 @@ t" data-delay="1200" data-length="300"><button class="btn btn-primary"><h3>Clean
 </div>
 </div>
 
-
-
-{% for news_item in news %}
-
-  <div class="hp-item clear">
-    {% if news_item.image %}
-    <a href="{% url "ain7.news.views.details" news_item.slug %}"><img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" title="{{ news_item.title }}" class="image right prepend-05"/></a>
-    {% endif %}
-    <b><a href="{% url "ain7.news.views.details" news_item.slug %}">{{ news_item.title }}</a></b><br />{{ news_item.body|striptags|truncatewords_html:25|safe }} <a href="{% url "ain7.news.views.details" news_item.slug %}"><small>(suite)</small></a>
-  </div>
-  <!-- in case the image has bigger height than text -->
-	    
-{% endfor %}
-
 <div style="text-align: center">
-    <br /><a href="{% url "ain7.news.views.index" %}">{% trans "All news" %}</a>
+    <a href="{% url "ain7.news.views.index" %}">{% trans "All news" %}</a>
 </div>
 
-</div>
-
-<div class="span3">
-
-	{% if not is_subscriber %}    
-	<div style="text-align: center">
-	<a href="{% url "ain7.adhesions.views.index" %}"><img src="{% static "images/adherer.png" %}" alt="Adhérer"/></a>
-	<br />
-	<br />
-	</div>
-	{% else %}
-		{% trans "Your are a subscriber of the Association" %}.<br /><br />
-	{% endif %}
-
-	<h2><a href="{% url "ain7.news.views.event_index" %}">{% trans "Coming" %}</a></h2>
-
-	{% for event in events %}
-
-	<div class="hp-item">
-	<b>{{ event.date|date:"l j F"|capfirst }}</b><br /><a href="{% url "ain7.news.views.event_details" event.id %}">{{ event.title }}</a><br />
-	{{ event.body|striptags|truncatewords_html:25|safe }} <a href="{% url "ain7.news.views.event_details" event.id %}"><small>(suite)</small></a>
-	</div>
-
-	{% endfor %}
-
-	{% if birthdays %}
-	<div class="grey-box">
-	{% if user.is_authenticated %}
-	     <h2>{% trans "Happy birthday!" %}</h2>
-	     
-	     <ul>   
-	     {% for member in birthdays %}
-		 <li><a href="{% url "ain7.annuaire.views.details" member.person.pk %}">{{ member }}</a></li>
-	     {% endfor %}
-	     </ul>
-	</div>
-	{% endif %}
-	{% endif %}
+        <div class="container">
+                <div class="row">
+                        <div class="col-lg-12">
+                                <div class="contents">
+                                        <h2>Association des ingénieurs de l'IET/ENSEEIHT</h2>
+                                        <p><a href="{% url "adhesions-index" %}">Adhérez ou donnez</a> pour soutenir l'association et promouvoir l'ENSEEIHT.</p>
+                                </div>
+                        </div>
+                </div>
+        </div>
 
 
-</div>
+        <div class="container">
+                <div class="row">
+                        <div class="content">
+                                <div class="col-md-4">
+                                        <div class="wow flipInY" data-wow-offset="0" data-wow-delay="0.4s">
+                                                <div class="align-center">
+                                                        <h4>Emploi</h4>
+                                                        <div class="icon">
+                                                                <i class="fa fa-life-ring fa-3x"></i>
+                                                        </div>
+                                                        <p>
+                                                         Voluptatem accusantium doloremque laudantium sprea totam rem aperiam.
+                                                        </p>
+                                                        <div class="ficon">
+                                                                <a href="{% url "job-index" %}" alt="">{% trans "Learn more" %}</a> <i class="fa fa-long-arrow-right"></i>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="col-md-4">
+                                        <div class="wow flipInY" data-wow-offset="0" data-wow-delay="0.8s">
+                                                <div class="align-center">
+                                                        <h4>Voyages</h4>
+                                                        <div class="icon">
+                                                                <i class="fa fa-plane fa-3x"></i>
 
-</div>
+                                                        </div>
+                                                        <p>
+                                                         Voluptatem accusantium doloremque laudantium sprea totam rem aperiam.
+                                                        </p>
+                                                        <div class="ficon">
+                                                                <a href="{% url "travels-index" %}" alt="">{% trans "Learn more" %}</a> <i class="fa fa-long-arrow-right"></i>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="col-md-4">
+                                        <div class="wow flipInY" data-wow-offset="0" data-wow-delay="1.2s">
+                                                <div class="align-center">
+                                                        <h4>Événements</h4>
+                                                        <div class="icon">
+                                                                <i class="fa fa-users fa-3x"></i>
+
+                                                        </div>
+                                                        <p>
+                                                         Voluptatem accusantium doloremque laudantium sprea totam rem aperiam.
+                                                        </p>
+                                                        <div class="ficon">
+                                                                <a href="{% url "events-index" %}" alt="">{% trans "Learn more" %}</a> <i class="fa fa-long-arrow-right"></i>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+
+
+        <div class="container">
+                <div class="row">
+                        <div class="box">
+                                
+                                <div class="col-md-6">
+                                        <div class="wow bounceIn" data-wow-offset="0" data-wow-delay="0.8s">
+                                                <div class="align-center">
+                                                        <h4>Groupes professionnels</h4>                                  
+                                                        <div class="icon">
+                                                                <i class="fa fa-briefcase fa-3x"></i>
+
+                                                        </div>
+                                                        <p>
+                                                         Voluptatem accusantium doloremque laudantium sprea totam rem aperiam.
+                                                        </p>
+                                                        <div class="ficon">
+                                                                <a href="" alt="">{% trans "Learn more" %}</a> <i class="fa fa-long-arrow-right"></i>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="col-md-6">
+                                        <div class="wow bounceIn" data-wow-offset="0" data-wow-delay="1.3s">
+                                                <div class="align-center">
+                                                        <h4>Groupes régionaux</h4>                                 
+                                                        <div class="icon">
+                                                                <i class="fa fa-beer fa-3x"></i>
+
+                                                        </div>
+                                                        <p>
+                                                         Voluptatem accusantium doloremque laudantium sprea totam rem aperiam.
+                                                        </p>
+                                                        <div class="ficon">
+                                                                <a href="" alt="">{% trans "Learn more" %}</a> <i class="fa fa-long-arrow-right"></i>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
 
 {% endblock %}

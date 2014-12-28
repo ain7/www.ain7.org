@@ -2,36 +2,15 @@
 
 {% load i18n %}
 
-{% block stylesheet %}
-<style type="text/css">
-table {
- border-collapse: collapse;
- width: 96%;
- }
-th {
- background-color: #6c757a;
- color: #ffffff;
- }
-th, td {
- border: 1px solid black;
- }
-td {
- text-align: center;
- }
-caption {
- font-weight: bold;
- font-size: 8pt;
- }
-</style>
-{% endblock %}
-
 {% block content-left %}
 
-<h2>{% trans "Subscriptions Statistics"%}</h2>
+<h2>{% trans "Subscriptions Statistics"%} {{ year }}</h2>
 
-<table>
-<caption>Synthèse {% now "Y" %}</caption>
+<table class="table table-bordered table-stripped">
+<thead>
 <tr><th>Nombre de cotisants</th><th colspan="2">Taux</th><th>Montant</th></tr>
+</thead>
+<tbody>
 <tr><td>{{ stats_year.full.number }}</td><td>Taux plein</td><td>{{ stats_year.full.price }} €</td><td>{{ stats_year.full.amount }} €</td></tr>
 <tr><td>{{ stats_year.young.number }}</td><td>Jeunes promos</td><td>{{ stats_year.young.price }} €</td><td>{{ stats_year.young.amount }} €</td></tr>
 <tr><td>{{ stats_year.retired.number }}</td><td>Retraités</td><td>{{ stats_year.retired.price }} €</td><td>{{ stats_year.retired.amount }} €</td></tr>
@@ -40,32 +19,37 @@ caption {
 <tr><td>{{ stats_year.students.number }}</td><td>Elèves Affiliés</td><td>5, 10 ou 15 €</td><td>{{ stats_year.students.amount }} €</td></tr>
 <tr><td>{{ stats_year.other.number }}</td><td>Autres</td><td>n/a</td><td>{{ stats_year.other.amount }} €</td></tr>
 <tr><td colspan="3"><b>Total: {{ stats_year.total.number }} dont {{ stats_year.total.diplomees }} diplomés</b></td><td><b>Total: {{ stats_year.total.amount }} €</b></td></tr>
+</tbody>
 </table>
 
 <p>&nbsp;</p>
 
-<div id="edition">
-<table class="datas">
-<caption>Répartition des cotisations</caption>
+<table class="table table-bordered table-stripped"> 
+<thead>
 <tr><th></th><th>Diplomés</th><th>Taux Pleins</th><th>Jeunes promos</th><th>Retraités</th><th>Bienfaiteurs</th><th>Sans emploi</th><th>Affiliés</th><th>Autre(s)</th><th>Total</th></tr>
+</thead>
+<tbody>
 {% for row in stats_subs %}
-<tr class="{% cycle row1,row2 %}">
-<td>{{ row.year }}</td><td>{{ row.diplomees }}</td><td>{{ row.full }}</td><td>{{ row.young }}</td><td>{{ row.retired }}</td><td>{{ row.bienfaiteur }}</td><td>{{ row.unemployed }}</td><td>{{ row.students }}</td><td>{{ row.other }}</td><td>{{ row.total }}</td>
+<tr>
+<td><a href="{% url "subscriptions-stats-per-year" row.year %}">{{ row.year }}</a></td><td>{{ row.diplomees }}</td><td>{{ row.full }}</td><td>{{ row.young }}</td><td>{{ row.retired }}</td><td>{{ row.bienfaiteur }}</td><td>{{ row.unemployed }}</td><td>{{ row.students }}</td><td>{{ row.other }}</td><td>{{ row.total }}</td>
 </tr>
 {% endfor %}
+</tbody>
 </table>
-</div>
 
 <p>&nbsp;</p>
 
-<table>
-<caption>Evolution mensuelle des cotisations</caption>
+<table class="table table-bordered table-stripped">
+<thead>
 <tr><th>Janvier</th><th>Février</th><th>Mars</th><th>Avril</th><th>Mai</th><th>Juin</th><th>Juillet</th><th>Août</th><th>Septembre</th><th>Octobre</th><th>Novembre</th><th>Décembre</th></tr>
+</thead>
+<tbody>
 <tr>
 {% for month in stats_months %}
-<td style="width: 8%;">{{ month }}</td>
+<td>{{ month }}</td>
 {% endfor %}
 </tr>
+</tbody>
 </table>
 
 {% endblock %}

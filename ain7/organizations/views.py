@@ -23,9 +23,9 @@
 
 import datetime
 
-from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, Http404
+from django.forms.models import modelform_factory
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
@@ -49,20 +49,14 @@ def organization_details(request, organization_id):
 def organization_edit(request, organization_id=None):
     """organization edit data"""
 
+    org = None
     if organization_id:
         org = get_object_or_404(Organization, pk=organization_id)
-        form = OrganizationForm(instance=org)
-    else:
-        form = OrganizationForm()
 
+    OrganizationForm = modelform_factory(Organization)
+    form = OrganizationForm(request.POST or None, instance=org)
 
-    if request.method == 'POST':
-        if organization_id:
-            form = OrganizationForm(request.POST.copy(), instance=org)
-        else:
-            form = OrganizationForm(request.POST.copy())
-
-        if form.is_valid():
+    if request.method == 'POST' and form.is_valid():
 
             old_org = None
             user_groups = request.user.person.groups.values_list('group__name',
@@ -82,17 +76,14 @@ def organization_edit(request, organization_id=None):
                 org.modification_of = old_org
                 org.modification_date = datetime.datetime.now()
             org.save()
-            return HttpResponseRedirect(reverse(organization_details,
-                args=[org.id]))
+            return redirect(org)
 
-        else:
-            request.user.message_set.create(message=_('Something was wrong\
- in the form you filled. No modification done.'))
-
-    return render(request, 
-         'organizations/office_edit.html',
-        {'form': form, 
-         'title':_('Organization modification')})
+    return render(request, 'organizations/office_edit.html',
+        {
+            'form': form, 
+            'title':_('Organization modification'),
+        }
+    )
 
 
 @access_required(groups=['ain7-membre', 'ain7-secretariat'])
@@ -100,10 +91,10 @@ def organization_search(request):
     """organization search"""
 
     form = SearchOrganizationForm()
-    nb_results_by_page = 25
-    organizations = False
-    paginator = Paginator(Organization.objects.none(), nb_results_by_page)
-    page = 1
+    organizations = None
+    nb_org = 0
+    nb_offices = 0
+
     if request.GET.has_key('name') or \
        request.GET.has_key('activity_field') or \
        request.GET.has_key('activity_code'):
@@ -112,26 +103,15 @@ def organization_search(request):
             criteria = form.criteria()
             organizations = form.search(criteria)
             request.session['filter'] = criteria
-            paginator = Paginator(organizations, nb_results_by_page)
-            try:
-                page = int(request.GET.get('page', '1'))
-                organizations = paginator.page(page).object_list
-            except InvalidPage:
-                raise Http404
 
-    return render(request, 
-         'organizations/organizations_search.html',
-        {'form': form, 'organizations': organizations,
-         'nb_org': Organization.objects.valid_organizations().count(),
-         'nb_offices': Office.objects.valid_offices().count(),
-         'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
-         'has_next': paginator.page(page).has_next(),
-         'has_previous': paginator.page(page).has_previous(),
-         'current_page': page, 'pages': paginator.num_pages,
-         'next_page': page + 1, 'previous_page': page - 1,
-         'first_result': (page - 1) * nb_results_by_page +1,
-         'last_result': min((page) * nb_results_by_page, paginator.count),
-         'hits' : paginator.count})
+    return render(request, 'organizations/organizations_search.html',
+        {
+            'form': form,
+            'organizations': organizations,
+            'nb_org': Organization.objects.valid_organizations().count(),
+            'nb_offices': Office.objects.valid_offices().count(),
+        }
+    )
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def organization_merge(request, organization_id=None):
@@ -142,9 +122,12 @@ def organization_merge(request, organization_id=None):
     # 1er passage : on demande la saisie d'une deuxième organisation
     if request.method == 'GET':
         form = OrganizationListForm()
-        return render(
-            request, 'organizations/organization_merge.html',
-            {'form': form, 'organization': organization})
+        return render(request, 'organizations/organization_merge.html',
+            {
+                'form': form,
+                'organization': organization,
+            }
+        )
 
     # 2e passage : sauvegarde, notification et redirection
     if request.method == 'POST':
@@ -157,9 +140,9 @@ def organization_merge(request, organization_id=None):
                     '/organizations/%s/merge/%s/' %
                     (organization2.id, organization_id))
                 else:
-                    request.user.message_set.create(message=_('The two\
+                    message.info(request, message=_('The two\
  organizations are the same. No merging.'))
-        request.user.message_set.create(message=_('Something was wrong in the\
+        message.error(request, message=_('Something was wrong in the\
  form you filled. No modification done.'))
         return HttpResponseRedirect('/organizations/%s/merge/' %
             organization_id)
@@ -223,56 +206,49 @@ def organization_undelete(request, organization_id, office_id=None):
 def office_edit(request, organization_id, office_id=None):
     """office edit"""
 
-    form = OfficeForm()
-
     organization = get_object_or_404(Organization, id=organization_id)
 
+    office = None
     if office_id:
-        office = get_object_or_404(Office, id=office_id, 
-            organization=organization)
-        form = OfficeForm(instance=office)
+        office = get_object_or_404(Office, id=office_id, organization=organization)
 
-    if request.method == 'POST':
-        form = OfficeForm(request.POST.copy())
-        if office_id:
+    OfficeForm = modelform_factory(Office)
+    form = OfficeForm(request.POST or None, instance=office)
+
+    if request.method == 'POST' and form.is_valid():
+
+        old_office = None
+        user_groups = request.user.person.groups.values_list('group__name',
+            flat=True)
+
+        if not 'ain7-secretariat' in user_groups and \
+            not 'ain7-admin' in user_groups and office_id:
+            office.id = None
+            office.is_valid = False
+            office.save()
+            old_office = office
+            office = get_object_or_404(Office, pk=office_id)
             form = OfficeForm(request.POST.copy(), instance=office)
-        if form.is_valid():
 
-            old_office = None
-            user_groups = request.user.person.groups.values_list('group__name',
-                flat=True)
+        office = form.save(commit=False)
+        office.organization = organization
+        office.save()
 
-            if not 'ain7-secretariat' in user_groups and \
-                not 'ain7-admin' in user_groups and office_id:
-                office.id = None
-                office.is_valid = False
-                office.save()
-                old_office = office
-                office = get_object_or_404(Office, pk=office_id)
-                form = OfficeForm(request.POST.copy(), instance=office)
-
-            office = form.save(commit=False)
-            office.organization = organization
+        if old_office:
+            office.modification_of = old_office
+            office.modification_date = datetime.datetime.now()
             office.save()
 
-            if old_office:
-                office.modification_of = old_office
-                office.modification_date = datetime.datetime.now()
-                office.save()
+        message.success(request, message=_('Office has been modified.'))
 
-            request.user.message_set.create(message=_('Office has been\
- modified.'))
+        return redirect(office.organization)
 
-            return HttpResponseRedirect(reverse(organization_details,
-                args=[office.organization.id]))
-
-        else:
-            request.user.message_set.create(message=_('Something was wrong in\
- the form you filled. No modification done.'))
-
-    return render(request, 
-         'organizations/office_edit.html',
-        {'form': form, 'title': _('Modify an office')})
+    return render(request, 'organizations/office_edit.html',
+        {
+            'form': form,
+            'title': _('Modify an office'),
+        }
+    )
 
 @confirmation_required(lambda organization_id, office_id=None:
     str(get_object_or_404(Office,pk=office_id)), 'organizations/base.html',

@@ -1,5 +1,6 @@
 {% extends "adhesions/base.html" %}
 {% load i18n %}
+{% load endless %}
 
 {% block content-left %}
 
@@ -10,19 +11,7 @@
 {% endif %}
 
 {% if subscriptions_list %}
-<table style="width: 100%">
-<tr>
-<td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
-<td align="right">
-{% if is_paginated %}
-{% if has_previous %}<a href="?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
-{% endif %}
-</td>
-</tr>
-</table>
+{% paginate subscriptions_list %}
 <div id="edition">
 <table style="width: 100%" class="datas">
 <tr>
@@ -72,6 +61,7 @@
 </tr>
 {% endfor %}
 </table>
+<p class="text-center">{% show_pages %}</p> 
 </div>
 {% endif %}
 {% endblock %}

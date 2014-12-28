@@ -1,27 +1,16 @@
 {% extends "manage/base.html" %}
-
 {% load i18n %}
 {% load static from staticfiles %}
+{% load endless %}
 
 {% block content-left %}
 
 {% if errors %}
 
+{% paginate errors %}
+
 <h2>{% trans "Errors"%}</h2>
 
-<table style="width: 100%">
-<tr>
-<td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
-<td align="right">
-{% if is_paginated %}
-{% if has_previous %}<a href="{% url "ain7.manage.views.errors_index" %}?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="{% url "ain7.manage.views.errors_index" %}?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="{% url "ain7.manage.views.errors_index" %}?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="{% url "ain7.manage.views.errors_index" %}?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
-{% endif %}
-</td>
-</tr>
-</table>
 <ul>
   {% for error in errors %}
     <li>
@@ -37,15 +26,9 @@
   {% endfor %}
 </ul>
 
+<p class="text-center">{% show_pages %}</p> 
+
 {% endif %}
 
-{% endblock %} {# content-left #}
+{% endblock %}
 
-{% block extra-menu %}
-<div class="grey-box">
-<h2>{% trans "Actions" %}</h2>
-<ul>
-<li><a href="{% url "ain7.manage.views.errors_edit_range" %}">{% trans "Edit a range of errors" %}</a></li>
-</ul>
-</div>
-{% endblock %} {# extra-menu #}

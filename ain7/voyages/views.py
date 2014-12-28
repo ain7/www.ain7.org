@@ -24,10 +24,8 @@
 from datetime import datetime
 
 from django.contrib import messages
-from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
 from django.forms.models import modelform_factory
-from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext as _
 
@@ -41,14 +39,20 @@ from ain7.voyages.forms import SearchTravelForm
 
 def index(request):
     """index"""
+
     next_travels = Travel.objects.filter(
         start_date__gte=datetime.now()).order_by('-start_date')
     prev_travels = Travel.objects.filter(
         start_date__lt=datetime.now()).order_by('-start_date')[:5]
     text = Text.objects.get(textblock__shortname='voyages')
+
     return render(request, 'voyages/index.html',
-        {'next_travels': next_travels, 'previous_travels': prev_travels,
-         'text': text})
+        {
+            'next_travels': next_travels,
+            'previous_travels': prev_travels,
+            'text': text,
+        }
+    )
 
 @confirmation_required(
     lambda user_id = None,
@@ -67,44 +71,32 @@ def details(request, travel_id):
     """travel details"""
     travel = get_object_or_404(Travel, pk=travel_id)
     return render(request, 'voyages/details.html',
-        {'travel': travel})
+        {
+            'travel': travel,
+        }
+    )
 
 def list(request):
     """upcoming travels list"""
     return render(request, 'voyages/list.html',
-        {'travels': Travel.objects.exclude(end_date__lte=datetime.now())})
+        {
+            'travels': Travel.objects.exclude(end_date__lte=datetime.now()),
+        }
+    )
 
 def search(request):
     """search travels form"""
 
-    form = SearchTravelForm()
-    nb_results_by_page = 25
     travels = False
-    paginator = Paginator(Travel.objects.none(), nb_results_by_page)
-    page = 1
+    form = SearchTravelForm(request.POST or None)
 
-    if request.method == 'POST':
-        form = SearchTravelForm(request.POST)
-        if form.is_valid():
-            travels = form.search()
-            paginator = Paginator(travels, nb_results_by_page)
-            try:
-                page =  int(request.GET.get('page', '1'))
-                travels = paginator.page(page).object_list
-            except InvalidPage:
-                raise Http404
+    if request.method == 'POST' and form.is_valid():
+        travels = form.search()
+
     return render(request, 'voyages/search.html',
         {
-            'travels': travels, 'form': form, 'request': request,
-            'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
-            'has_next': paginator.page(page).has_next(),
-            'has_previous': paginator.page(page).has_previous(),
-            'current_page': page,
-            'next_page': page + 1, 'previous_page': page - 1,
-            'pages': paginator.num_pages,
-            'first_result': (page - 1) * nb_results_by_page +1,
-            'last_result': min((page) * nb_results_by_page, paginator.count),
-            'hits' : paginator.count,
+            'travels': travels,
+            'form': form,
         }
     )
 

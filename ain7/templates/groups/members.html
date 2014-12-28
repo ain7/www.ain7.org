@@ -1,25 +1,14 @@
 {% extends "groups/base.html" %}
 {% load i18n %}
 {% load static from staticfiles %}
-
+{% load endless %}
 
 {% block content-left %}
 
 {% if members %}
-<table style="width: 100%">
-<tr>
-<td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
-<td align="right">
-{% if is_paginated %}
-{% if has_previous %}<a href="{% url "ain7.annuaire.views.search" %}?first_name={{ request.GET.first_name }}&last_name={{ request.GET.last_name }}&promoyear={{ request.GET.promoyear }}&track={{ request.GET.track }}&organization={{ request.GET.organization }}&page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="{% url "ain7.annuaire.views.search" %}?first_name={{ request.GET.first_name }}&last_name={{ request.GET.last_name }}&promoyear={{ request.GET.promoyear }}&track={{ request.GET.track }}&organization={{ request.GET.organization }}&page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="{% url "ain7.annuaire.views.search" %}?first_name={{ request.GET.first_name }}&last_name={{ request.GET.last_name }}&promoyear={{ request.GET.promoyear }}&track={{ request.GET.track }}&organization={{ request.GET.organization }}&page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="{% url "ain7.annuaire.views.search" %}?first_name={{ request.GET.first_name }}&last_name={{ request.GET.last_name }}&promoyear={{ request.GET.promoyear }}&track={{ request.GET.track }}&organization={{ request.GET.organization }}&page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
-{% endif %}
-</td>
-</tr>
-</table>
-            <table border="0" width="100%" style="border-bottom:1px dashed grey; text-align: left;">
+{% paginate members %}
+<p class="text-center">{% show_pages %}</p> 
+<table border="0" width="100%" style="border-bottom:1px dashed grey; text-align: left;">
     {% for member in members %}
             <tr><td width="60">
             {% if member.ain7member.avatar %}
@@ -59,11 +48,8 @@
         {% endif%}
             </td></tr>
     {% endfor %}
-            </table>
-{% endif %}
-
-{% if superadmin or secretariat_member %}
-<p><a href="{% url "ain7.groups.views.member_edit" group.slug %}" class="addlink">{% trans "Add" %}</a></p>
+</table>
+<p class="text-center">{% show_pages %}</p> 
 {% endif %}
 
 {% endblock %}

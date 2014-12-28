@@ -24,9 +24,7 @@
 import datetime
 
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator, InvalidPage
-from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, Http404
+from django.forms.models import modelform_factory
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
@@ -34,9 +32,7 @@ from ain7.decorators import access_required
 from ain7.organizations.models import Organization, Office
 from ain7.manage.models import Mailing, PortalError
 from ain7.shop.models import Payment
-from ain7.manage.forms import SearchUserForm, NewPersonForm, \
-                              PortalErrorForm, ErrorRangeForm, \
-                              MailingForm,PaymentForm
+from ain7.manage.forms import SearchUserForm, NewPersonForm, ErrorRangeForm
 from ain7.news.models import NewsItem
 
 
@@ -51,125 +47,97 @@ def index(request):
 def users_search(request):
     """search users"""
 
-    form = SearchUserForm()
-    nb_results_by_page = 25
-    persons = False
-    paginator = Paginator([], nb_results_by_page)
-    page = 1
+    form = SearchUserForm(request.GET or None)
+    persons = None
 
-    if request.GET.has_key('last_name') or \
+    if (request.GET.has_key('last_name') or \
        request.GET.has_key('first_name') or \
-       request.GET.has_key('organization'):
-        form = SearchUserForm(request.GET)
-        if form.is_valid():
-            persons = form.search()
-            paginator = Paginator(persons, nb_results_by_page)
-            try:
-                page = int(request.GET.get('page', '1'))
-                persons = paginator.page(page).object_list
-            except InvalidPage:
-                raise Http404
+       request.GET.has_key('organization')) and form.is_valid():
+        persons = form.search()
 
     return render(request, 'manage/users_search.html',
-        {'form': form, 'persons': persons, 'request': request,
-         'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
-         'has_next': paginator.page(page).has_next(),
-         'has_previous': paginator.page(page).has_previous(),
-         'current_page': page,
-         'next_page': page + 1, 'previous_page': page - 1,
-         'pages': paginator.num_pages,
-         'first_result': (page - 1) * nb_results_by_page +1,
-         'last_result': min((page) * nb_results_by_page, paginator.count),
-         'hits' : paginator.count})
+        {
+            'form': form,
+            'persons': persons,
+        }
+    )
 
 @access_required(groups=['ain7-secretariat'])
 def user_register(request):
     """new user registration"""
 
-    form = NewPersonForm()
+    form = NewPersonForm(request.POST or None)
 
-    if request.method == 'POST':
-        form = NewPersonForm(request.POST)
-        if form.is_valid():
-            new_person = form.save()
-            request.user.message_set.create(
-                message=_("New user successfully created"))
-            return HttpResponseRedirect(
-                '/manage/users/%s/' % (new_person.user.id))
-        else:
-            request.user.message_set.create(message=_("Something was wrong in\
- the form you filled. No modification done."))
+    if request.method == 'POST' and form.is_valid():
+       new_person = form.save()
+       message.success(request, _("New user successfully created"))
+       return redirect(new_person)
 
-    back = request.META.get('HTTP_REFERER', '/')
     return render(request, 'manage/edit_form.html',
-        {'action_title': _('Register new user'), 'back': back, 'form': form})
+        {
+            'action_title': _('Register new user'),
+            'back': request.META.get('HTTP_REFERER', '/'),
+            'form': form,
+        }
+    )
 
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
 def errors_index(request):
     """errors index"""
 
-    nb_results_by_page = 25 
     errors = PortalError.objects.all().order_by('-date')
-    paginator = Paginator(errors, nb_results_by_page)
-    try:
-        page = int(request.GET.get('page', '1'))
-        errors = paginator.page(page).object_list
-    except InvalidPage:
-        raise Http404
 
     return render(request, 'manage/errors_index.html',
-        {'errors': errors, 'request': request,
-         'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
-         'has_next': paginator.page(page).has_next(),
-         'has_previous': paginator.page(page).has_previous(),
-         'current_page': page,
-         'next_page': page + 1, 'previous_page': page - 1,
-         'pages': paginator.num_pages,
-         'first_result': (page - 1) * nb_results_by_page +1,
-         'last_result': min((page) * nb_results_by_page, paginator.count),
-         'hits' : paginator.count})
+        {
+            'errors': errors,
+        }
+    )
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
 def error_details(request, error_id):
     """error edition"""
 
     error = get_object_or_404(PortalError, pk=error_id)
-    form = PortalErrorForm(instance=error)
+
+    PortalErrorForm = modelform_factory(PortalError)
+    form = PortalErrorForm(request.POST or None, instance=error)
 
     from pygments import highlight
     from pygments.lexers import PythonTracebackLexer
     from pygments.formatters import HtmlFormatter
 
-    traceback = highlight(error.exception, PythonTracebackLexer(), \
-        HtmlFormatter())
+    traceback = highlight(error.exception, PythonTracebackLexer(), HtmlFormatter())
 
-    if request.method == 'POST':
-        form = PortalErrorForm(request.POST.copy(), instance=error)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(
-                reverse(error_details, args=[error.id]))
+    if request.method == 'POST' and form.is_valid():
+       form.save()
+       return redirect(error)
 
-    return render(
-        request, 'manage/error_details.html',
-        {'error': error, 'form': form, 'traceback': traceback, 
-         'back': request.META.get('HTTP_REFERER', '/')})
+    return render(request, 'manage/error_details.html',
+        {
+            'error': error,
+            'form': form,
+            'traceback': traceback, 
+            'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
 def errors_edit_range(request):
     """error edition"""
 
-    form = ErrorRangeForm()
-    if request.method == 'POST':
-        form = ErrorRangeForm(request.POST.copy())
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse(errors_index))
+    form = ErrorRangeForm(request.POST or None)
 
-    return render(
-        request, 'manage/edit_form.html',
-        {'form': form, 'back': request.META.get('HTTP_REFERER', '/')})
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        return redirect('errors-index')
+
+    return render(request, 'manage/edit_form.html',
+        {
+            'form': form,
+            'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
 def error_swap(request, error_id):
@@ -185,35 +153,13 @@ def error_swap(request, error_id):
 def payments_index(request):
     """payment index"""
 
-    nb_results_by_page = 25 
     payments = Payment.objects.all().order_by('-id')
-    paginator = Paginator(payments, nb_results_by_page)
-    try:
-        page = int(request.GET.get('page', '1'))
-        payments = paginator.page(page).object_list
-    except InvalidPage:
-        raise Http404
 
     return render(request, 'manage/payments_index.html',
-        {'payments': payments,
-         'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
-         'has_next': paginator.page(page).has_next(),
-         'has_previous': paginator.page(page).has_previous(),
-         'current_page': page,
-         'next_page': page + 1, 'previous_page': page - 1,
-         'pages': paginator.num_pages,
-         'first_result': (page - 1) * nb_results_by_page +1,
-         'last_result': min((page) * nb_results_by_page, paginator.count),
-         'hits' : paginator.count})
-
-@access_required(groups=['ain7-ca', 'ain7-secretariat'])
-def payment_add(request):
-    """payment add"""
-
-    payments_list = Payment.objects.all()
-
-    return render(
-        request, 'manage/payments_index.html', {'payment_list': payments_list})
+        {
+            'payments': payments,
+        }
+    )
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def payment_details(request, payment_id):
@@ -221,41 +167,41 @@ def payment_details(request, payment_id):
 
     payment = get_object_or_404(Payment, pk=payment_id)
 
-    return render(
-        request, 'manage/payment_details.html', {'payment': payment})
+    return render(request, 'manage/payment_details.html',
+        {
+            'payment': payment,
+        }
+    )
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
-def payment_edit(request, payment_id):
+def payment_edit(request, payment_id=None):
     """payment edit"""
 
-    payment = get_object_or_404(Payment, pk=payment_id)
+    payment = None
+    if payment_id:
+        payment = get_object_or_404(Payment, pk=payment_id)
 
-    form = PaymentForm(instance=payment)
+    PaymentForm = modelform_factory(Payment, exclude=('Person',))
+    form = PaymentForm(request.POST or None, instance=payment)
 
-    if request.method == 'POST':
-        form = PaymentForm(request.POST.copy(), instance=payment)
-        if form.is_valid():
-            form.save()
-            request.user.message_set.create(message=_('Payment successfully\
- updated'))
-            return HttpResponseRedirect(reverse(payment_details, \
-                args=[payment.id]))
-        else:
-            request.user.message_set.create(message=_('Something was wrong in\
- the form you filled. No modification done.') + str(form.errors))
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        message.success(request, message=_('Payment successfully updated'))
+        redirect(payment)
 
-    back = request.META.get('HTTP_REFERER', '/')
-
-    return render(
-        request, 'manage/payment_edit.html', {'payment': payment,
-            'form': form, 'back': back})
+    return render(request, 'manage/payment_edit.html',
+        {
+            'payment': payment,
+            'form': form,
+            'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def payments_deposit_index(request):
     """payment deposit index"""
 
-    return render(
-        request, 'manage/payments_deposit_index.html', {})
+    return render(request, 'manage/payments_deposit_index.html', {})
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def payments_deposit(request, deposit_id):
@@ -268,13 +214,16 @@ def payments_deposit(request, deposit_id):
         last_deposit_id = Payment.objects.filter(type=deposit_id, \
             deposited__isnull=True, validated=True).latest('id').id
     except Payment.DoesNotExist:
-        request.user.message_set.create(message=_('No payment to deposit'))
-        return HttpResponseRedirect(reverse(payments_deposit_index))
+        message.success(request, message=_('No payment to deposit'))
+        return redirect('payments-deposit-index')
 
-    return render(
-        request, 'manage/payments_deposit.html', 
-        {'deposits': deposits, 'deposit_id': int(deposit_id),
-         'last_deposit_id': last_deposit_id })
+    return render(request, 'manage/payments_deposit.html', 
+        {
+            'deposits': deposits,
+            'deposit_id': int(deposit_id),
+            'last_deposit_id': last_deposit_id,
+        }
+    )
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def payments_mark_deposited(request, deposit_id, last_deposit_id):
@@ -285,18 +234,18 @@ def payments_mark_deposited(request, deposit_id, last_deposit_id):
         deposit.deposited = datetime.datetime.now()
         deposit.save()
 
-    request.user.message_set.create(message=_('Payments marked as deposited'))
-    return HttpResponseRedirect(reverse(payments_deposit_index))
+    message.success(request, message=_('Payments marked as deposited'))
+    return redirect('payments-deposit-index')
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
-def subscriptions_stats(request):
+def subscriptions_stats(request, the_year=datetime.date.today().year):
     """have some subscriptions statistics"""
 
     from django.db.models import Q, Sum
     from ain7.adhesions.models import Subscription, SubscriptionConfiguration
 
     from datetime import date
-    this_year = date.today().year
+    this_year = int(the_year)
 
     stats_subs = []
     stats_year = {}
@@ -457,42 +406,25 @@ def subscriptions_stats(request):
         if subs.newspaper_amount:
             total_publications += subs.newspaper_amount
 
-    return render(
-        request, 'manage/subscriptions_stats.html', 
-        { 'stats_subs' : stats_subs, 
-          'stats_months': stats_months, 
-          'stats_year': stats_year, 
-          'total_amount': total_amount, 
-          'total_publications': total_publications
+    return render(request, 'manage/subscriptions_stats.html', 
+        {
+            'year': this_year,
+            'stats_subs' : stats_subs, 
+            'stats_months': stats_months, 
+            'stats_year': stats_year, 
+            'total_amount': total_amount, 
+            'total_publications': total_publications,
         })
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def mailings_index(request):
     """mailing index"""
 
-    nb_results_by_page = 25
-
     mailings = Mailing.objects.all().order_by('-id')
-    paginator = Paginator(mailings, nb_results_by_page)
-    try:
-        page = int(request.GET.get('page', '1'))
-        mailings = paginator.page(page).object_list
-    except InvalidPage:
-        raise Http404
 
     return render(request, 'manage/mailings_index.html',
         {
             'mailings': mailings,
-            'paginator': paginator,
-            'is_paginated': paginator.num_pages > 1,
-            'has_next': paginator.page(page).has_next(),
-            'has_previous': paginator.page(page).has_previous(),
-            'current_page': page,
-            'next_page': page + 1, 'previous_page': page - 1,
-            'pages': paginator.num_pages,
-            'first_result': (page - 1) * nb_results_by_page +1,
-            'last_result': min((page) * nb_results_by_page, paginator.count),
-            'hits' : paginator.count,
         }
     )
 
@@ -511,8 +443,7 @@ def mailing_ready(request, mailing_id):
  approved by %(person)s on %(date)s') % {'person': mailing.approved_by, 
         'date': mailing.approved_at})
 
-    return HttpResponseRedirect(reverse(mailing_edit, \
-         args=[mailing.id]))
+    return redirect(mailing)
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def mailing_edit(request, mailing_id=None):
@@ -520,40 +451,31 @@ def mailing_edit(request, mailing_id=None):
 
     news = NewsItem.objects.all().order_by('-id')[:25]
 
+    mailing = None
     if mailing_id:
         mailing = get_object_or_404(Mailing, pk=mailing_id)
-        form = MailingForm(instance=mailing, news=news)
-    else:
-        mailing = None
-        form = MailingForm(news=news)
 
+    MailingForm = modelform_factory(Mailing, exclude=('created_at', 'created_by', 'modified_at', 'modified_by', 'sent_at', 'approved_by', 'approved_at'))
+    form = MailingForm(request.POST or None, instance=mailing)
 
-    if request.method == 'POST':
-        if mailing_id:
-            form = MailingForm(request.POST.copy(), instance=mailing, news=news)
-        else:
-            form = MailingForm(request.POST.copy(), news=news)
+    if request.method == 'POST' and form.is_valid():
+        mailing = form.save(commit=False)
 
-        if form.is_valid():
-            mailing = form.save(commit=False)
+        if not mailing_id:
+           mailing.created_by = request.user.person
+        mailing.modified_by = request.user.person
+        mailing.save()
+        message.success(request, message=_('Mailing successfully updated'))
+        return redirect(mailing)
 
-            if not mailing_id:
-                mailing.created_by = request.user.person
-            mailing.modified_by = request.user.person
-            mailing.save()
-            request.user.message_set.create(message=_('Mailing successfully\
- updated'))
-            return HttpResponseRedirect(reverse(mailing_edit, \
-                args=[mailing.id]))
-        else:
-            request.user.message_set.create(message=_('Something was wrong in\
- the form you filled. No modification done.') + str(form.errors))
-
-    back = request.META.get('HTTP_REFERER', '/')
-
-    return render(
-        request, 'manage/mailing_edit.html', {'mailing': mailing,
-            'news': news, 'form': form, 'back': back})
+    return render(request, 'manage/mailing_edit.html',
+        {
+            'mailing': mailing,
+            'news': news,
+            'form': form,
+            'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @login_required
 def mailing_sendteam(request, mailing_id, testing=True, myself=False):
@@ -568,8 +490,7 @@ def mailing_send(request, mailing_id, testing=True, myself=True):
 
     mailing.send(testing, myself, request)
 
-    return HttpResponseRedirect(reverse(mailing_edit, \
-        args=[mailing.id]))
+    return redirect('mailing-edit', mailing.id)
 
 def mailing_view(request, mailing_id):
     """ view mailing in a browser"""
@@ -578,8 +499,11 @@ def mailing_view(request, mailing_id):
 
     html = mailing.build_html_body()
 
-    return render(
-        request, 'manage/mailing_view.html', {'html': html})
+    return render(request, 'manage/mailing_view.html',
+        {
+            'html': html,
+        }
+    )
 
 @access_required(groups=['ain7-secretariat'])
 def mailing_export(request, mailing_id):

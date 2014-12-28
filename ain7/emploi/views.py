@@ -23,10 +23,8 @@
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
 from django.forms.models import modelform_factory
-from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext as _
 
@@ -265,7 +263,7 @@ def job_details(request, job_id):
     if not job_offer.checked_by_secretariat and role:
         messages.info(request, 
             _('This job offer has to be checked by the secretariat.'))
-        return HttpResponseRedirect('/emploi/')
+        return redirect('job-index')
 
     views = JobOfferView.objects.filter(job_offer=job_offer).count()
 
@@ -273,8 +271,12 @@ def job_details(request, job_id):
     job_offer_view.job_offer = job_offer
     job_offer_view.person = request.user.person
     job_offer_view.save()
-    return render(
-        request, 'emploi/job_details.html', {'job': job_offer, 'views': views })
+    return render(request, 'emploi/job_details.html',
+        {
+            'job': job_offer,
+            'views': views,
+        }
+     )
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def job_edit(request, job_id):
@@ -305,48 +307,34 @@ def job_edit(request, job_id):
 def job_search(request):
     """job search"""
 
-    form = SearchJobForm()
-    nb_results_by_page = 25
     list_jobs = False
-    paginator = Paginator(JobOffer.objects.none(), nb_results_by_page)
     dosearch = False
-    page = 1
 
-    if request.GET.has_key('title') or \
+    form = SearchJobForm(request.GET or None)
+
+    if (request.GET.has_key('title') or \
        request.GET.has_key('activity_field') or \
        request.GET.has_key('experience') or \
-       request.GET.has_key('contract_type'):
-        form = SearchJobForm(request.GET)
-        if form.is_valid():
-            dosearch = True
-            list_jobs = form.search()
-            paginator = Paginator(list_jobs, nb_results_by_page)
-            try:
-                page = int(request.GET.get('page', '1'))
-                list_jobs = paginator.page(page).object_list
-            except InvalidPage:
-                raise Http404
+       request.GET.has_key('contract_type')) and form.is_valid():
+       dosearch = True
+       list_jobs = form.search()
 
     return render(request, 'emploi/job_search.html',
-        {'form': form, 'list_jobs': list_jobs,
-         'dosearch': dosearch,
-         'request': request,
-         'paginator': paginator, 'is_paginated': paginator.num_pages > 1,
-         'has_next': paginator.page(page).has_next(),
-         'has_previous': paginator.page(page).has_previous(),
-         'current_page': page,
-         'next_page': page + 1, 'previous_page': page - 1,
-         'pages': paginator.num_pages,
-         'first_result': (page - 1) * nb_results_by_page +1,
-         'last_result': min((page) * nb_results_by_page, paginator.count),
-         'hits' : paginator.count })
+        {
+            'form': form, 'list_jobs': list_jobs,
+            'dosearch': dosearch,
+        }
+     )
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def jobs_proposals(request):
     """job proposal lists"""
 
     return render(request, 'emploi/job_proposals.html',
-        {'proposals': JobOffer.objects.filter(checked_by_secretariat=False)})
+        {
+            'proposals': JobOffer.objects.filter(checked_by_secretariat=False),
+        }
+    )
 
 @confirmation_required(lambda job_id=None: 
      str(get_object_or_404(JobOffer, pk=job_id)), 'emploi/base.html', 
@@ -360,7 +348,7 @@ def job_validate(request, job_id=None):
     job.checked_by_secretariat = True
     job.save()
     messages.success(request, _("Job proposal validated."))
-    return HttpResponseRedirect('/emploi/job/proposals/')
+    return redirect('jobs-proposals')
 
 @confirmation_required(lambda job_id=None:
      str(get_object_or_404(JobOffer, pk=job_id)), 'emploi/base.html',
@@ -372,5 +360,5 @@ def job_delete(request, job_id=None):
     job = get_object_or_404(JobOffer, pk=job_id)
     job.delete()
     messages.success(request, _("Job proposal removed."))
-    return HttpResponseRedirect('/emploi/job/proposals/')
+    return redirect('jobs-proposals')
 

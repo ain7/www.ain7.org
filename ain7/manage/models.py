@@ -99,7 +99,7 @@ class Mailing(models.Model):
         from ain7.news.models import NewsItem
 
         body = ""
-        body += open(settings.BASE_DIR+'/templates/manage/mailing_header.html')\
+        body += open(settings.BASE_DIR+'/ain7/templates/manage/mailing_header.html')\
             .read().decode('utf-8')
 
         newsitems = NewsItem.objects.filter(mailingitem__mailing=self)
@@ -119,7 +119,7 @@ class Mailing(models.Model):
             body = body.replace('<a href="../', '<a href="http://ain7.com'+\
                 item.get_absolute_url()+'../')
 
-        body += open(settings.BASE_DIR+'/templates/manage/mailing_footer.html')\
+        body += open(settings.BASE_DIR+'/ain7/templates/manage/mailing_footer.html')\
            .read().decode('utf-8')
 
         body = body.replace('||TITLE||', self.title)

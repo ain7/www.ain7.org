@@ -1,5 +1,6 @@
 {% extends "news/base.html" %}
 {% load i18n %}
+{% load endless %}
 
 {% block content-left %}
 
@@ -17,23 +18,14 @@
 {% ifequal request.method 'POST' %}
 <h2>{% trans "Research result" %}</h2>
 {% if list_news %}
-<table style="width: 100%">
-<tr>
-<td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
-<td align="right">
-{% if is_paginated %}
-{% if has_previous %}<a href="{% url "ain7.news.views.search" %}?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="{% url "ain7.news.views.search" %}?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="{% url "ain7.news.views.search" %}?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="{% url "ain7.news.views.search" %}?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
-{% endif %}
-</td>
-</table>
+{% paginate list_news %}
+<p class="text-center">{% show_pages %}</p> 
 <ul>
     {% for news_item in list_news %}
         <li><a href="{% url "ain7.news.views.details" news_item.slug %}">{{ news_item.title }}</a></li>
     {% endfor %}
 </ul>
+<p class="text-center">{% show_pages %}</p> 
 {% else %}
     <p>{% trans "No news item corresponds to your research." %}</p>
 {% endif %}

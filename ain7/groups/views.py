@@ -25,13 +25,12 @@ import datetime
 
 from django.contrib import messages
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.forms.models import modelform_factory
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
 from ain7.decorators import access_required, confirmation_required
-from ain7.groups.forms import GroupForm, MemberForm, RoleForm
 from ain7.groups.models import Group, Member, GroupRole, GroupLeader, GroupHead
 from ain7.utils import ain7_generic_delete
 
@@ -55,31 +54,30 @@ def details(request, slug):
 def edit(request, slug=None):
     """edit group"""
 
+    is_member = False
+    group = None
+
     if slug:
         group = get_object_or_404(Group, slug=slug)
         is_member = request.user.is_authenticated()\
                 and group.has_for_member(request.user.person)
 
-        form = GroupForm(instance=group)
-    else:
-        form = GroupForm()
-        is_member = False
-        group = None
+    GroupForm = modelform_factory(Group)
+    form = GroupForm(request.POST or None, instance=group)
 
-    if request.method == 'POST':
-        if slug:
-             form = GroupForm(request.POST, instance=group)
-        else:
-             form = GroupForm(request.POST)
-        if form.is_valid():
-            group = form.save()
-            messages.success(request, _("Modifications have been successfully saved."))
-            return HttpResponseRedirect(reverse(details,
-                args=[group.slug]))
+    if request.method == 'POST' and form.is_valid():
+        group = form.save()
+        messages.success(request, _("Modifications have been successfully saved."))
+        return redirect('group-details', group.slug)
 
-    back = request.META.get('HTTP_REFERER', '/')
     return render(request, 'groups/edit.html', 
-         {'form': form, 'group': group, 'back': back, 'is_member': is_member})
+        {
+            'form': form,
+            'group': group,
+            'back': request.META.get('HTTP_REFERER', '/'),
+            'is_member': is_member,
+        }
+    )
 
 @access_required(groups=['ain7-admin'])
 def join(request, slug):
@@ -97,7 +95,7 @@ def join(request, slug):
     else:
         messages.info(request, _("You are already a member of this group."))
 
-    return HttpResponseRedirect(reverse(details, args=[group.slug]))
+    return redirect('group-details', group.slug)
 
 def members(request, slug):
     """group members"""
@@ -108,38 +106,40 @@ def members(request, slug):
                 and group.has_for_member(request.user.person)
 
     return render(request, 'groups/members.html',
-        {'group': group, 'is_member': is_member, 'members': members, 'is_paginated': False})
+        {
+            'group': group,
+            'is_member': is_member,
+            'members': members,
+        }
+    )
 
 @access_required(groups=['ain7-admin'])
 def member_edit(request, slug, member_id=None):
     """add a new member to the role"""
 
     group = get_object_or_404(Group, slug=slug)
-    member = None
-    form = MemberForm()
 
+    member = None
     if member_id:
         member = get_object_or_404(Member, pk=member_id)
-        form = MemberForm(instance=member)
 
-    if request.method == 'POST':
-        if member_id:
-            form = MemberForm(request.POST, instance=member)
-        else:
-            form = MemberForm(request.POST)
-        if form.is_valid():
-            member = form.save(commit=False)
-            member.group = group
-            member.save()
-            messages.success(request, _('User added to group'))
-            return HttpResponseRedirect('/groups/%s/' % group.slug)
-        else:
-            messages.error(request, _('User is not correct'))
+    MemberForm = modelform_factory(Member, exclude=('group', 'start_date', 'end_date', 'expiration_date',))
+    form = MemberForm(request.POST or None, instance=member)
 
-    back = request.META.get('HTTP_REFERER', '/')
+    if request.method == 'POST' and form.is_valid():
+        member = form.save(commit=False)
+        member.group = group
+        member.save()
+        messages.success(request, _('User added to group'))
+        return redirect('group-details', group.slug)
 
     return render(request, 'groups/edit.html',
-        {'form': form, 'group': group, 'back': back})
+        {
+            'form': form,
+            'group': group,
+            'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @access_required(groups=['ain7-admin'])
 def member_delete(request, slug, member_id):
@@ -152,7 +152,7 @@ def member_delete(request, slug, member_id):
 
     messages.success(request, _('Member removed from role'))
 
-    return HttpResponseRedirect('/groups/%s/' % group.slug)
+    return redirect('group-details', group.slug)
 
 @confirmation_required(lambda slug: 
     str(get_object_or_404(Group, slug=slug)),
@@ -181,7 +181,7 @@ unsubscribe from every role in your group before leaving it."))
     else:
         messages.info(request, _("You are not a member of this group."))
 
-    return HttpResponseRedirect(reverse(details, args=[group.slug]))
+    return redirect('group-details', group.slug)
 
 
 @access_required(groups=['ain7-secretariat'])
@@ -193,32 +193,27 @@ def role_edit(request, slug, role_id=None):
     is_member = request.user.is_authenticated()\
                 and group.has_for_member(request.user.person)
 
-    form = RoleForm()
-
+    role = None
     if role_id:
         role = get_object_or_404(GroupLeader, id=role_id)
-        form = RoleForm(instance=role)
 
-    if request.method == 'POST':
-        if role_id:
-            form = RoleForm(request.POST, instance=role)
-        else:
-            form = RoleForm(request.POST)
-        if form.is_valid():
-            role = form.save(commit=False)
-            role.grouphead = GroupHead.objects.get(group__slug=group.slug)
-            role.save()
-            return HttpResponseRedirect(reverse(details, args=[group.slug]))
+    RoleForm = modelform_factory('GroupLeader', exclude=('GroupHead',))
+    form = RoleForm(request.POST or None, instance=role)
 
-        else:
-            messages.error(request, _('Something was wrong in\
- the form you filled. No modification done.'))
+    if request.method == 'POST' and form.is_valid():
+        role = form.save(commit=False)
+        role.grouphead = GroupHead.objects.get(group__slug=group.slug)
+        role.save()
+        return redirect('group-details', group.slug)
 
-
-    return render(request,
-        'groups/edit.html',
-        {'group': group, 'is_member': is_member, 'form': form,
-         'back': request.META.get('HTTP_REFERER', '/')})
+    return render(request, 'groups/edit.html',
+        {
+            'group': group,
+            'is_member': is_member,
+            'form': form,
+            'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
 
 @confirmation_required(lambda slug=None, role_id=None:
       str(get_object_or_404(GroupLeader, pk=role_id)), 

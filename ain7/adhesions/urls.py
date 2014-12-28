@@ -21,11 +21,11 @@
 #
 #
 
-from django.conf.urls import patterns
+from django.conf.urls import patterns, url
 
 
 urlpatterns = patterns('ain7.adhesions.views',
-    (r'^$', 'index'),
+    url(r'^$', 'index', name='adhesions-index'),
     (r'^subscriptions/to_validate$', 'subscriptions', {'to_validate': True},\
         'to_validate_subscriptions'),
     (r'^subscriptions/(?P<subscription_id>\d+)/validate/$', \
@@ -34,7 +34,7 @@ urlpatterns = patterns('ain7.adhesions.views',
         'subscription_delete'),
     (r'^(?P<user_id>\d+)/subscriptions/$', 'user_subscriptions'),
     (r'^(?P<user_id>\d+)/subscriptions/add/$', 'subscription_add'),
-    (r'^configurations/$', 'configurations'),
+    url(r'^configurations/$', 'configurations', name='configurations'),
     (r'^configurations/(?P<config_id>\d+)/edit/$', \
         'configuration_edit'),
     (r'^configurations/(?P<config_id>\d+)/delete/$', \

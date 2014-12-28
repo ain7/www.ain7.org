@@ -24,11 +24,6 @@
 from django.conf import settings
 
 
-def versions(request):
-    return {
-        'tinymce_version': settings.TINYMCE_VERSION,
-    }
-
 def piwik(request):
     return {
         'piwik_url': settings.PIWIK_URL,

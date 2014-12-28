@@ -1,6 +1,6 @@
 {% extends "manage/base.html" %}
-
 {% load i18n %}
+{% load endless %}
 
 {% block content-left %}
 
@@ -8,18 +8,8 @@
 
 <p><a href="{% url "ain7.manage.views.mailing_edit" %}" class="addlink">{% trans "Add" %}</a></p>
 
-<table style="width: 100%">
-<tr>
-<td><b>{{ first_result }} → {{ last_result }}</b> {% trans "of" %} {{ hits }} {% trans "results" %}</td>
-<td align="right">
-{% if is_paginated %}
-{% if has_previous %}<a href="{% url "ain7.manage.views.mailings_index" %}?page=1">{% trans "First" %}</a>{% else %}{% trans "First" %}{% endif %} - 
-{% if has_previous %}<a href="{% url "ain7.manage.views.mailings_index" %}?page={{ previous_page }}">{% trans "Previous" %}</a>{% else %}{% trans "Previous" %}{% endif %} - 
-{% if has_next %}<a href="{% url "ain7.manage.views.mailings_index" %}?page={{ next_page }}">{% trans "Next" %}</a>{% else %}{% trans "Next" %}{% endif %} -
-{% if has_next %}<a href="{% url "ain7.manage.views.mailings_index" %}?page={{ pages }}">{% trans "Last" %}</a>{% else %}{% trans "Last" %}{% endif %}
-{% endif %}
-</td>
-</table>
+{% paginate mailings %}
+<p class="text-center">{% show_pages %}</p> 
 <ul>
     {% for mailing in mailings %}
         <li><a href="{% url "ain7.manage.views.mailing_edit" mailing.id %}">{{ mailing.title }}</a><br/>
@@ -37,11 +27,13 @@
         {% endif %}
         {% if mailing.sent_at %}
         <i>{% trans "Sent on" %} {{ mailing.sent_at|date:"l j F Y H:i" }} {% trans "to" %} {{ mailing.mail_to.label }}</i>  ({{ mailing.mailingrecipient_set.count }} {% trans "persons" %})<br/>
-        <i><a href="{% url ain7.manage.views.mailing_export mailing.id %}">{% trans "Download snail mail mailing listing" %}</a></i><br/>
+        <i><a href="{% url "ain7.manage.views.mailing_export" mailing.id %}">{% trans "Download snail mail mailing listing" %}</a></i><br/>
         {% endif %}
         </li>
        <br/>
     {% endfor %}
 </ul>
+
+<p class="text-center">{% show_pages %}</p> 
 
 {% endblock %}

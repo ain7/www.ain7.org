@@ -21,18 +21,17 @@
 #
 #
 
-from django.conf.urls import patterns
+from django.conf.urls import patterns, url
 
 
 urlpatterns = patterns('ain7.news.views',
     # Evenements
-    (r'^$', 'event_index'),
+    url(r'^$', 'event_index', name='events-index'),
     (r'^ical/$', 'ical'),
     (r'^new/$', 'event_edit'),
     (r'^search/$', 'event_search'),
-    (r'^(?P<event_id>\d+)/$', 'event_details'),
+    url(r'^(?P<event_id>\d+)/$', 'event_details', name='event-details'),
     (r'^(?P<event_id>\d+)/edit/$', 'event_edit'),
-    (r'^(?P<event_id>\d+)/image/delete/$', 'event_image_delete'),
     (r'^(?P<event_id>\d+)/contact/$', 'event_contact'),
     (r'^(?P<event_id>\d+)/organizer/add/$', 'event_organizer_add'),
     (r'^(?P<event_id>\d+)/organizer/(?P<organizer_id>\d+)/delete/$',
