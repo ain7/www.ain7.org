@@ -1,8 +1,14 @@
 -r requirements.txt
 
+# using django-devserver with options
+django-devserver
+sqlparse
+werkzeug
+guppy
+line_profiler
+
 # For the dev
 django-debug-toolbar
 django-nose
-werkzeug
 coverage
 

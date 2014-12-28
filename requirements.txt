@@ -3,12 +3,13 @@ Django<1.8
 django-autocomplete-light
 django-crispy-forms
 django-extensions
-django-grappelli
 django-endless-pagination
+django-grappelli
+
+celery
 
 Pillow
 vobject
-pexpect
 pygments
 
 # database layer
