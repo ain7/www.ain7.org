@@ -23,99 +23,32 @@
 
 import datetime
 
-from django.db import models
 from django import forms
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 from django.forms.util import ValidationError
 
-from ain7.annuaire.models import AIn7Member, Promo, Track, PromoYear, Person,\
-                                 Country, PersonPrivate, MemberType, Activity,\
-                                 PersonType, MaritalStatus, Email, PhoneNumber,\
-                                 Address, InstantMessaging, IRC, WebSite,\
-                                 ClubMembership
+from ain7.annuaire.models import (
+    AIn7Member, Promo, Track, PromoYear, Person,
+    Country, PersonPrivate, MemberType, Activity,
+    PersonType, MaritalStatus, Email
+)
 
-
-class SearchPersonForm(forms.Form):
-    """search person form"""
-    last_name = forms.CharField(label=_('Last name'), max_length=50,
-        required=False)
-    first_name = forms.CharField(label=_('First name'), max_length=50,
-        required=False)
-    promoyear = forms.IntegerField(label=_('Promo year'), required=False)
-    track = forms.IntegerField(label=_('Track'), required=False)
-    organization = forms.CharField(label=_('organization').capitalize(),
-        max_length=50, required=False)
-    city = forms.CharField(label=_('city').capitalize(),
-        max_length=50, required=False)
-    country = forms.CharField(label=_('country').capitalize(),
-        max_length=50, required=False)
-
-    def criteria(self):
-        """define search criteria for a person"""
-        querry = models.Q()
-        if self.cleaned_data['last_name']:
-            querry &= models.Q(person__last_name__icontains=\
-                self.cleaned_data['last_name']) | \
-                models.Q(person__maiden_name__icontains=\
-                    self.cleaned_data['last_name'])
-        if self.cleaned_data['first_name']:
-            querry &= models.Q(person__first_name__icontains=
-                self.cleaned_data['first_name'])
-        if self.cleaned_data['organization']:
-            querry &= models.Q(positions__office__organization__name__icontains\
-                =self.cleaned_data['organization']) | \
-                 models.Q(positions__office__name__icontains=\
-                 self.cleaned_data['organization'])
-
-        if self.cleaned_data['city']:
-            querry &= models.Q(positions__office__city__icontains\
-                =self.cleaned_data['city']) | \
-                 models.Q(person__addresses__city__icontains=\
-                 self.cleaned_data['city'])
-
-        if self.cleaned_data['country']:
-            querry &= models.Q(positions__office__country\
-                =self.cleaned_data['country']) | \
-                 models.Q(person__addresses__country=\
-                 self.cleaned_data['country'])
-
-        # ici on commence par rechercher toutes les promos
-        # qui concordent avec l'annee de promotion et la filiere
-        # saisis par l'utilisateur.
-        promo_criteria = {}
-        if self.cleaned_data['promoyear']:
-            promo_criteria['year'] = PromoYear.objects.get(\
-                id=self.cleaned_data['promoyear'])
-        if self.cleaned_data['track']:
-            promo_criteria['track'] = Track.objects.get(\
-                id=self.cleaned_data['track'])
-        # on ajoute ces promos aux criteres de recherche
-        # si elle ne sont pas vides
-        if len(promo_criteria)!=0:
-            # Pour éviter
-            # http://groups.google.es/group/django-users/browse_thread
-            # /thread/32143d024b17dd00,
-            # on convertit en liste
-            querry &= models.Q(promos__in=
-                [promo for promo in Promo.objects.filter(**promo_criteria)])
-
-        return querry
-
-    def search(self, criteria):
-        """perform the search for a person"""
-        print 'coin'
-        return AIn7Member.objects.filter(criteria).distinct().\
-            order_by('person__last_name','person__first_name')
 
 class NewMemberForm(forms.Form):
     """new member form"""
-    first_name = forms.CharField(label=_('First name'), max_length=50,
-        required=True, widget=forms.TextInput(attrs={'size':40}))
-    last_name = forms.CharField(label=_('Last name'), max_length=50,
-        required=True, widget=forms.TextInput(attrs={'size': 40}))
-    mail = forms.EmailField(label=_('Mail'), max_length=50, required=True,
-        widget=forms.TextInput(attrs={'size': 40}))
+    first_name = forms.CharField(
+        label=_('First name'), max_length=50,
+        required=True, widget=forms.TextInput(attrs={'size': 40})
+    )
+    last_name = forms.CharField(
+        label=_('Last name'), max_length=50,
+        required=True, widget=forms.TextInput(attrs={'size': 40})
+    )
+    mail = forms.EmailField(
+        label=_('Mail'), max_length=50, required=True,
+        widget=forms.TextInput(attrs={'size': 40})
+    )
     nationality = forms.IntegerField(label=_('Nationality'), required=False)
     birth_date = forms.DateTimeField(label=_('Date of birth'), required=False)
     sex = forms.ChoiceField(label=_('Sex'), required=True, choices=Person.SEX)
@@ -124,18 +57,18 @@ class NewMemberForm(forms.Form):
 
     def genlogin(self):
         """login generation"""
-        login = (self.cleaned_data['first_name'][0] + \
-            self.cleaned_data['last_name']).lower()
+        login = (self.cleaned_data['first_name'][0] +
+                 self.cleaned_data['last_name']).lower()
 
         tries = 0
         while (User.objects.filter(username=login).count() > 0):
             tries = tries + 1
             if tries < len(self.cleaned_data['first_name']):
-                login = (self.cleaned_data['first_name'][0:tries] + \
-                    self.cleaned_data['last_name']).lower()
+                login = (self.cleaned_data['first_name'][0:tries] +
+                         self.cleaned_data['last_name']).lower()
             else:
-                login = (self.cleaned_data['first_name'][0] + \
-                    self.cleaned_data['last_name'] + str(tries)).lower()
+                login = (self.cleaned_data['first_name'][0] +
+                         self.cleaned_data['last_name'] + str(tries)).lower()
 
         return login
 
@@ -184,7 +117,7 @@ class NewMemberForm(forms.Form):
 
         if self.cleaned_data.has_key('promoyear'):
             promoyear_id = self.cleaned_data['promoyear']
-            if self.cleaned_data['promoyear']  and self.cleaned_data['track']:
+            if self.cleaned_data['promoyear'] and self.cleaned_data['track']:
                 try:
                     promo_year = PromoYear.objects.get(id=promoyear_id)
                     Promo.objects.get(year=promo_year, track=track)
@@ -205,7 +138,7 @@ class NewMemberForm(forms.Form):
         new_user.first_name = self.cleaned_data['first_name']
         new_user.last_name = self.cleaned_data['last_name']
         new_user.save()
-       
+
         new_person = Person()
         new_person.user = new_user
         new_person.first_name = self.cleaned_data['first_name']
@@ -237,7 +170,7 @@ class NewMemberForm(forms.Form):
 
         track = Track.objects.get(id=self.cleaned_data['track'])
         promoyear = PromoYear.objects.get(id=self.cleaned_data['promoyear'])
-   
+
         new_ain7member.promos.add(Promo.objects.get(track=track,
             year=promoyear))
         new_ain7member.save()
@@ -249,7 +182,8 @@ class NewMemberForm(forms.Form):
         new_couriel.save()
 
         return new_person
-    
+
+
 class PromoForm(forms.Form):
     """promo form"""
     promoyear = forms.IntegerField(label=_('Promo year'), required=False)
@@ -301,12 +235,18 @@ class PromoForm(forms.Form):
 class ChangePasswordForm(forms.Form):
     """ Change password and/or login"""
     login = forms.CharField(label=_('Login:'), max_length=50, required=True)
-    password = forms.CharField(label=_('Password:'), max_length=50,
-                         required=True, widget=forms.PasswordInput())
-    new_password1 = forms.CharField(label=_('New password:'), max_length=50,
-                         required=True, widget=forms.PasswordInput())
-    new_password2 = forms.CharField(label=_('Confirm password:'), max_length=50,
-                         required=True, widget=forms.PasswordInput())
+    password = forms.CharField(
+        label=_('Password:'), max_length=50,
+        required=True, widget=forms.PasswordInput()
+    )
+    new_password1 = forms.CharField(
+        label=_('New password:'), max_length=50,
+        required=True, widget=forms.PasswordInput()
+    )
+    new_password2 = forms.CharField(
+        label=_('Confirm password:'), max_length=50,
+        required=True, widget=forms.PasswordInput()
+    )
 
     def clean(self):
         """check passwords"""
@@ -320,4 +260,3 @@ class ChangePasswordForm(forms.Form):
             # TODO: check that password is strong enough ?
 
         return cleaned_data
-

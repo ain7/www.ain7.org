@@ -110,6 +110,7 @@ urlpatterns = patterns('',
     url(r'^viadeo/$', 'ain7.pages.views.viadeo', name='viadeo'),
     url(r'^g\+/$', 'ain7.pages.views.gplus', name='g+'),
 
+    url(r'^autocomplete/', include('autocomplete_light.urls')), # django-autocomplete-light
     (r'^grappelli/', include('grappelli.urls')), # grappelli URLS
     (r'^admin/',  include(admin.site.urls)), # admin site
 

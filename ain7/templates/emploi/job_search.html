@@ -1,6 +1,7 @@
 {% extends "emploi/base.html" %}
 {% load i18n %}
 {% load endless %}
+{% load crispy_forms_tags %}
 
 {% block content-left %}
 
@@ -8,27 +9,21 @@
 
 <form action="." method="get">
     <table style="border: 0; text-align: left">
-       {{ form }}
+       {{ filter.form|crispy }}
     </table>
 <div style="text-align: center">
 <input type="submit" class="btn btn-primary" value="{% trans "Search" %}" />
 </div>
 </form>
 
-{% if dosearch %}
-<h2>{% trans "Research result" %}</h2>
-{% paginate list_jobs %}
+{% paginate filter %}
 <p class="text-center">{% show_pages %}</p> 
 <ul>
-    {% for job in list_jobs %}
+    {% for job in filter %}
         <li class="job"><a href="{% url "ain7.emploi.views.job_details" job.id %}">{{ job.title }}</a> -
          (<i><a href="{% url "ain7.organizations.views.organization_details" job.office.organization.id %}">{{ job.office.organization }}</a> {{ job.office }}</i>)</li>
     {% endfor %}
 </ul>
 <p class="text-center">{% show_pages %}</p> 
-{% else %}
-    <p>{% trans "No job offer correspond to your research" %}</p>
-{% endif %}
-{% endif %}
 
 {% endblock %}

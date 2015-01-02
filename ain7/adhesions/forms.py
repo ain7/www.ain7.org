@@ -25,26 +25,24 @@ import datetime
 
 from django import forms
 
-from ain7.adhesions.models import Subscription, SubscriptionConfiguration
+from ain7.adhesions.models import Subscription
 
 
 class SubscriptionForm(forms.ModelForm):
     """AIn7Member Subscription Form"""
     dues_amount = forms.IntegerField(widget=forms.HiddenInput())
-    newspaper_amount = forms.IntegerField(required=False,
-        widget=forms.HiddenInput())
-    start_year = forms.IntegerField(initial=datetime.datetime.now().year, 
-        widget=forms.HiddenInput())
+    newspaper_amount = forms.IntegerField(
+        required=False,
+        widget=forms.HiddenInput()
+    )
+    start_year = forms.IntegerField(
+        initial=datetime.datetime.now().year,
+        widget=forms.HiddenInput()
+    )
 
     class Meta:
         """Meta SubscriptionForm"""
         model = Subscription
-        exclude = ('old_id', 'member', 'validated', 'end_year', 'payment', 'date')
-
-class ConfigurationForm(forms.ModelForm):
-    """Subscription Configuration Form"""
-
-    class Meta:
-        """Meta ConfigurationForm"""
-        model = SubscriptionConfiguration
-
+        exclude = (
+            'old_id', 'member', 'validated', 'end_year', 'payment', 'date'
+        )

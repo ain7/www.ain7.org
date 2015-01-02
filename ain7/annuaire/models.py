@@ -24,7 +24,6 @@
 import datetime
 import smtplib
 import time
-import os
 
 from django.core.urlresolvers import reverse
 from django.conf import settings
@@ -35,6 +34,7 @@ from django.utils.translation import ugettext as _
 
 from ain7.utils import is_admin, LoggedClass, get_root_url
 from ain7.utils import ain7_website_confidential, CONFIDENTIALITY_LEVELS
+
 
 class Country(models.Model):
     """ Country (used for adresses)"""
@@ -51,6 +51,7 @@ class Country(models.Model):
         verbose_name = _('country')
         verbose_name_plural = _('country')
 
+
 class PersonType(models.Model):
     """Indicates the current status of a person: Student, Ingeneer"""
 
@@ -64,6 +65,7 @@ class PersonType(models.Model):
         """person type meta"""
         verbose_name = _('person type')
         verbose_name_plural = _('person types')
+
 
 class MemberType(models.Model):
     """
@@ -79,6 +81,7 @@ class MemberType(models.Model):
     class Meta:
         """member type meta"""
         verbose_name = _('member type')
+
 
 class Activity(models.Model):
     """
@@ -96,6 +99,7 @@ class Activity(models.Model):
         """activity meta"""
         verbose_name = _('activity')
 
+
 class MaritalStatus(models.Model):
     """
     Indicates the current marital status of the person:
@@ -112,6 +116,7 @@ class MaritalStatus(models.Model):
         """marital status meta"""
         verbose_name = _('marital status')
 
+
 class Decoration(models.Model):
     """Decoration received by people (war cross, etc.)"""
 
@@ -125,6 +130,7 @@ class Decoration(models.Model):
         """decoration meta"""
         verbose_name = _('decoration')
         ordering = ['decoration']
+
 
 class CeremonialDuty(models.Model):
     """Honorific functions occupied by some persons"""
@@ -141,6 +147,7 @@ class CeremonialDuty(models.Model):
         verbose_name = _('ceremonial duty')
         verbose_name_plural = _('ceremonial duties')
         ordering = ['ceremonial_duty']
+
 
 class School(models.Model):
     """school where users come from"""
@@ -177,10 +184,11 @@ class School(models.Model):
         """school meta"""
         verbose_name = _('school')
 
+
 class Track(models.Model):
     """Speciality the student has studied during his cursus"""
 
-    name = models.CharField(verbose_name=_('name'), max_length=100)
+    name = models.CharField(verbose_name=_('track'), max_length=100)
     initials = models.CharField(verbose_name=_('initials'), max_length=10,
         blank=True, null=True)
     email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
@@ -201,6 +209,7 @@ class Track(models.Model):
         """track meta"""
         verbose_name = _('Track')
 
+
 class PromoYear(models.Model):
     year = models.IntegerField(verbose_name=_('year'))
 
@@ -211,6 +220,7 @@ class PromoYear(models.Model):
     class Meta:
         """promo year meta"""
         verbose_name = _('Year')
+
 
 class Promo(models.Model):
     """Promo the student get out from school"""
@@ -229,23 +239,6 @@ class Promo(models.Model):
         verbose_name = _('Promo')
         ordering = ['year']
 
-
-class PersonManager(models.Manager):
-    """a Manager for the class Person"""
-    
-    def adv_search_fields(self, user):
-        """ Returns the list of field names that can be used as criteria
-        in advanced search."""
-        crits_for_all  = [
-            "last_name" , "first_name" , "complete_name" , "maiden_name" ,
-            "birth_date", "death_date" , "sex" , "country" , 
-            "notes" ]
-        crits_for_admin = [
-            "user" , "last_change_at" , "last_change_by" ]
-        crits = crits_for_all
-        if is_admin(user):
-            crits.extend(crits_for_admin)
-        return crits
 
 class Person(LoggedClass):
     """The main class for a person"""
@@ -273,8 +266,6 @@ class Person(LoggedClass):
     sex = models.CharField(verbose_name=_('sex'), max_length=1, choices=SEX)
     country = models.ForeignKey(Country, verbose_name=_('nationality'),
         blank=True, null=True)
-
-    objects = PersonManager()
 
     def mobile(self):
         """return mobile phone of a person if exists"""
@@ -409,6 +400,7 @@ http://ain7.com""") % { 'firstname': self.first_name, 'url': url,
         verbose_name = _('person')
         ordering = ['last_name', 'first_name']
 
+
 class PersonPrivate(LoggedClass):
     """private data for a person"""
 
@@ -436,21 +428,6 @@ class PersonPrivate(LoggedClass):
 class AIn7MemberManager(models.Manager):
     """a Manager for the class AIn7Member"""
     
-    def adv_search_fields(self, user):
-        """ Returns the list of field names that can be used as criteria
-        in advanced search."""
-        crits_for_all  = [
-            "activity" , "marital_status" , "children_count" , "nick_name" ,
-            "promos"   , "decorations"    , "cv_title" , "ceremonial_duties" ]
-        crits_for_admin = [
-            "person" , "person_type" , "member_type" ,
-            "display_cv_in_directory" , "display_cv_in_job_section" ,
-            "receive_job_offers" ]
-        crits = crits_for_all
-        if is_admin(user):
-            crits.extend(crits_for_admin)
-        return crits
-
     def pending_subscriptions(self):
         return None
 
@@ -473,6 +450,7 @@ class AIn7MemberManager(models.Manager):
 #    from django.utils.hashcompat import sha_constructor
 #    hash = sha_constructor(settings.SECRET_KEY + str(instance.person.id) + str(time.time())).hexdigest()[::2]
 #    return os.path.join('data', 'avatar', hash + '.jpg')
+
 
 class AIn7Member(LoggedClass):
     """AIn7 member"""
@@ -605,6 +583,7 @@ class AIn7Member(LoggedClass):
         verbose_name = _('AIn7 member')
         ordering = ['person']
 
+
 class PhoneNumber(LoggedClass):
     """Phone number for a person"""
 
@@ -693,6 +672,7 @@ class Address(LoggedClass):
         """address meta"""
         verbose_name = _('Address')
 
+
 class Email(models.Model):
     """e-mail address for a person"""
 
@@ -774,6 +754,7 @@ class InstantMessaging(models.Model):
         """instant messanger meta"""
         verbose_name = _('instant_messaging')
 
+
 class WebSite(models.Model):
     """Website for a person"""
 
@@ -823,6 +804,7 @@ class WebSite(models.Model):
         """website meta"""
         verbose_name = _('web site')
 
+
 class IRC(models.Model):
     """IRC contact for a person"""
 
@@ -850,6 +832,7 @@ class IRC(models.Model):
         """irc meta"""
         verbose_name = _('irc')
 
+
 class Club(LoggedClass):
     """N7 club"""
 
@@ -876,6 +859,7 @@ class Club(LoggedClass):
         """club meta"""
         verbose_name = _('club')
 
+
 class ClubMembership(models.Model):
     """Club membership for a person"""
 
@@ -901,6 +885,7 @@ class ClubMembership(models.Model):
         verbose_name_plural = _('club memberships')
         ordering = ['begin']
 
+
 class UserActivity(models.Model):
     """user activity"""
 
@@ -914,4 +899,3 @@ class UserActivity(models.Model):
         verbose_name = _('user activity')
         verbose_name_plural = _('users activities')
         ordering = ['date']
-

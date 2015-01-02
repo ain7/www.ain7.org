@@ -27,14 +27,14 @@ import vobject
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.forms.models import modelform_factory
-from django.http import HttpResponseRedirect, Http404, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Email, Person
 from ain7.decorators import access_required, confirmation_required
 from ain7.news.models import NewsItem, RSVPAnswer
-from ain7.news.forms import SearchNewsForm, NewsForm, EventForm, \
+from ain7.news.forms import SearchNewsForm, EventForm, \
      SearchEventForm, ContactEventForm, EventOrganizerForm, RSVPAnswerForm
 from ain7.shop.models import Order, ShoppingCart, ShoppingCartItem
 
@@ -44,16 +44,19 @@ def index(request):
     news = NewsItem.objects.filter(date__isnull=True).\
         order_by('-creation_date')[:20]
     page_title = 'Actualités'
-    return render(request, 'news/index.html', {'news': news, 'page_title': page_title })
+    return render(request, 'news/index.html',
+                  {'news': news, 'page_title': page_title})
+
 
 def details(request, news_slug):
     """news details"""
     news_item = get_object_or_404(NewsItem, slug=news_slug)
     page_title = news_item.title
     return render(request, 'news/details.html',
-                            {'news_item': news_item, 'page_title': page_title})
+                  {'news_item': news_item, 'page_title': page_title})
 
-@access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'])
+
+@access_required(groups=['ain7-ca', 'ain7-secretariat', 'ain7-contributeur'])
 def edit(request, news_slug=None):
     """news edit"""
 
@@ -63,26 +66,28 @@ def edit(request, news_slug=None):
     if news_slug:
         news_item = get_object_or_404(NewsItem, slug=news_slug)
 
-    form = NewsForm(request.POST or None, request.FILES or None, instance=news_item)
+    form = NewsForm(request.POST or None, request.FILES or None,
+                    instance=news_item)
 
     if request.method == 'POST' and form.is_valid():
         news_item = form.save()
         news_item.logged_save(request.user.person)
-        messages.success(request, _('Modifications have been successfully saved.'))
+        messages.success(request,
+                         _('Modifications have been successfully saved.'))
         return redirect(news_item)
 
     return render(request, 'news/edit.html',
-        {
-            'form': form,
-            'title': _("News edition"),
-            'news_item': news_item,
-            'back': request.META.get('HTTP_REFERER', '/'),
-        }
-    )
+                  {
+                      'form': form,
+                      'title': _("News edition"),
+                      'news_item': news_item,
+                      'back': request.META.get('HTTP_REFERER', '/'),
+                  }
+                 )
 
-@confirmation_required(lambda news_slug=None, object_id=None: '', 
-    'base.html', 
-    _('Do you really want to delete this news'))
+
+@confirmation_required(lambda news_slug=None, object_id=None: '',
+    'base.html', _('Do you really want to delete this news'))
 @access_required(groups=['ain7-ca', 'ain7-secretariat', 'ain7-contributeur'])
 def delete(request, news_slug):
     """news delete"""
@@ -92,6 +97,7 @@ def delete(request, news_slug):
 
     messages.success(request, _('The news has been successfully deleted.'))
     return HttpResponseRedirect('/actualites/')
+
 
 def search(request):
     """news search"""
@@ -109,6 +115,7 @@ def search(request):
             'request': request,
         }
     )
+
 
 def event_index(request):
     """event index"""
@@ -145,16 +152,16 @@ def event_details(request, event_id):
 
     page_title = event.title
 
-    return render(request, 'evenements/details.html',
-        {
-            'event': event, 
-            'event_list': NewsItem.objects.filter(date__isnull=False),
-            'next_events': NewsItem.objects.next_events(),
-            'rsvp_display': rsvp_display,
-            'rsvp': rsvp,
-            'page_title': page_title,
+    return render(request, 'evenements/details.html', {
+        'event': event,
+        'event_list': NewsItem.objects.filter(date__isnull=False),
+        'next_events': NewsItem.objects.next_events(),
+        'rsvp_display': rsvp_display,
+        'rsvp': rsvp,
+        'page_title': page_title,
         }
     )
+
 
 @access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'])
 def event_edit(request, event_id=None):
@@ -163,7 +170,6 @@ def event_edit(request, event_id=None):
     event = None
     if event_id:
         event = get_object_or_404(NewsItem, pk=event_id)
-        form = EventForm(instance=event)
 
     form = EventForm(request.POST or None, request.FILES or None, instance=event)
 
@@ -173,14 +179,13 @@ def event_edit(request, event_id=None):
         messages.success(request, _('Event successfully saved'))
         return redirect(evt)
 
-    return render(request, 'evenements/edit.html',
-        {
-            'form': form, 
-            'action_title': _("Event modification"),
-            'event': event,
-            'event_list': NewsItem.objects.all(),
-            'next_events': NewsItem.objects.next_events(),
-            'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'evenements/edit.html', {
+        'form': form,
+        'action_title': _("Event modification"),
+        'event': event,
+        'event_list': NewsItem.objects.all(),
+        'next_events': NewsItem.objects.next_events(),
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
 
@@ -192,21 +197,21 @@ def event_attendees(request, event_id):
     event = get_object_or_404(NewsItem, pk=event_id)
 
     attendees_yes = RSVPAnswer.objects.filter(event=event, yes=True)
-    attendees_number = RSVPAnswer.objects.filter(event=event, 
+    attendees_number = RSVPAnswer.objects.filter(event=event,
         yes=True).aggregate(Sum('number'))['number__sum']
     attendees_no = RSVPAnswer.objects.filter(event=event, no=True)
     attendees_maybe = RSVPAnswer.objects.filter(event=event, maybe=True)
 
-    return render(request, 'evenements/attendees.html',
-        {
-            'attendees_yes': attendees_yes,
-            'attendees_number': attendees_number,
-            'attendees_no': attendees_no,
-            'attendees_maybe': attendees_maybe,
-            'back': request.META.get('HTTP_REFERER', '/'),
-            'event': event,
+    return render(request, 'evenements/attendees.html', {
+        'attendees_yes': attendees_yes,
+        'attendees_number': attendees_number,
+        'attendees_no': attendees_no,
+        'attendees_maybe': attendees_maybe,
+        'back': request.META.get('HTTP_REFERER', '/'),
+        'event': event,
         }
     )
+
 
 @access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'],
                  allow_rsvp=True)
@@ -271,12 +276,11 @@ def event_rsvp(request, event_id, rsvp_id=None):
                     reverse('ain7.news.views.event_details',
                     args=[event.id]))
 
-    return render(request, 'evenements/rsvp.html',
-        {
-            'form': form, 
-            'action_title': _("RSVP Answer"),
-            'event': event,
-            'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'evenements/rsvp.html', {
+        'form': form, 
+        'action_title': _("RSVP Answer"),
+        'event': event,
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
 
@@ -299,8 +303,8 @@ def event_attend_no(request, event_id):
 
     event.rsvp_answer(request.user.person, no=True)
 
-    return HttpResponseRedirect(reverse('ain7.news.views.event_details', 
-        args=[event.id]))
+    return redirect(event)
+
 
 @access_required(groups=['ain7-secretariat', 'ain7-membre'])
 def event_attend_maybe(request, event_id):
@@ -310,8 +314,8 @@ def event_attend_maybe(request, event_id):
 
     event.rsvp_answer(request.user.person, maybe=True)
 
-    return HttpResponseRedirect(reverse('ain7.news.views.event_details', 
-        args=[event.id]))
+    return redirect(event)
+
 
 def event_search(request):
     """event search"""
@@ -323,11 +327,10 @@ def event_search(request):
         form.is_valid():
         list_events = form.search()
 
-    return render(request, 'evenements/search.html',
-        {
-            'form': form,
-            'list_events': list_events,
-            'event_list': NewsItem.objects.all(),
+    return render(request, 'evenements/search.html', {
+        'form': form,
+        'list_events': list_events,
+        'event_list': NewsItem.objects.all(),
         }
     )
 
@@ -372,6 +375,7 @@ def event_contact(request, event_id):
                  'back': request.META.get('HTTP_REFERER', '/'),
                  'event_list': NewsItem.objects.filter(date__isnull=False),
                  'next_events': NewsItem.objects.next_events()})
+
 
 def ical(request):
     """event iCal stream"""
@@ -427,6 +431,7 @@ def event_organizer_add(request, event_id):
          'next_events': NewsItem.objects.next_events(),
          'back': request.META.get('HTTP_REFERER', '/')})
 
+
 confirmation_required(lambda event_id=None, organizer_id=None : 
     str(get_object_or_404(Person, pk=organizer_id)), 
     'evenements/base.html', 
@@ -444,6 +449,7 @@ def event_organizer_delete(request, event_id, organizer_id):
         messages.success(request, _('Organizer successfully removed'))
     return HttpResponseRedirect(reverse(event_edit, args=[event_id]))
 
+
 @access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'])
 def event_swap_email_notif(request, event_id, organizer_id):
     """swap email notification"""
@@ -456,4 +462,3 @@ def event_swap_email_notif(request, event_id, organizer_id):
            not(eventorg.send_email_for_new_subscriptions)
         eventorg.save()
     return HttpResponseRedirect(reverse(event_edit, args=[event_id]))
-

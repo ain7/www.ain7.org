@@ -50,36 +50,6 @@ class SearchNewsForm(forms.Form):
             criteria['creation_date__day'] = inputdate.day
         return NewsItem.objects.filter(date__isnull=True).filter(**criteria)
 
-class NewsForm(AIn7ModelForm):
-    """news form"""
-    title = forms.CharField(label=_('title').capitalize(), max_length=100,
-        required=True, widget=forms.TextInput(attrs={'size':'50'}))
-    body = forms.CharField(label=_('body').capitalize(),
-        required=True,
-        widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':60}))
-
-    class Meta:
-        """news form meta"""
-        model = NewsItem
-        exclude = ('slug', 'shorttext', 'date', 'location', 'status', \
-            'contact_email', 'link', 'pictures_gallery', 'rsvp_question', \
-            'rsvp_begin', 'rsvp_end', 'rsvp_multiple', 'package',)
-
-    def __init__(self, *args, **kwargs):
-        super (NewsForm,self ).__init__(*args,**kwargs)
-        self.fields['groups'].queryset = Group.objects.filter(\
-            Q(type__name='ain7-regional') | Q(type__name='ain7-professionnel'))
-
-
-    def save(self, *args, **kwargs):
-        """save event"""
-        if kwargs.has_key('contributor'):
-            contributor = kwargs['contributor']
-            news = super(NewsForm, self).save()
-            news.logged_save(contributor)
-        else:
-            news = super(NewsForm, self).save()
-        return news
 
 class SearchEventForm(forms.Form):
     """search event form"""
@@ -94,6 +64,7 @@ class SearchEventForm(forms.Form):
             title__icontains=self.cleaned_data['title'],
             location__icontains=self.cleaned_data['location']).order_by('-date')
 
+
 class ContactEventForm(AIn7Form):
     """contact event form"""
     message = forms.CharField( label=_('your message').capitalize(),
@@ -101,6 +72,7 @@ class ContactEventForm(AIn7Form):
         widget=forms.widgets.Textarea(attrs={'rows':15, 'cols':65}))
     sender = forms.EmailField( label=_('your email').capitalize(),
         required=True)
+
 
 class EventForm(AIn7ModelForm):
     """event form"""
@@ -131,6 +103,7 @@ class EventForm(AIn7ModelForm):
         else:
             event = super(EventForm, self).save()
         return event
+
 
 class EventOrganizerForm(forms.ModelForm):
     """event organizer form"""
@@ -200,4 +173,3 @@ class RSVPAnswerForm(forms.ModelForm):
                 raise ValidationError(_('The entered person is not in\
  the database.'))
             return person
-

@@ -7,7 +7,7 @@
 {% block content-left %}
 
 <form action="." method="get">
-{{ form|crispy }}
+{{ filter.form|crispy }}
 <div class="control-group">
 <div class="controls">
 <input class="btn btn-primary" type="submit" value="{% trans "Search" %}" />
@@ -15,13 +15,11 @@
 </div>
 </form>
 
-{% if dosearch %}
 <h2>{% trans "Results list"%}</h2>
 
-{% if ain7members %}
-{% paginate ain7members %}
+{% paginate filter %}
 <p class="text-center">{% show_pages %}</p> 
-    {% for ain7member in ain7members %}
+    {% for ain7member in filter %}
             <table border="0" width="100%" style="border-bottom:1px dashed grey; text-align: left;">
             <tr><td width="60">
             {% if ain7member.avatar %}
@@ -50,9 +48,5 @@
             </table>
     {% endfor %}
 <p class="text-center">{% show_pages %}</p> 
-{% else %}
-    <p>{% trans "No person matched your criteria." %}</p>
-{% endif %}
-{% endif %}
 
 {% endblock %}

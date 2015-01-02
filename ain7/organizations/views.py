@@ -23,17 +23,20 @@
 
 import datetime
 
+from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.forms.models import modelform_factory
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext as _
 
 from ain7.decorators import access_required, confirmation_required
+from ain7.organizations.filters import OrganizationFilter
 from ain7.organizations.models import Organization, Office
-from ain7.organizations.forms import OrganizationForm, OfficeForm, \
-                              SearchOrganizationForm, \
-                              OrganizationListForm, OfficeListForm
+from ain7.organizations.forms import (
+    OrganizationListForm, OfficeListForm,
+    )
+
 
 @access_required(groups=['ain7-membre', 'ain7-secretariat'])
 def organization_details(request, organization_id):
@@ -41,9 +44,10 @@ def organization_details(request, organization_id):
 
     organization = get_object_or_404(Organization, pk=organization_id)
 
-    return render(request, 
-         'organizations/organization_details.html',
-        {'organization': organization})
+    return render(request, 'organizations/organization_details.html', {
+        'organization': organization
+        })
+
 
 @access_required(groups=['ain7-membre', 'ain7-secretariat'])
 def organization_edit(request, organization_id=None):
@@ -62,7 +66,7 @@ def organization_edit(request, organization_id=None):
             user_groups = request.user.person.groups.values_list('group__name',
                 flat=True)
 
-            if not 'ain7-secretariat' in user_groups and \
+            if 'ain7-secretariat' not in user_groups and \
                 not 'ain7-admin' in user_groups and organization_id:
                 org.id = None
                 org.is_valid = False
@@ -78,10 +82,9 @@ def organization_edit(request, organization_id=None):
             org.save()
             return redirect(org)
 
-    return render(request, 'organizations/office_edit.html',
-        {
-            'form': form, 
-            'title':_('Organization modification'),
+    return render(request, 'organizations/office_edit.html', {
+        'form': form,
+        'title': _('Organization modification'),
         }
     )
 
@@ -90,26 +93,12 @@ def organization_edit(request, organization_id=None):
 def organization_search(request):
     """organization search"""
 
-    form = SearchOrganizationForm()
-    organizations = None
-    nb_org = 0
-    nb_offices = 0
+    organizations = OrganizationFilter(request.GET, queryset = Organization.objects.all())
 
-    if request.GET.has_key('name') or \
-       request.GET.has_key('activity_field') or \
-       request.GET.has_key('activity_code'):
-        form = SearchOrganizationForm(request.GET)
-        if form.is_valid():
-            criteria = form.criteria()
-            organizations = form.search(criteria)
-            request.session['filter'] = criteria
-
-    return render(request, 'organizations/organizations_search.html',
-        {
-            'form': form,
-            'organizations': organizations,
-            'nb_org': Organization.objects.valid_organizations().count(),
-            'nb_offices': Office.objects.valid_offices().count(),
+    return render(request, 'organizations/organizations_search.html', {
+        'organizations': organizations,
+        'nb_org': Organization.objects.valid_organizations().count(),
+        'nb_offices': Office.objects.valid_offices().count(),
         }
     )
 
@@ -122,10 +111,9 @@ def organization_merge(request, organization_id=None):
     # 1er passage : on demande la saisie d'une deuxième organisation
     if request.method == 'GET':
         form = OrganizationListForm()
-        return render(request, 'organizations/organization_merge.html',
-            {
-                'form': form,
-                'organization': organization,
+        return render(request, 'organizations/organization_merge.html', {
+            'form': form,
+            'organization': organization,
             }
         )
 
@@ -140,12 +128,13 @@ def organization_merge(request, organization_id=None):
                     '/organizations/%s/merge/%s/' %
                     (organization2.id, organization_id))
                 else:
-                    message.info(request, message=_('The two\
+                    messages.info(request, message=_('The two\
  organizations are the same. No merging.'))
-        message.error(request, message=_('Something was wrong in the\
+        messages.error(request, _('Something was wrong in the\
  form you filled. No modification done.'))
         return HttpResponseRedirect('/organizations/%s/merge/' %
             organization_id)
+
 
 @confirmation_required(
     lambda user_id = None, org1_id = None, org2_id = None:
@@ -164,6 +153,7 @@ def organization_merge_perform(request, org1_id, org2_id):
         message=_('Organizations successfully merged'))
     return HttpResponseRedirect('/organizations/%s/' % org1_id)
 
+
 @confirmation_required(lambda organization_id:
     str(get_object_or_404(Organization, pk=organization_id)), 
     'organizations/base.html',
@@ -176,11 +166,12 @@ def organization_delete(request, organization_id):
     if organization.is_valid:
         organization.delete()
     else:
-        organization.purge() 
+        organization.purge()
 
     request.user.message_set.create(message=_('Organisation has been\
  marked as deleted.'))
     return HttpResponseRedirect(reverse(organization_search))
+
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def organization_undelete(request, organization_id, office_id=None):
@@ -189,7 +180,7 @@ def organization_undelete(request, organization_id, office_id=None):
     organization = get_object_or_404(Organization, pk=organization_id)
 
     if office_id:
-        office = get_object_or_404(Office, pk=office_id, 
+        office = get_object_or_404(Office, pk=office_id,
            organization__id=organization_id)
         office.is_valid = True
         office.save()
@@ -199,8 +190,8 @@ def organization_undelete(request, organization_id, office_id=None):
 
     request.user.message_set.create(message=_('Organisation has been\
  marked as restaured.'))
-    return HttpResponseRedirect(reverse(organization_details, 
-        args=[organization_id]))
+    return redirect(organization)
+
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def office_edit(request, organization_id, office_id=None):
@@ -239,16 +230,16 @@ def office_edit(request, organization_id, office_id=None):
             office.modification_date = datetime.datetime.now()
             office.save()
 
-        message.success(request, message=_('Office has been modified.'))
+        messages.success(request, message=_('Office has been modified.'))
 
         return redirect(office.organization)
 
-    return render(request, 'organizations/office_edit.html',
-        {
-            'form': form,
-            'title': _('Modify an office'),
+    return render(request, 'organizations/office_edit.html', {
+        'form': form,
+        'title': _('Modify an office'),
         }
     )
+
 
 @confirmation_required(lambda organization_id, office_id=None:
     str(get_object_or_404(Office,pk=office_id)), 'organizations/base.html',
@@ -257,7 +248,7 @@ def office_edit(request, organization_id, office_id=None):
 def office_delete(request, organization_id, office_id=None):
     """office delete"""
 
-    office = get_object_or_404(Office, pk=office_id, 
+    office = get_object_or_404(Office, pk=office_id,
         organization__id=organization_id)
 
     if office.is_valid:
@@ -269,6 +260,7 @@ def office_delete(request, organization_id, office_id=None):
  as deleted.'))
     return HttpResponseRedirect(reverse(organization_details,
          args=[office.organization.id]))
+
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def office_merge(request, organization_id, office_id=None):
@@ -302,6 +294,7 @@ def office_merge(request, organization_id, office_id=None):
         return HttpResponseRedirect('/organizations/%s/offices/%s/merge/' % \
             (office.organization.id, office_id))
 
+
 @confirmation_required(
     lambda user_id = None, organization_id = None, 
         office1_id = None, office2_id = None:
@@ -313,11 +306,10 @@ def office_merge(request, organization_id, office_id=None):
 def office_merge_perform(request, organization_id, office1_id, office2_id):
     """merge offices"""
 
-    office1 = get_object_or_404(Office, pk=office1_id, 
+    office1 = get_object_or_404(Office, pk=office1_id,
         organization__id=organization_id)
-    office2 = get_object_or_404(Office, pk=office2_id, 
+    office2 = get_object_or_404(Office, pk=office2_id,
         organization__id=organization_id)
     office1.merge(office2)
     request.user.message_set.create(message=_('Offices successfully merged'))
     return HttpResponseRedirect('/organizations/%s/' % office1.organization.id)
-

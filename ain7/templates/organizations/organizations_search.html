@@ -1,21 +1,19 @@
 {% extends "organizations/base.html" %}
 {% load i18n %}
+{% load crispy_forms_tags %}
 {% load endless %}
 
 {% block content-left %}
 
 <form action="." method="get">
-	<table class="form">
-		{{ form }}
-	</table>
-<div style="text-align: center">
-	<input class="btn btn-primary" type="submit" value="{% trans "Search" %}" />
+{{ organizations.form|crispy }}
+<div class="control-group">
+<div class="controls">
+<input class="btn btn-primary" type="submit" value="{% trans "Search" %}" />
+</div>
 </div>
 </form>
 
-{% if organizations %}
-
-<h2>{% trans "Results list"%}</h2>
 {% paginate organizations %}
 <ul>
   {% for org in organizations %}
@@ -27,22 +25,5 @@
   {% endfor %}
 </ul>
 <p class="text-center">{% show_pages %}</p> 
-{% else %}
-    <p>{% trans "No organization matched your criteria." %}</p>
-{% endif %}
 
 {% endblock %} {# content-left #}
-
-{% block extra-navigation %}
-    <li><a href="{% url "ain7.manage.views.organizations_adv_search" %}">{% trans "Advanced Search" %}</a></li>
-{% endblock %} {# extra-navigation #}
-
-{% block extra-menu %}
-<h2>{% trans "Statistics"%}</h2>
-<div class="grey-box">
-<ul>
-    <li>{{ nb_org }}&nbsp;{% trans "organizations" %}</li>
-    <li>{{ nb_offices }}&nbsp;{% trans "offices" %}</li>
-</ul>
-</div>
-{% endblock %} {# extra-menu #}

@@ -25,10 +25,12 @@ from django.db.models import signals
 
 from ain7.annuaire import models as annuaire_app
 
+
 def filldb(app, created_models, verbosity, **kwargs):
     """filling the database with demo datas"""
     from ain7 import filldb
-    if annuaire_app.Person in created_models and kwargs.get('interactive', True):
+    if (annuaire_app.Person in created_models
+            and kwargs.get('interactive', True)):
         msg = "\nYou just installed AIn7 portal, which means you don't have " \
             "any data defined.\nWould you like to fill your db now? (yes/no): "
         confirm = raw_input(msg)

@@ -24,17 +24,15 @@
 from datetime import datetime
 
 from django.contrib import messages
-from django.core.urlresolvers import reverse
 from django.forms.models import modelform_factory
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext as _
 
-from ain7.annuaire.models import Person
 from ain7.decorators import access_required, confirmation_required
 from ain7.pages.models import Text
 from ain7.utils import ain7_generic_delete
-from ain7.voyages.models import Travel, Subscription, TravelResponsible
-from ain7.voyages.forms import SearchTravelForm
+from ain7.voyages.filters import TravelFilter
+from ain7.voyages.models import Travel
 
 
 def index(request):
@@ -46,13 +44,13 @@ def index(request):
         start_date__lt=datetime.now()).order_by('-start_date')[:5]
     text = Text.objects.get(textblock__shortname='voyages')
 
-    return render(request, 'voyages/index.html',
-        {
-            'next_travels': next_travels,
-            'previous_travels': prev_travels,
-            'text': text,
+    return render(request, 'voyages/index.html', {
+        'next_travels': next_travels,
+        'previous_travels': prev_travels,
+        'text': text,
         }
     )
+
 
 @confirmation_required(
     lambda user_id = None,
@@ -67,36 +65,30 @@ def delete(request, travel_id):
         get_object_or_404(Travel, pk=travel_id),
         '/voyages/', _('Travel successfully deleted.'))
 
+
 def details(request, travel_id):
     """travel details"""
     travel = get_object_or_404(Travel, pk=travel_id)
-    return render(request, 'voyages/details.html',
-        {
-            'travel': travel,
+    return render(request, 'voyages/details.html', {
+        'travel': travel,
         }
     )
 
+
 def list(request):
     """upcoming travels list"""
-    return render(request, 'voyages/list.html',
-        {
-            'travels': Travel.objects.exclude(end_date__lte=datetime.now()),
+    return render(request, 'voyages/list.html', {
+        'travels': Travel.objects.exclude(end_date__lte=datetime.now()),
         }
     )
 
 def search(request):
     """search travels form"""
 
-    travels = False
-    form = SearchTravelForm(request.POST or None)
+    travels = TravelFilter(request.POST, queryset=Travel.objects.all())
 
-    if request.method == 'POST' and form.is_valid():
-        travels = form.search()
-
-    return render(request, 'voyages/search.html',
-        {
-            'travels': travels,
-            'form': form,
+    return render(request, 'voyages/search.html', {
+        'travels': travels,
         }
     )
 
@@ -109,19 +101,24 @@ def edit(request, travel_id=None):
         travel = Travel.objects.get(pk=travel_id)
 
     TravelForm = modelform_factory(Travel, exclude=())
-    form = TravelForm(request.POST or None, request.FILES or None, instance=travel)
+    form = TravelForm(
+        request.POST or None,
+        request.FILES or None,
+        instance=travel,
+    )
 
     if request.method == 'POST' and form.is_valid():
         trav = form.save()
-        messages.success(request, _('Modifications have been successfully saved.'))
+        messages.success(
+            request,
+            _('Modifications have been successfully saved.')
+        )
 
         redirect('travel-details', trav.id)
 
-    return render(request, 'voyages/edit.html',
-        {
-            'form': form,
-            'action_title': _("Modification of personal data for"),
-            'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'voyages/edit.html', {
+        'form': form,
+        'action_title': _("Modification of personal data for"),
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
-

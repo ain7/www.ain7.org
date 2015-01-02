@@ -25,12 +25,14 @@ import datetime
 import hashlib
 
 from django.conf import settings
+from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.forms.models import modelform_factory
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext as _
 
-from ain7.adhesions.forms import ConfigurationForm, SubscriptionForm
+from ain7.adhesions.forms import SubscriptionForm
 from ain7.adhesions.models import Subscription, SubscriptionConfiguration
 from ain7.annuaire.models import AIn7Member, Person
 from ain7.shop.models import Payment
@@ -41,12 +43,12 @@ from ain7.utils import ain7_generic_delete
 def index(request):
     """index adhesions"""
 
-    count_subscribers = Subscription.objects.filter(validated=True).exclude(\
-        start_year__gt=datetime.date.today().year).exclude(\
+    count_subscribers = Subscription.objects.filter(validated=True).exclude(
+        start_year__gt=datetime.date.today().year).exclude(
         end_year__lt=datetime.date.today().year).count()
 
     if not request.user.is_authenticated():
-        return HttpResponseRedirect('/accounts/login/?next=' + \
+        return HttpResponseRedirect('/accounts/login/?next=' +
            reverse('ain7.adhesions.views.index'))
 
     user_groups = request.user.person.groups.values_list('group__name', flat=True)
@@ -54,30 +56,31 @@ def index(request):
     if not 'ain7-secretariat' in user_groups and \
         not 'ain7-admin' in user_groups and \
         not 'ain7-ca' in user_groups:
-        return HttpResponseRedirect('/adhesions/'+str(request.user.id)+ \
+        return HttpResponseRedirect('/adhesions/'+str(request.user.id)+ 
             '/subscriptions/add/')
 
     return render(request, 'adhesions/index.html',
-        {'subscriptions_list': Subscription.objects.filter(validated=True).\
+        {'subscriptions_list': Subscription.objects.filter(validated=True).
             order_by('-id')[:20],
          'count_members': AIn7Member.objects.count(),
          'count_subscribers': count_subscribers})
+
 
 @access_required(groups=['ain7-secretariat','ain7-ca'])
 def subscriptions(request, to_validate=False):
     """list subscriptions"""
 
-    subscriptions_list = Subscription.objects.order_by(\
+    subscriptions_list = Subscription.objects.order_by(
          'validated', '-start_year', '-end_year')
 
     if to_validate:
         subscriptions_list = subscriptions_list.filter(validated=False)
 
-    return render(request, 'adhesions/subscriptions.html',
-        {
-            'subscriptions_list': subscriptions_list,
+    return render(request, 'adhesions/subscriptions.html', {
+        'subscriptions_list': subscriptions_list,
         }
     )
+
 
 @confirmation_required(lambda user_id=None, subscription_id=None : 
      str(get_object_or_404(Subscription, pk=subscription_id)), 
@@ -91,9 +94,9 @@ def subscription_validate(request, subscription_id=None):
     subscription.validated = True
     subscription.logged_save(request.user.person)
 
-    request.user.message_set.create(\
-         message=_('Subscription successfully validated'))
+    messages.success(request, _('Subscription successfully validated'))
     return redirect('subscriptions')
+
 
 @confirmation_required(lambda user_id=None, subscription_id=None :
     str(get_object_or_404(Subscription, pk=subscription_id)),
@@ -108,6 +111,7 @@ def subscription_delete(request, subscription_id=None):
         reverse(subscriptions),
         _('Subscription successfully deleted'))
 
+
 @access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def user_subscriptions(request, user_id):
     """show user subscriptions"""
@@ -118,10 +122,13 @@ def user_subscriptions(request, user_id):
     subscriptions_list = Subscription.objects.filter(member=ain7member).\
         order_by('-start_year', '-id')
 
-    return render(request, 
-        'adhesions/user_subscriptions.html',
-        {'person': person, 'ain7member': ain7member, 
-         'subscriptions_list': subscriptions_list})
+    return render(request, 'adhesions/user_subscriptions.html', {
+        'person': person,
+        'ain7member': ain7member,
+        'subscriptions_list': subscriptions_list,
+        }
+    )
+
 
 @access_required(groups=['ain7-secretariat'], allow_myself=True)
 def subscription_add(request, user_id=None):
@@ -228,11 +235,11 @@ AIn7 Team
 def configurations(request, year=datetime.date.today().year):
     """configure subscriptions"""
 
-    return render(request, 'adhesions/configurations.html',
-        {
-            'configurations_list': SubscriptionConfiguration.objects.filter(year=year).order_by('type'),
+    return render(request, 'adhesions/configurations.html', {
+        'configurations_list': SubscriptionConfiguration.objects.filter(year=year).order_by('type'),
         }
     )
+
 
 @access_required(groups=['ain7-secretariat','ain7-ca'])
 def configuration_edit(request, config_id=None):
@@ -247,16 +254,16 @@ def configuration_edit(request, config_id=None):
 
     if request.method == 'POST' and form.is_valid():
         form.save()
-        message.success(request, message=_('Modifications have been successfully saved.'))
+        messages.success(request, _('Modifications have been successfully saved.'))
         return redirect('configurations')
 
-    return render(request, 'adhesions/configuration_edit.html',
-        {
-            'form': form,
-            'action_title': _("Modification of configuration"),
-            'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'adhesions/configuration_edit.html', {
+        'form': form,
+        'action_title': _("Modification of configuration"),
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
+
 
 @confirmation_required(lambda user_id=None, config_id=None:
     str(get_object_or_404(SubscriptionConfiguration, pk=config_id)),
@@ -269,6 +276,7 @@ def configuration_delete(request, config_id=None):
          get_object_or_404(SubscriptionConfiguration, pk=config_id),
          reverse(configurations),
          _('Configuration successfully deleted.'))
+
 
 def notification(request):
     """SPPlus notification url management"""
@@ -287,4 +295,3 @@ def notification(request):
             pay.save()
 
     return render(request, 'adhesions/notification.html', {})
-

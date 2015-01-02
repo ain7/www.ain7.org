@@ -22,7 +22,6 @@
 #
 
 import vobject
-import datetime
 
 from django.contrib import auth
 from django.contrib.auth.models import User
@@ -30,18 +29,19 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.forms.models import modelform_factory
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, HttpResponse
 from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404, redirect, render
 
-from ain7.annuaire.models import PersonPrivate, UserActivity, Promo, \
-                                 PhoneNumber, InstantMessaging, Email, IRC, \
-                                 WebSite, ClubMembership, Person, \
-                                 AIn7Member, Address
-from ain7.emploi.models import Position
-from ain7.annuaire.forms import SearchPersonForm, ChangePasswordForm, \
-                                PromoForm, NewMemberForm
-from ain7.adhesions.forms import Subscription
+from ain7.annuaire.models import (
+    PersonPrivate, UserActivity, Promo,
+    PhoneNumber, InstantMessaging, Email, IRC,
+    WebSite, ClubMembership, Person, AIn7Member, Address
+)
+from ain7.annuaire.filters import AIn7MemberFilter
+from ain7.annuaire.forms import (
+    ChangePasswordForm, PromoForm, NewMemberForm
+)
 from ain7.decorators import access_required, confirmation_required
 from ain7.utils import ain7_generic_delete
 
@@ -51,6 +51,7 @@ def home(request, user_name):
     user = get_object_or_404(User, username=user_name)
     user_id = Person.objects.get(user=user).id
     return details(request, user_id)
+
 
 @login_required
 def details(request, user_id):
@@ -65,58 +66,40 @@ def details(request, user_id):
 
     if AIn7Member.objects.filter(person=person).count() > 0:
         ain7member = get_object_or_404(AIn7Member, person=person)
-        is_subscriber = Subscription.objects.filter(member=ain7member).\
-            filter(validated=True).exclude(start_year__gt=datetime.date.\
-            today().year).exclude(end_year__lt=datetime.date.today().year)
+        is_subscriber = ain7member.is_subscriber()
 
     if UserActivity.objects.filter(person=person):
         last_activity = UserActivity.objects.filter(person=person).latest('id')
 
-    return render(request, 'annuaire/details.html',
-        {'person': person, 'personprivate': personprivate, 
-         'is_subscriber': is_subscriber,
-         'ain7member': ain7member, 'is_myself': is_myself, 
-         'last_activity': last_activity})
+    return render(request, 'annuaire/details.html', {
+        'person': person,
+        'personprivate': personprivate,
+        'is_subscriber': is_subscriber,
+        'ain7member': ain7member,
+        'is_myself': is_myself,
+        'last_activity': last_activity,
+        }
+    )
+
 
 @login_required
 def search(request):
 
-    form = SearchPersonForm()
-    dosearch = False
-    ain7members = False
+    filter = AIn7MemberFilter(request.GET, queryset=AIn7Member.objects.all())
 
-    if request.GET.has_key('first_name') or request.GET.has_key('last_name') \
-       or request.GET.has_key('organization') or \
-       request.GET.has_key('promoyear') or request.GET.has_key('track'):
-        form = SearchPersonForm(request.GET)
-        if form.is_valid():
-
-            dosearch = True
-
-            # perform search
-            #criteria = form.criteria()
-            #ain7members = form.search(criteria)
-            ain7members = AIn7Member.objects.all().order_by('person__last_name','person__first_name')
-
-            if len(ain7members) == 1:
-                messages.info(request, _('Only one result matched your criteria.'))
-                return redirect(ain7members[0].person)
-
-    return render(request, 'annuaire/search.html',
-        {
-            'form': form,
-            'ain7members': ain7members,
-            'request': request,
-            'dosearch': dosearch,
+    return render(request, 'annuaire/search.html', {
+        'filter': filter,
+        'request': request,
         }
     )
+
 
 @login_required
 def change_credentials(request, user_id):
     is_myself = int(request.user.id) == int(user_id)
 
     if not is_myself:
-        return HttpResponseRedirect(\
+        return HttpResponseRedirect(
             reverse('ain7.annuaire.views.details', args=[person.id]))
 
     person = get_object_or_404(Person, pk=user_id)
@@ -132,35 +115,33 @@ def change_credentials(request, user_id):
                 person.user.set_password(form.cleaned_data['new_password1'])
                 person.user.save()
                 messages.success(request, _("Credentials updated."))
-                return HttpResponseRedirect(\
-                    reverse('ain7.annuaire.views.details', args=[person.id]))
+                return redirect(person)
             else:
                 messages.error(request, _("Wrong authentication"))
 
     form = ChangePasswordForm(initial={'login': person.user.username})
 
-    return render(request, 'annuaire/credentials.html',
-        {
-            'form': form,
-            'person': person,
-            'ain7member': ain7member,
-            'is_myself': is_myself,
+    return render(request, 'annuaire/credentials.html', {
+        'form': form,
+        'person': person,
+        'ain7member': ain7member,
+        'is_myself': is_myself,
         }
     )
+
 
 @access_required(groups=['ain7-secretariat'])
 def send_new_credentials(request, user_id):
     """Send a link for reseting password"""
 
     person = get_object_or_404(Person, pk=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=person)
 
     person.password_ask(request=request)
 
     messages.success(request, _("New credentials have been sent"))
 
-    return HttpResponseRedirect(reverse('ain7.annuaire.views.details', 
-        args=[person.id]))
+    return redirect(person)
+
 
 @access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def edit(request, user_id=None):
@@ -173,14 +154,14 @@ def edit(request, user_id=None):
     if AIn7Member.objects.filter(person=person).count() > 0:
         ain7member = get_object_or_404(AIn7Member, person=person)
 
-    return render(request, 'annuaire/edit.html',
-        {
-            'person': person,
-            'ain7member': ain7member, 
-            'personprivate': personprivate,
-            'is_myself': int(request.user.id) == int(user_id),
+    return render(request, 'annuaire/edit.html', {
+        'person': person,
+        'ain7member': ain7member,
+        'personprivate': personprivate,
+        'is_myself': int(request.user.id) == int(user_id),
         }
     )
+
 
 @access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def person_edit(request, user_id):
@@ -196,13 +177,13 @@ def person_edit(request, user_id):
 
         return redirect('annuaire-edit', user_id)
 
-    return render(request, 'annuaire/edit_form.html',
-        {
-            'form': form,
-            'action_title': _("Modification of personal data for"),
-            'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'annuaire/edit_form.html', {
+        'form': form,
+        'action_title': _("Modification of personal data for"),
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
+
 
 @access_required(groups=['ain7-secretariat','ain7-ca'])
 def personprivate_edit(request, user_id):
@@ -218,13 +199,13 @@ def personprivate_edit(request, user_id):
 
         return redirect('annuaire-edit', user_id)
 
-    return render(request, 'annuaire/edit_form.html',
-        {
-            'form': form,
-            'action_title': _("Modification of personal data for"),
-            'back': request.META.get('HTTP_REFERER', '/')
+    return render(request, 'annuaire/edit_form.html', {
+        'form': form,
+        'action_title': _("Modification of personal data for"),
+        'back': request.META.get('HTTP_REFERER', '/')
         }
     )
+
 
 @access_required(groups=['ain7-secretariat','ain7-ca'], allow_myself=True)
 def ain7member_edit(request, user_id):
@@ -242,15 +223,14 @@ def ain7member_edit(request, user_id):
 
         return redirect('annuaire-edit', user_id)
 
-    return render(request, 'annuaire/edit_form.html',
-        {
-             'form': form,
-             'action_title': _("Modification of personal data for"),
-             'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'annuaire/edit_form.html', {
+        'form': form,
+        'action_title': _("Modification of personal data for"),
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
 
-# Promos
+
 @access_required(groups=['ain7-secretariat','ain7-ca'], allow_myself=True)
 def promo_edit(request, user_id=None, promo_id=None):
 
@@ -266,12 +246,12 @@ def promo_edit(request, user_id=None, promo_id=None):
 
         return redirect('annuaire-edit', user_id)
 
-    return render(request, 'annuaire/edit_form.html',
-        {
-            'form': form,
-            'action_title': _(u'Adding a promotion for %s' % ain7member),
+    return render(request, 'annuaire/edit_form.html', {
+        'form': form,
+        'action_title': _(u'Adding a promotion for %s' % ain7member),
         },
     )
+
 
 @confirmation_required(lambda user_id=None, promo_id=None :
      str(get_object_or_404(Promo, pk=promo_id)), 
@@ -289,7 +269,7 @@ def promo_delete(request, user_id=None, promo_id=None):
  successfully removed.")
     return HttpResponseRedirect('/annuaire/%s/edit/#promos' % user_id)
 
-# Adresses
+
 @access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def address_edit(request, user_id=None, address_id=None):
 
@@ -311,14 +291,14 @@ def address_edit(request, user_id=None, address_id=None):
 
         return redirect('annuaire-edit', user_id)
 
-    return render(request, 'annuaire/edit_form.html',
-        {
-            'form': form,
-            'action_title': title,
-            'person': person,
-            'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'annuaire/edit_form.html', {
+        'form': form,
+        'action_title': title,
+        'person': person,
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
+
 
 @confirmation_required(lambda user_id=None, address_id=None :
     str(get_object_or_404(Address, pk=address_id)), 'annuaire/base.html', 
@@ -330,6 +310,7 @@ def address_delete(request, user_id=None, address_id=None):
         get_object_or_404(Address, pk=address_id),
         '/annuaire/%s/edit/#address' % user_id,
         _('Address successfully deleted.'))
+
 
 @access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def phone_edit(request, user_id=None, phone_id=None):
@@ -352,14 +333,14 @@ def phone_edit(request, user_id=None, phone_id=None):
 
         return redirect('annuaire-edit', user_id)
 
-    return render(request, 'annuaire/edit_form.html',
-        {
-             'form': form,
-             'action_title': title,
-             'person': person,
-             'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'annuaire/edit_form.html', {
+        'form': form,
+        'action_title': title,
+        'person': person,
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
+
 
 @confirmation_required(lambda user_id=None, phone_id=None :
     str(get_object_or_404(PhoneNumber, pk=phone_id)), 'annuaire/base.html', 
@@ -372,7 +353,7 @@ def phone_delete(request, user_id=None, phone_id=None):
         '/annuaire/%s/edit/#phone' % user_id,
         _('Phone number successfully deleted.'))
 
-# Adresses de courriel
+
 @access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def email_edit(request, user_id=None, email_id=None):
 
@@ -395,14 +376,14 @@ def email_edit(request, user_id=None, email_id=None):
 
         return redirect('annuaire-edit', user_id)
 
-    return render(request, 'annuaire/edit_form.html',
-        {
-             'form': form,
-             'action_title': title,
-             'person': person,
-             'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'annuaire/edit_form.html', {
+        'form': form,
+        'action_title': title,
+        'person': person,
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
+
 
 @confirmation_required(lambda user_id=None, email_id=None:
     str(get_object_or_404(Email, pk=email_id)), 'annuaire/base.html', 
@@ -414,7 +395,7 @@ def email_delete(request, user_id=None, email_id=None):
                                '/annuaire/%s/edit/#email' % user_id,
                                _('Email address successfully deleted.'))
 
-# Comptes de messagerie instantanee
+
 @access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def im_edit(request, user_id=None, im_id=None):
 
@@ -436,14 +417,14 @@ def im_edit(request, user_id=None, im_id=None):
 
         return redirect('annuaire-edit', user_id)
 
-    return render(request, 'annuaire/edit_form.html',
-        {
-             'form': form, 
-             'action_title': title,
-             'person': person,
-             'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'annuaire/edit_form.html', {
+        'form': form, 
+        'action_title': title,
+        'person': person,
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
+
 
 @confirmation_required(lambda user_id=None, im_id=None :
     str(get_object_or_404(InstantMessaging, pk=im_id)), 'annuaire/base.html',
@@ -456,7 +437,7 @@ def im_delete(request, user_id=None, im_id=None):
         '/annuaire/%s/edit/#im' % user_id,
         _('Instant messaging account successfully deleted.'))
 
-# Comptes IRC
+
 @access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def irc_edit(request, user_id=None, irc_id=None):
 
@@ -480,14 +461,14 @@ def irc_edit(request, user_id=None, irc_id=None):
 
         return redirect('annuaire-edit', user_id)
 
-    return render(request, 'annuaire/edit_form.html',
-        {
-            'form': form,
-            'action_title': title,
-            'person': person,
-            'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'annuaire/edit_form.html', {
+        'form': form,
+        'action_title': title,
+        'person': person,
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
+
 
 @confirmation_required(lambda user_id=None, irc_id=None:
     str(get_object_or_404(IRC, pk=irc_id)), 'annuaire/base.html',
@@ -500,7 +481,7 @@ def irc_delete(request, user_id=None, irc_id=None):
         '/annuaire/%s/edit/#irc' % user_id,
         _('IRC account successfully deleted.'))
 
-# Sites Internet
+
 @access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def website_edit(request, user_id=None, website_id=None):
 
@@ -524,14 +505,14 @@ def website_edit(request, user_id=None, website_id=None):
 
         return redirect('annuaire-edit', user_id)
 
-    return render(request, 'annuaire/edit_form.html',
-        {
-            'form': form,
-            'action_title': title,
-            'person': person,
-            'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'annuaire/edit_form.html', {
+        'form': form,
+        'action_title': title,
+        'person': person,
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
+
 
 @confirmation_required(lambda user_id=None, website_id=None:
     str(get_object_or_404(WebSite, pk=website_id)), 'annuaire/base.html',
@@ -551,7 +532,7 @@ def club_membership_edit(request, user_id=None, club_membership_id=None):
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
     title = _('Creation of a club membership for')
- 
+
     club_membership = None
     if club_membership_id:
         club_membership = get_object_or_404(ClubMembership,
@@ -569,14 +550,14 @@ def club_membership_edit(request, user_id=None, club_membership_id=None):
 
         return redirect('annuaire-edit', user_id)
 
-    return render(request, 'annuaire/edit_form.html',
-        {
-             'form': form,
-             'action_title': title,
-             'person': person,
-             'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'annuaire/edit_form.html', {
+        'form': form,
+        'action_title': title,
+        'person': person,
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
+
 
 @confirmation_required(lambda user_id=None, club_membership_id=None:
     str(get_object_or_404(ClubMembership, pk=club_membership_id)),
@@ -590,6 +571,7 @@ def club_membership_delete(request, user_id=None, club_membership_id=None):
         '/annuaire/%s/edit/#assoc' % user_id,
         _('Club membership successfully deleted.'))
 
+
 @access_required(groups=['ain7-secretariat', 'ain7-ca'])
 def add(request, user_id=None):
     """ add a new person"""
@@ -602,13 +584,13 @@ def add(request, user_id=None):
 
         return redirect('annuaire-edit', user_id)
 
-    return render(request, 'annuaire/edit_form.html',
-        {
-            'action_title': _('Register new user'),
-            'back': request.META.get('HTTP_REFERER', '/'),
-            'form': form,
+    return render(request, 'annuaire/edit_form.html', {
+        'action_title': _('Register new user'),
+        'back': request.META.get('HTTP_REFERER', '/'),
+        'form': form,
         }
     )
+
 
 @access_required(groups=['ain7-secretariat', 'ain7-member'])
 def vcard(request, user_id):
@@ -616,33 +598,33 @@ def vcard(request, user_id):
     person = get_object_or_404(Person, pk=user_id)
 
     mail = None
-    mail_list = Email.objects.filter(person=person, preferred_email=True, \
-        confidentiality__in=[0,1])
+    mail_list = Email.objects.filter(person=person, preferred_email=True,
+        confidentiality__in=[0, 1])
     if mail_list:
         mail = mail_list[0].email
 
     vcard = vobject.vCard()
-    vcard.add('n').value = vobject.vcard.Name( family=person.last_name, \
-        given=person.first_name )
+    vcard.add('n').value = vobject.vcard.Name( family=person.last_name,
+        given=person.first_name)
     vcard.add('fn').value = person.first_name+' '+person.last_name
     if mail:
         email = vcard.add('email')
         email.value = mail
         email.type_param = ['INTERNET', 'PREF']
-    for address in  Address.objects.filter(person=person, \
-        confidentiality__in=[0,1]):
+    for address in Address.objects.filter(person=person,
+        confidentiality__in=[0, 1]):
         street = ''
         if address.line1:
             street = street + address.line1
         if address.line2:
             street = street + address.line2
         adr = vcard.add('adr')
-        adr.value = vobject.vcard.Address(street=street, city=address.city, \
-            region='', code=address.zip_code, country=address.country.name, \
+        adr.value = vobject.vcard.Address(street=street, city=address.city,
+            region='', code=address.zip_code, country=address.country.name,
             box='', extended='')
         adr.type_param = address.type.type
-    for phone in PhoneNumber.objects.filter(person=person, \
-        confidentiality__in=[0,1]):
+    for phone in PhoneNumber.objects.filter(person=person,
+        confidentiality__in=[0, 1]):
         tel = vcard.add('tel')
         tel.value = phone.number
         tel.type_param = ['HOME', 'FAX', 'CELL'][phone.type-1]
@@ -651,8 +633,7 @@ def vcard(request, user_id):
 
     response = HttpResponse(vcardstream, mimetype='text/x-vcard')
     response['Filename'] = person.user.username+'.vcf'  # IE needs this
-    response['Content-Disposition'] = 'attachment; filename=' + \
-        person.user.username+'.vcf'
+    response['Content-Disposition'] = ('attachment; filename=' +
+        person.user.username+'.vcf')
 
     return response
-

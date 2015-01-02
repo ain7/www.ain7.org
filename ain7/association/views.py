@@ -22,9 +22,11 @@
 #
 
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.forms.models import modelform_factory
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
+
+import autocomplete_light
 
 from ain7.annuaire.models import AIn7Member
 from ain7.association.forms import CouncilRoleForm
@@ -94,27 +96,18 @@ def contact(request):
 def edit_council_role(request, role_id=None):
     """edit council role"""
 
-    form = CouncilRoleForm()
-
+    group_role = None
     if role_id:
         group_role = get_object_or_404(GroupLeader, id=role_id)
-        form = CouncilRoleForm(instance=group_role)
     
-    if request.method == 'POST':
-        if role_id:
-            form = CouncilRoleForm(request.POST, instance=group_role)
-        else:
-            form = CouncilRoleForm(request.POST)
-        if form.is_valid():
-            council_role = form.save(commit=False)
-            council_role.grouphead = GroupHead.objects.get(group__slug='ain7')
-            council_role.save()
-            return HttpResponseRedirect(reverse(council))
+    CouncilRoleForm = autocomplete_light.modelform_factory(GroupLeader, exclude=('grouphead',))
+    form = CouncilRoleForm(request.POST or None, instance=group_role)
 
-        else:
-            request.user.message_set.create(message=_('Something was wrong in\
- the form you filled. No modification done.'))
-            # TODO : le champ username n'est pas renseigné ici (LP 346274)
+    if request.method == 'POST' and form.is_valid():
+        council_role = form.save(commit=False)
+        council_role.grouphead = GroupHead.objects.get(group__slug='ain7')
+        council_role.save()
+        return redirect('council-details')
 
     return render(request, 'association/council_edit.html',
         {

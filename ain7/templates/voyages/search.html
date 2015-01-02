@@ -1,21 +1,18 @@
 {% extends "voyages/base.html" %}
 {% load i18n %}
 {% load endless %}
+{% load crispy_forms_tags %}
 
 {% block content-left %}
 
-<form action="." method="post">
-<table class="form">
-   {{ form }}
-</table>
-<div style="text-align: center">
-<input class="btn btn-primary" type="submit" value="{% trans "search" %}" />
+<form action="." method="get">
+{{ travels.form|crispy }}
+<div class="control-group">
+<div class="controls">
+<input class="btn btn-primary" type="submit" value="{% trans "Search" %}" />
+</div>
 </div>
 </form>
-
-{% ifequal request.method 'POST' %}
-<h2>{% trans "Research result" %}</h2>
-{% if travels %}
 
 {% paginate travels %}
 
@@ -30,8 +27,4 @@
 
 <p class="text-center">{% show_pages %}</p> 
 
-{% else %}
-    <p>{% trans "No travel correspond to your research" %}</p>
-{% endif %}
-{% endifequal %}
-
+{% endblock %}

@@ -5,30 +5,7 @@
 
 {% block content %}
 
-<div class="span9">
-
 {% block content-left %}
 {% endblock %}
 
-</div>
-
-<div class="span3">
-   <div class="well">
-    <ul class="nav nav-list">
-    <li class="nav-header">{% trans "Links" %}</li>
-    <li><a href="{% url "ain7.association.views.index" %}">{% trans "Overview" %}</a></li>
-    <li><a href="{% url "ain7.association.views.status" %}">{% trans "Status" %}</a></li>
-    <li><a href="{% url "ain7.association.views.internalrules" %}">{% trans "Internal rules" %}</a></li>
-    <li><a href="{% url "ain7.association.views.council" %}">{% trans "Council" %}</a></li>
-    <li><a href="{% url "ain7.association.views.contact" %}">{% trans "Contact" %}</a></li>
-
-   {% block actions %}
-   {% endblock %}
-
-
-    <li class="nav-header">{% trans "Statistics" %}</li>
-    <li>{% trans "Number of members" %}: {{ count_members }}</li>
-  </ul>
-</div>
-</div>
 {% endblock %}

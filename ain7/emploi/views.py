@@ -31,9 +31,11 @@ from django.utils.translation import ugettext as _
 from ain7.pages.models import Text
 from ain7.annuaire.models import Person, AIn7Member
 from ain7.decorators import access_required, confirmation_required
-from ain7.emploi.models import JobOffer, Position, EducationItem, \
-                               LeisureItem, PublicationItem, JobOfferView
-from ain7.emploi.forms import SearchJobForm
+from ain7.emploi.filters import JobOfferFilter
+from ain7.emploi.models import (
+    JobOffer, Position, EducationItem, LeisureItem,
+    PublicationItem, JobOfferView
+    )
 from ain7.utils import ain7_generic_delete, check_access
 
 
@@ -48,7 +50,8 @@ def index(request):
         ain7member = None
     liste_emplois = JobOffer.objects.filter(checked_by_secretariat=True, \
         obsolete=False).order_by('-id')[:20]
-    text1 = Text.objects.get(textblock__shortname='emploi')
+    #text1 = Text.objects.get(textblock__shortname='emploi')
+    text1 = 'blavbla'
     return render(request, 'emploi/index.html',
         {'ain7member': ain7member,
          'liste_emplois': liste_emplois, 'text1': text1})
@@ -307,22 +310,10 @@ def job_edit(request, job_id):
 def job_search(request):
     """job search"""
 
-    list_jobs = False
-    dosearch = False
+    filter = JobOfferFilter(request.GET, queryset=JobOffer.objects.filter(obsolete=False))
 
-    form = SearchJobForm(request.GET or None)
-
-    if (request.GET.has_key('title') or \
-       request.GET.has_key('activity_field') or \
-       request.GET.has_key('experience') or \
-       request.GET.has_key('contract_type')) and form.is_valid():
-       dosearch = True
-       list_jobs = form.search()
-
-    return render(request, 'emploi/job_search.html',
-        {
-            'form': form, 'list_jobs': list_jobs,
-            'dosearch': dosearch,
+    return render(request, 'emploi/job_search.html', {
+        'filter': filter,
         }
      )
 
@@ -361,4 +352,3 @@ def job_delete(request, job_id=None):
     job.delete()
     messages.success(request, _("Job proposal removed."))
     return redirect('jobs-proposals')
-

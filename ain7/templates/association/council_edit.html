@@ -5,7 +5,7 @@
 {% block content-left %}
 
 <form method="post" action="." enctype="multipart/form-data">
-{{ form }}
+{{ form|crispy }}
 <div class="control-group">
 <div class="controls">
 <a class="btn disabled" href="{{ back }}">{% trans "Cancel" %}</a>

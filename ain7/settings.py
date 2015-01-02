@@ -39,7 +39,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['www.ain7.com', 'ain7.com', 'www.ain7.org', 'ain7.org']
 
 
 # Application definition
@@ -52,6 +52,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
+    'autocomplete_light',
     'crispy_forms',
     'endless_pagination',
     'grappelli',
@@ -116,11 +117,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-##
-## Added for this project
-##
+#
+# Added for this project
+#
 
-TEMPLATE_DIRS = (
+TEMPLATE_DIRS = DEFAULT_SETTINGS.TEMPLATE_DIRS + (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -137,16 +138,16 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     'ain7.context_processors.user_groups',
 )
 
-PIWIK_ENABLED=False
+PIWIK_ENABLED = False
 
 SERVER_EMAIL = 'AIn7 Web Portal <noreply@ain7.com>'
-SMTP_HOST='localhost'
-SMTP_PORT=25
-SMTP_LOGIN=''
-SMTP_PASSWORD=''
-SMTP_TLS=False
+SMTP_HOST = 'localhost'
+SMTP_PORT = 25
+SMTP_LOGIN = ''
+SMTP_PASSWORD = ''
+SMTP_TLS = False
 
-ENDLESS_PAGINATION_PER_PAGE=25
+ENDLESS_PAGINATION_PER_PAGE = 25
 
 PIWIK_URL = 'http://localhost/piwik/'
 PIWIK_SITE_ID = '0'
@@ -155,25 +156,24 @@ TINYMCE_VERSION = '3.3.8'
 
 PORTAL_ADMIN = 'ain7-admin'
 
-CRISPY_TEMPLATE_PACK='bootstrap3'
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-FACEBOOK_AIN7='http://www.facebook.com/ENSEEIHT'
-LINKEDIN_AIN7='http://www.linkedin.com/groups?gid=73525'
-TWITTER_AIN7='http://twitter.com/ENSEEIHT_Alumni'
-VIADEO_AIN7='http://www.viadeo.com/communaute/macommunaute/?communityId=0022ezgr59190pqm'
-GPLUS_AIN7='https://plus.google.com/s/enseeiht#105806841193732839789/posts'
+FACEBOOK_AIN7 = 'http://www.facebook.com/ENSEEIHT'
+LINKEDIN_AIN7 = 'http://www.linkedin.com/groups?gid=73525'
+TWITTER_AIN7 = 'http://twitter.com/ENSEEIHT_Alumni'
+VIADEO_AIN7 = 'http://www.viadeo.com/communaute/macommunaute/?communityId=0022ezgr59190pqm'
+GPLUS_AIN7 = 'https://plus.google.com/s/enseeiht#105806841193732839789/posts'
 
-SYSTEM_PAY_URL='http://localhost'
-SYSTEM_PAY_SITE_ID='123456789'
-SYSTEM_PAY_CERTIFICATE='1234567890912345'
-SYSTEM_PAY_MODE='TEST'
+SYSTEM_PAY_URL = 'http://localhost'
+SYSTEM_PAY_SITE_ID = '123456789'
+SYSTEM_PAY_CERTIFICATE = '1234567890912345'
+SYSTEM_PAY_MODE = 'TEST'
 
 AIN7_SIRET = '0000000000000001-001'
 
-ENVIRONMENT= 'production'
+ENVIRONMENT = 'production'
 
 try:
     from settings_local import *
 except ImportError:
     pass
-
