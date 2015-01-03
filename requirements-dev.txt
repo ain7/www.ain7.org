@@ -12,3 +12,6 @@ django-debug-toolbar
 django-nose
 coverage
 
+flake8
+pep8
+pylint

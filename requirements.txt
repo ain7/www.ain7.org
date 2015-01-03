@@ -4,9 +4,10 @@ django-autocomplete-light
 django-crispy-forms
 django-extensions
 django-endless-pagination
+django-filter
 django-grappelli
 
-celery
+celery[redis]
 
 Pillow
 vobject
@@ -16,5 +17,4 @@ pygments
 MySQL-python
 
 # workaround python-dateutil issue (python 2.x / python 3)
-python-dateutil==1.4.1
-
+python-dateutil
