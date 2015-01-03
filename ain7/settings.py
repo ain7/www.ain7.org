@@ -129,7 +129,7 @@ TEMPLATE_DIRS = DEFAULT_SETTINGS.TEMPLATE_DIRS + (
 )
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "ain7", "static"),
+    os.path.join(BASE_DIR, 'ain7', 'static'),
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
@@ -142,7 +142,7 @@ PIWIK_ENABLED = False
 
 SERVER_EMAIL = 'AIn7 Web Portal <noreply@ain7.com>'
 SMTP_HOST = 'localhost'
-SMTP_PORT = 25
+SMTP_PORT = 2525
 SMTP_LOGIN = ''
 SMTP_PASSWORD = ''
 SMTP_TLS = False
@@ -151,8 +151,6 @@ ENDLESS_PAGINATION_PER_PAGE = 25
 
 PIWIK_URL = 'http://localhost/piwik/'
 PIWIK_SITE_ID = '0'
-
-TINYMCE_VERSION = '3.3.8'
 
 PORTAL_ADMIN = 'ain7-admin'
 
@@ -171,7 +169,8 @@ SYSTEM_PAY_MODE = 'TEST'
 
 AIN7_SIRET = '0000000000000001-001'
 
-ENVIRONMENT = 'production'
+BROKER_URL = 'redis://localhost:6379/0'
+CELERY_IMPORTS = ("ain7.tasks",)
 
 try:
     from settings_local import *
