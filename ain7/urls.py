@@ -107,7 +107,6 @@ urlpatterns = patterns('',
     url(r'^facebook/$', 'ain7.pages.views.facebook', name='facebook'),
     url(r'^linkedin/$', 'ain7.pages.views.linkedin', name='linkedin'),
     url(r'^twitter/$', 'ain7.pages.views.twitter', name='twitter'),
-    url(r'^viadeo/$', 'ain7.pages.views.viadeo', name='viadeo'),
     url(r'^g\+/$', 'ain7.pages.views.gplus', name='g+'),
 
     # django-autocomplete-light

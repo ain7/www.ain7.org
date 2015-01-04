@@ -200,11 +200,6 @@ def twitter(request):
     return redirect(settings.TWITTER_AIN7)
 
 
-def viadeo(request):
-    """redirect to Viadeo ENSEEIHT/Alumni Feed"""
-    return redirect(settings.VIADEO_AIN7)
-
-
 def gplus(request):
     """redirect to Google+ ENSEEIHT/Alumni Feed"""
     return redirect(settings.GPLUS_AIN7)
