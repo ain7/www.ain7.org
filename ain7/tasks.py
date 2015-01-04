@@ -23,7 +23,12 @@ import logging
 
 from celery import shared_task
 
+from django.conf import settings
+from django.utils import timezone
+
+from ain7.annuaire.models import AIn7Member
 from ain7.emploi.models import JobOffer
+from ain7.groups.models import Group
 from ain7.manage.models import Mailing
 
 
@@ -50,3 +55,18 @@ def mailing_send():
             mail_to__isnull=False,
             ):
         mailing.send(False)
+
+
+@shared_task
+def expire_membership():
+
+    today = timezone.now().date()
+    members = Group.objects.get(name=settings.AIN7_MEMBERS)
+
+    for member in AIn7Member.objects.all():
+        last_subs_date = member.last_subscription_date
+        if not last_subs_date or last_subs_date - today > datetime.timedelta(days=30):
+            logging.info('Removing %s from %s' % (member.person, settings.AIN7_MEMBERS))
+            #members.remove(member.person)
+        else:
+            logging.info('Membership ok for %s' % (member.person))
