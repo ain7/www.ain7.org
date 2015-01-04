@@ -38,15 +38,11 @@ from ain7.voyages.models import Travel
 def index(request):
     """index"""
 
-    next_travels = Travel.objects.filter(
-        start_date__gte=datetime.now()).order_by('-start_date')
-    prev_travels = Travel.objects.filter(
-        start_date__lt=datetime.now()).order_by('-start_date')[:5]
+    travels = TravelFilter(request.GET, queryset=Travel.objects.all())
     text = Text.objects.get(textblock__shortname='voyages')
 
     return render(request, 'voyages/index.html', {
-        'next_travels': next_travels,
-        'previous_travels': prev_travels,
+        'travels': travels,
         'text': text,
         }
     )
@@ -75,25 +71,6 @@ def details(request, travel_id):
     )
 
 
-def list(request):
-    """upcoming travels list"""
-    return render(request, 'voyages/list.html', {
-        'travels': Travel.objects.exclude(end_date__lte=datetime.now()),
-        }
-    )
-
-
-def search(request):
-    """search travels form"""
-
-    travels = TravelFilter(request.POST, queryset=Travel.objects.all())
-
-    return render(request, 'voyages/search.html', {
-        'travels': travels,
-        }
-    )
-
-
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def edit(request, travel_id=None):
     """edit travel"""
@@ -116,11 +93,12 @@ def edit(request, travel_id=None):
             _('Modifications have been successfully saved.')
         )
 
-        redirect(travel)
+        return redirect(travel)
 
     return render(request, 'voyages/edit.html', {
         'form': form,
         'action_title': _("Modification of personal data for"),
         'back': request.META.get('HTTP_REFERER', '/'),
+        'travel': travel,
         }
     )

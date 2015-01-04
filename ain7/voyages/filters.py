@@ -31,6 +31,5 @@ class TravelFilter(django_filters.FilterSet):
     class Meta:
         model = Travel
         fields = {
-            'label': ['icontains'],
             'description': ['icontains'],
         }

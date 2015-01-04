@@ -3,8 +3,11 @@
 
 {% block content-left %}
 
-    <h2>{{ travel.label|escape }}</h2>
-    <div class="left_box">
+<h2>{{ travel.label|escape }}</h2>
+
+{% if superadmin or ca_member or secretariat_member %}
+<p><a class="btn btn-primary" href="{% url 'travel-edit' travel.id %}"><i class="fa fa-pencil fa-1g"></i> {% trans "Edit" %}</a></p>
+{% endif %}
 
 <table style="width: 100%">
   {% if travel.start_date and travel.end_date %}
@@ -38,7 +41,6 @@
   </p>
 {% endif %}
 
-
 {% if travel.description %}
   {{ travel.description|safe }}
 {% endif %}
@@ -48,16 +50,4 @@
   {{ travel.report|safe }}
 {% endif %}
 
-    </div> <!-- left_box -->
-{% endblock %}
-
-
-{% block actions %}
-{# <li><a href="{% url "ain7.voyages.views.join" travel.id %}">{% trans "Participate to this travel" %}</a></li> #}
-{% if superadmin or ca_member or secretariat_member or contributeur %}
-{# <li><a href="{% url "ain7.voyages.views.participants" travel.id %}">{% trans "List participants" %}</a></li> #}
-<li><a href="{% url "ain7.voyages.views.edit" travel.id %}">{% trans "Modify these data" %}</a></li>
-{#<li><a href="{% url "ain7.voyages.views.responsibles" travel.id %}">{% trans "Modify the responsibles" %}</a></li> #}
-<li><a href="{% url "ain7.voyages.views.delete" travel.id %}">{% trans "Delete this travel" %}</a></li>
-{% endif %}
 {% endblock %}

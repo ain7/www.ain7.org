@@ -28,12 +28,9 @@ urlpatterns = patterns('ain7.voyages.views',
     # Voyages
     url(r'^$', 'index', name='travels-index'),
     url(r'^add/$', 'edit', name='travel-register'),
-    url(r'^edit/$', 'edit', name='travel-page-edit'),
-    url(r'^list/$', 'list', name='travels-list'),
-    url(r'^search/$', 'search', name='travels-search'),
+    url(r'^edit/$', 'edit', name='travel-edit'),
     url(r'^(?P<travel_id>\d+)/$', 'details', name='travel-details'),
     url(r'^(?P<travel_id>\d+)/edit/$', 'edit', name='travel-edit'),
-    url(r'^(?P<travel_id>\d+)/search/$', 'search', name='travel-search'),
     url(r'^(?P<travel_id>\d+)/delete/$', 'delete', name='travel-delete'),
 
 )

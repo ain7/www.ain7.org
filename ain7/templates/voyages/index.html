@@ -1,14 +1,48 @@
 {% extends "voyages/base.html" %}
 {% load i18n %}
+{% load endless %}
+{% load crispy_forms_tags %}
 
 {% block content-left %}
 
+<div class="row">
+<div class="col-lg-8">
+
 {% if superadmin or ca_member or secretariat_member or contributeur %}
-<p><a class="btn btn-primary" href="{% url "pages.views.edit" text.id %}">{% trans "Edit" %}</a></p>
+<p><a class="btn btn-primary" href="{% url "pages.views.edit" text.id %}"><i class="fa fa-pencil"></i> {% trans "Edit" %}</a></p>
 {% endif %}
 
 <h2>{{ text.title }}</h2>
 
 {{ text.body|safe }}
+
+</div>
+
+<div class="col-lg-4">
+
+<form action="." method="get">
+{{ travels.form|crispy }}
+<div class="control-group">
+<div class="controls">
+<input class="btn btn-primary" type="submit" value="{% trans "Search" %}" />
+</div>
+</div>
+</form>
+
+{% paginate travels %}
+
+<p class="text-center">{% show_pages %}</p> 
+
+<ul>
+    {% for travel in travels %}
+        <li><a href="{% url "ain7.voyages.views.details" travel.id %}">{{ travel.label|escape }}</a>
+            - {{ travel.date|escape }}</li>
+    {% endfor %}
+</ul>
+
+<p class="text-center">{% show_pages %}</p> 
+
+</div>
+</div>
 
 {% endblock %}
