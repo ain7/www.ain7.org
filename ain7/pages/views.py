@@ -37,22 +37,29 @@ from ain7.pages.models import Text, LostPassword
 from ain7.decorators import access_required
 from ain7.emploi.models import JobOffer
 
+
 def homepage(request):
     """AIn7 homepage"""
 
     is_subscriber = False
     ain7member = None
 
-    news = NewsItem.objects.filter(date__isnull=True).order_by('-creation_date')[:5]
-    events = NewsItem.objects.filter(date__gte=datetime.datetime.now()).order_by('date')[:5]
-    
+    news = NewsItem.objects.filter(
+        date__isnull=True
+    ).order_by('-creation_date')[:5]
+    events = NewsItem.objects.filter(
+        date__gte=datetime.datetime.now()
+    ).order_by('date')[:5]
+
     is_auth = request.user.is_authenticated()
 
     today = datetime.datetime.today()
     birthdays = []
     text1 = Text.objects.get(textblock__shortname='edito')
-    jobOffers = JobOffer.objects.filter(checked_by_secretariat=True, \
-        obsolete=False).order_by('-id')[:5]
+    jobOffers = JobOffer.objects.filter(
+        checked_by_secretariat=True,
+        obsolete=False
+    ).order_by('-id')[:5]
 
     if is_auth:
 
@@ -68,25 +75,25 @@ def homepage(request):
             person__personprivate__death_date=None) ]
         birthdays.sort(lambda x, y: cmp(x.person.last_name, y.person.last_name))
 
-    return render(request, 'pages/homepage.html', 
-        {
-            'news': news ,
-            'events': events,
-            'settings': settings,
-            'birthdays': birthdays,
-            'text1': text1,
-            'jobOffers': jobOffers,
-            'is_subscriber': is_subscriber,
+    return render(request, 'pages/homepage.html', {
+        'news': news,
+        'events': events,
+        'settings': settings,
+        'birthdays': birthdays,
+        'text1': text1,
+        'jobOffers': jobOffers,
+        'is_subscriber': is_subscriber,
         }
     )
+
 
 def lostpassword(request):
     """lostpassword page"""
 
     form = LostPasswordForm()
     if request.method == 'GET':
-        return render(request, 'pages/lostpassword.html',
-            {'form': form})
+        return render(request, 'pages/lostpassword.html', {'form': form})
+
     if request.method == 'POST':
         form = LostPasswordForm(request.POST)
         if form.is_valid():
@@ -104,6 +111,7 @@ def lostpassword(request):
  account but don\'t know the email address that was used, please\
  contact an AIn7 administrator.'))
             return render(request, 'pages/lostpassword.html', {'form': form})
+
 
 def changepassword(request, key):
     """changepassword page"""
@@ -126,25 +134,32 @@ def changepassword(request, key):
             messages.success(request, _('Successfully changed password'))
             user = auth.authenticate(username=person.user.username, password=form.cleaned_data['password'])
             auth.login(request, user)
-            return HttpResponseRedirect('/')
+            return redirect('homepage')
 
-    return render(request, 'pages/changepassword.html', 
-        {'form': form, 'person': lostpw.person})
+    return render(request, 'pages/changepassword.html', {
+        'form': form,
+        'person': lostpw.person
+        }
+    )
+
 
 def apropos(request):
     """about page"""
     text = Text.objects.get(textblock__shortname='apropos')
     return render(request, 'pages/apropos.html', {'text': text})
 
+
 def mentions_legales(request):
     """legal mentions"""
     text = Text.objects.get(textblock__shortname='mentions_legales')
     return render(request, 'pages/mentions_legales.html', {'text': text})
 
+
 def rss(request):
     """rss feeds"""
     text = Text.objects.get(textblock__shortname='rss')
     return render(request, 'pages/rss.html', {'text': text})
+
 
 @access_required(groups=['ain7-membre', 'ain7-ca', 'ain7-secretariat',
                          'ain7-contributeur'])
@@ -153,7 +168,7 @@ def edit(request, text_id):
 
     text = get_object_or_404(Text, pk=text_id)
 
-    TextForm = modelform_factory(Text, exclude=('textblock','lang'))
+    TextForm = modelform_factory(Text, exclude=('textblock', 'lang'))
     form = TextForm(request.POST or None, instance=text)
 
     if request.method == 'POST' and form.is_valid():
@@ -162,31 +177,34 @@ def edit(request, text_id):
         messages.success(request, message=_("Modifications saved."))
         return redirect(text)
 
-    return render(request, 'pages/text_edit.html', 
-        {
-            'text_id': text_id,
-            'form': form,
-            'back': request.META.get('HTTP_REFERER'),
+    return render(request, 'pages/text_edit.html', {
+        'text_id': text_id,
+        'form': form,
+        'back': request.META.get('HTTP_REFERER'),
         }
     )
 
+
 def facebook(request):
     """redirect to Facebook ENSEEIHT/Alumni Community"""
-    return HttpResponseRedirect(settings.FACEBOOK_AIN7)
+    return redirect(settings.FACEBOOK_AIN7)
+
 
 def linkedin(request):
     """redirect to Linkedin ENSEEIHT/Alumni Community"""
-    return HttpResponseRedirect(settings.LINKEDIN_AIN7)
+    return redirect(settings.LINKEDIN_AIN7)
+
 
 def twitter(request):
     """redirect to Twitter ENSEEIHT/Alumni Feed"""
-    return HttpResponseRedirect(settings.TWITTER_AIN7)
+    return redirect(settings.TWITTER_AIN7)
+
 
 def viadeo(request):
     """redirect to Viadeo ENSEEIHT/Alumni Feed"""
-    return HttpResponseRedirect(settings.VIADEO_AIN7)
+    return redirect(settings.VIADEO_AIN7)
+
 
 def gplus(request):
     """redirect to Google+ ENSEEIHT/Alumni Feed"""
-    return HttpResponseRedirect(settings.GPLUS_AIN7)
-
+    return redirect(settings.GPLUS_AIN7)

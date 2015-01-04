@@ -25,6 +25,7 @@ import datetime
 
 from django.db import models
 from django.db.models import permalink
+from django.utils import timezone
 from django.utils.translation import ugettext as _
 
 from ain7.utils import LoggedClass
@@ -33,8 +34,9 @@ from ain7.utils import LoggedClass
 class TextBlock(LoggedClass):
     """Text Block"""
     shortname = models.CharField(verbose_name=_('shortname'), max_length=50)
-    url = models.CharField(verbose_name=_('url'), max_length=100,
-        blank=True, null=True)
+    url = models.CharField(
+        verbose_name=_('url'), max_length=100, blank=True, null=True,
+    )
 
     def get_absolute_url(self):
         """text block url"""
@@ -47,18 +49,22 @@ class TextBlock(LoggedClass):
         """unicode string for test blocks"""
         return self.shortname
 
+
 class Text(LoggedClass):
     """Text"""
 
     textblock = models.ForeignKey(TextBlock)
-    lang = models.CharField(verbose_name=_('lang'), default='fr', max_length=10)
+    lang = models.CharField(
+        verbose_name=_('lang'), default='fr', max_length=10,
+    )
     title = models.CharField(verbose_name=_('title'), max_length=150)
     body = models.TextField(verbose_name=_('body'), blank=True, null=True)
 
     def get_absolute_url(self):
         """ return the URL of the page"""
         return self.textblock.url
-      
+
+
 class LostPassword(models.Model):
     """store lost password information"""
     person = models.ForeignKey('annuaire.Person')
@@ -78,6 +84,4 @@ class LostPassword(models.Model):
         """
             Return True is lostpassword is expired (ie have more than 24 hour)
         """
-        return (datetime.datetime.now() - self.created) > \
-            datetime.timedelta(hours=24)
-
+        return (timezone.now() - self.created) > datetime.timedelta(hours=24)
