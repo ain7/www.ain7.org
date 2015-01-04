@@ -7,6 +7,7 @@
 <h2>{% trans "by" %} {{ payment.person }} {% if payment.date %}{% trans "the" %} {{payment.date|date:"l j F Y" }}{% endif %}</h2>
 
 <form method="post" action=".">
+{% csrf_token %}
 {{ form|crispy }}
 <div class="control-group">
 <div class="controls">

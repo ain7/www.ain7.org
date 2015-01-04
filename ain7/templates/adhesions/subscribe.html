@@ -26,6 +26,7 @@ function select_conf(id, dues_amount, newspaper_amount, toggle) {
 </script>
 
 <form method="post" action="." enctype="multipart/form-data">
+{% csrf_token %}
 <table>
 <tr>
   <th>&nbsp;</th>
@@ -73,9 +74,11 @@ function select_conf(id, dues_amount, newspaper_amount, toggle) {
 <tr><th><label for="id_total_amount">{% trans "Total amount" %}:</label></th><td colspan="2"><input readonly="readonly" name="total_amount" id="id_total_amount" type="text" />&nbsp;{% trans "euros" %}</td></tr>
 {{ form }}
 </table>
-<div style="text-align: center">
-<a class="btn disabled" href="{{ back }}">{% trans "Cancel" %}</a>
+<div class="control-group">
+<div class="controls">
 <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+<a href="{{ back }}">{% trans "Cancel" %}</a>
+</div>
 </div>
 </form>
 {% if form.data.configuration %}

@@ -192,9 +192,9 @@ def payment_edit(request, payment_id=None):
     form = PaymentForm(request.POST or None, instance=payment)
 
     if request.method == 'POST' and form.is_valid():
-        form.save()
+        payment = form.save()
         messages.success(request, _('Payment successfully updated'))
-        redirect(payment)
+        redirect('payment-details', payment.id)
 
     return render(request, 'manage/payment_edit.html', {
         'payment': payment,

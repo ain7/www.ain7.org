@@ -1,5 +1,6 @@
 {% extends "adhesions/base.html" %}
 {% load i18n %}
+{% load static from staticfiles %}
 
 {% block content-left %}
 
@@ -8,9 +9,11 @@
 {% ifequal payment.type 2 %}
 
 <p>Afin de valider votre adhésion, merci de nous faire parvenir votre règlement par chèque de {{ payment.amount }}€ à l'ordre de l'AIn7 à l'adresse:</p>
+<address>
 <p>AIn7<br/>
 2 rue Charles Camichel, BP 7122,<br/>
 31071 Toulouse cedex 7</p>
+</address>
 
 {% endifequal %}
 

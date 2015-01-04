@@ -23,62 +23,64 @@
 
 import datetime
 
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.db import models
-from django.template.defaultfilters import slugify
-from django.template.defaultfilters import truncatewords
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
-from ain7.filters import FILTERS
-from ain7.utils import LoggedClass
+from ain7.groups.models import Group
+
 
 class PackageCategory(models.Model):
     name = models.CharField(max_length=50)
-    description = models.TextField(_('Description'), max_length=200, 
-        blank=True, null=True)
+    description = models.TextField(
+        _('Description'), max_length=200, blank=True, null=True,
+    )
 
     def __unicode__(self):
-         return self.name
+        return self.name
 
 
 class Package(models.Model):
     category = models.ForeignKey('shop.PackageCategory', null=True, blank=True)
     name = models.CharField(max_length=50, null=True, blank=True)
-    description = models.TextField(_('Description'), max_length=200, 
-        blank=True, null=True)
+    description = models.TextField(
+        _('Description'), max_length=200, blank=True, null=True
+    )
 
     def __unicode__(self):
-         return self.name
+        return self.name
 
     def amount(self, person=None):
 
-         from ain7.filters_local import FILTERS
+        from ain7.filters_local import FILTERS
 
-         amount = 0
-         for article in self.article_set.all():
-              price_proposal = []
-              for price in article.articleprice_set.all():
-                  if person and price.filter:
-                      if person in \
-                          Person.objects.filter(FILTERS[price.filter.filter][1]):
-                           price_proposal.append(price.price)
-                  else:
-                      price_proposal.append(price.price)
-                  
-              amount += min(price_proposal)
-         return amount
+        amount = 0
+        for article in self.article_set.all():
+            price_proposal = []
+            for price in article.articleprice_set.all():
+                if person and price.filter:
+                    if person in Person.objects.filter(
+                        FILTERS[price.filter.filter][1]
+                    ):
+                        price_proposal.append(price.price)
+                else:
+                    price_proposal.append(price.price)
+
+            amount += min(price_proposal)
+        return amount
 
 
 class Article(models.Model):
     package = models.ForeignKey('shop.Package')
     name = models.CharField(max_length=50)
-    description = models.TextField(_('Description'), max_length=200,
-        blank=True, null=True)
+    description = models.TextField(
+        _('Description'), max_length=200, blank=True, null=True
+    )
     option = models.BooleanField(default=False)
 
     def __unicode__(self):
-         return self.name
+        return self.name
 
 
 class ArticlePrice(models.Model):
@@ -89,7 +91,7 @@ class ArticlePrice(models.Model):
 
 class ShoppingCart(models.Model):
 
-    name = models.CharField(max_length=50, null=True, blank=True) 
+    name = models.CharField(max_length=50, null=True, blank=True)
     saved = models.BooleanField(default=False)
     person = models.ForeignKey('annuaire.Person')
 
@@ -117,8 +119,9 @@ class Order(models.Model):
 class PaymentMethod(models.Model):
     """payment method"""
 
-    name = models.CharField(verbose_name=_('name'), max_length=200,
-        null=True, blank=True)
+    name = models.CharField(
+        verbose_name=_('name'), max_length=200, null=True, blank=True,
+    )
     public = models.BooleanField(verbose_name=_('public'), default=False)
     obsolete = models.BooleanField(verbose_name=_('obsolete'), default=False)
 
@@ -146,23 +149,32 @@ class Payment(models.Model):
     amount = models.FloatField(verbose_name=_('amount'))
     type = models.IntegerField(verbose_name=_('Type'), choices=TYPE)
 
-    bank = models.CharField(verbose_name=_('Bank'), max_length=200, 
-        null=True, blank=True)
-    check_number = models.CharField(verbose_name=_('Check number'),
-        max_length=200, null=True, blank=True)
+    bank = models.CharField(
+        verbose_name=_('Bank'), max_length=200, null=True, blank=True
+    )
+    check_number = models.CharField(
+        verbose_name=_('Check number'), max_length=200, null=True, blank=True,
+    )
     date = models.DateField(verbose_name=_('payment date'), null=True)
     validated = models.BooleanField(verbose_name=_('validated'), default=False)
-    deposited = models.DateTimeField(verbose_name=_('deposit date'), 
-        null=True, blank=True)
+    deposited = models.DateTimeField(
+        verbose_name=_('deposit date'), null=True, blank=True
+    )
 
-    created_at = models.DateTimeField(verbose_name=_('registration date'),
-        editable=False)
-    created_by = models.ForeignKey('annuaire.Person', null=True, editable=False,
-        related_name='payment_added')
-    modified_at = models.DateTimeField(verbose_name=_('modification date'),
-        editable=False)
-    modified_by = models.ForeignKey('annuaire.Person', null=True, 
-        editable=False, related_name='payment_modified')
+    created_at = models.DateTimeField(
+        verbose_name=_('registration date'), editable=False,
+    )
+    created_by = models.ForeignKey(
+        'annuaire.Person', null=True, editable=False,
+        related_name='payment_added',
+    )
+    modified_at = models.DateTimeField(
+        verbose_name=_('modification date'), editable=False,
+    )
+    modified_by = models.ForeignKey(
+        'annuaire.Person', null=True,
+        editable=False, related_name='payment_modified',
+    )
 
     def save(self):
         """custom save method to save creation timesamp"""
@@ -170,7 +182,10 @@ class Payment(models.Model):
         if self.created_at:
             selfdb = Payment.objects.get(pk=self.pk)
 
-            if selfdb.validated == False and self.validated == True:
+            if not selfdb.validated and self.validated:
+
+                membre = Group.objects.get(name=settings.AIN7_MEMBERS)
+                membre.add(self.person)
                 self.validate_mail()
 
         if not self.created_at:
@@ -193,8 +208,9 @@ class Payment(models.Model):
             sub.validated = True
             sub.save()
 
-            self.person.send_mail(_(u'AIn7 Subscription validated'), \
-        _(u"""Hi %(firstname)s,
+            self.person.send_mail(
+                _(u'AIn7 Subscription validated'),
+                _(u"""Hi %(firstname)s,
 
 We have validated your subscription for the next year to the association AIn7.
 
@@ -212,6 +228,4 @@ Cheers,
 
 AIn7 Team
 
-""") % { 'firstname': self.person.first_name, 'id': self.person.id })
-
-
+""") % {'firstname': self.person.first_name, 'id': self.person.id})
