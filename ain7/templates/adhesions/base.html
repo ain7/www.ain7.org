@@ -5,53 +5,24 @@
 
 {% block content %}
 
-<div class="span-17 colborder">
+{% block section-links %}
 
+<ul class="list-inline">
+    {% if superadmin or ca_member or secretariat_member or is_myself %}
+
+    <li><a class="btn btn-primary" href="{% url "ain7.adhesions.views.subscription_add" user.id %}">{% trans "Subscribe" %}</a></li>
+    <li><a class="btn btn-primary" href="{% url "ain7.adhesions.views.user_subscriptions" user.id %}">{% trans "My subscriptions" %}</a></li>
+    {% endif %}
+    {% if superadmin or ca_member or secretariat_member %}
+    <li><a class="btn btn-primary" href="{% url "ain7.adhesions.views.configurations" %}">{% trans "Configurations" %}</a></li>
+    <li><a class="btn btn-primary" href="{% url "to_validate_subscriptions" %}">{% trans "Subscriptions to validate" %}</a></li>
+    {% endif %}
+
+</ul>
+
+{% endblock %}
 
 {% block content-left %}{% endblock %}
-</div>
-
-
-<div class="span-6 last">
-
-   {% if superadmin or ca_member or secretariat_member %}
-   <h2 class="administration">{% trans "Administration" %}</h2>
-   <div class="grey-box">
-   <ul>
-      <li><a href="{% url "ain7.adhesions.views.configurations" %}">{% trans "Configurations" %}</a></li>
-      <li><a href="{% url "to_validate_subscriptions" %}">{% trans "Subscriptions to validate" %}</a></li>
-      {% block extra-admin %}{% endblock %}
-   </ul>
-   </div>
-   {% endif %}
-
-   <h2>{% trans "Actions" %}</h2>
-   <div class="grey-box">
-    <ul>
-    {% if user.is_authenticated %}
-    <li><a href="{% url "ain7.adhesions.views.subscription_add" user.id %}">{% trans "Subscribe" %}</a></li>
-    <li><a href="{% url "ain7.adhesions.views.user_subscriptions" user.id %}">{% trans "My subscriptions" %}</a></li>
-    {% endif %}
-    </ul>
-   </div>
-
-   {% if count_members or count_subscribers %}
-   <h2>{% trans "Statistics" %}</h2>
-   <div class="grey-box">
-    <ul>
-      {% if count_members %}
-      <li>{% trans "Number of members" %}: {{ count_members }}</li>
-      {% endif %}
-      {% if count_subscribers %}
-      <li>{% trans "Number of subscribers" %}: {{ count_subscribers }}</li>
-      {% endif %}
-    </ul>
-   </div>
-   {% endif %}
-
-</div>
-
-</div>
 
 {% endblock %}
 

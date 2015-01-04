@@ -3,8 +3,6 @@
 
 {% block content-left %}
 
-<div class="left_box">
-
 <h2>{{ action_title }} {{ person }}</h2>
 
 <div style="color: red">{% trans "Note: subscriptions are now from date to date and due each year at the same date." %}</div>
@@ -85,6 +83,5 @@ function select_conf(id, dues_amount, newspaper_amount, toggle) {
 select_current();
 </script>
 {% endif %}
-</div>
 
 {% endblock %}

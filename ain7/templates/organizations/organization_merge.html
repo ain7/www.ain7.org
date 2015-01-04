@@ -5,8 +5,6 @@
 
 {% block content-left %}
 
-<div class="left_box">
-
 <h2>{% trans "Organizations merging" %}</h2>
 
 <p>
@@ -16,24 +14,12 @@
 
 <form action="." method="post" class="form-horizontal">
 {{ form }}
-<div class="form-group">                                                        
+<div class="control-group">
+<div class="controls">
 <button type="submit" class="btn btn-default">{% trans "Save" %}</button>
 <a href="{% url 'organizationè-details' organization.id %}">{% trans "Cancel" %}</a>
 </div>
+</div>
 </form>
 
-</div>
 {% endblock %} {# content-left #}
-
-
-{% block actions %}
-<h2>{% trans "Actions" %}</h2>
-<div class="grey-box">
-<ul>
-<li><a href="{% url "ain7.organizations.views.organization_edit" %}">{% trans "Register a new organization" %}</a></li>
-<li><a href="{% url "ain7.organizations.views.organization_edit" organization.id %}">{% trans "Edit this organization" %}</a></li>
-<li><a href="{% url "ain7.organizations.views.organization_delete" organization.id %}">{% trans "Delete this organization" %}</a></li>
-</ul>
-</div>
-{% endblock %}{# actions #}
-

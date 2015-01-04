@@ -3,34 +3,41 @@
 
 {% block content-left %}
 
-<h2>{% trans "subscriptions" %} {{ person.first_name }} {{ person.last_name }}</h2>
+<h2>{% trans "Subscriptions" %} {{ person.first_name }} {{ person.last_name }}</h2>
 
 <p>
 <a class="addlink" href="add/">{% trans "Add a subscription" %}</a>
 </p>
 
-<table style="width: 100%">
+<table class="table table-striped">
+<thead>
 <tr>
   <th>{% trans "Year" %}</th>
+  <th>{% trans "Date" %}</th>
   <th>{% trans "Amount" %}</th>
   <th>{% trans "Canal n7" %}</th>
   <th>{% trans "Tender type" %}</th>
   <th>{% trans "Payment" %}</th>
   <th>{% trans "Status" %}</th>
 </tr>
+</thead>
+<tbody>
 {% for subscription in subscriptions_list %}
 <tr>
-  <td align="center">
+    <td>
     {% ifnotequal subscription.start_year subscription.end_year %}
       {% blocktrans with subscription.start_year as start and subscription.end_year as end %}{{ start }} to {{ end }}{% endblocktrans %}
     {% else %}
       {{ subscription.start_year }}
     {% endifnotequal %}
   </td>
-  <td align="center">
+  <td>
+      {{ subscription.date|date:"d F Y" }}
+  </td>
+  <td>
       {{ subscription.dues_amount }}&nbsp;€
   </td>
-  <td align="center">
+  <td>
       {% ifequal subscription.newspaper_amount None %}
         {% trans "No" %}
       {% else %}
@@ -41,17 +48,17 @@
         {% endifequal %}
       {% endifequal %}
   </td>
-  <td align="center">
+  <td>
     {% if subscription.payment %}
     {% trans subscription.payment.get_type_display %}
     {% endif %}
   </td>
-  <td align="center">
+  <td>
     {% if subscription.payment %}
     <a  href="{% url "manage.views.payment_details" subscription.payment.id %}">{{ subscription.payment.id }}</a>
     {% endif %}
   </td>
-  <td align="center">
+  <td>
     {% if subscription.validated %}
       {% trans "Validated" %}
     {% else %}
@@ -60,6 +67,7 @@
   </td>
 </tr>
 {% endfor %}
+</tbody>
 </table>
 
 {% endblock %}

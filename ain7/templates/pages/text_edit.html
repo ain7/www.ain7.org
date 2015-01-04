@@ -5,23 +5,17 @@
 
 {% block content %}
 
-<div class="span-17 colborder">
-
-
 <h2>{% trans "Text Edit" %}</h2>
 
 <form method="post" action="." enctype="multipart/form-data" class="form-horizontal">
 {% csrf_token %}
 {{ form|crispy }}
-<div class="form-group">                                                        
+<div class="control-group">
+<div class="controls">
 <button type="submit" class="btn btn-default">{% trans "Save" %}</button>
 <a href="{% url 'annuaire-edit' user.id %}">{% trans "Cancel" %}</a>
 </div>
+</div>
 </form>
 
-</div>
-
-</div>
-
 {% endblock %}
-

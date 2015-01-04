@@ -6,14 +6,11 @@
 <h2>{% trans "Choose an organizer to add" %}</h2>
 
 <form method="post" action="." enctype="multipart/form-data">
-<table>
 {{ form }}
-</table>
 <div style="text-align: center">
-<a class="btn disabled" href="{{ back }}">{% trans "Cancel" %}</a>
 <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+<a href="{{ back }}">{% trans "Cancel" %}</a>
 </div>
 </form>
+
 {% endblock %}
-
-

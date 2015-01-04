@@ -4,61 +4,8 @@
 
 {% block content-left %}
 
-<div id="cv">
-
-<div class="dataBlock">
-
-<h1>{{ person.last_name }} {{ person.first_name }}</h1>
-
-<table style="border: 0; width: 100%">
-<tr>
-{% for address in person.addresses.all %}
-    {% if not address.is_confidential %}
-        <td>
-        <b>{% trans "Address" %} {{ address.type|lower }}&nbsp;:</b><br />
-        {{ address.line1 }} {{ address.line2|default_if_none:"" }}<br />
-        {{ address.zip_code }} {{ address.city }}<br />
-        {{ address.country.name }}
-	</td>
-    {% endif %}
-{% endfor %}
-
-<td>
-{% if person.avatar %}
-    <img src="{{ MEDIA_URL }}/{{ person.avatar.url }}" height="100" alt="{% trans "avatar" %}"/>
-{% endif %}
-</td>
-</tr>
-
-<tr>
-<td>
-{% for phone_number in person.phone_numbers.all %}
-    {% if not phone_number.is_confidential %}
-	<b>{{ phone_number.get_type_display }} :</b> 
-	{{ phone_number.number }} <br />
-    {% endif %}
-{% endfor %}
-
-{% for email in person.emails.all %}
-	{% if not email.is_confidential %}
-            <img src="{% static "images/mail.png" %}" alt="{% trans "email" %}"/>
-            <a href="mailto:{{ email.email }}">{{ email.email }}</a><br />
-	{% endif %}
-{% endfor %}
-</td>
-</tr>
-</table>
-
-<div id="cv_title">{{ AIn7Member.cv_title }}</div>
-
-</div> <!-- dataBlock -->
-<a href="{% url "ain7.annuaire.views.edit" person.user.id %}" class="changelink">
-{% trans "Modify" %}</a>
-
-
 <h2><a name="prof_exp"></a>{% trans "Experience" %}</h2>
 
-<div class="dataBlock">
 {% if ain7member.positions.all %}
 <table style="width: 100%">
 {% for position in ain7member.positions.all %}
@@ -77,14 +24,12 @@
 {% endfor %}
 </table>
 {% endif %}
-<a href="{% url "ain7.emploi.views.position_edit" person.user.id %}" class="addlink"> {% trans "Add" %}</a>
-<br />
-</div>
+<a class="btn btn-primary" href="{% url "ain7.emploi.views.position_edit" person.user.id %}" class="addlink"> {% trans "Add" %}</a>
 
+<br>
 
 <h2><a name="publications"></a>{% trans "Publications and patents" %}</h2>
 
-<div class="dataBlock">
 {% if ain7member.publication.all %}
 <table style="width: 100%">
 {% for publicationItem in ain7member.publication.all %}
@@ -99,13 +44,12 @@
 {% endfor %}
 </table>
 {% endif %}
-<a href="{% url "ain7.emploi.views.publication_edit" person.user.id %}" class="addlink"> {% trans "Add" %}</a>
-<br />
-</div>
+<a class="btn btn-primary" href="{% url "ain7.emploi.views.publication_edit" person.user.id %}" class="addlink"> {% trans "Add" %}</a>
+
+<br>
 
 <h2><a name="education"></a>{% trans "Education" %}</h2>
 
-<div class="dataBlock">
 {% if ain7member.education.all %}
 <table style="width: 100%">
 {% for educationItem in ain7member.education.all %}
@@ -124,13 +68,12 @@
 {% endfor %}
 </table>
 {% endif %}
-<a href="{% url "ain7.emploi.views.education_edit" person.user.id %}" class="addlink"> {% trans "Add" %}</a>
-<br />
-</div>
+<a class="btn btn-primary" href="{% url "ain7.emploi.views.education_edit" person.user.id %}" class="addlink"> {% trans "Add" %}</a>
+
+<br>
 
 <h2><a name="leisure"></a>{% trans "Leisure activities" %}</h2>
 
-<div class="dataBlock">
 {% if ain7member.leisure.all %}
 <table style="width: 100%">
 {% for leisureItem in ain7member.leisure.all %}
@@ -146,8 +89,6 @@
 {% endfor %}
 </table>
 {% endif %}
-<a href="{% url "ain7.emploi.views.leisure_edit" person.user.id %}" class="addlink"> {% trans "Add" %}</a>
-</div>
+<a class="btn btn-primary" href="{% url "ain7.emploi.views.leisure_edit" person.user.id %}" class="addlink"> {% trans "Add" %}</a>
 
-</div><!-- cv -->
 {% endblock %}

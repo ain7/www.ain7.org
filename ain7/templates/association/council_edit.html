@@ -8,18 +8,10 @@
 {{ form|crispy }}
 <div class="control-group">
 <div class="controls">
-<a class="btn disabled" href="{{ back }}">{% trans "Cancel" %}</a>
 <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+<a href="{% url "council-details" %}">{% trans "Cancel" %}</a>
 </div>
 </div>
 </form>
 
-{% endblock %}
-
-
-{% block actions %}
-   {% if superadmin or secretariat_member %}
-   <li class="nav-header">{% trans "Actions" %}</li>
-   <li><a href="{% url "ain7.association.views.council" %}">{% trans "Change council roles" %}</a></li>
-   {% endif %}
 {% endblock %}

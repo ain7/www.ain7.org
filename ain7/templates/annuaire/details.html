@@ -4,11 +4,18 @@
 
 {% block content-left %}
 
-<h1>{{ person.first_name }} {{ person.last_name }}
-{% if superadmin or ca_member or secretariat_member or is_myself %}
-<a href="{% url 'annuaire-edit' person.id %}"><span class="glyphicon glyphicon-edit"></span></a>
+<ul class="list-inline">
+<li><a class="btn btn-primary" href="{% url "ain7.annuaire.views.vcard" person.user.id %}"><i class="fa fa-download fa-1g"></i> {% trans "Download vCard" %}</a></li>
+{% if superadmin or ca_member or secretariat_member %}
+<li><a class="btn btn-primary" href="{% url 'annuaire-edit' person.id %}"><i class="fa fa-pencil-square-o fa-1g"></i> {% trans "Edit" %}</a></li>
+<li><a class="btn btn-primary" href="{% url "ain7.adhesions.views.user_subscriptions" person.user.id %}"><i class="fa fa-money fa-1g"></i> {% trans "Subscriptions History" %}</a></li>
+<li><a class="btn btn-primary" href="{% url 'send-new-credentials' person.id %}"><i class="fa fa-envelope-o fa-1g"></i> {% trans "Send new credentials" %}</a></li>
+<li><a class="btn btn-primary" href="{% url 'member-add' %}"><i class="fa fa-plus fa-1g"></i> {% trans "Add" %}</a></li>
 {% endif %}
-</h1>
+
+</ul>
+
+<h1>{{ person.first_name }} {{ person.last_name }}</h1>
 
 {% if is_subscriber %}
 <b>{% trans "Subscriber" %} <img src="{% static "images/star.png" %}" alt="adherent" width="16" height="16" /></b>
@@ -41,7 +48,7 @@
    {% endif %}
    {% if superadmin or ca_member or secretariat_member or is_myself %}
    {% if ain7member.marital_status or ain7member.children_count %}
-   <li><img src="{% static "images/private.png" %}" alt="private" width="14" height="14" /><b>{% trans "Family situation" %}&nbsp;:</b>
+   <li><i class="fa fa-lock"></i> <b>{% trans "Family situation" %}&nbsp;:</b>
        {% if ain7member.marital_status %}
            {{ ain7member.marital_status }}&nbsp;
        {% endif %}
@@ -75,9 +82,10 @@
 
 <h2>{% trans "Contact" %}</h2>
 <table border="0" width="100%">
+<tbody>
 {% for phone_number in person.phone_numbers.all %}
     {% if superadmin or ca_member or secretariat_member or is_myself or not phone_number.website_confidential %}
-    	<tr><td>{% if phone_number.website_confidential %}<img src="{% static "images/private.png" %}" alt="private" width="14" height="14"/>{% endif %}<b>{{ phone_number.get_type_display }} :</b> {{ phone_number.number }}</td></tr>
+    <tr><td>{% if phone_number.website_confidential %}<i class="fa fa-lock"></i> {% endif %}<b>{{ phone_number.get_type_display }} :</b> {{ phone_number.number }}</td></tr>
     {% endif %}
 {% endfor %}
 {% for position in ain7member.positions.all %}
@@ -89,29 +97,22 @@
 {% for email in person.emails.all %}
 	{% if superadmin or ca_member or secretariat_member or is_myself or not  email.website_confidential %}
             {% if not email.position or not email.position.end %}
-	    <tr><td>{% if email.website_confidential %}<img src="{% static "images/private.png" %}" alt="private" width="14" height="14"/>{% endif %}<img src="{% static "images/mail.png" %}" alt="{% trans "email" %}" width="24" height="24"/>&nbsp;<a href="mailto:{{ email.email }}">{{ email.email }}</a></td></tr>
+            <tr><td>{% if email.website_confidential %}<i class="fa fa-lock"></i>{% endif %}<li class="fa fa-envelope-o"></i>&nbsp;<a href="mailto:{{ email.email }}">{{ email.email }}</a></td></tr>
             {% endif %}
 	{% endif %}
 {% endfor %}
 
-{% for im in person.instant_messagings.all %}
-    <tr><td><img src="{% static "images/{{ im.get_type_display|lower }}.png" %}" alt="{% trans "Contact" %} {{im.get_im_display|lower }}" width="24" height="24"/> {{ im.identifier }}</td></tr>
-{% endfor %}
-
-{% for irc in person.ircs.all %}
-    <tr valign="middle"><td><img src="{% static "images/irc.png" %}" alt="{% trans "irc" %}" width="24" height="24"/> {{ irc.pseudo }} @ {{ irc.network }} {% trans "on" %} {{ irc.channels }}</td></tr>
-{% endfor %}
-
 {% for web_site in person.web_sites.all %}
-    <tr valign="middle"><td><img src="{% static "images/{{ web_site.get_type_display|lower }}.png" %}" alt="{% trans "web site" %}" width="24" height="24"/>&nbsp;<a href="{{ web_site.url }}">{{ web_site.url }}</a></td></tr>
+<tr><td><i class="fa fa-{{ web_site.get_type_display|lower }}"/></i>&nbsp;<a href="{{ web_site.url }}">{{ web_site.url }}</a></td></tr>
 {% endfor %}
-
+</tbody>
 </table>
 
-<table>
+<table border="0" width="100%">
+<tbody>
 {% for address in person.addresses.all %}
 	{% if superadmin or ca_member or secretariat_member or is_myself or not address.website_confidential %}
-	    <tr><td>{% if address.website_confidential %}<img src="{% static "images/private.png" %}" alt="private" width="14" height="14"/>{% endif %}<b>{% trans "Address" %} {{ address.type|lower }} :</b> {{ address.line1 }} {{ address.line2|default_if_none:"" }} - {{address.zip_code }} {{ address.city }} - {{ address.country.name }}</td></tr>
+    <tr><td>{% if address.website_confidential %}<i class="fa fa-lock"></i> {% endif %}<b>{% trans "Address" %} {{ address.type|lower }} :</b> {{ address.line1 }} {{ address.line2|default_if_none:"" }} - {{address.zip_code }} {{ address.city }} - {{ address.country.name }}</td></tr>
 	{% endif %}
 {% endfor %}
 {% for position in ain7member.positions.all %}
@@ -119,13 +120,14 @@
 <tr><td><b>{% trans "Professionnal Address:" %}</b> {{ position.office.line1 }} {{ position.office.line2|default_if_none:"" }} - {{ position.office.zip_code }} {{ position.office.city }} - {{ position.office.country.name }}</td></tr>
 {% endif %}
 {% endfor %}
+</tbody>
 </table>
 
 {% if ain7member.positions.all %}
 
 {% if ain7member.display_cv_in_directory or superadmin or ca_member or is_myself or secretariat_member %}
 
-<h2>{% if not ain7member.display_cv_in_directory %}<img src="{% static "images/private.png" %}" alt="private" width="14" height="14"/>{% endif %}
+<h2>{% if not ain7member.display_cv_in_directory %}<i class="fa fa-lock"></i> {% endif %}
 {% trans "Career" %}</h2>
 
 <ul>
@@ -175,45 +177,14 @@
 </ul>
 {% endif %}
 
-{% if superadmin or secretariat_member %}
-{% if personprivate.notes %}
-<h2><img src="{% static "images/private.png" %}" alt="private" width="14" height="14"/>{% trans "AIn7 Notes" %}</h2>
-{{ personprivate.notes|safe }}
-{% endif %}
-{% endif %}
+{% if person.groups.all %}
+<h2>{% trans "Groups" %}</h2>
 
-{% endblock %}
-
-{% if superadmin or secretariat_member %}
-{% block extra-admin %}
-      <li><a href="{% url "ain7.annuaire.views.send_new_credentials" person.user.id %}">{% trans "Send credentials" %}</a></li>
-{% endblock %}
-{% endif %}
-
-{% block extra-actions %}
-      {% if superadmin or ca_member or secretariat_member or is_myself %}
-      <li><a href="{% url "ain7.annuaire.views.edit" person.user.id %}">{% trans "Modify these data" %}</a></li>
-      <li><a href="{% url "ain7.adhesions.views.user_subscriptions" person.user.id %}">{% trans "Subscriptions History" %}</a></li>
-      {% endif %}
-      {% if is_myself %}
-      <li><a href="{% url "ain7.annuaire.views.change_credentials" person.user.id %}">{% trans "Change credentials" %}</a></li>
-      {% endif %}
-      <li><a href="{% url "ain7.annuaire.views.vcard" person.user.id %}">{% trans "Download vCard" %}</a></li>
-{% endblock %}
-
-
-{% block extra-right-blocks %}
-
-   <li class="nav-header">{% trans "Groups" %}</li>
-    {% for group in person.groups.all %}
+<ul>
+{% for group in person.groups.all %}
 	    <li><a href="{% url "ain7.groups.views.details" group.group.slug %}">{{ group.group.name }}</a></li>
-    {% endfor %}
-
-    <li class="nav-header">{% trans "Card Informations"%}</li>
-    {% show_last_change person %}
-
-    {% if last_activity %}
-    {% trans "Last connexion:" %} {{ last_activity.date|date:"l j F Y (H:i)" }}
-    {% endif %}
+{% endfor %}
+</ul>
+{% endif %}
 
 {% endblock %}

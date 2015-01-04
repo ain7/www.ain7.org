@@ -1,18 +1,16 @@
 {% extends "evenements/base.html" %}
 {% load i18n %}
-
+{% load crispy_forms_tags %}
 
 {% block content-main %}
 
-<h4>
 {% if event %}
-{{ event.title }}
+<h4>{{ event.title }}</h4>
 {% endif %}
-</h4>
 
 <form method="post" action="." enctype="multipart/form-data">
 <table>
-{{ form }}
+{{ form|crispy }}
 {% for eventorg in event.event_organizers.all %}
   <tr>
     <th>{% if forloop.first %}{% trans "Organizers" %}{% endif %}</th>
@@ -36,18 +34,11 @@
     <a href="{% url "ain7.news.views.event_image_delete" event.id %}" class="deletelink">
       {% trans "Delete the image of this event." %}</a><br />
   {% endif %}
-<div style="text-align: center">
-<a class="btn disabled" href="{{ back }}">{% trans "Cancel" %}</a>
+<div class="control-group">
+<div class="controls">
 <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+<a href="{{ back }}">{% trans "Cancel" %}</a>
+</div>
 </div>
 </form>
-{% endblock %}
-
-{% block actions %}
-<li class="nav-header">{% trans "Actions" %}</li>
-{% if superadmin or ca_member or secretariat_member or contributeur %}
-<li><a href="{% url "ain7.news.views.event_edit" %}">{% trans "Register an event" %}</a></li>
-{% endif %}
-<li><a href="{% url "ain7.news.views.event_search" %}">{% trans "Search an event" %}</a></li>
-<li><a href="{% url "ain7.news.views.ical" %}">{% trans "Subscribe iCal" %}</a></li>
 {% endblock %}

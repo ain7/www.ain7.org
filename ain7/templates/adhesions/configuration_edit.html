@@ -4,16 +4,13 @@
 
 {% block content-left %}
 
-<div class="left_box">
-
 <form method="post" action="." enctype="multipart/form-data" class="form-horizontal">
+{% csrf_token %}
 {{ form|crispy }}
 <div class="form-group">                                                        
 <button type="submit" class="btn btn-default">{% trans "Save" %}</button>
-<a href="{% url 'annuaire-edit' user.id %}">{% trans "Cancel" %}</a>
+<a href="{% url 'configurations' %}">{% trans "Cancel" %}</a>
 </div>
 </form>
-
-</div>
 
 {% endblock %}

@@ -8,9 +8,11 @@
 
 <form method="post" action=".">
 {{ form|crispy }}
-<div class="form-group">                                                        
+<div class="control-group">
+<div class="controls">
 <button type="submit" class="btn btn-default">{% trans "Save" %}</button>
 <a href="{% url 'payment-details' payment.id %}">{% trans "Cancel" %}</a>
+</div>
 </div>
 </form>
 

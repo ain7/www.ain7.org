@@ -81,7 +81,7 @@
       <li><a href="{% url "ain7.manage.views.errors_index" %}">{% trans "Errors" %}</a></li>
       <li><a href="{% url "ain7.manage.views.payments_index" %}">{% trans "Payments" %}</a></li>
       <li><a href="{% url "ain7.manage.views.mailings_index" %}">{% trans "Mailings" %}</a></li>
-      <li><a href="{% url "ain7.manage.views.subscriptions_stats" %}">{% trans "Subscriptions" %}</a></li>
+      <li><a href="{% url "ain7.manage.views.subscriptions_stats" %}">{% trans "Subscriptions statistics" %}</a></li>
       <li><a href="{% url "ain7.manage.views.payments_deposit_index" %}">{% trans "Deposit slip" %}</a></li>
     </ul>
  </li>
@@ -90,11 +90,12 @@
  <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.person.first_name }} {{ user.person.last_name }}<b class="caret"></b></a>
     <ul class="dropdown-menu">
-      <li><a href="{% url "member-details" user.id %}"><i class="icon-home"></i> Profile</a></li>
-      <li><a href="{% url "member-details" user.id %}"><i class="icon-cog"></i> Preferences</a></li>
-      <li><a href="{% url "member-details" user.id %}"><i class="icon-envelope"></i> Messages</a></li>
+      <li><a href="{% url "member-details" user.id %}">{% trans "Profil" %}</a></li>
+      <li><a href="{% url "annuaire-edit" user.id %}">{% trans "Edit your profil" %}</a></li>
+      <li><a href="{% url "ain7.annuaire.views.change_credentials" user.id %}">{% trans "Change credentials" %}</a></li>
+      <li><a href="{% url "ain7.adhesions.views.user_subscriptions" user.id %}">{% trans "Subscriptions History" %}</a></li>
       <li class="divider"></li>
-      <li><a href="{% url "logout" %}"><i class="icon-off"></i> Logout</a></li>
+      <li><a href="{% url "logout" %}">{% trans "Logout" %}</a></li>
     </ul>
  </li>
 {% else %}
@@ -186,7 +187,7 @@
                         <div class="row">
                                 <div class="col-lg-3">
                                         <div class="widget">
-                                                <h5 class="widgetheading">Get in touch with us</h5>
+                                            <h5 class="widgetheading">{% trans "Contact" %}</h5>
                                                 <address>
                                                 <strong>Association des Ingénieurs N7</strong><br>
                                                  2 rue Charles Camichel<br>
@@ -201,7 +202,7 @@
 
                                 <div class="col-lg-3">
                                         <div class="widget">
-                                                <h5 class="widgetheading">Pages</h5>
+                                            <h5 class="widgetheading">{% trans "Pages" %}</h5>
                                                 <ul class="link-list">
                                                         <li><a href="/apropos/">{% trans "About" %}</a></li>
                                                         <li><a href="/mentions_legales/">{% trans "Terms of use" %}</a></li>
@@ -221,7 +222,7 @@
                                 </div>
                                 <div class="col-lg-3">
                                         <div class="widget">
-                                                <h5 class="widgetheading">Liens</h5>
+                                            <h5 class="widgetheading">{% trans "Links" %}</h5>
                                                 <ul class="link-list">
                                                         <li><a href="http://www.enseeiht.fr">ENSEEIHT</a></li>
                                                         <li><a href="http://www.bde.enseeiht.fr">Bureau Des Élèves de l'n7</a></li>

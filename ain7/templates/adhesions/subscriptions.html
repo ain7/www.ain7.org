@@ -13,17 +13,22 @@
 {% if subscriptions_list %}
 {% paginate subscriptions_list %}
 <div id="edition">
-<table style="width: 100%" class="datas">
+<table class="table table-striped">
+</thead>
 <tr>
   <th>{% trans "Member" %}</th>
   <th>{% trans "Year" %}</th>
+  <th>{% trans "Date" %}</th>
   <th>{% trans "Amount" %}</th>
   <th>{% trans "Canal n7" %}</th>
   <th>{% trans "Payment" %}</th>
+  <th>&nbsp;</th>
 </tr>
+</thead>
+<tbody>
 {% for subscription in subscriptions_list %}
-<tr class="{% cycle row1,row2 %}">
-  <td align="center"><a href="{% url "ain7.annuaire.views.details" subscription.member.person.user.id %}">{{ subscription.member.person.last_name }} {{ subscription.member.person.first_name }}</a></td>
+<tr>
+  <td><a href="{% url "ain7.annuaire.views.details" subscription.member.person.user.id %}">{{ subscription.member.person.last_name }} {{ subscription.member.person.first_name }}</a></td>
   <td align="center">
     {% ifnotequal subscription.start_year subscription.end_year %}
       {% blocktrans with subscription.start_year as start and subscription.end_year as end %}{{ start }} to {{ end }}{% endblocktrans %}
@@ -31,26 +36,29 @@
       {{ subscription.start_year }}
     {% endifnotequal %}
   </td>
-  <td align="center">
-      {{ subscription.dues_amount }}&nbsp;{% trans "euros" %}
+  <td>
+      {{ subscription.date|date:"d F Y" }}
   </td>
-  <td align="center">
+  <td>
+      {{ subscription.dues_amount }}&nbsp;€
+  </td>
+  <td>
       {% ifequal subscription.newspaper_amount None %}
         {% trans "No" %}
       {% else %}
         {% ifequal subscription.newspaper_amount 0 %}
           {% trans "Free" %}
         {% else %}
-          {{ subscription.newspaper_amount }}&nbsp;{% trans "euros" %}
+          {{ subscription.newspaper_amount }}&nbsp;€
         {% endifequal %}
       {% endifequal %}
   </td>
-  <td align="center">
+  <td>
     {% if subscription.payment %}
     <a href="{% url "ain7.manage.views.payment_details" subscription.payment.id %}">#{{ subscription.payment.id }}</a> {% trans "by" %} {{ subscription.payment.get_type_display }}
     {% endif %}
   </td>
-  <td align="center">
+  <td>
     {% if not subscription.validated %}
       <a class="savelink" href="{% url "ain7.adhesions.views.subscription_validate" subscription.id %}">
       {% trans "Validate" %}</a><br/>
@@ -60,6 +68,7 @@
   </td>
 </tr>
 {% endfor %}
+</tbody>
 </table>
 <p class="text-center">{% show_pages %}</p> 
 </div>

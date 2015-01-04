@@ -5,17 +5,10 @@
 
 {% block content-left %}
 
-<div class="left_box">
-
-<div id="cv">
-
 <h1>{{ person.first_name }} {{ person.last_name }}</h1>
 
 <a href="{% url "ain7.annuaire.views.details" person.user.id %}">{% trans "Back to personnal file" %}</a>
 
-<h2>{% trans "Personal data" %}</h2>
-
-<div class="dataBlock">
 <ul>
    <li><b>{% filter capfirst %}{% trans "sex" %}{% endfilter %}
        &nbsp;:</b> {{ person.sex }}</li>
@@ -36,13 +29,9 @@
 </ul>
 <p><a href="{% url "ain7.annuaire.views.person_edit" person.user.id %}" class="changelink">
 {% trans "Modify" %}</a></p>
-</div>
-
-<p>&nbsp;</p>
 
 {% if ain7member %}
 
-<div class="dataBlock">
 <ul>
    <li><b>{% filter capfirst %}{% trans "avatar" %}{% endfilter %}</b>&nbsp;:
        {% if ain7member.avatar %}
@@ -101,14 +90,10 @@
 </ul>
 <p><a href="{% url "ain7.annuaire.views.ain7member_edit" person.user.id %}" class="changelink">
    {% trans "Modify" %}</a></p>
-</div>
 
 {% endif %}
 
-<p>&nbsp;</p>
-
 {% if ca_member or secretariat_member or superadmin %}
-<div class="dataBlock">
 <ul>
     <li><b>{% filter capfirst %}{% trans "type" %}{% endfilter %}</b>&nbsp;:
         {{ personprivate.person_type }}</li>
@@ -125,13 +110,11 @@
 </ul>
 <p><a href="{% url "ain7.annuaire.views.personprivate_edit" person.user.id %}" class="changelink">
 {% trans "Modify" %}</a></p>
-</div>
 {% endif %}
 
 {% if ain7member %}
 
 <h2><a name="promos"></a>{% trans "Promos" %}</h2>
-<div class="dataBlock">
 {% if ain7member.promos.all %}
   <table style="border: 0; width: 100%;">
     {% for promo in ain7member.promos.all %}
@@ -146,17 +129,15 @@
 {% else %}
     <p>{% trans "No promotion" %}</p>
 {% endif %}
-<p><a href="{% url "ain7.annuaire.views.promo_edit" person.id %}" class="addlink">
-   {% trans "Add" %}</a></p>
-</div>
+<p><a href="{% url "ain7.annuaire.views.promo_edit" person.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 
 {% if ain7member %}
 
 <h2><a name="profexp"></a>{% trans "Experiences" %}</h2>
 
-<div class="dataBlock">
 {% if ain7member.positions.all %}
-<table>
+<table class="table">
+<tbody>
 {% for position in ain7member.positions.all %}
         <tr><td>
                 <b>
@@ -176,11 +157,11 @@
             <tr><td></td><td>{{ position.description|safe }}</td></tr>
         {% endif %}
 {% endfor %}
+</tbody>
 </table>
 {% endif %}
 <p><a href="{% url "ain7.emploi.views.cv_edit" person.user.id %}" class="changelink">
 {% trans "Modify" %}</a></p>
-</div>
 
 {% endif %}
 
@@ -188,173 +169,110 @@
 
 <h2><a name="address"></a>{% trans "Address" %}</h2>
 
-<div class="dataBlock">
+<table class="table">
+<tbody>
 {% for address in person.addresses.all %}
-<table style="border: 0; width: 100%;">
     <tr><td><b>{% trans "Address" %} {{ address.type|lower }}&nbsp;:</b></td><td>
         {{ address.line1 }} {{ address.line2|default_if_none:"" }} -
         {{address.zip_code }} {{ address.city }} - {{ address.country.name }}
         ({{ address.confidentiality_print }})</td>
-    <td style="width: 12%">
+    <td>
         <a href="{% url "ain7.annuaire.views.address_edit" person.user.id address.id %}" class="changelink">
         {% trans "Modify" %}</a></td>
-    <td style="width: 12%">
+    <td>
         <a href="{% url "ain7.annuaire.views.address_delete" person.user.id address.id %}" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
-</table>
 {% endfor %}
-<p><a href="{% url "ain7.annuaire.views.address_edit" person.user.id %}" class="addlink">
-   {% trans "Add" %}</a></p>
-</div>
+</tobdy>
+</table>
+<p><a href="{% url "ain7.annuaire.views.address_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 
 <h2><a name="phone"></a>{% trans "Phone numbers" %}</h2>
 
-<div class="dataBlock">
+<table class="table">
+<tbody>
 {% for phone_number in person.phone_numbers.all %}
-<table style="border: 0; width: 100%;">
-   <tr><td><b>{{ phone_number.get_type_display }} :</b></td>
+<tr><td><i class="fa fa-phone"></i> <b>{{ phone_number.get_type_display }} :</b></td>
    <td>{{ phone_number.number }}
        ({{ phone_number.confidentiality_print }})</td>
-    <td style="width: 12%">
+    <td>
         <a href="{% url "ain7.annuaire.views.phone_edit" person.user.id phone_number.id %}" class="changelink">
         {% trans "Modify" %}</a></td>
-    <td style="width: 12%">
+    <td>
         <a href="{% url "ain7.annuaire.views.phone_delete" person.user.id phone_number.id %}" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
-</table>
 {% endfor %}
-<p><a href="{% url "ain7.annuaire.views.phone_edit" person.user.id %}" class="addlink">
-   {% trans "Add" %}</a></p>
-</div>
+</tbody>
+</table>
+<p><a href="{% url "ain7.annuaire.views.phone_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 
 <h2><a name="email"></a>{% filter capfirst %}{% trans "email" %}{% endfilter %}</h2>
 
-<div class="dataBlock">
+<table class="table">
+<tbody>
 {% for email in person.emails.all %}
-<table style="border:0; width: 100%;">
-	    <tr><td><img src="{% static "images/mail.png" %}" alt="{% trans "email" %}" width="24" height="24"/><a href="mailto:{{ email.email }}">{{ email.email }}</a>
+<tr><td><i class="fa fa-envelope-o"></i> <a href="mailto:{{ email.email }}">{{ email.email }}</a>
        ({{ email.confidentiality_print }}{% if email.preferred_email %}, {% trans "preferred" %}{% endif %})
-
 </td>
-    <td style="width: 12%">
+<td>
         <a href="{% url "ain7.annuaire.views.email_edit" person.user.id email.id %}" class="changelink">
         {% trans "Modify" %}</a></td>
-    <td style="width: 12%">
+<td>
         <a href="{% url "ain7.annuaire.views.email_delete" person.user.id email.id %}" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
-</table>
 {% endfor %}
-<p><a href="{% url "ain7.annuaire.views.email_edit" person.user.id %}" class="addlink">
-   {% trans "Add" %}</a></p>
-</div>
+</tbody>
+</table>
+<p><a href="{% url "ain7.annuaire.views.email_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 
 <h2><a name="website"></a>{% trans "Web sites" %}</h2>
 
-<div class="dataBlock">
+<table class="table">
+<tbody>
 {% for website in person.web_sites.all %}
-<table style="border: 0; width: 100%;">
-    <tr valign="middle"><td>
-        <img src="{% static "images/{{ website.get_type_display|lower }}.png" %}" alt="{% trans "web site" %}" width="24" height="24" />
-        <a href="{{ website.url }}">{{ website.url }}</a> ({{ website.confidentiality_print }})</td>
-    <td style="width: 12%">
-        <a href="{% url "ain7.annuaire.views.website_edit" person.user.id website.id %}" class="changelink">
-        {% trans "Modify" %}</a></td>
-    <td style="width: 12%">
-        <a href="{% url "ain7.annuaire.views.website_delete" person.user.id website.id %}" class="deletelink">
-        {% trans "Delete" %}</a></td>
-    </tr>
-</table>
+<tr>
+<td>
+<i class="fa fa-{{ website.get_type_display|lower }}"></i> <a href="{{ website.url }}">{{ website.url }}</a> ({{ website.confidentiality_print }})
+</td>
+<td>
+<a href="{% url "ain7.annuaire.views.website_edit" person.user.id website.id %}" class="changelink">{% trans "Modify" %}</a>
+</td>
+<td>
+<a href="{% url "ain7.annuaire.views.website_delete" person.user.id website.id %}" class="deletelink">{% trans "Delete" %}</a>
+</td>
+</tr>
 {% endfor %}
-<p><a href="{% url "ain7.annuaire.views.website_edit" person.user.id %}" class="addlink">
-   {% trans "Add" %}</a></p>
-</div>
-
-<h2><a name="im"></a>{% trans "Instant messaging accounts" %}</h2>
-
-<div class="dataBlock">
-{% for im in person.instant_messagings.all %}
-<table style="border: 0; width: 100%">
-    <tr valign="middle"><td>
-       <img src="{% static "images/{{ im.get_type_display|lower }}.png" %}" alt="{% trans "Contact" %} {{im.get_im_display|lower }}" width="24" height="24"/>
-       {{ im.identifier }} ({{ im.confidentiality_print }})</td>
-    <td style="width: 12%">
-        <a href="{% url "ain7.annuaire.views.im_edit" person.user.id im.id %}" class="changelink">
-        {% trans "Modify" %}</a></td>
-    <td style="width: 12%">
-        <a href="{% url "ain7.annuaire.views.im_delete" person.user.id im.id %}" class="deletelink">
-        {% trans "Delete" %}</a></td>
-    </tr>
+</tbody>
 </table>
-{% endfor %}
-<p><a href="{% url "ain7.annuaire.views.im_edit" person.user.id %}" class="addlink">
-   {% trans "Add" %}</a></p>
-</div>
-
-<h2><a name="irc"></a>{% trans "IRC accounts" %}</h2>
-
-<div class="dataBlock">
-{% for irc in person.ircs.all %}
-<table style="border: 0; width: 100%">
-    <tr valign="middle"><td>
-       <img src="{% static "images/irc.png" %}" alt="{% trans "irc" %}" width="24" height="24"/>
-       {{ irc.pseudo }} @ {{ irc.network }} {% trans "on" %} {{ irc.channels }} ({{ irc.confidentiality_print }})
-       </td>
-    <td style="width: 12%">
-        <a href="{% url "ain7.annuaire.views.irc_edit" person.user.id irc.id %}" class="changelink">
-        {% trans "Modify" %}</a></td>
-    <td style="width: 12%">
-        <a href="{% url "ain7.annuaire.views.irc_delete" person.user.id irc.id %}" class="deletelink">
-        {% trans "Delete" %}</a></td>
-    </tr>
-</table>
-{% endfor %}
-<p><a href="{% url "ain7.annuaire.views.irc_edit" person.user.id %}" class="addlink">
-   {% trans "Add" %}</a></p>
-</div>
+<p><a href="{% url "ain7.annuaire.views.website_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 
 {% if ain7member %}
 
 <h2><a name="assoc"></a>{% trans "N7 associative activities" %}</h2>
 
-<div class="dataBlock">
+<table class="table">
+<tbody>
 {% for club_membership in ain7member.person.council_roles.all %}
-<table style="border: 0; width: 100%;">
     <tr><td>{% if club_membership.grouphead.group.web_site %}<a href="{{ club_membership.grouphead.group.web_site}}">{% endif %}
                  {{ club_membership.grouphead.group.name }}
             {% if club_membership.grouphead.group.web_site %}</a>{% endif %}
     {% if club_membership.start_date and club_membership.end_date %}(<i>{{ club_membership.start_date|date:"Y" }} - {{ club_membership.end_date|date:"Y" }}</i>){% endif %}</td>
     <td>{% if club_membership.title %}{{ club_membership.title }}{% endif %}</td>
-    <td style="width: 12%">
+    <td>
         <a href="{% url "ain7.annuaire.views.club_membership_edit" person.user.id club_membership.id %}" class="changelink">
         {% trans "Modify" %}</a></td>
-    <td style="width: 12%">
+<td>
         <a href="{% url "ain7.annuaire.views.club_membership_delete" person.user.id club_membership.id %}" class="deletelink">
         {% trans "Delete" %}</a></td>
     </tr>
-</table>
 {% endfor %}
-<p><a href="{% url "ain7.annuaire.views.club_membership_edit" person.user.id %}" class="addlink">
-   {% trans "Add" %}</a></p>
-</div>
+</tobdy>
+</table>
+<p><a href="{% url "ain7.annuaire.views.club_membership_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 
 {% endif %}
-
-</div>
-</div>
-
-{% endblock %}
-
-
-{% block extra-navigation %}
-<li><a href="{% url "ain7.annuaire.views.details" person.user.id %}">{% trans "Back to personnal file" %}</a></li>
-{% endblock %}
-
-{% block extra-right-blocks %}
-
-    <li class="nav-header">{% trans "Card Informations"%}</li>
-    {% show_last_change person %}
 
 {% endblock %}

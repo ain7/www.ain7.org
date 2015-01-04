@@ -4,44 +4,35 @@
 
 {% block content-left %}
 
-<table width="100%">
+<table class="table table-striped">
 {% for r in  group.get_group_head %}
-      <tr>
-        <td><b>{{ r.title }}</b></td>
-        <td>
-           {% if r.person.ain7member.avatar %}
-            <img src ="{{ r.person.ain7member.avatar.url }}" height="50"  alt="{{ r.person.complete_name }}" title="{{ r.person.complete_name }}" />
-            {% else %}
-            <img src="{% static "images/nobody.png" %}" height="50" alt="{{ r.person.complete_name }}"/>
-            {% endif %}
-        </td>
-        <td>
-          <a href="{% url "ain7.annuaire.views.details" r.person.user.id %}">
-          {{ r.person }}</a><br/>
-          (<i>{{ r.person.ain7member.track }} {{ r.person.ain7member.promo }}</i>)
-        {% if superadmin or secretariat_member %}
-        </td><td>
-        <a href="{% url "ain7.association.views.edit_council_role" r.id %}" class="changelink">
-{% trans "Modify" %}</a><br/>
-           <a href="{% url "ain7.association.views.delete_council_role" r.id %}" class="deletelink">
-           {% trans "Delete" %}</a>
-        {% endif%}
-       </td>
-       </tr>
-       <tr><td style="border-bottom:1px dashed grey; text-align: left;" colspan="4"></td></tr>
+<tr>
+<td><b>{{ r.title }}</b></td>
+<td>
+   {% if r.person.ain7member.avatar %}
+    <img src ="{{ r.person.ain7member.avatar.url }}" height="50"  alt="{{ r.person.complete_name }}" title="{{ r.person.complete_name }}" />
+    {% else %}
+    <img src="{% static "images/nobody.png" %}" height="50" alt="{{ r.person.complete_name }}"/>
+    {% endif %}
+</td>
+<td>
+  <a href="{% url "ain7.annuaire.views.details" r.person.user.id %}">
+  {{ r.person }}</a><br>
+  (<i>{{ r.person.ain7member.track }} {{ r.person.ain7member.promo }}</i>)
+{% if superadmin or secretariat_member %}
+</td><td>
+<a href="{% url "ain7.association.views.edit_council_role" r.id %}" class="changelink">
+{% trans "Modify" %}</a><br>
+   <a href="{% url "ain7.association.views.delete_council_role" r.id %}" class="deletelink">
+   {% trans "Delete" %}</a>
+{% endif%}
+</td>
+</tr>
 {% endfor %}
 </table>
 
 {% if superadmin or secretariat_member %}
-<p><a href="{% url "ain7.association.views.edit_council_role" %}" class="addlink">
-   {% trans "Add" %}</a></p>
+<p><a class="btn btn-primary" href="{% url "ain7.association.views.edit_council_role" %}" class="addlink"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 {% endif %}
 
-{% endblock %}
-
-{% block actions %}
-   {% if superadmin or secretariat_member %}
-   <li class="nav-header">{% trans "Actions" %}</li>
-   <li><a href="{% url "ain7.association.views.council" %}">{% trans "Change council roles" %}</a></li>
-   {% endif %}
 {% endblock %}

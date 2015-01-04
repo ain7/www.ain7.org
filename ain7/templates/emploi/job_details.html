@@ -3,7 +3,16 @@
 
 {% block content-left %}
 
+{% if superadmin or ca_member or secretariat_member %}
+<a class="btn btn-primary" href="{% url "ain7.emploi.views.job_edit" job.id %}">{% trans "Edit this job offer" %}</a>
+{% endif %}
+
 <h2>{{ job.title }}</h2>
+
+<ul>
+<li>{% trans "This announce has been viewed" %} {{ views }} {% trans "times" %}</li>
+<li>{% trans "Registered" %}&nbsp;:</b> {{ job.created_at|date:"l j F Y H:m" }} {% if job.created_by %}{% trans "by" %} {{ job.created_by }}{% endif %}</li>
+</ul>
 
 <ul>
 <li><b>{% filter capfirst%}{% trans "organization" %}{% endfilter %}&nbsp;:</b>
@@ -39,22 +48,7 @@
       {% if job.contact_email %}</a>{% endif %}
     </li>
 {% endif %}
-<li><b>{% trans "Registered" %}&nbsp;:</b> {{ job.created_at|date:"l j F Y H:m" }}
-{% if job.created_by %}{% trans "by" %} {{ job.created_by }}{% endif %}
-</li>
-</ul>
 
 {{ job.description|safe }}
 
-{% endblock %}
-
-
-{% block actions %}
-<li class="nav-header">{% trans "Actions" %}</li>
-<li><a href="{% url "ain7.emploi.views.job_edit" job.id %}">{% trans "Edit this job offer" %}</a></li>
-{% endblock %}
-
-{% block statistics %}
-<li class="nav-header">{% trans "Statistics"%}</li>
-<li>{% trans "This announce has been viewed" %} {{ views }} {% trans "times" %}</li>
 {% endblock %}

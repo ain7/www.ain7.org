@@ -9,18 +9,12 @@
 <form method="post" action="." enctype="multipart/form-data">
 {% csrf_token %}
 {{ form|crispy }}
-
-<div class="form-group">                                                        
+<div class="control-group">
+<div class="controls">
 <button type="submit" class="btn btn-default">{% trans "Save" %}</button>
 <a href="{% url 'news-details' news_item.id %}">{% trans "Cancel" %}</a>
 </div>
-
+</div>
 </form>
 
-{% endblock %}
-
-{% block extra-actions %}
-{% if news_item %}
-<li><a href="{% url "ain7.news.views.delete" news_item.slug %}">{% trans "Delete this news" %}</a></li>
-{% endif %}
 {% endblock %}
