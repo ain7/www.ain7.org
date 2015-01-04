@@ -26,20 +26,16 @@ from django.conf.urls import patterns, url
 
 urlpatterns = patterns('ain7.adhesions.views',
     url(r'^$', 'index', name='adhesions-index'),
-    (r'^subscriptions/to_validate$', 'subscriptions', {'to_validate': True},\
-        'to_validate_subscriptions'),
-    (r'^subscriptions/(?P<subscription_id>\d+)/validate/$', \
-        'subscription_validate'),
-    (r'^subscriptions/(?P<subscription_id>\d+)/delete/$', \
-        'subscription_delete'),
-    (r'^(?P<user_id>\d+)/subscriptions/$', 'user_subscriptions'),
-    (r'^(?P<user_id>\d+)/subscriptions/add/$', 'subscription_add'),
+    url(r'^subscriptions/to_validate$', 'subscriptions', {'to_validate': True}, 'to_validate_subscriptions'),
+    url(r'^subscriptions/(?P<subscription_id>\d+)/validate/$', 'subscription_validate'),
+    url(r'^subscriptions/(?P<subscription_id>\d+)/delete/$', 'subscription_delete'),
+    url(r'^(?P<user_id>\d+)/subscriptions/$', 'user_subscriptions'),
+    url(r'^(?P<user_id>\d+)/subscriptions/add/$', 'subscription_add'),
     url(r'^configurations/$', 'configurations', name='configurations'),
-    (r'^configurations/(?P<config_id>\d+)/edit/$', \
-        'configuration_edit'),
-    (r'^configurations/(?P<config_id>\d+)/delete/$', \
-        'configuration_delete'),
-    (r'^configurations/add/$', 'configuration_edit', {}, 'configuration_add'),
-    (r'^notification/$', 'notification'),
+    url(r'^configurations/(?P<year>\d+)/$', 'configurations', name='configurations-details'),
+    url(r'^configurations/(?P<year>\d+)/(?P<config_id>\d+)/edit/$', 'configuration_edit'),
+    url(r'^configurations/(?P<year>\d+)/(?P<config_id>\d+)/delete/$', 'configuration_delete'),
+    url(r'^configurations/add/$', 'configuration_edit', {}, 'configuration_add'),
+    url(r'^notification/$', 'notification'),
 
 )

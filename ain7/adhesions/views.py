@@ -59,11 +59,14 @@ def index(request):
         return HttpResponseRedirect('/adhesions/'+str(request.user.id)+ 
             '/subscriptions/add/')
 
-    return render(request, 'adhesions/index.html',
-        {'subscriptions_list': Subscription.objects.filter(validated=True).
-            order_by('-id')[:20],
-         'count_members': AIn7Member.objects.count(),
-         'count_subscribers': count_subscribers})
+    return render(request, 'adhesions/index.html', {
+        'subscriptions_list': Subscription.objects.filter(
+            validated=True
+        ).order_by('-id')[:20],
+        'count_members': AIn7Member.objects.count(),
+        'count_subscribers': count_subscribers
+        }
+    )
 
 
 @access_required(groups=['ain7-secretariat','ain7-ca'])
@@ -227,22 +230,44 @@ AIn7 Team
                 systempay_string = '+'.join([str(v) for k, v in sorted(systempay.items())])+'+'+settings.SYSTEM_PAY_CERTIFICATE
                 systempay_signature = hashlib.sha1(systempay_string).hexdigest()
 
-            return render(request,
-                 'adhesions/informations.html',
-                 {'payment': payment, 'systempay': systempay, 'systempay_signature': systempay_signature, 'systempay_url': settings.SYSTEM_PAY_URL })
+            return render(request, 'adhesions/informations.html', {
+                'payment': payment,
+                'systempay': systempay,
+                'systempay_signature': systempay_signature,
+                'systempay_url': settings.SYSTEM_PAY_URL
+                }
+            )
 
-@access_required(groups=['ain7-secretariat','ain7-ca'])
+
+@access_required(groups=['ain7-secretariat', 'ain7-ca'])
 def configurations(request, year=datetime.date.today().year):
     """configure subscriptions"""
 
+    year = int(year)
+
+    # let's create configurations on the fly, but only for next year
+    if (
+        SubscriptionConfiguration.objects.filter(year=year).count() == 0
+        and
+        year <= datetime.date.today().year + 1
+        and
+        SubscriptionConfiguration.objects.filter(year=year-1).count() > 0
+    ):
+        for conf in SubscriptionConfiguration.objects.filter(year=year-1):
+            conf.id = None
+            conf.year = year
+            conf.save()
+
     return render(request, 'adhesions/configurations.html', {
-        'configurations_list': SubscriptionConfiguration.objects.filter(year=year).order_by('type'),
+        'configurations_list': SubscriptionConfiguration.objects.filter(
+            year=year
+            ).order_by('type'),
         }
     )
 
 
 @access_required(groups=['ain7-secretariat','ain7-ca'])
-def configuration_edit(request, config_id=None):
+def configuration_edit(request, year, config_id=None):
     """edit subscription configuration"""
 
     config = None

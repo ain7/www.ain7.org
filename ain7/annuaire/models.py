@@ -531,18 +531,22 @@ class AIn7Member(LoggedClass):
                filter(validated=True).exclude(start_year__icontains=current_year-1).reverse()[0].dues_amount
         return result
 
+    @property
     def last_subscription_date(self):
         """
         /!\ local import to avoid recursive imports
         """
         from ain7.adhesions.models import Subscription
-        result = 0
         current_year = datetime.datetime.today().year
+        result = None
         if Subscription.objects.filter(member=self).\
             filter(validated=True).exclude(start_year__icontains=current_year-1).count() > 0:
             result = Subscription.objects.filter(member=self).\
                 filter(validated=True).exclude(start_year__icontains=current_year-1).reverse()[0].date
-        return result
+        if result:
+            return result.date()
+        else:
+            return result
  
     def promo(self):
         if self.promos.all():

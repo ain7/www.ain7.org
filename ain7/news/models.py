@@ -29,7 +29,6 @@ from django.template import defaultfilters
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
-from ain7.groups.models import Group
 from ain7.utils import LoggedClass
 
 
@@ -85,13 +84,13 @@ class NewsItem(LoggedClass):
               )
 
     slug = models.SlugField(max_length=100, unique=True)
-    title = models.CharField(verbose_name=_('title'), max_length=100)
+    title = models.CharField(verbose_name=_('title'), max_length=100, unique=True)
     body = models.TextField(verbose_name=_('body'))
     shorttext = models.CharField(verbose_name=_('short text'), max_length=500,
         blank=True, null=True)
     image = models.ImageField(verbose_name=_('image'), upload_to='data',
         blank=True, null=True)
-    creation_date = models.DateTimeField(verbose_name=_('date'), 
+    creation_date = models.DateTimeField(verbose_name=_('date'),
         default=datetime.datetime.today, editable=False)
 
     # to which group we should link this news
@@ -183,4 +182,3 @@ class NewsItem(LoggedClass):
     class Meta:
         """news item meta information"""
         verbose_name = _('news item')
-

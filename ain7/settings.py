@@ -153,6 +153,8 @@ PIWIK_URL = 'http://localhost/piwik/'
 PIWIK_SITE_ID = '0'
 
 PORTAL_ADMIN = 'ain7-admin'
+AIN7_MEMBERS = 'ain7-membre'
+AIN7_CONTRIBUTORS = 'ain7-contributor'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 

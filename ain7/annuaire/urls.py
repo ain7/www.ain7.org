@@ -31,7 +31,7 @@ urlpatterns = patterns('ain7.annuaire.views',
     # Edition
     url(r'^(?P<user_id>\d+)/edit/$', 'edit', name='annuaire-edit'),
     url(r'^(?P<user_id>\d+)/credentials/$', 'change_credentials'),
-    url(r'^(?P<user_id>\d+)/sendcredentials/$', 'send_new_credentials'),
+    url(r'^(?P<user_id>\d+)/sendcredentials/$', 'send_new_credentials', name='send-new-credentials'),
     url(r'^(?P<user_id>\d+)/person/edit/$', 'person_edit', name='member-person-edit'),
     url(r'^(?P<user_id>\d+)/personprivate/edit/$', 'personprivate_edit', name='member-personprivate-edit'),
     url(r'^(?P<user_id>\d+)/ain7member/edit/$', 'ain7member_edit', name='member-ain7member-edit'),

@@ -51,7 +51,7 @@ urlpatterns = patterns('ain7.manage.views',
     url(r'^subscriptions/(?P<the_year>\d+)/$', 'subscriptions_stats', name='subscriptions-stats-per-year'),
 
     # mailings
-    (r'^mailings/$', 'mailings_index'),
+    url(r'^mailings/$', 'mailings_index', name='mailings-index'),
     url(r'^mailings/add/$', 'mailing_edit', name='mailing-add'),
     url(r'^mailings/(?P<mailing_id>\d+)/$', 'mailing_edit', name='mailing-edit'),
     (r'^mailings/(?P<mailing_id>\d+)/test/$', 'mailing_send'),
