@@ -27,8 +27,7 @@
    <li><b>{% filter capfirst %}{% trans "nationality" %}{% endfilter %}
        &nbsp;:</b> {{ person.country.nationality }}</li>
 </ul>
-<p><a href="{% url "ain7.annuaire.views.person_edit" person.user.id %}" class="changelink">
-{% trans "Modify" %}</a></p>
+<p><a href="{% url "ain7.annuaire.views.person_edit" person.user.id %}">{% trans "Modify" %}</a></p>
 
 {% if ain7member %}
 
@@ -73,23 +72,14 @@
         {% else %}
             {% trans "No ceremonial duty" %}
         {% endif %}</li>
-    <li><b>{% trans "Display my CV in the directory" %}</b>&nbsp;:
-        {% if ain7member.display_cv_in_directory %}
-            {% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</li>
-    <li><b>{% trans "Display my CV in the job service section" %}</b>&nbsp;:
-        {% if ain7member.display_cv_in_job_section %}
-            {% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</li>
     <li><b>{% trans "Receive job offers by email" %}</b>&nbsp;:
         {% if ain7member.receive_job_offers %}
             {% trans "Yes" %}</li>
 	{% else %}
             {% trans "No" %}</li>
         {% endif %}
-    <li><b>{% trans "CV title" %}</b>&nbsp;:
-        {{ ain7member.cv_title|default_if_none:"" }}</li>
 </ul>
-<p><a href="{% url "ain7.annuaire.views.ain7member_edit" person.user.id %}" class="changelink">
-   {% trans "Modify" %}</a></p>
+<p><a href="{% url "ain7.annuaire.views.ain7member_edit" person.user.id %}">{% trans "Modify" %}</a></p>
 
 {% endif %}
 
@@ -108,63 +98,7 @@
    <li><b>{% filter capfirst %}{% trans "notes" %}{% endfilter %}
        &nbsp;:</b> {% if personprivate.notes %}{{ personprivate.notes|safe }}{% endif %}</li>
 </ul>
-<p><a href="{% url "ain7.annuaire.views.personprivate_edit" person.user.id %}" class="changelink">
-{% trans "Modify" %}</a></p>
-{% endif %}
-
-{% if ain7member %}
-
-<h2><a name="promos"></a>{% trans "Promos" %}</h2>
-{% if ain7member.promos.all %}
-  <table style="border: 0; width: 100%;">
-    {% for promo in ain7member.promos.all %}
-      <tr>
-        <td>{{ promo }}</td>
-          <td style="width: 12%">
-            <a href="{% url "ain7.annuaire.views.promo_delete" person.id promo.id %}" class="deletelink">
-              {% trans "Delete" %}</a></td>
-      </tr>
-    {% endfor %}
-  </table>
-{% else %}
-    <p>{% trans "No promotion" %}</p>
-{% endif %}
-<p><a href="{% url "ain7.annuaire.views.promo_edit" person.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
-
-{% if ain7member %}
-
-<h2><a name="profexp"></a>{% trans "Experiences" %}</h2>
-
-{% if ain7member.positions.all %}
-<table class="table">
-<tbody>
-{% for position in ain7member.positions.all %}
-        <tr><td>
-                <b>
-       {% if position.begin and not position.end %}
-       {% trans "since" %} <b>{{ position.begin }}</b>&nbsp;:
-          {% else %}{% if position.begin and position.end %}
-             <b>{{ position.begin }}-{{ position.end }}</b>:
-          {% else %}{% if position.end %}
-             {% trans "until" %} {{ position.end }}</b>&nbsp;:
-          {% endif %}
-          {% endif %}{% endif %}
-                </b></td>
-            <td><em>{{ position.fonction }}</em>
-                {{ position.office }}
-                <a href="{% url "ain7.organizations.views.organization_details" position.office.organization.id %}">{{ position.office.organization }}</a></td></tr>
-        {% if position.description %}
-            <tr><td></td><td>{{ position.description|safe }}</td></tr>
-        {% endif %}
-{% endfor %}
-</tbody>
-</table>
-{% endif %}
-<p><a href="{% url "ain7.emploi.views.cv_edit" person.user.id %}" class="changelink">
-{% trans "Modify" %}</a></p>
-
-{% endif %}
-
+<p><a href="{% url "ain7.annuaire.views.personprivate_edit" person.user.id %}">{% trans "Modify" %}</a></p>
 {% endif %}
 
 <h2><a name="address"></a>{% trans "Address" %}</h2>
@@ -176,37 +110,13 @@
         {{ address.line1 }} {{ address.line2|default_if_none:"" }} -
         {{address.zip_code }} {{ address.city }} - {{ address.country.name }}
         ({{ address.confidentiality_print }})</td>
-    <td>
-        <a href="{% url "ain7.annuaire.views.address_edit" person.user.id address.id %}" class="changelink">
-        {% trans "Modify" %}</a></td>
-    <td>
-        <a href="{% url "ain7.annuaire.views.address_delete" person.user.id address.id %}" class="deletelink">
-        {% trans "Delete" %}</a></td>
+    <td><a href="{% url "ain7.annuaire.views.address_edit" person.user.id address.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
+    <td><a href="{% url "ain7.annuaire.views.address_delete" person.user.id address.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
     </tr>
 {% endfor %}
 </tobdy>
 </table>
 <p><a href="{% url "ain7.annuaire.views.address_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
-
-<h2><a name="phone"></a>{% trans "Phone numbers" %}</h2>
-
-<table class="table">
-<tbody>
-{% for phone_number in person.phone_numbers.all %}
-<tr><td><i class="fa fa-phone"></i> <b>{{ phone_number.get_type_display }} :</b></td>
-   <td>{{ phone_number.number }}
-       ({{ phone_number.confidentiality_print }})</td>
-    <td>
-        <a href="{% url "ain7.annuaire.views.phone_edit" person.user.id phone_number.id %}" class="changelink">
-        {% trans "Modify" %}</a></td>
-    <td>
-        <a href="{% url "ain7.annuaire.views.phone_delete" person.user.id phone_number.id %}" class="deletelink">
-        {% trans "Delete" %}</a></td>
-    </tr>
-{% endfor %}
-</tbody>
-</table>
-<p><a href="{% url "ain7.annuaire.views.phone_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 
 <h2><a name="email"></a>{% filter capfirst %}{% trans "email" %}{% endfilter %}</h2>
 
@@ -217,16 +127,32 @@
        ({{ email.confidentiality_print }}{% if email.preferred_email %}, {% trans "preferred" %}{% endif %})
 </td>
 <td>
-        <a href="{% url "ain7.annuaire.views.email_edit" person.user.id email.id %}" class="changelink">
-        {% trans "Modify" %}</a></td>
+        <a href="{% url "ain7.annuaire.views.email_edit" person.user.id email.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
 <td>
-        <a href="{% url "ain7.annuaire.views.email_delete" person.user.id email.id %}" class="deletelink">
-        {% trans "Delete" %}</a></td>
+        <a href="{% url "ain7.annuaire.views.email_delete" person.user.id email.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
     </tr>
 {% endfor %}
 </tbody>
 </table>
 <p><a href="{% url "ain7.annuaire.views.email_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
+
+<h2><a name="phone"></a>{% trans "Phone numbers" %}</h2>
+
+<table class="table">
+<tbody>
+{% for phone_number in person.phone_numbers.all %}
+<tr><td><i class="fa fa-phone"></i> <b>{{ phone_number.get_type_display }} :</b></td>
+   <td>{{ phone_number.number }}
+       ({{ phone_number.confidentiality_print }})</td>
+    <td>
+        <a href="{% url "ain7.annuaire.views.phone_edit" person.user.id phone_number.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
+    <td>
+        <a href="{% url "ain7.annuaire.views.phone_delete" person.user.id phone_number.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
+    </tr>
+{% endfor %}
+</tbody>
+</table>
+<p><a href="{% url "ain7.annuaire.views.phone_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 
 <h2><a name="website"></a>{% trans "Web sites" %}</h2>
 
@@ -238,10 +164,10 @@
 <i class="fa fa-{{ website.get_type_display|lower }}"></i> <a href="{{ website.url }}">{{ website.url }}</a> ({{ website.confidentiality_print }})
 </td>
 <td>
-<a href="{% url "ain7.annuaire.views.website_edit" person.user.id website.id %}" class="changelink">{% trans "Modify" %}</a>
+<a href="{% url "ain7.annuaire.views.website_edit" person.user.id website.id %}"><i class="fa fa-pencil fa-lg"></i></a>
 </td>
 <td>
-<a href="{% url "ain7.annuaire.views.website_delete" person.user.id website.id %}" class="deletelink">{% trans "Delete" %}</a>
+<a href="{% url "ain7.annuaire.views.website_delete" person.user.id website.id %}"><i class="fa fa-trash-o fa-lg"></i></a>
 </td>
 </tr>
 {% endfor %}
@@ -249,7 +175,44 @@
 </table>
 <p><a href="{% url "ain7.annuaire.views.website_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 
+
+
 {% if ain7member %}
+
+<h2><a name="promos"></a>{% trans "Promos" %}</h2>
+<table class="table">
+<tbody>
+{% for promo in ain7member.promos.all %}
+  <tr>
+    <td>{{ promo }}</td>
+      <td style="width: 12%">
+        <a href="{% url "ain7.annuaire.views.promo_delete" person.id promo.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
+  </tr>
+{% endfor %}
+</tbody>
+</table>
+<p><a href="{% url "ain7.annuaire.views.promo_edit" person.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
+
+<h2><a name="profexp"></a>{% trans "Experiences" %}</h2>
+
+<table class="table">
+<tbody>
+{% for position in ain7member.positions.all %}
+    {% if not position.is_confidential %}
+        <tr><th>{% if position.begin %}{{ position.begin }}{% endif %} - {% if position.end %}{{ position.end }}{% endif %}</th>
+            <td>{% if position.fonction %}{{ position.fonction }}{% endif %} <em>{{ position.office }} ({{ position.office.organization }})</em></td>
+            <td><a href="{% url "ain7.emploi.views.position_edit" person.user.id position.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
+            <td><a href="{% url "ain7.emploi.views.position_delete" person.user.id position.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
+        </tr>
+        {% if position.description %}
+            <tr><td></td><td>{{ position.description }}</td></tr>
+        {% endif %}
+    {% endif %}
+{% endfor %}
+</tbody>
+</table>
+
+<p><a class="btn btn-primary" href="{% url "ain7.emploi.views.position_edit" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 
 <h2><a name="assoc"></a>{% trans "N7 associative activities" %}</h2>
 
@@ -262,16 +225,72 @@
     {% if club_membership.start_date and club_membership.end_date %}(<i>{{ club_membership.start_date|date:"Y" }} - {{ club_membership.end_date|date:"Y" }}</i>){% endif %}</td>
     <td>{% if club_membership.title %}{{ club_membership.title }}{% endif %}</td>
     <td>
-        <a href="{% url "ain7.annuaire.views.club_membership_edit" person.user.id club_membership.id %}" class="changelink">
-        {% trans "Modify" %}</a></td>
+        <a href="{% url "ain7.annuaire.views.club_membership_edit" person.user.id club_membership.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
 <td>
-        <a href="{% url "ain7.annuaire.views.club_membership_delete" person.user.id club_membership.id %}" class="deletelink">
-        {% trans "Delete" %}</a></td>
+        <a href="{% url "ain7.annuaire.views.club_membership_delete" person.user.id club_membership.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
     </tr>
 {% endfor %}
 </tobdy>
 </table>
 <p><a href="{% url "ain7.annuaire.views.club_membership_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
+
+<h2><a name="publications"></a>{% trans "Publications and patents" %}</h2>
+
+<table class"table">
+<tbody>
+{% for publicationItem in ain7member.publication.all %}
+    <tr><th>{{ publicationItem.date|date:"Y"|default:"" }}</th>
+        <td> <em>{{ publicationItem.title }}</em></td>
+        <td><a href="{% url "ain7.emploi.views.publication_edit" person.user.id publicationItem.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
+        <td><a href="{% url "ain7.emploi.views.publication_delete" person.user.id publicationItem.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
+    </tr>
+    {% if publicationItem.details %}
+        <tr><td></td><td>{{ publicationItem.details|safe }}</td></tr>
+    {% endif %}
+{% endfor %}
+</tbody>
+</table>
+
+<p><a class="btn btn-primary" href="{% url "ain7.emploi.views.publication_edit" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
+
+
+<h2><a name="education"></a>{% trans "Education" %}</h2>
+
+<table class="table">
+<tbody>
+{% for educationItem in ain7member.education.all %}
+    <tr><th>{{ educationItem.begin }} - {{ educationItem.end }}</th>
+        <td> <em>{{ educationItem.school }}</em></td>
+        <td><a href="{% url "ain7.emploi.views.education_edit" person.user.id educationItem.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
+        <td><a href="{% url "ain7.emploi.views.education_delete" person.user.id educationItem.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
+    </tr>
+    {% if educationItem.diploma %}
+        <tr><td></td><td>{{ educationItem.diploma }}</td></tr>
+    {% endif %}
+    {% if educationItem.details %}
+        <tr><td></td><td>{{ educationItem.details|safe }}</td></tr>
+    {% endif %}
+{% endfor %}
+</tbody>
+</table>
+
+<p><a class="btn btn-primary" href="{% url "ain7.emploi.views.education_edit" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
+
+<h2><a name="leisure"></a>{% trans "Leisure activities" %}</h2>
+
+<table class="table">
+<tbody>
+{% for leisureItem in ain7member.leisure.all %}
+    <tr><th>{{ leisureItem.title }}</th>
+        <td>{% if leisureItem.detail %} {{ leisureItem.detail }} {% endif %} </td>
+        <td><a href="{% url "ain7.emploi.views.leisure_edit" person.user.id leisureItem.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
+        <td><a href="{% url "ain7.emploi.views.leisure_delete" person.user.id leisureItem.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
+    </tr>
+{% endfor %}
+</tbody>
+</table>
+
+<p><a class="btn btn-primary" href="{% url "ain7.emploi.views.leisure_edit" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 
 {% endif %}
 

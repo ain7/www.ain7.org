@@ -26,8 +26,6 @@ from django.conf.urls import patterns, url
 
 urlpatterns = patterns('ain7.emploi.views',
     url(r'^$', 'index', name='job-index'),
-    url(r'^(?P<user_id>\d+)/cv/$', 'cv_details', name='cv-details'),
-    url(r'^(?P<user_id>\d+)/cv/edit/$', 'cv_edit', name='cv-edit'),
     url(r'^(?P<user_id>\d+)/cv/position/(?P<position_id>\d+)/edit/$',
         'position_edit', name='position-edit'),
     url(r'^(?P<user_id>\d+)/cv/position/(?P<position_id>\d+)/delete/$',

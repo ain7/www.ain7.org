@@ -4,7 +4,7 @@
 {% block content-left %}
 
 {% if superadmin or ca_member or secretariat_member or contributor %}
-<p><a class="btn btn-primary" href="{% url "pages.views.edit" text.id %}"><i class="fa fa-pencil-square-o"></i> {% trans "Edit" %}</a></p>
+<p><a class="btn btn-primary" href="{% url "pages.views.edit" text.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></p>
 
 <h2>{{ text.title }}</h2>
 

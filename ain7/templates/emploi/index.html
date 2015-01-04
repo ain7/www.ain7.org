@@ -1,24 +1,63 @@
 {% extends "emploi/base.html" %}
 {% load i18n %}
+{% load endless %}
+{% load crispy_forms_tags %}
 
 {% block content-left %}
 
-<h2>N'hésitez pas à consulter notre <a href="http://ain7.com/actualites/liens-utiles-pour-la-recherche-demploi/">article sur la recherche d'emploi</a></h2>
+<div class="row">
+<div class="col-lg-6">
 
-<h2>{% trans "Last jobs offers:" %}</h2>
-
-{% if liste_emplois %}
-    <ul>
-    {% for emploi in liste_emplois %}
-        <li class="job"><a href="{% url "ain7.emploi.views.job_details" emploi.id %}">{{ emploi.title }}</a> - 
-    (<a href="{% url "ain7.organizations.views.organization_details" emploi.office.organization.id %}">{{ emploi.office.organization }}</a> {{ emploi.office }}) 
-        </li>
-    {% endfor %}
-     </ul>
-{% else %}
-    <p>{% trans "No job offer." %}</p>
+{% if superadmin or ca_member or secretariat_member or contributeur %}
+<ul class="list-inline">
+<li><a class="btn btn-primary" href="{% url "pages.views.edit" text.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></li>
+</ul>
 {% endif %}
 
+<h2>{{ text.title }}</h2>
 
+{{ text.body|safe }}
+
+</div>
+
+<div class="col-lg-6">
+
+<form action="." method="get">
+{{ job_offers.form|crispy }}
+<div class="control-group">
+<div class="controls">
+<input class="btn btn-primary" type="submit" value="{% trans "Search" %}" />
+</div>
+</div>
+</form>
+
+</div>
+
+</div>
+
+<div class="row">
+        <hr>
+</div>
+
+<div class="row">
+
+{% if superadmin or ca_member or secretariat_member or contributeur %}
+<ul class="list-inline">
+<li><a class="btn btn-primary" href="{% url "job-add" %}"><i class="fa fa-plus fa-lg"></i> {% trans "Add" %}</a></li>
+</ul>
+{% endif %}
+
+{% paginate job_offers %}
+<ul>
+{% for emploi in job_offers %}
+    <li class="job"><a href="{% url "ain7.emploi.views.job_details" emploi.id %}">{{ emploi.title }}</a> - 
+(<a href="{% url "ain7.organizations.views.organization_details" emploi.office.organization.id %}">{{ emploi.office.organization }}</a> {{ emploi.office }}) 
+    </li>
+{% endfor %}
+ </ul>
+
+<p class="text-center">{% show_pages %}</p> 
+
+</div>
 
 {% endblock %}

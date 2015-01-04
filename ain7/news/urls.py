@@ -27,10 +27,10 @@ from django.conf.urls import patterns, url
 urlpatterns = patterns('ain7.news.views',
     # Evenements
     url(r'^$', 'index', name='news-index'),
-    (r'^new/$', 'edit'),
-    (r'^search/$', 'search'),
+    url(r'^add/$', 'edit', name='news-add'),
+    url(r'^search/$', 'search', name='news-search'),
     url(r'^(?P<news_slug>[\w\-]+)/$', 'details', name='news-details'),
-    (r'^(?P<news_slug>[\w\-]+)/edit/$', 'edit'),
-    (r'^(?P<news_slug>[\w\-]+)/delete/$', 'delete'),
+    url(r'^(?P<news_slug>[\w\-]+)/edit/$', 'edit', name='news-edit'),
+    url(r'^(?P<news_slug>[\w\-]+)/delete/$', 'delete', name='news-delete'),
 
 )

@@ -31,11 +31,12 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import AIn7Member, Email, Person
+from ain7.decorators import access_required
+from ain7.emploi.models import JobOffer
+from ain7.groups.models import Group
 from ain7.news.models import NewsItem
 from ain7.pages.forms import LostPasswordForm, ChangePasswordForm
 from ain7.pages.models import Text, LostPassword
-from ain7.decorators import access_required
-from ain7.emploi.models import JobOffer
 
 
 def homepage(request):
@@ -181,6 +182,30 @@ def edit(request, text_id):
         'text_id': text_id,
         'form': form,
         'back': request.META.get('HTTP_REFERER'),
+        }
+    )
+
+
+def professionnal_groups(request):
+
+    groups = Group.objects.filter(type__name='ain7-professionnel')
+    text = Text.objects.get(textblock__shortname='groupes_professionnels')
+
+    return render(request, 'pages/professionnal_groups.html', {
+        'text': text,
+        'groups': groups,
+        }
+    )
+
+
+def regional_groups(request):
+
+    groups = Group.objects.filter(type__name='ain7-regional')
+    text = Text.objects.get(textblock__shortname='groupes_regionaux')
+
+    return render(request, 'pages/regional_groups.html', {
+        'text': text,
+        'groups': groups,
         }
     )
 

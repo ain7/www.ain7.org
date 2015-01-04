@@ -26,31 +26,39 @@ import datetime
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.forms.models import modelform_factory
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
 from ain7.decorators import access_required, confirmation_required
-from ain7.groups.models import Group, Member, GroupRole, GroupLeader, GroupHead
+from ain7.groups.models import Group, Member, GroupLeader, GroupHead
 from ain7.utils import ain7_generic_delete
 
 
 def index(request):
     """index page"""
     groups = Group.objects.active()
-    return render(request, 'groups/index.html',
-        {'groups': groups})
+    return render(request, 'groups/index.html', {
+        'groups': groups
+        }
+    )
+
 
 def details(request, slug):
     """group details"""
     group = get_object_or_404(Group, slug=slug)
-    is_member = request.user.is_authenticated()\
-                and group.has_for_member(request.user.person)
+    is_member = (request.user.is_authenticated()
+        and group.has_for_member(request.user.person)
+    )
 
-    return render(request, 'groups/details.html',
-                            {'group': group, 'is_member': is_member})
+    return render(request, 'groups/details.html', {
+        'group': group,
+        'is_member': is_member
+        }
+    )
 
-@access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'])
+
+@access_required(groups=['ain7-ca', 'ain7-secretariat', 'ain7-contributeur'])
 def edit(request, slug=None):
     """edit group"""
 
@@ -67,17 +75,20 @@ def edit(request, slug=None):
 
     if request.method == 'POST' and form.is_valid():
         group = form.save()
-        messages.success(request, _("Modifications have been successfully saved."))
+        messages.success(
+            request,
+            _("Modifications have been successfully saved.")
+        )
         return redirect('group-details', group.slug)
 
-    return render(request, 'groups/edit.html', 
-        {
-            'form': form,
-            'group': group,
-            'back': request.META.get('HTTP_REFERER', '/'),
-            'is_member': is_member,
+    return render(request, 'groups/edit.html', {
+        'form': form,
+        'group': group,
+        'back': request.META.get('HTTP_REFERER', '/'),
+        'is_member': is_member,
         }
     )
+
 
 @access_required(groups=['ain7-admin'])
 def join(request, slug):
@@ -91,11 +102,15 @@ def join(request, slug):
         grp_membership.group = group
         grp_membership.member = person
         grp_membership.save()
-        messages.success(request, _("You have been successfully added to this group."))
+        messages.success(
+            request,
+            _("You have been successfully added to this group.")
+        )
     else:
         messages.info(request, _("You are already a member of this group."))
 
     return redirect('group-details', group.slug)
+
 
 def members(request, slug):
     """group members"""
@@ -103,15 +118,15 @@ def members(request, slug):
     members = Person.objects.filter(groups__group=group) #, end_date__gte=datetime.date.today(), expiration_date__gte=datetime.date.today())
 
     is_member = request.user.is_authenticated()\
-                and group.has_for_member(request.user.person)
+        and group.has_for_member(request.user.person)
 
-    return render(request, 'groups/members.html',
-        {
-            'group': group,
-            'is_member': is_member,
-            'members': members,
+    return render(request, 'groups/members.html', {
+        'group': group,
+        'is_member': is_member,
+        'members': members,
         }
     )
+
 
 @access_required(groups=['ain7-admin'])
 def member_edit(request, slug, member_id=None):
@@ -123,7 +138,10 @@ def member_edit(request, slug, member_id=None):
     if member_id:
         member = get_object_or_404(Member, pk=member_id)
 
-    MemberForm = modelform_factory(Member, exclude=('group', 'start_date', 'end_date', 'expiration_date',))
+    MemberForm = modelform_factory(
+        Member,
+        exclude=('group', 'start_date', 'end_date', 'expiration_date',),
+    )
     form = MemberForm(request.POST or None, instance=member)
 
     if request.method == 'POST' and form.is_valid():
@@ -133,13 +151,13 @@ def member_edit(request, slug, member_id=None):
         messages.success(request, _('User added to group'))
         return redirect('group-details', group.slug)
 
-    return render(request, 'groups/edit.html',
-        {
-            'form': form,
-            'group': group,
-            'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'groups/edit.html', {
+        'form': form,
+        'group': group,
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
+
 
 @access_required(groups=['ain7-admin'])
 def member_delete(request, slug, member_id):
@@ -154,6 +172,7 @@ def member_delete(request, slug, member_id):
 
     return redirect('group-details', group.slug)
 
+
 @confirmation_required(lambda slug: 
     str(get_object_or_404(Group, slug=slug)),
     'groups/base.html', _('Do you really want to quit the group'))
@@ -166,18 +185,24 @@ def quit(request, slug):
 
     if group.has_for_member(person):
         if group.has_for_board_member(person):
-            messages.info(request,
+            messages.info(
+                request,
                 _("You are a member of the office of this group. You have to \
 unsubscribe from every role in your group before leaving it."))
         else:
             membership = Member.objects\
-                .filter(group=group, member=person)\
-                .exclude(end_date__isnull=False, end_date__lte=\
-                datetime.datetime.now())\
-                .latest('end_date')
+                .filter(
+                    group=group, member=person
+                ).exclude(
+                    end_date__isnull=False,
+                    end_date__lte=datetime.datetime.now()
+                ).latest('end_date')
             membership.end_date = datetime.datetime.now()
             membership.save()
-            messages.success(request, _('You have been successfully removed from this group.'))
+            messages.success(
+                request,
+                _('You have been successfully removed from this group.')
+            )
     else:
         messages.info(request, _("You are not a member of this group."))
 
@@ -191,13 +216,13 @@ def role_edit(request, slug, role_id=None):
     group = get_object_or_404(Group, slug=slug)
 
     is_member = request.user.is_authenticated()\
-                and group.has_for_member(request.user.person)
+        and group.has_for_member(request.user.person)
 
     role = None
     if role_id:
         role = get_object_or_404(GroupLeader, id=role_id)
 
-    RoleForm = modelform_factory('GroupLeader', exclude=('GroupHead',))
+    RoleForm = modelform_factory(GroupLeader, exclude=('grouphead',))
     form = RoleForm(request.POST or None, instance=role)
 
     if request.method == 'POST' and form.is_valid():
@@ -206,14 +231,14 @@ def role_edit(request, slug, role_id=None):
         role.save()
         return redirect('group-details', group.slug)
 
-    return render(request, 'groups/edit.html',
-        {
-            'group': group,
-            'is_member': is_member,
-            'form': form,
-            'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'groups/edit.html', {
+        'group': group,
+        'is_member': is_member,
+        'form': form,
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
+
 
 @confirmation_required(lambda slug=None, role_id=None:
       str(get_object_or_404(GroupLeader, pk=role_id)), 
@@ -227,4 +252,3 @@ def role_delete(request, slug=None, role_id=None):
         get_object_or_404(GroupLeader, pk=role_id),
         reverse(details, args=[slug]),
         _('Role successfully deleted.'))
-

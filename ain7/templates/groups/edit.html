@@ -7,11 +7,12 @@
 <h1>{{ group.name }}</h1>
 
 <form method="post" action=".">
+{% csrf_token %}
 {{ form|crispy }}
 <div class="control-group">
 <div class="controls">
 <button type="submit" class="btn btn-default">{% trans "Save" %}</button>
-<a href="{% url 'group-details' group.id %}">{% trans "Cancel" %}</a>
+<a href="{% url "group-details" group.slug %}">{% trans "Cancel" %}</a>
 </div>
 </div>
 </form>

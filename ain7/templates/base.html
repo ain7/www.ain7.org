@@ -52,7 +52,14 @@
                                                         <ul class="nav nav-tabs" role="tablist">
                                                                 <li role="presentation" {% block navbar_blog %}{{ navbar_blog }}{% endblock %}><a href="{% url "news-index" %}">Blog</a></li>
                                                                 <li role="presentation" {% block navbar_directory %}{{ navbar_directory }}{% endblock %}><a href="{% url "annuaire-search" %}">Annuaire</a></li>
-                                                                <li role="presentation" {% block navbar_groups %}{{ navbar_groups }}{% endblock %}><a href="{% url "groups-index" %}">Activités</a></li>
+                                                                <li role="presentation" {% block navbar_activities %}{{ navbar_activities }}{% endblock %}><a href="#" class="dropdown-toggle" data-toggle="dropdown">Activités</a>
+    <ul class="dropdown-menu">
+      <li><a href="{% url "ain7.emploi.views.index" %}">{% trans "Job" %}</a></li>
+      <li><a href="{% url "ain7.voyages.views.index" %}">{% trans "Travels" %}</a></li>
+      <li><a href="{% url "professionnal_groups" %}">{% trans "Professionnal Groups" %}</a></li>
+      <li><a href="{% url "regional_groups" %}">{% trans "Regional Groups" %}</a></li>
+    </ul>
+</li>
                                                                 <li class="dropdown" role="presentation" {% block navbar_association %}{{ navbar_association }}{% endblock %}>
  <a href="#" class="dropdown-toggle" data-toggle="dropdown">L'association</a>
     <ul class="dropdown-menu">                                                  
@@ -74,7 +81,7 @@
 
 {% if superadmin or ca_member or secretariat_member %}
  <li class="dropdown" {% block navbarmanage %}{{ navbarmanage }}{% endblock %}>
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>
+ <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog fa-lg"></i> <i class="fa fa-caret-down"></i> </a>
     <ul class="dropdown-menu">
       <li><a href="{% url "ain7.organizations.views.organization_search" %}">{% trans "Organizations" %}</a></li>
       <li><a href="{% url "ain7.manage.views.errors_index" %}">{% trans "Errors" %}</a></li>
@@ -87,7 +94,7 @@
 {% endif %}
 {% if user.is_authenticated %}
  <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.person.first_name }} {{ user.person.last_name }}<b class="caret"></b></a>
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.person.first_name }} {{ user.person.last_name }} <i class="fa fa-caret-down"></i></a>
     <ul class="dropdown-menu">
       <li><a href="{% url "member-details" user.id %}">{% trans "Profil" %}</a></li>
       <li><a href="{% url "annuaire-edit" user.id %}">{% trans "Edit your profil" %}</a></li>
@@ -210,14 +217,6 @@
                                         </div>
                                 </div>
                                 <div class="col-lg-3">
-                                        <div class="widget">
-                                                <h5 class="widgetheading">Latest posts</h5>
-                                                <ul class="link-list">
-                                                        <li><a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a></li>
-                                                        <li><a href="#">Pellentesque et pulvinar enim. Quisque at tempor ligula</a></li>
-                                                        <li><a href="#">Natus error sit voluptatem accusantium doloremque</a></li>
-                                                </ul>
-                                        </div>
                                 </div>
                                 <div class="col-lg-3">
                                         <div class="widget">

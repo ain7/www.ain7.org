@@ -103,6 +103,9 @@ urlpatterns = patterns('',
     (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap',
         {'sitemaps': sitemaps}),
 
+    url(r'^groupes_professionnels/$', 'ain7.pages.views.professionnal_groups', name='professionnal_groups'),
+    url(r'^groupes_regionaux/$', 'ain7.pages.views.regional_groups', name='regional_groups'),
+
     # redirection to external communities
     url(r'^facebook/$', 'ain7.pages.views.facebook', name='facebook'),
     url(r'^linkedin/$', 'ain7.pages.views.linkedin', name='linkedin'),

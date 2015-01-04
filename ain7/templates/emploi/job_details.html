@@ -4,7 +4,7 @@
 {% block content-left %}
 
 {% if superadmin or ca_member or secretariat_member %}
-<a class="btn btn-primary" href="{% url "ain7.emploi.views.job_edit" job.id %}">{% trans "Edit this job offer" %}</a>
+<a class="btn btn-primary" href="{% url "job-edit" job.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a>
 {% endif %}
 
 <h2>{{ job.title }}</h2>
@@ -14,10 +14,12 @@
 <li>{% trans "Registered" %}&nbsp;:</b> {{ job.created_at|date:"l j F Y H:m" }} {% if job.created_by %}{% trans "by" %} {{ job.created_by }}{% endif %}</li>
 </ul>
 
+{% if job.office %}
 <ul>
 <li><b>{% filter capfirst%}{% trans "organization" %}{% endfilter %}&nbsp;:</b>
     <a href="{% url "ain7.organizations.views.organization_details" job.office.organization.id %}">{{ job.office.organization }}</a>, {{ job.office }}
 </li>
+{% endif %}
 <li><b>{% trans "Contract Type" %}&nbsp;:</b> {{ job.get_contract_type_display }}</li>
 <li><b>{% trans "Experience" %}&nbsp;:</b> {{ job.experience }}</li>
 <li><b>{% trans "Reference" %}&nbsp;:</b> {{ job.reference }}</li>

@@ -57,7 +57,10 @@ def organization_edit(request, organization_id=None):
     if organization_id:
         org = get_object_or_404(Organization, pk=organization_id)
 
-    OrganizationForm = modelform_factory(Organization)
+    OrganizationForm = modelform_factory(
+        Organization,
+        exclude=('modification_of', 'modification_date', 'is_valid')
+    )
     form = OrganizationForm(request.POST or None, instance=org)
 
     if request.method == 'POST' and form.is_valid():
@@ -82,8 +85,9 @@ def organization_edit(request, organization_id=None):
             org.save()
             return redirect(org)
 
-    return render(request, 'organizations/office_edit.html', {
+    return render(request, 'organizations/organization_edit.html', {
         'form': form,
+        'organization': org,
         'title': _('Organization modification'),
         }
     )

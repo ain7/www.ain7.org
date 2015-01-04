@@ -2,8 +2,9 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 
+{% block content-left %}
+
 {% if organization %}
-<div class="dataBlock">
 <h2>{{ organization.name }}</h2>
 
 {% if organization.employment_agency %}
@@ -32,13 +33,10 @@
 {{ organization.field }}
 {% endif %}
 
-</div> <!-- dataBlock -->
-
-<a href="{% url "ain7.organizations.views.organization_edit_data" organization.id %}" class="changelink">
-  {% trans "Modify" %}</a>
-&nbsp;
-<a href="{% url "ain7.organizations.views.organization_delete" organization.id %}" class="deletelink">
-  {% trans "Delete" %}</a>
+<ul class="list-inline">
+    <li><a class="btn btn-primary" href="{% url "ain7.organizations.views.organization_edit" organization.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></li>
+    <li><a class="btn btn-primary" href="{% url "ain7.organizations.views.organization_delete" organization.id %}"><i class="fa fa-trash-o fa-lg"></i> {% trans "Delete" %}</a></li>
+</ul>
 
 <h2>{% trans "List of offices" %}</h2>
 <ul>
@@ -48,16 +46,13 @@
 
   {% if office.is_valid and not office.is_a_proposal %}
     <li>{{ office }} {{ office.line1|default:"" }} {{ office.line2|default:"" }} {{ office.zip_code|default:"" }} {{ office.city|default:"" }} {{ office.country|default:"" }}
-      <a href="{% url "ain7.organizations.views.office_edit" organization.id office.id %}" class="changelink">
-        {% trans "Modify" %}</a>
-      <a href="{% url "ain7.organizations.views.office_delete" organization.id office.id %}" class="deletelink">
-        {% trans "Delete" %}</a>
+    <a class="btn btn-primary" href="{% url "ain7.organizations.views.office_edit" organization.id office.id %}"><i class="fa fa-pencil fa-lg"></i>  {% trans "Modify" %}</a>
+    <a class="btn btn-primary" href="{% url "ain7.organizations.views.office_delete" organization.id office.id %}"><i class="fa fa-trash-o fa-lg"></i>  {% trans "Delete" %}</a>
     </li>
   {% endif %}
 {% endfor %}
 </ul>
-<a href="{% url "ain7.organizations.views.office_edit" organization.id %}" class="addlink">
-  {% trans "Add" %}</a>
+<a class="btn btn-primary" href="{% url "ain7.organizations.views.office_edit" organization.id %}"><i class="fa fa-plus fa-lg"></i>  {% trans "Add" %}</a>
 
 </div>
 {% else %}

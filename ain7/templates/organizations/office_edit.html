@@ -14,8 +14,10 @@
 {{ form|crispy }}
 <div class="control-group">
 <div class="controls">
-<button type="submit" class="btn btn-default">{% trans "Save" %}</button>
+<button class="btn btn-primary" type="submit">{% trans "Save" %}</button>
+{% if office %}
 <a href="{% url 'office-edit' office.id %}">{% trans "Cancel" %}</a>
+{% endif %}
 </div>
 </div>
 </form>

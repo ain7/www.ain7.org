@@ -11,34 +11,33 @@
 
     <h3>{{ group.grouphead.name }}</h3>
 
-<table width="100%">
-    {% for r in group.get_group_head %}
-       <td><b>{{ r.title }}</b></td>
-       <td>
-           {% if r.person.ain7member.avatar %}
-            <img src ="{{ r.person.ain7member.avatar.url }}" height="50"  alt="{{ r.person.complete_name }}" title="{{ r.person.complete_name }}" />
-            {% else %}
-            <img src="{% static "images/nobody.png" %}" height="50" alt="{{ r.person.complete_name }}"/>
-            {% endif %}
-        </td>
-        <td>
-        <a href="{% url "ain7.annuaire.views.details" r.person.user.id %}">{{ r.person }}</a><br/>
-        (<i>{{ r.person.ain7member.track }} {{ r.person.ain7member.promo }}</i>)
-        {% if superadmin or secretariat_member %}
-        </td><td>
-        <a href="{% url "ain7.groups.views.role_edit" group.slug r.id %}" class="changelink">
-{% trans "Modify" %}</a><br/>
-           <a href="{% url "ain7.groups.views.role_delete" group.slug r.id %}" class="deletelink">
-           {% trans "Delete" %}</a>
-        {% endif%}
-       </td>
-       </tr>
-       <tr><td style="border-bottom:1px dashed grey; text-align: left;" colspan="4"></td></tr>
-    {% endfor %}
+<table class="table table-striped">
+<tbody>
+{% for r in group.get_group_head %}
+   <th>{{ r.title }}</th>
+   <td>
+       {% if r.person.ain7member.avatar %}
+        <img src ="{{ r.person.ain7member.avatar.url }}" height="50"  alt="{{ r.person.complete_name }}" title="{{ r.person.complete_name }}" />
+        {% else %}
+        <img src="{% static "images/nobody.png" %}" height="50" alt="{{ r.person.complete_name }}"/>
+        {% endif %}
+    </td>
+    <td>
+    <a href="{% url "ain7.annuaire.views.details" r.person.user.id %}">{{ r.person }}</a><br/>
+    (<i>{{ r.person.ain7member.track }} {{ r.person.ain7member.promo }}</i>)
+    {% if superadmin or secretariat_member %}
+    </td><td>
+        <a href="{% url "ain7.groups.views.role_edit" group.slug r.id %}"><i class="fa fa-pencil fa-lg"></i></a><br/>
+        <a href="{% url "ain7.groups.views.role_delete" group.slug r.id %}"><i class="fa fa-trash-o fa-lg"></i></a>
+    {% endif%}
+   </td>
+   </tr>
+{% endfor %}
+</tbody>
 </table>
 
 {% if superadmin or secretariat_member %}
-<p><a href="{% url "ain7.groups.views.role_edit" group.slug %}" class="addlink">{% trans "Add" %}</a></p>
+<p><a class="btn btn-primary" href="{% url "ain7.groups.views.role_edit" group.slug %}"><i class="fa fa-plus fa-lg"></i> {% trans "Add" %}</a></p>
 {% endif %}
 
 {% endblock %}

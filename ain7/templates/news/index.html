@@ -4,6 +4,10 @@
 
 {% block content-left %}
 
+{% if superadmin or ca_member or secretariat_member or contributeur %}
+<p><a class="btn btn-primary" href="{% url "news-add" %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
+{% endif %}
+
 {% if news %}
 
 {% paginate news %}

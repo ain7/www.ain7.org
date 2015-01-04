@@ -1,66 +1,33 @@
 {% extends "base.html" %}
 {% load i18n ain7_tags %}
 
-{% block navbar_groups %}class="active"{% endblock %}
+{% block navbar_activities %}class="active"{% endblock %}
 
 {% block content %}
 
 
-<div class="span9">
-{% block content-left %}{% endblock %}
-</div>
+<ul class="list-inline">
+<li>
+{% if not is_member %}
+<a class="btn btn-primary" href="{% url "ain7.groups.views.join" group.slug %}">{% trans "Join the group" %}</a>
+{% else %}
+<a class="btn btn-primary" href="{% url "ain7.groups.views.quit" group.slug %}">{% trans "Leave the group" %}</a>
+{% endif %}
+</li>
+<li><a class="btn btn-primary" href="{% url "ain7.groups.views.members" group.slug %}">{% trans "Members" %}</a></li>
+{% if superadmin or ca_member or secretariat_member %}
+<li><a class="btn btn-primary" href="{% url "ain7.groups.views.edit" group.slug %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Modify" %}</a></li>
+<li><a class="btn btn-primary" href="{% url "ain7.groups.views.edit" %}"><i class="fa fa-plus fa-lg"></i> {% trans "Add new group" %}</a></li>
+{% endif %}
+</ul>
+{% if group.active_events %}
+<li class="nav-header">{% trans "Events" %}</li>
+{% for event in group.active_events %}
+<p><strong><a href="{% url "ain7.news.views.event_details" event.id %}">{{ event.title|upper }}</a></strong></p>
+{% endfor %}
+{% endif %}
 
-
-<div class="span3">
-
-<div class="well">
-    <ul class="nav nav-list">
-    {% if group %}
-	<li class="nav-header">{% trans "Actions" %}</li>
-	    <li><a href="{% url "ain7.groups.views.index" %}">{% trans "Groups" %}</a></li>
-	    <li><a href="{% url "ain7.groups.views.details" group.slug %}">{{ group.name }}</a></li>
-	    <li>
-	    {% if not is_member %}
-		<a href="{% url "ain7.groups.views.join" group.slug %}">{% trans "Join the group" %}</a>
-	    {% else %}
-		<a href="{% url "ain7.groups.views.quit" group.slug %}">{% trans "Leave the group" %}</a>
-	    {% endif %}
-	    </li>
-	    <li><a href="{% url "ain7.groups.views.members" group.slug %}">{% trans "Members" %}</a></li>
-	    {% if superadmin or ca_member or secretariat_member %}
-	    <li><a href="{% url "ain7.groups.views.edit" group.slug %}">{% trans "Modify" %}</a></li>
-	    <li><a href="{% url "ain7.groups.views.edit" %}">{% trans "Register new group" %}</a></li>
-	    {% endif %}
-    {% if group.active_events %}
-        <li class="nav-header">{% trans "Events" %}</li>
-        {% for event in group.active_events %}
-                <p><strong><a href="{% url "ain7.news.views.event_details" event.id %}">{{ event.title|upper }}</a></strong></p>
-                <p>
-{% blocktrans with event.date|date:"d/m/Y" as date and event.location as place %}{{ date }} at {{ place }}{% endblocktrans %}
-                </p>
-                {% if event.body %}
-                    <p><em>{{ event.body|safe|truncatewords:10 }}</em></p>
-                {% endif %}
-        {% endfor %}
-    {% endif %}
-
-    {# group.active_events #}
-
-    {% block extra-menu %}{% endblock %}
-
-    <li class="nav-header">{% trans "Card Informations"%}</li>
-    {%  show_last_change group %}
-    {% endif %} {# group #}
-
-
-    {% if groups %}
-    <li class="nav-header">{% trans "Statistics" %}</li>
-            <li>{{ groups|length }} {% trans "groups" %}s</li>
-
-    {% endif %}
-    </ul>
-
-</div>
-</div> <!-- right -->
+{% block content-left %}
+{% endblock %}
 
 {% endblock %}

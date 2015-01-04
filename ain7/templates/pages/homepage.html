@@ -17,7 +17,7 @@
                                                         <div class="slide-body" data-group="slide">
                                                                 <img src="{% static "images/picture_wall_n7.jpg" %}" alt="">
                                                                 <div class="caption header" data-animate="slideAppearDownToUp" data-delay="500" data-length="300">
-                                                                        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off"><h3><a href="{% url "news-details" news_item.slug %}">{{ news_item.title }}</a></h3></button>
+                                                                    <a class="btn btn-primary" href="{% url "news-details" news_item.slug %}"><h3>{{ news_item.title }}</h3></a>
                                                                         <div class="caption-sub" data-animate="slideAppearUpToDown" data-delay="800" data-length="300"><button class="btn btn-primary"><h4><span>{{ news_item.body|striptags|truncatewords_html:25|safe }} <a href="{% url "ain7.news.views.details" news_item.slug %}"><small>(suite)</small></span></h4></button></div>
                                                                 </div>
                                                         </div>

@@ -6,7 +6,7 @@
 
 <h2>{% trans "Payment" %} #{{ payment.id }}</h2>
 
-<p><a class="btn btn-primary" href="{% url "ain7.manage.views.payment_edit" payment.id %}"><i class="fa fa-pencil"></i> Edit</a></p>
+<p><a class="btn btn-primary" href="{% url "ain7.manage.views.payment_edit" payment.id %}"><i class="fa fa-pencil fa-lg"></i> Edit</a></p>
 
 <ul>
 <li><b>{% trans "Person:" %}</b> {% if payment.person %}<a href="{% url "ain7.annuaire.views.details" payment.person.user.id %}">{{ payment.person }}</a>{% endif %}</li>

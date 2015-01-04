@@ -39,52 +39,21 @@ from ain7.emploi.models import (
 from ain7.utils import ain7_generic_delete, check_access
 
 
+@access_required(groups=['ain7-membre', 'ain7-secretariat'])
 @login_required
 def index(request):
     """index page"""
 
-    person = Person.objects.get(user=request.user.id)
-    try:
-        ain7member = AIn7Member.objects.get(person=person)
-    except AIn7Member.DoesNotExist:
-        ain7member = None
-    liste_emplois = JobOffer.objects.filter(
-        checked_by_secretariat=True,
-        obsolete=False
-    ).order_by('-id')[:20]
-    text1 = Text.objects.get(textblock__shortname='emploi')
+    job_offers = JobOfferFilter(
+        request.GET,
+        queryset=JobOffer.objects.filter(obsolete=False),
+    )
+
+    text = Text.objects.get(textblock__shortname='emploi')
+
     return render(request, 'emploi/index.html', {
-        'ain7member': ain7member,
-        'liste_emplois': liste_emplois,
-        'text1': text1,
-        }
-    )
-
-
-@access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
-def cv_details(request, user_id):
-    """cvs details"""
-
-    person = get_object_or_404(Person, user=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=person)
-
-    return render(request, 'emploi/cv_details.html', {
-        'person': person,
-        'ain7member': ain7member,
-        }
-    )
-
-
-@access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
-def cv_edit(request, user_id=None):
-    """cv edit"""
-
-    person = get_object_or_404(Person, user=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=person)
-
-    return render(request, 'emploi/cv_edit.html', {
-        'person': person,
-        'ain7member': ain7member,
+        'job_offers': job_offers,
+        'text': text,
         }
     )
 
@@ -258,7 +227,7 @@ def publication_edit(request, user_id=None, publication_id=None):
         publication.ain7member = ain7member
         publication.save()
         messages.success(
-            request, 
+            request,
             _('Modifications have been successfully saved.')
         )
 
@@ -315,7 +284,7 @@ def job_details(request, job_id):
 
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
-def job_edit(request, job_id):
+def job_edit(request, job_id=None):
     """job edit"""
 
     job = None

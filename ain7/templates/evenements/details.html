@@ -3,63 +3,62 @@
 
 {% block content-main %}
 
-	<h2>{{ event.title }}</h2>
+<h2>{{ event.title }}</h2>
 
-        {% if request.user.is_authenticated and rsvp_display %}
-        <p>
-        {% if rsvp %}
-            {% trans "You have already answered" %} "{{ rsvp.answer }}" {% trans "to attendind this event" %}.<br/>
-            {% trans "You can change your answer:" %}
-        {% else %}
-            {% trans "Do you plan to attend?" %}
-        {% endif %}
-        <a href="{% url "ain7.news.views.event_attend_yes" event.id %}">{% trans "Yes" %}</a>
-        <a href="{% url "ain7.news.views.event_attend_no" event.id %}">{% trans "No" %}</a>
-        <a href="{% url "ain7.news.views.event_attend_maybe" event.id %}">{% trans "Maybe" %}</a>
-        </p>
-        {%  endif %}
+    {% if request.user.is_authenticated and rsvp_display %}
+    <p>
+    {% if rsvp %}
+        {% trans "You have already answered" %} "{{ rsvp.answer }}" {% trans "to attendind this event" %}.<br/>
+        {% trans "You can change your answer:" %}
+    {% else %}
+        {% trans "Do you plan to attend?" %}
+    {% endif %}
+    <a href="{% url "ain7.news.views.event_attend_yes" event.id %}">{% trans "Yes" %}</a>
+    <a href="{% url "ain7.news.views.event_attend_no" event.id %}">{% trans "No" %}</a>
+    <a href="{% url "ain7.news.views.event_attend_maybe" event.id %}">{% trans "Maybe" %}</a>
+    </p>
+    {%  endif %}
 
-	<table border="0" width="100%">
-        <tr><td>
-	<ul>
-        <li><strong>{% trans "Date" %}&nbsp;: {{ event.date|date:"l d F Y H:i" }}</strong></li>
-        {% if event.contant_email %}
-        <li>{% trans "Contact" %}&nbsp;: <a href="mailto:{{ event.contact_email }}">{% trans "Contact organizer" %}</a></li>
-        {% endif %}
-        <li>{% trans "Location" %}&nbsp;: {{ event.location }}</li>
-        {% if event.link %}
-             <li><a href="{{ event.link }}">{{ event.link }}</a></li>
-        {% endif %}
-        {% if event.status and ca_member %}
-        <li>{% trans "Status" %}&nbsp;: {{ event.get_status_display }}</li>
-        {% endif %}
-	</ul>
-        </td><td>
-        </td></tr>
-        <tr><td colspan="2">
-        {% if event.organizers.all %}
-        {% trans "Organizers" %}:
-        <ul>
-        {% for person in event.organizers.all %}
-            <li><a href="{% url "ain7.annuaire.views.details" person.id %}">{{ person }}</a></li>
-        {% endfor %}
-        </ul>
-        {% endif %}
-        </td></tr>
-        </table>
+<table border="0" width="100%">
+    <tr><td>
+<ul>
+    <li><strong>{% trans "Date" %}&nbsp;: {{ event.date|date:"l d F Y H:i" }}</strong></li>
+    {% if event.contant_email %}
+    <li>{% trans "Contact" %}&nbsp;: <a href="mailto:{{ event.contact_email }}">{% trans "Contact organizer" %}</a></li>
+    {% endif %}
+    <li>{% trans "Location" %}&nbsp;: {{ event.location }}</li>
+    {% if event.link %}
+         <li><a href="{{ event.link }}">{{ event.link }}</a></li>
+    {% endif %}
+    {% if event.status and ca_member %}
+    <li>{% trans "Status" %}&nbsp;: {{ event.get_status_display }}</li>
+    {% endif %}
+</ul>
+    </td><td>
+    </td></tr>
+    <tr><td colspan="2">
+    {% if event.organizers.all %}
+    {% trans "Organizers" %}:
+    <ul>
+    {% for person in event.organizers.all %}
+        <li><a href="{% url "ain7.annuaire.views.details" person.id %}">{{ person }}</a></li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    </td></tr>
+    </table>
 
-	{% if event.body %}
-        {% if event.image %}
-            <img src="{{ event.image.url }}" height="100" alt="{% trans "image" %}"/>
-        {% endif %}		
+{% if event.body %}
+    {% if event.image %}
+        <img src="{{ event.image.url }}" height="100" alt="{% trans "image" %}"/>
+    {% endif %}		
 {{ event.body|safe }}
-	{% endif %}
+{% endif %}
 
 <br/><br /><br />
 <!-- AddThis Button BEGIN -->
 <div class="addthis_toolbox addthis_default_style">
 <a class="addthis_button_linkedin"></a>
-<a class="addthis_button_viadeo"></a>
 <a class="addthis_button_facebook"></a>
 <a class="addthis_button_google_plusone"></a>
 <a class="addthis_button_tweet"></a>
@@ -69,18 +68,4 @@
 <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4dc7154b4ea96654"></script>
 <!-- AddThis Button END -->
 
-{% endblock %}
-
-{% block actions %}
-<li class="nav-header">{% trans "Actions" %}</li>
-<li><a href="{% url "ain7.news.views.event_contact" event.id %}">{% trans "Contact the event responsible" %}</a></li>
-{% if superadmin or ca_member or secretariat_member or contributeur %}
-<li><a href="{% url "ain7.news.views.event_edit" event.id %}">{% trans "Edit this event" %}</a></li>
-<li><a href="{% url "ain7.news.views.event_attendees" event.id %}">{% trans "View attendees" %}</a></li>
-{% endif %}
-{% endblock %}
-
-{% block additional-right-blocks %}
-<li class="nav-header">{% trans "Card Informations"%}</li>
-{% show_last_change event %}
 {% endblock %}

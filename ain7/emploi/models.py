@@ -34,26 +34,36 @@ class Position(LoggedClass):
     A position occupied by a person.
     """
 
-    ain7member = models.ForeignKey('annuaire.AIn7Member', 
-        related_name='positions')
-    office = models.ForeignKey('organizations.Office', verbose_name=_('office'),
-        related_name='positions')
+    ain7member = models.ForeignKey(
+        'annuaire.AIn7Member', related_name='positions'
+    )
+    office = models.ForeignKey(
+        'organizations.Office', verbose_name=_('office'),
+        related_name='positions',
+    )
 
-    fonction = models.CharField(verbose_name=_('fonction'), max_length=80,
-        blank=True, null=True)
-    service = models.CharField(verbose_name=_('service'), max_length=80,
-        blank=True, null=True)
-    phone_number = models.CharField(verbose_name=_('phone'),
-        max_length=20, blank=True, null=True)
-    is_regie = models.BooleanField(verbose_name=_('regie outside'),
-        default=False)
-    begin = models.IntegerField(verbose_name=_('startyear'),
-        blank=True, null=True)
-    end = models.IntegerField(verbose_name=_('end year'), blank=True,
-        null=True)
+    fonction = models.CharField(
+        verbose_name=_('fonction'), max_length=80, blank=True, null=True
+    )
+    service = models.CharField(
+        verbose_name=_('service'), max_length=80, blank=True, null=True
+    )
+    phone_number = models.CharField(
+        verbose_name=_('phone'), max_length=20, blank=True, null=True
+    )
+    is_regie = models.BooleanField(
+        verbose_name=_('regie outside'), default=False
+    )
+    begin = models.IntegerField(
+        verbose_name=_('startyear'), blank=True, null=True
+    )
+    end = models.IntegerField(
+        verbose_name=_('end year'), blank=True, null=True
+    )
 
-    description = models.TextField(verbose_name=_('description'), blank=True,
-        null=True)
+    description = models.TextField(
+        verbose_name=_('description'), blank=True, null=True
+    )
 
     def __unicode__(self):
         """position unicode"""
@@ -61,7 +71,7 @@ class Position(LoggedClass):
         if self.fonction:
             description += self.fonction
         description += " " + unicode(self.office)
-        description += " (" + unicode(self.office.organization) +")"
+        description += " (" + unicode(self.office.organization) + ")"
         return description
 
     class Meta:
@@ -69,22 +79,28 @@ class Position(LoggedClass):
         verbose_name = _('position')
         ordering = ['-begin']
 
+
 class EducationItem(LoggedClass):
     """ An education item in the CV of a person."""
 
-    ain7member = models.ForeignKey('annuaire.AIn7Member',
-        related_name='education')
-
-    school = models.CharField(verbose_name=_('school'), max_length=150,
-        blank=True, null=True)
-    diploma = models.CharField(verbose_name=_('diploma'), max_length=150,
-        blank=True, null=True)
-    details = models.TextField(verbose_name=_('description'), blank=True,
-        null=True)
-    begin = models.IntegerField(verbose_name=_('start year'),
-        blank=True, null=True)
-    end = models.IntegerField(verbose_name=_('end year'), blank=True,
-        null=True)
+    ain7member = models.ForeignKey(
+        'annuaire.AIn7Member', related_name='education',
+    )
+    school = models.CharField(
+        verbose_name=_('school'), max_length=150, blank=True, null=True
+    )
+    diploma = models.CharField(
+        verbose_name=_('diploma'), max_length=150, blank=True, null=True
+    )
+    details = models.TextField(
+        verbose_name=_('description'), blank=True, null=True
+    )
+    begin = models.IntegerField(
+        verbose_name=_('start year'), blank=True, null=True
+    )
+    end = models.IntegerField(
+        verbose_name=_('end year'), blank=True, null=True
+    )
 
     def __unicode__(self):
         """education item unicode"""
@@ -95,6 +111,7 @@ class EducationItem(LoggedClass):
         verbose_name = _('Education item')
         ordering = ['-begin']
 
+
 class LeisureItem(LoggedClass):
     """
     A leisure item in the CV of a person.
@@ -104,17 +121,19 @@ class LeisureItem(LoggedClass):
 
     title = models.CharField(verbose_name=_('Title'), max_length=50)
     detail = models.TextField(verbose_name=_('Detail'), blank=True, null=True)
-    ain7member = models.ForeignKey('annuaire.AIn7Member', 
-        related_name='leisure')
+    ain7member = models.ForeignKey(
+        'annuaire.AIn7Member', related_name='leisure'
+    )
 
     def __unicode__(self):
         """leisure item unicode"""
         return self.title
-        
+
     class Meta:
         """leisure item meta"""
         verbose_name = _('Leisure item')
         ordering = ['title']
+
 
 class PublicationItem(LoggedClass):
     """An publication item in the CV of a person."""
@@ -122,8 +141,9 @@ class PublicationItem(LoggedClass):
     title = models.CharField(verbose_name=_('Title'), max_length=50)
     details = models.TextField(verbose_name=_('Detail'), blank=True, null=True)
     date = models.DateField()
-    ain7member = models.ForeignKey('annuaire.AIn7Member', 
-        related_name='publication')
+    ain7member = models.ForeignKey(
+        'annuaire.AIn7Member',  related_name='publication'
+    )
 
     def __unicode__(self):
         """publication item unicode"""
@@ -133,44 +153,60 @@ class PublicationItem(LoggedClass):
         """publication item meta"""
         verbose_name = _('Publication and patent')
 
+
 class JobOffer(LoggedClass):
     """job offer"""
 
     JOB_TYPES = (
-        (0,'CDI'),
-        (1,'CDD'),
-        (2,'Stage'),
+        (0, 'CDI'),
+        (1, 'CDD'),
+        (2, 'Stage'),
     )
 
-    reference = models.CharField(verbose_name=_('Reference'), max_length=50,
-        blank=True, null=True)
+    reference = models.CharField(
+        verbose_name=_('Reference'), max_length=50, blank=True, null=True
+    )
     title = models.CharField(verbose_name=_('Title'), max_length=200)
-    description = models.TextField(verbose_name=_('Description'), blank=True,
-        null=True)
-    experience = models.CharField(verbose_name=_('Experience'), max_length=50,
-        blank=True, null=True)
-    contract_type = models.IntegerField(verbose_name=_('Contract type'),
-        choices=JOB_TYPES, blank=True, null=True)
+    description = models.TextField(
+        verbose_name=_('Description'), blank=True, null=True
+    )
+    experience = models.CharField(
+        verbose_name=_('Experience'), max_length=50, blank=True, null=True
+    )
+    contract_type = models.IntegerField(
+        verbose_name=_('Contract type'), choices=JOB_TYPES,
+        blank=True, null=True
+    )
     office = models.ForeignKey('organizations.Office', blank=True, null=True)
-    contact_name = models.CharField(verbose_name=_('Contact name'),
-        max_length=80, blank=True, null=True)
-    contact_email = models.EmailField(verbose_name=_('email'), blank=True,
-        null=True)
-    activity_field = models.ForeignKey('organizations.OrganizationActivityField',
+    contact_name = models.CharField(
+        verbose_name=_('Contact name'), max_length=80, blank=True, null=True
+    )
+    contact_email = models.EmailField(
+        verbose_name=_('email'), blank=True, null=True
+    )
+    activity_field = models.ForeignKey(
+        'organizations.OrganizationActivityField',
         verbose_name=_('Activity field'), related_name='jobs',
-        blank=True, null=True)
+        blank=True, null=True
+    )
     checked_by_secretariat = models.BooleanField(
-        verbose_name=_('checked by secretariat'), default=False)
-    obsolete = models.BooleanField(verbose_name=_('Job offer is obsolete'),
-        default=False)
+        verbose_name=_('checked by secretariat'), default=False
+    )
+    obsolete = models.BooleanField(
+        verbose_name=_('Job offer is obsolete'), default=False
+    )
 
     created_at = models.DateTimeField(editable=False)
-    created_by = models.ForeignKey('annuaire.Person', verbose_name=_('author'),
-        related_name='job_offers_created', null=True)
+    created_by = models.ForeignKey(
+        'annuaire.Person', verbose_name=_('author'),
+        related_name='job_offers_created', editable=False, null=True
+    )
 
     modified_at = models.DateTimeField(editable=False)
-    modified_by = models.ForeignKey('annuaire.Person', verbose_name=_('author'),
-        related_name='job_offers_modified', null=True)
+    modified_by = models.ForeignKey(
+        'annuaire.Person', verbose_name=_('author'),
+        related_name='job_offers_modified', editable=False, null=True
+    )
 
     def save(self, *args, **kwargs):
         if not self.created_at:
@@ -180,13 +216,16 @@ class JobOffer(LoggedClass):
 
     def __unicode__(self):
         """job offer unicode"""
-        return self.reference + " " + self.title + " ("+\
-             unicode(self.office) + ")"
+        return (
+            self.reference + " " + self.title + " (" +
+            unicode(self.office) + ")"
+        )
 
     def mark_obsolete(self):
         """mark a job offer as obsolote"""
         self.obsolete = True
         self.save()
+
 
 class JobOfferView(models.Model):
     """job offer view"""
@@ -205,4 +244,3 @@ class JobOfferView(models.Model):
         """job offer view unicode"""
         return self.job_offer + _('viewed by') + self.person + _('at') + \
             self.timestamp
-
