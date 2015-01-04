@@ -22,11 +22,10 @@
 #
 
 import datetime
-import smtplib
 import time
 
+from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
-from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -368,31 +367,20 @@ class Person(LoggedClass):
         mail = self.mail_favorite(email)
         if mail:
 
-            from email.header import make_header
-
-            subject_enc = str(make_header([(subject, 'utf-8')]))
-
-            msg = """From: """+self.mail_from(email)+"""
-To: """+self.first_name+' '+self.last_name+' <'+mail+'>'+"""
-Subject: """+subject_enc+"""
-Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Date:  """+time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime())+"""
-Sender: bounces@ain7.com
-Presence: Bulk
-X-Mailer: Python
-X-Generated-By: AIn7 Web Portal
-
-"""+message
-
-            smtp = smtplib.SMTP(settings.SMTP_HOST)
-            if settings.SMTP_TLS:
-                smtp.starttls()
-            smtp.ehlo()
-            if settings.SMTP_LOGIN and settings.SMTP_PASSWORD:
-                smtp.login(settings.SMTP_LOGIN, settings.SMTP_PASSWORD)
-            smtp.sendmail('ain7@ain7.com', mail, unicode(msg).encode('utf8'))
-            smtp.quit()
+            msg = EmailMessage(
+                subject=subject,
+                body=message,
+                from_email=self.mail_from(email),
+                to=[self.last_name+' <'+mail+'>'],
+                headers={
+                    'Date': time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime()),
+                    'Sender': 'bounces@ain7.com',
+                    'Presence': 'Bulk',
+                    'X-Mailer': 'Python',
+                    'X-Generated-By': 'AIn7 Web Portal'
+                    }
+            )
+            msg.send()
 
     def password_ask(self, email=None, request=None):
         """Ask for a password reset"""
@@ -422,11 +410,7 @@ This link will be valid 24h.
 
 If the new password request if not from you, you can ignore this message.
 --
-http://ain7.com""") % {
-                'firstname': self.first_name,
-                'url': url,
-                'login': self.user.username,
-                }, email)
+http://ain7.com""") % {'firstname': self.first_name, 'url': url, 'login': self.user.username}, email)
 
     def get_absolute_url(self):
         return reverse('ain7.annuaire.views.details', args=[self.id])

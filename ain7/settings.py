@@ -143,12 +143,17 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
 
 PIWIK_ENABLED = False
 
-SERVER_EMAIL = 'AIn7 Web Portal <noreply@ain7.com>'
-SMTP_HOST = 'localhost'
-SMTP_PORT = 1025
-SMTP_LOGIN = ''
-SMTP_PASSWORD = ''
-SMTP_TLS = False
+DEFAULT_FROM_EMAIL = 'AIn7 <noreply@ain7.com>'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+# EMAIL_FILE_PATH = '/tmp/app-messages'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+
 
 ENDLESS_PAGINATION_PER_PAGE = 25
 
@@ -164,7 +169,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 FACEBOOK_AIN7 = 'http://www.facebook.com/ENSEEIHT'
 LINKEDIN_AIN7 = 'http://www.linkedin.com/groups?gid=73525'
 TWITTER_AIN7 = 'http://twitter.com/ENSEEIHT_Alumni'
-VIADEO_AIN7 = 'http://www.viadeo.com/communaute/macommunaute/?communityId=0022ezgr59190pqm'
 GPLUS_AIN7 = 'https://plus.google.com/s/enseeiht#105806841193732839789/posts'
 
 SYSTEM_PAY_URL = 'http://localhost'
