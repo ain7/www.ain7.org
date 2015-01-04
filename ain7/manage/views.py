@@ -23,13 +23,13 @@
 
 import datetime
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelform_factory
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext as _
 
 from ain7.decorators import access_required
-from ain7.organizations.models import Organization, Office
 from ain7.manage.models import Mailing, PortalError
 from ain7.shop.models import Payment
 from ain7.manage.forms import SearchUserForm, NewPersonForm, ErrorRangeForm
@@ -40,8 +40,11 @@ from ain7.news.models import NewsItem
 def index(request):
     """index management"""
 
-    return render(request, 'manage/default.html',
-        {'notifications': None})
+    return render(request, 'manage/default.html', {
+        'notifications': None,
+        }
+    )
+
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def users_search(request):
@@ -50,17 +53,17 @@ def users_search(request):
     form = SearchUserForm(request.GET or None)
     persons = None
 
-    if (request.GET.has_key('last_name') or \
-       request.GET.has_key('first_name') or \
+    if (request.GET.has_key('last_name') or
+       request.GET.has_key('first_name') or
        request.GET.has_key('organization')) and form.is_valid():
         persons = form.search()
 
-    return render(request, 'manage/users_search.html',
-        {
-            'form': form,
-            'persons': persons,
+    return render(request, 'manage/users_search.html', {
+        'form': form,
+        'persons': persons,
         }
     )
+
 
 @access_required(groups=['ain7-secretariat'])
 def user_register(request):
@@ -69,15 +72,14 @@ def user_register(request):
     form = NewPersonForm(request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
-       new_person = form.save()
-       message.success(request, _("New user successfully created"))
-       return redirect(new_person)
+        new_person = form.save()
+        messages.success(request, _("New user successfully created"))
+        return redirect(new_person)
 
-    return render(request, 'manage/edit_form.html',
-        {
-            'action_title': _('Register new user'),
-            'back': request.META.get('HTTP_REFERER', '/'),
-            'form': form,
+    return render(request, 'manage/edit_form.html', {
+        'action_title': _('Register new user'),
+        'back': request.META.get('HTTP_REFERER', '/'),
+        'form': form,
         }
     )
 
@@ -88,11 +90,11 @@ def errors_index(request):
 
     errors = PortalError.objects.all().order_by('-date')
 
-    return render(request, 'manage/errors_index.html',
-        {
-            'errors': errors,
+    return render(request, 'manage/errors_index.html', {
+        'errors': errors,
         }
     )
+
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
 def error_details(request, error_id):
@@ -107,20 +109,24 @@ def error_details(request, error_id):
     from pygments.lexers import PythonTracebackLexer
     from pygments.formatters import HtmlFormatter
 
-    traceback = highlight(error.exception, PythonTracebackLexer(), HtmlFormatter())
+    traceback = highlight(
+        error.exception,
+        PythonTracebackLexer(),
+        HtmlFormatter()
+    )
 
     if request.method == 'POST' and form.is_valid():
-       form.save()
-       return redirect(error)
+        form.save()
+        return redirect(error)
 
-    return render(request, 'manage/error_details.html',
-        {
-            'error': error,
-            'form': form,
-            'traceback': traceback, 
-            'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'manage/error_details.html', {
+        'error': error,
+        'form': form,
+        'traceback': traceback,
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
+
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
 def errors_edit_range(request):
@@ -132,12 +138,12 @@ def errors_edit_range(request):
         form.save()
         return redirect('errors-index')
 
-    return render(request, 'manage/edit_form.html',
-        {
-            'form': form,
-            'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'manage/edit_form.html', {
+        'form': form,
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
+
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
 def error_swap(request, error_id):
@@ -149,17 +155,18 @@ def error_swap(request, error_id):
 
     return errors_index(request)
 
+
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def payments_index(request):
     """payment index"""
 
     payments = Payment.objects.all().order_by('-id')
 
-    return render(request, 'manage/payments_index.html',
-        {
-            'payments': payments,
+    return render(request, 'manage/payments_index.html', {
+        'payments': payments,
         }
     )
+
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def payment_details(request, payment_id):
@@ -167,11 +174,11 @@ def payment_details(request, payment_id):
 
     payment = get_object_or_404(Payment, pk=payment_id)
 
-    return render(request, 'manage/payment_details.html',
-        {
-            'payment': payment,
+    return render(request, 'manage/payment_details.html', {
+        'payment': payment,
         }
     )
+
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def payment_edit(request, payment_id=None):
@@ -186,16 +193,16 @@ def payment_edit(request, payment_id=None):
 
     if request.method == 'POST' and form.is_valid():
         form.save()
-        message.success(request, message=_('Payment successfully updated'))
+        messages.success(request, _('Payment successfully updated'))
         redirect(payment)
 
-    return render(request, 'manage/payment_edit.html',
-        {
-            'payment': payment,
-            'form': form,
-            'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'manage/payment_edit.html', {
+        'payment': payment,
+        'form': form,
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
+
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def payments_deposit_index(request):
@@ -203,39 +210,50 @@ def payments_deposit_index(request):
 
     return render(request, 'manage/payments_deposit_index.html', {})
 
+
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def payments_deposit(request, deposit_id):
     """payment deposit"""
 
-    deposits = Payment.objects.filter(type=deposit_id, deposited__isnull=True, \
-        validated=True).order_by('id')
+    deposits = Payment.objects.filter(
+        type=deposit_id,
+        deposited__isnull=True,
+        validated=True,
+    ).order_by('id')
 
     try:
-        last_deposit_id = Payment.objects.filter(type=deposit_id, \
-            deposited__isnull=True, validated=True).latest('id').id
+        last_deposit_id = Payment.objects.filter(
+            type=deposit_id,
+            deposited__isnull=True,
+            validated=True,
+        ).latest('id').id
     except Payment.DoesNotExist:
-        message.success(request, message=_('No payment to deposit'))
+        messages.success(request, _('No payment to deposit'))
         return redirect('payments-deposit-index')
 
-    return render(request, 'manage/payments_deposit.html', 
-        {
-            'deposits': deposits,
-            'deposit_id': int(deposit_id),
-            'last_deposit_id': last_deposit_id,
+    return render(request, 'manage/payments_deposit.html', {
+        'deposits': deposits,
+        'deposit_id': int(deposit_id),
+        'last_deposit_id': last_deposit_id,
         }
     )
+
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def payments_mark_deposited(request, deposit_id, last_deposit_id):
     """payment mark deposited"""
 
-    for deposit in Payment.objects.filter(type=deposit_id, \
-        deposited__isnull=True, validated=True):
+    for deposit in Payment.objects.filter(
+        type=deposit_id,
+        deposited__isnull=True,
+        validated=True,
+    ):
         deposit.deposited = datetime.datetime.now()
         deposit.save()
 
-    message.success(request, message=_('Payments marked as deposited'))
+    messages.success(request, _('Payments marked as deposited'))
     return redirect('payments-deposit-index')
+
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def subscriptions_stats(request, the_year=datetime.date.today().year):
@@ -255,70 +273,115 @@ def subscriptions_stats(request, the_year=datetime.date.today().year):
         last_promo = year-1
 
         # Cotisations à taux pleins hors élèves:
-        diplomees_number = Subscription.objects.filter(\
-            member__promos__year__year__lte=last_promo, start_year=year, \
+        diplomees_number = Subscription.objects.filter(
+            member__promos__year__year__lte=last_promo, start_year=year,
             validated=True).distinct().count()
 
         # Cotisation à taux plein:
-        full_price = SubscriptionConfiguration.objects.get(year=year, \
-            type=0).dues_amount
-        full_query = Q(member__promos__year__year__lte=last_promo, \
-            dues_amount=full_price, start_year=year, validated=True)
+        full_price = SubscriptionConfiguration.objects.get(
+            year=year,
+            type=0,
+        ).dues_amount
+        full_query = Q(
+            member__promos__year__year__lte=last_promo,
+            dues_amount=full_price,
+            start_year=year,
+            validated=True,
+        )
         full_queryset = Subscription.objects.filter(full_query).distinct()
         full_number = full_queryset.count()
         full_amount = full_number * full_price
 
         # Cotisations jeunes promos:
-        young_price = SubscriptionConfiguration.objects.get(year=year, \
-            type=1).dues_amount
-        young_query = Q(member__promos__year__year__lte=last_promo, \
-            member__promos__year__year__gte=last_promo-4, \
-            dues_amount=young_price, start_year=year, validated=True)
+        young_price = SubscriptionConfiguration.objects.get(
+            year=year,
+            type=1,
+        ).dues_amount
+        young_query = Q(
+            member__promos__year__year__lte=last_promo,
+            member__promos__year__year__gte=last_promo-4,
+            dues_amount=young_price, start_year=year, validated=True,
+        )
         young_queryset = Subscription.objects.filter(young_query).distinct()
         young_number = young_queryset.count()
         young_amount = young_number * young_price
 
         # Cotisations retraités:
-        retired_price = SubscriptionConfiguration.objects.get(year=year, \
-            type=2).dues_amount
-        retired_query = Q(member__promos__year__year__lte=last_promo-5, \
-            dues_amount=retired_price, start_year=year, validated=True)
-        retired_queryset = Subscription.objects.filter(retired_query).distinct()
+        retired_price = SubscriptionConfiguration.objects.get(
+            year=year,
+            type=2,
+        ).dues_amount
+        retired_query = Q(
+            member__promos__year__year__lte=last_promo-5,
+            dues_amount=retired_price,
+            start_year=year,
+            validated=True,
+        )
+        retired_queryset = Subscription.objects.filter(
+            retired_query,
+        ).distinct()
         retired_number = retired_queryset.count()
         retired_amount = retired_number * retired_price
 
         # Cotisations bienfaiteurs:
-        bienfaiteur_price = SubscriptionConfiguration.objects.get(year=year, \
-            type=3).dues_amount
-        bienfaiteur_query = Q(member__promos__year__year__lte=last_promo, \
-            dues_amount__gte=bienfaiteur_price, start_year=this_year, \
-            validated=True)
-        bienfaiteur_queryset = Subscription.objects.filter(bienfaiteur_query).distinct()
+        bienfaiteur_price = SubscriptionConfiguration.objects.get(
+            year=year,
+            type=3,
+        ).dues_amount
+        bienfaiteur_query = Q(
+            member__promos__year__year__lte=last_promo,
+            dues_amount__gte=bienfaiteur_price,
+            start_year=this_year,
+            validated=True,
+        )
+        bienfaiteur_queryset = Subscription.objects.filter(
+            bienfaiteur_query,
+        ).distinct()
         bienfaiteur_number = bienfaiteur_queryset.count()
         bienfaiteur_amount = bienfaiteur_number * bienfaiteur_price
 
         # unemployed
-        unemployed_price = SubscriptionConfiguration.objects.get(year=year, \
-            type=4).dues_amount
-        unemployed_query = Q(member__promos__year__year__lte=last_promo, \
-            dues_amount=unemployed_price, start_year=year, validated=True)
-        unemployed_queryset = Subscription.objects.filter(unemployed_query).distinct()
+        unemployed_price = SubscriptionConfiguration.objects.get(
+            year=year,
+            type=4,
+        ).dues_amount
+        unemployed_query = Q(
+            member__promos__year__year__lte=last_promo,
+            dues_amount=unemployed_price,
+            start_year=year,
+            validated=True,
+        )
+        unemployed_queryset = Subscription.objects.filter(
+            unemployed_query,
+        ).distinct()
         unemployed_number = unemployed_queryset.count()
         unemployed_amount = unemployed_number * unemployed_price
 
         # students
-        students_query = Q(member__promos__year__year__gt=last_promo, \
-            start_year=year, validated=True)
-        students_queryset = Subscription.objects.filter(students_query).distinct()
+        students_query = Q(
+            member__promos__year__year__gt=last_promo,
+            start_year=year,
+            validated=True,
+        )
+        students_queryset = Subscription.objects.filter(
+            students_query,
+        ).distinct()
         students_number = students_queryset.count()
         students_amount = \
             students_queryset.aggregate(sum=Sum('dues_amount'))['sum']
 
         # all
-        total_query = Q(start_year=year, member__promos__isnull=False, validated=True)
+        total_query = Q(
+            start_year=year,
+            member__promos__isnull=False,
+            validated=True,
+        )
         total_queryset = Subscription.objects.filter(total_query)
         total_number = total_queryset.distinct().count()
-        total_amount = total_queryset.distinct().aggregate(sum=Sum('dues_amount'))['sum'] or 0
+        total_amount = \
+            total_queryset.distinct().aggregate(
+                sum=Sum('dues_amount')
+            )['sum'] or 0
 
         # other
         other_number = total_number - students_number - unemployed_number - \
@@ -327,58 +390,58 @@ def subscriptions_stats(request, the_year=datetime.date.today().year):
         other_amount = total_amount - unemployed_amount - bienfaiteur_amount - \
             retired_amount - young_amount - full_amount
 
-        stats_subs.append({'year': year, 
-                           'diplomees': diplomees_number, 
-                           'full': full_number, 
-                           'young':young_number, 
-                           'retired': retired_number, 
-                           'bienfaiteur': bienfaiteur_number, 
-                           'unemployed': unemployed_number, 
-                           'other': other_number, 
-                           'students': students_number, 
+        stats_subs.append({'year': year,
+                           'diplomees': diplomees_number,
+                           'full': full_number,
+                           'young': young_number,
+                           'retired': retired_number,
+                           'bienfaiteur': bienfaiteur_number,
+                           'unemployed': unemployed_number,
+                           'other': other_number,
+                           'students': students_number,
                            'total': total_number})
 
         if year == this_year:
             stats_year = {
-                'full': { 
-                    'number': full_number, 
-                    'price': full_price, 
+                'full': {
+                    'number': full_number,
+                    'price': full_price,
                     'amount': full_amount
                     },
-                'young': { 
-                    'number': young_number, 
-                    'price': young_price, 
+                'young': {
+                    'number': young_number,
+                    'price': young_price,
                     'amount': young_amount
                     },
-                'retired': { 
-                    'number': retired_number, 
-                    'price': retired_price, 
+                'retired': {
+                    'number': retired_number,
+                    'price': retired_price,
                     'amount': retired_amount
                     },
-                'bienfaiteur': { 
+                'bienfaiteur': {
                     'number': bienfaiteur_number,
                     'price': bienfaiteur_price,
                     'amount': bienfaiteur_amount
                     },
-                'unemployed': { 
-                    'number': unemployed_number, 
-                    'price': unemployed_price, 
-                    'amount': unemployed_amount 
+                'unemployed': {
+                    'number': unemployed_number,
+                    'price': unemployed_price,
+                    'amount': unemployed_amount
                     },
-                'students': { 
+                'students': {
                     'number': students_number,
                     'price': 0,
-                    'amount': int(max(students_amount,0))
+                    'amount': int(max(students_amount, 0))
                     },
-                'other': { 
-                    'number': other_number, 
-                    'price': 'n/a', 
+                'other': {
+                    'number': other_number,
+                    'price': 'n/a',
                     'amount': int(other_amount)
                     },
-                'total': { 
-                    'number': total_number, 
-                    'diplomees': diplomees_number, 
-                    'amount': int(total_amount) 
+                'total': {
+                    'number': total_number,
+                    'diplomees': diplomees_number,
+                    'amount': int(total_amount)
                     }
             }
 
@@ -389,32 +452,41 @@ def subscriptions_stats(request, the_year=datetime.date.today().year):
             last_day = date(this_year, month+1, 1)
         else:
             last_day = date(this_year+1, 1, 1)
-        stats_months.append(Subscription.objects.filter(\
-            member__promos__year__year__lt=this_year, start_year=this_year, \
-            validated=True, date__gte=first_day, date__lt=last_day).distinct().count())
+        stats_months.append(Subscription.objects.filter(
+            member__promos__year__year__lt=this_year,
+            start_year=this_year,
+            validated=True,
+            date__gte=first_day,
+            date__lt=last_day,
+        ).distinct().count())
 
     total_amount = 0
-    for subs in Subscription.objects.filter(\
-        member__promos__year__year__lt=this_year, start_year=this_year, \
-        validated=True):
+    for subs in Subscription.objects.filter(
+        member__promos__year__year__lt=this_year,
+        start_year=this_year,
+        validated=True,
+    ):
         total_amount += subs.dues_amount
 
     total_publications = 0
-    for subs in Subscription.objects.filter(\
-        member__promos__year__year__lt=this_year, start_year=this_year, \
-        validated=True):
+    for subs in Subscription.objects.filter(
+        member__promos__year__year__lt=this_year,
+        start_year=this_year,
+        validated=True,
+    ):
         if subs.newspaper_amount:
             total_publications += subs.newspaper_amount
 
-    return render(request, 'manage/subscriptions_stats.html', 
-        {
-            'year': this_year,
-            'stats_subs' : stats_subs, 
-            'stats_months': stats_months, 
-            'stats_year': stats_year, 
-            'total_amount': total_amount, 
-            'total_publications': total_publications,
-        })
+    return render(request, 'manage/subscriptions_stats.html', {
+        'year': this_year,
+        'stats_subs': stats_subs,
+        'stats_months': stats_months,
+        'stats_year': stats_year,
+        'total_amount': total_amount,
+        'total_publications': total_publications,
+        }
+    )
+
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def mailings_index(request):
@@ -422,11 +494,11 @@ def mailings_index(request):
 
     mailings = Mailing.objects.all().order_by('-id')
 
-    return render(request, 'manage/mailings_index.html',
-        {
-            'mailings': mailings,
+    return render(request, 'manage/mailings_index.html', {
+        'mailings': mailings,
         }
     )
+
 
 @access_required(groups=['ain7-secretariat'])
 def mailing_ready(request, mailing_id):
@@ -439,11 +511,14 @@ def mailing_ready(request, mailing_id):
         mailing.approved_by = request.user.person
         mailing.save()
     else:
-        request.user.message_set.create(message=_('Mailing already \
- approved by %(person)s on %(date)s') % {'person': mailing.approved_by, 
-        'date': mailing.approved_at})
+        messages.info(
+            request,
+            _('Mailing already approved by %(person)s on %(date)s') %
+            {'person': mailing.approved_by, 'date': mailing.approved_at}
+        )
 
     return redirect(mailing)
+
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def mailing_edit(request, mailing_id=None):
@@ -455,32 +530,44 @@ def mailing_edit(request, mailing_id=None):
     if mailing_id:
         mailing = get_object_or_404(Mailing, pk=mailing_id)
 
-    MailingForm = modelform_factory(Mailing, exclude=('created_at', 'created_by', 'modified_at', 'modified_by', 'sent_at', 'approved_by', 'approved_at'))
+    MailingForm = modelform_factory(
+        Mailing,
+        exclude=(
+            'created_at',
+            'created_by',
+            'modified_at',
+            'modified_by',
+            'sent_at',
+            'approved_by',
+            'approved_at'
+        )
+    )
     form = MailingForm(request.POST or None, instance=mailing)
 
     if request.method == 'POST' and form.is_valid():
         mailing = form.save(commit=False)
 
         if not mailing_id:
-           mailing.created_by = request.user.person
+            mailing.created_by = request.user.person
         mailing.modified_by = request.user.person
         mailing.save()
-        message.success(request, message=_('Mailing successfully updated'))
+        messages.success(request, _('Mailing successfully updated'))
         return redirect(mailing)
 
-    return render(request, 'manage/mailing_edit.html',
-        {
-            'mailing': mailing,
-            'news': news,
-            'form': form,
-            'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'manage/mailing_edit.html', {
+        'mailing': mailing,
+        'news': news,
+        'form': form,
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
+
 
 @login_required
 def mailing_sendteam(request, mailing_id, testing=True, myself=False):
     """send test maling to the team"""
     return mailing_send(request, mailing_id, testing, myself)
+
 
 @access_required(groups=['ain7-secretariat'])
 def mailing_send(request, mailing_id, testing=True, myself=True):
@@ -492,6 +579,7 @@ def mailing_send(request, mailing_id, testing=True, myself=True):
 
     return redirect('mailing-edit', mailing.id)
 
+
 def mailing_view(request, mailing_id):
     """ view mailing in a browser"""
 
@@ -499,11 +587,11 @@ def mailing_view(request, mailing_id):
 
     html = mailing.build_html_body()
 
-    return render(request, 'manage/mailing_view.html',
-        {
-            'html': html,
+    return render(request, 'manage/mailing_view.html', {
+        'html': html,
         }
     )
+
 
 @access_required(groups=['ain7-secretariat'])
 def mailing_export(request, mailing_id):
@@ -515,15 +603,26 @@ def mailing_export(request, mailing_id):
     mailing = get_object_or_404(Mailing, pk=mailing_id)
 
     response = HttpResponse(mimetype='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=mailing_'+str(mailing_id)+'.csv'
+    response['Content-Disposition'] = \
+        'attachment; filename=mailing_'+str(mailing_id)+'.csv'
 
     writer = csv.writer(response)
 
     for per in mailing.nomail_export():
         try:
-            writer.writerow([per.first_name.encode('utf-8'), per.last_name.encode('utf-8'), per.ain7member.promo(), per.ain7member.track().encode('utf-8'), per.address()['line1'].encode('utf-8'), per.address()['line2'].encode('utf-8'), per.address()['zip_code'], per.address()['city'].encode('utf-8'), per.address()['country'].encode('utf-8')])
+            writer.writerow([
+                per.first_name.encode('utf-8'),
+                per.last_name.encode('utf-8'),
+                per.ain7member.promo(),
+                per.ain7member.track().encode('utf-8'),
+                per.address()['line1'].encode('utf-8'),
+                per.address()['line2'].encode('utf-8'),
+                per.address()['zip_code'],
+                per.address()['city'].encode('utf-8'),
+                per.address()['country'].encode('utf-8')
+                ]
+            )
         except Exception:
             pass
 
     return response
-
