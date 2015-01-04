@@ -117,6 +117,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+MEDIA_URL = '/site_media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'ain7', 'media')
+
 #
 # Added for this project
 #
@@ -142,7 +145,7 @@ PIWIK_ENABLED = False
 
 SERVER_EMAIL = 'AIn7 Web Portal <noreply@ain7.com>'
 SMTP_HOST = 'localhost'
-SMTP_PORT = 2525
+SMTP_PORT = 1025
 SMTP_LOGIN = ''
 SMTP_PASSWORD = ''
 SMTP_TLS = False

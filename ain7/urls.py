@@ -20,14 +20,15 @@
 #
 #
 
-import os.path
-
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, patterns, url
+from django.conf.urls.static import static
 from django.conf import settings
-from django.contrib import admin                                                
+from django.contrib import admin
 
 from ain7.feeds import LatestsEvents, LatestsNews
-from ain7.sitemaps import EventsSitemap, TextsSitemap, NewsSitemap, GroupsSitemap
+from ain7.sitemaps import (
+    EventsSitemap, TextsSitemap, NewsSitemap, GroupsSitemap
+)
 from ain7.sitemaps import TravelsSitemap
 
 feeds = {
@@ -45,15 +46,12 @@ sitemaps = {
 
 urlpatterns = patterns('',
 
-    (r'^~(?P<user_name>\w+)/$', 'ain7.annuaire.views.home'),
+    url(r'^~(?P<user_name>\w+)/$', 'ain7.annuaire.views.home'),
 
-    #(r'^accounts/login/$', 'ain7.pages.views.login'),
-    #(r'^accounts/logout/$', 'ain7.pages.views.logout'),
-    url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'registration/login.html'}, name='login'),
-    url(r'^acocunts/logout/$', 'django.contrib.auth.views.logout_then_login', name='logout'),
-
-    # servir le contenu statique pendant le dev
-    url(r'^static/(?P<path>.*)$', 'django.contrib.staticfiles.views.serve'),
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login',
+        {'template_name': 'registration/login.html'}, name='login'),
+    url(r'^acocunts/logout/$', 'django.contrib.auth.views.logout_then_login',
+        name='logout'),
 
     # AIn7 management section
     (r'^manage/', include('ain7.manage.urls')),
@@ -71,7 +69,7 @@ urlpatterns = patterns('',
 
     # groups
     (r'^groups/', include('ain7.groups.urls')),
- 
+
     # organizations
     (r'^organizations/', include('ain7.organizations.urls')),
 
@@ -79,21 +77,22 @@ urlpatterns = patterns('',
     (r'^voyages/', include('ain7.voyages.urls')),
 
     # association
-    (r'^association/',include('ain7.association.urls')),
+    (r'^association/', include('ain7.association.urls')),
 
     # adhesions
-    (r'^adhesions/',include('ain7.adhesions.urls')),
+    (r'^adhesions/', include('ain7.adhesions.urls')),
 
     # Pages particulieres au contenu pseudo statique
-    (r'^apropos/$','ain7.pages.views.apropos'),
-    (r'^mentions_legales/$','ain7.pages.views.mentions_legales'),
-    (r'^lostpassword/$','ain7.pages.views.lostpassword'),
-    (r'^lostpassword/([A-Za-z0-9.\-_]+)/$','ain7.pages.views.changepassword'),
-    url(r'^$','ain7.pages.views.homepage', name='homepage'),
+    (r'^apropos/$', 'ain7.pages.views.apropos'),
+    (r'^mentions_legales/$', 'ain7.pages.views.mentions_legales'),
+    (r'^lostpassword/$', 'ain7.pages.views.lostpassword'),
+    (r'^lostpassword/([A-Za-z0-9.\-_]+)/$', 'ain7.pages.views.changepassword'),
+    url(r'^$', 'ain7.pages.views.homepage', name='homepage'),
 
     # flux RSS
     url(r'^rss/$', 'ain7.pages.views.rss', name='rss'),
-    (r'^rss/(?P<url>.*)/$', 'django.contrib.syndication.views.Feed', {'feed_dict': feeds}),
+    (r'^rss/(?P<url>.*)/$', 'django.contrib.syndication.views.Feed',
+        {'feed_dict': feeds}),
 
     (r'^ical/$', 'ain7.news.views.ical'),
 
@@ -101,7 +100,8 @@ urlpatterns = patterns('',
     (r'^edit/(?P<text_id>.*)/$', 'ain7.pages.views.edit'),
 
     # sitemaps
-    (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
+    (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap',
+        {'sitemaps': sitemaps}),
 
     # redirection to external communities
     url(r'^facebook/$', 'ain7.pages.views.facebook', name='facebook'),
@@ -110,9 +110,11 @@ urlpatterns = patterns('',
     url(r'^viadeo/$', 'ain7.pages.views.viadeo', name='viadeo'),
     url(r'^g\+/$', 'ain7.pages.views.gplus', name='g+'),
 
-    url(r'^autocomplete/', include('autocomplete_light.urls')), # django-autocomplete-light
-    (r'^grappelli/', include('grappelli.urls')), # grappelli URLS
-    (r'^admin/',  include(admin.site.urls)), # admin site
+    # django-autocomplete-light
+    url(r'^autocomplete/', include('autocomplete_light.urls')),
+    (r'^grappelli/', include('grappelli.urls')),  # grappelli URLS
+    (r'^admin/',  include(admin.site.urls)),  # admin site
 
-)
 
+) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + \
+    static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
