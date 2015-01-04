@@ -38,8 +38,6 @@
 
   </head>
 <body>
-
-
     <header>
                 <div class="container">
                         <div class="row">
@@ -66,12 +64,13 @@
     </ul>
 </li>
 
-
+<!--
 <li>
 <form class="navbar-form form-inline" action="">
 <input type="text" class="search-query span2" placeholder="Search">
 </form>
 </li>
+//-->
 
 {% if superadmin or ca_member or secretariat_member %}
  <li class="dropdown" {% block navbarmanage %}{{ navbarmanage }}{% endblock %}>

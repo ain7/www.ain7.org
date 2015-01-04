@@ -5,6 +5,7 @@
 {% block content-left %}
 
 <form method="post" action="." enctype="multipart/form-data">
+{% csrf_token %}
 {{ form|crispy }}
 <div class="control-group">
 <div class="controls">

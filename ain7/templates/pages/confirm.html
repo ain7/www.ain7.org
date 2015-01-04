@@ -4,19 +4,21 @@
 {% block content %}
 
 <form method="post" action=".">
-	<div class="confirm">
-		<p><strong>
-		{% if description %}
-			{{ message }} "{{ description|escape }}" ?
-		{% else %}
-			{{ message }} ?
-		{% endif %}
-		</strong></p>
-		<p>
-			<a class="btn disabled" href="{{ back }}">{% trans "No" %}</a>
-			<input type="submit" class="btn btn-primary" value="{% trans "Yes" %}" />
-		</p>
-	</div>
+{% csrf_token %}
+<div class="confirm">
+    <p><strong>
+    {% if description %}
+        {{ message }} "{{ description|escape }}" ?
+    {% else %}
+        {{ message }} ?
+    {% endif %}
+    </strong></p>
+    <div class="text-center">
+        <input type="submit" class="btn btn-primary" value="{% trans "Yes" %}">
+        &nbsp;
+        <a href="{{ back }}">{% trans "No" %}</a>
+    </div>
+</div>
 </form>
 
 {% endblock %}
