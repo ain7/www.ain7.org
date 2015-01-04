@@ -82,6 +82,7 @@ def list(request):
         }
     )
 
+
 def search(request):
     """search travels form"""
 
@@ -91,6 +92,7 @@ def search(request):
         'travels': travels,
         }
     )
+
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def edit(request, travel_id=None):
@@ -108,13 +110,13 @@ def edit(request, travel_id=None):
     )
 
     if request.method == 'POST' and form.is_valid():
-        trav = form.save()
+        travel = form.save()
         messages.success(
             request,
             _('Modifications have been successfully saved.')
         )
 
-        redirect('travel-details', trav.id)
+        redirect(travel)
 
     return render(request, 'voyages/edit.html', {
         'form': form,
