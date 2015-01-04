@@ -48,13 +48,18 @@ def index(request):
         ain7member = AIn7Member.objects.get(person=person)
     except AIn7Member.DoesNotExist:
         ain7member = None
-    liste_emplois = JobOffer.objects.filter(checked_by_secretariat=True, \
-        obsolete=False).order_by('-id')[:20]
-    #text1 = Text.objects.get(textblock__shortname='emploi')
-    text1 = 'blavbla'
-    return render(request, 'emploi/index.html',
-        {'ain7member': ain7member,
-         'liste_emplois': liste_emplois, 'text1': text1})
+    liste_emplois = JobOffer.objects.filter(
+        checked_by_secretariat=True,
+        obsolete=False
+    ).order_by('-id')[:20]
+    text1 = Text.objects.get(textblock__shortname='emploi')
+    return render(request, 'emploi/index.html', {
+        'ain7member': ain7member,
+        'liste_emplois': liste_emplois,
+        'text1': text1,
+        }
+    )
+
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def cv_details(request, user_id):
@@ -63,12 +68,12 @@ def cv_details(request, user_id):
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
 
-    return render(request, 'emploi/cv_details.html',
-        {
-            'person': person,
-            'ain7member': ain7member,
+    return render(request, 'emploi/cv_details.html', {
+        'person': person,
+        'ain7member': ain7member,
         }
     )
+
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def cv_edit(request, user_id=None):
@@ -77,12 +82,12 @@ def cv_edit(request, user_id=None):
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
 
-    return render(request, 'emploi/cv_edit.html',
-        {
-            'person': person,
-            'ain7member': ain7member,
+    return render(request, 'emploi/cv_edit.html', {
+        'person': person,
+        'ain7member': ain7member,
         }
     )
+
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def position_edit(request, user_id=None, position_id=None):
@@ -102,30 +107,35 @@ def position_edit(request, user_id=None, position_id=None):
         pos = form.save(commit=False)
         pos.ain7member = ain7member
         pos.save()
-        messages.success(request, _('Modifications have been\
- successfully saved.'))
+        messages.success(
+            request,
+            _('Modifications have been successfully saved.')
+        )
 
         return redirect('cv-edit', user_id)
 
-    return render(request, 'emploi/position_edit.html',
-        {
-            'form': form,
-            'action_title': _("Position edit"),
-            'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'emploi/position_edit.html', {
+        'form': form,
+        'action_title': _("Position edit"),
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
 
-@confirmation_required(lambda user_id=None, position_id=None: 
+
+@confirmation_required(lambda user_id=None, position_id=None:
     str(get_object_or_404(Position, pk=position_id)), 'emploi/base.html',
      _('Do you really want to delete your position'))
 @access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def position_delete(request, user_id=None, position_id=None):
     """position delete"""
 
-    return ain7_generic_delete(request,
+    return ain7_generic_delete(
+        request,
         get_object_or_404(Position, pk=position_id),
         reverse(cv_edit, args=[user_id])+'#prof_exp',
-        _('Position successfully deleted.'))
+        _('Position successfully deleted.')
+    )
+
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def education_edit(request, user_id=None, education_id=None):
@@ -138,25 +148,30 @@ def education_edit(request, user_id=None, education_id=None):
     if education_id:
         educationitem = get_object_or_404(EducationItem, pk=education_id)
 
-    EducationItemForm = modelform_factory(EducationItem, exclude=('ain7member',))
+    EducationItemForm = modelform_factory(
+        EducationItem,
+        exclude=('ain7member',)
+    )
     form = EducationItemForm(request.POST or None, instance=educationitem)
 
     if request.method == 'POST' and form.is_valid():
         editem = form.save(commit=False)
         editem.ain7member = ain7member
         editem.save()
-        messages.success(request, _('Modifications have been\
- successfully saved.'))
+        messages.success(
+            request,
+            _('Modifications have been successfully saved.')
+        )
 
         return redirect('cv-edit', user_id)
 
-    return render(request, 'emploi/education_edit.html',
-        {
-              'form': form,
-              'action_title': _("Position edit"),
-              'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'emploi/education_edit.html', {
+        'form': form,
+        'action_title': _("Position edit"),
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
+
 
 @confirmation_required(lambda user_id=None, education_id=None: 
     str(get_object_or_404(EducationItem, pk=education_id)), 'emploi/base.html',
@@ -165,10 +180,13 @@ def education_edit(request, user_id=None, education_id=None):
 def education_delete(request, user_id=None, education_id=None):
     """education delete"""
 
-    return ain7_generic_delete(request,
+    return ain7_generic_delete(
+        request,
         get_object_or_404(EducationItem, pk=education_id),
         reverse(cv_edit, args=[user_id])+'#education',
-        _('Education informations deleted successfully.'))
+        _('Education informations deleted successfully.')
+    )
+
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def leisure_edit(request, user_id=None, leisure_id=None):
@@ -188,18 +206,20 @@ def leisure_edit(request, user_id=None, leisure_id=None):
         leitem = form.save(commit=False)
         leitem.ain7member = ain7member
         leitem.save()
-        messages.success(request, _('Modifications have been\
- successfully saved.'))
+        messages.success(
+            request,
+            _('Modifications have been successfully saved.')
+        )
 
         return redirect('cv-edit', user_id)
 
-    return render(request, 'emploi/leisure_edit.html',
-        {
-             'form': form,
-             'action_title': _("Position edit"),
-             'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'emploi/leisure_edit.html', {
+        'form': form,
+        'action_title': _("Position edit"),
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
+
 
 @confirmation_required(lambda user_id=None, leisure_id=None:
     str(get_object_or_404(LeisureItem, pk=leisure_id)), 'emploi/base.html', 
@@ -208,10 +228,13 @@ def leisure_edit(request, user_id=None, leisure_id=None):
 def leisure_delete(request, user_id=None, leisure_id=None):
     """leisure delete"""
 
-    return ain7_generic_delete(request,
+    return ain7_generic_delete(
+        request,
         get_object_or_404(LeisureItem, pk=leisure_id),
         reverse(cv_edit, args=[user_id])+'#leisure',
-        _('Leisure informations successfully deleted.'))
+        _('Leisure informations successfully deleted.')
+    )
+
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def publication_edit(request, user_id=None, publication_id=None):
@@ -224,25 +247,30 @@ def publication_edit(request, user_id=None, publication_id=None):
     if publication_id:
         publi = get_object_or_404(PublicationItem, pk=publication_id)
 
-    PublicationItemForm = modelform_factory(PublicationItem, exclude=('ain7member',))
+    PublicationItemForm = modelform_factory(
+        PublicationItem,
+        exclude=('ain7member',)
+    )
     form = PublicationItemForm(request.POST or None, instance=publi)
 
     if request.method == 'POST' and form.is_valid():
         publication = form.save(commit=False)
         publication.ain7member = ain7member
         publication.save()
-        messages.success(request, _('Modifications have been\
- successfully saved.'))
+        messages.success(
+            request, 
+            _('Modifications have been successfully saved.')
+        )
 
         return redirect('cv-edit', user_id)
 
-    return render(request, 'emploi/publication_edit.html',
-        {
-            'form': form,
-            'action_title': _("Position edit"),
-            'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'emploi/publication_edit.html', {
+        'form': form,
+        'action_title': _("Position edit"),
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
+
 
 @confirmation_required(lambda user_id=None, publication_id=None:
      str(get_object_or_404(PublicationItem,pk=publication_id)), 
@@ -252,10 +280,13 @@ def publication_edit(request, user_id=None, publication_id=None):
 def publication_delete(request, user_id=None, publication_id=None):
     """publication delete"""
 
-    return ain7_generic_delete(request,
-        get_object_or_404(PublicationItem,pk=publication_id),
+    return ain7_generic_delete(
+        request,
+        get_object_or_404(PublicationItem, pk=publication_id),
         reverse(cv_edit, args=[user_id])+'#publications',
-        _('Publication informations deleted successfully.'))
+        _('Publication informations deleted successfully.')
+    )
+
 
 @access_required(groups=['ain7-membre', 'ain7-secretariat'])
 def job_details(request, job_id):
@@ -264,8 +295,10 @@ def job_details(request, job_id):
     job_offer = get_object_or_404(JobOffer, pk=job_id)
     role = check_access(request, request.user, ['ain7-secretariat'])
     if not job_offer.checked_by_secretariat and role:
-        messages.info(request, 
-            _('This job offer has to be checked by the secretariat.'))
+        messages.info(
+            request,
+            _('This job offer has to be checked by the secretariat.')
+        )
         return redirect('job-index')
 
     views = JobOfferView.objects.filter(job_offer=job_offer).count()
@@ -274,12 +307,12 @@ def job_details(request, job_id):
     job_offer_view.job_offer = job_offer
     job_offer_view.person = request.user.person
     job_offer_view.save()
-    return render(request, 'emploi/job_details.html',
-        {
-            'job': job_offer,
-            'views': views,
+    return render(request, 'emploi/job_details.html', {
+        'job': job_offer,
+        'views': views,
         }
-     )
+    )
+
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def job_edit(request, job_id):
@@ -289,7 +322,7 @@ def job_edit(request, job_id):
     if job_id:
         job = get_object_or_404(JobOffer, pk=job_id)
 
-    JobOfferForm = modelform_factory(JobOffer, exclude=())    
+    JobOfferForm = modelform_factory(JobOffer, exclude=())
     form = JobOfferForm(request.POST or None, instance=job)
 
     if request.method == 'POST' and form.is_valid():
@@ -298,34 +331,38 @@ def job_edit(request, job_id):
 
         return redirect('job-details', job.id)
 
-    return render(request, 'emploi/job_edit.html', 
-        {
-            'form': form,
-            'job': job,
-            'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'emploi/job_edit.html', {
+        'form': form,
+        'job': job,
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
+
 
 @access_required(groups=['ain7-membre', 'ain7-secretariat'])
 def job_search(request):
     """job search"""
 
-    filter = JobOfferFilter(request.GET, queryset=JobOffer.objects.filter(obsolete=False))
+    filter = JobOfferFilter(
+        request.GET,
+        queryset=JobOffer.objects.filter(obsolete=False)
+    )
 
     return render(request, 'emploi/job_search.html', {
         'filter': filter,
         }
-     )
+    )
+
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
 def jobs_proposals(request):
     """job proposal lists"""
 
-    return render(request, 'emploi/job_proposals.html',
-        {
-            'proposals': JobOffer.objects.filter(checked_by_secretariat=False),
+    return render(request, 'emploi/job_proposals.html', {
+        'proposals': JobOffer.objects.filter(checked_by_secretariat=False),
         }
     )
+
 
 @confirmation_required(lambda job_id=None: 
      str(get_object_or_404(JobOffer, pk=job_id)), 'emploi/base.html', 
@@ -340,6 +377,7 @@ def job_validate(request, job_id=None):
     job.save()
     messages.success(request, _("Job proposal validated."))
     return redirect('jobs-proposals')
+
 
 @confirmation_required(lambda job_id=None:
      str(get_object_or_404(JobOffer, pk=job_id)), 'emploi/base.html',
