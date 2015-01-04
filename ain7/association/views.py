@@ -23,13 +23,12 @@
 
 from django.core.urlresolvers import reverse
 from django.forms.models import modelform_factory
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext as _
 
 import autocomplete_light
 
 from ain7.annuaire.models import AIn7Member
-from ain7.association.forms import CouncilRoleForm
 from ain7.decorators import access_required, confirmation_required
 from ain7.groups.models import Group, GroupHead, GroupLeader
 from ain7.pages.models import Text
@@ -41,56 +40,62 @@ def count_members():
     nb_members = AIn7Member.objects.all().count()
     return nb_members
 
+
 def index(request):
     """index page"""
-    text = Text.objects.get(textblock__shortname='presentation_ain7') 
+    text = Text.objects.get(textblock__shortname='presentation_ain7')
 
-    return render(request, 'association/index.html', 
-        {
-            'count_members': count_members(),
-            'text': text,
+    return render(request, 'association/index.html', {
+        'count_members': count_members(),
+        'text': text,
         }
-    ) 
- 
+    )
+
+
 def status(request):
-    """status page""" 
-    text = Text.objects.get(textblock__shortname='statuts_ain7') 
+    """status page"""
 
-    return render(request, 'association/status.html', 
-        {
-            'count_members': count_members(),
-            'text': text,
+    text = Text.objects.get(textblock__shortname='statuts_ain7')
+
+    return render(request, 'association/status.html', {
+        'count_members': count_members(),
+        'text': text,
         }
-    ) 
+    )
+
 
 def internalrules(request):
-    """internal rules page""" 
-    text = Text.objects.get(textblock__shortname='internal_rules_ain7') 
+    """internal rules page"""
+    text = Text.objects.get(textblock__shortname='internal_rules_ain7')
 
-    return render(request, 'association/internalrules.html', 
-        {
-            'count_members': count_members(),
-            'text': text,
+    return render(request, 'association/internalrules.html', {
+        'count_members': count_members(),
+        'text': text,
         }
-    ) 
- 
+    )
+
+
 def council(request):
     """council presentation page"""
-    from ain7.groups.models import Group
+
     ca = get_object_or_404(Group, slug='ain7')
-    return render(request, 'association/council.html',
-        {'group': ca, 'count_members': count_members()})
- 
+    return render(request, 'association/council.html', {
+        'group': ca,
+        'count_members': count_members(),
+        }
+    )
+
+
 def contact(request):
     """contact page"""
-    text = Text.objects.get(textblock__shortname='contact_ain7') 
+    text = Text.objects.get(textblock__shortname='contact_ain7')
 
-    return render(request, 'association/contact.html', 
-        {
-            'count_members': count_members(),
-            'text': text,
+    return render(request, 'association/contact.html', {
+        'count_members': count_members(),
+        'text': text,
         }
-    ) 
+    )
+
 
 @access_required(groups=['ain7-secretariat'])
 def edit_council_role(request, role_id=None):
@@ -99,8 +104,11 @@ def edit_council_role(request, role_id=None):
     group_role = None
     if role_id:
         group_role = get_object_or_404(GroupLeader, id=role_id)
-    
-    CouncilRoleForm = autocomplete_light.modelform_factory(GroupLeader, exclude=('grouphead',))
+
+    CouncilRoleForm = autocomplete_light.modelform_factory(
+        GroupLeader,
+        exclude=('grouphead',)
+    )
     form = CouncilRoleForm(request.POST or None, instance=group_role)
 
     if request.method == 'POST' and form.is_valid():
@@ -109,13 +117,13 @@ def edit_council_role(request, role_id=None):
         council_role.save()
         return redirect('council-details')
 
-    return render(request, 'association/council_edit.html',
-        {
-            'count_members': count_members(),
-            'form': form,
-            'back': request.META.get('HTTP_REFERER', '/'),
+    return render(request, 'association/council_edit.html', {
+        'count_members': count_members(),
+        'form': form,
+        'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
+
 
 @confirmation_required(lambda role_id=None, all_current=None:
      str(get_object_or_404(GroupLeader, pk=role_id)), 'association/base.html',
@@ -125,8 +133,9 @@ def edit_council_role(request, role_id=None):
 def delete_council_role(request, role_id):
     """delete council role"""
 
-    return ain7_generic_delete(request,
+    return ain7_generic_delete(
+        request,
         get_object_or_404(GroupLeader, pk=role_id),
         reverse(council),
-        _('Role successfully deleted.'))
-
+        _('Role successfully deleted.')
+    )
