@@ -32,7 +32,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 
-from ain7.utils import is_admin, LoggedClass, get_root_url
+from ain7.utils import LoggedClass, get_root_url
 from ain7.utils import ain7_website_confidential, CONFIDENTIALITY_LEVELS
 
 
@@ -40,7 +40,10 @@ class Country(models.Model):
     """ Country (used for adresses)"""
 
     name = models.CharField(verbose_name=_('name'), max_length=50)
-    nationality = models.CharField(verbose_name=_('nationality'), max_length=50)
+    nationality = models.CharField(
+        verbose_name=_('nationality'),
+        max_length=50,
+    )
 
     def __unicode__(self):
         """country unicode"""
@@ -135,8 +138,10 @@ class Decoration(models.Model):
 class CeremonialDuty(models.Model):
     """Honorific functions occupied by some persons"""
 
-    ceremonial_duty = models.CharField(verbose_name=_('ceremonial duty'),
-        max_length=200)
+    ceremonial_duty = models.CharField(
+        verbose_name=_('ceremonial duty'),
+        max_length=200,
+    )
 
     def __unicode__(self):
         """ceremonial duty unicode"""
@@ -153,24 +158,31 @@ class School(models.Model):
     """school where users come from"""
 
     name = models.CharField(verbose_name=_('name'), max_length=500)
-    initials = models.CharField(verbose_name=_('initials'), max_length=20,
-        blank=True, null=True)
+    initials = models.CharField(
+        verbose_name=_('initials'), max_length=20, blank=True, null=True,
+    )
 
-    line1 = models.CharField(verbose_name=_('line1'), max_length=50,
-        blank=True, null=True)
-    line2 = models.CharField(verbose_name=_('line2'), max_length=100,
-        blank=True, null=True)
-    zip_code = models.CharField(verbose_name=_('zip code'), max_length=20,
-        blank=True, null=True)
-    city = models.CharField(verbose_name=_('city'), max_length=50, blank=True,
-        null=True)
-    country = models.ForeignKey(Country, verbose_name=_('country'), blank=True,
-        null=True)
-
-    phone_number = models.CharField(verbose_name=_('phone number'),
-        max_length=30, blank=True, null=True)
-    web_site = models.CharField(verbose_name=_('web site'), max_length=100,
-        blank=True, null=True)
+    line1 = models.CharField(
+        verbose_name=_('line1'), max_length=50, blank=True, null=True,
+    )
+    line2 = models.CharField(
+        verbose_name=_('line2'), max_length=100, blank=True, null=True,
+    )
+    zip_code = models.CharField(
+        verbose_name=_('zip code'), max_length=20, blank=True, null=True,
+    )
+    city = models.CharField(
+        verbose_name=_('city'), max_length=50, blank=True, null=True,
+    )
+    country = models.ForeignKey(
+        Country, verbose_name=_('country'), blank=True, null=True,
+    )
+    phone_number = models.CharField(
+        verbose_name=_('phone number'), max_length=30, blank=True, null=True,
+    )
+    web_site = models.CharField(
+        verbose_name=_('web site'), max_length=100, blank=True, null=True,
+    )
     email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
 
     def __unicode__(self):
@@ -189,14 +201,15 @@ class Track(models.Model):
     """Speciality the student has studied during his cursus"""
 
     name = models.CharField(verbose_name=_('track'), max_length=100)
-    initials = models.CharField(verbose_name=_('initials'), max_length=10,
-        blank=True, null=True)
+    initials = models.CharField(
+        verbose_name=_('initials'), max_length=10, blank=True, null=True,
+    )
     email = models.EmailField(verbose_name=_('email'), blank=True, null=True)
 
     active = models.BooleanField(verbose_name=_('active'), default=True)
-
-    school = models.ForeignKey(School, verbose_name=_('school'),
-        related_name='tracks')
+    school = models.ForeignKey(
+        School, verbose_name=_('school'), related_name='tracks',
+    )
 
     def __unicode__(self):
         """track unicode"""
@@ -225,10 +238,13 @@ class PromoYear(models.Model):
 class Promo(models.Model):
     """Promo the student get out from school"""
 
-    year = models.ForeignKey(PromoYear, verbose_name=_('Promo Year'),
-        related_name='promosyear')
-    track = models.ForeignKey(Track, verbose_name=_('Track'),
-        related_name='promos', null=True, blank=True)
+    year = models.ForeignKey(
+        PromoYear, verbose_name=_('Promo Year'), related_name='promosyear',
+    )
+    track = models.ForeignKey(
+        Track, verbose_name=_('Track'), related_name='promos',
+        null=True, blank=True,
+    )
 
     def __unicode__(self):
         """promo unicode"""
@@ -244,9 +260,9 @@ class Person(LoggedClass):
     """The main class for a person"""
 
     SEX = (
-           ('M', _('Male')),
-           ('F', _('Female')),
-           )
+        ('M', _('Male')),
+        ('F', _('Female')),
+    )
 
     # User inheritance
     user = models.OneToOneField(User, verbose_name=_('user'))
@@ -257,40 +273,45 @@ class Person(LoggedClass):
     # Civility
     last_name = models.CharField(verbose_name=_('Last name'), max_length=50)
     first_name = models.CharField(verbose_name=_('First name'), max_length=50)
-    complete_name = models.CharField(verbose_name=_('Complete name'),
-        max_length=50)
-    maiden_name = models.CharField(verbose_name=_('maiden name'),
-        max_length=100, blank=True, null=True)
-    birth_date = models.DateField(verbose_name=_('Birth date'), blank=True,
-        null=True)
+    complete_name = models.CharField(
+        verbose_name=_('Complete name'), max_length=50,
+    )
+    maiden_name = models.CharField(
+        verbose_name=_('maiden name'), max_length=100, blank=True, null=True,
+    )
+    birth_date = models.DateField(
+        verbose_name=_('Birth date'), blank=True, null=True,
+    )
     sex = models.CharField(verbose_name=_('sex'), max_length=1, choices=SEX)
-    country = models.ForeignKey(Country, verbose_name=_('nationality'),
-        blank=True, null=True)
+    country = models.ForeignKey(
+        Country, verbose_name=_('nationality'), blank=True, null=True,
+    )
 
     def mobile(self):
         """return mobile phone of a person if exists"""
         try:
-             return self.phone_numbers.filter(type=3)[0].number
+            return self.phone_numbers.filter(type=3)[0].number
         except IndexError:
-             return ''
+            return ''
 
     def phone(self):
         """return fix phone of a person if exists"""
         try:
-             return self.phone_numbers.filter(type=1)[0].number
+            return self.phone_numbers.filter(type=1)[0].number
         except IndexError:
-             return ''
+            return ''
 
     def mail_favorite(self, email=None):
         """return favourite e-mail"""
 
-        if email and Email.objects.filter(person=self,
-            email=email).count() == 1:
+        if email and Email.objects.filter(
+            person=self, email=email
+        ).count() == 1:
             return email
         try:
-             return self.emails.filter(preferred_email=True)[0].email
+            return self.emails.filter(preferred_email=True)[0].email
         except IndexError:
-             return ''
+            return ''
 
     def address(self, key=None):
         """return personal address"""
@@ -300,24 +321,36 @@ class Person(LoggedClass):
         addr_parents = AddressType.objects.get(id=4)
 
         try:
-             addr = Address.objects.filter(person=self)[0]
-             if Address.objects.filter(person=self).count() > 1:
+            addr = Address.objects.filter(person=self)[0]
+            if Address.objects.filter(person=self).count() > 1:
                 if Address.objects.filter(person=self, type=addr_perm):
-                   addr = Address.objects.filter(person=self, type=addr_perm)[0]
+                    addr = Address.objects.filter(
+                        person=self, type=addr_perm)[0]
                 else:
-                   if Address.objects.filter(person=self, type=addr_inconnue):
-                       addr = Address.objects.filter(person=self, type=addr_inconnue)[0]
-                   else:
-                      if Address.objects.filter(person=self, type=addr_parents):
-                          addr = Address.objects.filter(person=self, type=addr_parents)[0]
+                    if Address.objects.filter(person=self, type=addr_inconnue):
+                        addr = Address.objects.filter(
+                            person=self, type=addr_inconnue)[0]
+                    else:
+                        if Address.objects.filter(
+                            person=self, type=addr_parents
+                        ):
+                            addr = Address.objects.filter(
+                                person=self, type=addr_parents)[0]
 
-             if not key:
-                 addr_struct = { 'line1': addr.line1, 'line2': addr.line2, 'zip_code': addr.zip_code, 'city': addr.city, 'country': addr.country.name, 'type': addr.type}
-                 return addr_struct
-             else:
-                 return addr_struct[key]
+            if not key:
+                addr_struct = {
+                    'line1': addr.line1,
+                    'line2': addr.line2,
+                    'zip_code': addr.zip_code,
+                    'city': addr.city,
+                    'country': addr.country.name,
+                    'type': addr.type,
+                }
+                return addr_struct
+            else:
+                return addr_struct[key]
         except (IndexError, KeyError):
-             return {}
+            return {}
 
     def __unicode__(self):
         """person unicode"""
@@ -326,7 +359,7 @@ class Person(LoggedClass):
     def mail_from(self, email=None):
         """Get a mail from field for message"""
         mail = self.mail_favorite(email)
-        mail_modified = mail.replace('@','=')
+        mail_modified = mail.replace('@', '=')
         return u'Association AIn7 <noreply+'+mail_modified+'@ain7.com>'
 
     def send_mail(self, subject, message, email=None):
@@ -375,8 +408,9 @@ X-Generated-By: AIn7 Web Portal
 
         url = '%s%s' % (root_url, lostpw.get_absolute_url())
 
-        self.send_mail(_('Password reset of your AIn7 account'), \
-                        _("""Hi %(firstname)s,
+        self.send_mail(
+            _('Password reset of your AIn7 account'),
+            _("""Hi %(firstname)s,
 
 You have requested a new password for your AIn7 account.
 
@@ -386,11 +420,13 @@ To reset your password, please follow this link:
 
 This link will be valid 24h.
 
-If the new password request if not from you, you can safely ignore this message.
--- 
-http://ain7.com""") % { 'firstname': self.first_name, 'url': url,
-    'login': self.user.username}, email)
-
+If the new password request if not from you, you can ignore this message.
+--
+http://ain7.com""") % {
+                'firstname': self.first_name,
+                'url': url,
+                'login': self.user.username,
+                }, email)
 
     def get_absolute_url(self):
         return reverse('ain7.annuaire.views.details', args=[self.id])
@@ -409,10 +445,12 @@ class PersonPrivate(LoggedClass):
     # Administration
     person_type = models.ForeignKey(PersonType, verbose_name=_('type'))
     member_type = models.ForeignKey(MemberType, verbose_name=_('member'))
-    activity = models.ForeignKey(Activity, verbose_name=_('activity'),
-        blank=True, null=True)
-    death_date = models.DateField(verbose_name=_('death date'), blank=True,
-        null=True)
+    activity = models.ForeignKey(
+        Activity, verbose_name=_('activity'), blank=True, null=True,
+    )
+    death_date = models.DateField(
+        verbose_name=_('death date'), blank=True, null=True,
+    )
     notes = models.TextField(verbose_name=_('Notes'), blank=True, null=True)
 
     def __unicode__(self):
@@ -427,29 +465,31 @@ class PersonPrivate(LoggedClass):
 
 class AIn7MemberManager(models.Manager):
     """a Manager for the class AIn7Member"""
-    
+
     def pending_subscriptions(self):
         return None
 
     def subscribers(self):
         pt = PersonType.objects.get(id=1)
         current_year = datetime.datetime.today().year
-        return self.filter(ain7member__person__personprivate__death_date__isnull=True, ain7member__subscriptions__start_year=current_yer, personprivate__person_type=pt)
+        return self.filter(
+            ain7member__person__personprivate__death_date__isnull=True,
+            ain7member__subscriptions__start_year=current_year,
+            personprivate__person_type=pt
+        )
 
     def almuni(self):
         pt = PersonType.objects.get(id=1)
         current_year = datetime.datetime.today().year
-        return self.filter(ain7member__person__personprivate__death_date__isnull=True, personprivate__person_type=pt, ain7member__promos__year__year__lte=current_year-1)
+        return self.filter(
+            ain7member__person__personprivate__death_date__isnull=True,
+            personprivate__person_type=pt,
+            ain7member__promos__year__year__lte=current_year-1
+        )
 
     def students(self):
         current_year = datetime.datetime.today().year
         return self.filter(ain7member__promos__year__year__gt=current_year-1)
-
-
-#def avatar_file_path(instance, filename):
-#    from django.utils.hashcompat import sha_constructor
-#    hash = sha_constructor(settings.SECRET_KEY + str(instance.person.id) + str(time.time())).hexdigest()[::2]
-#    return os.path.join('data', 'avatar', hash + '.jpg')
 
 
 class AIn7Member(LoggedClass):
@@ -458,26 +498,35 @@ class AIn7Member(LoggedClass):
     person = models.OneToOneField(Person, verbose_name=_('person'))
 
     # Family situation
-    marital_status = models.ForeignKey(MaritalStatus,
-        verbose_name=_('marital status'), blank=True, null=True)
-    children_count = models.IntegerField(verbose_name=_('children number'),
-        blank=True, null=True)
+    marital_status = models.ForeignKey(
+        MaritalStatus, verbose_name=_('marital status'), blank=True, null=True
+    )
+    children_count = models.IntegerField(
+        verbose_name=_('children number'), blank=True, null=True
+    )
 
     # Other
-    nick_name = models.CharField(verbose_name=_('Nick name'), max_length=50,
-        blank=True, null=True)
-    avatar = models.ImageField(verbose_name=_('avatar'), 
-        blank=True, null=True)
+    nick_name = models.CharField(
+        verbose_name=_('Nick name'), max_length=50, blank=True, null=True,
+    )
+    avatar = models.ImageField(
+        verbose_name=_('avatar'), upload_to='avatar', blank=True, null=True,
+    )
 
     # School situation
-    promos = models.ManyToManyField(Promo, verbose_name=_('Promos'),
-        related_name='students', blank=True, null=True)
+    promos = models.ManyToManyField(
+        Promo, verbose_name=_('Promos'), related_name='students',
+        blank=True, null=True,
+    )
 
     # Civil situation
-    decorations = models.ManyToManyField(Decoration,
-        verbose_name=_('decorations'), blank=True, null=True)
-    ceremonial_duties = models.ManyToManyField(CeremonialDuty,
-        verbose_name=_('ceremonial duties'), blank=True, null=True)
+    decorations = models.ManyToManyField(
+        Decoration, verbose_name=_('decorations'), blank=True, null=True,
+    )
+    ceremonial_duties = models.ManyToManyField(
+        CeremonialDuty, verbose_name=_('ceremonial duties'),
+        blank=True, null=True,
+    )
 
     # Curriculum Vitae and Job Service
     display_cv_in_directory = models.BooleanField(
@@ -487,10 +536,12 @@ class AIn7Member(LoggedClass):
         verbose_name=_('Display my CV in the job service section'),
         default=False)
     receive_job_offers = models.BooleanField(
-         verbose_name=_('Receive job offers by email'), default=False)
-    cv_title = models.CharField(verbose_name=_('CV title'), max_length=100,
-        blank=True, null=True)
-    
+        verbose_name=_('Receive job offers by email'), default=False,
+    )
+    cv_title = models.CharField(
+        verbose_name=_('CV title'), max_length=100, blank=True, null=True,
+    )
+
     # Internal
     objects = AIn7MemberManager()
 
@@ -505,10 +556,12 @@ class AIn7Member(LoggedClass):
 
         result = False
 
-        if Subscription.objects.filter(member=self).\
-            filter(validated=True).count() > 0:
-            sub = Subscription.objects.filter(member=self).\
-               filter(validated=True).reverse()[0]
+        if Subscription.objects.filter(member=self).filter(
+            validated=True
+        ).count() > 0:
+            sub = Subscription.objects.filter(member=self).filter(
+                validated=True
+            ).reverse()[0]
 
             if sub.date:
 
@@ -525,10 +578,16 @@ class AIn7Member(LoggedClass):
         from ain7.adhesions.models import Subscription
         result = 0
         current_year = datetime.datetime.today().year
-        if Subscription.objects.filter(member=self).\
-            filter(validated=True).exclude(start_year__icontains=current_year-1).count() > 0:
-            result = Subscription.objects.filter(member=self).\
-               filter(validated=True).exclude(start_year__icontains=current_year-1).reverse()[0].dues_amount
+        if Subscription.objects.filter(member=self).filter(
+            validated=True
+        ).exclude(start_year__icontains=current_year-1).count() > 0:
+            result = Subscription.objects.filter(
+                member=self
+            ).filter(
+                validated=True
+            ).exclude(
+                start_year__icontains=current_year-1
+            ).reverse()[0].dues_amount
         return result
 
     @property
@@ -539,15 +598,20 @@ class AIn7Member(LoggedClass):
         from ain7.adhesions.models import Subscription
         current_year = datetime.datetime.today().year
         result = None
-        if Subscription.objects.filter(member=self).\
-            filter(validated=True).exclude(start_year__icontains=current_year-1).count() > 0:
-            result = Subscription.objects.filter(member=self).\
-                filter(validated=True).exclude(start_year__icontains=current_year-1).reverse()[0].date
+        if Subscription.objects.filter(member=self).filter(
+            validated=True
+        ).exclude(start_year__icontains=current_year-1).count() > 0:
+            result = Subscription.objects.filter(
+                member=self
+            ).filter(
+                validated=True
+            ).exclude(start_year__icontains=current_year-1).reverse()[0].date
+
         if result:
             return result.date()
         else:
             return result
- 
+
     def promo(self):
         if self.promos.all():
             return self.promos.all()[0].year.year
@@ -592,22 +656,28 @@ class PhoneNumber(LoggedClass):
     """Phone number for a person"""
 
     PHONE_NUMBER_TYPE = (
-                         (1, _('Fix')),
-                         (2, _('Fax')),
-                         (3, _('Mobile')),
-                         )
+        (1, _('Fix')),
+        (2, _('Fax')),
+        (3, _('Mobile')),
+    )
 
-    person = models.ForeignKey(Person, related_name='phone_numbers',
-        editable=False)
+    person = models.ForeignKey(
+        Person, related_name='phone_numbers', editable=False,
+    )
 
-    number = models.CharField(verbose_name=_('number'), max_length=30)
-    type = models.IntegerField(verbose_name=_('type'),
-        choices=PHONE_NUMBER_TYPE, default=1)
-    confidentiality = models.IntegerField(verbose_name=_('confidentiality'),
-        choices=CONFIDENTIALITY_LEVELS, default=0)
+    number = models.CharField(
+        verbose_name=_('number'), max_length=30
+    )
+    type = models.IntegerField(
+        verbose_name=_('type'), choices=PHONE_NUMBER_TYPE, default=1,
+    )
+    confidentiality = models.IntegerField(
+        verbose_name=_('confidentiality'),
+        choices=CONFIDENTIALITY_LEVELS, default=0,
+    )
 
     def website_confidential(self):
-        """web site confidential""" 
+        """web site confidential"""
         return ain7_website_confidential(self)
 
     def confidentiality_print(self):
@@ -621,6 +691,7 @@ class PhoneNumber(LoggedClass):
     class Meta:
         """phone number meta"""
         verbose_name = _('phone number')
+
 
 class AddressType(models.Model):
     """Type of the address: can be parental, personal or business"""
@@ -636,20 +707,26 @@ class AddressType(models.Model):
         verbose_name = _('address type')
         verbose_name_plural = _('address types')
 
+
 class Address(LoggedClass):
     """A person address"""
 
-    person = models.ForeignKey(Person, related_name='addresses', editable=False)
+    person = models.ForeignKey(
+        Person, related_name='addresses', editable=False,
+    )
 
     line1 = models.CharField(verbose_name=_('address line1'), max_length=50)
-    line2 = models.CharField(verbose_name=_('address line2'), max_length=100,
-        blank=True, null=True)
+    line2 = models.CharField(
+        verbose_name=_('address line2'), max_length=100, blank=True, null=True,
+    )
     zip_code = models.CharField(verbose_name=_('zip code'), max_length=20)
     city = models.CharField(verbose_name=_('city'), max_length=50)
     country = models.ForeignKey(Country, verbose_name=_('country'))
     type = models.ForeignKey(AddressType, verbose_name=_('type'))
-    confidentiality = models.IntegerField(verbose_name=_('confidentiality'),
-        choices=CONFIDENTIALITY_LEVELS, default=0)
+    confidentiality = models.IntegerField(
+        verbose_name=_('confidentiality'),
+        choices=CONFIDENTIALITY_LEVELS, default=0,
+    )
     is_valid = models.BooleanField(verbose_name=_('is valid'), default=True)
 
     def website_confidential(self):
@@ -683,12 +760,18 @@ class Email(models.Model):
     person = models.ForeignKey(Person, related_name='emails', editable=False)
 
     email = models.EmailField(verbose_name=_('email'), unique=True)
-    confidentiality = models.IntegerField(verbose_name=_('confidentiality'),
-        choices=CONFIDENTIALITY_LEVELS, default=0)
-    preferred_email = models.BooleanField(verbose_name=_('preferred'),
-        default=False)
+    confidentiality = models.IntegerField(
+        verbose_name=_('confidentiality'),
+        choices=CONFIDENTIALITY_LEVELS, default=0,
+    )
+    preferred_email = models.BooleanField(
+        verbose_name=_('preferred'), default=False,
+    )
 
-    position = models.ForeignKey('emploi.Position', related_name='mail', blank=True, null=True, editable=False)
+    position = models.ForeignKey(
+        'emploi.Position', related_name='mail', blank=True,
+        null=True, editable=False,
+    )
 
     def website_confidential(self):
         """email confidentiality for the website"""
@@ -704,15 +787,17 @@ class Email(models.Model):
 
     def save(self):
         """ if we set "preferred" to True, then other are moved to False"""
-        if self.preferred_email == True:
-            for email in Email.objects.filter(person=self.person, \
-                preferred_email=True):
+        if self.preferred_email:
+            for email in Email.objects.filter(
+                person=self.person, preferred_email=True
+            ):
                 if email is not self:
                     email.preferred_email = False
                     email.save()
         else:
-            if Email.objects.filter(person=self.person, \
-                preferred_email=True).count() == 0:
+            if Email.objects.filter(
+                person=self.person, preferred_email=True
+            ).count() == 0:
                 self.preferred_email = True
         return super(Email, self).save()
 
@@ -720,27 +805,32 @@ class Email(models.Model):
         """email meta"""
         verbose_name = _('email')
 
+
 class InstantMessaging(models.Model):
     """instant messanger contact for a person"""
 
     INSTANT_MESSAGING_TYPE = (
-                              (1,'ICQ'),
-                              (2,'MSN'),
-                              (3,'AIM'),
-                              (4,'Yahoo'),
-                              (5,'Jabber'),
-                              (6,'Gadu-Gadu'),
-                              (7,'Skype'),
-                              )
+        (1, 'ICQ'),
+        (2, 'MSN'),
+        (3, 'AIM'),
+        (4, 'Yahoo'),
+        (5, 'Jabber'),
+        (6, 'Gadu-Gadu'),
+        (7, 'Skype'),
+    )
 
-    person = models.ForeignKey(Person, related_name='instant_messagings',
-         editable=False)
+    person = models.ForeignKey(
+        Person, related_name='instant_messagings', editable=False
+    )
 
-    type = models.IntegerField(verbose_name=_('type'), 
-        choices=INSTANT_MESSAGING_TYPE)
+    type = models.IntegerField(
+        verbose_name=_('type'), choices=INSTANT_MESSAGING_TYPE,
+    )
     identifier = models.CharField(verbose_name=_('identifier'), max_length=40)
-    confidentiality = models.IntegerField(verbose_name=_('confidentiality'),
-        choices=CONFIDENTIALITY_LEVELS, default=0)
+    confidentiality = models.IntegerField(
+        verbose_name=_('confidentiality'),
+        choices=CONFIDENTIALITY_LEVELS, default=0,
+    )
 
     def website_confidential(self):
         """instant messaging confidentiality on the website"""
@@ -763,28 +853,32 @@ class WebSite(models.Model):
     """Website for a person"""
 
     WEBSITE_TYPE = (
-                    (0,'web'),
-                    (1,'blog'),
-                    (2,'gallery'),
-                    (3,'linkedin'),
-                    (4,'viadeo'),
-                    (5,'flickr'),
-                    (6,'facebook'),
-                    (7,'twitter'),
-                    (8,'myspace'),
-                    (100,'Other'),
-                   )
+        (0, 'web'),
+        (1, 'blog'),
+        (2, 'gallery'),
+        (3, 'linkedin'),
+        (4, 'viadeo'),
+        (5, 'flickr'),
+        (6, 'facebook'),
+        (7, 'twitter'),
+        (8, 'myspace'),
+        (100, 'Other'),
+    )
 
-    person = models.ForeignKey(Person, related_name='web_sites',
-        editable=False)
+    person = models.ForeignKey(
+        Person, related_name='web_sites', editable=False,
+    )
 
     url = models.CharField(verbose_name=_('web site'), max_length=100)
     type = models.IntegerField(verbose_name=_('type'), choices=WEBSITE_TYPE)
-    confidentiality = models.IntegerField(verbose_name=_('confidentiality'),
-        choices=CONFIDENTIALITY_LEVELS, default=0)
+    confidentiality = models.IntegerField(
+        verbose_name=_('confidentiality'),
+        choices=CONFIDENTIALITY_LEVELS, default=0,
+    )
 
     blog_is_agregated_on_planet = models.BooleanField(
-        verbose_name=_('blog on planet'), default=False)
+        verbose_name=_('blog on planet'), default=False,
+    )
 
     def website_confidential(self):
         """website confidentiality on website"""
@@ -800,7 +894,11 @@ class WebSite(models.Model):
 
     def save(self):
         """website save"""
-        if not self.url.startswith('http://') and not self.url.startswith('https://'):
+        if (
+            not self.url.startswith('http://')
+            and not
+            self.url.startswith('https://')
+        ):
             self.url = 'http://'+self.url
         return super(WebSite, self).save()
 
@@ -817,8 +915,10 @@ class IRC(models.Model):
     network = models.CharField(verbose_name=_('network'), max_length=50)
     pseudo = models.CharField(verbose_name=_('pseudo'), max_length=20)
     channels = models.CharField(verbose_name=_('channels'), max_length=100)
-    confidentiality = models.IntegerField(verbose_name=_('confidentiality'),
-        choices=CONFIDENTIALITY_LEVELS, default=0)
+    confidentiality = models.IntegerField(
+        verbose_name=_('confidentiality'),
+        choices=CONFIDENTIALITY_LEVELS, default=0,
+    )
 
     def website_confidential(self):
         """irc confidentiality on the website"""
@@ -841,19 +941,25 @@ class Club(LoggedClass):
     """N7 club"""
 
     name = models.CharField(verbose_name=('name'), max_length=20)
-    description = models.CharField(verbose_name=_('description'),
-        max_length=100)
-    web_site = models.URLField(verbose_name=_('web site'), max_length=50,
-        blank=True, null=True)
-    email = models.EmailField(verbose_name=_('email'), max_length=50,
-         blank=True, null=True)
-    school = models.ForeignKey(School, verbose_name=_('school'),
-         related_name='clubs')
-    icon = models.ImageField(verbose_name=_('icon'), upload_to='data/',
-         blank=True, null=True)
+    description = models.CharField(
+        verbose_name=_('description'), max_length=100,
+    )
+    web_site = models.URLField(
+        verbose_name=_('web site'), max_length=50, blank=True, null=True,
+    )
+    email = models.EmailField(
+        verbose_name=_('email'), max_length=50, blank=True, null=True,
+    )
+    school = models.ForeignKey(
+        School, verbose_name=_('school'), related_name='clubs',
+    )
+    icon = models.ImageField(
+        verbose_name=_('icon'), upload_to='data/', blank=True, null=True,
+    )
 
-    end_date = models.DateField(verbose_name=_('end date'), blank=True,
-         null=True)
+    end_date = models.DateField(
+        verbose_name=_('end date'), blank=True, null=True,
+    )
 
     def __unicode__(self):
         """club unicode"""
@@ -867,17 +973,23 @@ class Club(LoggedClass):
 class ClubMembership(models.Model):
     """Club membership for a person"""
 
-    club = models.ForeignKey('annuaire.Club', verbose_name=_('club'),
-        related_name='memberships')
-    member = models.ForeignKey(AIn7Member, verbose_name=_('member'),
-        related_name='club_memberships', editable=False)
+    club = models.ForeignKey(
+        'annuaire.Club', verbose_name=_('club'), related_name='memberships',
+    )
+    member = models.ForeignKey(
+        AIn7Member, verbose_name=_('member'),
+        related_name='club_memberships', editable=False,
+    )
 
-    fonction = models.CharField(verbose_name=_('fonction'), max_length=50,
-        blank=True, null=True)
-    begin = models.IntegerField(verbose_name=_('start date'), blank=True,
-        null=True)
-    end = models.IntegerField(verbose_name=_('end date'), blank=True,
-        null=True)
+    fonction = models.CharField(
+        verbose_name=_('fonction'), max_length=50, blank=True, null=True,
+    )
+    begin = models.IntegerField(
+        verbose_name=_('start date'), blank=True, null=True,
+    )
+    end = models.IntegerField(
+        verbose_name=_('end date'), blank=True, null=True,
+    )
 
     def __unicode__(self):
         """club membership unicode"""

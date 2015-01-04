@@ -566,7 +566,8 @@ def club_membership_edit(request, user_id=None, club_membership_id=None):
 @access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def club_membership_delete(request, user_id=None, club_membership_id=None):
 
-    return ain7_generic_delete(request,
+    return ain7_generic_delete(
+        request,
         get_object_or_404(ClubMembership, pk=club_membership_id),
         '/annuaire/%s/edit/#assoc' % user_id,
         _('Club membership successfully deleted.'))
@@ -582,7 +583,7 @@ def add(request, user_id=None):
         new_person = form.save()
         messages.success(request, _("New user successfully created"))
 
-        return redirect('annuaire-edit', user_id)
+        return redirect(new_person)
 
     return render(request, 'annuaire/edit_form.html', {
         'action_title': _('Register new user'),
