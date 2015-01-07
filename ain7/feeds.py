@@ -3,7 +3,7 @@
  ain7/feeds.py
 """
 #
-#   Copyright © 2007-2011 AIn7 Devel Team
+#   Copyright © 2007-2015 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -26,21 +26,8 @@ from django.utils.translation import ugettext as _
 
 from ain7.news.models import NewsItem
 
-class LatestsEvents(Feed):
-    """
-    Return latest events from AIn7
-    """
-    title = "AIn7 Events RSS"
-    link = "/evenements/"
-    description = _("AIn7 organized events")
 
-    def items(self):
-        """
-        Item of Events RSS stream
-        """
-        return NewsItem.objects.filter(date__isnull=False).order_by('-date')[:20]
-
-class LatestsNews(Feed):
+class NewsFeed(Feed):
     """
     Return latest news from AIn7
     """
@@ -53,4 +40,3 @@ class LatestsNews(Feed):
         Item of News RSS stream
         """
         return NewsItem.objects.order_by('-creation_date')[:20]
-
