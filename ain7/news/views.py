@@ -44,8 +44,8 @@ from ain7.shop.models import Order, ShoppingCart, ShoppingCartItem
 
 def index(request):
     """news index page"""
-    news = NewsItem.objects.filter(
-        date__isnull=True
+    news = NewsItem.objects.exclude(
+        body__isnull=True,
     ).order_by('-creation_date')[:20]
     page_title = 'Actualités'
     return render(request, 'news/index.html', {
@@ -446,7 +446,7 @@ def ical(request):
         evt.add('dtstamp').value = event.last_change_at
 
     icalstream = cal.serialize()
-    response = HttpResponse(icalstream, mimetype='text/calendar')
+    response = HttpResponse(icalstream, content_type='text/calendar')
     response['Filename'] = 'ain7.ics'  # IE needs this
     response['Content-Disposition'] = 'attachment; filename=ain7.ics'
 
