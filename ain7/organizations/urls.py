@@ -21,27 +21,24 @@
 #
 #
 
-from django.conf.urls import patterns
+from django.conf.urls import patterns, url
 
 urlpatterns = patterns('ain7.organizations.views',
     # Organizations
-    (r'^$', 'organization_search'),
-    (r'^add/', 'organization_edit'),
-    (r'^(?P<organization_id>\d+)/$', 'organization_details'),
-    (r'^(?P<organization_id>\d+)/edit/$', 'organization_edit'),
-    (r'^(?P<organization_id>\d+)/delete/$', 'organization_delete'),
+    url(r'^$', 'organization_search'),
+    url(r'^add/', 'organization_edit'),
+    url(r'^(?P<organization_id>\d+)/$', 'organization_details', name='organization-details'),
+    url(r'^(?P<organization_id>\d+)/edit/$', 'organization_edit', name='organization-edit'),
+    url(r'^(?P<organization_id>\d+)/delete/$', 'organization_delete'),
     (r'^(?P<organization_id>\d+)/undelete/$', 'organization_undelete'),
-    (r'^(?P<org1_id>\d+)/merge/(?P<org2_id>\d+)/$',
-     'organization_merge_perform'),
+    (r'^(?P<org1_id>\d+)/merge/(?P<org2_id>\d+)/$', 'organization_merge_perform'),
 
     # Offices
-    (r'^(?P<organization_id>\d+)/offices/add/$', 'office_edit'),
-    (r'^(?P<organization_id>\d+)/offices/(?P<office_id>\d+)/edit/$', 'office_edit'),
+    url(r'^(?P<organization_id>\d+)/offices/add/$', 'office_edit', name='office-add'),
+    url(r'^(?P<organization_id>\d+)/offices/(?P<office_id>\d+)/edit/$', 'office_edit', name='office-edit'),
     (r'^(?P<organization_id>\d+)/offices/(?P<office_id>\d+)/delete/$', 'office_delete'),
     (r'^(?P<organization_id>\d+)/offices/(?P<office_id>\d+)/undelete/$', 'organization_undelete'),
     (r'^(?P<organization_id>\d+)/offices/(?P<office_id>\d+)/merge/$', 'office_merge'),
-    (r'^(?P<organization_id>\d+)/offices/(?P<office1_id>\d+)/merge/(?P<office2_id>\d+)/$', \
-         'office_merge_perform'),
+    (r'^(?P<organization_id>\d+)/offices/(?P<office1_id>\d+)/merge/(?P<office2_id>\d+)/$', 'office_merge_perform'),
 
 )
-
