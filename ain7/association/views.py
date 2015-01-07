@@ -21,6 +21,8 @@
 #
 #
 
+import autocomplete_light
+
 from django.core.urlresolvers import reverse
 from django.forms.models import modelform_factory
 from django.shortcuts import get_object_or_404, redirect, render
