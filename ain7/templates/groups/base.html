@@ -8,15 +8,21 @@
 
 <ul class="list-inline">
 <li>
+{% if group %}
 {% if not is_member %}
 <a class="btn btn-primary" href="{% url "ain7.groups.views.join" group.slug %}">{% trans "Join the group" %}</a>
 {% else %}
 <a class="btn btn-primary" href="{% url "ain7.groups.views.quit" group.slug %}">{% trans "Leave the group" %}</a>
 {% endif %}
+{% endif %}
 </li>
+{% if group %}
 <li><a class="btn btn-primary" href="{% url "ain7.groups.views.members" group.slug %}">{% trans "Members" %}</a></li>
+{% endif %}
 {% if superadmin or ca_member or secretariat_member %}
+{% if group %}
 <li><a class="btn btn-primary" href="{% url "ain7.groups.views.edit" group.slug %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Modify" %}</a></li>
+{% endif %}
 <li><a class="btn btn-primary" href="{% url "ain7.groups.views.edit" %}"><i class="fa fa-plus fa-lg"></i> {% trans "Add new group" %}</a></li>
 {% endif %}
 </ul>

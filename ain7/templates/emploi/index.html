@@ -26,7 +26,9 @@
 {{ job_offers.form|crispy }}
 <div class="control-group">
 <div class="controls">
-<input class="btn btn-primary" type="submit" value="{% trans "Search" %}" />
+<div class="col-lg-offset-4">
+<button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> {% trans "Search" %}</button>
+</div>
 </div>
 </div>
 </form>

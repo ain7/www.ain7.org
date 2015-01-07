@@ -6,8 +6,11 @@
 <h2>{{ travel.label|escape }}</h2>
 
 {% if superadmin or ca_member or secretariat_member %}
-<p><a class="btn btn-primary" href="{% url 'travel-edit' travel.id %}"><i class="fa fa-pencil fa-1g"></i> {% trans "Edit" %}</a></p>
+<ul class="list-inline">
+<li><a class="btn btn-primary" href="{% url 'travel-edit' travel.id %}"><i class="fa fa-pencil fa-1g"></i> {% trans "Edit" %}</a></li>
+<li><a class="btn btn-primary" href="{% url 'travel-add' %}"><i class="fa fa-plus fa-1g"></i> {% trans "Add travel" %}</a></li>
 {% endif %}
+</ul>
 
 <table style="width: 100%">
   {% if travel.start_date and travel.end_date %}

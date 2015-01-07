@@ -55,9 +55,9 @@
                                                                 <li role="presentation" {% block navbar_activities %}{{ navbar_activities }}{% endblock %}><a href="#" class="dropdown-toggle" data-toggle="dropdown">Activités</a>
     <ul class="dropdown-menu">
       <li><a href="{% url "ain7.emploi.views.index" %}">{% trans "Job" %}</a></li>
-      <li><a href="{% url "ain7.voyages.views.index" %}">{% trans "Travels" %}</a></li>
       <li><a href="{% url "professionnal_groups" %}">{% trans "Professionnal Groups" %}</a></li>
       <li><a href="{% url "regional_groups" %}">{% trans "Regional Groups" %}</a></li>
+      <li><a href="{% url "ain7.voyages.views.index" %}">{% trans "Travels" %}</a></li>
     </ul>
 </li>
                                                                 <li class="dropdown" role="presentation" {% block navbar_association %}{{ navbar_association }}{% endblock %}>

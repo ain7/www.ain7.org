@@ -5,16 +5,26 @@
 
 {% block content-left %}
 
+<div class="row">
+
+<div class="col-lg-offset-1 col-lg-10">
+
 <h2>{{ action_title }} {{ person }}</h2>
 
-<form method="post" action="." enctype="multipart/form-data" class="form-horizontal">
+<form method="post" action="." enctype="multipart/form-data">
 {% csrf_token %}
 {{ form|crispy }}
-<div class="form-group">                                                        
-<button type="submit" class="btn btn-default">{% trans "Save" %}</button>
-<a href="{% url 'annuaire-edit' user.id %}">{% trans "Cancel" %}</a>
+<div class="form-group">
+<div class="col-lg-offset-4">
+<button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> {% trans "Save" %}</button>
+&nbsp;
+<a class="btn btn-default" href="{% url 'annuaire-edit' user.id %}"><i class="fa fa-close"></i> {% trans "Cancel" %}</a>
+</div>
 </div>
 </form>
+
+</div>
+</div>
 
 <script type="text/javascript" src="{% static "bootstrap-datepicker/js/bootstrap-datepicker.js" %}"></script>
 

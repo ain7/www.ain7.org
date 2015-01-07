@@ -35,15 +35,22 @@
 
 {% if not mailing.approved_by %}
 
+<div class="row">
+<div class="col-lg-8 col-lg-offset-2">
 <form method="post" action="." class="form-horizontal">
+{% csrf_token %}
 {{ form|crispy }}
 <div class="control-group">
 <div class="controls">
-<button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
-<a href="{% url 'mailings-index' %}">{% trans "Cancel" %}</a>
+<div class="col-lg-offset-4">
+<button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> {% trans "Save" %}</button>
+<a class="btn btn-default" href="{% url 'mailings-index' %}"><i class="fa fa-times"></i> {% trans "Cancel" %}</a>
+</div>
 </div>
 </div>
 </form>
+</div>
+</div>
 {% endif %}
 
 {% endblock %}

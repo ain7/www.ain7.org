@@ -8,9 +8,12 @@
 <div class="row">
 <div class="col-lg-8">
 
+<ul class="list-inline">
 {% if superadmin or ca_member or secretariat_member or contributeur %}
-<p><a class="btn btn-primary" href="{% url "pages.views.edit" text.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></p>
+<li><a class="btn btn-primary" href="{% url "text-edit" text.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></li>
+<li><a class="btn btn-primary" href="{% url "travel-add" %}"><i class="fa fa-plus fa-lg"></i> {% trans "Add travel" %}</a></li>
 {% endif %}
+</ul>
 
 <h2>{{ text.title }}</h2>
 
@@ -24,12 +27,15 @@
 {{ travels.form|crispy }}
 <div class="control-group">
 <div class="controls">
-<input class="btn btn-primary" type="submit" value="{% trans "Search" %}" />
+<div class="col-lg-offset-4">
+<button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> {% trans "Search" %}</button>
+</div>
 </div>
 </div>
 </form>
 
 {% paginate travels %}
+
 
 <p class="text-center">{% show_pages %}</p> 
 

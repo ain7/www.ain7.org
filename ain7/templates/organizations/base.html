@@ -6,10 +6,10 @@
 {% block content %}
 
 <ul class="list-inline">
-<li><a class="btn btn-primary" href="{% url "ain7.organizations.views.organization_edit" %}">{% trans "Register a new organization" %}</a></li>
+<li><a class="btn btn-primary" href="{% url "ain7.organizations.views.organization_edit" %}"><i class="fa fa-plus"></i> {% trans "Add new organization" %}</a></li>
 {% if organization %}
-<li><a class="btn btn-primary" href="{% url "ain7.organizations.views.organization_edit" organization.id %}">{% trans "Edit this organization" %}</a></li>
-<li><a class="btn btn-primary" href="{% url "ain7.organizations.views.organization_delete" organization.id %}">{% trans "Delete this organization" %}</a></li>
+<li><a class="btn btn-primary" href="{% url "ain7.organizations.views.organization_edit" organization.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Edit this organization" %}</a></li>
+<li><a class="btn btn-primary" href="{% url "ain7.organizations.views.organization_delete" organization.id %}"><i class="fa fa-trash-o fa-lg"></i>  {% trans "Delete this organization" %}</a></li>
 {% endif %}
 </ul>
 
