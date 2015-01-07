@@ -25,16 +25,15 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib import admin
 
-from ain7.feeds import LatestsEvents, LatestsNews
+import autocomplete_light
+
+from ain7.feeds import NewsFeed
 from ain7.sitemaps import (
     EventsSitemap, TextsSitemap, NewsSitemap, GroupsSitemap
 )
 from ain7.sitemaps import TravelsSitemap
 
-feeds = {
-    'events': LatestsEvents,
-    'news': LatestsNews,
-}
+autocomplete_light.autodiscover()
 
 sitemaps = {
     'events': EventsSitemap,
@@ -90,14 +89,12 @@ urlpatterns = patterns('',
     url(r'^$', 'ain7.pages.views.homepage', name='homepage'),
 
     # flux RSS
-    url(r'^rss/$', 'ain7.pages.views.rss', name='rss'),
-    (r'^rss/(?P<url>.*)/$', 'django.contrib.syndication.views.Feed',
-        {'feed_dict': feeds}),
+    url(r'^rss/$', NewsFeed(), name='rss'),
 
     (r'^ical/$', 'ain7.news.views.ical'),
 
     # Edit text blocks
-    (r'^edit/(?P<text_id>.*)/$', 'ain7.pages.views.edit'),
+    url(r'^edit/(?P<text_id>.*)/$', 'ain7.pages.views.edit', name='text-edit'),
 
     # sitemaps
     (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap',
