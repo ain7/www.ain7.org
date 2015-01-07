@@ -29,15 +29,20 @@ from ain7.news.models import NewsItem
 from ain7.groups.models import Group
 from ain7.voyages.models import Travel
 
+
 class EventsSitemap(Sitemap):
     changefreq = "daily"
     priority = 0.5
 
     def items(self):
-        return NewsItem.objects.filter(date__gte=datetime.datetime.now() , status=1)
+        return NewsItem.objects.filter(
+            date__gte=datetime.datetime.now(),
+            status=1,
+        )
 
     def lastmod(self, obj):
         return obj.date
+
 
 class TextsSitemap(Sitemap):
     changefreq = "daily"
@@ -49,6 +54,7 @@ class TextsSitemap(Sitemap):
     def lastmod(self, obj):
         return obj.last_change_at
 
+
 class NewsSitemap(Sitemap):
     changefreq = "daily"
     priority = 0.5
@@ -58,6 +64,7 @@ class NewsSitemap(Sitemap):
 
     def lastmod(self, obj):
         return obj.last_change_at
+
 
 class GroupsSitemap(Sitemap):
     changefreq = "daily"
@@ -69,6 +76,7 @@ class GroupsSitemap(Sitemap):
     def lastmod(self, obj):
         return obj.last_change_at
 
+
 class TravelsSitemap(Sitemap):
     changefreq = "daily"
     priority = 0.5
@@ -78,4 +86,3 @@ class TravelsSitemap(Sitemap):
 
     def lastmod(self, obj):
         return obj.last_change_at
-
