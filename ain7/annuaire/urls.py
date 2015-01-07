@@ -26,6 +26,7 @@ from django.conf.urls import patterns, url
 urlpatterns = patterns('ain7.annuaire.views',
     # Annuaire
     url(r'^$', 'search', name='annuaire-search'),
+    url(r'^search/$', 'search_adv', name='annuaire-search-advanced'),
     url(r'^add/$', 'add', name='member-add'),
     url(r'^(?P<user_id>\d+)/$', 'details', name='member-details'),
     # Edition

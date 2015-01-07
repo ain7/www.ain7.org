@@ -38,7 +38,7 @@ from ain7.annuaire.models import (
     PhoneNumber, InstantMessaging, Email, IRC,
     WebSite, ClubMembership, Person, AIn7Member, Address
 )
-from ain7.annuaire.filters import AIn7MemberFilter
+from ain7.annuaire.filters import AIn7MemberFilter, AIn7MemberAdvancedFilter
 from ain7.annuaire.forms import (
     ChangePasswordForm, PromoForm, NewMemberForm
 )
@@ -86,6 +86,21 @@ def details(request, user_id):
 def search(request):
 
     filter = AIn7MemberFilter(request.GET, queryset=AIn7Member.objects.all())
+
+    return render(request, 'annuaire/search.html', {
+        'filter': filter,
+        'request': request,
+        }
+    )
+
+
+@login_required
+def search_adv(request):
+
+    filter = AIn7MemberAdvancedFilter(
+        request.GET,
+        queryset=AIn7Member.objects.all()
+    )
 
     return render(request, 'annuaire/search.html', {
         'filter': filter,

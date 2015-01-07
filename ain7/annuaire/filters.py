@@ -36,3 +36,19 @@ class AIn7MemberFilter(django_filters.FilterSet):
             'promos__year__year': ['exact'],
             'promos__track__name': ['icontains'],
         }
+
+class AIn7MemberAdvancedFilter(django_filters.FilterSet):
+
+    class Meta:
+        model = AIn7Member
+        fields = {
+            'person__first_name': ['icontains'],
+            'person__last_name': ['icontains'],
+            'promos__year__year': ['exact'],
+            'promos__track__name': ['icontains'],
+            'person__addresses__zip_code': ['icontains'],
+            'person__addresses__city': ['icontains'],
+            'person__addresses__country': ['icontains'],
+            'positions__office__organization__name': ['icontains'],
+            'positions__fonction': ['icontains'],
+        }
