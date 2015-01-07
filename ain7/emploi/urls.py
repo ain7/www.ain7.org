@@ -52,7 +52,6 @@ urlpatterns = patterns('ain7.emploi.views',
         name='publication-add'),
     # Job offers
     url(r'^job/add/$', 'job_edit', name='job-add'),
-    url(r'^job/search/$', 'job_search', name='jobs-search'),
     url(r'^job/(?P<job_id>\d+)/$', 'job_details', name='job-details'),
     url(r'^job/(?P<job_id>\d+)/edit/$', 'job_edit', name='job-edit'),
     url(r'^job/proposals/$', 'jobs_proposals', name='jobs-proposals'),

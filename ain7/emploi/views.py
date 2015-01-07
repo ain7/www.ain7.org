@@ -21,6 +21,8 @@
 #
 #
 
+import autocomplete_light
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -69,7 +71,10 @@ def position_edit(request, user_id=None, position_id=None):
     if position_id:
         position = get_object_or_404(Position, pk=position_id)
 
-    PositionForm = modelform_factory(Position, exclude=('ain7member',))
+    PositionForm = autocomplete_light.modelform_factory(
+        Position,
+        exclude=('ain7member',),
+    )
     form = PositionForm(request.POST or None, instance=position)
 
     if request.method == 'POST' and form.is_valid():
@@ -81,9 +86,9 @@ def position_edit(request, user_id=None, position_id=None):
             _('Modifications have been successfully saved.')
         )
 
-        return redirect('cv-edit', user_id)
+        return redirect('annuaire-edit', user_id)
 
-    return render(request, 'emploi/position_edit.html', {
+    return render(request, 'annuaire/edit_form.html', {
         'form': form,
         'action_title': _("Position edit"),
         'back': request.META.get('HTTP_REFERER', '/'),
@@ -132,9 +137,9 @@ def education_edit(request, user_id=None, education_id=None):
             _('Modifications have been successfully saved.')
         )
 
-        return redirect('cv-edit', user_id)
+        return redirect('annuaire-edit', user_id)
 
-    return render(request, 'emploi/education_edit.html', {
+    return render(request, 'annuaire/edit_form.html', {
         'form': form,
         'action_title': _("Position edit"),
         'back': request.META.get('HTTP_REFERER', '/'),
@@ -180,9 +185,9 @@ def leisure_edit(request, user_id=None, leisure_id=None):
             _('Modifications have been successfully saved.')
         )
 
-        return redirect('cv-edit', user_id)
+        return redirect('annuaire-edit', user_id)
 
-    return render(request, 'emploi/leisure_edit.html', {
+    return render(request, 'annuaire/edit_form.html', {
         'form': form,
         'action_title': _("Position edit"),
         'back': request.META.get('HTTP_REFERER', '/'),
@@ -231,9 +236,9 @@ def publication_edit(request, user_id=None, publication_id=None):
             _('Modifications have been successfully saved.')
         )
 
-        return redirect('cv-edit', user_id)
+        return redirect('annuaire-edit', user_id)
 
-    return render(request, 'emploi/publication_edit.html', {
+    return render(request, 'annuaire/edit_form.html', {
         'form': form,
         'action_title': _("Position edit"),
         'back': request.META.get('HTTP_REFERER', '/'),
@@ -304,21 +309,6 @@ def job_edit(request, job_id=None):
         'form': form,
         'job': job,
         'back': request.META.get('HTTP_REFERER', '/'),
-        }
-    )
-
-
-@access_required(groups=['ain7-membre', 'ain7-secretariat'])
-def job_search(request):
-    """job search"""
-
-    filter = JobOfferFilter(
-        request.GET,
-        queryset=JobOffer.objects.filter(obsolete=False)
-    )
-
-    return render(request, 'emploi/job_search.html', {
-        'filter': filter,
         }
     )
 
