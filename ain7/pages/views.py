@@ -54,14 +54,6 @@ def homepage(request):
 
     is_auth = request.user.is_authenticated()
 
-    today = datetime.datetime.today()
-    birthdays = []
-    text1 = Text.objects.get(textblock__shortname='edito')
-    jobOffers = JobOffer.objects.filter(
-        checked_by_secretariat=True,
-        obsolete=False
-    ).order_by('-id')[:5]
-
     if is_auth:
 
         person = Person.objects.get(user=request.user.id)
@@ -69,20 +61,10 @@ def homepage(request):
             ain7member = get_object_or_404(AIn7Member, person=person)
             is_subscriber = ain7member.is_subscriber()
 
-        birthdays = [ m for m in AIn7Member.objects.filter(
-            person__birth_date__isnull=False,
-            person__birth_date__day=today.day,
-            person__birth_date__month=today.month,
-            person__personprivate__death_date=None) ]
-        birthdays.sort(lambda x, y: cmp(x.person.last_name, y.person.last_name))
-
     return render(request, 'pages/homepage.html', {
         'news': news,
         'events': events,
         'settings': settings,
-        'birthdays': birthdays,
-        'text1': text1,
-        'jobOffers': jobOffers,
         'is_subscriber': is_subscriber,
         }
     )
