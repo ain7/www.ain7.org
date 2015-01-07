@@ -58,7 +58,7 @@ def mailing_send():
 
 
 @shared_task
-def expire_membership():
+def refresh_membership():
 
     today = timezone.now().date()
     members = Group.objects.get(name=settings.AIN7_MEMBERS)
