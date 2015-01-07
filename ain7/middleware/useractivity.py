@@ -28,12 +28,15 @@
 
 import datetime
 
+from django.utils import timezone
+
 from ain7.annuaire.models import Person, UserActivity
+
 
 class UserActivityMiddleware(object):
     """
     User activity middleware. We track when a user was last active in the
-    site and store this information in the database. 
+    site and store this information in the database.
     """
 
     def process_request(self, request):
@@ -45,20 +48,23 @@ class UserActivityMiddleware(object):
                 # can't find the Person... we can do nothing, finish
                 return
 
-            now = datetime.datetime.now()
+            now = timezone.now()
             time_delta = datetime.timedelta(hours=4)
 
             user_activities = UserActivity.objects.filter(person=person)\
                 .reverse()
 
-            if len(user_activities) < 1 or now - user_activities[0].date \
-                > time_delta:
+            if (
+                len(user_activities) < 1 or
+                now - user_activities[0].date > time_delta
+            ):
                 user_activity = UserActivity()
                 user_activity.person = person
                 user_activity.date = now
-                if request.META.has_key('REMOTE_HOST'):
+                if 'REMOTE_HOST' in request.META.keys():
                     user_activity.client_address = request.META['REMOTE_HOST']
-                if request.META.has_key('HTTP_USER_AGENT'):
-                    user_activity.browser_info = request.META['HTTP_USER_AGENT']
+                if 'HTTP_USER_AGENT' in request.META.keys():
+                    user_activity.browser_info = (
+                        request.META['HTTP_USER_AGENT']
+                    )
                 user_activity.save()
-
