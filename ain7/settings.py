@@ -103,10 +103,6 @@ TEMPLATE_DIRS = DEFAULT_SETTINGS.TEMPLATE_DIRS + (
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
     'django.contrib.auth.context_processors.auth',
-    'allauth.account.context_processors.account',
-    'allauth.socialaccount.context_processors.socialaccount',
-    'ain7.context_processors.piwik',
-    'ain7.context_processors.user_groups',
 )
 
 
@@ -149,13 +145,28 @@ INSTALLED_APPS += (
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.facebook',
+#    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
+#    'allauth.socialaccount.providers.linkedin',
 )
 AUTHENTICATION_BACKENDS = DEFAULT_SETTINGS.AUTHENTICATION_BACKENDS + (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
+TEMPLATE_CONTEXT_PROCESSORS += (
+    'allauth.account.context_processors.account',
+    'allauth.socialaccount.context_processors.socialaccount',
+    'ain7.context_processors.piwik',
+    'ain7.context_processors.user_groups',
+)
+
 LOGIN_REDIRECT_URL = '/'
 SOCIALACCOUNT_QUERY_EMAIL = True
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google':
+        { 'SCOPE': ['profile', 'email'],
+          'AUTH_PARAMS': { 'access_type': 'online' } }
+}
 
 # AIn7 specific stuff
 
@@ -178,6 +189,11 @@ MIDDLEWARE_CLASSES += (
     'ain7.middleware.useractivity.UserActivityMiddleware',
     'ain7.middleware.forcelocale.ForceDefaultLanguageMiddleware',
     'ain7.middleware.portalexceptions.PortalException',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS += (
+    'ain7.context_processors.piwik',
+    'ain7.context_processors.user_groups',
 )
 
 STATICFILES_DIRS = (

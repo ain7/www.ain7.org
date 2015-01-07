@@ -48,9 +48,10 @@ urlpatterns = patterns('',
     url(r'^~(?P<user_name>\w+)/$', 'ain7.annuaire.views.home'),
 
     url(r'^accounts/login/$', 'django.contrib.auth.views.login',
-        {'template_name': 'registration/login.html'}, name='login'),
+        {'template_name': 'registration/login.html'}, name='account_login'),
     url(r'^acocunts/logout/$', 'django.contrib.auth.views.logout_then_login',
-        name='logout'),
+        name='account_logout'),
+    #url(r'^accounts/', include('allauth.urls')),
 
     # AIn7 management section
     (r'^manage/', include('ain7.manage.urls')),

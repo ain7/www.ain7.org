@@ -101,11 +101,11 @@
       <li><a href="{% url "ain7.annuaire.views.change_credentials" user.id %}">{% trans "Change credentials" %}</a></li>
       <li><a href="{% url "ain7.adhesions.views.user_subscriptions" user.id %}">{% trans "Subscriptions History" %}</a></li>
       <li class="divider"></li>
-      <li><a href="{% url "logout" %}">{% trans "Logout" %}</a></li>
+      <li><a href="{% url "account_logout" %}">{% trans "Logout" %}</a></li>
     </ul>
  </li>
 {% else %}
-    <li><a href="/accounts/login/?next={{ request.path }}">{% trans "Log-in" %}</a></li>
+<li><a href="{% url "account_login" %}">{% trans "Log-in" %}</a></li>
 {% endif %}
 
                                                         </ul>
