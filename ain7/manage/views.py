@@ -552,7 +552,7 @@ def mailing_edit(request, mailing_id=None):
         mailing.modified_by = request.user.person
         mailing.save()
         messages.success(request, _('Mailing successfully updated'))
-        return redirect(mailing)
+        return redirect('mailings-index')
 
     return render(request, 'manage/mailing_edit.html', {
         'mailing': mailing,
@@ -602,7 +602,7 @@ def mailing_export(request, mailing_id):
 
     mailing = get_object_or_404(Mailing, pk=mailing_id)
 
-    response = HttpResponse(mimetype='text/csv')
+    response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = \
         'attachment; filename=mailing_'+str(mailing_id)+'.csv'
 

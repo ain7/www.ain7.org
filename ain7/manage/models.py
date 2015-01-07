@@ -32,22 +32,30 @@ from django.contrib.auth.models import User
 class PortalError(models.Model):
     """portal error"""
 
-    title = models.CharField(verbose_name=_('title'), max_length=200, 
-        null=True, blank=True)
-    user = models.ForeignKey(User, verbose_name=_('user'), 
-        blank=True, null=True)
+    title = models.CharField(
+        verbose_name=_('title'), max_length=200, null=True, blank=True,
+    )
+    user = models.ForeignKey(
+        User, verbose_name=_('user'), blank=True, null=True
+    )
     date = models.DateTimeField(verbose_name=_('Date'))
     url = models.CharField(verbose_name=_('url'), max_length=500)
-    referer = models.CharField(verbose_name=_('Referrer'), max_length=200,
-        null=True, blank=True)
-    browser_info = models.CharField(verbose_name=_('Browser info'), 
-        max_length=200, null=True, blank=True)
-    client_address = models.CharField(verbose_name=_('Client address'), 
-        max_length=200, null=True, blank=True)
+    referer = models.CharField(
+        verbose_name=_('Referrer'), max_length=200, null=True, blank=True,
+    )
+    browser_info = models.CharField(
+        verbose_name=_('Browser info'), max_length=200, null=True, blank=True,
+    )
+    client_address = models.CharField(
+        verbose_name=_('Client address'), max_length=200, null=True, blank=True
+    )
     exception = models.TextField(verbose_name=_('Exception'))
-    comment = models.TextField(verbose_name=_('Comment'), null=True, blank=True)
-    issue = models.CharField(verbose_name=_('Issue'), max_length=20, 
-        null=True, blank=True)
+    comment = models.TextField(
+        verbose_name=_('Comment'), null=True, blank=True
+    )
+    issue = models.CharField(
+        verbose_name=_('Issue'), max_length=20, null=True, blank=True
+    )
     fixed = models.BooleanField(verbose_name=_('fixed'), default=False)
 
 
@@ -58,36 +66,45 @@ class Filter(models.Model):
 
     label = models.CharField(max_length=20)
     description = models.CharField(max_length=200)
-    filter = models.IntegerField(verbose_name=_('filter'),
-        choices=FILTERS, default=0)
+    filter = models.IntegerField(
+        verbose_name=_('filter'), choices=FILTERS, default=0
+    )
 
     def __unicode__(self):
         """return unicode string for Filter object"""
         return self.label
+
 
 class Mailing(models.Model):
     """Mailing model"""
 
     title = models.CharField(max_length=500)
     description = models.CharField(max_length=500, null=True, blank=True)
-    toc = models.BooleanField(verbose_name=_('Table of contents'),
-        default=False)
+    toc = models.BooleanField(
+        verbose_name=_('Table of contents'), default=False
+    )
 
     mail_to = models.ForeignKey('manage.Filter', verbose_name=_('Mail to'))
 
     introduction = models.TextField(blank=True, null=True)
 
     approved_at = models.DateTimeField(auto_now_add=True)
-    approved_by = models.ForeignKey('annuaire.Person',
-        related_name="mailing_approved", null=True, blank=True)
+    approved_by = models.ForeignKey(
+        'annuaire.Person', related_name='mailing_approved',
+        null=True, blank=True,
+    )
     sent_at = models.DateTimeField(null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey('annuaire.Person', 
-        related_name="mailing_created", null=True, blank=True)
+    created_by = models.ForeignKey(
+        'annuaire.Person', related_name='mailing_created',
+        null=True, blank=True,
+    )
     modified_at = models.DateTimeField(auto_now=True)
-    modified_by = models.ForeignKey('annuaire.Person', 
-        related_name="mailing_modified", null=True, blank=True)
+    modified_by = models.ForeignKey(
+        'annuaire.Person', related_name='mailing_modified',
+        null=True, blank=True,
+    )
 
     def __unicode__(self):
         """return unicode string for Mailing object"""
@@ -131,7 +148,6 @@ class Mailing(models.Model):
 
         import smtplib
 
-        from django.db.models import permalink
         from django.core.urlresolvers import reverse
         from email.header import make_header
         from email.mime.text import MIMEText
@@ -170,8 +186,9 @@ class Mailing(models.Model):
             recipients = Person.objects.filter(user__id=request.user.id)
 
         if testing and not myself:
-            recipients = Person.objects.filter(\
-                groups__group__slug='ain7-mailing-tester')
+            recipients = Person.objects.filter(
+                groups__group__slug='ain7-mailing-tester'
+            )
 
         if not testing:
             recipients = Person.objects.filter(FILTERS[self.mail_to.filter][1])
@@ -185,17 +202,20 @@ class Mailing(models.Model):
             first_name = recipient.first_name
             last_name = recipient.last_name
 
-            mail_modified = mail.replace('@','=')
+            mail_modified = mail.replace('@', '=')
 
             del(msg['From'])
-            msg['From'] = u'Association AIn7 <noreply+'+\
+            msg['From'] = u'Association AIn7 <noreply+' + \
                 mail_modified+'@ain7.com>'
             del(msg['To'])
             msg['To'] = first_name+' '+last_name+' <'+mail+'>'
 
             try:
-                smtp.sendmail('noreply+'+mail_modified+'@ain7.com', mail, 
-                    msg.as_string())
+                smtp.sendmail(
+                    'noreply+'+mail_modified+'@ain7.com',
+                    mail,
+                    msg.as_string(),
+                )
 
                 mailingrecipient = MailingRecipient()
                 mailingrecipient.person = recipient
@@ -218,8 +238,11 @@ class Mailing(models.Model):
         from ain7.annuaire.models import Person
         from ain7.filters_local import FILTERS
 
-        return Person.objects.filter(FILTERS[self.mail_to.filter][1], 
-            emails__isnull=True, addresses__isnull=False)
+        return Person.objects.filter(
+            FILTERS[self.mail_to.filter][1],
+            emails__isnull=True,
+            addresses__isnull=False,
+        )
 
 
 class MailingItem(models.Model):
@@ -227,6 +250,7 @@ class MailingItem(models.Model):
 
     mailing = models.ForeignKey('manage.Mailing')
     newsitem = models.ForeignKey('news.NewsItem')
+
 
 class MailingRecipient(models.Model):
     """Mailing Recipient"""
@@ -245,4 +269,3 @@ class MailingLink(models.Model):
     key = models.CharField(max_length=50, unique=True)
     link = models.CharField(max_length=200)
     accessed = models.BooleanField(default=False)
-
