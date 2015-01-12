@@ -468,19 +468,17 @@ def subscriptions_stats(request, the_year=datetime.date.today().year):
     ):
         total_amount += subs.dues_amount
 
-    subscriptions_amount_magazine = 0
-    for subs in Subscription.objects.filter(
-        member__promos__year__year__lt=this_year,
-        start_year=this_year,
-        validated=True,
-    ):
-        if subs.newspaper_amount:
-            subscriptions_amount_magazine += subs.newspaper_amount
-
-    subscriptions_number_magazine = Subscription.objects.filter(
+    subscriptions_magazine = Subscription.objects.filter(
         start_year=this_year,
         newspaper_amount__gt=0,
-    ).count()
+        validated=True,
+    )
+
+    subscriptions_magazine_amount = subscriptions_magazine.aggregate(
+        total=Sum('newspaper_amount')
+    )['total']
+
+    subscriptions_magazine_number = subscriptions_magazine.count()
 
     return render(request, 'manage/subscriptions_stats.html', {
         'range': range(
@@ -491,8 +489,8 @@ def subscriptions_stats(request, the_year=datetime.date.today().year):
         'stats_months': stats_months,
         'stats_year': stats_year,
         'total_amount': total_amount,
-        'subscriptions_number_magazine': subscriptions_number_magazine,
-        'subscriptions_amount_magazine': subscriptions_amount_magazine,
+        'subscriptions_magazine_number': subscriptions_magazine_number,
+        'subscriptions_magazine_amount': subscriptions_magazine_amount,
         }
     )
 
@@ -530,18 +528,23 @@ def subscribers_csv(request, the_year=datetime.date.today().year, normal=True, s
 
     if magazine:
         subscriptions = subscriptions.filter(
-            member__promos__year__year__gt=int(the_year)-1,
             newspaper_amount__gt=0,
         )
 
     for sub in subscriptions:
         try:
+
+            if normal or students:
+                amount = sub.dues_amount
+            else:
+                amount = sub.newspaper_amount
+
             writer.writerow([
                 sub.member.person.first_name.encode('utf-8'),
                 sub.member.person.last_name.encode('utf-8'),
                 sub.member.promo(),
                 sub.member.track().encode('utf-8'),
-                sub.dues_amount,
+                amount,
                 sub.date,
                 ]
             )

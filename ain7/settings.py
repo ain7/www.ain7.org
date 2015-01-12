@@ -202,7 +202,7 @@ STATICFILES_DIRS = (
 )
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'ain7', 'media')
-STATIC_ROOT = os.path.join(BASE_DIR, 'ain7', 'static')
+#STATIC_ROOT = os.path.join(BASE_DIR, 'ain7', 'static')
 
 PIWIK_ENABLED = False
 PIWIK_URL = 'http://localhost/piwik/'
