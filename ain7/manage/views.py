@@ -483,6 +483,9 @@ def subscriptions_stats(request, the_year=datetime.date.today().year):
     ).count()
 
     return render(request, 'manage/subscriptions_stats.html', {
+        'range': range(
+            datetime.date.today().year - 10, datetime.date.today().year+1
+            ),
         'year': this_year,
         'stats_subs': stats_subs,
         'stats_months': stats_months,

@@ -4,6 +4,14 @@
 
 {% block content-left %}
 
+<nav>
+  <ul class="pagination">
+    {% for year in range %}
+    <li><a href="{% url "subscriptions-stats-per-year" year %}">{{ year }}</a></li>
+    {% endfor %}
+  </ul>
+</nav>
+
 <h2>{% trans "Subscriptions Statistics"%} {{ year }}</h2>
 
 <table class="table table-bordered table-striped">
