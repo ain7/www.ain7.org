@@ -34,31 +34,40 @@ class Subscription(LoggedClass):
     """
 
     TENDER_TYPE = (
-                   (1, _('Cash')),
-                   (2, _('Cheque')),
-                   (4, _('Card')),
-                   (5, _('Transfer')),
-                   (6, _('Other')),
-                   )
+        (1, ('Cash')),
+        (2, _('Cheque')),
+        (4, _('Card')),
+        (5, _('Transfer')),
+        (6, _('Other')),
+    )
+
     # For potential backward compatibility
-    old_id = models.IntegerField(verbose_name='old id', blank=True, null=True,
-        unique=True)
+    old_id = models.IntegerField(
+        verbose_name='old id', blank=True, null=True, unique=True
+    )
 
-    member = models.ForeignKey('annuaire.AIn7Member', verbose_name=_('member'),
-        related_name='subscriptions')
+    member = models.ForeignKey(
+        'annuaire.AIn7Member', verbose_name=_('member'),
+        related_name='subscriptions',
+    )
 
-    payment = models.ForeignKey('shop.Payment', verbose_name=_('payment'), 
-        null=True, related_name='subscriptions')
+    payment = models.ForeignKey(
+        'shop.Payment', verbose_name=_('payment'),
+        null=True, related_name='subscriptions',
+    )
 
     dues_amount = models.FloatField(verbose_name=_('Dues amount'))
-    newspaper_amount = models.FloatField(verbose_name=_('Newspaper amount'), 
-        null=True, blank=True)
-    tender_type = models.IntegerField(verbose_name=_('Tender type'), 
-        choices=TENDER_TYPE)
+    newspaper_amount = models.FloatField(
+        verbose_name=_('Newspaper amount'), null=True, blank=True,
+    )
+    tender_type = models.IntegerField(
+        verbose_name=_('Tender type'), choices=TENDER_TYPE,
+    )
     validated = models.BooleanField(verbose_name=_('validated'), default=False)
 
-    date = models.DateTimeField(verbose_name=_('subscription date'),
-        null=True, blank=True)
+    date = models.DateTimeField(
+        verbose_name=_('subscription date'), null=True, blank=True,
+    )
 
     start_year = models.IntegerField(verbose_name=_('start year'))
     end_year = models.IntegerField(verbose_name=_('end year'))
@@ -72,31 +81,35 @@ class Subscription(LoggedClass):
         verbose_name = _('Subscription')
         ordering = ['id']
 
+
 class SubscriptionConfiguration(models.Model):
     """
     AIn7Member Subscription Configuration
     """
 
     TYPE = (
-            (0, _('Promotions before %(year)s') % \
-                 {'year': datetime.date.today().year-5}),
-            (1, _('Promotions from %(start_year)s to %(end_year)s') % \
-                 {'start_year': datetime.date.today().year-5, \
-                 'end_year': datetime.date.today().year-1}),
-            (2, _('Retired')),
-            (3, _('Donator')),
-            (4, _('Unemployed (with voucher)')),
-            (5, _('Student, for three years')),
-            (6, _('Student, for two years')),
-            (7, _('Student, for one year')),
-            (8, _('Couple')),
-            (9, _('Support')),
-            )
+        (0, _('Promotions before %(year)s') % {
+            'year': datetime.date.today().year-5
+            }),
+        (1, _('Promotions from %(start_year)s to %(end_year)s') % {
+            'start_year': datetime.date.today().year-5,
+            'end_year': datetime.date.today().year-1,
+            }),
+        (2, _('Retired')),
+        (3, _('Donator')),
+        (4, _('Unemployed (with voucher)')),
+        (5, _('Student, for three years')),
+        (6, _('Student, for two years')),
+        (7, _('Student, for one year')),
+        (8, _('Couple')),
+        (9, _('Support')),
+    )
 
     type = models.IntegerField(verbose_name=_('Type'), choices=TYPE)
     dues_amount = models.IntegerField(verbose_name=_('Dues amount'))
-    newspaper_amount = models.IntegerField(verbose_name=_('Newspaper amount'),
-         null=True, blank=True)
+    newspaper_amount = models.IntegerField(
+        verbose_name=_('Newspaper amount'), null=True, blank=True,
+    )
     duration = models.IntegerField(verbose_name=_('Duration'), default=1)
     year = models.IntegerField(verbose_name=_('Year'))
 
@@ -107,4 +120,3 @@ class SubscriptionConfiguration(models.Model):
     class Meta:
         """Meta"""
         verbose_name = _('Configuration')
-
