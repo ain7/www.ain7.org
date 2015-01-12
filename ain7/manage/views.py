@@ -468,14 +468,19 @@ def subscriptions_stats(request, the_year=datetime.date.today().year):
     ):
         total_amount += subs.dues_amount
 
-    total_publications = 0
+    subscriptions_amount_magazine = 0
     for subs in Subscription.objects.filter(
         member__promos__year__year__lt=this_year,
         start_year=this_year,
         validated=True,
     ):
         if subs.newspaper_amount:
-            total_publications += subs.newspaper_amount
+            subscriptions_amount_magazine += subs.newspaper_amount
+
+    subscriptions_number_magazine = Subscription.objects.filter(
+        start_year=this_year,
+        newspaper_amount__gt=0,
+    ).count()
 
     return render(request, 'manage/subscriptions_stats.html', {
         'year': this_year,
@@ -483,9 +488,64 @@ def subscriptions_stats(request, the_year=datetime.date.today().year):
         'stats_months': stats_months,
         'stats_year': stats_year,
         'total_amount': total_amount,
-        'total_publications': total_publications,
+        'subscriptions_number_magazine': subscriptions_number_magazine,
+        'subscriptions_amount_magazine': subscriptions_amount_magazine,
         }
     )
+
+
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
+def subscribers_csv(request, the_year=datetime.date.today().year, normal=True, students=False, magazine=False):
+    """have some subscriptions statistics"""
+
+    import csv
+
+    from django.http import HttpResponse
+
+    from ain7.adhesions.models import Subscription
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = \
+        'attachment; filename=adhesions.csv'
+
+    writer = csv.writer(response)
+
+    subscriptions = Subscription.objects.filter(
+        start_year=the_year,
+        validated=True,
+    ).distinct()
+
+    if normal:
+        subscriptions = subscriptions.exclude(
+            member__promos__year__year__gt=int(the_year)-1,
+        )
+
+    if students:
+        subscriptions = subscriptions.exclude(
+            member__promos__year__year__lte=int(the_year)-1,
+        )
+
+    if magazine:
+        subscriptions = subscriptions.exclude(
+            member__promos__year__year__gt=int(the_year)-1,
+            newspaper_amount__gt=0,
+        )
+
+    for sub in subscriptions:
+        try:
+            writer.writerow([
+                sub.member.person.first_name.encode('utf-8'),
+                sub.member.person.last_name.encode('utf-8'),
+                sub.member.promo(),
+                sub.member.track().encode('utf-8'),
+                sub.dues_amount,
+                sub.date,
+                ]
+            )
+        except Exception:
+            pass
+
+    return response
 
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])

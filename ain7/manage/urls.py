@@ -48,7 +48,22 @@ urlpatterns = patterns('ain7.manage.views',
 
     # Subscriptions
     (r'^subscriptions/$', 'subscriptions_stats'),
-    url(r'^subscriptions/(?P<the_year>\d+)/$', 'subscriptions_stats', name='subscriptions-stats-per-year'),
+    url(
+        r'^subscriptions/(?P<the_year>\d+)/$', 'subscriptions_stats',
+        name='subscriptions-stats-per-year',
+    ),
+    url(
+        r'^subscriptions/(?P<the_year>\d+)/csv/$', 'subscribers_csv',
+        name='subscribers-csv',
+    ),
+    url(
+        r'^subscriptions/(?P<the_year>\d+)/students/csv/$', 'subscribers_csv',
+        {'normal': False, 'students': True}, name='subscribers-students-csv',
+    ),
+    url(
+        r'^subscriptions/(?P<the_year>\d+)/magazine/csv/$', 'subscribers_csv',
+        {'normal': False, 'magazine': True}, name='subscribers-magazine-csv',
+    ),
 
     # mailings
     url(r'^mailings/$', 'mailings_index', name='mailings-index'),
