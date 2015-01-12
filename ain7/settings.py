@@ -163,9 +163,10 @@ LOGIN_REDIRECT_URL = '/'
 SOCIALACCOUNT_QUERY_EMAIL = True
 
 SOCIALACCOUNT_PROVIDERS = {
-    'google':
-        { 'SCOPE': ['profile', 'email'],
-          'AUTH_PARAMS': { 'access_type': 'online' } }
+    'google': {
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {'access_type': 'online'}
+    }
 }
 
 # AIn7 specific stuff
@@ -201,6 +202,7 @@ STATICFILES_DIRS = (
 )
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'ain7', 'media')
+STATIC_ROOT = os.path.join(BASE_DIR, 'ain7', 'static')
 
 PIWIK_ENABLED = False
 PIWIK_URL = 'http://localhost/piwik/'
