@@ -529,7 +529,7 @@ def subscribers_csv(request, the_year=datetime.date.today().year, normal=True, s
         )
 
     if magazine:
-        subscriptions = subscriptions.exclude(
+        subscriptions = subscriptions.filter(
             member__promos__year__year__gt=int(the_year)-1,
             newspaper_amount__gt=0,
         )
