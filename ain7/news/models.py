@@ -181,4 +181,5 @@ class NewsItem(LoggedClass):
 
     class Meta:
         """news item meta information"""
+        ordering = ['-creation_date']
         verbose_name = _('news item')

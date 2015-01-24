@@ -46,7 +46,7 @@ def index(request):
     """news index page"""
     news = NewsItem.objects.exclude(
         body__isnull=True,
-    ).order_by('-creation_date')[:20]
+    )
     page_title = 'Actualités'
     return render(request, 'news/index.html', {
         'news': news,
