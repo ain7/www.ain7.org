@@ -58,10 +58,15 @@
 {% else %}
 
 <form method="post" action="." class="form-horizontal">
+{% csrf_token %}
 {{ form|crispy }}
 <div class="form-group">                                                        
 <button type="submit" class="btn btn-default">{% trans "Save" %}</button>
+{% if organization %}
 <a href="{% url 'organization-edit' organization.id %}">{% trans "Cancel" %}</a>
+{% else %}
+<a href="{% url 'organization-index' %}">{% trans "Cancel" %}</a>
+{% endif %}
 </div>
 </form>
 

@@ -24,21 +24,52 @@
 from django.conf.urls import patterns, url
 
 urlpatterns = patterns('ain7.organizations.views',
+
     # Organizations
-    url(r'^$', 'organization_search'),
+    url(r'^$', 'organization_search', name='organization-index'),
     url(r'^add/', 'organization_edit'),
-    url(r'^(?P<organization_id>\d+)/$', 'organization_details', name='organization-details'),
-    url(r'^(?P<organization_id>\d+)/edit/$', 'organization_edit', name='organization-edit'),
+    url(
+        r'^(?P<organization_id>\d+)/$',
+        'organization_details',
+        name='organization-details'
+    ),
+    url(
+        r'^(?P<organization_id>\d+)/edit/$',
+        'organization_edit',
+        name='organization-edit'),
     url(r'^(?P<organization_id>\d+)/delete/$', 'organization_delete'),
-    (r'^(?P<organization_id>\d+)/undelete/$', 'organization_undelete'),
-    (r'^(?P<org1_id>\d+)/merge/(?P<org2_id>\d+)/$', 'organization_merge_perform'),
+    url(r'^(?P<organization_id>\d+)/undelete/$', 'organization_undelete'),
+    url(
+        r'^(?P<org1_id>\d+)/merge/(?P<org2_id>\d+)/$',
+        'organization_merge_perform'
+    ),
 
     # Offices
-    url(r'^(?P<organization_id>\d+)/offices/add/$', 'office_edit', name='office-add'),
-    url(r'^(?P<organization_id>\d+)/offices/(?P<office_id>\d+)/edit/$', 'office_edit', name='office-edit'),
-    (r'^(?P<organization_id>\d+)/offices/(?P<office_id>\d+)/delete/$', 'office_delete'),
-    (r'^(?P<organization_id>\d+)/offices/(?P<office_id>\d+)/undelete/$', 'organization_undelete'),
-    (r'^(?P<organization_id>\d+)/offices/(?P<office_id>\d+)/merge/$', 'office_merge'),
-    (r'^(?P<organization_id>\d+)/offices/(?P<office1_id>\d+)/merge/(?P<office2_id>\d+)/$', 'office_merge_perform'),
+    url(
+        r'^(?P<organization_id>\d+)/offices/add/$',
+        'office_edit',
+        name='office-add'
+    ),
+    url(
+        r'^(?P<organization_id>\d+)/offices/(?P<office_id>\d+)/edit/$',
+        'office_edit',
+        name='office-edit'
+    ),
+    url(
+        r'^(?P<organization_id>\d+)/offices/(?P<office_id>\d+)/delete/$',
+        'office_delete',
+    ),
+    url(
+        r'^(?P<organization_id>\d+)/offices/(?P<office_id>\d+)/undelete/$',
+        'organization_undelete',
+    ),
+    url(
+        r'^(?P<organization_id>\d+)/offices/(?P<office_id>\d+)/merge/$',
+        'office_merge',
+    ),
+    url(
+        r'^(?P<organization_id>\d+)/offices/(?P<office1_id>\d+)/merge/(?P<office2_id>\d+)/$',
+        'office_merge_perform',
+    ),
 
 )

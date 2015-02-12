@@ -32,7 +32,7 @@ urlpatterns = patterns('ain7.manage.views',
 
     # Errors
     url(r'^errors/$', 'errors_index', name='errors-index'),
-    (r'^errors/(?P<error_id>\d+)/$', 'error_details'),
+    url(r'^errors/(?P<error_id>\d+)/$', 'error_details', name='error-details'),
     (r'^errors/edit_range/$', 'errors_edit_range'),
     (r'^errors/(?P<error_id>\d+)/swap/$', 'error_swap'),
 

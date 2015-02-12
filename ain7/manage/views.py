@@ -102,7 +102,9 @@ def error_details(request, error_id):
 
     error = get_object_or_404(PortalError, pk=error_id)
 
-    PortalErrorForm = modelform_factory(PortalError)
+    PortalErrorForm = modelform_factory(
+        PortalError, fields=('comment', 'issue', 'fixed')
+    )
     form = PortalErrorForm(request.POST or None, instance=error)
 
     from pygments import highlight
@@ -275,7 +277,8 @@ def subscriptions_stats(request, the_year=datetime.date.today().year):
         # Cotisations à taux pleins hors élèves:
         diplomees_number = Subscription.objects.filter(
             member__promos__year__year__lte=last_promo, start_year=year,
-            validated=True).distinct().count()
+            validated=True
+        ).distinct().count()
 
         # Cotisation à taux plein:
         full_price = SubscriptionConfiguration.objects.get(
@@ -390,16 +393,18 @@ def subscriptions_stats(request, the_year=datetime.date.today().year):
         other_amount = total_amount - unemployed_amount - bienfaiteur_amount - \
             retired_amount - young_amount - full_amount
 
-        stats_subs.append({'year': year,
-                           'diplomees': diplomees_number,
-                           'full': full_number,
-                           'young': young_number,
-                           'retired': retired_number,
-                           'bienfaiteur': bienfaiteur_number,
-                           'unemployed': unemployed_number,
-                           'other': other_number,
-                           'students': students_number,
-                           'total': total_number})
+        stats_subs.append({
+            'year': year,
+            'diplomees': diplomees_number,
+            'full': full_number,
+            'young': young_number,
+            'retired': retired_number,
+            'bienfaiteur': bienfaiteur_number,
+            'unemployed': unemployed_number,
+            'other': other_number,
+            'students': students_number,
+            'total': total_number,
+        })
 
         if year == this_year:
             stats_year = {

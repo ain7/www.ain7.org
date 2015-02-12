@@ -23,6 +23,7 @@
 
 import datetime
 
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext as _
 
@@ -113,6 +114,9 @@ class Organization(LoggedClass):
     def __unicode__(self):
         """organization unicode"""
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('organization-details', args=[self.id])
 
     def print_size(self):
         """print organization size"""

@@ -1,6 +1,7 @@
 {% extends "manage/base.html" %}
 
 {% load i18n ain7_tags %}
+{% load crispy_forms_tags %}
 {% load static from staticfiles %}
 
 {% block stylesheet %}
@@ -40,9 +41,8 @@
 </div>
 
 <form method="post" action=".">
-<table>
-{{ form }}
-</table>
+{% csrf_token %}
+{{ form|crispy }}
 <div style="text-align: center">
 <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
 </div>

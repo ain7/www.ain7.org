@@ -24,6 +24,7 @@
 import datetime
 
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
@@ -57,6 +58,9 @@ class PortalError(models.Model):
         verbose_name=_('Issue'), max_length=20, null=True, blank=True
     )
     fixed = models.BooleanField(verbose_name=_('fixed'), default=False)
+
+    def get_absolute_url(self):
+        return reverse('error-details', args=[self.id])
 
 
 class Filter(models.Model):
