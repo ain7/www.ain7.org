@@ -296,7 +296,7 @@ def job_edit(request, job_id=None):
     if job_id:
         job = get_object_or_404(JobOffer, pk=job_id)
 
-    JobOfferForm = modelform_factory(JobOffer, exclude=())
+    JobOfferForm = autocomplete_light.modelform_factory(JobOffer, exclude=())
     form = JobOfferForm(request.POST or None, instance=job)
 
     if request.method == 'POST' and form.is_valid():

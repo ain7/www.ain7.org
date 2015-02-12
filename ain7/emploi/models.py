@@ -175,9 +175,8 @@ class JobOffer(LoggedClass):
     )
     contract_type = models.IntegerField(
         verbose_name=_('Contract type'), choices=JOB_TYPES,
-        blank=True, null=True
     )
-    office = models.ForeignKey('organizations.Office', blank=True, null=True)
+    office = models.ForeignKey('organizations.Office')
     contact_name = models.CharField(
         verbose_name=_('Contact name'), max_length=80, blank=True, null=True
     )
@@ -207,6 +206,11 @@ class JobOffer(LoggedClass):
         'annuaire.Person', verbose_name=_('author'),
         related_name='job_offers_modified', editable=False, null=True
     )
+
+    class Meta:
+        """job offer meta"""
+        verbose_name = _('Job Offer')
+        ordering = ['-id']
 
     def save(self, *args, **kwargs):
         if not self.created_at:
