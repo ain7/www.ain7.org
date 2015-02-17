@@ -3,9 +3,9 @@
 
 {% block content-left %}
 
-<ul>
+<ul class="list-group">
 {% for group in groups %}
-   <li><a href="{% url "ain7.groups.views.details" group.slug %}">{{ group }}</a></li>
+   <li class="list-group-item"><a href="{% url "ain7.groups.views.details" group.slug %}">{{ group }}</a></li>
 {% endfor %}
 </ul>
 
