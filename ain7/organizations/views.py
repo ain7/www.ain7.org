@@ -21,6 +21,7 @@
 #
 #
 
+import autocomplete_light
 import datetime
 
 from django.contrib import messages
@@ -216,7 +217,10 @@ def office_edit(request, organization_id, office_id=None):
             Office, id=office_id, organization=organization,
         )
 
-    OfficeForm = modelform_factory(Office)
+    OfficeForm = autocomplete_light.modelform_factory(
+        Office,
+        exclude=('old_id','is_valid','is_a_proposal', 'modification_of', 'modification_date', 'organization'),
+    )
     form = OfficeForm(request.POST or None, instance=office)
 
     if request.method == 'POST' and form.is_valid():
@@ -251,6 +255,8 @@ def office_edit(request, organization_id, office_id=None):
 
     return render(request, 'organizations/office_edit.html', {
         'form': form,
+        'organization': organization,
+        'office': office,
         'title': _('Modify an office'),
         }
     )

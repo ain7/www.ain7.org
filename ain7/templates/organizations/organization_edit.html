@@ -4,72 +4,17 @@
 
 {% block content-left %}
 
-{% if organization %}
-<h2>{{ organization.name }}</h2>
-
-{% if organization.employment_agency %}
-<p>{% filter capfirst %}{% trans "employment agency" %}{% endfilter %}</p>
-{% else %}
-<p>{% trans "Not an employment agency" %}</p>
-{% endif %}
-
-{% if organization.short_description %}
-<p>{{ organization.short_description }}</p>
-{% endif %}
-
-{% if organization.long_description %}
-{{ organization.long_description|safe }}
-{% endif %}
-
-{% if organization.activity_field %}
-<p>{% trans "Activity field" %} : {{ organization.activity_field }}</p>
-{% endif %}
-
-{% if organization.size %}
-<p>{% trans "Size"%} : {{ organization.print_size }}</p>
-{% endif %}
-
-{% if organization.field %}
-{{ organization.field }}
-{% endif %}
-
-<ul class="list-inline">
-    <li><a class="btn btn-primary" href="{% url "ain7.organizations.views.organization_edit" organization.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></li>
-    <li><a class="btn btn-primary" href="{% url "ain7.organizations.views.organization_delete" organization.id %}"><i class="fa fa-trash-o fa-lg"></i> {% trans "Delete" %}</a></li>
-</ul>
-
-<h2>{% trans "List of offices" %}</h2>
-<ul>
-{% for office in organization.offices.all %}
-
-{{ office }}
-
-  {% if office.is_valid and not office.is_a_proposal %}
-    <li>{{ office }} {{ office.line1|default:"" }} {{ office.line2|default:"" }} {{ office.zip_code|default:"" }} {{ office.city|default:"" }} {{ office.country|default:"" }}
-    <a class="btn btn-primary" href="{% url "ain7.organizations.views.office_edit" organization.id office.id %}"><i class="fa fa-pencil fa-lg"></i>  {% trans "Modify" %}</a>
-    <a class="btn btn-primary" href="{% url "ain7.organizations.views.office_delete" organization.id office.id %}"><i class="fa fa-trash-o fa-lg"></i>  {% trans "Delete" %}</a>
-    </li>
-  {% endif %}
-{% endfor %}
-</ul>
-<a class="btn btn-primary" href="{% url "ain7.organizations.views.office_edit" organization.id %}"><i class="fa fa-plus fa-lg"></i>  {% trans "Add" %}</a>
-
-</div>
-{% else %}
-
 <form method="post" action="." class="form-horizontal">
 {% csrf_token %}
 {{ form|crispy }}
 <div class="form-group">                                                        
 <button type="submit" class="btn btn-default">{% trans "Save" %}</button>
 {% if organization %}
-<a href="{% url 'organization-edit' organization.id %}">{% trans "Cancel" %}</a>
+<a href="{% url 'organization-details' organization.id %}">{% trans "Cancel" %}</a>
 {% else %}
 <a href="{% url 'organization-index' %}">{% trans "Cancel" %}</a>
 {% endif %}
 </div>
 </form>
-
-{% endif %}
 
 {% endblock %}

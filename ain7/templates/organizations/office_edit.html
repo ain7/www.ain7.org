@@ -11,13 +11,12 @@
 {% endif %}
 
 <form method="post" action="." class="form-horizontal">
+{% csrf_token %}
 {{ form|crispy }}
 <div class="control-group">
 <div class="controls">
 <button class="btn btn-primary" type="submit">{% trans "Save" %}</button>
-{% if office %}
-<a href="{% url 'office-edit' office.id %}">{% trans "Cancel" %}</a>
-{% endif %}
+<a href="{% url 'organization-details' organization.id %}">{% trans "Cancel" %}</a>
 </div>
 </div>
 </form>
