@@ -159,6 +159,7 @@ TEMPLATE_CONTEXT_PROCESSORS += (
     'ain7.context_processors.user_groups',
 )
 
+
 LOGIN_REDIRECT_URL = '/'
 SOCIALACCOUNT_QUERY_EMAIL = True
 
@@ -223,6 +224,11 @@ SYSTEM_PAY_CERTIFICATE = '1234567890912345'
 SYSTEM_PAY_MODE = 'TEST'
 
 AIN7_SIRET = '0000000000000001-001'
+
+from django.contrib.messages import constants as message_constants
+MESSAGE_TAGS = {
+    message_constants.ERROR: 'danger',
+}
 
 try:
     from settings_local import *

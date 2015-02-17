@@ -47,7 +47,7 @@ urlpatterns = patterns('ain7.manage.views',
      +r'(?P<last_deposit_id>\d+)/$', 'payments_mark_deposited'),
 
     # Subscriptions
-    (r'^subscriptions/$', 'subscriptions_stats'),
+    url(r'^subscriptions/$', 'subscriptions_stats'),
     url(
         r'^subscriptions/(?P<the_year>\d+)/$', 'subscriptions_stats',
         name='subscriptions-stats-per-year',
@@ -64,6 +64,8 @@ urlpatterns = patterns('ain7.manage.views',
         r'^subscriptions/(?P<the_year>\d+)/magazine/csv/$', 'subscribers_csv',
         {'normal': False, 'magazine': True}, name='subscribers-magazine-csv',
     ),
+
+    url(r'^sitestats/$', 'site_stats'),
 
     # mailings
     url(r'^mailings/$', 'mailings_index', name='mailings-index'),

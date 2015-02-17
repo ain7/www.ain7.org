@@ -46,6 +46,7 @@ class AIn7MemberAdvancedFilter(django_filters.FilterSet):
             'person__last_name': ['icontains'],
             'promos__year__year': ['exact'],
             'promos__track__name': ['icontains'],
+            'promos__track__school__name': ['icontains'],
             'person__addresses__zip_code': ['icontains'],
             'person__addresses__city': ['icontains'],
             'person__addresses__country': ['icontains'],

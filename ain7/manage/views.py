@@ -697,3 +697,10 @@ def mailing_export(request, mailing_id):
             pass
 
     return response
+
+@access_required(groups=['ain7-ca', 'ain7-secretariat'])
+def site_stats(request):
+
+    return render(request, 'manage/site_stats.html', {
+        }
+    )
