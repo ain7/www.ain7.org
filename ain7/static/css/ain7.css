@@ -23,6 +23,49 @@ span.asteriskField {
 }
 
 .menu {
-        text-transform:none;
+    text-transform:none;
 }
 
+@media all and (min-width:980px) {
+
+.navbar-brand {
+    padding: 5px 5px;
+}
+
+.navbar-nav {
+    border-bottom: 0;
+}
+.navbar-nav > li {
+    float: left;
+    margin-bottom: 0;
+}
+.navbar-nav > li > a {
+	margin-top:10px;
+	margin-bottom:10px;
+	margin-right: 20px;
+	line-height: 1.42857143;
+	border-bottom: 3px solid transparent;
+	border-radius:0;
+	color:#000;
+	border-top:0;
+	border-right:0;
+	border-left:0;	
+}
+
+.navbar-nav > li > a:hover {
+  border-color: #eee #eee #50c0e9;
+   color: #50c0e9;
+  border-radius:0;
+  background-color:#f9f9f9;
+}
+.navbar-nav > li.active > a,
+.navbar-nav > li.active > a:hover,
+.navbar-nav > li.active > a:focus {
+  color: #fff;
+  cursor: default;
+  background-color: #50c0e9;
+  border: 0;
+  border-bottom-color: transparent;
+  cursor:pointer;  
+}
+}
