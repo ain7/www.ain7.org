@@ -27,11 +27,11 @@ from django.conf.urls import patterns, url
 urlpatterns = patterns('ain7.association.views',
     url(r'^$', 'index', name='association-index'),
     url(r'^council/$', 'council', name='council-details'),
-    (r'^council/add/$', 'edit_council_role'),
-    (r'^council/edit/(?P<role_id>\d+)/$', 'edit_council_role'),
-    (r'^council/delete/(?P<role_id>\d+)/$', 'delete_council_role'),
-    (r'^contact/$', 'contact'),
-    (r'^status/$', 'status'),
-    (r'^internalrules/$', 'internalrules'),
+    url(r'^council/add/$', 'edit_council_role'),
+    url(r'^council/edit/(?P<role_id>\d+)/$', 'edit_council_role'),
+    url(r'^council/delete/(?P<role_id>\d+)/$', 'delete_council_role'),
+    url(r'^contact/$', 'contact', name='contact'),
+    url(r'^status/$', 'status', name='status'),
+    url(r'^internalrules/$', 'internalrules', name='internalrules'),
 
 )
