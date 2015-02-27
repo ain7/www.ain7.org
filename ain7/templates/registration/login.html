@@ -4,36 +4,38 @@
 {% block content %}
 
 {% if form.errors %}
-<div class="alert alert-error">
+<div class="alert alert-danger alert-dismissable" role="alert">
 <p >Your username and password didn't match. Please try again.</p>
 </div>
 {% endif %}
 
-<div class="col-lg-6 col-lg-offset-2">                                          
+<p>Merci de vous identifier pour accéder à cette partie du site de l'association. Si vous n'arrivez pas à vous connecter, n'hésitez pas à nous <a href="{% url "contact" %}">contacter</a>.</p>
+
+<div class="col-lg-8 col-lg-offset-2">
 
 <form id="login" method="post" action="{% url 'django.contrib.auth.views.login' %}" role="form" class="form-horizontal">
-{% csrf_token %}                                                                
+{% csrf_token %}
 
-<div class="form-group">                                                        
-    <label for="id_username" class="col-sm-2 control-label">Username</label>    
-    <div class="col-sm-6">                                                      
+<div class="form-group">
+    <label for="id_username" class="col-sm-3 control-label">{% trans "Username" %}</label>
+    <div class="col-sm-5">
     <input type="text" class="form-control" name="username" id="id_username" placeholder="Username">
-    </div>                                                                      
-</div>                                                                          
-<div class="form-group">                                                        
-    <label for="id_password" class="col-sm-2 control-label">Password</label>    
-    <div class="col-sm-6">                                                      
+    </div>
+</div>
+<div class="form-group">
+    <label for="id_password" class="col-sm-3 control-label">{% trans "Password" %}</label>
+    <div class="col-sm-5">
     <input type="password" class="form-control" name="password" id="id_password" placeholder="Password">
-    </div>                                                                      
-</div>                                                                          
-                                                                                
-<div class="form-group">                                                        
-<div class="col-sm-offset-2 col-sm-6">                                          
-<button type="submit" class="btn btn-default">Sign-in</button>                  
-</div>                                                                          
-</div>                                                                          
-<input type="hidden" name="next" value="{{ next }}" />                          
-</form>                                                                         
+    </div>
+</div>
+
+<div class="form-group">
+<div class="col-sm-offset-2 col-sm-6">
+<button type="submit" class="btn btn-default">{% trans "Sign-in" %}</button>
+</div>
+</div>
+<input type="hidden" name="next" value="{{ next }}" />
+</form>
 
 </div>
 
