@@ -23,6 +23,8 @@
 
 import django_filters
 
+from django.utils.translation import ugettext as _
+
 from ain7.annuaire.models import AIn7Member
 
 
@@ -34,8 +36,11 @@ class AIn7MemberFilter(django_filters.FilterSet):
             'person__first_name': ['icontains'],
             'person__last_name': ['icontains'],
             'promos__year__year': ['exact'],
-            'promos__track__name': ['icontains'],
+            'promos__track': ['exact'],
+            'person__addresses__city': ['icontains'],
+            'person__addresses__country': ['exact'],
         }
+
 
 class AIn7MemberAdvancedFilter(django_filters.FilterSet):
 
@@ -49,7 +54,7 @@ class AIn7MemberAdvancedFilter(django_filters.FilterSet):
             'promos__track__school__name': ['icontains'],
             'person__addresses__zip_code': ['icontains'],
             'person__addresses__city': ['icontains'],
-            'person__addresses__country': ['icontains'],
+            'person__addresses__country': ['exact'],
             'positions__office__organization__name': ['icontains'],
             'positions__fonction': ['icontains'],
         }

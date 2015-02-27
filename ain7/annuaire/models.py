@@ -52,6 +52,7 @@ class Country(models.Model):
         """country meta"""
         verbose_name = _('country')
         verbose_name_plural = _('country')
+        ordering = ['name']
 
 
 class PersonType(models.Model):
@@ -212,10 +213,7 @@ class Track(models.Model):
 
     def __unicode__(self):
         """track unicode"""
-        if self.initials:
-            return self.initials
-        else:
-            return self.name
+        return self.name
 
     class Meta:
         """track meta"""
