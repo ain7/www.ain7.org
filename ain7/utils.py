@@ -23,15 +23,13 @@
 
 import datetime
 
-from string import Template
-
 from django import forms
 from django.conf import settings
 from django.contrib import messages
 from django.db import models
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
-from django.template import RequestContext, TemplateSyntaxError
+from django.shortcuts import render
+from django.template import TemplateSyntaxError
 from django.utils.translation import ugettext as _
 
 # the separator used in CSV exports, when a cell contains a list of values
@@ -42,37 +40,12 @@ CONFIDENTIALITY_LEVELS = (
     (1, _('private')),
     )
 
+
 def ain7_website_confidential(obj):
     if not isinstance(obj, models.Model):
         raise NotImplementedError
-    return (obj.confidentiality>0)
+    return (obj.confidentiality > 0)
 
-# pour alléger les appels à render_to_response
-# http://www.djangosnippets.org/snippets/3/
-# Serait pas mieux d'utiliser un ContextProcessor ?
-# http://docs.djangoproject.com/en/dev/ref/templates/api/#writing-your-own-context-processors
-#def ain7_render_to_response(req, *args, **kwargs):
-#
-#    from ain7.annuaire.models import Person
-#
-#    user_groups = []
-#
-#    if req.user.is_authenticated() and Person.objects.filter(user=req.user):
-#        user_groups = req.user.person.groups.values_list('group__name', flat=True)
-#
-#    args[1]['portal_version'] = settings.VERSION
-#    args[1]['tinymce_version'] = settings.TINYMCE_VERSION
-#    args[1]['mootools_version'] = settings.MOOTOOLS_VERSION
-#    args[1]['jquery_version'] = settings.JQUERY_VERSION
-#    args[1]['piwik_url'] = settings.PIWIK_URL
-#    args[1]['piwik_site_id'] = settings.PIWIK_SITE_ID
-#    args[1]['request'] = req
-#    args[1]['superadmin'] = settings.PORTAL_ADMIN in user_groups
-#    args[1]['ca_member'] = 'ain7-ca' in user_groups
-#    args[1]['secretariat_member'] = 'ain7-secretariat' in user_groups
-#    args[1]['contributeur'] = 'ain7-contributeur' in user_groups
-#    kwargs['context_instance'] = RequestContext(req)
-#    return render_to_response(*args, **kwargs)
 
 def is_admin(user):
     """détermine si un user a le profil administrateur"""
@@ -90,6 +63,7 @@ def is_admin(user):
     else:
         return False
 
+
 def check_access(request, user, groups):
 
     from ain7.annuaire.models import Person
@@ -104,7 +78,8 @@ def check_access(request, user, groups):
             if group in groups:
                 return None
 
-    return ain7_render_to_response(request, 'pages/permission_denied.html', {})
+    return render(request, 'pages/permission_denied.html', {})
+
 
 def ain7_generic_delete(request, obj, redirectPage, msgDone):
     """ Méthode générique pour supprimer un objet."""
@@ -112,27 +87,33 @@ def ain7_generic_delete(request, obj, redirectPage, msgDone):
     obj.delete()
     messages.success(request, msgDone)
     return HttpResponseRedirect(redirectPage)
- 
+
+
 class LoggedClass(models.Model):
     """ Classe abstraite contenant les infos à enregistrer pour les modèles
     pour lesquels on veut connaître la date de création/modif et l'auteur."""
-    last_change_by = models.ForeignKey('annuaire.Person',
+    last_change_by = models.ForeignKey(
+        'annuaire.Person',
         verbose_name=_('modifier'), editable=False,
-        related_name='last_changed_%(class)s', blank=True, null=True)
-    last_change_at = models.DateTimeField(verbose_name=_('last changed at'),
-        blank=True, editable=False)
+        related_name='last_changed_%(class)s', blank=True, null=True
+    )
+    last_change_at = models.DateTimeField(
+        verbose_name=_('last changed at'),
+        blank=True, editable=False
+    )
 
     class Meta:
         abstract = True
-        
+
     def logged_save(self, person):
         self.last_change_by = person
         return self.save()
-        
+
     def save(self, *args, **kwargs):
         self.last_change_at = datetime.datetime.now()
         return super(LoggedClass, self).save(*args, **kwargs)
-        
+
+
 def generic_show_last_change(logged_obj):
     """ Utilisé pour le rendu du tag show_last_change.
     Peut être utilisé sur tout objet dont le modèle hérite de LoggedClass."""
@@ -141,6 +122,7 @@ def generic_show_last_change(logged_obj):
             "show_last_change should only be used with LoggedClass objects."
     return {'obj': logged_obj}
 
+
 def get_root_url(request=None):
     if request:
         return 'http' + ('', 's')[request.is_secure()] + '://' + request.get_host()
@@ -148,26 +130,12 @@ def get_root_url(request=None):
         from django.contrib.sites.models import Site
         return 'http://'+Site.objects.all()[0].domain
 
+
 class AIn7ModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(AIn7ModelForm, self).__init__(*args, **kwargs)
-        tag_required_fields(self)
+
 
 class AIn7Form(forms.Form):
     def __init__(self, *args, **kwargs):
         super(AIn7Form, self).__init__(*args, **kwargs)
-        tag_required_fields(self)
-
-def tag_required_fields(form):
-    if isinstance(form, forms.BaseForm):
-        for fname, field in form.fields.iteritems():
-            # si on veut mettre le type de champ comme classe CSS :
-            # new_classes = set((type(field).__name__, type(field.widget).__name__, field.required and "Required" or "Optional"))
-            new_classes = set([field.required and "requiredField" or "optionalField"])
-            if 'class' in field.widget.attrs:
-                field.widget.attrs['class'] = \
-                   " ".join(set(field.widget.attrs['class'].split()).\
-                   union(new_classes))
-            else:
-                field.widget.attrs['class'] = " ".join(new_classes)
-
