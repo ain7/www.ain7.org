@@ -154,8 +154,7 @@ def subscription_add(request, user_id=None):
         if Subscription.objects.filter(member=ain7member).\
             exclude(start_year__gt=year_current).\
             exclude(end_year__lt=year_current):
-            request.user.message_set.create(\
-            message=_('You already have an active subscription.'))
+            messages.warning(request, _('You already have an active subscription.'))
         form = SubscriptionForm()
         page_dict.update({'form': form})
         return render(request, 
