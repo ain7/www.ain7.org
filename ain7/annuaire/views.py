@@ -639,8 +639,7 @@ def vcard(request, user_id):
         email = vcard.add('email')
         email.value = mail
         email.type_param = ['INTERNET', 'PREF']
-    for address in Address.objects.filter(person=person,
-        confidentiality__in=[0, 1]):
+    for address in Address.objects.filter(person=person, confidentiality=0):
         street = ''
         if address.line1:
             street = street + address.line1
@@ -651,15 +650,14 @@ def vcard(request, user_id):
             region='', code=address.zip_code, country=address.country.name,
             box='', extended='')
         adr.type_param = address.type.type
-    for phone in PhoneNumber.objects.filter(person=person,
-        confidentiality__in=[0, 1]):
+    for phone in PhoneNumber.objects.filter(person=person, confidentiality=0):
         tel = vcard.add('tel')
         tel.value = phone.number
         tel.type_param = ['HOME', 'FAX', 'CELL'][phone.type-1]
 
     vcardstream = vcard.serialize()
 
-    response = HttpResponse(vcardstream, mimetype='text/x-vcard')
+    response = HttpResponse(vcardstream, content_type='text/x-vcard')
     response['Filename'] = person.user.username+'.vcf'  # IE needs this
     response['Content-Disposition'] = ('attachment; filename=' +
         person.user.username+'.vcf')
