@@ -15,9 +15,11 @@
     <li><a class="btn btn-primary" href="{% url "ain7.adhesions.views.configurations" %}">{% trans "Configurations" %}</a></li>
     <li><a class="btn btn-primary" href="{% url "to_validate_subscriptions" %}">{% trans "Subscriptions to validate" %}</a></li>
     {% endif %}
+    {% if person %}
     {% if superadmin or ca_member or secretariat_member or is_myself %}
     <li><a class="btn btn-primary" href="{% url "ain7.adhesions.views.user_subscriptions" person.user.id %}">{% trans "My subscriptions" %}</a></li>
     <li><a class="btn btn-primary" href="{% url "ain7.adhesions.views.subscription_add" person.user.id %}">{% trans "Subscribe" %}</a></li>
+    {% endif %}
     {% endif %}
 </ul>
 

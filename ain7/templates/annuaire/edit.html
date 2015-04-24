@@ -205,7 +205,7 @@
             <td><a href="{% url "ain7.emploi.views.position_delete" person.user.id position.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
         </tr>
         {% if position.description %}
-            <tr><td></td><td>{{ position.description }}</td></tr>
+            <tr><td></td><td>{{ position.description|safe }}</td></tr>
         {% endif %}
     {% endif %}
 {% endfor %}
@@ -282,7 +282,7 @@
 <tbody>
 {% for leisureItem in ain7member.leisure.all %}
     <tr><th>{{ leisureItem.title }}</th>
-        <td>{% if leisureItem.detail %} {{ leisureItem.detail }} {% endif %} </td>
+        <td>{% if leisureItem.detail %} {{ leisureItem.detail|safe }} {% endif %} </td>
         <td><a href="{% url "ain7.emploi.views.leisure_edit" person.user.id leisureItem.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
         <td><a href="{% url "ain7.emploi.views.leisure_delete" person.user.id leisureItem.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
     </tr>
