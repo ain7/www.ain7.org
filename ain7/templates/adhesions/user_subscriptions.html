@@ -5,8 +5,6 @@
 
 <h2>{% trans "Subscriptions" %} {{ person.first_name }} {{ person.last_name }}</h2>
 
-<p><a class="addlink" href="add/">{% trans "Add a subscription" %}</a></p>
-
 <table class="table table-striped">
 <thead>
 <tr>
@@ -33,7 +31,7 @@
       {{ subscription.date|date:"d F Y" }}
   </td>
   <td>
-      {{ subscription.dues_amount }}&nbsp;€
+      {{ subscription.dues_amount }}&nbsp;{% if subscription.start_year < 2001%}F{% else %}€{% endif %}
   </td>
   <td>
       {% ifequal subscription.newspaper_amount None %}
