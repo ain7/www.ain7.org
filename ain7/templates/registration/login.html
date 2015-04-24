@@ -5,11 +5,13 @@
 
 {% if form.errors %}
 <div class="alert alert-danger alert-dismissable" role="alert">
-<p >Your username and password didn't match. Please try again.</p>
+    <p >{% trans "Your username and password didn't match. Please try again." %}</p>
 </div>
 {% endif %}
 
 <p>Merci de vous identifier pour accéder à cette partie du site de l'association. Si vous n'arrivez pas à vous connecter, n'hésitez pas à nous <a href="{% url "contact" %}">contacter</a>.</p>
+
+<p>Si vous avez perdu vos identifiants, vous pouvez <a href="{% url "lostpassword" %}">les récupérer ici</a>.</p>
 
 <div class="col-lg-8 col-lg-offset-2">
 
@@ -19,13 +21,13 @@
 <div class="form-group">
     <label for="id_username" class="col-sm-3 control-label">{% trans "Username" %}</label>
     <div class="col-sm-5">
-    <input type="text" class="form-control" name="username" id="id_username" placeholder="Username">
+        <input type="text" class="form-control" name="username" id="id_username" placeholder="{% trans "Username" %}">
     </div>
 </div>
 <div class="form-group">
     <label for="id_password" class="col-sm-3 control-label">{% trans "Password" %}</label>
     <div class="col-sm-5">
-    <input type="password" class="form-control" name="password" id="id_password" placeholder="Password">
+        <input type="password" class="form-control" name="password" id="id_password" placeholder="{% trans "Password" %}">
     </div>
 </div>
 

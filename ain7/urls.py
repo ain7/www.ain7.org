@@ -85,7 +85,7 @@ urlpatterns = patterns('',
     # Pages particulieres au contenu pseudo statique
     (r'^apropos/$', 'ain7.pages.views.apropos'),
     (r'^mentions_legales/$', 'ain7.pages.views.mentions_legales'),
-    (r'^lostpassword/$', 'ain7.pages.views.lostpassword'),
+    url(r'^lostpassword/$', 'ain7.pages.views.lostpassword', name='lostpassword'),
     (r'^lostpassword/([A-Za-z0-9.\-_]+)/$', 'ain7.pages.views.changepassword'),
     url(r'^$', 'ain7.pages.views.homepage', name='homepage'),
 
