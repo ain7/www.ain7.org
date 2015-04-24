@@ -492,7 +492,8 @@ class AIn7Member(LoggedClass):
         verbose_name=_('Nick name'), max_length=50, blank=True, null=True,
     )
     avatar = models.ImageField(
-        verbose_name=_('avatar'), upload_to='avatar', blank=True, null=True,
+        verbose_name=_('avatar'), upload_to='data/avatar',
+        blank=True, null=True,
     )
 
     # School situation
