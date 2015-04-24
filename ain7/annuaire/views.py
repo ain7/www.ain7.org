@@ -194,6 +194,7 @@ def person_edit(request, user_id):
 
     return render(request, 'annuaire/edit_form.html', {
         'form': form,
+        'person': person,
         'action_title': _("Modification of personal data for"),
         'back': request.META.get('HTTP_REFERER', '/'),
         }
@@ -216,6 +217,7 @@ def personprivate_edit(request, user_id):
 
     return render(request, 'annuaire/edit_form.html', {
         'form': form,
+        'person': personprivate.person,
         'action_title': _("Modification of personal data for"),
         'back': request.META.get('HTTP_REFERER', '/')
         }
@@ -252,6 +254,7 @@ def ain7member_edit(request, user_id):
 
     return render(request, 'annuaire/edit_form.html', {
         'form': form,
+        'person': person,
         'action_title': _("Modification of personal data"),
         'back': request.META.get('HTTP_REFERER', '/'),
         }
