@@ -20,7 +20,7 @@
 <br>
 
 {% if one_news.image %}
-<img src="{{ one_news.image.url }}" alt="{{ one_news.title }}" title="{{ one_news.title }}" class="image-article" />
+<img src="{{ one_news.image.url }}" alt="{{ one_news.title }}" title="{{ one_news.title }}" class="image-article" style="max-width:800px;max-height:150px"/>
 {% endif %}
 {{ one_news.body|safe }}
 
