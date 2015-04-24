@@ -226,6 +226,8 @@ AIn7 Team
                 systempay['vads_action_mode'] = 'INTERACTIVE'
                 systempay['vads_ctx_mode'] = settings.SYSTEM_PAY_MODE
                 systempay['vads_order_id'] = payment.id
+                systempay['vads_cust_name'] = person.complete_name
+                systempay['vads_cust_email'] = person.mail_favorite()
 
                 systempay_string = '+'.join([str(v) for k, v in sorted(systempay.items())])+'+'+settings.SYSTEM_PAY_CERTIFICATE
                 systempay_signature = hashlib.sha1(systempay_string).hexdigest()
