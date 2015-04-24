@@ -245,7 +245,7 @@ class Promo(models.Model):
 
     def __unicode__(self):
         """promo unicode"""
-        return str(self.track) + " " + str(self.year.year)
+        return (("%s %s") % (unicode(self.track), self.year.year))
 
     class Meta:
         """promo meta"""

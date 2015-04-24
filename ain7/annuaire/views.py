@@ -237,7 +237,11 @@ def ain7member_edit(request, user_id):
         )
     )
 
-    form = AIn7MemberForm(request.POST, request.FILES, instance=ain7member)
+    form = AIn7MemberForm(
+        request.POST or None,
+        request.FILES or None,
+        instance=ain7member
+    )
 
     if request.method == 'POST' and form.is_valid():
         form.save()
@@ -248,7 +252,7 @@ def ain7member_edit(request, user_id):
 
     return render(request, 'annuaire/edit_form.html', {
         'form': form,
-        'action_title': _("Modification of personal data for"),
+        'action_title': _("Modification of personal data"),
         'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
