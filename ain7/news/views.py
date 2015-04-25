@@ -70,7 +70,13 @@ def details(request, news_slug):
 def edit(request, news_slug=None):
     """news edit"""
 
-    NewsForm = modelform_factory(NewsItem, exclude=('Person', 'slug',))
+    NewsForm = modelform_factory(
+        NewsItem,
+        exclude=(
+            'Person', 'slug', 'shorttext', 'rsvp_question', 'rsvp_begin',
+            'rsvp_end', 'rsvp_multiple', 'package', 'pictures_gallery',
+        )
+    )
 
     news_item = None
     if news_slug:
