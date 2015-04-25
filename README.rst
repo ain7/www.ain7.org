@@ -2,10 +2,11 @@ AIn7 Web Portal
 ===============
 
 This project host the ENSEEIHT (n7) alumni group (AIn7) portal code:
+
 - ENSEEIHT is a French engineering shcool: http://www.enseeiht.fr
 - ENSEEIHT Almuni group: https://ain7.com
 
-All the code have been released under GPLv2 license.
+All the code have been released under GPLv2 license. Portal is maintained by volonteers of the alumni group.
 
 Contributions (pull requests) and bugs are welcome.
 
