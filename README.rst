@@ -16,5 +16,5 @@ For using the code, just clone this repository. We recommend to use a virtualenv
  $ pip install -r requirements-dev.txt
  $ python manage.py runserver
 
- Then point your browser to http://localhost:8000
+Then point your browser to http://localhost:8000
 
