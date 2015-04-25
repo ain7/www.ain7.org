@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-24 10:17+0200\n"
+"POT-Creation-Date: 2015-04-25 19:06+0200\n"
 "PO-Revision-Date: 2010-01-15 22:50+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: AIn7 French Translators <ain7-devel@lists.ain7.com>\n"
@@ -54,7 +54,7 @@ msgstr "Montant de cotisation"
 msgid "Newspaper amount"
 msgstr "Montant Canal N7"
 
-#: adhesions/models.py:64 templates/adhesions/user_subscriptions.html:17
+#: adhesions/models.py:64 templates/adhesions/user_subscriptions.html:15
 msgid "Tender type"
 msgstr "Mode de paiement"
 
@@ -131,7 +131,7 @@ msgstr "Durée"
 
 #: adhesions/models.py:114 annuaire/models.py:232
 #: templates/adhesions/index.html:11 templates/adhesions/subscriptions.html:20
-#: templates/adhesions/user_subscriptions.html:13
+#: templates/adhesions/user_subscriptions.html:11
 msgid "Year"
 msgstr "Année"
 
@@ -159,15 +159,15 @@ msgstr "Adhésion effacée avec succès"
 msgid "Adding a subscription for"
 msgstr "Ajout d'une adhésion pour"
 
-#: adhesions/views.py:158
+#: adhesions/views.py:157
 msgid "You already have an active subscription."
 msgstr "Vous avez déjà une adhésion active."
 
-#: adhesions/views.py:195
+#: adhesions/views.py:194
 msgid "AIn7 subscription request registered"
 msgstr "Votre demande d'adhésion à l'AIn7 a été enregistrée"
 
-#: adhesions/views.py:196
+#: adhesions/views.py:195
 #, python-format
 msgid ""
 "Hi %(firstname)s,\n"
@@ -197,22 +197,22 @@ msgstr ""
 "L'équipe de l'AIn7\n"
 "\n"
 
-#: adhesions/views.py:284 annuaire/views.py:190 annuaire/views.py:212
-#: annuaire/views.py:248 emploi/views.py:86 emploi/views.py:137
-#: emploi/views.py:185 emploi/views.py:236 groups/views.py:80 news/views.py:86
-#: news/views.py:472 voyages/views.py:93
+#: adhesions/views.py:283 annuaire/views.py:190 annuaire/views.py:213
+#: annuaire/views.py:250 emploi/views.py:86 emploi/views.py:137
+#: emploi/views.py:185 emploi/views.py:236 groups/views.py:80 news/views.py:92
+#: news/views.py:478 voyages/views.py:93
 msgid "Modifications have been successfully saved."
 msgstr "Les modifications ont été correctement enregistrées."
 
-#: adhesions/views.py:289
+#: adhesions/views.py:288
 msgid "Modification of configuration"
 msgstr "Modifier une configuration"
 
-#: adhesions/views.py:297
+#: adhesions/views.py:296
 msgid "Do you really want to delete this configuration"
 msgstr "Souhaitez-vous vraiment supprimer cette configuration"
 
-#: adhesions/views.py:305
+#: adhesions/views.py:304
 msgid "Configuration successfully deleted."
 msgstr "La configuration sélectionnée a été supprimée avec succès."
 
@@ -677,146 +677,144 @@ msgstr "Le mot de passe saisi est incorrect."
 msgid "New credentials have been sent"
 msgstr "Les nouveaux identifiants ont été envoyés"
 
-#: annuaire/views.py:197 annuaire/views.py:219 voyages/views.py:100
+#: annuaire/views.py:198 annuaire/views.py:221 voyages/views.py:100
 msgid "Modification of personal data for"
 msgstr "Modification des données personnelles de"
 
-#: annuaire/views.py:255
-#, fuzzy
-#| msgid "Modification of personal data for"
+#: annuaire/views.py:258
 msgid "Modification of personal data"
-msgstr "Modification des données personnelles de"
+msgstr "Modification des données personnelles"
 
-#: annuaire/views.py:272
+#: annuaire/views.py:275
 msgid "Promotion successfully added."
 msgstr "La promotion a été ajoutée avec succès."
 
-#: annuaire/views.py:278
+#: annuaire/views.py:281
 #, python-format
 msgid "Adding a promotion for %s"
 msgstr "Ajout d'une promotion pour %s"
 
-#: annuaire/views.py:286
+#: annuaire/views.py:289
 msgid "Do you really want to remove the membership to the promotion"
 msgstr "Souhaitez-vous vraiment supprimer l'appartenance à la promotion"
 
-#: annuaire/views.py:307
+#: annuaire/views.py:310
 msgid "Creation of an address for"
 msgstr "Ajout d'une adresse de"
 
-#: annuaire/views.py:317
+#: annuaire/views.py:320
 msgid "Address successfully saved"
 msgstr "L'adresse a été sauvegardée avec succès."
 
-#: annuaire/views.py:332
+#: annuaire/views.py:335
 msgid "Do you really want to delete your address"
 msgstr "Souhaitez-vous vraiment supprimer l'adresse"
 
-#: annuaire/views.py:339
+#: annuaire/views.py:342
 msgid "Address successfully deleted."
 msgstr "L'adresse a été supprimée avec succès."
 
-#: annuaire/views.py:349
+#: annuaire/views.py:352
 msgid "Creation of a phone number for"
 msgstr "Ajout d'un numéro de téléphone de"
 
-#: annuaire/views.py:359
+#: annuaire/views.py:362
 msgid "Phone number successfully saved"
 msgstr "Le numéro de téléphone a été sauvegardé avec succès."
 
-#: annuaire/views.py:374
+#: annuaire/views.py:377
 msgid "Do you really want to delete your phone number"
 msgstr "Souhaitez-vous vraiment supprimer le numéro de téléphone ?"
 
-#: annuaire/views.py:381
+#: annuaire/views.py:384
 msgid "Phone number successfully deleted."
 msgstr "Le numéro de téléphone a été supprimé avec succès."
 
-#: annuaire/views.py:388
+#: annuaire/views.py:391
 msgid "Creation of an email address for"
 msgstr "Ajout d'une adresse de courriel de"
 
-#: annuaire/views.py:402
+#: annuaire/views.py:405
 msgid "Email successfully saved"
 msgstr "L'adresse de courriel a été sauvegardée avec succès."
 
-#: annuaire/views.py:417
+#: annuaire/views.py:420
 msgid "Do you really want to delete your email address"
 msgstr "Souhaitez-vous vraiment supprimer l'adresse mail"
 
-#: annuaire/views.py:423
+#: annuaire/views.py:426
 msgid "Email address successfully deleted."
 msgstr "L'adresse de courriel a été supprimée avec succès."
 
-#: annuaire/views.py:434
+#: annuaire/views.py:437
 msgid "Creation of an instant messaging account for"
 msgstr "Ajout d'un compte de messagerie instantanée de"
 
-#: annuaire/views.py:443
+#: annuaire/views.py:446
 msgid "Instant messaging successfully saved"
 msgstr "Le compte de messagerie instantanée a été sauvegardé avec succès."
 
-#: annuaire/views.py:458
+#: annuaire/views.py:461
 msgid "Do you really want to delete your instant messaging account"
 msgstr "Souhaitez-vous vraiment supprimer ce compte de messagerie instantanée"
 
-#: annuaire/views.py:465
+#: annuaire/views.py:468
 msgid "Instant messaging account successfully deleted."
 msgstr "Votre compte de messagerie instantanée a été correctement supprimé."
 
-#: annuaire/views.py:473
+#: annuaire/views.py:476
 msgid "Creation of an IRC account for"
 msgstr "Ajout d'un compte IRC de"
 
-#: annuaire/views.py:487
+#: annuaire/views.py:490
 msgid "irc contact successfully saved"
 msgstr "Le compte IRC a été sauvegardé avec succès."
 
-#: annuaire/views.py:502
+#: annuaire/views.py:505
 msgid "Do you really want to delete your IRC account"
 msgstr "Souhaitez-vous vraiment supprimer ce compte IRC"
 
-#: annuaire/views.py:509
+#: annuaire/views.py:512
 msgid "IRC account successfully deleted."
 msgstr "Le compte IRC a été supprimé avec succès."
 
-#: annuaire/views.py:517
+#: annuaire/views.py:520
 msgid "Creation of a website for"
 msgstr "Ajout d'un site web de"
 
-#: annuaire/views.py:531
+#: annuaire/views.py:534
 msgid "website successfully saved"
 msgstr "Le site web a été sauvegardé avec succès."
 
-#: annuaire/views.py:546
+#: annuaire/views.py:549
 msgid "Do you really want to delete your website"
 msgstr "Souhaitez-vous vraiment supprimer ce site web"
 
-#: annuaire/views.py:553
+#: annuaire/views.py:556
 msgid "Website successfully deleted."
 msgstr "Le site web a été supprimé avec succès."
 
-#: annuaire/views.py:561
+#: annuaire/views.py:564
 msgid "Creation of a club membership for"
 msgstr "Ajout de l'appartenance à un club de"
 
-#: annuaire/views.py:576
+#: annuaire/views.py:579
 msgid "Club membership successfully saved"
 msgstr "L'appartenance au club a été sauvegardée avec succès."
 
-#: annuaire/views.py:592
+#: annuaire/views.py:595
 msgid "Do you really want to delete your club membership"
 msgstr "Souhaitez-vous vraiment supprimer l'appartenance à ce club"
 
-#: annuaire/views.py:600
+#: annuaire/views.py:603
 msgid "Club membership successfully deleted."
 msgstr "L'appartenance au club a été supprimée avec succès."
 
-#: annuaire/views.py:611 manage/views.py:76
+#: annuaire/views.py:614 manage/views.py:76
 msgid "New user successfully created"
 msgstr "Utilisateur créé avec succès"
 
-#: annuaire/views.py:616 manage/views.py:80
+#: annuaire/views.py:619 manage/views.py:80
 msgid "Register new user"
 msgstr "Enregistrer une nouvelle personne"
 
@@ -1110,7 +1108,7 @@ msgstr "L'erreur #%s n'existe pas."
 
 #: manage/models.py:42 news/forms.py:38
 #: templates/adhesions/subscriptions.html:21
-#: templates/adhesions/user_subscriptions.html:14
+#: templates/adhesions/user_subscriptions.html:12
 #: templates/evenements/details.html:25 templates/evenements/index.html:14
 #: templates/manage/error_details.html:28
 msgid "Date"
@@ -1303,55 +1301,55 @@ msgstr "fin des inscriptions"
 msgid "news item"
 msgstr "actualité"
 
-#: news/views.py:91
+#: news/views.py:97
 msgid "News edition"
 msgstr "Modifier une actualité"
 
-#: news/views.py:99
+#: news/views.py:105
 msgid "Do you really want to delete this news"
 msgstr "Souhaitez-vous vraiment supprimer cette actualité"
 
-#: news/views.py:107
+#: news/views.py:113
 msgid "The news has been successfully deleted."
 msgstr "L'actualité a été supprimée avec succès."
 
-#: news/views.py:133 templates/groups/base.html:30
+#: news/views.py:139 templates/groups/base.html:30
 msgid "Events"
 msgstr "Évènements"
 
-#: news/views.py:200
+#: news/views.py:206
 msgid "Event successfully saved"
 msgstr "Evenement sauvegardé"
 
-#: news/views.py:205
+#: news/views.py:211
 msgid "Event modification"
 msgstr "Modification d'un événement"
 
-#: news/views.py:277
+#: news/views.py:283
 msgid "RSVP successfully saved"
 msgstr "RSVP sauvegardé"
 
-#: news/views.py:312
+#: news/views.py:318
 msgid "RSVP Answer"
 msgstr "Réponse à une invitation"
 
-#: news/views.py:409
+#: news/views.py:415
 msgid "Your message has been sent to the event responsible."
 msgstr "Votre message a été envoyé au responsable de l'événement."
 
-#: news/views.py:415
+#: news/views.py:421
 msgid "Something was wrong in the form. No message sent."
 msgstr "Certains champs ont été incorrectement remplis. Aucun message envoyé."
 
-#: news/views.py:480
+#: news/views.py:486
 msgid "Adding organizer"
 msgstr "Ajouter un organisateur"
 
-#: news/views.py:491
+#: news/views.py:497
 msgid "Do you really want to remove this organizer"
 msgstr "Souhaitez-vous vraiment supprimer cet organisateur ?"
 
-#: news/views.py:502
+#: news/views.py:508
 msgid "Organizer successfully removed"
 msgstr "Organisateur supprimé avec succès"
 
@@ -1669,25 +1667,26 @@ msgstr ""
 "Vous pouvez noter le numéro du message d'erreur pour le donner à "
 "l'administrateur"
 
-#: templates/adhesions/base.html:12
+#: templates/adhesions/base.html:12 templates/adhesions/base.html.py:21
 msgid "Subscribe"
 msgstr "Adhérer"
 
-#: templates/adhesions/base.html:15
-msgid "My subscriptions"
-msgstr "Mes adhésions"
-
-#: templates/adhesions/base.html:18 templates/adhesions/configurations.html:6
+#: templates/adhesions/base.html:15 templates/adhesions/configurations.html:6
 msgid "Configurations"
 msgstr "Configurations"
 
-#: templates/adhesions/base.html:19 templates/adhesions/subscriptions.html:8
+#: templates/adhesions/base.html:16 templates/adhesions/subscriptions.html:8
+#: templates/base.html:103
 msgid "Subscriptions to validate"
 msgstr "Adhésions à valider"
 
+#: templates/adhesions/base.html:20
+msgid "My subscriptions"
+msgstr "Mes adhésions"
+
 #: templates/adhesions/configuration_edit.html:11
 #: templates/adhesions/subscribe.html:79
-#: templates/annuaire/credentials.html:23 templates/annuaire/edit_form.html:19
+#: templates/annuaire/credentials.html:17 templates/annuaire/edit_form.html:19
 #: templates/association/council_edit.html:12
 #: templates/emploi/job_edit.html:13 templates/evenements/edit.html:39
 #: templates/evenements/join.html:14
@@ -1706,7 +1705,8 @@ msgid "Save"
 msgstr "Valider"
 
 #: templates/adhesions/configuration_edit.html:12
-#: templates/adhesions/subscribe.html:80 templates/annuaire/edit_form.html:21
+#: templates/adhesions/subscribe.html:80
+#: templates/annuaire/credentials.html:20 templates/annuaire/edit_form.html:22
 #: templates/association/council_edit.html:13
 #: templates/emploi/job_edit.html:15 templates/evenements/contact.html:13
 #: templates/evenements/edit.html:40 templates/evenements/join.html:15
@@ -1734,7 +1734,7 @@ msgstr "euros"
 #: templates/adhesions/configurations.html:28
 #: templates/adhesions/subscribe.html:59
 #: templates/adhesions/subscriptions.html:50
-#: templates/adhesions/user_subscriptions.html:43
+#: templates/adhesions/user_subscriptions.html:41
 msgid "Free"
 msgstr "Gratuit"
 
@@ -1766,7 +1766,7 @@ msgid "Member"
 msgstr "Membre"
 
 #: templates/adhesions/index.html:18 templates/adhesions/subscriptions.html:34
-#: templates/adhesions/user_subscriptions.html:27
+#: templates/adhesions/user_subscriptions.html:25
 #, python-format
 msgid "%(start)s to %(end)s"
 msgstr "%(start)s à %(end)s"
@@ -1797,25 +1797,25 @@ msgid "Subscriptions"
 msgstr "Adhésions"
 
 #: templates/adhesions/subscriptions.html:22
-#: templates/adhesions/user_subscriptions.html:15
+#: templates/adhesions/user_subscriptions.html:13
 #: templates/manage/payments_deposit.html:11
 msgid "Amount"
 msgstr "Montant"
 
 #: templates/adhesions/subscriptions.html:23
-#: templates/adhesions/user_subscriptions.html:16
+#: templates/adhesions/user_subscriptions.html:14
 msgid "Canal n7"
 msgstr "Canal n7"
 
 #: templates/adhesions/subscriptions.html:24
-#: templates/adhesions/user_subscriptions.html:18
+#: templates/adhesions/user_subscriptions.html:16
 #: templates/evenements/attendees.html:11
 #: templates/manage/payment_details.html:7
 msgid "Payment"
 msgstr "Paiement"
 
 #: templates/adhesions/subscriptions.html:47
-#: templates/adhesions/user_subscriptions.html:40
+#: templates/adhesions/user_subscriptions.html:38
 #: templates/annuaire/edit.html:79 templates/evenements/attendees.html:13
 #: templates/evenements/details.html:17
 #: templates/manage/payment_details.html:16 templates/pages/confirm.html:19
@@ -1835,34 +1835,25 @@ msgstr "par"
 msgid "Validate"
 msgstr "Valider"
 
-#: templates/adhesions/user_subscriptions.html:8
-msgid "Add a subscription"
-msgstr "Ajouter une adhésion"
-
-#: templates/adhesions/user_subscriptions.html:19 templates/base.html:76
+#: templates/adhesions/user_subscriptions.html:17 templates/base.html:76
 #: templates/evenements/details.html:34
 msgid "Status"
 msgstr "Statuts"
 
-#: templates/adhesions/user_subscriptions.html:61
+#: templates/adhesions/user_subscriptions.html:59
 msgid "Validated"
 msgstr "Validé"
 
-#: templates/adhesions/user_subscriptions.html:63
+#: templates/adhesions/user_subscriptions.html:61
 msgid "Not validated"
 msgstr "Non validé"
 
-#: templates/annuaire/credentials.html:18
-#: templates/pages/changepassword.html:14
-msgid "Enter your new password twice."
-msgstr "Entrez votre nouveau mot de passe deux fois"
-
-#: templates/annuaire/credentials.html:31
+#: templates/annuaire/credentials.html:27
 #: templates/pages/changepassword.html:23
 msgid "Password updated, try to"
 msgstr "Mot de passe mis à jour, essayez de"
 
-#: templates/annuaire/credentials.html:31
+#: templates/annuaire/credentials.html:27
 #: templates/pages/changepassword.html:23
 msgid "log in"
 msgstr "vous identifier"
@@ -1883,7 +1874,7 @@ msgstr "Télécharger la vCard"
 msgid "Edit"
 msgstr "Modifier"
 
-#: templates/annuaire/details.html:11 templates/base.html:119
+#: templates/annuaire/details.html:11 templates/base.html:122
 msgid "Subscriptions History"
 msgstr "Historique des adhésions"
 
@@ -1919,7 +1910,7 @@ msgid "children"
 msgstr "enfants"
 
 #: templates/annuaire/details.html:83 templates/base.html:79
-#: templates/base.html.py:211 templates/base.html:230
+#: templates/base.html.py:214 templates/base.html:233
 #: templates/emploi/job_details.html:27 templates/emploi/job_details.html:41
 #: templates/evenements/details.html:27
 msgid "Contact"
@@ -2082,43 +2073,47 @@ msgstr "Statistiques des adhésions"
 msgid "Site statistics"
 msgstr "Statistiques du site"
 
-#: templates/base.html:101
+#: templates/base.html:101 templates/base.html.py:102
 msgid "Deposit slip"
 msgstr "Bordereaux de dépôts"
 
-#: templates/base.html:116
+#: templates/base.html:104
+msgid "Subscriptions configuration"
+msgstr "Configuration des tarifs d'adhésions"
+
+#: templates/base.html:119
 msgid "Profil"
 msgstr "Profil"
 
-#: templates/base.html:117
+#: templates/base.html:120
 msgid "Edit your profil"
 msgstr "Éditez votre profil"
 
-#: templates/base.html:118
+#: templates/base.html:121
 msgid "Change credentials"
 msgstr "Modifier vos identifiants"
 
-#: templates/base.html:121
+#: templates/base.html:124
 msgid "Logout"
 msgstr "Déconnection"
 
-#: templates/base.html:125
+#: templates/base.html:128
 msgid "Log-in"
 msgstr "S'identifier"
 
-#: templates/base.html:226
+#: templates/base.html:229
 msgid "Pages"
 msgstr "Pages"
 
-#: templates/base.html:228
+#: templates/base.html:231
 msgid "About"
 msgstr "À propos"
 
-#: templates/base.html:229
+#: templates/base.html:232
 msgid "Terms of use"
 msgstr "Mentions légales"
 
-#: templates/base.html:238
+#: templates/base.html:241
 msgid "Links"
 msgstr "Liens"
 
@@ -2216,7 +2211,7 @@ msgstr "Liste des inscrits"
 msgid "Form to send a message to the event responsible:"
 msgstr "Formulaire d'envoi de message au responsable de l'événement:"
 
-#: templates/evenements/contact.html:14
+#: templates/evenements/contact.html:14 templates/pages/lostpassword.html:20
 msgid "Send"
 msgstr "Envoyer"
 
@@ -2691,9 +2686,13 @@ msgstr ""
 msgid "Please choose this second organization."
 msgstr "Choisissez la seconde entreprise"
 
-#: templates/pages/changepassword.html:7 templates/pages/lostpassword.html:6
+#: templates/pages/changepassword.html:7
 msgid "Password recovery"
 msgstr "Récupération du mot de passe"
+
+#: templates/pages/changepassword.html:14
+msgid "Enter your new password twice."
+msgstr "Entrez votre nouveau mot de passe deux fois"
 
 #: templates/pages/homepage.html:37
 msgid "All news"
@@ -2703,21 +2702,17 @@ msgstr "Toutes les actualités"
 msgid "Update:"
 msgstr "Mise à jour :"
 
+#: templates/pages/lostpassword.html:10
+msgid "Credentials recovery"
+msgstr "Récupérez vos identifiants"
+
 #: templates/pages/lostpassword.html:12
 msgid ""
-"Enter your e-mail address, and we will send you instructions on how to reset "
-"your password."
+"Enter your e-mail address, and we will send your login and instructions to "
+"reset your password."
 msgstr ""
-"Entrez votre adresse email, et nous vous y enverrons des instructions "
-"concernant la réinitialisation de votre mot de passe."
-
-#: templates/pages/lostpassword.html:17
-msgid "Request change"
-msgstr "Réinitaliser"
-
-#: templates/pages/lostpassword.html:25
-msgid "Check your email"
-msgstr "Verifiez votre courriel"
+"Entrez votre adresse email, et nous vous enverrons votre login et des  "
+"instructions pour réinitialiser votre mot de passe."
 
 #: templates/pages/permission_denied.html:8
 msgid "Permission denied"
@@ -2743,17 +2738,25 @@ msgstr "L'actualité du moment"
 msgid "Text Edit"
 msgstr "Modifier le texte"
 
-#: templates/registration/login.html:22 templates/registration/login.html:24
+#: templates/registration/login.html:8
+msgid "Your username and password didn't match. Please try again."
+msgstr ""
+
+#: templates/registration/login.html:20 templates/registration/login.html:22
 msgid "Username"
 msgstr "Identifiant"
 
-#: templates/registration/login.html:28 templates/registration/login.html:30
+#: templates/registration/login.html:26 templates/registration/login.html:28
 msgid "Password"
 msgstr "Mot de passe"
 
-#: templates/registration/login.html:36
+#: templates/registration/login.html:34
 msgid "Sign-in"
 msgstr "Connexion"
+
+#: templates/registration/login.html:36
+msgid "Lost Credentials"
+msgstr "Identifiants perdus"
 
 #: templates/voyages/details.html:11 templates/voyages/index.html:14
 msgid "Add travel"
