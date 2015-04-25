@@ -20,7 +20,7 @@
 </thead>
 <tbody>
 <tr><td>{{ stats_year.full.number }}</td><td>Taux plein</td><td>{{ stats_year.full.price }} €</td><td>{{ stats_year.full.amount }} €</td></tr>
-<tr><td>{{ stats_year.young.number }}</td><td>Jeunes promos</td><td>{{ stats_year.young.price }} €</td><td>{{ stats_year.young.amount }} €</td></tr>
+<tr><td>{{ stats_year.young.number }}</td><td>Promos {{ year|add:"-5" }} à {{ year|add:"-1" }}</td><td>{{ stats_year.young.price }} €</td><td>{{ stats_year.young.amount }} €</td></tr>
 <tr><td>{{ stats_year.retired.number }}</td><td>Retraités</td><td>{{ stats_year.retired.price }} €</td><td>{{ stats_year.retired.amount }} €</td></tr>
 <tr><td>{{ stats_year.bienfaiteur.number }}</td><td>Bienfaiteurs</td><td>{{ stats_year.bienfaiteur.price }} €</td><td>{{ stats_year.bienfaiteur.amount }} €</td></tr>
 <tr><td>{{ stats_year.unemployed.number }}</td><td>Sans emploi</td><td>{{ stats_year.unemployed.price }} €</td><td>{{ stats_year.unemployed.amount }} €</td></tr>
