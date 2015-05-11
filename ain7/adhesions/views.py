@@ -31,6 +31,7 @@ from django.forms.models import modelform_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext as _
+from django.views.decorators.csrf import csrf_exempt
 
 from ain7.adhesions.forms import SubscriptionForm
 from ain7.adhesions.models import Subscription, SubscriptionConfiguration
@@ -304,6 +305,7 @@ def configuration_delete(request, config_id=None):
          _('Configuration successfully deleted.'))
 
 
+@csrf_exempt
 def notification(request):
     """SPPlus notification url management"""
 
