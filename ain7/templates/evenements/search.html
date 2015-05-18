@@ -1,7 +1,8 @@
 {% extends "evenements/base.html" %}
+{% load crispy_forms_tags %}
 {% load i18n %}
 
-{% block content-main %}
+{% block content-left %}
 
 <div class="left_box">
 
@@ -9,17 +10,18 @@
 
 <form action="." method="get">
 <table style="border: 0; text-align: left;">
-   {{ form }}
+   {{ form|crispy }}
 </table>
 <div style="text-align: center">
 <input type="submit" class="btn btn-primary" value="{% trans "Search" %}" />
 </form>
 </div>
 <br/>
-{% ifequal request.method 'GET' %}
+
 <h2>{% trans "Research result" %}</h2>
-{% if list_events %}
+
 {% paginate list_events %}
+
 <p class="text-center">{% show_pages %}</p> 
 <ul>
     {% for event in list_events %}
@@ -27,10 +29,6 @@
     {% endfor %}
 </ul>
 <p class="text-center">{% show_pages %}</p> 
-{% else %}
-    <p>{% trans "No event correspond to your research" %}</p>
-{% endif %}
-{% endifequal %}
 </div>
-{% endblock %}
 
+{% endblock %}
