@@ -21,6 +21,7 @@
 #
 #
 
+import autocomplete_light
 import datetime
 
 from django.contrib import messages
@@ -138,7 +139,7 @@ def member_edit(request, slug, member_id=None):
     if member_id:
         member = get_object_or_404(Member, pk=member_id)
 
-    MemberForm = modelform_factory(
+    MemberForm = autocomplete_light.modelform_factory(
         Member,
         exclude=('group', 'start_date', 'end_date', 'expiration_date',),
     )
@@ -222,7 +223,10 @@ def role_edit(request, slug, role_id=None):
     if role_id:
         role = get_object_or_404(GroupLeader, id=role_id)
 
-    RoleForm = modelform_factory(GroupLeader, exclude=('grouphead',))
+    RoleForm = autocomplete_light.modelform_factory(
+        GroupLeader,
+        exclude=('grouphead',)
+    )
     form = RoleForm(request.POST or None, instance=role)
 
     if request.method == 'POST' and form.is_valid():
