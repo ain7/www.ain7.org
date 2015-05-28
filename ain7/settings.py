@@ -198,12 +198,12 @@ TEMPLATE_CONTEXT_PROCESSORS += (
     'ain7.context_processors.user_groups',
 )
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'ain7', 'static'),
-)
+#STATICFILES_DIRS = (
+#    os.path.join(BASE_DIR, 'ain7', 'static'),
+#)
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'ain7', 'media')
-#STATIC_ROOT = os.path.join(BASE_DIR, 'ain7', 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'ain7', 'static')
 
 PIWIK_ENABLED = False
 PIWIK_URL = 'http://localhost/piwik/'
