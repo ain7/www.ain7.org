@@ -23,8 +23,11 @@
 
 import autocomplete_light
 
-from ain7.organizations.models import Office, Organization
+from ain7.organizations.models import (
+    Office, Organization, OrganizationActivityField
+)
 
 
 autocomplete_light.register(Office)
 autocomplete_light.register(Organization)
+autocomplete_light.register(OrganizationActivityField, search_fields=['label'])
