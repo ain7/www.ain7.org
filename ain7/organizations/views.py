@@ -59,7 +59,7 @@ def organization_edit(request, organization_id=None):
     if organization_id:
         org = get_object_or_404(Organization, pk=organization_id)
 
-    OrganizationForm = modelform_factory(
+    OrganizationForm = autocomplete_light.modelform_factory(
         Organization,
         exclude=('modification_of', 'modification_date', 'is_valid')
     )
