@@ -15,8 +15,6 @@
   
 <h2><a href="{% url "ain7.news.views.details" one_news.slug %}">{{ one_news.title }}</a></h2>
   
-<span class="grey" style="float:left;">{{ one_news.creation_date|date:"l j F Y" }}</span>
-
 <br>
 
 {% if one_news.image %}
