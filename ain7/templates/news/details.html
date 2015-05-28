@@ -14,12 +14,12 @@
 
 <div class="article-info">{%  show_last_change news_item %}</div>
 
-<p>
 {% if news_item.image %}
+<p>
 <img src="{{ news_item.image.url }}" alt="Image" title="Image" class="image-article" style="max-width:800px;max-height:150px"/>
 {% endif %}
-{{ news_item.body|safe }}
 </p>
+{{ news_item.body|safe }}
 
 <br><br><br>
 
