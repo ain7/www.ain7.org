@@ -215,10 +215,13 @@ class Office(LoggedClass):
 
     def __unicode__(self):
         """office unicode"""
-        if not self.name:
-            return self.organization.name
-        else:
-            return self.organization.name+' ('+self.name+')'
+        name = self.organization.name
+        if self.name:
+            name += ' ('+self.name+')'
+
+        if self.zip_code and self.city:
+            name += ' - '+self.zip_code+' '+self.city
+        return name
 
     def save(self):
         """office save"""
