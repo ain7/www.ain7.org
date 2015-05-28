@@ -44,7 +44,7 @@
 <b>{{ ain7member.person.last_name }} {% if ain7member.person.maiden_name %} ({{ ain7member.person.maiden_name }}) {% endif %}
 {{ ain7member.person.first_name }}</b></a>
 {% if ain7member.is_subscriber %}
-<img src="{% static "images/star.png" %}" title="Adherent {% now "Y" %}" alt="adherent {% now "Y" %}" width="16" height="16" />
+<img src="{% static "logo_ain7.png" %}" title="Adherent {% now "Y" %}" alt="adherent {% now "Y" %}" width="25" height="25" />
 {% endif %}
 {% if ain7member.person.personprivate.death_date %}
 <img src="{% static "images/deceased.png" %}" title="Décédé" alt="Décédé" width="16" height="16" />

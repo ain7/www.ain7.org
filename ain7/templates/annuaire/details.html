@@ -18,7 +18,7 @@
 <h1>{{ person.first_name }} {{ person.last_name }}</h1>
 
 {% if is_subscriber %}
-<b>{% trans "Subscriber" %} <img src="{% static "images/star.png" %}" alt="adherent" width="16" height="16" /></b>
+<b>{% trans "Subscriber" %} {% now "Y" %} <img src="{% static "logo_ain7.png" %}" alt="adherent" width="25" height="25" /></b>
 {% endif %}
 
 <table border="0" width="100%">
