@@ -35,7 +35,7 @@ from ain7.manage.models import Mailing
 @shared_task
 def expire_job_offers():
 
-    expiration_date = datetime.datetime.now()+datetime.timedelta(days=-90)
+    expiration_date = datetime.datetime.now()+datetime.timedelta(days=-120)
 
     for job in JobOffer.objects.filter(
             modified_at__lt=expiration_date,
@@ -62,11 +62,15 @@ def refresh_membership():
 
     today = timezone.now().date()
     members = Group.objects.get(name=settings.AIN7_MEMBERS)
+    members_list = members.active_members()
 
     for member in AIn7Member.objects.all():
-        last_subs_date = member.last_subscription_date
-        if not last_subs_date or last_subs_date - today > datetime.timedelta(days=30):
+        if member.is_subscriber():
+            if member.person not in members_list:
+                logging.info('Adding %s to %s' % (member.person, settings.AIN7_MEMBERS))
+                print ('Adding %s to %s' % (member.person, settings.AIN7_MEMBERS))
+                members.add(member.person)
+        elif member.person in members_list:
             logging.info('Removing %s from %s' % (member.person, settings.AIN7_MEMBERS))
-            #members.remove(member.person)
-        else:
-            logging.info('Membership ok for %s' % (member.person))
+            print ('Removing %s from %s' % (member.person, settings.AIN7_MEMBERS))
+            members.remove(member.person)
