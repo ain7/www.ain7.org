@@ -1,0 +1,79 @@
+{% extends "manage/base.html" %}
+
+{% load i18n %}
+
+{% block content-left %}
+
+<nav>
+  <ul class="pagination">
+    {% for year in range %}
+    <li><a href="{% url "subscriptions-stats-per-year" year %}">{{ year }}</a></li>
+    {% endfor %}
+  </ul>
+</nav>
+
+<h2>{% trans "Subscriptions Statistics"%} {{ year }}</h2>
+
+<table class="table table-bordered table-striped">
+<thead>
+<tr><th>Nombre de cotisants</th><th colspan="2">Taux</th><th>Montant</th></tr>
+</thead>
+<tbody>
+<tr><td>{{ stats_year.full.number }}</td><td>Taux plein</td><td>{{ stats_year.full.price }} €</td><td>{{ stats_year.full.amount }} €</td></tr>
+<tr><td>{{ stats_year.young.number }}</td><td>Jeunes promos</td><td>{{ stats_year.young.price }} €</td><td>{{ stats_year.young.amount }} €</td></tr>
+<tr><td>{{ stats_year.retired.number }}</td><td>Retraités</td><td>{{ stats_year.retired.price }} €</td><td>{{ stats_year.retired.amount }} €</td></tr>
+<tr><td>{{ stats_year.bienfaiteur.number }}</td><td>Bienfaiteurs</td><td>{{ stats_year.bienfaiteur.price }} €</td><td>{{ stats_year.bienfaiteur.amount }} €</td></tr>
+<tr><td>{{ stats_year.unemployed.number }}</td><td>Sans emploi</td><td>{{ stats_year.unemployed.price }} €</td><td>{{ stats_year.unemployed.amount }} €</td></tr>
+<tr><td>{{ stats_year.students.number }}</td><td>Elèves Affiliés</td><td>5, 10 ou 15 €</td><td>{{ stats_year.students.amount }} €</td></tr>
+<tr><td>{{ stats_year.other.number }}</td><td>Autres</td><td>n/a</td><td>{{ stats_year.other.amount }} €</td></tr>
+<tr><td colspan="3"><b>Total: {{ stats_year.total.number }} dont {{ stats_year.total.diplomees }} diplomés</b></td><td><b>Total: {{ stats_year.total.amount }} €</b></td></tr>
+</tbody>
+</table>
+
+<hr>
+
+<table class="table table-bordered table-striped">
+<thead>
+<tr><th>Janvier</th><th>Février</th><th>Mars</th><th>Avril</th><th>Mai</th><th>Juin</th><th>Juillet</th><th>Août</th><th>Septembre</th><th>Octobre</th><th>Novembre</th><th>Décembre</th></tr>
+</thead>
+<tbody>
+<tr>
+{% for month in stats_months %}
+<td>{{ month }}</td>
+{% endfor %}
+</tr>
+</tbody>
+</table>
+
+<hr>
+
+<table class="table table-bordered table-striped">
+<tr><th>Nombre d'adhérents Canal N7</th><td>{{ subscriptions_magazine_number }}</td></tr>
+<tr><th>Montant Canal N7</th><td>{{ subscriptions_magazine_amount }} €</td></tr>
+<tbody>
+</table>
+
+<a href="{% url "subscribers-csv" year %}" class="btn btn-info" role="button"><i class="fa fa-download"></i> Adhérents {{ year }}</a>
+&nbsp;
+<a href="{% url "subscribers-students-csv" year %}" class="btn btn-info" role="button"><i class="fa fa-download"></i> Élèves affiliés {{ year }}</a>
+&nbsp;
+<a href="{% url "subscribers-magazine-csv" year %}" class="btn btn-info" role="button"><i class="fa fa-download"></i> Abonnés Canal N7 {{ year }}</a>
+
+<hr>
+
+<h2>Années précédentes</h2>
+
+<table class="table table-bordered table-striped"> 
+<thead>
+<tr><th></th><th>Diplomés</th><th>Taux Pleins</th><th>Jeunes promos</th><th>Retraités</th><th>Bienfaiteurs</th><th>Sans emploi</th><th>Affiliés</th><th>Autre(s)</th><th>Total</th></tr>
+</thead>
+<tbody>
+{% for row in stats_subs %}
+<tr>
+<td><a href="{% url "subscriptions-stats-per-year" row.year %}">{{ row.year }}</a></td><td>{{ row.diplomees }}</td><td>{{ row.full }}</td><td>{{ row.young }}</td><td>{{ row.retired }}</td><td>{{ row.bienfaiteur }}</td><td>{{ row.unemployed }}</td><td>{{ row.students }}</td><td>{{ row.other }}</td><td>{{ row.total }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% endblock %}
