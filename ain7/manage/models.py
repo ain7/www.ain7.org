@@ -114,6 +114,9 @@ class Mailing(models.Model):
         """return unicode string for Mailing object"""
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('mailing-edit', args=[self.id])
+
     def build_html_body(self):
         """build html body for a mailing"""
 
