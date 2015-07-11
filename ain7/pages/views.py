@@ -32,7 +32,6 @@ from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import AIn7Member, Email, Person
 from ain7.decorators import access_required
-from ain7.emploi.models import JobOffer
 from ain7.groups.models import Group
 from ain7.news.models import NewsItem
 from ain7.pages.forms import LostPasswordForm, ChangePasswordForm
@@ -73,32 +72,25 @@ def homepage(request):
 def lostpassword(request):
     """lostpassword page"""
 
-    form = LostPasswordForm()
-    if request.method == 'GET':
-        return render(request, 'pages/lostpassword.html', {'form': form})
+    form = LostPasswordForm(request.POST or None)
 
-    if request.method == 'POST':
-        form = LostPasswordForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            person = Email.objects.get(email=email).person
+    if request.method == 'POST' and form.is_valid():
+        email = form.cleaned_data['email']
+        person = Email.objects.get(email=email).person
 
-            person.password_ask(email=email, request=request)
+        person.password_ask(email=email, request=request)
 
-            messages.success(request, _('We have sent you an email with\
+        messages.success(request, _('We have sent you an email with\
  instructions to reset your password.'))
-            request.path = '/'
-            return render(request, 'pages/lostpassword.html')
-        else:
-            messages.info(request, _('If you are claiming an existing\
- account but don\'t know the email address that was used, please\
- contact an AIn7 administrator.'))
-            return render(request, 'pages/lostpassword.html', {'form': form})
+        return redirect('homepage')
+
+    return render(request, 'pages/lostpassword.html', {'form': form})
 
 
 def changepassword(request, key):
     """changepassword page"""
-    form = ChangePasswordForm()
+
+    form = ChangePasswordForm(request.POST or None)
 
     lostpw = get_object_or_404(LostPassword, key=key)
 
@@ -107,17 +99,18 @@ def changepassword(request, key):
         messages.error(request, _('Page expired, please request a new key'))
         return render(request, 'pages/changepassword.html')
 
-    if request.POST:
-        form = ChangePasswordForm(request.POST)
-        if form.is_valid():
-            person = lostpw.person
-            lostpw.delete()
-            person.user.set_password(form.cleaned_data['password'])
-            person.user.save()
-            messages.success(request, _('Successfully changed password'))
-            user = auth.authenticate(username=person.user.username, password=form.cleaned_data['password'])
-            auth.login(request, user)
-            return redirect('homepage')
+    if request.POST and form.is_valid():
+        person = lostpw.person
+        lostpw.delete()
+        person.user.set_password(form.cleaned_data['password'])
+        person.user.save()
+        messages.success(request, _('Successfully changed password'))
+        user = auth.authenticate(
+            username=person.user.username,
+            password=form.cleaned_data['password']
+        )
+        auth.login(request, user)
+        return redirect('homepage')
 
     return render(request, 'pages/changepassword.html', {
         'form': form,
