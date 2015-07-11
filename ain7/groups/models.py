@@ -26,6 +26,7 @@ import datetime
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext as _
+from django.utils import timezone
 
 from ain7.annuaire.models import Person
 from ain7.utils import LoggedClass
@@ -60,7 +61,7 @@ class Member(LoggedClass):
     is_administrator = models.BooleanField(default=False)
 
     start_date = models.DateField(verbose_name=_('start date'),
-        default=datetime.datetime.today(), blank=True, null=True)
+        default=timezone.now(), blank=True, null=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True,
         null=True)
     expiration_date = models.DateField(verbose_name=_('expiration date'), blank=True,
@@ -102,7 +103,7 @@ class GroupLeader(models.Model):
         related_name='council_roles')
 
     start_date = models.DateField(verbose_name=_('start date'),
-        default=datetime.datetime.now, blank=True, null=True)
+        default=timezone.now(), blank=True, null=True)
     end_date = models.DateField(verbose_name=_('end date'),
         blank=True, null=True)
     board_member = models.BooleanField(default=False)
@@ -165,29 +166,29 @@ class Group(LoggedClass):
         """professionnal group membership test"""
         return self.members.filter(member=person)\
             .exclude(end_date__isnull=False,\
-            end_date__lte=datetime.datetime.now())\
-            .filter(start_date__lte=datetime.datetime.now())\
+            end_date__lte=timezone.now())\
+            .filter(start_date__lte=timezone.now())\
             .count() != 0
 
     def active_members(self):
         """current group members"""
         from django.db.models import Q
-        return [ ms for ms in self.members.filter(Q(start_date__lte=\
+        return [ ms.member for ms in self.members.filter(Q(start_date__lte=\
             datetime.date.today()), Q(end_date__gte=datetime.date.today()) \
             | Q(end_date__isnull=True)) ]
 
     def all_members(self):
         """all group members"""
         from django.db.models import Q
-        return [ ms for ms in self.members.al() ]
+        return [ ms.member for ms in self.members.all() ]
 
     def has_for_board_member(self, person):
         """check board member for a regional group"""
         has_role = False
         if self.grouphead:
             for role in self.grouphead.groupleader_set.filter(person=person)\
-               .filter(start_date__lte=datetime.datetime.now()):
-                if not role.end_date or role.end_date > datetime.datetime.now():
+               .filter(start_date__lte=timzone.now()):
+                if not role.end_date or role.end_date > timezone.now():
                     has_role = True
         return has_role
 
@@ -202,9 +203,15 @@ class Group(LoggedClass):
         member.save()
 
     def remove(self, person):
-        member = Member.objects.get(group=self, person=person)
-        member.end_date = datetime.date.today()
-        member.save()
+        try:
+            member = Member.objects.get(group=self, member=person)
+            member.end_date = datetime.date.today()
+            member.save()
+        except Member.DoesNotExist:
+            pass
+        except Member.MultipleObjectsReturned:
+            # FIXME: wtf!
+            pass
 
     def get_group_head(self):
         from django.db.models import Q 
