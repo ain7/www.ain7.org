@@ -216,7 +216,7 @@ class Office(LoggedClass):
     def __unicode__(self):
         """office unicode"""
         name = self.organization.name
-        if self.name:
+        if self.name and self.name != self.organization.name:
             name += ' ('+self.name+')'
 
         if self.zip_code and self.city:

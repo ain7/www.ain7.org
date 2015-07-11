@@ -53,7 +53,7 @@
 <ul>
 {% for emploi in job_offers %}
 <li class="job"><a href="{% url "ain7.emploi.views.job_details" emploi.id %}">{{ emploi.title }}</a> 
-{% if emploi.office  %}- (<a href="{% url "ain7.organizations.views.organization_details" emploi.office.organization.id %}">{{ emploi.office.organization }}</a> {{ emploi.office }}){% endif %}
+{% if emploi.office  %}- (<a href="{% url "ain7.organizations.views.organization_details" emploi.office.organization.id %}">{{ emploi.office }}</a>){% endif %}
 </li>
 {% endfor %}
  </ul>

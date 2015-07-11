@@ -17,7 +17,7 @@
 {% if job.office %}
 <ul>
 <li><b>{% filter capfirst%}{% trans "organization" %}{% endfilter %}&nbsp;:</b>
-    <a href="{% url "ain7.organizations.views.organization_details" job.office.organization.id %}">{{ job.office.organization }}</a>, {{ job.office }}
+    <a href="{% url "ain7.organizations.views.organization_details" job.office.organization.id %}">{{ job.office }}</a>
 </li>
 {% endif %}
 <li><b>{% trans "Contract Type" %}&nbsp;:</b> {{ job.get_contract_type_display }}</li>
