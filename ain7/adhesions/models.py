@@ -35,10 +35,10 @@ class Subscription(LoggedClass):
 
     TENDER_TYPE = (
         (1, ('Cash')),
-        (2, _('Cheque')),
-        (4, _('Card')),
-        (5, _('Transfer')),
-        (6, _('Other')),
+        (2, ('Cheque')),
+        (4, ('Card')),
+        (5, ('Transfer')),
+        (6, ('Other')),
     )
 
     # For potential backward compatibility
