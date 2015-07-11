@@ -623,7 +623,7 @@ def mailing_edit(request, mailing_id=None):
         mailing.modified_by = request.user.person
         mailing.save()
         messages.success(request, _('Mailing successfully updated'))
-        return redirect('mailings-index')
+        return redirect(mailing)
 
     return render(request, 'manage/mailing_edit.html', {
         'mailing': mailing,
