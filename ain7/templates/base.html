@@ -285,6 +285,15 @@
 
     <script src="{% static "theme/js/responsive-slider.js" %}"></script>
 
+    <script type="text/javascript" src="{% static "bootstrap-datepicker/js/bootstrap-datepicker.js" %}"></script>
+
+    <script type="text/javascript">
+$('.dateinput').datepicker({
+     format: 'dd/mm/yyyy',
+     autoclose: true,
+})
+    </script>
+
     <!-- Go to www.addthis.com/dashboard to customize your tools -->
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4dc7154b4ea96654" async="async"></script>
 
