@@ -27,6 +27,7 @@ from django import forms
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 from django.forms.util import ValidationError
+from django.utils import timezone
 
 from ain7.annuaire.models import (
     AIn7Member, Promo, Track, PromoYear, Person,
@@ -76,7 +77,7 @@ class NewMemberForm(forms.Form):
         """check birth date"""
         bdate = self.cleaned_data['birth_date']
 
-        now = datetime.datetime.now()
+        now = timezone.now()
 
         if (bdate and (now < bdate)):
             raise ValidationError(_('Invalid date of birth'))
