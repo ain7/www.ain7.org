@@ -24,6 +24,7 @@ from django.conf.urls import include, patterns, url
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib import admin
+from django.views.generic.base import RedirectView
 
 import autocomplete_light
 
@@ -105,10 +106,10 @@ urlpatterns = patterns('',
     url(r'^groupes_regionaux/$', 'ain7.pages.views.regional_groups', name='regional_groups'),
 
     # redirection to external communities
-    url(r'^facebook/$', 'ain7.pages.views.facebook', name='facebook'),
-    url(r'^linkedin/$', 'ain7.pages.views.linkedin', name='linkedin'),
-    url(r'^twitter/$', 'ain7.pages.views.twitter', name='twitter'),
-    url(r'^g\+/$', 'ain7.pages.views.gplus', name='g+'),
+    url(r'^facebook/$', RedirectView.as_view(url=settings.FACEBOOK_AIN7), name='facebook'),
+    url(r'^linkedin/$', RedirectView.as_view(url=settings.LINKEDIN_AIN7), name='linkedin'),
+    url(r'^twitter/$', RedirectView.as_view(url=settings.TWITTER_AIN7), name='twitter'),
+    url(r'^g\+/$', RedirectView.as_view(url=settings.GPLUS_AIN7), name='g+'),
 
     # django-autocomplete-light
     url(r'^autocomplete/', include('autocomplete_light.urls')),

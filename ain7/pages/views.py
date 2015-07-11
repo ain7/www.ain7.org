@@ -190,23 +190,3 @@ def regional_groups(request):
         'groups': groups,
         }
     )
-
-
-def facebook(request):
-    """redirect to Facebook ENSEEIHT/Alumni Community"""
-    return redirect(settings.FACEBOOK_AIN7)
-
-
-def linkedin(request):
-    """redirect to Linkedin ENSEEIHT/Alumni Community"""
-    return redirect(settings.LINKEDIN_AIN7)
-
-
-def twitter(request):
-    """redirect to Twitter ENSEEIHT/Alumni Feed"""
-    return redirect(settings.TWITTER_AIN7)
-
-
-def gplus(request):
-    """redirect to Google+ ENSEEIHT/Alumni Feed"""
-    return redirect(settings.GPLUS_AIN7)
