@@ -8,7 +8,7 @@
 {% if superadmin or ca_member or secretariat_member or contributeur %}
 <ul class="list-inline">
 <li><a class="btn btn-primary" href="{% url "ain7.news.views.edit" news_item.slug %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></li>
-<li><a class="btn btn-primary" href="{% url "ain7.news.views.delete" news_item.slug %}"><i class="fa fa-trash-o fa-lg"></i> {% trans "Delete" %}</a></li>
+{# <li><a class="btn btn-primary" href="{% url "ain7.news.views.delete" news_item.slug %}"><i class="fa fa-trash-o fa-lg"></i> {% trans "Delete" %}</a></li> #}
 </ul>
 {% endif %}
 
