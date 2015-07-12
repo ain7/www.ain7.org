@@ -25,7 +25,7 @@ from django.conf.urls import patterns, url
 
 
 urlpatterns = patterns('ain7.adhesions.views',
-    url(r'^$', 'index', name='adhesions-index'),
+    url(r'^$', 'index', name='subscriptions'),
     url(r'^subscriptions/to_validate$', 'subscriptions', {'to_validate': True}, 'to_validate_subscriptions'),
     url(r'^subscriptions/(?P<subscription_id>\d+)/validate/$', 'subscription_validate'),
     url(r'^subscriptions/(?P<subscription_id>\d+)/delete/$', 'subscription_delete'),
