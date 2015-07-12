@@ -361,7 +361,7 @@ def event_search(request):
     """event search"""
 
     form = SearchEventForm(request.GET or None)
-    list_events = False
+    list_events = []
 
     if (
         (request.GET.has_key('location') or request.GET.has_key('title'))
