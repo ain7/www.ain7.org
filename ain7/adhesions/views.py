@@ -214,22 +214,22 @@ AIn7 Team
             if payment.type == 4:
 
                 # payment amount in cents
-                systempay['vads_amount'] = payment.amount*100
+                systempay['vads_amount'] = str(payment.amount*100)
                 # 978 is code for Euros
-                systempay['vads_currency'] = 978
-                systempay['vads_site_id'] = settings.SYSTEM_PAY_SITE_ID
+                systempay['vads_currency'] = '978'
+                systempay['vads_site_id'] = str(settings.SYSTEM_PAY_SITE_ID)
                 systempay['vads_trans_id'] = "%06d" % (payment.id % 900000)
                 systempay['vads_trans_date'] = datetime.datetime.utcnow().strftime("%Y%m%d%H%M%S")
                 systempay['vads_version'] = 'V2'
                 systempay['vads_payment_config'] = 'SINGLE'
                 systempay['vads_page_action'] = 'PAYMENT'
                 systempay['vads_action_mode'] = 'INTERACTIVE'
-                systempay['vads_ctx_mode'] = settings.SYSTEM_PAY_MODE
-                systempay['vads_order_id'] = payment.id
-                systempay['vads_cust_name'] = person.complete_name.encode('utf-8')
+                systempay['vads_ctx_mode'] = str(settings.SYSTEM_PAY_MODE)
+                systempay['vads_order_id'] = str(payment.id)
+                systempay['vads_cust_name'] = person.complete_name
                 systempay['vads_cust_email'] = person.mail_favorite()
 
-                systempay_string = '+'.join([str(v) for k, v in sorted(systempay.items())])+'+'+settings.SYSTEM_PAY_CERTIFICATE
+                systempay_string = '+'.join([v.encode('utf-8') for k, v in sorted(systempay.items())])+'+'+settings.SYSTEM_PAY_CERTIFICATE
                 systempay_signature = hashlib.sha1(systempay_string).hexdigest()
 
             return render(request, 'adhesions/informations.html', {
@@ -299,10 +299,12 @@ def configuration_edit(request, year, config_id=None):
 def configuration_delete(request, config_id=None):
     """delete subscription configuration"""
 
-    return ain7_generic_delete(request, 
-         get_object_or_404(SubscriptionConfiguration, pk=config_id),
-         reverse(configurations),
-         _('Configuration successfully deleted.'))
+    return ain7_generic_delete(
+        request,
+        get_object_or_404(SubscriptionConfiguration, pk=config_id),
+        reverse(configurations),
+        _('Configuration successfully deleted.')
+    )
 
 
 @csrf_exempt
@@ -312,8 +314,8 @@ def notification(request):
     from django.conf import settings
 
     if request.method == 'POST':
-       
-        systempay_string = '+'.join([str(v) for k, v in sorted(request.POST.items()) if k.startswith('vads_')])+'+'+settings.SYSTEM_PAY_CERTIFICATE
+
+        systempay_string = '+'.join([v.encode('utf-8') for k, v in sorted(request.POST.items()) if k.startswith('vads_')])+'+'+settings.SYSTEM_PAY_CERTIFICATE
         systempay_signature = hashlib.sha1(systempay_string).hexdigest()
 
         if systempay_signature == request.POST['signature'] and request.POST['vads_result'] == '00':
