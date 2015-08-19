@@ -152,12 +152,12 @@ INSTALLED_APPS += (
 AUTHENTICATION_BACKENDS = DEFAULT_SETTINGS.AUTHENTICATION_BACKENDS + (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
-TEMPLATE_CONTEXT_PROCESSORS += (
-    'allauth.account.context_processors.account',
-    'allauth.socialaccount.context_processors.socialaccount',
-    'ain7.context_processors.piwik',
-    'ain7.context_processors.user_groups',
-)
+#TEMPLATE_CONTEXT_PROCESSORS += (
+#    'allauth.account.context_processors.account',
+#    'allauth.socialaccount.context_processors.socialaccount',
+#    'ain7.context_processors.piwik',
+#    'ain7.context_processors.user_groups',
+#)
 
 
 LOGIN_REDIRECT_URL = '/'
