@@ -25,6 +25,7 @@ import autocomplete_light
 import datetime
 
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.forms.models import modelform_factory
 from django.shortcuts import get_object_or_404, redirect, render
@@ -113,6 +114,7 @@ def join(request, slug):
     return redirect('group-details', group.slug)
 
 
+@login_required
 def members(request, slug):
     """group members"""
     group = get_object_or_404(Group, slug=slug)
@@ -174,7 +176,7 @@ def member_delete(request, slug, member_id):
     return redirect('group-details', group.slug)
 
 
-@confirmation_required(lambda slug: 
+@confirmation_required(lambda slug:
     str(get_object_or_404(Group, slug=slug)),
     'groups/base.html', _('Do you really want to quit the group'))
 @access_required(groups=['ain7-membre'])
