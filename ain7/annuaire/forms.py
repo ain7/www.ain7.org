@@ -21,8 +21,6 @@
 #
 #
 
-import datetime
-
 from django import forms
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
@@ -51,7 +49,7 @@ class NewMemberForm(forms.Form):
         widget=forms.TextInput(attrs={'size': 40})
     )
     nationality = forms.IntegerField(label=_('Nationality'), required=False)
-    birth_date = forms.DateTimeField(label=_('Date of birth'), required=False)
+    birth_date = forms.DateField(label=_('Date of birth'), required=False)
     sex = forms.ChoiceField(label=_('Sex'), required=True, choices=Person.SEX)
     promoyear = forms.IntegerField(label=_('Promo year'), required=False)
     track = forms.IntegerField(label=_('Track'), required=False)
@@ -77,7 +75,7 @@ class NewMemberForm(forms.Form):
         """check birth date"""
         bdate = self.cleaned_data['birth_date']
 
-        now = timezone.now()
+        now = timezone.now().date()
 
         if (bdate and (now < bdate)):
             raise ValidationError(_('Invalid date of birth'))
