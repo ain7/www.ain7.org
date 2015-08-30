@@ -43,7 +43,7 @@ from ain7.annuaire.forms import (
     ChangePasswordForm, PromoForm, NewMemberForm
 )
 from ain7.decorators import access_required, confirmation_required
-from ain7.utils import ain7_generic_delete
+from ain7.utils import ain7_generic_delete, generate_login
 
 
 @login_required
@@ -666,3 +666,77 @@ def vcard(request, user_id):
         person.user.username+'.vcf')
 
     return response
+
+
+def welcome(request):
+
+    PersonForm = modelform_factory(Person, fields=('first_name', 'last_name',))
+    MemberForm = modelform_factory(AIn7Member, fields=('promos',))
+    EmailForm = modelform_factory(Email, fields=('email',))
+
+    person_form = PersonForm(request.POST or None)
+    member_form = MemberForm(request.POST or None)
+    member_form.fields['promos'].queryset = Promo.objects.filter(year__year=2017)
+    email_form = EmailForm(request.POST or None)
+
+    if (
+            request.method == 'POST' and
+            person_form.is_valid() and
+            member_form.is_valid() and
+            email_form.is_valid()
+        ):
+
+        username = generate_login(
+            person_form.cleaned_data['first_name'],
+            person_form.cleaned_data['last_name']
+        )
+
+        user = User.objects.create_user(
+            email=email_form.cleaned_data['email'],
+            first_name=person_form.cleaned_data['first_name'],
+            last_name=person_form.cleaned_data['last_name'],
+            username=username,
+        )
+        user.save()
+        person = person_form.save(commit=False)
+        person.user = user
+        person.save()
+        pp = PersonPrivate()
+        pp.person = person
+        pp.save()
+        member = member_form.save(commit=False)
+        member.person = person
+        member.save()
+        member_form.save_m2m()
+        email = email_form.save(commit=False)
+        email.person = person
+        email.save()
+
+        return redirect('subscription-welcome', person.pk)
+
+    return render(request, 'annuaire/welcome.html', {
+        'email_form': email_form,
+        'member_form': member_form,
+        'person_form': person_form,
+        }
+    )
+
+
+def welcome_subscription(request, person_id, subscription_id=None):
+
+    member = AIn7Member.objects.get_object_or_404(AIn7Member, person__pk=person_id)
+    
+    SubscriptionForm = modelform_factory(Subscription, fields=('tender_type',))
+    form = SubscriptionForm(request.POST or None)
+
+    if request.METHOD == 'POST' and form.is_valid():
+        subsciption = form.save(commit=False)
+        subscription.member = member
+        subscription.save()
+
+    return render(request, 'adhesions/welcome.html', {
+        'email_form': email_form,
+        'member_form': member_form,
+        'person_form': person_form,
+        }
+    )

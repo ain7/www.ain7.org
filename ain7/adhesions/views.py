@@ -21,15 +21,16 @@
 #
 #
 
-import datetime
 import hashlib
 
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.forms.models import modelform_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_exempt
 
@@ -41,16 +42,13 @@ from ain7.decorators import access_required, confirmation_required
 from ain7.utils import ain7_generic_delete
 
 
+@login_required
 def index(request):
     """index adhesions"""
 
     count_subscribers = Subscription.objects.filter(validated=True).exclude(
-        start_year__gt=datetime.date.today().year).exclude(
-        end_year__lt=datetime.date.today().year).count()
-
-    if not request.user.is_authenticated():
-        return HttpResponseRedirect('/accounts/login/?next=' +
-           reverse('ain7.adhesions.views.index'))
+        start_year__gt=timezone.now().date().year).exclude(
+        end_year__lt=timezone.now().date().year).count()
 
     user_groups = request.user.person.groups.values_list('group__name', flat=True)
 
@@ -70,7 +68,7 @@ def index(request):
     )
 
 
-@access_required(groups=['ain7-secretariat','ain7-ca'])
+@access_required(groups=['ain7-secretariat', 'ain7-ca'])
 def subscriptions(request, to_validate=False):
     """list subscriptions"""
 
@@ -86,7 +84,7 @@ def subscriptions(request, to_validate=False):
     )
 
 
-@confirmation_required(lambda user_id=None, subscription_id=None : 
+@confirmation_required(lambda user_id=None, subscription_id=None:
      str(get_object_or_404(Subscription, pk=subscription_id)), 
      'adhesions/base.html', 
     _('Do you really want to validate this subscription'))
@@ -102,9 +100,9 @@ def subscription_validate(request, subscription_id=None):
     return redirect('subscriptions')
 
 
-@confirmation_required(lambda user_id=None, subscription_id=None :
+@confirmation_required(lambda user_id=None, subscription_id=None:
     str(get_object_or_404(Subscription, pk=subscription_id)),
-    'adhesions/base.html', 
+    'adhesions/base.html',
     _('Do you really want to delete this subscription'))
 @access_required(groups=['ain7-secretariat'])
 def subscription_delete(request, subscription_id=None):
@@ -143,7 +141,7 @@ def subscription_add(request, user_id=None):
 
     title = _('Adding a subscription for')
 
-    year_current = datetime.date.today().year
+    year_current = timezone.now().date().year
 
     page_dict = {'action_title': title, 'person': person,
         'configurations': SubscriptionConfiguration.objects.filter(year=year_current).\
@@ -176,7 +174,7 @@ def subscription_add(request, user_id=None):
             subscription.start_year = form.cleaned_data['start_year']
             subscription.end_year = form.cleaned_data['start_year'] + \
                 configuration.duration - 1
-            subscription.date = datetime.datetime.now()
+            subscription.date = timezone.now().date()
             subscription.member = ain7member
 
             payment = Payment()
@@ -185,7 +183,7 @@ def subscription_add(request, user_id=None):
                 payment.amount += form.cleaned_data['newspaper_amount']
             payment.type = form.cleaned_data['tender_type']
             payment.person = ain7member.person
-            payment.date = datetime.date.today()
+            payment.date = timezone.now().date()
             payment.save()
 
             subscription.payment = payment
@@ -219,7 +217,7 @@ AIn7 Team
                 systempay['vads_currency'] = '978'
                 systempay['vads_site_id'] = str(settings.SYSTEM_PAY_SITE_ID)
                 systempay['vads_trans_id'] = "%06d" % (payment.id % 900000)
-                systempay['vads_trans_date'] = datetime.datetime.utcnow().strftime("%Y%m%d%H%M%S")
+                systempay['vads_trans_date'] = timezone.now().strftime("%Y%m%d%H%M%S")
                 systempay['vads_version'] = 'V2'
                 systempay['vads_payment_config'] = 'SINGLE'
                 systempay['vads_page_action'] = 'PAYMENT'
@@ -241,8 +239,75 @@ AIn7 Team
             )
 
 
+def welcome_subscription(request, person_id):
+
+    member = get_object_or_404(AIn7Member, person__pk=person_id)
+    configuration = SubscriptionConfiguration.objects.get(
+        type=SubscriptionConfiguration.TYPE_STUDENT_3Y,
+        year=timezone.now().date().year,
+    )
+
+    SubscriptionForm = modelform_factory(Subscription, fields=('tender_type',))
+    form = SubscriptionForm(request.POST or None)
+
+    if request.method == 'POST' and form.is_valid():
+        subscription = form.save(commit=False)
+        subscription.member = member
+        subscription.dues_amount = configuration.dues_amount
+        subscription.newspaper_amount = configuration.newspaper_amount
+        subscription.date = timezone.now().date()
+        subscription.start_year = timezone.now().date().year
+        subscription.end_year = timezone.now().date().year + 3
+        subscription.save()
+
+        payment = Payment()
+        payment.amount = subscription.dues_amount
+        payment.type = subscription.tender_type
+        payment.person = member.person
+        payment.date = timezone.now().date()
+        payment.save()
+
+        systempay = {}
+        systempay_signature = ''
+
+        if subscription.tender_type == 4:
+
+            # payment amount in cents
+            systempay['vads_amount'] = str(subscription.dues_amount*100)
+            # 978 is code for Euros
+            systempay['vads_currency'] = '978'
+            systempay['vads_site_id'] = str(settings.SYSTEM_PAY_SITE_ID)
+            systempay['vads_trans_id'] = "%06d" % (payment.id % 900000)
+            systempay['vads_trans_date'] = timezone.now().strftime("%Y%m%d%H%M%S")
+            systempay['vads_version'] = 'V2'
+            systempay['vads_payment_config'] = 'SINGLE'
+            systempay['vads_page_action'] = 'PAYMENT'
+            systempay['vads_action_mode'] = 'INTERACTIVE'
+            systempay['vads_ctx_mode'] = str(settings.SYSTEM_PAY_MODE)
+            systempay['vads_order_id'] = str(payment.id)
+            systempay['vads_cust_name'] = member.person.complete_name
+            systempay['vads_cust_email'] = member.person.mail_favorite()
+
+            systempay_string = '+'.join([v.encode('utf-8') for k, v in sorted(systempay.items())])+'+'+settings.SYSTEM_PAY_CERTIFICATE
+            systempay_signature = hashlib.sha1(systempay_string).hexdigest()
+
+        return render(request, 'adhesions/informations.html', {
+            'payment': payment,
+            'systempay': systempay,
+            'systempay_signature': systempay_signature,
+            'systempay_url': settings.SYSTEM_PAY_URL
+            }
+        )
+
+    return render(request, 'adhesions/welcome.html', {
+        'form': form,
+        'member': member,
+        }
+    )
+
+
 @access_required(groups=['ain7-secretariat', 'ain7-ca'])
-def configurations(request, year=datetime.date.today().year):
+def configurations(request, year=timezone.now().date().year):
     """configure subscriptions"""
 
     year = int(year)
@@ -251,7 +316,7 @@ def configurations(request, year=datetime.date.today().year):
     if (
         SubscriptionConfiguration.objects.filter(year=year).count() == 0
         and
-        year <= datetime.date.today().year + 1
+        year <= timezone.now().date().year + 1
         and
         SubscriptionConfiguration.objects.filter(year=year-1).count() > 0
     ):

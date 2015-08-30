@@ -23,6 +23,7 @@
 
 import datetime
 import time
+import uuid
 
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
@@ -998,3 +999,11 @@ class UserActivity(models.Model):
         verbose_name = _('user activity')
         verbose_name_plural = _('users activities')
         ordering = ['date']
+
+
+class ProfileEditKey(models.Model):
+
+    person = models.ForeignKey(Person, null=False)
+    key = models.UUIDField(default=uuid.uuid4, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    expire_at = models.DateTimeField(editable=False)

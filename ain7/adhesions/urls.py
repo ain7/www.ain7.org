@@ -36,6 +36,7 @@ urlpatterns = patterns('ain7.adhesions.views',
     url(r'^configurations/(?P<year>\d+)/(?P<config_id>\d+)/edit/$', 'configuration_edit'),
     url(r'^configurations/(?P<year>\d+)/(?P<config_id>\d+)/delete/$', 'configuration_delete'),
     url(r'^configurations/add/$', 'configuration_edit', {}, 'configuration_add'),
+    url(r'^welcome/(?P<person_id>\d+)/$', 'welcome_subscription', name='subscription-welcome'),
     url(r'^notification/$', 'notification'),
 
 )

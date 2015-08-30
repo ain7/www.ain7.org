@@ -83,6 +83,8 @@ urlpatterns = patterns('',
     # adhesions
     (r'^adhesions/', include('ain7.adhesions.urls')),
 
+    url(r'^welcome/', 'ain7.annuaire.views.welcome'),
+
     # Pages particulieres au contenu pseudo statique
     (r'^apropos/$', 'ain7.pages.views.apropos'),
     (r'^mentions_legales/$', 'ain7.pages.views.mentions_legales'),
