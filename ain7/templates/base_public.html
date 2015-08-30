@@ -1,0 +1,254 @@
+{% load  i18n %}
+{% load static from staticfiles %}
+<!DOCTYPE html>                                                                 
+<html lang="en">                                                                
+  <head>                                                                        
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="AIn7">
+    {% block meta %}{{ meta }}{% endblock %}
+
+    <title>{% if page_title %}{{ page_title }} - {% else %} {%if text.title %} {{ text.title }} - {% endif %} {% endif %} {% trans "AIn7: ENSEEIHT Engineer Alumni Association" %}</title>
+
+    <link rel="icon" href="{% static "images/favicon.png" %}">
+    <link rel="alternate" type="application/rss+xml" href="/rss/events/" />
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <!--
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    -->
+
+
+    <link rel="stylesheet" href="{% static "theme/css/responsive-slider.css" %}">
+    <link rel="stylesheet" href="{% static "theme/css/animate.css" %}">
+    <link rel="stylesheet" href="{% static "theme/css/style.css" %}">
+    {% block stylesheet %}{{ meta }}{% endblock %}
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link href="{% static "css/ain7.css" %}" rel="stylesheet">
+
+  </head>
+<body>
+    <header>
+                <div class="container">
+                        <div class="row">
+                                <nav class="navbar navbar-default" role="navigation">
+                                        <div class="container-fluid">
+ <div class="navbar-header">
+
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#ain7-topmenu" aria-expanded="false">
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+</button>
+
+<div class="navbar-brand">
+<a href="{% url "homepage" %}"><img src="{% static "logo_ain7.png" %}"></a>
+</div>
+
+ </div>
+
+</div>
+</div>
+</header>
+
+<div class="container">
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissable" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    {{ message }}
+    </div>
+    {% endfor %}
+{% endif %}
+
+</div>
+
+<div class="container">
+{% block content %}{{ content }}{% endblock %}
+</div>
+
+        <div class="container">
+                <div class="row">
+                        <hr>
+                </div>
+        </div>
+        
+        <!--start footer-->
+        <footer>
+
+                <div class="container">
+                        <div class="row">
+                                        <div class="col-lg-12 text-center">
+                                                <ul class="social-network">
+
+                                <li><a href="{% url "facebook" %}" data-placement="top" title="Facebook" target="_blank">
+                                <span class="fa-stack fa-3x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x text-primary white"></i>
+                                </span></a></li>
+
+                                <li><a href="{% url "twitter" %}" data-placement="top" title="Twitter" target="_blank">
+                                <span class="fa-stack fa-3x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x text-primary white"></i>
+                                </span></a></li>
+
+                                <li><a href="{% url "linkedin" %}" data-placement="top" title="Linkedin" target="_blank">
+                                <span class="fa-stack fa-3x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x text-primary white"></i>
+                                </span></a></li>
+
+                                <li><a href="{% url "g+" %}" data-placement="top" title="Google+" target="_blank">
+                                <span class="fa-stack fa-3x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-google-plus fa-stack-1x text-primary white"></i>
+                                </span></a></li>
+
+                                <li><a href="{% url "rss" %}" data-placement="top" title="Google+" target="_blank">
+                                <span class="fa-stack fa-3x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x text-primary white"></i>
+                                </span></a></li>
+
+                                                </ul>
+                                        </div>
+                                        </div>
+                                </div>
+
+                <div class="container">
+                        <div class="row">
+                                <hr>
+                        </div>
+                </div>
+
+                <div class="container">
+                        <div class="row">
+                                <div class="col-lg-3">
+                                        <div class="widget">
+                                            <h5 class="widgetheading">{% trans "Contact" %}</h5>
+                                                <address>
+                                                <strong>Association des Ingénieurs N7</strong><br>
+                                                 2 rue Charles Camichel<br>
+                                                 31071 Toulouse
+                                                </address>
+                                                <p>
+                                                       <i class="fa fa-phone"></i> <a href="tel:+33 (0)5 34 32 20 29">+33 (0)5 34 32 20 29</a><br>
+                                                        <i class="fa fa-envelope-o"></i> <a href="mailto:contact@ain7.com">contact@ain7.com</a>
+                                                </p>
+                                        </div>
+                                </div>
+
+                                <div class="col-lg-3">
+                                        <div class="widget">
+                                            <h5 class="widgetheading">{% trans "Pages" %}</h5>
+                                                <ul class="link-list">
+                                                        <li><a href="/apropos/">{% trans "About" %}</a></li>
+                                                        <li><a href="/mentions_legales/">{% trans "Terms of use" %}</a></li>
+                                                        <li><a href="/association/contact/">{% trans "Contact" %}</a></li>
+                                                </ul>
+                                        </div>
+                                </div>
+                                <div class="col-lg-3">
+                                </div>
+                                <div class="col-lg-3">
+                                        <div class="widget">
+                                            <h5 class="widgetheading">{% trans "Links" %}</h5>
+                                                <ul class="link-list">
+                                                        <li><a href="http://www.enseeiht.fr" target="_blank">ENSEEIHT</a></li>
+                                                        <li><a href="http://www.bde.enseeiht.fr" target="_blank">Bureau Des Élèves de l'n7</a></li>
+                                                        <li><a href="http://iesf.fr" target="_blank">IESF</a></li>
+                                                        <li><a href="http://www.inp-toulouse.fr" target="_blank">INP Toulouse</a></li>
+                                                        <li><a href="http://www.g9plus.org" target="_blank">Institut G9+</a></li>
+                                                </ul>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+
+                <div class="container">
+                        <div class="row">
+                                <hr>
+                        </div>
+                </div>
+                
+                <div id="sub-footer">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col-lg-12 center">
+                                                <div class="copyright">
+                                                        <p class="text-center">
+                                                                <span>&copy; AIn7 2009-2015</span>
+                                                        </p>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </footer>
+        <!--end footer-->
+        
+        
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+
+    {% include 'autocomplete_light/static.html' %}
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
+
+    <script src="{% static "theme/js/responsive-slider.js" %}"></script>
+
+    <script type="text/javascript" src="{% static "bootstrap-datepicker/js/bootstrap-datepicker.js" %}"></script>
+
+    <script type="text/javascript">
+$('.dateinput').datepicker({
+     format: 'dd/mm/yyyy',
+     autoclose: true,
+})
+    </script>
+
+    <!-- Go to www.addthis.com/dashboard to customize your tools -->
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4dc7154b4ea96654" async="async"></script>
+
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://piwik.ain7.info/" : "{{ piwik_url }}");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", {{ piwik_site_id }});
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</script><noscript><p><img src="{{ piwik_url }}piwik.php?idsite={{ piwik_site_id}}" style="border:0" alt=""/></p></noscript>
+<!-- End Piwik Tag -->
+
+<script>
+tinymce.init({
+    selector:'textarea',
+    plugins: [
+        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+        "searchreplace wordcount visualblocks visualchars code fullscreen",
+        "insertdatetime media nonbreaking save table contextmenu directionality",
+        "emoticons template paste textcolor colorpicker textpattern"
+    ],
+    toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+    toolbar2: "print preview media | forecolor backcolor emoticons",
+    image_advtab: true,
+});
+</script>
+
+  </body>
+</html>

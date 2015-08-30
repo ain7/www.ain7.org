@@ -1,0 +1,29 @@
+{% extends "base_public.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load static from staticfiles %}
+
+{% block content %}
+
+<div class="row">
+
+<div class="col-lg-offset-1 col-lg-10">
+
+<h1>Adhérez à l'AIn7 !</h1>
+
+Adhérez à l'AIn7 dès maintenant et rejoignez le réseau des N7.
+
+<form method="post" action="." enctype="multipart/form-data">
+{% csrf_token %}
+{{ form|crispy }}
+<div class="form-group">
+<div class="col-lg-offset-4">
+<button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> {% trans "Subscribe" %}!</button>
+</div>
+</div>
+</form>
+
+</div>
+</div>
+
+{% endblock %}
