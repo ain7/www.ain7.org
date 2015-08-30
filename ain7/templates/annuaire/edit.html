@@ -101,7 +101,11 @@
 <p><a href="{% url "ain7.annuaire.views.personprivate_edit" person.user.id %}">{% trans "Modify" %}</a></p>
 {% endif %}
 
-<h2><a name="address"></a>{% trans "Address" %}</h2>
+<h2>
+    <a name="address"></a>Addresse(s)
+    &nbsp;
+    <a href="{% url "ain7.annuaire.views.address_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
+</h2>
 
 <table class="table">
 <tbody>
@@ -116,9 +120,12 @@
 {% endfor %}
 </tobdy>
 </table>
-<p><a href="{% url "ain7.annuaire.views.address_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 
-<h2><a name="email"></a>{% filter capfirst %}{% trans "email" %}{% endfilter %}</h2>
+<h2>
+    <a name="email"></a>Courriel(s)
+    &nbsp;
+    <a href="{% url "ain7.annuaire.views.email_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
+</h2>
 
 <table class="table">
 <tbody>
@@ -134,9 +141,12 @@
 {% endfor %}
 </tbody>
 </table>
-<p><a href="{% url "ain7.annuaire.views.email_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 
-<h2><a name="phone"></a>{% trans "Phone numbers" %}</h2>
+<h2>
+    <a name="phone"></a>Téléphone(s)
+    &nbsp;
+    <a href="{% url "ain7.annuaire.views.phone_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
+</h2>
 
 <table class="table">
 <tbody>
@@ -152,9 +162,12 @@
 {% endfor %}
 </tbody>
 </table>
-<p><a href="{% url "ain7.annuaire.views.phone_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 
-<h2><a name="website"></a>{% trans "Web sites" %}</h2>
+<h2>
+    <a name="website"></a>Site(s) Internet
+    &nbsp;
+    <a href="{% url "ain7.annuaire.views.website_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
+</h2>
 
 <table class="table">
 <tbody>
@@ -173,13 +186,16 @@
 {% endfor %}
 </tbody>
 </table>
-<p><a href="{% url "ain7.annuaire.views.website_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 
 
 
 {% if ain7member %}
 
-<h2><a name="promos"></a>{% trans "Promos" %}</h2>
+<h2>
+    <a name="promos"></a>{% trans "Promos" %}
+    &nbsp;
+    <a href="{% url "ain7.annuaire.views.promo_edit" person.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
+</h2>
 <table class="table">
 <tbody>
 {% for promo in ain7member.promos.all %}
@@ -191,9 +207,12 @@
 {% endfor %}
 </tbody>
 </table>
-<p><a href="{% url "ain7.annuaire.views.promo_edit" person.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 
-<h2><a name="profexp"></a>{% trans "Experiences" %}</h2>
+<h2>
+    <a name="profexp"></a>{% trans "Experiences" %}
+    &nbsp;
+    <a class="btn btn-primary" href="{% url "ain7.emploi.views.position_edit" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
+</h2>
 
 <table class="table">
 <tbody>
@@ -212,9 +231,12 @@
 </tbody>
 </table>
 
-<p><a class="btn btn-primary" href="{% url "ain7.emploi.views.position_edit" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 
-<h2><a name="assoc"></a>{% trans "N7 associative activities" %}</h2>
+<h2>
+    <a name="assoc"></a>{% trans "N7 associative activities" %}
+    &nbsp;
+    <a href="{% url "ain7.annuaire.views.club_membership_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
+</h2>
 
 <table class="table">
 <tbody>
@@ -232,9 +254,12 @@
 {% endfor %}
 </tobdy>
 </table>
-<p><a href="{% url "ain7.annuaire.views.club_membership_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 
-<h2><a name="publications"></a>{% trans "Publications and patents" %}</h2>
+<h2>
+    <a name="publications"></a>{% trans "Publications and patents" %}
+    &nbsp;
+    <a class="btn btn-primary" href="{% url "ain7.emploi.views.publication_edit" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
+</h2>
 
 <table class"table">
 <tbody>
@@ -251,10 +276,13 @@
 </tbody>
 </table>
 
-<p><a class="btn btn-primary" href="{% url "ain7.emploi.views.publication_edit" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 
 
-<h2><a name="education"></a>{% trans "Education" %}</h2>
+<h2>
+    <a name="education"></a>{% trans "Education" %}
+    &nbsp;
+    <a class="btn btn-primary" href="{% url "ain7.emploi.views.education_edit" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
+</h2>
 
 <table class="table">
 <tbody>
@@ -274,9 +302,12 @@
 </tbody>
 </table>
 
-<p><a class="btn btn-primary" href="{% url "ain7.emploi.views.education_edit" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 
-<h2><a name="leisure"></a>{% trans "Leisure activities" %}</h2>
+<h2>
+    <a name="leisure"></a>{% trans "Leisure activities" %}
+    &nbsp;
+    <a class="btn btn-primary" href="{% url "ain7.emploi.views.leisure_edit" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
+</h2>
 
 <table class="table">
 <tbody>
@@ -289,8 +320,6 @@
 {% endfor %}
 </tbody>
 </table>
-
-<p><a class="btn btn-primary" href="{% url "ain7.emploi.views.leisure_edit" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 
 {% endif %}
 
