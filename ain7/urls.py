@@ -108,10 +108,10 @@ urlpatterns = patterns('',
     url(r'^groupes_regionaux/$', 'ain7.pages.views.regional_groups', name='regional_groups'),
 
     # redirection to external communities
-    url(r'^facebook/$', RedirectView.as_view(url=settings.FACEBOOK_AIN7), name='facebook'),
-    url(r'^linkedin/$', RedirectView.as_view(url=settings.LINKEDIN_AIN7), name='linkedin'),
-    url(r'^twitter/$', RedirectView.as_view(url=settings.TWITTER_AIN7), name='twitter'),
-    url(r'^g\+/$', RedirectView.as_view(url=settings.GPLUS_AIN7), name='g+'),
+    url(r'^facebook/$', RedirectView.as_view(url=settings.FACEBOOK_AIN7, permanent=True), name='facebook'),
+    url(r'^linkedin/$', RedirectView.as_view(url=settings.LINKEDIN_AIN7, permanent=True), name='linkedin'),
+    url(r'^twitter/$', RedirectView.as_view(url=settings.TWITTER_AIN7, permanent=True), name='twitter'),
+    url(r'^g\+/$', RedirectView.as_view(url=settings.GPLUS_AIN7, permanent=True), name='g+'),
 
     # django-autocomplete-light
     url(r'^autocomplete/', include('autocomplete_light.urls')),
