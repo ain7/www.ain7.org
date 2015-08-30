@@ -499,17 +499,15 @@ class AIn7Member(LoggedClass):
 
     # School situation
     promos = models.ManyToManyField(
-        Promo, verbose_name=_('Promos'), related_name='students',
-        blank=True, null=True,
+        Promo, verbose_name=_('Promos'), related_name='students', blank=True,
     )
 
     # Civil situation
     decorations = models.ManyToManyField(
-        Decoration, verbose_name=_('decorations'), blank=True, null=True,
+        Decoration, verbose_name=_('decorations'), blank=True,
     )
     ceremonial_duties = models.ManyToManyField(
-        CeremonialDuty, verbose_name=_('ceremonial duties'),
-        blank=True, null=True,
+        CeremonialDuty, verbose_name=_('ceremonial duties'), blank=True,
     )
 
     # Curriculum Vitae and Job Service
