@@ -87,6 +87,15 @@ class SubscriptionConfiguration(models.Model):
     AIn7Member Subscription Configuration
     """
 
+    TYPE_REGULAR = 0
+    TYPE_LAST_PROMOS = 1
+    TYPE_RETIRED = 2
+    TYPE_DONATOR = 3
+    TYPE_UNEMPLOYED = 4
+    TYPE_STUDENT_3Y = 5
+    TYPE_STUDENT_2Y = 6
+    TYPE_STUDENT_1Y = 7
+    TYPE_PARTNERS = 7
     TYPE = (
         (0, _('Promotions before %(year)s') % {
             'year': datetime.date.today().year-5
