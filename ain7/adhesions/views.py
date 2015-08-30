@@ -152,7 +152,7 @@ def subscription_add(request, user_id=None):
 
     # 1er passage : on propose un formulaire avec les données actuelles
     if request.method == 'GET':
-        if Subscription.objects.filter(member=ain7member).\
+        if Subscription.objects.filter(member=ain7member, validated=True).\
             exclude(start_year__gt=year_current).\
             exclude(end_year__lt=year_current):
             messages.warning(request, _('You already have an active subscription.'))
