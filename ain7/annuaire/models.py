@@ -250,7 +250,7 @@ class Promo(models.Model):
     class Meta:
         """promo meta"""
         verbose_name = _('Promo')
-        ordering = ['year']
+        ordering = ['year', 'track']
 
 
 class Person(LoggedClass):
