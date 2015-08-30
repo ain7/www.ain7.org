@@ -33,12 +33,17 @@ class Subscription(LoggedClass):
     AIn7Member Subscription
     """
 
+    TENDER_TYPE_CASH = 1
+    TENDER_TYPE_CHECK = 2
+    TENDER_TYPE_CARD = 4
+    TENDER_TYPE_WIRE_TRANSFER = 5
+    TENDER_TYPE_OTHER = 6
     TENDER_TYPE = (
-        (1, ('Cash')),
-        (2, ('Cheque')),
-        (4, ('Card')),
-        (5, ('Transfer')),
-        (6, ('Other')),
+        (1, _('Cash')),
+        (2, _('Cheque')),
+        (4, _('Card')),
+        (5, _('Transfer')),
+        (6, _('Other')),
     )
 
     # For potential backward compatibility
