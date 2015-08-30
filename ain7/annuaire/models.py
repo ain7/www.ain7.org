@@ -989,7 +989,7 @@ class ClubMembership(models.Model):
 class UserActivity(models.Model):
     """user activity"""
 
-    person = models.ForeignKey(Person, null=False)
+    person = models.ForeignKey('annuaire.Person', null=False)
     date = models.DateTimeField(verbose_name=_('start date'), null=False)
     client_host = models.CharField(max_length=256, blank=True, null=True)
     browser_info = models.TextField(null=True, blank=True)
@@ -1003,7 +1003,7 @@ class UserActivity(models.Model):
 
 class ProfileEditKey(models.Model):
 
-    person = models.ForeignKey(Person, null=False)
+    person = models.ForeignKey('annuaire.Person', null=False)
     key = models.UUIDField(default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     expire_at = models.DateTimeField(editable=False)

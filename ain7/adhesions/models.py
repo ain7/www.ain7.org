@@ -21,6 +21,7 @@
 #
 
 import datetime
+import uuid
 
 from django.db import models
 from django.utils.translation import ugettext as _
@@ -134,3 +135,11 @@ class SubscriptionConfiguration(models.Model):
     class Meta:
         """Meta"""
         verbose_name = _('Configuration')
+
+
+class SubscriptionKey(models.Model):
+
+    person = models.ForeignKey('annuaire.Person', null=False)
+    key = models.UUIDField(default=uuid.uuid4, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    expire_at = models.DateTimeField(editable=False)
