@@ -26,6 +26,7 @@ import datetime
 from django import forms
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.db import models
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -139,3 +140,19 @@ class AIn7ModelForm(forms.ModelForm):
 class AIn7Form(forms.Form):
     def __init__(self, *args, **kwargs):
         super(AIn7Form, self).__init__(*args, **kwargs)
+
+
+def generate_login(first_name, last_name):
+
+    """login generation"""
+    login = (first_name[0] + last_name).lower()
+
+    tries = 0
+    while (User.objects.filter(username=login).count() > 0):
+        tries = tries + 1
+        if tries < len(first_name):
+            login = (first_name[0:tries] + last_name).lower()
+        else:
+            login = (first_name[0] + last_name + str(tries)).lower()
+
+    return login
