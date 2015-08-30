@@ -33,6 +33,8 @@ from ain7.annuaire.models import (
     PersonType, MaritalStatus, Email
 )
 
+from ain7.utils import generate_login
+
 
 class NewMemberForm(forms.Form):
     """new member form"""
@@ -56,20 +58,10 @@ class NewMemberForm(forms.Form):
 
     def genlogin(self):
         """login generation"""
-        login = (self.cleaned_data['first_name'][0] +
-                 self.cleaned_data['last_name']).lower()
-
-        tries = 0
-        while (User.objects.filter(username=login).count() > 0):
-            tries = tries + 1
-            if tries < len(self.cleaned_data['first_name']):
-                login = (self.cleaned_data['first_name'][0:tries] +
-                         self.cleaned_data['last_name']).lower()
-            else:
-                login = (self.cleaned_data['first_name'][0] +
-                         self.cleaned_data['last_name'] + str(tries)).lower()
-
-        return login
+        return generate_login(
+            self.cleaned_data['first_name'],
+            self.cleaned_data['last_name'],
+        )
 
     def clean_birth_date(self):
         """check birth date"""
