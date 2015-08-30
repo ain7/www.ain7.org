@@ -333,7 +333,7 @@ def configurations(request, year=timezone.now().date().year):
     )
 
 
-@access_required(groups=['ain7-secretariat','ain7-ca'])
+@access_required(groups=['ain7-secretariat', 'ain7-ca'])
 def configuration_edit(request, year, config_id=None):
     """edit subscription configuration"""
 
