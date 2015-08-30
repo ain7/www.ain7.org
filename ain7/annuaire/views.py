@@ -720,23 +720,3 @@ def welcome(request):
         'person_form': person_form,
         }
     )
-
-
-def welcome_subscription(request, person_id, subscription_id=None):
-
-    member = AIn7Member.objects.get_object_or_404(AIn7Member, person__pk=person_id)
-    
-    SubscriptionForm = modelform_factory(Subscription, fields=('tender_type',))
-    form = SubscriptionForm(request.POST or None)
-
-    if request.METHOD == 'POST' and form.is_valid():
-        subsciption = form.save(commit=False)
-        subscription.member = member
-        subscription.save()
-
-    return render(request, 'adhesions/welcome.html', {
-        'email_form': email_form,
-        'member_form': member_form,
-        'person_form': person_form,
-        }
-    )
