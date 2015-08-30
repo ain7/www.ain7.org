@@ -61,19 +61,15 @@
 <ul class="nav navbar-nav">
     <li role="presentation" {% block navbar_blog %}{{ navbar_blog }}{% endblock %}><a href="{% url "news-index" %}">Actualités</a></li>
     <li role="presentation" {% block navbar_directory %}{{ navbar_directory }}{% endblock %}><a href="{% url "annuaire-search" %}">Annuaire</a></li>
-    <li role="presentation" {% block navbar_activities %}{{ navbar_activities }}{% endblock %}><a href="#" class="dropdown-toggle" data-toggle="dropdown">Activités</a>
-    <ul class="dropdown-menu">
-      <li><a href="{% url "ain7.emploi.views.index" %}">{% trans "Job" %}</a></li>
-      <li><a href="{% url "professionnal_groups" %}">{% trans "Professionnal Groups" %}</a></li>
-      <li><a href="{% url "regional_groups" %}">{% trans "Regional Groups" %}</a></li>
-      <li><a href="{% url "ain7.voyages.views.index" %}">{% trans "Travels" %}</a></li>
-    </ul>
-    </li>
+    <li role="presentation" {% block navbar_jobs %}{{ navbar_jobs }}{% endblock %}><a href="{% url "ain7.emploi.views.index" %}">{% trans "Job" %}</a></li>
     <li class="dropdown" role="presentation" {% block navbar_association %}{{ navbar_association }}{% endblock %}>
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">L'association</a>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">L'association <i class="fa fa-caret-down"></i></a>
     <ul class="dropdown-menu">                                                  
       <li><a href="{% url "ain7.association.views.index" %}">{% trans "Overview" %}</a></li>
       <li><a href="{% url "ain7.association.views.contact" %}">{% trans "Contact" %}</a></li>
+      <li><a href="{% url "professionnal_groups" %}">{% trans "Professionnal Groups" %}</a></li>
+      <li><a href="{% url "regional_groups" %}">{% trans "Regional Groups" %}</a></li>
+      <li><a href="{% url "ain7.voyages.views.index" %}">{% trans "Travels" %}</a></li>
       <li><a href="{% url "ain7.association.views.council" %}">{% trans "Council" %}</a></li>
       <li><a href="{% url "ain7.association.views.status" %}">{% trans "Status" %}</a></li>
       <li><a href="{% url "ain7.association.views.internalrules" %}">{% trans "Internal rules" %}</a></li>
@@ -217,8 +213,8 @@
                                                  31071 Toulouse
                                                 </address>
                                                 <p>
-                                                        <i class="fa fa-phone"></i> (+33) 5 34 32 20 29<br>
-                                                        <i class="fa fa-envelope-o"></i> contact@ain7.com
+                                                       <i class="fa fa-phone"></i> <a href="tel:+33 (0)5 34 32 20 29">+33 (0)5 34 32 20 29</a><br>
+                                                        <i class="fa fa-envelope-o"></i> <a href="mailto:contact@ain7.com">contact@ain7.com</a>
                                                 </p>
                                         </div>
                                 </div>
