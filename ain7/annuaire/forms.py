@@ -24,7 +24,7 @@
 from django import forms
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
-from django.forms.util import ValidationError
+from django.forms.utils import ValidationError
 from django.utils import timezone
 
 from ain7.annuaire.models import (
