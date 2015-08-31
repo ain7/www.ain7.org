@@ -710,7 +710,7 @@ def site_stats(request):
 def registrations_index(request):
     """review the registrations done"""
 
-    registrations = Person.objects.filter()
+    registrations = Person.objects.filter(validated=False)
 
     return render(request, 'manage/registrations_index.html', {
         'registrations': registrations,

@@ -137,9 +137,9 @@ class SubscriptionConfiguration(models.Model):
         verbose_name = _('Configuration')
 
 
-class SubscriptionKey(models.Model):
-
-    person = models.ForeignKey('annuaire.Person', null=False)
-    key = models.UUIDField(default=uuid.uuid4, editable=False)
-    created_at = models.DateTimeField(auto_now_add=True, editable=False)
-    expire_at = models.DateTimeField(editable=False)
+#class SubscriptionKey(models.Model):
+#
+#    person = models.ForeignKey('annuaire.Person', null=False)
+#    key = models.UUIDField(default=uuid.uuid4, editable=False)
+#    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+#    expire_at = models.DateTimeField(editable=False)

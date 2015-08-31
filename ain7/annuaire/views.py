@@ -684,7 +684,7 @@ def welcome(request):
             person_form.is_valid() and
             member_form.is_valid() and
             email_form.is_valid()
-        ):
+    ):
 
         username = generate_login(
             person_form.cleaned_data['first_name'],
@@ -700,6 +700,7 @@ def welcome(request):
         user.save()
         person = person_form.save(commit=False)
         person.user = user
+        person.validated = False
         person.save()
         pp = PersonPrivate()
         pp.person = person
