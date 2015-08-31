@@ -1,0 +1,31 @@
+{% extends "manage/base.html" %}
+{% load i18n %}
+{% load endless %}
+
+{% block content-left %}
+
+<h1>{% trans "Pending Registrations"%}</h1>
+
+{% paginate registrations %}
+
+<p class="text-center">{% show_pages %}</p> 
+
+<table class="table table-striped">
+    <thead><tr><th>Nom</th><th>Filière</th><th>Mail</th><th>Date</th><th>&nbsp;</th></tr></thead>
+    <tobdy>
+    {% for registration in registrations %}
+    <tr>
+        <td><a href="{% url "member-details" registration.pk %}">{{ registration.last_name }} {{ registration.first_name }}</a></td>
+        <td>{{ registration.ain7member.promo_full }}</td>
+        <td>{{ registration.mail_favorite }}</td>
+        <td>{{ registration.last_change_at }}</td>
+        <td><a href="{% url "registration-validate" registration.pk %}"><i class="fa fa-check fa-lg"></i></a></td>
+        <td><a href="{% url "registration-delete" registration.pk %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<p class="text-center">{% show_pages %}</p> 
+
+{% endblock %}
