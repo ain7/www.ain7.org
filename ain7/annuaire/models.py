@@ -835,7 +835,7 @@ class WebSite(models.Model):
     """Website for a person"""
 
     WEBSITE_TYPE = (
-        (0, 'web'),
+        (0, 'link'),
         (1, 'blog'),
         (2, 'gallery'),
         (3, 'linkedin'),
