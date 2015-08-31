@@ -710,6 +710,7 @@ def welcome(request):
         member_form.save_m2m()
         email = email_form.save(commit=False)
         email.person = person
+        email.preferred_email = True
         email.save()
 
         return redirect('subscription-welcome', person.pk)
