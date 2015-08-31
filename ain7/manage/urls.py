@@ -46,6 +46,11 @@ urlpatterns = patterns('ain7.manage.views',
     (r'^payments/deposit/(?P<deposit_id>\d+)/deposited/'
      +r'(?P<last_deposit_id>\d+)/$', 'payments_mark_deposited'),
 
+    # Registrations
+    url(r'^registrations/$', 'registrations_index', name='registrations-index'),
+    url(r'^registrations/(?P<person_id>\d+)/validate/$', 'registration_validate', name='registration-validate'),
+    url(r'^registrations/(?P<person_id>\d+)/delete/$', 'registration_delete', name='registration-delete'),
+
     # Subscriptions
     url(r'^subscriptions/$', 'subscriptions_stats'),
     url(

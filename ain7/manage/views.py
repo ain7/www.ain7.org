@@ -29,6 +29,7 @@ from django.forms.models import modelform_factory
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext as _
 
+from ain7.annuaire.models import Person
 from ain7.decorators import access_required
 from ain7.manage.models import Mailing, PortalError
 from ain7.shop.models import Payment
@@ -704,3 +705,42 @@ def site_stats(request):
     return render(request, 'manage/site_stats.html', {
         }
     )
+
+@access_required(groups=['ain7-secretariat'])
+def registrations_index(request):
+    """review the registrations done"""
+
+    registrations = Person.objects.filter()
+
+    return render(request, 'manage/registrations_index.html', {
+        'registrations': registrations,
+        }
+    )
+
+
+@access_required(groups=['ain7-secretariat'])
+def registration_delete(request, person_id):
+    """delete a registration"""
+
+    person = get_object_or_404(Person, pk=person_id)
+    person.user.delete()
+    person.personprivate.delete()
+    person.ain7member.delete()
+    person.delete()
+
+    messages.success(request, _('Person have been deleted'))
+
+    return redirect('registrations-index')
+
+
+@access_required(groups=['ain7-secretariat'])
+def registration_validate(request, person_id):
+    """delete a registration"""
+
+    person = get_object_or_404(Person, pk=person_id)
+    person.validated = True
+    person.save()
+
+    messages.success(request, _('Person have been validated'))
+
+    return redirect('registrations-index')
