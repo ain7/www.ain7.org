@@ -141,17 +141,17 @@ INSTALLED_APPS += (
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # auth and allauth settings
-INSTALLED_APPS += (
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
+#INSTALLED_APPS += (
+#    'allauth',
+#    'allauth.account',
+#    'allauth.socialaccount',
 #    'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.google',
+#    'allauth.socialaccount.providers.google',
 #    'allauth.socialaccount.providers.linkedin',
-)
-AUTHENTICATION_BACKENDS = DEFAULT_SETTINGS.AUTHENTICATION_BACKENDS + (
-    'allauth.account.auth_backends.AuthenticationBackend',
-)
+#)
+#AUTHENTICATION_BACKENDS = DEFAULT_SETTINGS.AUTHENTICATION_BACKENDS + (
+#    'allauth.account.auth_backends.AuthenticationBackend',
+#)
 #TEMPLATE_CONTEXT_PROCESSORS += (
 #    'allauth.account.context_processors.account',
 #    'allauth.socialaccount.context_processors.socialaccount',
@@ -160,15 +160,15 @@ AUTHENTICATION_BACKENDS = DEFAULT_SETTINGS.AUTHENTICATION_BACKENDS + (
 #)
 
 
-LOGIN_REDIRECT_URL = '/'
-SOCIALACCOUNT_QUERY_EMAIL = True
+#LOGIN_REDIRECT_URL = '/'
+#SOCIALACCOUNT_QUERY_EMAIL = True
 
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': ['profile', 'email'],
-        'AUTH_PARAMS': {'access_type': 'online'}
-    }
-}
+#SOCIALACCOUNT_PROVIDERS = {
+#    'google': {
+#        'SCOPE': ['profile', 'email'],
+#        'AUTH_PARAMS': {'access_type': 'online'}
+#    }
+#}
 
 # AIn7 specific stuff
 
@@ -224,6 +224,8 @@ SYSTEM_PAY_CERTIFICATE = '1234567890912345'
 SYSTEM_PAY_MODE = 'TEST'
 
 AIN7_SIRET = '0000000000000001-001'
+
+REGISTRATION = True
 
 from django.contrib.messages import constants as message_constants
 MESSAGE_TAGS = {
