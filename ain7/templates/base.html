@@ -88,14 +88,15 @@
  <li class="dropdown" {% block navbarmanage %}{{ navbarmanage }}{% endblock %}>
  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog fa-lg"></i> <i class="fa fa-caret-down"></i> </a>
     <ul class="dropdown-menu">
-      <li><a href="{% url "ain7.organizations.views.organization_search" %}">{% trans "Organizations" %}</a></li>
-      <li><a href="{% url "ain7.manage.views.errors_index" %}">{% trans "Errors" %}</a></li>
-      <li><a href="{% url "ain7.manage.views.payments_index" %}">{% trans "Payments" %}</a></li>
-      <li><a href="{% url "ain7.manage.views.mailings_index" %}">{% trans "Mailings" %}</a></li>
       <li><a href="{% url "ain7.manage.views.subscriptions_stats" %}">{% trans "Subscriptions statistics" %}</a></li>
+      <li><a href="{% url "ain7.manage.views.mailings_index" %}">{% trans "Mailings" %}</a></li>
+      <li><a href="{% url "ain7.organizations.views.organization_search" %}">{% trans "Organizations" %}</a></li>
       <!--      <li><a href="{% url "ain7.manage.views.site_stats" %}">{% trans "Site statistics" %}</a></li> //-->
+      <li><a href="{% url "ain7.manage.views.payments_index" %}">{% trans "Payments" %}</a></li>
       <li><a href="{% url "ain7.manage.views.payments_deposit_index" %}">{% trans "Deposit slip" %}</a></li>
       <li><a href="{% url "to_validate_subscriptions" %}">{% trans "Subscriptions to validate" %}</a></li>
+      <li><a href="{% url "registrations-index" %}">{% trans "Pending Registrations" %}</a></li>
+      <li><a href="{% url "ain7.manage.views.errors_index" %}">{% trans "Errors" %}</a></li>
       <li><a href="{% url "ain7.adhesions.views.configurations" %}">{% trans "Subscriptions configuration" %}</a></li>
     </ul>
  </li>
