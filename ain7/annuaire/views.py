@@ -714,6 +714,26 @@ def welcome(request):
         email.preferred_email = True
         email.save()
 
+        person.send_mail(_(u"Bienvenue à l'n7 et à l'AIn7"), \
+_(u"""%(firstname)s,
+
+Nous avons bien enregistré ton inscription dans l'annuaire des anciens
+de l'ENSEEIHT. Si tu as adhéré, nous te confirmerons ton adhésion dès que
+le paiement aura été validé. Si tu n'as pas adhéré, tu pourras adhérer
+directement depuis le site à tout moment.
+
+Pour te connecter au site, il faut te rendre à l'adresse et y saisir ton
+adresse email (%(email)s):
+https://ain7.com/lostpassword/
+
+N'hésite à pas nous contacter pour tout aide sur le site ou au sujet de l'AIn7.
+Le secrétariat est derrière l'accueil et l'n7 et est ouvert tous les jours.
+
+L'équipe de l'AIn7
+
+""") % { 'firstname': person.first_name, 'email': email.email })
+
+
         return redirect('subscription-welcome', person.pk)
 
     return render(request, 'annuaire/welcome.html', {
