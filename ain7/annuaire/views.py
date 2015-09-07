@@ -676,7 +676,7 @@ def welcome(request):
 
     person_form = PersonForm(request.POST or None)
     member_form = MemberForm(request.POST or None)
-    member_form.fields['promos'].queryset = Promo.objects.filter(year__year=2017)
+    member_form.fields['promos'].queryset = Promo.objects.filter(year__year=2018)
     email_form = EmailForm(request.POST or None)
 
     if (
