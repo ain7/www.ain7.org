@@ -6,6 +6,12 @@
 
 <p>Merci {{ request.user.person.first_name }} pour votre adhesion.</p>
 
+{% ifequal payment.type 1 %}
+
+<p>Afin de valider votre adhésions, merci de déposer votre règlement en espèce notre secrétariat derrière l'accueil au bâtiment A de l'ENSEEIHT.</p>
+
+{% endifequal %}
+
 {% ifequal payment.type 2 %}
 
 <p>Afin de valider votre adhésion, merci de nous faire parvenir votre règlement par chèque de {{ payment.amount }}€ à l'ordre de l'AIn7 à l'adresse:</p>
@@ -14,6 +20,8 @@
 2 rue Charles Camichel, BP 7122,<br/>
 31071 Toulouse cedex 7</p>
 </address>
+
+<p>Vous pouvez déposer votre chèque directement à notre secrétariat derrière l'accueil au batiment A de l'ENSEEIHT.</p>
 
 {% endifequal %}
 
