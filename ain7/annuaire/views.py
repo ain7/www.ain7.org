@@ -54,6 +54,12 @@ def home(request, user_name):
 
 
 @login_required
+def me(request):
+    user_id = Person.objects.get(user=request.user).id
+    return edit(request, user_id)
+
+
+@login_required
 def details(request, user_id):
 
     is_subscriber = False

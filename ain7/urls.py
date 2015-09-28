@@ -54,6 +54,8 @@ urlpatterns = patterns('',
         name='account_logout'),
     #url(r'^accounts/', include('allauth.urls')),
 
+    (r'^me/$', 'ain7.annuaire.views.me'),
+
     # AIn7 management section
     (r'^manage/', include('ain7.manage.urls')),
 
