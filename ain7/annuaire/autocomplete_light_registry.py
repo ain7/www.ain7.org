@@ -23,12 +23,17 @@
 
 import autocomplete_light
 
-from ain7.annuaire.models import Person, Promo, PromoYear, Track
+from ain7.annuaire.models import Person, AIn7Member, Promo, PromoYear, Track
 
 
 autocomplete_light.register(
     Person,
     search_fields=['^first_name', 'last_name', 'complete_name'],
+)
+
+autocomplete_light.register(
+    AIn7Member,
+    search_fields=['^person__first_name', 'person__last_name', 'person__complete_name'],
 )
 
 autocomplete_light.register(
