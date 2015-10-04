@@ -21,6 +21,8 @@
 #
 #
 
+import autocomplete_light
+import datetime
 import hashlib
 
 from django.conf import settings
@@ -34,8 +36,9 @@ from django.utils import timezone
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_exempt
 
-from ain7.adhesions.forms import SubscriptionForm
-from ain7.adhesions.models import Subscription, SubscriptionConfiguration
+from ain7.adhesions.models import (
+    Subscription, SubscriptionConfiguration, SubscriptionKey
+)
 from ain7.annuaire.models import AIn7Member, Person
 from ain7.shop.models import Payment
 from ain7.decorators import access_required, confirmation_required
@@ -132,65 +135,82 @@ def user_subscriptions(request, user_id):
     )
 
 
-@access_required(groups=['ain7-secretariat'], allow_myself=True)
-def subscription_add(request, user_id=None):
+#FIXME: allow everyone to scubscribe as we have oublic subscription
+# and there is no financial impact as transaction need to be validated
+#@access_required(groups=['ain7-secretariat'], allow_myself=True)
+def subscription_add(request, user_id=None, key_id=None, config_id=None):
     """add user subscription"""
 
-    person = get_object_or_404(Person, user=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=person)
+    if key_id:
+        key = get_object_or_404(SubscriptionKey, key=key_id)
+        user_id = key.person.pk
 
-    title = _('Adding a subscription for')
+    if user_id:
+        person = get_object_or_404(Person, user=user_id)
+    elif request.user.is_authenticated():
+        person = request.user.person
+        user_id = person.pk
+
+    if config_id:
+        subscription_configuration = get_object_or_404(
+            SubscriptionConfiguration, pk=config_id
+        )
 
     year_current = timezone.now().date().year
 
-    page_dict = {'action_title': title, 'person': person,
-        'configurations': SubscriptionConfiguration.objects.filter(year=year_current).\
-             order_by('type'),
-        'back': request.META.get('HTTP_REFERER', '/')}
+    #page_dict = {'action_title': title, 'person': person,
+    #    'configurations': SubscriptionConfiguration.objects.filter(year=year_current).\
+    #         order_by('type'),
+    #    'back': request.META.get('HTTP_REFERER', '/')}
 
-    # 1er passage : on propose un formulaire avec les données actuelles
-    if request.method == 'GET':
-        if Subscription.objects.filter(member=ain7member, validated=True).\
-            exclude(start_year__gt=year_current).\
-            exclude(end_year__lt=year_current):
-            messages.warning(request, _('You already have an active subscription.'))
-        form = SubscriptionForm()
-        page_dict.update({'form': form})
-        return render(request, 
-            'adhesions/subscribe.html', page_dict)
+
+    subscription_fields = ('configuration', 'tender_type', 'newspaper_subscription')
+    if not user_id:
+        subscription_fields += ('member',)
+
+    SubscriptionForm = autocomplete_light.modelform_factory(
+        Subscription,
+        fields = subscription_fields,
+    )
+    form = SubscriptionForm(request.POST or None)
+    form.fields['configuration'].queryset = SubscriptionConfiguration.objects.filter(year=year_current)
 
     # 2e passage : sauvegarde et redirection
-    if request.method == 'POST':
-        form = SubscriptionForm(request.POST.copy(), request.FILES)
-        if form.is_valid():
-            configuration = SubscriptionConfiguration.objects.get(\
-                type=form.data['configuration'], year=year_current)
+    if request.method == 'POST' and form.is_valid():
 
-            subscription = Subscription()
-            subscription.dues_amount = form.cleaned_data['dues_amount']
-            subscription.newspaper_amount = \
-                form.cleaned_data['newspaper_amount']
-            subscription.tender_type = form.cleaned_data['tender_type']
-            subscription.start_year = form.cleaned_data['start_year']
-            subscription.end_year = form.cleaned_data['start_year'] + \
-                configuration.duration - 1
-            subscription.date = timezone.now().date()
-            subscription.member = ain7member
+        subscription = form.save(commit=False)
 
-            payment = Payment()
-            payment.amount = form.cleaned_data['dues_amount']
-            if form.cleaned_data['newspaper_amount']:
-                payment.amount += form.cleaned_data['newspaper_amount']
-            payment.type = form.cleaned_data['tender_type']
-            payment.person = ain7member.person
-            payment.date = timezone.now().date()
-            payment.save()
+        if user_id:
+            subscription.member = person.ain7member
+        if config_id:
+            subscription.configuration = subscription_configuration
+        subscription.dues_amount = subscription.configuration.dues_amount
+        subscription.newspaper_amount = subscription.configuration.newspaper_amount
+        subscription.tender_type = subscription.tender_type
+        subscription.start_year = timezone.now().date().year
+        subscription.start_date = timezone.now().date()
+        if subscription.configuration.type in [SubscriptionConfiguration.TYPE_STUDENT_3Y, SubscriptionConfiguration.TYPE_STUDENT_2Y, SubscriptionConfiguration.TYPE_STUDENT_1Y]:
+            subscription.end_year = subscription.member.promo
+            subscription.end_date = datetime.date(subscription.member.promo, 10, 1)
+        else:
+            subscription.end_year = timezone.now().date().year+1
+            subscription.end_date = subscription.start_date.replace(year=subscription.end_year)
+        subscription.date = timezone.now().date()
+        subscription.save()
 
-            subscription.payment = payment
-            subscription.save()
+        payment = Payment()
+        payment.amount = subscription.dues_amount
+        if subscription.newspaper_subscription:
+            payment.amount += subscription.newspaper_amount
+        payment.type = subscription.tender_type
+        payment.person = subscription.member.person
+        payment.date = timezone.now().date()
+        payment.save()
 
-            if person == request.user.person:
-                person.send_mail(_(u'AIn7 subscription request registered'), \
+        subscription.payment = payment
+        subscription.save()
+
+        subscription.member.person.send_mail(_(u'AIn7 subscription request registered'), \
 _(u"""Hi %(firstname)s,
 
 We have registered your subscription request for the next year to the
@@ -204,39 +224,44 @@ Cheers,
 
 AIn7 Team
 
-""") % { 'firstname': person.first_name })
+""") % { 'firstname': subscription.member.person.first_name })
 
-            systempay = {}
-            systempay_signature = ''
+        systempay = {}
+        systempay_signature = ''
 
-            if payment.type == 4:
+        if payment.type == 4:
 
-                # payment amount in cents
-                systempay['vads_amount'] = str(payment.amount*100)
-                # 978 is code for Euros
-                systempay['vads_currency'] = '978'
-                systempay['vads_site_id'] = str(settings.SYSTEM_PAY_SITE_ID)
-                systempay['vads_trans_id'] = "%06d" % (payment.id % 900000)
-                systempay['vads_trans_date'] = timezone.now().strftime("%Y%m%d%H%M%S")
-                systempay['vads_version'] = 'V2'
-                systempay['vads_payment_config'] = 'SINGLE'
-                systempay['vads_page_action'] = 'PAYMENT'
-                systempay['vads_action_mode'] = 'INTERACTIVE'
-                systempay['vads_ctx_mode'] = str(settings.SYSTEM_PAY_MODE)
-                systempay['vads_order_id'] = str(payment.id)
-                systempay['vads_cust_name'] = person.complete_name
-                systempay['vads_cust_email'] = person.mail_favorite()
+            # payment amount in cents
+            systempay['vads_amount'] = str(payment.amount*100)
+            # 978 is code for Euros
+            systempay['vads_currency'] = '978'
+            systempay['vads_site_id'] = str(settings.SYSTEM_PAY_SITE_ID)
+            systempay['vads_trans_id'] = "%06d" % (payment.id % 900000)
+            systempay['vads_trans_date'] = timezone.now().strftime("%Y%m%d%H%M%S")
+            systempay['vads_version'] = 'V2'
+            systempay['vads_payment_config'] = 'SINGLE'
+            systempay['vads_page_action'] = 'PAYMENT'
+            systempay['vads_action_mode'] = 'INTERACTIVE'
+            systempay['vads_ctx_mode'] = str(settings.SYSTEM_PAY_MODE)
+            systempay['vads_order_id'] = str(payment.id)
+            systempay['vads_cust_name'] = subscription.member.person.complete_name
+            systempay['vads_cust_email'] = subscription.member.person.mail_favorite()
 
-                systempay_string = '+'.join([v.encode('utf-8') for k, v in sorted(systempay.items())])+'+'+settings.SYSTEM_PAY_CERTIFICATE
-                systempay_signature = hashlib.sha1(systempay_string).hexdigest()
+            systempay_string = '+'.join([v.encode('utf-8') for k, v in sorted(systempay.items())])+'+'+settings.SYSTEM_PAY_CERTIFICATE
+            systempay_signature = hashlib.sha1(systempay_string).hexdigest()
 
-            return render(request, 'adhesions/informations.html', {
-                'payment': payment,
-                'systempay': systempay,
-                'systempay_signature': systempay_signature,
-                'systempay_url': settings.SYSTEM_PAY_URL
-                }
-            )
+        return render(request, 'adhesions/informations.html', {
+            'payment': payment,
+            'systempay': systempay,
+            'systempay_signature': systempay_signature,
+            'systempay_url': settings.SYSTEM_PAY_URL
+            }
+        )
+
+    return render(request, 'adhesions/subscribe_form.html', {
+        'form': form,
+        }
+    )
 
 
 def welcome_subscription(request, person_id):

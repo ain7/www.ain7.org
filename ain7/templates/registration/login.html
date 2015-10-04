@@ -11,6 +11,7 @@
 
 <p>Merci de vous identifier pour accéder à cette partie du site de l'association. Si vous n'arrivez pas à vous connecter, n'hésitez pas à nous <a href="{% url "contact" %}">contacter</a>.</p>
 
+<div class="row">
 <div class="col-lg-8 col-lg-offset-2">
 
 <form id="login" method="post" action="{% url 'django.contrib.auth.views.login' %}" role="form" class="form-horizontal">
@@ -39,6 +40,11 @@
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
 
+</div>
+</div>
+
+<div class="row">
+<p>Vous voulez adhérer mais nous n'avez plus vos identifiants? Cliquez pour <a href="{% url "subscribe-public" %}" class="btn btn-warning">Adhérer en deux clics sans identifiants</a></p>
 </div>
 
 {% endblock %}

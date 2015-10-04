@@ -4,7 +4,7 @@
 
 {% block content-left %}
 
-<p>Merci {{ request.user.person.first_name }} pour votre adhesion.</p>
+<p>Merci {{ payment.person.first_name }} pour votre adhesion.</p>
 
 {% ifequal payment.type 1 %}
 
@@ -55,6 +55,6 @@ Clé: 74</p>
 
 {% endifequal %}
 
-<a href="/">Retour à la page d'accueil</a>
+<a href="{% url "homepage" %}">Retour à la page d'accueil</a>
 
 {% endblock %}

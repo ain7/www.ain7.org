@@ -53,7 +53,7 @@ class Subscription(LoggedClass):
     )
 
     member = models.ForeignKey(
-        'annuaire.AIn7Member', verbose_name=_('member'),
+        'annuaire.AIn7Member', verbose_name=_(u'Vous êtes'),
         related_name='subscriptions',
     )
 
@@ -82,8 +82,10 @@ class Subscription(LoggedClass):
     end_date = models.DateField(blank=True, null=True)
 
     configuration = models.ForeignKey(
-        'SubscriptionConfiguration', blank=True, null=True
+        'SubscriptionConfiguration', blank=True, null=True, verbose_name=_(u'Votre adhésion')
     )
+
+    newspaper_subscription = models.BooleanField(default=False, verbose_name=_(u'Adhérer à Canal N7 - 15 euros/an'))
 
     def __unicode__(self):
         """unicode string for subscription object"""
@@ -137,16 +139,16 @@ class SubscriptionConfiguration(models.Model):
 
     def __unicode__(self):
         """unicode string for subscriptionconfiguration object"""
-        return self.get_type_display()
+        return self.get_type_display()+' - '+unicode(self.dues_amount)+ 'euros'
 
     class Meta:
         """Meta"""
         verbose_name = _('Configuration')
 
 
-#class SubscriptionKey(models.Model):
-#
-#    person = models.ForeignKey('annuaire.Person', null=False)
-#    key = models.UUIDField(default=uuid.uuid4, editable=False)
-#    created_at = models.DateTimeField(auto_now_add=True, editable=False)
-#    expire_at = models.DateTimeField(editable=False)
+class SubscriptionKey(models.Model):
+
+    person = models.ForeignKey('annuaire.Person', null=False)
+    key = models.UUIDField(default=uuid.uuid4, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    expire_at = models.DateTimeField(editable=False)

@@ -38,5 +38,6 @@ urlpatterns = patterns('ain7.adhesions.views',
     url(r'^configurations/add/$', 'configuration_edit', {}, 'configuration_add'),
     url(r'^welcome/(?P<person_id>\d+)/$', 'welcome_subscription', name='subscription-welcome'),
     url(r'^notification/$', 'notification'),
+    url(r'^subscribe/$', 'subscription_add', name='subscribe-public'),
 
 )
