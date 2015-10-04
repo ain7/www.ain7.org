@@ -9,6 +9,16 @@
 
 <a href="{% url "ain7.annuaire.views.details" person.user.id %}">{% trans "Back to personnal file" %}</a>
 
+{% if person.ain7member.is_subscriber %}
+<div class="alert alert-success" role="alert">
+Vous êtes à jour de votre cotisation à l'association.
+</div>
+{% else %}
+<div class="alert alert-warning" role="alert">
+    Vous n'êtes pas à jour de votre cotisation. <a href="{% url "subscription-add" person.pk %}">Cliquez-ici pour adhérer</a>
+</div>
+{% endif %}
+
 <ul>
    <li><b>{% filter capfirst %}{% trans "sex" %}{% endfilter %}
        &nbsp;:</b> {{ person.sex }}</li>
