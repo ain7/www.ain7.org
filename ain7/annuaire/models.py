@@ -628,7 +628,7 @@ class AIn7Member(LoggedClass):
 
     def __unicode__(self):
         """AIn7 member unicode"""
-        return unicode(self.person)
+        return unicode(self.person)+' ('+self.promo_full()+')'
 
     class Meta:
         """AIn7 member meta"""
