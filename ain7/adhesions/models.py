@@ -53,7 +53,7 @@ class Subscription(LoggedClass):
     )
 
     member = models.ForeignKey(
-        'annuaire.AIn7Member', verbose_name=_(u'Vous êtes'),
+        'annuaire.AIn7Member', verbose_name=_(u'Saisissez votre nom pour vous identifier'),
         related_name='subscriptions',
     )
 
@@ -82,7 +82,7 @@ class Subscription(LoggedClass):
     end_date = models.DateField(blank=True, null=True)
 
     configuration = models.ForeignKey(
-        'SubscriptionConfiguration', blank=True, null=True, verbose_name=_(u'Votre adhésion')
+        'SubscriptionConfiguration', blank=True, null=True, verbose_name=_(u'Sélectionnez le tarif applicable')
     )
 
     newspaper_subscription = models.BooleanField(default=False, verbose_name=_(u'Adhérer à Canal N7 - 15 euros/an'))

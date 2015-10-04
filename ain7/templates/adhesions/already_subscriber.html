@@ -1,0 +1,13 @@
+{% extends "adhesions/base.html" %}
+{% load i18n %}
+{% load static from staticfiles %}
+
+{% block content-left %}
+
+<p>Merci de votre tenative d'adhésion, mais {{ person }} est actuellement à jour de son adhésion.</p>
+
+<p>Si vous rencontrez des problèmes pour accéder aux services réservez aux membres, vous pouvez <a href="{% url "lostpassword" %}">suivre ce lien pour récupérer votre mot de passe</a> ou nous <a href="{% url "contact" %}">contacter pour une assistance</a>.</p>
+
+<p><a href="{% url "homepage" %}">Retour à la page d'accueil</a></p>
+
+{% endblock %}

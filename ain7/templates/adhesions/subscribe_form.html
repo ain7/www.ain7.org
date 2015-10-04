@@ -4,7 +4,6 @@
 
 {% block content-left %}
 
-
 <script type="text/javascript">
 function select_conf(id, dues_amount, newspaper_amount, toggle) {
 	var checkboxes = document.getElementsByName('newspaper');
@@ -26,16 +25,6 @@ function select_conf(id, dues_amount, newspaper_amount, toggle) {
 <div class="colt-lg-8 col-lg-offset-2">
 
 <h1>{{ action_title }} {{ person }}</h1>
-
-<p>Pour adhérer:
-<ul>
-    <li>Sélectionner le tarif applicable à votre cas</li>
-    <li>Choisissez le mode de paiement</li>
-    {% if not request.user.is_authenticated %}
-    <li>Saisissez votre prénom et nom</li>
-    {% endif %}
-</ul>
-</p>
 
 <p>La cotisation à l'AIn7, au delà de soutenir l'action de l'association, vous permet directement:
 <ul>
