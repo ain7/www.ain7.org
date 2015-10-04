@@ -27,7 +27,7 @@
 
 {% ifequal payment.type 4 %}
 
-<p>Afin d'effectuer votre règlement, vous allez être redirigé dans quelques instants sur le site de notre partenaire System Pay afin de finaliser votre règlement.</p>
+<p>Afin d'effectuer votre règlement, vous allez être redirigé dans quelques instants sur le site de notre partenaire System Pay afin de finaliser votre règlement de {{payment.amount }}€.</p>
 <form method="post" action="{{ systempay_url }}">
 {% for name, value in systempay.items %}
 <input type="hidden" name="{{ name }}" value="{{ value }}">

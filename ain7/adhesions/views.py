@@ -157,28 +157,42 @@ def subscription_add(request, user_id=None, key_id=None, config_id=None):
         )
 
     year_current = timezone.now().date().year
+    default_configuration = SubscriptionConfiguration.objects.get(
+        year=year_current,
+        type=SubscriptionConfiguration.TYPE_REGULAR,
+    )
 
-    #page_dict = {'action_title': title, 'person': person,
-    #    'configurations': SubscriptionConfiguration.objects.filter(year=year_current).\
-    #         order_by('type'),
-    #    'back': request.META.get('HTTP_REFERER', '/')}
+    subscription_fields = ()
+    if not config_id:
+        subscription_fields += ('configuration',)
 
+    subscription_fields += ('tender_type', 'newspaper_subscription')
 
-    subscription_fields = ('configuration', 'tender_type', 'newspaper_subscription')
     if not user_id:
         subscription_fields += ('member',)
 
     SubscriptionForm = autocomplete_light.modelform_factory(
         Subscription,
-        fields = subscription_fields,
+        fields=subscription_fields,
     )
     form = SubscriptionForm(request.POST or None)
-    form.fields['configuration'].queryset = SubscriptionConfiguration.objects.filter(year=year_current)
+
+    if not config_id:
+        form.fields['configuration'].queryset = SubscriptionConfiguration.objects.filter(year=year_current)
 
     # 2e passage : sauvegarde et redirection
     if request.method == 'POST' and form.is_valid():
 
         subscription = form.save(commit=False)
+
+        if subscription.member.is_subscriber():
+            return render(request, 'adhesions/already_subscriber.html', {
+                'person': subscription.member.person,
+                }
+            )
+
+        if not subscription.configuration:
+            subscription.configuration = default_configuration
 
         if user_id:
             subscription.member = person.ain7member
