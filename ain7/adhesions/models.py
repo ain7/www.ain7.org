@@ -78,6 +78,13 @@ class Subscription(LoggedClass):
     start_year = models.IntegerField(verbose_name=_('start year'))
     end_year = models.IntegerField(verbose_name=_('end year'))
 
+    start_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
+
+    configuration = models.ForeignKey(
+        'SubscriptionConfiguration', blank=True, null=True
+    )
+
     def __unicode__(self):
         """unicode string for subscription object"""
         return u'%s %s → %s' % (self.member, self.start_year, self.end_year)
