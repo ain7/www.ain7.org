@@ -40,7 +40,7 @@
 <img src="{% static "images/nobody.png" %}" height="50" alt="{{ person.complete_name }}"/>
 {% endif %}
 </td><td>
-<a href="{% url "ain7.annuaire.views.details" ain7member.person.user.id %}">
+<a href="{% url "ain7.annuaire.views.details" ain7member.person.pk %}">
 <b>{{ ain7member.person.last_name }} {% if ain7member.person.maiden_name %} ({{ ain7member.person.maiden_name }}) {% endif %}
 {{ ain7member.person.first_name }}</b></a>
 {% if ain7member.is_subscriber %}
