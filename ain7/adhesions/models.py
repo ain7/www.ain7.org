@@ -139,7 +139,7 @@ class SubscriptionConfiguration(models.Model):
 
     def __unicode__(self):
         """unicode string for subscriptionconfiguration object"""
-        return self.get_type_display()+' - '+unicode(self.dues_amount)+ 'euros'
+        return self.get_type_display()+' - '+unicode(self.dues_amount)+u' €'
 
     class Meta:
         """Meta"""
