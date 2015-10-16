@@ -185,6 +185,9 @@ def subscription_add(request, user_id=None, key_id=None, config_id=None):
 
         subscription = form.save(commit=False)
 
+        if user_id:
+            subscription.member = person.ain7member
+
         if subscription.member.is_subscriber():
             return render(request, 'adhesions/already_subscriber.html', {
                 'person': subscription.member.person,
@@ -194,8 +197,6 @@ def subscription_add(request, user_id=None, key_id=None, config_id=None):
         if not subscription.configuration:
             subscription.configuration = default_configuration
 
-        if user_id:
-            subscription.member = person.ain7member
         if config_id:
             subscription.configuration = subscription_configuration
         subscription.dues_amount = subscription.configuration.dues_amount
