@@ -115,7 +115,7 @@
       <li><a href="{% url "member-details" user.id %}">{% trans "Profil" %}</a></li>
       <li><a href="{% url "annuaire-edit" user.id %}">{% trans "Edit your profil" %}</a></li>
       <li><a href="{% url "ain7.annuaire.views.change_credentials" user.id %}">{% trans "Change credentials" %}</a></li>
-      <li><a href="{% url "ain7.adhesions.views.user_subscriptions" user.id %}">{% trans "Subscriptions History" %}</a></li>
+      <li><a href="{% url "ain7.adhesions.views.user_subscriptions" user.id %}">{% trans "Your Subscriptions History" %}</a></li>
       <li class="divider"></li>
       <li><a href="{% url "account_logout" %}">{% trans "Logout" %}</a></li>
     </ul>
