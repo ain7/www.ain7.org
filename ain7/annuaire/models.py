@@ -915,9 +915,9 @@ class UserActivity(models.Model):
         ordering = ['date']
 
 
-#class ProfileEditKey(models.Model):
-#
-#    person = models.ForeignKey('annuaire.Person', null=False)
-#    key = models.UUIDField(default=uuid.uuid4, editable=False)
-#    created_at = models.DateTimeField(auto_now_add=True, editable=False)
-#    expire_at = models.DateTimeField(editable=False)
+class ProfileEditKey(models.Model):
+
+    person = models.ForeignKey('annuaire.Person', null=False)
+    key = models.UUIDField(default=uuid.uuid4, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    expire_at = models.DateTimeField(editable=False)
