@@ -157,10 +157,6 @@ def subscription_add(request, user_id=None, key_id=None, config_id=None):
         )
 
     year_current = timezone.now().date().year
-    default_configuration = SubscriptionConfiguration.objects.get(
-        year=year_current,
-        type=SubscriptionConfiguration.TYPE_REGULAR,
-    )
 
     subscription_fields = ()
     if not config_id:
@@ -176,6 +172,18 @@ def subscription_add(request, user_id=None, key_id=None, config_id=None):
         fields=subscription_fields,
     )
     form = SubscriptionForm(request.POST or None)
+
+    default_configuration = SubscriptionConfiguration.objects.get(
+        year=year_current,
+        type=SubscriptionConfiguration.TYPE_REGULAR,
+    )
+
+    if not request.POST and (not key_id or not config_id):
+        form = SubscriptionForm(initial={
+            'configuration': default_configuration,
+            'tender_type': Subscription.TENDER_TYPE_CARD,
+            }
+        )
 
     if not config_id:
         form.fields['configuration'].queryset = SubscriptionConfiguration.objects.filter(year=year_current)
