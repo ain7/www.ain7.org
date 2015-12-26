@@ -21,6 +21,7 @@
 #
 #
 
+import autocomplete_light
 import vobject
 
 from django.contrib import auth
@@ -35,7 +36,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from ain7.annuaire.models import (
     PersonPrivate, UserActivity, Promo,
-    PhoneNumber, InstantMessaging, Email, IRC,
+    PhoneNumber, InstantMessaging, Email,
     WebSite, ClubMembership, Person, AIn7Member, Address
 )
 from ain7.annuaire.filters import AIn7MemberFilter, AIn7MemberAdvancedFilter
@@ -188,7 +189,9 @@ def edit(request, user_id=None):
 def person_edit(request, user_id):
 
     person = get_object_or_404(Person, user=user_id)
-    PersonForm = modelform_factory(Person, exclude=('old_id', 'user',))
+    PersonForm = modelform_factory(
+        Person, exclude=('old_id', 'user', 'validated')
+    )
     form = PersonForm(request.POST or None, instance=person)
 
     if request.method == 'POST' and form.is_valid():
@@ -235,7 +238,7 @@ def ain7member_edit(request, user_id):
 
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
-    AIn7MemberForm = modelform_factory(
+    AIn7MemberForm = autocomplete_light.modelform_factory(
         AIn7Member,
         exclude=(
             'person',
@@ -273,6 +276,9 @@ def promo_edit(request, user_id=None, promo_id=None):
     person = get_object_or_404(Person, id=user_id)
     ain7member = person.ain7member
 
+    #PromoForm = autocomplete_light.modelform_factory(
+    #    Promo,
+    #)
     form = PromoForm(request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
@@ -475,50 +481,6 @@ def im_delete(request, user_id=None, im_id=None):
 
 
 @access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
-def irc_edit(request, user_id=None, irc_id=None):
-
-    person = get_object_or_404(Person, user=user_id)
-    irc = None
-    title = _('Creation of an IRC account for')
-
-    irc = None
-    if irc_id:
-        irc = get_object_or_404(IRC, pk=irc_id)
-
-    IRCForm = modelform_factory(IRC, exclude=('person',))
-    form = IRCForm(request.POST or None, instance=irc)
-
-    if request.method == 'POST' and form.is_valid():
-        this_irc = form.save(commit=False)
-        this_irc.person = person
-        this_irc.save()
-
-        messages.success(request, _('irc contact successfully saved'))
-
-        return redirect('annuaire-edit', user_id)
-
-    return render(request, 'annuaire/edit_form.html', {
-        'form': form,
-        'action_title': title,
-        'person': person,
-        'back': request.META.get('HTTP_REFERER', '/'),
-        }
-    )
-
-
-@confirmation_required(lambda user_id=None, irc_id=None:
-    str(get_object_or_404(IRC, pk=irc_id)), 'annuaire/base.html',
-    _('Do you really want to delete your IRC account'))
-@access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
-def irc_delete(request, user_id=None, irc_id=None):
-
-    return ain7_generic_delete(request,
-        get_object_or_404(IRC, pk=irc_id),
-        '/annuaire/%s/edit/#irc' % user_id,
-        _('IRC account successfully deleted.'))
-
-
-@access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def website_edit(request, user_id=None, website_id=None):
 
     person = get_object_or_404(Person, user=user_id)
@@ -635,8 +597,9 @@ def vcard(request, user_id):
     person = get_object_or_404(Person, pk=user_id)
 
     mail = None
-    mail_list = Email.objects.filter(person=person, preferred_email=True,
-        confidentiality__in=[0, 1])
+    mail_list = Email.objects.filter(
+        person=person, preferred_email=True, confidential=False
+    )
     if mail_list:
         mail = mail_list[0].email
 
@@ -648,7 +611,7 @@ def vcard(request, user_id):
         email = vcard.add('email')
         email.value = mail
         email.type_param = ['INTERNET', 'PREF']
-    for address in Address.objects.filter(person=person, confidentiality=0):
+    for address in Address.objects.filter(person=person, confidential=False):
         street = ''
         if address.line1:
             street = street + address.line1
@@ -659,7 +622,7 @@ def vcard(request, user_id):
             region='', code=address.zip_code, country=address.country.name,
             box='', extended='')
         adr.type_param = address.type.type
-    for phone in PhoneNumber.objects.filter(person=person, confidentiality=0):
+    for phone in PhoneNumber.objects.filter(person=person, confidential=False):
         tel = vcard.add('tel')
         tel.value = phone.number
         tel.type_param = ['HOME', 'FAX', 'CELL'][phone.type-1]
