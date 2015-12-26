@@ -151,10 +151,7 @@ class NewMemberForm(forms.Form):
 
         new_ain7member = AIn7Member()
         new_ain7member.person = new_person
-        new_ain7member.marital_status = \
-            MaritalStatus.objects.get(pk=2)
-        new_ain7member.display_cv_in_directory = False
-        new_ain7member.display_cv_in_job_section = False
+        new_ain7member.marital_status = MaritalStatus.objects.get(pk=2)
         new_ain7member.receive_job_offers = False
         new_ain7member.save()
 

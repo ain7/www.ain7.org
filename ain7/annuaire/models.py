@@ -493,17 +493,8 @@ class AIn7Member(LoggedClass):
     )
 
     # Curriculum Vitae and Job Service
-    display_cv_in_directory = models.BooleanField(
-        verbose_name=_('Display my professional cursus in the directory'),
-        default=True)
-    display_cv_in_job_section = models.BooleanField(
-        verbose_name=_('Display my CV in the job service section'),
-        default=False)
     receive_job_offers = models.BooleanField(
         verbose_name=_('Receive job offers by email'), default=False,
-    )
-    cv_title = models.CharField(
-        verbose_name=_('CV title'), max_length=100, blank=True, null=True,
     )
 
     # Internal

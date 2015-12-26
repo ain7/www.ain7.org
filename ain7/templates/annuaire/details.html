@@ -129,10 +129,7 @@
 
 {% if ain7member.positions.all %}
 
-{% if ain7member.display_cv_in_directory or superadmin or ca_member or is_myself or secretariat_member %}
-
-<h2>{% if not ain7member.display_cv_in_directory %}<i class="fa fa-lock"></i> {% endif %}
-{% trans "Career" %}</h2>
+<h2>{% trans "Career" %}</h2>
 
 <ul>
 {% for position in ain7member.positions.all %}
@@ -153,7 +150,6 @@
 </li>
 {% endfor %}
 </ul>
-{% endif %}
 {% endif %}
 
 {% if ain7member.club_memberships.all %}

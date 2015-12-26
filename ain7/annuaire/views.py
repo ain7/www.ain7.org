@@ -239,13 +239,7 @@ def ain7member_edit(request, user_id):
     person = get_object_or_404(Person, user=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
     AIn7MemberForm = autocomplete_light.modelform_factory(
-        AIn7Member,
-        exclude=(
-            'person',
-            'display_cv_in_directory',
-            'display_cv_in_job_section',
-            'cv_title',
-        )
+        AIn7Member, exclude=('person',)
     )
 
     form = AIn7MemberForm(
