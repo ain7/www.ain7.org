@@ -41,7 +41,7 @@ from ain7.annuaire.models import (
 )
 from ain7.annuaire.filters import AIn7MemberFilter, AIn7MemberAdvancedFilter
 from ain7.annuaire.forms import (
-    ChangePasswordForm, PromoForm, NewMemberForm
+    ChangePasswordForm, NewMemberForm
 )
 from ain7.decorators import access_required, confirmation_required
 from ain7.utils import ain7_generic_delete, generate_login
@@ -270,14 +270,13 @@ def promo_edit(request, user_id=None, promo_id=None):
     person = get_object_or_404(Person, id=user_id)
     ain7member = person.ain7member
 
-    #PromoForm = autocomplete_light.modelform_factory(
-    #    Promo,
-    #)
-    form = PromoForm(request.POST or None)
+    PromoForm = autocomplete_light.modelform_factory(
+        AIn7Member, fields=('promos',),
+    )
+    form = PromoForm(request.POST or None, instance=ain7member)
 
     if request.method == 'POST' and form.is_valid():
-        promo = form.search()
-        ain7member.promos.add(promo)
+        ain7member = form.save()
         messages.success(request, _('Promotion successfully added.'))
 
         return redirect('annuaire-edit', user_id)

@@ -171,54 +171,6 @@ class NewMemberForm(forms.Form):
         return new_person
 
 
-class PromoForm(forms.Form):
-    """promo form"""
-    promoyear = forms.IntegerField(label=_('Promo year'), required=False)
-    track = forms.IntegerField(label=_('Track'), required=False)
-
-    def clean_promoyear(self):
-        """check promo year"""
-        promoyear_id = self.cleaned_data['promoyear']
-
-        try:
-            PromoYear.objects.get(id=promoyear_id)
-        except PromoYear.DoesNotExist:
-            raise ValidationError(_('The entered year of promotion\
- does not exist.'))
-        else:
-            return self.cleaned_data['promoyear']
-
-    def clean_track(self):
-        """check track"""
-        track_id = self.cleaned_data['track']
-        try:
-            track = Track.objects.get(id=track_id)
-        except Track.DoesNotExist:
-            raise ValidationError(_('The entered track does not exist.'))
-
-        if self.cleaned_data.has_key('promoyear'):
-            promoyear_id = self.cleaned_data['promoyear']
-            if self.cleaned_data['promoyear'] and self.cleaned_data['track']:
-                try:
-                    promo_year = PromoYear.objects.get(id=promoyear_id)
-                    Promo.objects.get(year=promo_year, track=track)
-                except PromoYear.DoesNotExist:
-                    raise ValidationError(_('The entered year of promotion\
- does not exist.'))
-                except Promo.DoesNotExist:
-                    raise ValidationError(_('There is no year of promotion\
- and track associated.'))
-                else:
-                    return self.cleaned_data['track']
-
-    def search(self):
-        """perform search"""
-        track = Track.objects.get(id=self.cleaned_data['track'])
-        promo_year = PromoYear.objects.get(id=self.cleaned_data['promoyear'])
-        promo = Promo.objects.get(year=promo_year, track=track)
-        return promo
-
-
 class ChangePasswordForm(forms.Form):
     """ Change password and/or login"""
     login = forms.CharField(label=_('Login:'), max_length=50, required=True)
