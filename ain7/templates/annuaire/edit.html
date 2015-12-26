@@ -223,7 +223,7 @@
 <h2>
     <a name="profexp"></a>{% trans "Experiences" %}
     &nbsp;
-    <a class="btn btn-primary" href="{% url "ain7.emploi.views.position_edit" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
+    <a class="btn btn-primary" href="{% url "ain7.annuaire.views.position_edit" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
 </h2>
 
 <table class="table">
@@ -232,8 +232,8 @@
     {% if not position.is_confidential %}
         <tr><th>{% if position.begin %}{{ position.begin }}{% endif %} - {% if position.end %}{{ position.end }}{% endif %}</th>
             <td>{% if position.fonction %}<em>{{ position.fonction }}</em>{% endif %} <a href="{% url "ain7.organizations.views.organization_details" position.office.organization.id %}">{{ position.office }}</a></td>
-            <td><a href="{% url "ain7.emploi.views.position_edit" person.user.id position.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
-            <td><a href="{% url "ain7.emploi.views.position_delete" person.user.id position.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
+            <td><a href="{% url "ain7.annuaire.views.position_edit" person.user.id position.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
+            <td><a href="{% url "ain7.annuaire.views.position_delete" person.user.id position.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
         </tr>
         {% if position.description %}
             <tr><td></td><td>{{ position.description|safe }}</td></tr>
@@ -270,7 +270,7 @@
 <h2>
     <a name="publications"></a>{% trans "Publications and patents" %}
     &nbsp;
-    <a class="btn btn-primary" href="{% url "ain7.emploi.views.publication_edit" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
+    <a class="btn btn-primary" href="{% url "ain7.annuaire.views.publication_edit" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
 </h2>
 
 <table class"table">
@@ -278,8 +278,8 @@
 {% for publicationItem in ain7member.publication.all %}
     <tr><th>{{ publicationItem.date|date:"Y"|default:"" }}</th>
         <td> <em>{{ publicationItem.title }}</em></td>
-        <td><a href="{% url "ain7.emploi.views.publication_edit" person.user.id publicationItem.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
-        <td><a href="{% url "ain7.emploi.views.publication_delete" person.user.id publicationItem.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
+        <td><a href="{% url "ain7.annuaire.views.publication_edit" person.user.id publicationItem.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
+        <td><a href="{% url "ain7.annuaire.views.publication_delete" person.user.id publicationItem.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
     </tr>
     {% if publicationItem.details %}
         <tr><td></td><td>{{ publicationItem.details|safe }}</td></tr>
@@ -293,7 +293,7 @@
 <h2>
     <a name="education"></a>{% trans "Education" %}
     &nbsp;
-    <a class="btn btn-primary" href="{% url "ain7.emploi.views.education_edit" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
+    <a class="btn btn-primary" href="{% url "ain7.annuaire.views.education_edit" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
 </h2>
 
 <table class="table">
@@ -301,8 +301,8 @@
 {% for educationItem in ain7member.education.all %}
     <tr><th>{{ educationItem.begin }} - {{ educationItem.end }}</th>
         <td> <em>{{ educationItem.school }}</em></td>
-        <td><a href="{% url "ain7.emploi.views.education_edit" person.user.id educationItem.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
-        <td><a href="{% url "ain7.emploi.views.education_delete" person.user.id educationItem.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
+        <td><a href="{% url "ain7.annuaire.views.education_edit" person.user.id educationItem.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
+        <td><a href="{% url "ain7.annuaire.views.education_delete" person.user.id educationItem.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
     </tr>
     {% if educationItem.diploma %}
         <tr><td></td><td>{{ educationItem.diploma }}</td></tr>
@@ -318,7 +318,7 @@
 <h2>
     <a name="leisure"></a>{% trans "Leisure activities" %}
     &nbsp;
-    <a class="btn btn-primary" href="{% url "ain7.emploi.views.leisure_edit" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
+    <a class="btn btn-primary" href="{% url "ain7.annuaire.views.leisure_edit" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
 </h2>
 
 <table class="table">
@@ -326,8 +326,8 @@
 {% for leisureItem in ain7member.leisure.all %}
     <tr><th>{{ leisureItem.title }}</th>
         <td>{% if leisureItem.detail %} {{ leisureItem.detail|safe }} {% endif %} </td>
-        <td><a href="{% url "ain7.emploi.views.leisure_edit" person.user.id leisureItem.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
-        <td><a href="{% url "ain7.emploi.views.leisure_delete" person.user.id leisureItem.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
+        <td><a href="{% url "ain7.annuaire.views.leisure_edit" person.user.id leisureItem.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
+        <td><a href="{% url "ain7.annuaire.views.leisure_delete" person.user.id leisureItem.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
     </tr>
 {% endfor %}
 </tbody>
