@@ -23,13 +23,11 @@
 
 import autocomplete_light
 
+from django.contrib import messages
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
-from django.forms.models import modelform_factory
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext as _
-
-import autocomplete_light
 
 from ain7.annuaire.models import AIn7Member
 from ain7.decorators import access_required, confirmation_required
@@ -95,36 +93,30 @@ def contact(request):
 
     from django import forms
 
-    MSG_GENERAL = 0
-    MSG_WEB = 1
-    MSG_TOPIC = (
-        (MSG_GENERAL, _('General question')),
-        (MSG_WEB, _('website')),
-    )
-
     class ContactForm(forms.Form):
         name = forms.CharField(max_length=200)
         email = forms.EmailField(max_length=200, required=True)
-        topic = forms.IntegerField(widget=forms.Select(choices=MSG_TOPIC))
         message = forms.CharField(widget=forms.Textarea, required=True)
 
-    form = ContactForm(request.POST or None)
+    initials = {'name': request.user.person.complete_name, 'email': request.user.person.mail_favorite()}
+
+    form = ContactForm(request.POST or initials)
 
     if request.method == 'POST' and form.is_valid():
-        msg = u"Bonjour,\n\n"
-        msg += (u"Nous avons reçu la question suivante de {name}:\n").format(name=form.cleaned_data['name'])
-        msg += form.cleaned_data['message']
+        msg = form.cleaned_data['message']
         msg += "\n\n--\n"
         msg += u"Message généré par la page de contact AIn7"
 
         send_mail(
-            ("Contact: {topic}").format(topic=form.cleaned_data['topic']),
+            (u"Question de {name} reçue sur le site web").format(name=form.cleaned_data['name']),
             msg,
-            form.cleaned_data['email'],
+            ("{name} <{email}>").format(email=form.cleaned_data['email'], name=form.cleaned_data['name']),
             ['contact@ain7.com'],
             fail_silently=True,
         )
 
+        form = None
+        messages.success(request, _("Your message have successfully been sent to the association"))
 
     return render(request, 'association/contact.html', {
         'count_members': count_members(),

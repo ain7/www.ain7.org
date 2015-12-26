@@ -12,10 +12,12 @@
 
 {{ text.body|safe }}
 
+{% if form %}
 <form method="post" action="." class="form-horizontal">
 {% csrf_token %}
 {{ form|crispy }}
 <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> {% trans "Send" %}</button>
 </form>
+{% endif %}
 
 {% endblock %}
