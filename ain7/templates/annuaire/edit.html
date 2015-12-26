@@ -231,7 +231,7 @@
 {% for position in ain7member.positions.all %}
     {% if not position.is_confidential %}
         <tr><th>{% if position.begin %}{{ position.begin }}{% endif %} - {% if position.end %}{{ position.end }}{% endif %}</th>
-            <td>{% if position.fonction %}{{ position.fonction }}{% endif %} <em>{{ position.office }} ({{ position.office.organization }})</em></td>
+            <td>{% if position.fonction %}<em>{{ position.fonction }}</em>{% endif %} <a href="{% url "ain7.organizations.views.organization_details" position.office.organization.id %}">{{ position.office }}</a></td>
             <td><a href="{% url "ain7.emploi.views.position_edit" person.user.id position.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
             <td><a href="{% url "ain7.emploi.views.position_delete" person.user.id position.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
         </tr>
