@@ -56,10 +56,6 @@ urlpatterns = patterns('ain7.annuaire.views',
     (r'^(?P<user_id>\d+)/im/(?P<im_id>\d+)/edit/$', 'im_edit'),
     (r'^(?P<user_id>\d+)/im/(?P<im_id>\d+)/delete/$', 'im_delete'),
     (r'^(?P<user_id>\d+)/im/add/$', 'im_edit'),
-    # Comptes IRC
-    (r'^(?P<user_id>\d+)/irc/(?P<irc_id>\d+)/edit/$', 'irc_edit'),
-    (r'^(?P<user_id>\d+)/irc/(?P<irc_id>\d+)/delete/$', 'irc_delete'),
-    (r'^(?P<user_id>\d+)/irc/add/$', 'irc_edit'),
     # Sites Web
     (r'^(?P<user_id>\d+)/website/(?P<website_id>\d+)/edit/$', 'website_edit'),
     (r'^(?P<user_id>\d+)/website/(?P<website_id>\d+)/delete/$',
