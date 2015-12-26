@@ -10,8 +10,8 @@
 <a href="{% url "ain7.annuaire.views.details" person.user.id %}">{% trans "Back to personnal file" %}</a>
 
 {% if person.ain7member.is_subscriber %}
-<div class="alert alert-success" role="alert">
-Vous êtes à jour de votre cotisation à l'association.
+<div class="alert alert-info" role="alert">
+<i class="fa fa-info-circle fa-2x"></i> Vous êtes à jour de votre cotisation à l'association.
 </div>
 {% else %}
 <div class="alert alert-warning" role="alert">
@@ -94,13 +94,14 @@ Vous êtes à jour de votre cotisation à l'association.
 {% endif %}
 
 {% if ca_member or secretariat_member or superadmin %}
+<div class="panel panel-default">
+      <div class="panel-heading">Zone réservée à l'association</div>
+        <div class="panel-body">
 <ul>
     <li><b>{% filter capfirst %}{% trans "type" %}{% endfilter %}</b>&nbsp;:
         {{ personprivate.person_type }}</li>
     <li><b>{% filter capfirst %}{% trans "member" %}{% endfilter %}</b>&nbsp;:
         {{ personprivate.member_type }}</li>
-    <li><b>{% filter capfirst %}{% trans "activity" %}{% endfilter %}</b>&nbsp;:
-        {{ personprivate.activity }}</li>
    {% if personprivate.death_date %}
    <li><b>{% filter capfirst %}{% trans "death date" %}{% endfilter %}
        &nbsp;:</b> {{ personprivate.death_date|date:"d/m/Y" }}</li>
@@ -109,6 +110,8 @@ Vous êtes à jour de votre cotisation à l'association.
        &nbsp;:</b> {% if personprivate.notes %}{{ personprivate.notes|safe }}{% endif %}</li>
 </ul>
 <p><a href="{% url "ain7.annuaire.views.personprivate_edit" person.user.id %}">{% trans "Modify" %}</a></p>
+        </div>
+</div>
 {% endif %}
 
 <h2>
@@ -123,7 +126,7 @@ Vous êtes à jour de votre cotisation à l'association.
     <tr><td><b>{% trans "Address" %} {{ address.type|lower }}&nbsp;:</b></td><td>
         {{ address.line1 }} {{ address.line2|default_if_none:"" }} -
         {{address.zip_code }} {{ address.city }} - {{ address.country.name }}
-        ({{ address.confidentiality_print }})</td>
+        {% if address.confidential %}<i class="fa fa-lock"></i> {% endif %}</td>
     <td><a href="{% url "ain7.annuaire.views.address_edit" person.user.id address.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
     <td><a href="{% url "ain7.annuaire.views.address_delete" person.user.id address.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
     </tr>
@@ -141,7 +144,7 @@ Vous êtes à jour de votre cotisation à l'association.
 <tbody>
 {% for email in person.emails.all %}
 <tr><td><i class="fa fa-envelope-o"></i> <a href="mailto:{{ email.email }}">{{ email.email }}</a>
-       ({{ email.confidentiality_print }}{% if email.preferred_email %}, {% trans "preferred" %}{% endif %})
+        {% if email.confidential %}<i class="fa fa-lock"></i>{% endif %}{% if email.preferred_email %} <i class="fa fa-star"></i>{% endif %}
 </td>
 <td>
         <a href="{% url "ain7.annuaire.views.email_edit" person.user.id email.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
@@ -162,8 +165,7 @@ Vous êtes à jour de votre cotisation à l'association.
 <tbody>
 {% for phone_number in person.phone_numbers.all %}
 <tr><td><i class="fa fa-phone"></i> <b>{{ phone_number.get_type_display }} :</b></td>
-   <td>{{ phone_number.number }}
-       ({{ phone_number.confidentiality_print }})</td>
+   <td>{{ phone_number.number }}{% if phone_number.confidential %}<i class="fa fa-lock"></i> {% endif %}</td>
     <td>
         <a href="{% url "ain7.annuaire.views.phone_edit" person.user.id phone_number.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
     <td>
@@ -184,7 +186,7 @@ Vous êtes à jour de votre cotisation à l'association.
 {% for website in person.web_sites.all %}
 <tr>
 <td>
-<i class="fa fa-{{ website.get_type_display|lower }}"></i> <a href="{{ website.url }}">{{ website.url }}</a> ({{ website.confidentiality_print }})
+    <i class="fa fa-{{ website.get_type_display|lower }}"></i> <a href="{{ website.url }}">{{ website.url }}</a> {% if website.confidential %}<i class="fa fa-lock"></i> {% endif %}
 </td>
 <td>
 <a href="{% url "ain7.annuaire.views.website_edit" person.user.id website.id %}"><i class="fa fa-pencil fa-lg"></i></a>

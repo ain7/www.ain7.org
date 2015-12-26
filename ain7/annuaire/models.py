@@ -33,7 +33,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext as _
 
 from ain7.utils import LoggedClass, get_root_url
-from ain7.utils import ain7_website_confidential, CONFIDENTIALITY_LEVELS
+from ain7.utils import CONFIDENTIALITY_LEVELS
 
 
 class Country(models.Model):
@@ -85,23 +85,6 @@ class MemberType(models.Model):
     class Meta:
         """member type meta"""
         verbose_name = _('member type')
-
-
-class Activity(models.Model):
-    """
-    Indicates the current main activity of the person: student,
-    active retired, ...
-    """
-
-    activity = models.CharField(verbose_name=_('activity'), max_length=50)
-
-    def __unicode__(self):
-        """activity unicode"""
-        return self.activity
-
-    class Meta:
-        """activity meta"""
-        verbose_name = _('activity')
 
 
 class MaritalStatus(models.Model):
@@ -430,9 +413,6 @@ class PersonPrivate(LoggedClass):
     # Administration
     person_type = models.ForeignKey(PersonType, verbose_name=_('type'))
     member_type = models.ForeignKey(MemberType, verbose_name=_('member'))
-    activity = models.ForeignKey(
-        Activity, verbose_name=_('activity'), blank=True, null=True,
-    )
     death_date = models.DateField(
         verbose_name=_('death date'), blank=True, null=True,
     )
@@ -659,14 +639,9 @@ class PhoneNumber(LoggedClass):
         verbose_name=_('confidentiality'),
         choices=CONFIDENTIALITY_LEVELS, default=0,
     )
-
-    def website_confidential(self):
-        """web site confidential"""
-        return ain7_website_confidential(self)
-
-    def confidentiality_print(self):
-        """print phone number confidentiality"""
-        return CONFIDENTIALITY_LEVELS[self.confidentiality][1]
+    confidential = models.BooleanField(
+        default=False, verbose_name=_('confidential')
+    )
 
     def __unicode__(self):
         """phone number unicode"""
@@ -711,16 +686,10 @@ class Address(LoggedClass):
         verbose_name=_('confidentiality'),
         choices=CONFIDENTIALITY_LEVELS, default=0,
     )
+    confidential = models.BooleanField(
+        default=False, verbose_name=_('confidential')
+    )
     is_valid = models.BooleanField(verbose_name=_('is valid'), default=True)
-
-    def website_confidential(self):
-        """address confidentiality"""
-        return ain7_website_confidential(self)
-
-    def confidentiality_print(self):
-        """address confidentiality print"""
-        print self.confidentiality
-        return CONFIDENTIALITY_LEVELS[self.confidentiality][1]
 
     def __unicode__(self):
         """address unicode"""
@@ -748,6 +717,9 @@ class Email(models.Model):
         verbose_name=_('confidentiality'),
         choices=CONFIDENTIALITY_LEVELS, default=0,
     )
+    confidential = models.BooleanField(
+        default=False, verbose_name=_('confidential')
+    )
     preferred_email = models.BooleanField(
         verbose_name=_('preferred'), default=False,
     )
@@ -756,14 +728,6 @@ class Email(models.Model):
         'emploi.Position', related_name='mail', blank=True,
         null=True, editable=False,
     )
-
-    def website_confidential(self):
-        """email confidentiality for the website"""
-        return ain7_website_confidential(self)
-
-    def confidentiality_print(self):
-        """email confidentiality print"""
-        return CONFIDENTIALITY_LEVELS[self.confidentiality][1]
 
     def __unicode__(self):
         """email unicode"""
@@ -815,14 +779,9 @@ class InstantMessaging(models.Model):
         verbose_name=_('confidentiality'),
         choices=CONFIDENTIALITY_LEVELS, default=0,
     )
-
-    def website_confidential(self):
-        """instant messaging confidentiality on the website"""
-        return ain7_website_confidential(self)
-
-    def confidentiality_print(self):
-        """print instant messenger confidentiality"""
-        return CONFIDENTIALITY_LEVELS[self.confidentiality][1]
+    confidential = models.BooleanField(
+        default=False, verbose_name=_('confidential')
+    )
 
     def __unicode__(self):
         """instant messenger unicode"""
@@ -859,18 +818,12 @@ class WebSite(models.Model):
         verbose_name=_('confidentiality'),
         choices=CONFIDENTIALITY_LEVELS, default=0,
     )
-
+    confidential = models.BooleanField(
+        default=False, verbose_name=_('confidential')
+    )
     blog_is_agregated_on_planet = models.BooleanField(
         verbose_name=_('blog on planet'), default=False,
     )
-
-    def website_confidential(self):
-        """website confidentiality on website"""
-        return ain7_website_confidential(self)
-
-    def confidentiality_print(self):
-        """print website confidentiality"""
-        return CONFIDENTIALITY_LEVELS[self.confidentiality][1]
 
     def __unicode__(self):
         """website unicode"""
@@ -889,36 +842,6 @@ class WebSite(models.Model):
     class Meta:
         """website meta"""
         verbose_name = _('web site')
-
-
-class IRC(models.Model):
-    """IRC contact for a person"""
-
-    person = models.ForeignKey(Person, related_name='ircs', editable=False)
-
-    network = models.CharField(verbose_name=_('network'), max_length=50)
-    pseudo = models.CharField(verbose_name=_('pseudo'), max_length=20)
-    channels = models.CharField(verbose_name=_('channels'), max_length=100)
-    confidentiality = models.IntegerField(
-        verbose_name=_('confidentiality'),
-        choices=CONFIDENTIALITY_LEVELS, default=0,
-    )
-
-    def website_confidential(self):
-        """irc confidentiality on the website"""
-        return ain7_website_confidential(self)
-
-    def confidentiality_print(self):
-        """print irc confidentiality"""
-        return CONFIDENTIALITY_LEVELS[self.confidentiality][1]
-
-    def __unicode__(self):
-        """irc unicode"""
-        return self.pseudo + "@" + self.channels
-
-    class Meta:
-        """irc meta"""
-        verbose_name = _('irc')
 
 
 class Club(LoggedClass):

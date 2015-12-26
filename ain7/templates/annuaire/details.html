@@ -88,8 +88,8 @@
 <table border="0" width="100%">
 <tbody>
 {% for phone_number in person.phone_numbers.all %}
-    {% if superadmin or ca_member or secretariat_member or is_myself or not phone_number.website_confidential %}
-    <tr><td>{% if phone_number.website_confidential %}<i class="fa fa-lock"></i> {% endif %}<b>{{ phone_number.get_type_display }} :</b> {{ phone_number.number }}</td></tr>
+    {% if superadmin or ca_member or secretariat_member or is_myself or not phone_number.confidential %}
+    <tr><td>{% if phone_number.confidential %}<i class="fa fa-lock"></i> {% endif %}<b>{{ phone_number.get_type_display }} :</b> {{ phone_number.number }}</td></tr>
     {% endif %}
 {% endfor %}
 {% for position in ain7member.positions.all %}
@@ -99,9 +99,9 @@
 {% endfor %}
 
 {% for email in person.emails.all %}
-	{% if superadmin or ca_member or secretariat_member or is_myself or not  email.website_confidential %}
+	{% if superadmin or ca_member or secretariat_member or is_myself or not  email.confidential %}
             {% if not email.position or not email.position.end %}
-            <tr><td>{% if email.website_confidential %}<i class="fa fa-lock"></i>{% endif %}<li class="fa fa-envelope-o"></i>&nbsp;<a href="mailto:{{ email.email }}">{{ email.email }}</a></td></tr>
+            <tr><td>{% if email.confidential %}<i class="fa fa-lock"></i>{% endif %}<li class="fa fa-envelope-o"></i>&nbsp;<a href="mailto:{{ email.email }}">{{ email.email }}</a></td></tr>
             {% endif %}
 	{% endif %}
 {% endfor %}
@@ -115,8 +115,8 @@
 <table border="0" width="100%">
 <tbody>
 {% for address in person.addresses.all %}
-	{% if superadmin or ca_member or secretariat_member or is_myself or not address.website_confidential %}
-    <tr><td>{% if address.website_confidential %}<i class="fa fa-lock"></i> {% endif %}<b>{% trans "Address" %} {{ address.type|lower }} :</b> {{ address.line1 }} {{ address.line2|default_if_none:"" }} - {{address.zip_code }} {{ address.city }} - {{ address.country.name }}</td></tr>
+	{% if superadmin or ca_member or secretariat_member or is_myself or not address.confidential %}
+    <tr><td>{% if address.confidential %}<i class="fa fa-lock"></i> {% endif %}<b>{% trans "Address" %} {{ address.type|lower }} :</b> {{ address.line1 }} {{ address.line2|default_if_none:"" }} - {{address.zip_code }} {{ address.city }} - {{ address.country.name }}</td></tr>
 	{% endif %}
 {% endfor %}
 {% for position in ain7member.positions.all %}
