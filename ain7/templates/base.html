@@ -112,7 +112,16 @@
       {{ user.person.first_name }} {{ user.person.last_name }} <i class="fa fa-caret-down"></i>
   </a>
     <ul class="dropdown-menu">
-      <li><a href="{% url "member-details" user.id %}">{% trans "Profil" %}</a></li>
+      <li>
+      {% if user.person.ain7member.is_subscriber %}
+      <div class="alert alert-info">
+          <i class="fa fa-info-circle fa-2x"></i> Votre cotisation est à jour
+      {% else %}
+      <div class="alert alert-warning">
+          <a href="{% url "subscription-add" user.person.pk %}">Cotiser à l'association</a>
+      </div>
+      {% endif %}
+      </li>
       <li><a href="{% url "annuaire-edit" user.id %}">{% trans "Edit your profil" %}</a></li>
       <li><a href="{% url "ain7.annuaire.views.change_credentials" user.id %}">{% trans "Change credentials" %}</a></li>
       <li><a href="{% url "ain7.adhesions.views.user_subscriptions" user.id %}">{% trans "Your Subscriptions History" %}</a></li>
