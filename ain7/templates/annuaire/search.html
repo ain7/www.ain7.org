@@ -9,10 +9,13 @@
 
 <div class="row">
 
+<p>Vous ne trouvez pas tous les critères? Essayez notre <a href="{% url "annuaire-search-advanced" %}">recherche avancée</a>, ou <a href="{% url "contact" %}">contactez nous</a>.</p>
+
 <div class="col-lg-offset-3 col-lg-6">
 
+
 <form action="." method="get" class="form-horizontal">
-{{ filter.form|crispy }}
+    {{ filter.form|crispy }}
 <div class="control-group">
 <div class="controls">
 <div class="col-lg-offset-4">

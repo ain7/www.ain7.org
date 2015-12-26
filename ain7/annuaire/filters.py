@@ -23,38 +23,100 @@
 
 import django_filters
 
+from django.db.models import Q
 from django.utils.translation import ugettext as _
 
-from ain7.annuaire.models import AIn7Member
+from ain7.annuaire.models import AIn7Member, Country, Track
 
 
 class AIn7MemberFilter(django_filters.FilterSet):
 
+    last_name = django_filters.MethodFilter(
+        name='person__last_name', label=_('last name').capitalize(),
+        lookup_type='icontains', action='filter_last_name',
+    )
+    first_name = django_filters.CharFilter(
+        name='person__first_name', label=_('first name').capitalize(),
+        lookup_type='icontains',
+    )
+    year = django_filters.NumberFilter(
+        name='promos__year__year', label=_('year').capitalize(),
+        lookup_type='exact',
+    )
+    track = django_filters.ModelChoiceFilter(
+        name='promos__track__name', label=_('track').capitalize(),
+        lookup_type='icontains', queryset=Track.objects.all(),
+    )
+    organization = django_filters.CharFilter(
+        name='positions__office__organization__name',
+        label=_('organization').capitalize(), lookup_type='icontains',
+    )
+    city = django_filters.CharFilter(
+        name='person__addresses__city', label=_('city').capitalize(),
+        lookup_type='icontains',
+    )
+    country = django_filters.ModelChoiceFilter(
+        name='person__addresses__country', label=_('country').capitalize(),
+        lookup_type='icontains', queryset=Country.objects.all(),
+        )
+
     class Meta:
         model = AIn7Member
-        fields = {
-            'person__first_name': ['icontains'],
-            'person__last_name': ['icontains'],
-            'promos__year__year': ['exact'],
-            'promos__track': ['exact'],
-            'person__addresses__city': ['icontains'],
-            'person__addresses__country': ['exact'],
-        }
+        fields = {}
+
+    def filter_last_name(self, queryset, value):
+        return queryset.filter(
+            Q(person__last_name__icontains=value) |
+            Q(person__maiden_name__icontains=value)
+        )
 
 
 class AIn7MemberAdvancedFilter(django_filters.FilterSet):
 
+    last_name = django_filters.MethodFilter(
+        name='person__last_name', label=_('last name').capitalize(),
+        lookup_type='icontains', action='filter_last_name',
+    )
+    first_name = django_filters.CharFilter(
+        name='person__first_name', label=_('first name').capitalize(),
+        lookup_type='icontains',
+    )
+    year = django_filters.NumberFilter(
+        name='promos__year__year', label=_('year').capitalize(),
+        lookup_type='exact',
+    )
+    track = django_filters.ModelChoiceFilter(
+        name='promos__track__name', label=_('track').capitalize(),
+        lookup_type='icontains', queryset=Track.objects.all(),
+    )
+    organization = django_filters.CharFilter(
+        name='positions__office__organization__name',
+        label=_('organization').capitalize(), lookup_type='icontains',
+    )
+    position = django_filters.CharFilter(
+        name='positions__fonction',
+        label=_('fonction').capitalize(), lookup_type='icontains',
+    )
+    zip_code = django_filters.CharFilter(
+        name='person__addresses__zip_code', label=_('zip code').capitalize(),
+        lookup_type='icontains',
+    )
+    city = django_filters.CharFilter(
+        name='person__addresses__city', label=_('city').capitalize(),
+        lookup_type='icontains',
+    )
+    country = django_filters.ModelChoiceFilter(
+        name='person__addresses__country', label=_('country').capitalize(),
+        lookup_type='icontains', queryset=Country.objects.all(),
+        )
+
+
     class Meta:
         model = AIn7Member
-        fields = {
-            'person__first_name': ['icontains'],
-            'person__last_name': ['icontains'],
-            'promos__year__year': ['exact'],
-            'promos__track__name': ['icontains'],
-            'promos__track__school__name': ['icontains'],
-            'person__addresses__zip_code': ['icontains'],
-            'person__addresses__city': ['icontains'],
-            'person__addresses__country': ['exact'],
-            'positions__office__organization__name': ['icontains'],
-            'positions__fonction': ['icontains'],
-        }
+        fields = {}
+
+    def filter_last_name(self, queryset, value):
+        return queryset.filter(
+            Q(person__last_name__icontains=value) |
+            Q(person__maiden_name__icontains=value)
+        )
