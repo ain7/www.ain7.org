@@ -29,7 +29,7 @@ from django.utils import timezone
 
 from ain7.annuaire.models import (
     AIn7Member, Promo, Track, PromoYear, Person,
-    Country, PersonPrivate, MemberType, Activity,
+    Country, PersonPrivate, MemberType,
     PersonType, MaritalStatus, Email
 )
 
@@ -147,7 +147,6 @@ class NewMemberForm(forms.Form):
         new_person_private.person_type = PersonType.objects.get(type=u"Elèves")
         new_person_private.member_type = \
             MemberType.objects.get(type="Membre actif")
-        new_person_private.activity = Activity.objects.get(activity="Connue")
         new_person_private.save()
 
         new_ain7member = AIn7Member()
