@@ -162,7 +162,7 @@ def subscription_add(request, user_id=None, key_id=None, config_id=None):
     if not config_id:
         subscription_fields += ('configuration',)
 
-    subscription_fields += ('tender_type', 'newspaper_subscription')
+    subscription_fields += ('tender_type', )
 
     if not user_id:
         subscription_fields += ('member',)
@@ -208,7 +208,7 @@ def subscription_add(request, user_id=None, key_id=None, config_id=None):
         if config_id:
             subscription.configuration = subscription_configuration
         subscription.dues_amount = subscription.configuration.dues_amount
-        subscription.newspaper_amount = subscription.configuration.newspaper_amount
+        subscription.newspaper_amount = 0
         subscription.tender_type = subscription.tender_type
         subscription.start_year = timezone.now().date().year
         subscription.start_date = timezone.now().date()
@@ -302,7 +302,7 @@ def welcome_subscription(request, person_id):
         subscription = form.save(commit=False)
         subscription.member = member
         subscription.dues_amount = configuration.dues_amount
-        subscription.newspaper_amount = configuration.newspaper_amount
+        subscription.newspaper_amount = 0
         subscription.date = timezone.now().date()
         subscription.start_year = timezone.now().date().year
         subscription.end_year = timezone.now().date().year + 3
