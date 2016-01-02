@@ -98,7 +98,9 @@ def contact(request):
         email = forms.EmailField(max_length=200, required=True)
         message = forms.CharField(widget=forms.Textarea, required=True)
 
-    initials = {'name': request.user.person.complete_name, 'email': request.user.person.mail_favorite()}
+    initials = {}
+    if request.user.is_authenticated():
+        initials = {'name': request.user.person.complete_name, 'email': request.user.person.mail_favorite()}
 
     form = ContactForm(request.POST or initials)
 
