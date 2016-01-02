@@ -67,8 +67,6 @@
       <li><a href="{% url "regional_groups" %}">{% trans "Regional Groups" %}</a></li>
       <li><a href="{% url "ain7.voyages.views.index" %}">{% trans "Travels" %}</a></li>
       <li><a href="{% url "ain7.association.views.council" %}">{% trans "Council" %}</a></li>
-      <li><a href="{% url "ain7.association.views.status" %}">{% trans "Status" %}</a></li>
-      <li><a href="{% url "ain7.association.views.internalrules" %}">{% trans "Internal rules" %}</a></li>
     </ul>
     </li>
 
@@ -231,7 +229,9 @@
                                                 <ul class="link-list">
                                                         <li><a href="/apropos/">{% trans "About" %}</a></li>
                                                         <li><a href="/mentions_legales/">{% trans "Terms of use" %}</a></li>
-                                                        <li><a href="/association/contact/">{% trans "Contact" %}</a></li>
+                                                        <li><a href="{% url "contact" %}">{% trans "Contact" %}</a></li>
+                                                        <li><a href="{% url "status" %}">{% trans "Status" %}</a></li>
+                                                        <li><a href="{% url "internalrules" %}">{% trans "Internal rules" %}</a></li>
                                                 </ul>
                                         </div>
                                 </div>
