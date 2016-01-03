@@ -91,6 +91,8 @@ class Subscription(LoggedClass):
         default=False, verbose_name=_(u'Adhérer à Canal N7 - 15 euros/an')
     )
 
+    user_authenticated = models.BooleanField(default=True)
+
     def __unicode__(self):
         """unicode string for subscription object"""
         return u'%s %s → %s' % (self.member, self.start_year, self.end_year)

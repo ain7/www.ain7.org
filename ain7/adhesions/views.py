@@ -212,13 +212,14 @@ def subscription_add(request, user_id=None, key_id=None, config_id=None):
         subscription.tender_type = subscription.tender_type
         subscription.start_year = timezone.now().date().year
         subscription.start_date = timezone.now().date()
-        if subscription.configuration.type in [SubscriptionConfiguration.TYPE_STUDENT_3Y, SubscriptionConfiguration.TYPE_STUDENT_2Y, SubscriptionConfiguration.TYPE_STUDENT_1Y]:
-            subscription.end_year = subscription.member.promo
-            subscription.end_date = datetime.date(subscription.member.promo, 10, 1)
+        if subscription.configuration.type in [SubscriptionConfiguration.TYPE_STUDENT_3Y, SubscriptionConfiguration.TYPE_STUDENT_2Y, SubscriptionConfiguration.TYPE_STUDENT_1Y, SubscriptionConfiguration.TYPE_STUDENT]:
+            subscription.end_year = subscription.member.promo()
+            subscription.end_date = datetime.date(subscription.end_year, 10, 1)
         else:
             subscription.end_year = timezone.now().date().year+1
             subscription.end_date = subscription.start_date.replace(year=subscription.end_year)
         subscription.date = timezone.now().date()
+        subscription.user_authenticated = request.user.is_authenticated()
         subscription.save()
 
         payment = Payment()
@@ -389,7 +390,9 @@ def configuration_edit(request, year, config_id=None):
     if config_id:
         config = get_object_or_404(SubscriptionConfiguration, pk=config_id)
 
-    ConfigurationForm = modelform_factory(SubscriptionConfiguration, exclude=())
+    ConfigurationForm = modelform_factory(
+        SubscriptionConfiguration, exclude=('year',)
+    )
     form = ConfigurationForm(request.POST or None, instance=config)
 
     if request.method == 'POST' and form.is_valid():
@@ -405,11 +408,11 @@ def configuration_edit(request, year, config_id=None):
     )
 
 
-@confirmation_required(lambda user_id=None, config_id=None:
+@confirmation_required(lambda user_id=None, config_id=None, year=None:
     str(get_object_or_404(SubscriptionConfiguration, pk=config_id)),
     'adhesions/base.html', _('Do you really want to delete this configuration'))
 @access_required(groups=['ain7-secretariat', 'ain7-ca'])
-def configuration_delete(request, config_id=None):
+def configuration_delete(request, config_id=None, year=None):
     """delete subscription configuration"""
 
     return ain7_generic_delete(
