@@ -21,8 +21,6 @@
 #
 #
 
-import datetime
-
 from django import forms
 from django.conf import settings
 from django.contrib import messages
@@ -31,6 +29,7 @@ from django.db import models
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template import TemplateSyntaxError
+from django.utils import timezone
 from django.utils.translation import ugettext as _
 
 # the separator used in CSV exports, when a cell contains a list of values
@@ -111,7 +110,7 @@ class LoggedClass(models.Model):
         return self.save()
 
     def save(self, *args, **kwargs):
-        self.last_change_at = datetime.datetime.now()
+        self.last_change_at = timezone.now()
         return super(LoggedClass, self).save(*args, **kwargs)
 
 
