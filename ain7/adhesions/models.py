@@ -115,6 +115,7 @@ class SubscriptionConfiguration(models.Model):
     TYPE_STUDENT_2Y = 6
     TYPE_STUDENT_1Y = 7
     TYPE_PARTNERS = 7
+    TYPE_STUDENT = 10
     TYPE = (
         (0, _('Promotions before %(year)s') % {
             'year': datetime.date.today().year-5
@@ -131,6 +132,7 @@ class SubscriptionConfiguration(models.Model):
         (7, _('Student, for one year')),
         (8, _('Couple')),
         (9, _('Support')),
+        (10, _('Student')),
     )
 
     type = models.IntegerField(verbose_name=_('Type'), choices=TYPE)
