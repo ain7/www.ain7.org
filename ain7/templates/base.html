@@ -282,7 +282,6 @@
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 
     <script src="{% static "theme/js/responsive-slider.js" %}"></script>
 
@@ -311,6 +310,8 @@ piwikTracker.enableLinkTracking();
 </script><noscript><p><img src="{{ piwik_url }}piwik.php?idsite={{ piwik_site_id}}" style="border:0" alt=""/></p></noscript>
 <!-- End Piwik Tag -->
 
+{% block tinymce %}
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 <script>
 tinymce.init({
     selector:'textarea',
@@ -325,6 +326,7 @@ tinymce.init({
     image_advtab: true,
 });
 </script>
+{% endblock %}
 
   </body>
 </html>
