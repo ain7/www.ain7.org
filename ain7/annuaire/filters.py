@@ -57,7 +57,7 @@ class AIn7MemberFilter(django_filters.FilterSet):
     )
     country = django_filters.ModelChoiceFilter(
         name='person__addresses__country', label=_('country').capitalize(),
-        lookup_type='icontains', queryset=Country.objects.all(),
+        queryset=Country.objects.all(),
         )
 
     class Meta:
