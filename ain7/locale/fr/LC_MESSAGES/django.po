@@ -1,5 +1,5 @@
 # AIn7 Portal French Translations
-# Copyright © 2007-2015
+# Copyright © 2007-2016
 # This file is distributed under the same license as the AIn7 website package.
 # Pierre Fersing <pierre.fersing@inp-net.eu.org>, 2007-2010
 # Alexandre Garnier <zigouigoui.garnier@laposte.net>, 2007-2010
@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-03 17:44+0100\n"
+"POT-Creation-Date: 2016-01-27 00:21+0100\n"
 "PO-Revision-Date: 2010-01-15 22:50+0100\n"
 "Last-Translator: Alexandre Garnier <zigouigoui.garnier@laposte.net>\n"
 "Language-Team: AIn7 French Translators <ain7-devel@lists.ain7.com>\n"
@@ -47,17 +47,17 @@ msgstr ""
 msgid "payment"
 msgstr "Paiement"
 
-#: adhesions/models.py:66 adhesions/models.py:141
+#: adhesions/models.py:66 adhesions/models.py:143
 #: templates/adhesions/configurations.html:12
 msgid "Dues amount"
 msgstr "Montant de cotisation"
 
-#: adhesions/models.py:68 adhesions/models.py:143
+#: adhesions/models.py:68 adhesions/models.py:145
 #: templates/adhesions/configurations.html:13
 msgid "Newspaper amount"
 msgstr "Montant Canal N7"
 
-#: adhesions/models.py:71 templates/adhesions/user_subscriptions.html:25
+#: adhesions/models.py:71 templates/adhesions/user_subscriptions.html:33
 msgid "Tender type"
 msgstr "Mode de paiement"
 
@@ -85,72 +85,72 @@ msgstr ""
 msgid "Adhérer à Canal N7 - 15 euros/an"
 msgstr ""
 
-#: adhesions/models.py:102
+#: adhesions/models.py:104
 msgid "Subscription"
 msgstr "Adhésions"
 
-#: adhesions/models.py:122
+#: adhesions/models.py:124
 #, python-format
 msgid "Promotions before %(year)s"
 msgstr "Promotions antérieures à %(year)s"
 
-#: adhesions/models.py:125
+#: adhesions/models.py:127
 #, python-format
 msgid "Promotions from %(start_year)s to %(end_year)s"
 msgstr "Promotions %(start_year)s à %(end_year)s"
 
-#: adhesions/models.py:129
+#: adhesions/models.py:131
 msgid "Retired"
 msgstr "Retraité"
 
-#: adhesions/models.py:130
+#: adhesions/models.py:132
 msgid "Donator"
 msgstr "Bienfaiteur"
 
-#: adhesions/models.py:131
+#: adhesions/models.py:133
 msgid "Unemployed (with voucher)"
 msgstr "Sans emploi (sur justificatif)"
 
-#: adhesions/models.py:132
+#: adhesions/models.py:134
 msgid "Student, for three years"
 msgstr "Étudiant(e), trois ans"
 
-#: adhesions/models.py:133
+#: adhesions/models.py:135
 msgid "Student, for two years"
 msgstr "Étudiant(e), deux ans"
 
-#: adhesions/models.py:134
+#: adhesions/models.py:136
 msgid "Student, for one year"
 msgstr "Étudiant(e), un an"
 
-#: adhesions/models.py:135
+#: adhesions/models.py:137
 msgid "Couple"
 msgstr "Couple"
 
-#: adhesions/models.py:136
+#: adhesions/models.py:138
 msgid "Support"
 msgstr "Soutien"
 
-#: adhesions/models.py:137
+#: adhesions/models.py:139
 msgid "Student"
 msgstr "Étudiant(e)"
 
-#: adhesions/models.py:140 shop/models.py:150
+#: adhesions/models.py:142 shop/models.py:150
 #: templates/adhesions/configurations.html:11
 msgid "Type"
 msgstr "Type"
 
-#: adhesions/models.py:145 templates/adhesions/configurations.html:14
+#: adhesions/models.py:147 templates/adhesions/configurations.html:14
 msgid "Duration"
 msgstr "Durée"
 
-#: adhesions/models.py:146 annuaire/models.py:216
+#: adhesions/models.py:148 annuaire/models.py:216
 #: templates/adhesions/index.html:11 templates/adhesions/subscriptions.html:20
-#: templates/adhesions/user_subscriptions.html:21
+#: templates/adhesions/user_subscriptions.html:29
 msgid "Year"
 msgstr "Année"
 
-#: adhesions/models.py:154
+#: adhesions/models.py:156
 msgid "Configuration"
 msgstr "Configuration"
 
@@ -170,11 +170,11 @@ msgstr "Souhaitez-vous vraiment supprimer cette adhésion"
 msgid "Subscription successfully deleted"
 msgstr "Adhésion effacée avec succès"
 
-#: adhesions/views.py:237
+#: adhesions/views.py:242
 msgid "AIn7 subscription request registered"
 msgstr "Votre demande d'adhésion à l'AIn7 a été enregistrée"
 
-#: adhesions/views.py:238
+#: adhesions/views.py:243
 #, python-format
 msgid ""
 "Hi %(firstname)s,\n"
@@ -204,22 +204,22 @@ msgstr ""
 "L'équipe de l'AIn7\n"
 "\n"
 
-#: adhesions/views.py:400 annuaire/views.py:200 annuaire/views.py:223
+#: adhesions/views.py:405 annuaire/views.py:200 annuaire/views.py:223
 #: annuaire/views.py:254 annuaire/views.py:657 annuaire/views.py:708
 #: annuaire/views.py:756 annuaire/views.py:807 groups/views.py:82
 #: news/views.py:92 news/views.py:478 voyages/views.py:93
 msgid "Modifications have been successfully saved."
 msgstr "Les modifications ont été correctement enregistrées."
 
-#: adhesions/views.py:405
+#: adhesions/views.py:410
 msgid "Modification of configuration"
 msgstr "Modifier une configuration"
 
-#: adhesions/views.py:413
+#: adhesions/views.py:418
 msgid "Do you really want to delete this configuration"
 msgstr "Souhaitez-vous vraiment supprimer cette configuration"
 
-#: adhesions/views.py:422
+#: adhesions/views.py:427
 msgid "Configuration successfully deleted."
 msgstr "La configuration sélectionnée a été supprimée avec succès."
 
@@ -354,7 +354,8 @@ msgstr "nationalité"
 #: annuaire/models.py:62 annuaire/models.py:79 annuaire/models.py:414
 #: annuaire/models.py:627 annuaire/models.py:649 annuaire/models.py:675
 #: annuaire/models.py:766 annuaire/models.py:807
-#: templates/annuaire/edit.html:101 voyages/models.py:37 voyages/models.py:56
+#: templates/annuaire/edit.html:101 templates/manage/payments_index.html:16
+#: voyages/models.py:37 voyages/models.py:56
 msgid "type"
 msgstr "type"
 
@@ -503,7 +504,7 @@ msgstr ""
 "http://ain7.com"
 
 #: annuaire/models.py:404 annuaire/models.py:411 annuaire/models.py:463
-#: news/forms.py:137
+#: news/forms.py:137 templates/manage/payments_index.html:16
 msgid "person"
 msgstr "personne"
 
@@ -1118,9 +1119,10 @@ msgstr "L'erreur #%s n'existe pas."
 
 #: manage/models.py:42 news/forms.py:38
 #: templates/adhesions/subscriptions.html:21
-#: templates/adhesions/user_subscriptions.html:22
+#: templates/adhesions/user_subscriptions.html:30
 #: templates/evenements/details.html:25 templates/evenements/index.html:14
 #: templates/manage/error_details.html:28
+#: templates/manage/payments_index.html:16
 msgid "Date"
 msgstr "Date"
 
@@ -1536,7 +1538,7 @@ msgstr "Date de paiement"
 msgid "Deposit Date"
 msgstr "Date de dépôt"
 
-#: shop/models.py:125 utils.py:40
+#: shop/models.py:125 utils.py:39
 msgid "public"
 msgstr "public"
 
@@ -1678,9 +1680,14 @@ msgstr ""
 msgid "Subscribe"
 msgstr "Adhérer"
 
-#: templates/adhesions/base.html:16
-msgid "My subscriptions"
-msgstr "Mes adhésions"
+#: templates/adhesions/base.html:16 templates/adhesions/subscriptions.html:10
+#: templates/adhesions/user_subscriptions.html:6
+msgid "Subscriptions"
+msgstr "Adhésions"
+
+#: templates/adhesions/base.html:17
+msgid "Add subscription"
+msgstr "Ajouter une adhésion"
 
 #: templates/adhesions/configuration_edit.html:11
 #: templates/adhesions/subscribe.html:77
@@ -1739,7 +1746,7 @@ msgstr "euros"
 #: templates/adhesions/configurations.html:28
 #: templates/adhesions/subscribe.html:57
 #: templates/adhesions/subscriptions.html:50
-#: templates/adhesions/user_subscriptions.html:51
+#: templates/adhesions/user_subscriptions.html:59
 msgid "Free"
 msgstr "Gratuit"
 
@@ -1770,7 +1777,7 @@ msgid "Member"
 msgstr "Membre"
 
 #: templates/adhesions/index.html:18 templates/adhesions/subscriptions.html:34
-#: templates/adhesions/user_subscriptions.html:35
+#: templates/adhesions/user_subscriptions.html:43
 #, python-format
 msgid "%(start)s to %(end)s"
 msgstr "%(start)s à %(end)s"
@@ -1791,31 +1798,27 @@ msgstr "Montant total"
 msgid "Subscriptions to validate"
 msgstr "Adhésions à valider"
 
-#: templates/adhesions/subscriptions.html:10
-#: templates/adhesions/user_subscriptions.html:6
-msgid "Subscriptions"
-msgstr "Adhésions"
-
 #: templates/adhesions/subscriptions.html:22
-#: templates/adhesions/user_subscriptions.html:23
+#: templates/adhesions/user_subscriptions.html:31
 #: templates/manage/payments_deposit.html:11
+#: templates/manage/payments_index.html:16
 msgid "Amount"
 msgstr "Montant"
 
 #: templates/adhesions/subscriptions.html:23
-#: templates/adhesions/user_subscriptions.html:24
+#: templates/adhesions/user_subscriptions.html:32
 msgid "Canal n7"
 msgstr "Canal n7"
 
 #: templates/adhesions/subscriptions.html:24
-#: templates/adhesions/user_subscriptions.html:26
+#: templates/adhesions/user_subscriptions.html:34
 #: templates/evenements/attendees.html:11
 #: templates/manage/payment_details.html:7
 msgid "Payment"
 msgstr "Paiement"
 
 #: templates/adhesions/subscriptions.html:47
-#: templates/adhesions/user_subscriptions.html:48
+#: templates/adhesions/user_subscriptions.html:56
 #: templates/annuaire/edit.html:89 templates/evenements/attendees.html:13
 #: templates/evenements/details.html:17
 #: templates/manage/payment_details.html:16 templates/pages/confirm.html:19
@@ -1824,7 +1827,6 @@ msgstr "Non"
 
 #: templates/adhesions/subscriptions.html:58
 #: templates/emploi/job_details.html:14 templates/manage/payment_edit.html:7
-#: templates/manage/payments_index.html:15
 #: templates/organizations/organization_details.html:45
 #: templates/organizations/organization_details.html:92
 #: templates/pages/last_change.html:7
@@ -1835,16 +1837,17 @@ msgstr "par"
 msgid "Validate"
 msgstr "Valider"
 
-#: templates/adhesions/user_subscriptions.html:27 templates/base.html:233
+#: templates/adhesions/user_subscriptions.html:35 templates/base.html:233
 #: templates/evenements/details.html:34
 msgid "Status"
 msgstr "Statuts"
 
-#: templates/adhesions/user_subscriptions.html:69
+#: templates/adhesions/user_subscriptions.html:77
+#: templates/manage/payments_index.html:16
 msgid "Validated"
 msgstr "Validé"
 
-#: templates/adhesions/user_subscriptions.html:71
+#: templates/adhesions/user_subscriptions.html:79
 msgid "Not validated"
 msgstr "Non validé"
 
@@ -2450,7 +2453,6 @@ msgstr "Créé par"
 #: templates/manage/mailings_index.html:23
 #: templates/manage/mailings_index.html:26
 #: templates/manage/payment_edit.html:7
-#: templates/manage/payments_index.html:15
 msgid "the"
 msgstr "le"
 
@@ -2776,15 +2778,15 @@ msgstr "compte rendu"
 msgid "Add new travel"
 msgstr "Ajouter un voyage"
 
-#: utils.py:41
+#: utils.py:40
 msgid "private"
 msgstr "privé"
 
-#: utils.py:98
+#: utils.py:97
 msgid "modifier"
 msgstr "Auteur de la dernière modification"
 
-#: utils.py:102
+#: utils.py:101
 msgid "last changed at"
 msgstr "Modifié pour la dernière fois à"
 
