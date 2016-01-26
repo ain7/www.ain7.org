@@ -26,7 +26,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.views.generic.base import RedirectView
 
-import autocomplete_light
+from autocomplete_light import shortcuts as autocomplete_light
 
 from ain7.feeds import NewsFeed
 from ain7.sitemaps import (

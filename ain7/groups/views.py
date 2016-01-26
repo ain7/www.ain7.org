@@ -21,8 +21,9 @@
 #
 #
 
-import autocomplete_light
 import datetime
+
+from autocomplete_light import shortcuts as autocomplete_light
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required

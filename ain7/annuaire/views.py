@@ -21,8 +21,9 @@
 #
 #
 
-import autocomplete_light
 import vobject
+
+from autocomplete_light import shortcuts as autocomplete_light
 
 from django.contrib import auth
 from django.contrib.auth.models import User

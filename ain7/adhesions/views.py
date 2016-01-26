@@ -21,9 +21,10 @@
 #
 #
 
-import autocomplete_light
 import datetime
 import hashlib
+
+from autocomplete_light import shortcuts as autocomplete_light
 
 from django.conf import settings
 from django.contrib import messages

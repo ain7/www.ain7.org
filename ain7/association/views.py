@@ -21,7 +21,7 @@
 #
 #
 
-import autocomplete_light
+from autocomplete_light import shortcuts as autocomplete_light
 
 from django.contrib import messages
 from django.core.mail import send_mail

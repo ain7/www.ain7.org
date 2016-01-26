@@ -21,8 +21,9 @@
 #
 #
 
-import autocomplete_light
 import datetime
+
+from autocomplete_light import shortcuts as autocomplete_light
 
 from django.contrib import messages
 from django.core.urlresolvers import reverse

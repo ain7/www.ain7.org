@@ -92,17 +92,17 @@ MEDIA_URL = '/site_media/'
 # Added for this project
 #
 
-TEMPLATE_DIRS = DEFAULT_SETTINGS.TEMPLATE_DIRS + (
+TEMPLATE_DIRS = DEFAULT_SETTINGS.TEMPLATE_DIRS + [
     # Put strings here, like "/home/html/django_templates"
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     BASE_DIR + '/ain7/templates',
-)
+]
 
-TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
+TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + [
     'django.core.context_processors.request',
     'django.contrib.auth.context_processors.auth',
-)
+]
 
 
 DEFAULT_FROM_EMAIL = 'AIn7 <noreply@ain7.com>'
