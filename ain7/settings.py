@@ -47,7 +47,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
-    'grappelli',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -130,9 +129,9 @@ CELERY_IMPORTS = ("ain7.tasks",)
 
 # endless configuration
 INSTALLED_APPS += (
-    'endless_pagination',
+    'el_pagination',
 )
-ENDLESS_PAGINATION_PER_PAGE = 25
+EL_PAGINATION_PER_PAGE = 25
 
 # django-crispy-forms
 INSTALLED_APPS += (

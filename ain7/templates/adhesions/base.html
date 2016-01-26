@@ -9,12 +9,12 @@
 
 <ul class="list-inline">
     {% if is_myself %}
-    <li><a class="btn btn-primary" href="{% url "ain7.adhesions.views.subscription_add" user.id %}">{% trans "Subscribe" %}</a></li>
+    <li><a class="btn btn-primary" href="{% url "ain7.adhesions.views.subscription_add" person.pk %}">{% trans "Subscribe" %}</a></li>
     {% endif %}
     {% if person %}
     {% if superadmin or ca_member or secretariat_member or is_myself %}
-    <li><a class="btn btn-primary" href="{% url "ain7.adhesions.views.user_subscriptions" person.user.id %}">{% trans "My subscriptions" %}</a></li>
-    <li><a class="btn btn-primary" href="{% url "ain7.adhesions.views.subscription_add" person.user.id %}">{% trans "Subscribe" %}</a></li>
+    <li><a class="btn btn-primary" href="{% url "ain7.adhesions.views.user_subscriptions" person.pk %}">{% trans "Subscriptions" %}</a></li>
+    <li><a class="btn btn-primary" href="{% url "ain7.adhesions.views.subscription_add" person.pk %}">{% if is_myself %}{% trans "Subscribe" %}{% else %}{% trans "Add subscription" %}{% endif %}</a></li>
     {% endif %}
     {% endif %}
 </ul>

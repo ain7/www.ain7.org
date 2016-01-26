@@ -117,7 +117,6 @@ urlpatterns = patterns('',
 
     # django-autocomplete-light
     url(r'^autocomplete/', include('autocomplete_light.urls')),
-    (r'^grappelli/', include('grappelli.urls')),  # grappelli URLS
     (r'^admin/',  include(admin.site.urls)),  # admin site
 
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve',

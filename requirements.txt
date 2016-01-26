@@ -4,9 +4,8 @@ django-allauth
 django-autocomplete-light
 django-crispy-forms
 django-extensions
-django-endless-pagination
+django-el-pagination
 django-filter
-django-grappelli
 
 celery[redis]
 
