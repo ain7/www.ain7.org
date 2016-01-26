@@ -124,8 +124,13 @@ def user_subscriptions(request, user_id):
     person = get_object_or_404(Person, pk=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
 
+    list_unvalidated = False
+
     subscriptions_list = Subscription.objects.filter(member=ain7member).\
         order_by('-start_year', '-id')
+
+    if not list_unvalidated:
+        subscriptions_list = subscriptions_list.filter(validated=True)
 
     return render(request, 'adhesions/user_subscriptions.html', {
         'person': person,
