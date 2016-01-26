@@ -93,6 +93,8 @@ class Subscription(LoggedClass):
 
     user_authenticated = models.BooleanField(default=True)
 
+    # TODO: add field to know if the user added himself authentication
+
     def __unicode__(self):
         """unicode string for subscription object"""
         return u'%s %s → %s' % (self.member, self.start_year, self.end_year)
