@@ -64,13 +64,14 @@ def job_details(request, job_id):
     """job details"""
 
     job_offer = get_object_or_404(JobOffer, pk=job_id)
-    role = check_access(request, request.user, ['ain7-secretariat'])
-    if not job_offer.checked_by_secretariat and role:
-        messages.info(
-            request,
-            _('This job offer has to be checked by the secretariat.')
-        )
-        return redirect('job-index')
+    #role = check_access(request, request.user, ['ain7-secretariat'])
+    # FIXME: not used at the moment!
+    #if not job_offer.checked_by_secretariat and role:
+    #    messages.info(
+    #        request,
+    #        _('This job offer has to be checked by the secretariat.')
+    #    )
+    #    return redirect('job-index')
 
     views = JobOfferView.objects.filter(job_offer=job_offer).count()
 
