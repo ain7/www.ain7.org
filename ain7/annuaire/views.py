@@ -95,6 +95,7 @@ def details(request, user_id):
 def search(request):
 
     filter = AIn7MemberFilter(request.GET, queryset=AIn7Member.objects.all())
+    print filter
 
     return render(request, 'annuaire/search.html', {
         'filter': filter,
@@ -586,7 +587,7 @@ def add(request, user_id=None):
     )
 
 
-@access_required(groups=['ain7-secretariat', 'ain7-member'])
+@access_required(groups=['ain7-secretariat', 'ain7-membre'])
 def vcard(request, user_id):
 
     person = get_object_or_404(Person, pk=user_id)
