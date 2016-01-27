@@ -73,7 +73,7 @@ def edit(request, slug=None):
         is_member = request.user.is_authenticated()\
                 and group.has_for_member(request.user.person)
 
-    GroupForm = modelform_factory(Group)
+    GroupForm = modelform_factory(Group, fields=('name', 'about'))
     form = GroupForm(request.POST or None, instance=group)
 
     if request.method == 'POST' and form.is_valid():
