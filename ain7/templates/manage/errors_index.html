@@ -11,24 +11,26 @@
 
 <h2>{% trans "Errors"%}</h2>
 
-<ul>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>{% trans "Id" %}</th><th>{% trans "Title" %}</th><th>{% trans "User" %}</th><th>{% trans "Date" %}</th>
+        </tr>
+    </thead>
+    <tbody>
   {% for error in errors %}
-    <li>
-      <a href="{% url "ain7.manage.views.error_details" error.id %}">
-        #{{ error.id }}</a>
-      <a href="{% url "ain7.manage.views.error_swap" error.id %}">
-      </a>
-      {{ error.title }}
-        {% if error.fixed %}
-          <img src="{% static "skins/default/images/icon_savelink.gif" %}" alt="ok"/> 
-        {% endif %}
-    </li>
+<tr>
+<td><a href="{% url "ain7.manage.views.error_details" error.id %}">#{{ error.id }}</a></td>
+<td>{{ error.title }}</td>
+<td>{% if error.user %}<a href="{% url "ain7.annuaire.views.details" error.user.person.pk %}">{{ error.user.person }}</a>{% endif %}</td>
+<td>{{ error.date|date:"d F Y H:i:s" }}</td>
+</tr>
   {% endfor %}
-</ul>
+    </tbody>
+</table>
 
 <p class="text-center">{% show_pages %}</p> 
 
 {% endif %}
 
 {% endblock %}
-
