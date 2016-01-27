@@ -187,7 +187,7 @@ class Group(LoggedClass):
         has_role = False
         if self.grouphead:
             for role in self.grouphead.groupleader_set.filter(person=person)\
-               .filter(start_date__lte=timzone.now()):
+               .filter(start_date__lte=timezone.now()):
                 if not role.end_date or role.end_date > timezone.now():
                     has_role = True
         return has_role
