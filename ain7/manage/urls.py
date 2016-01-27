@@ -26,15 +26,9 @@ from django.conf.urls import patterns, url
 urlpatterns = patterns('ain7.manage.views',
     (r'^$', 'index'),
                       
-    # Users
-    (r'^users/$', 'users_search'),
-    (r'^users/register/$', 'user_register'),
-
     # Errors
     url(r'^errors/$', 'errors_index', name='errors-index'),
     url(r'^errors/(?P<error_id>\d+)/$', 'error_details', name='error-details'),
-    (r'^errors/edit_range/$', 'errors_edit_range'),
-    (r'^errors/(?P<error_id>\d+)/swap/$', 'error_swap'),
 
     # Payment
     (r'^payments/$', 'payments_index'),

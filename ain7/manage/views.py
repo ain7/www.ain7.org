@@ -33,7 +33,6 @@ from ain7.annuaire.models import Person
 from ain7.decorators import access_required
 from ain7.manage.models import Mailing, PortalError
 from ain7.shop.models import Payment
-from ain7.manage.forms import SearchUserForm, NewPersonForm, ErrorRangeForm
 from ain7.news.models import NewsItem
 
 
@@ -43,44 +42,6 @@ def index(request):
 
     return render(request, 'manage/default.html', {
         'notifications': None,
-        }
-    )
-
-
-@access_required(groups=['ain7-ca', 'ain7-secretariat'])
-def users_search(request):
-    """search users"""
-
-    form = SearchUserForm(request.GET or None)
-    persons = None
-
-    if (request.GET.has_key('last_name') or
-       request.GET.has_key('first_name') or
-       request.GET.has_key('organization')) and form.is_valid():
-        persons = form.search()
-
-    return render(request, 'manage/users_search.html', {
-        'form': form,
-        'persons': persons,
-        }
-    )
-
-
-@access_required(groups=['ain7-secretariat'])
-def user_register(request):
-    """new user registration"""
-
-    form = NewPersonForm(request.POST or None)
-
-    if request.method == 'POST' and form.is_valid():
-        new_person = form.save()
-        messages.success(request, _("New user successfully created"))
-        return redirect(new_person)
-
-    return render(request, 'manage/edit_form.html', {
-        'action_title': _('Register new user'),
-        'back': request.META.get('HTTP_REFERER', '/'),
-        'form': form,
         }
     )
 
@@ -129,34 +90,6 @@ def error_details(request, error_id):
         'back': request.META.get('HTTP_REFERER', '/'),
         }
     )
-
-
-@access_required(groups=['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
-def errors_edit_range(request):
-    """error edition"""
-
-    form = ErrorRangeForm(request.POST or None)
-
-    if request.method == 'POST' and form.is_valid():
-        form.save()
-        return redirect('errors-index')
-
-    return render(request, 'manage/edit_form.html', {
-        'form': form,
-        'back': request.META.get('HTTP_REFERER', '/'),
-        }
-    )
-
-
-@access_required(groups=['ain7-ca', 'ain7-secretariat', 'ain7-devel'])
-def error_swap(request, error_id):
-    """swap error fixed status"""
-
-    error = get_object_or_404(PortalError, pk=error_id)
-    error.fixed = not(error.fixed)
-    error.save()
-
-    return errors_index(request)
 
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
