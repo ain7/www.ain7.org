@@ -50,6 +50,7 @@ class AIn7MemberFilter(django_filters.FilterSet):
     organization = django_filters.CharFilter(
         name='positions__office__organization__name',
         label=_('organization').capitalize(), lookup_type='icontains',
+        distinct=True,
     )
     city = django_filters.CharFilter(
         name='person__addresses__city', label=_('city').capitalize(),
