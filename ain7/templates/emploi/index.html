@@ -50,13 +50,24 @@
 {% endif %}
 
 {% paginate job_offers %}
-<ul>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>{% trans "title" %}</th><th>{% trans "Contract Type" %}</th><th>{% trans "Location" %}</th><th>{% trans "Creation Date" %}</th>
+        </tr>
+    </thead>
+    <tbody>
 {% for emploi in job_offers %}
-<li class="job"><a href="{% url "ain7.emploi.views.job_details" emploi.id %}">{{ emploi.title }}</a> 
-{% if emploi.office  %}- (<a href="{% url "ain7.organizations.views.organization_details" emploi.office.organization.id %}">{{ emploi.office }}</a>){% endif %}
-</li>
+<tr>
+<td><a href="{% url "ain7.emploi.views.job_details" emploi.id %}">{{ emploi.title }}</a></td>
+<td>{{ emploi.get_contract_type_display }}</td>
+<td>{% if emploi.office  %}<a href="{% url "ain7.organizations.views.organization_details" emploi.office.organization.id %}">{{ emploi.office }}</a>{% endif %}</td>
+<td>{{ emploi.created_at|date:"l j F Y" }}</td>
+</tr>
 {% endfor %}
- </ul>
+    </tbody>
+</table>
 
 <p class="text-center">{% show_pages %}</p> 
 
