@@ -25,8 +25,8 @@
     <td>{{ payment.get_type_display }}</td>
     <td>{{payment.date|date:"l j F Y" }}</td>
     <td>{% if payment.validated %}<i class="fa fa-check text-success"></i>{% else %}<i class="fa fa-times text-danger"></i>{% endif %}</td>
-    {% endfor %}
     </tr>
+    {% endfor %}
     </tbody>
 </table>
 
