@@ -140,8 +140,18 @@ class AIn7Form(forms.Form):
     def __init__(self, *args, **kwargs):
         super(AIn7Form, self).__init__(*args, **kwargs)
 
+import unicodedata
+
+def remove_accents(input_str):
+    nfkd_form = unicodedata.normalize('NFKD', input_str)
+    only_ascii = nfkd_form.encode('ASCII', 'ignore')
+    return only_ascii
+
 
 def generate_login(first_name, last_name):
+
+    first_name = remove_accents(first_name)
+    last_name = remove_accents(last_name)
 
     """login generation"""
     login = (first_name[0] + last_name).lower()
