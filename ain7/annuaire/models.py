@@ -500,16 +500,14 @@ class AIn7Member(LoggedClass):
     # Internal
     objects = AIn7MemberManager()
 
-    def is_subscriber(self, year=None):
+    def is_subscriber(self):
         """
         /!\ local import to avoid recursive imports
         """
         from ain7.adhesions.models import Subscription
 
-        if not year:
-            year = timezone.now().date().year
-
         result = False
+        current_year = timezone.now().date().year
 
         if Subscription.objects.filter(member=self).filter(
             validated=True
@@ -518,8 +516,15 @@ class AIn7Member(LoggedClass):
                 validated=True
             ).reverse()[0]
 
-            if sub.date:
+            # FIXME: still need to adapt when subscription is done after
+            # October 1st, and no more student
+            # We shoudl fix that before the summer :)
+            if self.promo() >= current_year:
+                print self.promo
+                print current_year
+                return True
 
+            if sub.date:
                 today = timezone.now()
                 delta = today - sub.date
                 result = delta.days < 365
