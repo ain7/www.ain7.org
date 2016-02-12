@@ -572,6 +572,25 @@ class AIn7Member(LoggedClass):
         else:
             return result
 
+    @property
+    def last_subscription(self):
+        """
+        /!\ local import to avoid recursive imports
+        """
+        from ain7.adhesions.models import Subscription
+        current_year = timezone.now().year
+        result = None
+        if Subscription.objects.filter(member=self).filter(
+            validated=True
+        ).exclude(start_year__icontains=current_year-1).count() > 0:
+            result = Subscription.objects.filter(
+                member=self
+            ).filter(
+                validated=True
+            ).exclude(start_year__icontains=current_year-1).reverse()[0]
+
+        return result
+
     def promo(self):
         if self.promos.all():
             return self.promos.all()[0].year.year
