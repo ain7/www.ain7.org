@@ -531,6 +531,7 @@ class AIn7Member(LoggedClass):
 
         return result
 
+    @property
     def last_subscription_amount(self):
         """
         /!\ local import to avoid recursive imports
