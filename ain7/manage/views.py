@@ -485,12 +485,12 @@ def subscribers_csv(request, the_year=datetime.date.today().year, normal=True, s
                 sub.member.track().encode('utf-8'),
                 amount,
                 sub.date,
-                sub.get_tender_type_display(),
+                sub.get_tender_type_display().encode('utf-8'),
                 sub.member.last_subscription_date,
                 sub.member.last_subscription_amount,
                 ]
             )
-        except Exception:
+        except Exception as e:
             pass
 
     return response
