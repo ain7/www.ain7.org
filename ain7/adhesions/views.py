@@ -223,7 +223,7 @@ def subscription_add(request, user_id=None, key_id=None, config_id=None):
             subscription.end_date = datetime.date(subscription.end_year, 10, 1)
         else:
             subscription.end_year = timezone.now().date().year+1
-            subscription.end_date = subscription.start_date.replace(year=subscription.end_year)
+            subscription.end_date = subscription.start_date + datetime.timedelta(days=365)
         subscription.date = timezone.now().date()
         subscription.user_authenticated = request.user.is_authenticated()
         subscription.save()
