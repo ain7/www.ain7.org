@@ -21,23 +21,24 @@
 #
 #
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
+
+from ain7.adhesions import views
 
 
-urlpatterns = patterns('ain7.adhesions.views',
-    url(r'^$', 'index', name='subscriptions'),
-    url(r'^subscriptions/to_validate$', 'subscriptions', {'to_validate': True}, 'to_validate_subscriptions'),
-    url(r'^subscriptions/(?P<subscription_id>\d+)/validate/$', 'subscription_validate'),
-    url(r'^subscriptions/(?P<subscription_id>\d+)/delete/$', 'subscription_delete'),
-    url(r'^(?P<user_id>\d+)/subscriptions/$', 'user_subscriptions'),
-    url(r'^(?P<user_id>\d+)/subscriptions/add/$', 'subscription_add', name='subscription-add'),
-    url(r'^configurations/$', 'configurations', name='configurations'),
-    url(r'^configurations/(?P<year>\d+)/$', 'configurations', name='configurations-details'),
-    url(r'^configurations/(?P<year>\d+)/(?P<config_id>\d+)/edit/$', 'configuration_edit'),
-    url(r'^configurations/(?P<year>\d+)/(?P<config_id>\d+)/delete/$', 'configuration_delete'),
-    url(r'^configurations/add/$', 'configuration_edit', {}, 'configuration_add'),
-    url(r'^welcome/(?P<person_id>\d+)/$', 'welcome_subscription', name='subscription-welcome'),
-    url(r'^notification/$', 'notification'),
-    url(r'^subscribe/$', 'subscription_add', name='subscribe-public'),
-
-)
+urlpatterns = [
+    url(r'^$', views.index, name='subscriptions'),
+    url(r'^subscriptions/to_validate$', views.subscriptions, {'to_validate': True}, 'to_validate_subscriptions'),
+    url(r'^subscriptions/(?P<subscription_id>\d+)/validate/$', views.subscription_validate, name='subscription-validate'),
+    url(r'^subscriptions/(?P<subscription_id>\d+)/delete/$', views.subscription_delete, name='subscription-delete'),
+    url(r'^(?P<user_id>\d+)/subscriptions/$', views.user_subscriptions, name='user-subscriptions'),
+    url(r'^(?P<user_id>\d+)/subscriptions/add/$', views.subscription_add, name='subscription-add'),
+    url(r'^configurations/$', views.configurations, name='configurations'),
+    url(r'^configurations/(?P<year>\d+)/$', views.configurations, name='configurations-details'),
+    url(r'^configurations/(?P<year>\d+)/(?P<config_id>\d+)/edit/$', views.configuration_edit, name='configuration-edit'),
+    url(r'^configurations/(?P<year>\d+)/(?P<config_id>\d+)/delete/$', views.configuration_delete, name='configuration-delete'),
+    url(r'^configurations/add/$', views.configuration_edit, {}, 'configuration_add'),
+    url(r'^welcome/(?P<person_id>\d+)/$', views.welcome_subscription, name='subscription-welcome'),
+    url(r'^notification/$', views.notification),
+    url(r'^subscribe/$', views.subscription_add, name='subscribe-public'),
+]

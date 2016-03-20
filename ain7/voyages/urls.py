@@ -21,16 +21,16 @@
 #
 #
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
-urlpatterns = patterns('ain7.voyages.views',
+from ain7.voyages import views
 
+urlpatterns = [
     # Voyages
-    url(r'^$', 'index', name='travels-index'),
-    url(r'^add/$', 'edit', name='travel-add'),
-    url(r'^edit/$', 'edit', name='travel-edit'),
-    url(r'^(?P<travel_id>\d+)/$', 'details', name='travel-details'),
-    url(r'^(?P<travel_id>\d+)/edit/$', 'edit', name='travel-edit'),
-    url(r'^(?P<travel_id>\d+)/delete/$', 'delete', name='travel-delete'),
-
-)
+    url(r'^$', views.index, name='travels-index'),
+    url(r'^add/$', views.edit, name='travel-add'),
+    url(r'^edit/$', views.edit, name='travel-edit'),
+    url(r'^(?P<travel_id>\d+)/$', views.details, name='travel-details'),
+    url(r'^(?P<travel_id>\d+)/edit/$', views.edit, name='travel-edit'),
+    url(r'^(?P<travel_id>\d+)/delete/$', views.delete, name='travel-delete'),
+]

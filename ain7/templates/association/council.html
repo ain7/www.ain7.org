@@ -21,9 +21,9 @@
   (<i>{{ r.person.ain7member.track }} {{ r.person.ain7member.promo }}</i>)
 {% if superadmin or secretariat_member %}
 </td><td>
-<a href="{% url "ain7.association.views.edit_council_role" r.id %}" class="changelink">
+<a href="{% url "council-role-edit" r.id %}" class="changelink">
     <i class="fa fa-pencil fa-lg"></i></a><br>
-<a href="{% url "ain7.association.views.delete_council_role" r.id %}" class="deletelink">
+<a href="{% url "council-role-delete" r.id %}" class="deletelink">
     <i class="fa fa-trash-o fa-lg"></i></a>
 {% endif%}
 </td>

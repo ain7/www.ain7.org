@@ -6,13 +6,13 @@
 
 <h2>{% trans "Mailings"%}</h2>
 
-<p><a class="btn btn-primary" href="{% url "ain7.manage.views.mailing_edit" %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
+<p><a class="btn btn-primary" href="{% url "mailing-add" %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 
 {% paginate mailings %}
 <p class="text-center">{% show_pages %}</p> 
 <ul>
     {% for mailing in mailings %}
-        <li><a href="{% url "ain7.manage.views.mailing_edit" mailing.id %}">{{ mailing.title }}</a><br/>
+        <li><a href="{% url "mailing-edit" mailing.id %}">{{ mailing.title }}</a><br/>
         {% if mailing.description %}
         {{ mailing.description }} <br/>
         {% endif %}
@@ -27,7 +27,7 @@
         {% endif %}
         {% if mailing.sent_at %}
         <i>{% trans "Sent on" %} {{ mailing.sent_at|date:"l j F Y H:i" }} {% trans "to" %} {{ mailing.mail_to.label }}</i>  ({{ mailing.mailingrecipient_set.count }} {% trans "persons" %})<br/>
-        <i><a href="{% url "ain7.manage.views.mailing_export" mailing.id %}">{% trans "Download snail mail mailing listing" %}</a></i><br/>
+        <i><a href="{% url "mailing-csv" mailing.id %}">{% trans "Download snail mail mailing listing" %}</a></i><br/>
         {% endif %}
         </li>
        <br/>

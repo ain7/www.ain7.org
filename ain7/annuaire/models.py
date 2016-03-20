@@ -504,6 +504,7 @@ class AIn7Member(LoggedClass):
         """
         /!\ local import to avoid recursive imports
         """
+        import calendar
         from ain7.adhesions.models import Subscription
 
         result = False
@@ -527,7 +528,10 @@ class AIn7Member(LoggedClass):
             if sub.date:
                 today = timezone.now()
                 delta = today - sub.date
-                result = delta.days < 365
+                days_in_year = 365
+                if calendar.isleap(current_year):
+                    days_in_year = 366
+                result = delta.days < days_in_year
 
         return result
 

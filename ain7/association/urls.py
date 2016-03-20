@@ -21,17 +21,18 @@
 #
 #
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
+
+from ain7.association import views
 
 
-urlpatterns = patterns('ain7.association.views',
-    url(r'^$', 'index', name='association-index'),
-    url(r'^council/$', 'council', name='council-details'),
-    url(r'^council/add/$', 'edit_council_role'),
-    url(r'^council/edit/(?P<role_id>\d+)/$', 'edit_council_role'),
-    url(r'^council/delete/(?P<role_id>\d+)/$', 'delete_council_role'),
-    url(r'^contact/$', 'contact', name='contact'),
-    url(r'^status/$', 'status', name='status'),
-    url(r'^internalrules/$', 'internalrules', name='internalrules'),
-
-)
+urlpatterns = [
+    url(r'^$', views.index, name='association-index'),
+    url(r'^council/$', views.council, name='council-details'),
+    url(r'^council/add/$', views.edit_council_role),
+    url(r'^council/edit/(?P<role_id>\d+)/$', views.edit_council_role, name='council-role-edit'),
+    url(r'^council/delete/(?P<role_id>\d+)/$', views.delete_council_role, name='council-role-delete'),
+    url(r'^contact/$', views.contact, name='contact'),
+    url(r'^status/$', views.status, name='status'),
+    url(r'^internalrules/$', views.internalrules, name='internalrules'),
+]

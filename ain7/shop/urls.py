@@ -21,12 +21,11 @@
 #
 #
 
-from django.conf.urls import patterns
+from django.conf.urls import url
 
-urlpatterns = patterns('ain7.shop.views',
-    (r'^$', 'index'),
-    (r'^order/(?P<order_id>\d+)/pay/$', 'order_pay'),
+from ain7.shop import views
 
-)
-
-
+urlpatterns = [
+    url(r'^$', views.index),
+    url(r'^order/(?P<order_id>\d+)/pay/$', views.order_pay),
+]

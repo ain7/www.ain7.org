@@ -21,16 +21,17 @@
 #
 #
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
+
+from ain7.news import views
 
 
-urlpatterns = patterns('ain7.news.views',
+urlpatterns = [
     # Evenements
-    url(r'^$', 'index', name='news-index'),
-    url(r'^add/$', 'edit', name='news-add'),
-    url(r'^search/$', 'search', name='news-search'),
-    url(r'^(?P<news_slug>[\w\-]+)/$', 'details', name='news-details'),
-    url(r'^(?P<news_slug>[\w\-]+)/edit/$', 'edit', name='news-edit'),
-    url(r'^(?P<news_slug>[\w\-]+)/delete/$', 'delete', name='news-delete'),
-
-)
+    url(r'^$', views.index, name='news-index'),
+    url(r'^add/$', views.edit, name='news-add'),
+    url(r'^search/$', views.search, name='news-search'),
+    url(r'^(?P<news_slug>[\w\-]+)/$', views.details, name='news-details'),
+    url(r'^(?P<news_slug>[\w\-]+)/edit/$', views.edit, name='news-edit'),
+    url(r'^(?P<news_slug>[\w\-]+)/delete/$', views.delete, name='news-delete'),
+]

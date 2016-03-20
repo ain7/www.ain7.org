@@ -26,14 +26,14 @@
 {{ organization.long_description|safe }}
 {% endif %}
 <ul class="list-inline">
- <li><a class="btn btn-primary" href="{% url "ain7.organizations.views.organization_edit" organization.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Modify" %}</a></li>
+ <li><a class="btn btn-primary" href="{% url "organization-edit" organization.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Modify" %}</a></li>
 {% if superadmin or secretariat_member %}
 {% if organization.is_valid %}
-<li><a class="btn btn-primary" href="{% url "ain7.organizations.views.organization_delete" organization.id %}"><i class="fa fa-code-fork fa-lg"></i> {% trans "Merge" %}</a></li>
-<li><a class="btn btn-primary" href="{% url "ain7.organizations.views.organization_delete" organization.id %}"><i class="fa fa-trash-o fa-lg"></i> {% trans "Delete" %}</a></li>
+<li><a class="btn btn-primary" href="{% url "organization-merge" organization.id %}"><i class="fa fa-code-fork fa-lg"></i> {% trans "Merge" %}</a></li>
+<li><a class="btn btn-primary" href="{% url "organization-delete" organization.id %}"><i class="fa fa-trash-o fa-lg"></i> {% trans "Delete" %}</a></li>
 {% else %}
-<li><a class="btn btn-primary" href="{% url "ain7.organizations.views.organization_delete" organization.id %}"><i class="fa fa-paint-brush fa-lg"></i> {% trans "Purge" %}</a></li>
-<li><a class="btn btn-primary" href="{% url "ain7.organizations.views.organization_undelete" organization.id %}"><i class="fa fa-reply fa-lg"></i> {% trans "Undelete" %}</a></li>
+<li><a class="btn btn-primary" href="{% url "organization-delete" organization.id %}"><i class="fa fa-paint-brush fa-lg"></i> {% trans "Purge" %}</a></li>
+<li><a class="btn btn-primary" href="{% url "organization-undelete" organization.id %}"><i class="fa fa-reply fa-lg"></i> {% trans "Undelete" %}</a></li>
 {% endif %}
 {% endif %}
 </ul>
@@ -42,7 +42,7 @@
 
 {% if superadmin or secretairat_member %}
 {% if organization.modification_of %}
-<p>{% trans "This organization is the modification of" %} <a href="{% url "ain7.organizations.views.organization_details" organization.modification_of.id %}">{{ organization.modification_of.name }}</a> {% trans "by" %} {{ organization.last_change_by }}.</p>
+<p>{% trans "This organization is the modification of" %} <a href="{% url "organization-details" organization.modification_of.id %}">{{ organization.modification_of.name }}</a> {% trans "by" %} {{ organization.last_change_by }}.</p>
 {% endif %}
 {% endif %}
 
@@ -75,21 +75,21 @@
         </p>
         {% endif %}
 <ul class="list-inline">
-<a class="btn btn-primary" href="{% url "ain7.organizations.views.office_edit" organization.id office.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Modify" %}</a>
+<a class="btn btn-primary" href="{% url "office-edit" organization.id office.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Modify" %}</a>
 {% if superadmin or secretariat_member %}
 {% if office.is_valid %}
-<a class="btn btn-primary" href="{% url "ain7.organizations.views.office_merge" organization.id office.id %}"><i class="fa fa-code-fork fa-lg"></i> {% trans "Merge" %}</a>
-<a class="btn btn-primary" href="{% url "ain7.organizations.views.office_delete" organization.id office.id %}"><i class="fa fa-trash-o fa-lg"></i> {% trans "Delete" %}</a>
+<a class="btn btn-primary" href="{% url "office-merge" organization.id office.id %}"><i class="fa fa-code-fork fa-lg"></i> {% trans "Merge" %}</a>
+<a class="btn btn-primary" href="{% url "office-delete" organization.id office.id %}"><i class="fa fa-trash-o fa-lg"></i> {% trans "Delete" %}</a>
 {% else %}
-<a class="btn btn-primary" href="{% url "ain7.organizations.views.office_delete" organization.id office.id %}"> <i class="fa fa-paint-brush fa-lg"></i> {% trans "Purge" %}</a>
-<a class="btn btn-primary" href="{% url "ain7.organizations.views.organization_undelete" organization.id office.id %}"><i class="fa fa-reply fa-lg"></i> {% trans "Undelete" %}</a>
+<a class="btn btn-primary" href="{% url "office-delete" organization.id office.id %}"> <i class="fa fa-paint-brush fa-lg"></i> {% trans "Purge" %}</a>
+<a class="btn btn-primary" href="{% url "office-undelete" organization.id office.id %}"><i class="fa fa-reply fa-lg"></i> {% trans "Undelete" %}</a>
 {% endif %}
 {% endif %}
 </ul>
 
 {% if superadmin or secretairat_member %}
 {% if office.modification_of %}
-<p>{% trans "This office is the modification of" %} <a href="{% url "ain7.organizations.views.organization_details" office.organization.id %}">{{ office.organization.name }}</a> {% trans "by" %} {{ office.last_change_by }}.</p>
+<p>{% trans "This office is the modification of" %} <a href="{% url "organization-details" office.organization.id %}">{{ office.organization.name }}</a> {% trans "by" %} {{ office.last_change_by }}.</p>
 {% endif %}
 {% endif %}
 
@@ -99,7 +99,7 @@
           <ul>
             {% for emploi in office.job_offers.all %}
             <li class="job">
-              <a href="{% url "ain7.emploi.views.job_details" emploi.id %}">{{ emploi.title }}</a>
+              <a href="{% url "job-details" emploi.id %}">{{ emploi.title }}</a>
             </li>
             {% endfor %}
           </ul>
@@ -110,7 +110,7 @@
           <ul>
             {% for ain7member in office.current_n7_employees %}
               <li class="person">
-                <a href="{% url "ain7.annuaire.views.details" ain7member.person.user.id %}">
+                <a href="{% url "member-details" ain7member.person.user.id %}">
                 {{ ain7member }}</a>
               </li>
             {% endfor %}
@@ -122,7 +122,7 @@
           <ul>
             {% for ain7member in office.past_n7_employees %}
               <li class="person">
-                <a href="{% url "ain7.annuaire.views.details" ain7member.person.user.id %}">
+                <a href="{% url "member-details" ain7member.person.user.id %}">
                 {{ ain7member }}</a>
               </li>
             {% endfor %}
@@ -134,6 +134,6 @@
 {% endfor %}
 </ul>
 
-<p><a class="btn btn-primary" href="{% url "ain7.organizations.views.office_edit" organization.id %}"><i class="fa fa-plus fa-lg"></i> {% trans "Add new office" %}</a></p>
+<p><a class="btn btn-primary" href="{% url "office-add" organization.id %}"><i class="fa fa-plus fa-lg"></i> {% trans "Add new office" %}</a></p>
 
 {% endblock %}

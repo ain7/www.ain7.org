@@ -33,10 +33,10 @@
   </td>
   <td>
     {% if not subscription.validated %}
-      <a class="changelink" href="{% url "ain7.adhesions.views.configuration_edit" configuration.year configuration.id %}">
+      <a class="changelink" href="{% url "configuration-edit" configuration.year configuration.id %}">
       {% trans "Modify" %}</a>
       <br />
-      <a class="deletelink" href="{% url "ain7.adhesions.views.configuration_delete" configuration.year configuration.id %}">
+      <a class="deletelink" href="{% url "configuration-delete" configuration.year configuration.id %}">
       {% trans "Delete" %}</a>
     {% endif %}
   </td>

@@ -21,28 +21,27 @@
 #
 #
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
+
+from ain7.news import views
 
 
-urlpatterns = patterns('ain7.news.views',
+urlpatterns = [
     # Evenements
-    url(r'^$', 'event_index', name='events-index'),
-    (r'^ical/$', 'ical'),
-    (r'^new/$', 'event_edit'),
-    (r'^search/$', 'event_search'),
-    url(r'^(?P<event_id>\d+)/$', 'event_details', name='event-details'),
-    (r'^(?P<event_id>\d+)/edit/$', 'event_edit'),
-    (r'^(?P<event_id>\d+)/contact/$', 'event_contact'),
-    (r'^(?P<event_id>\d+)/organizer/add/$', 'event_organizer_add'),
-    (r'^(?P<event_id>\d+)/organizer/(?P<organizer_id>\d+)/delete/$',
-        'event_organizer_delete'),
-    (r'^(?P<event_id>\d+)/organizer/(?P<organizer_id>\d+)/swap_email_notif/$',
-        'event_swap_email_notif'),
-    (r'^(?P<event_id>\d+)/yes/$', 'event_attend_yes'),
-    (r'^(?P<event_id>\d+)/no/$', 'event_attend_no'),
-    (r'^(?P<event_id>\d+)/maybe/$', 'event_attend_maybe'),
-    (r'^(?P<event_id>\d+)/attendees/$', 'event_attendees'),
-    (r'^(?P<event_id>\d+)/rsvp/(?P<rsvp_id>\d+)/$', 'event_rsvp'),
-    (r'^(?P<event_id>\d+)/rsvp/add/$', 'event_rsvp', { 'rsvp_id':None }),
-
-)
+    url(r'^$', views.event_index, name='events-index'),
+    url(r'^ical/$', views.ical),
+    url(r'^new/$', views.event_edit),
+    url(r'^search/$', views.event_search),
+    url(r'^(?P<event_id>\d+)/$', views.event_details, name='event-details'),
+    url(r'^(?P<event_id>\d+)/edit/$', views.event_edit),
+    url(r'^(?P<event_id>\d+)/contact/$', views.event_contact),
+    url(r'^(?P<event_id>\d+)/organizer/add/$', views.event_organizer_add),
+    url(r'^(?P<event_id>\d+)/organizer/(?P<organizer_id>\d+)/delete/$', views.event_organizer_delete),
+    url(r'^(?P<event_id>\d+)/organizer/(?P<organizer_id>\d+)/swap_email_notif/$', views.event_swap_email_notif),
+    url(r'^(?P<event_id>\d+)/yes/$', views.event_attend_yes),
+    url(r'^(?P<event_id>\d+)/no/$', views.event_attend_no),
+    url(r'^(?P<event_id>\d+)/maybe/$', views.event_attend_maybe),
+    url(r'^(?P<event_id>\d+)/attendees/$', views.event_attendees),
+    url(r'^(?P<event_id>\d+)/rsvp/(?P<rsvp_id>\d+)/$', views.event_rsvp),
+    url(r'^(?P<event_id>\d+)/rsvp/add/$', views.event_rsvp, { 'rsvp_id':None }),
+]

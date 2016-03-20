@@ -21,60 +21,59 @@
 #
 #
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
-urlpatterns = patterns('ain7.manage.views',
-    (r'^$', 'index'),
+from ain7.manage import views
+
+urlpatterns = [
+    url(r'^$', views.index),
                       
     # Errors
-    url(r'^errors/$', 'errors_index', name='errors-index'),
-    url(r'^errors/(?P<error_id>\d+)/$', 'error_details', name='error-details'),
+    url(r'^errors/$', views.errors_index, name='errors-index'),
+    url(r'^errors/(?P<error_id>\d+)/$', views.error_details, name='error-details'),
 
     # Payment
-    (r'^payments/$', 'payments_index'),
-    (r'^payments/add/$', 'payment_edit'),
-    url(r'^payments/(?P<payment_id>\d+)/$', 'payment_details', name='payment-details'),
-    (r'^payments/(?P<payment_id>\d+)/edit/$', 'payment_edit'),
-    url(r'^payments/deposit/$', 'payments_deposit_index', name='payments-deposit-index'),
-    (r'^payments/deposit/(?P<deposit_id>\d+)/$', 'payments_deposit'),
-    (r'^payments/deposit/(?P<deposit_id>\d+)/deposited/'
-     +r'(?P<last_deposit_id>\d+)/$', 'payments_mark_deposited'),
+    url(r'^payments/$', views.payments_index),
+    url(r'^payments/add/$', views.payment_edit),
+    url(r'^payments/(?P<payment_id>\d+)/$', views.payment_details, name='payment-details'),
+    url(r'^payments/(?P<payment_id>\d+)/edit/$', views.payment_edit),
+    url(r'^payments/deposit/$', views.payments_deposit_index, name='payments-deposit-index'),
+    url(r'^payments/deposit/(?P<deposit_id>\d+)/$', views.payments_deposit),
+    url(r'^payments/deposit/(?P<deposit_id>\d+)/deposited/(?P<last_deposit_id>\d+)/$', views.payments_mark_deposited),
 
     # Registrations
-    url(r'^registrations/$', 'registrations_index', name='registrations-index'),
-    url(r'^registrations/(?P<person_id>\d+)/validate/$', 'registration_validate', name='registration-validate'),
-    url(r'^registrations/(?P<person_id>\d+)/delete/$', 'registration_delete', name='registration-delete'),
+    url(r'^registrations/$', views.registrations_index, name='registrations-index'),
+    url(r'^registrations/(?P<person_id>\d+)/validate/$', views.registration_validate, name='registration-validate'),
+    url(r'^registrations/(?P<person_id>\d+)/delete/$', views.registration_delete, name='registration-delete'),
 
     # Subscriptions
-    url(r'^subscriptions/$', 'subscriptions_stats'),
+    url(r'^subscriptions/$', views.subscriptions_stats),
     url(
-        r'^subscriptions/(?P<the_year>\d+)/$', 'subscriptions_stats',
+        r'^subscriptions/(?P<the_year>\d+)/$', views.subscriptions_stats,
         name='subscriptions-stats-per-year',
     ),
     url(
-        r'^subscriptions/(?P<the_year>\d+)/csv/$', 'subscribers_csv',
+        r'^subscriptions/(?P<the_year>\d+)/csv/$', views.subscribers_csv,
         name='subscribers-csv',
     ),
     url(
-        r'^subscriptions/(?P<the_year>\d+)/students/csv/$', 'subscribers_csv',
+        r'^subscriptions/(?P<the_year>\d+)/students/csv/$', views.subscribers_csv,
         {'normal': False, 'students': True}, name='subscribers-students-csv',
     ),
     url(
-        r'^subscriptions/(?P<the_year>\d+)/magazine/csv/$', 'subscribers_csv',
+        r'^subscriptions/(?P<the_year>\d+)/magazine/csv/$', views.subscribers_csv,
         {'normal': False, 'magazine': True}, name='subscribers-magazine-csv',
     ),
 
-    url(r'^sitestats/$', 'site_stats'),
+    url(r'^sitestats/$', views.site_stats),
 
     # mailings
-    url(r'^mailings/$', 'mailings_index', name='mailings-index'),
-    url(r'^mailings/add/$', 'mailing_edit', name='mailing-add'),
-    url(r'^mailings/(?P<mailing_id>\d+)/$', 'mailing_edit', name='mailing-edit'),
-    (r'^mailings/(?P<mailing_id>\d+)/test/$', 'mailing_send'),
-    (r'^mailings/(?P<mailing_id>\d+)/testteam/$', 'mailing_sendteam'),
-    (r'^mailings/(?P<mailing_id>\d+)/send/$', 'mailing_ready'),
-    (r'^mailings/(?P<mailing_id>\d+)/csv/$', 'mailing_export'),
-    (r'^mailings/(?P<mailing_id>\d+)/view/$', 'mailing_view'),
-
-)
-
+    url(r'^mailings/$', views.mailings_index, name='mailings-index'),
+    url(r'^mailings/add/$', views.mailing_edit, name='mailing-add'),
+    url(r'^mailings/(?P<mailing_id>\d+)/$', views.mailing_edit, name='mailing-edit'),
+    url(r'^mailings/(?P<mailing_id>\d+)/test/$', views.mailing_send, name='mailing-test-send'),
+    url(r'^mailings/(?P<mailing_id>\d+)/testteam/$', views.mailing_sendteam, name='mailing-test-send-team'),
+    url(r'^mailings/(?P<mailing_id>\d+)/send/$', views.mailing_ready, name='mailing-send'),
+    url(r'^mailings/(?P<mailing_id>\d+)/csv/$', views.mailing_export, name='mailing-csv'),
+    url(r'^mailings/(?P<mailing_id>\d+)/view/$', views.mailing_view, name='maing-view'),
+]

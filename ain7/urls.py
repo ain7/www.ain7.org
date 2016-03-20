@@ -20,15 +20,21 @@
 #
 #
 
-from django.conf.urls import include, patterns, url
+from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
+from django.contrib.sitemaps import views as sitemaps_views
 from django.views.generic.base import RedirectView
+from django.views import static as views_static
 
 from autocomplete_light import shortcuts as autocomplete_light
 
+from ain7.annuaire import views as annuaire_views
 from ain7.feeds import NewsFeed
+from ain7.news import views as news_views
+from ain7.pages import views as pages_views
 from ain7.sitemaps import (
     EventsSitemap, TextsSitemap, NewsSitemap, GroupsSitemap
 )
@@ -44,70 +50,69 @@ sitemaps = {
     'texts': TextsSitemap,
 }
 
-urlpatterns = patterns('',
+urlpatterns = [
 
-    url(r'^~(?P<user_name>\w+)/$', 'ain7.annuaire.views.home'),
+    url(r'^~(?P<user_name>\w+)/$', annuaire_views.home),
 
-    url(r'^accounts/login/$', 'django.contrib.auth.views.login',
+    url(r'^accounts/login/$', auth_views.login,
         {'template_name': 'registration/login.html'}, name='account_login'),
-    url(r'^acocunts/logout/$', 'django.contrib.auth.views.logout_then_login',
+    url(r'^acocunts/logout/$', auth_views.logout_then_login,
         name='account_logout'),
     #url(r'^accounts/', include('allauth.urls')),
 
-    (r'^me/$', 'ain7.annuaire.views.me'),
+    url(r'^me/$', annuaire_views.me),
 
     # AIn7 management section
-    (r'^manage/', include('ain7.manage.urls')),
+    url(r'^manage/', include('ain7.manage.urls')),
 
     # annuaire
-    (r'^annuaire/', include('ain7.annuaire.urls')),
+    url(r'^annuaire/', include('ain7.annuaire.urls')),
 
     # emploi
-    (r'^emploi/', include('ain7.emploi.urls')),
+    url(r'^emploi/', include('ain7.emploi.urls')),
 
     # news
-    (r'^actualites/', include('ain7.news.urls')),
+    url(r'^actualites/', include('ain7.news.urls')),
     # evenements
-    (r'^evenements/', include('ain7.news.urls_events')),
+    url(r'^evenements/', include('ain7.news.urls_events')),
 
     # groups
-    (r'^groups/', include('ain7.groups.urls')),
+    url(r'^groups/', include('ain7.groups.urls')),
 
     # organizations
-    (r'^organizations/', include('ain7.organizations.urls')),
+    url(r'^organizations/', include('ain7.organizations.urls')),
 
     # voyages
-    (r'^voyages/', include('ain7.voyages.urls')),
+    url(r'^voyages/', include('ain7.voyages.urls')),
 
     # association
-    (r'^association/', include('ain7.association.urls')),
+    url(r'^association/', include('ain7.association.urls')),
 
     # adhesions
-    (r'^adhesions/', include('ain7.adhesions.urls')),
+    url(r'^adhesions/', include('ain7.adhesions.urls')),
 
-    url(r'^welcome/', 'ain7.annuaire.views.welcome'),
+    url(r'^welcome/', annuaire_views.welcome),
 
     # Pages particulieres au contenu pseudo statique
-    (r'^apropos/$', 'ain7.pages.views.apropos'),
-    (r'^mentions_legales/$', 'ain7.pages.views.mentions_legales'),
-    url(r'^lostpassword/$', 'ain7.pages.views.lostpassword', name='lostpassword'),
-    (r'^lostpassword/([A-Za-z0-9.\-_]+)/$', 'ain7.pages.views.changepassword'),
-    url(r'^$', 'ain7.pages.views.homepage', name='homepage'),
+    url(r'^apropos/$', pages_views.apropos),
+    url(r'^mentions_legales/$', pages_views.mentions_legales),
+    url(r'^lostpassword/$', pages_views.lostpassword, name='lostpassword'),
+    url(r'^lostpassword/([A-Za-z0-9.\-_]+)/$', pages_views.changepassword),
+    url(r'^$', pages_views.homepage, name='homepage'),
 
     # flux RSS
     url(r'^rss/$', NewsFeed(), name='rss'),
 
-    (r'^ical/$', 'ain7.news.views.ical'),
+    url(r'^ical/$', news_views.ical),
 
     # Edit text blocks
-    url(r'^edit/(?P<text_id>.*)/$', 'ain7.pages.views.edit', name='text-edit'),
+    url(r'^edit/(?P<text_id>.*)/$', pages_views.edit, name='text-edit'),
 
     # sitemaps
-    (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap',
-        {'sitemaps': sitemaps}),
+    url(r'^sitemap.xml$', sitemaps_views.sitemap, {'sitemaps': sitemaps}),
 
-    url(r'^groupes_professionnels/$', 'ain7.pages.views.professionnal_groups', name='professionnal_groups'),
-    url(r'^groupes_regionaux/$', 'ain7.pages.views.regional_groups', name='regional_groups'),
+    url(r'^groupes_professionnels/$', pages_views.professionnal_groups, name='professionnal_groups'),
+    url(r'^groupes_regionaux/$', pages_views.regional_groups, name='regional_groups'),
 
     # redirection to external communities
     url(r'^facebook/$', RedirectView.as_view(url=settings.FACEBOOK_AIN7, permanent=True), name='facebook'),
@@ -117,12 +122,9 @@ urlpatterns = patterns('',
 
     # django-autocomplete-light
     url(r'^autocomplete/', include('autocomplete_light.urls')),
-    (r'^admin/',  include(admin.site.urls)),  # admin site
+    # (r'^admin/',  include(admin.site.urls)),  # admin site
 
-    (r'^site_media/(?P<path>.*)$', 'django.views.static.serve',
-        {'document_root': settings.MEDIA_ROOT}),
+    url(r'^site_media/(?P<path>.*)$', views_static.serve, {'document_root': settings.MEDIA_ROOT}),
 
-    (r'^static/(?P<path>.*)$', 'django.views.static.serve',
-        {'document_root': settings.STATIC_ROOT}),
-
-)
+    url(r'^static/(?P<path>.*)$', views_static.serve, {'document_root': settings.STATIC_ROOT}),
+]

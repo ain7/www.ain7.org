@@ -21,19 +21,18 @@
 #
 #
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
+
+from ain7.emploi import views
 
 
-urlpatterns = patterns('ain7.emploi.views',
-    url(r'^$', 'index', name='job-index'),
+urlpatterns = [
+    url(r'^$', views.index, name='job-index'),
     # Job offers
-    url(r'^job/add/$', 'job_edit', name='job-add'),
-    url(r'^job/(?P<job_id>\d+)/$', 'job_details', name='job-details'),
-    url(r'^job/(?P<job_id>\d+)/edit/$', 'job_edit', name='job-edit'),
-    url(r'^job/proposals/$', 'jobs_proposals', name='jobs-proposals'),
-    url(r'^job/proposals/(?P<job_id>\d+)/validate/$', 'job_validate',
-        name='job-validate'),
-    url(r'^job/proposals/(?P<job_id>\d+)/delete/$', 'job_delete',
-        name='job-delete'),
-
-)
+    url(r'^job/add/$', views.job_edit, name='job-add'),
+    url(r'^job/(?P<job_id>\d+)/$', views.job_details, name='job-details'),
+    url(r'^job/(?P<job_id>\d+)/edit/$', views.job_edit, name='job-edit'),
+    url(r'^job/proposals/$', views.jobs_proposals, name='jobs-proposals'),
+    url(r'^job/proposals/(?P<job_id>\d+)/validate/$', views.job_validate, name='job-validate'),
+    url(r'^job/proposals/(?P<job_id>\d+)/delete/$', views.job_delete, name='job-delete'),
+]
