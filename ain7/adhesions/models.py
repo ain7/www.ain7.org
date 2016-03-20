@@ -97,7 +97,7 @@ class Subscription(LoggedClass):
 
     def __unicode__(self):
         """unicode string for subscription object"""
-        return u'%s %s → %s' % (self.member, self.start_year, self.end_year)
+        return u'%s %s → %s' % (self.member, self.start_date, self.end_date)
 
     class Meta:
         """Meta"""

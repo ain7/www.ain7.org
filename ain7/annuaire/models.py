@@ -535,66 +535,62 @@ class AIn7Member(LoggedClass):
 
         return result
 
-    @property
-    def last_subscription_amount(self):
+
+    def current_subscription(self):
         """
-        /!\ local import to avoid recursive imports
+        local import to avoid recursive imports
         """
         from ain7.adhesions.models import Subscription
-        result = 0
-        current_year = datetime.datetime.today().year
-        if Subscription.objects.filter(member=self).filter(
-            validated=True
-        ).exclude(start_year__icontains=current_year-1).count() > 0:
+
+        result = None
+        if Subscription.objects.filter(
+            member=self,
+            validated=True,
+            start_date__lte=timezone.now(),
+            end_date__gte=timezone.now(),
+        ).count() > 0:
             result = Subscription.objects.filter(
-                member=self
-            ).filter(
-                validated=True
-            ).exclude(
-                start_year__icontains=current_year-1
-            ).reverse()[0].dues_amount
+                member=self,
+                validated=True,
+                start_date__lte=timezone.now(),
+                end_date__gte=timezone.now(),
+            ).reverse()[0]
+
         return result
 
-    @property
-    def last_subscription_date(self):
+    def previous_subscription(self, date=None):
         """
-        /!\ local import to avoid recursive imports
+        local import to avoid recursive imports
         """
         from ain7.adhesions.models import Subscription
-        current_year = datetime.datetime.today().year
-        result = None
-        if Subscription.objects.filter(member=self).filter(
-            validated=True
-        ).exclude(start_year__icontains=current_year-1).count() > 0:
-            result = Subscription.objects.filter(
-                member=self
-            ).filter(
-                validated=True
-            ).exclude(start_year__icontains=current_year-1).reverse()[0].date
 
-        if result:
-            return result.date()
+        year = timezone.now().year
+        if date:
+            year = date.year
+
+        result = None
+        if Subscription.objects.filter(member=self, validated=True
+        ).exclude(start_year__icontains=year).count() > 0:
+            result = Subscription.objects.filter(
+                member=self,
+                validated=True,
+            ).exclude(start_year__icontains=year).reverse()[0]
+
+        return result
+
+    def previous_subscription_date(self, date=None):
+        result = self.previous_subscription(date)
+        if result is not None:
+            return result.date
         else:
-            return result
+            return None
 
-    @property
-    def last_subscription(self):
-        """
-        /!\ local import to avoid recursive imports
-        """
-        from ain7.adhesions.models import Subscription
-        current_year = timezone.now().year
-        result = None
-        if Subscription.objects.filter(member=self).filter(
-            validated=True
-        ).exclude(start_year__icontains=current_year-1).count() > 0:
-            result = Subscription.objects.filter(
-                member=self
-            ).filter(
-                validated=True
-            ).exclude(start_year__icontains=current_year-1).reverse()[0]
-
-        return result
+    def previous_subscription_amount(self, date=None):
+        result = self.previous_subscription(date)
+        if result is not None:
+            return result.dues_amount
+        else:
+            return None
 
     def promo(self):
         if self.promos.all():

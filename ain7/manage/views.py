@@ -27,6 +27,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelform_factory
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 from django.utils.translation import ugettext as _
 
 from ain7.annuaire.models import Person
@@ -435,7 +436,7 @@ def subscriptions_stats(request, the_year=datetime.date.today().year):
 
 
 @access_required(groups=['ain7-ca', 'ain7-secretariat'])
-def subscribers_csv(request, the_year=datetime.date.today().year, normal=True, students=False, magazine=False):
+def subscribers_csv(request, the_year=timezone.now().year, normal=True, students=False, magazine=False):
     """have some subscriptions statistics"""
 
     import csv
@@ -470,6 +471,8 @@ def subscribers_csv(request, the_year=datetime.date.today().year, normal=True, s
             newspaper_amount__gt=0,
         )
 
+    last_day_year = datetime.date(int(the_year), 12, 31)
+
     for sub in subscriptions:
         try:
 
@@ -486,12 +489,12 @@ def subscribers_csv(request, the_year=datetime.date.today().year, normal=True, s
                 amount,
                 sub.date,
                 sub.get_tender_type_display().encode('utf-8'),
-                sub.member.last_subscription_date,
-                sub.member.last_subscription_amount,
+                sub.member.previous_subscription_date(date=last_day_year),
+                sub.member.previous_subscription_amount(date=last_day_year),
                 ]
             )
         except Exception as e:
-            pass
+            print e
 
     return response
 
