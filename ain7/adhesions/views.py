@@ -202,7 +202,11 @@ def subscription_add(request, user_id=None, key_id=None, config_id=None):
         if user_id:
             subscription.member = person.ain7member
 
-        if subscription.member.is_subscriber():
+        current_subscription = subscription.member.current_subscription()
+        can_subscribe_again = False
+        if current_subscription is not None:
+            can_subscribe_again = current_subscription.end_date < datetime.timedelta(days=60) + timezone.now().date()
+        if subscription.member.is_subscriber() and not can_subscribe_again:
             return render(request, 'adhesions/already_subscriber.html', {
                 'person': subscription.member.person,
                 }
@@ -216,16 +220,11 @@ def subscription_add(request, user_id=None, key_id=None, config_id=None):
         subscription.dues_amount = subscription.configuration.dues_amount
         subscription.newspaper_amount = 0
         subscription.tender_type = subscription.tender_type
-        subscription.start_year = timezone.now().date().year
-        subscription.start_date = timezone.now().date()
-        if subscription.configuration.type in [SubscriptionConfiguration.TYPE_STUDENT_3Y, SubscriptionConfiguration.TYPE_STUDENT_2Y, SubscriptionConfiguration.TYPE_STUDENT_1Y, SubscriptionConfiguration.TYPE_STUDENT]:
-            subscription.end_year = subscription.member.promo()
-            subscription.end_date = datetime.date(subscription.end_year, 10, 1)
-        else:
-            subscription.end_year = timezone.now().date().year+1
-            subscription.end_date = subscription.start_date + datetime.timedelta(days=365)
+        subscription.set_timeslot()
         subscription.date = timezone.now().date()
         subscription.user_authenticated = request.user.is_authenticated()
+        # TODO:
+        # subscription.registered_by_himself = request.user == subscription.member.person.user
         subscription.save()
 
         payment = Payment()

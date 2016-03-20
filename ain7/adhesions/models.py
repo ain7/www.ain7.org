@@ -24,6 +24,7 @@ import datetime
 import uuid
 
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import ugettext as _
 
 from ain7.utils import LoggedClass
@@ -94,6 +95,25 @@ class Subscription(LoggedClass):
     user_authenticated = models.BooleanField(default=True)
 
     # TODO: add field to know if the user added himself authentication
+
+    def set_timeslot(self):
+
+        start_date = timezone.now().date()
+
+        if self.member.is_subscriber():
+            start_date = self.member.current_subscription().end_date + datetime.timedelta(days=1)
+
+        self.start_date = start_date
+        self.start_year = start_date.year
+
+        if self.configuration.type in [SubscriptionConfiguration.TYPE_STUDENT_3Y, SubscriptionConfiguration.TYPE_STUDENT_2Y, SubscriptionConfiguration.TYPE_STUDENT_1Y, SubscriptionConfiguration.TYPE_STUDENT]:
+            self.end_year = self.member.promo()
+            self.end_date = datetime.date(self.end_year, 10, 1)
+        else:
+            self.end_date = self.start_date + datetime.timedelta(days=365)
+            self.end_year = self.end_date.year
+
+        self.save()
 
     def __unicode__(self):
         """unicode string for subscription object"""
