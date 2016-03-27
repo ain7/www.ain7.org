@@ -160,8 +160,7 @@ def organization_merge_perform(request, org1_id, org2_id):
     org1 = get_object_or_404(Organization, pk=org1_id)
     org2 = get_object_or_404(Organization, pk=org2_id)
     org1.merge(org2)
-    request.user.message_set.create(
-        message=_('Organizations successfully merged'))
+    messages.success(request, message=_('Organizations successfully merged'))
     return redirect(org1)
 
 
@@ -179,8 +178,7 @@ def organization_delete(request, organization_id):
     else:
         organization.purge()
 
-    request.user.message_set.create(message=_('Organisation has been\
- marked as deleted.'))
+    messages.success(request, _('Organisation has beenmarked as deleted.'))
     return HttpResponseRedirect(reverse(organization_search))
 
 
@@ -201,8 +199,7 @@ def organization_undelete(request, organization_id, office_id=None):
         organization.is_valid = True
         organization.save()
 
-    request.user.message_set.create(message=_('Organisation has been\
- marked as restaured.'))
+    messages.success(request, _('Organisation has beenmarked as restaured.'))
     return redirect(organization)
 
 
@@ -280,8 +277,7 @@ def office_delete(request, organization_id, office_id=None):
     else:
         office.purge()
 
-    request.user.message_set.create(message=_('Office has been marked\
- as deleted.'))
+    messages.success(request, message=_('Office has marked as deleted.'))
     return redirect(office.organization)
 
 
@@ -314,9 +310,9 @@ def office_merge(request, organization_id, office_id=None):
                         '/organizations/%s/offices/%s/merge/%s/'
                         % (office.organization.id, office2.id, office_id))
                 else:
-                    request.user.message_set.create(message=_('The two offices\
+                    messages.error(request, message=_('The two offices\
  are the same. No merging.'))
-        request.user.message_set.create(message=_('Something was wrong in the\
+        messages.error(request, message=_('Something was wrong in the\
  form you filled. No modification done.')+str(form.errors))
         return HttpResponseRedirect('/organizations/%s/offices/%s/merge/' % \
             (office.organization.id, office_id))
@@ -340,5 +336,5 @@ def office_merge_perform(request, organization_id, office1_id, office2_id):
         Office, pk=office2_id, organization__id=organization_id,
     )
     office1.merge(office2)
-    request.user.message_set.create(message=_('Offices successfully merged'))
+    messages.success(request, message=_('Office successfully merged'))
     return redirect(office.organization)
