@@ -32,5 +32,5 @@ class OrganizationFilter(django_filters.FilterSet):
         model = Organization
         fields = {
             'name': ['icontains'],
-            'activity_field': ['icontains'],
+            'activity_field__field': ['icontains'],
         }
