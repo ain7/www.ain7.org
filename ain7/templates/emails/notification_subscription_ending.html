@@ -1,0 +1,21 @@
+{% extends "emails/base.html" %}
+{% load i18n %}
+
+{% block content %}
+<p>Bonjour {{ person.first_name }},</p>
+
+<p>Votre adhésion à l'association AIn7 arrivera à expiration le {{ person.ain7member.current_subscription_end_date|date:"d F Y" }}.</p>
+
+<span style="text-align: center;">
+<table style="background-color: #2baadf; padding: 18px; font-size: 16;">
+<tr><td><a href="https://ain7.com{% url 'subscribe-public' %}" style="font-weight: bold; text-decoration: none; letter-spacing: normal; line-height: 100%; text-align: center; color: #FFFFFF;">Renouvelez votre adhésions en deux clics</a></td></tr>
+</table>
+</span>
+
+<p>Cette adhésions vous permet de bénéficier de l'<b>accès à l'annuaire</b> et à l'ensemble des services de l'association. Cette adhésion permet également à l'association d'<b>entreprendre des actions en collaboration avec l'École</b> pour faire connaitre et reconnaître l'école et son diplôme.</p>
+
+<p>N'hésitez pas à nous <a href="https://ain7.com/association/contact/">contactez</a> pour toute question ou renseignement.</p>
+
+<p>L'équipe de l'AIn7</p>
+
+{% endblock %}

@@ -24,8 +24,10 @@ import logging
 from celery import shared_task
 
 from django.conf import settings
+from django.db.models import Q
 from django.utils import timezone
 
+from ain7.adhesions.models import Subscription
 from ain7.annuaire.models import AIn7Member
 from ain7.emploi.models import JobOffer
 from ain7.groups.models import Group
@@ -74,3 +76,17 @@ def refresh_membership():
             logging.info('Removing %s from %s' % (member.person, settings.AIN7_MEMBERS))
             print ('Removing %s from %s' % (member.person, settings.AIN7_MEMBERS))
             members.remove(member.person)
+
+
+@shared_task
+def notify_expiring_membership():
+
+    today = timezone.now().date()
+    in_seven_days = today + datetime.timedelta(days=7)
+    in_thirty_days = today + datetime.timedelta(days=30)
+
+    subscriptions = Subscription.objects.filter(
+        Q(end_date=in_thirty_days) | Q(end_date=in_seven_days) | Q(end_date=today)
+    )
+    for sub in subscriptions:
+        sub.member.notify_expiring_membership()

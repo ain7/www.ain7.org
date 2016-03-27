@@ -22,15 +22,21 @@
 #
 
 import datetime
+import os
 import time
 import uuid
 
-from django.core.mail import EmailMessage
+from django.conf import settings
+from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.contrib.auth.models import User
+from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import ugettext as _
+
+from email.mime.image import MIMEImage
+from email.mime.multipart import MIMEMultipart
 
 from ain7.utils import LoggedClass, get_root_url
 from ain7.utils import CONFIDENTIALITY_LEVELS
@@ -558,6 +564,13 @@ class AIn7Member(LoggedClass):
 
         return result
 
+    def current_subscription_end_date(self):
+
+        from ain7.adhesions.models import Subscription
+
+        if self.current_subscription() is not None:
+            return self.current_subscription().end_date
+
     def previous_subscription(self, date=None):
         """
         local import to avoid recursive imports
@@ -621,6 +634,37 @@ class AIn7Member(LoggedClass):
             res += str(pos.office.organization)
             res += ' '
         return res
+
+    def notify_expiring_membership(self):
+
+        subject = u'Votre adhésion à l\'AIn7 arrive à échéance'
+        html_content = render_to_string(
+            'emails/notification_subscription_ending.html',
+            {'person': self.person, 'settings': settings}
+        )
+        text_content = render_to_string(
+            'emails/notification_subscription_ending.txt',
+            {'person': self.person, 'settings': settings}
+        )
+        msg = EmailMultiAlternatives(
+            subject,
+            text_content,
+            settings.DEFAULT_FROM_EMAIL,
+            [self.person.mail_favorite()],
+        )
+
+        msg.mixed_subtype = 'related'
+
+        for img in ['logo_ain7.png', 'facebook.png', 'linkedin.png', 'twitter.png', 'googleplus.png']:
+            fp = open(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'templates/emails/img', img), 'rb')
+            msg_img = MIMEImage(fp.read())
+            fp.close()
+            msg_img.add_header('Content-ID', '<{}>'.format(img))
+            msg.attach(msg_img)
+
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+
 
     def __unicode__(self):
         """AIn7 member unicode"""
