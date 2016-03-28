@@ -124,9 +124,9 @@ INSTALLED_APPS += (
 )
 
 # celery configuration
-INSTALLED_APPS += (
-    'kombu.transport.django',
-)
+# INSTALLED_APPS += (
+#    'kombu.transport.django',
+#)
 BROKER_URL = 'django://'
 # BROKER_URL = 'redis://localhost:6379/0'
 CELERY_IMPORTS = ("ain7.tasks",)
