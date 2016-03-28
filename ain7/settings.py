@@ -125,8 +125,8 @@ INSTALLED_APPS += (
 
 # celery configuration
 INSTALLED_APPS += (
-            'kombu.transport.django',
-            )
+    'kombu.transport.django',
+)
 BROKER_URL = 'django://'
 # BROKER_URL = 'redis://localhost:6379/0'
 CELERY_IMPORTS = ("ain7.tasks",)
@@ -142,6 +142,10 @@ INSTALLED_APPS += (
     'crispy_forms',
 )
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+INSTALLED_APPS += (
+    'django_extensions',
+)
 
 # auth and allauth settings
 #INSTALLED_APPS += (
