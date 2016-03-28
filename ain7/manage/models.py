@@ -71,17 +71,9 @@ class PortalError(models.Model):
 class Filter(models.Model):
     """Filter"""
 
-    FILTERS = ()
-    try:
-        from ain7.filters_local import FILTERS
-    except ImportError:
-        pass
-
     label = models.CharField(max_length=20)
     description = models.CharField(max_length=200)
-    filter = models.IntegerField(
-        verbose_name=_('filter'), choices=FILTERS, default=0
-    )
+    filter = models.IntegerField(verbose_name=_('filter'), default=0)
 
     def __unicode__(self):
         """return unicode string for Filter object"""

@@ -182,3 +182,6 @@ class SubscriptionKey(models.Model):
     key = models.UUIDField(default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     expire_at = models.DateTimeField(editable=False)
+
+    def __unicode__(self):
+        return 'Subscription key for '+unicode(self.person)

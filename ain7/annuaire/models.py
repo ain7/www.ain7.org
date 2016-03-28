@@ -605,6 +605,28 @@ class AIn7Member(LoggedClass):
         else:
             return None
 
+    def has_subscription_next(self):
+        from ain7.adhesions.models import Subscription
+
+        if (
+             self.current_subscription() is not None and \
+             self.current_subscription_end_date() > timezone.now().date() + \
+             datetime.timedelta(days=60)
+            ):
+            return True
+
+        next_subscriptions = []
+        if self.current_subscription() is not None:
+            next_subscriptions = Subscription.objects.filter(
+                member=self, validated=True,
+                start_date__gte=self.current_subscription_end_date(),
+            )
+
+        if self.current_subscription() is not None and next_subscriptions.count() > 0:
+            return True
+        else:
+            return False
+
     def promo(self):
         if self.promos.all():
             return self.promos.all()[0].year.year
@@ -637,15 +659,38 @@ class AIn7Member(LoggedClass):
 
     def notify_expiring_membership(self):
 
+        from ain7.adhesions.models import SubscriptionKey
+
+        today = timezone.now().date()
+        is_today = False
+        if self.current_subscription() is not None and self.current_subscription_end_date() == today:
+            is_today = True
+
+        is_future = False
+        if self.current_subscription() is not None and self.current_subscription_end_date() > today:
+            is_future = True
+
+        is_past = False
+        if self.current_subscription() is None:
+            is_past = True
+
         subject = u'Votre adhésion à l\'AIn7 arrive à échéance'
+        if is_today:
+            subject += u' aujourd\'hui!'
+        if is_future:
+            subject += u' le '+self.current_subscription_end_date().strftime("%d %B %Y")
+        if is_past:
+            subject = u'Votre adhésion à l\'AIn7 est arrivée à échéance le '+self.previous_subscription().end_date.strftime("%d %B %Y")
         html_content = render_to_string(
-            'emails/notification_subscription_ending.html',
-            {'person': self.person, 'settings': settings}
-        )
+            'emails/notification_subscription_ending.html', {
+            'person': self.person, 'is_today': is_today, 'is_future': is_future,
+            'is_past': is_past, 'settings': settings,
+        })
         text_content = render_to_string(
-            'emails/notification_subscription_ending.txt',
-            {'person': self.person, 'settings': settings}
-        )
+            'emails/notification_subscription_ending.txt', {
+            'person': self.person, 'is_today': is_today, 'is_future': is_future,
+            'is_past': is_past, 'settings': settings,
+        })
         msg = EmailMultiAlternatives(
             subject,
             text_content,
@@ -664,6 +709,9 @@ class AIn7Member(LoggedClass):
 
         msg.attach_alternative(html_content, "text/html")
         msg.send()
+
+        sub_key = SubscriptionKey(person=self.person, expire_at=timezone.now()+datetime.timedelta(days=30))
+        sub_key.save()
 
 
     def __unicode__(self):

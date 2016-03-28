@@ -4,11 +4,17 @@
 {% block content %}
 <p>Bonjour {{ person.first_name }},</p>
 
-<p>Votre adhésion à l'association AIn7 arrivera à expiration le {{ person.ain7member.current_subscription_end_date|date:"d F Y" }}.</p>
+{% if is_today %}
+<p>Votre adhésion à l'association AIn7 <b>arrive à échéance aujourd'hui!</b></p>
+{% elif is_past %}
+<p>Votre adhésion à l'association AIn7 est <b>arrivée à echéance le {{ person.ain7member.previous_subscription.end_date|date:"d F Y" }}.</b></p>
+{% else %}
+<p>Votre adhésion à l'association AIn7 <b>arrivera à échéance le {{ person.ain7member.current_subscription_end_date|date:"d F Y" }}.</b></p>
+{% endif %}
 
 <span style="text-align: center;">
 <table style="background-color: #2baadf; padding: 18px; font-size: 16;">
-<tr><td><a href="https://ain7.com{% url 'subscribe-public' %}" style="font-weight: bold; text-decoration: none; letter-spacing: normal; line-height: 100%; text-align: center; color: #FFFFFF;">Renouvelez votre adhésions en deux clics</a></td></tr>
+<tr><td><a href="https://ain7.com{% url 'subscribe-public' %}" style="font-weight: bold; text-decoration: none; letter-spacing: normal; line-height: 100%; text-align: center; color: #FFFFFF;">Renouvelez votre adhésion en deux clics</a></td></tr>
 </table>
 </span>
 

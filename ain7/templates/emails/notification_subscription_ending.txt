@@ -2,7 +2,13 @@
 
 Bonjour {{ person.first_name }},
 
-Votre adhésion à l'association AIn7 arrivera à expiration le {{ person.ain7member.current_subscription_end_date|date:"d F Y" }}.
+{% if is_today %}
+Votre adhésion à l'association AIn7 arrive à échéance aujourd'hui!
+{% elif is_past %}
+Votre adhésion à l'association AIn7 est arrivée à echéance le {{ person.ain7member.previous_subscription.end_date|date:"d F Y" }}.
+{% else %}
+Votre adhésion à l'association AIn7 arrivera à échéance le {{ person.ain7member.current_subscription_end_date|date:"d F Y" }}.
+{% endif %}
 
 Vous pouvez dès maintenant renouveler votre adhésions à l'association ici : https://ain7.com/adhesions/subscribe/
 

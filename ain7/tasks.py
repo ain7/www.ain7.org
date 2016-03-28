@@ -84,9 +84,12 @@ def notify_expiring_membership():
     today = timezone.now().date()
     in_seven_days = today + datetime.timedelta(days=7)
     in_thirty_days = today + datetime.timedelta(days=30)
+    twenty_days_ago = today + datetime.timedelta(days=-30)
 
     subscriptions = Subscription.objects.filter(
-        Q(end_date=in_thirty_days) | Q(end_date=in_seven_days) | Q(end_date=today)
+        Q(end_date=in_thirty_days) | Q(end_date=in_seven_days) |
+        Q(end_date=today) | Q(end_date=twenty_days_ago)
     )
     for sub in subscriptions:
-        sub.member.notify_expiring_membership()
+        if not sub.member.has_subscription_next():
+            sub.member.notify_expiring_membership()
