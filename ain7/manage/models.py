@@ -22,12 +22,17 @@
 #
 
 import datetime
+import os
 
 from django.conf import settings
+from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
+
+from email.mime.image import MIMEImage
+from email.mime.multipart import MIMEMultipart
 
 
 class PortalError(models.Model):
@@ -66,7 +71,11 @@ class PortalError(models.Model):
 class Filter(models.Model):
     """Filter"""
 
-    from ain7.filters import FILTERS
+    FILTERS = ()
+    try:
+        from ain7.filters_local import FILTERS
+    except ImportError:
+        pass
 
     label = models.CharField(max_length=20)
     description = models.CharField(max_length=200)
@@ -187,6 +196,15 @@ class Mailing(models.Model):
 
         msg.attach(part2)
 
+        msg.mixed_subtype = 'related'
+
+        for img in ['logo_ain7.png', 'facebook.png', 'linkedin.png', 'twitter.png', 'googleplus.png']:
+            fp = open(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'templates/emails/img', img), 'rb')
+            msg_img = MIMEImage(fp.read())
+            fp.close()
+            msg_img.add_header('Content-ID', '<{}>'.format(img))
+            msg.attach(msg_img)
+
         recipients = Person.objects.none()
 
         if request:
@@ -200,7 +218,7 @@ class Mailing(models.Model):
         if not testing:
             recipients = Person.objects.filter(FILTERS[self.mail_to.filter][1])
 
-        smtp = smtplib.SMTP('localhost')
+        smtp = smtplib.SMTP(settings.EMAIL_HOST, settings.EMAIL_PORT)
         smtp.ehlo()
 
         for recipient in recipients:
