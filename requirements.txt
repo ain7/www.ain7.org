@@ -1,7 +1,7 @@
 Django<1.10
 
 django-allauth
-django-autocomplete-light
+django-autocomplete-light>=2.0,<3.0
 django-crispy-forms
 django-extensions
 django-el-pagination
