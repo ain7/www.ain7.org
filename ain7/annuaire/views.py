@@ -62,7 +62,7 @@ def me(request):
     return edit(request, user_id)
 
 
-@login_required
+@access_required(groups=['ain7-membre', 'ain7-secretariat'])
 def details(request, user_id):
 
     is_subscriber = False
