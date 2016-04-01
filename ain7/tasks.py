@@ -30,7 +30,7 @@ from django.utils import timezone
 from ain7.adhesions.models import Subscription
 from ain7.annuaire.models import AIn7Member
 from ain7.emploi.models import JobOffer
-from ain7.groups.models import Group
+from ain7.groups.models import Group, Member
 from ain7.manage.models import Mailing
 
 
@@ -62,20 +62,13 @@ def mailing_send():
 @shared_task
 def refresh_membership():
 
-    today = timezone.now().date()
     members = Group.objects.get(name=settings.AIN7_MEMBERS)
-    members_list = members.active_members()
+
+    Member.objects.filter(group=members).delete()
 
     for member in AIn7Member.objects.all():
         if member.is_subscriber():
-            if member.person not in members_list:
-                logging.info('Adding %s to %s' % (member.person, settings.AIN7_MEMBERS))
-                print ('Adding %s to %s' % (member.person, settings.AIN7_MEMBERS))
-                members.add(member.person)
-        elif member.person in members_list:
-            logging.info('Removing %s from %s' % (member.person, settings.AIN7_MEMBERS))
-            print ('Removing %s from %s' % (member.person, settings.AIN7_MEMBERS))
-            members.remove(member.person)
+            members.add(member.person)
 
 
 @shared_task
