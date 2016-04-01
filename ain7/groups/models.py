@@ -61,7 +61,7 @@ class Member(LoggedClass):
     is_administrator = models.BooleanField(default=False)
 
     start_date = models.DateField(verbose_name=_('start date'),
-        default=timezone.now(), blank=True, null=True)
+        default=timezone.now, blank=True, null=True)
     end_date = models.DateField(verbose_name=_('end date'), blank=True,
         null=True)
     expiration_date = models.DateField(verbose_name=_('expiration date'), blank=True,
@@ -103,7 +103,7 @@ class GroupLeader(models.Model):
         related_name='council_roles')
 
     start_date = models.DateField(verbose_name=_('start date'),
-        default=timezone.now(), blank=True, null=True)
+        default=timezone.now, blank=True, null=True)
     end_date = models.DateField(verbose_name=_('end date'),
         blank=True, null=True)
     board_member = models.BooleanField(default=False)

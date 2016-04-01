@@ -96,7 +96,7 @@ class NewsItem(LoggedClass):
     # to which group we should link this news
     groups = models.ManyToManyField('groups.Group',
          verbose_name=_('groups'), related_name='events',
-         blank=True, null=True)
+         blank=True)
 
     # those fields are only present for an event
     date = models.DateTimeField(verbose_name=_('date'), blank=True, null=True)
