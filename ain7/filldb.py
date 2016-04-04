@@ -940,18 +940,6 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 # Merci d'y ajouter tous les champs que vous devez tester en dur.  #
 
     # Types
-    activityUnKnown = annuaire.Activity(activity=u"Inconnue")
-    activityUnKnown.save()
-
-    activityKnown = annuaire.Activity(activity=u"Connue")
-    activityKnown.save()
-
-    activityStudent = annuaire.Activity(activity=u"Étudiant")
-    activityStudent.save()
-
-    activityRetired = annuaire.Activity(activity=u"Retraité")
-    activityRetired.save()
-
     memberTypeActif = annuaire.MemberType(type=u"Membre actif")
     memberTypeActif.save()
 
@@ -1356,21 +1344,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     lionel_site.type = 1
     lionel_site.save()
 
-    lionel_irc1 = annuaire.IRC()
-    lionel_irc1.person = lionel
-    lionel_irc1.network = "irc.rezosup.net"
-    lionel_irc1.pseudo = "lionel"
-    lionel_irc1.channels = "#ain7, #inp-net, #net7, #n7"
-    lionel_irc1.save()
-
-    lionel_irc2 = annuaire.IRC()
-    lionel_irc2.person = lionel
-    lionel_irc2.network = "irc.freenode.net"
-    lionel_irc2.pseudo = "lionel"
-    lionel_irc2.channels = "#hive, #ubuntu-motu, #ubuntu-server"
-    lionel_irc2.save()
-
-    lionel_position1 = emploi.Position()
+    lionel_position1 = annuaire.Position()
     lionel_position1.ain7member = lionel_ain7member
     lionel_position1.office = anywareoffice
     lionel_position1.fonction = "AdminSys"
@@ -1378,7 +1352,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     lionel_position1.end_date = date(2007,01,01)
     lionel_position1.save()
 
-    lionel_position2 = emploi.Position()
+    lionel_position2 = annuaire.Position()
     lionel_position2.ain7member = lionel_ain7member
     lionel_position2.office = anywareoffice
     lionel_position2.fonction = "Big boss"
@@ -1391,6 +1365,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     lionel_subscription1.end_year = 2005
     lionel_subscription1.dues_amount = 50
     lionel_subscription1.tender_type = 1
+    lionel_subscription1.configuration = subscription_conf2
     lionel_subscription1.save()
 
     lionel_subscription2 = adhesions.Subscription()
@@ -1400,6 +1375,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     lionel_subscription2.dues_amount = 50
     lionel_subscription2.newspaper_amount = 0
     lionel_subscription2.tender_type = 1
+    lionel_subscription2.configuration = subscription_conf3
     lionel_subscription2.save()
 
     lionel_subscription3 = adhesions.Subscription()
@@ -1409,6 +1385,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     lionel_subscription3.dues_amount = '50'
     lionel_subscription3.newspaper_amount = 15
     lionel_subscription3.tender_type = 0
+    lionel_subscription3.configuration = subscription_conf2
     lionel_subscription3.save()
 
     lionel_subscription4 = adhesions.Subscription()
@@ -1418,6 +1395,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     lionel_subscription4.dues_amount = '50'
     lionel_subscription4.newspaper_amount = 15
     lionel_subscription4.tender_type = 0
+    lionel_subscription4.configuration = subscription_conf3
     lionel_subscription4.save()
 
     lionel_subscription5 = adhesions.Subscription()
@@ -1427,11 +1405,11 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     lionel_subscription5.dues_amount = '50'
     lionel_subscription5.newspaper_amount = 15
     lionel_subscription5.tender_type = 0
+    lionel_subscription5.configuration = subscription_conf2
     lionel_subscription5.save()
 
     lionel_private = annuaire.PersonPrivate()
     lionel_private.person = lionel
-    lionel_private.activity = activityKnown
     lionel_private.member_type = memberTypeActif
     lionel_private.person_type = personTypeEngineer
     lionel_private.save()
@@ -1456,7 +1434,6 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 
     pierref_private = annuaire.PersonPrivate()
     pierref_private.person = pierref
-    pierref_private.activity = activityKnown
     pierref_private.member_type = memberTypeActif
     pierref_private.person_type = personTypeStudent
     pierref_private.save()
@@ -1482,13 +1459,6 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     pierref_adresse.type = personalAddressType
     pierref_adresse.save()
 
-    pierref_irc1 = annuaire.IRC()
-    pierref_irc1.person = pierref
-    pierref_irc1.network = "irc.rezosup.net"
-    pierref_irc1.pseudo = "pierref"
-    pierref_irc1.channels = "#ain7, #inp-net, #n7, #net7"
-    pierref_irc1.save()
-
     olivier = annuaire.Person()
     olivier.user = User.objects.create_user("gauwino", "olivier.gauwin@laposte.net","gauwino")
     olivier.user.is_staff = True
@@ -1510,7 +1480,6 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 
     olivier_private = annuaire.PersonPrivate()
     olivier_private.person = olivier
-    olivier_private.activity = activityKnown
     olivier_private.member_type = memberTypeActif
     olivier_private.person_type = personTypeEngineer
     olivier_private.save()
@@ -1555,13 +1524,6 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     olivier_messagerie1.identifier = "olivier@somewhere.jabber"
     olivier_messagerie1.save()
 
-    olivier_irc1 = annuaire.IRC()
-    olivier_irc1.person = olivier
-    olivier_irc1.network = "irc.rezosup.net"
-    olivier_irc1.pseudo = "gauwino"
-    olivier_irc1.channels = "#ain7"
-    olivier_irc1.save()
-
     olivier_site = annuaire.WebSite()
     olivier_site.person = olivier
     olivier_site.url = "http://www.ain7.com/"
@@ -1582,7 +1544,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     olivier_bigophone2.isConfidential = False
     olivier_bigophone2.save()
 
-    olivier_position1 = emploi.Position()
+    olivier_position1 = annuaire.Position()
     olivier_position1.ain7member = olivier_ain7member
     olivier_position1.office = lepaysdesschtroumpfs
     olivier_position1.fonction = "Schtroumpf paresseux"
@@ -1590,14 +1552,14 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     olivier_position1.end_date = date(2007,01,01)
     olivier_position1.save()
 
-    olivier_position2 = emploi.Position()
+    olivier_position2 = annuaire.Position()
     olivier_position2.ain7member = olivier_ain7member
     olivier_position2.office = lepaysdesschtroumpfs
     olivier_position2.fonction = "Grand Schtroumpf"
     olivier_position2.start_date = date(2007,01,01)
     olivier_position2.save()
 
-    olivier_education1 = emploi.EducationItem()
+    olivier_education1 = annuaire.EducationItem()
     olivier_education1.ain7member = olivier_ain7member
     olivier_education1.school = "ENSEEIHT"
     olivier_education1.diploma = u"Ingenieur en informatique et mathématiques appliquées"
@@ -1606,7 +1568,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     olivier_education1.end_date = date(2003,8,23)
     olivier_education1.save()
 
-    olivier_education2 = emploi.EducationItem()
+    olivier_education2 = annuaire.EducationItem()
     olivier_education2.ain7member = olivier_ain7member
     olivier_education2.school = "Université d'Artois"
     olivier_education2.diploma = u"DEA Systèmes intelligents et applications"
@@ -1614,13 +1576,13 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     olivier_education2.end_date = date(2004,8,23)
     olivier_education2.save()
 
-    olivier_leisure1 = emploi.LeisureItem()
+    olivier_leisure1 = annuaire.LeisureItem()
     olivier_leisure1.ain7member = olivier_ain7member
     olivier_leisure1.title = "Culture"
     olivier_leisure1.detail = u"Guitare, cinéma"
     olivier_leisure1.save()
 
-    olivier_leisure2 = emploi.LeisureItem()
+    olivier_leisure2 = annuaire.LeisureItem()
     olivier_leisure2.ain7member = olivier_ain7member
     olivier_leisure2.title = "Informatique"
     olivier_leisure2.detail = "Le site de l'AIn7 !!"
@@ -1646,7 +1608,6 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 
     alex_private = annuaire.PersonPrivate()
     alex_private.person = alex
-    alex_private.activity = activityKnown
     alex_private.member_type = memberTypeActif
     alex_private.person_type = personTypeEngineer
     alex_private.save()
@@ -1689,7 +1650,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     alex_adresse2.type = parentalAddressType
     alex_adresse2.save()
 
-    alexpos = emploi.Position()
+    alexpos = annuaire.Position()
     alexpos.ain7member = alex_ain7member
     alexpos.office = priceminister
     alexpos.fonction = "dev"
@@ -1716,7 +1677,6 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 
     laurent_private = annuaire.PersonPrivate()
     laurent_private.person = laurent
-    laurent_private.activity = activityKnown
     laurent_private.member_type = memberTypeActif
     laurent_private.person_type = personTypeEngineer
     laurent_private.save()
@@ -1776,7 +1736,6 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 
     gui_private = annuaire.PersonPrivate()
     gui_private.person = gui
-    gui_private.activity = activityKnown
     gui_private.member_type = memberTypeActif
     gui_private.person_type = personTypeEngineer
     gui_private.save()
