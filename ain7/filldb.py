@@ -29,7 +29,6 @@ from django.contrib.auth.models import User
 
 import ain7.adhesions.models as adhesions
 import ain7.annuaire.models as annuaire
-import ain7.association.models as association
 import ain7.emploi.models as emploi
 import ain7.organizations.models as organizations
 import ain7.groups.models as groups
@@ -38,6 +37,7 @@ import ain7.pages.models as pages
 import ain7.news.models as news
 import ain7.shop.models as shop
 import ain7.voyages.models as voyages
+
 
 def filldb():
 
@@ -51,22 +51,22 @@ def filldb():
     text1.lang = 'fr'
     text1.title = u"Le réseau AIn7 : une force collective et des atouts au service de chaque diplômé ENSEEIHT"
     text1.body = u"""<img src="/site_media/images/logo_ain7.png" class="image" alt="Big Image" />
-<p>L'ENSEEIHT a fêté son centenaire en 2007. Naturellement issue des premières promotions 
-d'ingénieurs de l'école, l'AIn7 a, au fil des décennies, toujours œuvré au service de tous 
-les diplômés, elle a développé et entretient entre eux des liens professionnels et amicaux, 
-elle contribue à des actions en profondeur, au sein de l'Ecole et dans le monde des affaires, 
+<p>L'ENSEEIHT a fêté son centenaire en 2007. Naturellement issue des premières promotions
+d'ingénieurs de l'école, l'AIn7 a, au fil des décennies, toujours œuvré au service de tous
+les diplômés, elle a développé et entretient entre eux des liens professionnels et amicaux,
+elle contribue à des actions en profondeur, au sein de l'Ecole et dans le monde des affaires,
 pour améliorer et optimiser l'image et la notoriété de notre communauté.</p>
-<p>12 000 ingénieurs ont reçu, depuis l'origine, le diplôme d'ingénieur. Près de 10 000 sont 
-en activité… ceci dans tous les grands secteurs de l'Economie. Cela crée un potentiel de premier 
+<p>12 000 ingénieurs ont reçu, depuis l'origine, le diplôme d'ingénieur. Près de 10 000 sont
+en activité… ceci dans tous les grands secteurs de l'Economie. Cela crée un potentiel de premier
 plan et l'AIn7 se place en véritable catalyseur…</p>
-<p>En ce début de 21ème siècle, réseau est obligatoirement synonyme de web. Conscient de ce fait 
+<p>En ce début de 21ème siècle, réseau est obligatoirement synonyme de web. Conscient de ce fait
 incontournable, l'AIn7 prend en ce début 2009 plusieurs initiatives majeures :</p>
 <ul>
-<li>une présence renforcée sur les principaux réseaux communautaires professionnels : en particulier 
+<li>une présence renforcée sur les principaux réseaux communautaires professionnels : en particulier
 Viadeo, qui va ouvrir une communauté officielle supportée par l'AIn7.</li>
-<li>notre nouveau site, visitez le régulièrement : il vous tiendra informé de toutes nos initiatives… 
-et n'oubliez pas, l'AIn7 c'est VOUS. Venez rejoindre le noyau de volontaires qui font vivre notre communauté, 
-et si vous ne trouvez pas dans nos activités, celle que vous attendez, pourquoi ne pas venir la susciter 
+<li>notre nouveau site, visitez le régulièrement : il vous tiendra informé de toutes nos initiatives…
+et n'oubliez pas, l'AIn7 c'est VOUS. Venez rejoindre le noyau de volontaires qui font vivre notre communauté,
+et si vous ne trouvez pas dans nos activités, celle que vous attendez, pourquoi ne pas venir la susciter
 en nous rejoignant ?</li>
 </ul>
 
@@ -85,7 +85,7 @@ Président AIn7</b></p>
     text2.lang = 'fr'
     text2.title = u"L'ENSEEIHT"
     text2.body = u"""<img src="/site_media/images/n7_small.png" class="image" alt="ENSEEIHT" />
-<p>L'ENSEEIHT (prononcer « N7 ») est l'École nationale supérieure d'électrotechnique, d'électronique, 
+<p>L'ENSEEIHT (prononcer « N7 ») est l'École nationale supérieure d'électrotechnique, d'électronique,
 d'informatique, d'hydraulique et des télécommunications. Elle appartient à l'Institut national polytechnique
 de Toulouse.</p>
 <p>École d'ingénieurs en convention avec l'École polytechnique, l'ENSEEIHT est actuellement structurée en cinq
@@ -98,7 +98,7 @@ filières, comprenant chacune un département de formation et un laboratoire de 
 <li>Hydraulique et Mécanique des fluides</li>
 <li>Télécommunications et Réseaux</li>
 </ul>
-<p>L'ENSEEIHT fait partie du groupe des ENSI et est la plus importante ENSI en termes d'élèves diplomés chaque 
+<p>L'ENSEEIHT fait partie du groupe des ENSI et est la plus importante ENSI en termes d'élèves diplomés chaque
 année (près de 400).</p>
 """
     text2.save()
@@ -117,7 +117,7 @@ année (près de 400).</p>
 <ul>
 <li>Mise à disposition des offres d'emploi et leur édition périodique,</li>
 <li>Tenue à jour d'un fichier des ingénieurs en recherche de situation,</li>
-<li>Réponse à des demandes ou des propositions urgentes.</li> 
+<li>Réponse à des demandes ou des propositions urgentes.</li>
 </ul>
 
 <h4>Une assistance personnalisée</h4>
@@ -563,7 +563,7 @@ Voilà.
     textblock10.save()
 
     text10 = pages.Text()
-    text10.textblock = textblock10 
+    text10.textblock = textblock10
     text10.lang = 'fr'
     text10.title = u"Les publications de l'AIn7"
     text10.body = u"""<p>La Communication, Interne aux adhérents de l’AIn7, est réalisée par les 3 vecteurs suivants, en complément des moyens classiques (courrier, mail, téléphone, fax …)</p>
@@ -910,28 +910,28 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     text24.save()
 
     if os.path.exists('filldbain7'):
-       import glob
-       print 'Import des donnees privees AIn7'
-       print '- import des données de base'
-       execfile('filldbain7/base.py')
-       print '- import des sociétés'
-       execfile('filldbain7/companies.py')
-       filelist = glob.glob('filldbain7/*.py')
-       filelist.sort()
-       if 'filldbain7/base.py' in filelist:
-           filelist.remove('filldbain7/base.py')
-       if 'filldbain7/companies.py' in filelist:
-           filelist.remove('filldbain7/companies.py')
-       imported_files = 0
-       total_files = len(filelist)
-       for filename in filelist:
-           imported_files = imported_files +1
-           print '- import de l\'individu '+filename+' ('+str(imported_files)+'/'+str(total_files)+')'
-           execfile(filename)
-       return
+        import glob
+        print('Import des donnees privees AIn7')
+        print('- import des données de base')
+        execfile('filldbain7/base.py')
+        print('- import des sociétés')
+        execfile('filldbain7/companies.py')
+        filelist = glob.glob('filldbain7/*.py')
+        filelist.sort()
+        if 'filldbain7/base.py' in filelist:
+            filelist.remove('filldbain7/base.py')
+        if 'filldbain7/companies.py' in filelist:
+            filelist.remove('filldbain7/companies.py')
+        imported_files = 0
+        total_files = len(filelist)
+        for filename in filelist:
+            imported_files = imported_files + 1
+            print('- import de l\'individu ' + filename + ' (' + str(imported_files) + '/' + str(total_files) + ')')
+            execfile(filename)
+        return
 
     else:
-        print "Pas de donnes privees AIn7, importation des donnees de demo"
+        print("Pas de donnes privees AIn7, importation des donnees de demo")
         pass
 
 ######################  Fixed values  ##############################
@@ -1003,29 +1003,29 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     subscription_conf10 = adhesions.SubscriptionConfiguration(type=10, dues_amount=100, newspaper_amount=15, year=datetime.now().year)
     subscription_conf10.save()
 
-    role1 = groups.GroupRole(name='Administrateur', rank = 10)
+    role1 = groups.GroupRole(name='Administrateur', rank=10)
     role1.save()
-    role2 = groups.GroupRole(name='Animateur', rank = 20)
+    role2 = groups.GroupRole(name='Animateur', rank=20)
     role2.save()
-    role3 = groups.GroupRole(name='President', rank = 30)
+    role3 = groups.GroupRole(name='President', rank=30)
     role3.save()
-    role4 = groups.GroupRole(name='vice-president', rank = 40)
+    role4 = groups.GroupRole(name='vice-president', rank=40)
     role4.save()
-    role5 = groups.GroupRole(name='Tresorier', rank = 50)
+    role5 = groups.GroupRole(name='Tresorier', rank=50)
     role5.save()
-    role6 = groups.GroupRole(name='Tresorier adjoint', rank = 60)
+    role6 = groups.GroupRole(name='Tresorier adjoint', rank=60)
     role6.save()
-    role7 = groups.GroupRole(name='Secretaire', rank = 70)
+    role7 = groups.GroupRole(name='Secretaire', rank=70)
     role7.save()
-    role8 = groups.GroupRole(name='Secretaire adjoint', rank = 80)
+    role8 = groups.GroupRole(name='Secretaire adjoint', rank=80)
     role8.save()
-    role9 = groups.GroupRole(name='Membre du bureau', rank = 90)
+    role9 = groups.GroupRole(name='Membre du bureau', rank=90)
     role9.save()
-    role10 = groups.GroupRole(name='Recruteur', rank = 100)
+    role10 = groups.GroupRole(name='Recruteur', rank=100)
     role10.save()
-    role11 = groups.GroupRole(name='Membre du Conseil d\'Administration', rank = 110)
+    role11 = groups.GroupRole(name='Membre du Conseil d\'Administration', rank=110)
     role11.save()
-    role12 = groups.GroupRole(name='Représentant d\'un groupe régional', rank = 120)
+    role12 = groups.GroupRole(name='Représentant d\'un groupe régional', rank=120)
     role12.save()
 
 #                                                                  #
@@ -1150,11 +1150,11 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     n7hy2003 = annuaire.Promo(year=y2003, track=n7hydro)
     n7hy2003.save()
 
-# Organizations
-    infofield = organizations.OrganizationActivityField(field = u"Informatique", code=u"ZZ", label=u"Informatique")
+    # Organizations
+    infofield = organizations.OrganizationActivityField(field=u"Informatique", code=u"ZZ", label=u"Informatique")
     infofield.save()
 
-    telecomfield = organizations.OrganizationActivityField(field = u"Telecom", code=u"TC", label=u"Télécom")
+    telecomfield = organizations.OrganizationActivityField(field=u"Telecom", code=u"TC", label=u"Télécom")
     telecomfield.save()
 
     babelstore = organizations.Organization(name=u"BABELSTORE", activity_field=infofield, size=2)
@@ -1266,7 +1266,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
 
     # Person
     lionel = annuaire.Person()
-    lionel.user = User.objects.create_user("lionel", "lionel@ain7.org","lionel")
+    lionel.user = User.objects.create_user("lionel", "lionel@ain7.org", "lionel")
     lionel.user.is_staff = True
     lionel.user.is_superuser = True
     lionel.user.save()
@@ -1274,7 +1274,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     lionel.first_name = "Lionel"
     lionel.last_name = "Porcheron"
     lionel.complete_name = "Lionel Porcheron"
-    lionel.birth_date = date(1978,11,18)
+    lionel.birth_date = date(1978, 11, 18)
     lionel.country = france
     lionel.save()
 
@@ -1348,15 +1348,15 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     lionel_position1.ain7member = lionel_ain7member
     lionel_position1.office = anywareoffice
     lionel_position1.fonction = "AdminSys"
-    lionel_position1.start_date = date(2005,01,01)
-    lionel_position1.end_date = date(2007,01,01)
+    lionel_position1.start_date = date(2005, 01, 01)
+    lionel_position1.end_date = date(2007, 01, 01)
     lionel_position1.save()
 
     lionel_position2 = annuaire.Position()
     lionel_position2.ain7member = lionel_ain7member
     lionel_position2.office = anywareoffice
     lionel_position2.fonction = "Big boss"
-    lionel_position2.start_date = date(2007,01,01)
+    lionel_position2.start_date = date(2007, 01, 01)
     lionel_position2.save()
 
     lionel_subscription1 = adhesions.Subscription()
@@ -1415,7 +1415,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     lionel_private.save()
 
     pierref = annuaire.Person()
-    pierref.user = User.objects.create_user("pierref", "pierre.fersing@inp-net.eu.org","pierref")
+    pierref.user = User.objects.create_user("pierref", "pierre.fersing@inp-net.eu.org", "pierref")
     pierref.user.is_staff = True
     pierref.user.is_superuser = True
     pierref.user.save()
@@ -1423,7 +1423,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     pierref.first_name = "Pierre"
     pierref.last_name = "Fersing"
     pierref.complete_name = "Pierre Fersing"
-    pierref.birth_date = date(1985,11,05)
+    pierref.birth_date = date(1985, 11, 05)
     pierref.country = france
     pierref.save()
 
@@ -1460,7 +1460,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     pierref_adresse.save()
 
     olivier = annuaire.Person()
-    olivier.user = User.objects.create_user("gauwino", "olivier.gauwin@laposte.net","gauwino")
+    olivier.user = User.objects.create_user("gauwino", "olivier.gauwin@laposte.net", "gauwino")
     olivier.user.is_staff = True
     olivier.user.is_superuser = True
     olivier.user.save()
@@ -1468,7 +1468,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     olivier.first_name = "Olivier"
     olivier.last_name = "Gauwin"
     olivier.complete_name = "Olivier Gauwin"
-    olivier.birth_date = date(1955,12,9)
+    olivier.birth_date = date(1955, 12, 9)
     olivier.country = france
     olivier.notes = u"Je ne sais pas à quoi sert ce champ mais je fais confiance à Alex!"
     olivier.save()
@@ -1548,15 +1548,15 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     olivier_position1.ain7member = olivier_ain7member
     olivier_position1.office = lepaysdesschtroumpfs
     olivier_position1.fonction = "Schtroumpf paresseux"
-    olivier_position1.start_date = date(2003,01,01)
-    olivier_position1.end_date = date(2007,01,01)
+    olivier_position1.start_date = date(2003, 01, 01)
+    olivier_position1.end_date = date(2007, 01, 01)
     olivier_position1.save()
 
     olivier_position2 = annuaire.Position()
     olivier_position2.ain7member = olivier_ain7member
     olivier_position2.office = lepaysdesschtroumpfs
     olivier_position2.fonction = "Grand Schtroumpf"
-    olivier_position2.start_date = date(2007,01,01)
+    olivier_position2.start_date = date(2007, 01, 01)
     olivier_position2.save()
 
     olivier_education1 = annuaire.EducationItem()
@@ -1564,16 +1564,16 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     olivier_education1.school = "ENSEEIHT"
     olivier_education1.diploma = u"Ingenieur en informatique et mathématiques appliquées"
     olivier_education1.details = u"Troisième année à la Technische Universität Darmstadt, Allemagne."
-    olivier_education1.start_date = date(2001,1,11)
-    olivier_education1.end_date = date(2003,8,23)
+    olivier_education1.start_date = date(2001, 1, 11)
+    olivier_education1.end_date = date(2003, 8, 23)
     olivier_education1.save()
 
     olivier_education2 = annuaire.EducationItem()
     olivier_education2.ain7member = olivier_ain7member
     olivier_education2.school = "Université d'Artois"
     olivier_education2.diploma = u"DEA Systèmes intelligents et applications"
-    olivier_education2.start_date = date(2003,9,1)
-    olivier_education2.end_date = date(2004,8,23)
+    olivier_education2.start_date = date(2003, 9, 1)
+    olivier_education2.end_date = date(2004, 8, 23)
     olivier_education2.save()
 
     olivier_leisure1 = annuaire.LeisureItem()
@@ -1589,7 +1589,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     olivier_leisure2.save()
 
     alex = annuaire.Person()
-    alex.user = User.objects.create_user("alex", "zigouigoui.garnier@laposte.net","alex")
+    alex.user = User.objects.create_user("alex", "zigouigoui.garnier@laposte.net", "alex")
     alex.user.is_staff = True
     alex.user.is_superuser = True
     alex.user.save()
@@ -1597,7 +1597,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     alex.first_name = "Alexandre"
     alex.last_name = "Garnier"
     alex.complete_name = "Alexandre Garnier"
-    alex.birth_date = date(1984,03,14)
+    alex.birth_date = date(1984, 03, 14)
     alex.country = france
     alex.save()
 
@@ -1654,11 +1654,11 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     alexpos.ain7member = alex_ain7member
     alexpos.office = priceminister
     alexpos.fonction = "dev"
-    alexpos.start_date = date(2006,8,17)
+    alexpos.start_date = date(2006, 8, 17)
     alexpos.save()
 
     laurent = annuaire.Person()
-    laurent.user = User.objects.create_user("laurent", "laurent07@gmail.com","laurent")
+    laurent.user = User.objects.create_user("laurent", "laurent07@gmail.com", "laurent")
     laurent.user.is_staff = True
     laurent.user.is_superuser = True
     laurent.user.save()
@@ -1666,7 +1666,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     laurent.first_name = "Laurent"
     laurent.last_name = "Bives"
     laurent.complete_name = "Laurent Bives"
-    laurent.birth_date = date(1984,03,14)
+    laurent.birth_date = date(1984, 03, 14)
     laurent.country = france
     laurent.save()
 
@@ -1719,7 +1719,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     laurent_adresse2.save()
 
     gui = annuaire.Person()
-    gui.user = User.objects.create_user("gui", "gui@ain7.com","gui")
+    gui.user = User.objects.create_user("gui", "gui@ain7.com", "gui")
     gui.user.is_staff = True
     gui.user.is_superuser = True
     gui.user.save()
@@ -1727,7 +1727,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     gui.first_name = "Guillaume"
     gui.last_name = "Bonnaffoux"
     gui.complete_name = "Guillaume Bonnaffoux"
-    gui.birth_date = date(1980,06,9)
+    gui.birth_date = date(1980, 06, 9)
     gui.country = france
     gui.save()
 
@@ -1784,7 +1784,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     tvn7.description = u"Le club vidéo de l'N7"
     tvn7.web_site = "http://www.tvn7.fr"
     tvn7.email = "tvn7@lists.bde.enseeiht.fr"
-    tvn7.creation_date = date(1992,01,01)
+    tvn7.creation_date = date(1992, 01, 01)
     tvn7.school = n7_school
     tvn7.save()
 
@@ -1812,7 +1812,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     net7.description = u"Le club informatique et réseau de l'N7"
     net7.web_site = "http://www.bde.enseeiht.fr"
     net7.email = "net7@bde.enseeiht.fr"
-    net7.creation_date = date(1992,01,01)
+    net7.creation_date = date(1992, 01, 01)
     net7.school = n7_school
     net7.save()
 
@@ -1833,7 +1833,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     inpnet.description = u"Le club informatique et réseau de l'INP"
     inpnet.web_site = "http://www.inp-net.eu.org"
     inpnet.email = "inp-net@bde.inp-toulouse.fr"
-    inpnet.creation_date = date(2002,07,01)
+    inpnet.creation_date = date(2002, 07, 01)
     inpnet.school = n7_school
     inpnet.save()
 
@@ -1850,7 +1850,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     inpnet_pierref.save()
 
     sylvie = annuaire.Person()
-    sylvie.user = User.objects.create_user("sylvie", "noreply@ain7.info","sylvie")
+    sylvie.user = User.objects.create_user("sylvie", "noreply@ain7.info", "sylvie")
     sylvie.user.save()
     sylvie.sex = 'F'
     sylvie.first_name = "Sylvie"
@@ -1874,7 +1874,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     sylvie_couriel1.preferred_email = True
 
     frederique = annuaire.Person()
-    frederique.user = User.objects.create_user("frederique", "noreply@ain7.info","frederique")
+    frederique.user = User.objects.create_user("frederique", "noreply@ain7.info", "frederique")
     frederique.user.save()
     frederique.sex = 'F'
     frederique.first_name = "Frédérique"
@@ -1899,7 +1899,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     frederique_couriel1.save()
 
     recruteur = annuaire.Person()
-    recruteur.user = User.objects.create_user("jeannot", "noreply@ain7.info","jeannot")
+    recruteur.user = User.objects.create_user("jeannot", "noreply@ain7.info", "jeannot")
     recruteur.user.save()
     recruteur.sex = 'M'
     recruteur.first_name = "Jeannot"
@@ -1950,7 +1950,7 @@ Si vous souhaitez contribuer ou donner des idées, n'hésitez pas à contacter l
     ain7telecom.slug = "telecom"
     ain7telecom.name = "Groupe Telecom"
     ain7telecom.type = gt4
-    ain7telecom.about ="""<p>Le Groupe professionnel TELECOM réunit les ingénieurs qui travaillent aux réseaux de Télécommunications.</p>
+    ain7telecom.about = """<p>Le Groupe professionnel TELECOM réunit les ingénieurs qui travaillent aux réseaux de Télécommunications.</p>
 
 <p>Un noyau d'ingénieurs N7 animent le groupe, préparent les manifestations extérieures (N7à9, Manifestions de prestige…) et recherchent le cas échéant le financement de celles-ci.</p>
 
@@ -2064,8 +2064,8 @@ Prochaines manifestations
 
     travel1 = voyages.Travel()
     travel1.label = u"Varsovie & croisière sur la Vistule"
-    travel1.start_date = date(2007,6,1)
-    travel1.end_date = date(2007,6,15)
+    travel1.start_date = date(2007, 6, 1)
+    travel1.end_date = date(2007, 6, 15)
     travel1.date = "Juin 2007"
     travel1.term = 14
     travel1.type = loopandboattravel
@@ -2076,8 +2076,8 @@ Prochaines manifestations
 
     travel2 = voyages.Travel()
     travel2.label = "Japon"
-    travel2.start_date = date(2007,10,15)
-    travel2.end_date = date(2007,10,27)
+    travel2.start_date = date(2007, 10, 15)
+    travel2.end_date = date(2007, 10, 27)
     travel2.type = looptravel
     travel2.thumbnail = "data/japon.jpg"
     travel2.prix = 3890
@@ -2351,8 +2351,8 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     travel3 = voyages.Travel()
     travel3.label = "Birmanie"
     travel3.date = u"Février 2008"
-    travel3.start_date = date(2008,2,7)
-    travel3.end_date = date(2008,2,20)
+    travel3.start_date = date(2008, 2, 7)
+    travel3.end_date = date(2008, 2, 20)
     travel3.type = loopandboattravel
     travel3.thumbnail = "data/birmanie.jpg"
     travel3.prix = 3550
@@ -2360,8 +2360,8 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
 
     travel4 = voyages.Travel()
     travel4.label = u"Mongolie / Pékin"
-    travel4.start_date = date(2008,6,8)
-    travel4.end_date = date(2008,6,23)
+    travel4.start_date = date(2008, 6, 8)
+    travel4.end_date = date(2008, 6, 23)
     travel4.type = looptravel
     travel4.thumbnail = "data/mongolie.jpg"
     travel4.prix = 2760
@@ -2376,8 +2376,8 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
 
     travel6 = voyages.Travel()
     travel6.label = "Mexique"
-    travel6.start_date = date(2007,2,1)
-    travel6.end_date = date(2007,2,15)
+    travel6.start_date = date(2007, 2, 1)
+    travel6.end_date = date(2007, 2, 15)
     travel6.date = "Février 2007"
     travel6.term = 15
     travel6.type = looptravel
@@ -2392,7 +2392,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
     travel7.price = 3600
     travel7.description = """
 <p>Ce voyage est une invite à découvrir le grandiose.  Le grandiose d’une terre traversée par une flèche rocheuse nommée Cordillère des Andes dont les sommets frisent ceux de l’Himalaya.  Le grandiose des déserts salins d’altitude, des volcans et geysers perchés à plus de 4000 mètres, des glaciers monumentaux, proches cousins de ceux de l’Antarctique …  Et vous constaterez qu’entre les deux bouts de ce territoire chilien de plus de 4000 km de long, en Atacama et Patagonie, la vie végétale et animale s’évertue avec la même obstination à s’installer dans des endroits parfaitement impossibles !  Cela dit, en remontant aux sources des civilisations andines, il vous restera à faire à peu près le même constat pour la vie humaine.</p>
- 
+
 <h4>1ER JOUR – Mercredi : PARIS  Q  SANTIAGO DU CHILI</h4>
 
 <p>Décollage à destination de Santiago du Chili sur vol régulier.</p>
@@ -2437,7 +2437,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
 <p>Retour à San Pedro et visite du village, haut lieu de la culture “atacameña”. Au détour de ses ruelles en terre battue, la jolie place centrale accueille une étonnante église en adobe blanc construite au 17ème siècle et le musée archéologique fondé dans les années 50 par le Père Le Paige, missionnaire et archéologue belge. Sa magnifique collection retrace toute l’histoire de cette région depuis l’implantation des atacameños, il y a environ 11.000 ans.</p>
 
 <p>Dîner au restaurant Ckuna et logement.</p>
-  
+
 <h4>6EME JOUR – Lundi : SAN PEDRO / GEYSERS DU TATIO / VILLAGES INDIGENES / CALAMA</h4>
 
 <p>Départ vers les geysers du Tatio (4320 m, le point le plus haut du voyage) pour observer les phénomènes géothermiques. C’est à ce moment de la journée quand la différence de température entre le sol gelé et l’eau, qui sort, est la plus importante que les fumerolles générées par les jets de vapeur y sont les plus spectaculaires ! Les éruptions bouillonnantes chargées de sédiments ont créé à travers les âges de superbes reliefs moirés sur la roche.</p>
@@ -2455,7 +2455,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
 <p>Déjeuner à bord.</p>
 
 <p>A l'arrivée à Punta Arenas, accueil et installation à l’hôtel. Dîner et nuit à l’hôtel.</p>
-  
+
 <h4>8EME JOUR – Mercredi : PUNTA ARENAS  / PUERTO NATALES</h4>
 
 <img src="/site_media/data/tores_del_paine.jpg" alt="tores_del_paine">
@@ -2467,13 +2467,13 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
 
 <p>Arrivée à Puerto Natales, port tranquille le long du fjord Ultima Esperanza, réputé pour ses restaurants spécialisés dans le saumon et les fruits de mer comme la centolla, une araignée de mer d’une taille impressionnante.</p>
 
- 
+
 <h4>9EME JOUR – Jeudi : EXCURSION GLACIERS BALMACEDA ET SERRANO</h4>
 
 <img src="/site_media/data/glacier_serrano_2.jpg" alt="glacier_serrano_2">
 <p>Nous nous rendrons directement au port local vers 8h30 pour embarquer sur le bateau "21 de Mayo" et commencer la navigation dans le fjord de la "Ultima Esperanza" en direction du nord ouest avec comme destination le glacier Balmaceda et Serrano. Nous naviguerons durant 3 heures et pourrons observer, entre autres, les cygnes à col noir et les colonies de loups de mer. Arrivée en fin de matinée au port de "Puerto Toro" après avoir observé à distance le glacier suspendu de Balmaceda, puis marche d'une demi heure (1 km) à travers la forêt native de Lengas d'où nous pourrons observer le magnifique glacier Serrano.</p>
 
-  
+
 <h4>10EME JOUR – Vendredi :  PARC NATIONAL TORRES DEL PAINE</h4>
 
 <p>Journée d'excursion à la découverte du spectaculaire Parc National Torres del Paine, d'une beauté austère et sauvage. Nous nous arrêterons d'abord à la grotte du Milodon, cavité de plus de 200 mètres de profondeur et de 30 mètres de haut, où l'explorateur Eberhard retrouva les restes d'un herbivore préhistorique de 12000 ans d'âge.</p>
@@ -2493,7 +2493,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
 <p>Départ vers l'aéroport de Punta Arenas (environ 4h de route) en traversant de vastes pampas desséchées que se partagent quelques immenses estancias de 50 000 hectares, dont les terres sont  couvertes à perte de vue de moutons. L’espace vital moyen d’un mouton en Patagonie est de 2 hectares…</p>
 
 <p>Envol pour Santiago, correspondance en fin d'après-midi sur vol régulier à destination de Paris.</p>
- 
+
 <h4>Jour 12 – Dimanche : PARIS<h4>
 
 <h3>EXTENSION EN PATAGONIE CHILIENNE</h3>
@@ -2524,7 +2524,7 @@ http://www.nta-france.com/ryokanpass/fukuchiin.htm</a></p>
 
 <img src="/site_media/data/skorpios_d.jpg" alt="skorpios_d">
 <p>Visite du glacier Amalia, situé dans la zone centrale des glaciers du Sud. Vers 11h, continuation de la navigation à travers le fiord Calvo, où nous pourrons voir quatre glaciers, de différentes formes et couleurs. Excursion à bord du brise-glace “Capitán Constantino”. Le bateau s’approchera du glacier Constantino, seulement si les conditions météo le permettent. A 15h, approche des glaciers Alipio et Fernando toujours sur le brise-glace. Retour à bord du Skorpios III et navigation à travers le fiord Peel.</p>
- 
+
 <h4>15EME JOUR – Mercredi : FJORD LAS MONTANAS / DETROIT DE KIRKE / FJORD ULTIMA ESPERANZA</h4>
 
 <p>Visite du fjord Montanas, où nous pourrons voir cinq petits glaciers, qui dégringolent des collines pour se jeter dans la mer. Promenade au glacier Bernal. Vers 16h, départ du fjord Montanas pour une navigation dans le détroit de Kirke. Mouillage pour la nuit dans le fjord Utima Esperanza. Dîner du capitaine.</p>
@@ -2573,9 +2573,9 @@ Prix par personne en chambre double (pont  acropolis) : 2360€
 <p>Destination de Erevan sur vol régulier Armavia. A l'arrivée à l'aéroport de Zvarnots, transfert à l’hôtel Metropol</p>
 
 <p>4 étoiles normes locales (www.metropol.am). Installation, dîner et nuit à l’hôtel.</p>
- 
+
 <h4>2EME JOUR  –  Mardi 18 mai : EREVAN</h4>
- 
+
 <p>Départ pour un tour panoramique de la capitale, l’une des villes les plus anciennes du monde. Une inscription cunéiforme gravée sur pierre sur ordre du roi Argishti I en 782 av. J.C. indique que le roi Argishti construisit cette forteresse et la nomma Erebouni. Ce toponyme est l’origine étymologique du nom d’Erevan. Construite sur 5 collines, Erevan est une ville rose, non seulement par la couleur du tuf (pierre d'origine volcanique) rose et ocre recouvrant les façades, ornées de motifs inspirés de l'architecture médiévale, mais aussi lorsque le soleil levant illumine les sommets enneigés du mont Ararat à l’ouest Le centre, quant à lui, est essentiellement composé de longues avenues ombragées aboutissant sur de grandes places bordées de constructions monumentales de type soviétique. Les urbanistes ont dû se plier aux exigences de la nature et composer avec le relief. Effectivement, la ville est étagée entre 950 et 1200 mètres d'altitude, et s'adosse aux gorges du fleuve Hrazdan.</p>
 
 <p>Découverte de la Citadelle d’Erébouni, qui fut élevée en 782 par le roi d’Ourartou Arghichti 1er et son intéressant musée.</p>
@@ -2616,7 +2616,7 @@ Prix par personne en chambre double (pont  acropolis) : 2360€
 <h4>Dîner et nuit à l’hôtel Dzoraguet</h4>
 
 <h4>5EME JOUR  –  Vendredi 21 mai : LAC SEVAN / REGION DE GOCHAVANK/ EREVAN (270 km)</h4>
- 
+
 <p>Départ pour Alaverdi, située au nord de l’Arménie, en direction de la frontière avec la Géorgie. Visite de la basilique du 6e siècle dans le village d'Odzoune. Puis du monastère de Haghpat 10ème et 13ème  siècles ; ce dernier, situé sur un haut plateau entouré de précipices et de remparts fortifiés, est inscrit au Patrimoine Mondiale de l'Unesco avec le monastère de Sanahin. Ces deux monastères byzantins situés dans la région de Tumanyian, datent de la période de prospérité de la dynastie de Kiurikian et furent d'importants centres de diffusion de la culture.</p>
 
 <p>Déjeuner dans un restaurant local. L'après-midi, visite du complexe monastique de Sanahin Xe-XIIIe s. C'est là que se trouvait au XIe s. une ancienne académie où étaient enseignés la théologie et les beaux-arts.</p>
@@ -2691,7 +2691,7 @@ Prix par personne en chambre double (pont  acropolis) : 2360€
 <p>Décollage sur vol régulier QATAR AIRWAYS à destination de KATHMANDOU, via Doha.</p>
 
 <h4>JOUR 02 : KATHMANDU - Patan – Bouddanath – Swayambunath - KATHMANDU</h4>
- 
+
 <img src="/site_media/data/katmandou.jpg" alt="katmandou">
 <p>Départ pour une excursion à Patan, ancienne capitale du Népal, appelée autrefois Latitpur, ville musée par excellence. Durbar Square de Patan constitue le point central des visites. La place est remplie d’anciens palais, temples et chapelles, remarquables pour leurs sculptures exquises. Le Durbar Square comprend trois cours principales : le Central Mul Chowk, Sundari Chowk, et Keshar Narayan Chowk. Au centre de Sundari Chowk se trouve un chef-d’oeuvre d’architecture de pierre, le Royal Bath, appelé Tushahity.</p>
 
@@ -2756,7 +2756,7 @@ Prix par personne en chambre double (pont  acropolis) : 2360€
 <p>La visite se poursuit avec le temple de Dakshinkali, l’une des plus importantes déesses de l’hindouisme. Les pèlerins se rendent au temple pour prier et offrir des sacrifices d’animaux à la déesse.</p>
 
 <p>Retour a Kathmandu. Nuit à Kathmandu.</p>
- 
+
 <h4>JOUR  12 : KATHMANDU - Dhulikhel – KATHMANDU</h4>
 
 <img src="/site_media/data/sculpture.jpg" alt="sculpture">
@@ -2919,4 +2919,3 @@ Petit déjeuner, temps libre jusqu’au transfert vers l’aéroport internation
     error2.comment = "Ouille!"
     error2.issue = "issue"
     error2.save()
-
