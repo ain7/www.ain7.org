@@ -21,16 +21,16 @@
 #
 #
 
+from django.apps import AppConfig
 from django.db.models import signals
 
-from ain7.annuaire import models as annuaire_app
 
-
-def filldb(app, created_models, verbosity, **kwargs):
+def filldb(sender, **kwargs):
     """filling the database with demo datas"""
+
     from ain7 import filldb
-    if (annuaire_app.Person in created_models
-            and kwargs.get('interactive', True)):
+
+    if kwargs.get('interactive', True):
         msg = "\nYou just installed AIn7 portal, which means you don't have " \
             "any data defined.\nWould you like to fill your db now? (yes/no): "
         confirm = raw_input(msg)
@@ -42,4 +42,9 @@ def filldb(app, created_models, verbosity, **kwargs):
                 filldb.filldb()
             break
 
-signals.post_migrate.connect(filldb, sender=annuaire_app)
+
+class FillDb(AppConfig):
+    name = "ain7.annuaire"
+
+    def ready(self):
+        signals.post_migrate.connect(filldb, sender=self)

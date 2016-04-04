@@ -179,6 +179,7 @@ def subscription_add(request, user_id=None, key_id=None, config_id=None):
     )
     form = SubscriptionForm(request.POST or None)
 
+    # filldb should be launched before!
     default_configuration = SubscriptionConfiguration.objects.get(
         year=year_current,
         type=SubscriptionConfiguration.TYPE_REGULAR,
