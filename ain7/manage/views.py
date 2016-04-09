@@ -269,7 +269,7 @@ def subscriptions_stats(request, the_year=datetime.date.today().year):
         bienfaiteur_query = Q(
             member__promos__year__year__lte=last_promo,
             dues_amount__gte=bienfaiteur_price,
-            start_year=this_year,
+            start_year=year,
             validated=True,
         )
         bienfaiteur_queryset = Subscription.objects.filter(
