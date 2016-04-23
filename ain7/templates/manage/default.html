@@ -107,7 +107,7 @@
           <a href="{% url "ain7.emploi.views.job_edit" notification.job_proposal.id %}">
              {% trans "here" %}</a>
           {% trans "or directly validate it" %} 
-          <a href="{% url "ain7.emploi.views.job_validate" notification.job_proposal.id %}">
+          <a href="{% url "job-validate" notification.job_proposal.id %}">
             {% trans "here" %}</a>.
         
         {% else %}

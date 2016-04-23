@@ -36,7 +36,7 @@ urlpatterns = [
     url(r'^(?P<event_id>\d+)/edit/$', views.event_edit),
     url(r'^(?P<event_id>\d+)/contact/$', views.event_contact),
     url(r'^(?P<event_id>\d+)/organizer/add/$', views.event_organizer_add),
-    url(r'^(?P<event_id>\d+)/organizer/(?P<organizer_id>\d+)/delete/$', views.event_organizer_delete),
+    url(r'^(?P<event_id>\d+)/organizer/(?P<organizer_id>\d+)/delete/$', views.event_organizer_delete, name='event-organizer-delete'),
     url(r'^(?P<event_id>\d+)/organizer/(?P<organizer_id>\d+)/swap_email_notif/$', views.event_swap_email_notif),
     url(r'^(?P<event_id>\d+)/yes/$', views.event_attend_yes),
     url(r'^(?P<event_id>\d+)/no/$', views.event_attend_no),
