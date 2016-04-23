@@ -16,7 +16,7 @@
     <th>{% if forloop.first %}{% trans "Organizers" %}{% endif %}</th>
     <td>{{ eventorg.organizer }}&nbsp;
         ({% if eventorg.send_email_for_new_subscriptions %}{% trans "email sent when subscription" %}{% else %}{% trans "no email sent when subscription" %}{% endif %}&nbsp;<a class="changelink" href="{% url "ain7.news.views.event_swap_email_notif" event.id eventorg.organizer.id %}">{% trans "change" %}</a>)&nbsp;
-        <a href="{% url "ain7.news.views.event_organizer_delete" event.id eventorg.organizer.id %}" class="deletelink">
+        <a href="{% url "event-organizer-delete" event.id eventorg.organizer.id %}" class="deletelink">
       {% trans "Delete" %}</a></td>
   </tr>
 {% endfor %} 
