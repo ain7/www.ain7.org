@@ -60,9 +60,9 @@
   </td>
   <td>
     {% if not subscription.validated %}
-      <a class="savelink" href="{% url "ain7.adhesions.views.subscription_validate" subscription.id %}">
+      <a class="savelink" href="{% url "subscription-validate" subscription.id %}">
       {% trans "Validate" %}</a><br/>
-      <a class="deletelink" href="{% url "ain7.adhesions.views.subscription_delete" subscription.id %}">
+      <a class="deletelink" href="{% url "subscription-delete" subscription.id %}">
       {% trans "Delete" %}</a>
     {% endif %}
   </td>
