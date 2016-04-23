@@ -491,11 +491,10 @@ def event_organizer_add(request, event_id):
         )
 
 
-confirmation_required(lambda event_id=None, organizer_id=None : 
-    str(get_object_or_404(Person, pk=organizer_id)), 
+@confirmation_required(lambda event_id=None, organizer_id=None:
+    str(get_object_or_404(Person, pk=organizer_id)),
     'evenements/base.html',
     _('Do you really want to remove this organizer'))
-
 @access_required(groups=['ain7-ca','ain7-secretariat','ain7-contributeur'])
 def event_organizer_delete(request, event_id, organizer_id):
     """delete organizer"""
