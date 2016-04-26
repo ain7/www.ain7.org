@@ -27,19 +27,19 @@ from ain7.manage import views
 
 urlpatterns = [
     url(r'^$', views.index),
-                      
+
     # Errors
     url(r'^errors/$', views.errors_index, name='errors-index'),
     url(r'^errors/(?P<error_id>\d+)/$', views.error_details, name='error-details'),
 
     # Payment
-    url(r'^payments/$', views.payments_index),
+    url(r'^payments/$', views.payments_index, name='payments-index'),
     url(r'^payments/add/$', views.payment_edit),
     url(r'^payments/(?P<payment_id>\d+)/$', views.payment_details, name='payment-details'),
-    url(r'^payments/(?P<payment_id>\d+)/edit/$', views.payment_edit),
+    url(r'^payments/(?P<payment_id>\d+)/edit/$', views.payment_edit, name='payment-edit'),
     url(r'^payments/deposit/$', views.payments_deposit_index, name='payments-deposit-index'),
-    url(r'^payments/deposit/(?P<deposit_id>\d+)/$', views.payments_deposit),
-    url(r'^payments/deposit/(?P<deposit_id>\d+)/deposited/(?P<last_deposit_id>\d+)/$', views.payments_mark_deposited),
+    url(r'^payments/deposit/(?P<deposit_id>\d+)/$', views.payments_deposit, name='payments-deposit-details'),
+    url(r'^payments/deposit/(?P<deposit_id>\d+)/deposited/(?P<last_deposit_id>\d+)/$', views.payments_mark_deposited, name='payments-mark-deposited'),
 
     # Registrations
     url(r'^registrations/$', views.registrations_index, name='registrations-index'),
@@ -47,7 +47,8 @@ urlpatterns = [
     url(r'^registrations/(?P<person_id>\d+)/delete/$', views.registration_delete, name='registration-delete'),
 
     # Subscriptions
-    url(r'^subscriptions/$', views.subscriptions_stats),
+    url(r'^subscriptions/$', views.subscriptions_stats,
+        name='subscriptions-stats'),
     url(
         r'^subscriptions/(?P<the_year>\d+)/$', views.subscriptions_stats,
         name='subscriptions-stats-per-year',
@@ -65,7 +66,7 @@ urlpatterns = [
         {'normal': False, 'magazine': True}, name='subscribers-magazine-csv',
     ),
 
-    url(r'^sitestats/$', views.site_stats),
+    url(r'^sitestats/$', views.site_stats, name='site-stats'),
 
     # mailings
     url(r'^mailings/$', views.mailings_index, name='mailings-index'),

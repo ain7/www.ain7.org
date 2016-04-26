@@ -135,9 +135,9 @@ class NewsItem(LoggedClass):
     def get_absolute_url(self):
         """news item url"""
         if self.date:
-            return reverse('ain7.news.views.event_details', args=[self.id])
+            return reverse('event-details', args=[self.id])
         else:
-            return reverse('ain7.news.views.details', args=[self.slug])
+            return reverse('news-details', args=[self.slug])
 
     def save(self):
         """news item save method"""

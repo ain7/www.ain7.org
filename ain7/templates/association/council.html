@@ -16,7 +16,7 @@
     {% endif %}
 </td>
 <td>
-  <a href="{% url "ain7.annuaire.views.details" r.person.user.id %}">
+  <a href="{% url "member-details" r.person.user.id %}">
   {{ r.person }}</a><br>
   (<i>{{ r.person.ain7member.track }} {{ r.person.ain7member.promo }}</i>)
 {% if superadmin or secretariat_member %}
@@ -32,7 +32,7 @@
 </table>
 
 {% if superadmin or secretariat_member %}
-<p><a class="btn btn-primary" href="{% url "ain7.association.views.edit_council_role" %}" class="addlink"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
+<p><a class="btn btn-primary" href="{% url "council-role-add" %}" class="addlink"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 {% endif %}
 
 {% endblock %}

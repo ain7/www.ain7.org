@@ -5,8 +5,8 @@
 
 <ul class="list-inline">
 {% if superadmin or ca_member or secretariat_member or contributeur %}
-<li><a class="btn btn-primary" href="{% url "pages.views.edit" text.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></li>
-<li><a class="btn btn-primary" href="{% url "ain7.groups.views.edit" %}"><i class="fa fa-plus fa-lg"></i> {% trans "Add new group" %}</a></li>
+<li><a class="btn btn-primary" href="{% url "text-edit" text.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></li>
+<li><a class="btn btn-primary" href="{% url "group-edit" %}"><i class="fa fa-plus fa-lg"></i> {% trans "Add new group" %}</a></li>
 {% endif %}
 </ul>
 

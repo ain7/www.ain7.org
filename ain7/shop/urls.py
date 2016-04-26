@@ -27,5 +27,5 @@ from ain7.shop import views
 
 urlpatterns = [
     url(r'^$', views.index),
-    url(r'^order/(?P<order_id>\d+)/pay/$', views.order_pay),
+    url(r'^order/(?P<order_id>\d+)/pay/$', views.order_pay, name='order-pay'),
 ]

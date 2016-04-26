@@ -79,10 +79,10 @@ class Travel(LoggedClass):
             return value[0]['subscriber_number']
         else:
             return 0
-    
+
     def get_absolute_url(self):
         """travel absolute url"""
-        return reverse('ain7.voyages.views.details', args=[self.id])
+        return reverse('travel-details', args=[self.id])
 
     class Meta:
         """travel meta"""

@@ -23,7 +23,7 @@
         {% endif %}
     </td>
     <td>
-    <a href="{% url "ain7.annuaire.views.details" r.person.user.id %}">{{ r.person }}</a><br/>
+    <a href="{% url "member-details" r.person.user.id %}">{{ r.person }}</a><br/>
     (<i>{{ r.person.ain7member.track }} {{ r.person.ain7member.promo }}</i>)
     {% if superadmin or secretariat_member %}
     </td><td>

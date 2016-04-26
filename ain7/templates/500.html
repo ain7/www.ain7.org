@@ -17,12 +17,12 @@
 
     <p>{% trans "An error happened! Please retry later, if the error persists, please contact the administrator." %}<br/>
     <p>{% trans "You can note the error number to ask administrator what goes wrong." %}<br/>
-    <a href="{% url "ain7.pages.views.homepage" %}">Back to home page</a><br/>
+    <a href="{% url "homepage" %}">Back to home page</a><br/>
     </p>
     </div>
 
         <div id="footer">
-            <p> &copy; Copyright 2009-2016 <a href="{% url "ain7.pages.views.apropos" %}">AIn7</a> {{ portal_version }}</p>
+            <p> &copy; Copyright 2009-2016 <a href="{% url "apropos" %}">AIn7</a> {{ portal_version }}</p>
         </div>
 </body>
 </html>

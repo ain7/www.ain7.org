@@ -285,7 +285,7 @@ def event_rsvp(request, event_id, rsvp_id=None):
 
             if not myself:
                 return HttpResponseRedirect(
-                    reverse('ain7.news.views.event_attendees', args=[event.id])
+                    reverse(event_attendees, args=[event.id])
                 )
 
             if event.package:
@@ -307,11 +307,11 @@ def event_rsvp(request, event_id, rsvp_id=None):
 
                 if order.amount() > 0:
                     return HttpResponseRedirect(
-                        reverse('ain7.shop.views.order_pay', args=[order.id])
+                        reverse('order-pay', args=[order.id])
                     )
 
             return HttpResponseRedirect(
-                reverse('ain7.news.views.event_details', args=[event.id])
+                reverse(event_details, args=[event.id])
             )
 
     return render(request, 'evenements/rsvp.html', {
@@ -332,7 +332,7 @@ def event_attend_yes(request, event_id):
     rsvp = event.rsvp_answer(request.user.person, yes=True)
 
     return HttpResponseRedirect(
-        reverse('ain7.news.views.event_rsvp', args=[event.id, rsvp.id])
+        reverse(event_rsvp, args=[event.id, rsvp.id])
     )
 
 

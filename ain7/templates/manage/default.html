@@ -20,7 +20,7 @@
 
     {% if notification.organization_proposal %}
 
-      <a href="{% url "ain7.annuaire.views.details" notification.organization_proposal.author.user.id %}">{{ notification.organization_proposal.author }}</a> 
+      <a href="{% url "member-details" notification.organization_proposal.author.user.id %}">{{ notification.organization_proposal.author }}</a> 
       {% ifequal notification.organization_proposal.action 0 %}
         {% trans "created the organization" %}
         <em>{{ notification.organization_proposal.modified }}</em>. 
@@ -58,7 +58,7 @@
 
       {% if notification.office_proposal %}
 
-        <a href="{% url "ain7.annuaire.views.details" notification.office_proposal.author.user.id %}">{{ notification.office_proposal.author }}</a> 
+        <a href="{% url "member-details" notification.office_proposal.author.user.id %}">{{ notification.office_proposal.author }}</a> 
 
         {% ifequal notification.office_proposal.action 0 %}
           {% trans "created the office" %}
@@ -104,7 +104,7 @@
         {% if notification.job_proposal %}
 
           {% trans "A job offer " %}{{ job_offer.title }}{% trans " has been proposed. To publish it, check the data" %} 
-          <a href="{% url "ain7.emploi.views.job_edit" notification.job_proposal.id %}">
+          <a href="{% url "job-edit" notification.job_proposal.id %}">
              {% trans "here" %}</a>
           {% trans "or directly validate it" %} 
           <a href="{% url "job-validate" notification.job_proposal.id %}">
