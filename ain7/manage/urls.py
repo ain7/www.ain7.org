@@ -76,5 +76,5 @@ urlpatterns = [
     url(r'^mailings/(?P<mailing_id>\d+)/testteam/$', views.mailing_sendteam, name='mailing-test-send-team'),
     url(r'^mailings/(?P<mailing_id>\d+)/send/$', views.mailing_ready, name='mailing-send'),
     url(r'^mailings/(?P<mailing_id>\d+)/csv/$', views.mailing_export, name='mailing-csv'),
-    url(r'^mailings/(?P<mailing_id>\d+)/view/$', views.mailing_view, name='maing-view'),
+    url(r'^mailings/(?P<mailing_id>\d+)/view/$', views.mailing_view, name='mailing-view'),
 ]

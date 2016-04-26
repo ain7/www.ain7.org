@@ -24,7 +24,7 @@
 
 <p>{{ mailing.description }}</p>
 <ul>
-<li><a href="{% url "maing-view" mailing.id %}">{% trans "Mailing view" %}</a></li>
+<li><a href="{% url "mailing-view" mailing.id %}">{% trans "Mailing view" %}</a></li>
 {% if not mailing.approved_by %}
 <li><a href="{% url "mailing-test-send" mailing.id %}">{% trans "Send a test to myself" %}</a></li>
 <li><a href="{% url "mailing-test-send-team" mailing.id %}">{% trans "Send a test to the tester team" %}</a></li>
