@@ -25,7 +25,7 @@
 
 <ul>
     {% for person in persons %}
-        <li class="person"><a href="{% url "ain7.annuaire.views.details" person.user.id %}">
+        <li class="person"><a href="{% url "member-details" person.user.id %}">
             {{ person.last_name }} 
             {% if person.maiden_name %} ({{ person.maiden_name }}) {% endif %}
             {{ person.first_name }}</a>

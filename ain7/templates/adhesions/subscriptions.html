@@ -28,7 +28,7 @@
 <tbody>
 {% for subscription in subscriptions_list %}
 <tr>
-  <td><a href="{% url "ain7.annuaire.views.details" subscription.member.person.user.id %}">{{ subscription.member.person.last_name }} {{ subscription.member.person.first_name }}</a></td>
+  <td><a href="{% url "member-details" subscription.member.person.user.id %}">{{ subscription.member.person.last_name }} {{ subscription.member.person.first_name }}</a></td>
   <td align="center">
     {% ifnotequal subscription.start_year subscription.end_year %}
       {% blocktrans with subscription.start_year as start and subscription.end_year as end %}{{ start }} to {{ end }}{% endblocktrans %}
@@ -55,7 +55,7 @@
   </td>
   <td>
     {% if subscription.payment %}
-    <a href="{% url "ain7.manage.views.payment_details" subscription.payment.id %}">#{{ subscription.payment.id }}</a> {% trans "by" %} {{ subscription.payment.get_type_display }}
+    <a href="{% url "payment-details" subscription.payment.id %}">#{{ subscription.payment.id }}</a> {% trans "by" %} {{ subscription.payment.get_type_display }}
     {% endif %}
   </td>
   <td>

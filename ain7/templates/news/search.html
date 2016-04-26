@@ -22,7 +22,7 @@
 <p class="text-center">{% show_pages %}</p> 
 <ul>
     {% for news_item in list_news %}
-        <li><a href="{% url "ain7.news.views.details" news_item.slug %}">{{ news_item.title }}</a></li>
+        <li><a href="{% url "news-details" news_item.slug %}">{{ news_item.title }}</a></li>
     {% endfor %}
 </ul>
 <p class="text-center">{% show_pages %}</p> 

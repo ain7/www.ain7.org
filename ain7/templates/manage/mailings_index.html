@@ -17,13 +17,13 @@
         {{ mailing.description }} <br/>
         {% endif %}
         {% if mailing.created_at and mailing.created_by %}
-        <i>{% trans "Created by" %} <a href="{% url "ain7.annuaire.views.details" mailing.created_by.user.id %}">{{ mailing.created_by }}</a> {% trans "the" %} {{ mailing.created_at|date:"l j F Y H:i" }}</i><br/>
+        <i>{% trans "Created by" %} <a href="{% url "member-details" mailing.created_by.user.id %}">{{ mailing.created_by }}</a> {% trans "the" %} {{ mailing.created_at|date:"l j F Y H:i" }}</i><br/>
         {% endif %}
         {% if mailing.modified_at and mailing.modified_by %}
-        <i>{% trans "Modified by" %} <a href="{% url "ain7.annuaire.views.details" mailing.modified_by.user.id %}">{{ mailing.modified_by }}</a> {% trans "the" %} {{ mailing.modified_at|date:"l j F Y H:i" }}</i><br/>
+        <i>{% trans "Modified by" %} <a href="{% url "member-details" mailing.modified_by.user.id %}">{{ mailing.modified_by }}</a> {% trans "the" %} {{ mailing.modified_at|date:"l j F Y H:i" }}</i><br/>
         {% endif %}
         {% if mailing.approved_by and mailing.approved_at %}
-        <i>{% trans "Approved by" %} <a href="{% url "ain7.annuaire.views.details" mailing.approved_by.user.id %}">{{ mailing.approved_by }}</a> {% trans "the" %}{{ mailing.approved_at|date:"l j F Y H:i" }}</i><br/>
+        <i>{% trans "Approved by" %} <a href="{% url "member-details" mailing.approved_by.user.id %}">{{ mailing.approved_by }}</a> {% trans "the" %}{{ mailing.approved_at|date:"l j F Y H:i" }}</i><br/>
         {% endif %}
         {% if mailing.sent_at %}
         <i>{% trans "Sent on" %} {{ mailing.sent_at|date:"l j F Y H:i" }} {% trans "to" %} {{ mailing.mail_to.label }}</i>  ({{ mailing.mailingrecipient_set.count }} {% trans "persons" %})<br/>

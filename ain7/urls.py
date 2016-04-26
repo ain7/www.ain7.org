@@ -94,7 +94,7 @@ urlpatterns = [
     url(r'^welcome/', annuaire_views.welcome),
 
     # Pages particulieres au contenu pseudo statique
-    url(r'^apropos/$', pages_views.apropos),
+    url(r'^apropos/$', pages_views.apropos, name='apropos'),
     url(r'^mentions_legales/$', pages_views.mentions_legales),
     url(r'^lostpassword/$', pages_views.lostpassword, name='lostpassword'),
     url(r'^lostpassword/([A-Za-z0-9.\-_]+)/$', pages_views.changepassword),

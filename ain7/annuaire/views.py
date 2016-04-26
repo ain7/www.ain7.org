@@ -125,7 +125,7 @@ def change_credentials(request, user_id):
 
     if not is_myself:
         return HttpResponseRedirect(
-            reverse('ain7.annuaire.views.details', args=[person.id]))
+            reverse(details, args=[person.id]))
 
     person = get_object_or_404(Person, pk=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
@@ -679,7 +679,7 @@ def position_delete(request, user_id=None, position_id=None):
     return ain7_generic_delete(
         request,
         get_object_or_404(Position, pk=position_id),
-        reverse('annuaire-edit', args=[user_id])+'#prof_exp',
+        reverse(edit, args=[user_id])+'#prof_exp',
         _('Position successfully deleted.')
     )
 
@@ -730,7 +730,7 @@ def education_delete(request, user_id=None, education_id=None):
     return ain7_generic_delete(
         request,
         get_object_or_404(EducationItem, pk=education_id),
-        reverse('annuaire-edit', args=[user_id])+'#education',
+        reverse(edit, args=[user_id])+'#education',
         _('Education informations deleted successfully.')
     )
 
@@ -778,7 +778,7 @@ def leisure_delete(request, user_id=None, leisure_id=None):
     return ain7_generic_delete(
         request,
         get_object_or_404(LeisureItem, pk=leisure_id),
-        reverse('annuaire-edit', args=[user_id])+'#leisure',
+        reverse(edit, args=[user_id])+'#leisure',
         _('Leisure informations successfully deleted.')
     )
 
@@ -830,7 +830,7 @@ def publication_delete(request, user_id=None, publication_id=None):
     return ain7_generic_delete(
         request,
         get_object_or_404(PublicationItem, pk=publication_id),
-        reverse('annuaire-edit', args=[user_id])+'#publications',
+        reverse(edit, args=[user_id])+'#publications',
         _('Publication informations deleted successfully.')
     )
 

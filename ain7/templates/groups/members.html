@@ -17,7 +17,7 @@
             <img src="{% static "images/nobody.png" %}" height="50" alt="{{ member.complete_name }}"/>
             {% endif %}
             </td><td>
-            <a href="{% url "ain7.annuaire.views.details" member.user.id %}">
+            <a href="{% url "member-details" member.user.id %}">
             <b>{{ member.last_name }} 
             {% if member.maiden_name %}
               ({{ member.maiden_name }})
@@ -41,9 +41,9 @@
             {% endif %}
         {% if superadmin or secretariat_member %}
         </td><td>
-        <a href="{% url "ain7.groups.views.member_edit" group.slug member.id %}" class="changelink">
+        <a href="{% url "group-member-edit" group.slug member.id %}" class="changelink">
 {% trans "Modify" %}</a><br/>
-           <a href="{% url "ain7.groups.views.member_delete" group.slug member.id %}" class="deletelink">
+           <a href="{% url "group-member-delete" group.slug member.id %}" class="deletelink">
            {% trans "Delete" %}</a>
         {% endif%}
             </td></tr>

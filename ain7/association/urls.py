@@ -29,7 +29,7 @@ from ain7.association import views
 urlpatterns = [
     url(r'^$', views.index, name='association-index'),
     url(r'^council/$', views.council, name='council-details'),
-    url(r'^council/add/$', views.edit_council_role),
+    url(r'^council/add/$', views.edit_council_role, name='council-role-add'),
     url(r'^council/edit/(?P<role_id>\d+)/$', views.edit_council_role, name='council-role-edit'),
     url(r'^council/delete/(?P<role_id>\d+)/$', views.delete_council_role, name='council-role-delete'),
     url(r'^contact/$', views.contact, name='contact'),

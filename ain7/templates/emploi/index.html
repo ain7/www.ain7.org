@@ -10,7 +10,7 @@
 
 {% if superadmin or ca_member or secretariat_member or contributeur %}
 <ul class="list-inline">
-<li><a class="btn btn-primary" href="{% url "pages.views.edit" text.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></li>
+<li><a class="btn btn-primary" href="{% url "text-edit" text.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></li>
 </ul>
 {% endif %}
 
@@ -60,9 +60,9 @@
     <tbody>
 {% for emploi in job_offers %}
 <tr>
-<td><a href="{% url "ain7.emploi.views.job_details" emploi.id %}">{{ emploi.title }}</a></td>
+<td><a href="{% url "job-details" emploi.id %}">{{ emploi.title }}</a></td>
 <td>{{ emploi.get_contract_type_display }}</td>
-<td>{% if emploi.office  %}<a href="{% url "ain7.organizations.views.organization_details" emploi.office.organization.id %}">{{ emploi.office }}</a>{% endif %}</td>
+<td>{% if emploi.office  %}<a href="{% url "organization-details" emploi.office.organization.id %}">{{ emploi.office }}</a>{% endif %}</td>
 <td>{{ emploi.created_at|date:"l j F Y" }}</td>
 </tr>
 {% endfor %}

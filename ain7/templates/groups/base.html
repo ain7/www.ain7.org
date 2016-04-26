@@ -10,26 +10,26 @@
 <li>
 {% if group %}
 {% if not is_member %}
-<a class="btn btn-primary" href="{% url "ain7.groups.views.join" group.slug %}">{% trans "Join the group" %}</a>
+<a class="btn btn-primary" href="{% url "group-join" group.slug %}">{% trans "Join the group" %}</a>
 {% else %}
-<a class="btn btn-primary" href="{% url "ain7.groups.views.quit" group.slug %}">{% trans "Leave the group" %}</a>
+<a class="btn btn-primary" href="{% url "group-quit" group.slug %}">{% trans "Leave the group" %}</a>
 {% endif %}
 {% endif %}
 </li>
 {% if group %}
-<li><a class="btn btn-primary" href="{% url "ain7.groups.views.members" group.slug %}">{% trans "Members" %}</a></li>
+<li><a class="btn btn-primary" href="{% url "group-members" group.slug %}">{% trans "Members" %}</a></li>
 {% endif %}
 {% if superadmin or ca_member or secretariat_member %}
 {% if group %}
-<li><a class="btn btn-primary" href="{% url "ain7.groups.views.edit" group.slug %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Modify" %}</a></li>
+<li><a class="btn btn-primary" href="{% url "group-edit" group.slug %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Modify" %}</a></li>
 {% endif %}
-<li><a class="btn btn-primary" href="{% url "ain7.groups.views.edit" %}"><i class="fa fa-plus fa-lg"></i> {% trans "Add new group" %}</a></li>
+<li><a class="btn btn-primary" href="{% url "group-edit" %}"><i class="fa fa-plus fa-lg"></i> {% trans "Add new group" %}</a></li>
 {% endif %}
 </ul>
 {% if group.active_events %}
 <li class="nav-header">{% trans "Events" %}</li>
 {% for event in group.active_events %}
-<p><strong><a href="{% url "ain7.news.views.event_details" event.id %}">{{ event.title|upper }}</a></strong></p>
+<p><strong><a href="{% url "event-details" event.id %}">{{ event.title|upper }}</a></strong></p>
 {% endfor %}
 {% endif %}
 
