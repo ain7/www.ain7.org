@@ -6,6 +6,7 @@
 <h2>{{ event.title }}</h2>
 
 <form method="post" action=".">
+{% csrf_token %}
 <table>
 {{ form }}
 </table>

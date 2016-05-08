@@ -13,6 +13,7 @@
 <p>{% trans "Please choose this second organization." %}</p>
 
 <form action="." method="post" class="form-horizontal">
+{% csrf_token %}
 {{ form }}
 <div class="control-group">
 <div class="controls">
