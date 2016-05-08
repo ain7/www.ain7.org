@@ -25,6 +25,7 @@ import datetime
 import vobject
 
 from django.contrib import messages
+from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.forms.models import modelform_factory
 from django.http import HttpResponseRedirect, HttpResponse
