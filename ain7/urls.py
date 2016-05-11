@@ -56,7 +56,7 @@ urlpatterns = [
 
     url(r'^accounts/login/$', auth_views.login,
         {'template_name': 'registration/login.html'}, name='account_login'),
-    url(r'^acocunts/logout/$', auth_views.logout_then_login,
+    url(r'^accounts/logout/$', auth_views.logout_then_login,
         name='account_logout'),
     #url(r'^accounts/', include('allauth.urls')),
 
