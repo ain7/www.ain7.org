@@ -31,6 +31,7 @@ from ain7.organizations.models import (
 autocomplete_light.register(
     Office,
     search_fields=['name', 'organization__name'],
+    add_another_url_name='organization-add',
 )
 autocomplete_light.register(Organization)
 autocomplete_light.register(OrganizationActivityField, search_fields=['label'])
