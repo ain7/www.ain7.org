@@ -34,4 +34,8 @@ autocomplete_light.register(
     add_another_url_name='organization-add',
 )
 autocomplete_light.register(Organization)
-autocomplete_light.register(OrganizationActivityField, search_fields=['label'])
+autocomplete_light.register(
+    OrganizationActivityField,
+    search_fields=['label', 'field'],
+    add_another_url_name='organization-activity-add',
+)
