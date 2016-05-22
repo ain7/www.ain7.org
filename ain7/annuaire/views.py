@@ -122,12 +122,12 @@ def search_adv(request):
 @login_required
 def change_credentials(request, user_id):
     is_myself = int(request.user.id) == int(user_id)
+    person = get_object_or_404(Person, pk=user_id)
 
     if not is_myself:
         return HttpResponseRedirect(
             reverse('ain7.annuaire.views.details', args=[person.id]))
 
-    person = get_object_or_404(Person, pk=user_id)
     ain7member = get_object_or_404(AIn7Member, person=person)
 
     if request.method == 'POST':
@@ -291,11 +291,11 @@ def promo_edit(request, user_id=None, promo_id=None):
     )
 
 
-@confirmation_required(lambda user_id=None, promo_id=None :
-     str(get_object_or_404(Promo, pk=promo_id)), 
-     'annuaire/base.html', 
-     _('Do you really want to remove the membership to the promotion'))
-@access_required(groups=['ain7-secretariat','ain7-ca'], allow_myself=True)
+@confirmation_required(lambda user_id=None, promo_id=None:
+    str(get_object_or_404(Promo, pk=promo_id)),
+    'annuaire/base.html',
+    _('Do you really want to remove the membership to the promotion'))
+@access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def promo_delete(request, user_id=None, promo_id=None):
 
     person = get_object_or_404(Person, id=user_id)
@@ -456,7 +456,7 @@ def im_edit(request, user_id=None, im_id=None):
         return redirect('annuaire-edit', user_id)
 
     return render(request, 'annuaire/edit_form.html', {
-        'form': form, 
+        'form': form,
         'action_title': title,
         'person': person,
         'back': request.META.get('HTTP_REFERER', '/'),
@@ -464,7 +464,7 @@ def im_edit(request, user_id=None, im_id=None):
     )
 
 
-@confirmation_required(lambda user_id=None, im_id=None :
+@confirmation_required(lambda user_id=None, im_id=None:
     str(get_object_or_404(InstantMessaging, pk=im_id)), 'annuaire/base.html',
     _('Do you really want to delete your instant messaging account'))
 @access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
@@ -519,6 +519,7 @@ def website_delete(request, user_id=None, website_id=None):
         '/annuaire/%s/edit/#website' % user_id,
         _('Website successfully deleted.'))
 
+
 # Vie associative a l'n7
 @access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def club_membership_edit(request, user_id=None, club_membership_id=None):
@@ -555,7 +556,7 @@ def club_membership_edit(request, user_id=None, club_membership_id=None):
 
 @confirmation_required(lambda user_id=None, club_membership_id=None:
     str(get_object_or_404(ClubMembership, pk=club_membership_id)),
-    'annuaire/base.html', 
+    'annuaire/base.html',
     _('Do you really want to delete your club membership'))
 @access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def club_membership_delete(request, user_id=None, club_membership_id=None):
@@ -600,9 +601,9 @@ def vcard(request, user_id):
         mail = mail_list[0].email
 
     vcard = vobject.vCard()
-    vcard.add('n').value = vobject.vcard.Name( family=person.last_name,
+    vcard.add('n').value = vobject.vcard.Name(family=person.last_name,
         given=person.first_name)
-    vcard.add('fn').value = person.first_name+' '+person.last_name
+    vcard.add('fn').value = person.first_name + ' ' + person.last_name
     if mail:
         email = vcard.add('email')
         email.value = mail
@@ -626,9 +627,9 @@ def vcard(request, user_id):
     vcardstream = vcard.serialize()
 
     response = HttpResponse(vcardstream, content_type='text/x-vcard')
-    response['Filename'] = person.user.username+'.vcf'  # IE needs this
+    response['Filename'] = person.user.username + '.vcf'  # IE needs this
     response['Content-Disposition'] = ('attachment; filename=' +
-        person.user.username+'.vcf')
+        person.user.username + '.vcf')
 
     return response
 
@@ -671,7 +672,7 @@ def position_edit(request, user_id=None, position_id=None):
 
 @confirmation_required(lambda user_id=None, position_id=None:
     str(get_object_or_404(Position, pk=position_id)), 'emploi/base.html',
-     _('Do you really want to delete your position'))
+    _('Do you really want to delete your position'))
 @access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def position_delete(request, user_id=None, position_id=None):
     """position delete"""
@@ -679,7 +680,7 @@ def position_delete(request, user_id=None, position_id=None):
     return ain7_generic_delete(
         request,
         get_object_or_404(Position, pk=position_id),
-        reverse('annuaire-edit', args=[user_id])+'#prof_exp',
+        reverse('annuaire-edit', args=[user_id]) + '#prof_exp',
         _('Position successfully deleted.')
     )
 
@@ -720,9 +721,9 @@ def education_edit(request, user_id=None, education_id=None):
     )
 
 
-@confirmation_required(lambda user_id=None, education_id=None: 
+@confirmation_required(lambda user_id=None, education_id=None:
     str(get_object_or_404(EducationItem, pk=education_id)), 'emploi/base.html',
-     _('Do you really want to delete your education item'))
+    _('Do you really want to delete your education item'))
 @access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def education_delete(request, user_id=None, education_id=None):
     """education delete"""
@@ -730,7 +731,7 @@ def education_delete(request, user_id=None, education_id=None):
     return ain7_generic_delete(
         request,
         get_object_or_404(EducationItem, pk=education_id),
-        reverse('annuaire-edit', args=[user_id])+'#education',
+        reverse('annuaire-edit', args=[user_id]) + '#education',
         _('Education informations deleted successfully.')
     )
 
@@ -769,7 +770,7 @@ def leisure_edit(request, user_id=None, leisure_id=None):
 
 
 @confirmation_required(lambda user_id=None, leisure_id=None:
-    str(get_object_or_404(LeisureItem, pk=leisure_id)), 'emploi/base.html', 
+    str(get_object_or_404(LeisureItem, pk=leisure_id)), 'emploi/base.html',
     _('Do you really want to delete your leisure item'))
 @access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def leisure_delete(request, user_id=None, leisure_id=None):
@@ -778,7 +779,7 @@ def leisure_delete(request, user_id=None, leisure_id=None):
     return ain7_generic_delete(
         request,
         get_object_or_404(LeisureItem, pk=leisure_id),
-        reverse('annuaire-edit', args=[user_id])+'#leisure',
+        reverse('annuaire-edit', args=[user_id]) + '#leisure',
         _('Leisure informations successfully deleted.')
     )
 
@@ -820,9 +821,9 @@ def publication_edit(request, user_id=None, publication_id=None):
 
 
 @confirmation_required(lambda user_id=None, publication_id=None:
-     str(get_object_or_404(PublicationItem,pk=publication_id)), 
-     'emploi/base.html', 
-     _('Do you really want to delete your publication'))
+    str(get_object_or_404(PublicationItem, pk=publication_id)),
+    'emploi/base.html',
+    _('Do you really want to delete your publication'))
 @access_required(groups=['ain7-ca', 'ain7-secretariat'], allow_myself=True)
 def publication_delete(request, user_id=None, publication_id=None):
     """publication delete"""
@@ -830,7 +831,7 @@ def publication_delete(request, user_id=None, publication_id=None):
     return ain7_generic_delete(
         request,
         get_object_or_404(PublicationItem, pk=publication_id),
-        reverse('annuaire-edit', args=[user_id])+'#publications',
+        reverse('annuaire-edit', args=[user_id]) + '#publications',
         _('Publication informations deleted successfully.')
     )
 
@@ -881,7 +882,7 @@ def welcome(request):
         email.preferred_email = True
         email.save()
 
-        person.send_mail(_(u"Bienvenue à l'n7 et à l'AIn7"), \
+        person.send_mail(_(u"Bienvenue à l'n7 et à l'AIn7"),
 _(u"""%(firstname)s,
 
 Nous avons bien enregistré ton inscription dans l'annuaire des anciens
@@ -899,7 +900,6 @@ Le secrétariat est derrière l'accueil et l'n7 et est ouvert tous les jours.
 L'équipe de l'AIn7
 
 """) % { 'firstname': person.first_name, 'email': email.email })
-
 
         return redirect('subscription-welcome', person.pk)
 
