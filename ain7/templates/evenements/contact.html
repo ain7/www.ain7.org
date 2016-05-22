@@ -6,6 +6,7 @@
 <h2>{{ event.name }}</h2>
 <h4>{% trans "Form to send a message to the event responsible:" %}</h4>
 <form method="post" action=".">
+{% csrf_token %}
 <table>
 {{ form }}
 </table>

@@ -9,6 +9,7 @@
 {% endif %}
 
 <form method="post" action="." enctype="multipart/form-data">
+{% csrf_token %}
 <table>
 {{ form|crispy }}
 {% for eventorg in event.event_organizers.all %}

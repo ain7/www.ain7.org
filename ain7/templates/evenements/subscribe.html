@@ -7,6 +7,7 @@
 <h2>{{ event.title }}</h2>
 
 <form method="post" action=".">
+{% csrf_token %}
 {{ form|crispy }}
 {% trans "This number of people includes the person you subscribe." %}
 <div class="form-group">                                                        

@@ -7,6 +7,7 @@
 <h2>{{ action_title }} {{ person }}</h2>
 
 <form method="post" action=".">
+{% csrf_token %}
 {{ form|crispy }}
 <div class="control-group">
 <div class="controls">
