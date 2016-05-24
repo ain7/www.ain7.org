@@ -57,16 +57,16 @@
 <ul class="nav navbar-nav">
     <li role="presentation" {% block navbar_blog %}{{ navbar_blog }}{% endblock %}><a href="{% url "news-index" %}">Actualités</a></li>
     <li role="presentation" {% block navbar_directory %}{{ navbar_directory }}{% endblock %}><a href="{% url "annuaire-search" %}">Annuaire</a></li>
-    <li role="presentation" {% block navbar_jobs %}{{ navbar_jobs }}{% endblock %}><a href="{% url "ain7.emploi.views.index" %}">{% trans "Job" %}</a></li>
+    <li role="presentation" {% block navbar_jobs %}{{ navbar_jobs }}{% endblock %}><a href="{% url "job-index" %}">{% trans "Job" %}</a></li>
     <li class="dropdown" role="presentation" {% block navbar_association %}{{ navbar_association }}{% endblock %}>
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">L'association <i class="fa fa-caret-down"></i></a>
     <ul class="dropdown-menu">                                                  
-      <li><a href="{% url "ain7.association.views.index" %}">{% trans "Overview" %}</a></li>
-      <li><a href="{% url "ain7.association.views.contact" %}">{% trans "Contact" %}</a></li>
+      <li><a href="{% url "association-index" %}">{% trans "Overview" %}</a></li>
+      <li><a href="{% url "contact" %}">{% trans "Contact" %}</a></li>
       <li><a href="{% url "professionnal_groups" %}">{% trans "Professionnal Groups" %}</a></li>
       <li><a href="{% url "regional_groups" %}">{% trans "Regional Groups" %}</a></li>
-      <li><a href="{% url "ain7.voyages.views.index" %}">{% trans "Travels" %}</a></li>
-      <li><a href="{% url "ain7.association.views.council" %}">{% trans "Council" %}</a></li>
+      <li><a href="{% url "travels-index" %}">{% trans "Travels" %}</a></li>
+      <li><a href="{% url "council-details" %}">{% trans "Council" %}</a></li>
     </ul>
     </li>
 
@@ -82,16 +82,16 @@
  <li class="dropdown" {% block navbarmanage %}{{ navbarmanage }}{% endblock %}>
  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog fa-lg"></i> <i class="fa fa-caret-down"></i> </a>
     <ul class="dropdown-menu">
-      <li><a href="{% url "ain7.manage.views.subscriptions_stats" %}">{% trans "Subscriptions statistics" %}</a></li>
-      <li><a href="{% url "ain7.manage.views.mailings_index" %}">{% trans "Mailings" %}</a></li>
-      <li><a href="{% url "ain7.organizations.views.organization_search" %}">{% trans "Organizations" %}</a></li>
-      <!--      <li><a href="{% url "ain7.manage.views.site_stats" %}">{% trans "Site statistics" %}</a></li> //-->
-      <li><a href="{% url "ain7.manage.views.payments_index" %}">{% trans "Payments" %}</a></li>
-      <li><a href="{% url "ain7.manage.views.payments_deposit_index" %}">{% trans "Deposit slip" %}</a></li>
+      <li><a href="{% url "subscriptions-stats" %}">{% trans "Subscriptions statistics" %}</a></li>
+      <li><a href="{% url "mailings-index" %}">{% trans "Mailings" %}</a></li>
+      <li><a href="{% url "organization-index" %}">{% trans "Organizations" %}</a></li>
+      <!--      <li><a href="{% url "site-stats" %}">{% trans "Site statistics" %}</a></li> //-->
+      <li><a href="{% url "payments-index" %}">{% trans "Payments" %}</a></li>
+      <li><a href="{% url "payments-deposit-index" %}">{% trans "Deposit slip" %}</a></li>
       <li><a href="{% url "to_validate_subscriptions" %}">{% trans "Subscriptions to validate" %}</a></li>
       <li><a href="{% url "registrations-index" %}">{% trans "Pending Registrations" %}</a></li>
-      <li><a href="{% url "ain7.manage.views.errors_index" %}">{% trans "Errors" %}</a></li>
-      <li><a href="{% url "ain7.adhesions.views.configurations" %}">{% trans "Subscriptions configuration" %}</a></li>
+      <li><a href="{% url "errors-index" %}">{% trans "Errors" %}</a></li>
+      <li><a href="{% url "configurations" %}">{% trans "Subscriptions configuration" %}</a></li>
     </ul>
  </li>
 {% endif %}
@@ -117,8 +117,8 @@
       {% endif %}
       </li>
       <li><a href="{% url "annuaire-edit" user.id %}">{% trans "Edit your profil" %}</a></li>
-      <li><a href="{% url "ain7.annuaire.views.change_credentials" user.id %}">{% trans "Change credentials" %}</a></li>
-      <li><a href="{% url "ain7.adhesions.views.user_subscriptions" user.id %}">{% trans "Your Subscriptions History" %}</a></li>
+      <li><a href="{% url "change-credentials" user.id %}">{% trans "Change credentials" %}</a></li>
+      <li><a href="{% url "user-subscriptions" user.id %}">{% trans "Your Subscriptions History" %}</a></li>
       <li class="divider"></li>
       <li><a href="{% url "account_logout" %}">{% trans "Logout" %}</a></li>
     </ul>

@@ -41,7 +41,7 @@
 
 <ul>
     {% for travel in travels %}
-        <li><a href="{% url "ain7.voyages.views.details" travel.id %}">{{ travel.label|escape }}</a>
+        <li><a href="{% url "travel-details" travel.id %}">{{ travel.label|escape }}</a>
             - {{ travel.date|escape }}</li>
     {% endfor %}
 </ul>

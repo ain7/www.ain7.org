@@ -69,7 +69,7 @@
   </td>
   <td>
     {% if subscription.payment %}
-    <a  href="{% url "manage.views.payment_details" subscription.payment.id %}">{{ subscription.payment.id }}</a>
+    <a  href="{% url "payment-details" subscription.payment.id %}">{{ subscription.payment.id }}</a>
     {% endif %}
   </td>
   <td>

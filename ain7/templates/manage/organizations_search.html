@@ -26,7 +26,7 @@
 <ul>
   {% for org in organizations %}
     <li>
-      <a href="{% url "ain7.manage.views.organization_details" org.id %}">
+      <a href="{% url "organization-details" org.id %}">
         {{ org.name }}
       </a>
     </li>

@@ -33,7 +33,7 @@ urlpatterns = [
     url(r'^(?P<user_id>\d+)/$', views.details, name='member-details'),
     # Edition
     url(r'^(?P<user_id>\d+)/edit/$', views.edit, name='annuaire-edit'),
-    url(r'^(?P<user_id>\d+)/credentials/$', views.change_credentials),
+    url(r'^(?P<user_id>\d+)/credentials/$', views.change_credentials, name='change-credentials'),
     url(r'^(?P<user_id>\d+)/sendcredentials/$', views.send_new_credentials, name='send-new-credentials'),
     url(r'^(?P<user_id>\d+)/person/edit/$', views.person_edit, name='member-person-edit'),
     url(r'^(?P<user_id>\d+)/personprivate/edit/$', views.personprivate_edit, name='member-personprivate-edit'),
@@ -44,15 +44,15 @@ urlpatterns = [
     # Adresses
     url(r'^(?P<user_id>\d+)/address/(?P<address_id>\d+)/edit/$', views.address_edit, name='member-address-edit'),
     url(r'^(?P<user_id>\d+)/address/(?P<address_id>\d+)/delete/$', views.address_delete, name='member-address-delete'),
-    url(r'^(?P<user_id>\d+)/address/add/$', views.address_edit),
+    url(r'^(?P<user_id>\d+)/address/add/$', views.address_edit, name='member-address-add'),
     # Phone numbers
     url(r'^(?P<user_id>\d+)/phone/(?P<phone_id>\d+)/edit/$', views.phone_edit, name='member-phone-edit'),
     url(r'^(?P<user_id>\d+)/phone/(?P<phone_id>\d+)/delete/$', views.phone_delete, name='member-phone-delete'),
-    url(r'^(?P<user_id>\d+)/phone/add/$', views.phone_edit),
+    url(r'^(?P<user_id>\d+)/phone/add/$', views.phone_edit, name='member-phone-add'),
     # Email
     url(r'^(?P<user_id>\d+)/email/(?P<email_id>\d+)/edit/$', views.email_edit, name='member-email-edit'),
     url(r'^(?P<user_id>\d+)/email/(?P<email_id>\d+)/delete/$', views.email_delete, name='member-email-delete'),
-    url(r'^(?P<user_id>\d+)/email/add/$', views.email_edit),
+    url(r'^(?P<user_id>\d+)/email/add/$', views.email_edit, name='member-email-add'),
     # Instant messaging
     url(r'^(?P<user_id>\d+)/im/(?P<im_id>\d+)/edit/$', views.im_edit),
     url(r'^(?P<user_id>\d+)/im/(?P<im_id>\d+)/delete/$', views.im_delete),
@@ -60,7 +60,7 @@ urlpatterns = [
     # Sites Web
     url(r'^(?P<user_id>\d+)/website/(?P<website_id>\d+)/edit/$', views.website_edit, name='member-website-edit'),
     url(r'^(?P<user_id>\d+)/website/(?P<website_id>\d+)/delete/$', views.website_delete, name='member-website-delete'),
-    url(r'^(?P<user_id>\d+)/website/add/$', views.website_edit),
+    url(r'^(?P<user_id>\d+)/website/add/$', views.website_edit, name='member-website-add'),
     # Activités associatives n7
     url(r'^(?P<user_id>\d+)/club_membership/(?P<club_membership_id>\d+)/edit/$', views.club_membership_edit, name='member-clubmembership-edit'),
     url(r'^(?P<user_id>\d+)/club_membership/(?P<club_membership_id>\d+)/delete/$', views.club_membership_delete, name='member-clubmembership-delete'),
@@ -82,5 +82,5 @@ urlpatterns = [
     url(r'^(?P<user_id>\d+)/publication/(?P<publication_id>\d+)/edit/$', views.publication_edit, name='member-publication-edit'),
     url(r'^(?P<user_id>\d+)/publication/add/$', views.publication_edit, name='member-publication-add'),
     # vCard
-    url(r'^(?P<user_id>\d+)/vcard/$', views.vcard),
+    url(r'^(?P<user_id>\d+)/vcard/$', views.vcard, name='member-vcard'),
 ]

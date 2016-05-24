@@ -165,7 +165,7 @@ class Mailing(models.Model):
         from ain7.filters_local import FILTERS
 
 
-        url = reverse('ain7.manage.views.mailing_view', args=[self.id])
+        url = reverse('mailing-view', args=[self.id])
         text = u"Si vous n'arrivez pas à voir ce mail correctement, merci de\
  vous\nrendre à l'URL "+url+u"\n\nL'équipe de l'AIn7"
 

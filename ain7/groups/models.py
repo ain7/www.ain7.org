@@ -158,9 +158,8 @@ class Group(LoggedClass):
     def __unicode__(self):
         return self.name
 
-
     def get_absolute_url(self):
-        return reverse('ain7.groups.views.details', args=[self.id])
+        return reverse('group-details', args=[self.id])
 
     def has_for_member(self, person):
         """professionnal group membership test"""
