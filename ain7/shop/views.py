@@ -31,9 +31,9 @@ from django.utils.translation import ugettext as _
 from ain7.shop.forms import PaymentMethodForm
 from ain7.shop.models import Order, Payment
 
-def index(request):
 
-    return reverse('ain7.pages.views.homepage')
+def index(request):
+    return reverse('homepage')
 
 def order_pay(request, order_id):
 

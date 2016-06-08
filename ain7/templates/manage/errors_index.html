@@ -20,9 +20,9 @@
     <tbody>
   {% for error in errors %}
 <tr>
-<td><a href="{% url "ain7.manage.views.error_details" error.id %}">#{{ error.id }}</a></td>
+<td><a href="{% url "error-details" error.id %}">#{{ error.id }}</a></td>
 <td>{{ error.title }}</td>
-<td>{% if error.user %}<a href="{% url "ain7.annuaire.views.details" error.user.person.pk %}">{{ error.user.person }}</a>{% endif %}</td>
+<td>{% if error.user %}<a href="{% url "member-details" error.user.person.pk %}">{{ error.user.person }}</a>{% endif %}</td>
 <td>{{ error.date|date:"d F Y H:i:s" }}</td>
 </tr>
   {% endfor %}

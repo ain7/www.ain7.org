@@ -7,7 +7,7 @@
 
 <h1>{{ person.first_name }} {{ person.last_name }}</h1>
 
-<a href="{% url "ain7.annuaire.views.details" person.user.id %}">{% trans "Back to personnal file" %}</a>
+<a href="{% url "member-details" person.user.id %}">{% trans "Back to personnal file" %}</a>
 
 {% if person.ain7member.is_subscriber %}
 <div class="alert alert-info" role="alert">
@@ -37,7 +37,7 @@
    <li><b>{% filter capfirst %}{% trans "nationality" %}{% endfilter %}
        &nbsp;:</b> {{ person.country.nationality }}</li>
 </ul>
-<p><a href="{% url "ain7.annuaire.views.person_edit" person.user.id %}">{% trans "Modify" %}</a></p>
+<p><a href="{% url "member-person-edit" person.user.id %}">{% trans "Modify" %}</a></p>
 
 {% if ain7member %}
 
@@ -89,7 +89,7 @@
             {% trans "No" %}</li>
         {% endif %}
 </ul>
-<p><a href="{% url "ain7.annuaire.views.ain7member_edit" person.user.id %}">{% trans "Modify" %}</a></p>
+<p><a href="{% url "member-ain7member-edit" person.user.id %}">{% trans "Modify" %}</a></p>
 
 {% endif %}
 
@@ -109,7 +109,7 @@
    <li><b>{% filter capfirst %}{% trans "notes" %}{% endfilter %}
        &nbsp;:</b> {% if personprivate.notes %}{{ personprivate.notes|safe }}{% endif %}</li>
 </ul>
-<p><a href="{% url "ain7.annuaire.views.personprivate_edit" person.user.id %}">{% trans "Modify" %}</a></p>
+<p><a href="{% url "member-personprivate-edit" person.user.id %}">{% trans "Modify" %}</a></p>
         </div>
 </div>
 {% endif %}
@@ -117,7 +117,7 @@
 <h2>
     <a name="address"></a>Addresse(s)
     &nbsp;
-    <a href="{% url "ain7.annuaire.views.address_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
+    <a href="{% url "member-address-add" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
 </h2>
 
 <table class="table">
@@ -137,7 +137,7 @@
 <h2>
     <a name="email"></a>Courriel(s)
     &nbsp;
-    <a href="{% url "ain7.annuaire.views.email_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
+    <a href="{% url "member-email-add" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
 </h2>
 
 <table class="table">
@@ -158,7 +158,7 @@
 <h2>
     <a name="phone"></a>Téléphone(s)
     &nbsp;
-    <a href="{% url "ain7.annuaire.views.phone_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
+    <a href="{% url "member-phone-add" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
 </h2>
 
 <table class="table">
@@ -178,7 +178,7 @@
 <h2>
     <a name="website"></a>Site(s) Internet
     &nbsp;
-    <a href="{% url "ain7.annuaire.views.website_edit" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
+    <a href="{% url "member-website-add" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
 </h2>
 
 <table class="table">
@@ -231,7 +231,7 @@
 {% for position in ain7member.positions.all %}
     {% if not position.is_confidential %}
         <tr><th>{% if position.begin %}{{ position.begin }}{% endif %} - {% if position.end %}{{ position.end }}{% endif %}</th>
-            <td>{% if position.fonction %}<em>{{ position.fonction }}</em>{% endif %} <a href="{% url "ain7.organizations.views.organization_details" position.office.organization.id %}">{{ position.office }}</a></td>
+            <td>{% if position.fonction %}<em>{{ position.fonction }}</em>{% endif %} <a href="{% url "organization-details" position.office.organization.id %}">{{ position.office }}</a></td>
             <td><a href="{% url "member-position-edit" person.user.id position.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
             <td><a href="{% url "member-position-delete" person.user.id position.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
         </tr>

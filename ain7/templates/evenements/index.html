@@ -8,7 +8,7 @@
 {% if events %}
 {% for event in events %}
 
-<h2><a href="{% url "ain7.news.views.event_details" event.id %}">{{ event.title }}</a></h2>
+<h2><a href="{% url "event-details" event.id %}">{{ event.title }}</a></h2>
 
   <ul>
       <li><strong>{% trans "Date" %}&nbsp;: {{ event.date|date:"l j F H:i" }}</strong></li>
@@ -41,9 +41,9 @@
 {% block actions %}
 <li class="nav-header">{% trans "Actions" %}</li>
 {% if superadmin or ca_member or secretariat_member or contributeur %}
-<li><a href="{% url "ain7.news.views.event_edit" %}">{% trans "Add an event" %}</a></li>
+<li><a href="{% url "event-edit" %}">{% trans "Add an event" %}</a></li>
 {% endif %}
-<li><a href="{% url "ain7.news.views.event_search" %}">{% trans "Search an event" %}</a></li>
-<li><a href="{% url "ain7.news.views.ical" %}">{% trans "Subscribe iCal" %}</a></li>
+<li><a href="{% url "event-search" %}">{% trans "Search an event" %}</a></li>
+<li><a href="{% url "events-ical" %}">{% trans "Subscribe iCal" %}</a></li>
 {% endblock %}
 
