@@ -12,7 +12,7 @@ Votre adhésion à l'association AIn7 arrivera à échéance le {{ person.ain7me
 
 Vous pouvez dès maintenant renouveler votre adhésions à l'association ici : https://ain7.com/adhesions/subscribe/
 
-Cette adhésions vous permet de bénéficier de l'accès à l'annuaire et à l'ensemble des services de l'association. Cette adhésion permet également à l'association d'entreprendre des actions en collaboration avec l'école pour faire connaitre et reconnaître l'école et son diplôme.
+Cette adhésion vous permet de bénéficier de l'accès à l'annuaire et à l'ensemble des services de l'association. Cette adhésion permet également à l'association d'entreprendre des actions en collaboration avec l'école pour faire connaitre et reconnaître l'école et son diplôme.
 
 N'hésitez pas à nous contacter pour toute question ou reseignement en suivant ce lien : https://ain7.com/association/contact/
 
