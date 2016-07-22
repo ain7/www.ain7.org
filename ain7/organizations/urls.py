@@ -22,9 +22,12 @@
 #
 
 from django.conf.urls import url
+from django.views import generic
 
+import autocomplete_light.shortcuts as al
 
 from ain7.organizations import views
+from ain7.organizations.models import OrganizationActivityField
 
 urlpatterns = [
 
@@ -47,6 +50,18 @@ urlpatterns = [
         r'^(?P<org1_id>\d+)/merge/(?P<org2_id>\d+)/$',
         views.organization_merge_perform,
         name='organization-merge-perform',
+    ),
+
+    # Organization activities
+    url(r'^activity/add/$', al.CreateView.as_view(
+        model=OrganizationActivityField,
+        fields='__all__'),
+        name='organization-activity-add',
+    ),
+    url(r'^activity/(?P<pk>\d+)/edit/$', generic.UpdateView.as_view(
+        model=OrganizationActivityField,
+        fields='__all__'),
+        name='organization-activity-edit',
     ),
 
     # Offices

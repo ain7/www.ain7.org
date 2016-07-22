@@ -52,6 +52,9 @@ class OrganizationActivityField(models.Model):
         """activity field unicode"""
         return self.field
 
+    def get_absolute_url(self):
+        return reverse('organization-activity-edit', kwargs={'pk': self.pk})
+
     class Meta:
         """activity field meta"""
         verbose_name = _('Activity field')
