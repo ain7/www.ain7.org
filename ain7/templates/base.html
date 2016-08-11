@@ -1,8 +1,8 @@
 {% load  i18n %}
 {% load static from staticfiles %}
-<!DOCTYPE html>                                                                 
-<html lang="en">                                                                
-  <head>                                                                        
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,18 +10,44 @@
     <meta name="author" content="AIn7">
     {% block meta %}{{ meta }}{% endblock %}
 
-    <title>{% if page_title %}{{ page_title }} - {% else %} {%if text.title %} {{ text.title }} - {% endif %} {% endif %} {% trans "AIn7: ENSEEIHT Engineer Alumni Association" %}</title>
+    <title>{% if page_title %}{{ page_title }} - {% else %} {% if text.title %} {{ text.title }} -
+    {% endif %} {% endif %} {% trans "AIn7: ENSEEIHT Engineer Alumni Association" %}</title>
 
     <link rel="icon" href="{% static "images/favicon.png" %}">
-    <link rel="alternate" type="application/rss+xml" href="/rss/events/" />
+    <link rel="alternate" type="application/rss+xml" href="/rss/events/"/>
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
 
 
-    <link rel="stylesheet" href="{% static "theme/css/responsive-slider.css" %}">
-    <link rel="stylesheet" href="{% static "theme/css/animate.css" %}">
-    <link rel="stylesheet" href="{% static "theme/css/style.css" %}">
+    <link href="{% static "theme/css/fullcalendar.css" %}" rel="stylesheet">
+    <!-- Owl Carousel CSS -->
+    <link href="{% static "theme/css/owl.carousel.css" %}" rel="stylesheet">
+    <!-- Pretty Photo CSS -->
+    <link href="{% static "theme/css/prettyPhoto.css" %}" rel="stylesheet">
+    <!-- Bx-Slider StyleSheet CSS -->
+    <link href="{% static "theme/css/jquery.bxslider.css" %}" rel="stylesheet">
+    <!-- Font Awesome StyleSheet CSS -->
+
+    <link href="{% static "theme/svg/style.css" %}" rel="stylesheet">
+    <!-- Widget CSS -->
+    <link href="{% static "theme/css/widget.css" %}" rel="stylesheet">
+    <!-- Typography CSS -->
+    <link href="{% static "theme/css/typography.css" %}" rel="stylesheet">
+    <!-- Shortcodes CSS -->
+    <link href="{% static "theme/css/shortcodes.css" %}" rel="stylesheet">
+    <!-- Custom Main StyleSheet CSS -->
+    <link href="{% static "theme/css/style.css" %}" rel="stylesheet">
+    <!-- Color CSS -->
+    <link href="{% static "theme/css/color.css" %}" rel="stylesheet">
+    <!-- Responsive CSS -->
+    <link href="{% static "theme/css/responsive.css" %}" rel="stylesheet">
+    <!-- SELECT MENU -->
+    <link href="{% static "theme/css/selectric.css" %}" rel="stylesheet">
+    <!-- SIDE MENU -->
+    <link href="{% static "theme/css/jquery.sidr.dark.css" %}" rel="stylesheet">
+
+    <link href="{% static "css/ain7.css" %}" rel="stylesheet">
     {% block stylesheet %}{{ meta }}{% endblock %}
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -32,249 +58,366 @@
     <![endif]-->
     <link href="{% static "css/ain7.css" %}" rel="stylesheet">
 
-  </head>
+</head>
 <body>
-    <header>
-                <div class="container">
-                        <div class="row">
-                                <nav class="navbar navbar-default" role="navigation">
-                                        <div class="container-fluid">
- <div class="navbar-header">
 
-<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#ain7-topmenu" aria-expanded="false">
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-</button>
+<div class="kode_wrapper">
 
-<div class="navbar-brand">
-<a href="{% url "homepage" %}"><img src="{% static "logo_ain7.png" %}"></a>
-</div>
+    <header id="header_2">
+        <div class="top_bar_2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5">
 
- </div>
+                    </div>
+                    <div class="col-md-7">
+                        <ul class="login_wrap">
+                            {% if not user.is_authenticated %}
+                                <li><a href="{% url "account_login" %}"><i
+                                        class="fa fa-sign-in"></i>{% trans "Log-in" %}</a></li>
+                            {% endif %}
+                        </ul>
+                        <ul class="top_nav">
+                            <li role="presentation"><a
+                                    href="{% url "news-index" %}">Actualités</a></li>
+                            <li role="presentation"><a
+                                    href="{% url "annuaire-search" %}">Annuaire</a></li>
+                            <li role="presentation"><a
+                                    href="{% url "job-index" %}">{% trans "Job" %}</a></li>
+                            <li class="dropdown" role="presentation">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">L'association <i
+                                        class="fa fa-caret-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{% url "association-index" %}">{% trans "Overview" %}</a></li>
+                                    <li><a href="{% url "contact" %}">{% trans "Contact" %}</a></li>
+                                    <li>
+                                        <a href="{% url "professionnal_groups" %}">{% trans "Professionnal Groups" %}</a>
+                                    </li>
+                                    <li><a href="{% url "regional_groups" %}">{% trans "Regional Groups" %}</a>
+                                    </li>
+                                    <li><a href="{% url "travels-index" %}">{% trans "Travels" %}</a></li>
+                                    <li><a href="{% url "council-details" %}">{% trans "Council" %}</a></li>
+                                </ul>
+                            </li>
 
-<div class="menu navbar-collapse collapse" id="ain7-topmenu" aria-expanded="true">
-<ul class="nav navbar-nav">
-    <li role="presentation" {% block navbar_blog %}{{ navbar_blog }}{% endblock %}><a href="{% url "news-index" %}">Actualités</a></li>
-    <li role="presentation" {% block navbar_directory %}{{ navbar_directory }}{% endblock %}><a href="{% url "annuaire-search" %}">Annuaire</a></li>
-    <li role="presentation" {% block navbar_jobs %}{{ navbar_jobs }}{% endblock %}><a href="{% url "job-index" %}">{% trans "Job" %}</a></li>
-    <li class="dropdown" role="presentation" {% block navbar_association %}{{ navbar_association }}{% endblock %}>
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">L'association <i class="fa fa-caret-down"></i></a>
-    <ul class="dropdown-menu">                                                  
-      <li><a href="{% url "association-index" %}">{% trans "Overview" %}</a></li>
-      <li><a href="{% url "contact" %}">{% trans "Contact" %}</a></li>
-      <li><a href="{% url "professionnal_groups" %}">{% trans "Professionnal Groups" %}</a></li>
-      <li><a href="{% url "regional_groups" %}">{% trans "Regional Groups" %}</a></li>
-      <li><a href="{% url "travels-index" %}">{% trans "Travels" %}</a></li>
-      <li><a href="{% url "council-details" %}">{% trans "Council" %}</a></li>
-    </ul>
-    </li>
+                            {% if superadmin or ca_member or secretariat_member %}
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                            class="fa fa-cog fa-lg"></i> <i class="fa fa-caret-down"></i> </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="{% url "subscriptions-stats" %}">{% trans "Subscriptions statistics" %}</a>
+                                        </li>
+                                        <li><a href="{% url "mailings-index" %}">{% trans "Mailings" %}</a></li>
+                                        <li>
+                                            <a href="{% url "organization-index" %}">{% trans "Organizations" %}</a>
+                                        </li>
+                                        <!--      <li><a href="{% url "site-stats" %}">{% trans "Site statistics" %}</a></li> //-->
+                                        <li><a href="{% url "payments-index" %}">{% trans "Payments" %}</a></li>
+                                        <li>
+                                            <a href="{% url "payments-deposit-index" %}">{% trans "Deposit slip" %}</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url "to_validate_subscriptions" %}">{% trans "Subscriptions to validate" %}</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url "registrations-index" %}">{% trans "Pending Registrations" %}</a>
+                                        </li>
+                                        <li><a href="{% url "errors-index" %}">{% trans "Errors" %}</a></li>
+                                        <li>
+                                            <a href="{% url "configurations" %}">{% trans "Subscriptions configuration" %}</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                            {% if user.is_authenticated %}
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        {% if user.person.ain7member.avatar %}
+                                            <img src="{{ user.person.ain7member.avatar.url }}" height="25"
+                                                 alt="{{ user.person.complete_name }}"/>
+                                        {% else %}
+                                            <img src="{% static "images/nobody.png" %}" height="25"
+                                                 alt="{{ user.person.complete_name }}"/>
+                                        {% endif %}
+                                        {{ user.person.first_name }} {{ user.person.last_name }} <i
+                                            class="fa fa-caret-down"></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            {% if user.person.ain7member.is_subscriber %}
+                                                <div class="alert alert-info">
+                                                <i class="fa fa-info-circle fa-2x"></i> Votre cotisation est à
+                                                jour
+                                            {% else %}
+                                                <div class="alert alert-warning">
+                                                    <a href="{% url "subscription-add" user.person.pk %}">Cotiser
+                                                        à
+                                                        l'association</a>
+                                                </div>
+                                            {% endif %}
+                                        </li>
+                                        <li>
+                                            <a href="{% url "annuaire-edit" user.id %}">{% trans "Edit your profil" %}</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url "change-credentials" user.id %}">{% trans "Change credentials" %}</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url "user-subscriptions" user.id %}">{% trans "Your Subscriptions History" %}</a>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li><a href="{% url "account_logout" %}">{% trans "Logout" %}</a></li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<!--
-<li>
-<form class="navbar-form form-inline" action="">
-<input type="text" class="search-query span2" placeholder="Search">
-</form>
-</li>
-//-->
+        <div class="kode_navigation">
+            <div id="mobile-header">
+                <a id="responsive-menu-button" href="#sidr-main"><i class="fa fa-bars"></i></a>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="logo_wrap">
+                            <a href="{% url "homepage" %}"><img src="{% static "logo_ain7.png" %}"></a>
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="nav_2" id="navigation" role="navigation">
+                            <ul>
+                                <li role="presentation" {% block navbar_blog %}{{ navbar_blog }}{% endblock %}><a
+                                        href="{% url "news-index" %}">Actualités</a></li>
+                                <li role="presentation"
+                                        {% block navbar_directory %}{{ navbar_directory }}{% endblock %}><a
+                                        href="{% url "annuaire-search" %}">Annuaire</a></li>
+                                <li role="presentation" {% block navbar_jobs %}{{ navbar_jobs }}{% endblock %}><a
+                                        href="{% url "job-index" %}">{% trans "Job" %}</a></li>
+                                <li class="dropdown" role="presentation"
+                                        {% block navbar_association %}{{ navbar_association }}{% endblock %}>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">L'association <i
+                                            class="fa fa-caret-down"></i></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{% url "association-index" %}">{% trans "Overview" %}</a></li>
+                                        <li><a href="{% url "contact" %}">{% trans "Contact" %}</a></li>
+                                        <li>
+                                            <a href="{% url "professionnal_groups" %}">{% trans "Professionnal Groups" %}</a>
+                                        </li>
+                                        <li><a href="{% url "regional_groups" %}">{% trans "Regional Groups" %}</a>
+                                        </li>
+                                        <li><a href="{% url "travels-index" %}">{% trans "Travels" %}</a></li>
+                                        <li><a href="{% url "council-details" %}">{% trans "Council" %}</a></li>
+                                    </ul>
+                                </li>
 
-{% if superadmin or ca_member or secretariat_member %}
- <li class="dropdown" {% block navbarmanage %}{{ navbarmanage }}{% endblock %}>
- <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog fa-lg"></i> <i class="fa fa-caret-down"></i> </a>
-    <ul class="dropdown-menu">
-      <li><a href="{% url "subscriptions-stats" %}">{% trans "Subscriptions statistics" %}</a></li>
-      <li><a href="{% url "mailings-index" %}">{% trans "Mailings" %}</a></li>
-      <li><a href="{% url "organization-index" %}">{% trans "Organizations" %}</a></li>
-      <!--      <li><a href="{% url "site-stats" %}">{% trans "Site statistics" %}</a></li> //-->
-      <li><a href="{% url "payments-index" %}">{% trans "Payments" %}</a></li>
-      <li><a href="{% url "payments-deposit-index" %}">{% trans "Deposit slip" %}</a></li>
-      <li><a href="{% url "to_validate_subscriptions" %}">{% trans "Subscriptions to validate" %}</a></li>
-      <li><a href="{% url "registrations-index" %}">{% trans "Pending Registrations" %}</a></li>
-      <li><a href="{% url "errors-index" %}">{% trans "Errors" %}</a></li>
-      <li><a href="{% url "configurations" %}">{% trans "Subscriptions configuration" %}</a></li>
-    </ul>
- </li>
-{% endif %}
-{% if user.is_authenticated %}
- <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-{% if user.person.ain7member.avatar %}
-        <img src="{{ user.person.ain7member.avatar.url }}" height="25" alt="{{ user.person.complete_name }}"/>
-{% else %}
-        <img src="{% static "images/nobody.png" %}" height="25" alt="{{ user.person.complete_name }}"/>
-{% endif %}
-      {{ user.person.first_name }} {{ user.person.last_name }} <i class="fa fa-caret-down"></i>
-  </a>
-    <ul class="dropdown-menu">
-      <li>
-      {% if user.person.ain7member.is_subscriber %}
-      <div class="alert alert-info">
-          <i class="fa fa-info-circle fa-2x"></i> Votre cotisation est à jour
-      {% else %}
-      <div class="alert alert-warning">
-          <a href="{% url "subscription-add" user.person.pk %}">Cotiser à l'association</a>
-      </div>
-      {% endif %}
-      </li>
-      <li><a href="{% url "annuaire-edit" user.id %}">{% trans "Edit your profil" %}</a></li>
-      <li><a href="{% url "change-credentials" user.id %}">{% trans "Change credentials" %}</a></li>
-      <li><a href="{% url "user-subscriptions" user.id %}">{% trans "Your Subscriptions History" %}</a></li>
-      <li class="divider"></li>
-      <li><a href="{% url "account_logout" %}">{% trans "Logout" %}</a></li>
-    </ul>
- </li>
-{% else %}
-<li><a href="{% url "account_login" %}">{% trans "Log-in" %}</a></li>
-{% endif %}
+                                {% if superadmin or ca_member or secretariat_member %}
+                                    <li class="dropdown" {% block navbarmanage %}{{ navbarmanage }}{% endblock %}>
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                                class="fa fa-cog fa-lg"></i> <i class="fa fa-caret-down"></i> </a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="{% url "subscriptions-stats" %}">{% trans "Subscriptions statistics" %}</a>
+                                            </li>
+                                            <li><a href="{% url "mailings-index" %}">{% trans "Mailings" %}</a></li>
+                                            <li>
+                                                <a href="{% url "organization-index" %}">{% trans "Organizations" %}</a>
+                                            </li>
+                                            <!--      <li><a href="{% url "site-stats" %}">{% trans "Site statistics" %}</a></li> //-->
+                                            <li><a href="{% url "payments-index" %}">{% trans "Payments" %}</a></li>
+                                            <li>
+                                                <a href="{% url "payments-deposit-index" %}">{% trans "Deposit slip" %}</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url "to_validate_subscriptions" %}">{% trans "Subscriptions to validate" %}</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url "registrations-index" %}">{% trans "Pending Registrations" %}</a>
+                                            </li>
+                                            <li><a href="{% url "errors-index" %}">{% trans "Errors" %}</a></li>
+                                            <li>
+                                                <a href="{% url "configurations" %}">{% trans "Subscriptions configuration" %}</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                {% endif %}
+                                {% if user.is_authenticated %}
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            {% if user.person.ain7member.avatar %}
+                                                <img src="{{ user.person.ain7member.avatar.url }}" height="25"
+                                                     alt="{{ user.person.complete_name }}"/>
+                                            {% else %}
+                                                <img src="{% static "images/nobody.png" %}" height="25"
+                                                     alt="{{ user.person.complete_name }}"/>
+                                            {% endif %}
+                                            {{ user.person.first_name }} {{ user.person.last_name }} <i
+                                                class="fa fa-caret-down"></i>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                {% if user.person.ain7member.is_subscriber %}
+                                                    <div class="alert alert-info">
+                                                    <i class="fa fa-info-circle fa-2x"></i> Votre cotisation est à
+                                                    jour
+                                                {% else %}
+                                                    <div class="alert alert-warning">
+                                                        <a href="{% url "subscription-add" user.person.pk %}">Cotiser
+                                                            à
+                                                            l'association</a>
+                                                    </div>
+                                                {% endif %}
+                                            </li>
+                                            <li>
+                                                <a href="{% url "annuaire-edit" user.id %}">{% trans "Edit your profil" %}</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url "change-credentials" user.id %}">{% trans "Change credentials" %}</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url "user-subscriptions" user.id %}">{% trans "Your Subscriptions History" %}</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                {% endif %}
+                                <li><a id="simple-menu" href="#sidr"><i class="fa fa-bars"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-</ul>
-</div>
-</div>                  
-</nav>
-</div>
-</div>
-</header>
 
-<div class="container">
-{% if messages %}
-    {% for message in messages %}
-    <div class="alert alert-{{ message.tags }} alert-dismissable" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    {{ message }}
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissable" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
     </div>
-    {% endfor %}
-{% endif %}
 
-</div>
+    <div class="container">
+        {% block content %}{{ content }}{% endblock %}
+    </div>
 
-<div class="container">
-{% block content %}{{ content }}{% endblock %}
-</div>
+    <div class="container">
+        <div class="row">
+            <hr>
+        </div>
+    </div>
+
+    <!--start footer-->
+    <footer>
 
         <div class="container">
-                <div class="row">
-                        <hr>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="widget widget-links">
+                        <h5>{% trans "Links" %}</h5>
+                        <ul>
+                            <li><a href="http://www.enseeiht.fr" target="_blank">ENSEEIHT</a></li>
+                            <li><a href="http://www.bde.enseeiht.fr" target="_blank">Bureau Des Élèves de l'n7</a></li>
+                            <li><a href="http://iesf.fr" target="_blank">IESF</a></li>
+                            <li><a href="http://www.inp-toulouse.fr" target="_blank">INP Toulouse</a></li>
+                            <li><a href="http://www.g9plus.org" target="_blank">Institut G9+</a></li>
+                        </ul>
+
+                    </div>
                 </div>
-        </div>
-        
-        <!--start footer-->
-        <footer>
 
-                <div class="container">
-                        <div class="row">
-                                        <div class="col-lg-12 text-center">
-                                                <ul class="social-network">
+                <div class="col-md-3">
+                    <div class="widget widget-links">
+                        <h5>{% trans "Pages" %}</h5>
+                        <ul>
+                            <li><a href="/apropos/">{% trans "About" %}</a></li>
+                            <li><a href="/mentions_legales/">{% trans "Terms of use" %}</a></li>
+                            <li><a href="{% url "contact" %}">{% trans "Contact" %}</a></li>
+                            <li><a href="{% url "status" %}">{% trans "Status" %}</a></li>
+                            <li><a href="{% url "internalrules" %}">{% trans "Internal rules" %}</a></li>
+                        </ul>
+                    </div>
+                </div>
 
-                                <li><a href="{% url "facebook" %}" data-placement="top" title="Facebook" target="_blank">
+                <div class="col-md-3">
+                    <div class="widget widget-links">
+                        <h5>{% trans "Social networks" %}</h5>
+                        <ul>
+                            <li><a href="{% url "facebook" %}" data-placement="top" title="Facebook" target="_blank">
                                 <span class="fa-stack fa-3x">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-facebook fa-stack-1x text-primary white"></i>
                                 </span></a></li>
 
-                                <li><a href="{% url "twitter" %}" data-placement="top" title="Twitter" target="_blank">
+                            <li><a href="{% url "twitter" %}" data-placement="top" title="Twitter" target="_blank">
                                 <span class="fa-stack fa-3x">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-twitter fa-stack-1x text-primary white"></i>
                                 </span></a></li>
 
-                                <li><a href="{% url "linkedin" %}" data-placement="top" title="Linkedin" target="_blank">
+                            <li><a href="{% url "linkedin" %}" data-placement="top" title="Linkedin" target="_blank">
                                 <span class="fa-stack fa-3x">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-linkedin fa-stack-1x text-primary white"></i>
                                 </span></a></li>
 
-                                <li><a href="{% url "g+" %}" data-placement="top" title="Google+" target="_blank">
+                            <li><a href="{% url "g+" %}" data-placement="top" title="Google+" target="_blank">
                                 <span class="fa-stack fa-3x">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-google-plus fa-stack-1x text-primary white"></i>
                                 </span></a></li>
 
-                                <li><a href="{% url "rss" %}" data-placement="top" title="Google+" target="_blank">
+                            <li><a href="{% url "rss" %}" data-placement="top" title="Google+" target="_blank">
                                 <span class="fa-stack fa-3x">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-rss fa-stack-1x text-primary white"></i>
                                 </span></a></li>
-
-                                                </ul>
-                                        </div>
-                                        </div>
-                                </div>
-
-                <div class="container">
-                        <div class="row">
-                                <hr>
-                        </div>
+                        </ul>
+                    </div>
                 </div>
 
-                <div class="container">
-                        <div class="row">
-                                <div class="col-lg-3">
-                                        <div class="widget">
-                                            <h5 class="widgetheading">{% trans "Contact" %}</h5>
-                                                <address>
-                                                <strong>Association des Ingénieurs N7</strong><br>
-                                                 2 rue Charles Camichel<br>
-                                                 31071 Toulouse
-                                                </address>
-                                                <p>
-                                                       <i class="fa fa-phone"></i> <a href="tel:+33 (0)5 34 32 20 29">+33 (0)5 34 32 20 29</a><br>
-                                                        <i class="fa fa-envelope-o"></i> <a href="mailto:contact@ain7.com">contact@ain7.com</a>
-                                                </p>
-                                        </div>
-                                </div>
+                <div class="col-md-3">
+                    <div class="widget widget-contact">
+                        <h5>{% trans "Contact" %}</h5>
+                        <address>
+                            <strong>Association des Ingénieurs N7</strong><br>
+                            2 rue Charles Camichel<br>
+                            31071 Toulouse
+                        </address>
+                        <p>
+                            <i class="fa fa-phone"></i> <a href="tel:+33 (0)5 34 32 20 29">+33 (0)5 34 32 20 29</a><br>
+                            <i class="fa fa-envelope-o"></i> <a href="mailto:contact@ain7.com">contact@ain7.com</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                                <div class="col-lg-3">
-                                        <div class="widget">
-                                            <h5 class="widgetheading">{% trans "Pages" %}</h5>
-                                                <ul class="link-list">
-                                                        <li><a href="/apropos/">{% trans "About" %}</a></li>
-                                                        <li><a href="/mentions_legales/">{% trans "Terms of use" %}</a></li>
-                                                        <li><a href="{% url "contact" %}">{% trans "Contact" %}</a></li>
-                                                        <li><a href="{% url "status" %}">{% trans "Status" %}</a></li>
-                                                        <li><a href="{% url "internalrules" %}">{% trans "Internal rules" %}</a></li>
-                                                </ul>
-                                        </div>
-                                </div>
-                                <div class="col-lg-3">
-                                </div>
-                                <div class="col-lg-3">
-                                        <div class="widget">
-                                            <h5 class="widgetheading">{% trans "Links" %}</h5>
-                                                <ul class="link-list">
-                                                        <li><a href="http://www.enseeiht.fr" target="_blank">ENSEEIHT</a></li>
-                                                        <li><a href="http://www.bde.enseeiht.fr" target="_blank">Bureau Des Élèves de l'n7</a></li>
-                                                        <li><a href="http://iesf.fr" target="_blank">IESF</a></li>
-                                                        <li><a href="http://www.inp-toulouse.fr" target="_blank">INP Toulouse</a></li>
-                                                        <li><a href="http://www.g9plus.org" target="_blank">Institut G9+</a></li>
-                                                </ul>
-                                        </div>
-                                </div>
-                        </div>
-                </div>
+    </footer>
+    <!--end footer-->
 
-                <div class="container">
-                        <div class="row">
-                                <hr>
-                        </div>
+    <div class="edu2_copyright_wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="copyright_des">
+                        <span>&copy; AIn7 2009-2016</span>
+                    </div>
                 </div>
-                
-                <div id="sub-footer">
-                        <div class="container">
-                                <div class="row">
-                                        <div class="col-lg-12 center">
-                                                <div class="copyright">
-                                                        <p class="text-center">
-                                                                <span>&copy; AIn7 2009-2016</span>
-                                                        </p>
-                                                </div>
-                                        </div>
-                                </div>
-                        </div>
-                </div>
-        </footer>
-        <!--end footer-->
-        
-        
+            </div>
+        </div>
+    </div>
+
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 
@@ -288,48 +431,53 @@
     <script type="text/javascript" src="{% static "bootstrap-datepicker/js/bootstrap-datepicker.js" %}"></script>
 
     <script type="text/javascript">
-$('.dateinput').datepicker({
-     format: 'dd/mm/yyyy',
-     autoclose: true,
-})
+        $('.dateinput').datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true,
+        })
     </script>
 
     <!-- Go to www.addthis.com/dashboard to customize your tools -->
-    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4dc7154b4ea96654" async="async"></script>
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4dc7154b4ea96654"
+            async="async"></script>
 
-<!-- Piwik -->
-<script type="text/javascript">
-  var _paq = _paq || [];
-  _paq.push(['trackPageView']);
-  _paq.push(['enableLinkTracking']);
-  (function() {
-    var u="//piwik.ain7.info/";
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
-    _paq.push(['setSiteId', 1]);
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-  })();
-</script>
-<noscript><p><img src="//piwik.ain7.info/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
-<!-- End Piwik Code -->
+    <!-- Piwik -->
+    <script type="text/javascript">
+        var _paq = _paq || [];
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function () {
+            var u = "//piwik.ain7.info/";
+            _paq.push(['setTrackerUrl', u + 'piwik.php']);
+            _paq.push(['setSiteId', 1]);
+            var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+            g.type = 'text/javascript';
+            g.async = true;
+            g.defer = true;
+            g.src = u + 'piwik.js';
+            s.parentNode.insertBefore(g, s);
+        })();
+    </script>
+    <noscript><p><img src="//piwik.ain7.info/piwik.php?idsite=1" style="border:0;" alt=""/></p></noscript>
+    <!-- End Piwik Code -->
 
-{% block tinymce %}
-    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-<script>
-tinymce.init({
-    selector:'textarea',
-    plugins: [
-        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-        "searchreplace wordcount visualblocks visualchars code fullscreen",
-        "insertdatetime media nonbreaking save table contextmenu directionality",
-        "emoticons template paste textcolor colorpicker textpattern"
-    ],
-    toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-    toolbar2: "print preview media | forecolor backcolor emoticons",
-    image_advtab: true,
-});
-</script>
-{% endblock %}
-
-  </body>
+    {% block tinymce %}
+        <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+        <script>
+            tinymce.init({
+                selector: 'textarea',
+                plugins: [
+                    "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                    "searchreplace wordcount visualblocks visualchars code fullscreen",
+                    "insertdatetime media nonbreaking save table contextmenu directionality",
+                    "emoticons template paste textcolor colorpicker textpattern"
+                ],
+                toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+                toolbar2: "print preview media | forecolor backcolor emoticons",
+                image_advtab: true,
+            });
+        </script>
+    {% endblock %}
+</div>
+</body>
 </html>
