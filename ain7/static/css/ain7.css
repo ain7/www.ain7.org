@@ -1,0 +1,11 @@
+.kf_edu2_intro_wrap:before {
+    content: normal;
+}
+.kf_intro_des_wrap {
+    width: 100%;
+    float: left;
+}
+
+.kf_intro_des {
+    width: 20%;
+}

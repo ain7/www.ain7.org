@@ -4,133 +4,112 @@
 
 {% block content %}
 
-        <!-- Responsive slider - START -->
-        <div class="slider">
-        <div class="container">
-
-                <div class="row">
-                        <div class="responsive-slider" data-spy="responsive-slider" data-autoplay="true">
-                                <div class="slides" data-group="slides">
-                                        <ul>
-{% for news_item in news %}                                                     
-                                               <li>
-                                                        <div class="slide-body" data-group="slide">
-                                                                <img src="{% static "images/picture_wall_n7.jpg" %}" alt="">
-                                                                <div class="caption header" data-animate="slideAppearDownToUp" data-delay="500" data-length="300">
-                                                                    <a class="btn btn-primary" href="{% url "news-details" news_item.slug %}"><h3>{{ news_item.title }}</h3></a>
-                                                                        <div class="caption-sub" data-animate="slideAppearUpToDown" data-delay="800" data-length="300"><button class="btn btn-primary"><h4><span>{{ news_item.body|striptags|truncatewords_html:25|safe }} <a href="{% url "news-details" news_item.slug %}"><small>(suite)</small></span></h4></button></div>
-                                                                </div>
-                                                        </div>
-                                                </li>
-{% endfor %}
-                                        </ul>
-                                </div>
-                   
-                                <a class="slider-control left" href="#" data-jump="prev"><i class="fa fa-angle-left fa-2x"></i></a>
-                                <a class="slider-control right" href="#" data-jump="next"><i class="fa fa-angle-right fa-2x"></i></a>           
-                        </div>
+    <div class="edu2_main_bn_wrap">
+        <div id="owl-demo-main" class="owl-carousel owl-theme">
+            {% for news_item in news %}
+                <div class="item">
+                    <figure>
+                        <img src="{% static "images/picture_wall_n7.jpg" %}" alt="">
+                        <figcaption>
+                            <h2>{{ news_item.title }}</h2>
+                            <p>{{ news_item.body|striptags|truncatewords_html:25|safe }}</p>
+                            <a href="{% url "news-details" news_item.slug %}" class="btn-1">
+                                <small>(suite)</small>
+                            </a>
+                        </figcaption>
+                    </figure>
                 </div>
-</div>
-</div>
-
-<div style="text-align: center">
-    <a href="{% url "news-index" %}">{% trans "View all news" %}</a>
-</div>
-
-        <div class="container">
-                <div class="row">
-                        <div class="col-lg-12">
-                                <div class="contents">
-                                        <h1>Bienvenue sur le site de l'association des ingénieurs de l'ENSEEIHT</h1>
-                                        <p><a href="{% url "subscribe-public" %}" class="btn btn-primary">Adhérez ou donnez</a> pour soutenir l'association et promouvoir l'ENSEEIHT.</p>
-                                </div>
-                        </div>
-                </div>
+            {% endfor %}
         </div>
+    </div>
 
-        <div class="container">
-                <div class="row">
-                        <div class="content">
-                                <div class="col-md-4">
-                                        <div class="wow flipInY" data-wow-offset="0" data-wow-delay="0.4s">
-                                                <div class="align-center">
-                                                <h4><a href="{% url "job-index" %}" alt="">Emploi</a></h4>
-                                                        <div class="icon">
-                                                                <i class="fa fa-briefcase fa-3x"></i>
-                                                        </div>
-                                                        <p>
-                                                         Les offres d'emploi du réseau N7 et des conseils pour votre recherche.
-                                                        </p>
-                                                </div>
-                                        </div>
-                                </div>
-                                <div class="col-md-4">
-                                        <div class="wow flipInY" data-wow-offset="0" data-wow-delay="0.8s">
-                                                <div class="align-center">
-                                                    <h4><a href="{% url "travels-index" %}">Voyages</a></h4>
-                                                        <div class="icon">
-                                                                <i class="fa fa-plane fa-3x"></i>
-
-                                                        </div>
-                                                        <p>
-                                                         Retrouvez les voyages organisés par l'AIn7 pour ses sympathisants.
-                                                        </p>
-                                                </div>
-                                        </div>
-                                </div>
-                                <div class="col-md-4">
-                                        <div class="wow flipInY" data-wow-offset="0" data-wow-delay="1.2s">
-                                                <div class="align-center">
-                                                    <h4><a href="{% url "events-index" %}">Événements</a></h4>
-                                                        <div class="icon">
-                                                                <i class="fa fa-users fa-3x"></i>
-
-                                                        </div>
-                                                        <p>
-                                                        Retrouvez les événements à venir autour de la communauté ENSEEIHT. 
-                                                        </p>
-                                                </div>
-                                        </div>
-                                </div>
-                        </div>
+    <div class="kf_content_wrap">
+        <section class="kf_edu2_intro_wrap">
+            <div class="kf_intro_des_wrap">
+                <!-- HEADING 2 START-->
+                <div class="col-md-12">
+                    <div class="kf_edu2_heading2">
+                        <h3>Bienvenue sur le site de l'association des ingénieurs de l'ENSEEIHT</h3>
+                    </div>
                 </div>
-        </div>
-
-
-        <div class="container">
-                <div class="row">
-                        <div class="box">
-                                
-                                <div class="col-md-6">
-                                        <div class="wow bounceIn" data-wow-offset="0" data-wow-delay="0.8s">
-                                                <div class="align-center">
-                                                    <h4><a href="{% url "professionnal_groups" %}">Groupes professionnels</a></h4>
-                                                        <div class="icon">
-                                                                <i class="fa fa-briefcase fa-3x"></i>
-
-                                                        </div>
-                                                        <p>
-                                                         Les activités liés à nos groupes professionnels: énergie et numérique
-                                                        </p>
-                                                </div>
-                                        </div>
-                                </div>
-                                <div class="col-md-6">
-                                        <div class="wow bounceIn" data-wow-offset="0" data-wow-delay="1.3s">
-                                                <div class="align-center">
-                                                    <h4><a href="{% url "regional_groups" %}">Groupes régionaux</a></h4>
-                                                        <div class="icon">
-                                                                <i class="fa fa-beer fa-3x"></i>
-
-                                                        </div>
-                                                        <p>
-                                                        L'activité de nos groupes régionaux: Bordeaux, Lyon, Paris, Toulouse
-                                                        </p>
-                                                </div>
-                                        </div>
-                                </div>
-                        </div>
+                <!-- HEADING 2 END-->
+                <!-- INTERO DES START-->
+                <div class="kf_intro_des">
+                    <div class="kf_intro_des_caption">
+                        <span><i class="fa fa-briefcase fa-2x"></i></span>
+                        <h6>EMPLOI</h6>
+                        <p>Les offres d'emploi du réseau N7 et des conseils pour votre recherche.</p>
+                        <a href="{% url "job-index" %}">Voir la suite</a>
+                    </div>
+                    <figure>
+                        <img src="{% static "theme/images/intro-1.jpg" %}" alt=""/>
+                        <figcaption><a href="{% url "job-index" %}">Offres d'emplois</a></figcaption>
+                    </figure>
                 </div>
-        </div>
+                <!-- INTERO DES END-->
+                <!-- INTERO DES START-->
+                <div class="kf_intro_des">
+                    <div class="kf_intro_des_caption">
+                        <span><i class="fa fa-plane fa-2x"></i></span>
+                        <h6>VOYAGES</h6>
+                        <p>Retrouvez les voyages organisés par l'AIn7 pour ses sympathisants.</p>
+                        <a href="{% url "travels-index" %}">Voir la suite</a>
+                    </div>
+                    <figure>
+                        <img src="{% static "theme/images/intro-2.jpg" %}" alt=""/>
+                        <figcaption><a href="{% url "travels-index" %}">Voyages</a></figcaption>
+                    </figure>
+                </div>
+                <!-- INTERO DES END-->
+
+                <!-- INTERO DES START-->
+                <div class="kf_intro_des">
+                    <div class="kf_intro_des_caption">
+                        <span><i class="fa fa-users fa-2x"></i></span>
+                        <h6>ÉVÈNEMENTS</h6>
+                        <p>Retrouvez les événements à venir autour de la communauté ENSEEIHT.</p>
+                        <a href="{% url "events-index" %}">Voir la suite</a>
+                    </div>
+                    <figure>
+                        <img src="{% static "theme/images/intro-3.jpg" %}" alt=""/>
+                        <figcaption><a href="{% url "events-index" %}">Évènements</a></figcaption>
+                    </figure>
+                </div>
+
+                <div class="kf_intro_des">
+                    <div class="kf_intro_des_caption">
+                        <span><i class="fa fa-briefcase fa-2x"></i></span>
+                        <h6>GROUPES PROFESSIONNELS</h6>
+                        <p>Les activités liés à nos groupes professionnels: énergie et numérique</p>
+                        <a href="{% url "professionnal_groups" %}">Voir la suite</a>
+                    </div>
+                    <figure>
+                        <img src="{% static "theme/images/intro-3.jpg" %}" alt=""/>
+                        <figcaption><a href="{% url "professionnal_groups" %}">Groupes professionels</a></figcaption>
+                    </figure>
+                </div>
+
+                <div class="kf_intro_des">
+                    <div class="kf_intro_des_caption">
+                        <span><i class="fa fa-beer fa-2x"></i></span>
+                        <h6>GROUPES RÉGIONAUX</h6>
+                        <p>L'activité de nos groupes régionaux: Bordeaux, Lyon, Paris, Toulouse.</p>
+                        <a href="{% url "regional_groups" %}">Voir la suite</a>
+                    </div>
+                    <figure>
+                        <img src="{% static "theme/images/intro-3.jpg" %}" alt=""/>
+                        <figcaption><a href="{% url "regional_groups" %}">Groupes Régionaux</a></figcaption>
+                    </figure>
+                </div>
+                <!-- INTERO DES END-->
+            </div>
+        </section>
+
+    </div>
+
+
+    <div style="text-align: center">
+        <a href="{% url "news-index" %}">{% trans "View all news" %}</a>
+    </div>
 
 {% endblock %}
