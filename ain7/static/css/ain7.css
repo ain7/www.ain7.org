@@ -9,3 +9,32 @@
 .kf_intro_des {
     width: 20%;
 }
+
+.widget-social-networks ul{
+	float: left;
+	width: 100%;
+	padding-top:6px; 
+	margin-bottom:-10px;
+}
+.widget-social-networks ul li {
+	float: left;
+    margin: 0 10px 10px 0 !important;
+    width: 72px;
+    padding: 0;
+    transition: none;
+}
+
+
+.widget-social-networks ul li:hover img{
+	opacity: 0.5;
+}
+
+.widget-social-networks ul li a{
+	display: inline-block;
+	font-weight: normal;
+	color: #f9f9f9;
+	text-transform: capitalize;
+	position: relative;
+	padding: 5px 0px 5px 15px;
+	font-size: 14px;
+}
