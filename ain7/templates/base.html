@@ -63,6 +63,42 @@
 
 <div class="kode_wrapper">
 
+
+<!-- SIGNIN MODEL START -->
+    <div class="modal fade" id="signin-box" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <div class="modal-content">
+                <div class="user-box">
+                    <h2>{% trans "Log-in" %}</h2>
+                    <!--FORM FIELD START-->
+                    <div class="form">
+                        <!-- TODO real login form here -->
+                        <div class="input-container">
+                            <input type="text" placeholder="{% trans "Username" %}">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <div class="input-container">
+                            <input type="password" placeholder="{% trans "Password" %}">
+                            <i class="fa fa-unlock"></i>
+                        </div>
+                        <div class="input-container">
+                            <button class="btn-style">{% trans "Sign-in" %}</button>
+                        </div>
+                    </div>
+                    <!--FORM FIELD END-->
+
+                </div>
+                <div class="user-box-footer">
+                    <p>Vous voulez adhérer mais nous n'avez plus vos identifiants? Cliquez pour <a href="{% url "subscribe-public" %}" class="btn btn-success">Adhérer en deux clics sans identifiants</a></p>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- SIGNIN MODEL END -->
+
     <header id="header_2">
         <div class="top_bar_2">
             <div class="container">
@@ -73,8 +109,12 @@
                     <div class="col-md-7">
                         <ul class="login_wrap">
                             {% if not user.is_authenticated %}
-                                <li><a href="{% url "account_login" %}"><i
-                                        class="fa fa-sign-in"></i>{% trans "Log-in" %}</a></li>
+                                <li>
+                                    <a href="#" data-toggle="modal" data-target="#signin-box">
+                                        <i class="fa fa-sign-in"></i>
+                                        {% trans "Log-in" %}
+                                    </a>
+                                </li>
                             {% endif %}
                         </ul>
                         <ul class="top_nav">

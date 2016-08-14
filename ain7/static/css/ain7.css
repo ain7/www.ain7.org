@@ -38,3 +38,7 @@
 	padding: 5px 0px 5px 15px;
 	font-size: 14px;
 }
+
+.user-box-footer a.btn-success {
+	color: #fff
+}
