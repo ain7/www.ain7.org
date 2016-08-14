@@ -42,3 +42,8 @@
 .user-box-footer a.btn-success {
 	color: #fff
 }
+
+.teacher_bio_des ul li {
+	float: none;
+    margin-bottom: 10px;
+}
