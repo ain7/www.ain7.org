@@ -94,3 +94,7 @@
 	float: none;
     margin-bottom: 10px;
 }
+
+p a {
+	color: #2156ab;
+}
