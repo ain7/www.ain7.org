@@ -1,14 +1,41 @@
 {% extends "association/base.html" %}
 {% load i18n %}
 
+{% block breadcrumb %}
+    <ul>
+        <ul>
+            <li><a href="{% url "homepage" %}">Accueil</a></li>
+            <li><a href="{% url "association-index" %}">{% trans "Overview" %}</a></li>
+        </ul>
+    </ul>
+
+{% endblock %}
+
 {% block content-left %}
 
-{% if superadmin or ca_member or secretariat_member or contributor %}
-<p><a class="btn btn-primary" href="{% url "text-edit" text.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></p>
-{% endif %}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="abt_univ_wrap">
+                        <!-- HEADING 1 START-->
+                        <div class="kf_edu2_heading1">
+                            <h3>{{ text.title }}</h3>
+                        </div>
+                        <!-- HEADING 1 END-->
 
-<h2>{{ text.title }}</h2>
+                        <div class="abt_univ_des">
+                            {% if superadmin or ca_member or secretariat_member or contributeur %}
+                                <p><a class="btn btn-primary" href="{% url "text-edit" text.id %}"><i
+                                        class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></p>
+                            {% endif %}
 
-{{ text.body|safe }}
+                            {{ text.body|safe }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 {% endblock %}
