@@ -1,65 +1,44 @@
 {% extends "association/base.html" %}
 {% load i18n %}
 
+{% block breadcrumb %}
+    <ul>
+        <li><a href="{% url "homepage" %}">Home</a></li>
+        <li><a href="{% url "status" %}">{% trans "Status" %}</a></li>
+    </ul>
+{% endblock %}
+
 {% block content-left %}
 
 
-    <!--Banner Wrap Start-->
-    <div class="kf_inr_banner">
+
+
+    <!--ABOUT UNIVERSITY START-->
+    <section>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <!--KF INR BANNER DES Wrap Start-->
-                    <div class="kf_inr_ban_des">
-                        <div class="inr_banner_heading">
+                    <div class="abt_univ_wrap">
+                        <!-- HEADING 1 START-->
+                        <div class="kf_edu2_heading1">
                             <h3>{{ text.title }}</h3>
                         </div>
+                        <!-- HEADING 1 END-->
 
-                        <div class="kf_inr_breadcrumb">
-                            <ul>
-                                <li><a href="{% url "homepage" %}">Home</a></li>
-                                <li><a href="{% url "status" %}">{% trans "Status" %}</a></li>
-                            </ul>
+                        <div class="abt_univ_des">
+                            {% if superadmin or ca_member or secretariat_member or contributeur %}
+                                <p><a class="btn btn-primary" href="{% url "text-edit" text.id %}"><i
+                                        class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></p>
+                            {% endif %}
+
+                            {{ text.body|safe }}
                         </div>
                     </div>
-                    <!--KF INR BANNER DES Wrap End-->
                 </div>
             </div>
         </div>
-    </div>
-
-    <!--Banner Wrap End-->
-
-    <div class="kf_content_wrap">
-
-        <!--ABOUT UNIVERSITY START-->
-        <section>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="abt_univ_wrap">
-                            <!-- HEADING 1 START-->
-                            <div class="kf_edu2_heading1">
-                                <h3>{{ text.title }}</h3>
-                            </div>
-                            <!-- HEADING 1 END-->
-
-                            <div class="abt_univ_des">
-                                {% if superadmin or ca_member or secretariat_member or contributeur %}
-                                    <p><a class="btn btn-primary" href="{% url "text-edit" text.id %}"><i
-                                            class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></p>
-                                {% endif %}
-
-                                {{ text.body|safe }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!--ABOUT UNIVERSITY END-->
-
-    </div>
+    </section>
+    <!--ABOUT UNIVERSITY END-->
 
 
 {% endblock %}
