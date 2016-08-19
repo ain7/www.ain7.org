@@ -2,42 +2,54 @@
 {% load i18n ain7_tags %}
 {% load static from staticfiles %}
 
+{% block breadcrumb %}
+    <ul>
+        <li><a href="{% url "homepage" %}">Accueil</a></li>
+        <li><a href="{% url "regional_groups" %}">{% trans "Regional Groups" %}</a></li>
+        <li><a href="{% url "group-details" group.slug %}">{{ group.name }}</a></li>
+    </ul>
+{% endblock %}
+
 {% block content-left %}
 
-    <h1>{{ group.name }}</h1>
     {% if group.about %}
-        {{ group.about|safe }}
+        <p>{{ group.about|safe }}</p>
     {% endif %}
+
 
     <h3>{{ group.grouphead.name }}</h3>
 
-<table class="table table-striped">
-<tbody>
-{% for r in group.get_group_head %}
-   <th>{{ r.title }}</th>
-   <td>
-       {% if r.person.ain7member.avatar %}
-        <img src ="{{ r.person.ain7member.avatar.url }}" height="50"  alt="{{ r.person.complete_name }}" title="{{ r.person.complete_name }}" />
-        {% else %}
-        <img src="{% static "images/nobody.png" %}" height="50" alt="{{ r.person.complete_name }}"/>
-        {% endif %}
-    </td>
-    <td>
-    <a href="{% url "member-details" r.person.user.id %}">{{ r.person }}</a><br/>
-    (<i>{{ r.person.ain7member.track }} {{ r.person.ain7member.promo }}</i>)
-    {% if superadmin or secretariat_member %}
-    </td><td>
-        <a href="{% url "group-role-edit" group.slug r.id %}"><i class="fa fa-pencil fa-lg"></i></a><br/>
-        <a href="{% url "group-role-delete" group.slug r.id %}"><i class="fa fa-trash-o fa-lg"></i></a>
-    {% endif%}
-   </td>
-   </tr>
-{% endfor %}
-</tbody>
-</table>
+    {% for r in group.get_group_head %}
+        <div class="about_autor">
+            <figure>
+                {% if r.person.ain7member.avatar %}
+                    <img src="{{ r.person.ain7member.avatar.url }}" alt="{{ r.person.complete_name }}"
+                         title="{{ r.person.complete_name }}"/>
+                {% else %}
+                    <img src="{% static "images/nobody.png" %}" alt="{{ r.person.complete_name }}"/>
+                {% endif %}
+            </figure>
+            <div class="about-autor_des">
+                <h6><a href="{% url "member-details" r.person.user.id %}">{{ r.person }}</a></h6>
+                <p>{{ r.person.ain7member.track }} {{ r.person.ain7member.promo }}</p>
+                {% if superadmin or secretariat_member %}
+                    <ul class="autor_social">
 
-{% if superadmin or secretariat_member %}
-<p><a class="btn btn-primary" href="{% url "group-role-add" group.slug %}"><i class="fa fa-plus fa-lg"></i> {% trans "Add" %}</a></p>
-{% endif %}
+                        <li>
+                            <a href="{% url "group-role-edit" group.slug r.id %}"><i class="fa fa-pencil fa-lg"></i></a>
+                        </li>
+                        <li>
+                            <a href="{% url "group-role-delete" group.slug r.id %}"><i class="fa fa-trash-o fa-lg"></i></a>
+                        </li>
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+
+    {% if superadmin or secretariat_member %}
+        <p><a class="btn btn-primary" href="{% url "group-role-add" group.slug %}"><i
+                class="fa fa-plus fa-lg"></i> {% trans "Add" %}</a></p>
+    {% endif %}
 
 {% endblock %}
