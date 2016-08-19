@@ -12,7 +12,7 @@
                     <!--KF INR BANNER DES Wrap Start-->
                     <div class="kf_inr_ban_des">
                         <div class="inr_banner_heading">
-                            <h3>{% block title%}{% endblock %}</h3>
+                            <h3>{% block title %}{% endblock %}</h3>
                         </div>
 
                         <div class="kf_inr_breadcrumb">
@@ -87,26 +87,29 @@
                         <!--KF_BLOG DETAIL_WRAP END-->
                     </div>
 
+
                     <div class="col-md-4">
-                        <div class="kf-sidebar">
-                            <!--KF_SIDEBAR_ARCHIVE_WRAP START-->
-                            <div class="widget widget-archive ">
-                                <h2>{% trans "Events" %}</h2>
-                                {% if group.active_events %}
-                                    <ul class="sidebar_archive_des">
-                                        {% for event in group.active_events %}
-                                            <li>
-                                                <a href="{% url "event-details" event.id %}"><i
-                                                        class="fa fa-angle-right"></i> {{ event.title|upper }}</a>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                {% else %}
-                                    <p>Pas d'évènement à venir organisé par le groupe.</p>
-                                {% endif %}
+                        {% if group %}
+                            <div class="kf-sidebar">
+                                <!--KF_SIDEBAR_ARCHIVE_WRAP START-->
+                                <div class="widget widget-archive ">
+                                    <h2>{% trans "Events" %}</h2>
+                                    {% if group.active_events %}
+                                        <ul class="sidebar_archive_des">
+                                            {% for event in group.active_events %}
+                                                <li>
+                                                    <a href="{% url "event-details" event.id %}"><i
+                                                            class="fa fa-angle-right"></i> {{ event.title|upper }}</a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <p>Pas d'évènement à venir organisé par le groupe.</p>
+                                    {% endif %}
+                                </div>
+                                <!--KF_SIDEBAR_ARCHIVE_WRAP END-->
                             </div>
-                            <!--KF_SIDEBAR_ARCHIVE_WRAP END-->
-                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
