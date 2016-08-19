@@ -2,10 +2,13 @@
 {% load i18n ain7_tags %}
 {% load static from staticfiles %}
 
+{% block title %}
+    {{ group.name }}
+{% endblock %}
+
 {% block breadcrumb %}
     <ul>
         <li><a href="{% url "homepage" %}">Accueil</a></li>
-        <li><a href="{% url "regional_groups" %}">{% trans "Regional Groups" %}</a></li>
         <li><a href="{% url "group-details" group.slug %}">{{ group.name }}</a></li>
     </ul>
 {% endblock %}
