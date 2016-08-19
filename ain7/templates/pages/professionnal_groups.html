@@ -3,33 +3,92 @@
 
 {% block content-left %}
 
-<ul class="list-inline">
-{% if superadmin or ca_member or secretariat_member or contributeur %}
-<li><a class="btn btn-primary" href="{% url "text-edit" text.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></li>
-<li><a class="btn btn-primary" href="{% url "group-edit" %}"><i class="fa fa-plus fa-lg"></i> {% trans "Add new group" %}</a></li>
-{% endif %}
-</ul>
 
-<div class="row">
+    <div class="kf_inr_banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--KF INR BANNER DES Wrap Start-->
+                    <div class="kf_inr_ban_des">
+                        <div class="inr_banner_heading">
+                            <h3>{% trans "Professionnal Groups" %}</h3>
+                        </div>
 
-<div class="col-lg-8">
+                        <div class="kf_inr_breadcrumb">
+                            <ul>
+                                <li><a href="{% url "homepage" %}">Accueil</a></li>
+                                <li><a href="{% url "professionnal_groups" %}">{% trans "Professionnal Groups" %}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--KF INR BANNER DES Wrap End-->
+                </div>
+            </div>
+        </div>
+    </div>
 
-<h3>{{ text.title }}</h3>
+    <!--Banner Wrap End-->
 
-{{ text.body|safe }}
+    <!--Content Wrap Start-->
+    <div class="kf_content_wrap">
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
 
-</div>
+                        <!--KF_BLOG DETAIL_WRAP START-->
+                        <div class="kf_blog_detail_wrap">
 
-<div class="col-lg-4">
+                            <!--KF_BLOG DETAIL_DES START-->
+                            <div class="kf_blog_detail_des">
+                                <div class="blog-detl_heading">
+                                    <h5>{{ text.title }}</h5>
+                                </div>
+                                {% if superadmin or ca_member or secretariat_member or contributeur %}
+                                    <p>
+                                        <a class="btn btn-primary" href="{% url "text-edit" text.id %}"><i
+                                                class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a>
+                                        <a class="btn btn-primary" href="{% url "group-edit" text.id %}"><i
+                                                class="fa fa-plus fa-lg"></i> {% trans "Add new group" %}</a>
+                                    </p>
+                                {% endif %}
 
-<ul class="list-group ain7-group-menu">
-{% for group in groups %}
-<li class="list-group-item"><a href="{% url "group-details" group.slug %}">{{ group.name }}</a></li>
-{% endfor %}
-</ul>
+                                <p>{{ text.body|safe }}</p>
 
-</div>
+                            </div>
+                            <!--KF_BLOG DETAIL_DES END-->
 
-</div>
+                        </div>
+                        <!--KF_BLOG DETAIL_WRAP END-->
+                    </div>
+
+                    <!--KF_EDU_SIDEBAR_WRAP START-->
+                    <div class="col-md-4">
+                        <div class="kf-sidebar">
+                            <!--KF_SIDEBAR_ARCHIVE_WRAP START-->
+                            <div class="widget widget-archive ">
+                                <ul class="sidebar_archive_des">
+                                    {% for group in groups %}
+                                        <li>
+                                            <a href="{% url "group-details" group.slug %}">
+                                                <i class="fa fa-angle-right"></i>{{ group.name }}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <!--KF_SIDEBAR_ARCHIVE_WRAP END-->
+                        </div>
+                    </div>
+                    <!--KF EDU SIDEBAR WRAP END-->
+
+                </div>
+            </div>
+        </section>
+    </div>
+    <!--Content Wrap End-->
+
+
 
 {% endblock %}
