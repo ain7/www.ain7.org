@@ -5,9 +5,48 @@
 
 {% block content %}
 
-{% block content-left %}{% endblock %}
+    <div class="kf_inr_banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--KF INR BANNER DES Wrap Start-->
+                    <div class="kf_inr_ban_des">
+                        <div class="inr_banner_heading">
+                            <h3>{% block title %}{% endblock %}</h3>
+                        </div>
 
-{% block extra-menus %}{% endblock %}
+                        <div class="kf_inr_breadcrumb">
+                            {% block breadcrumb %}{% endblock %}
+                        </div>
+                    </div>
+                    <!--KF INR BANNER DES Wrap End-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="inner-content-holder">
+        <div class="container">
+            <div class="row">
+                <!--EDUCATION BLOG PAGE START-->
+                <div class="col-md-8">
+                    <div class="edu2_blog_page">
+                        {% block content-left %}{% endblock %}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="kf-sidebar">
+                        {% block extra-menus %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
 
 {% endblock %}
 
