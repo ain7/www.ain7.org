@@ -64,10 +64,11 @@
 <div class="kode_wrapper">
 
 
-<!-- SIGNIN MODEL START -->
+    <!-- SIGNIN MODEL START -->
     <div class="modal fade" id="signin-box" tabindex="-1" role="dialog">
         <div class="modal-dialog">
-        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
             <div class="modal-content">
                 <div class="user-box">
                     <h2>{% trans "Log-in" %}</h2>
@@ -90,7 +91,9 @@
 
                 </div>
                 <div class="user-box-footer">
-                    <p>Vous voulez adhérer mais nous n'avez plus vos identifiants? Cliquez pour <a href="{% url "subscribe-public" %}" class="btn btn-success">Adhérer en deux clics sans identifiants</a></p>
+                    <p>Vous voulez adhérer mais nous n'avez plus vos identifiants? Cliquez pour <a
+                            href="{% url "subscribe-public" %}" class="btn btn-success">Adhérer en deux clics sans
+                        identifiants</a></p>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -350,6 +353,24 @@
     {% block content %}{{ content }}{% endblock %}
 
 
+    <div class="edu2_ft_topbar_wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+
+                    <div class="edu2_ft_topbar_des">
+                        <h5>Soutenez l'association et promouvez l'ENSEEIHT</h5>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="edu2_ft_topbar_des">
+                        <a href="{% url "subscribe-public" %}" class="btn-1"><i class="fa fa-paper-plane"></i> Adhérer
+                            ou faire un don</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!--start footer-->
     <footer>
 
@@ -460,31 +481,32 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-	<script src="{% static "theme/js/jquery.bxslider.min.js" %}"></script>
-	<!--Owl Carousel JavaScript-->
-	<script src="{% static "theme/js/owl.carousel.min.js"%}"></script>
-	<!--Pretty Photo JavaScript-->
-	<script src="{% static "theme/js/jquery.prettyPhoto.js"%}"></script>
-	<!--Full Calender JavaScript-->
-	<script src="{% static "theme/js/moment.min.js"%}"></script>
-	<script src="{% static "theme/js/fullcalendar.min.js"%}"></script>
-	<script src="{% static "theme/js/jquery.downCount.js"%}"></script>
-	<!--Image Filterable JavaScript-->
-	<script src="{% static "theme/js/jquery-filterable.js"%}"></script>
-	<!--Accordian JavaScript-->
-	<script src="{% static "theme/js/jquery.accordion.js"%}"></script>
-	<!--Number Count (Waypoints) JavaScript-->
-	<script src="{% static "theme/js/waypoints-min.js"%}"></script>
-	<!--v ticker-->
-	<script src="{% static "theme/js/jquery.vticker.min.js"%}"></script>
-	<!--select menu-->
-	<script src="{% static "theme/js/jquery.selectric.min.js"%}"></script>
-	<!--Side Menu-->
-	<script src="{% static "theme/js/jquery.sidr.min.js"%}"></script>
-	<!--Custom JavaScript-->
-	<script src="{% static "theme/js/custom.js"%}"></script>
+    <script src="{% static "theme/js/jquery.bxslider.min.js" %}"></script>
+    <!--Owl Carousel JavaScript-->
+    <script src="{% static "theme/js/owl.carousel.min.js" %}"></script>
+    <!--Pretty Photo JavaScript-->
+    <script src="{% static "theme/js/jquery.prettyPhoto.js" %}"></script>
+    <!--Full Calender JavaScript-->
+    <script src="{% static "theme/js/moment.min.js" %}"></script>
+    <script src="{% static "theme/js/fullcalendar.min.js" %}"></script>
+    <script src="{% static "theme/js/jquery.downCount.js" %}"></script>
+    <!--Image Filterable JavaScript-->
+    <script src="{% static "theme/js/jquery-filterable.js" %}"></script>
+    <!--Accordian JavaScript-->
+    <script src="{% static "theme/js/jquery.accordion.js" %}"></script>
+    <!--Number Count (Waypoints) JavaScript-->
+    <script src="{% static "theme/js/waypoints-min.js" %}"></script>
+    <!--v ticker-->
+    <script src="{% static "theme/js/jquery.vticker.min.js" %}"></script>
+    <!--select menu-->
+    <script src="{% static "theme/js/jquery.selectric.min.js" %}"></script>
+    <!--Side Menu-->
+    <script src="{% static "theme/js/jquery.sidr.min.js" %}"></script>
+    <!--Custom JavaScript-->
+    <script src="{% static "theme/js/custom.js" %}"></script>
 
-    <script src="{% static "theme/js/responsive-slider.min.js" %}"></script> <!
+    <script src="{% static "theme/js/responsive-slider.min.js" %}"></script>
+    <!
 
     <script type="text/javascript" src="{% static "bootstrap-datepicker/js/bootstrap-datepicker.js" %}"></script>
 
