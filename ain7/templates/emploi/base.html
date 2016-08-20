@@ -4,7 +4,31 @@
 {% block navbar_activities %}class="active"{% endblock %}
 
 {% block content %}
+    <div class="kf_inr_banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--KF INR BANNER DES Wrap Start-->
+                    <div class="kf_inr_ban_des">
+                        <div class="inr_banner_heading">
+                            <h3>{% block title %}{% endblock %}</h3>
+                        </div>
 
-{% block content-left %}{% endblock %}
+                        <div class="kf_inr_breadcrumb">
+                            {% block breadcrumb %}{% endblock %}
+                        </div>
+                    </div>
+                    <!--KF INR BANNER DES Wrap End-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="kf_content_wrap">
+
+
+        {% block content-left %}{% endblock %}
+
+    </div>
 
 {% endblock %}
