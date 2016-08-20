@@ -9,7 +9,7 @@
 <p><a class="btn btn-primary" href="{% url "mailing-add" %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
 
 {% paginate mailings %}
-<p class="text-center">{% show_pages %}</p> 
+{% include "pages/paginator.html" %}
 <ul>
     {% for mailing in mailings %}
         <li><a href="{% url "mailing-edit" mailing.id %}">{{ mailing.title }}</a><br/>
@@ -34,6 +34,6 @@
     {% endfor %}
 </ul>
 
-<p class="text-center">{% show_pages %}</p> 
+{% include "pages/paginator.html" %}
 
 {% endblock %}

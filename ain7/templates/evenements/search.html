@@ -23,13 +23,13 @@
 
 {% paginate list_events %}
 
-<p class="text-center">{% show_pages %}</p> 
+{% include "pages/paginator.html" %}
 <ul>
     {% for event in list_events %}
         <li><a href="{% url "event-details" event.id %}">{{ event.title }}</a> ({{ event.date|date:"d F Y H:i" }} - {{ event.location }})</li>
     {% endfor %}
 </ul>
-<p class="text-center">{% show_pages %}</p> 
+{% include "pages/paginator.html" %}
 </div>
 
 {% endblock %}

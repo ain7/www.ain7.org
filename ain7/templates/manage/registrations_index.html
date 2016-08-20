@@ -8,11 +8,12 @@
 
 {% paginate registrations %}
 
-<p class="text-center">{% show_pages %}</p> 
+{% include "pages/paginator.html" %}
+
 
 <table class="table table-striped">
     <thead><tr><th>Nom</th><th>Filière</th><th>Mail</th><th>Date</th><th>&nbsp;</th></tr></thead>
-    <tobdy>
+    <tbody>
     {% for registration in registrations %}
     <tr>
         <td><a href="{% url "member-details" registration.pk %}">{{ registration.last_name }} {{ registration.first_name }}</a></td>
@@ -26,6 +27,7 @@
     </tbody>
 </table>
 
-<p class="text-center">{% show_pages %}</p> 
+{% include "pages/paginator.html" %}
+
 
 {% endblock %}

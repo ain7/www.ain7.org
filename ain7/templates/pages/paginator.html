@@ -1,0 +1,29 @@
+{% load el_pagination_tags %}
+
+<!--KF_PAGINATION_WRAP START-->
+{% get_pages %}
+{% if pages.paginated %}
+    <div class="kf_edu_pagination_wrap">
+        <ul class="pagination">
+            {% if pages.previous %}
+                <li>
+                    <a href="{{ pages.previous.path }}" aria-label="Previous">
+                        <span aria-hidden="true"><i class="fa fa-angle-left"></i>PREV</span>
+                    </a>
+                </li>
+            {% endif %}
+            {% for page in pages %}
+                <li class="{% if page.is_current %}active{% endif %}"><a
+                        href="{{ page.path }}">{{ page.label }}</a></li>
+            {% endfor %}
+            {% if pages.next %}
+                <li>
+                    <a href="{{ pages.next.url }}" aria-label="Next">
+                        <span aria-hidden="true">Next<i class="fa fa-angle-right"></i></span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+{% endif %}
+<!--KF_PAGINATION_WRAP END-->

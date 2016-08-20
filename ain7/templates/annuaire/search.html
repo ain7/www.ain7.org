@@ -32,12 +32,15 @@
     </div>
 
     {% paginate filter %}
-    <p class="text-center">{% show_pages %}</p>
 
     <div class="kf_content_wrap">
         <section class="edu2_teachers_page">
             <div class="container">
                 <div class="row">
+                    <div class="col-md-12">
+                        {% include "pages/paginator.html" %}
+                    </div>
+
                     {% for ain7member in filter %}
                         <div class="col-lg-3 col-md-4 col-sm-6">
                             <div class="edu2_faculty_des">
@@ -81,6 +84,6 @@
         </section>
     </div>
 
-    <p class="text-center">{% show_pages %}</p>
+    {% include "pages/paginator.html" %}
 
 {% endblock %}

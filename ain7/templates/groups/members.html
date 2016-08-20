@@ -19,8 +19,7 @@
 {% block content-left %}
 
     {% if members %}
-        {% paginate members %}
-        <p class="text-center">{% show_pages %}</p>
+        {% paginate 1 members %}
 
         {% for member in members %}
             <div class="about_autor">
@@ -78,7 +77,7 @@
                 </div>
             </div>
         {% endfor %}
-        <p class="text-center">{% show_pages %}</p>
+        {% include "pages/paginator.html" %}
     {% endif %}
 
 {% endblock %}

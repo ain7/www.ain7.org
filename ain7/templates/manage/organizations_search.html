@@ -21,7 +21,7 @@
 
 {% paginate organizations %}
 
-<p class="text-center">{% show_pages %}</p> 
+{% include "pages/paginator.html" %}
 
 <ul>
   {% for org in organizations %}
@@ -32,7 +32,7 @@
     </li>
   {% endfor %}
 </ul>
-<p class="text-center">{% show_pages %}</p> 
+{% include "pages/paginator.html" %}
 {% else %}
     <p>{% trans "No organization matched your criteria." %}</p>
 {% endifnotequal %}

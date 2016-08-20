@@ -69,9 +69,8 @@
 
                             <!--KF_SIDEBAR_ARCHIVE_WRAP START-->
                             <div class="widget widget-archive ">
-                                {% paginate travels %}
-                                <p class="text-center">{% show_pages %}</p>
-                                <h2>{% trans "Events" %}</h2>
+                                {% paginate 1 travels %}
+                                <h2>{% trans "Travels" %}</h2>
 
                                 <ul class="sidebar_archive_des">
                                     {% for travel in travels %}
@@ -83,7 +82,24 @@
                                     {% endfor %}
 
                                 </ul>
-                                <p class="text-center">{% show_pages %}</p>
+                                {% get_pages %}
+                                {% if pages.paginated %}
+                                    <div class="pull-right">
+                                        {% if pages.previous %}
+                                            <a href="{{ pages.previous.path }}" aria-label="Previous"
+                                               class="btn btn-default">
+                                                <span aria-hidden="true"><i class="fa fa-angle-left"></i></span>
+                                            </a>
+                                        {% endif %}
+                                        &nbsp;
+                                        {% if pages.next %}
+                                            <a href="{{ pages.next.url }}" aria-label="Next" class="btn btn-default">
+                                                    <span aria-hidden="true"><i
+                                                            class="fa fa-angle-right"></i></span>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
                             </div>
                             <!--KF_SIDEBAR_ARCHIVE_WRAP END-->
                         </div>
