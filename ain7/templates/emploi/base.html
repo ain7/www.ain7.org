@@ -15,7 +15,11 @@
                         </div>
 
                         <div class="kf_inr_breadcrumb">
-                            {% block breadcrumb %}{% endblock %}
+                            <ul>
+                                <li><a href="{% url "homepage" %}">Accueil</a></li>
+                                <li><a href="{% url "job-index" %}">{% trans "Job" %}</a></li>
+                                {% block breadcrumb %}{% endblock %}
+                            </ul>
                         </div>
                     </div>
                     <!--KF INR BANNER DES Wrap End-->
