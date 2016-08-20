@@ -2,12 +2,12 @@
 {% load i18n %}
 
 {% block breadcrumb %}
+
     <ul>
-        <ul>
-            <li><a href="{% url "homepage" %}">Accueil</a></li>
-            <li><a href="{% url "association-index" %}">{% trans "Overview" %}</a></li>
-        </ul>
+        <li><a href="{% url "homepage" %}">Accueil</a></li>
+        <li><a href="{% url "association-index" %}">{% trans "Overview" %}</a></li>
     </ul>
+    
 
 {% endblock %}
 
