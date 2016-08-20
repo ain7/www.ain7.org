@@ -1,56 +1,132 @@
 {% extends "emploi/base.html" %}
 {% load i18n ain7_tags %}
 
+{% block title %}{{ job.title }}{% endblock %}
+
+{% block breadcrumb %}
+    <ul>
+        <li><a href="{% url "homepage" %}">Accueil</a></li>
+        <li><a href="{% url "job-index" %}">{% trans "Job" %}</a></li>
+    </ul>
+{% endblock %}
+
 {% block content-left %}
 
-{% if superadmin or ca_member or secretariat_member %}
-<a class="btn btn-primary" href="{% url "job-edit" job.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a>
-{% endif %}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
 
-<h2>{{ job.title }}</h2>
+                    <!-- COURSES DETAIL WRAP START -->
+                    <div class="kf_courses_detail_wrap">
 
-<ul>
-<li>{% trans "This announce has been viewed" %} {{ views }} {% trans "times" %}</li>
-<li>{% trans "Registered" %}&nbsp;:</b> {{ job.created_at|date:"l j F Y H:m" }} {% if job.created_by %}{% trans "by" %} {{ job.created_by }}{% endif %}</li>
-</ul>
+                        {% if superadmin or ca_member or secretariat_member %}
+                            <p>
+                                <a class="btn btn-primary" href="{% url "job-edit" job.id %}"><i
+                                        class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a>
+                            </p>
+                        {% endif %}
+                        <div class="courses_detail_heading">
+                            <h4>{{ job.title }}</h4>
+                        </div>
 
-{% if job.office %}
-<ul>
-<li><b>{% filter capfirst%}{% trans "organization" %}{% endfilter %}&nbsp;:</b>
-    <a href="{% url "organization-details" job.office.organization.id %}">{{ job.office }}</a>
-</li>
-{% endif %}
-<li><b>{% trans "Contract Type" %}&nbsp;:</b> {{ job.get_contract_type_display }}</li>
-<li><b>{% trans "Experience" %}&nbsp;:</b> {{ job.experience }}</li>
-<li><b>{% trans "Reference" %}&nbsp;:</b> {{ job.reference }}</li>
-{% if job.contact %}
-<li><b>{% trans "Contact" %}&nbsp;:</b><a href="{% url "member-details" job.contact.user.id %}">{{ job.contact }}</a></li>
-{% endif %}
-{% if job.track.all %}
-<li><b>{% trans "Tracks" %}&nbsp;:</b> 
-    {% for track in job.track.all %}
-        {{ track.name }}
-        {% if not forloop.last %} - {% endif %}
-    {% endfor %}
-</li>
-{% endif %}
-{% if job.activity_field %}
-<li><b>{% trans "Activity field" %}&nbsp;:</b> {{ job.activity_field }}</li>
-{% endif %}
-{% if job.contact_name or job.contact_email %}
-    <li><b>{% trans "Contact" %}&nbsp;:</b>
-      {% if job.contact_email %}
-        <a href="mailto:{{ job.contact_email }}">
-      {% endif %}
-      {% if job.contact_name %} 
-        {{ job.contact_name }}
-      {% else %} 
-        {{ job.contact_email }}
-      {% endif %}
-      {% if job.contact_email %}</a>{% endif %}
-    </li>
-{% endif %}
+                        <ul class="course_detail_meta">
+                            {% if job.office %}
+                                <li>
+                                    <i class="fa fa-building"></i>
+                                    {% filter capfirst %}{% trans "organization" %}{% endfilter %}&nbsp;:
+                                    <a href="{% url "organization-details" job.office.organization.id %}">{{ job.office }}</a>
+                                </li>
+                            {% endif %}
+                            <li><i class="fa fa-clock-o"></i>{{ job.created_at|date:"l j F Y H:m" }}
+                                {% if job.created_by %}{% trans "by" %} {{ job.created_by }}{% endif %}</li>
+                            <li><i class="fa fa-bookmark"></i>{{ job.get_contract_type_display }}</li>
+                        </ul>
 
-{{ job.description|safe }}
+                        <!-- COURSES DETAIL TABS WRAP START -->
+                        <div class="kf_courses_tabs">
+
+                            <div class="tab-content">
+
+                                <div role="tabpanel" class="tab-pane active" id="coursedetails">
+
+                                    <!-- COURSES DETAIL DES START -->
+                                    <div class="kf_courses_detail_des">
+                                        <p>{{ job.description|safe }}</p>
+                                    </div>
+                                    <!-- COURSES DETAIL DES END -->
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- COURSES DETAIL WRAP END -->
+                </div>
+
+                <!--KF_EDU_SIDEBAR_WRAP START-->
+                <div class="col-md-4">
+                    <div class="kf-sidebar">
+
+                        <!--KF_SIDEBAR_SEARCH_WRAP START-->
+                        <div class="sidebar_register_wrap">
+                            <a class="apply" href="#">Apply Now</a>
+                            <ul class="sidebar_register_des">
+                                <li>{% trans "Experience" %}&nbsp;:<span class="green"> {{ job.experience }}</span></li>
+                                <li>{% trans "Reference" %}&nbsp;:<span class="green"> {{ job.reference }}</span></li>
+                                {% if job.contact %}
+                                    <li><b>{% trans "Contact" %}&nbsp;:</b><a
+                                            href="{% url "member-details" job.contact.user.id %}">{{ job.contact }}</a>
+                                    </li>
+                                {% endif %}
+                                {% if job.track.all %}
+                                    <li>{% trans "Tracks" %}&nbsp;:
+                                        {% for track in job.track.all %}
+                                            {{ track.name }}
+                                            {% if not forloop.last %} - {% endif %}
+                                        {% endfor %}
+                                    </li>
+                                {% endif %}
+                                {% if job.activity_field %}
+                                    <li>{% trans "Activity field" %}&nbsp;: {{ job.activity_field }}</li>
+                                {% endif %}
+                                {% if job.contact_name or job.contact_email %}
+                                    <li>{% trans "Contact" %}&nbsp;:
+                                        {% if job.contact_email %}
+                                            <a href="mailto:{{ job.contact_email }}">
+                                        {% endif %}
+                                        {% if job.contact_name %}
+                                            {{ job.contact_name }}
+                                        {% else %}
+                                            {{ job.contact_email }}
+                                        {% endif %}
+                                        {% if job.contact_email %}</a>{% endif %}
+                                    </li>
+                                {% endif %}
+                                <li>{% trans "This announce has been viewed" %} {{ views }} {% trans "times" %}</li>
+                            </ul>
+                        </div>
+                        <!--KF_SIDEBAR_SEARCH_WRAP END-->
+                    </div>
+                </div>
+                <!--KF EDU SIDEBAR WRAP END-->
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 {% endblock %}
