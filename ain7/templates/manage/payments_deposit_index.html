@@ -2,12 +2,16 @@
 
 {% load i18n %}
 
+{% block title %}{% trans "Deposit slip" %}{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{% url "payments-deposit-index" %}">{% trans "Deposit slip" %}</a></li>
+{% endblock %}
+
 {% block content-left %}
 
-<h2>{% trans "Payments"%}</h2>
-
-<ul>
-<li><a href="{% url "payments-deposit-details" 2 %}">Chèques CE</a></li>
-</ul>
+    <ul>
+        <li><a href="{% url "payments-deposit-details" 2 %}">Chèques CE</a></li>
+    </ul>
 
 {% endblock %}
