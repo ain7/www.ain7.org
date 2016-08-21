@@ -13,14 +13,15 @@
                     <!--KF INR BANNER DES Wrap Start-->
                     <div class="kf_inr_ban_des">
                         <div class="inr_banner_heading">
-                            <h3>Annuaire</h3>
+                            <h3>{% block title %}Annuaire{% endblock %}</h3>
                         </div>
 
                         <div class="kf_inr_breadcrumb">
                             <ul>
                                 <li><a href="{% url "homepage" %}">Accueil</a></li>
-                                <li><a href="{% url "annuaire-search" %}">Annuaire</a></li>
-                                {% block breadcrumb %}{% endblock %}
+                                {% block breadcrumb %}
+                                    <li><a href="{% url "annuaire-search" %}">Annuaire</a></li>
+                                {% endblock %}
                             </ul>
                         </div>
                     </div>
