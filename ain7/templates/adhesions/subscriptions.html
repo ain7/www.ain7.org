@@ -2,14 +2,25 @@
 {% load i18n %}
 {% load el_pagination_tags %}
 
-{% block content-left %}
+
+{% block title %}
 
     {% if filter %}
-        <h2>{% trans "Subscriptions to validate" %}</h2>
+        {% trans "Subscriptions to validate" %}
     {% else %}
-        <h2>{% trans "Subscriptions" %}</h2>
+        {% trans "Subscriptions" %}
     {% endif %}
+{% endblock %}
+{% block breadcrumb %}
+    <li><a href="#">{% if filter %}
+        {% trans "Subscriptions to validate" %}
+    {% else %}
+        {% trans "Subscriptions" %}
+    {% endif %}</a></li>
 
+{% endblock %}
+
+{% block content-left %}
     {% if subscriptions_list %}
         {% paginate subscriptions_list %}
         <div id="edition">
