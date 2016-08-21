@@ -2,46 +2,50 @@
 
 {% load i18n %}
 
+{% block title %}{% trans "Offices merging for company" %} {{ office.organization }}{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{% url "organization-index" %}">{% trans "Organizations" %}</a></li>
+    <li><a href="{% url "organization-details" office.organization.id %}">{{ office.organization.name }}</a></li>
+{% endblock %}
+
+
 {% block content-left %}
 
-<div class="left_box">
+    <div class="left_box">
 
-<h2>{% trans "Offices merging for company" %} {{ office.organization }}</h2>
+        <h2>{% trans "Offices merging for company" %} {{ office.organization }}</h2>
 
-<p>
-{% blocktrans %}This procedure will replace all the references to the office <em>{{ office }}</em> by references of another office, and then remove <em>{{ office }}</em>.{% endblocktrans %}
+        <p>
+            {% blocktrans %}This procedure will replace all the references to the office <em>{{ office }}</em> by
+                references of another office, and then remove <em>{{ office }}</em>.{% endblocktrans %}
 
-<p>{% trans "Please choose this second office." %}</p>
+        <p>{% trans "Please choose this second office." %}</p>
 
-<form action="." method="post">
-{% csrf_token %}
-<table border="0" align="center">
-   {{ form }}
-</table>
-<div style="text-align: center">
-<input type="submit" class="btn btn-primary" value="{% trans 'Continue' %}" />
-</div>
-</form>
+        <form action="." method="post">
+            {% csrf_token %}
+            <table border="0" align="center">
+                {{ form }}
+            </table>
+            <div style="text-align: center">
+                <input type="submit" class="btn btn-primary" value="{% trans 'Continue' %}"/>
+            </div>
+        </form>
 
-</div>
-{% endblock %}
+    </div>
 
+    <h2>{% trans "Actions" %}</h2>
+    <div class="grey-box">
+        <ul>
+            <li><a href="{% url "office-edit" office.organization.id office.id %}">
+                {% trans "Register a new office" %}</a></li>
+        </ul>
+    </div>
 
-{% block actions %}
-<h2>{% trans "Actions" %}</h2>
-<div class="grey-box">
-<ul>
-<li><a href="{% url "office-edit" office.organization.id %}">
-{% trans "Register a new office" %}</a></li>
-</ul>
-</div>
-{% endblock %}
-
-{% block extra-menu %}
-<h2>{% trans "Card Informations"%}</h2>
-<div class="grey-box">
-<ul>
-  <li>{% trans "Update" %}&nbsp;: {{ organization.modification_date|date:"l j F Y" }}</li>
-</ul>
-</div>
+    <h2>{% trans "Card Informations" %}</h2>
+    <div class="grey-box">
+        <ul>
+            <li>{% trans "Update" %}&nbsp;: {{ organization.modification_date|date:"l j F Y" }}</li>
+        </ul>
+    </div>
 {% endblock %}

@@ -3,36 +3,45 @@
 {% load crispy_forms_tags %}
 {% load el_pagination_tags %}
 
+{% block title %}
+    {% trans "Organizations" %}
+{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{% url "organization-index" %}">{% trans "Organizations" %}</a></li>
+{% endblock %}
+
 {% block content-left %}
 
-<div class="row">
-<div class="col-lg-8 col-lg-offset-2">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
 
-<form action="." method="get">
-{{ organizations.form|crispy }}
-<div class="control-group">
-<div class="controls">
-<div class="col-lg-offset-4">
-<button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> {% trans "Search" %}</button>
-</div>
-</div>
-</div>
-</form>
+            <form action="." method="get">
+                {{ organizations.form|crispy }}
+                <div class="control-group">
+                    <div class="controls">
+                        <div class="col-lg-offset-4">
+                            <button class="btn btn-primary" type="submit"><i
+                                    class="fa fa-search"></i> {% trans "Search" %}</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
 
-</div>
-</div>
+        </div>
+    </div>
 
-{% paginate organizations %}
-<ul>
-  {% for org in organizations %}
-    <li>
-      <a href="{% url "organization-details" org.id %}">
-        {{ org.name }}
-      </a>
-    </li>
-  {% endfor %}
-</ul>
-{% include "pages/paginator.html" %}
+    {% paginate organizations %}
+    <ul class="real-list">
+        {% for org in organizations %}
+            <li>
+                <a href="{% url "organization-details" org.id %}">
+                    {{ org.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+    {% include "pages/paginator.html" %}
 
 
 {% endblock %} {# content-left #}

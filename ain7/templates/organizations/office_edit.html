@@ -1,24 +1,30 @@
-{% extends "emploi/base.html" %}
+{% extends "organizations/base.html" %}
 {% load i18n %}
 {% load crispy_forms_tags %}
 
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{% url "organization-index" %}">{% trans "Organizations" %}</a></li>
+    <li><a href="{% url "organization-details" organization.id %}">{{ organization.name }}</a></li>
+{% endblock %}
+
 {% block content-left %}
 
-<h2>{{ title }}</h2>
+    {% if header_msg %}
+        <p>{{ header_msg|safe }}</p>
+    {% endif %}
 
-{% if header_msg %}
-    <p>{{ header_msg|safe }}</p>
-{% endif %}
-
-<form method="post" action="." class="form-horizontal">
-{% csrf_token %}
-{{ form|crispy }}
-<div class="control-group">
-<div class="controls">
-<button class="btn btn-primary" type="submit">{% trans "Save" %}</button>
-<a href="{% url 'organization-details' organization.id %}">{% trans "Cancel" %}</a>
-</div>
-</div>
-</form>
+    <form method="post" action="." class="form-horizontal">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="control-group">
+            <div class="controls">
+                <button class="btn btn-primary" type="submit">{% trans "Save" %}</button>&nbsp;
+                <a href="{% url 'organization-details' organization.id %}" class="btn btn-default">{% trans "Cancel" %}</a>
+            </div>
+        </div>
+    </form>
 
 {% endblock %}

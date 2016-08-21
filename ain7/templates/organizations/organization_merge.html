@@ -3,24 +3,32 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 
+{% block title %}{% trans "Organizations merging" %}{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{% url "organization-index" %}">{% trans "Organizations" %}</a></li>
+    <li><a href="{% url "organization-details" organization.id %}">{{ organization.name }}</a></li>
+{% endblock %}
+
 {% block content-left %}
 
-<h2>{% trans "Organizations merging" %}</h2>
+    <h2>{% trans "Organizations merging" %}</h2>
 
-<p>
-{% blocktrans %}This procedure will replace all the references to the organization <em>{{ organization }}</em> by references of another organization, and then remove <em>{{ organization }}</em>.{% endblocktrans %}
+    <p>
+        {% blocktrans %}This procedure will replace all the references to the organization <em>{{ organization }}</em>
+            by references of another organization, and then remove <em>{{ organization }}</em>.{% endblocktrans %}
 
-<p>{% trans "Please choose this second organization." %}</p>
+    <p>{% trans "Please choose this second organization." %}</p>
 
-<form action="." method="post" class="form-horizontal">
-{% csrf_token %}
-{{ form }}
-<div class="control-group">
-<div class="controls">
-<button type="submit" class="btn btn-default">{% trans "Save" %}</button>
-<a href="{% url 'organization-details' organization.id %}">{% trans "Cancel" %}</a>
-</div>
-</div>
-</form>
+    <form action="." method="post" class="form-horizontal">
+        {% csrf_token %}
+        {{ form }}
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn btn-default">{% trans "Save" %}</button>
+                <a href="{% url 'organization-details' organization.id %}">{% trans "Cancel" %}</a>
+            </div>
+        </div>
+    </form>
 
 {% endblock %} {# content-left #}
