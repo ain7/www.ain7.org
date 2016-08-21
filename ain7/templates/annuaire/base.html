@@ -6,7 +6,7 @@
 {% block content %}
 
     <!--Banner Wrap Start-->
-    <div class="kf_inr_banner padding_more">
+    <div class="kf_inr_banner">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -20,6 +20,7 @@
                             <ul>
                                 <li><a href="{% url "homepage" %}">Accueil</a></li>
                                 <li><a href="{% url "annuaire-search" %}">Annuaire</a></li>
+                                {% block breadcrumb %}{% endblock %}
                             </ul>
                         </div>
                     </div>

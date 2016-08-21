@@ -5,334 +5,490 @@
 
 {% block content-left %}
 
-<h1>{{ person.first_name }} {{ person.last_name }}</h1>
+    <div class="kf_content_wrap">
+        <!--ABOUT UNIVERSITY START-->
+        <section>
+            <div class="container">
+                <div class="row">
 
-<a href="{% url "member-details" person.user.id %}">{% trans "Back to personnal file" %}</a>
+                    <div class="col-lg-6 col-md-7">
+                        <!--TEACHER BIO WRAP START-->
+                        <div class="teacher_bio_wrap">
+                            <!--TEACHER BIO LOGO START-->
+                            <div class="teacher_bio_logo">
+                                <span><i class="icon-book236"></i></span>
+                                <h3>{{ person.first_name }} {{ person.last_name }}</h3>
+                            </div>
+                            <div class="teacher_bio_des">
+                                <p>
+                                    <a href="{% url "member-details" person.user.id %}">{% trans "Back to personnal file" %}</a>
+                                </p>
 
-{% if person.ain7member.is_subscriber %}
-<div class="alert alert-info" role="alert">
-<i class="fa fa-info-circle fa-2x"></i> Vous êtes à jour de votre cotisation à l'association.
-</div>
-{% else %}
-<div class="alert alert-warning" role="alert">
-    Vous n'êtes pas à jour de votre cotisation. <a href="{% url "subscription-add" person.pk %}">Cliquez-ici pour adhérer</a>
-</div>
-{% endif %}
+                                {% if person.ain7member.is_subscriber %}
+                                    <div class="alert alert-info" role="alert">
+                                        <i class="fa fa-info-circle fa-2x"></i> Vous êtes à jour de votre cotisation à
+                                        l'association.
+                                    </div>
+                                {% else %}
+                                    <div class="alert alert-warning" role="alert">
+                                        Vous n'êtes pas à jour de votre cotisation. <a
+                                            href="{% url "subscription-add" person.pk %}">Cliquez-ici
+                                        pour adhérer</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
 
-<ul>
-   <li><b>{% filter capfirst %}{% trans "sex" %}{% endfilter %}
-       &nbsp;:</b> {{ person.sex }}</li>
-   <li><b>{% trans "First name" %}&nbsp;:</b> {{ person.first_name }}</li>
-   <li><b>{% trans "Last name" %}&nbsp;:</b> {{ person.last_name }}</li>
-   {% if person.maiden_name %}
-   <li><b>{% filter capfirst %}{% trans "maiden name" %}{% endfilter %}
-       &nbsp;:</b> {{ person.maiden_name|default:"" }}</li>
-   {% endif %}
-   <li><b>{% trans "Birth date" %}&nbsp;:</b>
-       {{ person.birth_date|date:"d/m/Y" }}</li>
-   {% if personprivate.death_date %}
-   <li><b>{% filter capfirst %}{% trans "death date" %}{% endfilter %}
-       &nbsp;:</b> {{ personprivate.death_date|date:"d/m/Y" }}</li>
-   {% endif %}
-   <li><b>{% filter capfirst %}{% trans "nationality" %}{% endfilter %}
-       &nbsp;:</b> {{ person.country.nationality }}</li>
-</ul>
-<p><a href="{% url "member-person-edit" person.user.id %}">{% trans "Modify" %}</a></p>
+                    <div class="col-lg-6 col-md-5">
 
-{% if ain7member %}
+                        {% if ca_member or secretariat_member or superadmin %}
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Zone réservée à l'association</div>
+                                <div class="panel-body">
+                                    <ul>
+                                        <li><b>{% filter capfirst %}{% trans "type" %}{% endfilter %}</b>&nbsp;:
+                                            {{ personprivate.person_type }}</li>
+                                        <li><b>{% filter capfirst %}{% trans "member" %}{% endfilter %}</b>&nbsp;:
+                                            {{ personprivate.member_type }}</li>
+                                        {% if personprivate.death_date %}
+                                            <li><b>{% filter capfirst %}{% trans "death date" %}{% endfilter %}
+                                                &nbsp;:</b> {{ personprivate.death_date|date:"d/m/Y" }}</li>
+                                        {% endif %}
+                                        <li><b>{% filter capfirst %}{% trans "notes" %}{% endfilter %}
+                                            &nbsp;:</b>
+                                            {% if personprivate.notes %}{{ personprivate.notes|safe }}{% endif %}
+                                        </li>
+                                    </ul>
+                                    <p>
+                                        <a href="{% url "member-personprivate-edit" person.user.id %}">{% trans "Modify" %}</a>
+                                    </p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
 
-<ul>
-   <li><b>{% filter capfirst %}{% trans "avatar" %}{% endfilter %}</b>&nbsp;:
-       {% if ain7member.avatar %}
-	   <img src="{{ ain7member.avatar.url }}" height="100" alt="{% trans "avatar" %}" />
-       {% else %}
-           {% trans "No avatar" %}
-       {% endif %}
-   </li>
-   <li><b>{% trans "Nick name" %}&nbsp;:</b>
-       {% if ain7member.nick_name %}
-           {{ ain7member.nick_name|default:"" }}
-       {% else %}
-           {% trans "No nickname" %}
-       {% endif %}</li>
-   <li><b>{% trans "Family situation" %}&nbsp;:</b>
-       {% if ain7member.marital_status %}
-           {{ ain7member.marital_status }},
-       {% else %}
-           {% filter capfirst %}{% trans "not available" %}{% endfilter %},
-       {% endif %}
-       {% if ain7member.children_count %}
-           {{ ain7member.children_count }} {% trans "children" %}.
-       {% else %}
-           {% trans "no child" %}.
-       {% endif %}</li>
-    <li><b>{% filter capfirst %}{% trans "decorations" %}{% endfilter %}
-        &nbsp;:</b>
-        {% if ain7member.decorations.all %}
-            {% for decoration in ain7member.decorations.all %}{{ decoration }}
-                {% if not forloop.last %} - {% endif %}{% endfor %}
-        {% else %}
-            {% trans "No decoration" %}
-        {% endif %}</li>
-    <li><b>{% filter capfirst %}{% trans "ceremonial duties"%}{% endfilter %}
-        &nbsp;:</b>
-        {% if ain7member.ceremonial_duties.all %}
-            {% for duty in ain7member.ceremonial_duties.all %}{{ diploma }}
-                {% if not forloop.last %} - {% endif %}{% endfor %}
-        {% else %}
-            {% trans "No ceremonial duty" %}
-        {% endif %}</li>
-    <li><b>{% trans "Receive job offers by email" %}</b>&nbsp;:
-        {% if ain7member.receive_job_offers %}
-            {% trans "Yes" %}</li>
-	{% else %}
-            {% trans "No" %}</li>
-        {% endif %}
-</ul>
-<p><a href="{% url "member-ain7member-edit" person.user.id %}">{% trans "Modify" %}</a></p>
+                <div class="row">
+                    <div class="col-lg-6 col-md-7">
 
-{% endif %}
+                        <ul>
+                            <li><b>{% filter capfirst %}{% trans "sex" %}{% endfilter %}
+                                &nbsp;:</b> {{ person.sex }}</li>
+                            <li><b>{% trans "First name" %}&nbsp;:</b> {{ person.first_name }}</li>
+                            <li><b>{% trans "Last name" %}&nbsp;:</b> {{ person.last_name }}</li>
+                            {% if person.maiden_name %}
+                                <li><b>{% filter capfirst %}{% trans "maiden name" %}{% endfilter %}
+                                    &nbsp;:</b> {{ person.maiden_name|default:"" }}</li>
+                            {% endif %}
+                            <li><b>{% trans "Birth date" %}&nbsp;:</b>
+                                {{ person.birth_date|date:"d/m/Y" }}</li>
+                            {% if personprivate.death_date %}
+                                <li><b>{% filter capfirst %}{% trans "death date" %}{% endfilter %}
+                                    &nbsp;:</b> {{ personprivate.death_date|date:"d/m/Y" }}</li>
+                            {% endif %}
+                            <li><b>{% filter capfirst %}{% trans "nationality" %}{% endfilter %}
+                                &nbsp;:</b> {{ person.country.nationality }}</li>
+                        </ul>
+                        <p><a href="{% url "member-person-edit" person.user.id %}">{% trans "Modify" %}</a></p>
+                    </div>
 
-{% if ca_member or secretariat_member or superadmin %}
-<div class="panel panel-default">
-      <div class="panel-heading">Zone réservée à l'association</div>
-        <div class="panel-body">
-<ul>
-    <li><b>{% filter capfirst %}{% trans "type" %}{% endfilter %}</b>&nbsp;:
-        {{ personprivate.person_type }}</li>
-    <li><b>{% filter capfirst %}{% trans "member" %}{% endfilter %}</b>&nbsp;:
-        {{ personprivate.member_type }}</li>
-   {% if personprivate.death_date %}
-   <li><b>{% filter capfirst %}{% trans "death date" %}{% endfilter %}
-       &nbsp;:</b> {{ personprivate.death_date|date:"d/m/Y" }}</li>
-   {% endif %}
-   <li><b>{% filter capfirst %}{% trans "notes" %}{% endfilter %}
-       &nbsp;:</b> {% if personprivate.notes %}{{ personprivate.notes|safe }}{% endif %}</li>
-</ul>
-<p><a href="{% url "member-personprivate-edit" person.user.id %}">{% trans "Modify" %}</a></p>
-        </div>
-</div>
-{% endif %}
+                    <div>
+                        {% if ain7member %}
+                            <ul>
+                                <li><b>{% filter capfirst %}{% trans "avatar" %}{% endfilter %}</b>&nbsp;:
+                                    {% if ain7member.avatar %}
+                                        <img src="{{ ain7member.avatar.url }}" height="100"
+                                             alt="{% trans "avatar" %}"/>
+                                    {% else %}
+                                        {% trans "No avatar" %}
+                                    {% endif %}
+                                </li>
+                                <li><b>{% trans "Nick name" %}&nbsp;:</b>
+                                    {% if ain7member.nick_name %}
+                                        {{ ain7member.nick_name|default:"" }}
+                                    {% else %}
+                                        {% trans "No nickname" %}
+                                    {% endif %}</li>
+                                <li><b>{% trans "Family situation" %}&nbsp;:</b>
+                                    {% if ain7member.marital_status %}
+                                        {{ ain7member.marital_status }},
+                                    {% else %}
+                                        {% filter capfirst %}{% trans "not available" %}{% endfilter %},
+                                    {% endif %}
+                                    {% if ain7member.children_count %}
+                                        {{ ain7member.children_count }} {% trans "children" %}.
+                                    {% else %}
+                                        {% trans "no child" %}.
+                                    {% endif %}</li>
+                                <li><b>{% filter capfirst %}{% trans "decorations" %}{% endfilter %}
+                                    &nbsp;:</b>
+                                    {% if ain7member.decorations.all %}
+                                        {% for decoration in ain7member.decorations.all %}{{ decoration }}
+                                            {% if not forloop.last %} - {% endif %}{% endfor %}
+                                    {% else %}
+                                        {% trans "No decoration" %}
+                                    {% endif %}</li>
+                                <li><b>{% filter capfirst %}{% trans "ceremonial duties" %}{% endfilter %}
+                                    &nbsp;:</b>
+                                    {% if ain7member.ceremonial_duties.all %}
+                                        {% for duty in ain7member.ceremonial_duties.all %}{{ diploma }}
+                                            {% if not forloop.last %} - {% endif %}{% endfor %}
+                                    {% else %}
+                                        {% trans "No ceremonial duty" %}
+                                    {% endif %}</li>
+                                <li><b>{% trans "Receive job offers by email" %}</b>&nbsp;:
+                                    {% if ain7member.receive_job_offers %}
+                                        {% trans "Yes" %}
+                                    {% else %}
+                                        {% trans "No" %}
+                                    {% endif %}
+                                </li>
+                            </ul>
+                            <p><a href="{% url "member-ain7member-edit" person.user.id %}">{% trans "Modify" %}</a>
+                            </p>
 
-<h2>
-    <a name="address"></a>Addresse(s)
-    &nbsp;
-    <a href="{% url "member-address-add" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
-</h2>
-
-<table class="table">
-<tbody>
-{% for address in person.addresses.all %}
-    <tr><td><b>{% trans "Address" %} {{ address.type|lower }}&nbsp;:</b></td><td>
-        {{ address.line1 }} {{ address.line2|default_if_none:"" }} -
-        {{address.zip_code }} {{ address.city }} - {{ address.country.name }}
-        {% if address.confidential %}<i class="fa fa-lock"></i> {% endif %}</td>
-    <td><a href="{% url "member-address-edit" person.user.id address.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
-    <td><a href="{% url "member-address-delete" person.user.id address.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
-    </tr>
-{% endfor %}
-</tobdy>
-</table>
-
-<h2>
-    <a name="email"></a>Courriel(s)
-    &nbsp;
-    <a href="{% url "member-email-add" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
-</h2>
-
-<table class="table">
-<tbody>
-{% for email in person.emails.all %}
-<tr><td><i class="fa fa-envelope-o"></i> <a href="mailto:{{ email.email }}">{{ email.email }}</a>
-        {% if email.confidential %}<i class="fa fa-lock"></i>{% endif %}{% if email.preferred_email %} <i class="fa fa-star"></i>{% endif %}
-</td>
-<td>
-        <a href="{% url "member-email-edit" person.user.id email.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
-<td>
-        <a href="{% url "member-email-delete" person.user.id email.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
-    </tr>
-{% endfor %}
-</tbody>
-</table>
-
-<h2>
-    <a name="phone"></a>Téléphone(s)
-    &nbsp;
-    <a href="{% url "member-phone-add" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
-</h2>
-
-<table class="table">
-<tbody>
-{% for phone_number in person.phone_numbers.all %}
-<tr><td><i class="fa fa-phone"></i> <b>{{ phone_number.get_type_display }} :</b></td>
-   <td>{{ phone_number.number }}{% if phone_number.confidential %}<i class="fa fa-lock"></i> {% endif %}</td>
-    <td>
-        <a href="{% url "member-phone-edit" person.user.id phone_number.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
-    <td>
-        <a href="{% url "member-phone-delete" person.user.id phone_number.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
-    </tr>
-{% endfor %}
-</tbody>
-</table>
-
-<h2>
-    <a name="website"></a>Site(s) Internet
-    &nbsp;
-    <a href="{% url "member-website-add" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
-</h2>
-
-<table class="table">
-<tbody>
-{% for website in person.web_sites.all %}
-<tr>
-<td>
-    <i class="fa fa-{{ website.get_type_display|lower }}"></i> <a href="{{ website.url }}">{{ website.url }}</a> {% if website.confidential %}<i class="fa fa-lock"></i> {% endif %}
-</td>
-<td>
-<a href="{% url "member-website-edit" person.user.id website.id %}"><i class="fa fa-pencil fa-lg"></i></a>
-</td>
-<td>
-<a href="{% url "member-website-delete" person.user.id website.id %}"><i class="fa fa-trash-o fa-lg"></i></a>
-</td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
+                        {% endif %}
+                    </div>
+                </div>
 
 
+                <div class="clear"></div>
+                <div class="row">
 
-{% if ain7member %}
+                    <div class="col-md-12">
+                        <h2>
+                            <a name="address"></a>Addresse(s)
+                            &nbsp;
+                            <a href="{% url "member-address-add" person.user.id %}" class="btn btn-primary"><i
+                                    class="fa fa-plus"></i> {% trans "Add" %}</a>
+                        </h2>
 
-<h2>
-    <a name="promos"></a>{% trans "Promos" %}
-    &nbsp;
-    <a href="{% url "member-promo-add" person.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
-</h2>
-<table class="table">
-<tbody>
-{% for promo in ain7member.promos.all %}
-  <tr>
-    <td>{{ promo }}</td>
-      <td style="width: 12%">
-        <a href="{% url "member-promo-delete" person.id promo.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
-  </tr>
-{% endfor %}
-</tbody>
-</table>
+                        <table class="table table-responsive">
+                            <tbody>
+                            {% for address in person.addresses.all %}
+                                <tr>
+                                    <td><b>{% trans "Address" %} {{ address.type|lower }}&nbsp;:</b></td>
+                                    <td>
+                                        {{ address.line1 }} {{ address.line2|default_if_none:"" }} -
+                                        {{ address.zip_code }} {{ address.city }} - {{ address.country.name }}
+                                        {% if address.confidential %}<i class="fa fa-lock"></i> {% endif %}</td>
+                                    <td><a href="{% url "member-address-edit" person.user.id address.id %}"><i
+                                            class="fa fa-pencil fa-lg"></i></a></td>
+                                    <td><a href="{% url "member-address-delete" person.user.id address.id %}"><i
+                                            class="fa fa-trash-o fa-lg"></i></a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
 
-<h2>
-    <a name="profexp"></a>{% trans "Experiences" %}
-    &nbsp;
-    <a class="btn btn-primary" href="{% url "member-position-add" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
-</h2>
+                    <div class="col-md-12">
 
-<table class="table">
-<tbody>
-{% for position in ain7member.positions.all %}
-    {% if not position.is_confidential %}
-        <tr><th>{% if position.begin %}{{ position.begin }}{% endif %} - {% if position.end %}{{ position.end }}{% endif %}</th>
-            <td>{% if position.fonction %}<em>{{ position.fonction }}</em>{% endif %} <a href="{% url "organization-details" position.office.organization.id %}">{{ position.office }}</a></td>
-            <td><a href="{% url "member-position-edit" person.user.id position.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
-            <td><a href="{% url "member-position-delete" person.user.id position.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
-        </tr>
-        {% if position.description %}
-            <tr><td></td><td>{{ position.description|safe }}</td></tr>
-        {% endif %}
-    {% endif %}
-{% endfor %}
-</tbody>
-</table>
+                        <h2>
+                            <a name="email"></a>Courriel(s)
+                            &nbsp;
+                            <a href="{% url "member-email-add" person.user.id %}" class="btn btn-primary"><i
+                                    class="fa fa-plus"></i> {% trans "Add" %}</a>
+                        </h2>
 
+                        <table class="table table-responsive">
+                            <tbody>
+                            {% for email in person.emails.all %}
+                                <tr>
+                                    <td><i class="fa fa-envelope-o"></i> <a
+                                            href="mailto:{{ email.email }}">{{ email.email }}</a>
+                                        {% if email.confidential %}<i class="fa fa-lock"></i>{% endif %}
+                                        {% if email.preferred_email %}
+                                            <i class="fa fa-star"></i>{% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url "member-email-edit" person.user.id email.id %}"><i
+                                                class="fa fa-pencil fa-lg"></i></a></td>
+                                    <td>
+                                        <a href="{% url "member-email-delete" person.user.id email.id %}"><i
+                                                class="fa fa-trash-o fa-lg"></i></a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-<h2>
-    <a name="assoc"></a>{% trans "N7 associative activities" %}
-    &nbsp;
-    <a href="{% url "member-clubmembership-add" person.user.id %}" class="btn btn-primary"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
-</h2>
+                <div class="clear"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>
+                            <a name="phone"></a>Téléphone(s)
+                            &nbsp;
+                            <a href="{% url "member-phone-add" person.user.id %}" class="btn btn-primary"><i
+                                    class="fa fa-plus"></i> {% trans "Add" %}</a>
+                        </h2>
 
-<table class="table">
-<tbody>
-{% for club_membership in ain7member.person.council_roles.all %}
-    <tr><td>{% if club_membership.grouphead.group.web_site %}<a href="{{ club_membership.grouphead.group.web_site}}">{% endif %}
-                 {{ club_membership.grouphead.group.name }}
-            {% if club_membership.grouphead.group.web_site %}</a>{% endif %}
-    {% if club_membership.start_date and club_membership.end_date %}(<i>{{ club_membership.start_date|date:"Y" }} - {{ club_membership.end_date|date:"Y" }}</i>){% endif %}</td>
-    <td>{% if club_membership.title %}{{ club_membership.title }}{% endif %}</td>
-    <td>
-        <a href="{% url "member-clubmembership-edit" person.user.id club_membership.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
-<td>
-        <a href="{% url "member-clubmembership-delete" person.user.id club_membership.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
-    </tr>
-{% endfor %}
-</tobdy>
-</table>
+                        <table class="table table-responsive">
+                            <tbody>
+                            {% for phone_number in person.phone_numbers.all %}
+                                <tr>
+                                    <td><i class="fa fa-phone"></i> <b>{{ phone_number.get_type_display }} :</b>
+                                    </td>
+                                    <td>{{ phone_number.number }}{% if phone_number.confidential %}
+                                        <i class="fa fa-lock"></i> {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url "member-phone-edit" person.user.id phone_number.id %}"><i
+                                                class="fa fa-pencil fa-lg"></i></a></td>
+                                    <td>
+                                        <a href="{% url "member-phone-delete" person.user.id phone_number.id %}"><i
+                                                class="fa fa-trash-o fa-lg"></i></a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
 
-<h2>
-    <a name="publications"></a>{% trans "Publications and patents" %}
-    &nbsp;
-    <a class="btn btn-primary" href="{% url "member-publication-add" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
-</h2>
+                    <div class="col-md-12">
+                        <h2>
+                            <a name="website"></a>Site(s) Internet
+                            &nbsp;
+                            <a href="{% url "member-website-add" person.user.id %}" class="btn btn-primary"><i
+                                    class="fa fa-plus"></i> {% trans "Add" %}</a>
+                        </h2>
 
-<table class"table">
-<tbody>
-{% for publicationItem in ain7member.publication.all %}
-    <tr><th>{{ publicationItem.date|date:"Y"|default:"" }}</th>
-        <td> <em>{{ publicationItem.title }}</em></td>
-        <td><a href="{% url "member-publication-edit" person.user.id publicationItem.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
-        <td><a href="{% url "member-publication-delete" person.user.id publicationItem.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
-    </tr>
-    {% if publicationItem.details %}
-        <tr><td></td><td>{{ publicationItem.details|safe }}</td></tr>
-    {% endif %}
-{% endfor %}
-</tbody>
-</table>
+                        <table class="table table-responsive">
+                            <tbody>
+                            {% for website in person.web_sites.all %}
+                                <tr>
+                                    <td>
+                                        <i class="fa fa-{{ website.get_type_display|lower }}"></i> <a
+                                            href="{{ website.url }}">{{ website.url }}</a>
+                                        {% if website.confidential %}
+                                            <i class="fa fa-lock"></i> {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url "member-website-edit" person.user.id website.id %}"><i
+                                                class="fa fa-pencil fa-lg"></i></a>
+                                    </td>
+                                    <td>
+                                        <a href="{% url "member-website-delete" person.user.id website.id %}"><i
+                                                class="fa fa-trash-o fa-lg"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
 
+                </div>
 
+                {% if ain7member %}
+                    <div class="clear"></div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2>
+                                <a name="promos"></a>{% trans "Promos" %}
+                                &nbsp;
+                                <a href="{% url "member-promo-add" person.id %}" class="btn btn-primary"><i
+                                        class="fa fa-plus"></i> {% trans "Add" %}</a>
+                            </h2>
+                            <table class="table table-responsive">
+                                <tbody>
+                                {% for promo in ain7member.promos.all %}
+                                    <tr>
+                                        <td>{{ promo }}</td>
+                                        <td style="width: 12%">
+                                            <a href="{% url "member-promo-delete" person.id promo.id %}"><i
+                                                    class="fa fa-trash-o fa-lg"></i></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
 
-<h2>
-    <a name="education"></a>{% trans "Education" %}
-    &nbsp;
-    <a class="btn btn-primary" href="{% url "member-education-add" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
-</h2>
+                        <div class="col-md-12">
+                            <h2>
+                                <a name="profexp"></a>{% trans "Experiences" %}
+                                &nbsp;
+                                <a class="btn btn-primary" href="{% url "member-position-add" person.user.id %}"><i
+                                        class="fa fa-plus"></i> {% trans "Add" %}</a>
+                            </h2>
 
-<table class="table">
-<tbody>
-{% for educationItem in ain7member.education.all %}
-    <tr><th>{{ educationItem.begin }} - {{ educationItem.end }}</th>
-        <td> <em>{{ educationItem.school }}</em></td>
-        <td><a href="{% url "member-education-edit" person.user.id educationItem.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
-        <td><a href="{% url "member-education-delete" person.user.id educationItem.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
-    </tr>
-    {% if educationItem.diploma %}
-        <tr><td></td><td>{{ educationItem.diploma }}</td></tr>
-    {% endif %}
-    {% if educationItem.details %}
-        <tr><td></td><td>{{ educationItem.details|safe }}</td></tr>
-    {% endif %}
-{% endfor %}
-</tbody>
-</table>
+                            <table class="table table-responsive">
+                                <tbody>
+                                {% for position in ain7member.positions.all %}
+                                    {% if not position.is_confidential %}
+                                        <tr>
+                                            <th>{% if position.begin %}{{ position.begin }}{% endif %} -
+                                                {% if position.end %}{{ position.end }}{% endif %}</th>
+                                            <td>{% if position.fonction %}
+                                                <em>{{ position.fonction }}</em>{% endif %} <a
+                                                    href="{% url "organization-details" position.office.organization.id %}">{{ position.office }}</a>
+                                            </td>
+                                            <td>
+                                                <a href="{% url "member-position-edit" person.user.id position.id %}"><i
+                                                        class="fa fa-pencil fa-lg"></i></a></td>
+                                            <td>
+                                                <a href="{% url "member-position-delete" person.user.id position.id %}"><i
+                                                        class="fa fa-trash-o fa-lg"></i></a></td>
+                                        </tr>
+                                        {% if position.description %}
+                                            <tr>
+                                                <td></td>
+                                                <td>{{ position.description|safe }}</td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
 
+                    </div>
 
-<h2>
-    <a name="leisure"></a>{% trans "Leisure activities" %}
-    &nbsp;
-    <a class="btn btn-primary" href="{% url "member-leisure-add" person.user.id %}"><i class="fa fa-plus"></i> {% trans "Add" %}</a>
-</h2>
+                    <div class="clear"></div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2>
+                                <a name="assoc"></a>{% trans "N7 associative activities" %}
+                                &nbsp;
+                                <a href="{% url "member-clubmembership-add" person.user.id %}"
+                                   class="btn btn-primary"><i
+                                        class="fa fa-plus"></i> {% trans "Add" %}</a>
+                            </h2>
 
-<table class="table">
-<tbody>
-{% for leisureItem in ain7member.leisure.all %}
-    <tr><th>{{ leisureItem.title }}</th>
-        <td>{% if leisureItem.detail %} {{ leisureItem.detail|safe }} {% endif %} </td>
-        <td><a href="{% url "member-leisure-edit" person.user.id leisureItem.id %}"><i class="fa fa-pencil fa-lg"></i></a></td>
-        <td><a href="{% url "member-leisure-delete" person.user.id leisureItem.id %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
-    </tr>
-{% endfor %}
-</tbody>
-</table>
+                            <table class="table table-responsive">
+                                <tbody>
+                                {% for club_membership in ain7member.person.council_roles.all %}
+                                    <tr>
+                                        <td>{% if club_membership.grouphead.group.web_site %}
+                                            <a href="{{ club_membership.grouphead.group.web_site }}">{% endif %}
+                                            {{ club_membership.grouphead.group.name }}
+                                            {% if club_membership.grouphead.group.web_site %}</a>{% endif %}
+                                            {% if club_membership.start_date and club_membership.end_date %}(
+                                                <i>{{ club_membership.start_date|date:"Y" }}
+                                                    - {{ club_membership.end_date|date:"Y" }}</i>
+                                                ){% endif %}</td>
+                                        <td>{% if club_membership.title %}
+                                            {{ club_membership.title }}{% endif %}</td>
+                                        <td>
+                                            <a href="{% url "member-clubmembership-edit" person.user.id club_membership.id %}"><i
+                                                    class="fa fa-pencil fa-lg"></i></a></td>
+                                        <td>
+                                            <a href="{% url "member-clubmembership-delete" person.user.id club_membership.id %}"><i
+                                                    class="fa fa-trash-o fa-lg"></i></a></td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
 
-{% endif %}
+                        </div>
 
+                        <div class="col-md-12">
+
+                            <h2>
+                                <a name="publications"></a>{% trans "Publications and patents" %}
+                                &nbsp;
+                                <a class="btn btn-primary" href="{% url "member-publication-add" person.user.id %}"><i
+                                        class="fa fa-plus"></i> {% trans "Add" %}</a>
+                            </h2>
+
+                            <table class="table table-responsive">
+                                <tbody>
+                                {% for publicationItem in ain7member.publication.all %}
+                                    <tr>
+                                        <th>{{ publicationItem.date|date:"Y"|default:"" }}</th>
+                                        <td><em>{{ publicationItem.title }}</em></td>
+                                        <td>
+                                            <a href="{% url "member-publication-edit" person.user.id publicationItem.id %}"><i
+                                                    class="fa fa-pencil fa-lg"></i></a></td>
+                                        <td>
+                                            <a href="{% url "member-publication-delete" person.user.id publicationItem.id %}"><i
+                                                    class="fa fa-trash-o fa-lg"></i></a></td>
+                                    </tr>
+                                    {% if publicationItem.details %}
+                                        <tr>
+                                            <td></td>
+                                            <td>{{ publicationItem.details|safe }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <div class="clear"></div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2>
+                                <a name="education"></a>{% trans "Education" %}
+                                &nbsp;
+                                <a class="btn btn-primary" href="{% url "member-education-add" person.user.id %}"><i
+                                        class="fa fa-plus"></i> {% trans "Add" %}</a>
+                            </h2>
+
+                            <table class="table table-responsive">
+                                <tbody>
+                                {% for educationItem in ain7member.education.all %}
+                                    <tr>
+                                        <th>{{ educationItem.begin }} - {{ educationItem.end }}</th>
+                                        <td><em>{{ educationItem.school }}</em></td>
+                                        <td>
+                                            <a href="{% url "member-education-edit" person.user.id educationItem.id %}"><i
+                                                    class="fa fa-pencil fa-lg"></i></a></td>
+                                        <td>
+                                            <a href="{% url "member-education-delete" person.user.id educationItem.id %}"><i
+                                                    class="fa fa-trash-o fa-lg"></i></a></td>
+                                    </tr>
+                                    {% if educationItem.diploma %}
+                                        <tr>
+                                            <td></td>
+                                            <td>{{ educationItem.diploma }}</td>
+                                        </tr>
+                                    {% endif %}
+                                    {% if educationItem.details %}
+                                        <tr>
+                                            <td></td>
+                                            <td>{{ educationItem.details|safe }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-md-12">
+                            <h2>
+                                <a name="leisure"></a>{% trans "Leisure activities" %}
+                                &nbsp;
+                                <a class="btn btn-primary" href="{% url "member-leisure-add" person.user.id %}"><i
+                                        class="fa fa-plus"></i> {% trans "Add" %}</a>
+                            </h2>
+
+                            <table class="table table-responsive">
+                                <tbody>
+                                {% for leisureItem in ain7member.leisure.all %}
+                                    <tr>
+                                        <th>{{ leisureItem.title }}</th>
+                                        <td>{% if leisureItem.detail %}
+                                            {{ leisureItem.detail|safe }} {% endif %} </td>
+                                        <td><a href="{% url "member-leisure-edit" person.user.id leisureItem.id %}"><i
+                                                class="fa fa-pencil fa-lg"></i></a></td>
+                                        <td>
+                                            <a href="{% url "member-leisure-delete" person.user.id leisureItem.id %}"><i
+                                                    class="fa fa-trash-o fa-lg"></i></a></td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                {% endif %}
+            </div>
+
+        </section>
+    </div>
 {% endblock %}
