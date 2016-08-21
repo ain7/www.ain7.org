@@ -1,26 +1,69 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block barre-adhesions %}<li class="active">{% endblock %}
+{% block barre-adhesions %}
+    <li class="active">{% endblock %}
 
 {% block content %}
 
-{% block section-links %}
+    <div class="kf_inr_banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--KF INR BANNER DES Wrap Start-->
+                    <div class="kf_inr_ban_des">
+                        <div class="inr_banner_heading">
+                            <h3>Annuaire</h3>
+                        </div>
 
-<ul class="list-inline">
-    {% if is_myself %}
-    <li><a class="btn btn-primary" href="{% url "subscription-add" person.pk %}">{% trans "Subscribe" %}</a></li>
-    {% endif %}
-    {% if person %}
-    {% if superadmin or ca_member or secretariat_member or is_myself %}
-    <li><a class="btn btn-primary" href="{% url "user-subscriptions" person.pk %}">{% trans "Subscriptions" %}</a></li>
-    <li><a class="btn btn-primary" href="{% url "subscription-add" person.pk %}">{% if is_myself %}{% trans "Subscribe" %}{% else %}{% trans "Add subscription" %}{% endif %}</a></li>
-    {% endif %}
-    {% endif %}
-</ul>
+                        <div class="kf_inr_breadcrumb">
+                            <ul>
+                                <li><a href="{% url "homepage" %}">Accueil</a></li>
+                                {% block breadcrumb %}{% endblock %}
+                            </ul>
+                        </div>
+                    </div>
+                    <!--KF INR BANNER DES Wrap End-->
+                </div>
 
-{% endblock %}
+            </div>
+        </div>
+    </div>
 
-{% block content-left %}{% endblock %}
+    <!--Banner Wrap End-->
+    <div class="kf_content_wrap">
+        <!--ABOUT UNIVERSITY START-->
+        <section>
+            <div class="container">
+                {% block section-links %}
+
+                    <ul class="list-inline">
+                        {% if is_myself %}
+                            <li><a class="btn btn-primary"
+                                   href="{% url "subscription-add" person.pk %}">{% trans "Subscribe" %}</a>
+                            </li>
+                        {% endif %}
+                        {% if person %}
+                            {% if superadmin or ca_member or secretariat_member or is_myself %}
+                                <li><a class="btn btn-primary"
+                                       href="{% url "user-subscriptions" person.pk %}">{% trans "Subscriptions" %}</a>
+                                </li>
+                                <li><a class="btn btn-primary" href="{% url "subscription-add" person.pk %}">
+                                    {% if is_myself %}{% trans "Subscribe" %}{% else %}
+                                        {% trans "Add subscription" %}{% endif %}</a>
+                                </li>
+                            {% endif %}
+                        {% endif %}
+                    </ul>
+
+                {% endblock %}
+
+                {% block content-left %}{% endblock %}
+            </div>
+        </section>
+    </div>
+
+
+
 
 {% endblock %}
