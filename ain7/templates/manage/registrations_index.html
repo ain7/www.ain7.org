@@ -2,32 +2,46 @@
 {% load i18n %}
 {% load el_pagination_tags %}
 
+{% block title %}{% trans "Pending Registrations" %}{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{% url "registrations-index" %}">{% trans "Pending Registrations" %}</a></li>
+{% endblock %}
+
 {% block content-left %}
 
-<h1>{% trans "Pending Registrations"%}</h1>
 
-{% paginate registrations %}
+    {% paginate registrations %}
 
-{% include "pages/paginator.html" %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Filière</th>
+            <th>Mail</th>
+            <th>Date</th>
+            <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for registration in registrations %}
+            <tr>
+                <td>
+                    <a href="{% url "member-details" registration.pk %}">{{ registration.last_name }} {{ registration.first_name }}</a>
+                </td>
+                <td>{{ registration.ain7member.promo_full }}</td>
+                <td>{{ registration.mail_favorite }}</td>
+                <td>{{ registration.last_change_at }}</td>
+                <td><a href="{% url "registration-validate" registration.pk %}"><i class="fa fa-check fa-lg"></i></a>
+                </td>
+                <td><a href="{% url "registration-delete" registration.pk %}"><i class="fa fa-trash-o fa-lg"></i></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-
-<table class="table table-striped">
-    <thead><tr><th>Nom</th><th>Filière</th><th>Mail</th><th>Date</th><th>&nbsp;</th></tr></thead>
-    <tbody>
-    {% for registration in registrations %}
-    <tr>
-        <td><a href="{% url "member-details" registration.pk %}">{{ registration.last_name }} {{ registration.first_name }}</a></td>
-        <td>{{ registration.ain7member.promo_full }}</td>
-        <td>{{ registration.mail_favorite }}</td>
-        <td>{{ registration.last_change_at }}</td>
-        <td><a href="{% url "registration-validate" registration.pk %}"><i class="fa fa-check fa-lg"></i></a></td>
-        <td><a href="{% url "registration-delete" registration.pk %}"><i class="fa fa-trash-o fa-lg"></i></a></td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
-
-{% include "pages/paginator.html" %}
+    {% include "pages/paginator.html" %}
 
 
 {% endblock %}
