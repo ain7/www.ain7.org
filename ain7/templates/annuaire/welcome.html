@@ -3,29 +3,33 @@
 {% load crispy_forms_tags %}
 {% load static from staticfiles %}
 
+{% block title %}Bienvenue à l'ENSEEIHT !{% endblock %}
+
 {% block content %}
 
-<div class="row">
+    <div class="row">
 
-<div class="col-lg-offset-1 col-lg-10">
+        <div class="col-lg-offset-1 col-lg-10">
 
-<h1>Bienvenue à l'ENSEEIHT !</h1>
+            <h1></h1>
 
-L'AIn7 te souhaite la bienvenue à l'ENSEEIHT! Inscris-toi dès maintenant pour faire partie du réseau ENSEEIHT.
+            L'AIn7 te souhaite la bienvenue à l'ENSEEIHT! Inscris-toi dès maintenant pour faire partie du réseau
+            ENSEEIHT.
 
-<form method="post" action="." enctype="multipart/form-data">
-{% csrf_token %}
-{{ person_form|crispy }}
-{{ email_form|crispy }}
-{{ member_form|crispy }}
-<div class="form-group">
-<div class="col-lg-offset-4">
-<button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> {% trans "Save" %}</button>
-</div>
-</div>
-</form>
+            <form method="post" action="." enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ person_form|crispy }}
+                {{ email_form|crispy }}
+                {{ member_form|crispy }}
+                <div class="form-group">
+                    <div class="col-lg-offset-4">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> {% trans "Save" %}
+                        </button>
+                    </div>
+                </div>
+            </form>
 
-</div>
-</div>
+        </div>
+    </div>
 
 {% endblock %}
