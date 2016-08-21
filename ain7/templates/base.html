@@ -74,18 +74,27 @@
                     <h2>{% trans "Log-in" %}</h2>
                     <!--FORM FIELD START-->
                     <div class="form">
-                        <!-- TODO real login form here -->
-                        <div class="input-container">
-                            <input type="text" placeholder="{% trans "Username" %}">
-                            <i class="fa fa-user"></i>
-                        </div>
-                        <div class="input-container">
-                            <input type="password" placeholder="{% trans "Password" %}">
-                            <i class="fa fa-unlock"></i>
-                        </div>
-                        <div class="input-container">
-                            <button class="btn-style">{% trans "Sign-in" %}</button>
-                        </div>
+
+                        <form id="login" method="post" action="{% url "account_login" %}" role="form"
+                              class="form-horizontal">
+                            {% csrf_token %}
+
+
+                            <!-- TODO real login form here -->
+                            <div class="input-container">
+                                <input type="text" name="username" id="id_username"
+                                       placeholder="{% trans "Username" %}">
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <div class="input-container">
+                                <input type="password" name="password" id="id_password"
+                                       placeholder="{% trans "Password" %}">
+                                <i class="fa fa-unlock"></i>
+                            </div>
+                            <div class="input-container">
+                                <button class="btn-style">{% trans "Sign-in" %}</button>
+                            </div>
+                        </form>
                     </div>
                     <!--FORM FIELD END-->
 
