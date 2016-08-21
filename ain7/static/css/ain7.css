@@ -130,8 +130,22 @@ ul.real-list li {
     color: #2156ab
 }
 
-
 .top_nav .dropdown-menu li a:hover {
     color: #fff;
     background-color: #2156ab;
+}
+
+.edu2_serc_des .btn.btn-default.dropdown-toggle,
+.edu2_serc_des input[type="text"] {
+    border-color: #0064AA;
+}
+
+.selectric-wrapper {
+    border-color: #0064AA;
+}
+
+.textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"],
+input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"],
+input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+    border-color: #0064AA;
 }
