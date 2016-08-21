@@ -102,3 +102,8 @@ p a {
 .sidebar_register_wrap li a {
 	color: #2156ab;
 }
+
+ul.real-list li {
+	margin-left: 40px;
+	list-style: disc;
+}
