@@ -116,3 +116,22 @@ ul.real-list li {
 .selectric-items {
     position: relative;
 }
+
+.top_nav li a:hover {
+    text-decoration: none;
+    background-color: #0064AA;
+}
+
+.top_nav .dropdown-menu li {
+    display: block;
+}
+
+.top_nav .dropdown-menu li a {
+    color: #2156ab
+}
+
+
+.top_nav .dropdown-menu li a:hover {
+    color: #fff;
+    background-color: #2156ab;
+}
