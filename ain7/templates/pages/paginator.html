@@ -11,12 +11,30 @@
                         <span aria-hidden="true"><i class="fa fa-angle-left"></i>PREV</span>
                     </a>
                 </li>
+
+                {% if pages.current.number > 2 %}
+                    <li><a href="{{ pages.first.path }}">{{ pages.first.number }}</a></li>
+                    <li><a href="#" class="btn disabled"><i class="fa fa-ellipsis-h"></i> </a></li>
+                {% endif %}
+
+
+                <li><a href="{{ pages.previous.path }}">{{ pages.previous.number }}</a></li>
             {% endif %}
-            {% for page in pages %}
-                <li class="{% if page.is_current %}active{% endif %}"><a
-                        href="{{ page.path }}">{{ page.label }}</a></li>
-            {% endfor %}
+
+            <li class="active"><a
+                    href="{{ pages.current.path }}">{{ pages.current.label }}</a></li>
+
+
+
+
             {% if pages.next %}
+                <li><a href="{{ pages.next.path }}">{{ pages.next.number }}</a></li>
+
+                {% if pages.next.number < pages.last.number %}
+                    <li><a href="#" class="btn disabled"><i class="fa fa-ellipsis-h"></i> </a></li>
+                    <li><a href="{{ pages.last.path }}">{{ pages.last.number }}</a></li>
+                {% endif %}
+
                 <li>
                     <a href="{{ pages.next.url }}" aria-label="Next">
                         <span aria-hidden="true">Next<i class="fa fa-angle-right"></i></span>
