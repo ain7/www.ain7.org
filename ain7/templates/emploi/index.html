@@ -8,109 +8,112 @@
 {% block content-left %}
 
 
-    <!--TODO move in the sidebar -->
-    <form action="." method="get">
-        {{ job_offers.form|crispy }}
-        <div class="control-group">
-            <div class="controls">
-                <div class="col-lg-offset-4">
-                    <button class="btn btn-primary" type="submit"><i
-                            class="fa fa-search"></i> {% trans "Search" %}</button>
-                </div>
-            </div>
-        </div>
-    </form>
+    {% with job_offers.form as form %}
 
-    <section>
-        <!--courses_outer_wrap Start-->
-        <div class="kf_courses_outer_wrap">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8">
+        <section>
+            <!--courses_outer_wrap Start-->
+            <div class="kf_courses_outer_wrap">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8">
 
-                        <!--kf_courses_wrap Start-->
-                        <div class="kf_courses_wrap">
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12 ">
-                                    <!--kf_courses_des Start-->
-                                    <div class="kf_courses_des">
-                                        <div class="courses_des_hding1">
-                                            <h5>{{ text.title }}</h5>
-                                        </div>
-                                        {% if superadmin or ca_member or secretariat_member or contributeur %}
-                                            <ul class="list-inline">
-                                                <li><a class="btn btn-primary" href="{% url "text-edit" text.id %}"><i
-                                                        class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></li>
-                                            </ul>
-                                        {% endif %}
-                                        <p>{{ text.body|safe }}</p>
-                                    </div>
-                                    <!--kf_courses_des end-->
-                                </div>
-                            </div>
-                        </div>
-                        <!--kf_courses_wrap end-->
-
-                        {% paginate job_offers %}
-
-
-                        {% for emploi in job_offers %}
+                            <!--kf_courses_wrap Start-->
                             <div class="kf_courses_wrap">
                                 <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 ">
                                         <!--kf_courses_des Start-->
                                         <div class="kf_courses_des">
                                             <div class="courses_des_hding1">
-                                                <h5>{{ emploi.title }}</h5>
+                                                <h5>{{ text.title }}</h5>
                                             </div>
-                                            <ul>
-                                                <li>{% trans "Contract Type" %}: {{ emploi.get_contract_type_display }}</li>
-                                                {% if emploi.office %}
-                                                    <li>{% trans "Location" %}: <a
-                                                            href="{% url "organization-details" emploi.office.organization.id %}">{{ emploi.office }}</a>
-                                                    </li>
-                                                {% endif %}
-                                                <li>{% trans "Creation Date" %}: {{ emploi.created_at|date:"l j F Y" }}</li>
-                                            </ul>
-                                            <!--rating_wrap end-->
-                                            <a href="{% url "job-details" emploi.id %}">Plus d'informations</a>
+                                            {% if superadmin or ca_member or secretariat_member or contributeur %}
+                                                <ul class="list-inline">
+                                                    <li><a class="btn btn-primary" href="{% url "text-edit" text.id %}"><i
+                                                            class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></li>
+                                                </ul>
+                                            {% endif %}
+                                            <p>{{ text.body|safe }}</p>
                                         </div>
                                         <!--kf_courses_des end-->
                                     </div>
                                 </div>
                             </div>
-                        {% endfor %}
+                            <!--kf_courses_wrap end-->
 
-                        {% include "pages/paginator.html" %}
+                            {% paginate job_offers %}
 
-                    </div>
 
-                    <!--KF_EDU_SIDEBAR_WRAP START-->
-                    <div class="col-md-4">
-                        <div class="kf-sidebar">
-                            <div class="widget widget-search">
-                                <h2>{% trans "Search" %}</h2>
-                                <form action="." method="get">
-                                    <!--TODO why is this not rendering -->
-                                    {{ job_offers.form|crispy }}
-                                    <div class="control-group">
-                                        <div class="controls">
-
-                                            <button class="btn btn-primary" type="submit"><i
-                                                    class="fa fa-search"></i> {% trans "Search" %}</button>
-
+                            {% for emploi in job_offers %}
+                                <div class="kf_courses_wrap">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <!--kf_courses_des Start-->
+                                            <div class="kf_courses_des">
+                                                <div class="courses_des_hding1">
+                                                    <h5>{{ emploi.title }}</h5>
+                                                </div>
+                                                <ul>
+                                                    <li>{% trans "Contract Type" %}: {{ emploi.get_contract_type_display }}</li>
+                                                    {% if emploi.office %}
+                                                        <li>{% trans "Location" %}: <a
+                                                                href="{% url "organization-details" emploi.office.organization.id %}">{{ emploi.office }}</a>
+                                                        </li>
+                                                    {% endif %}
+                                                    <li>{% trans "Creation Date" %}: {{ emploi.created_at|date:"l j F Y" }}</li>
+                                                </ul>
+                                                <!--rating_wrap end-->
+                                                <a href="{% url "job-details" emploi.id %}">Plus d'informations</a>
+                                            </div>
+                                            <!--kf_courses_des end-->
                                         </div>
                                     </div>
-                                </form>
+                                </div>
+                            {% endfor %}
+
+                            {% include "pages/paginator.html" %}
+
+                        </div>
+
+                        <!--KF_EDU_SIDEBAR_WRAP START-->
+                        <div class="col-md-4">
+                            <div class="kf-sidebar">
+                                <div class="widget widget-search">
+                                    <h2>{% trans "Search" %}</h2>
+                                    <form action="." method="get">
+                                        <div class="form-group">
+                                            <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+                                            <input type="text" class="form-control" id="{{ form.title.id_for_label }}"
+                                                   name="{{ form.title.html_name }}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+                                            <input type="text" class="form-control"
+                                                   id="{{ form.description.id_for_label }}"
+                                                   name="{{ form.description.html_name }}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="{{ form.contract_type.id_for_label }}">{{ form.contract_type.label }}</label>
+                                            {{ form.contract_type }}
+                                        </div>
+
+
+                                        <button class="btn btn-primary" type="submit"><i
+                                                class="fa fa-search"></i> {% trans "Search" %}</button>
+
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!--KF EDU SIDEBAR WRAP END-->
+                        <!--KF EDU SIDEBAR WRAP END-->
 
+                    </div>
                 </div>
             </div>
-        </div>
-        <!--courses_outer_wrap end-->
-    </section>
+            <!--courses_outer_wrap end-->
+        </section>
+
+    {% endwith %}
 
 {% endblock %}

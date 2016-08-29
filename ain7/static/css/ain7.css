@@ -185,3 +185,11 @@ input[type="email"], input[type="url"], input[type="search"], input[type="tel"],
 .inr_pg_search_wrap {
     margin-top: -40px;
 }
+
+.col-md-4 .kf-sidebar {
+    width: 100%;
+}
+
+.widget-search button {
+    margin-top: 15px;
+}
