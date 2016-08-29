@@ -157,3 +157,31 @@ input[type="email"], input[type="url"], input[type="search"], input[type="tel"],
     padding: 3px 10px 5px 38px;
     line-height: 34px;
 }
+
+.inr_pg_search_wrap label {
+    display: inline-block;
+    color: #fff;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
+.inr_pg_search_wrap p {
+    color: #fff;
+}
+
+.inr_pg_search_wrap a {
+    color: #333333;
+    font-weight: initial;
+}
+
+.inr_pg_search_wrap a:hover {
+    text-decoration: underline;
+}
+
+.inr_pg_search_wrap form .btn {
+    text-align: center;
+}
+
+.inr_pg_search_wrap {
+    margin-top: -40px;
+}
