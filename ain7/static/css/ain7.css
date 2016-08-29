@@ -149,3 +149,11 @@ input[type="date"], input[type="month"], input[type="time"], input[type="week"],
 input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
     border-color: #0064AA;
 }
+
+.inputs_des input[type="email"] {
+    float: left;
+    width: 100%;
+    border: 1px solid #dedede;
+    padding: 3px 10px 5px 38px;
+    line-height: 34px;
+}

@@ -21,16 +21,51 @@
                         <div class="contact_heading">
                             <h4>Envoyer un message</h4>
                         </div>
-                        <div class="row">
-                            {% if form %}
-                                <form method="post" action=".">
-                                    {% csrf_token %}
-                                    {{ form|crispy }}
-                                    <button type="submit" class="btn btn-primary"><i
-                                            class="fa fa-check"></i> {% trans "Send" %}</button>
-                                </form>
-                            {% endif %}
-                        </div>
+                        {% if form %}
+                            <form method="post" action=".">
+                                {% csrf_token %}
+                                <div class="row">
+                                    {{ form.non_field_errors }}
+                                    <div class="col-md-6">
+                                        <div class="contact_des">
+                                            <div class="inputs_des">
+                                                <label for="{{ form.name.id_for_label }}"><i
+                                                        class="fa fa-user"></i> {{ form.name.label }} </label>
+                                                {{ form.name }}
+                                                {% if form.name.errors %}
+                                                    <span class="text-danger">{{ form.name.errors }}</span>
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="inputs_des">
+                                                <label for="{{ form.email.id_for_label }}"><i
+                                                        class="fa fa-envelope-o"></i> {{ form.email.label }} </label>
+                                                {{ form.email }}
+                                                {% if form.email.errors %}
+                                                    <span class="text-danger">{{ form.email.errors }}</span>
+                                                {% endif %}
+
+                                            </div>
+                                            <button type="submit" class="btn btn-primary"><i
+                                                    class="fa fa-check"></i> {% trans "Send" %}</button>
+
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="inputs_des">
+                                            <label for="{{ form.message.id_for_labem }}"><i
+                                                    class="fa fa-comment-o"></i> {{ form.message.label }} </label>
+                                            {{ form.message }}
+                                            {% if form.message.errors %}
+                                                <span class="text-danger">{{ form.message.errors }}</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        {% endif %}
                     </div>
 
                     <div class="col-md-4">
