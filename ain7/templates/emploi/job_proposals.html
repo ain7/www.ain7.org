@@ -2,26 +2,33 @@
 
 {% load i18n %}
 
+{% block breadcrumb %}
+    <ul>
+        <li><a href="{% url "homepage" %}">Accueil</a></li>
+        <li><a href="{% url "job-index" %}">{% trans "Job" %}</a></li>
+    </ul>
+{% endblock %}
+
 {% block content-left %}
 
-<div class="left_box">
+    <div class="left_box">
 
-<h2>{% trans "Jobs proposals" %}</h2>
+        <h2>{% trans "Jobs proposals" %}</h2>
 
-{% if proposals %}
-<ul>
-{% for job in proposals %}
-<li>
-  {{ job.title }}&nbsp;
-  <a href="{% url "job-validate" job.id %}" class="savelink">{% trans "Validate proposal" %}</a>&nbsp;
-  <a href="{% url "job-edit" job.id %}" class="changelink">{% trans "Check" %}</a>&nbsp;
-  <a href="{% url "job-delete" job.id %}" class="deletelink">{% trans "Delete" %}</a>
-</li>
-{% endfor %}
-</ul>
-{% else %}
-  {% trans "There are currently no job offer proposals to validate." %}
-{% endif %} {# proposals #}
-</div>
+        {% if proposals %}
+            <ul>
+                {% for job in proposals %}
+                    <li>
+                        {{ job.title }}&nbsp;
+                        <a href="{% url "job-validate" job.id %}" class="savelink">{% trans "Validate proposal" %}</a>&nbsp;
+                        <a href="{% url "job-edit" job.id %}" class="changelink">{% trans "Check" %}</a>&nbsp;
+                        <a href="{% url "job-delete" job.id %}" class="deletelink">{% trans "Delete" %}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            {% trans "There are currently no job offer proposals to validate." %}
+        {% endif %} {# proposals #}
+    </div>
 
 {% endblock %} {# content-left #}

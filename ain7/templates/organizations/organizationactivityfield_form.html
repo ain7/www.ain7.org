@@ -2,22 +2,29 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 
+{% block breadcrumb %}
+    <ul>
+        <li><a href="{% url "homepage" %}">Accueil</a></li>
+        <li><a href="{% url "job-index" %}">{% trans "Job" %}</a></li>
+    </ul>
+{% endblock %}
+
 {% block content-left %}
 
-<h2>{{ title }}</h2>
+    <h2>{{ title }}</h2>
 
-{% if header_msg %}
-    <p>{{ header_msg|safe }}</p>
-{% endif %}
+    {% if header_msg %}
+        <p>{{ header_msg|safe }}</p>
+    {% endif %}
 
-<form method="post" action="." class="form-horizontal">
-{% csrf_token %}
-{{ form|crispy }}
-<div class="control-group">
-<div class="controls">
-<button class="btn btn-primary" type="submit">{% trans "Save" %}</button>
-</div>
-</div>
-</form>
+    <form method="post" action="." class="form-horizontal">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="control-group">
+            <div class="controls">
+                <button class="btn btn-primary" type="submit">{% trans "Save" %}</button>
+            </div>
+        </div>
+    </form>
 
 {% endblock %}

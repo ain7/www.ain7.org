@@ -2,19 +2,26 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 
+{% block breadcrumb %}
+    <ul>
+        <li><a href="{% url "homepage" %}">Accueil</a></li>
+        <li><a href="{% url "job-index" %}">{% trans "Job" %}</a></li>
+    </ul>
+{% endblock %}
+
 {% block content-left %}
 
-<h2>{% trans "Edit Job Offer" %} {{job.title }}</h2>
+    <h2>{% trans "Edit Job Offer" %} {{ job.title }}</h2>
 
-<form method="post" action="." class="form-horizontal">
-{% csrf_token %}
-{{ form|crispy }}
-<div class="form-group">                                                        
-<button type="submit" class="btn btn-default"><i class="fa fa-check"></i> {% trans "Save" %}</button>
-{% if job %}
-<a href="{% url "job-details" job.id %}"><i class="fa fa-times"></i> {% trans "Cancel" %}</a>
-{% endif %}
-</div>
-</form>
+    <form method="post" action="." class="form-horizontal">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="form-group">
+            <button type="submit" class="btn btn-default"><i class="fa fa-check"></i> {% trans "Save" %}</button>
+            {% if job %}
+                <a href="{% url "job-details" job.id %}"><i class="fa fa-times"></i> {% trans "Cancel" %}</a>
+            {% endif %}
+        </div>
+    </form>
 
 {% endblock %}
