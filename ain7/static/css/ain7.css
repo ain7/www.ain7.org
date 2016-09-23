@@ -193,3 +193,11 @@ input[type="email"], input[type="url"], input[type="search"], input[type="tel"],
 .widget-search button {
     margin-top: 15px;
 }
+
+.kf_inr_banner {
+    background-image: url(/static/theme/images/enseeiht-building.jpg);
+}
+
+.kf_inr_banner::before {
+    opacity: 0.5;
+}
