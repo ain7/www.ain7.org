@@ -40,8 +40,10 @@
                 <!-- INTERO DES START-->
                 <div class="kf_intro_des">
                     <div class="kf_intro_des_caption">
-                        <span><i class="fa fa-briefcase fa-2x"></i></span>
-                        <h6>EMPLOI</h6>
+                        <a href="{% url "job-index" %}">
+                            <span><i class="fa fa-briefcase fa-2x"></i></span>
+                            <h6>EMPLOI</h6>
+                        </a>
                         <p>Les offres d'emploi du réseau N7 et des conseils pour votre recherche.</p>
                         <a href="{% url "job-index" %}">Voir la suite</a>
                     </div>
@@ -54,8 +56,10 @@
                 <!-- INTERO DES START-->
                 <div class="kf_intro_des">
                     <div class="kf_intro_des_caption">
-                        <span><i class="fa fa-plane fa-2x"></i></span>
-                        <h6>VOYAGES</h6>
+                        <a href="{% url "travels-index" %}">
+                            <span><i class="fa fa-plane fa-2x"></i></span>
+                            <h6>VOYAGES</h6>
+                        </a>
                         <p>Retrouvez les voyages organisés par l'AIn7 pour ses sympathisants.</p>
                         <a href="{% url "travels-index" %}">Voir la suite</a>
                     </div>
@@ -69,8 +73,10 @@
                 <!-- INTERO DES START-->
                 <div class="kf_intro_des">
                     <div class="kf_intro_des_caption">
-                        <span><i class="fa fa-users fa-2x"></i></span>
-                        <h6>ÉVÈNEMENTS</h6>
+                        <a href="{% url "events-index" %}">
+                            <span><i class="fa fa-users fa-2x"></i></span>
+                            <h6>ÉVÈNEMENTS</h6>
+                        </a>
                         <p>Retrouvez les événements à venir autour de la communauté ENSEEIHT.</p>
                         <a href="{% url "events-index" %}">Voir la suite</a>
                     </div>
@@ -82,8 +88,10 @@
 
                 <div class="kf_intro_des">
                     <div class="kf_intro_des_caption">
-                        <span><i class="fa fa-briefcase fa-2x"></i></span>
-                        <h6>GROUPES PROFESSIONNELS</h6>
+                        <a href="{% url "professionnal_groups" %}">
+                            <span><i class="fa fa-briefcase fa-2x"></i></span>
+                            <h6>GROUPES PROFESSIONNELS</h6>
+                        </a>
                         <p>Les activités liés à nos groupes professionnels: énergie et numérique</p>
                         <a href="{% url "professionnal_groups" %}">Voir la suite</a>
                     </div>
@@ -95,8 +103,10 @@
 
                 <div class="kf_intro_des">
                     <div class="kf_intro_des_caption">
-                        <span><i class="fa fa-beer fa-2x"></i></span>
-                        <h6>GROUPES RÉGIONAUX</h6>
+                        <a href="{% url "regional_groups" %}">
+                            <span><i class="fa fa-beer fa-2x"></i></span>
+                            <h6>GROUPES RÉGIONAUX</h6>
+                        </a>
                         <p>L'activité de nos groupes régionaux: Bordeaux, Lyon, Paris, Toulouse.</p>
                         <a href="{% url "regional_groups" %}">Voir la suite</a>
                     </div>

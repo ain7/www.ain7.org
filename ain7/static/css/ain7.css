@@ -201,3 +201,11 @@ input[type="email"], input[type="url"], input[type="search"], input[type="tel"],
 .kf_inr_banner::before {
     opacity: 0.5;
 }
+
+
+.kf_intro_des_caption a {
+    margin-bottom: 0;
+}
+.kf_intro_des figure {
+    margin-top: 45px;
+}
