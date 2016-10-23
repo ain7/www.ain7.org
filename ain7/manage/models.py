@@ -138,10 +138,10 @@ class Mailing(models.Model):
             body += "</ul>"
 
         for item in newsitems:
-            body += '<h2><a name="'+item.slug+'"/><a href="http://ain7.com'\
+            body += '<h2><a name="'+item.slug+'"/><a href="https://ain7.com'\
                 +item.get_absolute_url()+'">'+item.title+'</a></h2>'
             body += item.body
-            body = body.replace('<a href="../', '<a href="http://ain7.com'+\
+            body = body.replace('<a href="../', '<a href="https://ain7.com'+\
                 item.get_absolute_url()+'../')
 
         body += open(settings.BASE_DIR+'/ain7/templates/manage/mailing_footer.html')\

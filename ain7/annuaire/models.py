@@ -400,7 +400,7 @@ This link will be valid 24h.
 
 If the new password request if not from you, you can ignore this message.
 --
-http://ain7.com""") % {'firstname': self.first_name, 'url': url, 'login': self.user.username}, email)
+https://ain7.com""") % {'firstname': self.first_name, 'url': url, 'login': self.user.username}, email)
 
     def get_absolute_url(self):
         return reverse('member-details', args=[self.id])
