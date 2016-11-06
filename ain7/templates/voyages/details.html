@@ -1,56 +1,95 @@
 {% extends "voyages/base.html" %}
 {% load i18n ain7_tags %}
 
+{% block title %}
+    {{ travel.label|escape }}
+{% endblock %}
+
+{% block breadcrumb %}
+    <ul>
+        <li><a href="{% url "homepage" %}">Accueil</a></li>
+        <li><a href="{% url "travels-index" %}">{% trans "Travels" %}</a></li>
+    </ul>
+{% endblock %}
+
+
 {% block content-left %}
 
-<h2>{{ travel.label|escape }}</h2>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
 
-{% if superadmin or ca_member or secretariat_member %}
-<ul class="list-inline">
-<li><a class="btn btn-primary" href="{% url 'travel-edit' travel.id %}"><i class="fa fa-pencil fa-1g"></i> {% trans "Edit" %}</a></li>
-<li><a class="btn btn-primary" href="{% url 'travel-add' %}"><i class="fa fa-plus fa-1g"></i> {% trans "Add travel" %}</a></li>
-{% endif %}
-</ul>
+                    <div class="kf_blog_detail_wrap">
+                        {% if superadmin or ca_member or secretariat_member %}
+                            <ul class="list-inline">
+                            <li><a class="btn btn-primary" href="{% url 'travel-edit' travel.id %}"><i
+                                    class="fa fa-pencil fa-1g"></i> {% trans "Edit" %}</a></li>
+                            <li><a class="btn btn-primary" href="{% url 'travel-add' %}"><i
+                                    class="fa fa-plus fa-1g"></i> {% trans "Add travel" %}</a></li>
+                        {% endif %}
 
-<table style="width: 100%">
-  {% if travel.start_date and travel.end_date %}
-  <tr>
-    <td><i>{% filter capfirst %}{% trans "date" %}{% endfilter %}:</i></td>
-    <td>{% trans "from" %} {{ travel.start_date|date:"d/m/Y" }}
-        {% trans "to" %} {{ travel.end_date|date:"d/m/Y" }}
-        ({{ travel.type|escape }}).
-    </td>
-  </tr>
-  {% endif %}
-  {% if travel.price %}
-  <tr>
-    <td><i>{% filter capfirst %}{% trans "price" %}{% endfilter %}:</i></td>
-    <td>{% if travel.price %}{{ travel.price }} €
-        {% else %}{% trans "undefined" %}{% endif %}</td>
-  </tr>
-  {% endif %}
-  {% if travel.travel_responsibles.all %}
-  <tr>
-    <td><i>{% filter capfirst %}{% trans "responsible(s)" %}{% endfilter %}</i>
-    </td>
-    <td>{{ travel.travel_responsibles.all|join:", " }}</td>
-  </tr>
-  {% endif %}
-</table>
+                        <div class="kf_blog_detail_des">
+                            <div class="blog-detl_heading">
+                                <h5>{{ travel.label|escape }}</h5>
+                            </div>
 
-{% if travel.thumbnail %}
-  <p style="text-align:center">
-    <img src="{{ travel.thumbnail.url }}" height="250" alt="{{ travel.label }}"/>
-  </p>
-{% endif %}
+                            <ul class="blog_detail_meta">
+                                {% if travel.start_date and travel.end_date %}
+                                    <li>
+                                        <i class="fa fa-calendar"></i>{% trans "from" %} {{ travel.start_date|date:"d/m/Y" }}
+                                        {% trans "to" %} {{ travel.end_date|date:"d/m/Y" }}
+                                        ({{ travel.type|escape }})
+                                    </li>
+                                {% endif %}
+                                {% if travel.price %}
+                                    <li><i class="fa fa-money"></i>{{ travel.price }} €</li>
+                                {% endif %}
+                                {% if travel.travel_responsibles.all %}
+                                    <li><i class="fa fa-users"></i>{% filter capfirst %}
+                                        {% trans "responsible(s)" %}{% endfilter %}{{ travel.travel_responsibles.all|join:", " }}
+                                    </li>
+                                {% endif %}
+                            </ul>
 
-{% if travel.description %}
-  {{ travel.description|safe }}
-{% endif %}
+                            {% if travel.thumbnail %}
+                                <div class="course_detail_thumbnail">
+                                    <figure>
+                                        <img src="{{ travel.thumbnail.url }}" height="250" alt="{{ travel.label }}"/>
 
-{% if travel.is_past and travel.report %}
-  <h2>{% filter capfirst %}{% trans "report" %}{% endfilter %}</h2>
-  {{ travel.report|safe }}
-{% endif %}
+                                    </figure>
+                                </div>
+
+                            {% endif %}
+
+                            {% if travel.description %}
+                                {{ travel.description|safe }}
+                            {% endif %}
+
+                            {% if travel.is_past and travel.report %}
+                                <h2>{% filter capfirst %}{% trans "report" %}{% endfilter %}</h2>
+                                {{ travel.report|safe }}
+                            {% endif %}
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    {% if travel.thumbnail %}
+        <p style="text-align:center">
+            <img src="{{ travel.thumbnail.url }}" height="250" alt="{{ travel.label }}"/>
+        </p>
+    {% endif %}
+
+
 
 {% endblock %}

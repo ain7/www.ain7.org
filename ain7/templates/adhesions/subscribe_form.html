@@ -2,56 +2,69 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 
+{% block title %}{% trans "Subscribe" %}{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="#">{% trans "Subscribe" %}</a></li>
+{% endblock %}
+
 {% block content-left %}
 
-<script type="text/javascript">
-function select_conf(id, dues_amount, newspaper_amount, toggle) {
-	var checkboxes = document.getElementsByName('newspaper');
-    for (var i = 0; i <  checkboxes.length; ++i) {
-        var checkbox = checkboxes[i];
-        checkbox.checked = (i == id) && (! toggle || checkbox.checked);
-        checkbox.disabled = (i != id);
-    }
-    
-    document.getElementById('id_dues_amount').value = dues_amount;
-    var newspaper_checkbox = document.getElementById('id_newspaper_' + id);
-    newspaper_amount = newspaper_checkbox ? (newspaper_checkbox.checked ? newspaper_amount : "") : 0;
-    document.getElementById('id_newspaper_amount').value = newspaper_amount;
-    document.getElementById('id_total_amount').value = dues_amount + newspaper_amount;
-    return;
-}
-</script>
+    <script type="text/javascript">
+        function select_conf(id, dues_amount, newspaper_amount, toggle) {
+            var checkboxes = document.getElementsByName('newspaper');
+            for (var i = 0; i < checkboxes.length; ++i) {
+                var checkbox = checkboxes[i];
+                checkbox.checked = (i == id) && (!toggle || checkbox.checked);
+                checkbox.disabled = (i != id);
+            }
 
-<div class="colt-lg-8 col-lg-offset-2">
+            document.getElementById('id_dues_amount').value = dues_amount;
+            var newspaper_checkbox = document.getElementById('id_newspaper_' + id);
+            newspaper_amount = newspaper_checkbox ? (newspaper_checkbox.checked ? newspaper_amount : "") : 0;
+            document.getElementById('id_newspaper_amount').value = newspaper_amount;
+            document.getElementById('id_total_amount').value = dues_amount + newspaper_amount;
+            return;
+        }
+    </script>
 
-<h1>{{ action_title }} {{ person }}</h1>
+    <div class="colt-lg-8 col-lg-offset-2">
 
-<p>La cotisation à l'AIn7, au delà de soutenir l'action de l'association, vous permet directement:
-<ul>
-    <li>d'accéder à l'ensemble de nos services en ligne (annuaire, service emploi, etc.)</li>
-    <li>de bénéficier de tarifs préférentiels lors des manifestations organisées par l'association</li>
-    <li>de bénéficier de l'assurance de protection juridique des ingénieurs (sauf pour les adhésions étudiantes)</li>
-</ul>
-</p>
+        <h1>{{ action_title }} {{ person }}</h1>
 
-<form method="post" action="." enctype="multipart/form-data">
-{% csrf_token %}
-{{ form|crispy }}
-<div class="control-group">
-<div class="controls">
-<div class="col-lg-offset-4">
-<input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
-<a href="{{ back }}">{% trans "Cancel" %}</a>
-</div>
-</div>
-</div>
-</form>
+        <blockquote>
+            <p>La cotisation à l'AIn7, au delà de soutenir l'action de l'association, vous permet directement:</p>
+            <ul class="real-list">
+                <li>d'accéder à l'ensemble de nos services en ligne (annuaire, service emploi, etc.)</li>
+                <li>de bénéficier de tarifs préférentiels lors des manifestations organisées par l'association</li>
+                <li>de bénéficier de l'assurance de protection juridique des ingénieurs (sauf pour les adhésions
+                    étudiantes)
+                </li>
+            </ul>
+        </blockquote>
 
-</div>
-{% if form.data.configuration %}
-<script type="text/javascript">
-select_current();
-</script>
-{% endif %}
+
+        <form method="post" action="." enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form|crispy }}
+
+            <p class="margin-bottom"></p>
+            <div class="control-group">
+                <div class="controls padding_more">
+                    <div class="col-lg-offset-4">
+                        <input type="submit" class="btn btn-primary" value="{% trans "Save" %}"/>&nbsp;
+                        <a href="{{ back }}" class="btn btn-default">{% trans "Cancel" %}</a>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+    {% if form.data.configuration %}
+        <script type="text/javascript">
+            select_current();
+        </script>
+    {% endif %}
 
 {% endblock %}

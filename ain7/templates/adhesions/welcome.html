@@ -3,35 +3,40 @@
 {% load crispy_forms_tags %}
 {% load static from staticfiles %}
 
+
+{% block title %}Adhére dès maintenant à l'AIn7{% endblock %}
+
 {% block content %}
 
-<div class="row">
+    <div class="row">
 
-<div class="col-lg-offset-1 col-lg-10">
+        <div class="col-lg-offset-1 col-lg-10">
 
-<h1>Adhére dès maintenant à l'AIn7</h1>
+            <blockquote>
+                <p>Bénéficie pendant toute ta scolarité des services de l'association :
+                <ul class="real-list">
+                    <li>Accès aux manifestations à des tarifs préférentiels</li>
+                    <li>Accès à l'annuaire de l'association</li>
+                    <li>Accès aux anciens pour bénéficier de conseils et d'un accompagnement personnalisé</li>
+                </ul>
+                </p>
 
-<p>et bénéficie pendant toute ta scolarité des services de l'association :
-<ul>
-    <li>Accès aux manifestations à des tarifs préférentiels</li>
-    <li>Accès à l'annuaire de l'association</li>
-    <li>Accès aux anciens pour bénéficier de conseils et d'un accompagnement personnalisé</li>
-</ul>
-</p>
+                <p>Cette cotisation est de <b>15€ seulement pour l'ensemble de ta scolarité</b></p>
+            </blockquote>
 
-<p>Cette cotisation est de <b>15€ seulement pour l'ensemble de ta scolarité</b></p>
+            <form method="post" action="." enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="form-group">
+                    <div class="col-lg-offset-4">
+                        <button type="submit" class="btn btn-primary"><i
+                                class="fa fa-check"></i> {% trans "Subscribe" %}!
+                        </button>
+                    </div>
+                </div>
+            </form>
 
-<form method="post" action="." enctype="multipart/form-data">
-{% csrf_token %}
-{{ form|crispy }}
-<div class="form-group">
-<div class="col-lg-offset-4">
-<button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> {% trans "Subscribe" %}!</button>
-</div>
-</div>
-</form>
-
-</div>
-</div>
+        </div>
+    </div>
 
 {% endblock %}

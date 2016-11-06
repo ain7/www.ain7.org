@@ -3,18 +3,54 @@
 
 {% block content %}
 
-<div class="span-17 colborder">
 
+    <div class="kf_inr_banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--KF INR BANNER DES Wrap Start-->
+                    <div class="kf_inr_ban_des">
+                        <div class="inr_banner_heading">
+                            <h3>404</h3>
+                        </div>
 
+                        <div class="kf_inr_breadcrumb">
+                            <ul>
+                                <li><a href="{% url "homepage" %}">Accueil</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--KF INR BANNER DES Wrap End-->
+                </div>
+            </div>
+        </div>
+    </div>
 
-<h2>{% trans "Page not found" %}</h2>
+    <div class="kf_content_wrap">
 
-<p>{% trans "Please check your URL, if you clicked on a dead link please contact your administrator" %}<br/>
-<a href="{% url "homepage" %}">{% trans "Back to home page" %}</a><br/>
-</p>
+        <section class="error_outer_wrap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="error_wrap">
+                            <div class="error_des">
+                                <span>404</span>
+                                <h3>{% trans "Page not found" %}</h3>
+                                <p>{% trans "Please check your URL, if you clicked on a dead link please contact your administrator" %}</p>
+                            </div>
+                            <div class="error_thumb">
+                                <figure>
+                                    <img src="extra-images/404_thumb.jpg" alt=""/>
+                                    <figcaption><a href="{% url "homepage" %}"><i
+                                            class="fa fa-home"></i>{% trans "Back to home page" %}</a></figcaption>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-</div>
+    </div>
 
-</div>  
-            
 {% endblock %}

@@ -6,61 +6,169 @@
 
 {% block content-left %}
 
+    <div class="kf_content_wrap overflow_visible">
+        <div class="search_bar_outer_wrap">
+            <div class="container">
+                <div class="inr_pg_search_wrap">
+                    <form action="." method="get" class="form-horizontal">
+                        <div class="form-group">
+                            <label for="{{ filter.form.last_name.id_for_label }}"
+                                   class="col-sm-2 control-label">{{ filter.form.last_name.label }}</label>
+                            <div class="col-sm-9">
+                                <input name="{{ filter.form.last_name.html_name }}"
+                                       id="{{ filter.form.last_name.id_for_label }}" class="form-control">
+                            </div>
+                        </div>
 
-<div class="row">
+                        <div class="form-group">
+                            <label for="{{ filter.form.first_name.id_for_label }}"
+                                   class="col-sm-2 control-label">{{ filter.form.first_name.label }}</label>
+                            <div class="col-sm-9">
+                                <input name="{{ filter.form.first_name.html_name }}"
+                                       id="{{ filter.form.first_name.id_for_label }}" class="form-control">
+                            </div>
+                        </div>
 
-<p>Vous ne trouvez pas tous les critères? Essayez notre <a href="{% url "annuaire-search-advanced" %}">recherche avancée</a>, ou <a href="{% url "contact" %}">contactez nous</a>.</p>
+                        <div class="form-group">
+                            <label for="{{ filter.form.year.id_for_label }}"
+                                   class="col-sm-2 control-label">{{ filter.form.year.label }}</label>
+                            <div class="col-sm-9">
+                                <input name="{{ filter.form.year.html_name }}" type="number" step="any" min="0"
+                                       id="{{ filter.form.year.id_for_label }}" class="form-control">
+                            </div>
+                        </div>
 
-<div class="col-lg-offset-3 col-lg-6">
+                        <div class="form-group">
+                            <label for="{{ filter.form.organization.id_for_label }}"
+                                   class="col-sm-2 control-label">{{ filter.form.organization.label }}</label>
+                            <div class="col-sm-9">
+                                <input name="{{ filter.form.organization.html_name }}"
+                                       id="{{ filter.form.organization.id_for_label }}" class="form-control">
+                            </div>
+                        </div>
+
+                     {% if filter.form.position %}
+                            <div class="form-group">
+                                <label for="{{ filter.form.position.id_for_label }}"
+                                       class="col-sm-2 control-label">{{ filter.form.position.label }}</label>
+                                <div class="col-sm-9">
+                                    <input name="{{ filter.form.position.html_name }}"
+                                           id="{{ filter.form.position.id_for_label }}" class="form-control">
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if filter.form.zip_code %}
+                            <div class="form-group">
+                                <label for="{{ filter.form.zip_code.id_for_label }}"
+                                       class="col-sm-2 control-label">{{ filter.form.zip_code.label }}</label>
+                                <div class="col-sm-9">
+                                    <input name="{{ filter.form.zip_code.html_name }}"
+                                           id="{{ filter.form.zip_code.id_for_label }}" class="form-control">
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <div class="form-group">
+                            <label for="{{ filter.form.city.id_for_label }}"
+                                   class="col-sm-2 control-label">{{ filter.form.city.label }}</label>
+                            <div class="col-sm-9">
+                                <input name="{{ filter.form.city.html_name }}"
+                                       id="{{ filter.form.city.id_for_label }}" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ filter.form.country.id_for_label }}"
+                                   class="col-sm-2 control-label">{{ filter.form.country.label }}</label>
+                            <div class="col-sm-9">
+                                {{ filter.form.country }}
+                            </div>
+
+                        </div>
 
 
-<form action="." method="get" class="form-horizontal">
-    {{ filter.form|crispy }}
-<div class="control-group">
-<div class="controls">
-<div class="col-lg-offset-4">
-<button class="btn btn-default" type="submit"><i class="fa fa-search"></i> {% trans "Search" %}</button>
-</div>
-</div>
-</div>
-</form>
+                        <div class="form-group">
+                            <label for="{{ filter.form.track.id_for_label }}"
+                                   class="col-sm-2 control-label">{{ filter.form.track.label }}</label>
+                            <div class="col-sm-9">
+                                {{ filter.form.track }}
+                            </div>
+                        </div>
 
-</div>
 
-</div>
+                        <button class="btn btn-default" type="submit"><i
+                                class="fa fa-search"></i> {% trans "Search" %}
+                        </button>
 
-{% paginate filter %}
-<p class="text-center">{% show_pages %}</p> 
+                        {#                        {{ filter.form|crispy }}#}
+                        {#                        <div class="control-group">#}
+                        {#                            <div class="controls">#}
+                        {#                                <div class="col-lg-offset-4">#}
+                        {#                                </div>#}
+                        {#                            </div>#}
+                        {#                        </div>#}
+                    </form>
+                    <p>Vous ne trouvez pas tous les critères? Essayez notre <a
+                            href="{% url "annuaire-search-advanced" %}">recherche avancée</a>, ou <a
+                            href="{% url "contact" %}">contactez nous</a>.</p>
+                </div>
+            </div>
+        </div>
 
-<table class="table table-striped">
-<tobdy>
-{% for ain7member in filter %}
-<tr>
-<td width="60">
-{% if ain7member.avatar %}
-<img src ="{{ ain7member.avatar.url }}" height="50"  alt="{{ ain7member.person.complete_name }}" title="{{ ain7member.person.complete_name }}" />
-{% else %}
-<img src="{% static "images/nobody.png" %}" height="50" alt="{{ person.complete_name }}"/>
-{% endif %}
-</td><td>
-<a href="{% url "member-details" ain7member.person.pk %}">
-<b>{{ ain7member.person.last_name }} {% if ain7member.person.maiden_name %} ({{ ain7member.person.maiden_name }}) {% endif %}
-{{ ain7member.person.first_name }}</b></a>
-{% if ain7member.is_subscriber %}
-<img src="{% static "logo_ain7.png" %}" title="Adherent {% now "Y" %}" alt="adherent {% now "Y" %}" width="25" height="25" />
-{% endif %}
-{% if ain7member.person.personprivate.death_date %}
-<img src="{% static "images/deceased.png" %}" title="Décédé" alt="Décédé" width="16" height="16" />
-{% endif %}
-<br/>
-{{ ain7member.promo_full }}
-<br/>
-<i>{{ ain7member.current_positions_orga }}</i>
-</td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
-<p class="text-center">{% show_pages %}</p> 
+        {% paginate filter %}
+
+        <section class="edu2_teachers_page" id="result">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        {% include "pages/paginator.html" %}
+                    </div>
+
+                    {% for ain7member in filter %}
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="edu2_faculty_des">
+                                <figure>
+                                    {% if ain7member.avatar %}
+                                        <img src="{{ ain7member.avatar.url }}"
+                                             alt="{{ ain7member.person.complete_name }}"
+                                             title="{{ ain7member.person.complete_name }}"/>
+                                    {% else %}
+                                        <img src="{% static "images/nobody.png" %}"
+                                             alt="{{ person.complete_name }}"/>
+                                    {% endif %}
+                                    <figcaption>
+
+                                    </figcaption>
+                                </figure>
+                                <div class="edu2_faculty_des2">
+                                    <h6>
+                                        <a href="{% url "member-details" ain7member.person.pk %}">{{ ain7member.person.last_name }}
+                                            {% if ain7member.person.maiden_name %} (
+                                                {{ ain7member.person.maiden_name }}) {% endif %}
+                                            {{ ain7member.person.first_name }}</a></h6>
+                                    <strong>{{ ain7member.promo_full }}</strong>
+                                    <p>
+                                        {% if ain7member.is_subscriber %}
+                                            <img src="{% static "logo_ain7.png" %}" title="Adherent {% now "Y" %}"
+                                                 alt="adherent {% now "Y" %}" width="25" height="25"/>
+                                        {% endif %}
+                                        {% if ain7member.person.personprivate.death_date %}
+                                            <img src="{% static "images/deceased.png" %}" title="Décédé" alt="Décédé"
+                                                 width="16"
+                                                 height="16"/>
+                                        {% endif %}
+                                        <i>{{ ain7member.current_positions_orga }}</i>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% include "pages/paginator.html" %}
+            </div>
+
+        </section>
+    </div>
 
 {% endblock %}

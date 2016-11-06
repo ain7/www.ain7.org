@@ -1,139 +1,159 @@
 {% extends "organizations/base.html" %}
 {% load i18n %}
 
+{% block breadcrumb %}
+    <li><a href="{% url "organization-index" %}">{% trans "Organizations" %}</a></li>
+    <li><a href="{% url "organization-details" organization.id %}">{{ organization.name }}</a></li>
+{% endblock %}
+
+{% block title %}{{ organization.name }}{% endblock %}
+
 {% block content-left %}
 
-<div class="dataBlock">
-<h2>{{ organization.name }}</h2>
-
-{% if organization.employment_agency %}
-<p>{% filter capfirst %}{% trans "employment agency" %}{% endfilter %}</p>
-{% endif %}
-
-{% if organization.size %}
-<p>{% trans "Size" %}: {{ organization.get_size_display }}</p>
-{% endif %}
-
-{% if organization.activity_field %}
-<p>{% trans "Activity field" %}: {{ organization.activity_field }}</p>
-{% endif %}
-
-{% if organization.short_description %}
-<p>{{ organization.short_description }}</p>
-{% endif %}
-
-{% if organization.long_description %}
-{{ organization.long_description|safe }}
-{% endif %}
-<ul class="list-inline">
- <li><a class="btn btn-primary" href="{% url "organization-edit" organization.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Modify" %}</a></li>
-{% if superadmin or secretariat_member %}
-{% if organization.is_valid %}
-<li><a class="btn btn-primary" href="{% url "organization-merge" organization.id %}"><i class="fa fa-code-fork fa-lg"></i> {% trans "Merge" %}</a></li>
-<li><a class="btn btn-primary" href="{% url "organization-delete" organization.id %}"><i class="fa fa-trash-o fa-lg"></i> {% trans "Delete" %}</a></li>
-{% else %}
-<li><a class="btn btn-primary" href="{% url "organization-delete" organization.id %}"><i class="fa fa-paint-brush fa-lg"></i> {% trans "Purge" %}</a></li>
-<li><a class="btn btn-primary" href="{% url "organization-undelete" organization.id %}"><i class="fa fa-reply fa-lg"></i> {% trans "Undelete" %}</a></li>
-{% endif %}
-{% endif %}
-</ul>
-
-</div>
-
-{% if superadmin or secretairat_member %}
-{% if organization.modification_of %}
-<p>{% trans "This organization is the modification of" %} <a href="{% url "organization-details" organization.modification_of.id %}">{{ organization.modification_of.name }}</a> {% trans "by" %} {{ organization.last_change_by }}.</p>
-{% endif %}
-{% endif %}
-
-<h2>{% trans "List of offices" %}</h2>
-<ul>
-{% for office in organization.offices.all %}
-{% if office.is_valid or superadmin or secretariat_member %}
-        <li>{{ office }}
-        {% if office.line1 or office.line2 or office.zip_code or office.city or office.country or office.phone_number or office.web_site %}
-        <p>
-           {% if office.line1 or office.line2 %}
-               {% if office.line1 %}{{ office.line1 }}<br/>{% endif %}
-               {% if office.line2 %}{{ office.line2 }}<br/>{% endif %}
-           {% endif %}
-           {% if office.zip_code or office.city %}
-               {{ office.zip_code|default_if_none:"" }}
-               {{ office.city|default_if_none:"" }}
-               <br/>
-           {% endif %}
-           {% if office.country %} {{ office.country }} {% endif %}<br />
-           {% if office.phone_number %} 
-               {{ office.phone_number }} <br />
-           {% endif %}
-           {% if office.fax_number %} 
-               {{ office.fax_number }} <br />
-           {% endif %}
-           {% if office.web_site %} 
-               <a href="{{ office.web_site }}">{{ office.web_site }}</a> 
-           {% endif %}
-        </p>
-        {% endif %}
-<ul class="list-inline">
-<a class="btn btn-primary" href="{% url "office-edit" organization.id office.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Modify" %}</a>
-{% if superadmin or secretariat_member %}
-{% if office.is_valid %}
-<a class="btn btn-primary" href="{% url "office-merge" organization.id office.id %}"><i class="fa fa-code-fork fa-lg"></i> {% trans "Merge" %}</a>
-<a class="btn btn-primary" href="{% url "office-delete" organization.id office.id %}"><i class="fa fa-trash-o fa-lg"></i> {% trans "Delete" %}</a>
-{% else %}
-<a class="btn btn-primary" href="{% url "office-delete" organization.id office.id %}"> <i class="fa fa-paint-brush fa-lg"></i> {% trans "Purge" %}</a>
-<a class="btn btn-primary" href="{% url "office-undelete" organization.id office.id %}"><i class="fa fa-reply fa-lg"></i> {% trans "Undelete" %}</a>
-{% endif %}
-{% endif %}
-</ul>
-
-{% if superadmin or secretairat_member %}
-{% if office.modification_of %}
-<p>{% trans "This office is the modification of" %} <a href="{% url "organization-details" office.organization.id %}">{{ office.organization.name }}</a> {% trans "by" %} {{ office.last_change_by }}.</p>
-{% endif %}
-{% endif %}
-
-        {% if office.job_offers.all %}
-	<br />
-        {% trans "Job offers" %} :
-          <ul>
-            {% for emploi in office.job_offers.all %}
-            <li class="job">
-              <a href="{% url "job-details" emploi.id %}">{{ emploi.title }}</a>
-            </li>
-            {% endfor %}
-          </ul>
+    <div class="dataBlock">
+        {% if organization.employment_agency %}
+            <p>{% filter capfirst %}{% trans "employment agency" %}{% endfilter %}</p>
         {% endif %}
 
-        {% if office.current_n7_employees %}
-          <br />{% trans "Current N7 employees" %}
-          <ul>
-            {% for ain7member in office.current_n7_employees %}
-              <li class="person">
-                <a href="{% url "member-details" ain7member.person.user.id %}">
-                {{ ain7member }}</a>
-              </li>
-            {% endfor %}
-          </ul>
+        {% if organization.size %}
+            <p>{% trans "Size" %}: {{ organization.get_size_display }}</p>
         {% endif %}
 
-        {% if office.past_n7_employees %}
-          <br />{% trans "Past N7 employees" %}
-          <ul>
-            {% for ain7member in office.past_n7_employees %}
-              <li class="person">
-                <a href="{% url "member-details" ain7member.person.user.id %}">
-                {{ ain7member }}</a>
-              </li>
-            {% endfor %}
-          </ul>
+        {% if organization.activity_field %}
+            <p>{% trans "Activity field" %}: {{ organization.activity_field }}</p>
         {% endif %}
 
-    </li>
-{% endif %}
-{% endfor %}
-</ul>
+        {% if organization.short_description %}
+            <p>{{ organization.short_description }}</p>
+        {% endif %}
 
-<p><a class="btn btn-primary" href="{% url "office-add" organization.id %}"><i class="fa fa-plus fa-lg"></i> {% trans "Add new office" %}</a></p>
+        {% if organization.long_description %}
+            {{ organization.long_description|safe }}
+        {% endif %}
+        <ul class="list-inline">
+            <li><a class="btn btn-primary" href="{% url "organization-edit" organization.id %}"><i
+                    class="fa fa-pencil fa-lg"></i> {% trans "Modify" %}</a></li>
+            {% if superadmin or secretariat_member %}
+                {% if organization.is_valid %}
+                    <li><a class="btn btn-primary" href="{% url "organization-merge" organization.id %}"><i
+                            class="fa fa-code-fork fa-lg"></i> {% trans "Merge" %}</a></li>
+                    <li><a class="btn btn-primary" href="{% url "organization-delete" organization.id %}"><i
+                            class="fa fa-trash-o fa-lg"></i> {% trans "Delete" %}</a></li>
+                {% else %}
+                    <li><a class="btn btn-primary" href="{% url "organization-delete" organization.id %}"><i
+                            class="fa fa-paint-brush fa-lg"></i> {% trans "Purge" %}</a></li>
+                    <li><a class="btn btn-primary" href="{% url "organization-undelete" organization.id %}"><i
+                            class="fa fa-reply fa-lg"></i> {% trans "Undelete" %}</a></li>
+                {% endif %}
+            {% endif %}
+        </ul>
+
+    </div>
+
+    {% if superadmin or secretairat_member %}
+        {% if organization.modification_of %}
+            <p>{% trans "This organization is the modification of" %} <a
+                    href="{% url "organization-details" organization.modification_of.id %}">{{ organization.modification_of.name }}</a> {% trans "by" %} {{ organization.last_change_by }}.
+            </p>
+        {% endif %}
+    {% endif %}
+
+    <h2>{% trans "List of offices" %}</h2>
+    <ul class="real-list">
+        {% for office in organization.offices.all %}
+            {% if office.is_valid or superadmin or secretariat_member %}
+                <li>{{ office }}
+                    {% if office.line1 or office.line2 or office.zip_code or office.city or office.country or office.phone_number or office.web_site %}
+                        <p>
+                            {% if office.line1 or office.line2 %}
+                                {% if office.line1 %}{{ office.line1 }}<br/>{% endif %}
+                                {% if office.line2 %}{{ office.line2 }}<br/>{% endif %}
+                            {% endif %}
+                            {% if office.zip_code or office.city %}
+                                {{ office.zip_code|default_if_none:"" }}
+                                {{ office.city|default_if_none:"" }}
+                                <br/>
+                            {% endif %}
+                            {% if office.country %} {{ office.country }} {% endif %}<br/>
+                            {% if office.phone_number %}
+                                {{ office.phone_number }} <br/>
+                            {% endif %}
+                            {% if office.fax_number %}
+                                {{ office.fax_number }} <br/>
+                            {% endif %}
+                            {% if office.web_site %}
+                                <a href="{{ office.web_site }}">{{ office.web_site }}</a>
+                            {% endif %}
+                        </p>
+                    {% endif %}
+                    <ul class="list-inline">
+                        <a class="btn btn-primary" href="{% url "office-edit" organization.id office.id %}"><i
+                                class="fa fa-pencil fa-lg"></i> {% trans "Modify" %}</a>
+                        {% if superadmin or secretariat_member %}
+                            {% if office.is_valid %}
+                                <a class="btn btn-primary" href="{% url "office-merge" organization.id office.id %}"><i
+                                        class="fa fa-code-fork fa-lg"></i> {% trans "Merge" %}</a>
+                                <a class="btn btn-primary" href="{% url "office-delete" organization.id office.id %}"><i
+                                        class="fa fa-trash-o fa-lg"></i> {% trans "Delete" %}</a>
+                            {% else %}
+                                <a class="btn btn-primary" href="{% url "office-delete" organization.id office.id %}">
+                                    <i class="fa fa-paint-brush fa-lg"></i> {% trans "Purge" %}</a>
+                                <a class="btn btn-primary" href="{% url "office-undelete" organization.id office.id %}"><i
+                                        class="fa fa-reply fa-lg"></i> {% trans "Undelete" %}</a>
+                            {% endif %}
+                        {% endif %}
+                    </ul>
+
+                    {% if superadmin or secretairat_member %}
+                        {% if office.modification_of %}
+                            <p>{% trans "This office is the modification of" %} <a
+                                    href="{% url "organization-details" office.organization.id %}">{{ office.organization.name }}</a> {% trans "by" %} {{ office.last_change_by }}.
+                            </p>
+                        {% endif %}
+                    {% endif %}
+
+                    {% if office.job_offers.all %}
+                        <br/>
+                        {% trans "Job offers" %} :
+                        <ul>
+                            {% for emploi in office.job_offers.all %}
+                                <li class="job">
+                                    <a href="{% url "job-details" emploi.id %}">{{ emploi.title }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    {% if office.current_n7_employees %}
+                        <br/>{% trans "Current N7 employees" %}
+                        <ul>
+                            {% for ain7member in office.current_n7_employees %}
+                                <li class="person">
+                                    <a href="{% url "member-details" ain7member.person.user.id %}">
+                                        {{ ain7member }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    {% if office.past_n7_employees %}
+                        <br/>{% trans "Past N7 employees" %}
+                        <ul>
+                            {% for ain7member in office.past_n7_employees %}
+                                <li class="person">
+                                    <a href="{% url "member-details" ain7member.person.user.id %}">
+                                        {{ ain7member }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+    <p><a class="btn btn-primary" href="{% url "office-add" organization.id %}"><i
+            class="fa fa-plus fa-lg"></i> {% trans "Add new office" %}</a></p>
 
 {% endblock %}

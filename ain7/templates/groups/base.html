@@ -5,35 +5,117 @@
 
 {% block content %}
 
+    <div class="kf_inr_banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--KF INR BANNER DES Wrap Start-->
+                    <div class="kf_inr_ban_des">
+                        <div class="inr_banner_heading">
+                            <h3>{% block title %}{% endblock %}</h3>
+                        </div>
 
-<ul class="list-inline">
-<li>
-{% if group %}
-{% if not is_member %}
-<a class="btn btn-primary" href="{% url "group-join" group.slug %}">{% trans "Join the group" %}</a>
-{% else %}
-<a class="btn btn-primary" href="{% url "group-quit" group.slug %}">{% trans "Leave the group" %}</a>
-{% endif %}
-{% endif %}
-</li>
-{% if group %}
-<li><a class="btn btn-primary" href="{% url "group-members" group.slug %}">{% trans "Members" %}</a></li>
-{% endif %}
-{% if superadmin or ca_member or secretariat_member %}
-{% if group %}
-<li><a class="btn btn-primary" href="{% url "group-edit" group.slug %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Modify" %}</a></li>
-{% endif %}
-<li><a class="btn btn-primary" href="{% url "group-edit" %}"><i class="fa fa-plus fa-lg"></i> {% trans "Add new group" %}</a></li>
-{% endif %}
-</ul>
-{% if group.active_events %}
-<li class="nav-header">{% trans "Events" %}</li>
-{% for event in group.active_events %}
-<p><strong><a href="{% url "event-details" event.id %}">{{ event.title|upper }}</a></strong></p>
-{% endfor %}
-{% endif %}
+                        <div class="kf_inr_breadcrumb">
+                            {% block breadcrumb %}
 
-{% block content-left %}
-{% endblock %}
+                            {% endblock %}
+                        </div>
+                    </div>
+                    <!--KF INR BANNER DES Wrap End-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Banner Wrap Start-->
+
+    <!--Banner Wrap End-->
+
+    <!--Content Wrap Start-->
+    <div class="kf_content_wrap">
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+
+                        <!--KF_BLOG DETAIL_WRAP START-->
+                        <div class="kf_blog_detail_wrap">
+
+                            <!--KF_BLOG DETAIL_DES START-->
+                            <div class="kf_blog_detail_des">
+                                <div class="blog-detl_heading">
+                                    <h5>{{ group.name }}</h5>
+                                </div>
+
+                                <ul class="blog_detail_meta">
+                                    <li>
+                                        {% if group %}
+                                            {% if not is_member %}
+                                                <a class="btn btn-default"
+                                                   href="{% url "group-join" group.slug %}"><i
+                                                        class="fa fa-sign-in"></i> {% trans "Join the group" %}</a>
+                                            {% else %}
+
+                                                <a class="btn btn-default"
+                                                   href="{% url "group-quit" group.slug %}"><i
+                                                        class="fa fa-sign-out"></i> {% trans "Leave the group" %}</a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </li>
+                                    {% if group %}
+                                        <li><a class="btn btn-default"
+                                               href="{% url "group-members" group.slug %}"><i
+                                                class="fa fa-users"></i>{% trans "Members" %}</a>
+                                        </li>
+                                    {% endif %}
+                                    {% if superadmin or ca_member or secretariat_member %}
+                                        {% if group %}
+                                            <li><a class="btn btn-default" href="{% url "group-edit" group.slug %}"><i
+                                                    class="fa fa-pencil"></i> {% trans "Modify" %}</a></li>
+                                        {% endif %}
+                                        <li><a class="btn btn-default" href="{% url "group-edit" %}"><i
+                                                class="fa fa-plus"></i> {% trans "Add new group" %}</a></li>
+                                    {% endif %}
+                                </ul>
+
+                                {% block content-left %}
+
+                                {% endblock %}
+                            </div>
+                            <!--KF_BLOG DETAIL_DES END-->
+
+                        </div>
+                        <!--KF_BLOG DETAIL_WRAP END-->
+                    </div>
+
+
+                    <div class="col-md-4">
+                        {% if group %}
+                            <div class="kf-sidebar">
+                                <!--KF_SIDEBAR_ARCHIVE_WRAP START-->
+                                <div class="widget widget-archive ">
+                                    <h2>{% trans "Events" %}</h2>
+                                    {% if group.active_events %}
+                                        <ul class="sidebar_archive_des">
+                                            {% for event in group.active_events %}
+                                                <li>
+                                                    <a href="{% url "event-details" event.id %}"><i
+                                                            class="fa fa-angle-right"></i> {{ event.title|upper }}</a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <p>Pas d'évènement à venir organisé par le groupe.</p>
+                                    {% endif %}
+                                </div>
+                                <!--KF_SIDEBAR_ARCHIVE_WRAP END-->
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!--Content Wrap End-->
+
 
 {% endblock %}

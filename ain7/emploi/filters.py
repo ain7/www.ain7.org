@@ -21,17 +21,28 @@
 #
 #
 
+from django.utils.translation import ugettext as _
 import django_filters
 
 from ain7.emploi.models import JobOffer
 
 
 class JobOfferFilter(django_filters.FilterSet):
+    title = django_filters.CharFilter(
+        name='title', label=_('title').capitalize(),
+        lookup_type='icontains',
+    )
+
+    description = django_filters.CharFilter(
+        name='description', label=_('description').capitalize(),
+        lookup_type='icontains',
+    )
+
+    contract_type = django_filters.TypedChoiceFilter(
+        name='contract_type', label=_('contract_type').capitalize(),
+        lookup_type='icontains', choices=JobOffer.JOB_TYPES,
+    )
 
     class Meta:
         model = JobOffer
-        fields = {
-            'title': ['icontains'],
-            'contract_type': ['icontains'],
-            'description': ['icontains'],
-        }
+        fields = {}

@@ -3,48 +3,76 @@
 
 {% block content %}
 
-{% if form.errors %}
-<div class="alert alert-danger alert-dismissable" role="alert">
-    <p >{% trans "Your username and password didn't match. Please try again." %}</p>
-</div>
-{% endif %}
+    <div class="kf_content_wrap">
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="contct_wrap">
+                        <div class="col-md-12">
 
-<p>Merci de vous identifier pour accéder à cette partie du site de l'association. Si vous n'arrivez pas à vous connecter, n'hésitez pas à nous <a href="{% url "contact" %}">contacter</a>.</p>
 
-<div class="row">
-<div class="col-lg-8 col-lg-offset-2">
+                            {% if form.errors %}
+                                <div class="alert alert-danger alert-dismissable" role="alert">
+                                    <p>{% trans "Your username and password didn't match. Please try again." %}</p>
+                                </div>
+                            {% endif %}
 
-<form id="login" method="post" action="{% url "account_login" %}" role="form" class="form-horizontal">
-{% csrf_token %}
+                            <p>Merci de vous identifier pour accéder à cette partie du site de l'association. Si vous
+                                n'arrivez pas à vous
+                                connecter, n'hésitez pas à nous <a href="{% url "contact" %}">contacter</a>.</p>
 
-<div class="form-group">
-    <label for="id_username" class="col-sm-3 control-label">{% trans "Username" %}</label>
-    <div class="col-sm-5">
-        <input type="text" class="form-control" name="username" id="id_username" placeholder="{% trans "Username" %}">
+                            <div class="row">
+                                <div class="col-lg-8 col-lg-offset-2">
+
+                                    <form id="login" method="post" action="{% url "account_login" %}" role="form"
+                                          class="form-horizontal">
+                                        {% csrf_token %}
+
+                                        <div class="form-group">
+                                            <label for="id_username"
+                                                   class="col-sm-3 control-label">{% trans "Username" %}</label>
+                                            <div class="col-sm-5">
+                                                <input type="text" class="form-control" name="username" id="id_username"
+                                                       placeholder="{% trans "Username" %}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="id_password"
+                                                   class="col-sm-3 control-label">{% trans "Password" %}</label>
+                                            <div class="col-sm-5">
+                                                <input type="password" class="form-control" name="password"
+                                                       id="id_password"
+                                                       placeholder="{% trans "Password" %}">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-2 col-sm-6">
+                                                <button type="submit"
+                                                        class="btn btn-default">{% trans "Sign-in" %}</button>
+                                                &nbsp;
+                                                <a href="{% url "lostpassword" %}"
+                                                   class="btn btn-primary">{% trans "Lost Credentials" %}</a>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="next" value="{{ next }}"/>
+                                    </form>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <p>Vous voulez adhérer mais nous n'avez plus vos identifiants? Cliquez pour <a
+                                        href="{% url "subscribe-public" %}" class="btn btn-success">Adhérer en deux
+                                    clics sans
+                                    identifiants</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
-</div>
-<div class="form-group">
-    <label for="id_password" class="col-sm-3 control-label">{% trans "Password" %}</label>
-    <div class="col-sm-5">
-        <input type="password" class="form-control" name="password" id="id_password" placeholder="{% trans "Password" %}">
-    </div>
-</div>
-
-<div class="form-group">
-<div class="col-sm-offset-2 col-sm-6">
-<button type="submit" class="btn btn-default">{% trans "Sign-in" %}</button>
-&nbsp;
-<a href="{% url "lostpassword" %}" class="btn btn-primary">{% trans "Lost Credentials" %}</a>
-</div>
-</div>
-<input type="hidden" name="next" value="{{ next }}" />
-</form>
-
-</div>
-</div>
-
-<div class="row">
-<p>Vous voulez adhérer mais nous n'avez plus vos identifiants? Cliquez pour <a href="{% url "subscribe-public" %}" class="btn btn-success">Adhérer en deux clics sans identifiants</a></p>
-</div>
 
 {% endblock %}

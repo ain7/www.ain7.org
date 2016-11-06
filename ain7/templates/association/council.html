@@ -2,37 +2,73 @@
 {% load i18n %}
 {% load static from staticfiles %}
 
+{% block title %}{% trans "Council" %}{% endblock %}
+
+{% block breadcrumb %}
+    <ul>
+        <li><a href="{% url "homepage" %}">Accueil</a></li>
+        <li><a href="{% url "council-details" %}">{% trans "Council" %}</a></li>
+    </ul>
+{% endblock %}
+
 {% block content-left %}
 
-<table class="table table-striped">
-{% for r in  group.get_group_head %}
-<tr>
-<td><b>{{ r.title }}</b></td>
-<td>
-   {% if r.person.ain7member.avatar %}
-    <img src ="{{ r.person.ain7member.avatar.url }}" height="50"  alt="{{ r.person.complete_name }}" title="{{ r.person.complete_name }}" />
-    {% else %}
-    <img src="{% static "images/nobody.png" %}" height="50" alt="{{ r.person.complete_name }}"/>
-    {% endif %}
-</td>
-<td>
-  <a href="{% url "member-details" r.person.user.id %}">
-  {{ r.person }}</a><br>
-  (<i>{{ r.person.ain7member.track }} {{ r.person.ain7member.promo }}</i>)
-{% if superadmin or secretariat_member %}
-</td><td>
-<a href="{% url "council-role-edit" r.id %}" class="changelink">
-    <i class="fa fa-pencil fa-lg"></i></a><br>
-<a href="{% url "council-role-delete" r.id %}" class="deletelink">
-    <i class="fa fa-trash-o fa-lg"></i></a>
-{% endif%}
-</td>
-</tr>
-{% endfor %}
-</table>
+    <section class="edu2_teachers_page">
+        <div class="container">
+            <div class="row">
 
-{% if superadmin or secretariat_member %}
-<p><a class="btn btn-primary" href="{% url "council-role-add" %}" class="addlink"><i class="fa fa-plus"></i> {% trans "Add" %}</a></p>
-{% endif %}
+                {% for r in  group.get_group_head %}
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <!-- FACULTY DES START-->
+                        <div class="edu2_faculty_des">
+                            <figure>
+                                {% if r.person.ain7member.avatar %}
+                                    <img src="{{ r.person.ain7member.avatar.url }}"
+                                         alt="{{ r.person.complete_name }}"
+                                         title="{{ r.person.complete_name }}"/>
+                                {% else %}
+                                    <img src="{% static "images/nobody.png" %}"
+                                         alt="{{ r.person.complete_name }}"/>
+                                {% endif %}
+
+                                <figcaption>
+                                </figcaption>
+                            </figure>
+                            <div class="edu2_faculty_des2">
+                                <h6><a href="{% url "member-details" r.person.user.id %}">{{ r.person }}</a></h6>
+                                <strong>{{ r.title }}</strong>
+                                <p>{{ r.person.ain7member.track }} {{ r.person.ain7member.promo }}</p>
+                                {% if superadmin or secretariat_member %}
+                                    <p>
+                                        <a href="{% url "council-role-edit" r.id %}" class="changelink">
+                                            <i class="fa fa-pencil fa-lg"></i></a>&nbsp;
+                                        <a href="{% url "council-role-delete" r.id %}" class="deletelink">
+                                            <i class="fa fa-trash-o fa-lg"></i></a>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- FACULTY DES END-->
+                    </div>
+
+                {% endfor %}
+
+                {% if superadmin or secretariat_member %}
+                    <div class="col-md-12">
+                        <p><a class="btn btn-primary" href="{% url "council-role-add" %}" class="addlink"><i
+                                class="fa fa-plus"></i> {% trans "Add" %}</a></p>
+                    </div>
+                {% endif %}
+
+
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
 
 {% endblock %}

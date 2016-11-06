@@ -21,7 +21,8 @@
 
 <h2>{% trans "Results list"%}</h2>
 
-<p class="text-center">{% show_pages %}</p> 
+{% include "pages/paginator.html" %}
+
 
 <ul>
     {% for person in persons %}
@@ -33,7 +34,8 @@
     {% endfor %}
 </ul>
 
-<p class="text-center">{% show_pages %}</p> 
+{% include "pages/paginator.html" %}
+
 
 {% else %}
     <p>{% trans "No person matched your criteria." %}</p>

@@ -2,15 +2,22 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 
+{% block breadcrumb %}
+    <li><a href="{% url "configurations" %}">{% trans "Subscriptions configuration" %}</a></li>
+{% endblock %}
+
+{% block title %}{{ action_title }}{% endblock %}
+
+
 {% block content-left %}
 
-<form method="post" action="." enctype="multipart/form-data" class="form-horizontal">
-{% csrf_token %}
-{{ form|crispy }}
-<div class="form-group">                                                        
-<button type="submit" class="btn btn-default">{% trans "Save" %}</button>
-<a href="{% url 'configurations' %}">{% trans "Cancel" %}</a>
-</div>
-</form>
+    <form method="post" action="." enctype="multipart/form-data" class="form-horizontal">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>&nbsp;
+            <a href="{% url 'configurations' %}" class="btn btn-default">{% trans "Cancel" %}</a>
+        </div>
+    </form>
 
 {% endblock %}

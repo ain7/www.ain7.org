@@ -1,30 +1,54 @@
 {% extends "news/base.html" %}
 {% load i18n ain7_tags %}
 
+{% block breadcrumb %}
+    <ul>
+        <li><a href="{% url "homepage" %}">Accueil</a></li>
+        <li><a href="{% url "news-index" %}">Actualités</a></li>
+        <li><a href="{% url "news-details" news_item.slug %}">{{ news_item.title }}</a></li>
+    </ul>
+{% endblock %}
+
+{% block title %}{{ news_item.title }}{% endblock %}
+
 {% block content-left %}
+    {% if superadmin or ca_member or secretariat_member or contributeur %}
+        <ul class="list-inline">
+            <li><a class="btn btn-primary" href="{% url "news-edit" news_item.slug %}"><i
+                    class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></li>
+            {# <li><a class="btn btn-primary" href="{% url "news-delete" news_item.slug %}"><i class="fa fa-trash-o fa-lg"></i> {% trans "Delete" %}</a></li> #}
+        </ul>
+        <br/>
+    {% endif %}
+    {% if news_item.image %}
+        <div class="blog_detail_thumbnail">
+            <figure>
+                <img src="{{ news_item.image.url }}" alt="Image" title="Image"/>
+            </figure>
+        </div>
+    {% endif %}
 
-<h2>{{ news_item.title }}</h2>
+    <div class="kf_blog_detail_des">
+        <div class="blog-detl_heading">
+            <h5>{{ news_item.title }}</h5>
+        </div>
 
-{% if superadmin or ca_member or secretariat_member or contributeur %}
-<ul class="list-inline">
-<li><a class="btn btn-primary" href="{% url "news-edit" news_item.slug %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></li>
-{# <li><a class="btn btn-primary" href="{% url "news-delete" news_item.slug %}"><i class="fa fa-trash-o fa-lg"></i> {% trans "Delete" %}</a></li> #}
-</ul>
-{% endif %}
+        <ul class="blog_detail_meta">
+            <li><i class="fa fa-calendar"></i>{{ news_item.last_change_at|date:"l j F Y H:i" }}</li>
+            {% if news_item.last_change_by %}
+                <li><i class="fa fa-user"></i><a href="#">{{ news_item.last_change_by }}</a></li>
+            {% endif %}
 
-<div class="article-info">{%  show_last_change news_item %}</div>
+        </ul>
+        {{ news_item.body|safe }}
+        <br><br><br>
 
-{% if news_item.image %}
-<p>
-<img src="{{ news_item.image.url }}" alt="Image" title="Image" class="image-article" style="max-width:800px;max-height:150px"/>
-{% endif %}
-</p>
-{{ news_item.body|safe }}
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+        <div class="addthis_sharing_toolbox"></div>
 
-<br><br><br>
 
-<!-- Go to www.addthis.com/dashboard to customize your tools -->
-<div class="addthis_sharing_toolbox"></div> 
+    </div>
+
 
 {% endblock %}
 

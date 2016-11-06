@@ -2,75 +2,90 @@
 {% load i18n %}
 {% load el_pagination_tags %}
 
-{% block content-left %}
 
-{% if filter %}
-<h2>{% trans "Subscriptions to validate" %}</h2>
-{% else %}
-<h2>{% trans "Subscriptions" %}</h2>
-{% endif %}
+{% block title %}
 
-{% if subscriptions_list %}
-{% paginate subscriptions_list %}
-<div id="edition">
-<table class="table table-striped">
-</thead>
-<tr>
-  <th>{% trans "Member" %}</th>
-  <th>{% trans "Year" %}</th>
-  <th>{% trans "Date" %}</th>
-  <th>{% trans "Amount" %}</th>
-  <th>{% trans "Canal n7" %}</th>
-  <th>{% trans "Payment" %}</th>
-  <th>&nbsp;</th>
-</tr>
-</thead>
-<tbody>
-{% for subscription in subscriptions_list %}
-<tr>
-  <td><a href="{% url "member-details" subscription.member.person.user.id %}">{{ subscription.member.person.last_name }} {{ subscription.member.person.first_name }}</a></td>
-  <td align="center">
-    {% ifnotequal subscription.start_year subscription.end_year %}
-      {% blocktrans with subscription.start_year as start and subscription.end_year as end %}{{ start }} to {{ end }}{% endblocktrans %}
+    {% if filter %}
+        {% trans "Subscriptions to validate" %}
     {% else %}
-      {{ subscription.start_year }}
-    {% endifnotequal %}
-  </td>
-  <td>
-      {{ subscription.date|date:"d F Y" }}
-  </td>
-  <td>
-      {{ subscription.dues_amount }}&nbsp;€
-  </td>
-  <td>
-      {% ifequal subscription.newspaper_amount None %}
-        {% trans "No" %}
-      {% else %}
-        {% ifequal subscription.newspaper_amount 0 %}
-          {% trans "Free" %}
-        {% else %}
-          {{ subscription.newspaper_amount }}&nbsp;€
-        {% endifequal %}
-      {% endifequal %}
-  </td>
-  <td>
-    {% if subscription.payment %}
-    <a href="{% url "payment-details" subscription.payment.id %}">#{{ subscription.payment.id }}</a> {% trans "by" %} {{ subscription.payment.get_type_display }}
+        {% trans "Subscriptions" %}
     {% endif %}
-  </td>
-  <td>
-    {% if not subscription.validated %}
-      <a class="savelink" href="{% url "subscription-validate" subscription.id %}">
-      {% trans "Validate" %}</a><br/>
-      <a class="deletelink" href="{% url "subscription-delete" subscription.id %}">
-      {% trans "Delete" %}</a>
+{% endblock %}
+{% block breadcrumb %}
+    <li><a href="#">{% if filter %}
+        {% trans "Subscriptions to validate" %}
+    {% else %}
+        {% trans "Subscriptions" %}
+    {% endif %}</a></li>
+
+{% endblock %}
+
+{% block content-left %}
+    {% if subscriptions_list %}
+        {% paginate subscriptions_list %}
+        <div id="edition">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>{% trans "Member" %}</th>
+                    <th>{% trans "Year" %}</th>
+                    <th>{% trans "Date" %}</th>
+                    <th>{% trans "Amount" %}</th>
+                    <th>{% trans "Canal n7" %}</th>
+                    <th>{% trans "Payment" %}</th>
+                    <th>&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for subscription in subscriptions_list %}
+                    <tr>
+                        <td>
+                            <a href="{% url "member-details" subscription.member.person.user.id %}">{{ subscription.member.person.last_name }} {{ subscription.member.person.first_name }}</a>
+                        </td>
+                        <td align="center">
+                            {% ifnotequal subscription.start_year subscription.end_year %}
+                                {% blocktrans with subscription.start_year as start and subscription.end_year as end %}
+                                    {{ start }} to {{ end }}{% endblocktrans %}
+                            {% else %}
+                                {{ subscription.start_year }}
+                            {% endifnotequal %}
+                        </td>
+                        <td>
+                            {{ subscription.date|date:"d F Y" }}
+                        </td>
+                        <td>
+                            {{ subscription.dues_amount }}&nbsp;€
+                        </td>
+                        <td>
+                            {% ifequal subscription.newspaper_amount None %}
+                                {% trans "No" %}
+                            {% else %}
+                                {% ifequal subscription.newspaper_amount 0 %}
+                                    {% trans "Free" %}
+                                {% else %}
+                                    {{ subscription.newspaper_amount }}&nbsp;€
+                                {% endifequal %}
+                            {% endifequal %}
+                        </td>
+                        <td>
+                            {% if subscription.payment %}
+                                <a href="{% url "payment-details" subscription.payment.id %}">#{{ subscription.payment.id }}</a>
+                                {% trans "by" %} {{ subscription.payment.get_type_display }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if not subscription.validated %}
+                                <a class="savelink" href="{% url "subscription-validate" subscription.id %}">
+                                    {% trans "Validate" %}</a><br/>
+                                <a class="deletelink" href="{% url "subscription-delete" subscription.id %}">
+                                    {% trans "Delete" %}</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% include "pages/paginator.html" %}
+        </div>
     {% endif %}
-  </td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
-<p class="text-center">{% show_pages %}</p> 
-</div>
-{% endif %}
 {% endblock %}

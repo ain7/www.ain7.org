@@ -11,3 +11,5 @@ ain7/media/data/**/*
 celerybeat-schedule
 .pydevproject
 .settings/
+*.idea
+db.sqlite3
