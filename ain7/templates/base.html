@@ -242,6 +242,9 @@
                     </div>
                     <div class="col-md-10">
                         <div class="nav_2" id="navigation" role="navigation">
+                            <div class="visible-sm pull-right"><a id="btnClose" href="#"><i class="fa fa-bars"></i></a> </div>
+                            <div class="clearfix"></div>
+
                             <ul>
                                 <li role="presentation" {% block navbar_blog %}{{ navbar_blog }}{% endblock %}><a
                                         href="{% url "news-index" %}">Actualités</a></li>
@@ -512,6 +515,8 @@
     <script src="{% static "theme/js/jquery.sidr.min.js" %}"></script>
     <!--Custom JavaScript-->
     <script src="{% static "theme/js/custom.js" %}"></script>
+
+    <script src="{% static "js/ain7.js" %}"></script>
 
 
     <script type="text/javascript" src="{% static "bootstrap-datepicker/js/bootstrap-datepicker.js" %}"></script>
