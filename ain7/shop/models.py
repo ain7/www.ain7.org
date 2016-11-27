@@ -215,8 +215,8 @@ class Payment(models.Model):
 We have validated your subscription for the next year to the association AIn7.
 
 We remind you that you have an access to the website and can update your
-personal informations by accessing thins link:
-http://ain7.com/annuaire/%(id)s/edit/
+personal informations by accessing this link:
+https://ain7.com/annuaire/%(id)s/edit/
 
 On the website, you can find the directory, next events, news in the N7
 world, employment.
