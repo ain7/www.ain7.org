@@ -27,8 +27,12 @@
                                     <h5>{{ text.title }}</h5>
                                 </div>
                                 {% if superadmin or ca_member or secretariat_member or contributeur %}
-                                    <p><a class="btn btn-primary" href="{% url "text-edit" text.id %}"><i
-                                            class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></p>
+                                    <p>
+                                        <a class="btn btn-primary" href="{% url "text-edit" text.id %}"><i
+                                                class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a>
+                                        <a class="btn btn-primary" href="{% url "group-edit" %}"><i
+                                                class="fa fa-plus"></i> {% trans "Add new group" %}</a>
+                                    </p>
                                 {% endif %}
 
                                 <p>{{ text.body|safe }}</p>
