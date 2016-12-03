@@ -251,3 +251,7 @@ input[type="email"], input[type="url"], input[type="search"], input[type="tel"],
 #sidr-id-btnClose {
     font-size: 20px;
 }
+
+.row.action-bar {
+    margin-bottom: 15px
+}

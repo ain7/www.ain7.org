@@ -47,7 +47,7 @@
                             </div>
                         </div>
 
-                     {% if filter.form.position %}
+                        {% if filter.form.position %}
                             <div class="form-group">
                                 <label for="{{ filter.form.position.id_for_label }}"
                                        class="col-sm-2 control-label">{{ filter.form.position.label }}</label>
@@ -120,7 +120,16 @@
 
         <section class="edu2_teachers_page" id="result">
             <div class="container">
-                <div class="row">
+                {% if superadmin or ca_member or secretariat_member %}
+                    <div class="row action-bar">
+                        <div class="col-md-12">
+                            <a class="btn btn-default" href="{% url 'member-add' %}">
+                                <i class="fa fa-plus fa-1g"></i> {% trans "Add" %}
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="row action-bar">
                     <div class="col-md-12">
                         {% include "pages/paginator.html" %}
                     </div>
@@ -163,13 +172,13 @@
                                 </div>
                             </div>
                         </div>
-                        {% if forloop.counter|divisibleby:4%}
+                        {% if forloop.counter|divisibleby:4 %}
                             <div class="clearfix visible-lg-block"></div>
                         {% endif %}
-                        {% if forloop.counter|divisibleby:3%}
+                        {% if forloop.counter|divisibleby:3 %}
                             <div class="clearfix visible-md-block"></div>
                         {% endif %}
-                        {% if forloop.counter|divisibleby:2%}
+                        {% if forloop.counter|divisibleby:2 %}
                             <div class="clearfix visible-sm-block"></div>
                         {% endif %}
                     {% endfor %}
