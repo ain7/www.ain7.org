@@ -9,6 +9,16 @@
 {% block breadcrumb %}
     <ul>
         <li><a href="{% url "homepage" %}">Accueil</a></li>
+        {% if group.type.description == "Groupe professionnel de l'AIn7" %}
+            <li>
+                <a href="{% url "professionnal_groups" %}">{% trans "Professionnal Groups" %}</a>
+            </li>
+        {% else %}
+            {% if group.type.description == "Groupe regional de l'AIn7" %}
+                <li><a href="{% url "regional_groups" %}">{% trans "Regional Groups" %}</a></li>
+            {% endif %}
+        {% endif %}
+
         <li><a href="{% url "group-details" group.slug %}">{{ group.name }}</a></li>
     </ul>
 {% endblock %}
