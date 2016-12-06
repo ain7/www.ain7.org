@@ -26,7 +26,7 @@
                                     <h4>
                                         <b>{% trans "Promos" %}&nbsp;:</b>
                                         {% for promo in ain7member.promos.all %}{{ promo }}{% endfor %}
-                                        {% if is_subscriber %}
+                                        {% if is_subscriber %}<br />
                                             <b>{% trans "Subscriber" %} {% now "Y" %} <img
                                                     src="{% static "logo_ain7.png" %}" alt="adherent" width="25"
                                                     height="25"/></b>
