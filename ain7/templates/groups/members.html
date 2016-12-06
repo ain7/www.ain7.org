@@ -19,7 +19,7 @@
 {% block content-left %}
 
     {% if members %}
-        {% paginate 1 members %}
+        {% paginate members %}
 
         {% for member in members %}
             <div class="about_autor">
