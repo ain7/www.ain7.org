@@ -168,7 +168,7 @@ def member_delete(request, slug, member_id):
     """delete member role"""
 
     group = get_object_or_404(Group, slug=slug)
-    member = get_object_or_404(Member, pk=member_id)
+    member = get_object_or_404(Member, member__pk=member_id)
 
     member.end_date = datetime.date.today()
 
@@ -203,6 +203,7 @@ unsubscribe from every role in your group before leaving it."))
                 ).latest('end_date')
             membership.end_date = datetime.datetime.now()
             membership.save()
+            membership.delete()
             messages.success(
                 request,
                 _('You have been successfully removed from this group.')
