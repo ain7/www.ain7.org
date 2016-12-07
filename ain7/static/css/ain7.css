@@ -255,3 +255,12 @@ input[type="email"], input[type="url"], input[type="search"], input[type="tel"],
 .row.action-bar {
     margin-bottom: 15px
 }
+
+.form-group > div.checkbox {
+    position: static;
+}
+
+.form-group > div.checkbox > label > input.checkboxinput {
+    position: static;
+    margin-left: 0;
+}
