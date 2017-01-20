@@ -16,4 +16,4 @@ ADD local.cnf /etc/mysql/conf.d/local.cnf
 
 EXPOSE 3306
 
-CMD /usr/sbin/mysqld
+CMD ["/usr/sbin/mysqld"]
