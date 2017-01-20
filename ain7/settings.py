@@ -88,21 +88,45 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/site_media/'
 
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [ BASE_DIR + '/ain7/templates', ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
+                # list if you haven't customized them:
+                'django.core.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                'ain7.context_processors.piwik',
+                'ain7.context_processors.user_groups',
+            ],
+        }
+    }
+]
+
 #
 # Added for this project
 #
 
-TEMPLATE_DIRS = DEFAULT_SETTINGS.TEMPLATE_DIRS + [
-    # Put strings here, like "/home/html/django_templates"
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    BASE_DIR + '/ain7/templates',
-]
+#TEMPLATE_DIRS = DEFAULT_SETTINGS.TEMPLATE_DIRS + [
+#    # Put strings here, like "/home/html/django_templates"
+#    # Always use forward slashes, even on Windows.
+#    # Don't forget to use absolute paths, not relative paths.
+#    BASE_DIR + '/ain7/templates',
+#]
 
-TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + [
-    'django.core.context_processors.request',
-    'django.contrib.auth.context_processors.auth',
-]
+#TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + [
+#    'django.core.context_processors.request',
+#    'django.contrib.auth.context_processors.auth',
+#]
 
 
 DEFAULT_FROM_EMAIL = 'AIn7 <noreply@ain7.com>'
@@ -200,10 +224,10 @@ MIDDLEWARE_CLASSES += (
     'ain7.middleware.portalexceptions.PortalException',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS += (
-    'ain7.context_processors.piwik',
-    'ain7.context_processors.user_groups',
-)
+#TEMPLATE_CONTEXT_PROCESSORS += (
+#    'ain7.context_processors.piwik',
+#    'ain7.context_processors.user_groups',
+#)
 
 #STATICFILES_DIRS = (
 #    os.path.join(BASE_DIR, 'ain7', 'static'),
