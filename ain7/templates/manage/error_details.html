@@ -5,49 +5,72 @@
 {% load static from staticfiles %}
 
 {% block stylesheet %}
-<link type="text/css" rel="stylesheet" href="{% static "css/pygments.css" %}"/>
+    <link type="text/css" rel="stylesheet" href="{% static "css/pygments.css" %}"/>
+{% endblock %}
+
+{% block title %}{% trans "Error" %} #{{ error.id }}{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{% url "errors-index" %}">{% trans "Errors" %}</a></li>
+    <li><a href="{% url "error-details" error.id %}">#{{ error.id }}</a></li>
 {% endblock %}
 
 {% block content-left %}
 
-<div class="left_box">
+    <div class="left_box">
 
-<h2>{% trans "Error" %} #{{ error.id }}</h2>
+        <table border="0">
+            <tr>
+                <td><b>{% trans "User" %}:</b></td>
+                <td>
+                    {% if error.user and error.user.person %}
+                        <a href="{% url "member-details" error.user.id %}">
+                            {{ error.user.person }}
+                        </a>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td><b>{% trans "Date" %}:</b></td>
+                <td>{{ error.date|date:"l j F Y H:i" }}</td>
+            </tr>
+            <tr>
+                <td><b>{% trans "Request" %}:</b></td>
+                <td>{% if error.url %}{{ error.url }}{% endif %}</td>
+            </tr>
+            <tr>
+                <td><b>{% trans "Referer" %}:</b></td>
+                <td>{% if error.referer %}{{ error.referer }}{% endif %}</td>
+            </tr>
+            <tr>
+                <td><b>{% trans "Browser" %}:</b></td>
+                <td>{% if error.browser_info %}{{ error.browser_info }}{% endif %}</td>
+            </tr>
+            <tr>
+                <td><b>{% trans "IP Address" %}:</b></td>
+                <td>{% if error.client_address %}{{ error.client_address }}{% endif %}</td>
+            </tr>
+            <tr>
+                <td><b>{% trans "Title" %}:</b></td>
+                <td>{% if error.title %}{{ error.title }}{% endif %}</td>
+            </tr>
+            </td></tr>
+        </table>
+        <b>{% trans "Error" %}:</b><br/>
+        <div class="code">
+            <div class="highlight">
+                {{ traceback|safe }}
+            </div>
+        </div>
 
-<table border="0">
-<tr>
-  <td><b>{% trans "User" %}:</b> </td>
-  <td>
-    {% if error.user and error.user.person %}
-      <a href="{% url "member-details" error.user.id %}">
-        {{ error.user.person }}
-      </a>
-    {% endif %}
-  </td>
-</tr>
-<tr><td><b>{% trans "Date" %}:</b> </td><td>{{ error.date|date:"l j F Y H:i" }}</td></tr>
-<tr><td><b>{% trans "Request" %}:</b> </td><td>{% if error.url %}{{ error.url }}{% endif %}</td></tr>
-<tr><td><b>{% trans "Referer" %}:</b> </td><td>{% if error.referer %}{{ error.referer }}{% endif %}</td></tr>
-<tr><td><b>{% trans "Browser" %}:</b> </td><td>{% if error.browser_info %}{{ error.browser_info }}{% endif %}</td></tr>
-<tr><td><b>{% trans "IP Address" %}:</b> </td><td>{% if error.client_address %}{{ error.client_address }}{% endif %}</td></tr>
-<tr><td><b>{% trans "Title" %}:</b> </td><td>{% if error.title %}{{ error.title }}{% endif %}</td></tr>
-</td></tr>
-</table>
-<b>{% trans "Error" %}:</b><br />
-<div class="code">
-<div class="highlight">
-{{ traceback|safe }}
-</div>
-</div>
+        <form method="post" action=".">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div style="text-align: center">
+                <input type="submit" class="btn btn-primary" value="{% trans "Save" %}"/>
+            </div>
+        </form>
 
-<form method="post" action=".">
-{% csrf_token %}
-{{ form|crispy }}
-<div style="text-align: center">
-<input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
-</div>
-</form>
-
-</div>
+    </div>
 
 {% endblock %}

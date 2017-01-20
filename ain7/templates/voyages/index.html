@@ -3,52 +3,110 @@
 {% load el_pagination_tags %}
 {% load crispy_forms_tags %}
 
+{% block title %}
+    {% trans "Travels" %}
+{% endblock %}
+
+{% block breadcrumb %}
+    <ul>
+        <li><a href="{% url "homepage" %}">Accueil</a></li>
+        <li><a href="{% url "travels-index" %}">{% trans "Travels" %}</a></li>
+    </ul>
+{% endblock %}
+
 {% block content-left %}
 
-<div class="row">
-<div class="col-lg-8">
+    <div class="kf_content_wrap">
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
 
-<ul class="list-inline">
-{% if superadmin or ca_member or secretariat_member or contributeur %}
-<li><a class="btn btn-primary" href="{% url "text-edit" text.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></li>
-<li><a class="btn btn-primary" href="{% url "travel-add" %}"><i class="fa fa-plus fa-lg"></i> {% trans "Add travel" %}</a></li>
-{% endif %}
-</ul>
+                        <!--KF_BLOG DETAIL_WRAP START-->
+                        <div class="kf_blog_detail_wrap">
 
-<h2>{{ text.title }}</h2>
+                            <!--KF_BLOG DETAIL_DES START-->
+                            <div class="kf_blog_detail_des">
+                                <div class="blog-detl_heading">
+                                    <h5>{{ text.title }}</h5>
+                                </div>
 
-{{ text.body|safe }}
+                                {% if superadmin or ca_member or secretariat_member or contributeur %}
+                                    <ul class="blog_detail_meta">
+                                        <li><a class="btn btn-default" href="{% url "text-edit" text.id %}"><i
+                                                class="fa fa-pencil"></i> {% trans "Edit" %}</a></li>
+                                        <li><a class="btn btn-default" href="{% url "travel-add" %}"><i
+                                                class="fa fa-plus"></i> {% trans "Add travel" %}</a></li>
+                                    </ul>
+                                {% endif %}
 
-</div>
+                                <p>{{ text.body|safe }}</p>
 
-<div class="col-lg-4">
+                            </div>
+                            <!--KF_BLOG DETAIL_DES END-->
 
-<form action="." method="get">
-{{ travels.form|crispy }}
-<div class="control-group">
-<div class="controls">
-<div class="col-lg-offset-4">
-<button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> {% trans "Search" %}</button>
-</div>
-</div>
-</div>
-</form>
-
-{% paginate travels %}
+                        </div>
+                        <!--KF_BLOG DETAIL_WRAP END-->
+                    </div>
 
 
-<p class="text-center">{% show_pages %}</p> 
+                    <div class="col-md-4">
+                        <div class="kf-sidebar">
+                            <div class="widget widget-search">
+                                <h2>Search Course</h2>
+                                <form action="." method="get">
+                                    {{ travels.form|crispy }}
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <div class="col-lg-offset-4">
+                                                <button class="btn btn-primary" type="submit"><i
+                                                        class="fa fa-search"></i> {% trans "Search" %}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
 
-<ul>
-    {% for travel in travels %}
-        <li><a href="{% url "travel-details" travel.id %}">{{ travel.label|escape }}</a>
-            - {{ travel.date|escape }}</li>
-    {% endfor %}
-</ul>
+                            <!--KF_SIDEBAR_ARCHIVE_WRAP START-->
+                            <div class="widget widget-archive ">
+                                {% paginate 1 travels %}
+                                <h2>{% trans "Travels" %}</h2>
 
-<p class="text-center">{% show_pages %}</p> 
+                                <ul class="sidebar_archive_des">
+                                    {% for travel in travels %}
+                                        <li><a href="{% url "travel-details" travel.id %}"><i
+                                                class="fa fa-angle-right"></i>{{ travel.label|escape }}
+                                            - {{ travel.date|escape }}
+                                        </a>
+                                        </li>
+                                    {% endfor %}
 
-</div>
-</div>
+                                </ul>
+                                {% get_pages %}
+                                {% if pages.paginated %}
+                                    <div class="pull-right">
+                                        {% if pages.previous %}
+                                            <a href="{{ pages.previous.path }}" aria-label="Previous"
+                                               class="btn btn-default">
+                                                <span aria-hidden="true"><i class="fa fa-angle-left"></i></span>
+                                            </a>
+                                        {% endif %}
+                                        &nbsp;
+                                        {% if pages.next %}
+                                            <a href="{{ pages.next.url }}" aria-label="Next" class="btn btn-default">
+                                                    <span aria-hidden="true"><i
+                                                            class="fa fa-angle-right"></i></span>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <!--KF_SIDEBAR_ARCHIVE_WRAP END-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 
 {% endblock %}

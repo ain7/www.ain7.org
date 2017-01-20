@@ -3,74 +3,124 @@
 {% load el_pagination_tags %}
 {% load crispy_forms_tags %}
 
+{% block title %}{% trans "Job" %}{% endblock %}
+
+{% block breadcrumb %}
+    <ul>
+        <li><a href="{% url "homepage" %}">Accueil</a></li>
+        <li><a href="{% url "job-index" %}">{% trans "Job" %}</a></li>
+    </ul>
+{% endblock %}
+
 {% block content-left %}
 
-<div class="row">
-<div class="col-lg-6">
 
-{% if superadmin or ca_member or secretariat_member or contributeur %}
-<ul class="list-inline">
-<li><a class="btn btn-primary" href="{% url "text-edit" text.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></li>
-</ul>
-{% endif %}
+    {% with job_offers.form as form %}
 
-<h2>{{ text.title }}</h2>
+        <section>
+            <!--courses_outer_wrap Start-->
+            <div class="kf_courses_outer_wrap">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8">
 
-{{ text.body|safe }}
+                            <!--kf_courses_wrap Start-->
+                            <div class="kf_courses_wrap">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 ">
+                                        <!--kf_courses_des Start-->
+                                        <div class="kf_courses_des">
+                                            <div class="courses_des_hding1">
+                                                <h5>{{ text.title }}</h5>
+                                            </div>
+                                            {% if superadmin or ca_member or secretariat_member or contributeur %}
+                                                <ul class="list-inline">
+                                                    <li><a class="btn btn-primary" href="{% url "text-edit" text.id %}"><i
+                                                            class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></li>
+                                                </ul>
+                                            {% endif %}
+                                            <p>{{ text.body|safe }}</p>
+                                        </div>
+                                        <!--kf_courses_des end-->
+                                    </div>
+                                </div>
+                            </div>
+                            <!--kf_courses_wrap end-->
 
-</div>
+                            {% paginate job_offers %}
 
-<div class="col-lg-6">
 
-<form action="." method="get">
-{{ job_offers.form|crispy }}
-<div class="control-group">
-<div class="controls">
-<div class="col-lg-offset-4">
-<button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> {% trans "Search" %}</button>
-</div>
-</div>
-</div>
-</form>
+                            {% for emploi in job_offers %}
+                                <div class="kf_courses_wrap">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <!--kf_courses_des Start-->
+                                            <div class="kf_courses_des">
+                                                <div class="courses_des_hding1">
+                                                    <h5>{{ emploi.title }}</h5>
+                                                </div>
+                                                <ul>
+                                                    <li>{% trans "Contract Type" %}: {{ emploi.get_contract_type_display }}</li>
+                                                    {% if emploi.office %}
+                                                        <li>{% trans "Location" %}: <a
+                                                                href="{% url "organization-details" emploi.office.organization.id %}">{{ emploi.office }}</a>
+                                                        </li>
+                                                    {% endif %}
+                                                    <li>{% trans "Creation Date" %}: {{ emploi.created_at|date:"l j F Y" }}</li>
+                                                </ul>
+                                                <!--rating_wrap end-->
+                                                <a href="{% url "job-details" emploi.id %}">Plus d'informations</a>
+                                            </div>
+                                            <!--kf_courses_des end-->
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
 
-</div>
+                            {% include "pages/paginator.html" %}
 
-</div>
+                        </div>
 
-<div class="row">
-        <hr>
-</div>
+                        <!--KF_EDU_SIDEBAR_WRAP START-->
+                        <div class="col-md-4">
+                            <div class="kf-sidebar">
+                                <div class="widget widget-search">
+                                    <h2>{% trans "Search" %}</h2>
+                                    <form action="." method="get">
+                                        <div class="form-group">
+                                            <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+                                            <input type="text" class="form-control" id="{{ form.title.id_for_label }}"
+                                                   name="{{ form.title.html_name }}">
+                                        </div>
 
-<div class="row">
+                                        <div class="form-group">
+                                            <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+                                            <input type="text" class="form-control"
+                                                   id="{{ form.description.id_for_label }}"
+                                                   name="{{ form.description.html_name }}">
+                                        </div>
 
-{% if superadmin or ca_member or secretariat_member or contributeur %}
-<ul class="list-inline">
-<li><a class="btn btn-primary" href="{% url "job-add" %}"><i class="fa fa-plus fa-lg"></i> {% trans "Add" %}</a></li>
-</ul>
-{% endif %}
+                                        <div class="form-group">
+                                            <label for="{{ form.contract_type.id_for_label }}">{{ form.contract_type.label }}</label>
+                                            {{ form.contract_type }}
+                                        </div>
 
-{% paginate job_offers %}
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>{% trans "title" %}</th><th>{% trans "Contract Type" %}</th><th>{% trans "Location" %}</th><th>{% trans "Creation Date" %}</th>
-        </tr>
-    </thead>
-    <tbody>
-{% for emploi in job_offers %}
-<tr>
-<td><a href="{% url "job-details" emploi.id %}">{{ emploi.title }}</a></td>
-<td>{{ emploi.get_contract_type_display }}</td>
-<td>{% if emploi.office  %}<a href="{% url "organization-details" emploi.office.organization.id %}">{{ emploi.office }}</a>{% endif %}</td>
-<td>{{ emploi.created_at|date:"l j F Y" }}</td>
-</tr>
-{% endfor %}
-    </tbody>
-</table>
+                                        <button class="btn btn-primary" type="submit"><i
+                                                class="fa fa-search"></i> {% trans "Search" %}</button>
 
-<p class="text-center">{% show_pages %}</p> 
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!--KF EDU SIDEBAR WRAP END-->
 
-</div>
+                    </div>
+                </div>
+            </div>
+            <!--courses_outer_wrap end-->
+        </section>
+
+    {% endwith %}
 
 {% endblock %}

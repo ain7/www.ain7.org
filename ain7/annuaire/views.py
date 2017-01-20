@@ -317,7 +317,7 @@ def address_edit(request, user_id=None, address_id=None):
         address = get_object_or_404(Address, id=address_id)
     title = _('Creation of an address for')
 
-    AddressForm = modelform_factory(Address, exclude=('person',))
+    AddressForm = modelform_factory(Address, exclude=('person', 'confidentiality', ))
     form = AddressForm(request.POST or None, instance=address)
 
     if request.method == 'POST' and form.is_valid():

@@ -2,19 +2,29 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 
+
+{% block title %}{% trans "Modify" %} {{ organization.name }}{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{% url "organization-index" %}">{% trans "Organizations" %}</a></li>
+    {% if organization %}
+        <li><a href="{% url "organization-details" organization.id %}">{{ organization.name }}</a></li>
+    {% endif %}
+{% endblock %}
+
 {% block content-left %}
 
-<form method="post" action="." class="form-horizontal">
-{% csrf_token %}
-{{ form|crispy }}
-<div class="form-group">                                                        
-<button type="submit" class="btn btn-default">{% trans "Save" %}</button>
-{% if organization %}
-<a href="{% url 'organization-details' organization.id %}">{% trans "Cancel" %}</a>
-{% else %}
-<a href="{% url 'organization-index' %}">{% trans "Cancel" %}</a>
-{% endif %}
-</div>
-</form>
+    <form method="post" action="." class="form-horizontal">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>&nbsp;
+            {% if organization %}
+                <a href="{% url 'organization-details' organization.id %}" class="btn btn-default">{% trans "Cancel" %}</a>
+            {% else %}
+                <a href="{% url 'organization-index' %}" class="btn btn-default">{% trans "Cancel" %}</a>
+            {% endif %}
+        </div>
+    </form>
 
 {% endblock %}

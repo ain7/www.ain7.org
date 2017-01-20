@@ -3,34 +3,43 @@
 {% load static from staticfiles %}
 {% load el_pagination_tags %}
 
+{% block title %}{% trans "Errors" %}{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{% url "errors-index" %}">{% trans "Errors" %}</a></li>
+{% endblock %}
+
 {% block content-left %}
 
-{% if errors %}
+    {% if errors %}
 
-{% paginate errors %}
+        {% paginate errors %}
 
-<h2>{% trans "Errors"%}</h2>
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>{% trans "Id" %}</th>
+                <th>{% trans "Title" %}</th>
+                <th>{% trans "User" %}</th>
+                <th>{% trans "Date" %}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for error in errors %}
+                <tr>
+                    <td><a href="{% url "error-details" error.id %}">#{{ error.id }}</a></td>
+                    <td>{{ error.title }}</td>
+                    <td>{% if error.user %}
+                        <a href="{% url "member-details" error.user.person.pk %}">{{ error.user.person }}</a>{% endif %}
+                    </td>
+                    <td>{{ error.date|date:"d F Y H:i:s" }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>{% trans "Id" %}</th><th>{% trans "Title" %}</th><th>{% trans "User" %}</th><th>{% trans "Date" %}</th>
-        </tr>
-    </thead>
-    <tbody>
-  {% for error in errors %}
-<tr>
-<td><a href="{% url "error-details" error.id %}">#{{ error.id }}</a></td>
-<td>{{ error.title }}</td>
-<td>{% if error.user %}<a href="{% url "member-details" error.user.person.pk %}">{{ error.user.person }}</a>{% endif %}</td>
-<td>{{ error.date|date:"d F Y H:i:s" }}</td>
-</tr>
-  {% endfor %}
-    </tbody>
-</table>
+        {% include "pages/paginator.html" %}
 
-<p class="text-center">{% show_pages %}</p> 
-
-{% endif %}
+    {% endif %}
 
 {% endblock %}

@@ -2,32 +2,51 @@
 {% load i18n %}
 {% load el_pagination_tags %}
 
+{% block title %}Actualités{% endblock %}
+
+{% block breadcrumb %}
+    <ul>
+        <li><a href="{% url "homepage" %}">Accueil</a></li>
+        <li><a href="{% url "news-index" %}">Actualités</a></li>
+    </ul>
+{% endblock %}
+
 {% block content-left %}
 
-{% if superadmin or ca_member or secretariat_member or contributeur %}
-<p><a class="btn btn-primary" href="{% url "news-add" %}"><i class="fa fa-plus"></i> {% trans "Add article" %}</a></p>
-{% endif %}
 
-{% if news %}
+    {% if superadmin or ca_member or secretariat_member or contributeur %}
+        <p><a class="btn btn-primary" href="{% url "news-add" %}"><i class="fa fa-plus"></i> {% trans "Add article" %}
+        </a></p>
+    {% endif %}
 
-{% paginate news %}
-{% for one_news in news %}
-  
-<h2><a href="{% url "news-details" one_news.slug %}">{{ one_news.title }}</a></h2>
-  
-<br>
+    {% if news %}
 
-{% if one_news.image %}
-<img src="{{ one_news.image.url }}" alt="{{ one_news.title }}" title="{{ one_news.title }}" class="image-article" style="max-width:800px;max-height:150px"/>
-{% endif %}
-{{ one_news.body|safe }}
+        {% paginate news %}
+        {% for one_news in news %}
+            <div class="edu2_blogpg_wrap">
+                {% if one_news.image %}
+                    <figure>
+                        <img src="{{ one_news.image.url }}" alt="{{ one_news.title }}"
+                             title="{{ one_news.title }}"/>
+                    </figure>
+                {% endif %}
 
-<hr>
-{% endfor %}
-<p class="text-center">{% show_pages %}</p>
-
-{% else %}
-	<p>{% trans "No news !" %}</p>
-{% endif %}
+                <div class="edu2_blogpg_des">
+                    <ul>
+                        <li><i class="fa fa-calendar"></i>{{ one_news.last_change_at|date:"l j F Y H:i" }}</li>
+                        {% if one_news.last_change_by %}
+                            <li><i class="fa fa-user"></i><a href="#">{{ one_news.last_change_by }}</a></li>
+                        {% endif %}
+                    </ul>
+                    <h5>{{ one_news.title }}</h5>
+                    <p>{{ one_news.body|safe }}</p>
+                    <a href="{% url "news-details" one_news.slug %}" class="blog-readmore">Lire la suite</a>
+                </div>
+            </div>
+        {% endfor %}
+        {% include "pages/paginator.html" %}
+    {% else %}
+        <p>{% trans "No news !" %}</p>
+    {% endif %}
 
 {% endblock %}

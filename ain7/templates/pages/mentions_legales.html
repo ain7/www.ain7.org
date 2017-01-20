@@ -3,12 +3,62 @@
 
 {% block content %}
 
-<h2>{{ text.title }}</h2>
 
-{{ text.body|safe }}
+    <!--Banner Wrap Start-->
+    <div class="kf_inr_banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--KF INR BANNER DES Wrap Start-->
+                    <div class="kf_inr_ban_des">
+                        <div class="inr_banner_heading">
+                            <h3>{{ text.title }}</h3>
+                        </div>
 
-{% if superadmin or ca_member or secretariat_member or contributeur %}
-<p><a href="{% url "text-edit" text.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></p>
-{% endif %}
+                        <div class="kf_inr_breadcrumb">
+                            <ul>
+                                <li><a href="{% url "homepage" %}">Accueil</a></li>
+                                <li><a href="/mentions_legales/">{% trans "Terms of use" %}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--KF INR BANNER DES Wrap End-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Banner Wrap End-->
+
+    <div class="kf_content_wrap">
+
+        <!--ABOUT UNIVERSITY START-->
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="abt_univ_wrap">
+                            <!-- HEADING 1 START-->
+                            <div class="kf_edu2_heading1">
+                                <h3>{{ text.title }}</h3>
+                            </div>
+                            <!-- HEADING 1 END-->
+
+                            <div class="abt_univ_des">
+                                {% if superadmin or ca_member or secretariat_member or contributeur %}
+                                    <p><a class="btn btn-primary" href="{% url "text-edit" text.id %}"><i
+                                            class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></p>
+                                {% endif %}
+
+                                <p>{{ text.body|safe }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--ABOUT UNIVERSITY END-->
+
+    </div>
 
 {% endblock %}

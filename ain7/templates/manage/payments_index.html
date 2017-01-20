@@ -2,34 +2,42 @@
 {% load i18n %}
 {% load el_pagination_tags %}
 
+
+{% block title %}{% trans "Payments" %}{% endblock %}
+{% block breadcrumb %}
+    <li><a href="{% url "payments-index" %}">{% trans "Payments" %}</a></li>
+{% endblock %}
+
 {% block content-left %}
+    {% paginate payments %}
 
-<h2>{% trans "Payments"%}</h2>
-
-{% paginate payments %}
-
-<p class="text-center">{% show_pages %}</p> 
-
-<table class="table table-bordered table-striped">
-    <thead>
+    <table class="table table-bordered table-striped">
+        <thead>
         <tr>
-            <th>ID</th><th>{% trans "person" %}</th><th>{% trans "Amount" %}</th><th>{% trans "type" %}</th><th>{% trans "Date" %}</th><th>{% trans "Validated" %}</th>
+            <th>ID</th>
+            <th>{% trans "person" %}</th>
+            <th>{% trans "Amount" %}</th>
+            <th>{% trans "type" %}</th>
+            <th>{% trans "Date" %}</th>
+            <th>{% trans "Validated" %}</th>
         </tr>
-    </thead>
-    <tbody>
-    {% for payment in payments %}
-    <tr>
-        <td><a href="{% url "payment-details" payment.id %}">{{ payment.id }}</a></td>
-    <td>{{ payment.person }}</td>
-    <td>{{ payment.amount }}</td>
-    <td>{{ payment.get_type_display }}</td>
-    <td>{{payment.date|date:"l j F Y" }}</td>
-    <td>{% if payment.validated %}<i class="fa fa-check text-success"></i>{% else %}<i class="fa fa-times text-danger"></i>{% endif %}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        {% for payment in payments %}
+            <tr>
+                <td><a href="{% url "payment-details" payment.id %}">{{ payment.id }}</a></td>
+                <td>{{ payment.person }}</td>
+                <td>{{ payment.amount }}</td>
+                <td>{{ payment.get_type_display }}</td>
+                <td>{{ payment.date|date:"l j F Y" }}</td>
+                <td>{% if payment.validated %}<i class="fa fa-check text-success"></i>{% else %}
+                    <i class="fa fa-times text-danger"></i>{% endif %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-<p class="text-center">{% show_pages %}</p> 
+    {% include "pages/paginator.html" %}
+
 
 {% endblock %}

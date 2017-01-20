@@ -3,53 +3,81 @@
 {% load static from staticfiles %}
 {% load el_pagination_tags %}
 
+{% block title %}
+    {{ group.name }}
+{% endblock %}
+
+
+{% block breadcrumb %}
+    <ul>
+        <li><a href="{% url "homepage" %}">Accueil</a></li>
+        <li><a href="{% url "group-details" group.slug %}">{{ group.name }}</a></li>
+        <li><a href="#">{% trans "Members" %}</a></li>
+    </ul>
+{% endblock %}
+
 {% block content-left %}
 
-{% if members %}
-{% paginate members %}
-<p class="text-center">{% show_pages %}</p> 
-<table border="0" width="100%" style="border-bottom:1px dashed grey; text-align: left;">
-    {% for member in members %}
-            <tr><td width="60">
-            {% if member.ain7member.avatar %}
-            <img src ="{{ member.ain7member.avatar.url }}" height="50"  alt="{{ member.complete_name }}" title="{{ member.complete_name }}" />
-            {% else %}
-            <img src="{% static "images/nobody.png" %}" height="50" alt="{{ member.complete_name }}"/>
-            {% endif %}
-            </td><td>
-            <a href="{% url "member-details" member.user.id %}">
-            <b>{{ member.last_name }} 
-            {% if member.maiden_name %}
-              ({{ member.maiden_name }})
-            {% endif %}
-            {{ member.first_name }}</b></a>
-            {% if member.ain7member.is_subscriber %}
-            <img src="{% static "images/star.png" %}" title="Adherent {% now "Y" %}" alt="adherent {% now "Y" %}" width="16" height="16" />
-            {% endif %}
-            {% if member.personprivate.death_date %}
-            <img src="{% static "images/deceased.png" %}" title="Décédé" alt="Décédé" width="16" height="16" />
-            {% endif %}
-            <br/>
-            {{ member.ain7member.promo_full }}
-            <br/>
-            {% if not member.ain7member.personprivate.death_date %}
-            {% for position in member.ain7member.positions.all %}
-               {% if not position.end %}
-               <i>{{ position.office.organization }}{% if not forloop.last %}, {% endif %}</i>
-               {% endif %}
-            {% endfor %}
-            {% endif %}
-        {% if superadmin or secretariat_member %}
-        </td><td>
-        <a href="{% url "group-member-edit" group.slug member.id %}" class="changelink">
-{% trans "Modify" %}</a><br/>
-           <a href="{% url "group-member-delete" group.slug member.id %}" class="deletelink">
-           {% trans "Delete" %}</a>
-        {% endif%}
-            </td></tr>
-    {% endfor %}
-</table>
-<p class="text-center">{% show_pages %}</p> 
-{% endif %}
+    {% if members %}
+        {% paginate members %}
+
+        {% for member in members %}
+            <div class="about_autor">
+                <figure>
+                    {% if member.ain7member.avatar %}
+                        <img src="{{ member.ain7member.avatar.url }}"
+                             alt="{{ member.complete_name }}"
+                             title="{{ member.complete_name }}"/>
+                    {% else %}
+                        <img src="{% static "images/nobody.png" %}"
+                             alt="{{ member.complete_name }}"/>
+                    {% endif %}
+                </figure>
+                <div class="about-autor_des">
+                    <h6>
+                        <a href="{% url "member-details" member.user.id %}">
+                            {{ member.last_name }}
+                            {% if member.maiden_name %}
+                                ({{ member.maiden_name }})
+                            {% endif %}
+                            {{ member.first_name }}
+                        </a>
+                    </h6>
+                    <p><strong>{{ member.ain7member.promo_full }}</strong><br/>
+                        {% if member.ain7member.is_subscriber %}
+                            <img src="{% static "logo_ain7.png" %}" title="Adherent {% now "Y" %}"
+                                 alt="adherent {% now "Y" %}" width="25" height="25"/>
+                        {% endif %}
+                        {% if member.personprivate.death_date %}
+                            <img src="{% static "images/deceased.png" %}" title="Décédé" alt="Décédé"
+                                 width="16"
+                                 height="16"/>
+                        {% endif %}
+
+                        {% if not member.ain7member.personprivate.death_date %}
+                            {% for position in member.ain7member.positions.all %}
+                                {% if not position.end %}
+                                    <i>{{ position.office.organization }}{% if not forloop.last %}
+                                        , {% endif %}</i>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+                        {% if superadmin or secretariat_member %}
+                            <br/>
+                            <a href="{% url "group-member-edit" group.slug member.id %}"
+                               class="changelink">
+                                {% trans "Modify" %}</a><br/>
+                            <a href="{% url "group-member-delete" group.slug member.id %}"
+                               class="deletelink">
+                                {% trans "Delete" %}</a>
+                        {% endif %}
+
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+        {% include "pages/paginator.html" %}
+    {% endif %}
 
 {% endblock %}

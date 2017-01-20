@@ -5,6 +5,45 @@
 
 {% block content %}
 
-{% block content-left %}{% endblock %}
+    <!--Banner Wrap Start-->
+    <div class="kf_inr_banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--KF INR BANNER DES Wrap Start-->
+                    <div class="kf_inr_ban_des">
+                        <div class="inr_banner_heading">
+                            <h3>{% block title %}{% endblock %}</h3>
+                        </div>
+
+                        <div class="kf_inr_breadcrumb">
+                            <ul>
+                                <li><a href="{% url "homepage" %}">Accueil</a></li>
+                                {% block breadcrumb %}
+
+                                {% endblock %}
+                            </ul>
+
+                        </div>
+                    </div>
+                    <!--KF INR BANNER DES Wrap End-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Banner Wrap End-->
+    <div class="kf_content_wrap">
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        {% block content-left %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 
 {% endblock %}

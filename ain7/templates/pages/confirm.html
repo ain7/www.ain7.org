@@ -2,23 +2,34 @@
 {% load i18n %}
 
 {% block content %}
+    <div class="kf_content_wrap">
+        <!--ABOUT UNIVERSITY START-->
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
 
-<form method="post" action=".">
-{% csrf_token %}
-<div class="confirm">
-    <p><strong>
-    {% if description %}
-        {{ message }} "{{ description|escape }}" ?
-    {% else %}
-        {{ message }} ?
-    {% endif %}
-    </strong></p>
-    <div class="text-center">
-        <input type="submit" class="btn btn-primary" value="{% trans "Yes" %}">
-        &nbsp;
-        <a href="{{ back }}">{% trans "No" %}</a>
+                        <form method="post" action=".">
+                            {% csrf_token %}
+                            <div class="confirm">
+                                <p class="text-center"><strong>
+                                    {% if description %}
+                                        {{ message }} "{{ description|escape }}" ?
+                                    {% else %}
+                                        {{ message }} ?
+                                    {% endif %}
+                                </strong></p>
+                                <div class="text-center">
+                                    <input type="submit" class="btn btn-primary" value="{% trans "Yes" %}">
+                                    <a href="{{ back }}" class="btn btn-default">{% trans "No" %}</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
-</div>
-</form>
+
 
 {% endblock %}

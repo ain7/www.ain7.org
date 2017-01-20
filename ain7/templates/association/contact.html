@@ -2,23 +2,105 @@
 {% load crispy_forms_tags %}
 {% load i18n %}
 
+{% block title %}{% trans "Contact" %}{% endblock %}
+
+{% block breadcrumb %}
+    <ul>
+        <li><a href="{% url "homepage" %}">Accueil</a></li>
+        <li><a href="{% url "contact" %}">{% trans "Contact" %}</a></li>
+    </ul>
+{% endblock %}
+
 {% block content-left %}
 
-{% if superadmin or ca_member or secretariat_member or contributeur %}
-<p><a class="btn btn-primary" href="{% url "text-edit" text.id %}"><i class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></p>
-{% endif %}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="contct_wrap">
+                    <div class="col-md-8">
+                        <div class="contact_heading">
+                            <h4>Envoyer un message</h4>
+                        </div>
+                        {% if form %}
+                            <form method="post" action=".">
+                                {% csrf_token %}
+                                <div class="row">
+                                    {{ form.non_field_errors }}
+                                    <div class="col-md-6">
+                                        <div class="contact_des">
+                                            <div class="inputs_des">
+                                                <label for="{{ form.name.id_for_label }}"><i
+                                                        class="fa fa-user"></i> {{ form.name.label }} </label>
+                                                {{ form.name }}
+                                                {% if form.name.errors %}
+                                                    <span class="text-danger">{{ form.name.errors }}</span>
+                                                {% endif %}
+                                            </div>
 
-<h2>{{ text.title }}</h2>
+                                            <div class="inputs_des">
+                                                <label for="{{ form.email.id_for_label }}"><i
+                                                        class="fa fa-envelope-o"></i> {{ form.email.label }} </label>
+                                                {{ form.email }}
+                                                {% if form.email.errors %}
+                                                    <span class="text-danger">{{ form.email.errors }}</span>
+                                                {% endif %}
 
-{{ text.body|safe }}
+                                            </div>
+                                            <button type="submit" class="btn btn-primary"><i
+                                                    class="fa fa-check"></i> {% trans "Send" %}</button>
 
-{% if form %}
-<form method="post" action="." class="form-horizontal">
-{% csrf_token %}
-{{ form|crispy }}
-<button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> {% trans "Send" %}</button>
-</form>
-{% endif %}
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="inputs_des">
+                                            <label for="{{ form.message.id_for_labem }}"><i
+                                                    class="fa fa-comment-o"></i> {{ form.message.label }} </label>
+                                            {{ form.message }}
+                                            {% if form.message.errors %}
+                                                <span class="text-danger">{{ form.message.errors }}</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="contact_heading">
+                            <h4>{{ text.title }}</h4>
+                            <p>{{ text.body|safe }}</p>
+                        </div>
+                        <ul class="contact_meta">
+                            <li><i class="fa fa-home"></i>AIn7 - 2, rue Charles Camichel BP7122 - 31071 Toulouse
+                                cedex 7
+                            </li>
+                            <li><i class="fa fa-phone"></i><a href="#">05 34 32 20 29</a></li>
+                            <li><i class="fa fa-fax"></i><a href="#">05 61 62 09 76</a></li>
+                            <li><i class="fa fa-envelope-o"></i><a href="mailto:sylvie.henric@enseeiht.fr">
+                                Communication/Gestion Sylvie HENRIC</a></li>
+                            <li><i class="fa fa-envelope-o"></i><a href="mailto:webmaster@ain7.com">
+                                Webmaster</a></li>
+                            <li><i class="fa fa-envelope-o"></i><a href="mailto:ain7@enseeiht.fr"> Déposer vos
+                                OFFRES d’EMPLOI et vos STAGES</a></li>
+                        </ul>
+                        <div class="contact_heading social">
+                            <h4>Réseaux Sociaux</h4>
+                        </div>
+                        <ul class="cont_socil_meta">
+                            <li><a href="{% url "facebook" %}"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="{% url "twitter" %}"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="{% url "linkedin" %}"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href="{% url "g+" %}"><i class="fa fa-google-plus"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
 {% endblock %}
 

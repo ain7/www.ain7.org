@@ -1,0 +1,47 @@
+{% load el_pagination_tags %}
+
+<!--KF_PAGINATION_WRAP START-->
+{% get_pages %}
+{% if pages.paginated %}
+    <div class="kf_edu_pagination_wrap">
+        <ul class="pagination">
+            {% if pages.previous %}
+                <li>
+                    <a href="{{ pages.previous.path }}" aria-label="Previous">
+                        <span aria-hidden="true"><i class="fa fa-angle-left"></i>PREV</span>
+                    </a>
+                </li>
+
+                {% if pages.current.number > 2 %}
+                    <li><a href="{{ pages.first.path }}">{{ pages.first.number }}</a></li>
+                    <li><a href="#" class="btn disabled"><i class="fa fa-ellipsis-h"></i> </a></li>
+                {% endif %}
+
+
+                <li><a href="{{ pages.previous.path }}">{{ pages.previous.number }}</a></li>
+            {% endif %}
+
+            <li class="active"><a
+                    href="{{ pages.current.path }}">{{ pages.current.label }}</a></li>
+
+
+
+
+            {% if pages.next %}
+                <li><a href="{{ pages.next.path }}">{{ pages.next.number }}</a></li>
+
+                {% if pages.next.number < pages.last.number %}
+                    <li><a href="#" class="btn disabled"><i class="fa fa-ellipsis-h"></i> </a></li>
+                    <li><a href="{{ pages.last.path }}">{{ pages.last.number }}</a></li>
+                {% endif %}
+
+                <li>
+                    <a href="{{ pages.next.url }}" aria-label="Next">
+                        <span aria-hidden="true">Next<i class="fa fa-angle-right"></i></span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+{% endif %}
+<!--KF_PAGINATION_WRAP END-->

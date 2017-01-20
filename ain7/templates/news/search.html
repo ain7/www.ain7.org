@@ -20,13 +20,13 @@
 <h2>{% trans "Research result" %}</h2>
 {% if list_news %}
 {% paginate list_news %}
-<p class="text-center">{% show_pages %}</p> 
+{% include "pages/paginator.html" %}
 <ul>
     {% for news_item in list_news %}
         <li><a href="{% url "news-details" news_item.slug %}">{{ news_item.title }}</a></li>
     {% endfor %}
 </ul>
-<p class="text-center">{% show_pages %}</p> 
+{% include "pages/paginator.html" %}
 {% else %}
     <p>{% trans "No news item corresponds to your research." %}</p>
 {% endif %}

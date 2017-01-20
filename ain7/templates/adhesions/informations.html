@@ -4,57 +4,62 @@
 
 {% block content-left %}
 
-<p>Merci {{ payment.person.first_name }} pour votre adhesion.</p>
+    <p>Merci {{ payment.person.first_name }} pour votre adhesion.</p>
 
-{% ifequal payment.type 1 %}
+    {% ifequal payment.type 1 %}
 
-<p>Afin de valider votre adhésions, merci de déposer votre règlement en espèce notre secrétariat derrière l'accueil au bâtiment A de l'ENSEEIHT.</p>
+        <p>Afin de valider votre adhésions, merci de déposer votre règlement en espèce notre secrétariat derrière
+            l'accueil au bâtiment A de l'ENSEEIHT.</p>
 
-{% endifequal %}
+    {% endifequal %}
 
-{% ifequal payment.type 2 %}
+    {% ifequal payment.type 2 %}
 
-<p>Afin de valider votre adhésion, merci de nous faire parvenir votre règlement par chèque de {{ payment.amount }}€ à l'ordre de l'AIn7 à l'adresse:</p>
-<address>
-<p>AIn7<br/>
-2 rue Charles Camichel, BP 7122,<br/>
-31071 Toulouse cedex 7</p>
-</address>
+        <p>Afin de valider votre adhésion, merci de nous faire parvenir votre règlement par chèque
+            de {{ payment.amount }}€ à l'ordre de l'AIn7 à l'adresse:</p>
+        <address>
+            <p>AIn7<br/>
+                2 rue Charles Camichel, BP 7122,<br/>
+                31071 Toulouse cedex 7</p>
+        </address>
 
-<p>Vous pouvez déposer votre chèque directement à notre secrétariat derrière l'accueil au batiment A de l'ENSEEIHT.</p>
+        <p>Vous pouvez déposer votre chèque directement à notre secrétariat derrière l'accueil au batiment A de
+            l'ENSEEIHT.</p>
 
-{% endifequal %}
+    {% endifequal %}
 
-{% ifequal payment.type 4 %}
+    {% ifequal payment.type 4 %}
 
-<p>Afin d'effectuer votre règlement, vous allez être redirigé dans quelques instants sur le site de notre partenaire System Pay afin de finaliser votre règlement de {{payment.amount }}€.</p>
-<form method="post" action="{{ systempay_url }}">
-{% for name, value in systempay.items %}
-<input type="hidden" name="{{ name }}" value="{{ value }}">
-{% endfor %}
-<input type="hidden" name="signature" value="{{ systempay_signature }}">
-<input type="submit" value="Continuer le paiement">
-</form>
+        <p>Afin d'effectuer votre règlement, vous allez être redirigé dans quelques instants sur le site de notre
+            partenaire System Pay afin de finaliser votre règlement de {{ payment.amount }}€.</p>
+        <form method="post" action="{{ systempay_url }}">
+            {% for name, value in systempay.items %}
+                <input type="hidden" name="{{ name }}" value="{{ value }}">
+            {% endfor %}
+            <input type="hidden" name="signature" value="{{ systempay_signature }}">
+            <input type="submit" value="Continuer le paiement">
+        </form>
 
-<div style="text-align: center"><img src="{% static "images/logo_SPPLUS_100.gif" %}" alt="SPPlus"/></div>
+        <div style="text-align: center"><img src="{% static "images/logo_SPPLUS_100.gif" %}" alt="SPPlus"/></div>
 
-{% endifequal %}
+    {% endifequal %}
 
-{% ifequal payment.type 5 %}
+    {% ifequal payment.type 5 %}
 
-<p>Afin de valider votre adhésion, merci de nous faire parvenir votre règlement de {{ payment.amount }}€ par virement. Vous trouverez ci-dessous les coordonnées bancaires de l'AIn7:</p>
-<p>
-Établissement: 13135<br/>
-Guichet: 00080<br/>
-Compte: 08100408766<br/>
-Clé: 74</p>
-<p>IBAN: FR76 1313 5000 8008 1004 0876 674</p>
-<p>Intitulé du compte: Association Ingénieurs ENSEEIHT, 2 rue Charles Camichel, 31071 Toulouse Cedex 7</p>
-<p>&nbsp;</p>
-<p><b>Merci de donner en référence de votre virement la référence suivante : {{ payment.id }}</b></p>
+        <p>Afin de valider votre adhésion, merci de nous faire parvenir votre règlement de {{ payment.amount }}€ par
+            virement. Vous trouverez ci-dessous les coordonnées bancaires de l'AIn7:</p>
+        <p>
+            Établissement: 13135<br/>
+            Guichet: 00080<br/>
+            Compte: 08100408766<br/>
+            Clé: 74</p>
+        <p>IBAN: FR76 1313 5000 8008 1004 0876 674</p>
+        <p>Intitulé du compte: Association Ingénieurs ENSEEIHT, 2 rue Charles Camichel, 31071 Toulouse Cedex 7</p>
+        <p>&nbsp;</p>
+        <p><b>Merci de donner en référence de votre virement la référence suivante : {{ payment.id }}</b></p>
 
-{% endifequal %}
+    {% endifequal %}
 
-<a href="{% url "homepage" %}">Retour à la page d'accueil</a>
+    <a href="{% url "homepage" %}">Retour à la page d'accueil</a>
 
 {% endblock %}
