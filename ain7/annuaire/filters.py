@@ -63,7 +63,7 @@ class AIn7MemberFilter(django_filters.FilterSet):
 
     class Meta:
         model = AIn7Member
-        fields = {}
+        fields = []
 
     def filter_last_name(self, queryset, value):
         return queryset.filter(
