@@ -4,11 +4,13 @@
 # docker run --name="ain7-mysql" -p 3306:3306 ain7/mysql
 #
 
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 
 MAINTAINER Lionel Porcheron <lionel@alveonet.org>
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes mysql-server
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get -y dist-upgrade && apt-get install -y mysql-server
 
 ADD local.cnf /etc/mysql/conf.d/local.cnf
 
