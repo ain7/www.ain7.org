@@ -203,7 +203,7 @@ def organization_undelete(request, organization_id, office_id=None):
     return redirect(organization)
 
 
-@access_required(groups=['ain7-ca', 'ain7-secretariat'])
+@access_required(groups=['ain7-ca', 'ain7-secretariat', 'ain7-membre'])
 def office_edit(request, organization_id, office_id=None):
     """office edit"""
 
