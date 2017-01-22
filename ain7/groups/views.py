@@ -93,7 +93,7 @@ def edit(request, slug=None):
     )
 
 
-@access_required(groups=['ain7-admin', 'ain7-member'])
+@access_required(groups=['ain7-admin', 'ain7-membre'])
 def join(request, slug):
     """join group"""
 
