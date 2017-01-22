@@ -6,8 +6,9 @@ django-crispy-forms
 django-extensions
 django-el-pagination
 django-filter
+django-taggit
 
-celery[redis]
+celery[redis]<4.0
 
 Pillow
 vobject
