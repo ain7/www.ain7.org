@@ -85,4 +85,7 @@ def notify_expiring_membership():
     ).exclude(member__person__emails__isnull=True)
     for sub in subscriptions:
         if not sub.member.has_subscription_next():
-            sub.member.notify_expiring_membership()
+            try:
+                sub.member.notify_expiring_membership()
+            except:
+                pass
