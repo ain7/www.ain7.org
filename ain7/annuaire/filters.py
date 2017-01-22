@@ -31,30 +31,29 @@ from ain7.annuaire.models import AIn7Member, Country, Track
 
 class AIn7MemberFilter(django_filters.FilterSet):
 
-    last_name = django_filters.MethodFilter(
-        name='person__last_name', label=_('last name').capitalize(),
-        lookup_type='icontains', action='filter_last_name',
+    last_name = django_filters.CharFilter(
+        method='filter_last_name',
     )
     first_name = django_filters.CharFilter(
         name='person__first_name', label=_('first name').capitalize(),
-        lookup_type='icontains',
+        lookup_expr='icontains',
     )
     year = django_filters.NumberFilter(
         name='promos__year__year', label=_('year').capitalize(),
-        lookup_type='exact',
+        lookup_expr='exact',
     )
     track = django_filters.ModelChoiceFilter(
         name='promos__track__name', label=_('track').capitalize(),
-        lookup_type='icontains', queryset=Track.objects.all(),
+        lookup_expr='icontains', queryset=Track.objects.all(),
     )
     organization = django_filters.CharFilter(
         name='positions__office__organization__name',
-        label=_('organization').capitalize(), lookup_type='icontains',
+        label=_('organization').capitalize(), lookup_expr='icontains',
         distinct=True,
     )
     city = django_filters.CharFilter(
         name='person__addresses__city', label=_('city').capitalize(),
-        lookup_type='icontains',
+        lookup_expr='icontains',
     )
     country = django_filters.ModelChoiceFilter(
         name='person__addresses__country', label=_('country').capitalize(),
@@ -74,25 +73,24 @@ class AIn7MemberFilter(django_filters.FilterSet):
 
 class AIn7MemberAdvancedFilter(django_filters.FilterSet):
 
-    last_name = django_filters.MethodFilter(
-        name='person__last_name', label=_('last name').capitalize(),
-        lookup_type='icontains', action='filter_last_name',
+    last_name = django_filters.CharFilter(
+        method='filter_last_name',
     )
     first_name = django_filters.CharFilter(
         name='person__first_name', label=_('first name').capitalize(),
-        lookup_type='icontains',
+        lookup_expr='icontains',
     )
     year = django_filters.NumberFilter(
         name='promos__year__year', label=_('year').capitalize(),
-        lookup_type='exact',
+        lookup_expr='exact',
     )
     track = django_filters.ModelChoiceFilter(
         name='promos__track__name', label=_('track').capitalize(),
-        lookup_type='icontains', queryset=Track.objects.all(),
+        lookup_expr='icontains', queryset=Track.objects.all(),
     )
     organization = django_filters.CharFilter(
         name='positions__office__organization__name',
-        label=_('organization').capitalize(), lookup_type='icontains',
+        label=_('organization').capitalize(), lookup_expr='icontains',
     )
     position = django_filters.CharFilter(
         name='positions__fonction',
@@ -100,11 +98,11 @@ class AIn7MemberAdvancedFilter(django_filters.FilterSet):
     )
     zip_code = django_filters.CharFilter(
         name='person__addresses__zip_code', label=_('zip code').capitalize(),
-        lookup_type='icontains',
+        lookup_expr='icontains',
     )
     city = django_filters.CharFilter(
         name='person__addresses__city', label=_('city').capitalize(),
-        lookup_type='icontains',
+        lookup_expr='icontains',
     )
     country = django_filters.ModelChoiceFilter(
         name='person__addresses__country', label=_('country').capitalize(),
@@ -114,7 +112,7 @@ class AIn7MemberAdvancedFilter(django_filters.FilterSet):
 
     class Meta:
         model = AIn7Member
-        fields = {}
+        fields = []
 
     def filter_last_name(self, queryset, value):
         return queryset.filter(

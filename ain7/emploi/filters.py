@@ -30,19 +30,19 @@ from ain7.emploi.models import JobOffer
 class JobOfferFilter(django_filters.FilterSet):
     title = django_filters.CharFilter(
         name='title', label=_('title').capitalize(),
-        lookup_type='icontains',
+        lookup_expr='icontains',
     )
 
     description = django_filters.CharFilter(
         name='description', label=_('description').capitalize(),
-        lookup_type='icontains',
+        lookup_expr='icontains',
     )
 
     contract_type = django_filters.TypedChoiceFilter(
         name='contract_type', label=_('contract_type').capitalize(),
-        lookup_type='icontains', choices=JobOffer.JOB_TYPES,
+        lookup_expr='icontains', choices=JobOffer.JOB_TYPES,
     )
 
     class Meta:
         model = JobOffer
-        fields = {}
+        fields = []
