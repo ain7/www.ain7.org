@@ -33,8 +33,6 @@ SECRET_KEY = '45@qqvbavfu*3)@e6vs#z8tp0_l^q^)aota0)2_lw^fh(96rim'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
-
 ALLOWED_HOSTS = ['www.ain7.com', 'ain7.com', 'www.ain7.org', 'ain7.org']
 
 # Application definition
@@ -95,11 +93,9 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
-                # list if you haven't customized them:
-                'django.core.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.i18n',
                 'django.template.context_processors.media',
                 'django.template.context_processors.static',
@@ -111,23 +107,6 @@ TEMPLATES = [
         }
     }
 ]
-
-#
-# Added for this project
-#
-
-#TEMPLATE_DIRS = DEFAULT_SETTINGS.TEMPLATE_DIRS + [
-#    # Put strings here, like "/home/html/django_templates"
-#    # Always use forward slashes, even on Windows.
-#    # Don't forget to use absolute paths, not relative paths.
-#    BASE_DIR + '/ain7/templates',
-#]
-
-#TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + [
-#    'django.core.context_processors.request',
-#    'django.contrib.auth.context_processors.auth',
-#]
-
 
 DEFAULT_FROM_EMAIL = 'AIn7 <noreply@ain7.com>'
 
