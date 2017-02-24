@@ -166,36 +166,14 @@ class Mailing(models.Model):
 
 
         url = reverse('mailing-view', args=[self.id])
-        text = u"Si vous n'arrivez pas à voir ce mail correctement, merci de\
- vous\nrendre à l'URL "+url+u"\n\nL'équipe de l'AIn7"
+        text_content = u"Si vous n'arrivez pas à voir ce mail correctement, merci de\
+            vous\nrendre à l'URL https://ain7.com"+url+u"\n\nL'équipe de l'AIn7"
 
-        html = self.build_html_body()
+        html_content = self.build_html_body()
 
-        part1 = MIMEText(text.encode('utf-8'), 'plain', 'utf-8')
-        part1.set_charset('utf-8')
-        part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
-        part2.set_charset('utf-8')
-
-        msg = MIMEMultipart('alternative')
         title = self.title
         if testing:
             title = '[TEST] '+title
-        msg['Subject'] = str(make_header([(title, 'utf-8')]))
-        msg['Sender'] = u'bounces@ain7.com'
-        msg['Presence'] = u'Bulk'
-        msg['X-AIn7-Portal-Message-Rationale'] = u'Subscriber'
-        msg.attach(part1)
-
-        msg.attach(part2)
-
-        msg.mixed_subtype = 'related'
-
-        for img in ['logo_ain7.png', 'facebook.png', 'linkedin.png', 'twitter.png', 'googleplus.png']:
-            fp = open(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'templates/emails/img', img), 'rb')
-            msg_img = MIMEImage(fp.read())
-            fp.close()
-            msg_img.add_header('Content-ID', '<{}>'.format(img))
-            msg.attach(msg_img)
 
         recipients = Person.objects.none()
 
@@ -210,9 +188,6 @@ class Mailing(models.Model):
         if not testing:
             recipients = Person.objects.filter(FILTERS[self.mail_to.filter][1])
 
-        smtp = smtplib.SMTP(settings.EMAIL_HOST, settings.EMAIL_PORT)
-        smtp.ehlo()
-
         for recipient in recipients:
 
             mail = recipient.mail_favorite()
@@ -221,18 +196,27 @@ class Mailing(models.Model):
 
             mail_modified = mail.replace('@', '=')
 
-            del(msg['From'])
-            msg['From'] = u'Association AIn7 <noreply+' + \
-                mail_modified+'@ain7.com>'
-            del(msg['To'])
-            msg['To'] = first_name+' '+last_name+' <'+mail+'>'
+            msg = EmailMultiAlternatives(
+                title,
+                text_content,
+                u'Association AIn7 <noreply+' + mail_modified+'@ain7.com>',
+                [first_name+' '+last_name+' <'+mail+'>'],
+                headers={'Sender': u'bounces@ain7.com', 'Presence': u'Bulk', 'X-AIn7-Portal-Message-Rationale': u'Subscriber'},
+            )
+
+            msg.mixed_subtype = 'related'
+
+            for img in ['logo_ain7.png', 'facebook.png', 'linkedin.png', 'twitter.png', 'googleplus.png']:
+                fp = open(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'templates/emails/img', img), 'rb')
+                msg_img = MIMEImage(fp.read())
+                fp.close()
+                msg_img.add_header('Content-ID', '<{}>'.format(img))
+                msg.attach(msg_img)
+
+            msg.attach_alternative(html_content, "text/html")
 
             try:
-                smtp.sendmail(
-                    'noreply+'+mail_modified+'@ain7.com',
-                    mail,
-                    msg.as_string(),
-                )
+                msg.send()
 
                 mailingrecipient = MailingRecipient()
                 mailingrecipient.person = recipient
@@ -243,8 +227,6 @@ class Mailing(models.Model):
 
             except Exception:
                 pass
-
-        smtp.quit()
 
         if not testing:
             self.sent_at = datetime.datetime.now()
