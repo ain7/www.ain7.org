@@ -190,6 +190,9 @@ class Mailing(models.Model):
 
         for recipient in recipients:
 
+            if MailingRecipient.objects.filter(mailing=self, person=recipient):
+                continue
+
             mail = recipient.mail_favorite()
             first_name = recipient.first_name
             last_name = recipient.last_name
