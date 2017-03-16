@@ -190,7 +190,7 @@ class Mailing(models.Model):
 
         for recipient in recipients:
 
-            if MailingRecipient.objects.filter(mailing=self, person=recipient):
+            if MailingRecipient.objects.filter(mailing=self, person=recipient) and not testing:
                 continue
 
             mail = recipient.mail_favorite()
