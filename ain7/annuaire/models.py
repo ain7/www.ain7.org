@@ -571,6 +571,31 @@ class AIn7Member(LoggedClass):
         if self.current_subscription() is not None:
             return self.current_subscription().end_date
 
+    def last_subscription(self):
+        """
+        local import to avoid recursive imports
+        """
+        from ain7.adhesions.models import Subscription
+
+        result = None
+        if Subscription.objects.filter(
+            member=self,
+            validated=True,
+        ).count() > 0:
+            result = Subscription.objects.filter(
+                member=self,
+                validated=True,
+            ).order_by('end_date').reverse()[0]
+
+        return result
+
+    def last_subscription_end_date(self):
+
+        from ain7.adhesions.models import Subscription
+
+        if self.last_subscription() is not None:
+            return self.last_subscription().end_date
+
     def previous_subscription(self, date=None):
         """
         local import to avoid recursive imports

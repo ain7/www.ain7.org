@@ -8,9 +8,9 @@
 {% if person.ain7member.is_subscriber %}
 <div class="alert alert-info" role="alert">
    {% if request.user.pk == person.user.pk %}
-   <i class="fa fa-info-circle fa-2x"></i> Votre adhésion à l'association est valable juqu'au {{ person.ain7member.current_subscription_end_date|date:"d F Y" }}.
+   <i class="fa fa-info-circle fa-2x"></i> Votre adhésion à l'association est valable juqu'au {{ person.ain7member.last_subscription_end_date|date:"d F Y" }}.
    {% else %}
-   <i class="fa fa-info-circle fa-2x"></i> L'adhésion à l'association de {{ person }} est valable jusqu'au {{ person.ain7member.current_subscription_end_date|date:"d F Y" }}.
+   <i class="fa fa-info-circle fa-2x"></i> L'adhésion à l'association de {{ person }} est valable jusqu'au {{ person.ain7member.last_subscription_end_date|date:"d F Y" }}.
    {% endif %}
 </div>
 {% else %}
