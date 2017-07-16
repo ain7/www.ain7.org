@@ -35,6 +35,7 @@ urlpatterns = [
     url(r'^(?P<user_id>\d+)/edit/$', views.edit, name='annuaire-edit'),
     url(r'^(?P<user_id>\d+)/credentials/$', views.change_credentials, name='change-credentials'),
     url(r'^(?P<user_id>\d+)/sendcredentials/$', views.send_new_credentials, name='send-new-credentials'),
+    url(r'^(?P<user_id>\d+)/setcredentials/$', views.set_new_credentials, name='set-new-credentials'),
     url(r'^(?P<user_id>\d+)/person/edit/$', views.person_edit, name='member-person-edit'),
     url(r'^(?P<user_id>\d+)/personprivate/edit/$', views.personprivate_edit, name='member-personprivate-edit'),
     url(r'^(?P<user_id>\d+)/ain7member/edit/$', views.ain7member_edit, name='member-ain7member-edit'),

@@ -30,6 +30,8 @@ from django.conf import settings
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 from django.utils import timezone
@@ -251,6 +253,18 @@ class Person(LoggedClass):
         ('F', _('Female')),
     )
 
+    MARITAL_STATUS = (
+        (1, _('Maried')),
+        (2, _('Single')),
+        (3, _('Divorced')),
+        (4, _('Concubinage')),
+        (5, _('Widower')),
+        (6, _('Separated')),
+        (7, _('PACS')),
+    )
+
+    PROMO_YEARS = [(year,year) for year in range(1907, timezone.now().year+1)]
+
     # User inheritance
     user = models.OneToOneField(User, verbose_name=_('user'))
 
@@ -270,11 +284,65 @@ class Person(LoggedClass):
         verbose_name=_('Birth date'), blank=True, null=True,
     )
     sex = models.CharField(verbose_name=_('sex'), max_length=1, choices=SEX)
-    country = models.ForeignKey(
+    nationality = models.ForeignKey(
         Country, verbose_name=_('nationality'), blank=True, null=True,
+        related_name='citizens',
     )
 
     validated = models.BooleanField(default=True)
+
+    mail = models.EmailField(_('mail'), unique=True, blank=True)
+    mail_confidential = models.BooleanField(_('mail confidential'), default=False)
+    phone = models.CharField(_('phone number'), max_length=30, blank=True)
+    phone_confidential = models.BooleanField(_('phone confidential'), default=False)
+    address = models.CharField(_('address'), max_length=200, blank=True)
+    address_confidential = models.BooleanField(_('confidential'), default=False)
+    country = models.ForeignKey('Country', blank=True, null=True)
+    current_company = models.CharField(_('current company'), max_length=100, blank=True, null=True)
+    
+    # person_type = models.ForeignKey(PersonType, verbose_name=_('type'))
+    # member_type = models.ForeignKey(MemberType, verbose_name=_('member'))
+    death_date = models.DateField(_('death date'), blank=True, null=True)
+    is_dead = models.BooleanField(default=False)
+    notes = models.TextField(verbose_name=_('Notes'), blank=True, null=True)
+    is_subscriber = models.BooleanField(default=False)
+    #
+    # Family situation
+    #marital_status = models.ForeignKey(
+    #    MaritalStatus, verbose_name=_('marital status'), blank=True, null=True
+    #)
+    marital_status = models.IntegerField(_('marital status'), choices=MARITAL_STATUS, blank=True, null=True)
+    children_count = models.IntegerField(_('children number'), blank=True, null=True)
+
+    # Other
+    nick_name = models.CharField(
+        _('Nick name'), max_length=50, blank=True, null=True,
+    )
+    avatar = models.ImageField(
+        _('avatar'), upload_to='data/avatar',
+        blank=True, null=True,
+    )
+
+    # School situation
+    #promos = models.ManyToManyField(
+    #    Promo, verbose_name=_('Promos'), related_name='students', blank=True,
+    #)
+    year = models.IntegerField(choices=PROMO_YEARS, blank=True, null=True)
+    track = models.ForeignKey('Track', blank=True, null=True)
+
+    # Civil situation
+    decorations = models.ManyToManyField(
+        Decoration, verbose_name=_('decorations'), blank=True,
+    )
+    ceremonial_duties = models.ManyToManyField(
+        CeremonialDuty, verbose_name=_('ceremonial duties'), blank=True,
+    )
+
+    # Curriculum Vitae and Job Service
+    receive_job_offers = models.BooleanField(
+        verbose_name=_('Receive job offers by email'), default=False,
+    )
+
 
     def mobile(self):
         """return mobile phone of a person if exists"""
@@ -434,6 +502,14 @@ class PersonPrivate(LoggedClass):
         ordering = ['person']
 
 
+@receiver(post_save, sender=PersonPrivate)
+def paste_post_save(sender, instance, created, **kwargs):
+
+    instance.person.death_date = instance.death_date
+    instance.person.notes = instance.notes
+    instance.person.save()
+
+
 class AIn7MemberManager(models.Manager):
     """a Manager for the class AIn7Member"""
 
@@ -491,12 +567,12 @@ class AIn7Member(LoggedClass):
     )
 
     # Civil situation
-    decorations = models.ManyToManyField(
-        Decoration, verbose_name=_('decorations'), blank=True,
-    )
-    ceremonial_duties = models.ManyToManyField(
-        CeremonialDuty, verbose_name=_('ceremonial duties'), blank=True,
-    )
+    #decorations = models.ManyToManyField(
+    #    Decoration, verbose_name=_('decorations'), blank=True,
+    #)
+    #ceremonial_duties = models.ManyToManyField(
+    #    CeremonialDuty, verbose_name=_('ceremonial duties'), blank=True,
+    #)
 
     # Curriculum Vitae and Job Service
     receive_job_offers = models.BooleanField(
@@ -749,6 +825,14 @@ class AIn7Member(LoggedClass):
         ordering = ['person']
 
 
+@receiver(post_save, sender=AIn7Member)
+def paste_post_save(sender, instance, created, **kwargs):
+
+    instance.person.marital_status = marital_status
+    instance.person.children_count = instance.children_count
+    instance.person.save()
+
+
 class PhoneNumber(LoggedClass):
     """Phone number for a person"""
 
@@ -783,6 +867,13 @@ class PhoneNumber(LoggedClass):
     class Meta:
         """phone number meta"""
         verbose_name = _('phone number')
+
+
+@receiver(post_save, sender=PhoneNumber)
+def paste_post_save(sender, instance, created, **kwargs):
+
+    instance.person.phone = instance.number
+    instance.person.save()
 
 
 class AddressType(models.Model):
@@ -885,6 +976,14 @@ class Email(models.Model):
     class Meta:
         """email meta"""
         verbose_name = _('email')
+
+
+@receiver(post_save, sender=Email)
+def paste_post_save(sender, instance, created, **kwargs):
+
+    if instance.preferred_email:
+        instance.person.mail = instance.email
+        instance.person.save()
 
 
 class InstantMessaging(models.Model):
@@ -1017,7 +1116,7 @@ class ClubMembership(models.Model):
         'annuaire.Club', verbose_name=_('club'), related_name='memberships',
     )
     member = models.ForeignKey(
-        AIn7Member, verbose_name=_('member'),
+        Person, verbose_name=_('member'),
         related_name='club_memberships', editable=False,
     )
 
@@ -1048,7 +1147,7 @@ class Position(LoggedClass):
     """
 
     ain7member = models.ForeignKey(
-        'annuaire.AIn7Member', related_name='positions'
+        'annuaire.Person', related_name='positions'
     )
     office = models.ForeignKey(
         'organizations.Office', verbose_name=_('office'),
@@ -1097,7 +1196,7 @@ class EducationItem(LoggedClass):
     """ An education item in the CV of a person."""
 
     ain7member = models.ForeignKey(
-        'annuaire.AIn7Member', related_name='education',
+        'annuaire.Person', related_name='education',
     )
     school = models.CharField(
         verbose_name=_('school'), max_length=150, blank=True, null=True
@@ -1135,7 +1234,7 @@ class LeisureItem(LoggedClass):
     title = models.CharField(verbose_name=_('Title'), max_length=50)
     detail = models.TextField(verbose_name=_('Detail'), blank=True, null=True)
     ain7member = models.ForeignKey(
-        'annuaire.AIn7Member', related_name='leisure'
+        'annuaire.Person', related_name='leisure'
     )
 
     def __unicode__(self):
@@ -1155,7 +1254,7 @@ class PublicationItem(LoggedClass):
     details = models.TextField(verbose_name=_('Detail'), blank=True, null=True)
     date = models.DateField()
     ain7member = models.ForeignKey(
-        'annuaire.AIn7Member',  related_name='publication'
+        'annuaire.Person',  related_name='publication'
     )
 
     def __unicode__(self):

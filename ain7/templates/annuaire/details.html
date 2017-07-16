@@ -22,28 +22,26 @@
                             <!--TEACHER BIO LOGO END-->
                             <!--TEACHER BIO des START-->
                             <div class="teacher_bio_des">
-                                {% if ain7member.promos %}
                                     <h4>
-                                        {% for promo in ain7member.promos.all %}{{ promo }}{% endfor %}
-                                        {% if is_subscriber %}<br />
+                                        {{ person.track }} {{ person.year }}
+                                        {% if person.is_subscriber %}<br />
                                             <b>{% trans "Subscriber" %} <img
                                                     src="{% static "logo_ain7.png" %}" alt="adherent" width="25"
                                                     height="25"/></b>
                                         {% endif %}
                                     </h4>
-                                {% endif %}
                                 <ul>
                                     {% if person.maiden_name %}
                                         <li><b>{% filter capfirst %}{% trans "maiden name" %}{% endfilter %}
                                             &nbsp;:</b> {{ person.maiden_name }}</li>
                                     {% endif %}
 
-                                    {% if ain7member.nick_name %}
-                                        <li><b>{% trans "Nick name" %}&nbsp;:</b> {{ ain7member.nick_name }}</li>
+                                    {% if person.nick_name %}
+                                        <li><b>{% trans "Nick name" %}&nbsp;:</b> {{ person.nick_name }}</li>
                                     {% endif %}
-                                    {% if ain7member.education.all %}
+                                    {% if person.education.all %}
                                         <li><b>{% filter capfirst %}{% trans "diplomas" %}{% endfilter %}&nbsp;:</b>
-                                            {% for educ in ain7member.education.all %}{{ educ.diploma }}
+                                            {% for educ in person.education.all %}{{ educ.diploma }}
                                                 {% if educ.diploma and not forloop.last %} ; {% endif %}{% endfor %}
                                         </li>
                                     {% endif %}
@@ -51,32 +49,32 @@
                                         <li><b>{% trans "Birth date" %}&nbsp;:</b> {{ person.birth_date|date:"d F Y" }}
                                         </li>
                                     {% endif %}
-                                    {% if personprivate.death_date %}
+                                    {% if person.death_date %}
                                         <li><b>{% filter capfirst %}{% trans "death date" %}{% endfilter %}
-                                            &nbsp;:</b> {{ personprivate.death_date|date:"d/m/Y" }}</li>
+                                            &nbsp;:</b> {{ person.death_date|date:"d/m/Y" }}</li>
                                     {% endif %}
                                     {% if superadmin or ca_member or secretariat_member or is_myself %}
-                                        {% if ain7member.marital_status or ain7member.children_count %}
+                                        {% if person.marital_status or person.children_count %}
                                             <li><i class="fa fa-lock"></i> <b>{% trans "Family situation" %}&nbsp;:</b>
-                                                {% if ain7member.marital_status %}
-                                                    {{ ain7member.marital_status }}&nbsp;
+                                                {% if person.marital_status %}
+                                                    {{ person.get_marital_status_display }}&nbsp;
                                                 {% endif %}
-                                                {% if ain7member.children_count %}
-                                                    {{ ain7member.children_count }}&nbsp;{% trans "children" %}
+                                                {% if person.children_count %}
+                                                    {{ person.children_count }}&nbsp;{% trans "children" %}
                                                 {% endif %}
                                             </li>
                                         {% endif %}
                                     {% endif %}
-                                    {% if ain7member.decorations.all %}
+                                    {% if person.decorations.all %}
                                         <li><b>{% filter capfirst %}{% trans "decorations" %}{% endfilter %}
                                             &nbsp;:</b>
-                                            {% for decoration in ain7member.decorations.all %}{{ decoration }}
+                                            {% for decoration in person.decorations.all %}{{ decoration }}
                                                 {% if not forloop.last %} - {% endif %}{% endfor %}</li>
                                     {% endif %}
-                                    {% if ain7member.ceremonial_duties.all %}
+                                    {% if person.ceremonial_duties.all %}
                                         <li><b>{% filter capfirst %}{% trans "ceremonial duties" %}{% endfilter %}
                                             &nbsp;:</b>
-                                            {% for duty in ain7member.ceremonial_duties.all %}{{ duty }}
+                                            {% for duty in person.ceremonial_duties.all %}{{ duty }}
                                                 {% if not forloop.last %} - {% endif %}{% endfor %}</li>
                                     {% endif %}
 
@@ -103,7 +101,7 @@
                                             </li>
                                         {% endif %}
                                     {% endfor %}
-                                    {% for position in ain7member.positions.all %}
+                                    {% for position in person.positions.all %}
                                         {% if position.phone_number and not position.end %}
                                             <li>
                                                 <i class="fa fa-phone"></i>
@@ -132,7 +130,7 @@
                                             </li>
                                         {% endif %}
                                     {% endfor %}
-                                    {% for position in ain7member.positions.all %}
+                                    {% for position in person.positions.all %}
                                         {% if not position.end and position.office.line1 %}
                                             <li>
 
@@ -145,13 +143,13 @@
                                 </ul>
 
 
-                                {% if ain7member.club_memberships.all %}
+                                {% if person.club_memberships.all %}
 
                                     <h2>{% trans "N7 associative activities" %}</h2>
 
                                     <ul>
 
-                                        {% for club_membership in ain7member.person.council_roles.all %}
+                                        {% for club_membership in person.council_roles.all %}
                                             <li>
                                                 {% if club_membership.grouphead.group.web_site %}
                                                     <a href="{{ club_membership.grouphead.group.web_site }}">{{ club_membership.grouphead.group.name }}</a>
@@ -198,6 +196,11 @@
                                                 class="fa fa-envelope-o fa-1g"></i> {% trans "Send new credentials" %}
                                         </a>
                                         </li>
+                                        <li><a class="btn btn-default"
+                                               href="{% url 'set-new-credentials' person.id %}"><i
+                                                class="fa fa-lock fa-1g"></i> {% trans "Set new credentials" %}
+                                        </a>
+                                        </li>
                                         <li><a class="btn btn-default" href="{% url 'member-add' %}"><i
                                                 class="fa fa-plus fa-1g"></i> {% trans "Add" %}</a></li>
                                     {% endif %}
@@ -214,8 +217,8 @@
                         <!--TEACHER THUMB START-->
                         <div class="teacher_thumb">
                             <figure>
-                                {% if ain7member.avatar %}
-                                    <img src="{{ ain7member.avatar.url }}"
+                                {% if person.avatar %}
+                                    <img src="{{ person.avatar.url }}"
                                          alt="{{ person.complete_name }}"/>
                                 {% else %}
                                     <img src="{% static "images/nobody.png" %}"
@@ -237,7 +240,7 @@
 
 
         <!--SKILl SECTION START-->
-        {% if ain7member.positions.all %}
+        {% if person.positions.all %}
             <section>
                 <div class="container">
                     <!--TRANINIG  WRAP START-->
@@ -247,7 +250,7 @@
                         </div>
                         <ul>
 
-                            {% for position in ain7member.positions.all %}
+                            {% for position in person.positions.all %}
                                 <li>
                                     <div class="kf_training_outer_des">
                                         <div class="kf_training_date">

@@ -19,6 +19,7 @@
                                 <span><i class="icon-book236"></i></span>
                                 <h3>{{ person.first_name }} {{ person.last_name }}</h3>
                             </div>
+                                <h4>{{ person.track }} {{ person.year }}</h4>
                             <div class="teacher_bio_des">
                                 <p>
                                     <a href="{% url "member-details" person.user.id %}">{% trans "Back to personnal file" %}</a>
@@ -51,13 +52,13 @@
                                             {{ personprivate.person_type }}</li>
                                         <li><b>{% filter capfirst %}{% trans "member" %}{% endfilter %}</b>&nbsp;:
                                             {{ personprivate.member_type }}</li>
-                                        {% if personprivate.death_date %}
+                                        {% if person.death_date %}
                                             <li><b>{% filter capfirst %}{% trans "death date" %}{% endfilter %}
-                                                &nbsp;:</b> {{ personprivate.death_date|date:"d/m/Y" }}</li>
+                                                &nbsp;:</b> {{ person.death_date|date:"d/m/Y" }}</li>
                                         {% endif %}
                                         <li><b>{% filter capfirst %}{% trans "notes" %}{% endfilter %}
                                             &nbsp;:</b>
-                                            {% if personprivate.notes %}{{ personprivate.notes|safe }}{% endif %}
+                                            {% if person.notes %}{{ person.notes|safe }}{% endif %}
                                         </li>
                                     </ul>
                                     <p>
@@ -83,9 +84,9 @@
                             {% endif %}
                             <li><b>{% trans "Birth date" %}&nbsp;:</b>
                                 {{ person.birth_date|date:"d/m/Y" }}</li>
-                            {% if personprivate.death_date %}
+                            {% if person.death_date %}
                                 <li><b>{% filter capfirst %}{% trans "death date" %}{% endfilter %}
-                                    &nbsp;:</b> {{ personprivate.death_date|date:"d/m/Y" }}</li>
+                                    &nbsp;:</b> {{ person.death_date|date:"d/m/Y" }}</li>
                             {% endif %}
                             <li><b>{% filter capfirst %}{% trans "nationality" %}{% endfilter %}
                                 &nbsp;:</b> {{ person.country.nationality }}</li>
@@ -94,51 +95,50 @@
                     </div>
 
                     <div>
-                        {% if ain7member %}
                             <ul>
                                 <li><b>{% filter capfirst %}{% trans "avatar" %}{% endfilter %}</b>&nbsp;:
-                                    {% if ain7member.avatar %}
-                                        <img src="{{ ain7member.avatar.url }}" height="100"
+                                    {% if person.avatar %}
+                                        <img src="{{ person.avatar.url }}" height="100"
                                              alt="{% trans "avatar" %}"/>
                                     {% else %}
                                         {% trans "No avatar" %}
                                     {% endif %}
                                 </li>
                                 <li><b>{% trans "Nick name" %}&nbsp;:</b>
-                                    {% if ain7member.nick_name %}
-                                        {{ ain7member.nick_name|default:"" }}
+                                    {% if person.nick_name %}
+                                        {{ person.nick_name|default:"" }}
                                     {% else %}
                                         {% trans "No nickname" %}
                                     {% endif %}</li>
                                 <li><b>{% trans "Family situation" %}&nbsp;:</b>
-                                    {% if ain7member.marital_status %}
-                                        {{ ain7member.marital_status }},
+                                    {% if person.marital_status %}
+                                        {{ person.marital_status }},
                                     {% else %}
                                         {% filter capfirst %}{% trans "not available" %}{% endfilter %},
                                     {% endif %}
-                                    {% if ain7member.children_count %}
-                                        {{ ain7member.children_count }} {% trans "children" %}.
+                                    {% if person.children_count %}
+                                        {{ person.children_count }} {% trans "children" %}.
                                     {% else %}
                                         {% trans "no child" %}.
                                     {% endif %}</li>
                                 <li><b>{% filter capfirst %}{% trans "decorations" %}{% endfilter %}
                                     &nbsp;:</b>
-                                    {% if ain7member.decorations.all %}
-                                        {% for decoration in ain7member.decorations.all %}{{ decoration }}
+                                    {% if person.decorations.all %}
+                                        {% for decoration in person.decorations.all %}{{ decoration }}
                                             {% if not forloop.last %} - {% endif %}{% endfor %}
                                     {% else %}
                                         {% trans "No decoration" %}
                                     {% endif %}</li>
                                 <li><b>{% filter capfirst %}{% trans "ceremonial duties" %}{% endfilter %}
                                     &nbsp;:</b>
-                                    {% if ain7member.ceremonial_duties.all %}
-                                        {% for duty in ain7member.ceremonial_duties.all %}{{ diploma }}
+                                    {% if person.ceremonial_duties.all %}
+                                        {% for duty in person.ceremonial_duties.all %}{{ diploma }}
                                             {% if not forloop.last %} - {% endif %}{% endfor %}
                                     {% else %}
                                         {% trans "No ceremonial duty" %}
                                     {% endif %}</li>
                                 <li><b>{% trans "Receive job offers by email" %}</b>&nbsp;:
-                                    {% if ain7member.receive_job_offers %}
+                                    {% if person.receive_job_offers %}
                                         {% trans "Yes" %}
                                     {% else %}
                                         {% trans "No" %}
@@ -148,7 +148,6 @@
                             <p><a href="{% url "member-ain7member-edit" person.user.id %}">{% trans "Modify" %}</a>
                             </p>
 
-                        {% endif %}
                     </div>
                 </div>
 
@@ -280,9 +279,9 @@
 
                 </div>
 
-                {% if ain7member %}
                     <div class="clear"></div>
                     <div class="row">
+                        {% comment %}
                         <div class="col-md-12">
                             <h2>
                                 <a name="promos"></a>{% trans "Promos" %}
@@ -304,6 +303,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        {% endcomment %}
 
                         <div class="col-md-12">
                             <h2>
@@ -315,7 +315,7 @@
 
                             <table class="table table-responsive">
                                 <tbody>
-                                {% for position in ain7member.positions.all %}
+                                {% for position in person.positions.all %}
                                     {% if not position.is_confidential %}
                                         <tr>
                                             <th>{% if position.begin %}{{ position.begin }}{% endif %} -
@@ -358,7 +358,7 @@
 
                             <table class="table table-responsive">
                                 <tbody>
-                                {% for club_membership in ain7member.person.council_roles.all %}
+                                {% for club_membership in person.council_roles.all %}
                                     <tr>
                                         <td>{% if club_membership.grouphead.group.web_site %}
                                             <a href="{{ club_membership.grouphead.group.web_site }}">{% endif %}
@@ -394,7 +394,7 @@
 
                             <table class="table table-responsive">
                                 <tbody>
-                                {% for publicationItem in ain7member.publication.all %}
+                                {% for publicationItem in person.publication.all %}
                                     <tr>
                                         <th>{{ publicationItem.date|date:"Y"|default:"" }}</th>
                                         <td><em>{{ publicationItem.title }}</em></td>
@@ -430,7 +430,7 @@
 
                             <table class="table table-responsive">
                                 <tbody>
-                                {% for educationItem in ain7member.education.all %}
+                                {% for educationItem in person.education.all %}
                                     <tr>
                                         <th>{{ educationItem.begin }} - {{ educationItem.end }}</th>
                                         <td><em>{{ educationItem.school }}</em></td>
@@ -468,7 +468,7 @@
 
                             <table class="table table-responsive">
                                 <tbody>
-                                {% for leisureItem in ain7member.leisure.all %}
+                                {% for leisureItem in person.leisure.all %}
                                     <tr>
                                         <th>{{ leisureItem.title }}</th>
                                         <td>{% if leisureItem.detail %}
@@ -486,7 +486,6 @@
 
                     </div>
 
-                {% endif %}
             </div>
 
         </section>

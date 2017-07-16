@@ -29,7 +29,7 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
+from django.contrib.auth.forms import SetPasswordForm
 from django.forms.models import modelform_factory
 from django.http import HttpResponseRedirect, HttpResponse
 from django.utils.translation import ugettext as _
@@ -65,26 +65,21 @@ def me(request):
 @access_required(groups=['ain7-membre', 'ain7-secretariat'])
 def details(request, user_id):
 
-    is_subscriber = False
-    ain7member = None
+    # ain7member = None
     last_activity = None
     is_myself = int(request.user.id) == int(user_id)
 
     person = get_object_or_404(Person, pk=user_id)
     personprivate = get_object_or_404(PersonPrivate, person=person)
 
-    if AIn7Member.objects.filter(person=person).count() > 0:
-        ain7member = get_object_or_404(AIn7Member, person=person)
-        is_subscriber = ain7member.is_subscriber()
+    # if AIn7Member.objects.filter(person=person).count() > 0:
+    #    ain7member = get_object_or_404(AIn7Member, person=person)
 
     if UserActivity.objects.filter(person=person):
         last_activity = UserActivity.objects.filter(person=person).latest('id')
 
     return render(request, 'annuaire/details.html', {
         'person': person,
-        'personprivate': personprivate,
-        'is_subscriber': is_subscriber,
-        'ain7member': ain7member,
         'is_myself': is_myself,
         'last_activity': last_activity,
         }
@@ -95,7 +90,6 @@ def details(request, user_id):
 def search(request):
 
     filter = AIn7MemberFilter(request.GET, queryset=AIn7Member.objects.all())
-    print filter
 
     return render(request, 'annuaire/search.html', {
         'filter': filter,
@@ -128,8 +122,6 @@ def change_credentials(request, user_id):
         return HttpResponseRedirect(
             reverse(details, args=[person.id]))
 
-    ain7member = get_object_or_404(AIn7Member, person=person)
-
     if request.method == 'POST':
         form = ChangePasswordForm(request.POST)
         if form.is_valid():
@@ -149,7 +141,6 @@ def change_credentials(request, user_id):
     return render(request, 'annuaire/credentials.html', {
         'form': form,
         'person': person,
-        'ain7member': ain7member,
         'is_myself': is_myself,
         }
     )
@@ -168,20 +159,38 @@ def send_new_credentials(request, user_id):
     return redirect(person)
 
 
+@access_required(groups=['ain7-secretariat'])
+def set_new_credentials(request, user_id):
+    """Send a link for reseting password"""
+
+    person = get_object_or_404(Person, pk=user_id)
+    print person.user
+
+    form = SetPasswordForm(data=request.POST or None, user=person.user)
+
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+
+        messages.success(request, _("New credentials have been set"))
+        return redirect(person)
+
+    return render(request, 'annuaire/edit_form.html', {
+        'form': form,
+        'person': person,
+        'action_title': _("Modification of personal data for"),
+        'back': request.META.get('HTTP_REFERER', '/'),
+        }
+    )
+
+
 @access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
 def edit(request, user_id=None):
-
-    ain7member = None
 
     person = get_object_or_404(Person, pk=user_id)
     personprivate = get_object_or_404(PersonPrivate, person=person)
 
-    if AIn7Member.objects.filter(person=person).count() > 0:
-        ain7member = get_object_or_404(AIn7Member, person=person)
-
     return render(request, 'annuaire/edit.html', {
         'person': person,
-        'ain7member': ain7member,
         'personprivate': personprivate,
         'is_myself': int(request.user.id) == int(user_id),
         }
@@ -193,7 +202,10 @@ def person_edit(request, user_id):
 
     person = get_object_or_404(Person, user=user_id)
     PersonForm = modelform_factory(
-        Person, exclude=('old_id', 'user', 'validated')
+        Person, fields=(
+            'last_name', 'first_name', 'maiden_name', 
+            'birth_date', 'sex', 'nationality',
+            )
     )
     form = PersonForm(request.POST or None, instance=person)
 
@@ -216,9 +228,9 @@ def person_edit(request, user_id):
 @access_required(groups=['ain7-secretariat', 'ain7-ca'])
 def personprivate_edit(request, user_id):
 
-    personprivate = get_object_or_404(PersonPrivate, person=user_id)
-    PersonPrivateForm = modelform_factory(PersonPrivate, exclude=('person',))
-    form = PersonPrivateForm(request.POST or None, instance=personprivate)
+    person = get_object_or_404(Person, user=user_id)
+    PersonPrivateForm = modelform_factory(Person, fields=('death_date', 'is_dead', 'notes'))
+    form = PersonPrivateForm(request.POST or None, instance=person)
 
     if request.method == 'POST' and form.is_valid():
         form.save()
@@ -229,7 +241,7 @@ def personprivate_edit(request, user_id):
 
     return render(request, 'annuaire/edit_form.html', {
         'form': form,
-        'person': personprivate.person,
+        'person': person,
         'action_title': _("Modification of personal data for"),
         'back': request.META.get('HTTP_REFERER', '/')
         }
@@ -240,15 +252,17 @@ def personprivate_edit(request, user_id):
 def ain7member_edit(request, user_id):
 
     person = get_object_or_404(Person, user=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=person)
-    AIn7MemberForm = autocomplete_light.modelform_factory(
-        AIn7Member, exclude=('person',)
+    AIn7MemberForm = modelform_factory(
+        Person, fields=(
+            'marital_status','children_count', 'nick_name', 
+            'avatar', 'year', 'track',
+            )
     )
 
     form = AIn7MemberForm(
         request.POST or None,
         request.FILES or None,
-        instance=ain7member
+        instance=person,
     )
 
     if request.method == 'POST' and form.is_valid():
@@ -525,7 +539,6 @@ def website_delete(request, user_id=None, website_id=None):
 def club_membership_edit(request, user_id=None, club_membership_id=None):
 
     person = get_object_or_404(Person, user=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=person)
     title = _('Creation of a club membership for')
 
     club_membership = None
@@ -538,7 +551,7 @@ def club_membership_edit(request, user_id=None, club_membership_id=None):
 
     if request.method == 'POST' and form.is_valid():
         membership = form.save(commit=False)
-        membership.member = ain7member
+        membership.member = person
         membership.save()
 
         messages.success(request, _('Club membership successfully saved'))
@@ -639,7 +652,7 @@ def position_edit(request, user_id=None, position_id=None):
     """position edit"""
 
     person = get_object_or_404(Person, user=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=person)
+    # ain7member = get_object_or_404(AIn7Member, person=person)
 
     position = None
     if position_id:
@@ -653,12 +666,13 @@ def position_edit(request, user_id=None, position_id=None):
 
     if request.method == 'POST' and form.is_valid():
         pos = form.save(commit=False)
-        pos.ain7member = ain7member
+        pos.ain7member = person
         pos.save()
         messages.success(
             request,
             _('Modifications have been successfully saved.')
         )
+        print('je suis la')
 
         return redirect('annuaire-edit', user_id)
 
@@ -690,7 +704,7 @@ def education_edit(request, user_id=None, education_id=None):
     """education edit"""
 
     person = get_object_or_404(Person, user=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=person)
+    # ain7member = get_object_or_404(AIn7Member, person=person)
 
     educationitem = None
     if education_id:
@@ -704,7 +718,7 @@ def education_edit(request, user_id=None, education_id=None):
 
     if request.method == 'POST' and form.is_valid():
         editem = form.save(commit=False)
-        editem.ain7member = ain7member
+        editem.ain7member = person
         editem.save()
         messages.success(
             request,
@@ -741,7 +755,7 @@ def leisure_edit(request, user_id=None, leisure_id=None):
     """leisure edit"""
 
     person = get_object_or_404(Person, user=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=person)
+    # ain7member = get_object_or_404(AIn7Member, person=person)
 
     leisureitem = None
     if leisure_id:
@@ -752,7 +766,7 @@ def leisure_edit(request, user_id=None, leisure_id=None):
 
     if request.method == 'POST' and form.is_valid():
         leitem = form.save(commit=False)
-        leitem.ain7member = ain7member
+        leitem.ain7member = person
         leitem.save()
         messages.success(
             request,
@@ -789,7 +803,7 @@ def publication_edit(request, user_id=None, publication_id=None):
     """publication edit"""
 
     person = get_object_or_404(Person, user=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=person)
+    # ain7member = get_object_or_404(AIn7Member, person=person)
 
     publi = None
     if publication_id:
@@ -803,7 +817,7 @@ def publication_edit(request, user_id=None, publication_id=None):
 
     if request.method == 'POST' and form.is_valid():
         publication = form.save(commit=False)
-        publication.ain7member = ain7member
+        publication.ain7member = person
         publication.save()
         messages.success(
             request,
