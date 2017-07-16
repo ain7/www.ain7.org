@@ -116,7 +116,7 @@
             </div>
         </div>
 
-        {% paginate filter %}
+        {% paginate filter.qs as filter %}
 
         <section class="edu2_teachers_page" id="result">
             <div class="container">
@@ -124,7 +124,7 @@
                     <div class="row action-bar">
                         <div class="col-md-12">
                             <a class="btn btn-default" href="{% url 'member-add' %}">
-                                <i class="fa fa-plus fa-1g"></i> {% trans "Add" %}
+                                <i class="fa fa-plus fa-1g"></i> {% trans "Add Person" %}
                             </a>
                         </div>
                     </div>
