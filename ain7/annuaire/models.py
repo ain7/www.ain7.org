@@ -745,7 +745,7 @@ class AIn7Member(LoggedClass):
 
     def current_positions(self):
         if not self.person.personprivate.death_date:
-            return self.positions.filter(end__isnull=True)
+            return self.person.positions.filter(end__isnull=True)
         else:
             return ''
 
