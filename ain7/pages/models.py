@@ -78,7 +78,7 @@ class LostPassword(models.Model):
     @permalink
     def get_absolute_url(self):
         """ return the URL used to change the password """
-        return ('ain7.pages.views.changepassword', (self.key,))
+        return ('resetpassword', (self.key,))
 
     def is_expired(self):
         """
