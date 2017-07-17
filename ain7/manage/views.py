@@ -626,11 +626,11 @@ def mailing_export(request, mailing_id):
                 per.last_name.encode('utf-8'),
                 per.ain7member.promo(),
                 per.ain7member.track().encode('utf-8'),
-                per.address()['line1'].encode('utf-8'),
-                per.address()['line2'].encode('utf-8'),
-                per.address()['zip_code'],
-                per.address()['city'].encode('utf-8'),
-                per.address()['country'].encode('utf-8')
+                per.address_dict()['line1'].encode('utf-8'),
+                per.address_dict()['line2'].encode('utf-8'),
+                per.address_dict()['zip_code'],
+                per.address_dict()['city'].encode('utf-8'),
+                per.address_dict()['country'].encode('utf-8')
                 ]
             )
         except Exception:
