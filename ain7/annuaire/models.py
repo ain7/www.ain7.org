@@ -351,12 +351,12 @@ class Person(LoggedClass):
         except IndexError:
             return ''
 
-    def phone(self):
-        """return fix phone of a person if exists"""
-        try:
-            return self.phone_numbers.filter(type=1)[0].number
-        except IndexError:
-            return ''
+    #def phone(self):
+    #    """return fix phone of a person if exists"""
+    #    try:
+    #        return self.phone_numbers.filter(type=1)[0].number
+    #    except IndexError:
+    #        return ''
 
     def mail_favorite(self, email=None):
         """return favourite e-mail"""
@@ -370,7 +370,7 @@ class Person(LoggedClass):
         except IndexError:
             return ''
 
-    def address(self, key=None):
+    def address_dict(self, key=None):
         """return personal address"""
 
         addr_perm = AddressType.objects.get(id=7)
