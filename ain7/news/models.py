@@ -92,6 +92,7 @@ class NewsItem(LoggedClass):
         blank=True, null=True)
     creation_date = models.DateTimeField(verbose_name=_('date'),
         default=datetime.datetime.today, editable=False)
+    front_page_presence = models.BooleanField(_('Front Page Presence'), default=True)
 
     # to which group we should link this news
     groups = models.ManyToManyField('groups.Group',
@@ -183,3 +184,4 @@ class NewsItem(LoggedClass):
         """news item meta information"""
         ordering = ['-creation_date']
         verbose_name = _('news item')
+
