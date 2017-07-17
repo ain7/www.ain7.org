@@ -1316,7 +1316,7 @@ msgstr "image"
 
 #: news/models.py:95
 msgid "Front Page Presence"
-msgstr ""
+msgstr "Présence sur la page d'accueil"
 
 #: news/models.py:99
 msgid "groups"

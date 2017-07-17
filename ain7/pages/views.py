@@ -45,7 +45,8 @@ def homepage(request):
     ain7member = None
 
     news = NewsItem.objects.filter(
-        date__isnull=True
+        date__isnull=True,
+        front_page_presence=True,
     ).order_by('-creation_date')[:5]
     events = NewsItem.objects.filter(
         date__gte=datetime.datetime.now()
