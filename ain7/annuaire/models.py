@@ -263,7 +263,7 @@ class Person(LoggedClass):
         (7, _('PACS')),
     )
 
-    PROMO_YEARS = [(year,year) for year in range(1907, timezone.now().year+1)]
+    PROMO_YEARS = [(year,year) for year in range(1907, timezone.now().year+4)]
 
     # User inheritance
     user = models.OneToOneField(User, verbose_name=_('user'))
