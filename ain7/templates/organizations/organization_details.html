@@ -127,10 +127,10 @@
                     {% if office.current_n7_employees %}
                         <br/>{% trans "Current N7 employees" %}
                         <ul>
-                            {% for ain7member in office.current_n7_employees %}
+                            {% for person in office.current_n7_employees %}
                                 <li class="person">
-                                    <a href="{% url "member-details" ain7member.person.user.id %}">
-                                        {{ ain7member }}</a>
+                                    <a href="{% url "member-details" person.user.id %}">
+                                        {{ person }}</a>
                                 </li>
                             {% endfor %}
                         </ul>
@@ -139,10 +139,10 @@
                     {% if office.past_n7_employees %}
                         <br/>{% trans "Past N7 employees" %}
                         <ul>
-                            {% for ain7member in office.past_n7_employees %}
+                            {% for person in office.past_n7_employees %}
                                 <li class="person">
-                                    <a href="{% url "member-details" ain7member.person.user.id %}">
-                                        {{ ain7member }}</a>
+                                    <a href="{% url "member-details" person.user.id %}">
+                                        {{ person }}</a>
                                 </li>
                             {% endfor %}
                         </ul>
