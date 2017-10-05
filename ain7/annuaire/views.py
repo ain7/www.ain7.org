@@ -89,7 +89,7 @@ def details(request, user_id):
 @login_required
 def search(request):
 
-    filter = AIn7MemberFilter(request.GET, queryset=AIn7Member.objects.all())
+    filter = AIn7MemberFilter(request.GET, queryset=Person.objects.all())
 
     return render(request, 'annuaire/search.html', {
         'filter': filter,

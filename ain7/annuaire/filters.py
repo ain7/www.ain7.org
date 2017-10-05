@@ -26,24 +26,25 @@ import django_filters
 from django.db.models import Q
 from django.utils.translation import ugettext as _
 
-from ain7.annuaire.models import AIn7Member, Country, Track
+from ain7.annuaire.models import AIn7Member, Country, Track, Person
 
 
 class AIn7MemberFilter(django_filters.FilterSet):
 
     last_name = django_filters.CharFilter(
+        label=_('last name').capitalize(),
         method='filter_last_name',
     )
     first_name = django_filters.CharFilter(
-        name='person__first_name', label=_('first name').capitalize(),
+        name='first_name', label=_('first name').capitalize(),
         lookup_expr='icontains',
     )
     year = django_filters.NumberFilter(
-        name='promos__year__year', label=_('year').capitalize(),
+        name='year', label=_('year').capitalize(),
         lookup_expr='exact',
     )
     track = django_filters.ModelChoiceFilter(
-        name='promos__track__name', label=_('track').capitalize(),
+        name='track__name', label=_('track').capitalize(),
         lookup_expr='icontains', queryset=Track.objects.all(),
     )
     organization = django_filters.CharFilter(
@@ -52,22 +53,22 @@ class AIn7MemberFilter(django_filters.FilterSet):
         distinct=True,
     )
     city = django_filters.CharFilter(
-        name='person__addresses__city', label=_('city').capitalize(),
+        name='addresses__city', label=_('city').capitalize(),
         lookup_expr='icontains',
     )
     country = django_filters.ModelChoiceFilter(
-        name='person__addresses__country', label=_('country').capitalize(),
+        name='addresses__country', label=_('country').capitalize(),
         queryset=Country.objects.all(),
         )
 
     class Meta:
-        model = AIn7Member
-        fields = []
+        model = Person
+        fields = ['last_name']
 
-    def filter_last_name(self, queryset, value):
+    def filter_last_name(self, queryset, name, value):
         return queryset.filter(
-            Q(person__last_name__icontains=value) |
-            Q(person__maiden_name__icontains=value)
+            Q(last_name__icontains=value) |
+            Q(maiden_name__icontains=value)
         )
 
 
