@@ -23,7 +23,7 @@
                             <!--TEACHER BIO des START-->
                             <div class="teacher_bio_des">
                                     <h4>
-                                        {{ person.track }} {{ person.year }}
+                                        {% if person.track %}{{ person.track }}{% endif %} {% if person.year %}{{ person.year }}{% endif %}
                                         {% if person.is_subscriber %}<br />
                                             <b>{% trans "Subscriber" %} <img
                                                     src="{% static "logo_ain7.png" %}" alt="adherent" width="25"

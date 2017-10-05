@@ -156,13 +156,13 @@
                                             {% if ain7member.person.maiden_name %} (
                                                 {{ ain7member.person.maiden_name }}) {% endif %}
                                             {{ ain7member.person.first_name }}</a></h6>
-                                    <strong>{{ ain7member.promo_full }}</strong>
+                                    <strong>{% if ain7member.person.track %}{{ ain7member.person.track }}{% endif %}{% if ain7member.person.year %} {{ ain7member.person.year }}{% endif %}</strong>
                                     <p>
                                         {% if ain7member.is_subscriber %}
                                             <img src="{% static "logo_ain7.png" %}" title="Adherent {% now "Y" %}"
                                                  alt="adherent {% now "Y" %}" width="25" height="25"/>
                                         {% endif %}
-                                        {% if ain7member.person.personprivate.death_date %}
+                                        {% if ain7member.person.death_date or ain7member.person.is_dead %}
                                             <img src="{% static "images/deceased.png" %}" title="Décédé" alt="Décédé"
                                                  width="16"
                                                  height="16"/>
