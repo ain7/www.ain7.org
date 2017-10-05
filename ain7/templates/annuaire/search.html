@@ -134,14 +134,14 @@
                         {% include "pages/paginator.html" %}
                     </div>
 
-                    {% for ain7member in filter %}
+                    {% for person in filter %}
                         <div class="col-lg-3 col-md-4 col-sm-6">
                             <div class="edu2_faculty_des">
                                 <figure>
-                                    {% if ain7member.avatar %}
-                                        <img src="{{ ain7member.avatar.url }}"
-                                             alt="{{ ain7member.person.complete_name }}"
-                                             title="{{ ain7member.person.complete_name }}"/>
+                                    {% if person.avatar %}
+                                        <img src="{{ person.avatar.url }}"
+                                             alt="{{ person.complete_name }}"
+                                             title="{{ person.complete_name }}"/>
                                     {% else %}
                                         <img src="{% static "images/nobody.png" %}"
                                              alt="{{ person.complete_name }}"/>
@@ -152,22 +152,22 @@
                                 </figure>
                                 <div class="edu2_faculty_des2">
                                     <h6>
-                                        <a href="{% url "member-details" ain7member.person.pk %}">{{ ain7member.person.last_name }}
-                                            {% if ain7member.person.maiden_name %} (
-                                                {{ ain7member.person.maiden_name }}) {% endif %}
-                                            {{ ain7member.person.first_name }}</a></h6>
-                                    <strong>{% if ain7member.person.track %}{{ ain7member.person.track }}{% endif %}{% if ain7member.person.year %} {{ ain7member.person.year }}{% endif %}</strong>
+                                        <a href="{% url "member-details" person.pk %}">{{ person.last_name }}
+                                            {% if person.maiden_name %} (
+                                                {{ person.maiden_name }}) {% endif %}
+                                            {{ person.first_name }}</a></h6>
+                                    <strong>{% if person.track %}{{ person.track }}{% endif %}{% if person.year %} {{ person.year }}{% endif %}</strong>
                                     <p>
-                                        {% if ain7member.is_subscriber %}
+                                        {% if person.ain7member.is_subscriber %}
                                             <img src="{% static "logo_ain7.png" %}" title="Adherent {% now "Y" %}"
                                                  alt="adherent {% now "Y" %}" width="25" height="25"/>
                                         {% endif %}
-                                        {% if ain7member.person.death_date or ain7member.person.is_dead %}
+                                        {% if person.death_date or person.is_dead %}
                                             <img src="{% static "images/deceased.png" %}" title="Décédé" alt="Décédé"
                                                  width="16"
                                                  height="16"/>
                                         {% endif %}
-                                        <i>{{ ain7member.current_positions_orga }}</i>
+                                        <i>{{ person.ain7member.current_positions_orga }}</i>
                                     </p>
                                 </div>
                             </div>
