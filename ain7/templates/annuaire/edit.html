@@ -27,14 +27,16 @@
 
                                 {% if person.ain7member.is_subscriber %}
                                     <div class="alert alert-info" role="alert">
-                                        <i class="fa fa-info-circle fa-2x"></i> Vous êtes à jour de votre cotisation à
-                                        l'association.
+                                        <i class="fa fa-info-circle fa-2x"></i> 
+                                        {% if is_myself %}Vous êtes à jour de votre cotisation à l'association.{% else %}
+                                        {{ person }} est à jour de sa cotisation à l'association.{% endif %}
                                     </div>
                                 {% else %}
                                     <div class="alert alert-warning" role="alert">
-                                        Vous n'êtes pas à jour de votre cotisation. <a
-                                            href="{% url "subscription-add" person.pk %}">Cliquez-ici
-                                        pour adhérer</a>
+                                        {% if is_myself %}Vous n'êtes pas à jour de votre cotisation. <a href="{% url "subscription-add" person.pk %}">Cliquez-ici pour adhérer</a>
+                                        {% else %}
+                                        {{ person }} n'est pas à jour de sa cotisation. <a href="{% url "subscription-add" person.pk %}">Cliquez-ici pour saisir une cotisation</a>
+                                        {% endif %}
                                     </div>
                                 {% endif %}
                             </div>
