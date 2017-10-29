@@ -1,0 +1,23 @@
+{% load i18n %}
+
+Bonjour {{ person.first_name }},
+
+{% if is_today %}
+Votre adhésion à l'association AIn7 arrive à échéance aujourd'hui!
+{% elif is_past %}
+Votre adhésion à l'association AIn7 est arrivée à echéance le {{ subscription_end_date }}.
+{% else %}
+Votre adhésion à l'association AIn7 arrivera à échéance le {{ subscription_end_date }}.
+{% endif %}
+
+Vous pouvez dès maintenant renouveler votre adhésions à l'association ici : https://ain7.com/adhesions/subscribe/
+
+Cette adhésion vous permet de bénéficier de l'accès à l'annuaire et à l'ensemble des services de l'association.
+
+L’année 2017 est une année importante pour notre Ecole. L’N7 se restructure autour de 3 pôles : Numérique, Ingénierie électrique & Energie et Fluides & Environnement pour une mise en œuvre effective en septembre 2017.  L’Ain7 accompagne l’Ecole dans ce nouveau projet et organise des groupes de réflexions sur plusieurs autres axes : les relations entreprises et l’entreprenariat, les relations avec les jeunes, la communication et l’international. 
+En renouvelant votre adhésion, vous pourrez développer votre réseau, booster votre carrière, aider des élèves ingénieurs dans leurs projets et vous aurez le plaisir de partager des expériences au sein de notre grande famille.
+Ensemble, nous contribuerons à consolider la notoriété de l'N7, grande Ecole tournée vers les enjeux d’innovation liés à la révolution numérique et à la transition énergétique.
+
+N'hésitez pas à nous contacter pour toute question ou reseignement en suivant ce lien : https://ain7.com/association/contact/
+
+L'équipe de l'AIn7

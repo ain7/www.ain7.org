@@ -7,9 +7,9 @@
 {% if is_today %}
 <p>Votre adhésion à l'association AIn7 <b>arrive à échéance aujourd'hui!</b></p>
 {% elif is_past %}
-<p>Votre adhésion à l'association AIn7 est <b>arrivée à echéance le {{ person.ain7member.previous_subscription.end_date|date:"d F Y" }}.</b></p>
+<p>Votre adhésion à l'association AIn7 est <b>arrivée à echéance le {{ subscription_end_date }}.</b></p>
 {% else %}
-<p>Votre adhésion à l'association AIn7 <b>arrivera à échéance le {{ person.ain7member.current_subscription_end_date|date:"d F Y" }}.</b></p>
+<p>Votre adhésion à l'association AIn7 <b>arrivera à échéance le {{ subscription_end_date }}.</b></p>
 {% endif %}
 
 <span style="text-align: center;">

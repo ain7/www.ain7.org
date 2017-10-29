@@ -23,6 +23,7 @@
 
 import datetime
 import os
+import pytz
 import time
 import uuid
 
@@ -591,6 +592,7 @@ class AIn7Member(LoggedClass):
 
         result = False
         current_year = timezone.now().date().year
+        current_month = timezone.now().date().month
 
         if Subscription.objects.filter(member=self).filter(
             validated=True
@@ -602,10 +604,14 @@ class AIn7Member(LoggedClass):
             # FIXME: still need to adapt when subscription is done after
             # October 1st, and no more student
             # We shoudl fix that before the summer :)
-            if self.promo() >= current_year:
-                print self.promo
-                print current_year
+            if self.person.year > current_year:
                 return True
+
+            if self.person.year == current_year:
+                if current_month >= 10:
+                    return False
+                else:
+                    return True
 
             if sub.date:
                 today = timezone.now()
@@ -775,22 +781,30 @@ class AIn7Member(LoggedClass):
         if self.current_subscription() is None:
             is_past = True
 
+        import locale
+        try:
+            locale.setlocale(locale.LC_TIME,'fr_FR.UTF-8')
+        except Exception:
+            pass
+
+        subscription_end_date = self.previous_subscription().end_date.strftime("%d %B %Y")
+
         subject = u'Votre adhésion à l\'AIn7 arrive à échéance'
         if is_today:
             subject += u' aujourd\'hui!'
         if is_future:
-            subject += u' le '+self.current_subscription_end_date().strftime("%d %B %Y")
+            subject += u' le '+subscription_end_date
         if is_past:
-            subject = u'Votre adhésion à l\'AIn7 est arrivée à échéance le '+self.previous_subscription().end_date.strftime("%d %B %Y")
+            subject = u'Votre adhésion à l\'AIn7 est arrivée à échéance le '+subscription_end_date
         html_content = render_to_string(
             'emails/notification_subscription_ending.html', {
             'person': self.person, 'is_today': is_today, 'is_future': is_future,
-            'is_past': is_past, 'settings': settings,
+            'is_past': is_past, 'settings': settings, 'subscription_end_date': subscription_end_date,
         })
         text_content = render_to_string(
             'emails/notification_subscription_ending.txt', {
             'person': self.person, 'is_today': is_today, 'is_future': is_future,
-            'is_past': is_past, 'settings': settings,
+            'is_past': is_past, 'settings': settings, 'subscription_end_date': subscription_end_date,
         })
         msg = EmailMultiAlternatives(
             subject,
