@@ -146,7 +146,7 @@ class SubscriptionConfiguration(models.Model):
             }),
         (1, _('Promotions from %(start_year)s to %(end_year)s') % {
             'start_year': datetime.date.today().year-5,
-            'end_year': datetime.date.today().year-1,
+            'end_year': datetime.date.today().year-1 if datetime.date.today().year < 10 else datetime.date.today().year,
             }),
         (2, _('Retired')),
         (3, _('Donator')),
