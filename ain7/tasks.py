@@ -130,7 +130,7 @@ def notify_staff_membership_operations():
     msg = EmailMultiAlternatives(
         subject,
         text_content,
-        'adhesions@ain7.com',
+        'AIn7 Adhesions <adhesions@ain7.com>',
         ['adhesions@ain7.com'],
     )
 
