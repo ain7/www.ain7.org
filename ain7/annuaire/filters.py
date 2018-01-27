@@ -75,7 +75,7 @@ class AIn7MemberFilter(django_filters.FilterSet):
 class AIn7MemberAdvancedFilter(django_filters.FilterSet):
 
     last_name = django_filters.CharFilter(
-        method='filter_last_name',
+        method='filter_last_name', label=_('last name').capitalize(),
     )
     first_name = django_filters.CharFilter(
         name='person__first_name', label=_('first name').capitalize(),
