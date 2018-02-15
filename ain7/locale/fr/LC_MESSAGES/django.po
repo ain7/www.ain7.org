@@ -2820,6 +2820,14 @@ msgstr ""
 "Entrez votre adresse email, et nous vous enverrons votre login et des  "
 "instructions pour réinitialiser votre mot de passe."
 
+#: templates/pages/paginator.html:11
+msgid "Prev"
+msgstr "Prec."
+
+#: templates/pages/paginator.html:37
+msgid "Next"
+msgstr "Suiv."
+
 #: templates/pages/permission_denied.html:8
 msgid "Permission denied"
 msgstr "Autorisation refusée"

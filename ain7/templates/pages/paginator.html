@@ -8,7 +8,7 @@
             {% if pages.previous %}
                 <li>
                     <a href="{{ pages.previous.path }}" aria-label="Previous">
-                        <span aria-hidden="true"><i class="fa fa-angle-left"></i>Prev</span>
+                        <span aria-hidden="true"><i class="fa fa-angle-left"></i>{% trans "Prev" %}</span>
                     </a>
                 </li>
 
@@ -21,10 +21,7 @@
                 <li><a href="{{ pages.previous.path }}">{{ pages.previous.number }}</a></li>
             {% endif %}
 
-            <li class="active"><a
-                    href="{{ pages.current.path }}">{{ pages.current.label }}</a></li>
-
-
+            <li class="active"><a href="{{ pages.current.path }}">{{ pages.current.label }}</a></li>
 
 
             {% if pages.next %}
@@ -37,7 +34,7 @@
 
                 <li>
                     <a href="{{ pages.next.url }}" aria-label="Next">
-                        <span aria-hidden="true">Next<i class="fa fa-angle-right"></i></span>
+                        <span aria-hidden="true">{% trans "Next" %}<i class="fa fa-angle-right"></i></span>
                     </a>
                 </li>
             {% endif %}

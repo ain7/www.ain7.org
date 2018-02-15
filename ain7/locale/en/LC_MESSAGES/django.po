@@ -2743,6 +2743,14 @@ msgid ""
 "reset your password."
 msgstr ""
 
+#: templates/pages/paginator.html:11
+msgid "Prev"
+msgstr ""
+
+#: templates/pages/paginator.html:37
+msgid "Next"
+msgstr ""
+
 #: templates/pages/permission_denied.html:8
 msgid "Permission denied"
 msgstr ""
