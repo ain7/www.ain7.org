@@ -35,8 +35,10 @@
                                             </div>
                                             {% if superadmin or ca_member or secretariat_member or contributeur %}
                                                 <ul class="list-inline">
-                                                    <li><a class="btn btn-primary" href="{% url "text-edit" text.id %}"><i
+                                                    <li><a class="btn btn-default" href="{% url "text-edit" text.id %}"><i
                                                             class="fa fa-pencil fa-lg"></i> {% trans "Edit" %}</a></li>
+                                                    <li><a class="btn btn-default" href="{% url "job-add" %}"><i
+                                                            class="fa fa-plus fa-lg"></i> {% trans "Add job offer" %}</a></li>
                                                 </ul>
                                             {% endif %}
                                             <p>{{ text.body|safe }}</p>
@@ -47,7 +49,7 @@
                             </div>
                             <!--kf_courses_wrap end-->
 
-                            {% paginate job_offers %}
+                            {% paginate job_offers.qs as job_offers %}
 
 
                             {% for emploi in job_offers %}

@@ -3,7 +3,7 @@
  ain7:adhesions/views.py
 """
 #
-#   Copyright © 2007-2017 AIn7 Devel Team
+#   Copyright © 2007-2018 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -88,7 +88,7 @@ def subscriptions(request, to_validate=False):
     )
 
 
-@confirmation_required(lambda user_id=None, subscription_id=None:
+@confirmation_required(lambda person_id=None, subscription_id=None:
      str(get_object_or_404(Subscription, pk=subscription_id)), 
      'adhesions/base.html', 
     _('Do you really want to validate this subscription'))
@@ -104,7 +104,7 @@ def subscription_validate(request, subscription_id=None):
     return redirect('subscriptions')
 
 
-@confirmation_required(lambda user_id=None, subscription_id=None:
+@confirmation_required(lambda person_id=None, subscription_id=None:
     str(get_object_or_404(Subscription, pk=subscription_id)),
     'adhesions/base.html',
     _('Do you really want to delete this subscription'))
@@ -119,23 +119,29 @@ def subscription_delete(request, subscription_id=None):
 
 
 @access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
-def user_subscriptions(request, user_id):
+def user_subscriptions(request, person_id):
     """show user subscriptions"""
 
-    person = get_object_or_404(Person, pk=user_id)
-    ain7member = get_object_or_404(AIn7Member, person=person)
+    person = get_object_or_404(Person, pk=person_id)
+    #ain7member = get_object_or_404(AIn7Member, person=person)
+
+    print 'coin'
 
     list_unvalidated = False
 
-    subscriptions_list = Subscription.objects.filter(member=ain7member).\
+    subscriptions_list = Subscription.objects.filter(member=person).\
         order_by('-start_year', '-id')
+
+    print subscriptions_list
 
     if not list_unvalidated:
         subscriptions_list = subscriptions_list.filter(validated=True)
 
+    print 'plop'
+
     return render(request, 'adhesions/user_subscriptions.html', {
         'person': person,
-        'ain7member': ain7member,
+        #'ain7member': ain7member,
         'subscriptions_list': subscriptions_list,
         }
     )
@@ -144,18 +150,18 @@ def user_subscriptions(request, user_id):
 #FIXME: allow everyone to scubscribe as we have oublic subscription
 # and there is no financial impact as transaction need to be validated
 #@access_required(groups=['ain7-secretariat'], allow_myself=True)
-def subscription_add(request, user_id=None, key_id=None, config_id=None):
+def subscription_add(request, person_id=None, key_id=None, config_id=None):
     """add user subscription"""
 
     if key_id:
         key = get_object_or_404(SubscriptionKey, key=key_id)
-        user_id = key.person.pk
+        person_id = key.person.pk
 
-    if user_id:
-        person = get_object_or_404(Person, user=user_id)
+    if person_id:
+        person = get_object_or_404(Person, pk=person_id)
     elif request.user.is_authenticated():
         person = request.user.person
-        user_id = person.pk
+        person_id = person.pk
 
     if config_id:
         subscription_configuration = get_object_or_404(
@@ -170,7 +176,7 @@ def subscription_add(request, user_id=None, key_id=None, config_id=None):
 
     subscription_fields += ('tender_type', )
 
-    if not user_id:
+    if not person_id:
         subscription_fields += ('member',)
 
     SubscriptionForm = autocomplete_light.modelform_factory(
@@ -200,8 +206,8 @@ def subscription_add(request, user_id=None, key_id=None, config_id=None):
 
         subscription = form.save(commit=False)
 
-        if user_id:
-            subscription.member = person.ain7member
+        if person_id:
+            subscription.member = person
 
         current_subscription = subscription.member.current_subscription()
         can_subscribe_again = False
@@ -209,7 +215,7 @@ def subscription_add(request, user_id=None, key_id=None, config_id=None):
             can_subscribe_again = current_subscription.end_date < datetime.timedelta(days=60) + timezone.now().date()
         if subscription.member.is_subscriber() and not can_subscribe_again:
             return render(request, 'adhesions/already_subscriber.html', {
-                'person': subscription.member.person,
+                'person': subscription.member,
                 }
             )
 
@@ -233,14 +239,14 @@ def subscription_add(request, user_id=None, key_id=None, config_id=None):
         if subscription.newspaper_subscription:
             payment.amount += subscription.newspaper_amount
         payment.type = subscription.tender_type
-        payment.person = subscription.member.person
+        payment.person = subscription.member
         payment.date = timezone.now().date()
         payment.save()
 
         subscription.payment = payment
         subscription.save()
 
-        subscription.member.person.send_mail(_(u'AIn7 subscription request registered'), \
+        subscription.member.send_mail(_(u'AIn7 subscription request registered'), \
 _(u"""Hi %(firstname)s,
 
 We have registered your subscription request for the next year to the
@@ -254,7 +260,7 @@ Cheers,
 
 AIn7 Team
 
-""") % { 'firstname': subscription.member.person.first_name })
+""") % { 'firstname': subscription.member.first_name })
 
         systempay = {}
         systempay_signature = ''
@@ -296,7 +302,7 @@ AIn7 Team
 
 def welcome_subscription(request, person_id):
 
-    member = get_object_or_404(AIn7Member, person__pk=person_id)
+    member = get_object_or_404(Person, pk=person_id)
     configuration = SubscriptionConfiguration.objects.get(
         type=SubscriptionConfiguration.TYPE_STUDENT_3Y,
         year=timezone.now().date().year,
@@ -414,7 +420,7 @@ def configuration_edit(request, year, config_id=None):
     )
 
 
-@confirmation_required(lambda user_id=None, config_id=None, year=None:
+@confirmation_required(lambda person_id=None, config_id=None, year=None:
     str(get_object_or_404(SubscriptionConfiguration, pk=config_id)),
     'adhesions/base.html', _('Do you really want to delete this configuration'))
 @access_required(groups=['ain7-secretariat', 'ain7-ca'])

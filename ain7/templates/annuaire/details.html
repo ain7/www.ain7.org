@@ -149,19 +149,19 @@
 
                                     <ul>
 
-                                        {% for club_membership in person.council_roles.all %}
+                                        {% for club_membership in person.club_memberships.all %}
                                             <li>
-                                                {% if club_membership.grouphead.group.web_site %}
-                                                    <a href="{{ club_membership.grouphead.group.web_site }}">{{ club_membership.grouphead.group.name }}</a>
+                                                {% if club_membership.club.web_site %}
+                                                    <a href="{{ club_membership.club.web_site }}">{{ club_membership.club.name }}</a>
                                                 {% else %}
-                                                    {{ club_membership.grouphead.group.name }}
+                                                    {{ club_membership.club.name }}
                                                 {% endif %}
-                                                {% if club_membership.title %}
-                                                    : {{ club_membership.title }}
+                                                {% if club_membership.fonction %}
+                                                    : {{ club_membership.fonction }}
                                                 {% endif %}
-                                                {% if club_membership.start_date and club_membership.end_date %}
-                                                    (<i>{{ club_membership.start_date|date:"Y" }}
-                                                    - {{ club_membership.end_date|date:"Y" }}</i>)
+                                                {% if club_membership.begin and club_membership.end %}
+                                                    (<i>{{ club_membership.begin }}
+                                                    - {{ club_membership.end }}</i>)
                                                 {% endif %}
                                             </li>
                                         {% endfor %}
@@ -182,22 +182,22 @@
                                 {% endif %}
 
                                 <ul>
-                                    <li><a class="btn btn-default" href="{% url "member-vcard" person.user.id %}"><i
+                                    <li><a class="btn btn-default" href="{% url "member-vcard" person.pk %}"><i
                                             class="fa fa-download fa-1g"></i> {% trans "Download vCard" %}</a></li>
                                     {% if superadmin or ca_member or secretariat_member %}
-                                        <li><a class="btn btn-default" href="{% url 'annuaire-edit' person.id %}"><i
+                                        <li><a class="btn btn-default" href="{% url 'annuaire-edit' person.pk %}"><i
                                                 class="fa fa-pencil fa-1g"></i> {% trans "Edit" %}</a></li>
                                         <li><a class="btn btn-default"
-                                               href="{% url "user-subscriptions" person.user.id %}"><i
+                                               href="{% url "user-subscriptions" person.pk %}"><i
                                                 class="fa fa-money fa-1g"></i> {% trans "Subscriptions History" %}</a>
                                         </li>
                                         <li><a class="btn btn-default"
-                                               href="{% url 'send-new-credentials' person.id %}"><i
+                                               href="{% url 'send-new-credentials' person.pk %}"><i
                                                 class="fa fa-envelope-o fa-1g"></i> {% trans "Send new credentials" %}
                                         </a>
                                         </li>
                                         <li><a class="btn btn-default"
-                                               href="{% url 'set-new-credentials' person.id %}"><i
+                                               href="{% url 'set-new-credentials' person.pk %}"><i
                                                 class="fa fa-lock fa-1g"></i> {% trans "Set new credentials" %}
                                         </a>
                                         </li>

@@ -3,7 +3,7 @@
  ain7/adhesions/urls.py
 """
 #
-#   Copyright © 2007-2017 AIn7 Devel Team
+#   Copyright © 2007-2018 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -31,8 +31,8 @@ urlpatterns = [
     url(r'^subscriptions/to_validate$', views.subscriptions, {'to_validate': True}, 'to_validate_subscriptions'),
     url(r'^subscriptions/(?P<subscription_id>\d+)/validate/$', views.subscription_validate, name='subscription-validate'),
     url(r'^subscriptions/(?P<subscription_id>\d+)/delete/$', views.subscription_delete, name='subscription-delete'),
-    url(r'^(?P<user_id>\d+)/subscriptions/$', views.user_subscriptions, name='user-subscriptions'),
-    url(r'^(?P<user_id>\d+)/subscriptions/add/$', views.subscription_add, name='subscription-add'),
+    url(r'^(?P<person_id>\d+)/subscriptions/$', views.user_subscriptions, name='user-subscriptions'),
+    url(r'^(?P<person_id>\d+)/subscriptions/add/$', views.subscription_add, name='subscription-add'),
     url(r'^configurations/$', views.configurations, name='configurations'),
     url(r'^configurations/(?P<year>\d+)/$', views.configurations, name='configurations-details'),
     url(r'^configurations/(?P<year>\d+)/(?P<config_id>\d+)/edit/$', views.configuration_edit, name='configuration-edit'),

@@ -2,7 +2,7 @@
 """
  ain7/decorators.py
 """
-#   Copyright © 2007-2017 AIn7 Devel Team
+#   Copyright © 2007-2018 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -70,8 +70,8 @@ def access_required(view_func=None, groups=None,
 
             user_groups = user.person.groups.values_list('group__name', flat=True)
 
-            if allow_myself and kwargs.has_key('user_id'):
-                if int(request.user.id) == int(kwargs['user_id']):
+            if allow_myself and kwargs.has_key('person_id'):
+                if int(request.user.person.id) == int(kwargs['person_id']):
                     # Go to the decorated view
                     return view_func(request, *args, **kwargs)
 

@@ -3,7 +3,7 @@
  ain7/annuaire/models.py
 """
 #
-#   Copyright © 2007-2017 AIn7 Devel Team
+#   Copyright © 2007-2018 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -211,6 +211,7 @@ class Track(models.Model):
     class Meta:
         """track meta"""
         verbose_name = _('Track')
+        ordering = ['name']
 
 
 class PromoYear(models.Model):
@@ -264,7 +265,7 @@ class Person(LoggedClass):
         (7, _('PACS')),
     )
 
-    PROMO_YEARS = [(year,year) for year in range(1907, timezone.now().year+4)]
+    PROMO_YEARS = [(year,year) for year in range(timezone.now().year+4, 1907, -1)]
 
     # User inheritance
     user = models.OneToOneField(User, verbose_name=_('user'))
@@ -430,7 +431,7 @@ class Person(LoggedClass):
                 subject=subject,
                 body=message,
                 from_email=self.mail_from(email),
-                to=[self.last_name+' <'+mail+'>'],
+                to=[self.first_name+' '+self.last_name+' <'+mail+'>'],
                 headers={
                     'Date': time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime()),
                     'Sender': 'bounces@ain7.com',
@@ -470,6 +471,158 @@ This link will be valid 24h.
 If the new password request if not from you, you can ignore this message.
 --
 https://ain7.com""") % {'firstname': self.first_name, 'url': url, 'login': self.user.username}, email)
+
+
+    def is_subscriber(self):
+        """
+        /!\ local import to avoid recursive imports
+        """
+        import calendar
+        from ain7.adhesions.models import Subscription
+
+        result = False
+        current_year = timezone.now().date().year
+        current_month = timezone.now().date().month
+
+        if Subscription.objects.filter(member=self).filter(
+            validated=True
+        ).count() > 0:
+            sub = Subscription.objects.filter(member=self).filter(
+                validated=True
+            ).reverse()[0]
+
+            # FIXME: still need to adapt when subscription is done after
+            # October 1st, and no more student
+            # We shoudl fix that before the summer :)
+            if self.year > current_year:
+                return True
+
+            if self.year == current_year:
+                if current_month >= 10:
+                    return False
+                else:
+                    return True
+
+            if sub.date:
+                today = timezone.now()
+                delta = today - sub.date
+                days_in_year = 365
+                if calendar.isleap(current_year):
+                    days_in_year = 366
+                result = delta.days < days_in_year
+
+        return result
+
+
+    def current_subscription(self):
+        """
+        local import to avoid recursive imports
+        """
+        from ain7.adhesions.models import Subscription
+
+        result = None
+        if Subscription.objects.filter(
+            member=self,
+            validated=True,
+            start_date__lte=timezone.now(),
+            end_date__gte=timezone.now(),
+        ).count() > 0:
+            result = Subscription.objects.filter(
+                member=self,
+                validated=True,
+                start_date__lte=timezone.now(),
+                end_date__gte=timezone.now(),
+            ).reverse()[0]
+
+        return result
+
+    def current_subscription_end_date(self):
+
+        from ain7.adhesions.models import Subscription
+
+        if self.current_subscription() is not None:
+            return self.current_subscription().end_date
+
+    def last_subscription(self):
+        """
+        local import to avoid recursive imports
+        """
+        from ain7.adhesions.models import Subscription
+
+        result = None
+        if Subscription.objects.filter(
+            member=self,
+            validated=True,
+        ).count() > 0:
+            result = Subscription.objects.filter(
+                member=self,
+                validated=True,
+            ).order_by('end_date').reverse()[0]
+
+        return result
+
+    def last_subscription_end_date(self):
+
+        from ain7.adhesions.models import Subscription
+
+        if self.last_subscription() is not None:
+            return self.last_subscription().end_date
+
+    def previous_subscription(self, date=None):
+        """
+        local import to avoid recursive imports
+        """
+        from ain7.adhesions.models import Subscription
+
+        year = timezone.now().year
+        if date:
+            year = date.year
+
+        result = None
+        if Subscription.objects.filter(member=self, validated=True
+        ).exclude(start_year__icontains=year).count() > 0:
+            result = Subscription.objects.filter(
+                member=self,
+                validated=True,
+            ).exclude(start_year__icontains=year).reverse()[0]
+
+        return result
+
+    def previous_subscription_date(self, date=None):
+        result = self.previous_subscription(date)
+        if result is not None:
+            return result.date
+        else:
+            return None
+
+    def previous_subscription_amount(self, date=None):
+        result = self.previous_subscription(date)
+        if result is not None:
+            return result.dues_amount
+        else:
+            return None
+
+    def has_subscription_next(self):
+        from ain7.adhesions.models import Subscription
+
+        if (
+             self.current_subscription() is not None and \
+             self.current_subscription_end_date() > timezone.now().date() + \
+             datetime.timedelta(days=60)
+            ):
+            return True
+
+        next_subscriptions = []
+        if self.current_subscription() is not None:
+            next_subscriptions = Subscription.objects.filter(
+                member=self, validated=True,
+                start_date__gte=self.current_subscription_end_date(),
+            )
+
+        if self.current_subscription() is not None and next_subscriptions.count() > 0:
+            return True
+        else:
+            return False
 
     def get_absolute_url(self):
         return reverse('member-details', args=[self.id])
@@ -594,10 +747,10 @@ class AIn7Member(LoggedClass):
         current_year = timezone.now().date().year
         current_month = timezone.now().date().month
 
-        if Subscription.objects.filter(member=self).filter(
+        if Subscription.objects.filter(member=self.person).filter(
             validated=True
         ).count() > 0:
-            sub = Subscription.objects.filter(member=self).filter(
+            sub = Subscription.objects.filter(member=self.person).filter(
                 validated=True
             ).reverse()[0]
 
@@ -1042,16 +1195,16 @@ class WebSite(models.Model):
     """Website for a person"""
 
     WEBSITE_TYPE = (
-        (0, 'link'),
-        (1, 'blog'),
-        (2, 'gallery'),
-        (3, 'linkedin'),
-        (4, 'viadeo'),
-        (5, 'flickr'),
-        (6, 'facebook'),
-        (7, 'twitter'),
-        (8, 'myspace'),
-        (100, 'Other'),
+        (0, _('website')),
+        (1, _('blog')),
+        (2, _('gallery')),
+        (3, _('linkedin')),
+        (4, _('viadeo')),
+        (5, _('flickr')),
+        (6, _('facebook')),
+        (7, _('twitter')),
+        (8, _('myspace')),
+        (100, _('Other')),
     )
 
     person = models.ForeignKey(
@@ -1059,7 +1212,7 @@ class WebSite(models.Model):
     )
 
     url = models.CharField(verbose_name=_('web site'), max_length=100)
-    type = models.IntegerField(verbose_name=_('type'), choices=WEBSITE_TYPE)
+    type = models.IntegerField(verbose_name=_('type'), choices=WEBSITE_TYPE, default=0)
     confidentiality = models.IntegerField(
         verbose_name=_('confidentiality'),
         choices=CONFIDENTIALITY_LEVELS, default=0,

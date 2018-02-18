@@ -22,7 +22,7 @@
         </thead>
         <tbody>
         {% for configuration in configurations_list %}
-            <tr class="{% cycle row1,row2 %}">
+            <tr class="{% cycle 'row1' 'row2' %}">
                 <td align="center">{{ configuration.get_type_display }}</td>
                 <td align="center">
                     {{ configuration.dues_amount }}&nbsp;{% trans "euros" %}

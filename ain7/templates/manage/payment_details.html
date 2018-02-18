@@ -9,7 +9,7 @@
 <p><a class="btn btn-primary" href="{% url "payment-edit" payment.id %}"><i class="fa fa-pencil fa-lg"></i> Edit</a></p>
 
 <ul>
-<li><b>{% trans "Person:" %}</b> {% if payment.person %}<a href="{% url "member-details" payment.person.user.id %}">{{ payment.person }}</a>{% endif %}</li>
+<li><b>{% trans "Person:" %}</b> {% if payment.person %}<a href="{% url "member-details" payment.person.id %}">{{ payment.person }}</a>{% endif %}</li>
 <li><b>{% trans "Date:" %}</b> {{ payment.date|date:"l j F Y" }}</li>
 <li><b>{% trans "Amount:" %}</b> {{ payment.amount }}</li>
 <li><b>{% trans "Type:" %}</b> {{ payment.get_type_display }}</li>

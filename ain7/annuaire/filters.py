@@ -3,7 +3,7 @@
  ain7/annuaire/filers.py
 """
 #
-#   Copyright © 2007-2017 AIn7 Devel Team
+#   Copyright © 2007-2018 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -82,37 +82,38 @@ class AIn7MemberAdvancedFilter(django_filters.FilterSet):
         lookup_expr='icontains',
     )
     year = django_filters.NumberFilter(
-        name='promos__year__year', label=_('year').capitalize(),
+        name='year', label=_('year').capitalize(),
         lookup_expr='exact',
     )
     track = django_filters.ModelChoiceFilter(
-        name='promos__track__name', label=_('track').capitalize(),
+        name='track__name', label=_('track').capitalize(),
         lookup_expr='icontains', queryset=Track.objects.all(),
     )
     organization = django_filters.CharFilter(
         name='positions__office__organization__name',
         label=_('organization').capitalize(), lookup_expr='icontains',
     )
-    position = django_filters.CharFilter(
-        name='positions__fonction',
-        label=_('fonction').capitalize(), lookup_type='icontains',
-    )
+# FIXME: does not work with position??
+#    fonction = django_filters.CharFilter(
+#        name='positions__fonction',
+#        label=_('fonction').capitalize(), lookup_type='icontains',
+#    )
     zip_code = django_filters.CharFilter(
-        name='person__addresses__zip_code', label=_('zip code').capitalize(),
+        name='addresses__zip_code', label=_('zip code').capitalize(),
         lookup_expr='icontains',
     )
     city = django_filters.CharFilter(
-        name='person__addresses__city', label=_('city').capitalize(),
+        name='addresses__city', label=_('city').capitalize(),
         lookup_expr='icontains',
     )
     country = django_filters.ModelChoiceFilter(
-        name='person__addresses__country', label=_('country').capitalize(),
+        name='addresses__country', label=_('country').capitalize(),
         queryset=Country.objects.all(),
         )
 
 
     class Meta:
-        model = AIn7Member
+        model = Person
         fields = []
 
     def filter_last_name(self, queryset, value):

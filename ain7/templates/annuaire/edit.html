@@ -22,7 +22,7 @@
                                 <h4>{{ person.track }} {{ person.year }}</h4>
                             <div class="teacher_bio_des">
                                 <p>
-                                    <a href="{% url "member-details" person.user.id %}">{% trans "Back to personnal file" %}</a>
+                                    <a href="{% url "member-details" person.pk %}">{% trans "Back to personnal file" %}</a>
                                 </p>
 
                                 {% if person.ain7member.is_subscriber %}
@@ -64,7 +64,7 @@
                                         </li>
                                     </ul>
                                     <p>
-                                        <a href="{% url "member-personprivate-edit" person.user.id %}">{% trans "Modify" %}</a>
+                                        <a href="{% url "member-personprivate-edit" person.pk %}">{% trans "Modify" %}</a>
                                     </p>
                                 </div>
                             </div>
@@ -93,7 +93,7 @@
                             <li><b>{% filter capfirst %}{% trans "nationality" %}{% endfilter %}
                                 &nbsp;:</b> {{ person.nationality.nationality }}</li>
                         </ul>
-                        <p><a href="{% url "member-person-edit" person.user.id %}">{% trans "Modify" %}</a></p>
+                        <p><a href="{% url "member-person-edit" person.pk %}">{% trans "Modify" %}</a></p>
                     </div>
 
                     <div>
@@ -147,7 +147,7 @@
                                     {% endif %}
                                 </li>
                             </ul>
-                            <p><a href="{% url "member-ain7member-edit" person.user.id %}">{% trans "Modify" %}</a>
+                            <p><a href="{% url "member-ain7member-edit" person.pk %}">{% trans "Modify" %}</a>
                             </p>
 
                     </div>
@@ -161,7 +161,7 @@
                         <h2>
                             <a name="address"></a>Addresse(s)
                             &nbsp;
-                            <a href="{% url "member-address-add" person.user.id %}" class="btn btn-primary"><i
+                            <a href="{% url "member-address-add" person.pk %}" class="btn btn-primary"><i
                                     class="fa fa-plus"></i> {% trans "Add" %}</a>
                         </h2>
 
@@ -174,9 +174,9 @@
                                         {{ address.line1 }} {{ address.line2|default_if_none:"" }} -
                                         {{ address.zip_code }} {{ address.city }} - {{ address.country.name }}
                                         {% if address.confidential %}<i class="fa fa-lock"></i> {% endif %}</td>
-                                    <td><a href="{% url "member-address-edit" person.user.id address.id %}"><i
+                                    <td><a href="{% url "member-address-edit" person.pk address.id %}"><i
                                             class="fa fa-pencil fa-lg"></i></a></td>
-                                    <td><a href="{% url "member-address-delete" person.user.id address.id %}"><i
+                                    <td><a href="{% url "member-address-delete" person.pk address.id %}"><i
                                             class="fa fa-trash-o fa-lg"></i></a></td>
                                 </tr>
                             {% endfor %}
@@ -189,7 +189,7 @@
                         <h2>
                             <a name="email"></a>Courriel(s)
                             &nbsp;
-                            <a href="{% url "member-email-add" person.user.id %}" class="btn btn-primary"><i
+                            <a href="{% url "member-email-add" person.pk %}" class="btn btn-primary"><i
                                     class="fa fa-plus"></i> {% trans "Add" %}</a>
                         </h2>
 
@@ -204,10 +204,10 @@
                                             <i class="fa fa-star"></i>{% endif %}
                                     </td>
                                     <td>
-                                        <a href="{% url "member-email-edit" person.user.id email.id %}"><i
+                                        <a href="{% url "member-email-edit" person.pk email.id %}"><i
                                                 class="fa fa-pencil fa-lg"></i></a></td>
                                     <td>
-                                        <a href="{% url "member-email-delete" person.user.id email.id %}"><i
+                                        <a href="{% url "member-email-delete" person.pk email.id %}"><i
                                                 class="fa fa-trash-o fa-lg"></i></a></td>
                                 </tr>
                             {% endfor %}
@@ -222,7 +222,7 @@
                         <h2>
                             <a name="phone"></a>Téléphone(s)
                             &nbsp;
-                            <a href="{% url "member-phone-add" person.user.id %}" class="btn btn-primary"><i
+                            <a href="{% url "member-phone-add" person.pk %}" class="btn btn-primary"><i
                                     class="fa fa-plus"></i> {% trans "Add" %}</a>
                         </h2>
 
@@ -236,10 +236,10 @@
                                         <i class="fa fa-lock"></i> {% endif %}
                                     </td>
                                     <td>
-                                        <a href="{% url "member-phone-edit" person.user.id phone_number.id %}"><i
+                                        <a href="{% url "member-phone-edit" person.pk phone_number.id %}"><i
                                                 class="fa fa-pencil fa-lg"></i></a></td>
                                     <td>
-                                        <a href="{% url "member-phone-delete" person.user.id phone_number.id %}"><i
+                                        <a href="{% url "member-phone-delete" person.pk phone_number.id %}"><i
                                                 class="fa fa-trash-o fa-lg"></i></a></td>
                                 </tr>
                             {% endfor %}
@@ -251,7 +251,7 @@
                         <h2>
                             <a name="website"></a>Site(s) Internet
                             &nbsp;
-                            <a href="{% url "member-website-add" person.user.id %}" class="btn btn-primary"><i
+                            <a href="{% url "member-website-add" person.pk %}" class="btn btn-primary"><i
                                     class="fa fa-plus"></i> {% trans "Add" %}</a>
                         </h2>
 
@@ -266,11 +266,11 @@
                                             <i class="fa fa-lock"></i> {% endif %}
                                     </td>
                                     <td>
-                                        <a href="{% url "member-website-edit" person.user.id website.id %}"><i
+                                        <a href="{% url "member-website-edit" person.pk website.id %}"><i
                                                 class="fa fa-pencil fa-lg"></i></a>
                                     </td>
                                     <td>
-                                        <a href="{% url "member-website-delete" person.user.id website.id %}"><i
+                                        <a href="{% url "member-website-delete" person.pk website.id %}"><i
                                                 class="fa fa-trash-o fa-lg"></i></a>
                                     </td>
                                 </tr>
@@ -311,7 +311,7 @@
                             <h2>
                                 <a name="profexp"></a>{% trans "Experiences" %}
                                 &nbsp;
-                                <a class="btn btn-primary" href="{% url "member-position-add" person.user.id %}"><i
+                                <a class="btn btn-primary" href="{% url "member-position-add" person.pk %}"><i
                                         class="fa fa-plus"></i> {% trans "Add" %}</a>
                             </h2>
 
@@ -327,10 +327,10 @@
                                                     href="{% url "organization-details" position.office.organization.id %}">{{ position.office }}</a>
                                             </td>
                                             <td>
-                                                <a href="{% url "member-position-edit" person.user.id position.id %}"><i
+                                                <a href="{% url "member-position-edit" person.pk position.id %}"><i
                                                         class="fa fa-pencil fa-lg"></i></a></td>
                                             <td>
-                                                <a href="{% url "member-position-delete" person.user.id position.id %}"><i
+                                                <a href="{% url "member-position-delete" person.pk position.id %}"><i
                                                         class="fa fa-trash-o fa-lg"></i></a></td>
                                         </tr>
                                         {% if position.description %}
@@ -353,30 +353,30 @@
                             <h2>
                                 <a name="assoc"></a>{% trans "N7 associative activities" %}
                                 &nbsp;
-                                <a href="{% url "member-clubmembership-add" person.user.id %}"
+                                <a href="{% url "member-clubmembership-add" person.pk %}"
                                    class="btn btn-primary"><i
                                         class="fa fa-plus"></i> {% trans "Add" %}</a>
                             </h2>
 
                             <table class="table table-responsive">
                                 <tbody>
-                                {% for club_membership in person.council_roles.all %}
+                                {% for club_membership in person.club_memberships.all %}
                                     <tr>
-                                        <td>{% if club_membership.grouphead.group.web_site %}
-                                            <a href="{{ club_membership.grouphead.group.web_site }}">{% endif %}
-                                            {{ club_membership.grouphead.group.name }}
-                                            {% if club_membership.grouphead.group.web_site %}</a>{% endif %}
-                                            {% if club_membership.start_date and club_membership.end_date %}(
-                                                <i>{{ club_membership.start_date|date:"Y" }}
-                                                    - {{ club_membership.end_date|date:"Y" }}</i>
+                                        <td>{% if club_membership.club.web_site %}
+                                            <a href="{{ club_membership.club.web_site }}">{% endif %}
+                                            {{ club_membership.club.name }}
+                                            {% if club_membership.club.web_site %}</a>{% endif %}
+                                            {% if club_membership.begin and club_membership.end %}(
+                                                <i>{{ club_membership.begin }}
+                                                    - {{ club_membership.end }}</i>
                                                 ){% endif %}</td>
-                                        <td>{% if club_membership.title %}
-                                            {{ club_membership.title }}{% endif %}</td>
+                                        <td>{% if club_membership.fonction %}
+                                            {{ club_membership.fonction }}{% endif %}</td>
                                         <td>
-                                            <a href="{% url "member-clubmembership-edit" person.user.id club_membership.id %}"><i
+                                            <a href="{% url "member-clubmembership-edit" person.pk club_membership.id %}"><i
                                                     class="fa fa-pencil fa-lg"></i></a></td>
                                         <td>
-                                            <a href="{% url "member-clubmembership-delete" person.user.id club_membership.id %}"><i
+                                            <a href="{% url "member-clubmembership-delete" person.pk club_membership.id %}"><i
                                                     class="fa fa-trash-o fa-lg"></i></a></td>
                                     </tr>
                                 {% endfor %}
@@ -390,7 +390,7 @@
                             <h2>
                                 <a name="publications"></a>{% trans "Publications and patents" %}
                                 &nbsp;
-                                <a class="btn btn-primary" href="{% url "member-publication-add" person.user.id %}"><i
+                                <a class="btn btn-primary" href="{% url "member-publication-add" person.pk %}"><i
                                         class="fa fa-plus"></i> {% trans "Add" %}</a>
                             </h2>
 
@@ -401,10 +401,10 @@
                                         <th>{{ publicationItem.date|date:"Y"|default:"" }}</th>
                                         <td><em>{{ publicationItem.title }}</em></td>
                                         <td>
-                                            <a href="{% url "member-publication-edit" person.user.id publicationItem.id %}"><i
+                                            <a href="{% url "member-publication-edit" person.pk publicationItem.id %}"><i
                                                     class="fa fa-pencil fa-lg"></i></a></td>
                                         <td>
-                                            <a href="{% url "member-publication-delete" person.user.id publicationItem.id %}"><i
+                                            <a href="{% url "member-publication-delete" person.pk publicationItem.id %}"><i
                                                     class="fa fa-trash-o fa-lg"></i></a></td>
                                     </tr>
                                     {% if publicationItem.details %}
@@ -426,7 +426,7 @@
                             <h2>
                                 <a name="education"></a>{% trans "Education" %}
                                 &nbsp;
-                                <a class="btn btn-primary" href="{% url "member-education-add" person.user.id %}"><i
+                                <a class="btn btn-primary" href="{% url "member-education-add" person.pk %}"><i
                                         class="fa fa-plus"></i> {% trans "Add" %}</a>
                             </h2>
 
@@ -437,10 +437,10 @@
                                         <th>{{ educationItem.begin }} - {{ educationItem.end }}</th>
                                         <td><em>{{ educationItem.school }}</em></td>
                                         <td>
-                                            <a href="{% url "member-education-edit" person.user.id educationItem.id %}"><i
+                                            <a href="{% url "member-education-edit" person.pk educationItem.id %}"><i
                                                     class="fa fa-pencil fa-lg"></i></a></td>
                                         <td>
-                                            <a href="{% url "member-education-delete" person.user.id educationItem.id %}"><i
+                                            <a href="{% url "member-education-delete" person.pk educationItem.id %}"><i
                                                     class="fa fa-trash-o fa-lg"></i></a></td>
                                     </tr>
                                     {% if educationItem.diploma %}
@@ -464,7 +464,7 @@
                             <h2>
                                 <a name="leisure"></a>{% trans "Leisure activities" %}
                                 &nbsp;
-                                <a class="btn btn-primary" href="{% url "member-leisure-add" person.user.id %}"><i
+                                <a class="btn btn-primary" href="{% url "member-leisure-add" person.pk %}"><i
                                         class="fa fa-plus"></i> {% trans "Add" %}</a>
                             </h2>
 
@@ -475,10 +475,10 @@
                                         <th>{{ leisureItem.title }}</th>
                                         <td>{% if leisureItem.detail %}
                                             {{ leisureItem.detail|safe }} {% endif %} </td>
-                                        <td><a href="{% url "member-leisure-edit" person.user.id leisureItem.id %}"><i
+                                        <td><a href="{% url "member-leisure-edit" person.pk leisureItem.id %}"><i
                                                 class="fa fa-pencil fa-lg"></i></a></td>
                                         <td>
-                                            <a href="{% url "member-leisure-delete" person.user.id leisureItem.id %}"><i
+                                            <a href="{% url "member-leisure-delete" person.pk leisureItem.id %}"><i
                                                     class="fa fa-trash-o fa-lg"></i></a></td>
                                     </tr>
                                 {% endfor %}

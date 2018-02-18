@@ -3,7 +3,7 @@
  ain7/emploi/views.py
 """
 #
-#   Copyright © 2007-2017 AIn7 Devel Team
+#   Copyright © 2007-2018 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -95,7 +95,7 @@ def job_edit(request, job_id=None):
         job = get_object_or_404(JobOffer, pk=job_id)
 
     JobOfferForm = autocomplete_light.modelform_factory(
-        JobOffer, exclude=('checked_by_secretariat', 'obsolete')
+        JobOffer, exclude=('checked_by_secretariat',)
     )
     form = JobOfferForm(request.POST or None, instance=job)
 

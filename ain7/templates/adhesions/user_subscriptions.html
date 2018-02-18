@@ -5,12 +5,12 @@
 
 <h2>{% if request.user.pk == person.user.pk %}Vos {%endif%}{% trans "Subscriptions" %}{% if request.user.pk != person.user.pk %} {{ person.first_name }} {{ person.last_name }}{% endif %}</h2>
 
-{% if person.ain7member.is_subscriber %}
+{% if person.is_subscriber %}
 <div class="alert alert-info" role="alert">
    {% if request.user.pk == person.user.pk %}
-   <i class="fa fa-info-circle fa-2x"></i> Votre adhésion à l'association est valable juqu'au {{ person.ain7member.last_subscription_end_date|date:"d F Y" }}.
+   <i class="fa fa-info-circle fa-2x"></i> Votre adhésion à l'association est valable juqu'au {{ person.last_subscription_end_date|date:"d F Y" }}.
    {% else %}
-   <i class="fa fa-info-circle fa-2x"></i> L'adhésion à l'association de {{ person }} est valable jusqu'au {{ person.ain7member.last_subscription_end_date|date:"d F Y" }}.
+   <i class="fa fa-info-circle fa-2x"></i> L'adhésion à l'association de {{ person }} est valable jusqu'au {{ person.last_subscription_end_date|date:"d F Y" }}.
    {% endif %}
 </div>
 {% else %}

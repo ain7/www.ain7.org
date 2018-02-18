@@ -20,7 +20,7 @@
                         </button>
                         {% if person %}
                             &nbsp;
-                            <a class="btn btn-default" href="{% url "annuaire-edit" person.user.id %}"><i
+                            <a class="btn btn-default" href="{% url "annuaire-edit" person.pk %}"><i
                                     class="fa fa-close"></i> {% trans "Cancel" %}</a>
                         {% endif %}
                     </div>

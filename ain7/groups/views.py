@@ -3,7 +3,7 @@
  ain7/groups/views.py
 """
 #
-#   Copyright © 2007-2017 AIn7 Devel Team
+#   Copyright © 2007-2018 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -168,9 +168,7 @@ def member_delete(request, slug, member_id):
     """delete member role"""
 
     group = get_object_or_404(Group, slug=slug)
-    member = get_object_or_404(Member, member__pk=member_id)
-
-    member.end_date = datetime.date.today()
+    Member.objects.filter(group=group, member__pk=member_id).delete()
 
     messages.success(request, _('Member removed from role'))
 

@@ -40,7 +40,7 @@
                 {% for subscription in subscriptions_list %}
                     <tr>
                         <td>
-                            <a href="{% url "member-details" subscription.member.person.user.id %}">{{ subscription.member.person.last_name }} {{ subscription.member.person.first_name }}</a>
+                            <a href="{% url "member-details" subscription.member.pk %}">{{ subscription.member.last_name }} {{ subscription.member.first_name }}</a>
                         </td>
                         <td align="center">
                             {% ifnotequal subscription.start_year subscription.end_year %}

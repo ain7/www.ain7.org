@@ -20,7 +20,7 @@
 
     {% if notification.organization_proposal %}
 
-      <a href="{% url "member-details" notification.organization_proposal.author.user.id %}">{{ notification.organization_proposal.author }}</a> 
+      <a href="{% url "member-details" notification.organization_proposal.author.person.id %}">{{ notification.organization_proposal.author }}</a> 
       {% ifequal notification.organization_proposal.action 0 %}
         {% trans "created the organization" %}
         <em>{{ notification.organization_proposal.modified }}</em>. 
@@ -58,7 +58,7 @@
 
       {% if notification.office_proposal %}
 
-        <a href="{% url "member-details" notification.office_proposal.author.user.id %}">{{ notification.office_proposal.author }}</a> 
+        <a href="{% url "member-details" notification.office_proposal.author.person.id %}">{{ notification.office_proposal.author }}</a> 
 
         {% ifequal notification.office_proposal.action 0 %}
           {% trans "created the office" %}

@@ -2,7 +2,7 @@
 """
  ain7/adhesions/models.py
 """
-#   Copyright © 2007-2017 AIn7 Devel Team
+#   Copyright © 2007-2018 AIn7 Devel Team
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ class Subscription(LoggedClass):
     )
 
     member = models.ForeignKey(
-        'annuaire.AIn7Member',
+        'annuaire.Person',
         verbose_name=_(u'Saisissez votre nom pour vous identifier'),
         related_name='subscriptions',
     )
@@ -107,7 +107,7 @@ class Subscription(LoggedClass):
         self.start_year = start_date.year
 
         if self.configuration.type in [SubscriptionConfiguration.TYPE_STUDENT_3Y, SubscriptionConfiguration.TYPE_STUDENT_2Y, SubscriptionConfiguration.TYPE_STUDENT_1Y, SubscriptionConfiguration.TYPE_STUDENT]:
-            self.end_year = self.member.promo()
+            self.end_year = self.member.year
             self.end_date = datetime.date(self.end_year, 10, 1)
         else:
             self.end_date = self.start_date + datetime.timedelta(days=365)
