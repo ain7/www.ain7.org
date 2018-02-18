@@ -300,71 +300,71 @@ AIn7 Team
     )
 
 
-def welcome_subscription(request, person_id):
-
-    member = get_object_or_404(Person, pk=person_id)
-    configuration = SubscriptionConfiguration.objects.get(
-        type=SubscriptionConfiguration.TYPE_STUDENT_3Y,
-        year=timezone.now().date().year,
-    )
-
-    SubscriptionForm = modelform_factory(Subscription, fields=('tender_type',))
-    form = SubscriptionForm(request.POST or None)
-
-    if request.method == 'POST' and form.is_valid():
-        subscription = form.save(commit=False)
-        subscription.member = member
-        subscription.dues_amount = configuration.dues_amount
-        subscription.newspaper_amount = 0
-        subscription.date = timezone.now().date()
-        subscription.start_year = timezone.now().date().year
-        subscription.end_year = timezone.now().date().year + 3
-        subscription.save()
-
-        payment = Payment()
-        payment.amount = subscription.dues_amount
-        payment.type = subscription.tender_type
-        payment.person = member.person
-        payment.date = timezone.now().date()
-        payment.save()
-
-        systempay = {}
-        systempay_signature = ''
-
-        if subscription.tender_type == 4:
-
-            # payment amount in cents
-            systempay['vads_amount'] = str(subscription.dues_amount*100)
-            # 978 is code for Euros
-            systempay['vads_currency'] = '978'
-            systempay['vads_site_id'] = str(settings.SYSTEM_PAY_SITE_ID)
-            systempay['vads_trans_id'] = "%06d" % (payment.id % 900000)
-            systempay['vads_trans_date'] = timezone.now().strftime("%Y%m%d%H%M%S")
-            systempay['vads_version'] = 'V2'
-            systempay['vads_payment_config'] = 'SINGLE'
-            systempay['vads_page_action'] = 'PAYMENT'
-            systempay['vads_action_mode'] = 'INTERACTIVE'
-            systempay['vads_ctx_mode'] = str(settings.SYSTEM_PAY_MODE)
-            systempay['vads_order_id'] = str(payment.id)
-            systempay['vads_cust_name'] = member.person.complete_name
-            systempay['vads_cust_email'] = member.person.mail_favorite()
-
-            systempay_string = '+'.join([v.encode('utf-8') for k, v in sorted(systempay.items())])+'+'+settings.SYSTEM_PAY_CERTIFICATE
-            systempay_signature = hashlib.sha1(systempay_string).hexdigest()
-
-        return render(request, 'adhesions/informations.html', {
-            'payment': payment,
-            'systempay': systempay,
-            'systempay_signature': systempay_signature,
-            'systempay_url': settings.SYSTEM_PAY_URL
-            }
-        )
-
-    return render(request, 'adhesions/welcome.html', {
-        'form': form,
-        'member': member,
-        }
-    )
+#def welcome_subscription(request, person_id):
+#
+#    member = get_object_or_404(Person, pk=person_id)
+#    configuration = SubscriptionConfiguration.objects.get(
+#        type=SubscriptionConfiguration.TYPE_STUDENT_3Y,
+#        year=timezone.now().date().year,
+#    )
+#
+#    SubscriptionForm = modelform_factory(Subscription, fields=('tender_type',))
+#    form = SubscriptionForm(request.POST or None)
+#
+#    if request.method == 'POST' and form.is_valid():
+#        subscription = form.save(commit=False)
+#        subscription.member = member
+#        subscription.dues_amount = configuration.dues_amount
+#        subscription.newspaper_amount = 0
+#        subscription.date = timezone.now().date()
+#        subscription.start_year = timezone.now().date().year
+#        subscription.end_year = timezone.now().date().year + 3
+#        subscription.save()
+#
+#        payment = Payment()
+#        payment.amount = subscription.dues_amount
+#        payment.type = subscription.tender_type
+#        payment.person = member.person
+#        payment.date = timezone.now().date()
+#        payment.save()
+#
+#        systempay = {}
+#        systempay_signature = ''
+#
+#        if subscription.tender_type == 4:
+#
+#            # payment amount in cents
+#            systempay['vads_amount'] = str(subscription.dues_amount*100)
+#            # 978 is code for Euros
+#            systempay['vads_currency'] = '978'
+#            systempay['vads_site_id'] = str(settings.SYSTEM_PAY_SITE_ID)
+#            systempay['vads_trans_id'] = "%06d" % (payment.id % 900000)
+#            systempay['vads_trans_date'] = timezone.now().strftime("%Y%m%d%H%M%S")
+#            systempay['vads_version'] = 'V2'
+#            systempay['vads_payment_config'] = 'SINGLE'
+#            systempay['vads_page_action'] = 'PAYMENT'
+#            systempay['vads_action_mode'] = 'INTERACTIVE'
+#            systempay['vads_ctx_mode'] = str(settings.SYSTEM_PAY_MODE)
+#            systempay['vads_order_id'] = str(payment.id)
+#            systempay['vads_cust_name'] = member.person.complete_name
+#            systempay['vads_cust_email'] = member.person.mail_favorite()
+#
+#            systempay_string = '+'.join([v.encode('utf-8') for k, v in sorted(systempay.items())])+'+'+settings.SYSTEM_PAY_CERTIFICATE
+#            systempay_signature = hashlib.sha1(systempay_string).hexdigest()
+#
+#        return render(request, 'adhesions/informations.html', {
+#            'payment': payment,
+#            'systempay': systempay,
+#            'systempay_signature': systempay_signature,
+#            'systempay_url': settings.SYSTEM_PAY_URL
+#            }
+#        )
+#
+#    return render(request, 'adhesions/welcome.html', {
+#        'form': form,
+#        'member': member,
+#        }
+#    )
 
 
 @access_required(groups=['ain7-secretariat', 'ain7-ca'])
