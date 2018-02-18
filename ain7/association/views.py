@@ -100,7 +100,7 @@ def contact(request):
 
     initials = {}
     if request.user.is_authenticated():
-        initials = {'name': request.user.person.complete_name, 'email': request.user.person.mail_favorite()}
+        initials = {'name': request.user.person.complete_name, 'email': request.user.person.mail}
 
     form = ContactForm(request.POST or initials)
 

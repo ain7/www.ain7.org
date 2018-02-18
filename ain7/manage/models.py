@@ -193,7 +193,7 @@ class Mailing(models.Model):
             if MailingRecipient.objects.filter(mailing=self, person=recipient) and not testing:
                 continue
 
-            mail = recipient.mail_favorite()
+            mail = recipient.mail
             first_name = recipient.first_name
             last_name = recipient.last_name
 

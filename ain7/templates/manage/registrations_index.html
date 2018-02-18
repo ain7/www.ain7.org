@@ -30,7 +30,7 @@
                     <a href="{% url "member-details" registration.pk %}">{{ registration.last_name }} {{ registration.first_name }}</a>
                 </td>
                 <td>{{ registration.ain7member.promo_full }}</td>
-                <td>{{ registration.mail_favorite }}</td>
+                <td>{{ registration.mail }}</td>
                 <td>{{ registration.last_change_at }}</td>
                 <td><a href="{% url "registration-validate" registration.pk %}"><i class="fa fa-check fa-lg"></i></a>
                 </td>

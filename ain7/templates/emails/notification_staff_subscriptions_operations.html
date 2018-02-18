@@ -13,8 +13,8 @@
         <tr><td>Nom</td><td>Prénom</td><td>Année</td><td>Filière</td><td>Fin d'adhésion</td><td>Notification</td></tr>
     </thead>
 <tbody>
-{% for member in notified_members %}
-<tr><td><a href="https://ain7.com/annuaire/{{ member.member.person.id }}/">{{ member.person.last_name }}</a></td><td>{{ member.person.first_name }}</td><td>{{ member.person.year }}</td><td>{{ member.person.track }}</td><td>{% if member.person.ain7member.current_subscription_end_date%}{{ member.person.ain7member.current_subscription_end_date }}{% else %}{{ member.person.ain7member.last_subscription_end_date }}{% endif %}</td><td>{{ member.created_at }}</td></tr>
+{% for sub in notified_members %}
+<tr><td><a href="https://ain7.com/annuaire/{{ sub.member.id }}/">{{ sub.member.last_name }}</a></td><td>{{ sub.member.first_name }}</td><td>{{ sub.member.year }}</td><td>{{ sub.member.track }}</td><td>{% if sub.member.current_subscription_end_date%}{{ sub.member.current_subscription_end_date }}{% else %}{{ sub.member.last_subscription_end_date }}{% endif %}</td><td>{{ sub.created_at }}</td></tr>
 {% endfor %}
 </tbody>
 </table>
@@ -26,8 +26,8 @@
         <tr><td>Nom</td><td>Prénom</td><td>Année</td><td>Filière</td><td>Fin d'adhésion</td></tr>
     </thead>
 <tbody>
-{% for member in expired_members %}
-<tr><td><a href="https://ain7.com/annuaire/{{ member.member.person.id }}/">{{ member.member.person.last_name }}</a></td><td>{{ member.member.person.first_name }}</td><td>{{ member.member.person.year }}</td><td>{{ member.member.person.track }}</td><td>{{ member.member.last_subscription_end_date }}</td></tr>
+{% for sub in expired_members %}
+<tr><td><a href="https://ain7.com/annuaire/{{ sub.member.id }}/">{{ sub.member.last_name }}</a></td><td>{{ sub.member.first_name }}</td><td>{{ sub.member.year }}</td><td>{{ sub.member.track }}</td><td>{{ sub.member.last_subscription_end_date }}</td></tr>
 {% endfor %}
 </tbody>
 </table>
@@ -39,8 +39,8 @@
         <tr><td>Nom</td><td>Prénom</td><td>Année</td><td>Filière</td><td>Fin d'adhésion</td><td>Adhésion</td><td>Date d'adhésion</td></tr>
     </thead>
 <tbody>
-{% for member in renew_members %}
-<tr><td><a href="https://ain7.com/annuaire/{{ member.member.person.id }}/">{{ member.member.person.last_name }}</a></td><td>{{ member.member.person.first_name }}</td><td>{{ member.member.person.year }}</td><td>{{ member.member.person.track_text }}</td><td>{{ member.end_date }}</td><td>{{ member.configuration }}</td><td>{{ member.created_at }}</tr>
+{% for sub in renew_members %}
+<tr><td><a href="https://ain7.com/annuaire/{{ sub.member.id }}/">{{ sub.member.last_name }}</a></td><td>{{ sub.member.first_name }}</td><td>{{ sub.member.year }}</td><td>{{ sub.member.track }}</td><td>{{ sub.end_date }}</td><td>{{ sub.configuration }}</td><td>{{ sub.created_at }}</tr>
 {% endfor %}
 </tbody>
 </table>

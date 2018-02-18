@@ -346,12 +346,12 @@ class Person(LoggedClass):
     )
 
 
-    def mobile(self):
-        """return mobile phone of a person if exists"""
-        try:
-            return self.phone_numbers.filter(type=3)[0].number
-        except IndexError:
-            return ''
+    #def mobile(self):
+    #    """return mobile phone of a person if exists"""
+    #    try:
+    #        return self.phone_numbers.filter(type=3)[0].number
+    #    except IndexError:
+    #        return ''
 
     #def phone(self):
     #    """return fix phone of a person if exists"""
@@ -360,17 +360,17 @@ class Person(LoggedClass):
     #    except IndexError:
     #        return ''
 
-    def mail_favorite(self, email=None):
-        """return favourite e-mail"""
-
-        if email and Email.objects.filter(
-            person=self, email=email
-        ).count() == 1:
-            return email
-        try:
-            return self.emails.filter(preferred_email=True)[0].email
-        except IndexError:
-            return ''
+    #def mail_favorite(self, email=None):
+    #    """return favourite e-mail"""
+    #
+    #    if email and Email.objects.filter(
+    #        person=self, email=email
+    #    ).count() == 1:
+    #        return email
+    #    try:
+    #        return self.emails.filter(preferred_email=True)[0].email
+    #    except IndexError:
+    #        return ''
 
     def address_dict(self, key=None):
         """return personal address"""
@@ -417,14 +417,14 @@ class Person(LoggedClass):
 
     def mail_from(self, email=None):
         """Get a mail from field for message"""
-        mail = self.mail_favorite(email)
+        mail = self.mail #self.mail_favorite(email)
         mail_modified = mail.replace('@', '=')
         return u'Association AIn7 <noreply+'+mail_modified+'@ain7.com>'
 
     def send_mail(self, subject, message, email=None):
         """person send a mail"""
 
-        mail = self.mail_favorite(email)
+        mail = self.mail # self.mail_favorite(email)
         if mail:
 
             msg = EmailMessage(
@@ -963,7 +963,7 @@ class AIn7Member(LoggedClass):
             subject,
             text_content,
             settings.DEFAULT_FROM_EMAIL,
-            [self.person.mail_favorite()],
+            [self.mail],
         )
 
         msg.mixed_subtype = 'related'

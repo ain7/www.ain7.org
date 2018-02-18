@@ -38,7 +38,7 @@ urlpatterns = [
     url(r'^configurations/(?P<year>\d+)/(?P<config_id>\d+)/edit/$', views.configuration_edit, name='configuration-edit'),
     url(r'^configurations/(?P<year>\d+)/(?P<config_id>\d+)/delete/$', views.configuration_delete, name='configuration-delete'),
     url(r'^configurations/add/$', views.configuration_edit, {}, 'configuration_add'),
-    url(r'^welcome/(?P<person_id>\d+)/$', views.welcome_subscription, name='subscription-welcome'),
+    #url(r'^welcome/(?P<person_id>\d+)/$', views.welcome_subscription, name='subscription-welcome'),
     url(r'^notification/$', views.notification),
     url(r'^subscribe/$', views.subscription_add, name='subscribe-public'),
 ]

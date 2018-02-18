@@ -125,24 +125,24 @@ def user_subscriptions(request, person_id):
     person = get_object_or_404(Person, pk=person_id)
     #ain7member = get_object_or_404(AIn7Member, person=person)
 
-    print 'coin'
-
     list_unvalidated = False
 
     subscriptions_list = Subscription.objects.filter(member=person).\
         order_by('-start_year', '-id')
 
-    print subscriptions_list
-
     if not list_unvalidated:
         subscriptions_list = subscriptions_list.filter(validated=True)
 
-    print 'plop'
+    subscriptions_list_pending = subscriptions_list.filter(
+        validated=False,
+        date__gte=timezone.now()+datetime.timedelta(days=90),
+    )
 
     return render(request, 'adhesions/user_subscriptions.html', {
         'person': person,
         #'ain7member': ain7member,
         'subscriptions_list': subscriptions_list,
+        'subscription_list_pending': subscriptions_list_pending,
         }
     )
 
@@ -280,8 +280,8 @@ AIn7 Team
             systempay['vads_action_mode'] = 'INTERACTIVE'
             systempay['vads_ctx_mode'] = str(settings.SYSTEM_PAY_MODE)
             systempay['vads_order_id'] = str(payment.id)
-            systempay['vads_cust_name'] = subscription.member.person.complete_name
-            systempay['vads_cust_email'] = subscription.member.person.mail_favorite()
+            systempay['vads_cust_name'] = subscription.member.complete_name
+            systempay['vads_cust_email'] = subscription.member.mail
 
             systempay_string = '+'.join([v.encode('utf-8') for k, v in sorted(systempay.items())])+'+'+settings.SYSTEM_PAY_CERTIFICATE
             systempay_signature = hashlib.sha1(systempay_string).hexdigest()

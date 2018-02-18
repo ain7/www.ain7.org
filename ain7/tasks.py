@@ -33,7 +33,7 @@ from django.utils import timezone
 from email.mime.image import MIMEImage
 
 from ain7.adhesions.models import Subscription, SubscriptionKey
-from ain7.annuaire.models import AIn7Member
+from ain7.annuaire.models import Person
 from ain7.emploi.models import JobOffer
 from ain7.groups.models import Group, Member
 from ain7.manage.models import Mailing
@@ -71,9 +71,9 @@ def refresh_membership():
 
     Member.objects.filter(group=members).delete()
 
-    for member in AIn7Member.objects.all():
-        if member.person.is_subscriber:
-            members.add(member.person)
+    for member in Person.objects.all():
+        if member.is_subscriber:
+            members.add(member)
 
 
 @shared_task
@@ -87,7 +87,7 @@ def notify_expiring_membership():
     subscriptions = Subscription.objects.filter(
         Q(end_date=in_thirty_days) | Q(end_date=in_seven_days) |
         Q(end_date=today) | Q(end_date=twenty_days_ago)
-    ).distinct().exclude(member__person__emails__isnull=True).exclude(validated=False)
+    ).distinct().exclude(member__emails__isnull=True).exclude(validated=False)
     for sub in subscriptions:
         if not sub.member.has_subscription_next():
             try:
@@ -111,7 +111,7 @@ def notify_staff_membership_operations():
     expired_members = Subscription.objects.filter(validated=True, end_date__gte=seven_days_ago, end_date__lte=now.date()).distinct()
     renew_members = Subscription.objects.filter(validated=True, date__gte=seven_days_ago.date()).distinct()
 
-    subject = u'Adhésions AIn7: activité de la semaine du '+seven_days_ago.strftime("%d %B %Y")
+    subject = u'Adhésions AIn7: activité de la semaine du '+seven_days_ago.strftime("%d %B %Y").decode('utf-8')
     html_content = render_to_string(
         'emails/notification_staff_subscriptions_operations.html', {
         'notified_members': notified_members,
