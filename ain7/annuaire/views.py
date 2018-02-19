@@ -633,8 +633,8 @@ def position_edit(request, person_id=None, position_id=None):
     if position_id:
         position = get_object_or_404(Position, pk=position_id)
 
-    #PositionForm = autocomplete_light.modelform_factory(
-    PositionForm = modelform_factory(
+    #PositionForm = modelform_factory(
+    PositionForm = autocomplete_light.modelform_factory(
         Position,
         exclude=('ain7member',),
     )
