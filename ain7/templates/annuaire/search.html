@@ -158,7 +158,7 @@
                                             {{ person.first_name }}</a></h6>
                                     <strong>{% if person.track %}{{ person.track }}{% endif %}{% if person.year %} {{ person.year }}{% endif %}</strong>
                                     <p>
-                                        {% if person.ain7member.is_subscriber %}
+                                        {% if person.is_subscriber %}
                                             <img src="{% static "logo_ain7.png" %}" title="Adherent {% now "Y" %}"
                                                  alt="adherent {% now "Y" %}" width="25" height="25"/>
                                         {% endif %}
@@ -167,7 +167,7 @@
                                                  width="16"
                                                  height="16"/>
                                         {% endif %}
-                                        <i>{{ person.ain7member.current_positions_orga }}</i>
+                                        <i>{{ person.current_positions_orga }}</i>
                                     </p>
                                 </div>
                             </div>

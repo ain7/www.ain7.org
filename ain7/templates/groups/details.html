@@ -35,8 +35,8 @@
     {% for r in group.get_group_head %}
         <div class="about_autor">
             <figure>
-                {% if r.person.ain7member.avatar %}
-                    <img src="{{ r.person.ain7member.avatar.url }}" alt="{{ r.person.complete_name }}"
+                {% if r.person.avatar %}
+                    <img src="{{ r.person.avatar.url }}" alt="{{ r.person.complete_name }}"
                          title="{{ r.person.complete_name }}"/>
                 {% else %}
                     <img src="{% static "images/nobody.png" %}" alt="{{ r.person.complete_name }}"/>
@@ -44,7 +44,7 @@
             </figure>
             <div class="about-autor_des">
                 <h6><a href="{% url "member-details" r.person.user.id %}">{{ r.person }}</a></h6>
-                <p>{{ r.person.ain7member.track }} {{ r.person.ain7member.promo }}</p>
+                <p>{{ r.person.track }} {{ r.person.promo }}</p>
                 {% if superadmin or secretariat_member %}
                     <ul class="autor_social">
 

@@ -40,7 +40,7 @@ from django.views.decorators.csrf import csrf_exempt
 from ain7.adhesions.models import (
     Subscription, SubscriptionConfiguration, SubscriptionKey
 )
-from ain7.annuaire.models import AIn7Member, Person
+from ain7.annuaire.models import Person
 from ain7.shop.models import Payment
 from ain7.decorators import access_required, confirmation_required
 from ain7.utils import ain7_generic_delete
@@ -66,7 +66,7 @@ def index(request):
         'subscriptions_list': Subscription.objects.filter(
             validated=True
         ).order_by('-id')[:20],
-        'count_members': AIn7Member.objects.count(),
+        'count_members': Person.objects.filter(year__isnull=False).count(),
         'count_subscribers': count_subscribers
         }
     )
@@ -123,7 +123,6 @@ def user_subscriptions(request, person_id):
     """show user subscriptions"""
 
     person = get_object_or_404(Person, pk=person_id)
-    #ain7member = get_object_or_404(AIn7Member, person=person)
 
     list_unvalidated = False
 
@@ -140,7 +139,6 @@ def user_subscriptions(request, person_id):
 
     return render(request, 'adhesions/user_subscriptions.html', {
         'person': person,
-        #'ain7member': ain7member,
         'subscriptions_list': subscriptions_list,
         'subscription_list_pending': subscriptions_list_pending,
         }

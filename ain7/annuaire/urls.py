@@ -40,7 +40,7 @@ urlpatterns = [
     url(r'^(?P<person_id>\d+)/personprivate/edit/$', views.personprivate_edit, name='member-personprivate-edit'),
     url(r'^(?P<person_id>\d+)/ain7member/edit/$', views.ain7member_edit, name='member-ain7member-edit'),
     # Promos
-    url(r'^(?P<person_id>\d+)/promo/(?P<promo_id>\d+)/delete/$', views.promo_delete, name='member-promo-delete'),
+    #url(r'^(?P<person_id>\d+)/promo/(?P<promo_id>\d+)/delete/$', views.promo_delete, name='member-promo-delete'),
     # Adresses
     url(r'^(?P<person_id>\d+)/address/(?P<address_id>\d+)/edit/$', views.address_edit, name='member-address-edit'),
     url(r'^(?P<person_id>\d+)/address/(?P<address_id>\d+)/delete/$', views.address_delete, name='member-address-delete'),

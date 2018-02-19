@@ -624,6 +624,22 @@ https://ain7.com""") % {'firstname': self.first_name, 'url': url, 'login': self.
         else:
             return False
 
+    def current_positions(self):
+        if not self.death_date or self.is_dead:
+            return self.positions.filter(end__isnull=True)
+        else:
+            return ''
+
+    def current_positions_orga(self):
+        """return current positions"""
+        res = ''
+        positions = self.current_positions()
+        for pos in positions:
+            res += str(pos.office.organization)
+            res += ' '
+        return res
+
+
     def get_absolute_url(self):
         return reverse('member-details', args=[self.id])
 
@@ -1017,7 +1033,7 @@ class PhoneNumber(LoggedClass):
         verbose_name=_('number'), max_length=30
     )
     type = models.IntegerField(
-        verbose_name=_('type'), choices=PHONE_NUMBER_TYPE, default=1,
+        verbose_name=_('type'), choices=PHONE_NUMBER_TYPE, default=3,
     )
     confidentiality = models.IntegerField(
         verbose_name=_('confidentiality'),
@@ -1274,6 +1290,7 @@ class Club(LoggedClass):
     class Meta:
         """club meta"""
         verbose_name = _('club')
+        ordering = ['name']
 
 
 class ClubMembership(models.Model):

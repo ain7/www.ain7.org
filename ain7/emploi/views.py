@@ -32,7 +32,7 @@ from django.utils.translation import ugettext as _
 
 from ain7.pages.models import Text
 from ain7.annuaire.models import (
-    Person, AIn7Member, Position, EducationItem, LeisureItem, PublicationItem,
+    Person, Position, EducationItem, LeisureItem, PublicationItem,
     )
 from ain7.decorators import access_required, confirmation_required
 from ain7.emploi.filters import JobOfferFilter

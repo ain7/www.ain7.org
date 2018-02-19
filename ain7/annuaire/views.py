@@ -43,9 +43,7 @@ from ain7.annuaire.models import (
     Position, EducationItem, LeisureItem, PublicationItem,
 )
 from ain7.annuaire.filters import AIn7MemberFilter, AIn7MemberAdvancedFilter
-from ain7.annuaire.forms import (
-    ChangePasswordForm, NewMemberForm
-)
+from ain7.annuaire.forms import ChangePasswordForm
 from ain7.decorators import access_required, confirmation_required
 from ain7.utils import ain7_generic_delete, generate_login
 
@@ -281,28 +279,28 @@ def ain7member_edit(request, person_id):
     )
 
 
-@access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
-def promo_edit(request, person_id=None, promo_id=None):
-
-    person = get_object_or_404(Person, pk=person_id)
-    ain7member = person.ain7member
-
-    PromoForm = autocomplete_light.modelform_factory(
-        AIn7Member, fields=('promos',),
-    )
-    form = PromoForm(request.POST or None, instance=ain7member)
-
-    if request.method == 'POST' and form.is_valid():
-        ain7member = form.save()
-        messages.success(request, _('Promotion successfully added.'))
-
-        return redirect('annuaire-edit', person_id)
-
-    return render(request, 'annuaire/edit_form.html', {
-        'form': form,
-        'action_title': _(u'Adding a promotion for %s' % ain7member),
-        },
-    )
+#@access_required(groups=['ain7-secretariat', 'ain7-ca'], allow_myself=True)
+#def promo_edit(request, person_id=None, promo_id=None):
+#
+#    person = get_object_or_404(Person, pk=person_id)
+#    ain7member = person.ain7member
+#
+#    PromoForm = autocomplete_light.modelform_factory(
+#        AIn7Member, fields=('promos',),
+#    )
+#    form = PromoForm(request.POST or None, instance=ain7member)
+#
+#    if request.method == 'POST' and form.is_valid():
+#        ain7member = form.save()
+#        messages.success(request, _('Promotion successfully added.'))
+#
+#        return redirect('annuaire-edit', person_id)
+#
+#    return render(request, 'annuaire/edit_form.html', {
+#        'form': form,
+#        'action_title': _(u'Adding a promotion for %s' % ain7member),
+#        },
+#    )
 
 
 @confirmation_required(lambda person_id=None, promo_id=None:
@@ -814,7 +812,7 @@ def publication_edit(request, person_id=None, publication_id=None):
 
     return render(request, 'annuaire/edit_form.html', {
         'form': form,
-        'action_title': _("Position edit"),
+        'action_title': _("Publication edit"),
         'back': request.META.get('HTTP_REFERER', '/'),
         }
     )

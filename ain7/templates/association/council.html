@@ -22,8 +22,8 @@
                         <!-- FACULTY DES START-->
                         <div class="edu2_faculty_des">
                             <figure>
-                                {% if r.person.ain7member.avatar %}
-                                    <img src="{{ r.person.ain7member.avatar.url }}"
+                                {% if r.person.avatar %}
+                                    <img src="{{ r.person.avatar.url }}"
                                          alt="{{ r.person.complete_name }}"
                                          title="{{ r.person.complete_name }}"/>
                                 {% else %}
@@ -37,7 +37,7 @@
                             <div class="edu2_faculty_des2">
                                 <h6><a href="{% url "member-details" r.person.user.id %}">{{ r.person }}</a></h6>
                                 <strong>{{ r.title }}</strong>
-                                <p>{{ r.person.ain7member.track }} {{ r.person.ain7member.promo }}</p>
+                                <p>{{ r.person.track }} {{ r.person.promo }}</p>
                                 {% if superadmin or secretariat_member %}
                                     <p>
                                         <a href="{% url "council-role-edit" r.id %}" class="changelink">

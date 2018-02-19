@@ -25,7 +25,7 @@
                                     <a href="{% url "member-details" person.pk %}">{% trans "Back to personnal file" %}</a>
                                 </p>
 
-                                {% if person.ain7member.is_subscriber %}
+                                {% if person.is_subscriber %}
                                     <div class="alert alert-info" role="alert">
                                         <i class="fa fa-info-circle fa-2x"></i> 
                                         {% if is_myself %}Vous êtes à jour de votre cotisation à l'association.{% else %}
@@ -283,30 +283,6 @@
 
                     <div class="clear"></div>
                     <div class="row">
-                        {% comment %}
-                        <div class="col-md-12">
-                            <h2>
-                                <a name="promos"></a>{% trans "Promos" %}
-                                &nbsp;
-                                <a href="{% url "member-promo-add" person.id %}" class="btn btn-primary"><i
-                                        class="fa fa-plus"></i> {% trans "Add" %}</a>
-                            </h2>
-                            <table class="table table-responsive">
-                                <tbody>
-                                {% for promo in ain7member.promos.all %}
-                                    <tr>
-                                        <td>{{ promo }}</td>
-                                        <td style="width: 12%">
-                                            <a href="{% url "member-promo-delete" person.id promo.id %}"><i
-                                                    class="fa fa-trash-o fa-lg"></i></a>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                        {% endcomment %}
-
                         <div class="col-md-12">
                             <h2>
                                 <a name="profexp"></a>{% trans "Experiences" %}

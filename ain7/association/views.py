@@ -29,7 +29,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext as _
 
-from ain7.annuaire.models import AIn7Member
+from ain7.annuaire.models import Person
 from ain7.decorators import access_required, confirmation_required
 from ain7.groups.models import Group, GroupHead, GroupLeader
 from ain7.pages.models import Text
@@ -38,7 +38,7 @@ from ain7.utils import ain7_generic_delete
 
 def count_members():
     """count all members of the association"""
-    nb_members = AIn7Member.objects.all().count()
+    nb_members = Person.objects.filter(year__isnull=False).count()
     return nb_members
 
 

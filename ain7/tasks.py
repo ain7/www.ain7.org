@@ -153,7 +153,7 @@ def update_subscription_flag():
 
     for p in Person.objects.all():
         try:
-            p.is_subscriber = p.ain7member.is_subscriber()
+            p.is_subscriber = p.is_subscriber()
             p.save()
         except Exception:
             pass

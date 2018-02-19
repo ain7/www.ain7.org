@@ -30,7 +30,7 @@ from django.forms.models import modelform_factory
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import ugettext as _
 
-from ain7.annuaire.models import AIn7Member, Email, Person
+from ain7.annuaire.models import Email, Person
 from ain7.decorators import access_required
 from ain7.groups.models import Group
 from ain7.news.models import NewsItem
@@ -42,7 +42,6 @@ def homepage(request):
     """AIn7 homepage"""
 
     is_subscriber = False
-    ain7member = None
 
     news = NewsItem.objects.filter(
         date__isnull=True,
@@ -57,9 +56,7 @@ def homepage(request):
     if is_auth:
 
         person = Person.objects.get(user=request.user.id)
-        if AIn7Member.objects.filter(person=person).count() > 0:
-            ain7member = get_object_or_404(AIn7Member, person=person)
-            is_subscriber = ain7member.is_subscriber()
+        is_subscriber = person.is_subscriber()
 
     return render(request, 'pages/homepage.html', {
         'news': news,

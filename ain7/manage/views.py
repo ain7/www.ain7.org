@@ -624,8 +624,8 @@ def mailing_export(request, mailing_id):
             writer.writerow([
                 per.first_name.encode('utf-8'),
                 per.last_name.encode('utf-8'),
-                per.ain7member.promo(),
-                per.ain7member.track().encode('utf-8'),
+                per.year,
+                per.track.name.encode('utf-8'),
                 per.address_dict()['line1'].encode('utf-8'),
                 per.address_dict()['line2'].encode('utf-8'),
                 per.address_dict()['zip_code'],
@@ -663,8 +663,6 @@ def registration_delete(request, person_id):
 
     person = get_object_or_404(Person, pk=person_id)
     person.user.delete()
-    person.personprivate.delete()
-    person.ain7member.delete()
     person.delete()
 
     messages.success(request, _('Person have been deleted'))

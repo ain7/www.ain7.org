@@ -188,8 +188,8 @@
                             {% if user.is_authenticated %}
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        {% if user.person.ain7member.avatar %}
-                                            <img src="{{ user.person.ain7member.avatar.url }}" height="25"
+                                        {% if user.person.avatar %}
+                                            <img src="{{ user.person.avatar.url }}" height="25"
                                                  alt="{{ user.person.complete_name }}"/>
                                         {% else %}
                                             <img src="{% static "images/nobody.png" %}" height="25"
@@ -200,7 +200,7 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            {% if user.person.ain7member.is_subscriber %}
+                                            {% if user.person.is_subscriber %}
                                                 <div class="alert alert-info">
                                                 <i class="fa fa-info-circle fa-2x"></i> Votre cotisation est à
                                                 jour
@@ -307,8 +307,8 @@
                                 {% if user.is_authenticated %}
                                     <li class="dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                            {% if user.person.ain7member.avatar %}
-                                                <img src="{{ user.person.ain7member.avatar.url }}" height="25"
+                                            {% if user.person.avatar %}
+                                                <img src="{{ user.person.avatar.url }}" height="25"
                                                      alt="{{ user.person.complete_name }}"/>
                                             {% else %}
                                                 <img src="{% static "images/nobody.png" %}" height="25"
@@ -319,7 +319,7 @@
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li>
-                                                {% if user.person.ain7member.is_subscriber %}
+                                                {% if user.person.is_subscriber %}
                                                     <div class="alert alert-info">
                                                     <i class="fa fa-info-circle fa-2x"></i> Votre cotisation est à
                                                     jour

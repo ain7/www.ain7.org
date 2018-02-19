@@ -24,8 +24,8 @@
         {% for member in members %}
             <div class="about_autor">
                 <figure>
-                    {% if member.ain7member.avatar %}
-                        <img src="{{ member.ain7member.avatar.url }}"
+                    {% if member.avatar %}
+                        <img src="{{ member.avatar.url }}"
                              alt="{{ member.complete_name }}"
                              title="{{ member.complete_name }}"/>
                     {% else %}
@@ -43,8 +43,8 @@
                             {{ member.first_name }}
                         </a>
                     </h6>
-                    <p><strong>{{ member.ain7member.promo_full }}</strong><br/>
-                        {% if member.ain7member.is_subscriber %}
+                    <p><strong>{{ member.promo_full }}</strong><br/>
+                        {% if member.is_subscriber %}
                             <img src="{% static "logo_ain7.png" %}" title="Adherent {% now "Y" %}"
                                  alt="adherent {% now "Y" %}" width="25" height="25"/>
                         {% endif %}
@@ -54,8 +54,8 @@
                                  height="16"/>
                         {% endif %}
 
-                        {% if not member.ain7member.personprivate.death_date %}
-                            {% for position in member.ain7member.positions.all %}
+                        {% if not member.death_date %}
+                            {% for position in member.positions.all %}
                                 {% if not position.end %}
                                     <i>{{ position.office.organization }}{% if not forloop.last %}
                                         , {% endif %}</i>
