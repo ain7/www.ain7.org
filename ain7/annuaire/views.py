@@ -37,7 +37,7 @@ from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404, redirect, render
 
 from ain7.annuaire.models import (
-    PersonPrivate, UserActivity, Promo,
+    UserActivity, Promo,
     PhoneNumber, InstantMessaging, Email,
     WebSite, ClubMembership, Person, Address,
     Position, EducationItem, LeisureItem, PublicationItem,
@@ -68,11 +68,6 @@ def details(request, person_id):
     last_activity = None
     person = get_object_or_404(Person, pk=person_id)
     is_myself = int(request.user.id) == int(person.user.id)
-
-    #personprivate = get_object_or_404(PersonPrivate, person=person)
-
-    # if AIn7Member.objects.filter(person=person).count() > 0:
-    #    ain7member = get_object_or_404(AIn7Member, person=person)
 
     if UserActivity.objects.filter(person=person):
         last_activity = UserActivity.objects.filter(person=person).latest('id')
@@ -185,11 +180,9 @@ def set_new_credentials(request, person_id):
 def edit(request, person_id=None):
 
     person = get_object_or_404(Person, pk=person_id)
-    #personprivate = get_object_or_404(PersonPrivate, person=person)
 
     return render(request, 'annuaire/edit.html', {
         'person': person,
-        #'personprivate': personprivate,
         'is_myself': int(request.user.id) == int(person.user.id),
         }
     )
@@ -573,7 +566,7 @@ def add(request, person_id=None):
 
         messages.success(request, _("New user successfully created"))
 
-        return redirect(new_person)
+        return redirect('annuaire-edit', new_person.id)
 
     return render(request, 'annuaire/edit_form.html', {
         'action_title': _('Register new user'),
