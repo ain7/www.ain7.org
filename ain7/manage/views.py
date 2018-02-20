@@ -211,7 +211,7 @@ def subscriptions_stats(request, the_year=datetime.date.today().year):
 
         # Cotisations à taux pleins hors élèves:
         diplomees_number = Subscription.objects.filter(
-            member__promos__year__year__lte=last_promo, start_year=year,
+            member__year__lte=last_promo, start_year=year,
             validated=True
         ).distinct().count()
 
@@ -221,7 +221,7 @@ def subscriptions_stats(request, the_year=datetime.date.today().year):
             type=0,
         ).dues_amount
         full_query = Q(
-            member__promos__year__year__lte=last_promo,
+            member__year__lte=last_promo,
             dues_amount=full_price,
             start_year=year,
             validated=True,
@@ -236,8 +236,8 @@ def subscriptions_stats(request, the_year=datetime.date.today().year):
             type=1,
         ).dues_amount
         young_query = Q(
-            member__promos__year__year__lte=last_promo,
-            member__promos__year__year__gte=last_promo-4,
+            member__year__lte=last_promo,
+            member__year__gte=last_promo-4,
             dues_amount=young_price, start_year=year, validated=True,
         )
         young_queryset = Subscription.objects.filter(young_query).distinct()
@@ -250,7 +250,7 @@ def subscriptions_stats(request, the_year=datetime.date.today().year):
             type=2,
         ).dues_amount
         retired_query = Q(
-            member__promos__year__year__lte=last_promo-5,
+            member__year__lte=last_promo-5,
             dues_amount=retired_price,
             start_year=year,
             validated=True,
@@ -267,7 +267,7 @@ def subscriptions_stats(request, the_year=datetime.date.today().year):
             type=3,
         ).dues_amount
         bienfaiteur_query = Q(
-            member__promos__year__year__lte=last_promo,
+            member__year__lte=last_promo,
             dues_amount__gte=bienfaiteur_price,
             start_year=year,
             validated=True,
@@ -284,7 +284,7 @@ def subscriptions_stats(request, the_year=datetime.date.today().year):
             type=4,
         ).dues_amount
         unemployed_query = Q(
-            member__promos__year__year__lte=last_promo,
+            member__year__lte=last_promo,
             dues_amount=unemployed_price,
             start_year=year,
             validated=True,
@@ -297,7 +297,7 @@ def subscriptions_stats(request, the_year=datetime.date.today().year):
 
         # students
         students_query = Q(
-            member__promos__year__year__gt=last_promo,
+            member__year__gt=last_promo,
             start_year=year,
             validated=True,
         )
@@ -311,7 +311,7 @@ def subscriptions_stats(request, the_year=datetime.date.today().year):
         # all
         total_query = Q(
             start_year=year,
-            member__promos__isnull=False,
+            member__year__isnull=False,
             validated=True,
         )
         total_queryset = Subscription.objects.filter(total_query)
@@ -393,7 +393,7 @@ def subscriptions_stats(request, the_year=datetime.date.today().year):
         else:
             last_day = date(this_year+1, 1, 1)
         stats_months.append(Subscription.objects.filter(
-            member__promos__year__year__lt=this_year,
+            member__year__lt=this_year,
             start_year=this_year,
             validated=True,
             date__gte=first_day,
@@ -402,7 +402,7 @@ def subscriptions_stats(request, the_year=datetime.date.today().year):
 
     total_amount = 0
     for subs in Subscription.objects.filter(
-        member__promos__year__year__lt=this_year,
+        member__year__lt=this_year,
         start_year=this_year,
         validated=True,
     ):
@@ -458,12 +458,12 @@ def subscribers_csv(request, the_year=timezone.now().year, normal=True, students
 
     if normal:
         subscriptions = subscriptions.exclude(
-            member__promos__year__year__gt=int(the_year)-1,
+            member__year__gt=int(the_year)-1,
         )
 
     if students:
         subscriptions = subscriptions.exclude(
-            member__promos__year__year__lte=int(the_year)-1,
+            member__year__lte=int(the_year)-1,
         )
 
     if magazine:
