@@ -53,7 +53,6 @@ urlpatterns = [
     url(r'^~(?P<user_name>\w+)/$', annuaire_views.home),
 
     url(r'^accounts/login/$', auth_views.login,
-        {'template_name': 'registration/login.html', 'redirect_authenticated_user': True},
         name='account_login',
     ),
     url(r'^accounts/logout/$', auth_views.logout_then_login,
