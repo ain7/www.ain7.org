@@ -482,10 +482,10 @@ def subscribers_csv(request, the_year=timezone.now().year, normal=True, students
                 amount = sub.newspaper_amount
 
             writer.writerow([
-                sub.member.person.first_name.encode('utf-8'),
-                sub.member.person.last_name.encode('utf-8'),
-                sub.member.promo(),
-                sub.member.track().encode('utf-8'),
+                sub.member.first_name.encode('utf-8'),
+                sub.member.last_name.encode('utf-8'),
+                sub.member.year,
+                ('' if sub.member.track is None else sub.member.track.name).encode('utf-8'),
                 amount,
                 sub.date,
                 sub.get_tender_type_display().encode('utf-8'),
