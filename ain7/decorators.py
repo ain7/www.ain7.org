@@ -69,7 +69,6 @@ def access_required(view_func=None, groups=None,
                 return render(request, PERMISSION_DENIED_PAGE, {})
 
             user_groups = user.person.groups.values_list('group__name', flat=True)
-            print user_groups
 
             if allow_myself and kwargs.has_key('person_id'):
                 if int(request.user.person.id) == int(kwargs['person_id']):
