@@ -178,15 +178,16 @@ class Mailing(models.Model):
         recipients = Person.objects.none()
 
         if request:
-            recipients = Person.objects.filter(user__id=request.user.id)
+            recipients = Person.objects.filter(user__id=request.user.id, mail__isnull=False)
 
         if testing and not myself:
             recipients = Person.objects.filter(
-                groups__group__slug='ain7-mailing-tester'
+                groups__group__slug='ain7-mailing-tester',
+                mail__isnull=False,
             )
 
         if not testing:
-            recipients = Person.objects.filter(FILTERS[self.mail_to.filter][1])
+            recipients = Person.objects.filter(FILTERS[self.mail_to.filter][1], mail__isnull=False)
 
         for recipient in recipients:
 
