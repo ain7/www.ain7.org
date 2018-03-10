@@ -19,3 +19,7 @@ MySQL-python
 
 # workaround python-dateutil issue (python 2.x / python 3)
 python-dateutil
+
+# workaround django-autocomplete-light and six issue
+# see https://github.com/yourlabs/django-autocomplete-light/issues/914
+six<1.11
