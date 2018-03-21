@@ -458,13 +458,19 @@ def subscribers_csv(request, the_year=timezone.now().year, normal=True, students
 
     if normal:
         subscriptions = subscriptions.exclude(
-            member__year__gt=int(the_year)-1,
-        )
+            member__year__gt=int(the_year),
+            ).exclude(
+            member__year=int(the_year),
+            date__lte=datetime.date(int(the_year), 10, 1),
+            )
 
     if students:
         subscriptions = subscriptions.exclude(
             member__year__lte=int(the_year)-1,
-        )
+            ).exclude(
+            member__year=int(the_year),
+            date__gt=datetime.date(int(the_year), 10, 1),
+            )
 
     if magazine:
         subscriptions = subscriptions.filter(
@@ -476,17 +482,12 @@ def subscribers_csv(request, the_year=timezone.now().year, normal=True, students
     for sub in subscriptions:
         try:
 
-            if normal or students:
-                amount = sub.dues_amount
-            else:
-                amount = sub.newspaper_amount
-
             writer.writerow([
                 sub.member.first_name.encode('utf-8'),
                 sub.member.last_name.encode('utf-8'),
                 sub.member.year,
                 ('' if sub.member.track is None else sub.member.track.name).encode('utf-8'),
-                amount,
+                sub.payment.amount,
                 sub.date,
                 sub.get_tender_type_display().encode('utf-8'),
                 sub.member.previous_subscription_date(date=last_day_year),
